@@ -6,9 +6,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
 
 import com.wonu606.vouchermanager.console.controllercable.voucher.io.VoucherConsoleIo;
-import com.wonu606.vouchermanager.console.controllercable.voucher.VoucherControllerCable;
-import com.wonu606.vouchermanager.controller.VoucherController;
-import com.wonu606.vouchermanager.console.controllercable.voucher.VoucherControllerMenu;
+import com.wonu606.vouchermanager.controller.voucher.VoucherController;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import java.util.Arrays;

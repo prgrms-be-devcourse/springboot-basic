@@ -1,11 +1,8 @@
 package com.wonu606.vouchermanager.console.controllercable.voucher;
 
 import com.wonu606.vouchermanager.console.controllercable.voucher.io.VoucherConsoleIo;
-import com.wonu606.vouchermanager.controller.VoucherController;
-import com.wonu606.vouchermanager.domain.voucherwallet.VoucherWalletDto;
-import com.wonu606.vouchermanager.domain.customer.Customer;
+import com.wonu606.vouchermanager.controller.voucher.VoucherController;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component

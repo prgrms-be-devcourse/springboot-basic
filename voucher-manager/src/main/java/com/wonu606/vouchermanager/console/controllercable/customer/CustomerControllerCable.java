@@ -1,9 +1,13 @@
 package com.wonu606.vouchermanager.console.controllercable.customer;
 
 import com.wonu606.vouchermanager.console.controllercable.customer.io.CustomerConsoleIo;
-import com.wonu606.vouchermanager.controller.CustomerController;
+import com.wonu606.vouchermanager.controller.customer.CustomerController;
+import com.wonu606.vouchermanager.controller.customer.request.CustomerCreateRequest;
+import com.wonu606.vouchermanager.controller.customer.request.CustomerGetOwnedVoucherRequest;
+import com.wonu606.vouchermanager.controller.customer.request.WalletDeleteRequest;
+import com.wonu606.vouchermanager.controller.customer.response.CustomerResponse;
+import com.wonu606.vouchermanager.controller.customer.response.CustomerGetOwnedVoucherResponse;
 import java.util.List;
-import javax.swing.Spring;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -46,8 +50,8 @@ public class CustomerControllerCable {
 
             case VOUCHER_LIST:
                 String searchedCustomerId = consoleIo.readString("CustomerId");
-                List<VoucherResponse> VoucherResponses =
-                        controller.getVouchersOwnedByCustomer(CustomerGetRequest);
+                List<CustomerGetOwnedVoucherResponse> VoucherResponses = controller.getOwnedVouchersByCustomer(
+                        new CustomerGetOwnedVoucherRequest(searchedCustomerId));
                 consoleIo.displayVoucherList(consoleVoucherResponses);
                 return;
 

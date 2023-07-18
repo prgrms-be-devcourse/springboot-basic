@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.controller;
+package com.wonu606.vouchermanager.controller.voucher;
 
 import com.wonu606.vouchermanager.domain.voucherwallet.VoucherWalletDto;
 import com.wonu606.vouchermanager.domain.customer.Customer;
