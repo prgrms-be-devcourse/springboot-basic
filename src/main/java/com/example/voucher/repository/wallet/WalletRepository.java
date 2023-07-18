@@ -10,6 +10,8 @@ public interface WalletRepository {
 
     Wallet save(Wallet wallet);
 
-    List<Wallet> findByConditionId (String condition, UUID conditionID);
+    List<Wallet> findByConditionId(String condition, UUID conditionID);
+
+    Wallet findById(UUID voucherID);
 
 }

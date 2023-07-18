@@ -33,7 +33,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
         jdbcTemplate.update(sql, parameterSource);
 
-        return wallet;
+        return findById(wallet.getWalletId());
     }
 
     @Override
@@ -49,6 +49,20 @@ public class JdbcWalletRepository implements WalletRepository {
             .build();
 
         return jdbcTemplate.query(sql, parameterSource, walletRowMapper);
+    }
+
+    @Override
+    public Wallet findById(UUID walletID) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("walletId", walletID.toString());
+
+        RowMapper<Wallet> walletRowMapper = walletRowMapper();
+
+        String sql = new QueryBuilder().select("*")
+            .from("WALLET")
+            .where("WALLET_ID", "=", "walletId")
+            .build();
+
+        return jdbcTemplate.queryForObject(sql, parameterSource, walletRowMapper);
     }
 
     private RowMapper<Wallet> walletRowMapper() {
