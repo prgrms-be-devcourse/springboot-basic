@@ -7,22 +7,12 @@ import java.util.UUID;
 public class WalletAssignParam {
 
     private final UUID voucherId;
-    private final String email;
 
-    public WalletAssignParam(UUID voucherId, String email) {
+    public WalletAssignParam(UUID voucherId) {
         this.voucherId = voucherId;
-        this.email = email;
     }
 
     public UUID getVoucherId() {
         return voucherId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public VoucherWallet toEntity() {
-        return new VoucherWallet(getVoucherId(), new Email(getEmail()));
     }
 }
