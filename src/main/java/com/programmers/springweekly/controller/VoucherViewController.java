@@ -5,12 +5,12 @@ import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.service.VoucherService;
 import com.programmers.springweekly.util.validator.VoucherValidator;
+import jakarta.validation.Valid;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +34,7 @@ public class VoucherViewController {
     }
 
     @PostMapping("/save")
-    public String save(@Validated VoucherCreateRequest voucherCreateRequest) {
+    public String save(@Valid VoucherCreateRequest voucherCreateRequest) {
         VoucherValidator.validateVoucher(
                 voucherCreateRequest.getVoucherType(),
                 String.valueOf(voucherCreateRequest.getDiscountAmount())

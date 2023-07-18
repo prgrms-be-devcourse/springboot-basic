@@ -5,12 +5,12 @@ import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
 import com.programmers.springweekly.util.validator.CustomerValidator;
+import jakarta.validation.Valid;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +34,7 @@ public class CustomerViewController {
     }
 
     @PostMapping("/save")
-    public String save(@Validated CustomerCreateRequest customerCreateRequest) {
+    public String save(@Valid CustomerCreateRequest customerCreateRequest) {
         CustomerValidator.validateCustomer(
                 customerCreateRequest.getCustomerName(),
                 customerCreateRequest.getCustomerEmail(),
