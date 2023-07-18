@@ -1,6 +1,5 @@
 package programmers.org.voucher.repository;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -8,6 +7,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import programmers.org.voucher.domain.constant.VoucherType;
 import programmers.org.voucher.domain.Voucher;
 import programmers.org.voucher.dto.VoucherRequest;
+import programmers.org.voucher.repository.util.QueryGenerator;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -25,7 +25,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        String sql = "INSERT INTO vouchers(discount_amount, type) VALUES (?, ?)";
+        String sql = new QueryGenerator.Builder()
+                .insertInto("vouchers")
+                .values("discount_amount", "type")
+                .build();
+
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -38,7 +42,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAll() {
-        String sql = "SELECT * FROM vouchers";
+        String sql = new QueryGenerator.Builder()
+                .select("*")
+                .from("vouchers")
+                .build();
 
         List<Voucher> voucherList = new ArrayList<>();
         return jdbcTemplate.query(sql, voucherRowMapper(), voucherList.toArray());
@@ -46,13 +53,22 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Long id, VoucherRequest request) {
-        String sql = "UPDATE vouchers SET discount_amount=? WHERE voucher_id=?";
+        String sql = new QueryGenerator.Builder()
+                .update("vouchers")
+                .set("discount_amount")
+                .where("voucher_id")
+                .build();
+
         jdbcTemplate.update(sql, request.getDiscountAmount(), id);
     }
 
     @Override
     public Optional<Voucher> findById(Long id) {
-        String sql = "SELECT * FROM vouchers WHERE voucher_id=?";
+        String sql = new QueryGenerator.Builder()
+                .select("*")
+                .from("vouchers")
+                .where("voucher_id")
+                .build();
 
         List<Voucher> vouchers = jdbcTemplate.query(sql, voucherRowMapper(), id);
 
@@ -65,7 +81,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(Long id) {
-        String sql = "DELETE FROM vouchers WHERE voucher_id=?";
+        String sql = new QueryGenerator.Builder()
+                .deleteFrom("vouchers")
+                .where("voucher_id")
+                .build();
+
         jdbcTemplate.update(sql, id);
     }
 
