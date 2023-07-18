@@ -5,11 +5,11 @@ import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record JoinedWalletsResponse(List<JoinedWalletResponse> wallets) {
+public record JoinedWalletResponses(List<JoinedWalletResponse> wallets) {
 
-    public static JoinedWalletsResponse of(List<JoinedWallet> joinedWallets) {
+    public static JoinedWalletResponses of(List<JoinedWallet> joinedWallets) {
         List<JoinedWalletResponse> walletsResponse = joinedWallets.stream().map(JoinedWalletResponse::new).collect(Collectors.toList());
-        return new JoinedWalletsResponse(walletsResponse);
+        return new JoinedWalletResponses(walletsResponse);
     }
 
     @Override

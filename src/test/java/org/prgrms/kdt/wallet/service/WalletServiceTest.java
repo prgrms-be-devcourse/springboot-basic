@@ -14,7 +14,7 @@ import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
 import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletsResponse;
+import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponses;
 import org.prgrms.kdt.wallet.dto.response.WalletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,8 +44,10 @@ class WalletServiceTest {
 
     @BeforeEach
     void setup() {
-//         멤버 두명, 바우처 두개를 각각의 db테이블에 넣어놓고
-//         멤버1에게 바우처 두개를 할당한 상태 셋팅
+        /**
+         *  테스트용 db의 멤버와 바우처 테이블에 각각 초기 레코드 2개씩 셋팅해 놓은 상태,
+         *  이 중 멤버1에게 바우처 두개를 할당한 상태로 초기화 되었다.
+         */
         setupInsertWallets();
     }
 
@@ -55,7 +57,7 @@ class WalletServiceTest {
         //given
         UUID expectMemberId = UUID.fromString("9a3d5b3e-2d12-4958-9ef3-52d424485895");
         Member member = memberRepository.insert(new Member(expectMemberId, "giho", MemberStatus.COMMON));
-        Voucher voucher = voucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
+        Voucher voucher = voucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0)));
         CreateWalletRequest createWalletRequest = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
 
         //when
@@ -85,7 +87,7 @@ class WalletServiceTest {
     @DisplayName("setup을 통해 바우처 2개를 할당받은 멤버Id를 조회하여 Response의 size가 2인지 확인")
     void findVouchersByMemberId_correctMemberId_correctResponseSize() {
         //when
-        JoinedWalletsResponse responseList = walletService.findVouchersByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
+        JoinedWalletResponses responseList = walletService.findVouchersByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
 
         //then
         int responseSize = responseList.wallets().size();
@@ -107,7 +109,7 @@ class WalletServiceTest {
     @DisplayName("setup을 통해 해당 바우처를 할당받은 james를 voucherId를 통해 찾아서 확인")
     void findMembersByVoucherId_correctVoucherId_correctMemberName() {
         //when
-        JoinedWalletsResponse response = walletService.findMembersByVoucherId(UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29"));
+        JoinedWalletResponses response = walletService.findMembersByVoucherId(UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29"));
 
         //then
         String findMemberName = response.wallets().get(0).memberName();

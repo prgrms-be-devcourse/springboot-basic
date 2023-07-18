@@ -1,6 +1,6 @@
 package org.prgrms.kdt.member.domain;
 
-public class MemberName {
+class MemberName {
     private final String name;
 
     public MemberName(String name) {

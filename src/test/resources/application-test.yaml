@@ -1,6 +1,6 @@
 filePath:
-  voucher: "src/test/resources/TestVoucher.csv"
-  blackList: "src/test/resources/test_customer_blacklist.csv"
+  voucher: "src/test/TestVoucher.csv"
+  blackList: "src/test/test_customer_blacklist.csv"
 
 spring:
   datasource:

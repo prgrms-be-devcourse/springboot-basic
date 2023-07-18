@@ -5,7 +5,7 @@ import org.prgrms.kdt.member.dao.MemberRepository;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.member.dto.CreateMemberRequest;
 import org.prgrms.kdt.member.dto.MemberResponse;
-import org.prgrms.kdt.member.dto.MembersResponse;
+import org.prgrms.kdt.member.dto.MemberResponses;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,11 +21,11 @@ public class MemberService {
         return new MemberResponse(memberRepository.insert(member));
     }
 
-    public MembersResponse findAllBlackMember() {
-        return MembersResponse.of(memberRepository.findByStatus(MemberStatus.BLACK));
+    public MemberResponses findAllBlackMember() {
+        return MemberResponses.of(memberRepository.findByStatus(MemberStatus.BLACK));
     }
 
-    public MembersResponse findAllMember() {
-        return MembersResponse.of(memberRepository.findAll());
+    public MemberResponses findAllMember() {
+        return MemberResponses.of(memberRepository.findAll());
     }
 }

@@ -32,7 +32,7 @@ public class JdbcMemberRepository implements MemberRepository {
     public Member insert(Member member) {
         String sql = "INSERT INTO member(id, name, status) VALUES (?, ?, ?)";
         int update = jdbcTemplate.update(sql, member.getMemberId().toString(),
-                member.getMemberName().getName(),
+                member.getMemberName(),
                 member.getStatus().getDescripton());
         if (update != 1) {
             throw new NotUpdateException("insert가 제대로 이루어지지 않았습니다.");

@@ -5,7 +5,7 @@ import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
 import org.prgrms.kdt.voucher.dto.VoucherResponse;
-import org.prgrms.kdt.voucher.dto.VouchersResponse;
+import org.prgrms.kdt.voucher.dto.VoucherResponses;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,7 +24,7 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
-    public VouchersResponse findAll() {
-        return VouchersResponse.of(voucherRepository.findAll());
+    public VoucherResponses findAll() {
+        return VoucherResponses.of(voucherRepository.findAll());
     }
 }
