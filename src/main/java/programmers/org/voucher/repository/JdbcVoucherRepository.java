@@ -54,13 +54,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(Long id) {
         String sql = "SELECT * FROM vouchers WHERE voucher_id=?";
 
-        try {
-            Voucher voucher = jdbcTemplate.queryForObject(sql, voucherRowMapper(), id);
-            return Optional.of(voucher);
+        List<Voucher> vouchers = jdbcTemplate.query(sql, voucherRowMapper(), id);
 
-        } catch (EmptyResultDataAccessException e) {
+        if (vouchers.isEmpty()) {
             return Optional.empty();
         }
+
+        return Optional.of(vouchers.get(0));
     }
 
     @Override
