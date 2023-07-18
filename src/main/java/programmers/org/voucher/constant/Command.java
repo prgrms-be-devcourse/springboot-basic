@@ -11,7 +11,8 @@ public enum Command {
     FIND,
     UPDATE,
     DELETE,
-    EXIT;
+    EXIT
+    ;
 
     public static Command find(String type) {
         return Arrays.stream(Command.values())

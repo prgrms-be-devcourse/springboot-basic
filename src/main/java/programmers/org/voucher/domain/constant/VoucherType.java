@@ -7,7 +7,8 @@ import static programmers.org.voucher.exception.ErrorMessage.INVALID_VOUCHER_TYP
 
 public enum VoucherType {
     FIXED,
-    PERCENT;
+    PERCENT
+    ;
 
     public static VoucherType find(String type) {
         return Arrays.stream(VoucherType.values())
