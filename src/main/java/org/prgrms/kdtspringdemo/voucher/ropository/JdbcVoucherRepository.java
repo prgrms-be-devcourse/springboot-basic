@@ -63,12 +63,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        List<Voucher> voucherList = jdbcTemplate.query(FIND_BY_ID_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper);;
-        if (voucherList.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(voucherList.get(0));
+        return jdbcTemplate.query(FIND_BY_ID_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper)
+                .stream()
+                .findFirst();
     }
 
     @Override
