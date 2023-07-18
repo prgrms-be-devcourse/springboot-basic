@@ -3,10 +3,8 @@ package com.example.voucher.service.customer;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.voucher.constant.CustomerType;
 import com.example.voucher.domain.customer.Customer;
 import com.example.voucher.repository.customer.CustomerRepository;
@@ -38,6 +36,12 @@ public class CustomerService {
 
     public void deleteCustomers() {
         customerRepository.deleteAll();
+    }
+
+    public CustomerDTO search(UUID customerId) {
+        Customer selectedCustomer = customerRepository.findById(customerId);
+
+        return toDTO(selectedCustomer);
     }
 
     private CustomerDTO toDTO(Customer customer) {

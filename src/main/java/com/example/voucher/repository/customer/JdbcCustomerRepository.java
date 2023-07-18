@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import com.example.voucher.constant.CustomerType;
 import com.example.voucher.domain.customer.Customer;
+import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.repository.QueryBuilder;
 
 @Component
@@ -59,6 +60,20 @@ public class JdbcCustomerRepository implements CustomerRepository {
             .build();
 
         jdbcTemplate.update(sql, parameterSource);
+    }
+
+    @Override
+    public Customer findById(UUID customerID) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("customerId", customerID.toString());
+
+        RowMapper<Customer> custoemrRowMapper = custoemrRowMapper();
+
+        String sql = new QueryBuilder().select("*")
+            .from("CUSTOMER")
+            .where("CUSTOMER_ID", "=", "customerId")
+            .build();
+
+        return jdbcTemplate.queryForObject(sql, parameterSource, custoemrRowMapper);
     }
 
     private RowMapper<Customer> custoemrRowMapper() {

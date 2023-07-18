@@ -1,6 +1,7 @@
 package com.example.voucher.controller;
 
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.controller.request.CustomerRequest;
 import com.example.voucher.controller.response.Response;
@@ -30,6 +31,11 @@ public class CustomerController {
 
     public void deleteCustomers() {
         customerService.deleteCustomers();
+    }
+
+    public Response<CustomerDTO> search(UUID customerId) {
+        CustomerDTO customer = customerService.search(customerId);
+        return new Response<>(customer);
     }
 
 }

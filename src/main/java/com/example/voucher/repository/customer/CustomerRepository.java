@@ -1,6 +1,7 @@
 package com.example.voucher.repository.customer;
 
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Repository;
 import com.example.voucher.domain.customer.Customer;
 
@@ -12,6 +13,8 @@ public interface CustomerRepository {
     List<Customer> findAll();
 
     void deleteAll();
+
+    Customer findById(UUID customerID);
 
 }
 
