@@ -34,10 +34,10 @@ public class WalletService {
     @Transactional
     public void createWallet(WalletCreateRequest walletCreateRequest) {
         Voucher voucher = voucherRepository
-                .findById(UUID.fromString(walletCreateRequest.getVoucherId()))
+                .findById(UUID.fromString(walletCreateRequest.voucherId()))
                 .orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
         Member member = memberRepository
-                .findById(UUID.fromString(walletCreateRequest.getMemberId()))
+                .findById(UUID.fromString(walletCreateRequest.memberId()))
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
 
         Wallet wallet = new Wallet(UUID.randomUUID(),

@@ -28,7 +28,7 @@ public class VoucherService {
     @Transactional
     public void updateVoucher(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         Voucher voucher = repository.findById(voucherId).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
-        DiscountValue discountValue = new DiscountValue(voucherUpdateRequest.getDiscountValue());
+        DiscountValue discountValue = new DiscountValue(voucherUpdateRequest.discountValue());
         discountValue.validateValue(voucher.getDiscountType());
 
         voucher.changeDiscountValue(discountValue);

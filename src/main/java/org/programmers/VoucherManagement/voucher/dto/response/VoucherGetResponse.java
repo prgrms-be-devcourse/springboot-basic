@@ -1,51 +1,23 @@
 package org.programmers.VoucherManagement.voucher.dto.response;
 
+import lombok.Builder;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
-import java.util.Objects;
 import java.util.UUID;
 
-public class VoucherGetResponse {
-    private final UUID voucherId;
-    private final DiscountType discountType;
-    private final int discountValue;
-
-    public VoucherGetResponse(UUID voucherId, DiscountType discountType, int discountValue) {
-        this.voucherId = voucherId;
-        this.discountType = discountType;
-        this.discountValue = discountValue;
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public DiscountType getDiscountType() {
-        return discountType;
-    }
-
-    public int getDiscountValue() {
-        return discountValue;
-    }
-
+@Builder
+public record VoucherGetResponse(
+        UUID voucherId,
+        DiscountType discountType,
+        int discountValue
+) {
     public static VoucherGetResponse toDto(Voucher voucher) {
-        return new VoucherGetResponse(voucher.getVoucherId()
-                , voucher.getDiscountType()
-                , voucher.getDiscountValue().getValue());
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        VoucherGetResponse that = (VoucherGetResponse) o;
-        return discountValue == that.discountValue && voucherId.equals(that.voucherId) && discountType == that.discountType;
+        return VoucherGetResponse.builder()
+                .voucherId(voucher.getVoucherId())
+                .discountType(voucher.getDiscountType())
+                .discountValue(voucher.getDiscountValue().getValue())
+                .build();
     }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(voucherId, discountType, discountValue);
-    }
-
 }

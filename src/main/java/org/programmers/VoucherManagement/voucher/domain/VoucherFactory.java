@@ -10,13 +10,13 @@ public class VoucherFactory {
     }
 
     public static Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
-        DiscountType discountType = voucherCreateRequest.getDiscountType();
+        DiscountType discountType = voucherCreateRequest.discountType();
 
         return switch (discountType) {
             case FIXED ->
-                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(voucherCreateRequest.getDiscountValue()));
+                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(voucherCreateRequest.discountValue()));
             case PERCENT ->
-                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(voucherCreateRequest.getDiscountValue()));
+                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(voucherCreateRequest.discountValue()));
         };
     }
 

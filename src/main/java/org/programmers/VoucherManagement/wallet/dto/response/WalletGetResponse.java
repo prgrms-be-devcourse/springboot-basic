@@ -8,47 +8,13 @@ import org.programmers.VoucherManagement.wallet.domain.Wallet;
 
 import java.util.UUID;
 
-public class WalletGetResponse {
-    private final UUID walletId;
-    private final UUID memberId;
-    private final UUID voucherId;
-    private final String memberName;
-    private final DiscountType discountType;
-    private final int discountValue;
-
-    @Builder
-    public WalletGetResponse(UUID walletId, UUID memberId, UUID voucherId, String memberName, DiscountType discountType, int discountValue) {
-        this.walletId = walletId;
-        this.memberId = memberId;
-        this.voucherId = voucherId;
-        this.memberName = memberName;
-        this.discountType = discountType;
-        this.discountValue = discountValue;
-    }
-
-    public UUID getWalletId() {
-        return walletId;
-    }
-
-    public UUID getMemberId() {
-        return memberId;
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
-    }
-
-    public String getMemberName() {
-        return memberName;
-    }
-
-    public DiscountType getDiscountType() {
-        return discountType;
-    }
-
-    public int getDiscountValue() {
-        return discountValue;
-    }
+@Builder
+public record WalletGetResponse(UUID walletId,
+                                UUID memberId,
+                                UUID voucherId,
+                                String memberName,
+                                DiscountType discountType,
+                                int discountValue) {
 
     public static WalletGetResponse toDto(Wallet wallet) {
         Voucher voucher = wallet.getVoucher();
@@ -64,4 +30,3 @@ public class WalletGetResponse {
                 .build();
     }
 }
-

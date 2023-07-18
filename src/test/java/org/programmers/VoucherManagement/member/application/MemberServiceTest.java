@@ -51,7 +51,7 @@ public class MemberServiceTest {
 
         //then
         Member updateMember = memberRepository.findById(memberId).get();
-        assertThat(updateMember.getMemberStatus()).isEqualTo(updateRequestDto.getMemberStatus());
+        assertThat(updateMember.getMemberStatus()).isEqualTo(updateRequestDto.memberStatus());
     }
 
     @Test

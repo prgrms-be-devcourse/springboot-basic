@@ -22,10 +22,10 @@ public class Console implements Input, Output {
                 .stream()
                 .forEach(response -> {
                     System.out.println(MessageFormat.format("{0} : {1} 타입의 {2}{3} 할인 voucher"
-                            , response.getVoucherId()
-                            , response.getDiscountType().getType()
-                            , response.getDiscountValue()
-                            , response.getDiscountType().getSymbol()));
+                            , response.voucherId()
+                            , response.discountType().getType()
+                            , response.discountValue()
+                            , response.discountType().getSymbol()));
                 });
     }
 
@@ -56,13 +56,12 @@ public class Console implements Input, Output {
                                     "Voucher - {1} 타입의 {2}{3} 할인 voucher" + System.lineSeparator() +
                                     "Member - {4} {5}" + System.lineSeparator() +
                                     "—————" + System.lineSeparator()
-                            , response.getWalletId()
-                            , response.getWalletId()
-                            , response.getDiscountType()
-                            , response.getDiscountValue()
-                            , response.getDiscountType().getType()
-                            , response.getMemberId()
-                            , response.getMemberName()));
+                            , response.walletId()
+                            , response.discountType()
+                            , response.discountValue()
+                            , response.discountType().getType()
+                            , response.memberId()
+                            , response.memberName()));
                 });
     }
 
@@ -72,9 +71,9 @@ public class Console implements Input, Output {
                 .getGetMemberListRes()
                 .forEach(response -> {
                     System.out.println(MessageFormat.format("{0} : {1} -> {2}"
-                            , response.getMemberID()
-                            , response.getName()
-                            , response.getMemberStatus().toString()));
+                            , response.memberId()
+                            , response.name()
+                            , response.memberStatus().toString()));
                 });
     }
 

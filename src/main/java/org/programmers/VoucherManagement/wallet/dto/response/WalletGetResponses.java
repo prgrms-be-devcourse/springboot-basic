@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 public class WalletGetResponses {
     private final List<WalletGetResponse> walletResponses;
 
@@ -15,9 +16,7 @@ public class WalletGetResponses {
                 .map(WalletGetResponse::toDto).collect(Collectors.toList());
     }
 
-
     public List<WalletGetResponse> getGetWalletListRes() {
         return Collections.unmodifiableList(walletResponses);
     }
 }
-

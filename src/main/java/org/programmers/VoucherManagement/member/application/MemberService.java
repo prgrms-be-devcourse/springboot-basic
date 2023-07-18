@@ -34,15 +34,15 @@ public class MemberService {
     @Transactional
     public void createMember(MemberCreateRequest memberCreateRequest) {
         Member member = new Member(UUID.randomUUID(),
-                memberCreateRequest.getName(),
-                memberCreateRequest.getMemberStatus());
+                memberCreateRequest.name(),
+                memberCreateRequest.memberStatus());
         repository.insert(member);
     }
 
     @Transactional
     public void updateMember(UUID memberId, MemberUpdateRequest memberUpdateRequest) {
         Member member = repository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
-        member.changeMemberStatus(memberUpdateRequest.getMemberStatus());
+        member.changeMemberStatus(memberUpdateRequest.memberStatus());
         repository.update(member);
     }
 
