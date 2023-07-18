@@ -11,7 +11,6 @@ import lombok.Setter;
 @Setter
 public class VoucherCreateRequest {
 
-    @NotNull
     @Positive
     private long discountAmount;
 
