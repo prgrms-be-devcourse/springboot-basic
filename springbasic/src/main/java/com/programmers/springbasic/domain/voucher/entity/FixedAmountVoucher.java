@@ -14,7 +14,7 @@ public class FixedAmountVoucher extends Voucher {
     public FixedAmountVoucher(double value, UUID customerId) {
         this.code = UUID.randomUUID();
         this.value = value;
-        this.expirationDate = setDefaultExpirationDate();
+        this.expirationDate = getDefaultExpirationDate();
         this.isActive = true;
         this.customerId = customerId;
     }
@@ -28,7 +28,7 @@ public class FixedAmountVoucher extends Voucher {
         this.customerId = customerId;
     }
 
-    private LocalDate setDefaultExpirationDate() {
+    private LocalDate getDefaultExpirationDate() {
         LocalDate date = LocalDate.now();
         date.plusDays(DEFAULT_EXPIRE_DURATION);
 
@@ -37,7 +37,12 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public double discount(double inputAmount) {
-        return inputAmount - this.value;
+        double value = inputAmount - this.value;
+
+        if (value < 0) {
+            throw new RuntimeException("할인 금액이 더 큰 경우 할인을 적용할 수 없습니다.");
+        }
+        return value;
     }
 
     @Override

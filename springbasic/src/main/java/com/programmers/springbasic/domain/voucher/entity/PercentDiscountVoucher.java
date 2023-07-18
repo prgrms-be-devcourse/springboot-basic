@@ -13,7 +13,7 @@ public class PercentDiscountVoucher extends Voucher {
     public PercentDiscountVoucher(double value, UUID customerId) {
         this.code = UUID.randomUUID();
         this.value = value;
-        this.expirationDate = setDefaultExpirationDate();
+        this.expirationDate = getDefaultExpirationDate();
         this.isActive = true;
         this.customerId = customerId;
     }
@@ -27,7 +27,7 @@ public class PercentDiscountVoucher extends Voucher {
         this.customerId = customerId;
     }
 
-    private LocalDate setDefaultExpirationDate() {
+    private LocalDate getDefaultExpirationDate() {
         LocalDate date = LocalDate.now();
         date.plusDays(DEFAULT_EXPIRE_DURATION);
 
@@ -36,7 +36,13 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public double discount(double inputAmount) {
-        return inputAmount * (this.value / 100);
+        double value = inputAmount * (this.value / 100);
+
+        if (inputAmount < value) {
+            throw new RuntimeException("할인을 적용한 금액이 더 큽니다.");
+        }
+
+        return value;
     }
 
     @Override
