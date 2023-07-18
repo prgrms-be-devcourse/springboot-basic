@@ -1,12 +1,11 @@
 package com.wonu606.vouchermanager.service.customer;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
-import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
 import com.wonu606.vouchermanager.repository.customer.CustomerRepository;
 import com.wonu606.vouchermanager.service.customer.creator.CustomerCreator;
 import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
-import com.wonu606.vouchermanager.service.customer.param.OwnedVoucherParam;
-import com.wonu606.vouchermanager.service.customer.param.WalletDeleteParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVoucherParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
 import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
 import org.springframework.stereotype.Component;
@@ -46,11 +45,11 @@ public class CustomerService {
         return customerListGetResultConverter.convert(resultSet);
     }
 
-    public OwnedVoucherResult findOwnedVouchersByCustomer(OwnedVoucherParam param) {
+    public OwnedVouchersResult findOwnedVouchersByCustomer(OwnedVoucherParam param) {
         return voucherWalletService.findOwnedVouchersByCustomer(param);
     }
 
     public void deleteWallet(WalletDeleteParam param) {
-        voucherWalletService.deleteByCustomer(param);
+        voucherWalletService.deleteWallet(param);
     }
 }

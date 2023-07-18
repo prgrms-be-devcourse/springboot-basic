@@ -18,7 +18,7 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
     }
 
     @Override
-    public List<UUID> findIdByCustomerEmailAddress(Email email) {
+    public List<UUID> findOwnedVouchersByCustomer(Email email) {
         String selectSql = "SELECT voucher_id FROM customer_voucher_wallet WHERE customer_email_address = ?";
         return jdbcTemplate.query(selectSql,
                 (rs, rowNum) -> UUID.fromString(rs.getString("voucher_id")),
@@ -26,7 +26,7 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
     }
 
     @Override
-    public void deleteByWallet(VoucherWallet wallet) {
+    public void delete(VoucherWallet wallet) {
         String deleteSql = "DELETE FROM customer_voucher_wallet WHERE customer_email_address = ? AND voucher_id = ?";
         jdbcTemplate.update(deleteSql,
                 wallet.getEmailAddress(),
@@ -35,19 +35,19 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
 
     @Override
     public VoucherWallet save(VoucherWallet wallet) {
-        insertCustomerVoucherWallet(wallet);
+        insert(wallet);
         return wallet;
     }
 
     @Override
-    public List<String> findEmailAddressesByVoucherId(UUID voucherId) {
+    public List<String> findOwnedCustomerByVoucher(UUID voucherId) {
         String selectSql = "SELECT customer_email_address FROM customer_voucher_wallet WHERE voucher_id = ?";
         return jdbcTemplate.query(selectSql,
                 (rs, rowNum) -> rs.getString("customer_email_address"),
                 voucherId.toString());
     }
 
-    private void insertCustomerVoucherWallet(VoucherWallet wallet) {
+    private void insert(VoucherWallet wallet) {
         String insertSql = "INSERT INTO customer_voucher_wallet (customer_email_address, voucher_id) VALUES (?, ?)";
         jdbcTemplate.update(insertSql,
                 wallet.getEmailAddress(),

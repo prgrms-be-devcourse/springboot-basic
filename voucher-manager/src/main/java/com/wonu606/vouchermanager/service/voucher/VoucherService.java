@@ -4,7 +4,7 @@ import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherResultSet;
 import com.wonu606.vouchermanager.repository.voucher.VoucherRepository;
 import com.wonu606.vouchermanager.service.voucher.factory.VoucherFactory;
-import com.wonu606.vouchermanager.service.voucher.param.OwnedCustomersParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;

@@ -7,11 +7,11 @@ import java.util.UUID;
 
 public interface VoucherWalletRepository {
 
-    List<UUID> findIdByCustomerEmailAddress(Email email);
+    List<UUID> findOwnedVouchersByCustomer(Email email);
 
-    void deleteByWallet(VoucherWallet voucherWallet);
+    void delete(VoucherWallet voucherWallet);
 
     VoucherWallet save(VoucherWallet voucherWallet);
 
-    List<String> findEmailAddressesByVoucherId(UUID voucherId);
+    List<String> findOwnedCustomerByVoucher(UUID voucherId);
 }

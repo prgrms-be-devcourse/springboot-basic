@@ -67,7 +67,7 @@ class JdbcVoucherWalletRepositoryTest {
 
         // when
         List<UUID> actualUuids =
-                customerVoucherWalletRepository.findIdByCustomerEmailAddress(email);
+                customerVoucherWalletRepository.findOwnedVouchersByCustomer(email);
 
         // then
         assertThat(actualUuids).hasSize(1);
@@ -85,11 +85,11 @@ class JdbcVoucherWalletRepositoryTest {
                         new Email(customer.getEmailAddress()));
 
         // when
-        customerVoucherWalletRepository.deleteByWallet(voucherWallet);
+        customerVoucherWalletRepository.delete(voucherWallet);
 
         // then
         List<String> emailAddresses =
-                customerVoucherWalletRepository.findEmailAddressesByVoucherId(voucher.getUuid());
+                customerVoucherWalletRepository.findOwnedCustomerByVoucher(voucher.getUuid());
         assertThat(emailAddresses).hasSize(0);
     }
 
@@ -103,7 +103,7 @@ class JdbcVoucherWalletRepositoryTest {
 
         // when
         List<String> emailAddresses =
-                customerVoucherWalletRepository.findEmailAddressesByVoucherId(voucherId);
+                customerVoucherWalletRepository.findOwnedCustomerByVoucher(voucherId);
 
         // then
         assertThat(emailAddresses).hasSize(1);

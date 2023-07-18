@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.service.voucher.param;
+package com.wonu606.vouchermanager.service.voucherwallet.param;
 
 import java.util.UUID;
 

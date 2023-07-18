@@ -14,8 +14,8 @@ import com.wonu606.vouchermanager.controller.customer.response.CustomerListGetRe
 import com.wonu606.vouchermanager.controller.customer.response.OwnedVouchersResponse;
 import com.wonu606.vouchermanager.service.customer.CustomerService;
 import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
-import com.wonu606.vouchermanager.service.customer.param.OwnedVoucherParam;
-import com.wonu606.vouchermanager.service.customer.param.WalletDeleteParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVoucherParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
 import org.springframework.stereotype.Component;
 

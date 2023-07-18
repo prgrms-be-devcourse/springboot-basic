@@ -9,7 +9,7 @@ import com.wonu606.vouchermanager.controller.voucher.reqeust.WalletAssignRequest
 import com.wonu606.vouchermanager.controller.voucher.response.OwnedCustomersResponse;
 import com.wonu606.vouchermanager.controller.voucher.response.VoucherCreateResponse;
 import com.wonu606.vouchermanager.controller.voucher.response.VoucherResponse;
-import com.wonu606.vouchermanager.service.voucher.param.OwnedCustomersParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import com.wonu606.vouchermanager.service.voucher.VoucherService;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;

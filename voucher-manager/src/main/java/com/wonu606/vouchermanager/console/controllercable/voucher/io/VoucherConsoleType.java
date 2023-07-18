@@ -1,6 +1,6 @@
 package com.wonu606.vouchermanager.console.controllercable.voucher.io;
 
-import com.wonu606.vouchermanager.service.voucher.VoucherType;
+import com.wonu606.vouchermanager.service.voucher.factory.VoucherType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

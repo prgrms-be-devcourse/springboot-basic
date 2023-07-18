@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.service.voucher;
+package com.wonu606.vouchermanager.service.voucher.factory;
 
 import java.util.Arrays;
 import java.util.List;
