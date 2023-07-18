@@ -33,20 +33,20 @@ public class RestApiVoucherController {
     }
 
     @GetMapping("/{voucherType}")
-    public List<Voucher> findByVoucherType(@PathVariable("voucherType") String voucherType) {
+    public List<Voucher> findByVoucherType(@RequestParam("voucherType") String voucherType) {
         List<Voucher> vouchersByType = voucherService.getVouchersByType(voucherType);
         return vouchersByType;
     }
 
 
     @GetMapping("/{voucherId}")
-    public Voucher viewVoucher(@PathVariable("voucherId") Long voucherId) {
+    public Voucher viewVoucher(@RequestParam("voucherId") Long voucherId) {
         return voucherService.getVoucherById(voucherId);
     }
 
 
     @DeleteMapping("/{voucherId}")
-    public void deleteVoucher( @PathVariable("voucherId") Long voucherId) {
+    public void deleteVoucher(@RequestParam("voucherId") Long voucherId) {
         voucherService.deleteById(voucherId);
     }
 }
