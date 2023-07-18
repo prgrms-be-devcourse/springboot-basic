@@ -21,7 +21,7 @@ public class RestApiVoucherController {
         return List.of(VoucherType.values());
     }
 
-    @PostMapping("/new")
+    @PostMapping("/")
     public Voucher addNewVoucher(@RequestBody CreateVoucherRequest createVoucherRequest) {
         Voucher addNewVoucher = voucherService.save(VoucherType.of(createVoucherRequest.voucherType()), createVoucherRequest.amount());
         return addNewVoucher;
@@ -32,20 +32,20 @@ public class RestApiVoucherController {
         return voucherService.getVouchers();
     }
 
-    @GetMapping("/list/{voucherType}")
+    @GetMapping("/{voucherType}")
     public List<Voucher> findByVoucherType(@PathVariable("voucherType") String voucherType) {
         List<Voucher> vouchersByType = voucherService.getVouchersByType(voucherType);
         return vouchersByType;
     }
 
 
-    @GetMapping("/{voucherId}/detail")
+    @GetMapping("/{voucherId}")
     public Voucher viewVoucher(@PathVariable("voucherId") Long voucherId) {
         return voucherService.getVoucherById(voucherId);
     }
 
 
-    @DeleteMapping("/delete/{voucherId}")
+    @DeleteMapping("/{voucherId}")
     public void deleteVoucher( @PathVariable("voucherId") Long voucherId) {
         voucherService.deleteById(voucherId);
     }

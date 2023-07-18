@@ -6,6 +6,7 @@ import org.junit.jupiter.api.*;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
 import org.prgrms.kdt.entity.VoucherEntity;
+import org.prgrms.kdt.factory.VoucherFactory;
 import org.prgrms.kdt.service.voucher.VoucherService;
 import org.prgrms.kdt.utils.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,8 +73,8 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeAll
     void setup() {
-        VoucherEntity voucherEntity = new VoucherEntity();
-        newVoucher = voucherEntity.from(VoucherType.valueOf("FIXED").makeVoucher(1000));
+        Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED, 1000);
+        newVoucher = VoucherEntity.from(voucher);
         var mysqlConfig = aMysqldConfig(v8_0_11)
                 .withCharset(UTF8)
                 .withPort(3306)

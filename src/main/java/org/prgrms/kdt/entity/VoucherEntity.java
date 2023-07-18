@@ -1,33 +1,34 @@
 package org.prgrms.kdt.entity;
 
 import org.prgrms.kdt.domain.voucher.Voucher;
+import org.prgrms.kdt.utils.VoucherStatus;
 
 
 public class VoucherEntity {
 
-    private Long voucherId;
-    private String voucherType;
-    private Long amount;
-    private boolean status;
+    private static Long voucherId;
+    private static String voucherType;
+    private static Long amount;
+    private static String status;
 
     public VoucherEntity() {
-
     }
 
-    public VoucherEntity(Long voucherId, String voucherType, Long amount, boolean status) {
+    public VoucherEntity(Long voucherId, String voucherType, Long amount, String status) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
-        this.amount= amount;
+        this.amount = amount;
         this.status = status;
     }
 
-    public VoucherEntity from(Voucher voucher) {
-        voucherId = voucher.getVoucherId();
-        voucherType = String.valueOf(voucher.getVoucherType());
-        amount = voucher.getDiscountAmount();
-        status = voucher.getStatus();
+    public static VoucherEntity from(Voucher voucher) {
+        VoucherEntity voucherEntity = new VoucherEntity();
+        voucherEntity.voucherId = voucher.getVoucherId();
+        voucherEntity.voucherType = String.valueOf(voucher.getVoucherType());
+        voucherEntity.amount = voucher.getDiscountAmount();
+        voucherEntity.status = voucher.getStatus();
 
-        return new VoucherEntity(voucherId, voucherType, amount, status);
+        return voucherEntity;
     }
 
     public Long getVoucherEntityId() {
@@ -42,7 +43,7 @@ public class VoucherEntity {
         return amount;
     }
 
-    public boolean isEntityStatus() {
+    public String getStatus() {
         return status;
     }
 }

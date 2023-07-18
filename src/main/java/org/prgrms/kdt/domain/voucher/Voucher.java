@@ -1,5 +1,6 @@
 package org.prgrms.kdt.domain.voucher;
 
+import org.prgrms.kdt.utils.VoucherStatus;
 import org.prgrms.kdt.utils.VoucherType;
 
 public interface Voucher {
@@ -10,5 +11,5 @@ public interface Voucher {
 
     Long getDiscountAmount();
 
-    boolean getStatus();
+    String getStatus();
 }
