@@ -1,9 +1,13 @@
 package com.prgrms.springbootbasic.domain.voucher;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.prgrms.springbootbasic.enums.voucher.VoucherType;
+import java.time.LocalDateTime;
+import java.util.UUID;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -18,16 +22,18 @@ class FixedVoucherTest {
     @DisplayName("고정 할인(Fixed) 바우처 생성 테스트")
     void createFixedVoucherTest() {
         //given
+        UUID voucherId = UUID.randomUUID();
         long discount = 10000;
+        LocalDateTime createdAt = LocalDateTime.now();
 
         //when
-        FixedVoucher voucher = new FixedVoucher(discount);
+        FixedVoucher voucher = new FixedVoucher(voucherId, discount, createdAt);
 
         //then
-        assertThat(voucher.getVoucherId(), Matchers.notNullValue());
+        assertThat(voucher.getVoucherId(), is(equalTo(voucherId)));
         assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
         assertThat(voucher.getVoucherType(), Matchers.equalTo(VoucherType.FIXED));
-        assertThat(voucher.getCreatedAt(), Matchers.notNullValue());
+        assertThat(voucher.getCreatedAt(), is(equalTo(createdAt)));
     }
 
     //엣지 케이스 테스트 - Nested클래스
@@ -68,14 +74,16 @@ class FixedVoucherTest {
     @CsvSource(value = {"1000", "5000", "10000"})
     void createMultiFixcedVoucherTest(long discount) {
         //given
+        UUID voucherId = UUID.randomUUID();
+        LocalDateTime createdAt = LocalDateTime.now();
 
         //when
-        FixedVoucher voucher = new FixedVoucher(discount);
+        FixedVoucher voucher = new FixedVoucher(voucherId, discount, createdAt);
 
         //then
-        assertThat(voucher.getVoucherId(), Matchers.notNullValue());
+        assertThat(voucher.getVoucherId(), is(equalTo(voucherId)));
         assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
         assertThat(voucher.getVoucherType(), Matchers.equalTo(VoucherType.FIXED));
-        assertThat(voucher.getCreatedAt(), Matchers.notNullValue());
+        assertThat(voucher.getCreatedAt(), is(equalTo(createdAt)));
     }
 }
