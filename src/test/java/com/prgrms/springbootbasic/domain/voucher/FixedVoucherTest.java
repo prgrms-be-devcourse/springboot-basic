@@ -1,79 +1,74 @@
 package com.prgrms.springbootbasic.domain.voucher;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.prgrms.springbootbasic.enums.VoucherType;
-import java.time.LocalDateTime;
-import java.util.UUID;
+import com.prgrms.springbootbasic.enums.voucher.VoucherType;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 class FixedVoucherTest {
 
-    //FixedVoucher 클래스의 메소드 테스트
+    //해피케이스 테스트 - Hamcrest 테스트
     @Test
-    @DisplayName("Fixed Voucher 금액 생성 확인 테스트")
-    void validDiscount() {
+    @DisplayName("고정 할인(Fixed) 바우처 생성 테스트")
+    void createFixedVoucherTest() {
         //given
-        long validDiscount = 10000;
+        long discount = 10000;
 
         //when
-        FixedVoucher fixedVoucher = new FixedVoucher(validDiscount);
+        FixedVoucher voucher = new FixedVoucher(discount);
 
         //then
-        assertEquals(validDiscount, fixedVoucher.getDiscount());
-
+        assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
+        assertThat(voucher.getVoucherType(), Matchers.equalTo(VoucherType.FIXED));
     }
 
-    @Test
-    @DisplayName("바우처 생성 시 ID값이 null이 아닌지 테스트")
-    void getVoucherId() {
-        //given
-        FixedVoucher fixedVoucher = new FixedVoucher(10000);
+    //엣지 케이스 테스트 - Nested클래스
+    // 사용 0이하의 금액이 들어왔을 때 테스트, 0초과의 금액이 들어왔을 때의 테스트
 
-        //when
-        UUID voucherId = fixedVoucher.getVoucherId();
+    @Nested
+    @DisplayName("고정 할인(Fixed) 바우처의 Validation 확인 테스트")
+    class checkFixedValidationTest {
 
-        //then
-        assertNotNull(voucherId);
+        @Test
+        @DisplayName("금액이 0 이하일 경우")
+        void invalidDiscountTest() {
+            long discount = -1000L;
+
+            //then
+            assertThrows(IllegalArgumentException.class, () -> new FixedVoucher(discount));
+        }
+
+        @Test
+        @DisplayName("금액이 0 초과일 경우")
+        void validDiscountTest() {
+            long discount = 2000L;
+
+            //when
+            FixedVoucher voucher = new FixedVoucher(discount);
+
+            //then
+            assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
+        }
     }
 
-    @Test
-    @DisplayName("0이하의 금액이 입력될 경우 테스트")
-    void getDiscount() {
+
+    //해피케이스 테스트 - Hamcrest 테스트
+    @DisplayName("여러 개의 고정 할인(fixed) 바우처 생성 테스트")
+    @ParameterizedTest
+    @CsvSource(value = {"1000", "5000", "10000"})
+    void createMultiFixcedVoucherTest(long discount) {
         //given
-        long invalidDiscount = 0;
 
         //when
+        FixedVoucher voucher = new FixedVoucher(discount);
 
         //then
-        assertThrows(IllegalArgumentException.class, () -> new FixedVoucher(invalidDiscount));
-    }
-
-    @Test
-    @DisplayName("바우처 생성 시 Type이 정상적으로 FIXED로 분류되는지 테스트")
-    void getVoucherType() {
-        //given
-        FixedVoucher fixedVoucher = new FixedVoucher(10000);
-
-        //when
-
-        //then
-        assertEquals(VoucherType.FIXED, fixedVoucher.getVoucherType());
-    }
-
-    @Test
-    @DisplayName("바우처 생성 시 CreateAt이 정상적으로 생성되는지 테스트")
-    void getCreatedAt() {
-        //given
-        FixedVoucher fixedVoucher = new FixedVoucher(10000);
-
-        //when
-        LocalDateTime createdAt = fixedVoucher.getCreatedAt();
-
-        //then
-        assertNotNull(createdAt);
+        assertThat(voucher.getDiscount(), Matchers.equalTo(discount));
     }
 }
