@@ -23,7 +23,7 @@ public class VoucherViewController {
 
     private final VoucherService voucherService;
 
-    @GetMapping("/")
+    @GetMapping
     public String getMenuPage() {
         return "voucher/menu";
     }

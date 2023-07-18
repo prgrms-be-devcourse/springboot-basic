@@ -23,7 +23,7 @@ public class CustomerViewController {
 
     private final CustomerService customerService;
 
-    @GetMapping("/")
+    @GetMapping
     public String getMenuPage() {
         return "customer/menu";
     }
