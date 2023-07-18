@@ -23,7 +23,7 @@ public final class Converter {
 
     public static String memberToString(Member member) {
         try {
-            return MessageFormat.format("{0},{1}", member.getMemberId(), member.getMemberName().getName());
+            return MessageFormat.format("{0},{1}", member.getMemberId(), member.getMemberName());
         } catch (NullPointerException e) {
             throw new EntityNotFoundException("멤버 엔티티의 필드값에 null이 포함되어 있습니다", e);
         }
