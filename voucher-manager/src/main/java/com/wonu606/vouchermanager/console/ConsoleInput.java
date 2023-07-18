@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.console.consoleio;
+package com.wonu606.vouchermanager.console;
 
 import java.util.List;
 import org.beryx.textio.TextIO;

@@ -1,11 +1,11 @@
-package com.wonu606.vouchermanager.console.consoleio;
+package com.wonu606.vouchermanager.console;
 
-public abstract class AbstractConsoleIO {
+public abstract class AbstractConsoleIo {
 
     protected final ConsoleInput input;
     protected final ConsolePrinter printer;
 
-    public AbstractConsoleIO(ConsoleInput input, ConsolePrinter printer) {
+    public AbstractConsoleIo(ConsoleInput input, ConsolePrinter printer) {
         this.input = input;
         this.printer = printer;
     }

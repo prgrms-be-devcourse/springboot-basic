@@ -1,11 +1,11 @@
-package com.wonu606.vouchermanager.console.controllercable.menu;
+package com.wonu606.vouchermanager.console.controllercable.customer;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public enum CustomerMenu {
+public enum CustomerControllerMenu {
     START,
     EXIT,
     CREATE,
@@ -13,7 +13,7 @@ public enum CustomerMenu {
     VOUCHER_LIST,
     DELETE;
 
-    public static CustomerMenu getTypeByName(String name) {
+    public static CustomerControllerMenu getTypeByName(String name) {
         return Arrays.stream(values())
                 .filter(c -> Objects.equals(c.name(), name.toUpperCase()))
                 .findFirst()

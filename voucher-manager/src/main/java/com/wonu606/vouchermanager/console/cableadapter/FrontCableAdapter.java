@@ -1,8 +1,7 @@
 package com.wonu606.vouchermanager.console.cableadapter;
 
-import com.wonu606.vouchermanager.console.controllercable.CustomerControllerCable;
-import com.wonu606.vouchermanager.console.controllercable.VoucherControllerCable;
-import com.wonu606.vouchermanager.console.consoleio.concreate.FrontConsoleIo;
+import com.wonu606.vouchermanager.console.controllercable.customer.CustomerControllerCable;
+import com.wonu606.vouchermanager.console.controllercable.voucher.VoucherControllerCable;
 import org.springframework.stereotype.Component;
 
 @Component
