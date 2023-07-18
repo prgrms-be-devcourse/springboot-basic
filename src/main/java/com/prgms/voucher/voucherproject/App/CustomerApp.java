@@ -6,89 +6,89 @@ import com.prgms.voucher.voucherproject.exception.NotFoundCustomerException;
 import com.prgms.voucher.voucherproject.io.Console;
 import com.prgms.voucher.voucherproject.io.Constant;
 import com.prgms.voucher.voucherproject.service.CustomerService;
-import org.springframework.dao.DuplicateKeyException;
+
 import org.springframework.stereotype.Component;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 
 @Component
 public class CustomerApp {
 
-    private final Console console = new Console();
-    private final CustomerService customerService;
+	private final Console console = new Console();
+	private final CustomerService customerService;
 
-    public CustomerApp(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+	public CustomerApp(CustomerService customerService) {
+		this.customerService = customerService;
+	}
 
-    public void runCustomerProgram() throws Exception {
-        boolean isRunning = true;
+	public void runCustomerProgram() throws Exception {
+		boolean isRunning = true;
 
-        while (isRunning) {
-            CustomerType customerMenu = console.inputCustomerMenu();
+		while (isRunning) {
+			CustomerType customerMenu = console.inputCustomerMenu();
 
-            if (customerMenu == null) continue;
+			if (customerMenu == null)
+				continue;
 
-            switch (customerMenu) {
-                case CREATE -> createCustomer();
-                case LIST -> listCustomers();
-                case FIND -> findCustomer();
-                case DELETE -> deleteCustomer();
-                case EXIT -> {
-                    isRunning = false;
-                    console.printMessage("Customer " + Constant.PROGRAM_END, true);
-                }
-            }
-        }
-    }
+			switch (customerMenu) {
+				case CREATE -> createCustomer();
+				case LIST -> listCustomers();
+				case FIND -> findCustomer();
+				case DELETE -> deleteCustomer();
+				case EXIT -> {
+					isRunning = false;
+					console.printMessage("Customer " + Constant.PROGRAM_END, true);
+				}
+			}
+		}
+	}
 
-    private void createCustomer() {
-        Customer customer = console.inputCreateCustomer();
+	private void createCustomer() {
+		Customer customer = console.inputCreateCustomer();
 
-        if (customer == null) return;
+		if (customer == null)
+			return;
 
-        try {
-            customerService.createCustomer(customer);
-        }  catch (IllegalArgumentException e) {
-            console.printMessage(e.getLocalizedMessage(), true);
-        }
-    }
+		try {
+			customerService.createCustomer(customer);
+		} catch (IllegalArgumentException e) {
+			console.printMessage(e.getLocalizedMessage(), true);
+		}
+	}
 
-    private void listCustomers() {
-        List<Customer> customers = customerService.getCustomerList();
-        console.printCustomerList(customers);
-    }
+	private void listCustomers() {
+		List<Customer> customers = customerService.getCustomerList();
+		console.printCustomerList(customers);
+	}
 
-    private void findCustomer() {
-        String email = console.inputEmail();
+	private void findCustomer() {
+		String email = console.inputEmail();
+		Optional<Customer> customer;
 
-        if (email.equals("WrongEmail")) {
-            console.printMessage(Constant.WRONG_EMAIL, true);
-            return;
-        }
+		try {
+			customer = customerService.findByEmail(email);
+		} catch (InputMismatchException e) {
+			console.printMessage(e.getLocalizedMessage(), true);
+			return;
+		}
 
-        Optional<Customer> customer = customerService.findByEmail(email);
+		if (customer.isEmpty())
+			console.printMessage(Constant.NOT_EXITS_CUSTOMER, true);
 
-        if (customer.isEmpty()) console.printMessage(Constant.NOT_EXITS_CUSTOMER, true);
+		customer.ifPresent(console::printCustomerInfo);
+	}
 
-        customer.ifPresent(console::printCustomerInfo);
-    }
+	private void deleteCustomer() {
+		String email = console.inputEmail();
 
-    private void deleteCustomer() {
-        String email = console.inputEmail();
+		try {
+			customerService.deleteByEmail(email);
+		} catch (NotFoundCustomerException | InputMismatchException e) {
+			console.printMessage(e.getLocalizedMessage(), true);
+		}
 
-        if (email.equals("WrongEmail")) {
-            console.printMessage(Constant.WRONG_EMAIL, true);
-            return;
-        }
-
-        try{
-            customerService.deleteByEmail(email);
-        } catch (NotFoundCustomerException e) {
-            console.printMessage(e.getLocalizedMessage(), true);
-        }
-
-    }
+	}
 
 }
