@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class CustomerApp {
@@ -64,28 +63,34 @@ public class CustomerApp {
 	}
 
 	private void findCustomer() {
-		String email = console.inputEmail();
-		Optional<Customer> customer;
+		String email = "";
 
 		try {
-			customer = customerService.findByEmail(email);
+			email = console.inputEmail();
 		} catch (InputMismatchException e) {
 			console.printMessage(e.getLocalizedMessage(), true);
 			return;
 		}
 
-		if (customer.isEmpty())
-			console.printMessage(Constant.NOT_EXITS_CUSTOMER, true);
+		customerService.findByEmail(email)
+			.ifPresentOrElse(console::printCustomerInfo,
+				() -> console.printMessage(Constant.NOT_EXITS_CUSTOMER, true));
 
-		customer.ifPresent(console::printCustomerInfo);
 	}
 
 	private void deleteCustomer() {
-		String email = console.inputEmail();
+		String email = "";
+
+		try {
+			email = console.inputEmail();
+		} catch (InputMismatchException e) {
+			console.printMessage(e.getLocalizedMessage(), true);
+			return;
+		}
 
 		try {
 			customerService.deleteByEmail(email);
-		} catch (NotFoundCustomerException | InputMismatchException e) {
+		} catch (NotFoundCustomerException e) {
 			console.printMessage(e.getLocalizedMessage(), true);
 		}
 

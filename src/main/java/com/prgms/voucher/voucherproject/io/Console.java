@@ -170,7 +170,13 @@ public class Console {
 
 	public String inputEmail() {
 		this.printMessage("email을 입력하세요: ", false);
-		return sc.nextLine().trim();
+		String email = sc.nextLine().trim();
+
+		if (!validEmail(email)) {
+			throw new InputMismatchException(Constant.WRONG_EMAIL);
+		}
+
+		return email;
 	}
 
 	private static boolean validEmail(String email) {
