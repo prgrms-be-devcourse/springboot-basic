@@ -37,7 +37,7 @@ public class VoucherService {
                 voucherUpdateRequest.getVoucherType(),
                 voucherUpdateRequest.getDiscountAmount()
         );
-
+        
         voucherRepository.update(voucher);
     }
 

@@ -5,7 +5,7 @@ import com.programmers.springweekly.dto.voucher.response.VoucherListResponse;
 import com.programmers.springweekly.dto.voucher.response.VoucherResponse;
 import com.programmers.springweekly.service.VoucherService;
 import com.programmers.springweekly.util.validator.VoucherValidator;
-import java.util.NoSuchElementException;
+import jakarta.validation.Valid;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class VoucherViewController {
 
     private final VoucherService voucherService;
 
-    @GetMapping("/")
+    @GetMapping
     public String getMenuPage() {
         return "voucher/menu";
     }
@@ -33,7 +33,7 @@ public class VoucherViewController {
     }
 
     @PostMapping("/save")
-    public String save(VoucherCreateRequest voucherCreateRequest) {
+    public String save(@Valid VoucherCreateRequest voucherCreateRequest) {
         VoucherValidator.validateVoucher(
                 voucherCreateRequest.getVoucherType(),
                 String.valueOf(voucherCreateRequest.getDiscountAmount())
@@ -62,12 +62,6 @@ public class VoucherViewController {
 
     @GetMapping("/delete/{id}")
     public String deleteById(@PathVariable("id") UUID voucherId) {
-        boolean isExistVoucherId = voucherService.existById(voucherId);
-
-        if (!isExistVoucherId) {
-            throw new NoSuchElementException("사용자가 삭제하려는 바우처 " + voucherId + "는 없는 ID입니다.");
-        }
-
         voucherService.deleteById(voucherId);
 
         return "redirect:/view/voucher/find";
