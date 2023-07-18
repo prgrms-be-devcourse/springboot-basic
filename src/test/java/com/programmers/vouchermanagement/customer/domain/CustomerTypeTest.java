@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.customer.domain;
 
-import com.programmers.vouchermanagement.customer.exception.CustomerException;
+import com.programmers.vouchermanagement.voucher.exception.VoucherException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -50,6 +50,6 @@ class CustomerTypeTest {
 
         // given & then
         assertThatThrownBy(() -> CustomerType.from(type))
-                .isInstanceOf(CustomerException.class);
+                .isInstanceOf(VoucherException.class);
     }
 }
