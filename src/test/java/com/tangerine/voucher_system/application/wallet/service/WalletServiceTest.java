@@ -2,19 +2,22 @@ package com.tangerine.voucher_system.application.wallet.service;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
+import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.customer.service.CustomerService;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
+import com.tangerine.voucher_system.application.voucher.repository.JdbcVoucherRepository;
 import com.tangerine.voucher_system.application.voucher.service.VoucherService;
-import org.junit.jupiter.api.AfterEach;
+import com.tangerine.voucher_system.application.wallet.repository.JdbcWalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
@@ -25,8 +28,9 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+@JdbcTest
 @ActiveProfiles("test")
+@Import({WalletService.class, JdbcWalletRepository.class, VoucherService.class, JdbcVoucherRepository.class, CustomerService.class, JdbcCustomerRepository.class})
 class WalletServiceTest {
 
     static List<Voucher> vouchers = List.of(
@@ -63,12 +67,6 @@ class WalletServiceTest {
     void setup() {
         vouchers.forEach(voucherService::createVoucher);
         customers.forEach(customerService::createCustomer);
-    }
-
-    @AfterEach
-    void cleanup() {
-        voucherService.deleteAllVouchers();
-        customerService.deleteAllCustomers();
     }
 
     @ParameterizedTest

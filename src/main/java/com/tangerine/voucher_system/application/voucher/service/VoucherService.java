@@ -54,8 +54,4 @@ public class VoucherService {
         return foundVoucher.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
-    public void deleteAllVouchers() {
-        voucherRepository.deleteAll();
-    }
-
 }

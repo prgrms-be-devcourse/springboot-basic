@@ -60,11 +60,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
-        voucherMap.clearVoucherMap();
-    }
-
-    @Override
     public void deleteById(UUID voucherId) {
         voucherMap.removeVoucherById(voucherId);
     }

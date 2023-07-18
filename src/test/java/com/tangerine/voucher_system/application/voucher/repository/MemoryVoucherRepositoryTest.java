@@ -126,15 +126,6 @@ class MemoryVoucherRepositoryTest {
         assertThat(result).isEmpty();
     }
 
-    @Order(4)
-    @Test
-    @DisplayName("모든 바우처 제거한다.")
-    void deleteAll_ParamVoid_DeleteAllVouchers() {
-        voucherRepository.deleteAll();
-
-        Assertions.assertThat(voucherRepository.findAll()).isEmpty();
-    }
-
     @Order(5)
     @ParameterizedTest
     @DisplayName("아이디로 바우처 제거한다.")

@@ -116,18 +116,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteAll() {
-        try {
-            jdbcTemplate.update(
-                    "DELETE FROM customers",
-                    Collections.emptyMap()
-            );
-        } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception.getCause());
-        }
-    }
-
-    @Override
     public void deleteById(UUID customerId) {
         try {
             jdbcTemplate.update(

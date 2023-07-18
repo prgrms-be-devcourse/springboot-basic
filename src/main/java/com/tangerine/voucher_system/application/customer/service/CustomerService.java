@@ -52,8 +52,4 @@ public class CustomerService {
         return deletedCustomer.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
     }
 
-    public void deleteAllCustomers() {
-        customerRepository.deleteAll();
-    }
-
 }

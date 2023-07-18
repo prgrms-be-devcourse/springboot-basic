@@ -16,10 +16,14 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +34,6 @@ import static org.assertj.core.api.Assertions.catchException;
 
 @JdbcTest
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import({JdbcVoucherRepository.class, JdbcCustomerRepository.class})
 class JdbcVoucherRepositoryTest {
 
@@ -39,11 +42,6 @@ class JdbcVoucherRepositoryTest {
 
     @Autowired
     CustomerRepository customerRepository;
-
-    @BeforeEach
-    void cleanup() {
-        voucherRepository.deleteAll();
-    }
 
     @ParameterizedTest
     @DisplayName("존재하지 않은 바우처를 추가 시 성공한다.")
@@ -164,14 +162,6 @@ class JdbcVoucherRepositoryTest {
         Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.getCreatedAt());
 
         assertThat(result).isEmpty();
-    }
-
-    @Test
-    @DisplayName("모든 바우처 삭제한다.")
-    void deleteAll_ParamVoid_DeleteAllVouchers() {
-        voucherRepository.deleteAll();
-
-        Assertions.assertThat(voucherRepository.findAll()).isEmpty();
     }
 
     @ParameterizedTest

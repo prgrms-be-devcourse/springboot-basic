@@ -25,7 +25,6 @@ import static org.assertj.core.api.BDDAssertions.catchException;
 
 @JdbcTest
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @Import(JdbcCustomerRepository.class)
 class JdbcCustomerRepositoryTest {
 
@@ -42,11 +41,6 @@ class JdbcCustomerRepositoryTest {
     static Stream<Arguments> provideValidCustomers() {
         return validCustomers.stream()
                 .map(Arguments::of);
-    }
-
-    @BeforeEach
-    void cleanup() {
-        customerRepository.deleteAll();
     }
 
     @Test
@@ -160,16 +154,6 @@ class JdbcCustomerRepositoryTest {
         Optional<Customer> result = customerRepository.findByName(customer.getName());
 
         assertThat(result).isNotEmpty();
-    }
-
-    @Test
-    @DisplayName("모든 데이터가 삭제되면 성공한다.")
-    void deleteAll_ParamVoid_DeleteAllCustomers() {
-
-        customerRepository.deleteAll();
-
-        List<Customer> customers = customerRepository.findAll();
-        assertThat(customers).isEmpty();
     }
 
     @ParameterizedTest

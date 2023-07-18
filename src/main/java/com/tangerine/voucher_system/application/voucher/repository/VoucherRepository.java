@@ -22,8 +22,6 @@ public interface VoucherRepository {
 
     Optional<Voucher> findByCreatedAt(LocalDateTime createdAt);
 
-    void deleteAll();
-
     void deleteById(UUID voucherId);
 
 }

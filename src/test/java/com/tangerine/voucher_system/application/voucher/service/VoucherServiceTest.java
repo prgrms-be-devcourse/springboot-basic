@@ -4,27 +4,36 @@ import com.tangerine.voucher_system.application.global.exception.InvalidDataExce
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
+import com.tangerine.voucher_system.application.voucher.repository.JdbcVoucherRepository;
+import com.tangerine.voucher_system.application.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 
+import javax.sql.DataSource;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
 
-@SpringBootTest
+@JdbcTest
 @ActiveProfiles("test")
+@Import({VoucherService.class, JdbcVoucherRepository.class})
 class VoucherServiceTest {
 
     static List<Voucher> vouchers = List.of(
@@ -39,11 +48,6 @@ class VoucherServiceTest {
     static Stream<Arguments> provideVouchers() {
         return vouchers.stream()
                 .map(Arguments::of);
-    }
-
-    @BeforeEach
-    void init() {
-        service.deleteAllVouchers();
     }
 
     @ParameterizedTest
@@ -162,15 +166,6 @@ class VoucherServiceTest {
         Exception exception = catchException(() -> service.findVoucherByCreatedAt(voucher.getCreatedAt()));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
-    }
-
-    @Test
-    @DisplayName("모든 바우처를 제거한다.")
-    void deleteAllVouchers_ParamVoid_DeleteAllVouchers() {
-
-        service.deleteAllVouchers();
-
-        assertThat(service.findVouchers()).isEmpty();
     }
 
     @ParameterizedTest

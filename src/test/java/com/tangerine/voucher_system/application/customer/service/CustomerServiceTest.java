@@ -2,15 +2,17 @@ package com.tangerine.voucher_system.application.customer.service;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
+import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -20,8 +22,9 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
 
-@SpringBootTest
+@JdbcTest
 @ActiveProfiles("test")
+@Import({CustomerService.class, JdbcCustomerRepository.class})
 class CustomerServiceTest {
 
     static List<Customer> customers = List.of(
@@ -36,11 +39,6 @@ class CustomerServiceTest {
     static Stream<Arguments> provideCustomers() {
         return customers.stream()
                 .map(Arguments::of);
-    }
-
-    @BeforeEach
-    void cleanup() {
-        service.deleteAllCustomers();
     }
 
     @Test

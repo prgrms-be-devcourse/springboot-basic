@@ -128,18 +128,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteAll() {
-        try {
-            jdbcTemplate.update(
-                    "DELETE FROM vouchers",
-                    Collections.emptyMap()
-            );
-        } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
-        }
-    }
-
-    @Override
     public void deleteById(UUID voucherId) {
         try {
             jdbcTemplate.update(
