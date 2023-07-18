@@ -19,8 +19,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+@ActiveProfiles("test")
 @SpringBootTest
 @Transactional
 class VoucherServiceTest {
@@ -189,7 +191,7 @@ class VoucherServiceTest {
         //then
         assertTrue(response.getVoucherResponseList().isEmpty());
     }
-    
+
 
     @Test
     @DisplayName("id 조회 실패 테스트 케이스")
