@@ -1,13 +1,11 @@
 package com.programmers.vouchermanagement.voucher.application;
 
-import com.programmers.vouchermanagement.voucher.domain.DiscountPolicy;
-import com.programmers.vouchermanagement.voucher.domain.DiscountType;
+import com.programmers.vouchermanagement.global.exception.ErrorCode;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherRepository;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
 import com.programmers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
-import com.programmers.vouchermanagement.voucher.exception.VoucherErrorCode;
 import com.programmers.vouchermanagement.voucher.exception.VoucherException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,10 +23,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
 
     public VoucherResponse createVoucher(VoucherCreationRequest request) {
-        DiscountType discountType = request.type();
-        int amount = request.amount();
-        DiscountPolicy discountPolicy = discountType.createDiscountPolicy(amount);
-        Voucher voucher = new Voucher(discountPolicy);
+        Voucher voucher = request.toEntity();
         Voucher savedVoucher = voucherRepository.save(voucher);
         return new VoucherResponse(savedVoucher);
     }
@@ -42,16 +37,13 @@ public class VoucherService {
 
     public VoucherResponse getVoucher(UUID id) {
         Voucher voucher = voucherRepository.findById(id)
-                .orElseThrow(() -> new VoucherException(VoucherErrorCode.VOUCHER_NOT_FOUND));
+                .orElseThrow(() -> new VoucherException(ErrorCode.VOUCHER_NOT_FOUND));
         return new VoucherResponse(voucher);
     }
 
     public void updateVoucher(UUID id, VoucherUpdateRequest request) {
         existsVoucher(id);
-        DiscountType discountType = request.type();
-        int amount = request.amount();
-        DiscountPolicy discountPolicy = discountType.createDiscountPolicy(amount);
-        Voucher voucher = new Voucher(id, discountPolicy);
+        Voucher voucher = request.toEntity(id);
         voucherRepository.update(voucher);
     }
 
@@ -62,7 +54,7 @@ public class VoucherService {
 
     private void existsVoucher(UUID id) {
         if (!voucherRepository.existById(id)) {
-            throw new VoucherException(VoucherErrorCode.VOUCHER_NOT_FOUND);
+            throw new VoucherException(ErrorCode.VOUCHER_NOT_FOUND);
         }
     }
 }
