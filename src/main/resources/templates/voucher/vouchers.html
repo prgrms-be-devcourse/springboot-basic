@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{base :: layout(~{::title}, ~{::#content})}">
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{base :: layout(~{::title}, ~{::#content})}">
 <head>
   <title>Voucher List</title>
 </head>
@@ -20,8 +20,11 @@
         <td th:text="${voucher.getId()}">할인권 ID</td>
         <td th:text="${voucher.getType().getName()}">할인 방식</td>
         <td th:text="|${voucher.getDiscountAmount()}${voucher.getType().getUnit()}|">할인 금액/비율</td>
-        <td>
+        <td class="d-flex">
           <a th:href="@{|/vouchers/${voucher.getId()}/update|}" class="btn btn-warning btn-sm me-md-2" type="button">수정</a>
+          <form th:action="@{|/vouchers/${voucher.getId()}/delete|}" method="POST">
+            <button class="btn btn-danger btn-sm me-md-2">삭제</button>
+          </form>
         </td>
       </tr>
       </tbody>
