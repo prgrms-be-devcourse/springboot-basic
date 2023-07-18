@@ -24,8 +24,8 @@ public class VoucherAPIController {
 
     @PostMapping
     public ResponseEntity<CommonResult> createVoucher(
-            @RequestBody VoucherCreateRequestDTO voucherCreateRequestDTO) {
-
+            @RequestBody VoucherCreateRequestDTO voucherCreateRequestDTO
+    ) {
         voucherService.createVoucher(voucherCreateRequestDTO);
 
         return ResponseEntity.ok(responseService.getSuccessResult());
@@ -33,7 +33,8 @@ public class VoucherAPIController {
 
     @GetMapping("/list/{voucherType}")
     public ResponseEntity<ListResult<VoucherResponseDTO>> getListVoucherInfo(
-            @PathVariable String voucherType) {
+            @PathVariable String voucherType
+    ) {
         List<VoucherResponseDTO> voucherInfos = voucherService.getAllVoucherInfo(voucherType);
 
         return ResponseEntity.ok(responseService.getListResult(voucherInfos));
@@ -41,7 +42,8 @@ public class VoucherAPIController {
 
     @GetMapping("/{voucherCode}")
     public ResponseEntity<SingleResult<VoucherResponseDTO>> getSingleVoucherInfo(
-            @PathVariable String voucherCode) {
+            @PathVariable String voucherCode
+    ) {
         VoucherCodeValidator.validateVoucherCode(voucherCode);
 
         VoucherResponseDTO voucherInfo = voucherService.findVoucher(voucherCode);
@@ -51,7 +53,8 @@ public class VoucherAPIController {
 
     @PutMapping("/{voucherCode}")
     public ResponseEntity<CommonResult> updateVoucher(
-            @RequestBody VoucherUpdateRequestDTO voucherUpdateRequestDTO) {
+            @RequestBody VoucherUpdateRequestDTO voucherUpdateRequestDTO
+    ) {
         VoucherCodeValidator.validateVoucherCode(voucherUpdateRequestDTO.getVoucherCode());
 
         voucherService.updateVoucher(voucherUpdateRequestDTO);
@@ -61,7 +64,8 @@ public class VoucherAPIController {
 
     @DeleteMapping("/{voucherCode}")
     public ResponseEntity<CommonResult> deleteVoucher(
-            @PathVariable String voucherCode) {
+            @PathVariable String voucherCode
+    ) {
         VoucherCodeValidator.validateVoucherCode(voucherCode);
 
         voucherService.removeVoucher(voucherCode);
