@@ -11,6 +11,7 @@ import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.controller.request.CustomerRequest;
 import com.example.voucher.controller.request.VoucherRequest;
+import com.example.voucher.controller.request.WalletRequest;
 
 public class Console {
 
@@ -47,6 +48,21 @@ public class Console {
         String input = reader.readString();
 
         return ModeType.getModeType(input);
+    }
+
+    public WalletRequest.Create getWalletCreateRequest() {
+        UUID customerId = getId();
+        UUID voucherId = getId();
+
+        return new WalletRequest.Create(customerId, voucherId);
+    }
+
+    public WalletRequest.Update getWalletUpdateRequest() {
+        UUID walletId = getId();
+        UUID customerId = getId();
+        UUID voucherId = getId();
+
+        return new WalletRequest.Update(walletId, customerId, voucherId);
     }
 
     public VoucherRequest.Create getVoucherCreateRequest() {
