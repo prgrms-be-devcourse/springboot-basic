@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @ControllerAdvice
 class GlobalExceptionHandler {
     public static final String DEFAULT_EXCEPTION_VIEW = "exception";
-    public static final String VOUCHER_EXCEPTION_VIEW = "voucher_exception";
+    public static final String VOUCHER_EXCEPTION_VIEW = "vouchers/voucher_exception";
 
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultExceptionHandler(Exception e) {
@@ -22,7 +22,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(VoucherException.class)
     public ModelAndView voucherExceptionHandler(VoucherException e) {
         ModelAndView mav = new ModelAndView();
-        mav.addObject("voucher_exception", ErrorMessage.valueOf(e.getMessage()));
+        mav.addObject("voucher_exception", e.getErrorMessage());
         mav.setViewName(VOUCHER_EXCEPTION_VIEW);
         return mav;
     }

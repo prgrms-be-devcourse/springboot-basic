@@ -8,4 +8,8 @@ public class VoucherException extends RuntimeException{
     public VoucherException(ErrorMessage errorMessage) {
         this.errorMessage = errorMessage;
     }
+
+    public ErrorMessage getErrorMessage() {
+        return errorMessage;
+    }
 }
