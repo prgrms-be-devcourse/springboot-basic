@@ -21,7 +21,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String SQL_FINDALL = "SELECT * FROM customer";
     private static final String SQL_FINDBYID = "SELECT * FROM customer WHERE email = ?";
     private static final String SQL_DELETEBYID = "DELETE FROM customer WHERE email = ?";
-    public static final int ONLY_ONE_DATA = 1;
+    public static final int SUCCESS_QUERY = 1;
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -34,7 +34,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         int save = jdbcTemplate.update(SQL_INSERT, customer.getCustomerId().toString().getBytes(), customer.getEmail(),
                 customer.getName(), customer.getCreatedAt());
 
-        if (save != ONLY_ONE_DATA) {
+        if (save != SUCCESS_QUERY) {
             throw new DuplicateCustomerException("고객 저장에 실패하였습니다.");
         }
     }
@@ -58,7 +58,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteByEmail(String email) {
         int delete = jdbcTemplate.update(SQL_DELETEBYID, email);
 
-        if (delete != ONLY_ONE_DATA) {
+        if (delete != SUCCESS_QUERY) {
             throw new NotFoundCustomerException("삭제할 고객이 존재하지 않습니다.");
         }
     }

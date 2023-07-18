@@ -24,7 +24,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String SQL_FINDALL = "SELECT * FROM voucher";
     private static final String SQL_FINDBYID = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String SQL_DELETEBYID = "DELETE FROM voucher WHERE voucher_id = ?";
-    public static final int ONLY_ONE_DATA = 1;
+    public static final int SUCCESS_QUERY = 1;
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -37,7 +37,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int save = jdbcTemplate.update(SQL_INSERT, voucher.getId().toString().getBytes(),
                     voucher.getVoucherType().toString(), voucher.getDiscount());
 
-        if (save != ONLY_ONE_DATA) {
+        if (save != SUCCESS_QUERY) {
             throw new IllegalArgumentException("바우처 저장에 실패하였습니다.");
         }
     }
