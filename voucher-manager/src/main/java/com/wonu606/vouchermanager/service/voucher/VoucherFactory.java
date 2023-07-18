@@ -6,7 +6,7 @@ import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
-import com.wonu606.vouchermanager.util.UUIDGenerator;
+import com.wonu606.vouchermanager.service.util.UUIDGenerator;
 import org.springframework.stereotype.Component;
 
 @Component

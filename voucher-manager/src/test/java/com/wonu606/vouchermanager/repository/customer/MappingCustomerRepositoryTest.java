@@ -8,7 +8,7 @@ import static org.mockito.Mockito.verify;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
-import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.email.Email;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +28,9 @@ class MappingCustomerRepositoryTest {
 
     static Stream<Arguments> givenCustomers() {
         Customer customer1 = new Customer(
-                new EmailAddress("Linlin@onepiece.org"), "Big Mom");
+                new Email("Linlin@onepiece.org"), "Big Mom");
         Customer customer2 = new Customer(
-                new EmailAddress("loopy@onepiece.org"), "Pirate King");
+                new Email("loopy@onepiece.org"), "Pirate King");
 
         return Stream.of(Arguments.of(customer1, customer2));
     }
@@ -59,7 +59,7 @@ class MappingCustomerRepositoryTest {
     void findByEmailAddress_ExistingEmailAddress_ReturnsExpectedCustomer() {
         // given
         Customer customer = new Customer(
-                new EmailAddress("Linlin@onepiece.org"), "Big Mom");
+                new Email("Linlin@onepiece.org"), "Big Mom");
         CustomerResultSet enteredResultSet = new CustomerResultSet(
                 customer.getEmailAddress(),
                 customer.getNickname(),
@@ -67,13 +67,13 @@ class MappingCustomerRepositoryTest {
                 null
         );
 
-        EmailAddress emailAddress = new EmailAddress(customer.getEmailAddress());
+        Email email = new Email(customer.getEmailAddress());
 
-        given(customerResultSetRepository.findByEmailAddress(emailAddress))
+        given(customerResultSetRepository.findByEmailAddress(email))
                 .willReturn(Optional.of(enteredResultSet));
 
         // when
-        Optional<Customer> actualCustomer = customerRepository.findByEmailAddress(emailAddress);
+        Optional<Customer> actualCustomer = customerRepository.findByEmailAddress(email);
 
         // then
         assertThat(actualCustomer.isPresent()).isTrue();
@@ -112,13 +112,13 @@ class MappingCustomerRepositoryTest {
     @DisplayName("deleteByEmailAddress_이메일 주소_같은 이메일 주소를 반환한다.")
     void deleteByEmailAddress_EmailAddress_ReturnsSameEmailAddress() {
         // given
-        EmailAddress expectedEmailAddress = new EmailAddress("Linlin@onepiece.org");
+        Email expectedEmail = new Email("Linlin@onepiece.org");
 
         // when
-        customerRepository.deleteByEmailAddress(expectedEmailAddress);
+        customerRepository.deleteByEmailAddress(expectedEmail);
 
         // then
-        verify(customerResultSetRepository, times(1)).deleteByEmailAddress(expectedEmailAddress);
+        verify(customerResultSetRepository, times(1)).deleteByEmailAddress(expectedEmail);
     }
 
     @Test

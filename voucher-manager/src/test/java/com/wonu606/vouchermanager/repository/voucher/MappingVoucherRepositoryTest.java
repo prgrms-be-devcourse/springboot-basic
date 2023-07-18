@@ -31,15 +31,6 @@ class MappingVoucherRepositoryTest {
 
     private MappingVoucherRepository voucherRepository;
 
-    static Stream<Arguments> givenVouchers() {
-        Voucher expectedVoucher1 = new PercentageVoucher(
-                UUID.randomUUID(), new PercentageDiscountValue(50.0));
-        Voucher expectedVoucher2 = new FixedAmountVoucher(
-                UUID.randomUUID(), new FixedAmountValue(50.0));
-
-        return Stream.of(Arguments.of(expectedVoucher1, expectedVoucher2));
-    }
-
     @BeforeEach
     void setUp() {
         voucherResultSetRepository = mock(VoucherResultSetRepository.class);
@@ -134,5 +125,14 @@ class MappingVoucherRepositoryTest {
 
         // then
         verify(voucherResultSetRepository, times(1)).deleteAll();
+    }
+
+    static Stream<Arguments> givenVouchers() {
+        Voucher expectedVoucher1 = new PercentageVoucher(
+                UUID.randomUUID(), new PercentageDiscountValue(50.0));
+        Voucher expectedVoucher2 = new FixedAmountVoucher(
+                UUID.randomUUID(), new FixedAmountValue(50.0));
+
+        return Stream.of(Arguments.of(expectedVoucher1, expectedVoucher2));
     }
 }

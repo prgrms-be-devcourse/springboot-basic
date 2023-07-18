@@ -1,21 +1,19 @@
 package com.wonu606.vouchermanager;
 
-import com.wonu606.vouchermanager.consoleInterface.CustomerConsoleInterface;
-import com.wonu606.vouchermanager.consoleInterface.FrontConsoleInterface;
-import com.wonu606.vouchermanager.consoleInterface.VoucherConsoleInterface;
+import com.wonu606.vouchermanager.console.cableadapter.FrontCableAdapter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherManagerCommandLineRunner implements CommandLineRunner {
-    private final FrontConsoleInterface frontConsoleInterface;
+    private final FrontCableAdapter frontCableAdapter;
 
-    public VoucherManagerCommandLineRunner(FrontConsoleInterface frontConsoleInterface) {
-        this.frontConsoleInterface = frontConsoleInterface;
+    public VoucherManagerCommandLineRunner(FrontCableAdapter frontCableAdapter) {
+        this.frontCableAdapter = frontCableAdapter;
     }
 
     @Override
     public void run(String... args) {
-        frontConsoleInterface.run();
+        frontCableAdapter.run();
     }
 }

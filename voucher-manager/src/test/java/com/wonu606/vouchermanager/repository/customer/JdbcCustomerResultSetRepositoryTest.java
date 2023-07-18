@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
-import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.email.Email;
 import java.util.List;
 import java.util.Optional;
 import javax.sql.DataSource;
@@ -33,14 +33,14 @@ class JdbcCustomerResultSetRepositoryTest {
     void save_UnsavedCustomer_CustomerSaved() {
         // given
         Customer customer = new Customer(
-                new EmailAddress("Linlin@onepiece.org"), "Big Mom");
+                new Email("Linlin@onepiece.org"), "Big Mom");
 
-        EmailAddress emailAddress = new EmailAddress(customer.getEmailAddress());
+        Email email = new Email(customer.getEmailAddress());
 
         // when
         jdbcCustomerResultSetRepository.save(customer);
         var foundCustomer = jdbcCustomerResultSetRepository.findByEmailAddress(
-                emailAddress);
+                email);
 
         // then
         assertThat(foundCustomer).isPresent();
@@ -53,14 +53,14 @@ class JdbcCustomerResultSetRepositoryTest {
     void findByEmailAddress_CustomerPresent_ReturnsSameCustomer() {
         // given
         Customer customer = new Customer(
-                new EmailAddress("Linlin@onepiece.org"), "Big Mom");
+                new Email("Linlin@onepiece.org"), "Big Mom");
         jdbcCustomerResultSetRepository.save(customer);
 
-        EmailAddress emailAddress = new EmailAddress(customer.getEmailAddress());
+        Email email = new Email(customer.getEmailAddress());
 
         // when
         var foundCustomer =
-                jdbcCustomerResultSetRepository.findByEmailAddress(emailAddress);
+                jdbcCustomerResultSetRepository.findByEmailAddress(email);
 
         // then
         assertThat(foundCustomer).isPresent();
@@ -71,11 +71,11 @@ class JdbcCustomerResultSetRepositoryTest {
     @DisplayName("findByEmailAddress_저장되지 않은 Customer_Empty를 반환한다.")
     void findByEmailAddress_UnsavedCustomer_ReturnsEmpty() {
         // given
-        EmailAddress unsavedEmailAddress = new EmailAddress("unsavedEmailAddress@domain.com");
+        Email unsavedEmail = new Email("unsavedEmailAddress@domain.com");
 
         // when
         var foundCustomer =
-                jdbcCustomerResultSetRepository.findByEmailAddress(unsavedEmailAddress);
+                jdbcCustomerResultSetRepository.findByEmailAddress(unsavedEmail);
 
         // then
         assertThat(foundCustomer).isNotPresent();
@@ -86,9 +86,9 @@ class JdbcCustomerResultSetRepositoryTest {
     void findAll_SavedCustomers_ReturnsAllCustomers() {
         // given
         Customer customer1 = new Customer(
-                new EmailAddress("Linlin@onepiece.org"), "Big Mom");
+                new Email("Linlin@onepiece.org"), "Big Mom");
         Customer customer2 = new Customer(
-                new EmailAddress("loopy@onepiece.org"), "Pirate King");
+                new Email("loopy@onepiece.org"), "Pirate King");
         jdbcCustomerResultSetRepository.save(customer1);
         jdbcCustomerResultSetRepository.save(customer2);
 
@@ -106,15 +106,15 @@ class JdbcCustomerResultSetRepositoryTest {
     void deleteByEmailAddress_SavedCustomer_CustomerDeleted() {
         // given
         Customer customer = new Customer(
-                new EmailAddress("Linlin@onepiece.org"), "Big Mom");
+                new Email("Linlin@onepiece.org"), "Big Mom");
         jdbcCustomerResultSetRepository.save(customer);
 
-        EmailAddress emailAddress = new EmailAddress(customer.getEmailAddress());
+        Email email = new Email(customer.getEmailAddress());
 
         // then
-        jdbcCustomerResultSetRepository.deleteByEmailAddress(emailAddress);
+        jdbcCustomerResultSetRepository.deleteByEmailAddress(email);
         Optional<CustomerResultSet> foundCustomer = jdbcCustomerResultSetRepository
-                .findByEmailAddress(emailAddress);
+                .findByEmailAddress(email);
 
         // when
         assertThat(foundCustomer).isNotPresent();
@@ -125,9 +125,9 @@ class JdbcCustomerResultSetRepositoryTest {
     void deleteAll_MultipleCustomers_AllCustomersDeleted() {
         // given
         Customer customer1 = new Customer(
-                new EmailAddress("Linlin@onepiece.org"), "Big Mom");
+                new Email("Linlin@onepiece.org"), "Big Mom");
         Customer customer2 = new Customer(
-                new EmailAddress("loopy@onepiece.org"), "Pirate King");
+                new Email("loopy@onepiece.org"), "Pirate King");
         jdbcCustomerResultSetRepository.save(customer1);
         jdbcCustomerResultSetRepository.save(customer2);
 

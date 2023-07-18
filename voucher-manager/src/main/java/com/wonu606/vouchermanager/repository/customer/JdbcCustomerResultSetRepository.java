@@ -2,7 +2,7 @@ package com.wonu606.vouchermanager.repository.customer;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
-import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.email.Email;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,10 +38,10 @@ public class JdbcCustomerResultSetRepository implements CustomerResultSetReposit
     }
 
     @Override
-    public Optional<CustomerResultSet> findByEmailAddress(EmailAddress emailAddress) {
+    public Optional<CustomerResultSet> findByEmailAddress(Email email) {
         String selectSql = "SELECT * FROM customer WHERE email_address = :email_address";
         Map<String, Object> params = new HashMap<>();
-        params.put("email_address", emailAddress.getAddress());
+        params.put("email_address", email.getAddress());
         try {
             CustomerResultSet customerResultSet = namedParameterJdbcTemplate.
                     queryForObject(selectSql, params, customerResultSetRowMapper());
@@ -58,10 +58,10 @@ public class JdbcCustomerResultSetRepository implements CustomerResultSetReposit
     }
 
     @Override
-    public void deleteByEmailAddress(EmailAddress emailAddress) {
+    public void deleteByEmailAddress(Email email) {
         String deleteSql = "DELETE FROM customer WHERE email_address = :email_address";
         Map<String, Object> params = new HashMap<>();
-        params.put("email_address", emailAddress.getAddress());
+        params.put("email_address", email.getAddress());
         namedParameterJdbcTemplate.update(deleteSql, params);
     }
 
@@ -72,8 +72,8 @@ public class JdbcCustomerResultSetRepository implements CustomerResultSetReposit
     }
 
     @Override
-    public List<CustomerResultSet> findAllByEmailAddresses(List<EmailAddress> emailAddresses) {
-        if (emailAddresses.isEmpty()) {
+    public List<CustomerResultSet> findAllByEmailAddresses(List<Email> emails) {
+        if (emails.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -81,8 +81,8 @@ public class JdbcCustomerResultSetRepository implements CustomerResultSetReposit
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("email_address",
-                emailAddresses.stream()
-                        .map(EmailAddress::getAddress)
+                emails.stream()
+                        .map(Email::getAddress)
                         .collect(Collectors.toList()));
         return namedParameterJdbcTemplate.query(
                 selectSql, parameters, customerResultSetRowMapper());

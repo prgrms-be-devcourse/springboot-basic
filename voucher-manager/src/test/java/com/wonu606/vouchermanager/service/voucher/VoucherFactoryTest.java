@@ -8,7 +8,7 @@ import com.wonu606.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
-import com.wonu606.vouchermanager.util.UUIDGenerator;
+import com.wonu606.vouchermanager.service.util.UUIDGenerator;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

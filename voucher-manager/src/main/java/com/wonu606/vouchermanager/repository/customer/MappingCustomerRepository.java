@@ -2,7 +2,7 @@ package com.wonu606.vouchermanager.repository.customer;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.domain.customer.CustomerResultSet;
-import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.email.Email;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,8 +23,8 @@ public class MappingCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findByEmailAddress(EmailAddress emailAddress) {
-        return customerResultSetRepository.findByEmailAddress(emailAddress)
+    public Optional<Customer> findByEmailAddress(Email email) {
+        return customerResultSetRepository.findByEmailAddress(email)
                 .map(this::convertResultSetToEntity);
     }
 
@@ -36,17 +36,17 @@ public class MappingCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAllByEmailAddresses(List<EmailAddress> emailAddresses) {
+    public List<Customer> findAllByEmailAddresses(List<Email> emails) {
         List<CustomerResultSet> customerResultSets =
-                customerResultSetRepository.findAllByEmailAddresses(emailAddresses);
+                customerResultSetRepository.findAllByEmailAddresses(emails);
         return customerResultSets.stream()
                 .map(this::convertResultSetToEntity)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void deleteByEmailAddress(EmailAddress emailAddress) {
-        customerResultSetRepository.deleteByEmailAddress(emailAddress);
+    public void deleteByEmailAddress(Email email) {
+        customerResultSetRepository.deleteByEmailAddress(email);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class MappingCustomerRepository implements CustomerRepository {
 
     private Customer convertResultSetToEntity(CustomerResultSet customerResultSet) {
         return new Customer(
-                new EmailAddress(customerResultSet.getEmailAddress()),
+                new Email(customerResultSet.getEmailAddress()),
                 customerResultSet.getNickname());
     }
 }
