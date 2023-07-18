@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.view.console;
 
 import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
 import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
-import org.prgrms.kdtspringdemo.voucher.constant.VoucherQuery;
+import org.prgrms.kdtspringdemo.voucher.constant.VoucherCommand;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +27,10 @@ public class VoucherConsole {
         return MainCommandType.findCommandType(scanner.nextLine());
     }
 
-    public VoucherQuery inputVoucherCommand(String initMessage) {
+    public VoucherCommand inputVoucherCommand(String initMessage) {
         printMessage(initMessage);
 
-        return VoucherQuery.findVoucherCommand(scanner.nextLine());
+        return VoucherCommand.findVoucherCommand(scanner.nextLine());
     }
 
     public VoucherType chooseVoucherType(String voucherChooseMessage) {

@@ -4,7 +4,7 @@ import org.prgrms.kdtspringdemo.customer.constant.CustomerQuery;
 import org.prgrms.kdtspringdemo.customer.model.dto.CustomerResponseDto;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
-import org.prgrms.kdtspringdemo.voucher.constant.VoucherQuery;
+import org.prgrms.kdtspringdemo.voucher.constant.VoucherCommand;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
@@ -84,7 +84,7 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void runVoucherService() {
-        VoucherQuery userCommand = voucherConsole.inputVoucherCommand(VOUCHER_SERVICE_INIT_MESSAGE);
+        VoucherCommand userCommand = voucherConsole.inputVoucherCommand(VOUCHER_SERVICE_INIT_MESSAGE);
 
         switch (userCommand) {
             case CREATE -> createVoucher();

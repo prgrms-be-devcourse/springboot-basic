@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
-import org.prgrms.kdtspringdemo.voucher.constant.VoucherQuery;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.exception.VoucherIdNotFoundException;
 import org.prgrms.kdtspringdemo.voucher.exception.VoucherSaveFailedException;
@@ -25,6 +24,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String VOUCHER_ID = "voucher_id";
     private static final String VOUCHER_TYPE = "voucher_type";
     private static final String AMOUNT = "amount";
+    private static final String SAVE_QUERY = "INSERT INTO voucher(voucher_id, voucher_type, amount) VALUES(UUID_TO_BIN(:voucher_id), :voucher_type, :amount)";
+    private static final String FIND_BY_ID_QUERY = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+    private static final String FIND_ALL_QUERY = "SELECT * FROM voucher";
+    private static final String UPDATE_QUERY = "UPDATE voucher SET voucher_type = :voucher_type, amount = :amount WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
+    private static final String DELETE_QUERY = "DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucher_id)";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -50,7 +54,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        int savedVoucherRow = jdbcTemplate.update(VoucherQuery.CREATE.getQuery(), toParamMap(voucher));
+        int savedVoucherRow = jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher));
         if (savedVoucherRow != SUCCESS_SAVE_QUERY) {
             logger.error("원인 : {} -> 에러 메시지 : {}", savedVoucherRow, FAILED_VOUCHER_SAVE_QUERY);
             throw new VoucherSaveFailedException(FAILED_VOUCHER_SAVE_QUERY);
@@ -63,7 +67,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher findById(UUID voucherId) {
         Voucher voucher;
         try {
-            voucher = jdbcTemplate.queryForObject(VoucherQuery.FIND_ID.getQuery(), Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper);
+            voucher = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("원인 : {} -> 에러 메시지 : {}", voucherId, VOUCHER_ID_LOOKUP_FAILED);
             throw new VoucherIdNotFoundException(VOUCHER_ID_LOOKUP_FAILED);
@@ -74,12 +78,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(VoucherQuery.FIND_ALL.getQuery(), voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL_QUERY, voucherRowMapper);
     }
 
     @Override
     public Voucher update(Voucher voucher) {
-        int updatedVoucherRow = jdbcTemplate.update(VoucherQuery.UPDATE.getQuery(), toParamMap(voucher));
+        int updatedVoucherRow = jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucher));
         if (updatedVoucherRow == NOT_FOUND_ID) {
             save(voucher);
         }
@@ -89,6 +93,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(VoucherQuery.DELETE.getQuery(), Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()));
+        jdbcTemplate.update(DELETE_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()));
     }
 }
