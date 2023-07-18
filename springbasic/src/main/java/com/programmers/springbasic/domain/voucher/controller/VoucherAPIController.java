@@ -9,7 +9,7 @@ import com.programmers.springbasic.domain.voucher.validator.VoucherCodeValidator
 import com.programmers.springbasic.global.common.response.model.CommonResult;
 import com.programmers.springbasic.global.common.response.model.ListResult;
 import com.programmers.springbasic.global.common.response.model.SingleResult;
-import com.programmers.springbasic.global.common.response.service.ResponseService;
+import com.programmers.springbasic.global.common.response.service.ResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,6 @@ import java.util.List;
 @RequestMapping("/api/vouchers")
 public class VoucherAPIController {
     private final VoucherService voucherService;
-    private final ResponseService responseService;
 
     @PostMapping
     public ResponseEntity<CommonResult> createVoucher(
@@ -29,7 +28,7 @@ public class VoucherAPIController {
     ) {
         voucherService.createVoucher(voucherCreateRequestDTO);
 
-        return ResponseEntity.ok(responseService.getSuccessResult());
+        return ResponseEntity.ok(ResponseFactory.getSuccessResult());
     }
 
     @GetMapping
@@ -38,7 +37,7 @@ public class VoucherAPIController {
     ) {
         List<VoucherResponseDTO> voucherInfos = voucherService.getAllVoucherInfo(voucherType.name());
 
-        return ResponseEntity.ok(responseService.getListResult(voucherInfos));
+        return ResponseEntity.ok(ResponseFactory.getListResult(voucherInfos));
     }
 
     @GetMapping("/{voucherCode}")
@@ -49,7 +48,7 @@ public class VoucherAPIController {
 
         VoucherResponseDTO voucherInfo = voucherService.findVoucher(voucherCode);
 
-        return ResponseEntity.ok(responseService.getSingleResult(voucherInfo));
+        return ResponseEntity.ok(ResponseFactory.getSingleResult(voucherInfo));
     }
 
     @PutMapping("/{voucherCode}")
@@ -60,7 +59,7 @@ public class VoucherAPIController {
 
         voucherService.updateVoucher(voucherUpdateRequestDTO);
 
-        return ResponseEntity.ok(responseService.getSuccessResult());
+        return ResponseEntity.ok(ResponseFactory.getSuccessResult());
     }
 
     @DeleteMapping("/{voucherCode}")
@@ -71,6 +70,6 @@ public class VoucherAPIController {
 
         voucherService.removeVoucher(voucherCode);
 
-        return ResponseEntity.ok(responseService.getSuccessResult());
+        return ResponseEntity.ok(ResponseFactory.getSuccessResult());
     }
 }
