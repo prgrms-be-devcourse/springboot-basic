@@ -44,6 +44,10 @@ public class CustomerService {
         return toDTO(selectedCustomer);
     }
 
+    public void deleteCustomer(UUID customerId) {
+        customerRepository.deleteById(customerId);
+    }
+
     private CustomerDTO toDTO(Customer customer) {
         UUID customerId = customer.getCustomerId();
         String name = customer.getName();

@@ -61,6 +61,7 @@ public class ApplicationController implements CommandLineRunner {
             case LIST -> displayCustomers();
             case DELETE_ALL -> removeCustomers();
             case SEARCH -> searchCustomer();
+            case DELETE -> removeCustomer();
         }
     }
 
@@ -91,6 +92,15 @@ public class ApplicationController implements CommandLineRunner {
 
     private void removeCustomers() {
         customerController.deleteCustomers();
+    }
+
+    private void removeCustomer() {
+        try {
+            UUID customerId = console.getId();
+            customerController.deleteCustomer(customerId);
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
     }
 
     private void startVoucherProcess() {

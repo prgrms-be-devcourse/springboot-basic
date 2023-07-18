@@ -12,9 +12,12 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
+    Customer findById(UUID customerID);
+
     void deleteAll();
 
-    Customer findById(UUID customerID);
+    void deleteById(UUID customerID);
+
 
 }
 

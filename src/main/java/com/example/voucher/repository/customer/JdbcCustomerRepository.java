@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import com.example.voucher.constant.CustomerType;
 import com.example.voucher.domain.customer.Customer;
-import com.example.voucher.domain.voucher.Voucher;
 import com.example.voucher.repository.QueryBuilder;
 
 @Component
@@ -74,6 +73,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
             .build();
 
         return jdbcTemplate.queryForObject(sql, parameterSource, custoemrRowMapper);
+    }
+
+    @Override
+    public void deleteById(UUID customerID) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("customerId", customerID.toString());
+
+        String sql = new QueryBuilder().delete("CUSTOMER")
+            .where("CUSTOMER_ID", "=", "customerId")
+            .build();
+
+        jdbcTemplate.update(sql, parameterSource);
     }
 
     private RowMapper<Customer> custoemrRowMapper() {

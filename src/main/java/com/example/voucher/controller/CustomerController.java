@@ -38,4 +38,8 @@ public class CustomerController {
         return new Response<>(customer);
     }
 
+    public void deleteCustomer(UUID customerId) {
+        customerService.deleteCustomer(customerId);
+    }
+
 }
