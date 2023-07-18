@@ -2,16 +2,16 @@ package org.programmers.VoucherManagement.voucher.application;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.programmers.VoucherManagement.voucher.domain.*;
 import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponse;
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,17 +21,15 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
+@SpringBootTest
+@Transactional
 public class VoucherServiceTest {
-
-    @InjectMocks
+    @Autowired
     VoucherService voucherService;
 
-    @Mock
+    @Autowired
     VoucherRepository voucherRepository;
 
     @Test
@@ -42,9 +40,6 @@ public class VoucherServiceTest {
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(100));
         voucherRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(1000);
-
-        //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
 
         //when
         voucherService.updateVoucher(voucherId, updateRequestDto);
@@ -63,9 +58,6 @@ public class VoucherServiceTest {
         voucherRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(40);
 
-        //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
-
         //when
         voucherService.updateVoucher(voucherId, updateRequestDto);
 
@@ -83,10 +75,7 @@ public class VoucherServiceTest {
         voucherRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(-1);
 
-        //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
-
-        //then
+        //when & then
         assertThatThrownBy(() -> voucherService.updateVoucher(voucherId, updateRequestDto))
                 .isInstanceOf(VoucherException.class)
                 .hasMessage("할인율은 1부터 100사이의 값이여야 합니다.");
@@ -96,14 +85,16 @@ public class VoucherServiceTest {
     @DisplayName("바우처ID를 입력받아 해당 바우처를 삭제할 수 있다. - 성공")
     void deleteVoucher_voucherId_Success() {
         //given
-        Voucher saveVoucher = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(1000));
+        UUID voucherId = UUID.randomUUID();
+        Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(1000));
         voucherRepository.insert(saveVoucher);
 
         //when
         voucherService.deleteVoucher(saveVoucher.getVoucherId());
 
         //then
-        verify(voucherRepository, times(1)).delete(saveVoucher.getVoucherId());
+        Optional<Voucher> optionalVoucher = voucherRepository.findById(voucherId);
+        assertThat(optionalVoucher).isEqualTo(Optional.empty());
     }
 
     @Test
@@ -112,10 +103,9 @@ public class VoucherServiceTest {
         //given
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(100));
         Voucher voucher2 = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
+        voucherRepository.insert(voucher1);
+        voucherRepository.insert(voucher2);
         List<Voucher> voucherList = Arrays.asList(voucher1, voucher2);
-
-        //mocking
-        given(voucherRepository.findAll()).willReturn(voucherList);
 
         //when
         VoucherGetResponses response = voucherService.getVoucherList();
