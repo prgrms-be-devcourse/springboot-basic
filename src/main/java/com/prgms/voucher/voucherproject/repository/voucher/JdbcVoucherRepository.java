@@ -5,7 +5,6 @@ import com.prgms.voucher.voucherproject.domain.voucher.PercentDiscountVoucher;
 import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
 import com.prgms.voucher.voucherproject.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Primary;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -50,11 +49,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        try {
-            return Optional.of(jdbcTemplate.queryForObject(SQL_FINDBYID, voucherRowMapper, voucherId.toString()));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+        return jdbcTemplate.query(SQL_FINDBYID, voucherRowMapper)
+            .stream()
+            .findFirst();
     }
 
     @Override
@@ -66,14 +63,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         String voucherType = resultSet.getString("voucher_type");
         long discount = resultSet.getLong("discount");
+
         VoucherType createVoucherType = VoucherType.valueOf(voucherType);
-
-        Voucher voucher = switch (createVoucherType) {
-            case FIXED -> new FixedAmountVoucher(discount);
-            case PERCENT -> new PercentDiscountVoucher(discount);
-        };
-
-        return voucher;
+        return createVoucherType.createVoucher(discount);
     };
 
 }

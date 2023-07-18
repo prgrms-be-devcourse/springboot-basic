@@ -1,5 +1,6 @@
 package com.prgms.voucher.voucherproject.service;
 
+import com.prgms.voucher.voucherproject.domain.customer.Customer;
 import com.prgms.voucher.voucherproject.domain.voucher.FixedAmountVoucher;
 import com.prgms.voucher.voucherproject.domain.voucher.PercentDiscountVoucher;
 import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
@@ -26,10 +27,8 @@ public class VoucherService {
     }
 
     public void createVoucher(VoucherType voucherType, long discount) {
-        Voucher voucher = switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(discount);
-            case PERCENT -> new PercentDiscountVoucher(discount);
-        };
+
+        Voucher voucher = voucherType.createVoucher(discount);
 
         try {
             voucherRepository.save(voucher);
