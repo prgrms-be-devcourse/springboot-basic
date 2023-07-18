@@ -5,7 +5,6 @@ import com.programmers.springweekly.dto.customer.response.CustomerListResponse;
 import com.programmers.springweekly.dto.customer.response.CustomerResponse;
 import com.programmers.springweekly.service.CustomerService;
 import jakarta.validation.Valid;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -57,12 +56,6 @@ public class CustomerViewController {
 
     @GetMapping("/delete/{id}")
     public String deleteById(@PathVariable("id") UUID customerId) {
-        boolean isExistCustomerId = customerService.existById(customerId);
-
-        if (!isExistCustomerId) {
-            throw new NoSuchElementException("사용자가 삭제하려는 아이디 " + customerId + "는 없는 ID입니다.");
-        }
-
         customerService.deleteById(customerId);
 
         return "redirect:/view/customer/find";
