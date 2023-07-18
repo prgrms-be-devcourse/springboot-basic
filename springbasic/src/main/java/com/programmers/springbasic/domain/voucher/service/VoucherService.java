@@ -30,17 +30,15 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAllByVoucherType(VoucherType.of(voucherType));
 
         return vouchers.stream()
-                .map(this::mapVoucherEntityToVoucherInfo)
+                .map(VoucherResponseDTO::toResponse)
                 .collect(Collectors.toList());
     }
 
-    public VoucherResponseDTO findVoucher(String inputVoucherCode) {
-        UUID voucherCode = UUID.fromString(inputVoucherCode);
-
-        Voucher voucher = voucherRepository.findByCode(voucherCode)
+    public VoucherResponseDTO findVoucher(String voucherCode) {
+        Voucher voucher = voucherRepository.findByCode(UUID.fromString(voucherCode))
                 .orElseThrow(() -> new RuntimeException("조회하고자 하는 voucher가 없습니다."));
 
-        return mapVoucherEntityToVoucherInfo(voucher);
+        return VoucherResponseDTO.toResponse(voucher);
     }
 
     public void updateVoucher(VoucherUpdateRequestDTO voucherUpdateRequestDTO) {
@@ -56,16 +54,5 @@ public class VoucherService {
         UUID voucherCode = UUID.fromString(inputVoucherCode);
 
         voucherRepository.delete(voucherCode);
-    }
-
-    private VoucherResponseDTO mapVoucherEntityToVoucherInfo(Voucher voucher) {
-        return VoucherResponseDTO.builder()
-                .code(voucher.getCode())
-                .value(voucher.getValue())
-                .expirationDate(voucher.getExpirationDate())
-                .voucherType(voucher.getVoucherType())
-                .isActive(voucher.isActive())
-                .customerId(voucher.getCustomerId().toString())
-                .build();
     }
 }

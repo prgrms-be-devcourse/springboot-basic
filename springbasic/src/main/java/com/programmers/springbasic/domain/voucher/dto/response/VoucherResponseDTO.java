@@ -1,5 +1,6 @@
 package com.programmers.springbasic.domain.voucher.dto.response;
 
+import com.programmers.springbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbasic.domain.voucher.model.VoucherType;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,5 +25,16 @@ public class VoucherResponseDTO {
         this.expirationDate = expirationDate;
         this.isActive = isActive;
         this.customerId = customerId;
+    }
+
+    public static VoucherResponseDTO toResponse(Voucher voucher) {
+        return VoucherResponseDTO.builder()
+                .code(voucher.getCode())
+                .value(voucher.getValue())
+                .expirationDate(voucher.getExpirationDate())
+                .voucherType(voucher.getVoucherType())
+                .isActive(voucher.isActive())
+                .customerId(voucher.getCustomerId().toString())
+                .build();
     }
 }
