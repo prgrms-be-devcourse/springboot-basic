@@ -31,8 +31,8 @@ class VoucherServiceTest {
     @BeforeEach
     void setup() {
         jdbcVoucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
-        jdbcVoucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.PERCENT.createPolicy(30.0)));
-        jdbcVoucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.PERCENT.createPolicy(70.0)));
+        jdbcVoucherRepository.insert(new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(35.0)));
+        jdbcVoucherRepository.insert(new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0)));
     }
 
     @Test

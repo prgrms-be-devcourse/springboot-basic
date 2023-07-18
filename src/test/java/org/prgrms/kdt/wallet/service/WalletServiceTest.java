@@ -44,8 +44,10 @@ class WalletServiceTest {
 
     @BeforeEach
     void setup() {
-//         멤버 두명, 바우처 두개를 각각의 db테이블에 넣어놓고
-//         멤버1에게 바우처 두개를 할당한 상태 셋팅
+        /**
+         *  테스트용 db의 멤버와 바우처 테이블에 각각 초기 레코드 2개씩 셋팅해 놓은 상태,
+         *  이 중 멤버1에게 바우처 두개를 할당한 상태로 초기화 되었다.
+         */
         setupInsertWallets();
     }
 
@@ -55,7 +57,7 @@ class WalletServiceTest {
         //given
         UUID expectMemberId = UUID.fromString("9a3d5b3e-2d12-4958-9ef3-52d424485895");
         Member member = memberRepository.insert(new Member(expectMemberId, "giho", MemberStatus.COMMON));
-        Voucher voucher = voucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
+        Voucher voucher = voucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0)));
         CreateWalletRequest createWalletRequest = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
 
         //when
