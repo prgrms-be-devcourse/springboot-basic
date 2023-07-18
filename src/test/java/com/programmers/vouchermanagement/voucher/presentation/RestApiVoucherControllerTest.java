@@ -17,12 +17,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
+import java.util.UUID;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(RestApiVoucherController.class)
 class RestApiVoucherControllerTest {
@@ -41,85 +42,91 @@ class RestApiVoucherControllerTest {
     void createVoucher() throws Exception {
         // given
         VoucherCreationRequest request = new VoucherCreationRequest(DiscountType.FIX, 5000);
-        VoucherResponse response = new VoucherResponse(new Voucher(new FixedAmountDiscountPolicy(5000)));
-        given(voucherService.createVoucher(any(VoucherCreationRequest.class)))
+        Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
+        VoucherResponse response = new VoucherResponse(voucher);
+
+        given(voucherService.createVoucher(request))
                 .willReturn(response);
 
         String requestJson = objectMapper.writeValueAsString(request);
+        String responseJson = objectMapper.writeValueAsString(response);
 
         // when & then
         this.mockMvc.perform(post("/api/v3/vouchers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(response.getId().toString()))
-                .andExpect(jsonPath("$.type").value(response.getType().toString()))
-                .andExpect(jsonPath("$.amount").value(response.getAmount()));
+                .andExpect(content().string(responseJson));
     }
 
     @Test
     @DisplayName("바우처 목록 조회 API")
     void getVouchers() throws Exception {
         // given
-        VoucherResponse response = new VoucherResponse(new Voucher(new FixedAmountDiscountPolicy(5000)));
+        Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
+        List<VoucherResponse> responses = List.of(new VoucherResponse(voucher));
         given(voucherService.getVouchers())
-                .willReturn(List.of(response));
+                .willReturn(responses);
+
+        String responsesJson = objectMapper.writeValueAsString(responses);
 
         // when & then
         this.mockMvc.perform(get("/api/v3/vouchers"))
-                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[0].id").value(response.getId().toString()))
-                .andExpect(jsonPath("$.[0].type").value(response.getType().toString()))
-                .andExpect(jsonPath("$.[0].amount").value(response.getAmount()));
+                .andExpect(content().string(responsesJson));
     }
 
     @Test
     @DisplayName("바우처 조회 API")
     void getVoucher() throws Exception {
         // given
-        Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = new Voucher(voucherId, new FixedAmountDiscountPolicy(5000));
         VoucherResponse response = new VoucherResponse(voucher);
-        given(voucherService.getVoucher(voucher.getId()))
+
+        given(voucherService.getVoucher(voucherId))
                 .willReturn(response);
 
+        String responseJson = objectMapper.writeValueAsString(response);
+
         // when & then
-        this.mockMvc.perform(get("/api/v3/vouchers/{voucherId}", voucher.getId().toString()))
-                .andDo(print())
+        this.mockMvc.perform(get("/api/v3/vouchers/{voucherId}", voucherId.toString()))
                 .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(response.getId().toString()))
-                .andExpect(jsonPath("$.type").value(response.getType().toString()))
-                .andExpect(jsonPath("$.amount").value(response.getAmount()));
+                .andExpect(content().string(responseJson));
     }
 
     @Test
     @DisplayName("바우처 수정 API")
     void updateVoucher() throws Exception {
         // given
+        UUID voucherId = UUID.randomUUID();
         VoucherUpdateRequest request = new VoucherUpdateRequest(DiscountType.FIX, 5000);
-        Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
 
         String requestJson = objectMapper.writeValueAsString(request);
 
         // when & then
-        this.mockMvc.perform(post("/api/v3/vouchers/{voucherId}", voucher.getId().toString())
+        this.mockMvc.perform(post("/api/v3/vouchers/{voucherId}", voucherId.toString())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestJson))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+
+        // verify
+        verify(voucherService).updateVoucher(voucherId, request);
     }
 
     @Test
     @DisplayName("바우처 삭제 API")
     void deleteVoucher() throws Exception {
         // given
-        Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
+        UUID voucherId = UUID.randomUUID();
 
         // when & then
-        this.mockMvc.perform(delete("/api/v3/vouchers/{voucherId}", voucher.getId().toString()))
-                .andExpect(status().isNoContent());
+        this.mockMvc.perform(delete("/api/v3/vouchers/{voucherId}", voucherId.toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().string("true"));
+
+        // verify
+        verify(voucherService).deleteVoucher(voucherId);
     }
 }
