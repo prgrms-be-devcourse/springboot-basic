@@ -35,7 +35,7 @@ class VoucherServiceTest {
         DiscountType discountType = request.type();
         int amount = request.amount();
         DiscountPolicy discountPolicy = discountType.createDiscountPolicy(amount);
-        Voucher voucher = new Voucher(discountPolicy);
+        Voucher voucher = Voucher.from(discountPolicy);
 
         given(voucherRepository.save(any(Voucher.class)))
                 .willReturn(voucher);
@@ -54,8 +54,8 @@ class VoucherServiceTest {
     @DisplayName("바우처를 모두 조회한다.")
     void getVouchers() {
         // given
-        Voucher voucher1 = new Voucher(new FixedAmountDiscountPolicy(5000));
-        Voucher voucher2 = new Voucher(new PercentDiscountPolicy(10));
+        Voucher voucher1 = Voucher.from(new FixedAmountDiscountPolicy(5000));
+        Voucher voucher2 = Voucher.from(new PercentDiscountPolicy(10));
 
         given(voucherRepository.findAll())
                 .willReturn(List.of(voucher1, voucher2));

@@ -27,7 +27,7 @@ class JdbcTemplateVoucherRepositoryTest {
     @DisplayName("바우처를 저장한다.")
     void save() {
         // given
-        Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
+        Voucher voucher = Voucher.from(new FixedAmountDiscountPolicy(5000));
 
         // when
         voucherRepository.save(voucher);
@@ -41,7 +41,7 @@ class JdbcTemplateVoucherRepositoryTest {
     @DisplayName("Id로 바우처를 조회한다.")
     void findById() {
         // given
-        Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
+        Voucher voucher = Voucher.from(new FixedAmountDiscountPolicy(5000));
         voucherRepository.save(voucher);
 
         // when
@@ -55,8 +55,8 @@ class JdbcTemplateVoucherRepositoryTest {
     @DisplayName("바우처를 모두 조회한다.")
     void findAll() {
         // given
-        Voucher voucher1 = new Voucher(new FixedAmountDiscountPolicy(5000));
-        Voucher voucher2 = new Voucher(new PercentDiscountPolicy(10));
+        Voucher voucher1 = Voucher.from(new FixedAmountDiscountPolicy(5000));
+        Voucher voucher2 = Voucher.from(new PercentDiscountPolicy(10));
 
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
@@ -72,7 +72,7 @@ class JdbcTemplateVoucherRepositoryTest {
     @DisplayName("바우처를 업데이트한다.")
     void update() {
         // given
-        Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
+        Voucher voucher = Voucher.from(new FixedAmountDiscountPolicy(5000));
         voucherRepository.save(voucher);
         voucher.changeDiscountPolicy(new PercentDiscountPolicy(10));
 
@@ -88,7 +88,7 @@ class JdbcTemplateVoucherRepositoryTest {
     @DisplayName("바우처를 삭제한다.")
     void deleteById() {
         // given
-        Voucher voucher = new Voucher(new FixedAmountDiscountPolicy(5000));
+        Voucher voucher = Voucher.from(new FixedAmountDiscountPolicy(5000));
 
         // when
         voucherRepository.deleteById(voucher.getId());
