@@ -3,10 +3,12 @@ package com.programmers.springbasic.domain.voucher.service;
 import com.programmers.springbasic.domain.voucher.dto.request.VoucherCreateRequestDTO;
 import com.programmers.springbasic.domain.voucher.dto.request.VoucherUpdateRequestDTO;
 import com.programmers.springbasic.domain.voucher.dto.response.VoucherResponseDTO;
+import com.programmers.springbasic.domain.voucher.exception.VoucherException;
 import com.programmers.springbasic.domain.voucher.factory.VoucherFactory;
 import com.programmers.springbasic.domain.voucher.repository.VoucherRepository;
 import com.programmers.springbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbasic.domain.voucher.model.VoucherType;
+import com.programmers.springbasic.global.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,14 +38,14 @@ public class VoucherService {
 
     public VoucherResponseDTO findVoucher(String voucherCode) {
         Voucher voucher = voucherRepository.findByCode(UUID.fromString(voucherCode))
-                .orElseThrow(() -> new RuntimeException("조회하고자 하는 voucher가 없습니다."));
+                .orElseThrow(() -> new VoucherException(ErrorCode.VOUCHER_NOT_FOUND));
 
         return VoucherResponseDTO.toResponse(voucher);
     }
 
     public void updateVoucher(VoucherUpdateRequestDTO voucherUpdateRequestDTO) {
         Voucher voucher = voucherRepository.findByCode(UUID.fromString(voucherUpdateRequestDTO.getVoucherCode()))
-                .orElseThrow(() -> new RuntimeException("조회하고자 하는 voucher가 없습니다."));
+                .orElseThrow(() -> new VoucherException(ErrorCode.VOUCHER_NOT_FOUND));
 
         voucher.updateValue(voucherUpdateRequestDTO.getValue());
 

@@ -3,7 +3,9 @@ package com.programmers.springbasic.domain.voucher.repository;
 import com.programmers.springbasic.domain.voucher.entity.FixedAmountVoucher;
 import com.programmers.springbasic.domain.voucher.entity.PercentDiscountVoucher;
 import com.programmers.springbasic.domain.voucher.entity.Voucher;
+import com.programmers.springbasic.domain.voucher.exception.VoucherException;
 import com.programmers.springbasic.domain.voucher.model.VoucherType;
+import com.programmers.springbasic.global.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +53,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 return new PercentDiscountVoucher(voucherCode, value, expirationDate, isActive, customerId);
             }
             default: {
-                throw new RuntimeException("조회할 voucher가 없습니다.");
+                throw new VoucherException(ErrorCode.VOUCHER_NOT_FOUND);
             }
         }
     };
