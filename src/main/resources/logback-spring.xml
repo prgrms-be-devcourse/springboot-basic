@@ -36,7 +36,7 @@
 
     <root level="info">
       <appender-ref ref="CONSOLE"/>
-      <appender-ref ref="ROLLING_FILE"/>
+<!--      <appender-ref ref="ROLLING_FILE"/>-->
     </root>
   </springProfile>
 </configuration>

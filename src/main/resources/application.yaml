@@ -10,6 +10,10 @@ spring:
     url: jdbc:h2:mem:testDB
     username: sa
     password:
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    cache: false
 
 ---
 

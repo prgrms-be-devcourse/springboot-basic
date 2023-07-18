@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: layout(~{::title}, ~{::#content})}">
+<head>
+  <meta charset="UTF-8">
+  <title>Voucher Create</title>
+</head>
+<body>
+  <div id="content">
+    <form method="POST">
+      <div class="mb-3">
+        <select class="form-select" name="type">
+          <option selected>할인권 방식을 선택해주세요.</option>
+          <option value="FIX">고정 금액 할인</option>
+          <option value="PERCENT">비율 퍼센트 할인</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="discountAmount" class="form-label">할인 수치를 입력하세요.</label>
+        <input type="number" class="form-control" id="discountAmount" name="discountAmount">
+      </div>
+      <button type="submit" class="btn btn-primary">만들기</button>
+    </form>
+  </div>
+</body>
+</html>
