@@ -70,7 +70,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
             jdbcTemplate.update(VOUCHER_INSERT_QUERY,
                     voucher.getCode().toString().getBytes(),
                     voucher.getValue(),
-                    voucher.getVoucherType().getVoucherType(),
+                    voucher.getVoucherType().name(),
                     voucher.getExpirationDate(),
                     voucher.isActive(),
                     voucher.getCustomerId().toString().getBytes());
@@ -105,12 +105,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAllByVoucherType(VoucherType voucherOption) {
-        String voucherType = voucherOption.getVoucherType();
-
+    public List<Voucher> findAllByVoucherType(VoucherType voucherType) {
         return jdbcTemplate.query(VOUCHER_SELECT_BY_TYPE_QUERY,
                 voucherRowMapper,
-                voucherType);
+                voucherType.name());
     }
 
     @Override
