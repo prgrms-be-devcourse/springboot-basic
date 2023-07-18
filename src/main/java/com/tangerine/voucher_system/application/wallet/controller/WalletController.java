@@ -1,6 +1,5 @@
 package com.tangerine.voucher_system.application.wallet.controller;
 
-import com.tangerine.voucher_system.application.customer.controller.CustomerDto;
 import com.tangerine.voucher_system.application.voucher.controller.VoucherDto;
 import com.tangerine.voucher_system.application.wallet.model.Wallet;
 import com.tangerine.voucher_system.application.wallet.service.WalletService;

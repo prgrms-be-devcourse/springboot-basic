@@ -3,6 +3,9 @@ package com.tangerine.voucher_system.application.customer.service;
 import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.repository.CustomerRepository;
+import com.tangerine.voucher_system.application.customer.service.converter.ServiceMapper;
+import com.tangerine.voucher_system.application.customer.service.dto.CustomerParam;
+import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import org.springframework.stereotype.Service;
@@ -20,36 +23,52 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> findBlackCustomers() {
-        return customerRepository.findAllBlackCustomers();
+    public List<CustomerResult> findBlackCustomers() {
+        return customerRepository.findAllBlackCustomers()
+                .stream()
+                .map(ServiceMapper.INSTANCE::domainToParam)
+                .toList();
     }
 
-    public Customer createCustomer(Customer customer) {
-        return customerRepository.insert(customer);
+    public CustomerResult createCustomer(CustomerParam param) {
+        return ServiceMapper.INSTANCE.domainToParam(
+                customerRepository.insert(ServiceMapper.INSTANCE.paramToDomain(param))
+        );
     }
 
-    public Customer updateCustomer(Customer customer) {
-        return customerRepository.update(customer);
+    public CustomerResult updateCustomer(CustomerParam param) {
+        return ServiceMapper.INSTANCE.domainToParam(
+                customerRepository.update(ServiceMapper.INSTANCE.paramToDomain(param))
+        );
     }
 
-    public List<Customer> findAllCustomers() {
-        return customerRepository.findAll();
+    public List<CustomerResult> findAllCustomers() {
+        return customerRepository.findAll()
+                .stream()
+                .map(ServiceMapper.INSTANCE::domainToParam)
+                .toList();
     }
 
-    public Customer findCustomerById(UUID customerId) {
-        return customerRepository.findById(customerId)
-                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
+    public CustomerResult findCustomerById(UUID customerId) {
+        return ServiceMapper.INSTANCE.domainToParam(
+                customerRepository.findById(customerId)
+                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()))
+        );
     }
 
-    public Customer findCustomerByName(Name name) {
-        return customerRepository.findByName(name)
-                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
+    public CustomerResult findCustomerByName(Name name) {
+        return ServiceMapper.INSTANCE.domainToParam(
+                customerRepository.findByName(name)
+                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()))
+        );
     }
 
-    public Customer deleteCustomerById(UUID customerId) {
+    public CustomerResult deleteCustomerById(UUID customerId) {
         Optional<Customer> deletedCustomer = customerRepository.findById(customerId);
         customerRepository.deleteById(customerId);
-        return deletedCustomer.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
+        return ServiceMapper.INSTANCE.domainToParam(
+                deletedCustomer.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()))
+        );
     }
 
 }

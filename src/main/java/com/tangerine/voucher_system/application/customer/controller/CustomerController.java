@@ -1,52 +1,27 @@
 package com.tangerine.voucher_system.application.customer.controller;
 
+import com.tangerine.voucher_system.application.customer.controller.dto.*;
 import com.tangerine.voucher_system.application.customer.model.Name;
-import com.tangerine.voucher_system.application.customer.service.CustomerService;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.UUID;
 
-@Controller
-public class CustomerController {
+public interface CustomerController {
 
-    private final CustomerService customerService;
+    ResponseEntity<List<CustomerResponse>> blackCustomerList();
 
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+    ResponseEntity<CustomerResponse> registerCustomer(CreateCustomerRequest createCustomerRequest);
 
-    public List<CustomerDto> blackCustomerList() {
-        return customerService.findBlackCustomers().stream()
-                .map(CustomerDto::of)
-                .toList();
-    }
+    ResponseEntity<CustomerResponse> updateCustomer(@RequestBody UpdateCustomerRequest updateCustomerRequest);
 
-    public CustomerDto registerCustomer(CustomerDto customerDto) {
-        return CustomerDto.of(customerService.createCustomer(customerDto.to()));
-    }
+    ResponseEntity<List<CustomerResponse>> customerList();
 
-    public CustomerDto updateCustomer(CustomerDto customerDto) {
-        return CustomerDto.of(customerService.updateCustomer(customerDto.to()));
-    }
+    ResponseEntity<CustomerResponse> customerById(UUID customerId);
 
-    public List<CustomerDto> customerList() {
-        return customerService.findAllCustomers()
-                .stream()
-                .map(CustomerDto::of)
-                .toList();
-    }
+    ResponseEntity<CustomerResponse> customerByName(Name name);
 
-    public CustomerDto customerById(UUID customerId) {
-        return CustomerDto.of(customerService.findCustomerById(customerId));
-    }
-
-    public CustomerDto customerByName(Name name) {
-        return CustomerDto.of(customerService.findCustomerByName(name));
-    }
-
-    public CustomerDto unregisterCustomerById(UUID customerId) {
-        return CustomerDto.of(customerService.deleteCustomerById(customerId));
-    }
+    ResponseEntity<CustomerResponse> unregisterCustomerById(UUID customerId);
 
 }

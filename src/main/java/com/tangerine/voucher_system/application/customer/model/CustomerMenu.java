@@ -1,4 +1,4 @@
-package com.tangerine.voucher_system.application.customer.controller;
+package com.tangerine.voucher_system.application.customer.model;
 
 public enum CustomerMenu {
     REGISTER,
