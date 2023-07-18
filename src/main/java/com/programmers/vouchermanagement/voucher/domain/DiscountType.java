@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-import com.programmers.vouchermanagement.voucher.exception.VoucherErrorCode;
+import com.programmers.vouchermanagement.global.exception.ErrorCode;
 import com.programmers.vouchermanagement.voucher.exception.VoucherException;
 import lombok.Getter;
 
@@ -36,7 +36,7 @@ public enum DiscountType {
         if (DISCOUNT_TYPE_MAP.containsKey(number)) {
             return DISCOUNT_TYPE_MAP.get(number);
         }
-        throw new VoucherException(VoucherErrorCode.INVALID_DISCOUNT_TYPE);
+        throw new VoucherException(ErrorCode.INVALID_DISCOUNT_TYPE);
     }
 
     public DiscountPolicy createDiscountPolicy(int amount) {

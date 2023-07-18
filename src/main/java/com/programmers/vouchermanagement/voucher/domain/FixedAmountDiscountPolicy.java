@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-import com.programmers.vouchermanagement.voucher.exception.VoucherErrorCode;
+import com.programmers.vouchermanagement.global.exception.ErrorCode;
 import com.programmers.vouchermanagement.voucher.exception.VoucherException;
 
 public class FixedAmountDiscountPolicy extends DiscountPolicy {
@@ -14,7 +14,7 @@ public class FixedAmountDiscountPolicy extends DiscountPolicy {
     @Override
     void validateAmount(int amount) {
         if (amount < MIN_AMOUNT) {
-            throw new VoucherException(VoucherErrorCode.INVALID_FIX_AMOUNT);
+            throw new VoucherException(ErrorCode.INVALID_FIX_AMOUNT);
         }
     }
 
