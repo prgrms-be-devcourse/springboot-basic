@@ -55,8 +55,8 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public List<JoinedWallet> findWithMemeberAndVoucherByMemberId(UUID memberId) {
         String sql = "select W.id, W.member_id, M.name, M.status, W.voucher_id, V.type, V.amount from wallet W " +
-                "LEFT JOIN member M ON W.member_id = M.id " +
-                "LEFT JOIN voucher V ON W.voucher_id = V.id " +
+                "INNER JOIN member M ON W.member_id = M.id " +
+                "INNER JOIN voucher V ON W.voucher_id = V.id " +
                 "WHERE W.member_id = ?";
         return jdbcTemplate.query(sql, joinedWalletRowMapper, memberId.toString());
     }
@@ -64,8 +64,8 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public List<JoinedWallet> findWithMemeberAndVoucherByVoucherId(UUID voucherId) {
         String sql = "select W.id, W.member_id, M.name, M.status, W.voucher_id, V.type, V.amount from wallet W " +
-                "LEFT JOIN member M ON W.member_id = M.id " +
-                "LEFT JOIN voucher V ON W.voucher_id = V.id " +
+                "INNER JOIN member M ON W.member_id = M.id " +
+                "INNER JOIN voucher V ON W.voucher_id = V.id " +
                 "WHERE W.voucher_id = ?";
         return jdbcTemplate.query(sql, joinedWalletRowMapper, voucherId.toString());
     }
@@ -79,8 +79,8 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public List<JoinedWallet> findWithMemeberAndVoucherAll() {
         String sql = "select W.id, W.member_id, M.name, M.status, W.voucher_id, V.type, V.amount from wallet W " +
-                "LEFT JOIN member M ON W.member_id = M.id " +
-                "LEFT JOIN voucher V ON W.voucher_id = V.id";
+                "INNER JOIN member M ON W.member_id = M.id " +
+                "INNER JOIN voucher V ON W.voucher_id = V.id";
         return jdbcTemplate.query(sql, joinedWalletRowMapper);
     }
 }
