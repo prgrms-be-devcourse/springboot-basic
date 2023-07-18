@@ -13,7 +13,7 @@
 
       <div class="mb-3">
         <label for="customerType">고객 타입</label>
-        <select class="form-select" id="customerType" name="type" required>
+        <select class="form-select" id="customerType" name="type" required autofocus>
           <option value="NORMAL" th:selected="${customer.getType().getOption().equals('1')}">일반 고객</option>
           <option value="BLACK" th:selected="${customer.getType().getOption().equals('2')}">블랙리스트 고객</option>
         </select>

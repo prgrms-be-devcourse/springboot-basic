@@ -59,7 +59,7 @@ public class VoucherController {
     }
 
     @PostMapping("{voucherId}/delete")
-    public String delete(@PathVariable String voucherId) {
+    public String deleteById(@PathVariable String voucherId) {
         voucherService.deleteById(voucherId);
 
         return "redirect:/vouchers";

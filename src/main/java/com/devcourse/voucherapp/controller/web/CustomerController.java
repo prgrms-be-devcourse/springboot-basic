@@ -57,4 +57,11 @@ public class CustomerController {
 
         return "redirect:/customers";
     }
+
+    @PostMapping("{customerNickname}/delete")
+    public String deleteByNickname(@PathVariable String customerNickname) {
+        customerService.deleteByNickname(customerNickname);
+
+        return "redirect:/customers";
+    }
 }

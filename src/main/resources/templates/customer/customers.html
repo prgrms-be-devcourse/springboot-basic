@@ -5,7 +5,11 @@
 </head>
 <body>
   <div id="content">
-    <table class="table table-striped table-hover table-bordered">
+    <h3 class="text-center mb-5">고객 목록</h3>
+
+    <hr>
+
+    <table class="table table-hover table-bordered">
       <thead>
       <tr>
         <th>고객 ID</th>
@@ -22,6 +26,9 @@
         <td th:text="${customer.getNickname()}">고객 닉네임</td>
         <td class="d-flex">
           <a th:href="@{|/customers/${customer.getNickname()}/update|}" class="btn btn-warning btn-sm me-2" type="button">수정</a>
+          <form th:action="@{|/customers/${customer.getNickname()}/delete|}" method="POST">
+            <button class="btn btn-danger btn-sm">삭제</button>
+          </form>
         </td>
       </tr>
       </tbody>
