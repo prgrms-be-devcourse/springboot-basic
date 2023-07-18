@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,15 +9,19 @@ import java.util.UUID;
 
 @Getter
 @EqualsAndHashCode
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Voucher {
 
-    private final UUID id;
+    private UUID id;
     private DiscountPolicy discountPolicy;
 
-    public Voucher(DiscountPolicy discountPolicy) {
-        this.id = UUID.randomUUID();
-        this.discountPolicy = discountPolicy;
+    public static Voucher from(DiscountPolicy discountPolicy) {
+        UUID id = UUID.randomUUID();
+        return new Voucher(id, discountPolicy);
+    }
+
+    public static Voucher of(UUID id, DiscountPolicy discountPolicy) {
+        return new Voucher(id, discountPolicy);
     }
 
     public int discount(int originalPrice) {

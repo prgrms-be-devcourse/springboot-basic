@@ -78,7 +78,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             DiscountType type = DiscountType.valueOf(rs.getString("type"));
             int amount = rs.getInt("amount");
             DiscountPolicy discountPolicy = type.createDiscountPolicy(amount);
-            return new Voucher(id, discountPolicy);
+            return Voucher.of(id, discountPolicy);
         };
     }
 }
