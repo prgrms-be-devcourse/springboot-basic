@@ -13,8 +13,8 @@ public record CustomerDto(
 ) {
     public static CustomerDto of(Customer entity) {
         return new CustomerDto(
-                entity.getCustomerId(),
-                entity.getName(),
+                entity.customerId(),
+                entity.name(),
                 entity.isBlack()
         );
     }

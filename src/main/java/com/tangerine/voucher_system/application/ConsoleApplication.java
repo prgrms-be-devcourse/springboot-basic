@@ -133,20 +133,15 @@ public class ConsoleApplication implements Runnable {
     private void walletTask() {
         WalletMenu walletMenu = consoleManager.consoleWalletMenu();
         switch (walletMenu) {
-            case ASSIGN_VOUCHER_TO_CUSTOMER ->
-                    walletController.assignVoucherToCustomer(consoleManager.consoleId(), consoleManager.consoleId());
-            case WITHDRAW_VOUCHER_FROM_CUSTOMER ->
-                    walletController.withdrawVoucherFromCustomer(consoleManager.consoleId());
+            case CREATE_WALLET -> walletController.createWallet(consoleManager.consoleWalletDto());
+            case UPDATE_WALLET -> walletController.updateWallet(consoleManager.consoleWalletDto());
+            case DELETE_WALLET -> walletController.deleteWalletById(consoleManager.consoleId());
             case LIST_VOUCHERS_OF_CUSTOMER -> {
                 List<VoucherDto> voucherDtoList = walletController.voucherListOfCustomer(consoleManager.consoleId());
                 consoleManager.printVoucherList(voucherDtoList);
             }
-            case LIST_CUSTOMER_BY_VOUCHER_ID -> {
-                CustomerDto customerDto = walletController.customerHasVoucher(consoleManager.consoleId());
-                consoleManager.printCustomerDto(customerDto);
-            }
-            case LIST_CUSTOMER_BY_VOUCHER_TYPE -> {
-                List<CustomerDto> customerDtoList = walletController.customerListHasVoucherType(consoleManager.consoleVoucherType());
+            case LIST_CUSTOMER_HAS_VOUCHER -> {
+                List<CustomerDto> customerDtoList = walletController.customerListHasVoucher(consoleManager.consoleId());
                 consoleManager.printCustomerList(customerDtoList);
             }
         }

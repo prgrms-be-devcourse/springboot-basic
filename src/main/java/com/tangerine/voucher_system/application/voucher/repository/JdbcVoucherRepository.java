@@ -11,8 +11,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 
 @Repository
@@ -23,12 +23,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         DiscountValue discountValue = new DiscountValue(voucherType, resultSet.getDouble("discount_value"));
-        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        String customerId = resultSet.getString("customer_id");
-        if (customerId == null) {
-            return new Voucher(voucherId, voucherType, discountValue, createdAt, Optional.empty());
-        }
-        return new Voucher(voucherId, voucherType, discountValue, createdAt, Optional.of(UUID.fromString(customerId)));
+        LocalDate createdAt = resultSet.getDate("created_at").toLocalDate();
+        return new Voucher(voucherId, voucherType, discountValue, createdAt);
     };
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -74,7 +70,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         try {
             return jdbcTemplate.query(
-                    "SELECT voucher_id, voucher_type, discount_value, created_at, customer_id FROM vouchers",
+                    "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers",
                     voucherRowMapper
             );
         } catch (DataAccessException e) {
@@ -87,7 +83,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT voucher_id, voucher_type, discount_value, created_at, customer_id FROM vouchers WHERE voucher_id = :voucherId",
+                            "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers WHERE voucher_id = :voucherId",
                             Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                             voucherRowMapper
                     )
@@ -102,7 +98,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT voucher_id, voucher_type, discount_value, created_at, customer_id FROM vouchers WHERE voucher_type = :voucherType",
+                            "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers WHERE voucher_type = :voucherType",
                             Collections.singletonMap("voucherType", voucherType.toString()),
                             voucherRowMapper
                     )
@@ -113,11 +109,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByCreatedAt(LocalDateTime createdAt) {
+    public Optional<Voucher> findByCreatedAt(LocalDate createdAt) {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT voucher_id, voucher_type, discount_value, created_at, customer_id FROM vouchers WHERE created_at = :createdAt",
+                            "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers WHERE created_at = :createdAt",
                             Collections.singletonMap("createdAt", createdAt.toString()),
                             voucherRowMapper
                     )
@@ -144,7 +140,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         paramMap.put("voucherId", voucher.getVoucherId().toString());
         paramMap.put("voucherType", voucher.getVoucherType().toString());
         paramMap.put("discountValue", voucher.getDiscountValue().getValue());
-        paramMap.put("createdAt", Timestamp.valueOf(voucher.getCreatedAt()));
+        paramMap.put("createdAt", Date.valueOf(voucher.getCreatedAt()));
         return paramMap;
     }
 

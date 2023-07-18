@@ -67,7 +67,7 @@ class CustomerControllerTest {
 
         assertThat(result).isNotEmpty();
         assertThat(result.get(0)).isInstanceOf(CustomerDto.class);
-        assertThat(result.get(0).customerId()).isSameAs(blackCustomers.get(0).getCustomerId());
+        assertThat(result.get(0).customerId()).isSameAs(blackCustomers.get(0).customerId());
     }
 
     @ParameterizedTest
@@ -90,7 +90,7 @@ class CustomerControllerTest {
 
         CustomerDto updatedCustomer = controller.updateCustomer(CustomerDto.of(customer));
 
-        assertThat(updatedCustomer.customerId()).isSameAs(customer.getCustomerId());
+        assertThat(updatedCustomer.customerId()).isSameAs(customer.customerId());
     }
 
     @Test
@@ -101,7 +101,7 @@ class CustomerControllerTest {
         List<CustomerDto> list = controller.customerList();
 
         assertThat(list).isNotEmpty();
-        assertThat(list.get(0).customerId()).isEqualTo(validCustomers.get(0).getCustomerId());
+        assertThat(list.get(0).customerId()).isEqualTo(validCustomers.get(0).customerId());
     }
 
     @ParameterizedTest

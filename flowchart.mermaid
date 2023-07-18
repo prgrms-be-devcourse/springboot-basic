@@ -20,8 +20,8 @@ flowchart LR
     voucherDomain -- LIST_BY_ID --> listVoucherById[Find Voucher By Id]
     voucherDomain -- LIST_BY_TYPE --> listVoucherByType[Find Voucher By Type]
 
-    walletDomain -- ASSIGN_VOUCHER_TO_CUSTOMER --> assign[Assign Voucher To Customer]
-    walletDomain -- WITHDRAW_VOUCHER_FROM_CUSTOMER --> withdraw[Withdraw Voucher From Customer]
-    walletDomain -- LIST_VOUCHERS_OF_CUSTOMER --> listvoc[List Vouchers of Customer]
-    walletDomain -- LIST_CUSTOMER_BY_VOUCHER_ID --> listcbb[List Customer has Voucher Id]
-    walletDomain -- LIST_CUSTOMER_BY_VOUCHER_TYPE --> listcbt[List Customer has Voucher Type]
+    walletDomain -- CREATE_WALLET --> create[Assign Voucher To Customer]
+    walletDomain -- UPDATE_WALLET --> update[Update Voucher To Customer]
+    walletDomain -- DELETE_WALLET --> delete[Withdraw Voucher From Customer]
+    walletDomain -- LIST_VOUCHERS_OF_CUSTOMER --> listVouchers[List Vouchers of Customer]
+    walletDomain -- LIST_CUSTOMER_BY_VOUCHER_ID --> listCustomers[List Customer has Voucher Id]

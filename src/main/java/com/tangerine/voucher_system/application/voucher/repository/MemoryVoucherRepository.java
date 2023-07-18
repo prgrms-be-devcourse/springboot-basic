@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -53,7 +53,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByCreatedAt(LocalDateTime createdAt) {
+    public Optional<Voucher> findByCreatedAt(LocalDate createdAt) {
         return findAll().stream()
                 .filter(voucher -> voucher.getCreatedAt() == createdAt)
                 .findAny();

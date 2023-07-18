@@ -11,10 +11,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -27,9 +26,9 @@ class VoucherMapTest {
 
     static Stream<Arguments> provideValid() {
         return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDateTime.now(), Optional.of(UUID.randomUUID()))),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"), LocalDateTime.now(), Optional.of(UUID.randomUUID()))),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14"), LocalDateTime.now(), Optional.of(UUID.randomUUID())))
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDate.now())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"), LocalDate.now())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14"), LocalDate.now()))
         );
     }
 
@@ -69,7 +68,7 @@ class VoucherMapTest {
     @DisplayName("존재하는 바우처 넣으면 바우처 추가 성공한다.")
     @MethodSource("provideValid")
     void addIfVoucherExist_ParamExistVoucher_AddVoucher(Voucher voucher) {
-        Voucher newVoucher = new Voucher(voucher.getVoucherId(), voucher.getVoucherType(), new DiscountValue(voucher.getVoucherType(), 1), LocalDateTime.now(), Optional.of(UUID.randomUUID()));
+        Voucher newVoucher = new Voucher(voucher.getVoucherId(), voucher.getVoucherType(), new DiscountValue(voucher.getVoucherType(), 1), LocalDate.now());
         voucherMap.addVoucher(voucher);
 
         Voucher foundVoucher = voucherMap.addIfVoucherExist(newVoucher);
@@ -93,7 +92,7 @@ class VoucherMapTest {
     void getVoucherById_ParamExistVoucher_ReturnVoucherOrNull() {
         UUID voucherId = UUID.randomUUID();
         UUID voucherId2 = UUID.randomUUID();
-        Voucher voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 10), LocalDateTime.now(), Optional.of(UUID.randomUUID()));
+        Voucher voucher = new Voucher(voucherId, VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 10), LocalDate.now());
         voucherMap.addVoucher(voucher);
 
         Voucher findedVoucher = voucherMap.getVoucherById(voucherId);

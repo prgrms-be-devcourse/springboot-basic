@@ -3,10 +3,8 @@ package com.tangerine.voucher_system.application.customer.repository;
 import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -61,9 +59,9 @@ class JdbcCustomerRepositoryTest {
 
         customerRepository.insert(customer);
 
-        Optional<Customer> insertedCustomer = customerRepository.findById(customer.getCustomerId());
+        Optional<Customer> insertedCustomer = customerRepository.findById(customer.customerId());
         assertThat(insertedCustomer).isNotEmpty();
-        assertThat(insertedCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
+        assertThat(insertedCustomer.get().customerId()).isEqualTo(customer.customerId());
     }
 
     @ParameterizedTest
@@ -85,9 +83,9 @@ class JdbcCustomerRepositoryTest {
 
         customerRepository.update(customer);
 
-        Optional<Customer> updatedCustomer = customerRepository.findById(customer.getCustomerId());
+        Optional<Customer> updatedCustomer = customerRepository.findById(customer.customerId());
         assertThat(updatedCustomer).isNotEmpty();
-        assertThat(updatedCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
+        assertThat(updatedCustomer.get().customerId()).isEqualTo(customer.customerId());
     }
 
     @ParameterizedTest
@@ -117,10 +115,10 @@ class JdbcCustomerRepositoryTest {
     void findById_ParamExistCustomerId_ReturnCustomerOptional(Customer customer) {
         customerRepository.insert(customer);
 
-        Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
+        Optional<Customer> foundCustomer = customerRepository.findById(customer.customerId());
 
         assertThat(foundCustomer).isNotEmpty();
-        assertThat(foundCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
+        assertThat(foundCustomer.get().customerId()).isEqualTo(customer.customerId());
     }
 
     @ParameterizedTest
@@ -128,7 +126,7 @@ class JdbcCustomerRepositoryTest {
     @MethodSource("provideValidCustomers")
     void findById_ParamNotExistCustomerId_ReturnEmptyOptional(Customer customer) {
 
-        Optional<Customer> result = customerRepository.findById(customer.getCustomerId());
+        Optional<Customer> result = customerRepository.findById(customer.customerId());
 
         assertThat(result).isEmpty();
     }
@@ -139,10 +137,10 @@ class JdbcCustomerRepositoryTest {
     void findByName_ParamExistName_ReturnCustomerOptional(Customer customer) {
         customerRepository.insert(customer);
 
-        Optional<Customer> foundCustomer = customerRepository.findByName(customer.getName());
+        Optional<Customer> foundCustomer = customerRepository.findByName(customer.name());
 
         assertThat(foundCustomer).isNotEmpty();
-        assertThat(foundCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
+        assertThat(foundCustomer.get().customerId()).isEqualTo(customer.customerId());
     }
 
     @ParameterizedTest
@@ -151,7 +149,7 @@ class JdbcCustomerRepositoryTest {
     void findByName_ParamNotExistName_ReturnEmptyOptional(Customer customer) {
         customerRepository.insert(customer);
 
-        Optional<Customer> result = customerRepository.findByName(customer.getName());
+        Optional<Customer> result = customerRepository.findByName(customer.name());
 
         assertThat(result).isNotEmpty();
     }
@@ -162,9 +160,9 @@ class JdbcCustomerRepositoryTest {
     void deleteById_ParamExistCustomer_ReturnAndDeleteCustomer(Customer customer) {
         customerRepository.insert(customer);
 
-        customerRepository.deleteById(customer.getCustomerId());
+        customerRepository.deleteById(customer.customerId());
 
-        Optional<Customer> result = customerRepository.findById(customer.getCustomerId());
+        Optional<Customer> result = customerRepository.findById(customer.customerId());
         assertThat(result).isEmpty();
     }
 }

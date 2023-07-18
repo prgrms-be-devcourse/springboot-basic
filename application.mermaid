@@ -39,18 +39,21 @@ classDiagram
     JdbcVoucherRepository --> vouchers
     VoucherRepository <.. MemoryVoucherRepository
     VoucherRepository <.. JdbcVoucherRepository
+    WalletService --> VoucherRepository
 
     class WalletRepository {
         <<interface>>
     }
     WalletService --> WalletRepository
     WalletRepository <.. JdbcWalletRepository
-    JdbcWalletRepository --> vouchers
-    JdbcWalletRepository --> customers
+    JdbcWalletRepository --> wallets
+    wallets --> customers
+    wallets --> vouchers
 
     class CustomerRepository {
         <<interface>>
     }
+    WalletService --> CustomerRepository
     CustomerService --> CustomerRepository
     class JdbcCustomerRepository
     CustomerRepository <.. JdbcCustomerRepository

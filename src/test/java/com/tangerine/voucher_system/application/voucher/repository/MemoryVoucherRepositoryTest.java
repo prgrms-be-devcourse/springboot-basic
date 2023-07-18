@@ -4,17 +4,15 @@ import com.tangerine.voucher_system.application.global.exception.InvalidDataExce
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,8 +28,8 @@ class MemoryVoucherRepositoryTest {
 
     static Stream<Arguments> provideVouchers() {
         return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDateTime.now(), Optional.of(UUID.randomUUID()))),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), LocalDateTime.now(), Optional.of(UUID.randomUUID())))
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDate.now())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), LocalDate.now()))
         );
     }
 
@@ -46,7 +44,6 @@ class MemoryVoucherRepositoryTest {
     void insert_ParamVoucher_InsertAndReturnVoucher(Voucher voucher) {
         Voucher result = voucherRepository.insert(voucher);
 
-        assertThat(result).isNotNull();
         assertThat(result).isSameAs(voucher);
     }
 
@@ -90,7 +87,6 @@ class MemoryVoucherRepositoryTest {
 
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
 
-        assertThat(foundVoucher).isNotEmpty();
         assertThat(foundVoucher).containsSame(voucher);
     }
 

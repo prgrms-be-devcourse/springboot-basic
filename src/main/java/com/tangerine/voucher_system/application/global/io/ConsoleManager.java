@@ -9,11 +9,11 @@ import com.tangerine.voucher_system.application.voucher.controller.VoucherMenu;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.wallet.controller.WalletMenu;
+import com.tangerine.voucher_system.application.wallet.model.Wallet;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -68,8 +68,8 @@ public class ConsoleManager {
         UUID voucherId = UUID.randomUUID();
         VoucherType voucherType = consoleVoucherType();
         DiscountValue discountValue = consoleDiscountValue(voucherType);
-        LocalDateTime createdAt = LocalDateTime.now();
-        return new VoucherDto(voucherId, voucherType, discountValue, createdAt, Optional.empty());
+        LocalDate createdAt = LocalDate.now();
+        return new VoucherDto(voucherId, voucherType, discountValue, createdAt);
     }
 
     public UUID consoleId() {
@@ -89,6 +89,13 @@ public class ConsoleManager {
         Name name = consoleName();
         boolean isBlack = consoleBlack();
         return new CustomerDto(id, name, isBlack);
+    }
+
+    public Wallet consoleWalletDto() {
+        UUID walletId = UUID.randomUUID();
+        UUID voucherId = consoleId();
+        UUID customerId = consoleId();
+        return new Wallet(walletId, voucherId, customerId);
     }
 
     public void printVoucherDto(VoucherDto voucherDto) {
@@ -116,5 +123,4 @@ public class ConsoleManager {
                         .toList()
         );
     }
-
 }

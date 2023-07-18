@@ -1,10 +1,12 @@
 package com.tangerine.voucher_system.application.wallet.service;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
+import com.tangerine.voucher_system.application.customer.repository.CustomerRepository;
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
-import com.tangerine.voucher_system.application.voucher.model.VoucherType;
+import com.tangerine.voucher_system.application.voucher.repository.VoucherRepository;
+import com.tangerine.voucher_system.application.wallet.model.Wallet;
 import com.tangerine.voucher_system.application.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,30 +17,49 @@ import java.util.UUID;
 public class WalletService {
 
     private final WalletRepository walletRepository;
+    private final VoucherRepository voucherRepository;
+    private final CustomerRepository customerRepository;
 
-    public WalletService(WalletRepository walletRepository) {
+    public WalletService(WalletRepository walletRepository, VoucherRepository voucherRepository, CustomerRepository customerRepository) {
         this.walletRepository = walletRepository;
+        this.voucherRepository = voucherRepository;
+        this.customerRepository = customerRepository;
     }
 
-    public void updateCustomerIdOfVoucher(UUID voucherId, UUID customerId) {
-        walletRepository.updateVoucher(voucherId, customerId);
+    public void createWallet(Wallet wallet) {
+        walletRepository.insert(wallet);
     }
 
-    public void updateCustomerIdNullOfVoucher(UUID voucherId) {
-        walletRepository.updateVoucher(voucherId);
+    public void updateWallet(Wallet wallet) {
+        walletRepository.update(wallet);
+    }
+
+    public void deleteWalletById(UUID walletId) {
+        walletRepository.deleteById(walletId);
+    }
+
+    public List<Wallet> findWalletsByCustomerId(UUID customerId) {
+        return walletRepository.findByCustomerId(customerId);
     }
 
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-        return walletRepository.findAllVouchersByCustomerId(customerId);
+        List<Wallet> wallets = findWalletsByCustomerId(customerId);
+        return wallets.stream()
+                .map(wallet -> voucherRepository.findById(wallet.voucherId())
+                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())))
+                .toList();
     }
 
-    public Customer findCustomerByVoucherId(UUID voucherId) {
-        return walletRepository.findCustomerByVoucherId(voucherId)
-                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
+    public List<Wallet> findWalletsByVoucherId(UUID voucherId) {
+        return walletRepository.findByVoucherId(voucherId);
     }
 
-    public List<Customer> findCustomersByVoucherType(VoucherType voucherType) {
-        return walletRepository.findAllCustomersByVoucherType(voucherType);
+    public List<Customer> findCustomersByVoucherId(UUID voucherId) {
+        List<Wallet> wallets = findWalletsByVoucherId(voucherId);
+        return wallets.stream()
+                .map(wallet -> customerRepository.findById(wallet.customerId())
+                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())))
+                .toList();
     }
 
 }
