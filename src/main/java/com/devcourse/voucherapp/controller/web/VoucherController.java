@@ -1,12 +1,15 @@
 package com.devcourse.voucherapp.controller.web;
 
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
+import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
 import com.devcourse.voucherapp.service.VoucherService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,8 +27,16 @@ public class VoucherController {
     }
 
     @PostMapping("/create")
-    public String create(VoucherCreateRequestDto request, Model model) {
+    public String create(@ModelAttribute VoucherCreateRequestDto request) {
         voucherService.create(request);
+
+        return "redirect:/vouchers";
+    }
+
+    @GetMapping
+    public String findAllVouchers(Model model) {
+        List<VoucherResponseDto> vouchers = voucherService.findAllVouchers();
+        model.addAttribute("vouchers", vouchers);
 
         return "voucher/vouchers";
     }

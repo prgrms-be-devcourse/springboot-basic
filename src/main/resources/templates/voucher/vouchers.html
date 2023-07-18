@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" th:replace="~{base :: layout(~{::title}, ~{::#content})}">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>Voucher List</title>
 </head>
 <body>
+  <div id="content">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>할인권 ID</th>
+        <th>할인 방식</th>
+        <th>할인 금액/비율</th>
+      </tr>
+      </thead>
 
+      <tbody>
+      <tr th:each="voucher : ${vouchers}">
+        <td th:text="${voucher.getId()}">할인권 ID</td>
+        <td th:text="${voucher.getType().getName()}">할인 방식</td>
+        <td th:text="|${voucher.getDiscountAmount()}${voucher.getType().getUnit()}|">할인 금액/비율</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <a th:href="@{/vouchers/create}" class="btn btn-primary me-md-2" type="button">새 할인권 만들기</a>
+    </div>
+  </div>
 </body>
 </html>
