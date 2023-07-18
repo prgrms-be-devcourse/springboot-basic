@@ -40,7 +40,8 @@ class FixedVoucherTest {
         @Test
         @DisplayName("금액이 0 이하일 경우")
         void invalidDiscountTest() {
-            long discount = -1000L;
+            //given
+            long discount = -1000;
 
             //then
             assertThrows(IllegalArgumentException.class, () -> new FixedVoucher(discount));
@@ -49,7 +50,8 @@ class FixedVoucherTest {
         @Test
         @DisplayName("금액이 0 초과일 경우")
         void validDiscountTest() {
-            long discount = 2000L;
+            //given
+            long discount = 2000;
 
             //when
             FixedVoucher voucher = new FixedVoucher(discount);
