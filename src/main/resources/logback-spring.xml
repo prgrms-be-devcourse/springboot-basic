@@ -1,0 +1,42 @@
+<configuration>
+
+  <springProfile name="local">
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>logs/local/%d{yyyy-MM-dd}.log</fileNamePattern>
+      </rollingPolicy>
+      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <level>ERROR</level>
+      </filter>
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <root level="error">
+      <appender-ref ref="ROLLING_FILE"/>
+    </root>
+  </springProfile>
+
+  <springProfile name="dev">
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>logs/dev/%d{yyyy-MM-dd}.log</fileNamePattern>
+      </rollingPolicy>
+      <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+        <level>ERROR</level>
+      </filter>
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <root level="info">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="ROLLING_FILE"/>
+    </root>
+  </springProfile>
+</configuration>

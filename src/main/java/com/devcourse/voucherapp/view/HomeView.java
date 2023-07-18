@@ -4,10 +4,12 @@ import com.devcourse.voucherapp.entity.HomeMenu;
 import com.devcourse.voucherapp.view.io.Input;
 import com.devcourse.voucherapp.view.io.Output;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Profile("local")
 public class HomeView {
 
     private static final String MENU_TITLE = "\n[할인권 프로그램 v1.0]";

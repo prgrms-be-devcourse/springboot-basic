@@ -2,7 +2,7 @@ package com.devcourse.voucherapp.command;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.controller.CustomerController;
+import com.devcourse.voucherapp.controller.console.CustomerController;
 import com.devcourse.voucherapp.entity.customer.CustomerMenu;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerCreateRequestDto;
 import com.devcourse.voucherapp.entity.customer.dto.CustomerResponseDto;
@@ -12,11 +12,13 @@ import com.devcourse.voucherapp.view.CustomerView;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Profile("local")
 public class CustomerCommand {
 
     private final CustomerView customerView;

@@ -2,7 +2,7 @@ package com.devcourse.voucherapp.command;
 
 import static java.text.MessageFormat.format;
 
-import com.devcourse.voucherapp.controller.VoucherController;
+import com.devcourse.voucherapp.controller.console.VoucherController;
 import com.devcourse.voucherapp.entity.voucher.VoucherMenu;
 import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
@@ -13,11 +13,13 @@ import com.devcourse.voucherapp.view.VoucherView;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Profile("local")
 public class VoucherCommand {
 
     private final VoucherView voucherView;

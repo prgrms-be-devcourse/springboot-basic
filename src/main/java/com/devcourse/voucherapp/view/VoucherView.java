@@ -9,10 +9,12 @@ import com.devcourse.voucherapp.view.io.Input;
 import com.devcourse.voucherapp.view.io.Output;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Profile("local")
 public class VoucherView {
 
     private static final String VOUCHER_TITLE = "\n[할인권 메뉴]";

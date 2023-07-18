@@ -7,10 +7,12 @@ import com.devcourse.voucherapp.view.io.Input;
 import com.devcourse.voucherapp.view.io.Output;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Profile("local")
 public class CustomerView {
 
     private static final String CUSTOMER_TITLE = "\n[고객 메뉴]";

@@ -1,4 +1,4 @@
-package com.devcourse.voucherapp.controller;
+package com.devcourse.voucherapp.controller.console;
 
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherCreateRequestDto;
 import com.devcourse.voucherapp.entity.voucher.dto.VoucherResponseDto;
@@ -6,10 +6,12 @@ import com.devcourse.voucherapp.entity.voucher.dto.VoucherUpdateRequestDto;
 import com.devcourse.voucherapp.service.VoucherService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
+@Profile("local")
 public class VoucherController {
 
     private final VoucherService voucherService;

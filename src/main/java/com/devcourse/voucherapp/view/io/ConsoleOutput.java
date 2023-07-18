@@ -1,9 +1,11 @@
 package com.devcourse.voucherapp.view.io;
 
 import java.util.List;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("local")
 public class ConsoleOutput implements Output {
 
     @Override
