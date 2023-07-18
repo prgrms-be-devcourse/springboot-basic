@@ -38,6 +38,12 @@ public class CustomerController {
         return new Response<>(customer);
     }
 
+    public Response<CustomerDTO> update(CustomerRequest.Update request) {
+        CustomerDTO customer = customerService.update(request.getCustomerId(), request.getName(), request.getEmail(),
+            request.getCustomerType());
+        return new Response<>(customer);
+    }
+
     public void deleteCustomer(UUID customerId) {
         customerService.deleteCustomer(customerId);
     }

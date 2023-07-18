@@ -61,6 +61,7 @@ public class ApplicationController implements CommandLineRunner {
             case LIST -> displayCustomers();
             case DELETE_ALL -> removeCustomers();
             case SEARCH -> searchCustomer();
+            case UPDATE -> updateCustomer();
             case DELETE -> removeCustomer();
         }
     }
@@ -98,6 +99,16 @@ public class ApplicationController implements CommandLineRunner {
         try {
             UUID customerId = console.getId();
             customerController.deleteCustomer(customerId);
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
+    }
+
+    private void updateCustomer() {
+        try {
+            CustomerRequest.Update request = console.getCustomerUpdateRequest();
+            Response<CustomerDTO> response = customerController.update(request);
+            console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }

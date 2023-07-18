@@ -33,20 +33,20 @@ public class CustomerRequest {
 
     public static class Update {
 
-        private UUID voucherId;
+        private UUID customerId;
         private String name;
         private String email;
         private CustomerType customerType;
 
-        public Update(UUID voucherId, String name, String email, CustomerType customerType) {
-            this.voucherId = voucherId;
+        public Update(UUID customerId, String name, String email, CustomerType customerType) {
+            this.customerId = customerId;
             this.name = name;
             this.email = email;
             this.customerType = customerType;
         }
 
-        public UUID getVoucherId() {
-            return voucherId;
+        public UUID getCustomerId() {
+            return customerId;
         }
 
         public String getName() {

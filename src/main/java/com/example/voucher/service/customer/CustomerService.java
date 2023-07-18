@@ -48,6 +48,13 @@ public class CustomerService {
         customerRepository.deleteById(customerId);
     }
 
+    public CustomerDTO update(UUID customerId, String customerName, String customerEmail, CustomerType customerType) {
+        Customer customer = new Customer(customerId, customerName, customerEmail, customerType);
+        Customer updatedCustomer = customerRepository.update(customer);
+
+        return toDTO(updatedCustomer);
+    }
+
     private CustomerDTO toDTO(Customer customer) {
         UUID customerId = customer.getCustomerId();
         String name = customer.getName();

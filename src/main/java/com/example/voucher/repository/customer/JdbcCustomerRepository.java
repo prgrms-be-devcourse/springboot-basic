@@ -86,6 +86,26 @@ public class JdbcCustomerRepository implements CustomerRepository {
         jdbcTemplate.update(sql, parameterSource);
     }
 
+    @Override
+    public Customer update(Customer customer) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+            .addValue("customerId", customer.getCustomerId().toString())
+            .addValue("name", customer.getName())
+            .addValue("email", customer.getEmail())
+            .addValue("customerType", customer.getCustomerType().toString());
+
+        String sql = new QueryBuilder().update("CUSTOMER")
+            .set("CUSTOMER_NAME", "name")
+            .addSet("CUSTOMER_EMAIL", "email")
+            .addSet("CUSTOMER_TYPE", "customerType")
+            .where("CUSTOMER_ID", "=", "customerId")
+            .build();
+
+        jdbcTemplate.update(sql, parameterSource);
+
+        return findById(customer.getCustomerId());
+    }
+
     private RowMapper<Customer> custoemrRowMapper() {
         return (rs, rowNum) -> {
             UUID customerId = UUID.fromString(rs.getString("customer_id"));

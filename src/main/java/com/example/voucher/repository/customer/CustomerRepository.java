@@ -18,6 +18,6 @@ public interface CustomerRepository {
 
     void deleteById(UUID customerID);
 
-
+    Customer update(Customer customer);
 }
 

@@ -7,13 +7,21 @@ import com.example.voucher.constant.CustomerType;
 public class Customer {
 
     private final UUID customerId;
-    private String name;
+    private final String name;
     private final String email;
     private final CustomerType customerType;
     private final LocalDateTime createdAt;
 
     public Customer(String name, String email, CustomerType customerType) {
         this.customerId = UUID.randomUUID();
+        this.name = name;
+        this.email = email;
+        this.customerType = customerType;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Customer(UUID customerId, String name, String email, CustomerType customerType) {
+        this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.customerType = customerType;
