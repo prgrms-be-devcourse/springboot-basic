@@ -2,19 +2,15 @@ package com.prgms.voucher.voucherproject.repository.customer;
 
 import com.prgms.voucher.voucherproject.domain.customer.Customer;
 import com.prgms.voucher.voucherproject.exception.NotFoundCustomerException;
-import com.prgms.voucher.voucherproject.io.Constant;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.regex.Pattern;
 
 import static com.prgms.voucher.voucherproject.util.JdbcUtils.toUUID;
 
@@ -50,23 +46,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public Optional<Customer> findByEmail(String email) {
-		if (!validEmail(email)) {
-			throw new InputMismatchException(Constant.WRONG_EMAIL);
-		}
-
-		try {
-			return Optional.of(jdbcTemplate.queryForObject(SQL_FINDBYID, customerRowMapper, email));
-		} catch (EmptyResultDataAccessException e) {
-			return Optional.empty();
-		}
+		return jdbcTemplate.query(SQL_FINDBYID, customerRowMapper)
+			.stream()
+			.findFirst();
 	}
 
 	@Override
 	public void deleteByEmail(String email) {
-		if (!validEmail(email)) {
-			throw new InputMismatchException(Constant.WRONG_EMAIL);
-		}
-
 		int delete = jdbcTemplate.update(SQL_DELETEBYID, email);
 
 		if (delete != SUCCESS_QUERY) {
@@ -83,9 +69,4 @@ public class JdbcCustomerRepository implements CustomerRepository {
 		return new Customer(customerId, email, name, createdAt);
 	};
 
-	private static boolean validEmail(String email) {
-		return Pattern.matches(
-			"([A-Z|a-z|0-9](\\.|_){0,1})+[A-Z|a-z|0-9]\\@([A-Z|a-z|0-9])+((\\.){0,1}[A-Z|a-z|0-9]){2}\\.[a-z]{2,3}$"
-			, email);
-	}
 }
