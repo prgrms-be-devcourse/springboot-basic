@@ -24,12 +24,12 @@ import java.util.List;
 public class CustomerWebController {
     private final CustomerService customerService;
 
-    @GetMapping("/new")
+    @GetMapping("/createForm")
     public String createForm() {
         return "customers/createCustomerForm";
     }
 
-    @PostMapping("/new")
+    @PostMapping
     public String create(CustomerCreateRequestDTO customerCreateRequestDTO) {
         CustomerCreateRequestValidator.validateCreateCustomerRequest(customerCreateRequestDTO);
         customerService.createCustomer(customerCreateRequestDTO);
@@ -37,7 +37,7 @@ public class CustomerWebController {
         return "redirect:/";    // 고객 추가가 끝나고 home 화면으로 보냄.
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findForm")
     public String findForm() {
         return "customers/findCustomerForm";
     }
@@ -53,7 +53,7 @@ public class CustomerWebController {
         return "customers/customerSingle";
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public String list(Model model) {
         List<CustomerResponseDTO> customerResponseDTOS = customerService.getAllInfo();
         model.addAttribute("customerResponseDTOS", customerResponseDTOS);
@@ -61,12 +61,12 @@ public class CustomerWebController {
         return "customers/customerList";
     }
 
-    @GetMapping("/update")
+    @GetMapping("/updateForm")
     public String updateForm() {
         return "customers/updateCustomerForm";
     }
 
-    @PostMapping("/update")
+    @PutMapping
     public String update(CustomerUpdateRequestDTO customerUpdateRequestDTO) {
         CustomerUpdateRequestValidator.validateUpdateCustomerRequest(customerUpdateRequestDTO);
         customerService.updateCustomer(customerUpdateRequestDTO);
@@ -74,12 +74,12 @@ public class CustomerWebController {
         return "redirect:/";    // 고객 추가가 끝나고 home 화면으로 보냄.
     }
 
-    @GetMapping("/delete")
+    @GetMapping("/deleteForm")
     public String deleteForm() {
         return "customers/deleteCustomerForm";
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping
     public String delete(CustomerDeleteRequestDTO customerDeleteRequestDTO) {
         CustomerIdValidator.validateCustomerId(customerDeleteRequestDTO.getCustomerId());
         customerService.removeCustomer(customerDeleteRequestDTO);
