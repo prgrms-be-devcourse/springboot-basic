@@ -1,7 +1,7 @@
 package org.prgrms.kdt.wallet.controller;
 
 import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletsResponse;
+import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponses;
 import org.prgrms.kdt.wallet.service.WalletService;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +19,11 @@ public class WalletController {
         walletService.assignVoucherToCustomer(request);
     }
 
-    public JoinedWalletsResponse findVouchersByMemberId(UUID memberId) {
+    public JoinedWalletResponses findVouchersByMemberId(UUID memberId) {
         return walletService.findVouchersByMemberId(memberId);
     }
 
-    public JoinedWalletsResponse findMembersByVoucherId(UUID voucherId) {
+    public JoinedWalletResponses findMembersByVoucherId(UUID voucherId) {
         return walletService.findMembersByVoucherId(voucherId);
     }
 
@@ -31,7 +31,7 @@ public class WalletController {
         walletService.deleteWalletById(walletId);
     }
 
-    public JoinedWalletsResponse findAllWallet() {
+    public JoinedWalletResponses findAllWallet() {
         return walletService.findAllWallet();
     }
 }

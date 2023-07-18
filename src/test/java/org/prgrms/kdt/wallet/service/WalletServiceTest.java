@@ -14,7 +14,7 @@ import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
 import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletsResponse;
+import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponses;
 import org.prgrms.kdt.wallet.dto.response.WalletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -85,7 +85,7 @@ class WalletServiceTest {
     @DisplayName("setup을 통해 바우처 2개를 할당받은 멤버Id를 조회하여 Response의 size가 2인지 확인")
     void findVouchersByMemberId_correctMemberId_correctResponseSize() {
         //when
-        JoinedWalletsResponse responseList = walletService.findVouchersByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
+        JoinedWalletResponses responseList = walletService.findVouchersByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
 
         //then
         int responseSize = responseList.wallets().size();
@@ -107,7 +107,7 @@ class WalletServiceTest {
     @DisplayName("setup을 통해 해당 바우처를 할당받은 james를 voucherId를 통해 찾아서 확인")
     void findMembersByVoucherId_correctVoucherId_correctMemberName() {
         //when
-        JoinedWalletsResponse response = walletService.findMembersByVoucherId(UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29"));
+        JoinedWalletResponses response = walletService.findMembersByVoucherId(UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29"));
 
         //then
         String findMemberName = response.wallets().get(0).memberName();
