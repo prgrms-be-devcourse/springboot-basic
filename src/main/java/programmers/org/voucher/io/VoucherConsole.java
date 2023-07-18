@@ -2,6 +2,7 @@ package programmers.org.voucher.io;
 
 import programmers.org.voucher.dto.VoucherResponse;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -34,12 +35,20 @@ public class VoucherConsole {
 
     public int inputVoucherInfo() {
         System.out.println("바우처 정보 입력: ");
-        return scanner.nextInt();
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            return -1;
+        }
     }
 
     public long inputVoucherId() {
         System.out.println("바우처 ID 입력: ");
-        return scanner.nextLong();
+        try {
+            return scanner.nextLong();
+        } catch (InputMismatchException e) {
+            return -1;
+        }
     }
 
     public void printVoucher(VoucherResponse voucher) {
