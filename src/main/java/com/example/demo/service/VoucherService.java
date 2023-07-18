@@ -28,7 +28,7 @@ public class VoucherService {
         return VoucherDto.from(voucher);
     }
 
-    public VoucherDto readAll(UUID id) {
+    public VoucherDto read(UUID id) {
         return VoucherDto.from(voucherRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("id에 해당하는 바우처가 없습니다.")));
     }
