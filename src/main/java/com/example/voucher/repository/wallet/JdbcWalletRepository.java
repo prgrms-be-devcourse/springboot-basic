@@ -65,6 +65,20 @@ public class JdbcWalletRepository implements WalletRepository {
         return jdbcTemplate.queryForObject(sql, parameterSource, walletRowMapper);
     }
 
+    @Override
+    public void deleteById(UUID customerId, UUID voucherId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+            .addValue("customerId", customerId.toString())
+            .addValue("voucherId", voucherId.toString());
+
+        String sql = new QueryBuilder().delete("WALLET")
+            .where("CUSTOMER_ID", "=", "customerId")
+            .and("VOUCHER_ID", "=", "voucherId")
+            .build();
+
+        jdbcTemplate.update(sql, parameterSource);
+    }
+
     private RowMapper<Wallet> walletRowMapper() {
         return (rs, rowNum) -> {
             UUID walletId = UUID.fromString(rs.getString("wallet_id"));

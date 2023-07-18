@@ -29,4 +29,8 @@ public class WalletController {
         return new Response<>(wallets);
     }
 
+    public void deleteWallet(UUID customerId, UUID voucherId) {
+        walletService.deleteWallet(customerId, voucherId);
+    }
+
 }

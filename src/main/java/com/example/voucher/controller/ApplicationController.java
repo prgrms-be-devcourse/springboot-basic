@@ -66,6 +66,7 @@ public class ApplicationController implements CommandLineRunner {
             case CREATE -> createWallet();
             case SEARCH_BY_CUSTOMER -> searchWallet("CUSTOMER_ID");
             case SEARCH_BY_VOUCHER -> searchWallet("VOUCHER_ID");
+            case DELETE -> deleteWallet();
         }
 
     }
@@ -85,6 +86,16 @@ public class ApplicationController implements CommandLineRunner {
             UUID conditionId = console.getId();
             Response<WalletDTO> response = walletController.search(condition, conditionId);
             console.displayResponse(response.getResultMessage());
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
+    }
+
+    private void deleteWallet() {
+        try {
+            UUID customerId = console.getId();
+            UUID voucherId = console.getId();
+            walletController.deleteWallet(customerId, voucherId);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }

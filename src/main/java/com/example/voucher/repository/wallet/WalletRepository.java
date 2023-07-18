@@ -12,6 +12,8 @@ public interface WalletRepository {
 
     List<Wallet> findByConditionId(String condition, UUID conditionID);
 
-    Wallet findById(UUID voucherID);
+    Wallet findById(UUID walletID);
+
+    void deleteById(UUID customerId, UUID voucherId);
 
 }

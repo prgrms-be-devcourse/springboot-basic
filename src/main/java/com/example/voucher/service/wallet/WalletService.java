@@ -30,6 +30,10 @@ public class WalletService {
             .toList();
     }
 
+    public void deleteWallet(UUID customerId, UUID voucherId) {
+        walletRepository.deleteById(customerId, voucherId);
+    }
+
     private WalletDTO toDTO(Wallet wallet) {
         UUID walletId = wallet.getWalletId();
         UUID customerId = wallet.getCustomerId();
