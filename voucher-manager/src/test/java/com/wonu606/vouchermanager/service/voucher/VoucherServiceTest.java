@@ -7,8 +7,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
+import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import com.wonu606.vouchermanager.repository.voucher.VoucherRepository;
+import com.wonu606.vouchermanager.service.voucher.factory.VoucherFactory;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +36,7 @@ public class VoucherServiceTest {
     @DisplayName("VoucherDto가 주어지고_createVoucher하면_바우처를 생성한다.")
     public void GivenVoucherDto_WhenCreateVoucher_ThenReturnExpectedVoucher() {
         // Given
-        VoucherDto dto = mock(VoucherDto.class);
+        VoucherCreateParam dto = mock(VoucherCreateParam.class);
         Voucher expectedVoucher = mock(Voucher.class);
 
         given(factory.create(dto)).willReturn(expectedVoucher);

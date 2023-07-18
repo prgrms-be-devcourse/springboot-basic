@@ -1,10 +1,10 @@
 package com.wonu606.vouchermanager.controller.voucher.reqeust;
 
-public class VoucherGetOwnedCustomersRequest {
+public class OwnedCustomersRequest {
 
     private final String voucherId;
 
-    public VoucherGetOwnedCustomersRequest(String voucherId) {
+    public OwnedCustomersRequest(String voucherId) {
         this.voucherId = voucherId;
     }
 

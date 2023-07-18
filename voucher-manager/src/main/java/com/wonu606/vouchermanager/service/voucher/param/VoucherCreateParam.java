@@ -1,11 +1,11 @@
-package com.wonu606.vouchermanager.domain.voucher;
+package com.wonu606.vouchermanager.service.voucher.param;
 
-public class VoucherDto {
+public class VoucherCreateParam {
 
     private final String type;
     private final double discountValue;
 
-    public VoucherDto(String type, double discountValue) {
+    public VoucherCreateParam(String type, double discountValue) {
         this.type = type;
         this.discountValue = discountValue;
     }

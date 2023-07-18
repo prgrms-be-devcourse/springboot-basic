@@ -27,7 +27,6 @@ public class CustomerController {
     private final CustomerCreateParamConverter customerCreateParamConverter;
     private final OwnedVoucherParamConverter ownedVoucherParamConverter;
     private final WalletDeleteParamConverter walletDeleteParamConverter;
-
     private final CustomerCreateResponseConverter customerCreateResponseConverter;
     private final CustomerListResponseConverter customerListResponseConverter;
     private final OwnedVoucherResponseConverter ownedVouchersResponseConverter;

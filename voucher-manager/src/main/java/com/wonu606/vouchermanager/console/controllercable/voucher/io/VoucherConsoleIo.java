@@ -4,9 +4,8 @@ import com.wonu606.vouchermanager.console.AbstractConsoleIo;
 import com.wonu606.vouchermanager.console.ConsoleInput;
 import com.wonu606.vouchermanager.console.ConsolePrinter;
 import com.wonu606.vouchermanager.console.controllercable.voucher.VoucherControllerMenu;
-import com.wonu606.vouchermanager.controller.customer.response.CustomerResponse;
-import com.wonu606.vouchermanager.controller.voucher.response.VoucherGetOwnedCustomersResponse;
-import com.wonu606.vouchermanager.controller.voucher.response.VoucherGetResponse;
+import com.wonu606.vouchermanager.controller.voucher.response.OwnedCustomersResponse;
+import com.wonu606.vouchermanager.controller.voucher.response.VoucherResponse;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -29,13 +28,13 @@ public class VoucherConsoleIo extends AbstractConsoleIo {
         return input.readString(VoucherConsoleType.getAllNames(), "Type");
     }
 
-    public void displayVoucherList(VoucherGetResponse voucherList) {
+    public void displayVoucherList(VoucherResponse voucherList) {
         printer.displayMessage("=== 바우처 리스트 ===");
         List<String> voucherIds = voucherList.getVoucherIds();
         voucherIds.forEach(printer::displayMessage);
     }
 
-    public void displayCustomerList(VoucherGetOwnedCustomersResponse response) {
+    public void displayCustomerList(OwnedCustomersResponse response) {
         printer.displayMessage("=== 보유한 Customer 리스트 ===");
         List<String> emails = response.getEmails();
         emails.forEach(printer::displayMessage);

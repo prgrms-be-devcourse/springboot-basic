@@ -1,5 +1,5 @@
 package com.wonu606.vouchermanager.controller.voucher.converter;
 
-public class VoucherGetOwnedCustomersResponseConverter {
+public class OwnedCustomersResponseConverter {
 
 }

@@ -25,15 +25,19 @@ public class CustomerService {
     private final CustomerResultSetustomerCreateResultConverter customerCreateResultConverter;
     private final CustomerListGetResultConverter customerListGetResultConverter;
 
-    public CustomerService(CustomerRepository repository) {
+    public CustomerService(VoucherWalletService voucherWalletService, CustomerRepository repository) {
+        this.voucherWalletService = voucherWalletService;
         this.repository = repository;
+        this.customerCreator = new CustomerCreator();
+        this.customerCreateResultConverter;
+        this.customerListGetResultConverter;
     }
 
     public CustomerCreateResult createCustomer(CustomerCreateParam param) {
         Customer createdCustomer = customerCreator.create(param);
-        VoucherQuery query = voucherQueryConverter.convert(createdCustomer);
+        CustomerCreateQuery query = customerQueryConverter.convert(createdCustomer);
 
-        CustomerResultSet resultSet = repository.save(query);
+        CustomerCreateResultSet resultSet = repository.save(query);
         return customerCreateResultConverter.convert(resultSet);
     }
 

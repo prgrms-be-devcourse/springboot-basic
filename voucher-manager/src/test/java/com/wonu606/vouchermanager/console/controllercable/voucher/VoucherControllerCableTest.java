@@ -8,7 +8,7 @@ import static org.mockito.Mockito.mock;
 import com.wonu606.vouchermanager.console.controllercable.voucher.io.VoucherConsoleIo;
 import com.wonu606.vouchermanager.controller.voucher.VoucherController;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
-import com.wonu606.vouchermanager.domain.voucher.VoucherDto;
+import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -66,7 +66,7 @@ public class VoucherControllerCableTest {
     @Test
     public void GivenCreateMenuSelected_WhenRun_ThenCreateVoucher() {
         // Given
-        VoucherDto expectedDto = new VoucherDto("FIXED", 10.0);
+        VoucherCreateParam expectedDto = new VoucherCreateParam("FIXED", 10.0);
 
         given(voucherConsoleIoMock.selectMenu()).willReturn(VoucherControllerMenu.CREATE, VoucherControllerMenu.EXIT);
         given(voucherConsoleIoMock.selectVoucherType()).willReturn("FIXED");
@@ -78,11 +78,11 @@ public class VoucherControllerCableTest {
         consoleInterface.run();
 
         // Then
-        ArgumentCaptor<VoucherDto> argument = ArgumentCaptor.forClass(VoucherDto.class);
+        ArgumentCaptor<VoucherCreateParam> argument = ArgumentCaptor.forClass(VoucherCreateParam.class);
         then(controllerMock).should().createVoucher(argument.capture());
 //         then(controllerMock).should().createVoucher(expectedDto); // error
 
-        VoucherDto actualDto = argument.getValue();
+        VoucherCreateParam actualDto = argument.getValue();
         assertThat(actualDto.getType()).isEqualTo(expectedDto.getType());
         assertThat(actualDto.getDiscountValue()).isEqualTo(expectedDto.getDiscountValue());
     }
