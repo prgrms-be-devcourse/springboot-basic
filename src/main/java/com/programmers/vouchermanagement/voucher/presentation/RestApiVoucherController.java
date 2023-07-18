@@ -6,7 +6,6 @@ import com.programmers.vouchermanagement.voucher.dto.request.VoucherUpdateReques
 import com.programmers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,36 +20,33 @@ public class RestApiVoucherController {
     private final VoucherService voucherService;
 
     @PostMapping
-    public ResponseEntity<VoucherResponse> createVoucher(@RequestBody VoucherCreationRequest request) {
+    public VoucherResponse createVoucher(@RequestBody VoucherCreationRequest request) {
         log.info("{}", request);
-        VoucherResponse response = voucherService.createVoucher(request);
-        return ResponseEntity.ok(response);
+        return voucherService.createVoucher(request);
     }
 
     @GetMapping
-    public ResponseEntity<List<VoucherResponse>> getVouchers() {
-        List<VoucherResponse> responses = voucherService.getVouchers();
-        return ResponseEntity.ok(responses);
+    public List<VoucherResponse> getVouchers() {
+        return voucherService.getVouchers();
     }
 
     @GetMapping("/{voucherId}")
-    public ResponseEntity<VoucherResponse> getVoucher(@PathVariable UUID voucherId) {
+    public VoucherResponse getVoucher(@PathVariable UUID voucherId) {
         log.info("voucherId={}", voucherId);
-        VoucherResponse response = voucherService.getVoucher(voucherId);
-        return ResponseEntity.ok(response);
+        return voucherService.getVoucher(voucherId);
     }
 
     @PostMapping("/{voucherId}")
-    public ResponseEntity<Void> updateVoucher(@PathVariable UUID voucherId, @RequestBody VoucherUpdateRequest request) {
+    public boolean updateVoucher(@PathVariable UUID voucherId, @RequestBody VoucherUpdateRequest request) {
         log.info("voucherId={}, {}", voucherId, request);
         voucherService.updateVoucher(voucherId, request);
-        return ResponseEntity.noContent().build();
+        return true;
     }
 
     @DeleteMapping("/{voucherId}")
-    public ResponseEntity<Void> deleteVoucher(@PathVariable UUID voucherId) {
+    public boolean deleteVoucher(@PathVariable UUID voucherId) {
         log.info("voucherId={}", voucherId);
         voucherService.deleteVoucher(voucherId);
-        return ResponseEntity.noContent().build();
+        return true;
     }
 }
