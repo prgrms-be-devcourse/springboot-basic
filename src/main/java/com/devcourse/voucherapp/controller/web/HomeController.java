@@ -1,0 +1,15 @@
+package com.devcourse.voucherapp.controller.web;
+
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+@Profile("dev")
+public class HomeController {
+
+    @GetMapping
+    public String goHome() {
+        return "redirect:/vouchers";
+    }
+}
