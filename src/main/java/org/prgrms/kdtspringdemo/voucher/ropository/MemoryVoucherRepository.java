@@ -1,19 +1,14 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
-import org.prgrms.kdtspringdemo.voucher.exception.VoucherIdNotFoundException;
+import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.prgrms.kdtspringdemo.voucher.exception.VoucherExceptionMessage.*;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
@@ -29,14 +24,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         Voucher voucher = storage.get(voucherId);
         if (voucher == null) {
-            logger.error("원인 : {} -> 에러 메시지 : {}", voucherId, NOT_FOUND_VOUCHER);
-            throw new VoucherIdNotFoundException(NOT_FOUND_VOUCHER);
+            return Optional.empty();
         }
 
-        return voucher;
+        return Optional.of(voucher);
     }
 
     @Override
@@ -45,10 +39,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
-        Voucher updatedVoucher = storage.putIfAbsent(voucher.getVoucherId(), voucher);
+    public Optional<Voucher> update(UUID voucherId, VoucherType voucherType, long amount) {
+        Voucher updatedVoucher = storage.putIfAbsent(voucherId, Voucher.update(voucherId, voucherType, amount));
 
-        return updatedVoucher == null ? voucher : updatedVoucher;
+        return updatedVoucher == null ? Optional.empty() : Optional.of(updatedVoucher);
     }
 
     @Override

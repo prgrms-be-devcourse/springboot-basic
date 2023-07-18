@@ -1,13 +1,11 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
-import org.prgrms.kdtspringdemo.voucher.exception.VoucherIdNotFoundException;
 import org.prgrms.kdtspringdemo.voucher.exception.VoucherSaveFailedException;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -44,17 +42,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return Voucher.update(voucherId, voucherType, amount);
     };
 
-    private Map<String, Object> toParamMap(Voucher voucher) {
+    private Map<String, Object> toParamMap(UUID voucherId, VoucherType voucherType, long amount) {
         return Map.of(
-                VOUCHER_ID, voucher.getVoucherId().toString().getBytes(),
-                VOUCHER_TYPE, voucher.getVoucherType().name(),
-                AMOUNT, voucher.getAmount()
+                VOUCHER_ID, voucherId.toString().getBytes(),
+                VOUCHER_TYPE, voucherType.name(),
+                AMOUNT, amount
         );
     }
 
     @Override
     public Voucher save(Voucher voucher) {
-        int savedVoucherRow = jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher));
+        int savedVoucherRow = jdbcTemplate.update(SAVE_QUERY, toParamMap(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()));
         if (savedVoucherRow != SUCCESS_SAVE_QUERY) {
             logger.error("원인 : {} -> 에러 메시지 : {}", savedVoucherRow, FAILED_VOUCHER_SAVE_QUERY);
             throw new VoucherSaveFailedException(FAILED_VOUCHER_SAVE_QUERY);
@@ -64,16 +62,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
-        Voucher voucher;
-        try {
-            voucher = jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper);
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("원인 : {} -> 에러 메시지 : {}", voucherId, VOUCHER_ID_LOOKUP_FAILED);
-            throw new VoucherIdNotFoundException(VOUCHER_ID_LOOKUP_FAILED);
+    public Optional<Voucher> findById(UUID voucherId) {
+        List<Voucher> voucherList = jdbcTemplate.query(FIND_BY_ID_QUERY, Collections.singletonMap(VOUCHER_ID, voucherId.toString().getBytes()), voucherRowMapper);;
+        if (voucherList.isEmpty()) {
+            return Optional.empty();
         }
 
-        return voucher;
+        return Optional.of(voucherList.get(0));
     }
 
     @Override
@@ -82,13 +77,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
-        int updatedVoucherRow = jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucher));
-        if (updatedVoucherRow == NOT_FOUND_ID) {
-            save(voucher);
-        }
+    public Optional<Voucher> update(UUID voucherId, VoucherType voucherType, long amount) {
+        jdbcTemplate.update(UPDATE_QUERY, toParamMap(voucherId, voucherType, amount));
 
-        return voucher;
+        return findById(voucherId);
     }
 
     @Override

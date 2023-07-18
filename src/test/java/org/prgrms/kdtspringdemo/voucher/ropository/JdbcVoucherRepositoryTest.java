@@ -1,7 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdtspringdemo.voucher.exception.VoucherIdNotFoundException;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
@@ -11,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
@@ -41,7 +41,8 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         //when
-        Voucher result = voucherRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+        Voucher result = foundVoucher.get();
 
         //then
         assertThat(result.getVoucherId()).isEqualTo(voucher.getVoucherId());
@@ -52,10 +53,11 @@ class JdbcVoucherRepositoryTest {
         //given
         UUID voucherId = UUID.randomUUID();
 
-        //when & then
-        assertThatThrownBy(() -> voucherRepository.findById(voucherId))
-                .isInstanceOf(VoucherIdNotFoundException.class)
-                .hasMessage("[ERROR] : 조회된 바우처 ID가 없습니다.");
+        //when
+        Optional<Voucher> result = voucherRepository.findById(voucherId);
+
+        //then
+        assertThat(result).isEqualTo(Optional.empty());
     }
 
     @Test
@@ -82,7 +84,8 @@ class JdbcVoucherRepositoryTest {
         PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getVoucherId(), 10);
 
         //when
-        Voucher response = voucherRepository.update(updateVoucher);
+        Optional<Voucher> updatedVoucher = voucherRepository.update(updateVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
+        Voucher response = updatedVoucher.get();
 
         //then
         assertThat(response.getVoucherId()).isEqualTo(voucher.getVoucherId());

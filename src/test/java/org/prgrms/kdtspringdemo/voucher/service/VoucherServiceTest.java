@@ -13,6 +13,7 @@ import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
@@ -49,7 +50,7 @@ public class VoucherServiceTest {
         FixedAmountVoucher voucher = new FixedAmountVoucher(1000);
 
         //mocking
-        given(voucherRepository.findById(any())).willReturn(voucher);
+        given(voucherRepository.findById(any())).willReturn(Optional.of(voucher));
 
         //when
         VoucherResponseDto responseDto = voucherService.findById(voucher.getVoucherId());
@@ -64,7 +65,7 @@ public class VoucherServiceTest {
         UUID voucherId = UUID.randomUUID();
 
         //mocking
-        given(voucherRepository.findById(voucherId)).willThrow(VoucherIdNotFoundException.class);
+        given(voucherRepository.findById(voucherId)).willReturn(Optional.empty());
 
         //when & then
         assertThatThrownBy(() -> voucherService.findById(voucherId))
@@ -98,7 +99,7 @@ public class VoucherServiceTest {
         PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getVoucherId(), 10);
 
         //mocking
-        given(voucherRepository.update(any())).willReturn(updateVoucher);
+        given(voucherRepository.update(updateVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount())).willReturn(Optional.of(updateVoucher));
 
         //when
         VoucherResponseDto responseDto = voucherService.update(savedVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
