@@ -7,7 +7,8 @@ class Writer {
             === Voucher Management Program ===
             Type exit to exit the program.
             Type voucher to start voucher program.
-            Type customer to start voucher program.              
+            Type customer to start voucher program. 
+            Type wallet to start voucher program.              
             """),
         MODE_TYPE_SELECTION("""
             === Mode ===

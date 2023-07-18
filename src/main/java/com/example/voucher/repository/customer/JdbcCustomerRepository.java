@@ -36,7 +36,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         jdbcTemplate.update(sql, parameterSource);
 
-        return customer;
+        return findById(customer.getCustomerId());
     }
 
     @Override

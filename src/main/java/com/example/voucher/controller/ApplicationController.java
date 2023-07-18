@@ -7,10 +7,12 @@ import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.controller.request.CustomerRequest;
 import com.example.voucher.controller.request.VoucherRequest;
+import com.example.voucher.controller.request.WalletRequest;
 import com.example.voucher.controller.response.Response;
 import com.example.voucher.io.Console;
 import com.example.voucher.service.customer.dto.CustomerDTO;
 import com.example.voucher.service.voucher.dto.VoucherDTO;
+import com.example.voucher.service.wallet.WalletDTO;
 
 @Controller
 public class ApplicationController implements CommandLineRunner {
@@ -18,11 +20,14 @@ public class ApplicationController implements CommandLineRunner {
     private final Console console;
     private final VoucherController voucherController;
     private final CustomerController customerController;
+    private final WalletController walletController;
 
-    private ApplicationController(VoucherController voucherController, CustomerController customerController) {
+    private ApplicationController(VoucherController voucherController, CustomerController customerController,
+        WalletController walletController) {
         this.console = new Console();
         this.voucherController = voucherController;
         this.customerController = customerController;
+        this.walletController = walletController;
     }
 
     @Override
@@ -48,6 +53,29 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void startWalletProcess() {
+        ModeType selectedModeType = null;
+
+        try {
+            selectedModeType = console.getModeType();
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+            return;
+        }
+
+        switch (selectedModeType) {
+            case CREATE -> createWallet();
+        }
+
+    }
+
+    private void createWallet() {
+        try {
+            WalletRequest.Create walletRequest = console.getWalletCreateRequest();
+            Response<WalletDTO> response = walletController.createWallet(walletRequest);
+            console.displayResponse(response.getResultMessage());
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
     }
 
     private void startCustomerProcess() {
