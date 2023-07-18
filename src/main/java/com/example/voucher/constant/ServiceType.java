@@ -7,7 +7,8 @@ public enum ServiceType {
 
     EXIT,
     VOUCHER,
-    CUSTOMER
+    CUSTOMER,
+    WALLET
     ;
 
     public static ServiceType getServiceType(String inputTypeName) {

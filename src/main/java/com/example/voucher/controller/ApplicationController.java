@@ -42,8 +42,12 @@ public class ApplicationController implements CommandLineRunner {
                 case EXIT -> isRunning = false;
                 case VOUCHER -> startVoucherProcess();
                 case CUSTOMER -> startCustomerProcess();
+                case WALLET -> startWalletProcess();
             }
         }
+    }
+
+    private void startWalletProcess() {
     }
 
     private void startCustomerProcess() {
