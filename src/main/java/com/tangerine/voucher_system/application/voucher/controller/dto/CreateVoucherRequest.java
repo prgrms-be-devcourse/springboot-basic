@@ -5,6 +5,6 @@ import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 
 public record CreateVoucherRequest(
         VoucherType voucherType,
-        DiscountValue discountValue
+        double discountValue
 ) {
 }

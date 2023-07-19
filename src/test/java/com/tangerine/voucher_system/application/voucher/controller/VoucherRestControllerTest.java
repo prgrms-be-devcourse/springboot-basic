@@ -1,6 +1,5 @@
 package com.tangerine.voucher_system.application.voucher.controller;
 
-import com.tangerine.voucher_system.application.voucher.controller.api.VoucherRestController;
 import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.UpdateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
@@ -121,11 +120,11 @@ class VoucherRestControllerTest {
     );
 
     static List<CreateVoucherRequest> createVoucherRequests = voucherResults.stream()
-            .map(result -> new CreateVoucherRequest(result.voucherType(), result.discountValue()))
+            .map(result -> new CreateVoucherRequest(result.voucherType(), result.discountValue().value()))
             .toList();
 
     static List<UpdateVoucherRequest> updateVoucherRequests = voucherResults.stream()
-            .map(result -> new UpdateVoucherRequest(result.voucherId(), result.voucherType(), result.discountValue()))
+            .map(result -> new UpdateVoucherRequest(result.voucherId(), result.voucherType(), result.discountValue().value()))
             .toList();
 
     static Stream<Arguments> provideCreateVoucherRequests() {

@@ -7,7 +7,6 @@ import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherRe
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
-import com.tangerine.voucher_system.application.wallet.controller.api.WalletRestController;
 import com.tangerine.voucher_system.application.wallet.controller.dto.CreateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.controller.dto.UpdateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.service.WalletService;

@@ -9,6 +9,6 @@ import java.util.UUID;
 public record UpdateVoucherRequest(
         UUID voucherId,
         VoucherType voucherType,
-        DiscountValue discountValue
+        double discountValue
 ) {
 }

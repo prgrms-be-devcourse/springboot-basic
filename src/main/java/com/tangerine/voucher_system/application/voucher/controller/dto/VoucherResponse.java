@@ -9,7 +9,7 @@ import java.util.UUID;
 public record VoucherResponse(
         UUID voucherId,
         VoucherType voucherType,
-        DiscountValue discountValue,
+        double discountValue,
         LocalDate createdAt
 ) {
 }

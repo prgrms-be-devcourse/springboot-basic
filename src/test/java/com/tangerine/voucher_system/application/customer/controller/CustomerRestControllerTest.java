@@ -1,6 +1,5 @@
 package com.tangerine.voucher_system.application.customer.controller;
 
-import com.tangerine.voucher_system.application.customer.controller.api.CustomerRestController;
 import com.tangerine.voucher_system.application.customer.controller.dto.CreateCustomerRequest;
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
 import com.tangerine.voucher_system.application.customer.controller.dto.UpdateCustomerRequest;
