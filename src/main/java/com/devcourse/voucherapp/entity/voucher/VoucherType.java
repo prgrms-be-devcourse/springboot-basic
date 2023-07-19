@@ -15,6 +15,7 @@ import org.apache.commons.lang3.function.TriFunction;
 
 @Getter
 public enum VoucherType {
+
     FIX(VoucherTypeInfo.builder()
             .option("1")
             .name("고정 할인")

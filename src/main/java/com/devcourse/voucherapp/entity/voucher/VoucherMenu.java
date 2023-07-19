@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import lombok.Getter;
 
 public enum VoucherMenu {
+
     CREATE("1", "새 할인권 생성"),
     READ_ALL("2", "전체 할인권 조회"),
     UPDATE("3", "할인권 수정"),

@@ -13,6 +13,7 @@ import lombok.Getter;
 
 @Getter
 public enum CustomerType {
+
     NORMAL("1", "일반 고객"),
     BLACK("2", "블랙리스트 고객");
 
