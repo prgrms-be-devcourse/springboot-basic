@@ -1,11 +1,6 @@
 package com.wonu606.vouchermanager.controller.voucher;
 
-import com.wonu606.vouchermanager.controller.voucher.converter.OwnedCustomerResponseConverter;
-import com.wonu606.vouchermanager.controller.voucher.converter.OwnedCustomersParamConverter;
-import com.wonu606.vouchermanager.controller.voucher.converter.VoucherCreateParamConverter;
-import com.wonu606.vouchermanager.controller.voucher.converter.VoucherCreateResponseConverter;
-import com.wonu606.vouchermanager.controller.voucher.converter.VoucherResponseConverter;
-import com.wonu606.vouchermanager.controller.voucher.converter.WalletAssignParamConverter;
+import com.wonu606.vouchermanager.controller.voucher.converter.VoucherControllerConverterManager;
 import com.wonu606.vouchermanager.controller.voucher.reqeust.OwnedCustomersRequest;
 import com.wonu606.vouchermanager.controller.voucher.reqeust.VoucherCreateRequest;
 import com.wonu606.vouchermanager.controller.voucher.reqeust.WalletAssignRequest;
@@ -19,7 +14,6 @@ import com.wonu606.vouchermanager.service.voucher.result.VoucherResult;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
-import com.wonu606.vouchermanager.service.voucherwallet.result.WalletAssignResult;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -28,52 +22,39 @@ import org.springframework.stereotype.Component;
 public class VoucherController {
 
     private final VoucherService service;
-
-
-    private final VoucherCreateParamConverter voucherCreateParamConverter;
-    private final VoucherCreateResponseConverter voucherCreateResponseConverter;
-    private final VoucherResponseConverter voucherResponseConverter;
-    private final OwnedCustomersParamConverter ownedCustomersParamConverter;
-    private final OwnedCustomerResponseConverter ownedCustomerResponseConverter;
-    private final WalletAssignParamConverter walletAssignParamConverter;
+    private final VoucherControllerConverterManager converterManager;
 
     public VoucherController(VoucherService service) {
         this.service = service;
-
-        voucherCreateParamConverter = new VoucherCreateParamConverter();
-        voucherCreateResponseConverter = new VoucherCreateResponseConverter();
-        voucherResponseConverter = new VoucherResponseConverter();
-        ownedCustomersParamConverter = new OwnedCustomersParamConverter();
-        ownedCustomerResponseConverter = new OwnedCustomerResponseConverter();
-        walletAssignParamConverter = new WalletAssignParamConverter();
+        converterManager = new VoucherControllerConverterManager();
     }
 
     public VoucherCreateResponse createVoucher(VoucherCreateRequest request) {
-        VoucherCreateParam param = voucherCreateParamConverter.convert(request);
+        VoucherCreateParam param = converterManager.convert(request, VoucherCreateParam.class);
         VoucherCreateResult result = service.createVoucher(param);
 
-        return voucherCreateResponseConverter.convert(result);
+        return converterManager.convert(result, VoucherCreateResponse.class);
     }
 
     public List<VoucherResponse> getVoucherList() {
         List<VoucherResult> results = service.getVoucherList();
 
         return results.stream()
-                .map(voucherResponseConverter::convert)
+                .map(rs -> converterManager.convert(rs, VoucherResponse.class))
                 .collect(Collectors.toList());
     }
 
     public List<OwnedCustomerResponse> getOwnedCustomersByVoucher(OwnedCustomersRequest request) {
-        OwnedCustomersParam param = ownedCustomersParamConverter.convert(request);
+        OwnedCustomersParam param = converterManager.convert(request, OwnedCustomersParam.class);
         List<OwnedCustomerResult> results = service.findOwnedCustomersByVoucher(param);
 
         return results.stream()
-                .map(ownedCustomerResponseConverter::convert)
+                .map(rs -> converterManager.convert(rs, OwnedCustomerResponse.class))
                 .collect(Collectors.toList());
     }
 
     public void assignWallet(WalletAssignRequest request) {
-        WalletAssignParam param = walletAssignParamConverter.convert(request);
-        WalletAssignResult walletAssignResult = service.assignWallet(param);
+        WalletAssignParam param = converterManager.convert(request, WalletAssignParam.class);
+        service.assignWallet(param);
     }
 }
