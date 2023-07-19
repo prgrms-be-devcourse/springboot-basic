@@ -1,11 +1,6 @@
 package com.wonu606.vouchermanager.controller.customer;
 
-import com.wonu606.vouchermanager.controller.customer.converter.CustomerCreateParamConverter;
-import com.wonu606.vouchermanager.controller.customer.converter.CustomerCreateResponseConverter;
-import com.wonu606.vouchermanager.controller.customer.converter.CustomerResponseConverter;
-import com.wonu606.vouchermanager.controller.customer.converter.OwnedVoucherResponseConverter;
-import com.wonu606.vouchermanager.controller.customer.converter.OwnedVouchersParamConverter;
-import com.wonu606.vouchermanager.controller.customer.converter.WalletDeleteParamConverter;
+import com.wonu606.vouchermanager.controller.customer.converter.CustomerControllerConverterManager;
 import com.wonu606.vouchermanager.controller.customer.request.CustomerCreateRequest;
 import com.wonu606.vouchermanager.controller.customer.request.OwnedVouchersRequest;
 import com.wonu606.vouchermanager.controller.customer.request.WalletDeleteRequest;
@@ -27,51 +22,39 @@ import org.springframework.stereotype.Component;
 public class CustomerController {
 
     private final CustomerService service;
-
-    private final CustomerCreateParamConverter customerCreateParamConverter;
-    private final CustomerCreateResponseConverter customerCreateResponseConverter;
-    private final CustomerResponseConverter customerResponseConverter;
-    private final OwnedVouchersParamConverter ownedVouchersParamConverter;
-    private final OwnedVoucherResponseConverter ownedVoucherResponseConverter;
-    private final WalletDeleteParamConverter walletDeleteParamConverter;
+    private final CustomerControllerConverterManager converterManager;
 
     public CustomerController(CustomerService service) {
         this.service = service;
-
-        customerCreateParamConverter = new CustomerCreateParamConverter();
-        customerCreateResponseConverter = new CustomerCreateResponseConverter();
-        customerResponseConverter = new CustomerResponseConverter();
-        ownedVouchersParamConverter = new OwnedVouchersParamConverter();
-        ownedVoucherResponseConverter = new OwnedVoucherResponseConverter();
-        walletDeleteParamConverter = new WalletDeleteParamConverter();
+        converterManager = new CustomerControllerConverterManager();
     }
 
     public CustomerCreateResponse createCustomer(CustomerCreateRequest request) {
-        CustomerCreateParam param = customerCreateParamConverter.convert(request);
+        CustomerCreateParam param = converterManager.convert(request, CustomerCreateParam.class);
         CustomerCreateResult result = service.createCustomer(param);
 
-        return customerCreateResponseConverter.convert(result);
+        return converterManager.convert(result, CustomerCreateResponse.class);
     }
 
     public List<CustomerResponse> getCustomerList() {
         List<CustomerResult> results = service.getCustomerList();
 
         return results.stream()
-                .map(customerResponseConverter::convert)
+                .map(rs -> converterManager.convert(rs, CustomerResponse.class))
                 .collect(Collectors.toList());
     }
 
     public List<OwnedVoucherResponse> getOwnedVouchersByCustomer(OwnedVouchersRequest request) {
-        OwnedVouchersParam param = ownedVouchersParamConverter.convert(request);
+        OwnedVouchersParam param = converterManager.convert(request, OwnedVouchersParam.class);
         List<OwnedVoucherResult> results = service.findOwnedVouchersByCustomer(param);
 
         return results.stream()
-                .map(ownedVoucherResponseConverter::convert)
+                .map(rs -> converterManager.convert(rs, OwnedVoucherResponse.class))
                 .collect(Collectors.toList());
     }
 
     public void deleteWallet(WalletDeleteRequest request) {
-        WalletDeleteParam param = walletDeleteParamConverter.convert(request);
+        WalletDeleteParam param = converterManager.convert(request, WalletDeleteParam.class);
         service.deleteWallet(param);
     }
 }

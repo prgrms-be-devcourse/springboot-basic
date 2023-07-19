@@ -2,12 +2,23 @@ package com.wonu606.vouchermanager.controller.customer.converter;
 
 import com.wonu606.vouchermanager.controller.customer.response.OwnedVoucherResponse;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedVoucherResult;
-import org.springframework.core.convert.converter.Converter;
+import com.wonu606.vouchermanager.util.TypedConverter;
 
-public class OwnedVoucherResponseConverter implements Converter<OwnedVoucherResult, OwnedVoucherResponse> {
+public class OwnedVoucherResponseConverter implements
+        TypedConverter<OwnedVoucherResult, OwnedVoucherResponse> {
 
     @Override
     public OwnedVoucherResponse convert(OwnedVoucherResult result) {
         return new OwnedVoucherResponse(result.getVoucherUuid());
+    }
+
+    @Override
+    public Class<OwnedVoucherResult> getSourceType() {
+        return OwnedVoucherResult.class;
+    }
+
+    @Override
+    public Class<OwnedVoucherResponse> getTargetType() {
+        return OwnedVoucherResponse.class;
     }
 }
