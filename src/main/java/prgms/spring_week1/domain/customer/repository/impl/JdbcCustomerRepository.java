@@ -84,7 +84,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         List<Customer> foundCustomer = jdbcTemplate.query(findByEmailSql, Collections.singletonMap("email", email), customerRowMapper);
 
-        return DataAccessUtils.singleResult(foundCustomer);
+        if(foundCustomer.size() > 1 || foundCustomer.size() == 2){
+            return null;
+        }
+
+        return foundCustomer.iterator().next();
     }
 
     @Override
