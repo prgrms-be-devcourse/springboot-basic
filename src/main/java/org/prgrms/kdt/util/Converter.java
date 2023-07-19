@@ -10,6 +10,8 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public final class Converter {
@@ -36,10 +38,10 @@ public final class Converter {
     public static Voucher stringToVoucher(String str) {
         String[] stringArr = str.split(",");
         if (stringArr[1].equals("FIXED")) {
-            return new Voucher(UUID.fromString(stringArr[0]), VoucherType.FIXED, new FixedDiscountPolicy(Double.parseDouble(stringArr[2])));
+            return new Voucher(UUID.fromString(stringArr[0]), VoucherType.FIXED, new FixedDiscountPolicy(Double.parseDouble(stringArr[2])), LocalDateTime.parse(stringArr[3], dateTimeFormatter()));
         }
         if (stringArr[1].equals("PERCENT")) {
-            return new Voucher(UUID.fromString(stringArr[0]), VoucherType.PERCENT, new PercentDiscountPolicy(Double.parseDouble(stringArr[2])));
+            return new Voucher(UUID.fromString(stringArr[0]), VoucherType.PERCENT, new PercentDiscountPolicy(Double.parseDouble(stringArr[2])), LocalDateTime.parse(stringArr[3], dateTimeFormatter()));
         }
         throw new InvalidInputException();
     }
@@ -47,5 +49,9 @@ public final class Converter {
     public static Member stringToMember(String str, MemberStatus status) {
         String[] stringArr = str.split(",");
         return new Member(UUID.fromString(stringArr[0]), stringArr[1], status);
+    }
+
+    private static DateTimeFormatter dateTimeFormatter() {
+        return DateTimeFormatter.ofPattern("YYYY-MM-DD HH:MI:SS");
     }
 }

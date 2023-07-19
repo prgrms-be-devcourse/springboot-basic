@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,9 +29,10 @@ public class JdbcWalletRepository implements WalletRepository {
         UUID voucherId = UUID.fromString(resultSet.getString("W.voucher_id"));
         VoucherType voucherType = VoucherType.getTypeByStr(resultSet.getString("V.type"));
         DiscountPolicy discountPolicy = voucherType.createPolicy(resultSet.getDouble("V.amount"));
+        LocalDateTime createdAt = resultSet.getTimestamp("V.created_at").toLocalDateTime();
 
         Member member = new Member(memberId, memberName, memberStatus);
-        Voucher voucher = new Voucher(voucherId, voucherType, discountPolicy);
+        Voucher voucher = new Voucher(voucherId, voucherType, discountPolicy, createdAt);
         return new JoinedWallet(walletId, member, voucher);
     };
 
@@ -54,7 +56,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<JoinedWallet> findWithMemeberAndVoucherByMemberId(UUID memberId) {
-        String sql = "select W.id, W.member_id, M.name, M.status, W.voucher_id, V.type, V.amount from wallet W " +
+        String sql = "select W.id, W.member_id, M.name, M.status, W.voucher_id, V.type, V.amount, V.created_at from wallet W " +
                 "INNER JOIN member M ON W.member_id = M.id " +
                 "INNER JOIN voucher V ON W.voucher_id = V.id " +
                 "WHERE W.member_id = ?";
@@ -63,7 +65,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<JoinedWallet> findWithMemeberAndVoucherByVoucherId(UUID voucherId) {
-        String sql = "select W.id, W.member_id, M.name, M.status, W.voucher_id, V.type, V.amount from wallet W " +
+        String sql = "select W.id, W.member_id, M.name, M.status, W.voucher_id, V.type, V.amount, V.created_at from wallet W " +
                 "INNER JOIN member M ON W.member_id = M.id " +
                 "INNER JOIN voucher V ON W.voucher_id = V.id " +
                 "WHERE W.voucher_id = ?";
@@ -78,7 +80,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<JoinedWallet> findWithMemeberAndVoucherAll() {
-        String sql = "select W.id, W.member_id, M.name, M.status, W.voucher_id, V.type, V.amount from wallet W " +
+        String sql = "select W.id, W.member_id, M.name, M.status, W.voucher_id, V.type, V.amount, V.created_at from wallet W " +
                 "INNER JOIN member M ON W.member_id = M.id " +
                 "INNER JOIN voucher V ON W.voucher_id = V.id";
         return jdbcTemplate.query(sql, joinedWalletRowMapper);

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 
-@Profile("!test")
+@Profile("!web")
 @Component
 public class CommendLineRunner implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommendLineRunner.class);
