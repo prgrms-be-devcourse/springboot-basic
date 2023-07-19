@@ -2,14 +2,15 @@ package org.programmers.VoucherManagement.wallet.application;
 
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.exception.MemberException;
-import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
-import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.VoucherReaderRepository;
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
 import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
 import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
-import org.programmers.VoucherManagement.wallet.infrastructure.WalletRepository;
+import org.programmers.VoucherManagement.wallet.infrastructure.WalletReaderRepository;
+import org.programmers.VoucherManagement.wallet.infrastructure.WalletStoreRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,22 +22,27 @@ import static org.programmers.VoucherManagement.voucher.exception.VoucherExcepti
 @Component
 @Transactional(readOnly = true)
 public class WalletService {
-    private final WalletRepository walletRepository;
-    private final VoucherRepository voucherRepository;
-    private final MemberRepository memberRepository;
+    private final WalletReaderRepository walletReaderRepository;
+    private final WalletStoreRepository walletStoreRepository;
+    private final MemberReaderRepository memberReaderRepository;
+    private final VoucherReaderRepository voucherReaderRepository;
 
-    public WalletService(WalletRepository walletRepository, VoucherRepository voucherRepository, MemberRepository memberRepository) {
-        this.walletRepository = walletRepository;
-        this.voucherRepository = voucherRepository;
-        this.memberRepository = memberRepository;
+    public WalletService(WalletReaderRepository walletReaderRepository
+            , WalletStoreRepository walletStoreRepository
+            , MemberReaderRepository memberReaderRepository
+            , VoucherReaderRepository voucherReaderRepository) {
+        this.walletReaderRepository = walletReaderRepository;
+        this.walletStoreRepository = walletStoreRepository;
+        this.memberReaderRepository = memberReaderRepository;
+        this.voucherReaderRepository = voucherReaderRepository;
     }
 
     @Transactional
     public void createWallet(WalletCreateRequest walletCreateRequest) {
-        Voucher voucher = voucherRepository
+        Voucher voucher = voucherReaderRepository
                 .findById(UUID.fromString(walletCreateRequest.voucherId()))
                 .orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
-        Member member = memberRepository
+        Member member = memberReaderRepository
                 .findById(UUID.fromString(walletCreateRequest.memberId()))
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
 
@@ -44,19 +50,19 @@ public class WalletService {
                 voucher,
                 member);
 
-        walletRepository.insert(wallet);
+        walletStoreRepository.insert(wallet);
     }
 
     public WalletGetResponses getWalletsByVoucherId(UUID voucherId) {
-        return new WalletGetResponses(walletRepository.findAllByVoucherId(voucherId));
+        return new WalletGetResponses(walletReaderRepository.findAllByVoucherId(voucherId));
     }
 
     public WalletGetResponses getWalletsByMemberId(UUID memberId) {
-        return new WalletGetResponses(walletRepository.findAllByMemberId(memberId));
+        return new WalletGetResponses(walletReaderRepository.findAllByMemberId(memberId));
     }
 
     @Transactional
     public void deleteWallet(UUID walletId) {
-        walletRepository.delete(walletId);
+        walletStoreRepository.delete(walletId);
     }
 }

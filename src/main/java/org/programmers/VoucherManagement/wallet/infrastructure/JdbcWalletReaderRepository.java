@@ -1,11 +1,10 @@
 package org.programmers.VoucherManagement.wallet.infrastructure;
 
 import org.programmers.VoucherManagement.member.exception.MemberException;
-import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
-import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.VoucherReaderRepository;
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
-import org.programmers.VoucherManagement.wallet.exception.WalletException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,33 +17,18 @@ import java.util.UUID;
 
 import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_FOUND_MEMBER;
 import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_FOUND_VOUCHER;
-import static org.programmers.VoucherManagement.wallet.exception.WalletExceptionMessage.FAIL_TO_DELETE;
-import static org.programmers.VoucherManagement.wallet.exception.WalletExceptionMessage.FAIL_TO_INSERT;
 
 @Repository
 @Primary
-public class JdbcWalletRepository implements WalletRepository {
+public class JdbcWalletReaderRepository implements WalletReaderRepository {
     private JdbcTemplate jdbcTemplate;
-    private MemberRepository memberRepository;
-    private VoucherRepository voucherRepository;
+    private MemberReaderRepository memberReaderRepository;
+    private VoucherReaderRepository voucherReaderRepository;
 
-    public JdbcWalletRepository(JdbcTemplate jdbcTemplate, MemberRepository memberRepository, VoucherRepository voucherRepository) {
+    public JdbcWalletReaderRepository(JdbcTemplate jdbcTemplate, MemberReaderRepository memberReaderRepository, VoucherReaderRepository voucherReaderRepository) {
         this.jdbcTemplate = jdbcTemplate;
-        this.memberRepository = memberRepository;
-        this.voucherRepository = voucherRepository;
-    }
-
-    @Override
-    public Wallet insert(Wallet wallet) {
-        String sql = "insert into wallet_table(wallet_id, voucher_id, member_id) values (?,?,?)";
-        int insertCount = jdbcTemplate.update(sql,
-                wallet.getWalletId().toString(),
-                wallet.getVoucher().getVoucherId().toString(),
-                wallet.getMember().getMemberUUID().toString());
-        if (insertCount != 1) {
-            throw new WalletException(FAIL_TO_INSERT);
-        }
-        return wallet;
+        this.memberReaderRepository = memberReaderRepository;
+        this.voucherReaderRepository = voucherReaderRepository;
     }
 
     @Override
@@ -73,21 +57,11 @@ public class JdbcWalletRepository implements WalletRepository {
         return jdbcTemplate.query(sql, walletRowMapper(), voucherId.toString());
     }
 
-    @Override
-    public void delete(UUID walletId) {
-        String sql = "delete from wallet_table where wallet_id = ?";
-        int deleteCount = jdbcTemplate.update(sql,
-                walletId.toString());
-        if (deleteCount != 1) {
-            throw new WalletException(FAIL_TO_DELETE);
-        }
-    }
-
     public RowMapper<Wallet> walletRowMapper() {
         return (result, rowNum) -> new Wallet(
                 UUID.fromString(result.getString("wallet_id")),
-                voucherRepository.findById(UUID.fromString(result.getString("voucher_id"))).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER)),
-                memberRepository.findById(UUID.fromString(result.getString("member_id"))).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER))
+                voucherReaderRepository.findById(UUID.fromString(result.getString("voucher_id"))).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER)),
+                memberReaderRepository.findById(UUID.fromString(result.getString("member_id"))).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER))
         );
     }
 }

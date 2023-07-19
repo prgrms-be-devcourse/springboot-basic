@@ -6,15 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface WalletRepository {
-    /**
-     * db에 wallet 저장
-     *
-     * @param wallet
-     * @return Wallet - 저장 완료한 Wallet
-     */
-    Wallet insert(Wallet wallet);
-
+public interface WalletReaderRepository {
     /**
      * walletId를 이용해 Wallet 조회
      *
@@ -38,11 +30,4 @@ public interface WalletRepository {
      * @return List<Wallet> - voucherId를 이용해 wallet에 저장된 Voucher 리스트
      */
     List<Wallet> findAllByVoucherId(UUID voucherId);
-
-    /**
-     * walletId를 이용해 특정 Wallet 삭제
-     *
-     * @param walletId
-     */
-    void delete(UUID walletId);
 }

@@ -5,11 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
-import org.programmers.VoucherManagement.member.infrastructure.JdbcMemberRepository;
-import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
+import org.programmers.VoucherManagement.member.infrastructure.JdbcMemberReaderRepository;
+import org.programmers.VoucherManagement.member.infrastructure.JdbcMemberStoreRepository;
 import org.programmers.VoucherManagement.voucher.domain.*;
-import org.programmers.VoucherManagement.voucher.infrastructure.JdbcVoucherRepository;
-import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.JdbcVoucherReaderRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.JdbcVoucherStoreRepository;
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -22,14 +22,21 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-@Import({JdbcWalletRepository.class, JdbcMemberRepository.class, JdbcVoucherRepository.class})
+@Import({JdbcWalletReaderRepository.class
+        , JdbcWalletStoreRepository.class
+        , JdbcMemberStoreRepository.class
+        , JdbcVoucherStoreRepository.class
+        , JdbcVoucherReaderRepository.class
+        , JdbcMemberReaderRepository.class})
 public class JdbcWalletRepositoryTest {
     @Autowired
-    private WalletRepository walletRepository;
+    private JdbcWalletReaderRepository walletReaderRepository;
     @Autowired
-    MemberRepository memberRepository;
+    private JdbcWalletStoreRepository walletStoreRepository;
     @Autowired
-    VoucherRepository voucherRepository;
+    private JdbcMemberStoreRepository memberStoreRepository;
+    @Autowired
+    private JdbcVoucherStoreRepository voucherStoreRepository;
 
     private Member member1, member2;
     private Voucher voucher1, voucher2;
@@ -40,10 +47,10 @@ public class JdbcWalletRepositoryTest {
         member2 = new Member(UUID.randomUUID(), "Park", MemberStatus.BLACK);
         voucher1 = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
         voucher2 = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(10000));
-        memberRepository.insert(member1);
-        memberRepository.insert(member2);
-        voucherRepository.insert(voucher1);
-        voucherRepository.insert(voucher2);
+        memberStoreRepository.insert(member1);
+        memberStoreRepository.insert(member2);
+        voucherStoreRepository.insert(voucher1);
+        voucherStoreRepository.insert(voucher2);
     }
 
     @Test
@@ -53,10 +60,10 @@ public class JdbcWalletRepositoryTest {
         Wallet wallet = new Wallet(UUID.randomUUID(), voucher1, member1);
 
         //when
-        walletRepository.insert(wallet);
+        walletStoreRepository.insert(wallet);
 
         //then
-        Wallet walletExpect = walletRepository.findById(wallet.getWalletId()).get();
+        Wallet walletExpect = walletReaderRepository.findById(wallet.getWalletId()).get();
         assertThat(walletExpect).usingRecursiveComparison().isEqualTo(wallet);
     }
 
@@ -66,10 +73,10 @@ public class JdbcWalletRepositoryTest {
     void findById_WalletID_EqualsFindWallet() {
         //given
         Wallet wallet = new Wallet(UUID.randomUUID(), voucher1, member1);
-        walletRepository.insert(wallet);
+        walletStoreRepository.insert(wallet);
 
         //when
-        Wallet walletExpect = walletRepository.findById(wallet.getWalletId()).get();
+        Wallet walletExpect = walletReaderRepository.findById(wallet.getWalletId()).get();
 
         //then
         assertThat(walletExpect).usingRecursiveComparison().isEqualTo(wallet);
@@ -81,11 +88,11 @@ public class JdbcWalletRepositoryTest {
         //given
         Wallet wallet1 = new Wallet(UUID.randomUUID(), voucher1, member1);
         Wallet wallet2 = new Wallet(UUID.randomUUID(), voucher2, member1);
-        walletRepository.insert(wallet1);
-        walletRepository.insert(wallet2);
+        walletStoreRepository.insert(wallet1);
+        walletStoreRepository.insert(wallet2);
 
         //when
-        List<Wallet> walletList = walletRepository.findAllByMemberId(member1.getMemberUUID());
+        List<Wallet> walletList = walletReaderRepository.findAllByMemberId(member1.getMemberUUID());
 
         //then
         assertThat(walletList.size()).isEqualTo(2);
@@ -98,11 +105,11 @@ public class JdbcWalletRepositoryTest {
         //given
         Wallet wallet1 = new Wallet(UUID.randomUUID(), voucher1, member1);
         Wallet wallet2 = new Wallet(UUID.randomUUID(), voucher2, member1);
-        walletRepository.insert(wallet1);
-        walletRepository.insert(wallet2);
+        walletStoreRepository.insert(wallet1);
+        walletStoreRepository.insert(wallet2);
 
         //when
-        List<Wallet> walletList = walletRepository.findAllByVoucherId(voucher1.getVoucherId());
+        List<Wallet> walletList = walletReaderRepository.findAllByVoucherId(voucher1.getVoucherId());
 
         //then
         assertThat(walletList.size()).isEqualTo(1);
@@ -114,14 +121,13 @@ public class JdbcWalletRepositoryTest {
     void delete_VoucherId_Success() {
         //given
         Wallet wallet = new Wallet(UUID.randomUUID(), voucher1, member1);
-        walletRepository.insert(wallet);
+        walletStoreRepository.insert(wallet);
 
         //when
-        walletRepository.delete(wallet.getWalletId());
+        walletStoreRepository.delete(wallet.getWalletId());
 
         //then
-        Optional<Wallet> optionalWallet = walletRepository.findById(wallet.getWalletId());
+        Optional<Wallet> optionalWallet = walletReaderRepository.findById(wallet.getWalletId());
         assertThat(optionalWallet).isEqualTo(Optional.empty());
     }
-
 }
