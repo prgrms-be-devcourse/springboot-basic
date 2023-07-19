@@ -103,17 +103,20 @@
 <img width="1438" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/440ccedc-58de-428b-8345-b5e6ede2a509">
 
 <br>
+<br>
 
 > 전체 할인권 조회
 
 <img width="1424" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/a392effd-e998-423c-ba58-21ea7fdbd4c1">
 
 <br>
+<br>
 
 > 할인권 수정
 
 <img width="1435" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/d5382e8d-dc1b-48f2-b543-6dbc460b4990">
 
+<br>
 <br>
 
 > 할인권 삭제
@@ -122,6 +125,7 @@
 <img width="1424" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/8162b645-a17e-494d-bd44-bbdc650b13ed">
 
 <br>
+<br>
 
 
 ### 고객(Customer)
@@ -129,7 +133,7 @@
 
 <img width="1435" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/01ffc5d3-531a-4450-8bcd-6c940fb41e68">
 
-
+<br>
 <br>
 
 > 전체 고객 조회
@@ -137,11 +141,13 @@
 <img width="1433" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/e26ff728-4832-4c37-9848-229e04e5935d">
 
 <br>
+<br>
 
 > 일반 고객 조회
 
 <img width="1435" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/7d485e95-db27-4515-a1d9-21185d113a51">
 
+<br>
 <br>
 
 > 블랙리스트 고객 조회
@@ -149,11 +155,13 @@
 <img width="1423" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/81003add-aeed-47ab-bb17-d0e10898d10f">
 
 <br>
+<br>
 
 > 고객 수정
 
 <img width="1433" alt="image" src="https://github.com/prgrms-be-devcourse/springboot-basic/assets/49775540/bf319193-5227-4ff3-81bc-2f364331b910">
 
+<br>
 <br>
 
 > 고객 삭제
