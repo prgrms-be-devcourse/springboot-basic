@@ -11,7 +11,8 @@ import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateReques
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponse;
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
-import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.VoucherReaderRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.VoucherStoreRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +33,10 @@ public class VoucherServiceMockTest {
     VoucherService voucherService;
 
     @Mock
-    VoucherRepository voucherRepository;
+    VoucherReaderRepository voucherReaderRepository;
+
+    @Mock
+    VoucherStoreRepository voucherStoreRepository;
 
     @Test
     @DisplayName("Fixed 바우처를 수정할 수 있다. - 성공")
@@ -40,17 +44,17 @@ public class VoucherServiceMockTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(100));
-        voucherRepository.insert(saveVoucher);
+        voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(1000);
 
         //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
+        given(voucherReaderRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
 
         //when
         voucherService.updateVoucher(voucherId, updateRequestDto);
 
         //then
-        Voucher updateVoucher = voucherRepository.findById(voucherId).get();
+        Voucher updateVoucher = voucherReaderRepository.findById(voucherId).get();
         assertThat(updateVoucher.getDiscountValue().getValue()).isEqualTo(1000);
     }
 
@@ -60,17 +64,17 @@ public class VoucherServiceMockTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
-        voucherRepository.insert(saveVoucher);
+        voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(40);
 
         //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
+        given(voucherReaderRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
 
         //when
         voucherService.updateVoucher(voucherId, updateRequestDto);
 
         //then
-        Voucher updateVoucher = voucherRepository.findById(voucherId).get();
+        Voucher updateVoucher = voucherReaderRepository.findById(voucherId).get();
         assertThat(updateVoucher.getDiscountValue().getValue()).isEqualTo(40);
     }
 
@@ -80,11 +84,11 @@ public class VoucherServiceMockTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
-        voucherRepository.insert(saveVoucher);
+        voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(-1);
 
         //mocking
-        given(voucherRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
+        given(voucherReaderRepository.findById(voucherId)).willReturn(Optional.of(saveVoucher));
 
         //then
         assertThatThrownBy(() -> voucherService.updateVoucher(voucherId, updateRequestDto))
@@ -97,13 +101,13 @@ public class VoucherServiceMockTest {
     void deleteVoucher_voucherId_Success() {
         //given
         Voucher saveVoucher = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(1000));
-        voucherRepository.insert(saveVoucher);
+        voucherStoreRepository.insert(saveVoucher);
 
         //when
         voucherService.deleteVoucher(saveVoucher.getVoucherId());
 
         //then
-        verify(voucherRepository, times(1)).delete(saveVoucher.getVoucherId());
+        verify(voucherStoreRepository, times(1)).delete(saveVoucher.getVoucherId());
     }
 
     @Test
@@ -115,7 +119,7 @@ public class VoucherServiceMockTest {
         List<Voucher> voucherList = Arrays.asList(voucher1, voucher2);
 
         //mocking
-        given(voucherRepository.findAll()).willReturn(voucherList);
+        given(voucherReaderRepository.findAll()).willReturn(voucherList);
 
         //when
         VoucherGetResponses response = voucherService.getVoucherList();

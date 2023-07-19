@@ -7,7 +7,8 @@ import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateReques
 import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
-import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.VoucherReaderRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.VoucherStoreRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,34 +20,36 @@ import static org.programmers.VoucherManagement.voucher.exception.VoucherExcepti
 @Component
 @Transactional(readOnly = true)
 public class VoucherService {
-    private final VoucherRepository repository;
+    private final VoucherReaderRepository voucherReaderRepository;
+    private final VoucherStoreRepository voucherStoreRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
-        this.repository = voucherRepository;
+    public VoucherService(VoucherReaderRepository voucherReaderRepository, VoucherStoreRepository voucherStoreRepository) {
+        this.voucherReaderRepository = voucherReaderRepository;
+        this.voucherStoreRepository = voucherStoreRepository;
     }
 
     @Transactional
     public void updateVoucher(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
-        Voucher voucher = repository.findById(voucherId).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
+        Voucher voucher = voucherReaderRepository.findById(voucherId).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
         DiscountValue discountValue = new DiscountValue(voucherUpdateRequest.discountValue());
         discountValue.validateValue(voucher.getDiscountType());
 
         voucher.changeDiscountValue(discountValue);
-        repository.update(voucher);
+        voucherStoreRepository.update(voucher);
     }
 
     @Transactional
     public void saveVoucher(VoucherCreateRequest voucherCreateRequest) {
         Voucher voucher = VoucherFactory.createVoucher(voucherCreateRequest);
-        repository.insert(voucher);
+        voucherStoreRepository.insert(voucher);
     }
 
     public VoucherGetResponses getVoucherList() {
-        return new VoucherGetResponses(repository.findAll());
+        return new VoucherGetResponses(voucherReaderRepository.findAll());
     }
 
     @Transactional
     public void deleteVoucher(UUID voucherId) {
-        repository.delete(voucherId);
+        voucherStoreRepository.delete(voucherId);
     }
 }

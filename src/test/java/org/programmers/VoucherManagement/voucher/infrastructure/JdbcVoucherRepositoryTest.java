@@ -15,11 +15,13 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-@Import(JdbcVoucherRepository.class)
+@Import({JdbcVoucherStoreRepository.class, JdbcVoucherReaderRepository.class})
 public class JdbcVoucherRepositoryTest {
+    @Autowired
+    private JdbcVoucherReaderRepository voucherReaderRepository;
 
     @Autowired
-    private JdbcVoucherRepository voucherRepository;
+    private JdbcVoucherStoreRepository voucherStoreRepository;
 
     private Voucher fixedVoucher;
     private Voucher percentVoucher;
@@ -35,10 +37,10 @@ public class JdbcVoucherRepositoryTest {
     void insert_PercentVoucher_EqualsNewPercentVoucher() {
         //given
         System.out.println(percentVoucher.getVoucherId());
-        voucherRepository.insert(percentVoucher);
+        voucherStoreRepository.insert(percentVoucher);
 
         //when
-        Voucher voucherExpect = voucherRepository.findById(percentVoucher.getVoucherId()).get();
+        Voucher voucherExpect = voucherReaderRepository.findById(percentVoucher.getVoucherId()).get();
 
         //then
         assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(percentVoucher);
@@ -48,10 +50,10 @@ public class JdbcVoucherRepositoryTest {
     @DisplayName("Fixed 바우처를 생성할 수 있다.")
     void insert_FixedVoucher_EqualsNewFixedVoucher() {
         //given
-        voucherRepository.insert(fixedVoucher);
+        voucherStoreRepository.insert(fixedVoucher);
 
         //when
-        Voucher voucherExpect = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
+        Voucher voucherExpect = voucherReaderRepository.findById(fixedVoucher.getVoucherId()).get();
 
         //then
         assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(fixedVoucher);
@@ -61,12 +63,12 @@ public class JdbcVoucherRepositoryTest {
     @DisplayName("Fixed 바우처 금액을 수정할 수 있다. - 성공")
     void update_FixedVoucher_EqualsUpdateFixedVoucher() {
         //given
-        voucherRepository.insert(fixedVoucher);
+        voucherStoreRepository.insert(fixedVoucher);
         fixedVoucher.changeDiscountValue(new DiscountValue(2000));
-        voucherRepository.update(fixedVoucher);
+        voucherStoreRepository.update(fixedVoucher);
 
         //when
-        Voucher voucherExpect = voucherRepository.findById(fixedVoucher.getVoucherId()).get();
+        Voucher voucherExpect = voucherReaderRepository.findById(fixedVoucher.getVoucherId()).get();
 
         //then
         assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(fixedVoucher);
@@ -76,12 +78,12 @@ public class JdbcVoucherRepositoryTest {
     @DisplayName("Percent 바우처 금액을 수정할 수 있다. - 성공")
     void update_PercentVoucher_EqualsUpdatePercentVoucher() {
         //given
-        voucherRepository.insert(percentVoucher);
+        voucherStoreRepository.insert(percentVoucher);
         percentVoucher.changeDiscountValue(new DiscountValue(20));
-        voucherRepository.update(percentVoucher);
+        voucherStoreRepository.update(percentVoucher);
 
         //when
-        Voucher voucherExpect = voucherRepository.findById(percentVoucher.getVoucherId()).get();
+        Voucher voucherExpect = voucherReaderRepository.findById(percentVoucher.getVoucherId()).get();
 
         //then
         assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(percentVoucher);
@@ -93,11 +95,11 @@ public class JdbcVoucherRepositoryTest {
     void findById_VoucherID_EqualsFindVoucher() {
         //given
         UUID findVoucherId = percentVoucher.getVoucherId();
-        voucherRepository.insert(percentVoucher);
-        voucherRepository.insert(fixedVoucher);
+        voucherStoreRepository.insert(percentVoucher);
+        voucherStoreRepository.insert(fixedVoucher);
 
         //when
-        Voucher voucherExpect = voucherRepository.findById(findVoucherId).get();
+        Voucher voucherExpect = voucherReaderRepository.findById(findVoucherId).get();
 
         //then
         assertThat(voucherExpect).usingRecursiveComparison().isEqualTo(percentVoucher);
@@ -107,11 +109,11 @@ public class JdbcVoucherRepositoryTest {
     @DisplayName("등록된 바우처를 전체 조회할 수 있다. - 성공")
     void findAll_Success() {
         //given
-        voucherRepository.insert(percentVoucher);
-        voucherRepository.insert(fixedVoucher);
+        voucherStoreRepository.insert(percentVoucher);
+        voucherStoreRepository.insert(fixedVoucher);
 
         //when
-        List<Voucher> voucherList = voucherRepository.findAll();
+        List<Voucher> voucherList = voucherReaderRepository.findAll();
 
         //then
         assertThat(voucherList.size()).isEqualTo(2);
@@ -121,20 +123,20 @@ public class JdbcVoucherRepositoryTest {
     @DisplayName("등록된 바우처를 삭제할 수 있다. - 성공")
     void delete_VoucherId_Success() {
         //given
-        voucherRepository.insert(percentVoucher);
-        voucherRepository.insert(fixedVoucher);
+        voucherStoreRepository.insert(percentVoucher);
+        voucherStoreRepository.insert(fixedVoucher);
         UUID deleteVoucherId = percentVoucher.getVoucherId();
 
         //when
-        voucherRepository.delete(deleteVoucherId);
+        voucherStoreRepository.delete(deleteVoucherId);
 
         //then
         //1. 사이즈 비교
-        int sizeExpect = voucherRepository.findAll().size();
+        int sizeExpect = voucherReaderRepository.findAll().size();
         assertThat(sizeExpect).isEqualTo(1);
 
         //2. 데이터베이스에 없는 값인지 확인
-        Optional<Voucher> optionalVoucher = voucherRepository.findById(deleteVoucherId);
+        Optional<Voucher> optionalVoucher = voucherReaderRepository.findById(deleteVoucherId);
         assertThat(optionalVoucher).isEqualTo(Optional.empty());
     }
 

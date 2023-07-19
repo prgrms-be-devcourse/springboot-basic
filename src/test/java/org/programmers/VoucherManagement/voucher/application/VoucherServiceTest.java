@@ -7,7 +7,8 @@ import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateReques
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponse;
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
-import org.programmers.VoucherManagement.voucher.infrastructure.VoucherRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.VoucherReaderRepository;
+import org.programmers.VoucherManagement.voucher.infrastructure.VoucherStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -30,7 +31,10 @@ public class VoucherServiceTest {
     VoucherService voucherService;
 
     @Autowired
-    VoucherRepository voucherRepository;
+    VoucherStoreRepository voucherStoreRepository;
+
+    @Autowired
+    VoucherReaderRepository voucherReaderRepository;
 
     @Test
     @DisplayName("Fixed 바우처를 수정할 수 있다. - 성공")
@@ -38,14 +42,14 @@ public class VoucherServiceTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(100));
-        voucherRepository.insert(saveVoucher);
+        voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(1000);
 
         //when
         voucherService.updateVoucher(voucherId, updateRequestDto);
 
         //then
-        Voucher updateVoucher = voucherRepository.findById(voucherId).get();
+        Voucher updateVoucher = voucherReaderRepository.findById(voucherId).get();
         assertThat(updateVoucher.getDiscountValue().getValue()).isEqualTo(1000);
     }
 
@@ -55,14 +59,14 @@ public class VoucherServiceTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
-        voucherRepository.insert(saveVoucher);
+        voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(40);
 
         //when
         voucherService.updateVoucher(voucherId, updateRequestDto);
 
         //then
-        Voucher updateVoucher = voucherRepository.findById(voucherId).get();
+        Voucher updateVoucher = voucherReaderRepository.findById(voucherId).get();
         assertThat(updateVoucher.getDiscountValue().getValue()).isEqualTo(40);
     }
 
@@ -72,7 +76,7 @@ public class VoucherServiceTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
-        voucherRepository.insert(saveVoucher);
+        voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(-1);
 
         //when & then
@@ -87,13 +91,13 @@ public class VoucherServiceTest {
         //given
         UUID voucherId = UUID.randomUUID();
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(1000));
-        voucherRepository.insert(saveVoucher);
+        voucherStoreRepository.insert(saveVoucher);
 
         //when
         voucherService.deleteVoucher(saveVoucher.getVoucherId());
 
         //then
-        Optional<Voucher> optionalVoucher = voucherRepository.findById(voucherId);
+        Optional<Voucher> optionalVoucher = voucherReaderRepository.findById(voucherId);
         assertThat(optionalVoucher).isEqualTo(Optional.empty());
     }
 
@@ -103,8 +107,8 @@ public class VoucherServiceTest {
         //given
         Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(100));
         Voucher voucher2 = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
-        voucherRepository.insert(voucher1);
-        voucherRepository.insert(voucher2);
+        voucherStoreRepository.insert(voucher1);
+        voucherStoreRepository.insert(voucher2);
         List<Voucher> voucherList = Arrays.asList(voucher1, voucher2);
 
         //when
