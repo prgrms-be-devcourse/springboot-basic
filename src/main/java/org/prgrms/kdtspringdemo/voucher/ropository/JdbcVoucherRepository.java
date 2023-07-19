@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
+import org.prgrms.kdtspringdemo.util.Query;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.springframework.context.annotation.Primary;
@@ -14,6 +15,7 @@ import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
+    private static final String VOUCHER_TABLE = "voucher";
     private static final String VOUCHER_ID = "voucher_id";
     private static final String VOUCHER_TYPE = "voucher_type";
     private static final String AMOUNT = "amount";
@@ -42,30 +44,57 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        jdbcTemplate.update("INSERT INTO voucher VALUES(:voucher_id, :voucher_type, :amount)", toParamMap(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()));
+        String saveQuery = new Query.QueryBuilder()
+                .insertBuilder(VOUCHER_TABLE)
+                .valuesBuilder(VOUCHER_ID, VOUCHER_TYPE, AMOUNT)
+                .build();
+
+        jdbcTemplate.update(saveQuery, toParamMap(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()));
 
         return voucher;
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return jdbcTemplate.query("SELECT * FROM voucher WHERE voucher_id = :voucher_id", Collections.singletonMap(VOUCHER_ID, uuidToBytes(voucherId)), voucherRowMapper)
+        String findByIdQuery = new Query.QueryBuilder()
+                .selectBuilder("*")
+                .fromBuilder(VOUCHER_TABLE)
+                .whereCommonBuilder(VOUCHER_ID)
+                .build();
+
+        return jdbcTemplate.query(findByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(voucherId)), voucherRowMapper)
                 .stream()
                 .findFirst();
     }
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query("SELECT * FROM voucher", voucherRowMapper);
+        String findAllQuery = new Query.QueryBuilder()
+                .selectBuilder("*")
+                .fromBuilder(VOUCHER_TABLE)
+                .build();
+
+        return jdbcTemplate.query(findAllQuery, voucherRowMapper);
     }
 
     @Override
     public void update(UUID voucherId, VoucherType voucherType, long amount) {
-        jdbcTemplate.update("UPDATE voucher SET voucher_type = :voucher_type, amount = :amount WHERE voucher_id = :voucher_id", toParamMap(voucherId, voucherType, amount));
+        String updateQuery = new Query.QueryBuilder()
+                .updateBuilder(VOUCHER_TABLE)
+                .setBuilder(VOUCHER_TYPE)
+                .addSetBuilder(AMOUNT)
+                .build();
+
+        jdbcTemplate.update(updateQuery, toParamMap(voucherId, voucherType, amount));
     }
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = :voucher_id", Collections.singletonMap(VOUCHER_ID, uuidToBytes(voucherId)));
+        String deleteByIdQuery = new Query.QueryBuilder()
+                .deleteBuilder(VOUCHER_TABLE)
+                .whereCommonBuilder(VOUCHER_ID)
+                .build();
+
+        jdbcTemplate.update(deleteByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(voucherId)));
     }
 }
