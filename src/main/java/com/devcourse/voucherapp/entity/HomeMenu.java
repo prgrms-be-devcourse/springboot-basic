@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import lombok.Getter;
 
 public enum HomeMenu {
+
     VOUCHER("1", "할인권 메뉴"),
     CUSTOMER("2", "고객 메뉴"),
     QUIT("quit", "프로그램 종료");

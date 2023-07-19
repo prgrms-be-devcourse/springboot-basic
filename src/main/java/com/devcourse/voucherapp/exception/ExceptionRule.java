@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum ExceptionRule {
+
     MENU_INVALID("잘못된 메뉴를 선택하셨습니다."),
     VOUCHER_NOT_FOUND("입력하신 ID에 해당하는 할인권이 없습니다."),
     VOUCHER_TYPE_INVALID("잘못된 할인권 방식을 선택하셨습니다."),

@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 import lombok.Getter;
 
 public enum CustomerMenu {
+
     CREATE("1", "새 고객 생성"),
     READ_ALL("2", "전체 고객 조회"),
     UPDATE("3", "고객 수정"),
