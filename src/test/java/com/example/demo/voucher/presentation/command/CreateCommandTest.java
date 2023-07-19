@@ -48,6 +48,6 @@ class CreateCommandTest {
         // then
         verify(output).printLine("Please enter the voucher type:");
         verify(output).printLine(expectedVoucherType.getCounter() + " : " + fixedAmountMessage.getMessage());
-        verify(voucherService).createVoucher(expectedVoucherType, expectedValue);
+        verify(voucherService).createVoucher(expectedVoucherType.name(), expectedValue);
     }
 }

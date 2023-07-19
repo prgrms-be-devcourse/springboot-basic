@@ -32,4 +32,9 @@ public class MemoryRepository implements VoucherRepository {
         vouchers.add(voucher);
     }
 
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
+    }
+
 }

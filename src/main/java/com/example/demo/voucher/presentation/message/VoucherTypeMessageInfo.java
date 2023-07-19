@@ -13,6 +13,7 @@ public class VoucherTypeMessageInfo {
     public String toMessage(VoucherType type) {
         return getMessage(type).getMessage();
     }
+
     private VoucherTypeMessage getMessage(VoucherType type) {
         return voucherTypeMessageMapper.getMessage(type);
     }

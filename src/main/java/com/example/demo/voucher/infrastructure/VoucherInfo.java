@@ -30,7 +30,12 @@ public class VoucherInfo {
     public VoucherInfo getVouchers() {
         return new VoucherInfo(voucherList);
     }
+
     public List<Voucher> getVoucherList() {
         return Collections.unmodifiableList(voucherList);
+    }
+
+    public void clear() {
+        voucherList.clear();
     }
 }

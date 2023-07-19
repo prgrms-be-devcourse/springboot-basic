@@ -3,6 +3,7 @@ package com.example.demo.voucher.infrastructure;
 import com.example.demo.voucher.application.VoucherType;
 import com.example.demo.voucher.domain.Voucher;
 import com.example.demo.voucher.domain.repository.VoucherRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,7 @@ import static com.example.demo.common.utils.UUIDParser.toBytes;
 import static com.example.demo.common.utils.UUIDParser.toUUID;
 
 @Repository
+@Primary
 public class JDBCRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -50,5 +52,11 @@ public class JDBCRepository implements VoucherRepository {
     public void insert(Voucher voucher) {
         String sql = "INSERT INTO vouchers (voucher_id, name, voucher_value, voucher_type) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, toBytes(voucher.getVoucherId()), voucher.getName(), voucher.getValue(), voucher.getType().getCounter());
+    }
+
+    @Override
+    public void deleteAll() {
+        String sql = "DELETE FROM vouchers";
+        jdbcTemplate.update(sql);
     }
 }

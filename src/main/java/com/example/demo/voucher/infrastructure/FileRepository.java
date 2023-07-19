@@ -42,12 +42,13 @@ public class FileRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        try {
-            writer.write(voucher, filePath);
-            vouchers.add(voucher);
-        } catch (IOException e) {
-            throw new RuntimeException("File writing failed", e);
-        }
+        writer.write(voucher, filePath);
+        vouchers.add(voucher);
     }
 
+    @Override
+    public void deleteAll() {
+        writer.delete(filePath);
+        vouchers.clear();
+    }
 }

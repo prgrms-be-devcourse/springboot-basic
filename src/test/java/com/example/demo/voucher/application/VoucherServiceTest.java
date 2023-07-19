@@ -55,7 +55,7 @@ class VoucherServiceTest {
     void fixedCreate() {
         // Given
         long value = 100;
-        VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
+        String voucherType = VoucherType.FIXED_AMOUNT_VOUCHER.name();
 
         // When
         voucherService.createVoucher(voucherType, value);
@@ -69,7 +69,7 @@ class VoucherServiceTest {
     void percentCreate() {
         // Given
         long value = 99;
-        VoucherType voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER;
+        String voucherType = VoucherType.PERCENT_DISCOUNT_VOUCHER.name();
 
         // When
         voucherService.createVoucher(voucherType, value);

@@ -37,3 +37,4 @@ src/main/resources/application.yaml
 logs/*
 
 /out/
+src/main/java/com/example/demo/customer/controller
