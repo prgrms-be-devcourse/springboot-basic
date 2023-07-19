@@ -53,14 +53,14 @@ public class CommandLine implements CommandLineRunner {
     private void selectVoucherMenu() {
         VoucherMenu menuName = input.getVoucherMenu();
         switch (menuName) {
-            case INSERT -> insertVoucher();
-            case FIND_ALL -> output.printAllVoucher(voucherService.findAll());
-            case FIND_BY_TYPE -> output.printAllVoucher(getVoucherListByType());
+            case INSERT -> createVoucher();
+            case FIND_ALL -> printAllVoucher();
+            case FIND_BY_TYPE -> printVoucherByType();
             case DELETE_ALL -> voucherService.deleteAll();
         }
     }
 
-    private void insertVoucher() {
+    private void createVoucher() {
         try {
             processVoucherInsert();
         } catch (RuntimeException e) {
@@ -69,11 +69,14 @@ public class CommandLine implements CommandLineRunner {
         }
     }
 
-    private void processVoucherInsert() {
-        VoucherType voucherType = input.selectVoucherType();
-        int discountValue = input.insertDiscountValue();
-        voucherService.insertNewVoucher(voucherType, discountValue);
-        input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
+    private void printAllVoucher() {
+        List<Voucher> voucherList = voucherService.findAll();
+        output.printAllVoucher(voucherList);
+    }
+
+    private void printVoucherByType() {
+        List<Voucher> typeVoucherList = getVoucherListByType();
+        output.printAllVoucher(typeVoucherList);
     }
 
     private List<Voucher> getVoucherListByType() {
@@ -86,16 +89,24 @@ public class CommandLine implements CommandLineRunner {
         }
     }
 
+    private void processVoucherInsert() {
+        VoucherType voucherType = input.selectVoucherType();
+        int discountValue = input.insertDiscountValue();
+        voucherService.insertNewVoucher(voucherType, discountValue);
+        input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
+    }
+
+
     private void selectCustomerMenu() {
         CustomerMenu menuName = input.getCustomerMenu();
 
         switch (menuName) {
             case INSERT -> insertCustomer();
-            case FIND_ALL -> printAllCustomer(customerService.findAll());
+            case FIND_ALL -> printAllCustomer();
             case FIND_BY_EMAIL -> getCustomerByEmail();
             case BLACK -> customerService.getBlackConsumerList();
             case UPDATE_INFO -> updateCustomerInfo();
-            case DELETE_BY_EMAIL -> customerService.deleteByEmail(input.inputEmail());
+            case DELETE_BY_EMAIL -> deleteByEmail();
             case DELETE_ALL -> customerService.deleteAll();
         }
     }
@@ -105,6 +116,11 @@ public class CommandLine implements CommandLineRunner {
         Email email = input.inputEmail();
 
         customerService.insert(name, email);
+    }
+
+    private void printAllCustomer() {
+        List<Customer> customerList = customerService.findAll();
+        printAllCustomer(customerList);
     }
 
     private void printAllCustomer(List<Customer> customerList) {
@@ -129,5 +145,10 @@ public class CommandLine implements CommandLineRunner {
 
     private void updateCustomerInfo() {
         customerService.updateInfo(input.inputUpdateEmailInfo());
+    }
+
+    private void deleteByEmail() {
+        Email inputEmail = input.inputEmail();
+        customerService.deleteByEmail(inputEmail);
     }
 }
