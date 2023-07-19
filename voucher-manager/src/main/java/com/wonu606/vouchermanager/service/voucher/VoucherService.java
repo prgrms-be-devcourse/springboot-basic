@@ -5,9 +5,7 @@ import com.wonu606.vouchermanager.repository.voucher.VoucherRepository;
 import com.wonu606.vouchermanager.repository.voucher.query.VoucherInsertQuery;
 import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherInsertResultSet;
 import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherResultSet;
-import com.wonu606.vouchermanager.service.voucher.converter.VoucherCreateQueryConverter;
-import com.wonu606.vouchermanager.service.voucher.converter.VoucherCreateResultConverter;
-import com.wonu606.vouchermanager.service.voucher.converter.VoucherResultConverter;
+import com.wonu606.vouchermanager.service.voucher.converter.VoucherServiceConverterManager;
 import com.wonu606.vouchermanager.service.voucher.factory.VoucherFactory;
 import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import com.wonu606.vouchermanager.service.voucher.result.VoucherCreateResult;
@@ -35,20 +33,14 @@ public class VoucherService {
     private final VoucherWalletService voucherWalletService;
     private final VoucherRepository repository;
     private final VoucherFactory factory;
+    private final VoucherServiceConverterManager converterManager;
 
-    private final VoucherCreateQueryConverter voucherCreateQueryConverter;
-    private final VoucherCreateResultConverter voucherCreateResultConverter;
-    private final VoucherResultConverter voucherResultConverter;
-
-    public VoucherService(VoucherWalletService voucherWalletService,
-            VoucherRepository repository, VoucherFactory factory) {
+    public VoucherService(VoucherWalletService voucherWalletService, VoucherRepository repository,
+            VoucherFactory factory, VoucherServiceConverterManager converterManager) {
         this.voucherWalletService = voucherWalletService;
         this.repository = repository;
         this.factory = factory;
-
-        voucherCreateQueryConverter = new VoucherCreateQueryConverter();
-        voucherCreateResultConverter = new VoucherCreateResultConverter();
-        voucherResultConverter = new VoucherResultConverter();
+        this.converterManager = converterManager;
     }
 
     public VoucherCreateResult createVoucher(VoucherCreateParam param) {
@@ -58,7 +50,7 @@ public class VoucherService {
     public List<VoucherResult> getVoucherList() {
         List<VoucherResultSet> resultSets = repository.findAll();
         return resultSets.stream()
-                .map(voucherResultConverter::convert)
+                .map(rs -> converterManager.convert(rs, VoucherResult.class))
                 .collect(Collectors.toList());
     }
 
@@ -78,10 +70,10 @@ public class VoucherService {
         }
 
         Voucher voucher = factory.create(voucherCreateParam);
-        VoucherInsertQuery query = voucherCreateQueryConverter.convert(voucher);
+        VoucherInsertQuery query = converterManager.convert(voucher, VoucherInsertQuery.class);
         try {
             VoucherInsertResultSet resultSet = repository.insert(query);
-            return voucherCreateResultConverter.convert(resultSet);
+            return converterManager.convert(resultSet, VoucherCreateResult.class);
         } catch (DuplicateKeyException e) {
             log.info("DuplicateKeyException가 발생하였습니다. ", e);
             return createVoucher(voucherCreateParam, retryCount + 1);
