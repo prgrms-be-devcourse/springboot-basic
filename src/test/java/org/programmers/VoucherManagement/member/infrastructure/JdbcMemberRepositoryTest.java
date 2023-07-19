@@ -16,10 +16,13 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
-@Import({JdbcMemberRepository.class})
+@Import({JdbcMemberReaderRepository.class, JdbcMemberStoreRepository.class})
 public class JdbcMemberRepositoryTest {
     @Autowired
-    private JdbcMemberRepository memberRepository;
+    private JdbcMemberReaderRepository memberReaderRepository;
+
+    @Autowired
+    private JdbcMemberStoreRepository memberStoreRepository;
 
     private Member blackMember = new Member(UUID.randomUUID(), "kim", MemberStatus.BLACK);
     private Member whiteMember = new Member(UUID.randomUUID(), "park", MemberStatus.WHITE);
@@ -34,10 +37,10 @@ public class JdbcMemberRepositoryTest {
     @DisplayName("블랙리스트 등급의 멤버를 새로 등록할 수 있다. - 성공")
     void insert_BlackMember_EqualsNewMember() {
         //when
-        memberRepository.insert(blackMember);
+        memberStoreRepository.insert(blackMember);
 
         //then
-        Member memberExpect = memberRepository.findById(blackMember.getMemberUUID()).get();
+        Member memberExpect = memberReaderRepository.findById(blackMember.getMemberUUID()).get();
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(blackMember);
     }
 
@@ -45,10 +48,10 @@ public class JdbcMemberRepositoryTest {
     @DisplayName("일반 등급(white)의 멤버를 새로 등록할 수 있다. - 성공")
     void insert_WhiteMember_EqualsNewMember() {
         //when
-        memberRepository.insert(whiteMember);
+        memberStoreRepository.insert(whiteMember);
 
         //then
-        Member memberExpect = memberRepository.findById(whiteMember.getMemberUUID()).get();
+        Member memberExpect = memberReaderRepository.findById(whiteMember.getMemberUUID()).get();
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(whiteMember);
     }
 
@@ -56,14 +59,14 @@ public class JdbcMemberRepositoryTest {
     @DisplayName("멤버 정보(등급)을 수정할 수 있다. - 성공")
     void update_Member_EqualsUpdateMember() {
         //given
-        memberRepository.insert(whiteMember);
+        memberStoreRepository.insert(whiteMember);
         whiteMember.changeMemberStatus(MemberStatus.BLACK);
 
         //when
-        memberRepository.update(whiteMember);
+        memberStoreRepository.update(whiteMember);
 
         //then
-        Member memberExpect = memberRepository.findById(whiteMember.getMemberUUID()).get();
+        Member memberExpect = memberReaderRepository.findById(whiteMember.getMemberUUID()).get();
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(whiteMember);
     }
 
@@ -71,11 +74,11 @@ public class JdbcMemberRepositoryTest {
     @DisplayName("등록된 모든 멤버를 조회할 수 있다. - 성공")
     void findAll_Success() {
         //given
-        memberRepository.insert(whiteMember);
-        memberRepository.insert(blackMember);
+        memberStoreRepository.insert(whiteMember);
+        memberStoreRepository.insert(blackMember);
 
         //when
-        List<Member> memberList = memberRepository.findAll();
+        List<Member> memberList = memberReaderRepository.findAll();
 
         //then
         assertThat(memberList.size()).isEqualTo(2);
@@ -85,11 +88,11 @@ public class JdbcMemberRepositoryTest {
     @DisplayName("블랙리스트로 등록된 모든 멤버를 조회할 수 있다. - 성공")
     void findAllByMemberStatus_Success() {
         //given
-        memberRepository.insert(whiteMember);
-        memberRepository.insert(blackMember);
+        memberStoreRepository.insert(whiteMember);
+        memberStoreRepository.insert(blackMember);
 
         //when
-        List<Member> blackMemberList = memberRepository.findAllByMemberStatus(MemberStatus.BLACK);
+        List<Member> blackMemberList = memberReaderRepository.findAllByMemberStatus(MemberStatus.BLACK);
 
         //then
         assertThat(blackMemberList.size()).isEqualTo(1);
@@ -99,11 +102,11 @@ public class JdbcMemberRepositoryTest {
     @DisplayName("memberId를 이용해 회원을 조회할 수 있다. - 성공")
     void findById_MemberId_EqualsFindMember() {
         //given
-        memberRepository.insert(blackMember);
+        memberStoreRepository.insert(blackMember);
         UUID findMemberId = blackMember.getMemberUUID();
 
         //when
-        Member memberExpect = memberRepository.findById(findMemberId).get();
+        Member memberExpect = memberReaderRepository.findById(findMemberId).get();
 
         //then
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(blackMember);
@@ -113,17 +116,17 @@ public class JdbcMemberRepositoryTest {
     @DisplayName("memberId를 이용해 회원을 삭제할 수 있다. - 성공")
     void delete_MemberId_Success() {
         //given
-        memberRepository.insert(blackMember);
+        memberStoreRepository.insert(blackMember);
         UUID deleteMemberId = blackMember.getMemberUUID();
 
         //when
-        memberRepository.delete(deleteMemberId);
+        memberStoreRepository.delete(deleteMemberId);
 
         //then
-        int sizeExpect = memberRepository.findAll().size(); //1. 사이즈 비교
+        int sizeExpect = memberReaderRepository.findAll().size(); //1. 사이즈 비교
         assertThat(sizeExpect).isEqualTo(0);
 
-        Optional<Member> optionalMember = memberRepository.findById(deleteMemberId); //2. 데이터베이스에 없는 값 확인
+        Optional<Member> optionalMember = memberReaderRepository.findById(deleteMemberId); //2. 데이터베이스에 없는 값 확인
         assertThat(optionalMember).isEqualTo(Optional.empty());
     }
 }

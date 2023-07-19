@@ -11,7 +11,8 @@ import org.programmers.VoucherManagement.member.domain.MemberStatus;
 import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
 import org.programmers.VoucherManagement.member.dto.response.MemberGetResponse;
 import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
-import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +33,10 @@ public class MemberServiceMockTest {
     MemberService memberService;
 
     @Mock
-    MemberRepository memberRepository;
+    MemberStoreRepository memberStoreRepository;
+
+    @Mock
+    MemberReaderRepository memberReaderRepository;
 
     @Test
     @DisplayName("회원 정보(status)를 BLACK으로 수정한다. - 성공")
@@ -40,17 +44,17 @@ public class MemberServiceMockTest {
         //given
         UUID memberId = UUID.randomUUID();
         Member saveMember = new Member(memberId, "Kim", MemberStatus.WHITE);
-        memberRepository.insert(saveMember);
+        memberStoreRepository.insert(saveMember);
         MemberUpdateRequest updateRequestDto = new MemberUpdateRequest(MemberStatus.BLACK);
 
         //mocking
-        given(memberRepository.findById(memberId)).willReturn(Optional.of(saveMember));
+        given(memberReaderRepository.findById(memberId)).willReturn(Optional.of(saveMember));
 
         //when
         memberService.updateMember(memberId, updateRequestDto);
 
         //then
-        Member updateMember = memberRepository.findById(memberId).get();
+        Member updateMember = memberReaderRepository.findById(memberId).get();
         assertThat(updateMember.getMemberStatus()).isEqualTo(updateRequestDto.memberStatus());
     }
 
@@ -60,13 +64,13 @@ public class MemberServiceMockTest {
         //given
         UUID memberId = UUID.randomUUID();
         Member saveMember = new Member(memberId, "Kim", MemberStatus.BLACK);
-        memberRepository.insert(saveMember);
+        memberStoreRepository.insert(saveMember);
 
         //when
         memberService.deleteMember(saveMember.getMemberUUID());
 
         //then
-        verify(memberRepository, times(1)).delete(memberId);
+        verify(memberStoreRepository, times(1)).delete(memberId);
     }
 
     @Test
@@ -78,7 +82,7 @@ public class MemberServiceMockTest {
         List<Member> memberList = Arrays.asList(member1, member2);
 
         //mocking
-        given(memberRepository.findAll()).willReturn(memberList);
+        given(memberReaderRepository.findAll()).willReturn(memberList);
 
         //when
         MemberGetResponses response = memberService.getAllMembers();
@@ -104,7 +108,7 @@ public class MemberServiceMockTest {
                 .collect(Collectors.toList());
 
         //mocking
-        given(memberRepository.findAllByMemberStatus(MemberStatus.BLACK)).willReturn(blackMemberList);
+        given(memberReaderRepository.findAllByMemberStatus(MemberStatus.BLACK)).willReturn(blackMemberList);
 
         //when
         MemberGetResponses response = memberService.getAllBlackMembers();

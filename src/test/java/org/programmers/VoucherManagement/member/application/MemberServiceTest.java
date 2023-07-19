@@ -10,7 +10,8 @@ import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
 import org.programmers.VoucherManagement.member.dto.response.MemberGetResponse;
 import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.exception.MemberException;
-import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -33,7 +34,10 @@ public class MemberServiceTest {
     MemberService memberService;
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberReaderRepository memberReaderRepository;
+
+    @Autowired
+    MemberStoreRepository memberStoreRepository;
 
     @Test
     @DisplayName("회원 정보(status)를 BLACK으로 수정한다. - 성공")
@@ -41,14 +45,14 @@ public class MemberServiceTest {
         //given
         UUID memberId = UUID.randomUUID();
         Member saveMember = new Member(memberId, "Kim", MemberStatus.WHITE);
-        memberRepository.insert(saveMember);
+        memberStoreRepository.insert(saveMember);
         MemberUpdateRequest updateRequestDto = new MemberUpdateRequest(MemberStatus.BLACK);
 
         //when
         memberService.updateMember(memberId, updateRequestDto);
 
         //then
-        Member updateMember = memberRepository.findById(memberId).get();
+        Member updateMember = memberReaderRepository.findById(memberId).get();
         assertThat(updateMember.getMemberStatus()).isEqualTo(updateRequestDto.memberStatus());
     }
 
@@ -58,13 +62,13 @@ public class MemberServiceTest {
         //given
         UUID memberId = UUID.randomUUID();
         Member saveMember = new Member(memberId, "Kim", MemberStatus.BLACK);
-        memberRepository.insert(saveMember);
+        memberStoreRepository.insert(saveMember);
 
         //when
         memberService.deleteMember(saveMember.getMemberUUID());
 
         //then
-        Optional<Member> optionalMember = memberRepository.findById(memberId);
+        Optional<Member> optionalMember = memberReaderRepository.findById(memberId);
         assertThat(optionalMember).isEqualTo(Optional.empty());
     }
 
@@ -74,7 +78,7 @@ public class MemberServiceTest {
         //given
         UUID memberId = UUID.randomUUID();
         Member saveMember = new Member(memberId, "Kim", MemberStatus.BLACK);
-        memberRepository.insert(saveMember);
+        memberStoreRepository.insert(saveMember);
 
         //when
         memberService.deleteMember(saveMember.getMemberUUID());
@@ -91,7 +95,7 @@ public class MemberServiceTest {
     @MethodSource("member_Data")
     void getAllMembers_EqualsListOfMembers(List<Member> members) {
         //given
-        members.forEach(member -> memberRepository.insert(member));
+        members.forEach(member -> memberStoreRepository.insert(member));
 
         //when
         MemberGetResponses response = memberService.getAllMembers();
@@ -110,7 +114,7 @@ public class MemberServiceTest {
     @MethodSource("member_Data")
     void getAllBlackMembers_EqualsListOfMembers(List<Member> members) {
         //given
-        members.forEach(member -> memberRepository.insert(member));
+        members.forEach(member -> memberStoreRepository.insert(member));
         List<Member> blackMemberList = members.stream()
                 .filter(m -> m.getMemberStatus() == MemberStatus.BLACK)
                 .toList();
