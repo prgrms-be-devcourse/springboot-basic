@@ -1,21 +1,16 @@
 package com.wonu606.vouchermanager.controller.customer.converter;
 
+import com.wonu606.vouchermanager.controller.customer.request.WalletDeleteRequest;
+import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import java.util.UUID;
+import org.springframework.core.convert.converter.Converter;
 
-public class WalletDeleteParamConverter {
-    private final UUID voucherUuid;
-    private final String customerEmail;
+public class WalletDeleteParamConverter implements
+        Converter<WalletDeleteRequest, WalletDeleteParam> {
 
-    public WalletDeleteParamConverter(UUID voucherUuid, String customerEmail) {
-        this.voucherUuid = voucherUuid;
-        this.customerEmail = customerEmail;
-    }
-
-    public UUID getVoucherUuid() {
-        return voucherUuid;
-    }
-
-    public String getCustomerEmail() {
-        return customerEmail;
+    @Override
+    public WalletDeleteParam convert(WalletDeleteRequest request) {
+        return new WalletDeleteParam(UUID.fromString(request.getVoucherId()),
+                request.getCustomerId());
     }
 }

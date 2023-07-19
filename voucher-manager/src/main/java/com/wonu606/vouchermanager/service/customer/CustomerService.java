@@ -13,7 +13,7 @@ import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
 import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
 import com.wonu606.vouchermanager.service.customer.result.CustomerResult;
 import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
-import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVoucherParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedVoucherResult;
 import java.util.List;
@@ -61,7 +61,7 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public List<OwnedVoucherResult> findOwnedVouchersByCustomer(OwnedVoucherParam param) {
+    public List<OwnedVoucherResult> findOwnedVouchersByCustomer(OwnedVouchersParam param) {
         return voucherWalletService.findOwnedVouchersByCustomer(param);
     }
 

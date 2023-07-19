@@ -16,7 +16,7 @@ import com.wonu606.vouchermanager.service.voucherwallet.converter.WalletDeleteQu
 import com.wonu606.vouchermanager.service.voucherwallet.converter.WalletInsertQueryConverter;
 import com.wonu606.vouchermanager.service.voucherwallet.converter.WalletInsertResultConverter;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
-import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVoucherParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
@@ -54,7 +54,7 @@ public class VoucherWalletService {
         ownedCustomersResultConverter = new OwnedCustomersResultConverter();
     }
 
-    public List<OwnedVoucherResult> findOwnedVouchersByCustomer(OwnedVoucherParam param) {
+    public List<OwnedVoucherResult> findOwnedVouchersByCustomer(OwnedVouchersParam param) {
         OwnedVouchersQuery query = ownedVoucherQueryConverter.convert(param);
         List<OwnedVoucherResultSet> resultSets =
                 voucherWalletRepository.findOwnedVouchersByCustomer(query);

@@ -1,10 +1,10 @@
 package com.wonu606.vouchermanager.service.voucherwallet.param;
 
-public class OwnedVoucherParam {
+public class OwnedVouchersParam {
 
     private final String email;
 
-    public OwnedVoucherParam(String email) {
+    public OwnedVouchersParam(String email) {
         this.email = email;
     }
 

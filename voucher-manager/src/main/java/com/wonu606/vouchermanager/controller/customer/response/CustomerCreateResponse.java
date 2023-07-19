@@ -2,19 +2,13 @@ package com.wonu606.vouchermanager.controller.customer.response;
 
 public class CustomerCreateResponse {
 
-    private final String email;
-    private final String nickname;
+    private final Boolean success;
 
-    public CustomerCreateResponse(String email, String nickname) {
-        this.email = email;
-        this.nickname = nickname;
+    public CustomerCreateResponse(Boolean success) {
+        this.success = success;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public String getNickname() {
-        return nickname;
+    public Boolean getSuccess() {
+        return success;
     }
 }
