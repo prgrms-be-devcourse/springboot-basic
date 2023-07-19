@@ -47,26 +47,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.InsertBuilder()
-                        .insert("voucher")
-                        .insertColumns("voucher_id,voucher_type, discount, created_at")
-                        .build()
-                        , toParamMap(voucher));
-        if (updatedRowNumber != VALID_ROW_RESULT) {
-            logger.error("추가된 바우처가 없습니다.");
-        }
+        String insertSql = new SqlBuilder.InsertBuilder()
+                .insert("voucher")
+                .insertColumns("voucher_id,voucher_type, discount, created_at")
+                .build();
+
+        jdbcTemplate.update(insertSql, toParamMap(voucher));
     }
 
     @Override
     public List<Voucher> findAll() {
         try {
-            return jdbcTemplate.query(new SqlBuilder.SelectBuilder()
-                            .select("*")
-                            .from("voucher")
-                            .build()
-                            , voucherRowMapper);
+            String findAllSql = new SqlBuilder.SelectBuilder()
+                    .select("*")
+                    .from("voucher")
+                    .build();
+
+            return jdbcTemplate.query(findAllSql, voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("조회된 바우처 리스트가 없습니다.", e);
             return Collections.emptyList();
         }
     }
@@ -74,23 +72,22 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByType(String voucherType) {
         try {
-            return jdbcTemplate.query(new SqlBuilder.SelectBuilder()
-                            .select("*")
-                            .from("voucher")
-                            .where("voucher_type = :voucherType")
-                            .build(),
-                            Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
+            String findByTypeSql = new SqlBuilder.SelectBuilder()
+                    .select("*")
+                    .from("voucher")
+                    .where("voucher_type = :voucherType")
+                    .build();
+            return jdbcTemplate.query(findByTypeSql, Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("조회된 바우처 리스트가 없습니다.", e);
             return Collections.emptyList();
         }
     }
 
     @Override
     public void delete() {
-        jdbcTemplate.update(new SqlBuilder.DeleteBuilder()
+        String deleteSql = new SqlBuilder.DeleteBuilder()
                 .delete("voucher")
-                .build()
-                , new HashMap<>());
+                .build();
+        jdbcTemplate.update(deleteSql, new HashMap<>());
     }
 }

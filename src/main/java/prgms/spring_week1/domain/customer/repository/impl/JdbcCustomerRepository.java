@@ -25,8 +25,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final int VALID_ROW_RESULT = 1;
-
     public JdbcCustomerRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
@@ -54,76 +52,69 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void insert(Customer customer) {
-        var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.InsertBuilder()
-                        .insert("customers")
-                        .insertColumns("customer_id,email, name")
-                        .values("UUID_TO_BIN(:customerId),:email,:name")
-                        .build()
-                , toParamMap(customer));
+        String insertSQL = new SqlBuilder.InsertBuilder()
+                .insert("customers")
+                .insertColumns("customer_id,email, name")
+                .values("UUID_TO_BIN(:customerId),:email,:name")
+                .build();
 
-        if (updatedRowNumber != VALID_ROW_RESULT) {
-            logger.error("추가된 회원 정보가 없습니다.");
-        }
+        jdbcTemplate.update(insertSQL, toParamMap(customer));
     }
 
     @Override
     public List<Customer> findAll() {
         try {
-            return jdbcTemplate.query(new SqlBuilder.SelectBuilder()
-                            .select("*")
-                            .from("customers")
-                            .build()
-                    , customerRowMapper);
+            String findAllSql = new SqlBuilder.SelectBuilder()
+                    .select("*")
+                    .from("customers")
+                    .build();
+
+            return jdbcTemplate.query(findAllSql, customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
-            logger.error("조회된 회원 정보 리스트가 없습니다.", e);
             return Collections.emptyList();
         }
     }
 
     @Override
     public Customer findByEmail(String email) {
-        List<Customer> foundCustomer = jdbcTemplate.query(new SqlBuilder.SelectBuilder()
-                        .select("*")
-                        .from("customers")
-                        .where("email = :email")
-                        .build()
-                , Collections.singletonMap("email", email), customerRowMapper);
+        String findByEmailSql = new SqlBuilder.SelectBuilder()
+                .select("*")
+                .from("customers")
+                .where("email = :email")
+                .build();
+
+        List<Customer> foundCustomer = jdbcTemplate.query(findByEmailSql, Collections.singletonMap("email", email), customerRowMapper);
 
         return DataAccessUtils.singleResult(foundCustomer);
     }
 
     @Override
     public void updateInfo(String beforeUpdateEmail, String afterUpdateEmail) {
-        var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.UpdateBuilder()
-                        .update("customers")
-                        .set("email = :afterUpdateEmail")
-                        .where("email = :beforeUpdateEmail")
-                        .build()
-                , toEmailParamMap(beforeUpdateEmail, afterUpdateEmail));
+        String updateInfoSql = new SqlBuilder.UpdateBuilder()
+                .update("customers")
+                .set("email = :afterUpdateEmail")
+                .where("email = :beforeUpdateEmail")
+                .build();
 
-        if (updatedRowNumber != VALID_ROW_RESULT) {
-            logger.error("회원 정보를 찾을 수 없습니다.");
-        }
+        jdbcTemplate.update(updateInfoSql, toEmailParamMap(beforeUpdateEmail, afterUpdateEmail));
     }
 
     @Override
     public void deleteByEmail(String email) {
-        var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.DeleteBuilder()
-                        .delete("customers")
-                        .where("email = :email")
-                        .build()
-                , Collections.singletonMap("email", email));
+        String deleteByEmailSql = new SqlBuilder.DeleteBuilder()
+                .delete("customers")
+                .where("email = :email")
+                .build();
 
-        if (updatedRowNumber != VALID_ROW_RESULT) {
-            logger.error("회원 정보를 찾을 수 없습니다.");
-        }
+        jdbcTemplate.update(deleteByEmailSql, Collections.singletonMap("email", email));
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(new SqlBuilder.DeleteBuilder()
-                        .delete("customers")
-                        .build()
-                , new HashMap<>());
+        String deleteAllSql = new SqlBuilder.DeleteBuilder()
+                .delete("customers")
+                .build();
+
+        jdbcTemplate.update(deleteAllSql, new HashMap<>());
     }
 }
