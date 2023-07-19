@@ -91,7 +91,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("바우처 저장 후 성공적으로 저장 되었는지 확인")
     void insert() {
         //given
-        Voucher insertVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher insertVoucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
 
         //when
         fileVoucherRepository.insert(insertVoucher);
@@ -129,8 +129,8 @@ class FileVoucherRepositoryTest {
 
     static Stream<Arguments> voucherSource() {
         List<Voucher> voucherList = new ArrayList<>();
-        voucherList.add(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
-        voucherList.add(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
+        voucherList.add(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
+        voucherList.add(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
         return Stream.of(Arguments.of(voucherList));
     }
 }

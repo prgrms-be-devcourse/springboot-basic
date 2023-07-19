@@ -3,13 +3,13 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.commendLine.Console;
 import org.prgrms.kdt.member.controller.MemberController;
 import org.prgrms.kdt.member.domain.MemberStatus;
-import org.prgrms.kdt.member.dto.CreateMemberRequest;
+import org.prgrms.kdt.member.controller.dto.ControllerCreateMemberRequest;
 import org.prgrms.kdt.voucher.controller.VoucherController;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
+import org.prgrms.kdt.voucher.controller.dto.ControllerCreateVoucherRequest;
 import org.prgrms.kdt.wallet.controller.WalletController;
-import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponses;
+import org.prgrms.kdt.wallet.controller.dto.ControllerCreateWalletRequest;
+import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class ViewManager {
     public void createVoucher() throws IOException {
         VoucherType voucherType = VoucherType.getTypeByNum(console.getVoucherTypes());
         double discountAmount = Double.parseDouble(console.getDiscountAmount());
-        voucherController.create(new CreateVoucherRequest(voucherType, discountAmount));
+        voucherController.create(new ControllerCreateVoucherRequest(voucherType, discountAmount));
     }
 
     public void findAllVoucher() {
@@ -45,7 +45,7 @@ public class ViewManager {
 
     public void createMember() throws IOException {
         String memberName = console.getMemberName();
-        memberController.createMember(new CreateMemberRequest(memberName, MemberStatus.COMMON));
+        memberController.createMember(new ControllerCreateMemberRequest(memberName, MemberStatus.COMMON));
     }
 
     public void findAllMember() {
@@ -55,7 +55,7 @@ public class ViewManager {
     public void assignVoucher() throws IOException {
         UUID memberUuid = console.getMemberId();
         UUID voucherUuid = console.getVoucherId();
-        walletController.createWallet(new CreateWalletRequest(memberUuid, voucherUuid));
+        walletController.createWallet(new ControllerCreateWalletRequest(memberUuid, voucherUuid));
     }
 
     public void findVouchersByMember() throws IOException {

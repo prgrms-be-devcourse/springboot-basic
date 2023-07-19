@@ -1,20 +1,23 @@
 package org.prgrms.kdt.member.controller;
 
-import org.prgrms.kdt.member.dto.CreateMemberRequest;
-import org.prgrms.kdt.member.dto.MemberResponses;
+import org.prgrms.kdt.member.controller.dto.ControllerCreateMemberRequest;
+import org.prgrms.kdt.member.controller.mapper.ControllerMemberMapper;
+import org.prgrms.kdt.member.service.dto.MemberResponses;
 import org.prgrms.kdt.member.service.MemberService;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MemberController {
     private final MemberService memberService;
+    private final ControllerMemberMapper mapper;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, ControllerMemberMapper mapper) {
         this.memberService = memberService;
+        this.mapper = mapper;
     }
 
-    public void createMember(CreateMemberRequest request) {
-        memberService.createMember(request);
+    public void createMember(ControllerCreateMemberRequest request) {
+        memberService.createMember(mapper.controllerRequestToServiceRequest(request));
     }
 
     public MemberResponses findAllMember() {

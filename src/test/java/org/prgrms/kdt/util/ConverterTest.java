@@ -21,7 +21,7 @@ class ConverterTest {
     @DisplayName("바우처 객체를 스트링으로 변환")
     void voucherToString() {
         //given
-        Voucher voucher = new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(30.0));
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(30.0));
         UUID uuid = voucher.getVoucherId();
 
         //when

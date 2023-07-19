@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.dto;
+package org.prgrms.kdt.voucher.service.dto;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 

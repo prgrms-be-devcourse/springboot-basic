@@ -7,12 +7,6 @@ public class Voucher {
     private final VoucherType voucherType;
     private final DiscountPolicy discountPolicy;
 
-    public Voucher(VoucherType voucherType, DiscountPolicy discountPolicy) {
-        this.voucherId = UUID.randomUUID();
-        this.voucherType = voucherType;
-        this.discountPolicy = discountPolicy;
-    }
-
     public Voucher(UUID voucherId, VoucherType voucherType, DiscountPolicy discountPolicy) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;

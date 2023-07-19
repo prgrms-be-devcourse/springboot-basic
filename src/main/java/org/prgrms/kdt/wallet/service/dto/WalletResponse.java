@@ -1,4 +1,4 @@
-package org.prgrms.kdt.wallet.dto.response;
+package org.prgrms.kdt.wallet.service.dto;
 
 import org.prgrms.kdt.wallet.domain.Wallet;
 

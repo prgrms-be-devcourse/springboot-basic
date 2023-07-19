@@ -1,4 +1,4 @@
-package org.prgrms.kdt.member.dto;
+package org.prgrms.kdt.member.service.dto;
 
 import org.prgrms.kdt.member.domain.Member;
 

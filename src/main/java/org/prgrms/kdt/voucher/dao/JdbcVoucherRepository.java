@@ -16,7 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-@Profile({"default", "test"})
+@Profile({"default", "test", "web"})
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {

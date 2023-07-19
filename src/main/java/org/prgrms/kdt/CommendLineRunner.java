@@ -27,13 +27,12 @@ public class CommendLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        boolean isRunning = true;
-        while (isRunning) {
+        while (true) {
             try {
                 console.printMenu();
                 int getUserMenu = Integer.parseInt(console.getUserMenu());
                 Menu menu = Menu.getMenu(getUserMenu);
-                isRunning = menu.isNotExit();
+                if (menu.isExit()) break;
                 executeAction(menu);
 
             } catch (InvalidInputException e) {

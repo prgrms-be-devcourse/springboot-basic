@@ -13,9 +13,10 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
-import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponses;
-import org.prgrms.kdt.wallet.dto.response.WalletResponse;
+import org.prgrms.kdt.wallet.controller.dto.ControllerCreateWalletRequest;
+import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
+import org.prgrms.kdt.wallet.service.dto.ServiceCreateWalletRequest;
+import org.prgrms.kdt.wallet.service.dto.WalletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -57,11 +58,11 @@ class WalletServiceTest {
         //given
         UUID expectMemberId = UUID.fromString("9a3d5b3e-2d12-4958-9ef3-52d424485895");
         Member member = memberRepository.insert(new Member(expectMemberId, "giho", MemberStatus.COMMON));
-        Voucher voucher = voucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0)));
-        CreateWalletRequest createWalletRequest = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
+        Voucher voucher = voucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0)));
+        ServiceCreateWalletRequest request = new ServiceCreateWalletRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
 
         //when
-        WalletResponse resultWallet = walletService.assignVoucherToCustomer(createWalletRequest);
+        WalletResponse resultWallet = walletService.assignVoucherToCustomer(request);
 
         //then
         UUID resultMemberId = resultWallet.memberId();
@@ -72,12 +73,12 @@ class WalletServiceTest {
     @DisplayName("존재하지 않는 바우처가 담긴 request객체를 통해 월렛 할당 시 EntityNotFoundException 확인")
     void assignVoucherToCustomer_incorrectRequest_EntityNotFoundException() {
         //given
-        Member member = memberRepository.insert(new Member("giho", MemberStatus.COMMON));
-        Voucher voucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        CreateWalletRequest createWalletRequest = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
+        Member member = memberRepository.insert(new Member(UUID.randomUUID(), "giho", MemberStatus.COMMON));
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        ServiceCreateWalletRequest request = new ServiceCreateWalletRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
 
         //when
-        Exception exception = catchException(() -> walletService.assignVoucherToCustomer(createWalletRequest));
+        Exception exception = catchException(() -> walletService.assignVoucherToCustomer(request));
 
         //then
         assertThat(exception).isInstanceOf(EntityNotFoundException.class);

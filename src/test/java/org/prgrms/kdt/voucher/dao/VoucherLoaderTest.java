@@ -41,8 +41,8 @@ class VoucherLoaderTest {
     }
 
     static Stream<Voucher[]> voucherSource() {
-        Voucher voucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        Voucher voucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
         return Stream.of(new Voucher[][]{{voucher1, voucher2}});
     }
 }

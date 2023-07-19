@@ -6,13 +6,15 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.voucher.dao.JdbcVoucherRepository;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.dto.CreateVoucherRequest;
-import org.prgrms.kdt.voucher.dto.VoucherResponse;
-import org.prgrms.kdt.voucher.dto.VoucherResponses;
+import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
+import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
+import org.prgrms.kdt.voucher.service.dto.ServiceCreateVoucherRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -30,19 +32,19 @@ class VoucherServiceTest {
 
     @BeforeEach
     void setup() {
-        jdbcVoucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
-        jdbcVoucherRepository.insert(new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(35.0)));
-        jdbcVoucherRepository.insert(new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0)));
+        jdbcVoucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
+        jdbcVoucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(35.0)));
+        jdbcVoucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0)));
     }
 
     @Test
     @DisplayName("바우처 생성 후 반환된 바우처의 amount 확인")
     void createVoucher_correctRequest_correctAmount() {
         //given
-        CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(VoucherType.FIXED, 50.0);
+        ServiceCreateVoucherRequest request = new ServiceCreateVoucherRequest(VoucherType.FIXED, 50.0);
 
         //when
-        VoucherResponse voucher = voucherService.createVoucher(createVoucherRequest);
+        VoucherResponse voucher = voucherService.createVoucher(request);
 
         //then
         double resultAmount = voucher.amount();
