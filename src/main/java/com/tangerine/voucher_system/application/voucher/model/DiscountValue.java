@@ -10,27 +10,11 @@ public class DiscountValue {
     private final VoucherType voucherType;
     private final double value;
 
-    public DiscountValue(VoucherType voucherType, String valueString) {
-        double parsedValue = parseDiscountValue(valueString);
-        validatePositive(parsedValue);
-        validatePercent(voucherType, parsedValue);
-        this.voucherType = voucherType;
-        this.value = parsedValue;
-    }
-
     public DiscountValue(VoucherType voucherType, double valueDouble) {
         validatePositive(valueDouble);
         validatePercent(voucherType, valueDouble);
         this.voucherType = voucherType;
         this.value = valueDouble;
-    }
-
-    private double parseDiscountValue(String value) {
-        try {
-            return Double.parseDouble(value);
-        } catch (Exception e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_VALUE.getMessageText(), e.getCause());
-        }
     }
 
     private void validatePositive(double parsedValue) {

@@ -1,6 +1,8 @@
 package com.tangerine.voucher_system.application.customer.controller;
 
-import com.tangerine.voucher_system.application.customer.controller.dto.*;
+import com.tangerine.voucher_system.application.customer.controller.dto.CreateCustomerRequest;
+import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
+import com.tangerine.voucher_system.application.customer.controller.dto.UpdateCustomerRequest;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;

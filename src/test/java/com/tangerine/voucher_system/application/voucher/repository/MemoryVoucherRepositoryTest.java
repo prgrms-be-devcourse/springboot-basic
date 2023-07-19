@@ -28,8 +28,8 @@ class MemoryVoucherRepositoryTest {
 
     static Stream<Arguments> provideVouchers() {
         return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDate.now())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "2"), LocalDate.now()))
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 100), LocalDate.now())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 2), LocalDate.now()))
         );
     }
 
@@ -55,7 +55,7 @@ class MemoryVoucherRepositoryTest {
 
         Voucher result = voucherRepository.update(voucher);
 
-        assertThat(result.getVoucherId()).isSameAs(voucher.getVoucherId());
+        assertThat(result.voucherId()).isSameAs(voucher.voucherId());
     }
 
     @ParameterizedTest
@@ -85,7 +85,7 @@ class MemoryVoucherRepositoryTest {
     void findById_ParamExistVoucher_ReturnVoucherOrNull(Voucher voucher) {
         voucherRepository.insert(voucher);
 
-        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.voucherId());
 
         assertThat(foundVoucher).containsSame(voucher);
     }
@@ -95,7 +95,7 @@ class MemoryVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void findById_ParamNotExistVoucher_EmptyOptional(Voucher voucher) {
 
-        Optional<Voucher> maybeNull = voucherRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> maybeNull = voucherRepository.findById(voucher.voucherId());
 
         assertThat(maybeNull).isEmpty();
     }
@@ -106,10 +106,10 @@ class MemoryVoucherRepositoryTest {
     void findByCreated_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
 
-        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.getCreatedAt());
+        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
 
         assertThat(result).isNotEmpty();
-        assertThat(result.get().getCreatedAt()).isSameAs(voucher.getCreatedAt());
+        assertThat(result.get().createdAt()).isSameAs(voucher.createdAt());
     }
 
     @ParameterizedTest
@@ -117,7 +117,7 @@ class MemoryVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void findByCreated_ParamNotExistVoucher_ReturnVoucher(Voucher voucher) {
 
-        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.getCreatedAt());
+        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
 
         assertThat(result).isEmpty();
     }
@@ -129,9 +129,9 @@ class MemoryVoucherRepositoryTest {
     void deleteById_ParamVoucher_DeleteVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
 
-        voucherRepository.deleteById(voucher.getVoucherId());
+        voucherRepository.deleteById(voucher.voucherId());
 
-        Optional<Voucher> maybeNull = voucherRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> maybeNull = voucherRepository.findById(voucher.voucherId());
         assertThat(maybeNull).isEmpty();
     }
 

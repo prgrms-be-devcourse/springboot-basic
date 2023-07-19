@@ -3,8 +3,10 @@ package com.tangerine.voucher_system.application.voucher.service;
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
-import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.repository.VoucherRepository;
+import com.tangerine.voucher_system.application.voucher.service.dto.VoucherParam;
+import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
+import com.tangerine.voucher_system.application.voucher.service.mapper.VoucherServiceMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,37 +23,42 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(Voucher voucher) {
-        return voucherRepository.insert(voucher);
+    public VoucherResult createVoucher(VoucherParam param) {
+        return VoucherServiceMapper.INSTANCE.domainToResult(
+                voucherRepository.insert(VoucherServiceMapper.INSTANCE.paramToDomain(param)));
     }
 
-    public Voucher updateVoucher(Voucher voucher) {
-        return voucherRepository.update(voucher);
+    public VoucherResult updateVoucher(VoucherParam param) {
+        return VoucherServiceMapper.INSTANCE.domainToResult(
+                voucherRepository.update(VoucherServiceMapper.INSTANCE.paramToDomain(param))
+        );
     }
 
-    public List<Voucher> findVouchers() {
-        return voucherRepository.findAll();
+    public List<VoucherResult> findVouchers() {
+        return voucherRepository.findAll()
+                .stream()
+                .map(VoucherServiceMapper.INSTANCE::domainToResult)
+                .toList();
     }
 
-    public Voucher findVoucherById(UUID voucherId) {
-        return voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
+    public VoucherResult findVoucherById(UUID voucherId) {
+        return VoucherServiceMapper.INSTANCE.domainToResult(
+                voucherRepository.findById(voucherId)
+                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()))
+        );
     }
 
-    public Voucher findVoucherByVoucherType(VoucherType voucherType) {
-        return voucherRepository.findByVoucherType(voucherType)
-                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
+    public VoucherResult findVoucherByCreatedAt(LocalDate createdAt) {
+        return VoucherServiceMapper.INSTANCE.domainToResult(
+                voucherRepository.findByCreatedAt(createdAt)
+                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())));
     }
 
-    public Voucher findVoucherByCreatedAt(LocalDate createdAt) {
-        return voucherRepository.findByCreatedAt(createdAt)
-                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
-    }
-
-    public Voucher deleteVoucherById(UUID voucherId) {
+    public VoucherResult deleteVoucherById(UUID voucherId) {
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         voucherRepository.deleteById(voucherId);
-        return foundVoucher.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()));
+        return VoucherServiceMapper.INSTANCE.domainToResult(
+                foundVoucher.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())));
     }
 
 }

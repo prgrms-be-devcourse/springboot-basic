@@ -94,21 +94,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByVoucherType(VoucherType voucherType) {
-        try {
-            return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
-                            "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers WHERE voucher_type = :voucherType",
-                            Collections.singletonMap("voucherType", voucherType.toString()),
-                            voucherRowMapper
-                    )
-            );
-        } catch (DataAccessException e) {
-            return Optional.empty();
-        }
-    }
-
-    @Override
     public Optional<Voucher> findByCreatedAt(LocalDate createdAt) {
         try {
             return Optional.ofNullable(
@@ -137,10 +122,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucherId", voucher.getVoucherId().toString());
-        paramMap.put("voucherType", voucher.getVoucherType().toString());
-        paramMap.put("discountValue", voucher.getDiscountValue().getValue());
-        paramMap.put("createdAt", Date.valueOf(voucher.getCreatedAt()));
+        paramMap.put("voucherId", voucher.voucherId().toString());
+        paramMap.put("voucherType", voucher.voucherType().toString());
+        paramMap.put("discountValue", voucher.discountValue().getValue());
+        paramMap.put("createdAt", Date.valueOf(voucher.createdAt()));
         return paramMap;
     }
 

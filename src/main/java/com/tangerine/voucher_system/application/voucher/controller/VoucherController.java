@@ -1,54 +1,24 @@
 package com.tangerine.voucher_system.application.voucher.controller;
 
-import com.tangerine.voucher_system.application.voucher.model.VoucherType;
-import com.tangerine.voucher_system.application.voucher.service.VoucherService;
-import org.springframework.stereotype.Controller;
+import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVoucherRequest;
+import com.tangerine.voucher_system.application.voucher.controller.dto.UpdateVoucherRequest;
+import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
-public class VoucherController {
+public interface VoucherController {
+    ResponseEntity<VoucherResponse> createVoucher(CreateVoucherRequest request);
 
-    private final VoucherService voucherService;
+    ResponseEntity<VoucherResponse> updateVoucher(UpdateVoucherRequest request);
 
-    public VoucherController(VoucherService voucherService) {
-        this.voucherService = voucherService;
-    }
+    ResponseEntity<List<VoucherResponse>> voucherList();
 
-    public VoucherDto createVoucher(VoucherDto voucherDto) {
-        return VoucherDto.of(
-                voucherService.createVoucher(voucherDto.to())
-        );
-    }
+    ResponseEntity<VoucherResponse> voucherById(UUID voucherId);
 
-    public VoucherDto updateVoucher(VoucherDto voucherDto) {
-        return VoucherDto.of(
-                voucherService.updateVoucher(voucherDto.to())
-        );
-    }
+    ResponseEntity<VoucherResponse> voucherByCreatedAt(LocalDate createdAt);
 
-    public List<VoucherDto> voucherList() {
-        return voucherService.findVouchers().stream()
-                .map(VoucherDto::of)
-                .toList();
-    }
-
-    public VoucherDto voucherById(UUID voucherId) {
-        return VoucherDto.of(voucherService.findVoucherById(voucherId));
-    }
-
-    public VoucherDto voucherByType(VoucherType voucherType) {
-        return VoucherDto.of(voucherService.findVoucherByVoucherType(voucherType));
-    }
-
-    public VoucherDto voucherByCreatedAt(LocalDate createdAt) {
-        return VoucherDto.of(voucherService.findVoucherByCreatedAt(createdAt));
-    }
-
-    public VoucherDto deleteVoucherById(UUID voucherId) {
-        return VoucherDto.of(voucherService.deleteVoucherById(voucherId));
-    }
-
+    ResponseEntity<VoucherResponse> deleteVoucherById(UUID voucherId);
 }

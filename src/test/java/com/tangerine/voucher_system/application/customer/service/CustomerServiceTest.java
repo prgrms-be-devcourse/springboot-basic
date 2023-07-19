@@ -1,6 +1,5 @@
 package com.tangerine.voucher_system.application.customer.service;
 
-import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerParam;

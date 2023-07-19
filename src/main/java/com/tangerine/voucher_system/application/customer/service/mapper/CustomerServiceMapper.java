@@ -1,4 +1,4 @@
-package com.tangerine.voucher_system.application.customer.service.converter;
+package com.tangerine.voucher_system.application.customer.service.mapper;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerParam;
@@ -7,8 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface ServiceMapper {
-    ServiceMapper INSTANCE = Mappers.getMapper(ServiceMapper.class);
+public interface CustomerServiceMapper {
+    CustomerServiceMapper INSTANCE = Mappers.getMapper(CustomerServiceMapper.class);
 
     Customer paramToDomain(CustomerParam param);
 

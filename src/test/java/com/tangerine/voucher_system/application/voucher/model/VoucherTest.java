@@ -19,24 +19,24 @@ class VoucherTest {
 
     static Stream<Arguments> providePercentVouchers() {
         return Stream.of(
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "10"), LocalDate.now())),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "100"), LocalDate.now())),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "0"), LocalDate.now()))
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 100), LocalDate.now())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 13), LocalDate.now())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 44), LocalDate.now()))
         );
     }
 
     static Stream<Arguments> provideFixedVouchers() {
         return Stream.of(
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"), LocalDate.now())),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDate.now())),
-                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "0"), LocalDate.now()))
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 10), LocalDate.now())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 100), LocalDate.now())),
+                Arguments.of(new Price(100), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 0), LocalDate.now()))
         );
     }
 
     static Stream<Arguments> provideMakeWrongFixedVouchers() {
         return Stream.of(
-                Arguments.of(new Price(2), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "10"), LocalDate.now())),
-                Arguments.of(new Price(4), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDate.now()))
+                Arguments.of(new Price(2), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 10), LocalDate.now())),
+                Arguments.of(new Price(4), new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 100), LocalDate.now()))
         );
     }
 
@@ -55,10 +55,10 @@ class VoucherTest {
     void toString_PercentVoucher_ReturnVoucherString(Price originalPrice, Voucher voucher) {
         String expected = MessageFormat.format(
                 "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}'}'",
-                voucher.getVoucherId().toString(),
-                voucher.getVoucherType().toString(),
-                voucher.getDiscountValue().getValue(),
-                voucher.getCreatedAt().toString());
+                voucher.voucherId().toString(),
+                voucher.voucherType().toString(),
+                voucher.discountValue().getValue(),
+                voucher.createdAt().toString());
 
         String result = voucher.toString();
 

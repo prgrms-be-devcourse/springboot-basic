@@ -1,4 +1,4 @@
-package com.tangerine.voucher_system.application.customer.controller.converter;
+package com.tangerine.voucher_system.application.customer.controller.mapper;
 
 import com.tangerine.voucher_system.application.customer.controller.dto.CreateCustomerRequest;
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
@@ -10,9 +10,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
-public interface ControllerMapper {
+public interface CustomerControllerMapper {
 
-    ControllerMapper INSTANCE = Mappers.getMapper(ControllerMapper.class);
+    CustomerControllerMapper INSTANCE = Mappers.getMapper(CustomerControllerMapper.class);
 
     @Mapping(target = "customerId", expression = "java(java.util.UUID.randomUUID())")
     CustomerParam requestToParam(CreateCustomerRequest request);

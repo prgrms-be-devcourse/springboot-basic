@@ -17,10 +17,10 @@ public record VoucherDto(
 
     public static VoucherDto of(Voucher voucher) {
         return new VoucherDto(
-                voucher.getVoucherId(),
-                voucher.getVoucherType(),
-                voucher.getDiscountValue(),
-                voucher.getCreatedAt()
+                voucher.voucherId(),
+                voucher.voucherType(),
+                voucher.discountValue(),
+                voucher.createdAt()
         );
     }
 

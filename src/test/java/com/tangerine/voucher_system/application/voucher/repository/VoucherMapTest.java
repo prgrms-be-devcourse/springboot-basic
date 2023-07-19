@@ -26,9 +26,9 @@ class VoucherMapTest {
 
     static Stream<Arguments> provideValid() {
         return Stream.of(
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "100"), LocalDate.now())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, "13"), LocalDate.now())),
-                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, "14"), LocalDate.now()))
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 100), LocalDate.now())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 13), LocalDate.now())),
+                Arguments.of(new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 14), LocalDate.now()))
         );
     }
 
@@ -68,7 +68,7 @@ class VoucherMapTest {
     @DisplayName("존재하는 바우처 넣으면 바우처 추가 성공한다.")
     @MethodSource("provideValid")
     void addIfVoucherExist_ParamExistVoucher_AddVoucher(Voucher voucher) {
-        Voucher newVoucher = new Voucher(voucher.getVoucherId(), voucher.getVoucherType(), new DiscountValue(voucher.getVoucherType(), 1), LocalDate.now());
+        Voucher newVoucher = new Voucher(voucher.voucherId(), voucher.voucherType(), new DiscountValue(voucher.voucherType(), 1), LocalDate.now());
         voucherMap.addVoucher(voucher);
 
         Voucher foundVoucher = voucherMap.addIfVoucherExist(newVoucher);
@@ -116,9 +116,9 @@ class VoucherMapTest {
     void removeVoucherById_ParamExistVoucher_RemoveVoucher(Voucher voucher) {
         voucherMap.addVoucher(voucher);
 
-        voucherMap.removeVoucherById(voucher.getVoucherId());
+        voucherMap.removeVoucherById(voucher.voucherId());
 
-        assertThat(voucherMap.getVoucherById(voucher.getVoucherId())).isNull();
+        assertThat(voucherMap.getVoucherById(voucher.voucherId())).isNull();
     }
 
     @ParameterizedTest

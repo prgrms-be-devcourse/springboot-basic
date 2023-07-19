@@ -1,13 +1,15 @@
 package com.tangerine.voucher_system.application.wallet.service;
 
-import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.repository.CustomerRepository;
+import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
-import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.repository.VoucherRepository;
-import com.tangerine.voucher_system.application.wallet.model.Wallet;
+import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
 import com.tangerine.voucher_system.application.wallet.repository.WalletRepository;
+import com.tangerine.voucher_system.application.wallet.service.dto.WalletParam;
+import com.tangerine.voucher_system.application.wallet.service.dto.WalletResult;
+import com.tangerine.voucher_system.application.wallet.service.mapper.WalletServiceMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,39 +28,47 @@ public class WalletService {
         this.customerRepository = customerRepository;
     }
 
-    public void createWallet(Wallet wallet) {
-        walletRepository.insert(wallet);
+    public void createWallet(WalletParam param) {
+        walletRepository.insert(WalletServiceMapper.INSTANCE.paramToDomain(param));
     }
 
-    public void updateWallet(Wallet wallet) {
-        walletRepository.update(wallet);
+    public void updateWallet(WalletParam param) {
+        walletRepository.update(WalletServiceMapper.INSTANCE.paramToDomain(param));
     }
 
     public void deleteWalletById(UUID walletId) {
         walletRepository.deleteById(walletId);
     }
 
-    public List<Wallet> findWalletsByCustomerId(UUID customerId) {
-        return walletRepository.findByCustomerId(customerId);
-    }
-
-    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-        List<Wallet> wallets = findWalletsByCustomerId(customerId);
-        return wallets.stream()
-                .map(wallet -> voucherRepository.findById(wallet.voucherId())
-                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())))
+    public List<WalletResult> findWalletsByCustomerId(UUID customerId) {
+        return walletRepository.findByCustomerId(customerId)
+                .stream()
+                .map(WalletServiceMapper.INSTANCE::domainToResult)
                 .toList();
     }
 
-    public List<Wallet> findWalletsByVoucherId(UUID voucherId) {
-        return walletRepository.findByVoucherId(voucherId);
+    public List<VoucherResult> findVouchersByCustomerId(UUID customerId) {
+        return findWalletsByCustomerId(customerId)
+                .stream()
+                .map(wallet -> voucherRepository.findById(wallet.voucherId())
+                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())))
+                .map(WalletServiceMapper.INSTANCE::domainToResult)
+                .toList();
     }
 
-    public List<Customer> findCustomersByVoucherId(UUID voucherId) {
-        List<Wallet> wallets = findWalletsByVoucherId(voucherId);
-        return wallets.stream()
+    public List<WalletResult> findWalletsByVoucherId(UUID voucherId) {
+        return walletRepository.findByVoucherId(voucherId)
+                .stream()
+                .map(WalletServiceMapper.INSTANCE::domainToResult)
+                .toList();
+    }
+
+    public List<CustomerResult> findCustomersByVoucherId(UUID voucherId) {
+        return findWalletsByVoucherId(voucherId)
+                .stream()
                 .map(wallet -> customerRepository.findById(wallet.customerId())
                         .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())))
+                .map(WalletServiceMapper.INSTANCE::domainToResult)
                 .toList();
     }
 

@@ -24,15 +24,15 @@ public class VoucherMap {
     }
 
     public Voucher addVoucher(Voucher voucher) {
-        map.put(voucher.getVoucherId(), voucher);
+        map.put(voucher.voucherId(), voucher);
         return voucher;
     }
 
     public Voucher addIfVoucherExist(Voucher voucher) {
-        if (!map.containsKey(voucher.getVoucherId())) {
+        if (!map.containsKey(voucher.voucherId())) {
             throw new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText());
         }
-        map.put(voucher.getVoucherId(), voucher);
+        map.put(voucher.voucherId(), voucher);
         return voucher;
     }
 
