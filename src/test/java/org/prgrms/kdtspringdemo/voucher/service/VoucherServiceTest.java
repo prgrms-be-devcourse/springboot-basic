@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdtspringdemo.voucher.exception.VoucherIdNotFoundException;
-import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
+import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponse;
 import org.prgrms.kdtspringdemo.voucher.model.entity.FixedAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.PercentAmountVoucher;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
@@ -38,10 +38,10 @@ public class VoucherServiceTest {
         given(voucherRepository.save(any())).willReturn(voucher);
 
         //when
-        VoucherResponseDto responseDto = voucherService.create(voucher.getVoucherType(), voucher.getAmount());
+        VoucherResponse response = voucherService.create(voucher.getVoucherType(), voucher.getAmount());
 
         //then
-        assertThat(responseDto.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(response.getVoucherId()).isEqualTo(voucher.getVoucherId());
     }
 
     @Test
@@ -53,10 +53,10 @@ public class VoucherServiceTest {
         given(voucherRepository.findById(any())).willReturn(Optional.of(voucher));
 
         //when
-        VoucherResponseDto responseDto = voucherService.findById(voucher.getVoucherId());
+        VoucherResponse response = voucherService.findById(voucher.getVoucherId());
 
         //then
-        assertThat(responseDto.getAmount()).isEqualTo(voucher.getAmount());
+        assertThat(response.getAmount()).isEqualTo(voucher.getAmount());
     }
 
     @Test
@@ -84,10 +84,10 @@ public class VoucherServiceTest {
         given(voucherRepository.findAll()).willReturn(vouchers);
 
         //when
-        List<VoucherResponseDto> responseDtos = voucherService.findAll();
+        List<VoucherResponse> responses = voucherService.findAll();
 
         //then
-        assertThat(responseDtos).hasSize(2);
+        assertThat(responses).hasSize(2);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class VoucherServiceTest {
         //given
         Voucher voucher = new FixedAmountVoucher(1000);
         given(voucherRepository.save(any())).willReturn(voucher);
-        VoucherResponseDto savedVoucher = voucherService.create(voucher.getVoucherType(), voucher.getAmount());
+        VoucherResponse savedVoucher = voucherService.create(voucher.getVoucherType(), voucher.getAmount());
         PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getVoucherId(), 10);
 
         //mocking

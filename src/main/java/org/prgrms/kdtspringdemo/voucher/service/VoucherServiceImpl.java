@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.voucher.service;
 
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.exception.VoucherIdNotFoundException;
-import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
+import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponse;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -23,36 +23,36 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherResponseDto create(VoucherType userVoucherType, long amount) {
+    public VoucherResponse create(VoucherType userVoucherType, long amount) {
         Voucher voucher = userVoucherType.createVoucher(amount);
         Voucher savedVoucher = voucherRepository.save(voucher);
 
-        return VoucherResponseDto.toDto(savedVoucher.getVoucherId(), savedVoucher.getVoucherType(), savedVoucher.getAmount());
+        return VoucherResponse.toDto(savedVoucher.getVoucherId(), savedVoucher.getVoucherType(), savedVoucher.getAmount());
     }
 
     @Override
-    public VoucherResponseDto findById(UUID voucherId) {
+    public VoucherResponse findById(UUID voucherId) {
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         Voucher voucher = foundVoucher.orElseThrow(() -> new VoucherIdNotFoundException(VOUCHER_ID_LOOKUP_FAILED));
 
-        return VoucherResponseDto.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
+        return VoucherResponse.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
     @Override
-    public List<VoucherResponseDto> findAll() {
+    public List<VoucherResponse> findAll() {
         return voucherRepository.findAll()
                 .stream()
-                .map(v -> new VoucherResponseDto(v.getVoucherId(), v.getVoucherType(), v.getAmount()))
+                .map(v -> new VoucherResponse(v.getVoucherId(), v.getVoucherType(), v.getAmount()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    public VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long amount) {
+    public VoucherResponse update(UUID voucherId, VoucherType voucherType, long amount) {
         voucherRepository.update(voucherId, voucherType, amount);
         Optional<Voucher> checkingVoucher = voucherRepository.findById(voucherId);
         Voucher voucher = checkingVoucher.orElseGet(() -> voucherRepository.save(voucherType.updateVoucher(voucherId, amount)));
 
-        return VoucherResponseDto.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
+        return VoucherResponse.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
     }
 
     @Override

@@ -4,12 +4,12 @@ import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 
 import java.util.UUID;
 
-public class VoucherResponseDto {
+public class VoucherResponse {
     private final UUID voucherId;
     private final VoucherType voucherType;
     private final long amount;
 
-    public VoucherResponseDto(UUID voucherId, VoucherType voucherType, long amount) {
+    public VoucherResponse(UUID voucherId, VoucherType voucherType, long amount) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.amount = amount;
@@ -27,8 +27,8 @@ public class VoucherResponseDto {
         return amount;
     }
 
-    public static VoucherResponseDto toDto(UUID voucherId, VoucherType voucher, long amount) {
-        return new VoucherResponseDto(
+    public static VoucherResponse toDto(UUID voucherId, VoucherType voucher, long amount) {
+        return new VoucherResponse(
                 voucherId,
                 voucher,
                 amount

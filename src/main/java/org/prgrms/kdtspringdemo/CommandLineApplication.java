@@ -1,12 +1,12 @@
 package org.prgrms.kdtspringdemo;
 
 import org.prgrms.kdtspringdemo.customer.constant.CustomerCommand;
-import org.prgrms.kdtspringdemo.customer.model.dto.CustomerResponseDto;
+import org.prgrms.kdtspringdemo.customer.model.dto.CustomerResponse;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.view.constant.MainCommandType;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherCommand;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
-import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponseDto;
+import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponse;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
 import org.springframework.boot.CommandLineRunner;
@@ -62,21 +62,21 @@ public class CommandLineApplication implements CommandLineRunner {
         VoucherType userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE);
         Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER);
 
-        VoucherResponseDto voucherResponseDto = voucherService.create(userVoucherType, userAmount);
-        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
+        VoucherResponse voucherResponse = voucherService.create(userVoucherType, userAmount);
+        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponse.getVoucherId(), voucherResponse.getVoucherType(), voucherResponse.getAmount());
     }
 
     private void getVoucher() {
         UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID);
 
-        VoucherResponseDto voucherResponseDto = voucherService.findById(userVoucherId);
-        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
+        VoucherResponse voucherResponse = voucherService.findById(userVoucherId);
+        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponse.getVoucherId(), voucherResponse.getVoucherType(), voucherResponse.getAmount());
     }
 
     private void getAllVoucher() {
-        List<VoucherResponseDto> vouchers = voucherService.findAll();
-        for (VoucherResponseDto voucherResponseDto : vouchers) {
-            voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
+        List<VoucherResponse> vouchers = voucherService.findAll();
+        for (VoucherResponse voucherResponse : vouchers) {
+            voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponse.getVoucherId(), voucherResponse.getVoucherType(), voucherResponse.getAmount());
         }
     }
 
@@ -85,8 +85,8 @@ public class CommandLineApplication implements CommandLineRunner {
         VoucherType userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE);
         Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER);
 
-        VoucherResponseDto voucherResponseDto = voucherService.update(userVoucherId, userVoucherType, userAmount);
-        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponseDto.getVoucherId(), voucherResponseDto.getVoucherType(), voucherResponseDto.getAmount());
+        VoucherResponse voucherResponse = voucherService.update(userVoucherId, userVoucherType, userAmount);
+        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponse.getVoucherId(), voucherResponse.getVoucherType(), voucherResponse.getAmount());
     }
 
     private void deleteVoucher() {
@@ -111,28 +111,28 @@ public class CommandLineApplication implements CommandLineRunner {
     private void createCustomer() {
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
-        CustomerResponseDto responseDto = customerService.create(userNickname);
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, responseDto.getCustomerId(), responseDto.getNickname());
+        CustomerResponse customerResponse = customerService.create(userNickname);
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
     }
 
     private void findByIdCustomer() {
         UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID);
 
-        CustomerResponseDto customerResponseDto = customerService.findById(userCustomerId);
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
+        CustomerResponse customerResponse = customerService.findById(userCustomerId);
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
     }
 
     private void findByNicknameCustomer() {
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
-        CustomerResponseDto customerResponseDto = customerService.findByNickname(userNickname);
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
+        CustomerResponse customerResponse = customerService.findByNickname(userNickname);
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
     }
 
     private void findAllCustomer() {
-        List<CustomerResponseDto> customers = customerService.findAll();
-        for (CustomerResponseDto customerResponseDto : customers) {
-            voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
+        List<CustomerResponse> customers = customerService.findAll();
+        for (CustomerResponse customerResponse : customers) {
+            voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
         }
     }
 
@@ -140,8 +140,8 @@ public class CommandLineApplication implements CommandLineRunner {
         UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID);
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
-        CustomerResponseDto customerResponseDto = customerService.update(userCustomerId, userNickname);
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponseDto.getCustomerId(), customerResponseDto.getNickname());
+        CustomerResponse customerResponse = customerService.update(userCustomerId, userNickname);
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
     }
 
     private void deleteCustomer() {
