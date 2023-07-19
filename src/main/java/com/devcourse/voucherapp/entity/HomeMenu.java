@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
 
+@Getter
 public enum HomeMenu {
     VOUCHER("1", "할인권 메뉴"),
     CUSTOMER("2", "고객 메뉴"),
@@ -19,9 +20,7 @@ public enum HomeMenu {
     private static final Map<String, HomeMenu> homeMenuMap = Collections.unmodifiableMap(Stream.of(values())
             .collect(Collectors.toMap(HomeMenu::getOption, Function.identity())));
 
-    @Getter
     private final String option;
-
     private final String name;
 
     HomeMenu(String option, String name) {
