@@ -1,15 +1,14 @@
 package com.wonu606.vouchermanager.domain.voucherwallet;
 
-import com.wonu606.vouchermanager.domain.customer.email.Email;
 import java.util.Objects;
 import java.util.UUID;
 
 public class VoucherWallet {
 
     private final UUID voucherUuid;
-    private final Email email;
+    private final String email;
 
-    public VoucherWallet(UUID voucherUuid, Email email) {
+    public VoucherWallet(UUID voucherUuid, String email) {
         this.voucherUuid = voucherUuid;
         this.email = email;
     }
@@ -19,7 +18,7 @@ public class VoucherWallet {
     }
 
     public String getEmailAddress() {
-        return email.getAddress();
+        return email;
     }
 
     @Override

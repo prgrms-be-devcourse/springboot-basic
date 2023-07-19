@@ -2,16 +2,16 @@ package com.wonu606.vouchermanager.repository.customer.resultset;
 
 public class CustomerResultSet {
 
-    private final String emailAddress;
+    private final String email;
     private final String nickname;
 
-    public CustomerResultSet(String emailAddress, String nickname) {
-        this.emailAddress = emailAddress;
+    public CustomerResultSet(String email, String nickname) {
+        this.email = email;
         this.nickname = nickname;
     }
 
-    public String getEmailAddress() {
-        return emailAddress;
+    public String getEmail() {
+        return email;
     }
 
     public String getNickname() {

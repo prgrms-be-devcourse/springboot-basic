@@ -1,7 +1,5 @@
 package com.wonu606.vouchermanager.service.voucherwallet.param;
 
-import com.wonu606.vouchermanager.domain.customer.email.Email;
-import com.wonu606.vouchermanager.domain.voucherwallet.VoucherWallet;
 import java.util.UUID;
 
 public class WalletAssignParam {

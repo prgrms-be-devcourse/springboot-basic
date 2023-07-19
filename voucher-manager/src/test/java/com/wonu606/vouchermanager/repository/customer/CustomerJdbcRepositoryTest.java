@@ -16,16 +16,16 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 
 @JdbcTest
 @DisplayName("JdbcCustomerResultSetRepository 테스트")
-class JdbcCustomerResultSetRepositoryTest {
+class CustomerJdbcRepositoryTest {
 
-    private JdbcCustomerResultSetRepository jdbcCustomerResultSetRepository;
+    private CustomerJdbcRepository customerJdbcRepository;
 
     @Autowired
     private DataSource dataSource;
 
     @BeforeEach
     void setUp() {
-        jdbcCustomerResultSetRepository = new JdbcCustomerResultSetRepository(dataSource);
+        customerJdbcRepository = new CustomerJdbcRepository(dataSource);
     }
 
     @Test
@@ -38,8 +38,8 @@ class JdbcCustomerResultSetRepositoryTest {
         Email email = new Email(customer.getEmailAddress());
 
         // when
-        jdbcCustomerResultSetRepository.save(customer);
-        var foundCustomer = jdbcCustomerResultSetRepository.findByEmailAddress(
+        customerJdbcRepository.save(customer);
+        var foundCustomer = customerJdbcRepository.findByEmailAddress(
                 email);
 
         // then
@@ -54,13 +54,13 @@ class JdbcCustomerResultSetRepositoryTest {
         // given
         Customer customer = new Customer(
                 new Email("Linlin@onepiece.org"), "Big Mom");
-        jdbcCustomerResultSetRepository.save(customer);
+        customerJdbcRepository.save(customer);
 
         Email email = new Email(customer.getEmailAddress());
 
         // when
         var foundCustomer =
-                jdbcCustomerResultSetRepository.findByEmailAddress(email);
+                customerJdbcRepository.findByEmailAddress(email);
 
         // then
         assertThat(foundCustomer).isPresent();
@@ -75,7 +75,7 @@ class JdbcCustomerResultSetRepositoryTest {
 
         // when
         var foundCustomer =
-                jdbcCustomerResultSetRepository.findByEmailAddress(unsavedEmail);
+                customerJdbcRepository.findByEmailAddress(unsavedEmail);
 
         // then
         assertThat(foundCustomer).isNotPresent();
@@ -89,11 +89,11 @@ class JdbcCustomerResultSetRepositoryTest {
                 new Email("Linlin@onepiece.org"), "Big Mom");
         Customer customer2 = new Customer(
                 new Email("loopy@onepiece.org"), "Pirate King");
-        jdbcCustomerResultSetRepository.save(customer1);
-        jdbcCustomerResultSetRepository.save(customer2);
+        customerJdbcRepository.save(customer1);
+        customerJdbcRepository.save(customer2);
 
         // when
-        List<CustomerResultSet> allCustomers = jdbcCustomerResultSetRepository.findAll();
+        List<CustomerResultSet> allCustomers = customerJdbcRepository.findAll();
 
         // then
         assertThat(allCustomers).hasSize(2);
@@ -107,13 +107,13 @@ class JdbcCustomerResultSetRepositoryTest {
         // given
         Customer customer = new Customer(
                 new Email("Linlin@onepiece.org"), "Big Mom");
-        jdbcCustomerResultSetRepository.save(customer);
+        customerJdbcRepository.save(customer);
 
         Email email = new Email(customer.getEmailAddress());
 
         // then
-        jdbcCustomerResultSetRepository.deleteByEmailAddress(email);
-        Optional<CustomerResultSet> foundCustomer = jdbcCustomerResultSetRepository
+        customerJdbcRepository.deleteByEmailAddress(email);
+        Optional<CustomerResultSet> foundCustomer = customerJdbcRepository
                 .findByEmailAddress(email);
 
         // when
@@ -128,12 +128,12 @@ class JdbcCustomerResultSetRepositoryTest {
                 new Email("Linlin@onepiece.org"), "Big Mom");
         Customer customer2 = new Customer(
                 new Email("loopy@onepiece.org"), "Pirate King");
-        jdbcCustomerResultSetRepository.save(customer1);
-        jdbcCustomerResultSetRepository.save(customer2);
+        customerJdbcRepository.save(customer1);
+        customerJdbcRepository.save(customer2);
 
         // then
-        jdbcCustomerResultSetRepository.deleteAll();
-        List<CustomerResultSet> allCustomers = jdbcCustomerResultSetRepository.findAll();
+        customerJdbcRepository.deleteAll();
+        List<CustomerResultSet> allCustomers = customerJdbcRepository.findAll();
 
         // when
         assertThat(allCustomers).isEmpty();

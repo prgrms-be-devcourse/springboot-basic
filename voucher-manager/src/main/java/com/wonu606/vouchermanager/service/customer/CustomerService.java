@@ -2,12 +2,14 @@ package com.wonu606.vouchermanager.service.customer;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
 import com.wonu606.vouchermanager.repository.customer.CustomerRepository;
+import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
 import com.wonu606.vouchermanager.service.customer.creator.CustomerCreator;
 import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVoucherParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
 import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
+import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,12 +38,12 @@ public class CustomerService {
         Customer createdCustomer = customerCreator.create(param);
         CustomerCreateQuery query = customerQueryConverter.convert(createdCustomer);
 
-        CustomerCreateResultSet resultSet = repository.save(query);
+        CustomerCreateResultSet resultSet = repository.insert(query);
         return customerCreateResultConverter.convert(resultSet);
     }
 
-    public CustomerListResult getCustomerList() {
-        CustomerListResultSet resultSet = repository.findAll();
+    public List<CustomerResult> getCustomerList() {
+        List<CustomerResultSet> resultSet = repository.findAll();
         return customerListGetResultConverter.convert(resultSet);
     }
 

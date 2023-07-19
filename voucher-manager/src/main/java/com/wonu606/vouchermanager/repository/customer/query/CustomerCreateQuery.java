@@ -1,11 +1,11 @@
-package com.wonu606.vouchermanager.controller.customer.response;
+package com.wonu606.vouchermanager.repository.customer.query;
 
-public class CustomerResponse {
+public class CustomerCreateQuery {
 
     private final String email;
     private final String nickname;
 
-    public CustomerResponse(String email, String nickname) {
+    public CustomerCreateQuery(String email, String nickname) {
         this.email = email;
         this.nickname = nickname;
     }

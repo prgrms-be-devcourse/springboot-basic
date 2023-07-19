@@ -10,7 +10,7 @@ import com.wonu606.vouchermanager.domain.voucher.PercentageVoucher;
 import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
 import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
-import com.wonu606.vouchermanager.repository.customer.JdbcCustomerResultSetRepository;
+import com.wonu606.vouchermanager.repository.customer.CustomerJdbcRepository;
 import com.wonu606.vouchermanager.repository.voucher.VoucherJdbcRepository;
 import java.util.List;
 import java.util.UUID;
@@ -39,8 +39,8 @@ class JdbcVoucherWalletRepositoryTest {
 
         VoucherJdbcRepository voucherResultSetRepository =
                 new VoucherJdbcRepository(dataSource);
-        JdbcCustomerResultSetRepository customerResultSetRepository =
-                new JdbcCustomerResultSetRepository(dataSource);
+        CustomerJdbcRepository customerResultSetRepository =
+                new CustomerJdbcRepository(dataSource);
 
         givenCustomerVouchers().forEach(
                 arguments -> {

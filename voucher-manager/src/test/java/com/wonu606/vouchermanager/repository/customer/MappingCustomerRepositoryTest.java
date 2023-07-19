@@ -48,7 +48,7 @@ class MappingCustomerRepositoryTest {
         Customer customer = mock(Customer.class);
 
         // then
-        customerRepository.save(customer);
+        customerRepository.insert(customer);
 
         // when
         verify(customerResultSetRepository, times(1)).save(customer);
@@ -115,7 +115,7 @@ class MappingCustomerRepositoryTest {
         Email expectedEmail = new Email("Linlin@onepiece.org");
 
         // when
-        customerRepository.deleteByEmailAddress(expectedEmail);
+        customerRepository.deleteByCustomerId(expectedEmail);
 
         // then
         verify(customerResultSetRepository, times(1)).deleteByEmailAddress(expectedEmail);
