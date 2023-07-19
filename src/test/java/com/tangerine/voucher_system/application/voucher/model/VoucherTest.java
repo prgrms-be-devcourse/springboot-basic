@@ -57,7 +57,7 @@ class VoucherTest {
                 "Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}'}'",
                 voucher.voucherId().toString(),
                 voucher.voucherType().toString(),
-                voucher.discountValue().getValue(),
+                voucher.discountValue().value(),
                 voucher.createdAt().toString());
 
         String result = voucher.toString();

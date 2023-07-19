@@ -8,12 +8,13 @@ import com.tangerine.voucher_system.application.wallet.controller.dto.UpdateWall
 import com.tangerine.voucher_system.application.wallet.controller.mapper.WalletControllerMapper;
 import com.tangerine.voucher_system.application.wallet.service.WalletService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
+@RequestMapping("/api/v1/wallets")
 public class WalletRestController implements WalletController {
 
     private final WalletService walletService;
@@ -23,20 +24,26 @@ public class WalletRestController implements WalletController {
     }
 
     @Override
-    public void createWallet(CreateWalletRequest request) {
+    @GetMapping("/create")
+    public void createWallet(@RequestBody CreateWalletRequest request) {
         walletService.createWallet(WalletControllerMapper.INSTANCE.requestToParam(request));
     }
 
     @Override
-    public void updateWallet(UpdateWalletRequest request) {
+    @GetMapping("/update")
+    public void updateWallet(@RequestBody UpdateWalletRequest request) {
         walletService.updateWallet(WalletControllerMapper.INSTANCE.requestToParam(request));
     }
 
-    public void deleteWalletById(UUID walletId) {
+    @Override
+    @GetMapping("/delete/{walletId}")
+    public void deleteWalletById(@PathVariable UUID walletId) {
         walletService.deleteWalletById(walletId);
     }
 
-    public ResponseEntity<List<VoucherResponse>> voucherListOfCustomer(UUID customerId) {
+    @Override
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<List<VoucherResponse>> voucherListOfCustomer(@PathVariable UUID customerId) {
         return ResponseEntity.ok(
                 walletService.findVouchersByCustomerId(customerId)
                         .stream()
@@ -44,7 +51,9 @@ public class WalletRestController implements WalletController {
                         .toList());
     }
 
-    public ResponseEntity<List<CustomerResponse>> customerListHasVoucher(UUID voucherId) {
+    @Override
+    @GetMapping("/voucher/{voucherId}")
+    public ResponseEntity<List<CustomerResponse>> customerListHasVoucher(@PathVariable UUID voucherId) {
         return ResponseEntity.ok(
                 walletService.findCustomersByVoucherId(voucherId)
                         .stream()

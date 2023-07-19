@@ -1,6 +1,5 @@
 package com.tangerine.voucher_system.application.voucher.controller;
 
-import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import com.tangerine.voucher_system.application.voucher.controller.api.VoucherRestController;
 import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.UpdateVoucherRequest;
@@ -27,7 +26,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -97,12 +95,11 @@ class VoucherRestControllerTest {
     @DisplayName("존재하는 바우처를 생성일자로 찾으면 성공한다.")
     @MethodSource("provideVoucherResults")
     void voucherByCreatedAt_ParamExistVoucherId_ReturnVoucherDto(VoucherResult result) {
-        given(service.findVoucherByCreatedAt(any())).willReturn(result);
+        given(service.findVoucherByCreatedAt(any())).willReturn(voucherResults);
 
-        ResponseEntity<VoucherResponse> foundVoucherDto = controller.voucherByCreatedAt(result.createdAt());
+        ResponseEntity<List<VoucherResponse>> foundVoucherDto = controller.voucherByCreatedAt(result.createdAt());
 
-        assertThat(foundVoucherDto.getBody()).isNotNull();
-        assertThat(foundVoucherDto.getBody().voucherId()).isEqualTo(result.voucherId());
+        assertThat(foundVoucherDto.getBody()).isNotEmpty();
     }
 
     @ParameterizedTest
@@ -124,11 +121,11 @@ class VoucherRestControllerTest {
     );
 
     static List<CreateVoucherRequest> createVoucherRequests = voucherResults.stream()
-            .map(result -> new CreateVoucherRequest(result.voucherType(), result.discountValue(), result.createdAt()))
+            .map(result -> new CreateVoucherRequest(result.voucherType(), result.discountValue()))
             .toList();
 
     static List<UpdateVoucherRequest> updateVoucherRequests = voucherResults.stream()
-            .map(result -> new UpdateVoucherRequest(result.voucherId(), result.voucherType(), result.discountValue(), result.createdAt()))
+            .map(result -> new UpdateVoucherRequest(result.voucherId(), result.voucherType(), result.discountValue()))
             .toList();
 
     static Stream<Arguments> provideCreateVoucherRequests() {

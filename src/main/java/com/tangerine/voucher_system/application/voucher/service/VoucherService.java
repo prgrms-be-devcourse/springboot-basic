@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class VoucherService {
@@ -48,10 +49,11 @@ public class VoucherService {
         );
     }
 
-    public VoucherResult findVoucherByCreatedAt(LocalDate createdAt) {
-        return VoucherServiceMapper.INSTANCE.domainToResult(
-                voucherRepository.findByCreatedAt(createdAt)
-                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())));
+    public List<VoucherResult> findVoucherByCreatedAt(LocalDate createdAt) {
+        return voucherRepository.findByCreatedAt(createdAt)
+                .stream()
+                .map(VoucherServiceMapper.INSTANCE::domainToResult)
+                .toList();
     }
 
     public VoucherResult deleteVoucherById(UUID voucherId) {

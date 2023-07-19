@@ -24,17 +24,6 @@ public class CustomerRestController implements CustomerController {
     }
 
     @Override
-    @GetMapping(value = "/black")
-    public ResponseEntity<List<CustomerResponse>> blackCustomerList() {
-        return ResponseEntity.ok(
-                customerService.findBlackCustomers()
-                        .stream()
-                        .map(CustomerControllerMapper.INSTANCE::resultToResponse)
-                        .toList()
-        );
-    }
-
-    @Override
     @PostMapping("/register")
     public ResponseEntity<CustomerResponse> registerCustomer(@RequestBody CreateCustomerRequest createCustomerRequest) {
         return ResponseEntity.ok(
@@ -51,10 +40,21 @@ public class CustomerRestController implements CustomerController {
     }
 
     @Override
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<List<CustomerResponse>> customerList() {
         return ResponseEntity.ok(
                 customerService.findAllCustomers()
+                        .stream()
+                        .map(CustomerControllerMapper.INSTANCE::resultToResponse)
+                        .toList()
+        );
+    }
+
+    @Override
+    @GetMapping("/black")
+    public ResponseEntity<List<CustomerResponse>> blackCustomerList() {
+        return ResponseEntity.ok(
+                customerService.findBlackCustomers()
                         .stream()
                         .map(CustomerControllerMapper.INSTANCE::resultToResponse)
                         .toList()

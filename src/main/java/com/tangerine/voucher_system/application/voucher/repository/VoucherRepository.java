@@ -17,7 +17,7 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID voucherId);
 
-    Optional<Voucher> findByCreatedAt(LocalDate createdAt);
+    List<Voucher> findByCreatedAt(LocalDate createdAt);
 
     void deleteById(UUID voucherId);
 

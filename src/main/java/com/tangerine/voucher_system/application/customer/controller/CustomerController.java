@@ -12,13 +12,13 @@ import java.util.UUID;
 
 public interface CustomerController {
 
-    ResponseEntity<List<CustomerResponse>> blackCustomerList();
-
     ResponseEntity<CustomerResponse> registerCustomer(CreateCustomerRequest createCustomerRequest);
 
     ResponseEntity<CustomerResponse> updateCustomer(@RequestBody UpdateCustomerRequest updateCustomerRequest);
 
     ResponseEntity<List<CustomerResponse>> customerList();
+
+    ResponseEntity<List<CustomerResponse>> blackCustomerList();
 
     ResponseEntity<CustomerResponse> customerById(UUID customerId);
 

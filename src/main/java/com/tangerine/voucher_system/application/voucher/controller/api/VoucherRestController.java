@@ -5,11 +5,11 @@ import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVou
 import com.tangerine.voucher_system.application.voucher.controller.dto.UpdateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
 import com.tangerine.voucher_system.application.voucher.controller.mapper.VoucherControllerMapper;
+import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.service.VoucherService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,7 +27,7 @@ public class VoucherRestController implements VoucherController {
 
     @Override
     @GetMapping("/create")
-    public ResponseEntity<VoucherResponse> createVoucher(CreateVoucherRequest request) {
+    public ResponseEntity<VoucherResponse> createVoucher(@RequestBody CreateVoucherRequest request) {
         return ResponseEntity.ok(
                 VoucherControllerMapper.INSTANCE.resultToResponse(
                         voucherService.createVoucher(VoucherControllerMapper.INSTANCE.requestToParam(request)))
@@ -36,7 +36,7 @@ public class VoucherRestController implements VoucherController {
 
     @Override
     @GetMapping("/update")
-    public ResponseEntity<VoucherResponse> updateVoucher(UpdateVoucherRequest request) {
+    public ResponseEntity<VoucherResponse> updateVoucher(@RequestBody UpdateVoucherRequest request) {
         return ResponseEntity.ok(
                 VoucherControllerMapper.INSTANCE.resultToResponse(
                         voucherService.updateVoucher(VoucherControllerMapper.INSTANCE.requestToParam(request)))
@@ -44,7 +44,7 @@ public class VoucherRestController implements VoucherController {
     }
 
     @Override
-    @GetMapping("/")
+    @GetMapping("/all")
     public ResponseEntity<List<VoucherResponse>> voucherList() {
         return ResponseEntity.ok(
                 voucherService.findVouchers()
@@ -56,7 +56,7 @@ public class VoucherRestController implements VoucherController {
 
     @Override
     @GetMapping("/id/{voucherId}")
-    public ResponseEntity<VoucherResponse> voucherById(UUID voucherId) {
+    public ResponseEntity<VoucherResponse> voucherById(@PathVariable UUID voucherId) {
         return ResponseEntity.ok(
                 VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.findVoucherById(voucherId))
         );
@@ -64,15 +64,18 @@ public class VoucherRestController implements VoucherController {
 
     @Override
     @GetMapping("/created-date/{createdAt}")
-    public ResponseEntity<VoucherResponse> voucherByCreatedAt(LocalDate createdAt) {
+    public ResponseEntity<List<VoucherResponse>> voucherByCreatedAt(@PathVariable LocalDate createdAt) {
         return ResponseEntity.ok(
-                VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.findVoucherByCreatedAt(createdAt))
+                voucherService.findVoucherByCreatedAt(createdAt)
+                        .stream()
+                        .map(VoucherControllerMapper.INSTANCE::resultToResponse)
+                        .toList()
         );
     }
 
     @Override
     @GetMapping("/delete/{voucherId}")
-    public ResponseEntity<VoucherResponse> deleteVoucherById(UUID voucherId) {
+    public ResponseEntity<VoucherResponse> deleteVoucherById(@PathVariable UUID voucherId) {
         return ResponseEntity.ok(
                 VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.deleteVoucherById(voucherId))
         );

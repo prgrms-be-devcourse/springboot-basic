@@ -18,7 +18,7 @@ public interface VoucherController {
 
     ResponseEntity<VoucherResponse> voucherById(UUID voucherId);
 
-    ResponseEntity<VoucherResponse> voucherByCreatedAt(LocalDate createdAt);
+    ResponseEntity<List<VoucherResponse>> voucherByCreatedAt(LocalDate createdAt);
 
     ResponseEntity<VoucherResponse> deleteVoucherById(UUID voucherId);
 }

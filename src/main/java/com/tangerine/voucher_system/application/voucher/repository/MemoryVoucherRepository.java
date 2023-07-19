@@ -45,10 +45,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByCreatedAt(LocalDate createdAt) {
+    public List<Voucher> findByCreatedAt(LocalDate createdAt) {
         return findAll().stream()
                 .filter(voucher -> voucher.createdAt() == createdAt)
-                .findAny();
+                .toList();
     }
 
     @Override

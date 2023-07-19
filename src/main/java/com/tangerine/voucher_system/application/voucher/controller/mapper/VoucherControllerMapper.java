@@ -15,8 +15,10 @@ public interface VoucherControllerMapper {
     VoucherControllerMapper INSTANCE = Mappers.getMapper(VoucherControllerMapper.class);
 
     @Mapping(target = "voucherId", expression = "java(java.util.UUID.randomUUID())")
+    @Mapping(target = "createdAt", expression = "java(java.time.LocalDate.now())")
     VoucherParam requestToParam(CreateVoucherRequest request);
 
+    @Mapping(target = "createdAt", expression = "java(java.time.LocalDate.now())")
     VoucherParam requestToParam(UpdateVoucherRequest request);
 
     VoucherResponse resultToResponse(VoucherResult result);

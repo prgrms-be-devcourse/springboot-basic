@@ -6,7 +6,6 @@ import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.repository.JdbcVoucherRepository;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherParam;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
-import com.tangerine.voucher_system.application.voucher.service.mapper.VoucherServiceMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -116,9 +115,9 @@ class VoucherServiceTest {
     void findVoucherByCreatedAt_ParamExistVoucher_ReturnVoucher(VoucherParam param) {
         service.createVoucher(param);
 
-        VoucherResult foundVoucher = service.findVoucherByCreatedAt(param.createdAt());
+        List<VoucherResult> foundVoucher = service.findVoucherByCreatedAt(param.createdAt());
 
-        assertThat(foundVoucher.voucherId()).isEqualTo(param.voucherId());
+        assertThat(foundVoucher).isNotEmpty();
     }
 
     @ParameterizedTest
@@ -126,9 +125,9 @@ class VoucherServiceTest {
     @MethodSource("provideVoucherParams")
     void findVoucherByCreatedAt_ParamNotExistVoucher_Exception(VoucherParam param) {
 
-        Exception exception = catchException(() -> service.findVoucherByCreatedAt(param.createdAt()));
+        List<VoucherResult> results = service.findVoucherByCreatedAt(param.createdAt());
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(results).isEmpty();
     }
 
     @ParameterizedTest

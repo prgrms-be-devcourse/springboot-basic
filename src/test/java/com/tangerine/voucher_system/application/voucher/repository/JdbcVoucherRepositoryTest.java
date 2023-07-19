@@ -119,10 +119,10 @@ class JdbcVoucherRepositoryTest {
     void findByCreatedAt_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
 
-        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
+        List<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
 
         assertThat(result).isNotEmpty();
-        assertThat(result.get().voucherId()).isEqualTo(voucher.voucherId());
+        assertThat(result).contains(voucher);
     }
 
     @ParameterizedTest
@@ -130,7 +130,7 @@ class JdbcVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void findByCreatedAt_ParamNotExistVoucher_ReturnOptionalEmpty(Voucher voucher) {
 
-        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
+        List<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
 
         assertThat(result).isEmpty();
     }

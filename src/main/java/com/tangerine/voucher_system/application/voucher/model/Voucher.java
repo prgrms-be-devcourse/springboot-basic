@@ -29,7 +29,7 @@ public record Voucher(
         return MessageFormat.format("Voucher'{'voucherId={0}, voucherType={1}, discountValue={2}, createdAt={3}'}'",
                 voucherId,
                 voucherType,
-                discountValue.getValue(),
+                discountValue.value(),
                 createdAt);
     }
 }

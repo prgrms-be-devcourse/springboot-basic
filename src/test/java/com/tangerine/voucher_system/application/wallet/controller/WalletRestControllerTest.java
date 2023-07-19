@@ -1,12 +1,10 @@
 package com.tangerine.voucher_system.application.wallet.controller;
 
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
-import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
 import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
-import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
 import com.tangerine.voucher_system.application.wallet.controller.api.WalletRestController;
@@ -47,7 +45,7 @@ class WalletRestControllerTest {
     void createWallet_ParamWallet_CreateWallet() {
         doNothing().when(service).createWallet(any());
 
-        controller.createWallet(new CreateWalletRequest(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID()));
+        controller.createWallet(new CreateWalletRequest(UUID.randomUUID(), UUID.randomUUID()));
 
         verify(service).createWallet(any(WalletParam.class));
     }

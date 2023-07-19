@@ -106,10 +106,10 @@ class MemoryVoucherRepositoryTest {
     void findByCreated_ParamExistVoucher_ReturnVoucher(Voucher voucher) {
         voucherRepository.insert(voucher);
 
-        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
+        List<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
 
         assertThat(result).isNotEmpty();
-        assertThat(result.get().createdAt()).isSameAs(voucher.createdAt());
+        assertThat(result).contains(voucher);
     }
 
     @ParameterizedTest
@@ -117,7 +117,7 @@ class MemoryVoucherRepositoryTest {
     @MethodSource("provideVouchers")
     void findByCreated_ParamNotExistVoucher_ReturnVoucher(Voucher voucher) {
 
-        Optional<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
+        List<Voucher> result = voucherRepository.findByCreatedAt(voucher.createdAt());
 
         assertThat(result).isEmpty();
     }

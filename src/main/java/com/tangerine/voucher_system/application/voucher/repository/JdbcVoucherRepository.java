@@ -94,17 +94,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByCreatedAt(LocalDate createdAt) {
+    public List<Voucher> findByCreatedAt(LocalDate createdAt) {
         try {
-            return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
-                            "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers WHERE created_at = :createdAt",
-                            Collections.singletonMap("createdAt", createdAt.toString()),
-                            voucherRowMapper
-                    )
+            return jdbcTemplate.query(
+                    "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers WHERE created_at = :createdAt",
+                    Collections.singletonMap("createdAt", createdAt),
+                    voucherRowMapper
             );
         } catch (DataAccessException e) {
-            return Optional.empty();
+            return List.of();
         }
     }
 
@@ -124,7 +122,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("voucherId", voucher.voucherId().toString());
         paramMap.put("voucherType", voucher.voucherType().toString());
-        paramMap.put("discountValue", voucher.discountValue().getValue());
+        paramMap.put("discountValue", voucher.discountValue().value());
         paramMap.put("createdAt", Date.valueOf(voucher.createdAt()));
         return paramMap;
     }

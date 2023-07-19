@@ -23,13 +23,6 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<CustomerResult> findBlackCustomers() {
-        return customerRepository.findAllBlackCustomers()
-                .stream()
-                .map(CustomerServiceMapper.INSTANCE::domainToParam)
-                .toList();
-    }
-
     public CustomerResult createCustomer(CustomerParam param) {
         return CustomerServiceMapper.INSTANCE.domainToParam(
                 customerRepository.insert(CustomerServiceMapper.INSTANCE.paramToDomain(param))
@@ -44,6 +37,13 @@ public class CustomerService {
 
     public List<CustomerResult> findAllCustomers() {
         return customerRepository.findAll()
+                .stream()
+                .map(CustomerServiceMapper.INSTANCE::domainToParam)
+                .toList();
+    }
+
+    public List<CustomerResult> findBlackCustomers() {
+        return customerRepository.findAllBlackCustomers()
                 .stream()
                 .map(CustomerServiceMapper.INSTANCE::domainToParam)
                 .toList();
