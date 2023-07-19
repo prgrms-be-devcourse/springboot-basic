@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.Customer;
 import prgms.spring_week1.domain.customer.model.embeddedType.Email;
 import prgms.spring_week1.domain.customer.repository.CustomerRepository;
-import prgms.spring_week1.domain.customer.repository.impl.sql.CustomerManageSql;
+import prgms.spring_week1.domain.util.SqlBuilder;
 import prgms.spring_week1.domain.voucher.repository.impl.JdbcVoucherRepository;
 
 import javax.sql.DataSource;
@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Component
 public class JdbcCustomerRepository implements CustomerRepository {
@@ -55,8 +54,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void insert(Customer customer) {
-        var updatedRowNumber = jdbcTemplate.update(CustomerManageSql.insertNewCustomerSQL,
-                toParamMap(customer));
+        var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.InsertBuilder()
+                        .insert("customers")
+                        .insertColumns("customer_id,email, name")
+                        .values("UUID_TO_BIN(:customerId),:email,:name")
+                        .build()
+                        ,toParamMap(customer));
 
         if (updatedRowNumber != VALID_ROW_RESULT) {
             logger.error("추가된 회원 정보가 없습니다.");
@@ -66,7 +69,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         try {
-            return jdbcTemplate.query(CustomerManageSql.findAllCustomerSQL, customerRowMapper);
+            return jdbcTemplate.query(new SqlBuilder.SelectBuilder()
+                    .select("*")
+                    .from("customers")
+                    .build()
+                    , customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("조회된 회원 정보 리스트가 없습니다.", e);
             return Collections.emptyList();
@@ -75,14 +82,24 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer findByEmail(String email) {
-        List<Customer> foundCustomer = jdbcTemplate.query(CustomerManageSql.findByEmailSQL, Collections.singletonMap("email", email), customerRowMapper);
+        List<Customer> foundCustomer = jdbcTemplate.query(new SqlBuilder.SelectBuilder()
+                .select("*")
+                .from("customers")
+                .where("email = :email")
+                .build()
+                , Collections.singletonMap("email", email), customerRowMapper);
 
         return DataAccessUtils.singleResult(foundCustomer);
     }
 
     @Override
     public void updateInfo(String beforeUpdateEmail, String afterUpdateEmail) {
-        var updatedRowNumber = jdbcTemplate.update(CustomerManageSql.updateCustomerInfoSQL, toEmailParamMap(beforeUpdateEmail, afterUpdateEmail));
+        var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.UpdateBuilder()
+                .update("customers")
+                .set("email = :afterUpdateEmail")
+                .where("email = :beforeUpdateEmail")
+                .build()
+                , toEmailParamMap(beforeUpdateEmail, afterUpdateEmail));
 
         if (updatedRowNumber != VALID_ROW_RESULT) {
             logger.error("회원 정보를 찾을 수 없습니다.");
@@ -91,7 +108,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteByEmail(String email) {
-        var updatedRowNumber = jdbcTemplate.update(CustomerManageSql.deleteByEmailSQL, Collections.singletonMap("email", email));
+        var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.DeleteBuilder()
+                .delete("customers")
+                .where("email = :email")
+                .build()
+                , Collections.singletonMap("email", email));
 
         if (updatedRowNumber != VALID_ROW_RESULT) {
             logger.error("회원 정보를 찾을 수 없습니다.");
@@ -100,6 +121,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(CustomerManageSql.deleteAllSQL, new HashMap<>());
+        jdbcTemplate.update(new SqlBuilder.DeleteBuilder()
+                .delete("customers")
+                .build()
+                , new HashMap<>());
     }
 }

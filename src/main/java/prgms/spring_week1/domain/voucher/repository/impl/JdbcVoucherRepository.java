@@ -6,6 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+import prgms.spring_week1.domain.util.SqlBuilder;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
@@ -46,8 +47,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        var updatedRowNumber = jdbcTemplate.update(VoucherManageSql.insertNewVoucherSQL,
-                toParamMap(voucher));
+        var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.InsertBuilder()
+                        .insert("voucher")
+                        .insertColumns("voucher_id,voucher_type, discount, created_at")
+                        .build()
+                        , toParamMap(voucher));
         if (updatedRowNumber != VALID_ROW_RESULT) {
             logger.error("추가된 바우처가 없습니다.");
         }
@@ -56,7 +60,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         try {
-            return jdbcTemplate.query(VoucherManageSql.findAllVoucherSQL, voucherRowMapper);
+            return jdbcTemplate.query(new SqlBuilder.SelectBuilder()
+                            .select("*")
+                            .from("voucher")
+                            .build()
+                            , voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("조회된 바우처 리스트가 없습니다.", e);
             return Collections.emptyList();
@@ -66,9 +74,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByType(String voucherType) {
         try {
-            return jdbcTemplate.query(VoucherManageSql.findVoucherByTypeSQL,
-                    Collections.singletonMap("voucherType", voucherType),
-                    voucherRowMapper);
+            return jdbcTemplate.query(new SqlBuilder.SelectBuilder()
+                            .select("*")
+                            .from("voucher")
+                            .where("voucher_type = :voucherType")
+                            .build(),
+                            Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("조회된 바우처 리스트가 없습니다.", e);
             return Collections.emptyList();
@@ -77,6 +88,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void delete() {
-        jdbcTemplate.update(VoucherManageSql.deleteAllVoucherSQL, new HashMap<>());
+        jdbcTemplate.update(new SqlBuilder.DeleteBuilder()
+                .delete("voucher")
+                .build()
+                , new HashMap<>());
     }
 }
