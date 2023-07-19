@@ -61,12 +61,21 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void createVoucher() {
+        VoucherType voucherType = null;
+        Integer discountValue = null;
+
         try {
-            processVoucherInsert();
+            voucherType = input.selectVoucherType();
+            discountValue = input.insertDiscountValue();
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             input.printConsoleMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
+            return;
         }
+
+        voucherService.insertNewVoucher(voucherType, discountValue);
+        input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
+
     }
 
     private void printAllVoucher() {
@@ -88,14 +97,6 @@ public class CommandLine implements CommandLineRunner {
             return Collections.emptyList();
         }
     }
-
-    private void processVoucherInsert() {
-        VoucherType voucherType = input.selectVoucherType();
-        int discountValue = input.insertDiscountValue();
-        voucherService.insertNewVoucher(voucherType, discountValue);
-        input.printConsoleMessage(ConsoleOutputMessage.COMPLETE_VOUCHER_INSERT_MESSAGE);
-    }
-
 
     private void selectCustomerMenu() {
         CustomerMenu menuName = input.getCustomerMenu();
