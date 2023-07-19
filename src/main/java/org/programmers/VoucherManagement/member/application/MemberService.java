@@ -6,7 +6,8 @@ import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
 import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
 import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.exception.MemberException;
-import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,18 +18,21 @@ import static org.programmers.VoucherManagement.member.exception.MemberException
 @Component
 @Transactional(readOnly = true)
 public class MemberService {
-    private final MemberRepository repository;
+    private final MemberReaderRepository memberReaderRepository;
+    private final MemberStoreRepository memberStoreRepository;
 
-    public MemberService(MemberRepository memberRepository) {
-        this.repository = memberRepository;
+    public MemberService(MemberReaderRepository memberReaderRepository, MemberStoreRepository memberStoreRepository) {
+        this.memberReaderRepository = memberReaderRepository;
+        this.memberStoreRepository = memberStoreRepository;
     }
 
+
     public MemberGetResponses getAllMembers() {
-        return new MemberGetResponses(repository.findAll());
+        return new MemberGetResponses(memberReaderRepository.findAll());
     }
 
     public MemberGetResponses getAllBlackMembers() {
-        return new MemberGetResponses(repository.findAllByMemberStatus(MemberStatus.BLACK));
+        return new MemberGetResponses(memberReaderRepository.findAllByMemberStatus(MemberStatus.BLACK));
     }
 
     @Transactional
@@ -36,18 +40,18 @@ public class MemberService {
         Member member = new Member(UUID.randomUUID(),
                 memberCreateRequest.name(),
                 memberCreateRequest.memberStatus());
-        repository.insert(member);
+        memberStoreRepository.insert(member);
     }
 
     @Transactional
     public void updateMember(UUID memberId, MemberUpdateRequest memberUpdateRequest) {
-        Member member = repository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+        Member member = memberReaderRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
         member.changeMemberStatus(memberUpdateRequest.memberStatus());
-        repository.update(member);
+        memberStoreRepository.update(member);
     }
 
     @Transactional
     public void deleteMember(UUID memberId) {
-        repository.delete(memberId);
+        memberStoreRepository.delete(memberId);
     }
 }
