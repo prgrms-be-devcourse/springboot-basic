@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -57,30 +58,25 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        try {
-            String findAllSql = new SqlBuilder.SelectBuilder()
+        String findAllSql = new SqlBuilder.SelectBuilder()
                     .select("*")
                     .from("voucher")
                     .build();
 
-            return jdbcTemplate.query(findAllSql, voucherRowMapper);
-        } catch (EmptyResultDataAccessException e) {
-            return Collections.emptyList();
-        }
+        return Optional.ofNullable(jdbcTemplate.query(findAllSql, voucherRowMapper))
+                .orElseGet(Collections::emptyList);
     }
 
     @Override
     public List<Voucher> findByType(String voucherType) {
-        try {
-            String findByTypeSql = new SqlBuilder.SelectBuilder()
-                    .select("*")
-                    .from("voucher")
-                    .where("voucher_type = :voucherType")
-                    .build();
-            return jdbcTemplate.query(findByTypeSql, Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
-        } catch (EmptyResultDataAccessException e) {
-            return Collections.emptyList();
-        }
+        String findByTypeSql = new SqlBuilder.SelectBuilder()
+                .select("*")
+                .from("voucher")
+                .where("voucher_type = :voucherType")
+                .build();
+
+        return Optional.ofNullable(jdbcTemplate.query(findByTypeSql, Collections.singletonMap("voucherType", voucherType), voucherRowMapper))
+                .orElseGet(Collections::emptyList);
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class JdbcCustomerRepository implements CustomerRepository {
@@ -63,16 +64,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        try {
-            String findAllSql = new SqlBuilder.SelectBuilder()
+
+        String findAllSql = new SqlBuilder.SelectBuilder()
                     .select("*")
                     .from("customers")
                     .build();
 
-            return jdbcTemplate.query(findAllSql, customerRowMapper);
-        } catch (EmptyResultDataAccessException e) {
-            return Collections.emptyList();
-        }
+        return Optional.ofNullable(jdbcTemplate.query(findAllSql, customerRowMapper))
+                .orElseGet(Collections::emptyList);
     }
 
     @Override
