@@ -32,12 +32,16 @@ public enum DiscountType {
         throw new WrongRangeFormatException("no matching discount type from short");
     }
 
-    public static short toShortValue(String value) {
+    public static short fromEnumValueStringToShortValue(String value) {
         for (DiscountType enumValue : DiscountType.values()) {
             if (enumValue.name().equalsIgnoreCase(value)) {
                 return enumValue.shortValue;
             }
         }
         throw new WrongRangeFormatException("no matching discount type from enum");
+    }
+
+    public short getShortValue() {
+        return shortValue;
     }
 }

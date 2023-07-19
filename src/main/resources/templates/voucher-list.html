@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Voucher List</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<h1>Voucher List</h1>
+<table>
+    <tr>
+        <th>No.</th>
+        <th>voucher ID</th>
+        <th>DiscountType and Value</th>
+    </tr>
+    <tr th:each="voucher, iterStat : ${voucherList}">
+        <td th:text="${iterStat.count}">
+        <td th:text="${voucher.voucherId}"></td>
+        <td th:text="${voucher.discountStrategy}"></td>
+    </tr>
+</table>
+<button>
+    <a th:href="@{/vouchers/}">return to main</a>
+</button>
+</body>
+</html>

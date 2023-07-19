@@ -1,0 +1,26 @@
+GET http://localhost:8080/api/json/v1/vouchers
+
+###
+
+GET http://localhost:8080/api/json/v1/vouchers/search?startDate=2023-07-16T00:00:00&endDate=2023-07-19T23:59:59&
+    discountType=fixed
+
+###
+
+POST http://localhost:8080/api/json/v1/vouchers
+Content-Type: application/json
+
+{
+  "discountType": "fixed",
+  "discountStringValue": "123"
+}
+
+###
+
+DELETE http://localhost:8080/api/json/v1/vouchers/f3ac7182-4f80-470a-99e7-478c29c41b0f
+
+###
+
+GET http://localhost:8080/api/json/v1/vouchers/cc295caf-cdb1-4fe6-8360-a2149a74f1b9
+
+###

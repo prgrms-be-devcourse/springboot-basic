@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Main Page</title>
+</head>
+<body>
+<h1>Voucher Management System</h1>
+
+<button>
+    <a th:href="@{/vouchers/create}">Create Voucher</a>
+</button>
+
+<button>
+    <a th:href="@{/vouchers/remove}">Remove Voucher</a>
+</button>
+
+<button>
+    <a th:href="@{/vouchers/list}">List Vouchers</a>
+</button>
+</body>
+</html>

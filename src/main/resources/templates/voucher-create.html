@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Voucher</title>
+</head>
+<body>
+<h1>Create Voucher</h1>
+<form method="post" th:action="@{/vouchers/create}" th:object="${voucherCreateRequest}">
+    <label for="type">Discount Type:</label><br>
+    <select id="type" th:field="*{discountType}">
+        <option th:text="Fixed" th:value="fixed"></option>
+        <option th:text="Percent" th:value="percent"></option>
+    </select><br>
+
+    <label for="value">discount value(either amount or percent(without % sign):</label><br>
+    <input id="value" th:field="*{discountStringValue}" type="text"><br>
+
+
+    <input type="submit" value="Create">
+</form>
+</body>
+</html>

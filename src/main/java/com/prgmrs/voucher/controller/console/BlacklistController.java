@@ -1,6 +1,6 @@
-package com.prgmrs.voucher.controller;
+package com.prgmrs.voucher.controller.console;
 
-import com.prgmrs.voucher.dto.ResponseDTO;
+import com.prgmrs.voucher.controller.console.wrapper.ResponseDTO;
 import com.prgmrs.voucher.enums.StatusCode;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.service.BlacklistService;

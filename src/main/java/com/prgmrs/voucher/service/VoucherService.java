@@ -1,7 +1,10 @@
 package com.prgmrs.voucher.service;
 
 import com.prgmrs.voucher.dto.request.UsernameRequest;
+import com.prgmrs.voucher.dto.request.VoucherIdRequest;
 import com.prgmrs.voucher.dto.request.VoucherRequest;
+import com.prgmrs.voucher.dto.request.VoucherSearchRequest;
+import com.prgmrs.voucher.dto.response.RemoveResponse;
 import com.prgmrs.voucher.dto.response.VoucherListResponse;
 import com.prgmrs.voucher.dto.response.VoucherResponse;
 import com.prgmrs.voucher.enums.DiscountType;
@@ -17,6 +20,7 @@ import com.prgmrs.voucher.repository.VoucherRepository;
 import com.prgmrs.voucher.util.UUIDGenerator;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
@@ -71,5 +75,23 @@ public class VoucherService {
 
     public VoucherListResponse getAssignedVoucherList() {
         return new VoucherListResponse(voucherRepository.getAssignedVoucherList());
+    }
+
+    public VoucherListResponse findByCreationTimeAndDiscountType(VoucherSearchRequest voucherSearchRequest) {
+        LocalDateTime startDate = voucherSearchRequest.startDate();
+        LocalDateTime endDate = voucherSearchRequest.endDate();
+        DiscountType discountType = DiscountType.fromString(voucherSearchRequest.discountType());
+        return new VoucherListResponse(voucherRepository.findByCreationTimeAndDiscountType(startDate, endDate, discountType.getShortValue()));
+    }
+
+    public RemoveResponse removeVoucher(VoucherIdRequest voucherIdRequest) {
+        UUID uuid = UUID.fromString(voucherIdRequest.voucherUuid());
+        return new RemoveResponse(voucherRepository.removeVoucher(uuid));
+    }
+
+    public VoucherResponse findById(VoucherIdRequest voucherIdRequest) {
+        UUID uuid = UUID.fromString(voucherIdRequest.voucherUuid());
+        Voucher voucher = voucherRepository.findById(uuid);
+        return new VoucherResponse(voucher.voucherId(), voucher.discountStrategy());
     }
 }

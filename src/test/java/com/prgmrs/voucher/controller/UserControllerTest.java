@@ -1,6 +1,7 @@
 package com.prgmrs.voucher.controller;
 
-import com.prgmrs.voucher.dto.ResponseDTO;
+import com.prgmrs.voucher.controller.console.UserController;
+import com.prgmrs.voucher.controller.console.wrapper.ResponseDTO;
 import com.prgmrs.voucher.dto.request.UserRequest;
 import com.prgmrs.voucher.dto.request.VoucherIdRequest;
 import com.prgmrs.voucher.dto.response.UserListResponse;

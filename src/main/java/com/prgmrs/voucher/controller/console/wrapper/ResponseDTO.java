@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.dto;
+package com.prgmrs.voucher.controller.console.wrapper;
 
 import com.prgmrs.voucher.enums.StatusCode;
 

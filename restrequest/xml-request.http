@@ -1,0 +1,26 @@
+GET http://localhost:8080/api/xml/v1/vouchers
+
+###
+
+GET http://localhost:8080/api/xml/v1/vouchers/search?startDate=2023-07-16T00:00:00&endDate=2023-07-19T23:59:59&
+    discountType=fixed
+
+###
+
+POST http://localhost:8080/api/xml/v1/vouchers
+Content-Type: application/xml
+
+<VoucherRequest>
+    <discountType>fixed</discountType>
+    <discountStringValue>123</discountStringValue>
+</VoucherRequest>
+
+###
+
+DELETE http://localhost:8080/api/xml/v1/vouchers/ea50d33d-d668-4dcd-b2b2-980b184ff003
+
+###
+
+GET http://localhost:8080/api/xml/v1/vouchers/fef87c80-ee1c-4aca-bf14-375930aff54c
+
+###

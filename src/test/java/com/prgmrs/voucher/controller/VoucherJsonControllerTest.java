@@ -1,6 +1,7 @@
 package com.prgmrs.voucher.controller;
 
-import com.prgmrs.voucher.dto.ResponseDTO;
+import com.prgmrs.voucher.controller.console.VoucherController;
+import com.prgmrs.voucher.controller.console.wrapper.ResponseDTO;
 import com.prgmrs.voucher.dto.request.UsernameRequest;
 import com.prgmrs.voucher.dto.request.VoucherRequest;
 import com.prgmrs.voucher.dto.response.VoucherListResponse;
@@ -26,7 +27,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 @DisplayName("바우처 컨트롤러 레이어를 테스트한다.")
-class VoucherControllerTest {
+class VoucherJsonControllerTest {
 
     @InjectMocks
     VoucherController voucherController;

@@ -1,6 +1,6 @@
 package com.prgmrs.voucher.view.io;
 
-import com.prgmrs.voucher.dto.ResponseDTO;
+import com.prgmrs.voucher.controller.console.wrapper.ResponseDTO;
 import org.springframework.stereotype.Component;
 
 @Component

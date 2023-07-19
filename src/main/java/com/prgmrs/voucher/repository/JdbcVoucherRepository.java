@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,13 +63,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         paramMap.put("voucherId", voucher.voucherId().toString());
 
         if (voucher.discountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
-            short discountType = DiscountType.toShortValue("FIXED_AMOUNT_DISCOUNT");
+            short discountType = DiscountType.fromEnumValueStringToShortValue("FIXED_AMOUNT_DISCOUNT");
             paramMap.put("discountType", discountType);
             paramMap.put("discountValue", fixedAmountDiscountStrategy.amount().value());
         }
 
         if (voucher.discountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
-            short discountType = DiscountType.toShortValue("PERCENT_DISCOUNT");
+            short discountType = DiscountType.fromEnumValueStringToShortValue("PERCENT_DISCOUNT");
             paramMap.put("discountType", discountType);
             paramMap.put("discountValue", percentDiscountStrategy.percent().value());
         }
@@ -137,5 +138,51 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 """;
 
         return jdbcTemplate.query(sql, toRowMapper());
+    }
+
+    @Override
+    public List<Voucher> findByCreationTimeAndDiscountType(LocalDateTime startDate, LocalDateTime endDate, short discountType) {
+        String sql = """
+                       SELECT
+                           v.voucher_id, v.discount_type, v.discount_value
+                       FROM `voucher` v
+                       WHERE (v.discount_type = :discountType) 
+                            AND (v.created_at BETWEEN :startDate AND :endDate)
+                """;
+
+        Map<String, Object> paramMap = new HashMap<>();
+
+        paramMap.put("startDate", startDate);
+        paramMap.put("endDate", endDate);
+        paramMap.put("discountType", discountType);
+
+        return jdbcTemplate.query(sql, paramMap, toRowMapper());
+    }
+
+    @Override
+    public int removeVoucher(UUID voucherUUID) {
+        String sql = "DELETE FROM `voucher` v WHERE v.voucher_id = :voucherId";
+
+        Map<String, Object> paramMap = new HashMap<>();
+
+        paramMap.put("voucherId", voucherUUID.toString());
+
+        return jdbcTemplate.update(sql, paramMap);
+    }
+
+    @Override
+    public Voucher findById(UUID voucherUUID) {
+        String sql = """
+                       SELECT
+                           v.voucher_id, v.discount_type, v.discount_value
+                       FROM `voucher` v
+                       WHERE v.voucher_id = :voucherId
+                """;
+
+        Map<String, Object> paramMap = new HashMap<>();
+
+        paramMap.put("voucherId", voucherUUID.toString());
+
+        return jdbcTemplate.queryForObject(sql, paramMap, toRowMapper());
     }
 }
