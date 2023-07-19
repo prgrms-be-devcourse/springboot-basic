@@ -13,12 +13,7 @@ import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
 public class JdbcCustomerRepository implements CustomerRepository {
     private static final String CUSTOMER_ID = "customer_id";
     private static final String NICKNAME = "nickname";
-    private static final String SAVE_QUERY = "INSERT INTO customer(customer_id, nickname) VALUES(UUID_TO_BIN(:customer_id), :nickname)";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(:customer_id)";
-    private static final String FIND_BY_NICKNAME_QUERY = "SELECT * FROM customer WHERE nickname = :nickname";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM customer";
-    private static final String UPDATE_QUERY = "UPDATE customer SET nickname = :nickname WHERE customer_id = UUID_TO_BIN(:customer_id)";
-    private static final String DELETE_QUERY = "DELETE FROM customer WHERE customer_id = UUID_TO_BIN(:customer_id)";
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -30,22 +25,22 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         return Map.of(
-                CUSTOMER_ID, customer.getCustomerId().toString().getBytes(),
+                CUSTOMER_ID, uuidToBytes(customer.getCustomerId()),
                 NICKNAME, customer.getNickname()
         );
     }
 
     @Override
     public Customer save(Customer customer) {
-        jdbcTemplate.update(SAVE_QUERY, toParamMap(customer));
+        jdbcTemplate.update("INSERT INTO customer(customer_id, nickname) VALUES(:customer_id, :nickname)", toParamMap(customer));
 
         return customer;
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return jdbcTemplate.query(FIND_BY_ID_QUERY,
-                        Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
+        return jdbcTemplate.query("SELECT * FROM customer WHERE customer_id = :customer_id",
+                        Collections.singletonMap(CUSTOMER_ID, uuidToBytes(customerId)),
                         customerRowMapper)
                 .stream()
                 .findFirst();
@@ -53,7 +48,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByNickname(String nickname) {
-        return jdbcTemplate.query(FIND_BY_NICKNAME_QUERY,
+        return jdbcTemplate.query("SELECT * FROM customer WHERE nickname = :nickname",
                         Collections.singletonMap(NICKNAME, nickname),
                         customerRowMapper)
                 .stream()
@@ -62,17 +57,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(FIND_ALL_QUERY, customerRowMapper);
+        return jdbcTemplate.query("SELECT * FROM customer", customerRowMapper);
     }
 
     @Override
     public void update(Customer customer) {
-        jdbcTemplate.update(UPDATE_QUERY, toParamMap(customer));
+        jdbcTemplate.update("UPDATE customer SET nickname = :nickname WHERE customer_id = :customer_id", toParamMap(customer));
     }
 
     @Override
     public void deleteById(UUID customerId) {
-        jdbcTemplate.update(DELETE_QUERY,
-                Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()));
+        jdbcTemplate.update("DELETE FROM customer WHERE customer_id = :customer_id",
+                Collections.singletonMap(CUSTOMER_ID, uuidToBytes(customerId)));
     }
 }
