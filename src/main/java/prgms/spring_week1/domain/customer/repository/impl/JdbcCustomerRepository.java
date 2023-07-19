@@ -46,10 +46,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private Map<String, Object> toEmailParamMap(String beforeUpdateEmail, String afterUpdateEmail) {
-        return new HashMap<>() {{
-            put("beforeUpdateEmail", beforeUpdateEmail);
-            put("afterUpdateEmail", afterUpdateEmail);
-        }};
+        return Map.of(
+                "beforeUpdateEmail", beforeUpdateEmail,
+                "afterUpdateEmail", afterUpdateEmail
+        );
     }
 
     @Override
@@ -59,7 +59,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                         .insertColumns("customer_id,email, name")
                         .values("UUID_TO_BIN(:customerId),:email,:name")
                         .build()
-                        ,toParamMap(customer));
+                , toParamMap(customer));
 
         if (updatedRowNumber != VALID_ROW_RESULT) {
             logger.error("추가된 회원 정보가 없습니다.");
@@ -70,9 +70,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public List<Customer> findAll() {
         try {
             return jdbcTemplate.query(new SqlBuilder.SelectBuilder()
-                    .select("*")
-                    .from("customers")
-                    .build()
+                            .select("*")
+                            .from("customers")
+                            .build()
                     , customerRowMapper);
         } catch (EmptyResultDataAccessException e) {
             logger.error("조회된 회원 정보 리스트가 없습니다.", e);
@@ -83,10 +83,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Customer findByEmail(String email) {
         List<Customer> foundCustomer = jdbcTemplate.query(new SqlBuilder.SelectBuilder()
-                .select("*")
-                .from("customers")
-                .where("email = :email")
-                .build()
+                        .select("*")
+                        .from("customers")
+                        .where("email = :email")
+                        .build()
                 , Collections.singletonMap("email", email), customerRowMapper);
 
         return DataAccessUtils.singleResult(foundCustomer);
@@ -95,10 +95,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void updateInfo(String beforeUpdateEmail, String afterUpdateEmail) {
         var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.UpdateBuilder()
-                .update("customers")
-                .set("email = :afterUpdateEmail")
-                .where("email = :beforeUpdateEmail")
-                .build()
+                        .update("customers")
+                        .set("email = :afterUpdateEmail")
+                        .where("email = :beforeUpdateEmail")
+                        .build()
                 , toEmailParamMap(beforeUpdateEmail, afterUpdateEmail));
 
         if (updatedRowNumber != VALID_ROW_RESULT) {
@@ -109,9 +109,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteByEmail(String email) {
         var updatedRowNumber = jdbcTemplate.update(new SqlBuilder.DeleteBuilder()
-                .delete("customers")
-                .where("email = :email")
-                .build()
+                        .delete("customers")
+                        .where("email = :email")
+                        .build()
                 , Collections.singletonMap("email", email));
 
         if (updatedRowNumber != VALID_ROW_RESULT) {
@@ -122,8 +122,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update(new SqlBuilder.DeleteBuilder()
-                .delete("customers")
-                .build()
+                        .delete("customers")
+                        .build()
                 , new HashMap<>());
     }
 }
