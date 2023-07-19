@@ -1,0 +1,37 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>VOUCHER SYSTEM</title>
+</head>
+<body class="container-fluid">
+<h1>Voucher Management</h1>
+<h2>Voucher List</h2>
+<div class="d-grid gap-2">
+    <a th:href="@{/vouchers/form}" class="btn btn-primary" type="button">Add</a>
+</div>
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th scope="col">voucher id</th>
+        <th scope="col">voucher type</th>
+        <th scope="col">discount value</th>
+        <th scope="col">created at</TH>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+        <td><a th:href="'/vouchers/id/'+*{voucherId}" th:text="*{voucherId}" style="text-decoration:none; color: inherit;"></a></td>
+        <td th:text="*{voucherType}"></td>
+        <td th:text="*{discountValue}"></td>
+        <td th:text="*{createdAt}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

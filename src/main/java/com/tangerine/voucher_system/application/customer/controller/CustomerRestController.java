@@ -1,6 +1,5 @@
-package com.tangerine.voucher_system.application.customer.controller.api;
+package com.tangerine.voucher_system.application.customer.controller;
 
-import com.tangerine.voucher_system.application.customer.controller.CustomerController;
 import com.tangerine.voucher_system.application.customer.controller.dto.CreateCustomerRequest;
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
 import com.tangerine.voucher_system.application.customer.controller.dto.UpdateCustomerRequest;
@@ -15,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/customers")
-public class CustomerRestController implements CustomerController {
+public class CustomerRestController {
 
     private final CustomerService customerService;
 
@@ -23,15 +22,13 @@ public class CustomerRestController implements CustomerController {
         this.customerService = customerService;
     }
 
-    @Override
     @PostMapping("/register")
     public ResponseEntity<CustomerResponse> registerCustomer(@RequestBody CreateCustomerRequest createCustomerRequest) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.createCustomer(CustomerControllerMapper.INSTANCE.requestToParam(createCustomerRequest))));
     }
-
-    @Override
+    
     @PostMapping("/update")
     public ResponseEntity<CustomerResponse> updateCustomer(@RequestBody UpdateCustomerRequest updateCustomerRequest) {
         return ResponseEntity.ok(
@@ -39,7 +36,6 @@ public class CustomerRestController implements CustomerController {
                         customerService.updateCustomer(CustomerControllerMapper.INSTANCE.requestToParam(updateCustomerRequest))));
     }
 
-    @Override
     @GetMapping("/all")
     public ResponseEntity<List<CustomerResponse>> customerList() {
         return ResponseEntity.ok(
@@ -50,7 +46,6 @@ public class CustomerRestController implements CustomerController {
         );
     }
 
-    @Override
     @GetMapping("/black")
     public ResponseEntity<List<CustomerResponse>> blackCustomerList() {
         return ResponseEntity.ok(
@@ -61,15 +56,13 @@ public class CustomerRestController implements CustomerController {
         );
     }
 
-    @Override
     @GetMapping("/id/{customerId}")
     public ResponseEntity<CustomerResponse> customerById(@PathVariable("customerId") UUID customerId) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.findCustomerById(customerId)));
     }
-
-    @Override
+    
     @GetMapping("/name/{name}")
     public ResponseEntity<CustomerResponse> customerByName(@PathVariable("name") Name name) {
         return ResponseEntity.ok(
@@ -77,8 +70,7 @@ public class CustomerRestController implements CustomerController {
                         customerService.findCustomerByName(name)));
     }
 
-    @Override
-    @GetMapping("/unregister/{customerId}")
+    @DeleteMapping("/unregister/{customerId}")
     public ResponseEntity<CustomerResponse> unregisterCustomerById(@PathVariable("customerId") UUID customerId) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(

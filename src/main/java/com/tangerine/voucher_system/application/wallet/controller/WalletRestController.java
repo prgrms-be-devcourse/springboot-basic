@@ -1,8 +1,7 @@
-package com.tangerine.voucher_system.application.wallet.controller.api;
+package com.tangerine.voucher_system.application.wallet.controller;
 
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
 import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
-import com.tangerine.voucher_system.application.wallet.controller.WalletController;
 import com.tangerine.voucher_system.application.wallet.controller.dto.CreateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.controller.dto.UpdateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.controller.mapper.WalletControllerMapper;
@@ -15,7 +14,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/wallets")
-public class WalletRestController implements WalletController {
+public class WalletRestController {
 
     private final WalletService walletService;
 
@@ -23,25 +22,21 @@ public class WalletRestController implements WalletController {
         this.walletService = walletService;
     }
 
-    @Override
-    @GetMapping("/create")
+    @PostMapping("/create")
     public void createWallet(@RequestBody CreateWalletRequest request) {
         walletService.createWallet(WalletControllerMapper.INSTANCE.requestToParam(request));
     }
 
-    @Override
-    @GetMapping("/update")
+    @PostMapping("/update")
     public void updateWallet(@RequestBody UpdateWalletRequest request) {
         walletService.updateWallet(WalletControllerMapper.INSTANCE.requestToParam(request));
     }
 
-    @Override
-    @GetMapping("/delete/{walletId}")
+    @DeleteMapping("/delete/{walletId}")
     public void deleteWalletById(@PathVariable UUID walletId) {
         walletService.deleteWalletById(walletId);
     }
 
-    @Override
     @GetMapping("/customer/{customerId}")
     public ResponseEntity<List<VoucherResponse>> voucherListOfCustomer(@PathVariable UUID customerId) {
         return ResponseEntity.ok(
@@ -51,7 +46,6 @@ public class WalletRestController implements WalletController {
                         .toList());
     }
 
-    @Override
     @GetMapping("/voucher/{voucherId}")
     public ResponseEntity<List<CustomerResponse>> customerListHasVoucher(@PathVariable UUID voucherId) {
         return ResponseEntity.ok(

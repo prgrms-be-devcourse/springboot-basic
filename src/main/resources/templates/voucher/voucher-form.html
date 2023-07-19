@@ -1,0 +1,33 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VOUCHER SYSTEM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body class="container-fluid">
+    <h1>Voucher Management</h1>
+    <h2>Add Voucher</h2>
+    <form th:action="@{/vouchers/create}" method="post">
+
+        <div class="mb-3">
+            <label for="voucherType" class="form-label">Category</label>
+            <select id="voucherType" name="voucherType" class="form-select">
+                <option selected>Choose voucher type</option>
+                <option value="FIXED_AMOUNT">FIXED AMOUNT VOUCHER</option>
+                <option value="PERCENT_DISCOUNT">PERCENT DISCOUNT VOUCHER</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="discountValue" class="form-label">Discount Value</label>
+            <input type="number" class="form-control" id="discountValue" name="discountValue">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add Voucher</button>
+
+    </form>
+</body>
+</html>
