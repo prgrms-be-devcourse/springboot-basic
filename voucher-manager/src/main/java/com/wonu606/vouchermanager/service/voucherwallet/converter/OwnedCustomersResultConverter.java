@@ -4,7 +4,8 @@ import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedCustom
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
 import org.springframework.core.convert.converter.Converter;
 
-public class OwnedCustomersResultConverter implements Converter<OwnedCustomerResultSet, OwnedCustomerResult> {
+public class OwnedCustomersResultConverter implements
+        Converter<OwnedCustomerResultSet, OwnedCustomerResult> {
 
     @Override
     public OwnedCustomerResult convert(OwnedCustomerResultSet param) {

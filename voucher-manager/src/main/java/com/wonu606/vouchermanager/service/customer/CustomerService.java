@@ -5,10 +5,8 @@ import com.wonu606.vouchermanager.repository.customer.CustomerRepository;
 import com.wonu606.vouchermanager.repository.customer.query.CustomerCreateQuery;
 import com.wonu606.vouchermanager.repository.customer.resultset.CustomerCreateResultSet;
 import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
-import com.wonu606.vouchermanager.service.customer.converter.CustomerCreateQueryConverter;
-import com.wonu606.vouchermanager.service.customer.converter.CustomerCreateResultConverter;
-import com.wonu606.vouchermanager.service.customer.converter.CustomerResultConverter;
-import com.wonu606.vouchermanager.service.customer.creator.CustomerCreator;
+import com.wonu606.vouchermanager.service.customer.converter.CustomerServiceConverterManager;
+import com.wonu606.vouchermanager.service.customer.factory.CustomerFactory;
 import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
 import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
 import com.wonu606.vouchermanager.service.customer.result.CustomerResult;
@@ -26,38 +24,32 @@ import org.springframework.transaction.annotation.Transactional;
 public class CustomerService {
 
     private final VoucherWalletService voucherWalletService;
-
     private final CustomerRepository repository;
+    private final CustomerFactory customerFactory;
+    private final CustomerServiceConverterManager converterManager;
 
-    private final CustomerCreator customerCreator;
-    private final CustomerCreateQueryConverter customerCreateQueryConverter;
-    private final CustomerCreateResultConverter customerCreateResultConverter;
-    private final CustomerResultConverter customerResultConverter;
-
-    public CustomerService(VoucherWalletService voucherWalletService,
-            CustomerRepository repository) {
+    public CustomerService(VoucherWalletService voucherWalletService, CustomerRepository repository,
+            CustomerFactory customerFactory, CustomerServiceConverterManager converterManager) {
         this.voucherWalletService = voucherWalletService;
         this.repository = repository;
-
-        customerCreator = new CustomerCreator();
-        customerCreateQueryConverter = new CustomerCreateQueryConverter();
-        customerCreateResultConverter = new CustomerCreateResultConverter();
-        customerResultConverter = new CustomerResultConverter();
+        this.customerFactory = customerFactory;
+        this.converterManager = converterManager;
     }
 
     public CustomerCreateResult createCustomer(CustomerCreateParam param) {
-        Customer createdCustomer = customerCreator.create(param);
-        CustomerCreateQuery query = customerCreateQueryConverter.convert(createdCustomer);
+        Customer createdCustomer = customerFactory.create(param);
+        CustomerCreateQuery query = converterManager.convert(createdCustomer,
+                CustomerCreateQuery.class);
 
         CustomerCreateResultSet resultSet = repository.insert(query);
-        return customerCreateResultConverter.convert(resultSet);
+        return converterManager.convert(resultSet, CustomerCreateResult.class);
     }
 
     public List<CustomerResult> getCustomerList() {
         List<CustomerResultSet> resultSets = repository.findAll();
 
         return resultSets.stream()
-                .map(customerResultConverter::convert)
+                .map(rs -> converterManager.convert(rs, CustomerResult.class))
                 .collect(Collectors.toList());
     }
 

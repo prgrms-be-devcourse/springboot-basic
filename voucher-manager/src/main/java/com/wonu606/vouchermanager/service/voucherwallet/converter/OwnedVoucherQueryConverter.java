@@ -4,7 +4,8 @@ import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedVouchersQu
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
 import org.springframework.core.convert.converter.Converter;
 
-public class OwnedVoucherQueryConverter implements Converter<OwnedVouchersParam, OwnedVouchersQuery> {
+public class OwnedVoucherQueryConverter implements
+        Converter<OwnedVouchersParam, OwnedVouchersQuery> {
 
     public OwnedVouchersQuery convert(OwnedVouchersParam param) {
         return new OwnedVouchersQuery(param.getEmail());

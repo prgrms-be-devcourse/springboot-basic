@@ -3,6 +3,7 @@ package com.wonu606.vouchermanager.service.voucherwallet.param;
 import java.util.UUID;
 
 public class WalletDeleteParam {
+
     private final UUID voucherUuid;
     private final String customerEmail;
 

@@ -1,6 +1,7 @@
 package com.wonu606.vouchermanager.service.voucher.result;
 
 public class VoucherResult {
+
     private final String voucherUuid;
     private final String voucherClassType;
     private final Double discountValue;
