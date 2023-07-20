@@ -7,7 +7,6 @@ import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,18 +27,15 @@ public class CustomerService {
     }
 
     public CustomerResponse findById(UUID id) {
-        Customer customer = validateExist(customerRepository.findById(id));
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerException(CUSTOMER_ID_LOOKUP_FAILED));
 
         return CustomerResponse.toDto(customer.getId(), customer.getNickname());
     }
 
-    private static Customer validateExist(Optional<Customer> foundCustomer) {
-        return foundCustomer.orElseThrow(() -> new CustomerException(CUSTOMER_ID_LOOKUP_FAILED));
-    }
-
     public CustomerResponse findByNickname(String nickname) {
-        Optional<Customer> foundCustomer = customerRepository.findByNickname(nickname);
-        Customer customer = foundCustomer.orElseThrow(() -> new CustomerException(CUSTOMER_NICKNAME_LOOKUP_FAILED));
+        Customer customer = customerRepository.findByNickname(nickname)
+                .orElseThrow(() -> new CustomerException(CUSTOMER_NICKNAME_LOOKUP_FAILED));
 
         return CustomerResponse.toDto(customer.getId(), customer.getNickname());
     }
@@ -51,7 +47,8 @@ public class CustomerService {
     }
 
     public CustomerResponse update(UUID id, String nickname) {
-        Customer customer = validateExist(customerRepository.findById(id));
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerException(CUSTOMER_ID_LOOKUP_FAILED));
         customer.update(nickname);
         customerRepository.update(customer);
 

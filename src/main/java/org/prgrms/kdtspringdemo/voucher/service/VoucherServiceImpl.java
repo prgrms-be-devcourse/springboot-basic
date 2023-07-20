@@ -8,7 +8,6 @@ import org.prgrms.kdtspringdemo.voucher.ropository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,8 +31,8 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherResponse findById(UUID id) {
-        Optional<Voucher> foundVoucher = voucherRepository.findById(id);
-        Voucher voucher = foundVoucher.orElseThrow(() -> new VoucherIdNotFoundException(VOUCHER_ID_LOOKUP_FAILED));
+        Voucher voucher = voucherRepository.findById(id)
+                .orElseThrow(() -> new VoucherIdNotFoundException(VOUCHER_ID_LOOKUP_FAILED));
 
         return VoucherResponse.toDto(voucher.getId(), voucher.getType(), voucher.getAmount());
     }
@@ -48,8 +47,8 @@ public class VoucherServiceImpl implements VoucherService {
     @Override
     public VoucherResponse update(UUID id, VoucherType type, long amount) {
         voucherRepository.update(id, type, amount);
-        Optional<Voucher> checkingVoucher = voucherRepository.findById(id);
-        Voucher voucher = checkingVoucher.orElseGet(() -> voucherRepository.save(type.updateVoucher(id, amount)));
+        Voucher voucher = voucherRepository.findById(id)
+                .orElseGet(() -> voucherRepository.save(type.updateVoucher(id, amount)));
 
         return VoucherResponse.toDto(voucher.getId(), voucher.getType(), voucher.getAmount());
     }
