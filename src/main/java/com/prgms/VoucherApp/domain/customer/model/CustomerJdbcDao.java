@@ -1,7 +1,6 @@
 package com.prgms.VoucherApp.domain.customer.model;
 
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -83,17 +82,17 @@ public class CustomerJdbcDao implements CustomerDao {
     }
 
     @Override
-    public void updateStatus(CustomerUpdateRequest reqDto) {
+    public void updateStatus(Customer customer) {
         String sql = "UPDATE customer SET status = :status WHERE id = :id";
 
         SqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("status", reqDto.status().getStatusName())
-                .addValue("id", reqDto.id().toString());
+                .addValue("status", customer.getCustomerStatus().getStatusName())
+                .addValue("id", customer.getCustomerId().toString());
 
         int count = namedParameterJdbcTemplate.update(sql, paramMap);
 
         if (count == 0) {
-            logger.warn("존재하지 않는 아이디가 입력되어 업데이트하지 못하는 예외가 발생 id = {}", reqDto.id());
+            logger.warn("존재하지 않는 아이디가 입력되어 업데이트하지 못하는 예외가 발생 id = {}", customer.getCustomerId());
             throw new IllegalArgumentException("존재하지 않는 id 를 입력받았습니다.");
         }
     }

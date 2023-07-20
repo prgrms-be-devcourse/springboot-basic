@@ -57,7 +57,7 @@ public class VoucherJdbcDao implements VoucherDao {
         String sql = "SELECT * FROM voucher where id = :id";
 
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("id", voucherId);
+                .addValue("id", voucherId.toString());
 
         try {
             Voucher voucher = namedParameterJdbcTemplate.queryForObject(sql, paramMap, voucherRowMapper());

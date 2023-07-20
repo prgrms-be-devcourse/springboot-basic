@@ -21,10 +21,10 @@ public class VoucherService {
     }
 
     @Transactional
-    public VoucherResponse save(VoucherCreateRequest requestDto) {
-        Voucher voucher = switch (requestDto.voucherType()) {
-            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), requestDto.amount());
-            case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), requestDto.amount());
+    public VoucherResponse save(VoucherCreateRequest voucherCreateRequest) {
+        Voucher voucher = switch (voucherCreateRequest.voucherType()) {
+            case FIXED_VOUCHER -> new FixedAmountVoucher(UUID.randomUUID(), voucherCreateRequest.amount());
+            case PERCENT_VOUCHER -> new PercentDiscountVoucher(UUID.randomUUID(), voucherCreateRequest.amount());
         };
         voucherDao.save(voucher);
 

@@ -1,4 +1,4 @@
-package com.prgms.VoucherApp.domain.voucher.controller;
+package com.prgms.VoucherApp.domain.voucher.controller.console;
 
 
 import com.prgms.VoucherApp.domain.voucher.model.VoucherService;
@@ -32,6 +32,7 @@ public class VoucherManagementController implements Runnable {
                 output.printVoucherCommand();
                 int inputCommandNumber = input.inputVoucherCommand();
                 VoucherCommand command = VoucherCommand.findByVoucherCommandNumber(inputCommandNumber);
+
                 if (command == VoucherCommand.EXIT) {
                     return;
                 }

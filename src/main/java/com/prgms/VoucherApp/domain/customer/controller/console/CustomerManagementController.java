@@ -1,4 +1,4 @@
-package com.prgms.VoucherApp.domain.customer.controller;
+package com.prgms.VoucherApp.domain.customer.controller.console;
 
 import com.prgms.VoucherApp.domain.customer.model.CustomerService;
 import com.prgms.VoucherApp.domain.customer.model.factory.CustomerCommandStrategyFactory;

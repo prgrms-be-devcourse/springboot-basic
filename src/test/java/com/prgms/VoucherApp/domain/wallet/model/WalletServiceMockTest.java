@@ -33,7 +33,6 @@ class WalletServiceMockTest {
     @Test
     @DisplayName("고객이 가진 할인권을 지갑에서 관리하도록 생성한다.")
     void saveWalletTest() {
-
         given(mockWalletService.save(any(WalletCreateRequest.class)))
                 .willReturn(response);
     }

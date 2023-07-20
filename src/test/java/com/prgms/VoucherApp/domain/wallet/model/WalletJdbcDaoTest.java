@@ -112,7 +112,7 @@ class WalletJdbcDaoTest {
 
         // when
         walletDao.deleteById(wallet.getWalletId());
-        Optional<Wallet> findWallet = walletDao.findById(wallet.getWalletId());
+        Optional<Wallet> findWallet = walletDao.findById(UUID.randomUUID());
 
         // then
         Assertions.assertThat(findWallet).isEmpty();

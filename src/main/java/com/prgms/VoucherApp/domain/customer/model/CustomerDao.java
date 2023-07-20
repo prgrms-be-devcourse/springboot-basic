@@ -1,7 +1,5 @@
 package com.prgms.VoucherApp.domain.customer.model;
 
-import com.prgms.VoucherApp.domain.customer.dto.CustomerUpdateRequest;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -14,7 +12,7 @@ public interface CustomerDao {
 
     Optional<Customer> findById(UUID id);
 
-    void updateStatus(CustomerUpdateRequest updateReqDto);
+    void updateStatus(Customer customer);
 
     void deleteById(UUID id);
 

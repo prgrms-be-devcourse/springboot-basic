@@ -86,12 +86,12 @@ class VoucherJdbcDaoTest {
     @DisplayName("할인권 조회 실패")
     void findVoucherFail() {
         // given
+        UUID randomUUID = UUID.randomUUID();
 
         // when
-        Optional<Voucher> voucherId = voucherJdbcDao.findById(UUID.randomUUID());
-
+        Optional<Voucher> findVoucher = voucherJdbcDao.findById(randomUUID);
         // then
-        Assertions.assertThat(voucherId).isEmpty();
+        Assertions.assertThat(findVoucher).isEmpty();
     }
 
     @Test
