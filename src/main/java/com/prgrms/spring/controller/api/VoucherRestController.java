@@ -2,6 +2,7 @@ package com.prgrms.spring.controller.api;
 
 import com.google.protobuf.Api;
 import com.prgrms.spring.common.dto.ApiResponse;
+import com.prgrms.spring.controller.dto.request.VoucherCreateRequestDto;
 import com.prgrms.spring.controller.dto.response.VoucherResponseDto;
 import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.exception.Success;
@@ -35,6 +36,11 @@ public class VoucherRestController {
     }
 
     // 3. 바우처 추가기능
+    @PostMapping("/")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<VoucherResponseDto> createVoucher(@RequestBody VoucherCreateRequestDto requestDto) {
+        return ApiResponse.success(Success.CREATE_VOUCHER_SUCCESS, voucherService.createVoucher(requestDto));
+    }
 
     // 4. 바우처 삭제기능
 

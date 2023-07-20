@@ -21,7 +21,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
 
     @Transactional
-    public Voucher createVoucher(VoucherCreateRequestDto requestDto) {
+    public VoucherResponseDto createVoucher(VoucherCreateRequestDto requestDto) {
         Voucher voucher = null;
         if (requestDto.getVoucherType() == VoucherType.FIXED_AMOUNT) {
             voucher = FixedAmountVoucher.newInstance(UUID.randomUUID(), requestDto.getDiscount());
@@ -29,7 +29,7 @@ public class VoucherService {
             voucher = PercentDiscountVoucher.newInstance(UUID.randomUUID(), requestDto.getDiscount());
         }
         voucherRepository.insert(voucher);
-        return voucher;
+        return VoucherResponseDto.of(voucher.getVoucherName(), voucher.getDiscount() + voucher.getDiscountUnit());
     }
 
     @Transactional(readOnly = true)
