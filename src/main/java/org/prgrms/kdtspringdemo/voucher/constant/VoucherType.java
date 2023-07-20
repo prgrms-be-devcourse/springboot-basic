@@ -33,7 +33,8 @@ public enum VoucherType {
         public Voucher updateVoucher(UUID voucherId, long amount) {
             return new PercentAmountVoucher(voucherId, amount);
         }
-    };
+    }
+    ;
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
 

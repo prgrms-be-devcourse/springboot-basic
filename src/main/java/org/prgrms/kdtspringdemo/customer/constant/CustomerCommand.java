@@ -13,7 +13,8 @@ public enum CustomerCommand {
     FIND_NICKNAME,
     FIND_ALL,
     UPDATE,
-    DELETE;
+    DELETE
+    ;
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerCommand.class);
 

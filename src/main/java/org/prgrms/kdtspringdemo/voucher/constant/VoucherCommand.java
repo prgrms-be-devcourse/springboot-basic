@@ -12,7 +12,8 @@ public enum VoucherCommand {
     FIND_ID,
     FIND_ALL,
     UPDATE,
-    DELETE;
+    DELETE
+    ;
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherCommand.class);
 

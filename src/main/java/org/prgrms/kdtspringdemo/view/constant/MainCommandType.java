@@ -8,7 +8,8 @@ import java.util.Arrays;
 public enum MainCommandType {
     EXIT,
     VOUCHER,
-    CUSTOMER;
+    CUSTOMER
+    ;
 
     private static final Logger logger = LoggerFactory.getLogger(MainCommandType.class);
     private static final String CANT_FIND_COMMAND_TYPE = "알맞는 명령이 없습니다.";
