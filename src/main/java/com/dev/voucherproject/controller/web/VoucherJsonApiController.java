@@ -9,9 +9,13 @@ import com.dev.voucherproject.model.voucher.VoucherPolicy;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,45 +29,45 @@ public class VoucherJsonApiController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public Response<Void> create(@RequestBody VoucherCreateRequest voucherCreateRequest) {
-        voucherService.insert(voucherCreateRequest);
+    public ResponseEntity<Response<String>> create(@RequestBody VoucherCreateRequest voucherCreateRequest) {
+        String id = voucherService.insert(voucherCreateRequest);
 
-        return Response.success(null);
+        return ResponseEntity.created(URI.create("/api/v1/vouchers/"+id))
+                .body(Response.success(id));
     }
 
     @GetMapping
-    public Response<List<VoucherDto>> vouchers(@RequestParam("policy") Optional<VoucherPolicy> policy) {
-        List<VoucherDto> vouchers = policy
-                .map(voucherService::findAllVouchersByPolicy)
-                .orElse(voucherService.findAllVouchers())
-                .stream()
-                .toList();
+    public ResponseEntity<Response<List<VoucherDto>>> vouchers(@RequestParam("voucherPolicy") Optional<VoucherPolicy> voucherPolicy) {
+        List<VoucherDto> voucherDtos = voucherService.findAllVouchersAppliedQueryString(voucherPolicy);
 
-        return Response.success(vouchers);
+        return ResponseEntity.ok()
+                .body(Response.success(voucherDtos));
     }
 
     @GetMapping("/date")
-    public Response<List<VoucherDto>> betweenDatesCreatedVouchers(
+    public ResponseEntity<Response<List<VoucherDto>>> betweenDatesCreatedVouchers(
             @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
             @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
     ) {
-        List<VoucherDto> vouchers = voucherService.findAllBetweenDates(startDate, endDate);
+        List<VoucherDto> voucherDtos = voucherService.findAllBetweenDates(startDate, endDate);
 
-        return Response.success(vouchers);
+        return ResponseEntity.ok()
+                .body(Response.success(voucherDtos));
     }
 
     @GetMapping("/{id}")
-    public Response<VoucherDto> voucher(@PathVariable String id) {
-        VoucherDto voucher = voucherService.findById(id);
+    public ResponseEntity<Response<VoucherDto>> voucher(@PathVariable String id) {
+        VoucherDto voucherDtos = voucherService.findById(id);
 
-        return Response.success(voucher);
+        return ResponseEntity.ok()
+                .body(Response.success(voucherDtos));
     }
 
     @DeleteMapping("/{id}")
-    public Response<Void> delete(@PathVariable String id) {
+    public ResponseEntity<Response<String>> delete(@PathVariable String id) {
         voucherService.deleteById(id);
 
-        return Response.success(null);
+        return ResponseEntity.ok()
+                .body(Response.success(id));
     }
 }
