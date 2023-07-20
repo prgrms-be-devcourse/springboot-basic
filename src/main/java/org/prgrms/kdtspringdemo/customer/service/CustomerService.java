@@ -1,7 +1,6 @@
 package org.prgrms.kdtspringdemo.customer.service;
 
-import org.prgrms.kdtspringdemo.customer.exception.CustomerIdNotFoundException;
-import org.prgrms.kdtspringdemo.customer.exception.CustomerNicknameNotFoundException;
+import org.prgrms.kdtspringdemo.customer.exception.CustomerException;
 import org.prgrms.kdtspringdemo.customer.model.dto.CustomerResponse;
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
@@ -35,12 +34,12 @@ public class CustomerService {
     }
 
     private static Customer validateExist(Optional<Customer> foundCustomer) {
-        return foundCustomer.orElseThrow(() -> new CustomerIdNotFoundException(CUSTOMER_ID_LOOKUP_FAILED));
+        return foundCustomer.orElseThrow(() -> new CustomerException(CUSTOMER_ID_LOOKUP_FAILED));
     }
 
     public CustomerResponse findByNickname(String nickname) {
         Optional<Customer> foundCustomer = customerRepository.findByNickname(nickname);
-        Customer customer = foundCustomer.orElseThrow(() -> new CustomerNicknameNotFoundException(CUSTOMER_NICKNAME_LOOKUP_FAILED));
+        Customer customer = foundCustomer.orElseThrow(() -> new CustomerException(CUSTOMER_NICKNAME_LOOKUP_FAILED));
 
         return CustomerResponse.toDto(customer.getId(), customer.getNickname());
     }
