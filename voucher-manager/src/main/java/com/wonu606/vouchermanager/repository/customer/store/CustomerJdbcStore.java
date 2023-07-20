@@ -4,7 +4,6 @@ import com.wonu606.vouchermanager.repository.customer.query.CustomerCreateQuery;
 import com.wonu606.vouchermanager.repository.customer.resultset.CustomerCreateResultSet;
 import java.util.HashMap;
 import java.util.Map;
-import javax.sql.DataSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +12,8 @@ public class CustomerJdbcStore implements CustomerStore {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public CustomerJdbcStore(DataSource dataSource) {
-        this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
+    public CustomerJdbcStore(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     @Override
