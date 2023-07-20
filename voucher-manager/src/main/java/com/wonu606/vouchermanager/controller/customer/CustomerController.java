@@ -1,5 +1,6 @@
 package com.wonu606.vouchermanager.controller.customer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wonu606.vouchermanager.controller.customer.converter.CustomerControllerConverterManager;
 import com.wonu606.vouchermanager.controller.customer.request.CustomerCreateRequest;
 import com.wonu606.vouchermanager.controller.customer.request.OwnedVouchersRequest;
@@ -14,6 +15,7 @@ import com.wonu606.vouchermanager.service.customer.result.CustomerResult;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedVoucherResult;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -29,28 +31,47 @@ public class CustomerController {
         converterManager = new CustomerControllerConverterManager();
     }
 
-    public CustomerCreateResponse createCustomer(CustomerCreateRequest request) {
+    public String createCustomer(CustomerCreateRequest request) {
         CustomerCreateParam param = converterManager.convert(request, CustomerCreateParam.class);
         CustomerCreateResult result = service.createCustomer(param);
 
-        return converterManager.convert(result, CustomerCreateResponse.class);
+        CustomerCreateResponse response = converterManager.convert(result,
+                CustomerCreateResponse.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(response);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public List<CustomerResponse> getCustomerList() {
+    public String getCustomerList() {
         List<CustomerResult> results = service.getCustomerList();
 
-        return results.stream()
+        List<CustomerResponse> responses = results.stream()
                 .map(rs -> converterManager.convert(rs, CustomerResponse.class))
                 .collect(Collectors.toList());
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(responses);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    public List<OwnedVoucherResponse> getOwnedVouchersByCustomer(OwnedVouchersRequest request) {
+    public String getOwnedVouchersByCustomer(OwnedVouchersRequest request) {
         OwnedVouchersParam param = converterManager.convert(request, OwnedVouchersParam.class);
         List<OwnedVoucherResult> results = service.findOwnedVouchersByCustomer(param);
 
-        return results.stream()
+        List<OwnedVoucherResponse> responses = results.stream()
                 .map(rs -> converterManager.convert(rs, OwnedVoucherResponse.class))
                 .collect(Collectors.toList());
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(responses);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteWallet(WalletDeleteRequest request) {

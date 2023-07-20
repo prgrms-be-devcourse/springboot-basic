@@ -29,15 +29,13 @@ public class CustomerConsoleIo extends AbstractConsoleIo {
                 printer.displayMessage(String.format(lineFormat, n, n)));
     }
 
-    public void displayCustomerList(CustomerListGetResponse response) {
+    public void displayCustomerList(String response) {
         printer.displayMessage("=== 보유한 Customer 리스트 ===");
-        List<String> emails = response.getEmails();
-        emails.forEach(printer::displayMessage);
+        printer.displayMessage(response);
     }
 
-    public void displayVoucherList(OwnedVoucherResponse response) {
+    public void displayVoucherList(String response) {
         printer.displayMessage("=== 보유한 바우처 리스트 ===");
-        List<String> voucherIds = response.getVoucherIds();
-        voucherIds.forEach(printer::displayMessage);
+        printer.displayMessage(response);
     }
 }
