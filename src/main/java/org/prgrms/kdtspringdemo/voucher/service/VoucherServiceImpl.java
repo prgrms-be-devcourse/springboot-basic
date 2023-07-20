@@ -40,8 +40,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public List<VoucherResponse> findAll() {
-        return voucherRepository.findAll()
-                .stream()
+        return voucherRepository.findAll().stream()
                 .map(v -> new VoucherResponse(v.getId(), v.getType(), v.getAmount()))
                 .collect(Collectors.toUnmodifiableList());
     }

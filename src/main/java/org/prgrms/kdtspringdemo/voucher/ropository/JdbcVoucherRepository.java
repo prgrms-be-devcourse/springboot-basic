@@ -62,8 +62,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .whereCommonBuilder(VOUCHER_ID)
                 .build();
 
-        return jdbcTemplate.query(findByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)), voucherRowMapper)
-                .stream()
+        return jdbcTemplate.query(findByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)), voucherRowMapper).stream()
                 .findFirst();
     }
 

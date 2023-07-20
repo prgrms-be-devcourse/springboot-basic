@@ -41,8 +41,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID id) {
         return jdbcTemplate.query("SELECT * FROM customer WHERE customer_id = :customer_id",
                         Collections.singletonMap(CUSTOMER_ID, uuidToBytes(id)),
-                        customerRowMapper)
-                .stream()
+                        customerRowMapper).stream()
                 .findFirst();
     }
 
@@ -50,8 +49,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Optional<Customer> findByNickname(String nickname) {
         return jdbcTemplate.query("SELECT * FROM customer WHERE nickname = :nickname",
                         Collections.singletonMap(NICKNAME, nickname),
-                        customerRowMapper)
-                .stream()
+                        customerRowMapper).stream()
                 .findFirst();
     }
 

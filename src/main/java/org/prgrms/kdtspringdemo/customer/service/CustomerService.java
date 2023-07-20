@@ -46,8 +46,7 @@ public class CustomerService {
     }
 
     public List<CustomerResponse> findAll() {
-        return customerRepository.findAll()
-                .stream()
+        return customerRepository.findAll().stream()
                 .map(v -> new CustomerResponse(v.getId(), v.getNickname()))
                 .collect(Collectors.toUnmodifiableList());
     }
