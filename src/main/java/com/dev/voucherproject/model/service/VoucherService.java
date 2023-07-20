@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,14 +25,26 @@ public class VoucherService {
     }
 
     @Transactional
-    public void insert(VoucherCreateRequest voucherCreateRequest) {
+    public String insert(VoucherCreateRequest voucherCreateRequest) {
+        UUID uuid = UUID.randomUUID();
+
         Voucher voucher = Voucher.of(
-                UUID.randomUUID(),
+                uuid,
                 LocalDateTime.now(),
                 voucherCreateRequest.voucherPolicy(),
                 voucherCreateRequest.discountFigure()
         );
         voucherDao.insert(voucher);
+
+        return uuid.toString();
+    }
+
+    public List<VoucherDto> findAllVouchersAppliedQueryString(Optional<VoucherPolicy> voucherPolicy) {
+        if (voucherPolicy.isEmpty()) {
+            return findAllVouchers();
+        }
+
+        return findAllVouchersByPolicy(voucherPolicy.get());
     }
 
     public List<VoucherDto> findAllVouchers() {
