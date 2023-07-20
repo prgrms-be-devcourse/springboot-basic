@@ -48,18 +48,6 @@ public class ControllerExceptionAdvice {
         return ApiResponse.error(Error.VALIDATION_REQUEST_PARAMETER_MISSING_EXCEPTION, String.format("%s. (%s)", Error.VALIDATION_REQUEST_PARAMETER_MISSING_EXCEPTION.getMessage(), e.getParameterName()));
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ConstraintViolationException.class)
-    protected ApiResponse handleRequestParameterNotValidException(final ConstraintViolationException e) {
-        return ApiResponse.error(Error.PAGE_REQUEST_VALIDATION_EXCEPTION, String.format("%s", e.getConstraintName()));
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    protected ApiResponse handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e) {
-        return ApiResponse.error(Error.REQUEST_METHOD_VALIDATION_EXCEPTION, e.getMessage());
-    }
-
     /**
      * 500 Internal Server Error
      */

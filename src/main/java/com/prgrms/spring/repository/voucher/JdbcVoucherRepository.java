@@ -3,6 +3,7 @@ package com.prgrms.spring.repository.voucher;
 import com.prgrms.spring.domain.voucher.FixedAmountVoucher;
 import com.prgrms.spring.domain.voucher.PercentDiscountVoucher;
 import com.prgrms.spring.domain.voucher.Voucher;
+import com.prgrms.spring.domain.voucher.VoucherType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -78,17 +79,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByDiscountUnit(String discountUnit) {
-        return jdbcTemplate.query("SELECT * FROM voucher  WHERE discount_unit = :discountUnit",
+        return jdbcTemplate.query("SELECT * FROM voucher WHERE discount_unit = :discountUnit",
                 Collections.singletonMap("discountUnit", discountUnit),
                 voucherRowMapper);
     }
 
     @Override
-    public List<Voucher> deleteVoucher(String voucherIdString) {
-        UUID voucherId = UUID.fromString(voucherIdString);
-        return jdbcTemplate.query("DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-                Collections.singletonMap("voucherId", voucherId),
-                voucherRowMapper);
+    public void deleteVoucher(Voucher voucher) {
+        jdbcTemplate.update("DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                toParamMap(voucher));
     }
 
     static UUID toUUID(byte[] bytes) {

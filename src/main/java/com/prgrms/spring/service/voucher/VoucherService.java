@@ -25,9 +25,9 @@ public class VoucherService {
     @Transactional
     public VoucherResponseDto createVoucher(VoucherCreateRequestDto requestDto) {
         Voucher voucher = null;
-        if (requestDto.getVoucherType() == VoucherType.FIXED_AMOUNT) {
+        if (VoucherType.valueOf(requestDto.getVoucherType()) == VoucherType.FIXED_AMOUNT) {
             voucher = FixedAmountVoucher.newInstance(UUID.randomUUID(), requestDto.getDiscount());
-        } else if (requestDto.getVoucherType() == VoucherType.PERCENT_DISCOUNT) {
+        } else if (VoucherType.valueOf(requestDto.getVoucherType()) == VoucherType.PERCENT_DISCOUNT) {
             voucher = PercentDiscountVoucher.newInstance(UUID.randomUUID(), requestDto.getDiscount());
         }
         voucherRepository.insert(voucher);
@@ -63,7 +63,9 @@ public class VoucherService {
 
     @Transactional
     public void deleteVoucher(String voucherId) {
-        List<Voucher> deletedVouchers = voucherRepository.deleteVoucher(voucherId);
+        Voucher voucher = voucherRepository.findById(UUID.fromString(voucherId))
+                .orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_VOUCHER_EXCEPTION, Error.NOT_FOUND_VOUCHER_EXCEPTION.getMessage()));
+        voucherRepository.deleteVoucher(voucher);
     }
 
     @Transactional(readOnly = true)

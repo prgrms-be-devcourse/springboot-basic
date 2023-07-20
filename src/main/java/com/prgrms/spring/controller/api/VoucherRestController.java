@@ -36,7 +36,7 @@ public class VoucherRestController {
     }
 
     // 3. 바우처 추가기능
-    @PostMapping("/")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<VoucherResponseDto> createVoucher(@RequestBody VoucherCreateRequestDto requestDto) {
         return ApiResponse.success(Success.CREATE_VOUCHER_SUCCESS, voucherService.createVoucher(requestDto));

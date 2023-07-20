@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class VoucherCreateRequestDto {
-    private VoucherType voucherType;
+    private String voucherType;
     private Long discount;
 
-    public static VoucherCreateRequestDto of(VoucherType voucherType, Long discount) {
+    public static VoucherCreateRequestDto of(String voucherType, Long discount) {
         return new VoucherCreateRequestDto(voucherType,discount);
     }
 }
