@@ -25,7 +25,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         return Map.of(
-                CUSTOMER_ID, uuidToBytes(customer.getCustomerId()),
+                CUSTOMER_ID, uuidToBytes(customer.getId()),
                 NICKNAME, customer.getNickname()
         );
     }
@@ -38,9 +38,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerId) {
+    public Optional<Customer> findById(UUID id) {
         return jdbcTemplate.query("SELECT * FROM customer WHERE customer_id = :customer_id",
-                        Collections.singletonMap(CUSTOMER_ID, uuidToBytes(customerId)),
+                        Collections.singletonMap(CUSTOMER_ID, uuidToBytes(id)),
                         customerRowMapper)
                 .stream()
                 .findFirst();
@@ -66,8 +66,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void deleteById(UUID customerId) {
+    public void deleteById(UUID id) {
         jdbcTemplate.update("DELETE FROM customer WHERE customer_id = :customer_id",
-                Collections.singletonMap(CUSTOMER_ID, uuidToBytes(customerId)));
+                Collections.singletonMap(CUSTOMER_ID, uuidToBytes(id)));
     }
 }

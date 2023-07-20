@@ -59,44 +59,44 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void createVoucher() {
-        VoucherType userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE);
+        VoucherType userType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE);
         Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER);
 
-        VoucherResponse voucherResponse = voucherService.create(userVoucherType, userAmount);
-        printVoucherResult(voucherResponse);
+        VoucherResponse response = voucherService.create(userType, userAmount);
+        printVoucherResult(response);
     }
 
-    private void printVoucherResult(VoucherResponse voucherResponse) {
-        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponse.getVoucherId(), voucherResponse.getVoucherType(), voucherResponse.getAmount());
+    private void printVoucherResult(VoucherResponse response) {
+        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, response.getId(), response.getType(), response.getAmount());
     }
 
     private void getVoucher() {
-        UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID);
+        UUID userId = voucherConsole.inputVoucherId(VOUCHER_ID);
 
-        VoucherResponse voucherResponse = voucherService.findById(userVoucherId);
-        printVoucherResult(voucherResponse);
+        VoucherResponse response = voucherService.findById(userId);
+        printVoucherResult(response);
     }
 
     private void getAllVoucher() {
         List<VoucherResponse> vouchers = voucherService.findAll();
-        for (VoucherResponse voucherResponse : vouchers) {
-            printVoucherResult(voucherResponse);
+        for (VoucherResponse response : vouchers) {
+            printVoucherResult(response);
         }
     }
 
     private void updateVoucher() {
-        UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID);
-        VoucherType userVoucherType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE);
+        UUID userId = voucherConsole.inputVoucherId(VOUCHER_ID);
+        VoucherType userType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE);
         Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER);
 
-        VoucherResponse voucherResponse = voucherService.update(userVoucherId, userVoucherType, userAmount);
-        printVoucherResult(voucherResponse);
+        VoucherResponse response = voucherService.update(userId, userType, userAmount);
+        printVoucherResult(response);
     }
 
     private void deleteVoucher() {
-        UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID);
+        UUID userId = voucherConsole.inputVoucherId(VOUCHER_ID);
 
-        voucherService.delete(userVoucherId);
+        voucherService.delete(userId);
     }
 
     private void runCustomerService() {
@@ -115,46 +115,46 @@ public class CommandLineApplication implements CommandLineRunner {
     private void createCustomer() {
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
-        CustomerResponse customerResponse = customerService.create(userNickname);
-        printCustomerResult(customerResponse);
+        CustomerResponse response = customerService.create(userNickname);
+        printCustomerResult(response);
     }
 
     private void printCustomerResult(CustomerResponse customerResponse) {
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
+        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getId(), customerResponse.getNickname());
     }
 
     private void findByIdCustomer() {
-        UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID);
+        UUID userId = voucherConsole.inputCustomerId(CUSTOMER_ID);
 
-        CustomerResponse customerResponse = customerService.findById(userCustomerId);
-        printCustomerResult(customerResponse);
+        CustomerResponse response = customerService.findById(userId);
+        printCustomerResult(response);
     }
 
     private void findByNicknameCustomer() {
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
-        CustomerResponse customerResponse = customerService.findByNickname(userNickname);
-        printCustomerResult(customerResponse);
+        CustomerResponse response = customerService.findByNickname(userNickname);
+        printCustomerResult(response);
     }
 
     private void findAllCustomer() {
         List<CustomerResponse> customers = customerService.findAll();
-        for (CustomerResponse customerResponse : customers) {
-            printCustomerResult(customerResponse);
+        for (CustomerResponse response : customers) {
+            printCustomerResult(response);
         }
     }
 
     private void updateCustomer() {
-        UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID);
+        UUID userId = voucherConsole.inputCustomerId(CUSTOMER_ID);
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
-        CustomerResponse customerResponse = customerService.update(userCustomerId, userNickname);
-        printCustomerResult(customerResponse);
+        CustomerResponse response = customerService.update(userId, userNickname);
+        printCustomerResult(response);
     }
 
     private void deleteCustomer() {
-        UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID);
+        UUID userId = voucherConsole.inputCustomerId(CUSTOMER_ID);
 
-        customerService.delete(userCustomerId);
+        customerService.delete(userId);
     }
 }

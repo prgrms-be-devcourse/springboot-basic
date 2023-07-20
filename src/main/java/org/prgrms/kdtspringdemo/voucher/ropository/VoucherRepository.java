@@ -10,11 +10,11 @@ import java.util.UUID;
 public interface VoucherRepository {
     Voucher save(Voucher voucher);
 
-    Optional<Voucher> findById(UUID voucherId);
+    Optional<Voucher> findById(UUID id);
 
     List<Voucher> findAll();
 
-    void update(UUID voucherId, VoucherType voucherType, long amount);
+    void update(UUID id, VoucherType type, long amount);
 
-    void deleteById(UUID voucherId);
+    void deleteById(UUID id);
 }

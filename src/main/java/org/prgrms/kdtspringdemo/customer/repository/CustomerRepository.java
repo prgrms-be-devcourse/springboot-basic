@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface CustomerRepository {
     Customer save(Customer customer);
 
-    Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findById(UUID id);
 
     Optional<Customer> findByNickname(String nickname);
 
@@ -17,5 +17,5 @@ public interface CustomerRepository {
 
     void update(Customer customer);
 
-    void deleteById(UUID customerId);
+    void deleteById(UUID id);
 }

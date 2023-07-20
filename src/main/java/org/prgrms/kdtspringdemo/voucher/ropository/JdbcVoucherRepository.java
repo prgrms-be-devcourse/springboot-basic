@@ -27,11 +27,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes(VOUCHER_ID));
-        VoucherType voucherType = VoucherType.valueOf(resultSet.getString(VOUCHER_TYPE));
+        UUID id = toUUID(resultSet.getBytes(VOUCHER_ID));
+        VoucherType type = VoucherType.valueOf(resultSet.getString(VOUCHER_TYPE));
         long amount = resultSet.getLong(AMOUNT);
 
-        return voucherType.updateVoucher(voucherId, amount);
+        return type.updateVoucher(id, amount);
     };
 
     private Map<String, Object> toParamMap(UUID voucherId, VoucherType voucherType, long amount) {
@@ -49,20 +49,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .valuesBuilder(VOUCHER_ID, VOUCHER_TYPE, AMOUNT)
                 .build();
 
-        jdbcTemplate.update(saveQuery, toParamMap(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount()));
+        jdbcTemplate.update(saveQuery, toParamMap(voucher.getId(), voucher.getType(), voucher.getAmount()));
 
         return voucher;
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID id) {
         String findByIdQuery = new Query.QueryBuilder()
                 .selectBuilder("*")
                 .fromBuilder(VOUCHER_TABLE)
                 .whereCommonBuilder(VOUCHER_ID)
                 .build();
 
-        return jdbcTemplate.query(findByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(voucherId)), voucherRowMapper)
+        return jdbcTemplate.query(findByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)), voucherRowMapper)
                 .stream()
                 .findFirst();
     }
@@ -78,23 +78,23 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(UUID voucherId, VoucherType voucherType, long amount) {
+    public void update(UUID id, VoucherType type, long amount) {
         String updateQuery = new Query.QueryBuilder()
                 .updateBuilder(VOUCHER_TABLE)
                 .setBuilder(VOUCHER_TYPE)
                 .addSetBuilder(AMOUNT)
                 .build();
 
-        jdbcTemplate.update(updateQuery, toParamMap(voucherId, voucherType, amount));
+        jdbcTemplate.update(updateQuery, toParamMap(id, type, amount));
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
+    public void deleteById(UUID id) {
         String deleteByIdQuery = new Query.QueryBuilder()
                 .deleteBuilder(VOUCHER_TABLE)
                 .whereCommonBuilder(VOUCHER_ID)
                 .build();
 
-        jdbcTemplate.update(deleteByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(voucherId)));
+        jdbcTemplate.update(deleteByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)));
     }
 }

@@ -14,14 +14,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
+        storage.put(voucher.getId(), voucher);
 
         return voucher;
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
-        Voucher voucher = storage.get(voucherId);
+    public Optional<Voucher> findById(UUID id) {
+        Voucher voucher = storage.get(id);
         if (voucher == null) {
             return Optional.empty();
         }
@@ -35,12 +35,12 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(UUID voucherId, VoucherType voucherType, long amount) {
-        storage.putIfAbsent(voucherId, voucherType.updateVoucher(voucherId, amount));
+    public void update(UUID id, VoucherType type, long amount) {
+        storage.putIfAbsent(id, type.updateVoucher(id, amount));
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
-        storage.remove(voucherId);
+    public void deleteById(UUID id) {
+        storage.remove(id);
     }
 }

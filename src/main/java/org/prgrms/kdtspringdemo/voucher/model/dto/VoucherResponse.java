@@ -5,22 +5,22 @@ import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import java.util.UUID;
 
 public class VoucherResponse {
-    private final UUID voucherId;
-    private final VoucherType voucherType;
+    private final UUID id;
+    private final VoucherType type;
     private final long amount;
 
-    public VoucherResponse(UUID voucherId, VoucherType voucherType, long amount) {
-        this.voucherId = voucherId;
-        this.voucherType = voucherType;
+    public VoucherResponse(UUID id, VoucherType type, long amount) {
+        this.id = id;
+        this.type = type;
         this.amount = amount;
     }
 
-    public UUID getVoucherId() {
-        return voucherId;
+    public UUID getId() {
+        return id;
     }
 
-    public VoucherType getVoucherType() {
-        return voucherType;
+    public VoucherType getType() {
+        return type;
     }
 
     public long getAmount() {

@@ -3,16 +3,16 @@ package org.prgrms.kdtspringdemo.customer.model.dto;
 import java.util.UUID;
 
 public class CustomerResponse {
-    private final UUID customerId;
+    private final UUID id;
     private final String nickname;
 
-    public CustomerResponse(UUID customerId, String nickname) {
-        this.customerId = customerId;
+    public CustomerResponse(UUID id, String nickname) {
+        this.id = id;
         this.nickname = nickname;
     }
 
-    public UUID getCustomerId() {
-        return customerId;
+    public UUID getId() {
+        return id;
     }
 
     public String getNickname() {

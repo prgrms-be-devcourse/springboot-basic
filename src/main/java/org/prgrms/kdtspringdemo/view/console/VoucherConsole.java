@@ -56,25 +56,25 @@ public class VoucherConsole {
         }
     }
 
-    public UUID inputVoucherId(String inputVoucherIdMessage) {
-        printMessage(inputVoucherIdMessage);
+    public UUID inputVoucherId(String inputIdMessage) {
+        printMessage(inputIdMessage);
         String userVoucherId = scanner.nextLine();
         validateVoucherId(userVoucherId);
 
         return UUID.fromString(userVoucherId);
     }
 
-    private void validateVoucherId(String userVoucherId) {
+    private void validateVoucherId(String userId) {
         try {
-            UUID.fromString(userVoucherId);
+            UUID.fromString(userId);
         } catch (IllegalArgumentException e) {
-            logger.error("원인 : {} -> 에러 메시지 : {}", userVoucherId, IS_NUMERIC_EXCEPTION_MESSAGE);
+            logger.error("원인 : {} -> 에러 메시지 : {}", userId, IS_NUMERIC_EXCEPTION_MESSAGE);
             throw new IllegalArgumentException(UUID_FORMAT_EXCEPTION_MESSAGE);
         }
     }
 
-    public void printVoucher(String successMessage, UUID userVoucherId, VoucherType userVoucherType, long amount) {
-        System.out.printf(successMessage, userVoucherId.toString(), userVoucherType, amount);
+    public void printVoucher(String successMessage, UUID userId, VoucherType userType, long amount) {
+        System.out.printf(successMessage, userId.toString(), userType, amount);
     }
 
     public CustomerCommand inputCustomerCommand(String initMessage) {
@@ -83,29 +83,29 @@ public class VoucherConsole {
         return CustomerCommand.findCustomerCommand(scanner.nextLine());
     }
 
-    public String inputCustomerNickname(String inputCustomerNicknameMessage) {
-        printMessage(inputCustomerNicknameMessage);
+    public String inputCustomerNickname(String inputNicknameMessage) {
+        printMessage(inputNicknameMessage);
 
         return scanner.nextLine();
     }
 
-    public void printCustomer(String successMessage, UUID customerId, String nickname) {
-        System.out.printf(successMessage, customerId.toString(), nickname);
+    public void printCustomer(String successMessage, UUID id, String nickname) {
+        System.out.printf(successMessage, id.toString(), nickname);
     }
 
-    public UUID inputCustomerId(String inputCustomerIdMessage) {
-        printMessage(inputCustomerIdMessage);
+    public UUID inputCustomerId(String inputIdMessage) {
+        printMessage(inputIdMessage);
         String userCustomerId = scanner.nextLine();
         validateCustomerId(userCustomerId);
 
         return UUID.fromString(userCustomerId);
     }
 
-    private void validateCustomerId(String userCustomerId) {
+    private void validateCustomerId(String userId) {
         try {
-            UUID.fromString(userCustomerId);
+            UUID.fromString(userId);
         } catch (IllegalArgumentException e) {
-            logger.error("원인 : {} -> 에러 메시지 : {}", userCustomerId, IS_NUMERIC_EXCEPTION_MESSAGE);
+            logger.error("원인 : {} -> 에러 메시지 : {}", userId, IS_NUMERIC_EXCEPTION_MESSAGE);
             throw new IllegalArgumentException(UUID_FORMAT_EXCEPTION_MESSAGE);
         }
     }

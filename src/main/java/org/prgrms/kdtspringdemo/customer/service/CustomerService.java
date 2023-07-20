@@ -25,13 +25,13 @@ public class CustomerService {
     public CustomerResponse create(String nickname) {
         Customer savedCustomer = customerRepository.save(new Customer(nickname));
 
-        return CustomerResponse.toDto(savedCustomer.getCustomerId(), savedCustomer.getNickname());
+        return CustomerResponse.toDto(savedCustomer.getId(), savedCustomer.getNickname());
     }
 
-    public CustomerResponse findById(UUID customerID) {
-        Customer customer = validateExist(customerRepository.findById(customerID));
+    public CustomerResponse findById(UUID id) {
+        Customer customer = validateExist(customerRepository.findById(id));
 
-        return CustomerResponse.toDto(customer.getCustomerId(), customer.getNickname());
+        return CustomerResponse.toDto(customer.getId(), customer.getNickname());
     }
 
     private static Customer validateExist(Optional<Customer> foundCustomer) {
@@ -42,22 +42,22 @@ public class CustomerService {
         Optional<Customer> foundCustomer = customerRepository.findByNickname(nickname);
         Customer customer = foundCustomer.orElseThrow(() -> new CustomerNicknameNotFoundException(CUSTOMER_NICKNAME_LOOKUP_FAILED));
 
-        return CustomerResponse.toDto(customer.getCustomerId(), customer.getNickname());
+        return CustomerResponse.toDto(customer.getId(), customer.getNickname());
     }
 
     public List<CustomerResponse> findAll() {
         return customerRepository.findAll()
                 .stream()
-                .map(v -> new CustomerResponse(v.getCustomerId(), v.getNickname()))
+                .map(v -> new CustomerResponse(v.getId(), v.getNickname()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
-    public CustomerResponse update(UUID customerId, String nickname) {
-        Customer customer = validateExist(customerRepository.findById(customerId));
+    public CustomerResponse update(UUID id, String nickname) {
+        Customer customer = validateExist(customerRepository.findById(id));
         customer.update(nickname);
         customerRepository.update(customer);
 
-        return CustomerResponse.toDto(customer.getCustomerId(), customer.getNickname());
+        return CustomerResponse.toDto(customer.getId(), customer.getNickname());
     }
 
     public void delete(UUID customerId) {

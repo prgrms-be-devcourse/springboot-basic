@@ -23,40 +23,40 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherResponse create(VoucherType userVoucherType, long amount) {
-        Voucher voucher = userVoucherType.createVoucher(amount);
+    public VoucherResponse create(VoucherType type, long amount) {
+        Voucher voucher = type.createVoucher(amount);
         Voucher savedVoucher = voucherRepository.save(voucher);
 
-        return VoucherResponse.toDto(savedVoucher.getVoucherId(), savedVoucher.getVoucherType(), savedVoucher.getAmount());
+        return VoucherResponse.toDto(savedVoucher.getId(), savedVoucher.getType(), savedVoucher.getAmount());
     }
 
     @Override
-    public VoucherResponse findById(UUID voucherId) {
-        Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
+    public VoucherResponse findById(UUID id) {
+        Optional<Voucher> foundVoucher = voucherRepository.findById(id);
         Voucher voucher = foundVoucher.orElseThrow(() -> new VoucherIdNotFoundException(VOUCHER_ID_LOOKUP_FAILED));
 
-        return VoucherResponse.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
+        return VoucherResponse.toDto(voucher.getId(), voucher.getType(), voucher.getAmount());
     }
 
     @Override
     public List<VoucherResponse> findAll() {
         return voucherRepository.findAll()
                 .stream()
-                .map(v -> new VoucherResponse(v.getVoucherId(), v.getVoucherType(), v.getAmount()))
+                .map(v -> new VoucherResponse(v.getId(), v.getType(), v.getAmount()))
                 .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
-    public VoucherResponse update(UUID voucherId, VoucherType voucherType, long amount) {
-        voucherRepository.update(voucherId, voucherType, amount);
-        Optional<Voucher> checkingVoucher = voucherRepository.findById(voucherId);
-        Voucher voucher = checkingVoucher.orElseGet(() -> voucherRepository.save(voucherType.updateVoucher(voucherId, amount)));
+    public VoucherResponse update(UUID id, VoucherType type, long amount) {
+        voucherRepository.update(id, type, amount);
+        Optional<Voucher> checkingVoucher = voucherRepository.findById(id);
+        Voucher voucher = checkingVoucher.orElseGet(() -> voucherRepository.save(type.updateVoucher(id, amount)));
 
-        return VoucherResponse.toDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getAmount());
+        return VoucherResponse.toDto(voucher.getId(), voucher.getType(), voucher.getAmount());
     }
 
     @Override
-    public void delete(UUID voucherId) {
-        voucherRepository.deleteById(voucherId);
+    public void delete(UUID id) {
+        voucherRepository.deleteById(id);
     }
 }

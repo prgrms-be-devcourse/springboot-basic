@@ -13,30 +13,30 @@ public class PercentAmountVoucher implements Voucher {
     private static final long MIN_AMOUNT = 0;
     private static final long MAX_AMOUNT = 100;
 
-    private final UUID voucherId;
-    private final VoucherType voucherType;
+    private final UUID id;
+    private final VoucherType type;
     private final long amount;
 
     public PercentAmountVoucher(long amount) {
-        this.voucherId = UUID.randomUUID();
-        this.voucherType = VoucherType.PERCENT;
+        this.id = UUID.randomUUID();
+        this.type = VoucherType.PERCENT;
         this.amount = validateAmount(amount);
     }
 
-    public PercentAmountVoucher(UUID voucherId, long amount) {
-        this.voucherId = voucherId;
-        this.voucherType = VoucherType.PERCENT;
+    public PercentAmountVoucher(UUID id, long amount) {
+        this.id = id;
+        this.type = VoucherType.PERCENT;
         this.amount = validateAmount(amount);
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    public UUID getId() {
+        return id;
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return voucherType;
+    public VoucherType getType() {
+        return type;
     }
 
     @Override

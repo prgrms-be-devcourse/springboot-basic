@@ -12,30 +12,30 @@ public class FixedAmountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private static final long MIN_AMOUNT = 0;
 
-    private final UUID voucherId;
-    private final VoucherType voucherType;
+    private final UUID id;
+    private final VoucherType type;
     private final long amount;
 
     public FixedAmountVoucher(long amount) {
-        this.voucherId = UUID.randomUUID();
-        this.voucherType = VoucherType.FIXED;
+        this.id = UUID.randomUUID();
+        this.type = VoucherType.FIXED;
         this.amount = validateAmount(amount);
     }
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
-        this.voucherId = voucherId;
-        this.voucherType = VoucherType.FIXED;
+    public FixedAmountVoucher(UUID id, long amount) {
+        this.id = id;
+        this.type = VoucherType.FIXED;
         this.amount = validateAmount(amount);
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    public UUID getId() {
+        return id;
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return voucherType;
+    public VoucherType getType() {
+        return type;
     }
 
     @Override

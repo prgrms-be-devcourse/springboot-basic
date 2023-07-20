@@ -19,8 +19,8 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher updateVoucher(UUID voucherId, long amount) {
-            return new FixedAmountVoucher(voucherId, amount);
+        public Voucher updateVoucher(UUID id, long amount) {
+            return new FixedAmountVoucher(id, amount);
         }
     },
     PERCENT {
@@ -30,8 +30,8 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher updateVoucher(UUID voucherId, long amount) {
-            return new PercentAmountVoucher(voucherId, amount);
+        public Voucher updateVoucher(UUID id, long amount) {
+            return new PercentAmountVoucher(id, amount);
         }
     }
     ;
@@ -42,12 +42,12 @@ public enum VoucherType {
 
     public abstract Voucher updateVoucher(UUID voucherId, long amount);
 
-    public static VoucherType findVoucherType(String userVoucherType) {
+    public static VoucherType findVoucherType(String userType) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> voucherType.name().equals(userVoucherType.toUpperCase()))
+                .filter(type -> type.name().equals(userType.toUpperCase()))
                 .findFirst()
                 .orElseThrow(() -> {
-                    logger.error("원인 : {} -> 에러 메시지 : {}", userVoucherType, NOT_FOUND_VOUCHER_TYPE.getMessage());
+                    logger.error("원인 : {} -> 에러 메시지 : {}", userType, NOT_FOUND_VOUCHER_TYPE.getMessage());
                     throw new IllegalArgumentException(NOT_FOUND_VOUCHER_TYPE.getMessage());
                 });
     }

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface VoucherService {
-    VoucherResponse create(VoucherType userVoucherType, long amount);
+    VoucherResponse create(VoucherType type, long amount);
 
-    VoucherResponse findById(UUID voucherId);
+    VoucherResponse findById(UUID id);
 
     List<VoucherResponse> findAll();
 
-    VoucherResponse update(UUID voucherId, VoucherType voucherType, long amount);
+    VoucherResponse update(UUID id, VoucherType type, long amount);
 
-    void delete(UUID voucherId);
+    void delete(UUID id);
 }

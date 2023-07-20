@@ -38,10 +38,10 @@ public class VoucherServiceTest {
         given(voucherRepository.save(any())).willReturn(voucher);
 
         //when
-        VoucherResponse response = voucherService.create(voucher.getVoucherType(), voucher.getAmount());
+        VoucherResponse response = voucherService.create(voucher.getType(), voucher.getAmount());
 
         //then
-        assertThat(response.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(response.getId()).isEqualTo(voucher.getId());
     }
 
     @Test
@@ -53,7 +53,7 @@ public class VoucherServiceTest {
         given(voucherRepository.findById(any())).willReturn(Optional.of(voucher));
 
         //when
-        VoucherResponse response = voucherService.findById(voucher.getVoucherId());
+        VoucherResponse response = voucherService.findById(voucher.getId());
 
         //then
         assertThat(response.getAmount()).isEqualTo(voucher.getAmount());
@@ -95,16 +95,16 @@ public class VoucherServiceTest {
         //given
         Voucher voucher = new FixedAmountVoucher(1000);
         given(voucherRepository.save(any())).willReturn(voucher);
-        VoucherResponse savedVoucher = voucherService.create(voucher.getVoucherType(), voucher.getAmount());
-        PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getVoucherId(), 10);
+        VoucherResponse savedVoucher = voucherService.create(voucher.getType(), voucher.getAmount());
+        PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getId(), 10);
 
         //mocking
         doNothing().when(voucherRepository).update(any(), any(), anyLong());
 
         //then
-        voucherService.update(savedVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
+        voucherService.update(savedVoucher.getId(), updateVoucher.getType(), updateVoucher.getAmount());
 
         //when
-        verify(voucherRepository, times(1)).update(updateVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
+        verify(voucherRepository, times(1)).update(updateVoucher.getId(), updateVoucher.getType(), updateVoucher.getAmount());
     }
 }

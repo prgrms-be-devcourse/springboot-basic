@@ -41,11 +41,11 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         //when
-        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getId());
         Voucher result = foundVoucher.get();
 
         //then
-        assertThat(result.getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(result.getId()).isEqualTo(voucher.getId());
     }
 
     @Test
@@ -81,16 +81,16 @@ class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = new FixedAmountVoucher(1000);
         Voucher savedVoucher = voucherRepository.save(voucher);
-        PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getVoucherId(), 10);
+        PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getId(), 10);
 
         //when
-        voucherRepository.update(updateVoucher.getVoucherId(), updateVoucher.getVoucherType(), updateVoucher.getAmount());
-        Voucher response = voucherRepository.findById(updateVoucher.getVoucherId()).get();
+        voucherRepository.update(updateVoucher.getId(), updateVoucher.getType(), updateVoucher.getAmount());
+        Voucher response = voucherRepository.findById(updateVoucher.getId()).get();
 
         //then
-        assertThat(response.getVoucherId()).isEqualTo(voucher.getVoucherId());
-        assertThat(response.getVoucherId()).isEqualTo(updateVoucher.getVoucherId());
-        assertThat(response.getVoucherType()).isEqualTo(updateVoucher.getVoucherType());
+        assertThat(response.getId()).isEqualTo(voucher.getId());
+        assertThat(response.getId()).isEqualTo(updateVoucher.getId());
+        assertThat(response.getType()).isEqualTo(updateVoucher.getType());
         assertThat(response.getAmount()).isEqualTo(updateVoucher.getAmount());
     }
 
@@ -102,7 +102,7 @@ class JdbcVoucherRepositoryTest {
         int beforeSize = voucherRepository.findAll().size();
 
         //when
-        voucherRepository.deleteById(voucher.getVoucherId());
+        voucherRepository.deleteById(voucher.getId());
         int afterSize = voucherRepository.findAll().size();
 
         //then

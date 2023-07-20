@@ -6,6 +6,7 @@ import java.util.UUID;
 public class JdbcUtils {
     public static UUID toUUID(byte[] bytes) {
         ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
@@ -13,6 +14,7 @@ public class JdbcUtils {
         ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
         bb.putLong(uuid.getMostSignificantBits());
         bb.putLong(uuid.getMostSignificantBits());
+
         return bb.array();
     }
 }

@@ -3,21 +3,21 @@ package org.prgrms.kdtspringdemo.customer.model.entity;
 import java.util.UUID;
 
 public class Customer {
-    private final UUID customerId;
+    private final UUID id;
     private String nickname;
 
     public Customer(String nickname) {
-        this.customerId = UUID.randomUUID();
+        this.id = UUID.randomUUID();
         this.nickname = nickname;
     }
 
-    public Customer(UUID customerId, String nickname) {
-        this.customerId = customerId;
+    public Customer(UUID id, String nickname) {
+        this.id = id;
         this.nickname = nickname;
     }
 
-    public UUID getCustomerId() {
-        return customerId;
+    public UUID getId() {
+        return id;
     }
 
     public String getNickname() {
