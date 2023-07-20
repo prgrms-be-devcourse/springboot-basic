@@ -6,6 +6,8 @@ import com.prgrms.spring.domain.voucher.FixedAmountVoucher;
 import com.prgrms.spring.domain.voucher.PercentDiscountVoucher;
 import com.prgrms.spring.domain.voucher.Voucher;
 import com.prgrms.spring.domain.voucher.VoucherType;
+import com.prgrms.spring.exception.Error;
+import com.prgrms.spring.exception.model.NotFoundException;
 import com.prgrms.spring.repository.voucher.VoucherRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -63,4 +65,12 @@ public class VoucherService {
     public void deleteVoucher(String voucherId) {
         List<Voucher> deletedVouchers = voucherRepository.deleteVoucher(voucherId);
     }
+
+    @Transactional(readOnly = true)
+    public VoucherResponseDto getVoucherById(String voucherId) {
+        Voucher voucher = voucherRepository.findById(UUID.fromString(voucherId))
+                .orElseThrow(() -> new NotFoundException(Error.NOT_FOUND_VOUCHER_EXCEPTION, Error.NOT_FOUND_VOUCHER_EXCEPTION.getMessage()));
+        return VoucherResponseDto.of(voucher.getVoucherName(), voucher.getDiscount() + voucher.getDiscountUnit());
+    }
+
 }
