@@ -7,7 +7,7 @@ public enum VoucherExceptionMessage {
     VOUCHER_ID_LOOKUP_FAILED("조회된 바우처 ID가 없습니다.")
     ;
 
-    private String message;
+    private final String message;
 
     VoucherExceptionMessage(String message) {
         this.message = message;

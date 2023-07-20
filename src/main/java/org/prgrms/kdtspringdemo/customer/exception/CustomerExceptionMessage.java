@@ -6,7 +6,7 @@ public enum CustomerExceptionMessage {
     CUSTOMER_NICKNAME_LOOKUP_FAILED("조회된 소비자 닉네임이 없습니다.")
     ;
 
-    private String message;
+    private final String message;
 
     CustomerExceptionMessage(String message) {
         this.message = message;
