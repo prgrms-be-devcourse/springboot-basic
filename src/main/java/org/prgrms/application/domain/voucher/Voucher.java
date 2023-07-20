@@ -32,7 +32,6 @@ public class Voucher {
         return discountAmount;
     }
 
-
     public VoucherEntity toEntity(){
         return new VoucherEntity(this.voucherId, this.voucherType.name(), this.discountAmount);
     }

@@ -1,7 +1,8 @@
 package org.prgrms.application.controller.voucher;
 
-import org.prgrms.application.controller.voucher.request.VoucherGenerateRequest;
+import org.prgrms.application.controller.voucher.request.VoucherRegisterRequest;
 import org.prgrms.application.domain.voucher.Voucher;
+import org.prgrms.application.domain.voucher.VoucherDto;
 import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -30,14 +31,14 @@ public class VoucherController {
     }
 
     @PostMapping(value = "/generate")
-    public String createVoucher(@ModelAttribute VoucherGenerateRequest request) {
+    public String createVoucher(@ModelAttribute VoucherRegisterRequest request) {
         voucherService.createVoucher(VoucherType.valueOf(request.voucherType()), request.discountAmount()); //여기서 voucherType으로 객체 감싸주기
         return "redirect:/";
     }
 
     @GetMapping(value = "/")
     public String findVouchers(Model model) {
-        List<Voucher> vouchers = voucherService.getVouchers();
+        List<VoucherDto> vouchers = voucherService.getVouchers();
         model.addAttribute("vouchers", vouchers);
         return "vouchers";
     }

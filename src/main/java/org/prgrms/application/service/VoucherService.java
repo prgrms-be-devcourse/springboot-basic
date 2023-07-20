@@ -21,22 +21,26 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(VoucherType voucherType, double discountAmount){
+    public Long createVoucher(VoucherType voucherType, double discountAmount){
         long voucherId = abs(new Random().nextLong());
         Voucher voucher = Voucher.of(voucherId, voucherType, discountAmount);
 
-        VoucherEntity voucherEntity = voucherRepository.insert(voucher.toEntity());
-
-        return voucherEntity.toDomain();
+        return voucherRepository.insert(voucher.toEntity()).getVoucherId();
     }
 
-    public List<Voucher> getVouchers(){
+    public List<VoucherDto> getVouchers(){
         List<VoucherEntity> voucherEntities = voucherRepository.findAll();
-        return voucherEntities.stream().map(VoucherEntity::toDomain).collect(Collectors.toList());
+        List<Voucher> vouchers = voucherEntities.stream().map(VoucherEntity::toDomain).collect(Collectors.toList());
+        return vouchers.stream().map(VoucherDto::of).collect(Collectors.toList());
     }
 
     public void deleteVoucher(Long voucherId) {
         voucherRepository.deleteById(voucherId);
     }
 
+    public List<VoucherDto> getVouchersByType(VoucherType voucherType) {
+        List<VoucherEntity> voucherEntities = voucherRepository.findByType(voucherType);
+        List<Voucher> vouchers = voucherEntities.stream().map(VoucherEntity::toDomain).collect(Collectors.toList());
+        return  vouchers.stream().map(VoucherDto::of).collect(Collectors.toList());
+    }
 }

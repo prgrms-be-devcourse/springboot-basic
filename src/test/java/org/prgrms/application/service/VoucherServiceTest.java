@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.prgrms.application.domain.voucher.Voucher;
+import org.prgrms.application.domain.voucher.VoucherDto;
 import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.voucher.VoucherRepository;
@@ -51,7 +52,7 @@ class VoucherServiceTest {
         when(voucherEntity.toDomain()).thenReturn(voucher);
 
         //when
-        Voucher voucher1 = voucherService.createVoucher(voucherType, discountAmount);
+        Long voucher1 = voucherService.createVoucher(voucherType, discountAmount);
 
         //then
         Assertions.assertThat(voucher1).isNotNull();
@@ -67,7 +68,7 @@ class VoucherServiceTest {
 
         when(voucherRepository.findAll()).thenReturn(voucherEntities);
 
-        List<Voucher> vouchers = voucherService.getVouchers();
+        List<VoucherDto> vouchers = voucherService.getVouchers();
         assertEquals(vouchers.size(), voucherEntities.size());
     }
 

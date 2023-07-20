@@ -1,5 +1,6 @@
 package org.prgrms.application.repository.voucher;
 
+import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.customer.CustomerJdbcRepository;
 import org.slf4j.Logger;
@@ -82,9 +83,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public List<VoucherEntity> findByType(String voucherType) {
+    public List<VoucherEntity> findByType(VoucherType voucherType) {
         List<VoucherEntity> vouchers = jdbcTemplate.query("select * from vouchers WHERE voucher_type = :voucherType",
-                Collections.singletonMap(VOUCHER_TYPE, voucherType),
+                Collections.singletonMap(VOUCHER_TYPE, voucherType.toString()),
                 voucherRowMapper);
         return vouchers;
 

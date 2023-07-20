@@ -23,6 +23,8 @@ import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.prgrms.application.domain.voucher.VoucherType.FIXED;
+import static org.prgrms.application.domain.voucher.VoucherType.PERCENT;
 
 @SpringJUnitConfig
 
@@ -117,10 +119,10 @@ class VoucherJdbcRepositoryTest {
     @Test
     @DisplayName("바우처 타입으로 조회할 수 있다.")
     public void testFindByType() {
-        List<VoucherEntity> fixedVouchers = voucherJdbcRepository.findByType("FIXED");
+        List<VoucherEntity> fixedVouchers = voucherJdbcRepository.findByType(FIXED);
         assertThat(fixedVouchers.isEmpty(), is(false));
 
-        List<VoucherEntity> percentVouchers = voucherJdbcRepository.findByType("PERCENT");
+        List<VoucherEntity> percentVouchers = voucherJdbcRepository.findByType(PERCENT);
         assertThat(percentVouchers.isEmpty(), is(false));
     }
 
