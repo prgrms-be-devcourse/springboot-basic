@@ -23,6 +23,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String VOUCHER_ID = "voucher_id";
     private static final String VOUCHER_TYPE = "voucher_type";
     private static final String AMOUNT = "amount";
+    private static final String ALL = "*";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -48,56 +49,56 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String saveQuery = new Query.QueryBuilder()
-                .insertBuilder(VOUCHER_TABLE)
-                .valuesBuilder(VOUCHER_ID, VOUCHER_TYPE, AMOUNT)
+        Query.InsertBuilder saveQuery = new Query.InsertBuilder()
+                .insert(VOUCHER_TABLE)
+                .values(VOUCHER_ID, VOUCHER_TYPE, AMOUNT)
                 .build();
 
-        jdbcTemplate.update(saveQuery, toParamMap(voucher.getId(), voucher.getType(), voucher.getAmount()));
+        jdbcTemplate.update(saveQuery.toString(), toParamMap(voucher.getId(), voucher.getType(), voucher.getAmount()));
 
         return voucher;
     }
 
     @Override
     public Optional<Voucher> findById(UUID id) {
-        String findByIdQuery = new Query.QueryBuilder()
-                .selectBuilder("*")
-                .fromBuilder(VOUCHER_TABLE)
-                .whereCommonBuilder(VOUCHER_ID)
+        Query.SelectBuilder findByIdQuery = new Query.SelectBuilder()
+                .select(ALL)
+                .from(VOUCHER_TABLE)
+                .where(VOUCHER_ID, VOUCHER_ID)
                 .build();
 
-        return jdbcTemplate.query(findByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)), voucherRowMapper).stream()
+        return jdbcTemplate.query(findByIdQuery.toString(), Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)), voucherRowMapper).stream()
                 .findFirst();
     }
 
     @Override
     public List<Voucher> findAll() {
-        String findAllQuery = new Query.QueryBuilder()
-                .selectBuilder("*")
-                .fromBuilder(VOUCHER_TABLE)
+        Query.SelectBuilder findAllQuery = new Query.SelectBuilder()
+                .select(ALL)
+                .from(VOUCHER_TABLE)
                 .build();
 
-        return jdbcTemplate.query(findAllQuery, voucherRowMapper);
+        return jdbcTemplate.query(findAllQuery.toString(), voucherRowMapper);
     }
 
     @Override
     public void update(UUID id, VoucherType type, long amount) {
-        String updateQuery = new Query.QueryBuilder()
-                .updateBuilder(VOUCHER_TABLE)
-                .setBuilder(VOUCHER_TYPE)
-                .addSetBuilder(AMOUNT)
+        Query.UpdateBuilder updateQuery = new Query.UpdateBuilder()
+                .update(VOUCHER_TABLE)
+                .set(VOUCHER_TYPE, VOUCHER_TYPE)
+                .addSet(AMOUNT, AMOUNT)
                 .build();
 
-        jdbcTemplate.update(updateQuery, toParamMap(id, type, amount));
+        jdbcTemplate.update(updateQuery.toString(), toParamMap(id, type, amount));
     }
 
     @Override
     public void deleteById(UUID id) {
-        String deleteByIdQuery = new Query.QueryBuilder()
-                .deleteBuilder(VOUCHER_TABLE)
-                .whereCommonBuilder(VOUCHER_ID)
+        Query.DeleteBuilder deleteByIdQuery = new Query.DeleteBuilder()
+                .delete(VOUCHER_TABLE)
+                .where(VOUCHER_ID, VOUCHER_ID)
                 .build();
 
-        jdbcTemplate.update(deleteByIdQuery, Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)));
+        jdbcTemplate.update(deleteByIdQuery.toString(), Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)));
     }
 }

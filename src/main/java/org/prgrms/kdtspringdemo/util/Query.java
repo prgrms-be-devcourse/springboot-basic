@@ -4,7 +4,7 @@ public class Query {
     private static final String INSERT = "INSERT INTO";
     private static final String SELECT = "SELECT";
     private static final String UPDATE = "UPDATE";
-    private static final String DELETE = "DELETE FROM";
+    private static final String DELETE = "DELETE";
 
     private static final String VALUES = "VALUES";
     private static final String FROM = "FROM";
@@ -18,14 +18,14 @@ public class Query {
     private static final String LEFT_BRACKET = "(";
     private static final String RIGHT_BRACKET = ")";
 
-    public static class QueryBuilder {
+    public static class InsertBuilder {
         private StringBuilder stringBuilder;
 
-        public QueryBuilder() {
+        public InsertBuilder() {
             this.stringBuilder = new StringBuilder();
         }
 
-        public QueryBuilder insertBuilder(String table) {
+        public InsertBuilder insert(String table) {
             stringBuilder.append(INSERT)
                     .append(BLANK)
                     .append(table);
@@ -33,41 +33,12 @@ public class Query {
             return this;
         }
 
-        public QueryBuilder selectBuilder(String... columns) {
-            stringBuilder.append(SELECT)
-                    .append(BLANK);
-
-            for (String colum : columns) {
-                stringBuilder.append(colum)
-                        .append(COMMA);
-            }
-            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-
-            return this;
-        }
-
-        public QueryBuilder updateBuilder(String table) {
-            stringBuilder.append(UPDATE)
-                    .append(BLANK)
-                    .append(table);
-
-            return this;
-        }
-
-        public QueryBuilder deleteBuilder(String table) {
-            stringBuilder.append(DELETE)
-                    .append(BLANK)
-                    .append(table);
-
-            return this;
-        }
-
-        public QueryBuilder valuesBuilder(String ...values) {
+        public <T>InsertBuilder values(T ...values) {
             stringBuilder.append(BLANK)
                     .append(VALUES)
                     .append(LEFT_BRACKET);
 
-            for (String value : values) {
+            for (T value : values) {
                 stringBuilder.append(COLON)
                         .append(value)
                         .append(COMMA);
@@ -79,7 +50,36 @@ public class Query {
             return this;
         }
 
-        public QueryBuilder fromBuilder(String table) {
+        public InsertBuilder build() {
+            return this;
+        }
+
+        public String toString() {
+            return stringBuilder.toString();
+        }
+    }
+
+    public static class SelectBuilder {
+        private StringBuilder stringBuilder;
+
+        public SelectBuilder() {
+            this.stringBuilder = new StringBuilder();
+        }
+
+        public SelectBuilder select(String... columns) {
+            stringBuilder.append(SELECT)
+                    .append(BLANK);
+
+            for (String column : columns) {
+                stringBuilder.append(column)
+                        .append(COMMA);
+            }
+            stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
+            return this;
+        }
+
+        public SelectBuilder from(String table) {
             stringBuilder.append(BLANK)
                     .append(FROM)
                     .append(BLANK)
@@ -88,7 +88,7 @@ public class Query {
             return this;
         }
 
-        public QueryBuilder whereCommonBuilder(String column) {
+        public <T>SelectBuilder where(String column, T value) {
             stringBuilder.append(BLANK)
                     .append(WHERE)
                     .append(BLANK)
@@ -97,12 +97,36 @@ public class Query {
                     .append(EQUAL)
                     .append(BLANK)
                     .append(COLON)
-                    .append(column);
+                    .append(value);
 
             return this;
         }
 
-        public QueryBuilder setBuilder(String column) {
+        public SelectBuilder build() {
+            return this;
+        }
+
+        public String toString() {
+            return stringBuilder.toString();
+        }
+    }
+
+    public static class UpdateBuilder {
+        private StringBuilder stringBuilder;
+
+        public UpdateBuilder() {
+            this.stringBuilder = new StringBuilder();
+        }
+
+        public UpdateBuilder update(String table) {
+            stringBuilder.append(UPDATE)
+                    .append(BLANK)
+                    .append(table);
+
+            return this;
+        }
+
+        public <T>UpdateBuilder set(String column, T value) {
             stringBuilder.append(BLANK)
                     .append(SET)
                     .append(BLANK)
@@ -111,12 +135,12 @@ public class Query {
                     .append(EQUAL)
                     .append(BLANK)
                     .append(COLON)
-                    .append(column);
+                    .append(value);
 
             return this;
         }
 
-        public QueryBuilder addSetBuilder(String column) {
+        public <T>UpdateBuilder addSet(String column, T value) {
             stringBuilder.append(COMMA)
                     .append(BLANK)
                     .append(column)
@@ -124,12 +148,56 @@ public class Query {
                     .append(EQUAL)
                     .append(BLANK)
                     .append(COLON)
-                    .append(column);
+                    .append(value);
 
             return this;
         }
 
-        public String build() {
+        public UpdateBuilder build() {
+            return this;
+        }
+
+        public String toString() {
+            return stringBuilder.toString();
+        }
+    }
+
+    public static class DeleteBuilder {
+        private StringBuilder stringBuilder;
+
+        public DeleteBuilder() {
+            this.stringBuilder = new StringBuilder();
+        }
+
+        public DeleteBuilder delete(String table) {
+            stringBuilder.append(DELETE)
+                    .append(BLANK)
+                    .append(FROM)
+                    .append(BLANK)
+                    .append(table);
+
+            return this;
+        }
+
+        public <T>DeleteBuilder where(String column, T value) {
+            stringBuilder.append(BLANK)
+                    .append(WHERE)
+                    .append(BLANK)
+                    .append(column)
+                    .append(BLANK)
+                    .append(EQUAL)
+                    .append(BLANK)
+                    .append(COLON)
+                    .append(value);
+
+            return this;
+        }
+
+        public DeleteBuilder build() {
+            return this;
+        }
+
+        public String toString() {
             return stringBuilder.toString();
         }
     }
