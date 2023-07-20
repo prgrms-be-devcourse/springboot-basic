@@ -1,8 +1,7 @@
-package com.prgrms.spring.controller.voucher;
+package com.prgrms.spring.controller;
 
 import com.prgrms.spring.controller.dto.request.VoucherCreateRequestDto;
 import com.prgrms.spring.domain.voucher.Voucher;
-import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.exception.Error;
 import com.prgrms.spring.exception.Success;
 import com.prgrms.spring.io.ConsoleView;
@@ -11,9 +10,6 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Controller

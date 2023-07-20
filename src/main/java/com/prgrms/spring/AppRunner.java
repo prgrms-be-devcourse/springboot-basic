@@ -1,7 +1,7 @@
 package com.prgrms.spring;
 
 import com.prgrms.spring.controller.CustomerController;
-import com.prgrms.spring.controller.voucher.VoucherController;
+import com.prgrms.spring.controller.VoucherController;
 import com.prgrms.spring.domain.menu.MenuType;
 import com.prgrms.spring.exception.Error;
 import com.prgrms.spring.io.ConsoleView;

@@ -1,6 +1,7 @@
 package com.prgrms.spring.service.voucher;
 
 import com.prgrms.spring.controller.dto.request.VoucherCreateRequestDto;
+import com.prgrms.spring.controller.dto.response.VoucherResponseDto;
 import com.prgrms.spring.domain.voucher.FixedAmountVoucher;
 import com.prgrms.spring.domain.voucher.PercentDiscountVoucher;
 import com.prgrms.spring.domain.voucher.Voucher;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +33,11 @@ public class VoucherService {
     }
 
     @Transactional(readOnly = true)
-    public List<Voucher> getAllVoucher() {
-        return voucherRepository.findAll();
+    public List<VoucherResponseDto> getAllVoucher() {
+        List<Voucher> vouchers = voucherRepository.findAll();
+        return vouchers.stream().map(voucher -> VoucherResponseDto.of(
+                voucher.getVoucherName(),
+                voucher.getDiscount() + voucher.getDiscountUnit()
+        )).collect(Collectors.toList());
     }
 }
