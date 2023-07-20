@@ -4,7 +4,6 @@ import com.wonu606.vouchermanager.controller.voucher.reqeust.WalletAssignRequest
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
 import com.wonu606.vouchermanager.util.TypedConverter;
 import java.util.UUID;
-import org.springframework.core.convert.converter.Converter;
 
 public class WalletAssignParamConverter implements
         TypedConverter<WalletAssignRequest, WalletAssignParam> {

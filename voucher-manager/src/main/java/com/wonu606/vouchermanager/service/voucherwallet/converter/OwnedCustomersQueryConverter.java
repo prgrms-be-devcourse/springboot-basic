@@ -1,7 +1,7 @@
 package com.wonu606.vouchermanager.service.voucherwallet.converter;
 
-import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedCustomersQuery;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedCustomersQuery;
 import com.wonu606.vouchermanager.util.TypedConverter;
 
 public class OwnedCustomersQueryConverter implements

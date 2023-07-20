@@ -4,7 +4,6 @@ import com.wonu606.vouchermanager.controller.customer.request.WalletDeleteReques
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.util.TypedConverter;
 import java.util.UUID;
-import org.springframework.core.convert.converter.Converter;
 
 public class WalletDeleteParamConverter implements
         TypedConverter<WalletDeleteRequest, WalletDeleteParam> {

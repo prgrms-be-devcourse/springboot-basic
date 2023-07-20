@@ -3,7 +3,6 @@ package com.wonu606.vouchermanager.controller.voucher.converter;
 import com.wonu606.vouchermanager.controller.voucher.response.OwnedCustomerResponse;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
 import com.wonu606.vouchermanager.util.TypedConverter;
-import org.springframework.core.convert.converter.Converter;
 
 public class OwnedCustomerResponseConverter implements
         TypedConverter<OwnedCustomerResult, OwnedCustomerResponse> {
