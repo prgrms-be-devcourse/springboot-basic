@@ -15,4 +15,6 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     List<Voucher> findByDiscountUnit(String discountUnit);
+
+    List<Voucher> deleteVoucher(String voucherIdString);
 }

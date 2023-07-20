@@ -83,6 +83,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 voucherRowMapper);
     }
 
+    @Override
+    public List<Voucher> deleteVoucher(String voucherIdString) {
+        UUID voucherId = UUID.fromString(voucherIdString);
+        return jdbcTemplate.query("DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId),
+                voucherRowMapper);
+    }
+
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());

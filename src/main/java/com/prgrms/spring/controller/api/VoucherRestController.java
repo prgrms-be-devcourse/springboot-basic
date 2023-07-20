@@ -43,6 +43,12 @@ public class VoucherRestController {
     }
 
     // 4. 바우처 삭제기능
+    @DeleteMapping("/{voucherId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse deleteVoucher(@RequestHeader String voucherId) {
+        voucherService.deleteVoucher(voucherId);
+        return ApiResponse.success(Success.DELETE_VOUCHER_SUCCESS);
+    }
 
     // 5. 바우처 아이디로 조회 기능
 }

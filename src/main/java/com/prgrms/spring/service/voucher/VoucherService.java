@@ -58,4 +58,9 @@ public class VoucherService {
                 voucher.getDiscount() + voucher.getDiscountUnit()
         )).collect(Collectors.toList());
     }
+
+    @Transactional
+    public void deleteVoucher(String voucherId) {
+        List<Voucher> deletedVouchers = voucherRepository.deleteVoucher(voucherId);
+    }
 }
