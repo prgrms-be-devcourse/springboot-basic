@@ -1,7 +1,7 @@
 package com.wonu606.vouchermanager.repository.customer.reader;
 
+import com.wonu606.vouchermanager.repository.customer.reader.rowmapper.CustomerReaderRowMapperManager;
 import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
-import com.wonu606.vouchermanager.repository.customer.rowmapper.CustomerResultSetRowMapper;
 import java.util.List;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -10,17 +10,18 @@ import org.springframework.stereotype.Component;
 public class CustomerJdbcReader implements CustomerReader {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final CustomerResultSetRowMapper rowMapper;
+    private final CustomerReaderRowMapperManager rowMapperManager;
 
     public CustomerJdbcReader(NamedParameterJdbcTemplate namedParameterJdbcTemplate,
-            CustomerResultSetRowMapper rowMapper) {
+            CustomerReaderRowMapperManager rowMapperManager) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.rowMapper = rowMapper;
+        this.rowMapperManager = rowMapperManager;
     }
 
     @Override
     public List<CustomerResultSet> findAll() {
         String selectionSql = "SELECT email, nickname FROM customer";
-        return namedParameterJdbcTemplate.query(selectionSql, rowMapper);
+        return namedParameterJdbcTemplate.query(selectionSql,
+                rowMapperManager.getRowMapperForType(CustomerResultSet.class));
     }
 }

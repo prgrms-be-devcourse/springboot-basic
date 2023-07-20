@@ -1,8 +1,8 @@
 package com.wonu606.vouchermanager.repository.voucher.reader;
 
 import com.wonu606.vouchermanager.repository.voucher.query.VoucherFindQuery;
+import com.wonu606.vouchermanager.repository.voucher.reader.rowmapper.VoucherReaderRowMapperManager;
 import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherResultSet;
-import com.wonu606.vouchermanager.repository.voucher.rowmapper.VoucherResultSetRowMapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,13 +14,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherJdbcReader implements VoucherReader {
 
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final VoucherResultSetRowMapper rowMapper;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final VoucherReaderRowMapperManager rowMapperManager;
 
     public VoucherJdbcReader(NamedParameterJdbcTemplate namedParameterJdbcTemplate,
-            VoucherResultSetRowMapper rowMapper) {
+            VoucherReaderRowMapperManager rowMapperManager) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.rowMapper = rowMapper;
+        this.rowMapperManager = rowMapperManager;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class VoucherJdbcReader implements VoucherReader {
 
         try {
             VoucherResultSet resultSet = namedParameterJdbcTemplate.queryForObject(selectionSql,
-                    params, rowMapper);
+                    params, rowMapperManager.getRowMapperForType(VoucherResultSet.class));
             return Optional.ofNullable(resultSet);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
@@ -41,6 +41,7 @@ public class VoucherJdbcReader implements VoucherReader {
     @Override
     public List<VoucherResultSet> findAll() {
         String selectSql = "SELECT voucher_type, voucher_id, discount_value FROM voucher";
-        return namedParameterJdbcTemplate.query(selectSql, rowMapper);
+        return namedParameterJdbcTemplate.query(selectSql,
+                rowMapperManager.getRowMapperForType(VoucherResultSet.class));
     }
 }
