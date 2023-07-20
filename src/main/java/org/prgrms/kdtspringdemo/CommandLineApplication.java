@@ -63,6 +63,10 @@ public class CommandLineApplication implements CommandLineRunner {
         Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER);
 
         VoucherResponse voucherResponse = voucherService.create(userVoucherType, userAmount);
+        printVoucherResult(voucherResponse);
+    }
+
+    private void printVoucherResult(VoucherResponse voucherResponse) {
         voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponse.getVoucherId(), voucherResponse.getVoucherType(), voucherResponse.getAmount());
     }
 
@@ -70,13 +74,13 @@ public class CommandLineApplication implements CommandLineRunner {
         UUID userVoucherId = voucherConsole.inputVoucherId(VOUCHER_ID);
 
         VoucherResponse voucherResponse = voucherService.findById(userVoucherId);
-        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponse.getVoucherId(), voucherResponse.getVoucherType(), voucherResponse.getAmount());
+        printVoucherResult(voucherResponse);
     }
 
     private void getAllVoucher() {
         List<VoucherResponse> vouchers = voucherService.findAll();
         for (VoucherResponse voucherResponse : vouchers) {
-            voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponse.getVoucherId(), voucherResponse.getVoucherType(), voucherResponse.getAmount());
+            printVoucherResult(voucherResponse);
         }
     }
 
@@ -86,7 +90,7 @@ public class CommandLineApplication implements CommandLineRunner {
         Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER);
 
         VoucherResponse voucherResponse = voucherService.update(userVoucherId, userVoucherType, userAmount);
-        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, voucherResponse.getVoucherId(), voucherResponse.getVoucherType(), voucherResponse.getAmount());
+        printVoucherResult(voucherResponse);
     }
 
     private void deleteVoucher() {
@@ -112,6 +116,10 @@ public class CommandLineApplication implements CommandLineRunner {
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
         CustomerResponse customerResponse = customerService.create(userNickname);
+        printCustomerResult(customerResponse);
+    }
+
+    private void printCustomerResult(CustomerResponse customerResponse) {
         voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
     }
 
@@ -119,20 +127,20 @@ public class CommandLineApplication implements CommandLineRunner {
         UUID userCustomerId = voucherConsole.inputCustomerId(CUSTOMER_ID);
 
         CustomerResponse customerResponse = customerService.findById(userCustomerId);
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
+        printCustomerResult(customerResponse);
     }
 
     private void findByNicknameCustomer() {
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
         CustomerResponse customerResponse = customerService.findByNickname(userNickname);
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
+        printCustomerResult(customerResponse);
     }
 
     private void findAllCustomer() {
         List<CustomerResponse> customers = customerService.findAll();
         for (CustomerResponse customerResponse : customers) {
-            voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
+            printCustomerResult(customerResponse);
         }
     }
 
@@ -141,7 +149,7 @@ public class CommandLineApplication implements CommandLineRunner {
         String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
         CustomerResponse customerResponse = customerService.update(userCustomerId, userNickname);
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getCustomerId(), customerResponse.getNickname());
+        printCustomerResult(customerResponse);
     }
 
     private void deleteCustomer() {
