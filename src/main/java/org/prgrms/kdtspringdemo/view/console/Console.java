@@ -10,8 +10,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Scanner;
 import java.util.UUID;
 
-public class VoucherConsole {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherConsole.class);
+public class Console {
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);
     private static final String IS_NUMERIC_EXCEPTION_MESSAGE = "바우처의 할인양은 숫자를 입력해주세요.\n";
     private static final String UUID_FORMAT_EXCEPTION_MESSAGE = "UUID 형식이 잘못 입력되었습니다.";
 
@@ -21,26 +21,26 @@ public class VoucherConsole {
         System.out.print(message);
     }
 
-    public MainCommandType inputMainCommand(String initMessage) {
-        printMessage(initMessage);
+    public MainCommandType inputMainCommand(Message message) {
+        printMessage(message.getText());
 
         return MainCommandType.findCommandType(scanner.nextLine());
     }
 
-    public VoucherCommand inputVoucherCommand(String initMessage) {
-        printMessage(initMessage);
+    public VoucherCommand inputVoucherCommand(Message message) {
+        printMessage(message.getText());
 
         return VoucherCommand.findVoucherCommand(scanner.nextLine());
     }
 
-    public VoucherType chooseVoucherType(String voucherChooseMessage) {
-        printMessage(voucherChooseMessage);
+    public VoucherType chooseVoucherType(Message message) {
+        printMessage(message.getText());
 
         return VoucherType.findVoucherType(scanner.nextLine());
     }
 
-    public Long inputAmountByVoucher(String amountVoucherMessage) {
-        printMessage(amountVoucherMessage);
+    public Long inputAmountByVoucher(Message message) {
+        printMessage(message.getText());
         String inputAmount = scanner.nextLine();
         validateAmountIsNumeric(inputAmount);
 
@@ -56,8 +56,8 @@ public class VoucherConsole {
         }
     }
 
-    public UUID inputVoucherId(String inputIdMessage) {
-        printMessage(inputIdMessage);
+    public UUID inputVoucherId(Message message) {
+        printMessage(message.getText());
         String userVoucherId = scanner.nextLine();
         validateVoucherId(userVoucherId);
 
@@ -73,28 +73,28 @@ public class VoucherConsole {
         }
     }
 
-    public void printVoucher(String successMessage, UUID userId, VoucherType userType, long amount) {
-        System.out.printf(successMessage, userId.toString(), userType, amount);
+    public void printVoucher(Message message, UUID userId, VoucherType userType, long amount) {
+        System.out.printf(message.getText(), userId.toString(), userType, amount);
     }
 
-    public CustomerCommand inputCustomerCommand(String initMessage) {
-        printMessage(initMessage);
+    public CustomerCommand inputCustomerCommand(Message message) {
+        printMessage(message.getText());
 
         return CustomerCommand.findCustomerCommand(scanner.nextLine());
     }
 
-    public String inputCustomerNickname(String inputNicknameMessage) {
-        printMessage(inputNicknameMessage);
+    public String inputCustomerNickname(Message message) {
+        printMessage(message.getText());
 
         return scanner.nextLine();
     }
 
-    public void printCustomer(String successMessage, UUID id, String nickname) {
-        System.out.printf(successMessage, id.toString(), nickname);
+    public void printCustomer(Message message, UUID id, String nickname) {
+        System.out.printf(message.getText(), id.toString(), nickname);
     }
 
-    public UUID inputCustomerId(String inputIdMessage) {
-        printMessage(inputIdMessage);
+    public UUID inputCustomerId(Message message) {
+        printMessage(message.getText());
         String userCustomerId = scanner.nextLine();
         validateCustomerId(userCustomerId);
 

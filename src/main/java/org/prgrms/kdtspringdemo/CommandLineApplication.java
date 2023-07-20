@@ -8,18 +8,18 @@ import org.prgrms.kdtspringdemo.voucher.constant.VoucherCommand;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.dto.VoucherResponse;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
-import org.prgrms.kdtspringdemo.view.console.VoucherConsole;
+import org.prgrms.kdtspringdemo.view.console.Console;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.prgrms.kdtspringdemo.view.constant.ConsoleMessage.*;
+import static org.prgrms.kdtspringdemo.view.console.Message.*;
 
 @Component
 public class CommandLineApplication implements CommandLineRunner {
-    private final VoucherConsole voucherConsole = new VoucherConsole();
+    private final Console console = new Console();
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
@@ -30,24 +30,24 @@ public class CommandLineApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        MainCommandType userCommand = voucherConsole.inputMainCommand(MAIN_PROGRAM_INIT);
+        MainCommandType userCommand = console.inputMainCommand(MAIN_PROGRAM_INIT);
 
         while (userCommand.isRunning()) {
             executeCommand(userCommand);
-            userCommand = voucherConsole.inputMainCommand(MAIN_PROGRAM_INIT);
+            userCommand = console.inputMainCommand(MAIN_PROGRAM_INIT);
         }
     }
 
     private void executeCommand(MainCommandType commandtype) {
         switch (commandtype) {
-            case EXIT -> voucherConsole.printMessage(SYSTEM_SHUTDOWN);
+            case EXIT -> console.printMessage(SYSTEM_SHUTDOWN.getText());
             case VOUCHER -> runVoucherService();
             case CUSTOMER -> runCustomerService();
         }
     }
 
     private void runVoucherService() {
-        VoucherCommand userCommand = voucherConsole.inputVoucherCommand(VOUCHER_SERVICE_INIT);
+        VoucherCommand userCommand = console.inputVoucherCommand(VOUCHER_SERVICE_INIT);
 
         switch (userCommand) {
             case CREATE -> createVoucher();
@@ -59,19 +59,19 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void createVoucher() {
-        VoucherType userType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE);
-        Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER);
+        VoucherType userType = console.chooseVoucherType(CHOICE_VOUCHER_TYPE);
+        Long userAmount = console.inputAmountByVoucher(AMOUNT_VOUCHER);
 
         VoucherResponse response = voucherService.create(userType, userAmount);
         printVoucherResult(response);
     }
 
     private void printVoucherResult(VoucherResponse response) {
-        voucherConsole.printVoucher(PRINT_VOUCHER_INFO, response.getId(), response.getType(), response.getAmount());
+        console.printVoucher(PRINT_VOUCHER_INFO, response.getId(), response.getType(), response.getAmount());
     }
 
     private void getVoucher() {
-        UUID userId = voucherConsole.inputVoucherId(VOUCHER_ID);
+        UUID userId = console.inputVoucherId(VOUCHER_ID);
 
         VoucherResponse response = voucherService.findById(userId);
         printVoucherResult(response);
@@ -85,22 +85,22 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void updateVoucher() {
-        UUID userId = voucherConsole.inputVoucherId(VOUCHER_ID);
-        VoucherType userType = voucherConsole.chooseVoucherType(CHOICE_VOUCHER_TYPE);
-        Long userAmount = voucherConsole.inputAmountByVoucher(AMOUNT_VOUCHER);
+        UUID userId = console.inputVoucherId(VOUCHER_ID);
+        VoucherType userType = console.chooseVoucherType(CHOICE_VOUCHER_TYPE);
+        Long userAmount = console.inputAmountByVoucher(AMOUNT_VOUCHER);
 
         VoucherResponse response = voucherService.update(userId, userType, userAmount);
         printVoucherResult(response);
     }
 
     private void deleteVoucher() {
-        UUID userId = voucherConsole.inputVoucherId(VOUCHER_ID);
+        UUID userId = console.inputVoucherId(VOUCHER_ID);
 
         voucherService.delete(userId);
     }
 
     private void runCustomerService() {
-        CustomerCommand userCommand = voucherConsole.inputCustomerCommand(CUSTOMER_SERVICE_INIT);
+        CustomerCommand userCommand = console.inputCustomerCommand(CUSTOMER_SERVICE_INIT);
 
         switch (userCommand) {
             case CREATE -> createCustomer();
@@ -113,25 +113,25 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void createCustomer() {
-        String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
+        String userNickname = console.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
         CustomerResponse response = customerService.create(userNickname);
         printCustomerResult(response);
     }
 
     private void printCustomerResult(CustomerResponse customerResponse) {
-        voucherConsole.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getId(), customerResponse.getNickname());
+        console.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getId(), customerResponse.getNickname());
     }
 
     private void findByIdCustomer() {
-        UUID userId = voucherConsole.inputCustomerId(CUSTOMER_ID);
+        UUID userId = console.inputCustomerId(CUSTOMER_ID);
 
         CustomerResponse response = customerService.findById(userId);
         printCustomerResult(response);
     }
 
     private void findByNicknameCustomer() {
-        String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
+        String userNickname = console.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
         CustomerResponse response = customerService.findByNickname(userNickname);
         printCustomerResult(response);
@@ -145,15 +145,15 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void updateCustomer() {
-        UUID userId = voucherConsole.inputCustomerId(CUSTOMER_ID);
-        String userNickname = voucherConsole.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
+        UUID userId = console.inputCustomerId(CUSTOMER_ID);
+        String userNickname = console.inputCustomerNickname(INPUT_CUSTOMER_NICKNAME);
 
         CustomerResponse response = customerService.update(userId, userNickname);
         printCustomerResult(response);
     }
 
     private void deleteCustomer() {
-        UUID userId = voucherConsole.inputCustomerId(CUSTOMER_ID);
+        UUID userId = console.inputCustomerId(CUSTOMER_ID);
 
         customerService.delete(userId);
     }
