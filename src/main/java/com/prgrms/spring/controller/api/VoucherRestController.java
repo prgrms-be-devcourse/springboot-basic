@@ -1,7 +1,9 @@
 package com.prgrms.spring.controller.api;
 
+import com.google.protobuf.Api;
 import com.prgrms.spring.common.dto.ApiResponse;
 import com.prgrms.spring.controller.dto.response.VoucherResponseDto;
+import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.exception.Success;
 import com.prgrms.spring.service.voucher.VoucherService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,12 @@ public class VoucherRestController {
     }
 
     // 2. 조건별 조회 기능
+    @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse<List<VoucherResponseDto>> getSearchedVoucher(@RequestParam String type) {
+        VoucherType voucherType = VoucherType.valueOf(type);
+        return ApiResponse.success(Success.GET_VOUCHER_SUCCESS, voucherService.getSearchedVoucher(voucherType));
+    }
 
     // 3. 바우처 추가기능
 

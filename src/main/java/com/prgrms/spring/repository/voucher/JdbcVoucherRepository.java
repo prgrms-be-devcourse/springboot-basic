@@ -76,6 +76,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query("select * from voucher", voucherRowMapper);
     }
 
+    @Override
+    public List<Voucher> findByDiscountUnit(String discountUnit) {
+        return jdbcTemplate.query("SELECT * FROM voucher  WHERE discount_unit = :discountUnit",
+                Collections.singletonMap("discountUnit", discountUnit),
+                voucherRowMapper);
+    }
+
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());

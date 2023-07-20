@@ -13,4 +13,6 @@ public interface VoucherRepository {
     Voucher insert(Voucher voucher);
 
     List<Voucher> findAll();
+
+    List<Voucher> findByDiscountUnit(String discountUnit);
 }

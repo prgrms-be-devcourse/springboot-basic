@@ -40,4 +40,22 @@ public class VoucherService {
                 voucher.getDiscount() + voucher.getDiscountUnit()
         )).collect(Collectors.toList());
     }
+
+    @Transactional(readOnly = true)
+    public List<VoucherResponseDto> getSearchedVoucher(VoucherType voucherType) {
+        String discountUnit = null;
+        switch (voucherType) {
+            case PERCENT_DISCOUNT:
+                discountUnit = "%";
+                break;
+            case FIXED_AMOUNT:
+                discountUnit = "$";
+                break;
+        }
+        List<Voucher> vouchers = voucherRepository.findByDiscountUnit(discountUnit);
+        return vouchers.stream().map(voucher -> VoucherResponseDto.of(
+                voucher.getVoucherName(),
+                voucher.getDiscount() + voucher.getDiscountUnit()
+        )).collect(Collectors.toList());
+    }
 }
