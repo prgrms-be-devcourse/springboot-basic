@@ -19,4 +19,3 @@ CREATE TABLE vouchers
     registration_date datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP (6),
     expiration_date   datetime(6) NOT NULL
 );
-

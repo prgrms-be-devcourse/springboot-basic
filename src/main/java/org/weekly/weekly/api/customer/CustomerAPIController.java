@@ -46,7 +46,7 @@ public class CustomerAPIController {
     }
 
     @DeleteMapping("/delete/{customerEmail}")
-    public ResponseEntity<Void> deleteCustomerr(@PathVariable String customerEmail) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable String customerEmail) {
         customerService.deleteCustomer(customerEmail);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
