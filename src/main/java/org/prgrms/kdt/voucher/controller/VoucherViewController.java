@@ -7,7 +7,6 @@ import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,7 +23,7 @@ public class VoucherViewController {
     }
 
     @GetMapping("/new")
-    public String save(){
+    public String save() {
         return "voucher/voucher_create";
     }
 
@@ -35,7 +34,7 @@ public class VoucherViewController {
     }
 
     @GetMapping("/{id}")
-    public String findById(@PathVariable UUID id, Model model){
+    public String findById(@PathVariable UUID id, Model model) {
         VoucherDetailResponse response = voucherService.findById(id);
         model.addAttribute("voucher", response);
         return "voucher/voucher_detail";
@@ -46,5 +45,11 @@ public class VoucherViewController {
         VoucherResponses response = voucherService.findAll();
         model.addAttribute("vouchers", response);
         return "voucher/vouchers";
+    }
+
+    @PostMapping("/{id}")
+    public String deleteById(@PathVariable UUID id) {
+        voucherService.deleteById(id);
+        return "redirect:/voucher";
     }
 }

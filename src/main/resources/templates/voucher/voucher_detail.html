@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -30,5 +30,8 @@
     </tr>
     </tbody>
 </table>
+<form th:action="@{/voucher/__${voucher.voucherId}__}" method="POST">
+    <button class="btn btn-primary me-md-2">Delete Voucher</button>
+</form>
 </body>
 </html>

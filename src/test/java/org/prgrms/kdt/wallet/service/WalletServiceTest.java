@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,7 +59,7 @@ class WalletServiceTest {
         //given
         UUID expectMemberId = UUID.fromString("9a3d5b3e-2d12-4958-9ef3-52d424485895");
         Member member = memberRepository.insert(new Member(expectMemberId, "giho", MemberStatus.COMMON));
-        Voucher voucher = voucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0)));
+        Voucher voucher = voucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0), LocalDateTime.now()));
         ServiceCreateWalletRequest request = new ServiceCreateWalletRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
 
         //when
@@ -74,7 +75,7 @@ class WalletServiceTest {
     void assignVoucherToCustomer_incorrectRequest_EntityNotFoundException() {
         //given
         Member member = memberRepository.insert(new Member(UUID.randomUUID(), "giho", MemberStatus.COMMON));
-        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
         ServiceCreateWalletRequest request = new ServiceCreateWalletRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
 
         //when
@@ -135,8 +136,8 @@ class WalletServiceTest {
 
         UUID voucherId1 = UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29");
         UUID voucherId2 = UUID.fromString("5c3aba5e-eb09-4b21-b57f-d9ef54bacd29");
-        Voucher voucher1 = new Voucher(voucherId1, VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        Voucher voucher2 = new Voucher(voucherId2, VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0));
+        Voucher voucher1 = new Voucher(voucherId1, VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
+        Voucher voucher2 = new Voucher(voucherId2, VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0), LocalDateTime.now());
 
         UUID walletId1 = UUID.fromString("f7c23946-7174-4f56-b464-3ed1fa5224d7");
         UUID walletId2 = UUID.fromString("c9c23946-7174-4f56-b464-3ed1fa5224d7");

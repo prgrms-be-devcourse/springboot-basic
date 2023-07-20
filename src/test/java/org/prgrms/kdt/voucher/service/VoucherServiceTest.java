@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,9 +33,9 @@ class VoucherServiceTest {
 
     @BeforeEach
     void setup() {
-        jdbcVoucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0)));
-        jdbcVoucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(35.0)));
-        jdbcVoucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0)));
+        jdbcVoucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now()));
+        jdbcVoucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(35.0), LocalDateTime.now()));
+        jdbcVoucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0), LocalDateTime.now()));
     }
 
     @Test

@@ -9,6 +9,7 @@ import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
 import org.prgrms.kdt.voucher.service.mapper.ServiceVoucherMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -33,5 +34,10 @@ public class VoucherService {
 
     public VoucherDetailResponse findById(UUID id) {
         return new VoucherDetailResponse(voucherRepository.findById(id).orElseThrow(EntityNotFoundException::new));
+    }
+
+    @Transactional
+    public void deleteById(UUID id) {
+        voucherRepository.deleteById(id);
     }
 }
