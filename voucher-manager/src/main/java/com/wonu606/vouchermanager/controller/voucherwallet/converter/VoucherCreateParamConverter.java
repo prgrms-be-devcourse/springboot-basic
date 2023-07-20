@@ -1,9 +1,8 @@
-package com.wonu606.vouchermanager.controller.voucher.converter;
+package com.wonu606.vouchermanager.controller.voucherwallet.converter;
 
-import com.wonu606.vouchermanager.controller.voucher.reqeust.VoucherCreateRequest;
+import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.VoucherCreateRequest;
 import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import com.wonu606.vouchermanager.util.TypedConverter;
-import org.springframework.core.convert.converter.Converter;
 
 public class VoucherCreateParamConverter implements
         TypedConverter<VoucherCreateRequest, VoucherCreateParam> {

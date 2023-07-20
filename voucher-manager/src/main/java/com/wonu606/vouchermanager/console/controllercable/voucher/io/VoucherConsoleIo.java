@@ -4,9 +4,6 @@ import com.wonu606.vouchermanager.console.AbstractConsoleIo;
 import com.wonu606.vouchermanager.console.ConsoleInput;
 import com.wonu606.vouchermanager.console.ConsolePrinter;
 import com.wonu606.vouchermanager.console.controllercable.voucher.VoucherControllerMenu;
-import com.wonu606.vouchermanager.controller.voucher.response.OwnedCustomerResponse;
-import com.wonu606.vouchermanager.controller.voucher.response.VoucherResponse;
-import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component

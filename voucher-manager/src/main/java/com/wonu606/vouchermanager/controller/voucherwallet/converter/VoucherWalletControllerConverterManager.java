@@ -1,14 +1,14 @@
-package com.wonu606.vouchermanager.controller.voucher.converter;
+package com.wonu606.vouchermanager.controller.voucherwallet.converter;
 
 import com.wonu606.vouchermanager.util.TypedConverter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VoucherControllerConverterManager {
+public class VoucherWalletControllerConverterManager {
 
     private final List<TypedConverter<?, ?>> converterList;
 
-    public VoucherControllerConverterManager() {
+    public VoucherWalletControllerConverterManager() {
         converterList = new ArrayList<>();
         converterList.add(new VoucherCreateParamConverter());
         converterList.add(new VoucherCreateResponseConverter());

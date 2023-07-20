@@ -1,6 +1,6 @@
-package com.wonu606.vouchermanager.controller.voucher.converter;
+package com.wonu606.vouchermanager.controller.voucherwallet.converter;
 
-import com.wonu606.vouchermanager.controller.voucher.reqeust.OwnedCustomersRequest;
+import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.OwnedCustomersRequest;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.util.TypedConverter;
 import java.util.UUID;

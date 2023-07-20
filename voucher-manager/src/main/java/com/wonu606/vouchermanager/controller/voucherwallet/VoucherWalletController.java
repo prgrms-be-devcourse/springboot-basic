@@ -1,17 +1,18 @@
-package com.wonu606.vouchermanager.controller.voucher;
+package com.wonu606.vouchermanager.controller.voucherwallet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wonu606.vouchermanager.controller.voucher.converter.VoucherControllerConverterManager;
-import com.wonu606.vouchermanager.controller.voucher.reqeust.OwnedCustomersRequest;
-import com.wonu606.vouchermanager.controller.voucher.reqeust.VoucherCreateRequest;
-import com.wonu606.vouchermanager.controller.voucher.reqeust.WalletAssignRequest;
-import com.wonu606.vouchermanager.controller.voucher.response.OwnedCustomerResponse;
-import com.wonu606.vouchermanager.controller.voucher.response.VoucherCreateResponse;
-import com.wonu606.vouchermanager.controller.voucher.response.VoucherResponse;
+import com.wonu606.vouchermanager.controller.voucherwallet.converter.VoucherWalletControllerConverterManager;
+import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.OwnedCustomersRequest;
+import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.VoucherCreateRequest;
+import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.WalletAssignRequest;
+import com.wonu606.vouchermanager.controller.voucherwallet.response.OwnedCustomerResponse;
+import com.wonu606.vouchermanager.controller.voucherwallet.response.VoucherCreateResponse;
+import com.wonu606.vouchermanager.controller.voucherwallet.response.VoucherResponse;
 import com.wonu606.vouchermanager.service.voucher.VoucherService;
 import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import com.wonu606.vouchermanager.service.voucher.result.VoucherCreateResult;
 import com.wonu606.vouchermanager.service.voucher.result.VoucherResult;
+import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
@@ -21,14 +22,14 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
-public class VoucherController {
+public class VoucherWalletController {
 
-    private final VoucherService service;
-    private final VoucherControllerConverterManager converterManager;
+    private final VoucherWalletService service;
+    private final VoucherWalletControllerConverterManager converterManager;
 
-    public VoucherController(VoucherService service) {
+    public VoucherWalletController(VoucherWalletService service) {
         this.service = service;
-        converterManager = new VoucherControllerConverterManager();
+        converterManager = new VoucherWalletControllerConverterManager();
     }
 
     public String createVoucher(VoucherCreateRequest request) {

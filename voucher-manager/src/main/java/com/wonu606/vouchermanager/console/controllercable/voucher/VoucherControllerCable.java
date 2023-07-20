@@ -1,22 +1,20 @@
 package com.wonu606.vouchermanager.console.controllercable.voucher;
 
 import com.wonu606.vouchermanager.console.controllercable.voucher.io.VoucherConsoleIo;
-import com.wonu606.vouchermanager.controller.voucher.VoucherController;
-import com.wonu606.vouchermanager.controller.voucher.reqeust.VoucherCreateRequest;
-import com.wonu606.vouchermanager.controller.voucher.reqeust.OwnedCustomersRequest;
-import com.wonu606.vouchermanager.controller.voucher.reqeust.WalletAssignRequest;
-import com.wonu606.vouchermanager.controller.voucher.response.OwnedCustomerResponse;
-import com.wonu606.vouchermanager.controller.voucher.response.VoucherResponse;
+import com.wonu606.vouchermanager.controller.voucherwallet.VoucherWalletController;
+import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.VoucherCreateRequest;
+import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.OwnedCustomersRequest;
+import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.WalletAssignRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherControllerCable {
 
     private final VoucherConsoleIo consoleIo;
-    private final VoucherController controller;
+    private final VoucherWalletController controller;
 
     public VoucherControllerCable(VoucherConsoleIo consoleIo,
-            VoucherController controller) {
+            VoucherWalletController controller) {
         this.consoleIo = consoleIo;
         this.controller = controller;
     }

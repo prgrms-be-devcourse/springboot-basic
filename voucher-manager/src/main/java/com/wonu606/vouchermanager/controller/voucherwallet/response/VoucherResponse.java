@@ -1,6 +1,4 @@
-package com.wonu606.vouchermanager.controller.voucher.response;
-
-import java.util.List;
+package com.wonu606.vouchermanager.controller.voucherwallet.response;
 
 public class VoucherResponse {
 

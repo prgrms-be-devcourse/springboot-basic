@@ -1,3 +1,7 @@
+DROP TABLE if exists voucher_wallet;
+DROP TABLE if exists voucher;
+DROP TABLE if exists customer;
+
 CREATE TABLE voucher
 (
     voucher_id     VARCHAR(36) PRIMARY KEY,
@@ -13,12 +17,10 @@ CREATE TABLE customer
     created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE customer_voucher_wallet
+CREATE TABLE voucher_wallet
 (
-    customer_id VARCHAR(100) NOT NULL,
-    voucher_id  VARCHAR(36)  NOT NULL,
+    voucher_id  VARCHAR(36) NOT NULL,
+    customer_id VARCHAR(100),
 
-    FOREIGN KEY (customer_id) REFERENCES customer (email) ON DELETE CASCADE,
-    FOREIGN KEY (voucher_id) REFERENCES voucher (voucher_id) ON DELETE CASCADE,
-    PRIMARY KEY (customer_id, voucher_id)
+    FOREIGN KEY (voucher_id) REFERENCES voucher (voucher_id) ON DELETE CASCADE
 );

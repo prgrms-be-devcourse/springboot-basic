@@ -1,6 +1,6 @@
-package com.wonu606.vouchermanager.controller.voucher.converter;
+package com.wonu606.vouchermanager.controller.voucherwallet.converter;
 
-import com.wonu606.vouchermanager.controller.voucher.response.OwnedCustomerResponse;
+import com.wonu606.vouchermanager.controller.voucherwallet.response.OwnedCustomerResponse;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
 import com.wonu606.vouchermanager.util.TypedConverter;
 

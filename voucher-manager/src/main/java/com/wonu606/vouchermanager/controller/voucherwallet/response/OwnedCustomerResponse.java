@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.controller.voucher.response;
+package com.wonu606.vouchermanager.controller.voucherwallet.response;
 
 public class OwnedCustomerResponse {
 

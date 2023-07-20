@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.controller.voucher.reqeust;
+package com.wonu606.vouchermanager.controller.voucherwallet.reqeust;
 
 public class VoucherCreateRequest {
 

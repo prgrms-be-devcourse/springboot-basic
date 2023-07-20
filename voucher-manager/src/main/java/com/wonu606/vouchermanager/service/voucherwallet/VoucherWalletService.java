@@ -1,5 +1,10 @@
 package com.wonu606.vouchermanager.service.voucherwallet;
 
+import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherResultSet;
+import com.wonu606.vouchermanager.service.voucher.VoucherService;
+import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
+import com.wonu606.vouchermanager.service.voucher.result.VoucherCreateResult;
+import com.wonu606.vouchermanager.service.voucher.result.VoucherResult;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
@@ -25,11 +30,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class VoucherWalletService {
 
+    private final VoucherService voucherService;
     private final VoucherWalletRepository voucherWalletRepository;
     private final VoucherWalletServiceConverterManager converterManager;
 
-    public VoucherWalletService(VoucherWalletRepository voucherWalletRepository,
+    public VoucherWalletService(VoucherService voucherService, VoucherWalletRepository voucherWalletRepository,
             VoucherWalletServiceConverterManager converterManager) {
+        this.voucherService = voucherService;
         this.voucherWalletRepository = voucherWalletRepository;
         this.converterManager = converterManager;
     }
@@ -64,5 +71,13 @@ public class VoucherWalletService {
         return resultSets.stream()
                 .map(rs -> converterManager.convert(rs, OwnedCustomerResult.class))
                 .collect(Collectors.toList());
+    }
+
+    public VoucherCreateResult createVoucher(VoucherCreateParam param) {
+        return voucherService.createVoucher(param);
+    }
+
+    public List<VoucherResult> getVoucherList() {
+        return voucherService.getVoucherList();
     }
 }

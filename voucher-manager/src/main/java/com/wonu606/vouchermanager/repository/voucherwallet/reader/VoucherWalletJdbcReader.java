@@ -35,11 +35,11 @@ public class VoucherWalletJdbcReader implements VoucherWalletReader {
 
     @Override
     public List<OwnedCustomerResultSet> findOwnedCustomersByVoucher(OwnedCustomersQuery query) {
-        String selectionSql = "SELECT customer_id FROM voucher_wallet WHERE voucher_id = :voucher_id";
+        String selectionSql = "SELECT customer_id FROM voucher_wallet WHERE voucher_id = :voucher_id AND customer_id IS NOT NULL";
         Map<String, Object> params = new HashMap<>();
         params.put("voucher_id", query.getVoucherId());
 
-        return jdbcTemplate.query(selectionSql,
+        return jdbcTemplate.query(selectionSql, params,
                 rowMapperManager.getRowMapperForType(OwnedCustomerResultSet.class));
     }
 }

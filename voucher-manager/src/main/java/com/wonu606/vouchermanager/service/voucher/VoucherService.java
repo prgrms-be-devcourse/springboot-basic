@@ -10,7 +10,6 @@ import com.wonu606.vouchermanager.service.voucher.factory.VoucherFactory;
 import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import com.wonu606.vouchermanager.service.voucher.result.VoucherCreateResult;
 import com.wonu606.vouchermanager.service.voucher.result.VoucherResult;
-import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
@@ -30,14 +29,12 @@ public class VoucherService {
     private static final Logger log = LoggerFactory.getLogger(VoucherService.class);
     private static final int MAX_RETRIES = 3;
 
-    private final VoucherWalletService voucherWalletService;
     private final VoucherRepository repository;
     private final VoucherFactory factory;
     private final VoucherServiceConverterManager converterManager;
 
-    public VoucherService(VoucherWalletService voucherWalletService, VoucherRepository repository,
-            VoucherFactory factory, VoucherServiceConverterManager converterManager) {
-        this.voucherWalletService = voucherWalletService;
+    public VoucherService(VoucherRepository repository, VoucherFactory factory,
+            VoucherServiceConverterManager converterManager) {
         this.repository = repository;
         this.factory = factory;
         this.converterManager = converterManager;
@@ -52,14 +49,6 @@ public class VoucherService {
         return resultSets.stream()
                 .map(rs -> converterManager.convert(rs, VoucherResult.class))
                 .collect(Collectors.toList());
-    }
-
-    public List<OwnedCustomerResult> findOwnedCustomersByVoucher(OwnedCustomersParam param) {
-        return voucherWalletService.findOwnedCustomersByVoucher(param);
-    }
-
-    public WalletAssignResult assignWallet(WalletAssignParam param) {
-        return voucherWalletService.assignWallet(param);
     }
 
     private VoucherCreateResult createVoucher(VoucherCreateParam voucherCreateParam,
