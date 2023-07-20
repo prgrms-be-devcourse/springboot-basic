@@ -8,13 +8,7 @@ import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletInsertQue
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedCustomerResultSet;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedVoucherResultSet;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.WalletInsertResultSet;
-import com.wonu606.vouchermanager.service.voucherwallet.converter.OwnedCustomersQueryConverter;
-import com.wonu606.vouchermanager.service.voucherwallet.converter.OwnedCustomersResultConverter;
-import com.wonu606.vouchermanager.service.voucherwallet.converter.OwnedVoucherQueryConverter;
-import com.wonu606.vouchermanager.service.voucherwallet.converter.OwnedVoucherResultConverter;
-import com.wonu606.vouchermanager.service.voucherwallet.converter.WalletDeleteQueryConverter;
-import com.wonu606.vouchermanager.service.voucherwallet.converter.WalletInsertQueryConverter;
-import com.wonu606.vouchermanager.service.voucherwallet.converter.WalletInsertResultConverter;
+import com.wonu606.vouchermanager.service.voucherwallet.converter.VoucherWalletServiceConverterManager;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
@@ -32,57 +26,43 @@ import org.springframework.transaction.annotation.Transactional;
 public class VoucherWalletService {
 
     private final VoucherWalletRepository voucherWalletRepository;
+    private final VoucherWalletServiceConverterManager converterManager;
 
-    private final OwnedVoucherQueryConverter ownedVoucherQueryConverter;
-    private final OwnedVoucherResultConverter ownedVoucherResultConverter;
-    private final WalletDeleteQueryConverter walletDeleteQueryConverter;
-    private final WalletInsertQueryConverter walletInsertQueryConverter;
-    private final WalletInsertResultConverter walletInsertResultConverter;
-
-    private final OwnedCustomersQueryConverter ownedCustomersQueryConverter;
-    private final OwnedCustomersResultConverter ownedCustomersResultConverter;
-
-    public VoucherWalletService(VoucherWalletRepository voucherWalletRepository) {
+    public VoucherWalletService(VoucherWalletRepository voucherWalletRepository,
+            VoucherWalletServiceConverterManager converterManager) {
         this.voucherWalletRepository = voucherWalletRepository;
-
-        ownedVoucherQueryConverter = new OwnedVoucherQueryConverter();
-        ownedVoucherResultConverter = new OwnedVoucherResultConverter();
-        walletDeleteQueryConverter = new WalletDeleteQueryConverter();
-        walletInsertQueryConverter = new WalletInsertQueryConverter();
-        walletInsertResultConverter = new WalletInsertResultConverter();
-        ownedCustomersQueryConverter = new OwnedCustomersQueryConverter();
-        ownedCustomersResultConverter = new OwnedCustomersResultConverter();
+        this.converterManager = converterManager;
     }
 
     public List<OwnedVoucherResult> findOwnedVouchersByCustomer(OwnedVouchersParam param) {
-        OwnedVouchersQuery query = ownedVoucherQueryConverter.convert(param);
+        OwnedVouchersQuery query = converterManager.convert(param, OwnedVouchersQuery.class);
         List<OwnedVoucherResultSet> resultSets =
                 voucherWalletRepository.findOwnedVouchersByCustomer(query);
 
         return resultSets.stream()
-                .map(ownedVoucherResultConverter::convert)
+                .map(rs -> converterManager.convert(rs, OwnedVoucherResult.class))
                 .collect(Collectors.toList());
     }
 
     public void deleteWallet(WalletDeleteParam param) {
-        WalletDeleteQuery query = walletDeleteQueryConverter.convert(param);
+        WalletDeleteQuery query = converterManager.convert(param, WalletDeleteQuery.class);
         voucherWalletRepository.delete(query);
     }
 
     public WalletAssignResult assignWallet(WalletAssignParam param) {
-        WalletInsertQuery query = walletInsertQueryConverter.convert(param);
+        WalletInsertQuery query = converterManager.convert(param, WalletInsertQuery.class);
 
         WalletInsertResultSet resultSet = voucherWalletRepository.insert(query);
-        return walletInsertResultConverter.convert(resultSet);
+        return converterManager.convert(resultSet, WalletAssignResult.class);
     }
 
     public List<OwnedCustomerResult> findOwnedCustomersByVoucher(OwnedCustomersParam param) {
-        OwnedCustomersQuery query = ownedCustomersQueryConverter.convert(param);
+        OwnedCustomersQuery query = converterManager.convert(param, OwnedCustomersQuery.class);
         List<OwnedCustomerResultSet> resultSets =
                 voucherWalletRepository.findOwnedCustomersByVoucher(query);
 
         return resultSets.stream()
-                .map(ownedCustomersResultConverter::convert)
+                .map(rs -> converterManager.convert(rs, OwnedCustomerResult.class))
                 .collect(Collectors.toList());
     }
 }
