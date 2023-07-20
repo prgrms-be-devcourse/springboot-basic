@@ -13,10 +13,10 @@
 <div>
     <h2>New Voucher</h2>
     <div class="mb-3">
-        <a th:href="@{/voucher}" class="btn btn-primary me-md-2" type="button">All Voucher</a>
+        <a th:href="@{/view/voucher}" class="btn btn-primary me-md-2" type="button">All Voucher</a>
     </div>
 </div>
-<form th:action="@{/voucher/new}" method="post">
+<form th:action="@{/view/voucher/new}" method="post">
     <div>
     <select class="form-select" name="voucherType" aria-label="Default select example" >
         <option selected>Select Voucher Type</option>

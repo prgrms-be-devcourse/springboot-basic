@@ -12,7 +12,7 @@
 <body class="container-fluid">
 <h1>All Voucher</h1>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <a th:href="@{/voucher/new}" class="btn btn-primary me-md-2" type="button">Create Voucher</a>
+    <a th:href="@{/view/voucher/new}" class="btn btn-primary me-md-2" type="button">Create Voucher</a>
 </div>
 <table class="table table-striped table-hover">
     <thead>
@@ -25,7 +25,7 @@
     <tbody>
     <tr th:each="voucher: ${vouchers.vouchers()}">
         <td>
-            <a th:href="@{/voucher/{id}(id=${voucher.voucherId})}" th:text="${voucher.voucherId}"></a>
+            <a th:href="@{/view/voucher/{id}(id=${voucher.voucherId})}" th:text="${voucher.voucherId}"></a>
         </td>
         <td th:text="*{voucher.voucherType}"></td>
         <td th:text="*{voucher.amount}"></td>

@@ -11,7 +11,7 @@
 </head>
 <body class="container-fluid">
 <h1>Voucher Detail Page</h1>
-<a th:href="@{/voucher}" class="btn btn-primary" type="button">Show All Voucher</a>
+<a th:href="@{/view/voucher}" class="btn btn-primary" type="button">Show All Voucher</a>
 <table class="table table-striped table-hover">
     <thead>
     <tr>
@@ -30,7 +30,7 @@
     </tr>
     </tbody>
 </table>
-<form th:action="@{/voucher/__${voucher.voucherId}__}" method="POST">
+<form th:action="@{/view/voucher/__${voucher.voucherId}__}" method="POST">
     <button class="btn btn-primary me-md-2">Delete Voucher</button>
 </form>
 </body>
