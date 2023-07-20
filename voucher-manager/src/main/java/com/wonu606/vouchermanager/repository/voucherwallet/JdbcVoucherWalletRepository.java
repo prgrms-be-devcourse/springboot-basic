@@ -38,7 +38,7 @@ public class JdbcVoucherWalletRepository implements VoucherWalletRepository {
     }
 
     public WalletInsertResultSet insert(WalletInsertQuery query) {
-        store.insert(query);
+        return store.insert(query);
     }
 
     @Override

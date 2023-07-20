@@ -39,7 +39,7 @@ public class VoucherControllerCable {
                 return;
 
             case LIST:
-                VoucherResponse voucherResponse = controller.getVoucherList();
+                String voucherResponse = controller.getVoucherList();
                 consoleIo.displayVoucherList(voucherResponse);
                 return;
 
@@ -54,7 +54,7 @@ public class VoucherControllerCable {
 
             case CUSTOMER_LIST:
                 String voucherId = consoleIo.readString("VoucherId");
-                OwnedCustomerResponse ownedCustomerResponse = controller.getOwnedCustomersByVoucher(
+                String ownedCustomerResponse = controller.getOwnedCustomersByVoucher(
                         new OwnedCustomersRequest(voucherId));
                 consoleIo.displayCustomerList(ownedCustomerResponse);
                 return;
@@ -66,8 +66,7 @@ public class VoucherControllerCable {
 
     private WalletAssignRequest createVoucherWalletCreateRequest() {
         String uuid = consoleIo.readString("Voucher UUID");
-        String emailAddress = consoleIo.readString("Customer EmailAddress");
-        return new WalletAssignRequest(uuid, emailAddress);
+        return new WalletAssignRequest(uuid);
     }
 
     private VoucherCreateRequest createVoucherCreateRequest() {

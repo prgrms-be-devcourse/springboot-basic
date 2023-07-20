@@ -28,16 +28,14 @@ public class VoucherConsoleIo extends AbstractConsoleIo {
         return input.readString(VoucherConsoleType.getAllNames(), "Type");
     }
 
-    public void displayVoucherList(VoucherResponse voucherList) {
+    public void displayVoucherList(String voucherList) {
         printer.displayMessage("=== 바우처 리스트 ===");
-        List<String> voucherIds = voucherList.getVoucherIds();
-        voucherIds.forEach(printer::displayMessage);
+        printer.displayMessage(voucherList);
     }
 
-    public void displayCustomerList(OwnedCustomerResponse response) {
+    public void displayCustomerList(String response) {
         printer.displayMessage("=== 보유한 Customer 리스트 ===");
-        List<String> emails = response.getEmails();
-        emails.forEach(printer::displayMessage);
+        printer.displayMessage(response);
     }
 
     protected void displayMenu() {
