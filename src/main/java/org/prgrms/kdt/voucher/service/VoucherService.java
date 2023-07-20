@@ -3,6 +3,7 @@ package org.prgrms.kdt.voucher.service;
 import org.prgrms.kdt.exception.EntityNotFoundException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.service.dto.ServiceCreateVoucherRequest;
 import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
@@ -11,6 +12,7 @@ import org.prgrms.kdt.voucher.service.mapper.ServiceVoucherMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -39,5 +41,9 @@ public class VoucherService {
     @Transactional
     public void deleteById(UUID id) {
         voucherRepository.deleteById(id);
+    }
+
+    public VoucherResponses findByType(VoucherType type) {
+        return VoucherResponses.of(voucherRepository.findByType(type));
     }
 }

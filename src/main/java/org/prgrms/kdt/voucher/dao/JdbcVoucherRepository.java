@@ -74,4 +74,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new NotUpdateException("delete가 제대로 이루어지지 않았습니다.");
         }
     }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        String sql = "SELECT id, type, amount, created_at FROM voucher WHERE type = ? ";
+        return jdbcTemplate.query(sql, voucherRowMapper, type.getDescripton());
+    }
 }

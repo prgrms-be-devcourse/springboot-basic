@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.voucher.controller.dto.ControllerCreateVoucherRequest;
 import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
+import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
@@ -31,6 +32,12 @@ public class VoucherApiController {
     @GetMapping("/{id}")
     public ResponseEntity<VoucherDetailResponse> findById(@PathVariable UUID id) {
         VoucherDetailResponse response = voucherService.findById(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/type/{type}")
+    public ResponseEntity<VoucherResponses> findByType(@PathVariable VoucherType type) {
+        VoucherResponses response = voucherService.findByType(type);
         return ResponseEntity.ok(response);
     }
 
