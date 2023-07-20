@@ -1,4 +1,4 @@
-package org.prgrms.kdt.exception;
+package org.prgrms.kdt.global.exception;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException() {

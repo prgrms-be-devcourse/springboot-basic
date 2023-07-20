@@ -1,6 +1,6 @@
 package org.prgrms.kdt.wallet.service;
 
-import org.prgrms.kdt.exception.EntityNotFoundException;
+import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.member.dao.MemberRepository;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.wallet.dao.WalletRepository;

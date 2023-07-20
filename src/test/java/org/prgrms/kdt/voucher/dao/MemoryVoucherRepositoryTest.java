@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.prgrms.kdt.exception.FileAccessException;
+import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 
@@ -54,8 +54,8 @@ class MemoryVoucherRepositoryTest {
         Optional<Voucher> foundVoucher = memoryVoucherRepository.findById(notExistVoucherId);
 
         //then
-        assertThrows(FileAccessException.class, () -> {
-            foundVoucher.orElseThrow(FileAccessException::new);
+        assertThrows(EntityNotFoundException.class, () -> {
+            foundVoucher.orElseThrow(EntityNotFoundException::new);
         });
     }
 

@@ -1,6 +1,6 @@
 package org.prgrms.kdt.wallet.dao;
 
-import org.prgrms.kdt.exception.NotUpdateException;
+import org.prgrms.kdt.global.exception.NotUpdateException;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.voucher.domain.DiscountPolicy;

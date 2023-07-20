@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.exception.EntityNotFoundException;
+import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.VoucherType;
@@ -12,7 +12,6 @@ import org.prgrms.kdt.voucher.service.mapper.ServiceVoucherMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service

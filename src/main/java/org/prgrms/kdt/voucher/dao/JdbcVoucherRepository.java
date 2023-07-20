@@ -1,10 +1,9 @@
 package org.prgrms.kdt.voucher.dao;
 
-import org.prgrms.kdt.exception.NotUpdateException;
+import org.prgrms.kdt.global.exception.NotUpdateException;
 import org.prgrms.kdt.voucher.domain.DiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -18,7 +17,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-@Profile({"default", "test", "web"})
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {

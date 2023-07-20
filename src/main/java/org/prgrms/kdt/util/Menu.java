@@ -1,6 +1,6 @@
-package org.prgrms.kdt.util;
+package org.prgrms.kdt.global;
 
-import org.prgrms.kdt.exception.InvalidInputException;
+import org.prgrms.kdt.global.exception.InvalidInputException;
 
 import java.util.Arrays;
 
