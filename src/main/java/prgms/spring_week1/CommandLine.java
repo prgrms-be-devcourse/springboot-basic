@@ -90,7 +90,8 @@ public class CommandLine implements CommandLineRunner {
 
     private List<Voucher> getVoucherListByType() {
         try {
-            return voucherService.findByType(input.inputVoucherType());
+            String voucherType = input.inputVoucherType();
+            return voucherService.findByType(voucherType);
         } catch (NoSuchVoucherTypeException e) {
             logger.warn(e.getMessage());
             input.printConsoleMessage(ConsoleOutputMessage.INVALID_INPUT_DISCOUNT_MESSAGE);
@@ -128,13 +129,19 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void printCustomerInfo(Customer customer) {
-        output.printCustomerInfo(customer.getName(), customer.getEmail());
+        String customerName = customer.getName();
+        String customerEmail = customer.getEmail();
+
+        output.printCustomerInfo(customerName, customerEmail);
     }
 
     private void getCustomerByEmail() {
-        Customer customer = customerService.findByEmail(input.inputEmail());
+        Email email = input.inputEmail();
+        Customer customer = customerService.findByEmail(email);
 
-        if (customer == null) {
+        boolean customerIsNull = (customer == null);
+
+        if (customerIsNull) {
             return;
         }
 
@@ -142,7 +149,8 @@ public class CommandLine implements CommandLineRunner {
     }
 
     private void updateCustomerInfo() {
-        customerService.updateInfo(input.inputUpdateEmailInfo());
+        String[] emailInputs = input.inputUpdateEmailInfo();
+        customerService.updateInfo(emailInputs);
     }
 
     private void deleteByEmail() {
