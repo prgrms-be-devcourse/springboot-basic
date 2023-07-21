@@ -121,10 +121,7 @@ public class CommandLine implements CommandLineRunner {
 
     private void printAllCustomer() {
         List<Customer> customerList = customerService.findAll();
-        printAllCustomer(customerList);
-    }
 
-    private void printAllCustomer(List<Customer> customerList) {
         for (Customer customer : customerList) {
             printCustomerInfo(customer);
         }
