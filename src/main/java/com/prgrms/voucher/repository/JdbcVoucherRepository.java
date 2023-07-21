@@ -8,11 +8,14 @@ import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.DiscountCreator;
 import com.prgrms.presentation.message.ErrorMessage;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -40,6 +43,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         map.put("voucher_id", voucher.getVoucherId());
         map.put("voucher_type", voucher.getVoucherType().name());
         map.put("discount", voucher.getVoucherDiscount().getDiscountAmount());
+        map.put("created_at", Timestamp.valueOf(voucher.getCreatedAt()));
 
         return map;
     }
@@ -58,10 +62,26 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Vouchers getAllVoucher() {
+    public Vouchers getAllVoucher(VoucherType voucherType, LocalDateTime createdAt) {
+        StringBuilder queryBuilder = new StringBuilder(
+                "SELECT voucher_id, voucher_type, discount, created_at FROM vouchers WHERE deleted = false");
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+
+        if (voucherType != null) {
+            queryBuilder.append(" AND voucher_type = :voucherType");
+            parameters.addValue("voucherType", voucherType.name());
+        }
+
+        if (createdAt != null) {
+            queryBuilder.append(" AND created_at >= :created_at");
+            parameters.addValue("created_at", createdAt);
+        }
+
         List<Voucher> vouchers = jdbcTemplate.query(
-                "select voucher_id, voucher_type, discount from vouchers",
+                queryBuilder.toString(),
+                parameters,
                 getVoucherRowMapper());
+
         return new Vouchers(vouchers);
     }
 
@@ -69,7 +89,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(int voucher_id) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    "select voucher_id, voucher_type, discount from vouchers where voucher_id = :voucher_id",
+                    "select voucher_id, voucher_type, discount, created_at from vouchers where voucher_id = :voucher_id",
                     Collections.singletonMap("voucher_id", voucher_id),
                     getVoucherRowMapper()));
         } catch (EmptyResultDataAccessException e) {
@@ -78,13 +98,30 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
+    @Override
+    public int deleteById(int voucherId) {
+        int update = jdbcTemplate.update(
+                "UPDATE vouchers "
+                        + "SET deleted = true "
+                        + "WHERE voucher_id = :voucherId",
+                Collections.singletonMap("voucherId", voucherId));
+
+        if (update != 1) {
+            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
+        }
+
+        return voucherId;
+    }
+
     public RowMapper<Voucher> getVoucherRowMapper() {
         return (resultSet, i) -> {
             int voucherId = resultSet.getInt("voucher_id");
             VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
             double discountValue = resultSet.getDouble("discount");
             Discount discount = discountCreator.createDiscount(voucherType, discountValue);
-            return voucherCreator.createVoucher(voucherId, voucherType, discount);
+            LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+
+            return voucherCreator.createVoucher(voucherId, voucherType, discount, createdAt);
         };
     }
 

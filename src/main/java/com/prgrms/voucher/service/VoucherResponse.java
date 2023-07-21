@@ -5,10 +5,11 @@ import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.Discount;
 
 public record VoucherResponse(VoucherType voucherType,
-                              Discount discount) {
+                              Discount discount,
+                              int voucherId) {
 
     public VoucherResponse(Voucher voucher) {
-        this(voucher.getVoucherType(), voucher.getVoucherDiscount());
+        this(voucher.getVoucherType(), voucher.getVoucherDiscount(), voucher.getVoucherId());
     }
 
     @Override
