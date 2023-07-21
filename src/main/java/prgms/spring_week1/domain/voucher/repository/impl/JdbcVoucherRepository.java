@@ -50,8 +50,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void insert(Voucher voucher) {
         String insertSql = new SqlBuilder.InsertBuilder()
                 .insert("voucher")
-                .columns("voucher_id,voucher_type, discount, created_at")
+                .columns("voucher_id","voucher_type", "discount", "created_at")
+                .values("UUID_TO_BIN(:voucherId)",":voucherType",":discount",":createdAt")
                 .build();
+
 
         jdbcTemplate.update(insertSql, toParamMap(voucher));
     }

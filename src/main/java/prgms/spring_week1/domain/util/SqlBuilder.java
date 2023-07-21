@@ -32,7 +32,7 @@ public class SqlBuilder {
         StringBuilder insertSqlBuilder = new StringBuilder();
 
         public InsertBuilder insert(String table) {
-            insertSqlBuilder.append("INSET INTO ").append(table);
+            insertSqlBuilder.append("INSERT INTO ").append(table);
             return this;
         }
 
@@ -40,7 +40,7 @@ public class SqlBuilder {
             insertSqlBuilder.append("(");
 
             for (String column : columns) {
-                insertSqlBuilder.append(insertSqlBuilder + ",");
+                insertSqlBuilder.append(column + ",");
             }
 
             insertSqlBuilder.setLength(insertSqlBuilder.length() - INVALID_LAST_COMMA);
@@ -123,9 +123,10 @@ public class SqlBuilder {
             columnBuilder.append(" VALUES (");
 
             for (String value : values) {
-                columnBuilder.append(value);
+                columnBuilder.append(value+",");
             }
 
+            columnBuilder.setLength(columnBuilder.length()-1);
             columnBuilder.append(")");
 
             return new ValuesBuilder(columnBuilder);
@@ -176,6 +177,14 @@ public class SqlBuilder {
 
         public WhereBuilder(StringBuilder whereBuilder) {
             this.whereBuilder = whereBuilder;
+        }
+
+        public WhereBuilder AND(String condition){
+            return this;
+        }
+
+        public WhereBuilder OR(String condition){
+            return this;
         }
 
         public String build(){

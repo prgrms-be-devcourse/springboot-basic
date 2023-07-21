@@ -55,8 +55,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void insert(Customer customer) {
         String insertSQL = new SqlBuilder.InsertBuilder()
                 .insert("customers")
-                .columns("customer_id,email, name")
-                .values("UUID_TO_BIN(:customerId),:email,:name")
+                .columns("customer_id","email", "name")
+                .values("UUID_TO_BIN(:customerId)",":email",":name")
                 .build();
 
         jdbcTemplate.update(insertSQL, toParamMap(customer));
