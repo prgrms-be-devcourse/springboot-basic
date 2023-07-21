@@ -15,6 +15,7 @@ public class Name {
         validateName(value);
         this.value = value;
     }
+    
 
     private void validateName(String name) {
         if (name == null || name.isBlank()) {
