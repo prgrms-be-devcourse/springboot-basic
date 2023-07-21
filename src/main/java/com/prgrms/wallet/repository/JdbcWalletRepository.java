@@ -149,7 +149,9 @@ public class JdbcWalletRepository implements WalletRepository {
             VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
             double discountValue = resultSet.getDouble("discount");
             Discount discount = discountCreator.createDiscount(voucherType, discountValue);
-            return voucherCreator.createVoucher(voucherId, voucherType, discount);
+            LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+
+            return voucherCreator.createVoucher(voucherId, voucherType, discount,createdAt);
         };
     }
 

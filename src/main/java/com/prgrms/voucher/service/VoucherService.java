@@ -7,6 +7,8 @@ import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.DiscountCreator;
 import com.prgrms.voucher.repository.VoucherRepository;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,18 +30,33 @@ public class VoucherService {
         this.discountCreator = discountCreator;
     }
 
-    public VoucherResponse createVoucher(int id, VoucherType voucherType, double discountAmount) {
+    public VoucherResponse createVoucher(int id, VoucherType voucherType, double discountAmount, LocalDateTime createdAt) {
         Discount discount = discountCreator.createDiscount(voucherType, discountAmount);
-        Voucher voucher = voucherCreator.createVoucher(id, voucherType, discount);
+        Voucher voucher = voucherCreator.createVoucher(id, voucherType, discount, createdAt);
         voucherRepository.insert(voucher);
 
         return new VoucherResponse(voucher);
     }
 
-    public List<VoucherResponse> getAllVoucherList() {
-        Vouchers vouchers = voucherRepository.getAllVoucher();
+    public List<VoucherResponse> getAllVoucherList(VoucherType voucherType, LocalDateTime createdAt) {
+        Vouchers vouchers = voucherRepository.getAllVoucher(voucherType, createdAt);
 
         return voucherConverter.convertVoucherResponses(vouchers);
+    }
+
+    public VoucherResponse detailVoucher(int voucherId) {
+        Optional<Voucher> voucher = voucherRepository.findById(voucherId);
+
+        if (voucher.isPresent()) {
+            VoucherResponse voucherResponse = new VoucherResponse(voucher.get());
+            return voucherResponse;
+        }
+        return null;
+    }
+
+    public int deleteByVoucherId(int voucherId) {
+
+        return voucherRepository.deleteById(voucherId);
     }
 
 }
