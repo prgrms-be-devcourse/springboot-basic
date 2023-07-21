@@ -20,17 +20,29 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// textIO
-	compileOnly('org.beryx:text-io:3.4.1')
+	implementation 'org.beryx:text-io:3.4.1'
 
 	// configurationProperties
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+	// mysql connector
+	implementation 'mysql:mysql-connector-java:8.0.33'
+
+	// jdbc
+	implementation "org.springframework.boot:spring-boot-starter-jdbc"
+
+	// h2
+	testImplementation 'com.h2database:h2'
+
+	// jasypt
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
 }
 
-tasks.withType(Test) {
+tasks.withType(Test).configureEach {
 	enabled = false
 }
 
@@ -38,6 +50,7 @@ sourceSets {
 	main {
 		java {
 			exclude("**/main/resources/voucher_record.csv")
+			exclude("**/storage/")
 		}
 	}
 }

@@ -1,10 +1,27 @@
-flowchart TD
-    startnode[Start] --> menu[Menu Input] --> menuBranch{Menu}
-    menuBranch -- CREATE --> createBranch{Voucher Type}
-    menuBranch -- LIST --> listBranch{List Menu}
-    listBranch -- VOUCHER_LIST --> showVoucher[Show Vouchers]
-    listBranch -- BLACK_CUSTOMER_LIST --> showBlack[Show Black Customers]
-    createBranch --> CreateVoucher[Create Voucher]
-    CreateVoucher -- dev property --> mem[Store Voucher in Memory]
-    CreateVoucher -- default property --> file[Store Voucher in File]
-    menuBranch -- EXIT --> endnode[End]
+flowchart LR
+    start_node[Start] --> menu{Menu}
+    menu -- EXIT --> end_node[End]
+    menu -- CUSTOMER --> customerDomain{Customer Domain }
+    menu -- VOUCHER --> voucherDomain{Voucher Domain}
+    menu -- WALLET --> walletDomain{Wallet Domain}
+
+    customerDomain -- REGISTER --> registerCustomer[Register Customer]
+    customerDomain -- UPDATE --> updateCustomer[Update Customer]
+    customerDomain -- UNREGISTER --> unregisterCustomer[Unregister Customer]
+    customerDomain -- LIST_ALL --> listCustomer[List All Customers]
+    customerDomain -- LIST_BY_ID --> listCustomerById[Find Customer By Id]
+    customerDomain -- LIST_BY_NAME --> listCustomerName[Find Customer By Name]
+    customerDomain -- LIST_BLACK --> listBlack[List All Black Customers]
+
+    voucherDomain -- CREATE --> createVoucher[Create Voucher]
+    voucherDomain -- UPDATE --> updateVoucher[Update Voucher]
+    voucherDomain -- DELETE --> deleteVoucher[Delete Voucher]
+    voucherDomain -- LIST_ALL --> listVoucher[List All Voucher]
+    voucherDomain -- LIST_BY_ID --> listVoucherById[Find Voucher By Id]
+    voucherDomain -- LIST_BY_TYPE --> listVoucherByType[Find Voucher By Type]
+
+    walletDomain -- CREATE_WALLET --> create[Assign Voucher To Customer]
+    walletDomain -- UPDATE_WALLET --> update[Update Voucher To Customer]
+    walletDomain -- DELETE_WALLET --> delete[Withdraw Voucher From Customer]
+    walletDomain -- LIST_VOUCHERS_OF_CUSTOMER --> listVouchers[List Vouchers of Customer]
+    walletDomain -- LIST_CUSTOMER_BY_VOUCHER_ID --> listCustomers[List Customer has Voucher Id]

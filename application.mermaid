@@ -3,9 +3,8 @@ classDiagram
     %% Controller
     class SpringbootBasicApplication
     class ConsoleApplication
-    class PlatformController
     SpringbootBasicApplication --> ConsoleApplication
-    ConsoleApplication --> PlatformController
+    ConsoleApplication --> ConsoleManager
 
     %% IO
     class ConsoleManager
@@ -13,34 +12,49 @@ classDiagram
     class OutputConsole
     ConsoleManager --> InputConsole
     ConsoleManager --> OutputConsole
-    PlatformController --> ConsoleManager
+
+    %% Controller
+    class VoucherController
+    class CustomerController
+    class WalletController
+    ConsoleApplication --> VoucherController : VoucherDto
+    ConsoleApplication --> CustomerController : CustomerDto
+    ConsoleApplication --> WalletController
 
     %% Service
-    class VoucherService {
-        createVoucher()
-        getVouchers()
-    }
-    class CustomerService {
-        getBlackCustomers()
-    }
-    PlatformController --> VoucherService : Voucher
-    PlatformController --> CustomerService : Customer
+    class VoucherService
+    class CustomerService
+    VoucherController --> VoucherService : Voucher
+    CustomerController --> CustomerService : Customer
+    WalletController --> WalletService
 
     %% Repository
     class VoucherRepository {
         <<interface>>
-        insert()
-        findAll()
     }
     VoucherService --> VoucherRepository
     class MemoryVoucherRepository
-    class FileVoucherRepository
-    FileVoucherRepository --> CsvReader
-    FileVoucherRepository --> CsvWriter
+    MemoryVoucherRepository --> VoucherMap
+    class JdbcVoucherRepository
+    JdbcVoucherRepository --> vouchers
     VoucherRepository <.. MemoryVoucherRepository
-    VoucherRepository <.. FileVoucherRepository
+    VoucherRepository <.. JdbcVoucherRepository
+    WalletService --> VoucherRepository
 
-    class CustomerRepository
-    CustomerRepository --> CsvReader
-    CustomerRepository --> CsvWriter
+    class WalletRepository {
+        <<interface>>
+    }
+    WalletService --> WalletRepository
+    WalletRepository <.. JdbcWalletRepository
+    JdbcWalletRepository --> wallets
+    wallets --> customers
+    wallets --> vouchers
+
+    class CustomerRepository {
+        <<interface>>
+    }
+    WalletService --> CustomerRepository
     CustomerService --> CustomerRepository
+    class JdbcCustomerRepository
+    CustomerRepository <.. JdbcCustomerRepository
+    JdbcCustomerRepository --> customers

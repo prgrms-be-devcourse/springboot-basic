@@ -11,7 +11,7 @@
 
     <appender name="CONSOLE_LOG" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>DEBUG</level>
+            <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
             <onMisMatch>DENY</onMisMatch>
         </filter>
@@ -41,7 +41,7 @@
         <appender-ref ref="FILE_LOG"/>
     </logger>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="CONSOLE_LOG"/>
     </root>
 </configuration>

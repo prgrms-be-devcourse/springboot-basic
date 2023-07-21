@@ -8,11 +8,12 @@ build/
 gradle/
 gradlew
 graldew.bat
-HELP.md
 .idea/
-src/main/resources/voucher_record.csv
-src/main/resources/customer_blacklist.csv
+src/main/resources/jasypt-encryptor-password.txt
 logs/
+target/
+generated/
+src/test/java/com/devcourse/springbootbasic/application/global/config/JasyptConfigurationTest.java
 
 ### STS ###
 .apt_generated

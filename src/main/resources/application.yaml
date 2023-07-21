@@ -1,5 +1,18 @@
 settings:
-  version: "v1.1"
-  voucherRecordPath: "storage/vouchers/voucher_record.csv"
-  blackCustomerPath: "storage/customers/customer_blacklist.csv"
+  version: "v2.1"
   description: "어려워잌ㅋ"
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    algorithm: PBEWithMD5AndDES
+    provider-name: SunJCE
+    pool-size: 2
+    key-obtention-iterations: 1000
+    string-output-type: base64
+spring:
+  datasource:
+    url: ENC(zx3pRs8d98AYQmHo8AJGfGwPKklJBHGjrqA2wLUahpc5pZGn4oLtqfVX3qkMwaS1)
+    username: ENC(XT4kVwUQ7pij9H2mGEU7ww==)
+    password: ENC(1FXSQsqpuh3CNB9z8sbrRIa0k0Y3xb6x)
+    driver-class-name: com.mysql.cj.jdbc.Driver
