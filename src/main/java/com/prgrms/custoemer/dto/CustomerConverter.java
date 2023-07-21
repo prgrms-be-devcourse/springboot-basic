@@ -1,6 +1,5 @@
-package com.prgrms.custoemer.repository;
+package com.prgrms.custoemer.dto;
 
-import com.prgrms.custoemer.dto.CustomerResponse;
 import com.prgrms.custoemer.model.Customer;
 import org.springframework.stereotype.Component;
 import java.util.List;

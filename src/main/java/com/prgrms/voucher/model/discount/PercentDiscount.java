@@ -24,5 +24,6 @@ public class PercentDiscount extends Discount {
         double amount = originalPrice.cost() * getDiscountAmount() / PERCENT;
         return originalPrice.getSaledPrice(amount);
     }
+
 }
 

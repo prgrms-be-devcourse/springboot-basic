@@ -57,4 +57,5 @@ public class MemoryVoucherRepository implements VoucherRepository {
         }
         return createdAt.compareTo(targetCreatedAt) <= 0;
     }
+
 }

@@ -16,4 +16,5 @@ public interface VoucherRepository {
     Voucher insert(Voucher voucher);
 
     Vouchers getAllVoucher(VoucherType voucherType, LocalDateTime startCreatedAt);
+
 }

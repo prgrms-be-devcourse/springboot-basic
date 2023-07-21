@@ -10,7 +10,7 @@ import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.DiscountCreator;
 import com.prgrms.wallet.model.Wallet;
-import com.prgrms.presentation.message.ErrorMessage;
+import com.prgrms.common.message.ErrorMessage;
 import com.prgrms.voucher.repository.JdbcVoucherRepository;
 import java.time.LocalDateTime;
 import org.slf4j.Logger;
@@ -127,6 +127,7 @@ public class JdbcWalletRepository implements WalletRepository {
             int voucherId = resultSet.getInt("voucher_id");
             int walletId = resultSet.getInt("wallet_id");
             int customerId = resultSet.getInt("customer_id");
+
             return new Wallet(walletId, customerId, voucherId);
         };
     }
@@ -139,6 +140,7 @@ public class JdbcWalletRepository implements WalletRepository {
             LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
                     resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
             LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+
             return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
         };
     }
@@ -151,7 +153,7 @@ public class JdbcWalletRepository implements WalletRepository {
             Discount discount = discountCreator.createDiscount(voucherType, discountValue);
             LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
-            return voucherCreator.createVoucher(voucherId, voucherType, discount,createdAt);
+            return voucherCreator.createVoucher(voucherId, voucherType, discount, createdAt);
         };
     }
 

@@ -1,6 +1,6 @@
 package com.prgrms.voucher.model;
 
-import com.prgrms.presentation.message.ErrorMessage;
+import com.prgrms.common.message.ErrorMessage;
 
 import java.text.MessageFormat;
 import java.util.Arrays;

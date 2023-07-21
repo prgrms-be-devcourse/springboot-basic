@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 
 public class PercentDiscountVoucher extends Voucher {
 
-    public PercentDiscountVoucher(int voucherId, Discount discount, VoucherType voucherType, LocalDateTime createdAt) {
+    public PercentDiscountVoucher(int voucherId, Discount discount, VoucherType voucherType,
+            LocalDateTime createdAt) {
         super(voucherId, discount, voucherType, createdAt);
     }
 

@@ -1,6 +1,7 @@
-package com.prgrms.voucher.service;
+package com.prgrms.voucher.service.mapper;
 
 import com.prgrms.voucher.model.Vouchers;
+import com.prgrms.voucher.service.dto.VoucherServiceResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -10,10 +11,10 @@ public class VoucherConverter {
 
     private VoucherConverter() { }
 
-    public List<VoucherResponse> convertVoucherResponses(Vouchers vouchers) {
+    public List<VoucherServiceResponse> convertVoucherResponses(Vouchers vouchers) {
         return vouchers.vouchers()
                 .stream()
-                .map(VoucherResponse::new)
+                .map(VoucherServiceResponse::new)
                 .toList();
     }
 

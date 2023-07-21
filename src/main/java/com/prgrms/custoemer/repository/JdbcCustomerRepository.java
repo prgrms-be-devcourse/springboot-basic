@@ -3,7 +3,7 @@ package com.prgrms.custoemer.repository;
 import com.prgrms.exception.NotUpdateException;
 import com.prgrms.custoemer.model.Customer;
 import com.prgrms.custoemer.model.Name;
-import com.prgrms.presentation.message.ErrorMessage;
+import com.prgrms.common.message.ErrorMessage;
 import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

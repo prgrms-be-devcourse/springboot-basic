@@ -1,4 +1,4 @@
-package com.prgrms.presentation.message;
+package com.prgrms.common.message;
 
 public enum ErrorMessage {
 

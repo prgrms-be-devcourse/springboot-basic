@@ -1,6 +1,6 @@
 package com.prgrms.custoemer.model;
 
-import com.prgrms.presentation.message.ErrorMessage;
+import com.prgrms.common.message.ErrorMessage;
 
 public class Name {
 
@@ -15,7 +15,6 @@ public class Name {
         validateName(value);
         this.value = value;
     }
-    
 
     private void validateName(String name) {
         if (name == null || name.isBlank()) {

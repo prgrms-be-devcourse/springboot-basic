@@ -7,7 +7,7 @@ import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.DiscountCreator;
-import com.prgrms.presentation.message.ErrorMessage;
+import com.prgrms.common.message.ErrorMessage;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import org.slf4j.Logger;

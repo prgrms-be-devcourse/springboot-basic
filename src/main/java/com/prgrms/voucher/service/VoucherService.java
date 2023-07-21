@@ -7,6 +7,8 @@ import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.DiscountCreator;
 import com.prgrms.voucher.repository.VoucherRepository;
+import com.prgrms.voucher.service.dto.VoucherServiceResponse;
+import com.prgrms.voucher.service.mapper.VoucherConverter;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -30,26 +32,29 @@ public class VoucherService {
         this.discountCreator = discountCreator;
     }
 
-    public VoucherResponse createVoucher(int id, VoucherType voucherType, double discountAmount, LocalDateTime createdAt) {
+    public VoucherServiceResponse createVoucher(int id, VoucherType voucherType,
+            double discountAmount, LocalDateTime createdAt) {
         Discount discount = discountCreator.createDiscount(voucherType, discountAmount);
         Voucher voucher = voucherCreator.createVoucher(id, voucherType, discount, createdAt);
         voucherRepository.insert(voucher);
 
-        return new VoucherResponse(voucher);
+        return new VoucherServiceResponse(voucher);
     }
 
-    public List<VoucherResponse> getAllVoucherList(VoucherType voucherType, LocalDateTime createdAt) {
+    public List<VoucherServiceResponse> getAllVoucherList(VoucherType voucherType,
+            LocalDateTime createdAt) {
         Vouchers vouchers = voucherRepository.getAllVoucher(voucherType, createdAt);
 
         return voucherConverter.convertVoucherResponses(vouchers);
     }
 
-    public VoucherResponse detailVoucher(int voucherId) {
+    public VoucherServiceResponse detailVoucher(int voucherId) {
         Optional<Voucher> voucher = voucherRepository.findById(voucherId);
 
         if (voucher.isPresent()) {
-            VoucherResponse voucherResponse = new VoucherResponse(voucher.get());
-            return voucherResponse;
+            VoucherServiceResponse voucherServiceResponse = new VoucherServiceResponse(
+                    voucher.get());
+            return voucherServiceResponse;
         }
         return null;
     }

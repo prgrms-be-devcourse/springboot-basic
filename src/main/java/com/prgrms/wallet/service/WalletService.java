@@ -1,15 +1,16 @@
 package com.prgrms.wallet.service;
 
-import com.prgrms.custoemer.repository.CustomerConverter;
+import com.prgrms.custoemer.dto.CustomerConverter;
 import com.prgrms.custoemer.dto.CustomerResponse;
-import com.prgrms.voucher.service.VoucherConverter;
-import com.prgrms.voucher.service.VoucherResponse;
-import com.prgrms.wallet.dto.WalletRequest;
-import com.prgrms.common.KeyGenerator;
+import com.prgrms.voucher.service.mapper.VoucherConverter;
+import com.prgrms.voucher.service.dto.VoucherServiceResponse;
 import com.prgrms.custoemer.model.Customer;
 import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.wallet.model.Wallet;
 import com.prgrms.wallet.repository.WalletRepository;
+import com.prgrms.wallet.service.mapper.WalletConverter;
+import com.prgrms.wallet.service.dto.WalletServiceRequest;
+import com.prgrms.wallet.service.dto.WalletServiceResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class WalletService {
     private final WalletConverter walletConverter;
     private final CustomerConverter customerConverter;
 
-    public WalletService(WalletRepository walletRepository, KeyGenerator keyGenerator,
+    public WalletService(WalletRepository walletRepository,
             VoucherConverter voucherConverter, WalletConverter walletConverter,
             CustomerConverter customerConverter) {
         this.walletRepository = walletRepository;
@@ -31,19 +32,19 @@ public class WalletService {
         this.customerConverter = customerConverter;
     }
 
-    public WalletResponse giveVoucher(int id, WalletRequest walletRequest) {
-        Wallet wallet = walletConverter.convertWallet(id, walletRequest);
+    public WalletServiceResponse giveVoucher(int id, WalletServiceRequest walletServiceRequest) {
+        Wallet wallet = walletConverter.convertWallet(id, walletServiceRequest);
         walletRepository.insert(wallet);
 
-        return new WalletResponse(wallet);
+        return new WalletServiceResponse(wallet);
     }
 
-    public WalletResponse takeVoucher(WalletRequest walletRequest) {
-        int voucherId = walletRequest.voucherId();
-        int customerId = walletRequest.customerId();
+    public WalletServiceResponse takeVoucher(WalletServiceRequest walletServiceRequest) {
+        int voucherId = walletServiceRequest.voucherId();
+        int customerId = walletServiceRequest.customerId();
         walletRepository.deleteWithVoucherIdAndCustomerId(voucherId, customerId);
 
-        return new WalletResponse(customerId,voucherId,false);
+        return new WalletServiceResponse(customerId,voucherId,false);
     }
 
     public List<CustomerResponse> customerList(int voucherId) {
@@ -52,7 +53,7 @@ public class WalletService {
         return customerConverter.convertCustomerResponse(customers);
     }
 
-    public List<VoucherResponse> voucherList(int customerId) {
+    public List<VoucherServiceResponse> voucherList(int customerId) {
         Vouchers vouchers = walletRepository.findAllVouchersByCustomer(customerId);
 
         return voucherConverter.convertVoucherResponses(vouchers);
