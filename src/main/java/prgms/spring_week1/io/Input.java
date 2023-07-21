@@ -15,6 +15,7 @@ import java.util.Scanner;
 public class Input {
     private final Logger logger = LoggerFactory.getLogger(Input.class);
     private final Scanner sc = new Scanner(System.in);
+    private final int MAXIMUM_NAME_LENGTH = 15;
 
     public void printConsoleMessage(String message) {
         System.out.println(message);
@@ -30,7 +31,9 @@ public class Input {
         int inputValue = sc.nextInt();
         sc.nextLine();
 
-        if (inputValue < 0) {
+        boolean isMinus = inputValue < 0;
+
+        if (isMinus) {
             logger.warn("0보다 작은 수는 들어올 수 없습니다.");
             throw new NumberFormatException();
         }
@@ -103,8 +106,10 @@ public class Input {
     public String inputName() {
         System.out.println(ConsoleOutputMessage.INPUT_CUSTOMER_NAME);
         String name = sc.nextLine();
+        
+        boolean isValidLength = name.length() > MAXIMUM_NAME_LENGTH;
 
-        if (name.length() > 15) {
+        if (isValidLength) {
             System.out.println(ConsoleOutputMessage.INVALID_LENGTH_CUSTOMER_NAME);
             return inputName();
         }
