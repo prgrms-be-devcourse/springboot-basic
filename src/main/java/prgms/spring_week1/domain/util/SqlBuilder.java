@@ -19,17 +19,11 @@ public class SqlBuilder {
             return this;
         }
 
-        public SelectBuilder from(String table) {
-            selectSqlBuilder.append(" FROM ").append(table);
-            return this;
+        public FromBuilder from(String table) {
+            return new FromBuilder(selectSqlBuilder.append(" FROM ").append(table));
         }
 
-        public SelectBuilder where(String where) {
-            selectSqlBuilder.append(" WHERE ").append(where);
-            return this;
-        }
-
-        public String build() {
+        public String build(){
             return selectSqlBuilder.toString();
         }
     }
@@ -42,7 +36,7 @@ public class SqlBuilder {
             return this;
         }
 
-        public InsertBuilder insertColumns(String... columns) {
+        public ColumnBuilder columns(String... columns) {
             insertSqlBuilder.append("(");
 
             for (String column : columns) {
@@ -52,22 +46,10 @@ public class SqlBuilder {
             insertSqlBuilder.setLength(insertSqlBuilder.length() - INVALID_LAST_COMMA);
             insertSqlBuilder.append(")");
 
-            return this;
+            return new ColumnBuilder(insertSqlBuilder);
         }
 
-        public InsertBuilder values(String... values) {
-            insertSqlBuilder.append(" VALUES (");
-
-            for (String value : values) {
-                insertSqlBuilder.append(value);
-            }
-
-            insertSqlBuilder.append(")");
-
-            return this;
-        }
-
-        public String build() {
+        public String build(){
             return insertSqlBuilder.toString();
         }
     }
@@ -80,7 +62,7 @@ public class SqlBuilder {
             return this;
         }
 
-        public UpdateBuilder set(String... column) {
+        public SetBuilder set(String... column) {
             updateSqlBuilder.append(" SET ");
 
             for (String columnValue : column) {
@@ -89,18 +71,7 @@ public class SqlBuilder {
 
             updateSqlBuilder.setLength(updateSqlBuilder.length() - INVALID_LAST_COMMA);
 
-            return this;
-        }
-
-        public UpdateBuilder where(String... condition) {
-            updateSqlBuilder.append(" WHERE ");
-
-            for (String conditionValue : condition) {
-                updateSqlBuilder.append(conditionValue + " AND ");
-            }
-
-            updateSqlBuilder.setLength(updateSqlBuilder.length() - INVALID_LAST_AND);
-            return this;
+            return new SetBuilder(updateSqlBuilder);
         }
 
         public String build() {
@@ -116,14 +87,102 @@ public class SqlBuilder {
             return this;
         }
 
-        public DeleteBuilder where(String where) {
-            deleteSqlBuilder.append(" WHERE ").append(where);
-            return this;
+        public WhereBuilder where(String condition) {
+            return new WhereBuilder(deleteSqlBuilder.append(" WHERE ").append(condition));
         }
 
-        public String build() {
+        public String build(){
             return deleteSqlBuilder.toString();
         }
     }
+
+    public static class FromBuilder {
+        StringBuilder fromBuilder;
+
+        public FromBuilder(StringBuilder fromBuilder) {
+            this.fromBuilder = fromBuilder;
+        }
+
+        public WhereBuilder where(String condition) {
+            return new WhereBuilder(fromBuilder.append(" WHERE ").append(condition));
+        }
+
+        public String build(){
+            return fromBuilder.toString();
+        }
+    }
+
+    public static class ColumnBuilder {
+        StringBuilder columnBuilder;
+
+        public ColumnBuilder(StringBuilder columnBuilder) {
+            this.columnBuilder = columnBuilder;
+        }
+
+        public ValuesBuilder values(String... values) {
+            columnBuilder.append(" VALUES (");
+
+            for (String value : values) {
+                columnBuilder.append(value);
+            }
+
+            columnBuilder.append(")");
+
+            return new ValuesBuilder(columnBuilder);
+        }
+
+        public String build(){
+            return columnBuilder.toString();
+        }
+    }
+
+    public static class ValuesBuilder {
+        StringBuilder valuesBuilder;
+
+        public ValuesBuilder(StringBuilder valuesBuilder) {
+            this.valuesBuilder = valuesBuilder;
+        }
+
+        public String build(){
+            return valuesBuilder.toString();
+        }
+    }
+
+    public static class SetBuilder {
+        StringBuilder setBuilder;
+
+        public SetBuilder(StringBuilder setBuilder) {
+            this.setBuilder = setBuilder;
+        }
+
+        public WhereBuilder where(String... condition) {
+            setBuilder.append(" WHERE ");
+
+            for (String conditionValue : condition) {
+                setBuilder.append(conditionValue + " AND ");
+            }
+
+            setBuilder.setLength(setBuilder.length() - INVALID_LAST_AND);
+            return new WhereBuilder(setBuilder);
+        }
+
+        public String build(){
+            return setBuilder.toString();
+        }
+    }
+
+    public static class WhereBuilder {
+        StringBuilder whereBuilder;
+
+        public WhereBuilder(StringBuilder whereBuilder) {
+            this.whereBuilder = whereBuilder;
+        }
+
+        public String build(){
+            return whereBuilder.toString();
+        }
+    }
+
+
 }
 
