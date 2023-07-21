@@ -41,3 +41,88 @@
 - Consntant final class를 통해 메시지에 출력할 상수값을 모아두고 관리하도록 하였습니다
 - domain 부분에서 출력 의존성을 가지면 안되므로 이 부분을 domain에 대한 정보를 인자로 넘기고 출력은 외부에서 진행하도록 변경 하였습니다
 - try/catch문을 통해 코드레벨이 깊어지는 부분을 수정하기 위해 예외 처리가 필요한 부분에만 try/catch문을 적용하였습니다 따라서 추후 예외가 발생하는 부분을 찾기 쉬워집니다
+
+
+---
+# SpringBoot Basic Weekly Mission (Week2)
+
+### 프로젝트 설계도 및 클래스 역할/책임
+![image](https://github.com/prgrms-be-devcourse/springboot-basic/assets/89267864/79ae1764-fa84-40b6-99db-0f3136d7765d)
+
+
+<수정>
+
+Voucher와 Customer는 관련 없다고 생각
+
+차라리 추후 Wallet이 추가될 때 Customer의 FK가 등록되어야 한다고 생각해서 Voucher와 Customer의 연관 관계를 삭제
+
+<07.15 수정 설계도>
+![image](https://github.com/prgrms-be-devcourse/springboot-basic/assets/89267864/996e40a7-8183-449d-9c9d-1cf288109398)
+
+- voucher와 customer의 앱 확장성을 생각한다면 분리하는 것이 좋을 것 같아 Voucher, Service App을 각각 구현
+
+
+---
+**(기본)** **바우처 관리 애플리케이션**
+
+- [ ]  바우처 관리 애플리케이션에 단위테스트를 작성해보세요.
+    - 가능한 많은 단위 테스트코드를 작성하려고 노력해보세요.
+    - 엣지 케이스(예외 케이스)를 고려해서 작성해주세요.
+    - Hamcrest 의 메쳐들을 다양하게 작성해보고 익숙해져 보세요.
+- [ ]  바우처 관리 애플리케이션에서도 과정에서 다루었던 고객을 적용해보세요.
+    - customers 테이블 정의 및 추가
+    - CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
+- [ ]  (1주차엔 파일로 관리하게 했다.) 바우처 정보를 DB로 관리해보세요.
+    - 바우처에 엔터티에 해당하는 vouchers 테이블을 한번 정의해보세요.
+    - 바우처 레포지토리를 만들어보세요. (JdbcTemplate을 사용해서 구현)
+    - 기존의 파일에서 바우처를 관리한 것을 vouchers 테이블을 통해서 CRUD가 되게 해보세요.
+
+**(심화)** **바우처 지갑을 만들어보세요.**
+
+- 특정 고객에게 바우처를 할당할 수 있습니다.
+- 고객이 어떤 바우처를 보유하고 있는지 조회할 수 있어야 합니다.
+- 고객이 보유한 바우처를 제거할 수 있어야 합니다.
+- 특정 바우처를 보유한 고객을 조회할 수 있어야 합니다.
+
+---
+### 작업 순서 List
+- [ ] 메모리 바우처 관리 테스트 코드 작성
+    - 바우처 메뉴 입력 테스트
+    - 바우처 create 테스트
+    - 바우처 crate 유효성 테스트
+    - 바우처 list 테스트
+- [x] customer 도메인 정의 및 추가
+    - ~~customer는 voucher를 가진다 (FK)~~
+- [x] jdbcVoucherRepository 추가 및 구현
+    - id로 voucher 탐색
+    - db에 voucher save
+    - db의 id에 해당하는 voucher delete
+    - db의 모든 voucher findAll
+- [x] mysql db와 연결
+    - jdbc template 설정
+    - mysql에 voucher, customer entity 추가
+- [x] 시작화면에 메뉴 customer/voucher로 분리하여 서비스 제공
+- [x] jdbcCustomerRepository 추가 및 구현
+    - id로 customer 탐색
+    - db에 customer save
+    - db의 id에 해당하는 customer delete
+    - db의 모든 customer findAll
+- [x] customerApp 구현
+    - customer create 기능
+    - customers list 기능
+    - customer find by email 기능
+    - customer delete by email 기능
+    - customerApp과 customerService 연결
+    - 중복되는 email에 대한 처리 필요
+- [ ] jdbcCustomerRepository 테스트 코드 작성
+    - id로 customer 탐색
+    - db에 customer save
+    - db의 id에 해당하는 customer delete
+    - db의 모든 customer findAll
+    - ~~고객이 가진 바우처 조회 테스트~~
+- [ ] jdbcVoucherRepository 테스트 코드 작성
+    - id로 voucher 탐색
+    - db에 voucher save
+    - db의 id에 해당하는 voucher delete
+    - db의 모든 voucher findAll
+  
