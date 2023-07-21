@@ -5,6 +5,10 @@ import org.springframework.util.Assert;
 import java.util.regex.Pattern;
 
 public class Email {
+    private final int minimumEmailLength = 4;
+    private final int maximumEmailLength = 50;
+    private final String emailFormatCheckRegex = "\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b";
+
     private final String address;
 
     public Email(String address) {
@@ -25,13 +29,16 @@ public class Email {
     }
 
     private void checkAddressLength(String address) {
-        if (!(address.length() >= 4 && address.length() <= 50)) {
+        boolean isInvalidEmailLength = (address.length() < minimumEmailLength || address.length() > maximumEmailLength);
+        if (isInvalidEmailLength) {
             throw new IllegalArgumentException("이메일은 4자 이상 50자 이하여야합니다.");
         }
     }
 
     private void checkAddressFormat(String address) {
-        if (!(Pattern.matches("\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b", address))) {
+        boolean isInvalidEmailFormat = !(Pattern.matches(emailFormatCheckRegex, address));
+
+        if (isInvalidEmailFormat) {
             throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다.");
         }
     }
