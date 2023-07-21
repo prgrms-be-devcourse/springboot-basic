@@ -1,29 +1,47 @@
 package com.prgrms.service.voucher;
 
-import com.prgrms.model.dto.VoucherRequest;
-import com.prgrms.model.voucher.*;
+import com.prgrms.dto.voucher.VoucherConverter;
+import com.prgrms.dto.voucher.VoucherResponse;
+import com.prgrms.model.KeyGenerator;
+import com.prgrms.model.voucher.Voucher;
+import com.prgrms.model.voucher.VoucherCreator;
+import com.prgrms.model.voucher.VoucherType;
+import com.prgrms.model.voucher.Vouchers;
+import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.model.voucher.discount.DiscountCreator;
 import com.prgrms.repository.voucher.VoucherRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-@RequiredArgsConstructor
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final VoucherConverter voucherConverter;
     private final VoucherCreator voucherCreator;
+    private final DiscountCreator discountCreator;
 
-    public Voucher createVoucher(VoucherRequest voucherRequest) {
-        Discount discount = voucherRequest.getDiscount();
-        VoucherPolicy voucherPolicy = voucherRequest.getVoucherPolicy();
+    public VoucherService(VoucherRepository voucherRepository, VoucherConverter voucherConverter,
+            VoucherCreator voucherFactory,
+            DiscountCreator discountCreator) {
+        this.voucherRepository = voucherRepository;
+        this.voucherConverter = voucherConverter;
+        this.voucherCreator = voucherFactory;
+        this.discountCreator = discountCreator;
+    }
 
-        Voucher voucher = voucherCreator.createVoucher(discount, voucherPolicy);
+    public Voucher createVoucher(int id, VoucherType voucherType, double discountAmount) {
+        Discount discount = discountCreator.createDiscount(voucherType, discountAmount);
+        Voucher voucher = voucherCreator.createVoucher(id, voucherType, discount);
 
         return voucherRepository.insert(voucher);
     }
 
-    public VoucherList getAllVoucherList() {
-        return voucherRepository.getAllVoucherList();
+    public List<VoucherResponse> getAllVoucherList() {
+        Vouchers vouchers = voucherRepository.getAllVoucher();
+
+        return voucherConverter.convertVoucherResponse(vouchers);
     }
 
 }

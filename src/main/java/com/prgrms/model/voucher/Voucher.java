@@ -1,21 +1,22 @@
 package com.prgrms.model.voucher;
 
 import com.prgrms.model.order.OrderItem;
-
-import java.util.UUID;
+import com.prgrms.model.order.Price;
+import com.prgrms.model.voucher.discount.Discount;
 
 public abstract class Voucher {
-    public UUID voucherId;
-    public Discount discount;
-    public VoucherPolicy voucherPolicy;
 
-    public Voucher(UUID voucherId, Discount discount, VoucherPolicy voucherPolicy) {
+    private final int voucherId;
+    private final Discount discount;
+    private final VoucherType voucherType;
+
+    public Voucher(int voucherId, Discount discount, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.discount = discount;
-        this.voucherPolicy = voucherPolicy;
+        this.voucherType = voucherType;
     }
 
-    public UUID getVoucherId() {
+    public int getVoucherId() {
         return voucherId;
     }
 
@@ -23,14 +24,13 @@ public abstract class Voucher {
         return discount;
     }
 
-    public VoucherPolicy getVoucherPolicy() {
-        return voucherPolicy;
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
-    public double getRealPrice(OrderItem orderItem) {
-        return orderItem.productPrice() - sale(orderItem.productPrice());
+    public Price discountPrice(OrderItem orderItem) {
+        Price originalPrice = orderItem.productPrice();
+        return getVoucherDiscount().sale(originalPrice);
     }
-
-    abstract public double sale(long price);
 
 }

@@ -1,48 +1,58 @@
 package com.prgrms.model.voucher;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.prgrms.model.voucher.discount.Discount;
+import com.prgrms.model.voucher.discount.FixedDiscount;
+import com.prgrms.model.voucher.discount.PercentDiscount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+@ActiveProfiles("test")
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class VoucherCreatorTest {
-    private static final Discount DISCOUNT = new Discount(20);
+
+    private final int voucherId = 1;
+    private final double discountAmount = 20;
+    private final Discount fixedDiscount = new FixedDiscount(discountAmount);
+    private final Discount percentDiscount = new PercentDiscount(discountAmount);
+
+    @Autowired
+    private VoucherCreator voucherCreator;
+
 
     @Test
-    @DisplayName("고정된 금액의 바우처")
-    public void testCreateVoucherFixedAmountVoucher() {
-        VoucherPolicy voucherPolicy = VoucherPolicy.FixedAmountVoucher;
-        VoucherCreator voucherCreator = new VoucherCreator();
+    @DisplayName("고정 금액 바우처 요청을 통해 바우처를 만들었을 때 요청과 같은 바우처를 반환한다.")
+    void createVoucher_FixedVoucher_Equal() {
+        //given
+        Voucher fixedVoucher = new FixedAmountVoucher(voucherId, fixedDiscount,
+                VoucherType.FIXED_AMOUNT_VOUCHER);
 
-        Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherPolicy);
+        // When
+        Voucher result = voucherCreator.createVoucher(voucherId, VoucherType.FIXED_AMOUNT_VOUCHER,
+                fixedDiscount);
 
-        assertNotNull(result);
-        assertTrue(result instanceof FixedAmountVoucher);
-        assertEquals(DISCOUNT, result.getVoucherDiscount());
-        assertEquals(voucherPolicy, result.getVoucherPolicy());
+        // Then
+        assertThat(result).usingRecursiveComparison().isEqualTo(fixedVoucher);
     }
 
     @Test
-    @DisplayName("할인율에 따른 바우처")
-    public void testCreateVoucher_PercentDiscountVoucher_ReturnsPercentDiscountVoucher() {
-        VoucherPolicy voucherPolicy = VoucherPolicy.PercentDiscountVoucher;
-        VoucherCreator voucherCreator = new VoucherCreator();
+    @DisplayName("할인율 바우처 요청을 통해 바우처를 만들었을 때 요청과 같은 바우처를 반환한다.")
+    void createVoucher_PercentVoucher_Equal() {
+        //given
+        Voucher perecntVoucher = new PercentDiscountVoucher(voucherId, percentDiscount,
+                VoucherType.PERCENT_DISCOUNT_VOUCHER);
 
-        Voucher result = voucherCreator.createVoucher(DISCOUNT, voucherPolicy);
+        // When
+        Voucher result = voucherCreator.createVoucher(voucherId,
+                VoucherType.PERCENT_DISCOUNT_VOUCHER,
+                percentDiscount);
 
-        assertNotNull(result);
-        assertTrue(result instanceof PercentDiscountVoucher);
-        assertEquals(DISCOUNT, result.getVoucherDiscount());
-        assertEquals(voucherPolicy, result.getVoucherPolicy());
+        // Then
+        assertThat(result).usingRecursiveComparison().isEqualTo(perecntVoucher);
     }
 
-    @Test
-    @DisplayName("잘못된 바우처 정책에 대해서 예외를 던지는지 테스트")
-    public void testCreateVoucher_InvalidVoucherPolicy_ThrowsException() {
-        String invalidVoucherPolicy = "라면";
-        VoucherCreator voucherCreator = new VoucherCreator();
-
-        assertThrows(IllegalArgumentException.class, () ->
-                voucherCreator.createVoucher(DISCOUNT, VoucherPolicy.valueOf(invalidVoucherPolicy)));
-    }
 }

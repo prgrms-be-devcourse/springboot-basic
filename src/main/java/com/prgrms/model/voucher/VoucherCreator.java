@@ -1,24 +1,19 @@
 package com.prgrms.model.voucher;
 
+import com.prgrms.model.voucher.discount.Discount;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class VoucherCreator {
 
-    private final String errorMessage = "지원되지 않는 바우처 정책입니다.";
+    private VoucherCreator() { }
 
-    public Voucher createVoucher(Discount discount, VoucherPolicy voucherPolicy) {
+    public Voucher createVoucher(int id, VoucherType voucherType, Discount discount) {
 
-        Voucher voucher;
-        UUID id = UUID.randomUUID();
-
-        switch (voucherPolicy) {
-            case FixedAmountVoucher -> voucher = new FixedAmountVoucher(id, discount, voucherPolicy);
-            case PercentDiscountVoucher -> voucher = new PercentDiscountVoucher(id, discount, voucherPolicy);
-            default -> throw new IllegalArgumentException(errorMessage);
-        }
-        return voucher;
+        return switch (voucherType) {
+            case FIXED_AMOUNT_VOUCHER -> new FixedAmountVoucher(id, discount, voucherType);
+            case PERCENT_DISCOUNT_VOUCHER -> new PercentDiscountVoucher(id, discount, voucherType);
+        };
     }
+
 }

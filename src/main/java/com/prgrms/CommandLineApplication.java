@@ -1,48 +1,57 @@
 package com.prgrms;
 
-import com.prgrms.controller.VoucherController;
-import com.prgrms.io.Menu;
-import com.prgrms.io.ViewManager;
-import com.prgrms.model.dto.VoucherRequest;
-import com.prgrms.model.voucher.VoucherList;
-import lombok.RequiredArgsConstructor;
+import com.prgrms.presentation.Menu;
+import com.prgrms.presentation.Power;
+import com.prgrms.presentation.command.Command;
+import com.prgrms.presentation.message.GuideMessage;
+import com.prgrms.presentation.view.Input;
+import com.prgrms.presentation.view.Output;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("!test")
 @Component
-@RequiredArgsConstructor
 public class CommandLineApplication implements CommandLineRunner {
-    private final VoucherController voucherController;
-    private final ViewManager viewManager;
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
+
+    private final Input input;
+    private final Output output;
+    private final ApplicationContext applicationContext;
+
+    public CommandLineApplication(Input input, Output output,
+            ApplicationContext applicationContext) {
+        this.input = input;
+        this.output = output;
+        this.applicationContext = applicationContext;
+    }
 
     @Override
     public void run(String... args) {
-        boolean isRunning = true;
+        Power power = Power.ON;
 
-        while (isRunning) {
-            Menu menu = viewManager.guideStartVoucher();
+        while (power.isOn()) {
             try {
-                switch (menu) {
-                    case EXIT -> {
-                        isRunning = false;
-                        viewManager.guideClose();
-                    }
-                    case CREATE -> {
-                        VoucherRequest voucherRequest = viewManager.guideCreateVoucher();
-                        voucherController.createVoucher(voucherRequest);
-                    }
-                    case LIST -> {
-                        VoucherList voucherList = voucherController.listVoucher();
-                        viewManager.viewVoucherList(voucherList);
-                    }
-                }
+                Menu menu = guideStartVoucher();
+                Command strategy = applicationContext.getBean(menu.getBeanName(), Command.class);
+                strategy.execute();
             } catch (IllegalArgumentException e) {
-                logger.error("사용자의 잘못된 입력이 발생하였습니다.");
-                viewManager.viewError(e.getMessage());
+                logger.error("사용자의 잘못,된 입력이 발생하였습니다. {0}", e);
+                output.write(e.getMessage());
+            } catch (Exception e) {
+                logger.error("알 수 없는 error 발생");
             }
         }
     }
+
+    private Menu guideStartVoucher() {
+        output.write(GuideMessage.START.toString());
+        String option = input.enterOption();
+        return Menu.findByMenu(option);
+    }
+
 }

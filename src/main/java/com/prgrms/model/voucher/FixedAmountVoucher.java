@@ -1,15 +1,11 @@
 package com.prgrms.model.voucher;
 
-import java.util.UUID;
+import com.prgrms.model.voucher.discount.Discount;
 
 public class FixedAmountVoucher extends Voucher {
 
-    public FixedAmountVoucher(UUID voucherId, Discount discount, VoucherPolicy voucherPolicy) {
-        super(voucherId, discount, voucherPolicy);
+    public FixedAmountVoucher(int voucherId, Discount discount, VoucherType voucherType) {
+        super(voucherId, discount, voucherType);
     }
 
-    @Override
-    public double sale(long price) {
-        return getVoucherDiscount().getDiscount();
-    }
 }
