@@ -106,7 +106,7 @@ public class Input {
     public String inputName() {
         System.out.println(ConsoleOutputMessage.INPUT_CUSTOMER_NAME);
         String name = sc.nextLine();
-        
+
         boolean isValidLength = name.length() > MAXIMUM_NAME_LENGTH;
 
         if (isValidLength) {
