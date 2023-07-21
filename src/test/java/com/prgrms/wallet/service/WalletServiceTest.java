@@ -62,7 +62,7 @@ class WalletServiceTest {
         walletRequest = new WalletRequest(CUSTOMER_ID, VOUCHER_ID);
         customer = new Customer(CUSTOMER_ID, TEST_USER_NAME, TEST_USER_EMAIL, CREATE_AT);
         voucher = new FixedAmountVoucher(VOUCHER_ID, new FixedDiscount(20),
-                VoucherType.FIXED_AMOUNT_VOUCHER);
+                VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());
         wallet = new Wallet(WALLET_ID, CUSTOMER_ID, VOUCHER_ID);
     }
 

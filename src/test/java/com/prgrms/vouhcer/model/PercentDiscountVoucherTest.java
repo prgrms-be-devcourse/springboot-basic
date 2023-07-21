@@ -8,6 +8,7 @@ import com.prgrms.voucher.model.PercentDiscountVoucher;
 import com.prgrms.voucher.model.Voucher;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.PercentDiscount;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +32,7 @@ class PercentDiscountVoucherTest {
     void discountPrice_DiscountedPrice_Equal() {
         //given
         Voucher createdVoucher = new PercentDiscountVoucher(voucherId, new PercentDiscount(20),
-                VoucherType.PERCENT_DISCOUNT_VOUCHER);
+                VoucherType.PERCENT_DISCOUNT_VOUCHER, LocalDateTime.now());
 
         //when
         Price discountedPrice = createdVoucher.discountPrice(orderItem);

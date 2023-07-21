@@ -9,6 +9,7 @@ import com.prgrms.voucher.model.FixedAmountVoucher;
 import com.prgrms.voucher.model.Voucher;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.FixedDiscount;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ class FixedAmountVoucherTest {
     void discountPrice_DiscountedPrice_Equal() {
         //given
         Voucher createdVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20),
-                VoucherType.FIXED_AMOUNT_VOUCHER);
+                VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());
 
         //when
         Price discountedPrice = createdVoucher.discountPrice(orderItem);
@@ -46,7 +47,7 @@ class FixedAmountVoucherTest {
     void discountPrice_NegativeDiscountedPrice_ThrowsException() {
         //given
         Voucher createdVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(2000),
-                VoucherType.FIXED_AMOUNT_VOUCHER);
+                VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());
 
         //when_then
         assertThatThrownBy(() -> createdVoucher.discountPrice(orderItem))
