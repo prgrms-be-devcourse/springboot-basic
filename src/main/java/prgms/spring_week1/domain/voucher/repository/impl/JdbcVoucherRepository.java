@@ -10,7 +10,6 @@ import prgms.spring_week1.domain.util.SqlBuilder;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
-import prgms.spring_week1.domain.voucher.repository.impl.sql.VoucherManageSql;
 
 import javax.sql.DataSource;
 import java.util.Collections;
@@ -82,7 +81,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void delete() {
         String deleteSql = new SqlBuilder.DeleteBuilder()
-                .delete("voucher")
+                .delete()
+                .from("voucher")
                 .build();
         jdbcTemplate.update(deleteSql, new HashMap<>());
     }

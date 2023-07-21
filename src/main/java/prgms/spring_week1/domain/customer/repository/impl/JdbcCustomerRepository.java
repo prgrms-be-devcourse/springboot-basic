@@ -102,7 +102,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteByEmail(String email) {
         String deleteByEmailSql = new SqlBuilder.DeleteBuilder()
-                .delete("customers")
+                .delete()
+                .from("customers")
                 .where("email = :email")
                 .build();
 
@@ -112,7 +113,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         String deleteAllSql = new SqlBuilder.DeleteBuilder()
-                .delete("customers")
+                .delete()
+                .from("customers")
                 .build();
 
         jdbcTemplate.update(deleteAllSql, new HashMap<>());

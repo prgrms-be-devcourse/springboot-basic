@@ -82,13 +82,13 @@ public class SqlBuilder {
     public static class DeleteBuilder {
         StringBuilder deleteSqlBuilder = new StringBuilder();
 
-        public DeleteBuilder delete(String delete) {
-            deleteSqlBuilder.append("DELETE FROM ").append(delete);
+        public DeleteBuilder delete() {
+            deleteSqlBuilder.append("DELETE ");
             return this;
         }
 
-        public WhereBuilder where(String condition) {
-            return new WhereBuilder(deleteSqlBuilder.append(" WHERE ").append(condition));
+        public FromBuilder from(String table) {
+            return new FromBuilder(deleteSqlBuilder.append(" FROM ").append(table));
         }
 
         public String build(){

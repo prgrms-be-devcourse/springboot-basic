@@ -11,7 +11,6 @@ import prgms.spring_week1.menu.VoucherMenu;
 
 import java.util.Scanner;
 
-
 public class Input {
     private final Logger logger = LoggerFactory.getLogger(Input.class);
     private final Scanner sc = new Scanner(System.in);
