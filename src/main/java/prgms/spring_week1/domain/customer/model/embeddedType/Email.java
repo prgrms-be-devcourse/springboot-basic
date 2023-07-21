@@ -1,7 +1,5 @@
 package prgms.spring_week1.domain.customer.model.embeddedType;
 
-import org.springframework.util.Assert;
-
 import java.util.regex.Pattern;
 
 public class Email {
