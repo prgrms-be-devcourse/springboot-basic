@@ -70,8 +70,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     .from("customers")
                     .build();
 
-        return Optional.ofNullable(jdbcTemplate.query(findAllSql, customerRowMapper))
-                .orElseGet(Collections::emptyList);
+        return jdbcTemplate.query(findAllSql, customerRowMapper);
     }
 
     @Override

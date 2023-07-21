@@ -21,7 +21,7 @@ public class Output {
     }
 
     public void printAllVoucher(List<Voucher> voucherList) {
-        if (voucherList.equals(Collections.emptyList())) {
+        if (voucherList.isEmpty()) {
             System.out.println(ConsoleOutputMessage.NO_VOUCHER_LIST_MESSAGE);
             return;
         }

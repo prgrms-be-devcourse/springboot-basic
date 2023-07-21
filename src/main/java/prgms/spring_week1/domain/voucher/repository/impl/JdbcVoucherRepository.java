@@ -65,8 +65,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                     .from("voucher")
                     .build();
 
-        return Optional.ofNullable(jdbcTemplate.query(findAllSql, voucherRowMapper))
-                .orElseGet(Collections::emptyList);
+        return jdbcTemplate.query(findAllSql, voucherRowMapper);
     }
 
     @Override
@@ -77,8 +76,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .where("voucher_type = :voucherType")
                 .build();
 
-        return Optional.ofNullable(jdbcTemplate.query(findByTypeSql, Collections.singletonMap("voucherType", voucherType), voucherRowMapper))
-                .orElseGet(Collections::emptyList);
+        return jdbcTemplate.query(findByTypeSql, Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
     }
 
     @Override
