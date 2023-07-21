@@ -1,10 +1,10 @@
 package com.prgrms.presentation.command.voucher;
 
-import com.prgrms.dto.voucher.VoucherResponse;
+import com.prgrms.voucher.service.VoucherResponse;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.view.Output;
-import com.prgrms.service.voucher.VoucherService;
+import com.prgrms.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -1,12 +1,12 @@
 package com.prgrms.presentation.command.wallet;
 
-import com.prgrms.dto.customer.CustomerResponse;
+import com.prgrms.custoemer.dto.CustomerResponse;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
-import com.prgrms.service.wallet.WalletService;
+import com.prgrms.wallet.service.WalletService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

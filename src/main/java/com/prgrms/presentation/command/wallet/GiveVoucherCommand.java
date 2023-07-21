@@ -1,13 +1,13 @@
 package com.prgrms.presentation.command.wallet;
 
-import com.prgrms.dto.wallet.WalletRequest;
-import com.prgrms.model.KeyGenerator;
+import com.prgrms.wallet.dto.WalletRequest;
+import com.prgrms.common.KeyGenerator;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
-import com.prgrms.service.wallet.WalletService;
+import com.prgrms.wallet.service.WalletService;
 import org.springframework.stereotype.Component;
 
 @Component

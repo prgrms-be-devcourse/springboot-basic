@@ -1,13 +1,13 @@
 package com.prgrms.presentation.command.voucher;
 
-import com.prgrms.model.KeyGenerator;
-import com.prgrms.model.voucher.VoucherType;
+import com.prgrms.common.KeyGenerator;
+import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
-import com.prgrms.service.voucher.VoucherService;
+import com.prgrms.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
