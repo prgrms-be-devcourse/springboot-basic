@@ -4,6 +4,8 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -53,7 +55,8 @@ class VoucherV2ControllerTest {
 
         Voucher voucher = new FixedAmountVoucher(50,discount,voucherType,LocalDateTime.now());
         VoucherServiceResponse voucherServiceResponse = new VoucherServiceResponse(voucher);
-        when(voucherService.getAllVoucherList(voucherType, createdAt)).thenReturn(List.of(voucherServiceResponse));
+
+        given(voucherService.getAllVoucherList(voucherType, createdAt)).willReturn(List.of(voucherServiceResponse));
 
         //when_then
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/vouchers")
@@ -64,7 +67,7 @@ class VoucherV2ControllerTest {
                 .andExpect(jsonPath("$[0].voucherType", is(voucherType.toString())))
                 .andExpect(jsonPath("$[0].discount", is(20.0)));
 
-        verify(voucherService).getAllVoucherList(voucherType, createdAt);
+        then(voucherService).should().getAllVoucherList(voucherType, createdAt);
     }
 
     @Test
@@ -72,7 +75,7 @@ class VoucherV2ControllerTest {
     void deleteVoucher_VoucherId_DeletedVoucherId() throws Exception {
         //given
         Integer voucherId = 1;
-        when(voucherService.deleteByVoucherId(voucherId)).thenReturn(voucherId);
+        given(voucherService.deleteByVoucherId(voucherId)).willReturn(voucherId);
 
         //when_then
         mockMvc.perform(MockMvcRequestBuilders.delete("/v2/vouchers/{voucherId}", voucherId))
@@ -80,7 +83,7 @@ class VoucherV2ControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", is(voucherId)));
 
-        verify(voucherService).deleteByVoucherId(voucherId);
+        then(voucherService).should().deleteByVoucherId(voucherId);
     }
 
     @Test
@@ -93,7 +96,8 @@ class VoucherV2ControllerTest {
 
         Voucher voucher = new FixedAmountVoucher(voucherId,discount,voucherType,LocalDateTime.now());
         VoucherServiceResponse voucherServiceResponse = new VoucherServiceResponse(voucher);
-        when(voucherService.detailVoucher(voucherId)).thenReturn(voucherServiceResponse);
+
+        given(voucherService.detailVoucher(voucherId)).willReturn(voucherServiceResponse);
 
         //when_then
         mockMvc.perform(MockMvcRequestBuilders.get("/v2/vouchers/{voucherId}", voucherId))
@@ -102,7 +106,7 @@ class VoucherV2ControllerTest {
                 .andExpect(jsonPath("$.voucherType", is(voucherType.toString())))
                 .andExpect(jsonPath("$.discount", is(20.0)));
 
-        verify(voucherService).detailVoucher(voucherId);
+        then(voucherService).should().detailVoucher(voucherId);
     }
 
     @Test
@@ -115,7 +119,7 @@ class VoucherV2ControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(content().string("redirect:/v1/vouchers"));
 
-        verify(voucherService).createVoucher(anyInt(), eq(VoucherType.FIXED_AMOUNT_VOUCHER), eq(10.0),
+        then(voucherService).should().createVoucher(anyInt(), eq(VoucherType.FIXED_AMOUNT_VOUCHER), eq(10.0),
                 any(LocalDateTime.class));
     }
 

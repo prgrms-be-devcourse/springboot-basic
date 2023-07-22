@@ -3,6 +3,8 @@ package com.prgrms.vouhcer.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +52,7 @@ class VoucherV1ControllerTest {
         Voucher voucher = new FixedAmountVoucher(50,discount,voucherType,LocalDateTime.now());
         VoucherServiceResponse voucherServiceResponse = new VoucherServiceResponse(voucher);
 
-        when(voucherService.getAllVoucherList(voucherType, createdAt)).thenReturn(List.of(voucherServiceResponse));
+        given(voucherService.getAllVoucherList(voucherType, createdAt)).willReturn(List.of(voucherServiceResponse));
 
         //when_then
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/vouchers")
@@ -60,7 +62,7 @@ class VoucherV1ControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("vouchers"))
                 .andExpect(MockMvcResultMatchers.view().name("views/vouchers"));
 
-        verify(voucherService).getAllVoucherList(voucherType, createdAt);
+        then(voucherService).should().getAllVoucherList(voucherType, createdAt);
     }
 
     @Test
@@ -74,7 +76,7 @@ class VoucherV1ControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/v1/vouchers"));
 
-        verify(voucherService).deleteByVoucherId(voucherId);
+        then(voucherService).should().deleteByVoucherId(voucherId);
     }
 
     @Test
@@ -84,11 +86,11 @@ class VoucherV1ControllerTest {
         int voucherId = 50;
         VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
         Discount discount = new FixedDiscount(20);
-        LocalDateTime createdAt = LocalDateTime.of(2023, 7, 22, 12, 0);
 
         Voucher voucher = new FixedAmountVoucher(voucherId,discount,voucherType,LocalDateTime.now());
         VoucherServiceResponse voucherServiceResponse = new VoucherServiceResponse(voucher);
-        when(voucherService.detailVoucher(voucherId)).thenReturn(voucherServiceResponse);
+
+        given(voucherService.detailVoucher(voucherId)).willReturn(voucherServiceResponse);
 
         //when_then
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/vouchers/detail/{voucherId}", voucherId))
@@ -96,7 +98,7 @@ class VoucherV1ControllerTest {
                 .andExpect(MockMvcResultMatchers.model().attributeExists("voucher"))
                 .andExpect(MockMvcResultMatchers.view().name("views/detail"));
 
-        verify(voucherService).detailVoucher(voucherId);
+        then(voucherService).should().detailVoucher(voucherId);
     }
 
     @Test
@@ -109,7 +111,7 @@ class VoucherV1ControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/v1/vouchers"));
 
-        verify(voucherService).createVoucher(anyInt(), eq(VoucherType.FIXED_AMOUNT_VOUCHER), eq(10.0), any(LocalDateTime.class));
+        then(voucherService).should().createVoucher(anyInt(), eq(VoucherType.FIXED_AMOUNT_VOUCHER), eq(10.0), any(LocalDateTime.class));
     }
 
 }
