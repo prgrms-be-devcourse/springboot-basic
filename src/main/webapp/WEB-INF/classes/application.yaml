@@ -1,0 +1,8 @@
+file:
+  blacklist: /Users/user/github/springboot-basic/src/main/resources/customer_blacklist.csv
+  voucher: /Users/user/github/springboot-basic/src/main/resources/voucher.csv
+
+database:
+  url: jdbc:mysql://test.czkzzdxrzphj.ap-northeast-2.rds.amazonaws.com/coffee
+  hostname: admin
+  password: asdf1234

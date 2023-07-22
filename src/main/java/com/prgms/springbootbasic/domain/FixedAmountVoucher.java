@@ -28,7 +28,7 @@ public class FixedAmountVoucher implements Voucher {
 	}
 
 	@Override
-	public Long getNumber() { return amount; }
+	public Long getAmount() { return amount; }
 
 	@Override
 	public void changeAmount(long amount) {

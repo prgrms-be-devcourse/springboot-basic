@@ -8,8 +8,7 @@ public interface Voucher {
 
 	VoucherType getVoucherType();
 	UUID getVoucherId();
-	Long getNumber();
-
+	Long getAmount();
 	void changeAmount(long amount);
 
 }

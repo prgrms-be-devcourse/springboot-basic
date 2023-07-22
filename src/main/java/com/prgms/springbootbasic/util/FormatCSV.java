@@ -9,7 +9,7 @@ public class FormatCSV {
     private static final String FORMAT_CSV = "%s,%s,%d\n";
 
     public String changeVoucherToCSV(Voucher voucher) {
-        return String.format(FORMAT_CSV, voucher.getVoucherType(), voucher.getVoucherId(), voucher.getNumber());
+        return String.format(FORMAT_CSV, voucher.getVoucherType(), voucher.getVoucherId(), voucher.getAmount());
     }
 
 }
