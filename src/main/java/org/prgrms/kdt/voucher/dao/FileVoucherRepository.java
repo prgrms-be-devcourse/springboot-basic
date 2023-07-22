@@ -4,16 +4,23 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PreDestroy;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
-@Profile({"dev", "default"})
+
+@Profile("file")
 @Component
-public class MemoryVoucherRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+public class FileVoucherRepository implements VoucherRepository {
+    private final Map<UUID, Voucher> storage;
+    private final VoucherLoader voucherLoader;
+
+    public FileVoucherRepository(VoucherLoader voucherLoader) {
+        this.voucherLoader = voucherLoader;
+        this.storage = this.voucherLoader.loadFileToMemoryVoucher();
+    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
@@ -29,5 +36,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return List.copyOf(storage.values());
+    }
+
+    @PreDestroy
+    public void fileWrite() {
+        voucherLoader.saveMemoryVoucherToFile(storage);
     }
 }

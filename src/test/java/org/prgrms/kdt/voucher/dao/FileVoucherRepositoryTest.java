@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher.dao;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,30 +16,35 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
 
-class MemoryVoucherRepositoryTest {
-    MemoryVoucherRepository memoryVoucherRepository;
+class FileVoucherRepositoryTest {
+    FileVoucherRepository fileVoucherRepository;
+    VoucherLoader mockVoucherLoader;
 
     @BeforeEach
     void setup() {
-        memoryVoucherRepository = new MemoryVoucherRepository();
+        mockVoucherLoader = mock(VoucherLoader.class);
+        fileVoucherRepository = new FileVoucherRepository(mockVoucherLoader);
     }
 
-    @Test
+    @ParameterizedTest
+    @MethodSource("voucherSource")
     @DisplayName("존재하는 바우처Id로 바우처 찾기")
-    void findByExistId() {
+    void findByExistId(Voucher savedVoucher1, Voucher savedVoucher2) {
         //given
-        Voucher savedVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        memoryVoucherRepository.insert(savedVoucher);
-        UUID existVoucherId = savedVoucher.getVoucherId();
+        fileVoucherRepository.insert(savedVoucher1);
+        fileVoucherRepository.insert(savedVoucher2);
+        UUID existVoucherId = savedVoucher1.getVoucherId();
 
         //when
-        Optional<Voucher> foundVoucher = memoryVoucherRepository.findById(existVoucherId);
+        Optional<Voucher> foundVoucher = fileVoucherRepository.findById(existVoucherId);
 
         //then
-        assertThat(foundVoucher.get(), is(savedVoucher));
+        assertThat(foundVoucher.get(), Matchers.is(savedVoucher1));
     }
 
     @Test
@@ -46,11 +52,11 @@ class MemoryVoucherRepositoryTest {
     void findByNonExistId() {
         //given
         Voucher savedVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        memoryVoucherRepository.insert(savedVoucher);
+        fileVoucherRepository.insert(savedVoucher);
         UUID notExistVoucherId = UUID.randomUUID();
 
         //when
-        Optional<Voucher> foundVoucher = memoryVoucherRepository.findById(notExistVoucherId);
+        Optional<Voucher> foundVoucher = fileVoucherRepository.findById(notExistVoucherId);
 
         //then
         assertThrows(FileAccessException.class, () -> {
@@ -62,28 +68,26 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 저장 후 성공적으로 저장 되었는지 확인")
     void insert() {
         //given
-        Voucher insertVoucher = new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(30.0));
+        Voucher insertVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
 
         //when
-        memoryVoucherRepository.insert(insertVoucher);
+        fileVoucherRepository.insert(insertVoucher);
 
         //then
-        Optional<Voucher> foundVoucher = memoryVoucherRepository.findById(insertVoucher.getVoucherId());
+        Optional<Voucher> foundVoucher = fileVoucherRepository.findById(insertVoucher.getVoucherId());
         assertThat(foundVoucher.get(), is(insertVoucher));
     }
 
     @ParameterizedTest
     @MethodSource("voucherSource")
     @DisplayName("바우처 전체 조회 테스트")
-    void findAll() {
+    void findAll(Voucher savedVoucher1, Voucher savedVoucher2) {
         //given
-        Voucher savedVoucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        Voucher savedVoucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        memoryVoucherRepository.insert(savedVoucher1);
-        memoryVoucherRepository.insert(savedVoucher2);
+        fileVoucherRepository.insert(savedVoucher1);
+        fileVoucherRepository.insert(savedVoucher2);
 
         //when
-        List<Voucher> foundVoucherList = memoryVoucherRepository.findAll();
+        List<Voucher> foundVoucherList = fileVoucherRepository.findAll();
 
         //then
         assertThat(foundVoucherList, containsInAnyOrder(savedVoucher1, savedVoucher2));

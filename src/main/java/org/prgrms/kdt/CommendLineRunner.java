@@ -1,38 +1,42 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.commendLine.Console;
-import org.prgrms.kdt.global.exception.InvalidInputException;
-import org.prgrms.kdt.global.Menu;
+import org.prgrms.kdt.exception.InvalidInputException;
+import org.prgrms.kdt.member.controller.MemberController;
+import org.prgrms.kdt.util.Menu;
+import org.prgrms.kdt.voucher.controller.VoucherController;
+import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.dto.CreateRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 
-@Profile("console")
 @Component
 public class CommendLineRunner implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommendLineRunner.class);
-
-    private final ViewManager viewManager;
+    private final VoucherController voucherController;
+    private final MemberController memberController;
     private final Console console;
 
-    public CommendLineRunner(ViewManager viewManager, Console console) {
-        this.viewManager = viewManager;
+    public CommendLineRunner(VoucherController voucherController, MemberController memberController, Console console) {
+        this.voucherController = voucherController;
+        this.memberController = memberController;
         this.console = console;
     }
 
     @Override
     public void run(String... args) {
-        while (true) {
+        boolean isRunning = true;
+        while (isRunning) {
             try {
                 console.printMenu();
-                int getUserMenu = Integer.parseInt(console.getUserMenu());
+                String getUserMenu = console.getUserMenu();
                 Menu menu = Menu.getMenu(getUserMenu);
-                if (menu.isExit()) break;
+                isRunning = menu.isNotExit();
                 executeAction(menu);
 
             } catch (InvalidInputException e) {
@@ -43,27 +47,24 @@ public class CommendLineRunner implements CommandLineRunner {
         }
     }
 
+    // handler mapping
     private void executeAction(Menu menu) throws IOException {
         switch (menu) {
-            case CREATE -> viewManager.createVoucher();
-
-            case LIST -> viewManager.findAllVoucher();
-
-            case BLACK_LIST -> viewManager.findAllBlackMember();
-
-            case CREATE_MEMBER -> viewManager.createMember();
-
-            case MEMBER_LIST -> viewManager.findAllMember();
-
-            case ASSIGN_VOUCHER -> viewManager.assignVoucher();
-
-            case VOUCHER_LIST_BY_MEMBER -> viewManager.findVouchersByMember();
-
-            case DELETE_WALLET -> viewManager.deleteWalletById();
-
-            case MEMBER_LIST_BY_VOUCHER -> viewManager.findMembersByVoucher();
-
-            case WALLET_LIST -> viewManager.findAllWallet();
+            case CREATE:
+                createVoucher();
+                break;
+            case LIST:
+                console.printAllBoucher(voucherController.findAll());
+                break;
+            case BLACK_LIST:
+                console.printAllBlackList(memberController.findAllBlackMember());
+                break;
         }
+    }
+
+    private void createVoucher() throws IOException {
+        VoucherType voucherType = VoucherType.getType(console.getVoucherTypes());
+        double discountAmount = Double.parseDouble(console.getDiscountAmount());
+        voucherController.create(new CreateRequest(voucherType, discountAmount));
     }
 }
