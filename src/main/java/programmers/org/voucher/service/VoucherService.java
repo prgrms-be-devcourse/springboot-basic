@@ -3,7 +3,6 @@ package programmers.org.voucher.service;
 import org.springframework.stereotype.Service;
 import programmers.org.voucher.domain.Voucher;
 import programmers.org.voucher.domain.constant.VoucherType;
-import programmers.org.voucher.dto.VoucherRequest;
 import programmers.org.voucher.dto.VoucherResponse;
 import programmers.org.voucher.repository.VoucherRepository;
 
@@ -22,10 +21,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void create(VoucherRequest request) {
-        int discountAmount = request.getDiscountAmount();
-        VoucherType type = VoucherType.find(request.getType());
-
+    public void create(int discountAmount, VoucherType type) {
         Voucher voucher = new Voucher(discountAmount, type);
         saveVoucher(voucher);
     }
@@ -42,9 +38,9 @@ public class VoucherService {
         return toDto(voucher);
     }
 
-    public void update(Long id, VoucherRequest request) {
+    public void update(Long id, int discountAmount) {
         validateVoucherExist(id);
-        voucherRepository.update(id, request);
+        voucherRepository.update(id, discountAmount);
     }
 
     public void delete(Long id) {

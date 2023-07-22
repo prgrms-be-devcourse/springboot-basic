@@ -1,7 +1,6 @@
 package programmers.org.voucher.repository;
 
 import programmers.org.voucher.domain.Voucher;
-import programmers.org.voucher.dto.VoucherRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -23,9 +22,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Long id, VoucherRequest request) {
+    public void update(Long id, int discountAmount) {
         Voucher voucher = voucherStorage.get(id);
-        voucher.updateVoucher(request.getDiscountAmount());
+        voucher.updateVoucher(discountAmount);
         voucherStorage.put(id, voucher);
     }
 

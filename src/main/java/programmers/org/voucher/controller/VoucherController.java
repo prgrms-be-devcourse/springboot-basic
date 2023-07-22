@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import programmers.org.voucher.constant.Command;
-import programmers.org.voucher.dto.VoucherRequest;
+import programmers.org.voucher.domain.constant.VoucherType;
 import programmers.org.voucher.dto.VoucherResponse;
 import programmers.org.voucher.io.VoucherConsole;
 import programmers.org.voucher.service.VoucherService;
@@ -61,8 +61,7 @@ public class VoucherController implements CommandLineRunner {
         String voucherType = voucherConsole.inputVoucherType();
         int discountAmount = voucherConsole.inputVoucherInfo();
 
-        VoucherRequest request = new VoucherRequest(discountAmount, voucherType);
-        voucherService.create(request);
+        voucherService.create(discountAmount, VoucherType.find(voucherType));
     }
 
     private void printVoucherList() {
@@ -80,8 +79,7 @@ public class VoucherController implements CommandLineRunner {
         long voucherId = voucherConsole.inputVoucherId();
         int discountAmount = voucherConsole.inputVoucherInfo();
 
-        VoucherRequest request = new VoucherRequest(discountAmount);
-        voucherService.update(voucherId, request);
+        voucherService.update(voucherId, discountAmount);
     }
 
     private void deleteVoucher() {

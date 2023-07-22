@@ -6,7 +6,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import programmers.org.voucher.domain.constant.VoucherType;
 import programmers.org.voucher.domain.Voucher;
-import programmers.org.voucher.dto.VoucherRequest;
 import programmers.org.voucher.repository.util.sqlBuilder.DeleteBuilder;
 import programmers.org.voucher.repository.util.sqlBuilder.InsertBuilder;
 import programmers.org.voucher.repository.util.sqlBuilder.SelectBuilder;
@@ -71,7 +70,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(Long id, VoucherRequest request) {
+    public void update(Long id, int discountAmount) {
         Update update = new Update(VOUCHERS);
 
         Set set = new Set.Builder()
@@ -88,7 +87,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .where(where)
                 .build();
 
-        jdbcTemplate.update(sql, request.getDiscountAmount(), id);
+        jdbcTemplate.update(sql, discountAmount, id);
     }
 
     @Override
