@@ -1,25 +1,26 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.dto.CreateRequest;
+import org.prgrms.kdt.voucher.controller.dto.CreateVoucherControllerRequest;
+import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
+import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class VoucherController {
     private final VoucherService voucherService;
+    private final ControllerVoucherMapper mapper;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService, ControllerVoucherMapper mapper) {
         this.voucherService = voucherService;
+        this.mapper = mapper;
     }
 
-    public void create(CreateRequest request) {
-        voucherService.createVoucher(request);
+    public void create(CreateVoucherControllerRequest request) {
+        voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
     }
 
-    public List<Voucher> findAll() {
+    public VoucherResponses findAll() {
         return voucherService.findAll();
     }
 }

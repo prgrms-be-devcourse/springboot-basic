@@ -4,12 +4,12 @@ import java.util.UUID;
 
 public class Member {
     private final UUID memberId;
-    private final String memberName;
-    private final MemberStatus status;
+    private MemberName name;
+    private MemberStatus status;
 
-    public Member(UUID memberId, String memberName, MemberStatus status) {
+    public Member(UUID memberId, String name, MemberStatus status) {
         this.memberId = memberId;
-        this.memberName = memberName;
+        this.name = new MemberName(name);
         this.status = status;
     }
 
@@ -18,10 +18,14 @@ public class Member {
     }
 
     public String getMemberName() {
-        return memberName;
+        return name.getName();
     }
 
     public MemberStatus getStatus() {
         return status;
+    }
+
+    public void setName(MemberName name) {
+        this.name = name;
     }
 }
