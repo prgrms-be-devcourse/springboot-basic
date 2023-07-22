@@ -2,11 +2,17 @@ package programmers.org.voucher.repository.util.statement;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.BLANK;
 
-public class Select extends Statement {
+public class Select {
     private static final String SELECT = "SELECT";
+
+    private StringBuilder query;
 
     public Select(StringBuilder query) {
         this.query = query;
+    }
+
+    public StringBuilder getQuery() {
+        return query;
     }
 
     static public class Builder {

@@ -2,11 +2,17 @@ package programmers.org.voucher.repository.util.statement;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.*;
 
-public class Where extends Statement {
+public class Where {
     private static final String WHERE = "WHERE";
+
+    private StringBuilder query;
 
     public Where(StringBuilder query) {
         this.query = query;
+    }
+
+    public StringBuilder getQuery() {
+        return query;
     }
 
     static public class Builder {

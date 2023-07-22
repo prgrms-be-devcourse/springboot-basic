@@ -3,11 +3,17 @@ package programmers.org.voucher.repository.util.statement;
 import static programmers.org.voucher.repository.util.constant.Symbol.*;
 import static programmers.org.voucher.repository.util.constant.Symbol.COMMA;
 
-public class Set extends Statement {
+public class Set {
     private static final String SET = "SET";
+
+    private StringBuilder query;
 
     public Set(StringBuilder query) {
         this.query = query;
+    }
+
+    public StringBuilder getQuery() {
+        return query;
     }
 
     static public class Builder {

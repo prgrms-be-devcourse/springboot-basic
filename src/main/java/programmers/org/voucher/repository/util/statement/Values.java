@@ -2,12 +2,18 @@ package programmers.org.voucher.repository.util.statement;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.*;
 
-public class Values extends Statement {
+public class Values {
 
     private static final String VALUES = "VALUES";
 
+    private StringBuilder query;
+
     public Values(StringBuilder query) {
         this.query = query;
+    }
+
+    public StringBuilder getQuery() {
+        return query;
     }
 
     static public class Builder {
