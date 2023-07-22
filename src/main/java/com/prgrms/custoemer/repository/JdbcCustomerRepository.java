@@ -44,7 +44,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 "INSERT INTO customers(customer_id, name, email, created_at) VALUES (:customer_id, :name, :email, :created_at)",
                 toParamMap(customer));
         if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
         }
         return customer;
     }

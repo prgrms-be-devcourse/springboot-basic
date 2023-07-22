@@ -1,5 +1,6 @@
 package com.prgrms.voucher.model.discount;
 
+import com.prgrms.exception.DiscountLimitException;
 import com.prgrms.order.model.Price;
 
 public class PercentDiscount extends Discount {
@@ -15,7 +16,7 @@ public class PercentDiscount extends Discount {
     @Override
     protected void validLimit(double value) {
         if (value >= limit) {
-            throw new IllegalArgumentException(limitException);
+            throw new DiscountLimitException(limitException);
         }
     }
 
