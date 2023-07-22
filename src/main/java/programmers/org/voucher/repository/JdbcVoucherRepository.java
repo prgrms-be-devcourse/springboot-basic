@@ -7,13 +7,16 @@ import org.springframework.jdbc.support.KeyHolder;
 import programmers.org.voucher.domain.constant.VoucherType;
 import programmers.org.voucher.domain.Voucher;
 import programmers.org.voucher.dto.VoucherRequest;
-import programmers.org.voucher.repository.util.QueryGenerator;
+import programmers.org.voucher.repository.util.*;
+import programmers.org.voucher.repository.util.statement.*;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static programmers.org.voucher.repository.util.constant.Table.VOUCHERS;
 
 public class JdbcVoucherRepository implements VoucherRepository {
 
@@ -25,10 +28,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        String sql = new QueryGenerator.Builder()
-                .insertInto("vouchers")
-                .values("discount_amount", "type")
+        Insert insert = new Insert.Builder()
+                .query(VOUCHERS)
                 .build();
+
+        Values values = new Values.Builder()
+                .query("discount_amount")
+                .query("type")
+                .build();
+
+        String sql = QueryGenerator.toQuery(insert, values);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -42,10 +51,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAll() {
-        String sql = new QueryGenerator.Builder()
-                .select("*")
-                .from("vouchers")
+        Select select = new Select.Builder()
+                .query("*")
                 .build();
+
+        From from = new From.Builder()
+                .query(VOUCHERS)
+                .build();
+
+        String sql = QueryGenerator.toQuery(select, from);
 
         List<Voucher> voucherList = new ArrayList<>();
         return jdbcTemplate.query(sql, voucherRowMapper(), voucherList.toArray());
@@ -53,23 +67,38 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Long id, VoucherRequest request) {
-        String sql = new QueryGenerator.Builder()
-                .update("vouchers")
-                .set("discount_amount")
-                .where("voucher_id")
+        Update update = new Update.Builder()
+                .query(VOUCHERS)
                 .build();
+
+        Set set = new Set.Builder()
+                .query("discount_amount")
+                .build();
+
+        Where where = new Where.Builder()
+                .query("voucher_id")
+                .build();
+
+        String sql = QueryGenerator.toQuery(update, set, where);
 
         jdbcTemplate.update(sql, request.getDiscountAmount(), id);
     }
 
     @Override
     public Optional<Voucher> findById(Long id) {
-        String sql = new QueryGenerator.Builder()
-                .select("*")
-                .from("vouchers")
-                .where("voucher_id")
+        Select select = new Select.Builder()
+                .query("*")
                 .build();
 
+        From from = new From.Builder()
+                .query(VOUCHERS)
+                .build();
+
+        Where where = new Where.Builder()
+                .query("voucher_id")
+                .build();
+
+        String sql = QueryGenerator.toQuery(select, from, where);
         List<Voucher> vouchers = jdbcTemplate.query(sql, voucherRowMapper(), id);
 
         if (vouchers.isEmpty()) {
@@ -81,10 +110,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(Long id) {
-        String sql = new QueryGenerator.Builder()
-                .deleteFrom("vouchers")
-                .where("voucher_id")
+        Delete delete = new Delete.Builder()
+                .query(VOUCHERS)
                 .build();
+
+        Where where = new Where.Builder()
+                .query("voucher_id")
+                .build();
+
+        String sql = QueryGenerator.toQuery(delete, where);
 
         jdbcTemplate.update(sql, id);
     }
