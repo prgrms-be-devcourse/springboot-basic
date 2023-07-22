@@ -1,7 +1,7 @@
-package com.devcourse.voucherapp.repository;
+package com.devcourse.voucherapp.repository.voucher;
 
-import com.devcourse.voucherapp.entity.VoucherType;
 import com.devcourse.voucherapp.entity.voucher.Voucher;
+import com.devcourse.voucherapp.entity.voucher.VoucherType;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -26,7 +27,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "insert into voucher(id, type, discount_amount) values (:id, :typeNumber, :discountAmount)";
+        String sql = "insert into voucher(id, type, discount_amount) values (:id, :typeOption, :discountAmount)";
         template.update(sql, getParameterSource(voucher));
 
         return voucher;
@@ -54,7 +55,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        String sql = "update voucher set type = :typeNumber, discount_amount = :discountAmount where id = :id";
+        String sql = "update voucher set type = :typeOption, discount_amount = :discountAmount where id = :id";
         template.update(sql, getParameterSource(voucher));
 
         return voucher;
@@ -67,10 +68,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return template.update(sql, getParameterMap(id));
     }
 
-    private MapSqlParameterSource getParameterSource(Voucher voucher) {
+    private SqlParameterSource getParameterSource(Voucher voucher) {
         return new MapSqlParameterSource()
                 .addValue("id", voucher.getId().toString())
-                .addValue("typeNumber", voucher.getType().getNumber())
+                .addValue("typeOption", voucher.getType().getOption())
                 .addValue("discountAmount", voucher.getDiscountAmount());
     }
 
@@ -81,10 +82,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private RowMapper<Voucher> getVoucherRowMapper() {
         return (resultSet, rowNum) -> {
             String id = resultSet.getString("id");
-            String typeNumber = resultSet.getString("type");
+            String typeOption = resultSet.getString("type");
             int discountAmount = resultSet.getInt("discount_amount");
 
-            return VoucherType.from(typeNumber)
+            return VoucherType.from(typeOption)
                     .makeVoucher(UUID.fromString(id), String.valueOf(discountAmount));
         };
     }

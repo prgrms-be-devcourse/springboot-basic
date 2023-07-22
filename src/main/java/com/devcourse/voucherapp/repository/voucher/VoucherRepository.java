@@ -1,4 +1,4 @@
-package com.devcourse.voucherapp.repository;
+package com.devcourse.voucherapp.repository.voucher;
 
 import com.devcourse.voucherapp.entity.voucher.Voucher;
 import java.util.List;

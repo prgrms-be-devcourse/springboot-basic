@@ -1,7 +1,8 @@
-package com.devcourse.voucherapp.repository;
+package com.devcourse.voucherapp.repository.voucher;
 
 import com.devcourse.voucherapp.entity.voucher.Voucher;
-import com.devcourse.voucherapp.exception.NotFoundVoucherException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
+import com.devcourse.voucherapp.exception.VoucherException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         try {
             return UUID.fromString(id);
         } catch (IllegalArgumentException e) {
-            throw new NotFoundVoucherException(id);
+            throw new VoucherException(ExceptionRule.VOUCHER_NOT_FOUND, id);
         }
     }
 }

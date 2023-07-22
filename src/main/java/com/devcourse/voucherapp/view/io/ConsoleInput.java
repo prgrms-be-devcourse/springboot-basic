@@ -1,12 +1,12 @@
-package com.devcourse.voucherapp.view;
+package com.devcourse.voucherapp.view.io;
 
 import java.util.Scanner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConsoleInputView implements InputView {
+public class ConsoleInput implements Input {
 
-    private static final Scanner SCANNER = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     @Override
     public String inputWithTrimming() {
@@ -15,6 +15,6 @@ public class ConsoleInputView implements InputView {
 
     @Override
     public String input() {
-        return SCANNER.nextLine();
+        return scanner.nextLine();
     }
 }

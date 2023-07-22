@@ -1,9 +1,7 @@
 package com.devcourse.voucherapp.entity.voucher;
 
-import static java.text.MessageFormat.format;
-
-import com.devcourse.voucherapp.entity.VoucherType;
-import com.devcourse.voucherapp.exception.DiscountAmountException;
+import com.devcourse.voucherapp.exception.ExceptionRule;
+import com.devcourse.voucherapp.exception.VoucherException;
 import java.util.UUID;
 import lombok.Getter;
 
@@ -23,14 +21,10 @@ public class FixDiscountVoucher implements Voucher {
     }
 
     private int getValidPrice(String discountAmount) {
-        if (isNotValid(discountAmount)) {
-            throw new DiscountAmountException(discountAmount);
+        if (!discountAmount.matches(FIX_DISCOUNT_PRICE_REGEX)) {
+            throw new VoucherException(ExceptionRule.VOUCHER_DISCOUNT_AMOUNT_INVALID, discountAmount);
         }
 
         return Integer.parseInt(discountAmount);
-    }
-
-    private boolean isNotValid(String discountAmount) {
-        return !discountAmount.matches(FIX_DISCOUNT_PRICE_REGEX);
     }
 }
