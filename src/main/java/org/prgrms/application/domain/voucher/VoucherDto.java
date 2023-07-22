@@ -1,8 +1,10 @@
 package org.prgrms.application.domain.voucher;
 
-public record VoucherDto(Long voucherId, VoucherType voucherType, Double discountAmount) {
+import org.prgrms.application.domain.voucher.typepolicy.VoucherTypePolicy;
+
+public record VoucherDto(Long voucherId, VoucherTypePolicy voucherTypePolicy) {
 
     public static VoucherDto of(Voucher voucher){
-        return new VoucherDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscountAmount());
+        return new VoucherDto(voucher.getVoucherId(), voucher.getVoucherTypePolicy());
     }
 }

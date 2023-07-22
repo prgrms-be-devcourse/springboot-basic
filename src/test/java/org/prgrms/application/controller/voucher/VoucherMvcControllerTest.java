@@ -51,7 +51,7 @@ class VoucherMvcControllerTest {
 
     @BeforeEach
     void setUp() {
-        voucher1 = new Voucher(1L, FIXED, 10000);
+        voucher1 = new Voucher(1L, FIXED, 10000); //dto로만! 수정 + voucher
         voucher2 = new Voucher(2L, PERCENT, 30);
         vouchers = Arrays.asList(voucher1, voucher2);
     }
@@ -105,7 +105,7 @@ class VoucherMvcControllerTest {
         mvc.perform(delete("/api/v1/mvc/vouchers/delete/{id}", 1L))
                 .andExpect(status().isOk());
 
-        verify(voucherService,times(1)).deleteVoucher(1L);
+        verify(voucherService,times(1)).deleteVoucher(1L); //수정
     }
 
     private String asJsonString(Object obj) throws Exception {

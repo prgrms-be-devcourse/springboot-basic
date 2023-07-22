@@ -2,38 +2,22 @@ package org.prgrms.application.entity;
 
 
 import org.prgrms.application.domain.voucher.Voucher;
-import org.prgrms.application.domain.voucher.VoucherType;
+import org.prgrms.application.domain.voucher.typepolicy.VoucherTypePolicy;
 
 public class VoucherEntity {
     private Long voucherId;
-    private String voucherType;
-    private double discountAmount;
+    private VoucherTypePolicy voucherTypePolicy;
 
-    public VoucherEntity(Long voucherId, String voucherType, double discountAmount) {
+    public VoucherEntity(Long voucherId, VoucherTypePolicy voucherTypePolicy) {
         this.voucherId = voucherId;
-        this.voucherType = voucherType;
-        this.discountAmount = discountAmount;
+        this.voucherTypePolicy = voucherTypePolicy;
     }
 
     public Long getVoucherId() {
         return voucherId;
     }
 
-    public String getVoucherType() {
-        return voucherType;
-    }
-
-    public double getDiscountAmount() {
-        return discountAmount;
-    }
-
-    public void changeDiscountAmount(double discountAmount){
-        this.discountAmount = discountAmount;
-    }
-
     public Voucher toDomain(){ // 수정 변환해주는 것을 독립,
-        VoucherType voucherType = VoucherType.findBySelection(this.voucherType);
-
-        return new Voucher(this.voucherId, voucherType, this.discountAmount);
+        return new Voucher(this.voucherId, this.voucherTypePolicy);
     }
 }

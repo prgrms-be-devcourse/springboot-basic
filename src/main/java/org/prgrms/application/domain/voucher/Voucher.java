@@ -5,35 +5,23 @@ import org.prgrms.application.entity.VoucherEntity;
 
 public class Voucher {
     private final Long voucherId;
-    private final VoucherType voucherType;
     private final VoucherTypePolicy voucherTypePolicy;
-    private final double discountAmount;
 
-    public Voucher(Long voucherId, VoucherType voucherType, double discountAmount) {
+    public Voucher(Long voucherId, VoucherTypePolicy voucherTypePolicy) {
         this.voucherId = voucherId;
-        this.voucherType = voucherType;
-        this.voucherTypePolicy = voucherType.applyPolicy(discountAmount);
-        this.discountAmount = discountAmount;
+        this.voucherTypePolicy = voucherTypePolicy;
     }
 
-    public static Voucher of(Long voucherId, VoucherType voucherType, double discountAmount) {
-        return new Voucher(voucherId, voucherType, discountAmount);
+    public static Voucher of(Long voucherId, VoucherTypePolicy voucherTypePolicy) {
+        return new Voucher(voucherId,voucherTypePolicy);
     }
 
     public Long getVoucherId() {
         return voucherId;
     }
 
-    public VoucherType getVoucherType() {
-        return voucherType;
-    }
-
-    public double getDiscountAmount() {
-        return discountAmount;
-    }
-
     public VoucherEntity toEntity(){
-        return new VoucherEntity(this.voucherId, this.voucherType.name(), this.discountAmount);
+        return new VoucherEntity(this.voucherId, this.voucherTypePolicy);
     }
 
     public VoucherTypePolicy getVoucherTypePolicy() {
