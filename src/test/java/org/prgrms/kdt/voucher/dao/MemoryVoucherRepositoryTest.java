@@ -5,10 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.prgrms.kdt.exception.FileAccessException;
+import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +31,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("존재하는 바우처Id로 바우처 찾기")
     void findByExistId() {
         //given
-        Voucher savedVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher savedVoucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
         memoryVoucherRepository.insert(savedVoucher);
         UUID existVoucherId = savedVoucher.getVoucherId();
 
@@ -45,7 +46,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("존재하지 않는 바우처Id로 바우처 찾기")
     void findByNonExistId() {
         //given
-        Voucher savedVoucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher savedVoucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
         memoryVoucherRepository.insert(savedVoucher);
         UUID notExistVoucherId = UUID.randomUUID();
 
@@ -53,8 +54,8 @@ class MemoryVoucherRepositoryTest {
         Optional<Voucher> foundVoucher = memoryVoucherRepository.findById(notExistVoucherId);
 
         //then
-        assertThrows(FileAccessException.class, () -> {
-            foundVoucher.orElseThrow(FileAccessException::new);
+        assertThrows(EntityNotFoundException.class, () -> {
+            foundVoucher.orElseThrow(EntityNotFoundException::new);
         });
     }
 
@@ -62,7 +63,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 저장 후 성공적으로 저장 되었는지 확인")
     void insert() {
         //given
-        Voucher insertVoucher = new Voucher(VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(30.0));
+        Voucher insertVoucher = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(30.0), LocalDateTime.now());
 
         //when
         memoryVoucherRepository.insert(insertVoucher);
@@ -77,8 +78,8 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 전체 조회 테스트")
     void findAll() {
         //given
-        Voucher savedVoucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        Voucher savedVoucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher savedVoucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
+        Voucher savedVoucher2 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
         memoryVoucherRepository.insert(savedVoucher1);
         memoryVoucherRepository.insert(savedVoucher2);
 
@@ -90,8 +91,8 @@ class MemoryVoucherRepositoryTest {
     }
 
     static Stream<Voucher[]> voucherSource() {
-        Voucher voucher1 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        Voucher voucher2 = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
+        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
+        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
         return Stream.of(new Voucher[][]{{voucher1, voucher2}});
     }
 }

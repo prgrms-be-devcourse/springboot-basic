@@ -1,14 +1,14 @@
 package org.prgrms.kdt.wallet.service;
 
-import org.prgrms.kdt.exception.EntityNotFoundException;
+import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.member.dao.MemberRepository;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
-import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponses;
-import org.prgrms.kdt.wallet.dto.response.WalletResponse;
+import org.prgrms.kdt.wallet.service.dto.CreateWalletServiceRequest;
+import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
+import org.prgrms.kdt.wallet.service.dto.WalletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +28,7 @@ public class WalletService {
     }
 
     @Transactional
-    public WalletResponse assignVoucherToCustomer(CreateWalletRequest request) {
+    public WalletResponse assignVoucherToCustomer(CreateWalletServiceRequest request) {
         memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 바우처 입니다."));
         voucherRepository.findById(request.voucherId())

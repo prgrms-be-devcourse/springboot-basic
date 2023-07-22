@@ -1,8 +1,8 @@
 package org.prgrms.kdt.commendLine;
 
-import org.prgrms.kdt.member.dto.MemberResponses;
-import org.prgrms.kdt.voucher.dto.VoucherResponses;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponses;
+import org.prgrms.kdt.member.service.dto.MemberResponses;
+import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
+import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;

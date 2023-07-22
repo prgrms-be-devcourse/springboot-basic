@@ -1,8 +1,8 @@
 package org.prgrms.kdt;
 
 import org.prgrms.kdt.commendLine.Console;
-import org.prgrms.kdt.exception.InvalidInputException;
-import org.prgrms.kdt.util.Menu;
+import org.prgrms.kdt.global.exception.InvalidInputException;
+import org.prgrms.kdt.global.Menu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 
-@Profile("!test")
+@Profile("console")
 @Component
 public class CommendLineRunner implements CommandLineRunner {
     private static final Logger logger = LoggerFactory.getLogger(CommendLineRunner.class);
@@ -27,13 +27,12 @@ public class CommendLineRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        boolean isRunning = true;
-        while (isRunning) {
+        while (true) {
             try {
                 console.printMenu();
                 int getUserMenu = Integer.parseInt(console.getUserMenu());
                 Menu menu = Menu.getMenu(getUserMenu);
-                isRunning = menu.isNotExit();
+                if (menu.isExit()) break;
                 executeAction(menu);
 
             } catch (InvalidInputException e) {
