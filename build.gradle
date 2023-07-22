@@ -22,6 +22,13 @@ dependencies {
     testImplementation "org.mockito:mockito-core:3.+"
     //JdbcTemplate 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    //web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //타입리프
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    //mapStruct
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     //DB설정
     runtimeOnly 'mysql:mysql-connector-java:8.0.32'
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <h2>New Voucher</h2>
+    <div class="mb-3">
+        <a th:href="@{/view/vouchers}" class="btn btn-primary me-md-2" type="button">All Voucher</a>
+    </div>
+</div>
+<form th:action="@{/view/vouchers/new}" method="post">
+    <div>
+    <select class="form-select" name="voucherType" aria-label="Default select example" >
+        <option selected>Select Voucher Type</option>
+        <option value="FIXED">Fixed Discount</option>
+        <option value="PERCENT">Percent Discount</option>
+    </select>
+    </div>
+    <div>
+    <label for="discountAmount">Enter Amount:</label>
+    <input type="number" id="discountAmount" name="discountAmount">
+    <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
+</body>
+</html>

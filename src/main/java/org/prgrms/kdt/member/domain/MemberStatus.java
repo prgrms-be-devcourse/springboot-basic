@@ -1,6 +1,6 @@
 package org.prgrms.kdt.member.domain;
 
-import org.prgrms.kdt.exception.InvalidInputException;
+import org.prgrms.kdt.global.exception.InvalidInputException;
 
 import java.util.Arrays;
 import java.util.Objects;
