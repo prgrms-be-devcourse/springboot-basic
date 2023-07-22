@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/v1")
+@RequestMapping("/v1/vouchers")
 public class VoucherV1Controller {
 
 
@@ -25,7 +25,7 @@ public class VoucherV1Controller {
         this.keyGenerator = keyGenerator;
     }
 
-    @GetMapping("/vouchers")
+    @GetMapping("")
     public String getVouchers(
             @RequestParam(value = "voucherType", required = false) VoucherType voucherType
             , @RequestParam(value = "createdAt", required = false) LocalDateTime startCreatedAt
@@ -36,21 +36,21 @@ public class VoucherV1Controller {
         return "views/vouchers";
     }
 
-    @GetMapping("/voucher/delete/{voucherId}")
+    @GetMapping("/delete/{voucherId}")
     public String deleteVoucher(@PathVariable("voucherId") int voucherId) {
         voucherService.deleteByVoucherId(voucherId);
 
         return "redirect:/v1/vouchers";
     }
 
-    @GetMapping("/voucher/detail/{voucherId}")
+    @GetMapping("/detail/{voucherId}")
     public String detailVoucher(@PathVariable("voucherId") int voucherId, Model model) {
         model.addAttribute("voucher", voucherService.detailVoucher(voucherId));
 
         return "views/detail";
     }
 
-    @GetMapping("/voucher/new")
+    @GetMapping("/new")
     public String viewFormCreateVoucher(Model model) {
         VoucherType[] voucherTypes = VoucherType.values();
         model.addAttribute("voucherTypes", voucherTypes);
@@ -59,7 +59,7 @@ public class VoucherV1Controller {
     }
 
 
-    @PostMapping("/voucher/new")
+    @PostMapping("/new")
     public String createVoucher(@RequestParam("voucherType") VoucherType voucherType,
             @RequestParam("discountAmount") double discountAmount) {
         int id = keyGenerator.make();

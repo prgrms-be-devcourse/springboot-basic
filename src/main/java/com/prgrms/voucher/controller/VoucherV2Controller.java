@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v2")
+@RequestMapping("/v2/vouchers")
 public class VoucherV2Controller {
 
 
@@ -30,7 +30,7 @@ public class VoucherV2Controller {
     }
 
 
-    @GetMapping("/vouchers")
+    @GetMapping("")
     public ResponseEntity<List<VoucherServiceResponse>> getVouchers(
             @RequestParam(value = "voucherType", required = false) VoucherType voucherType
             , @RequestParam(value = "createdAt", required = false) LocalDateTime startCreatedAt) {
@@ -39,20 +39,20 @@ public class VoucherV2Controller {
                 HttpStatus.OK);
     }
 
-    @DeleteMapping("/voucher/{voucherId}")
+    @DeleteMapping("/{voucherId}")
     public int deleteVoucher(@PathVariable("voucherId") int voucherId) {
 
         return voucherService.deleteByVoucherId(voucherId);
     }
 
-    @GetMapping("/voucher/{voucherId}")
+    @GetMapping("/{voucherId}")
     public ResponseEntity<VoucherServiceResponse> detailVoucher(
             @PathVariable("voucherId") int voucherId) {
 
         return new ResponseEntity<>(voucherService.detailVoucher(voucherId), HttpStatus.OK);
     }
 
-    @PostMapping("/voucher/new")
+    @PostMapping("")
     public String createVoucher(@RequestParam("voucherType") VoucherType voucherType,
             @RequestParam("discountAmount") double discountAmount) {
         int id = keyGenerator.make();
@@ -62,4 +62,3 @@ public class VoucherV2Controller {
     }
 
 }
-
