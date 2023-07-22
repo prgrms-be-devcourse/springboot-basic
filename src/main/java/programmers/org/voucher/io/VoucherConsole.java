@@ -6,6 +6,8 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
+import static programmers.org.voucher.exception.ErrorMessage.INVALID_INPUT_VALUE;
+
 public class VoucherConsole {
 
     private final Scanner scanner = new Scanner(System.in);
@@ -38,7 +40,7 @@ public class VoucherConsole {
         try {
             return scanner.nextInt();
         } catch (InputMismatchException e) {
-            return -1;
+            throw new InputMismatchException(INVALID_INPUT_VALUE.getMessage());
         }
     }
 
@@ -47,7 +49,7 @@ public class VoucherConsole {
         try {
             return scanner.nextLong();
         } catch (InputMismatchException e) {
-            return -1;
+            throw new InputMismatchException(INVALID_INPUT_VALUE.getMessage());
         }
     }
 
