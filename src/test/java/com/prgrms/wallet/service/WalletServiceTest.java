@@ -2,8 +2,7 @@ package com.prgrms.wallet.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import com.prgrms.custoemer.dto.CustomerResponse;
-import com.prgrms.voucher.service.VoucherResponse;
-import com.prgrms.wallet.dto.WalletRequest;
+import com.prgrms.voucher.service.dto.VoucherServiceResponse;
 import com.prgrms.custoemer.model.Customer;
 import com.prgrms.custoemer.model.Name;
 import com.prgrms.voucher.model.FixedAmountVoucher;
@@ -14,8 +13,8 @@ import com.prgrms.wallet.model.Wallet;
 import com.prgrms.custoemer.repository.CustomerRepository;
 import com.prgrms.voucher.repository.VoucherRepository;
 import com.prgrms.wallet.repository.WalletRepository;
-import com.prgrms.wallet.service.WalletResponse;
-import com.prgrms.wallet.service.WalletService;
+import com.prgrms.wallet.service.dto.WalletServiceRequest;
+import com.prgrms.wallet.service.dto.WalletServiceResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,12 +53,12 @@ class WalletServiceTest {
     private Wallet wallet;
     private Customer customer;
     private Voucher voucher;
-    private WalletRequest walletRequest;
+    private WalletServiceRequest walletServiceRequest;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
-        walletRequest = new WalletRequest(CUSTOMER_ID, VOUCHER_ID);
+        walletServiceRequest = new WalletServiceRequest(CUSTOMER_ID, VOUCHER_ID);
         customer = new Customer(CUSTOMER_ID, TEST_USER_NAME, TEST_USER_EMAIL, CREATE_AT);
         voucher = new FixedAmountVoucher(VOUCHER_ID, new FixedDiscount(20),
                 VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());
@@ -70,10 +69,10 @@ class WalletServiceTest {
     @DisplayName("사용자가 바우처를 등록하는 지갑 정보와 지갑 정보를 등록해주는 서비스로 등록된 지갑정보는 같다.")
     void giveVoucher_InsertWallet_Equals() {
         //when
-        WalletResponse result = walletService.giveVoucher(WALLET_ID, walletRequest);
+        WalletServiceResponse result = walletService.giveVoucher(WALLET_ID, walletServiceRequest);
 
         //then
-        assertThat(result).usingRecursiveComparison().isEqualTo(new WalletResponse(wallet));
+        assertThat(result).usingRecursiveComparison().isEqualTo(new WalletServiceResponse(wallet));
     }
 
     @Test
@@ -83,7 +82,7 @@ class WalletServiceTest {
         walletRepository.insert(wallet);
 
         //when
-        WalletResponse result = walletService.takeVoucher(walletRequest);
+        WalletServiceResponse result = walletService.takeVoucher(walletServiceRequest);
 
         //then
         assertThat(result.isDeleted()).isEqualTo(true);
@@ -112,16 +111,16 @@ class WalletServiceTest {
     @DisplayName("임의로 바우처의 정보를 넣었을 때, 그 바우처의 정보가 고객 아이디를 통해 찾은 바우처 정보 리스트에 포함되어 있다.")
     void voucherList_VoucherResponseList_Contains() {
         //given
-        List<VoucherResponse> voucherResponses = List.of(new VoucherResponse(voucher));
+        List<VoucherServiceResponse> voucherServiceRespons = List.of(new VoucherServiceResponse(voucher));
         walletRepository.insert(wallet);
         customerRepository.insert(customer);
         voucherRepository.insert(voucher);
 
         //when
-        List<VoucherResponse> result = walletService.voucherList(CUSTOMER_ID);
+        List<VoucherServiceResponse> result = walletService.voucherList(CUSTOMER_ID);
 
         //then
-        assertThat(result).containsExactlyElementsOf(voucherResponses);
+        assertThat(result).containsExactlyElementsOf(voucherServiceRespons);
     }
 
 }

@@ -14,7 +14,6 @@ import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.DiscountCreator;
 import com.prgrms.voucher.model.discount.FixedDiscount;
 import com.prgrms.wallet.model.Wallet;
-import com.prgrms.wallet.repository.JdbcWalletRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +50,7 @@ class JdbcWalletRepositoryTest {
         newCustomer = new Customer(customerId, testUserName, testUserEmail, LocalDateTime.now());
         newCustomer.login(LocalDateTime.now());
         newFixVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(20),
-                VoucherType.FIXED_AMOUNT_VOUCHER);
+                VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());
 
         jdbcWalletRepository.insert(newWallet);
     }

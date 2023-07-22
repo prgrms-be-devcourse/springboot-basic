@@ -10,6 +10,7 @@ import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.FixedDiscount;
 import com.prgrms.voucher.model.discount.PercentDiscount;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,11 @@ class VoucherCreatorTest {
     void createVoucher_FixedVoucher_Equal() {
         //given
         Voucher fixedVoucher = new FixedAmountVoucher(voucherId, fixedDiscount,
-                VoucherType.FIXED_AMOUNT_VOUCHER);
+                VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());
 
         // When
         Voucher result = voucherCreator.createVoucher(voucherId, VoucherType.FIXED_AMOUNT_VOUCHER,
-                fixedDiscount);
+                fixedDiscount, LocalDateTime.now());
 
         // Then
         assertThat(result).usingRecursiveComparison().isEqualTo(fixedVoucher);
@@ -49,12 +50,12 @@ class VoucherCreatorTest {
     void createVoucher_PercentVoucher_Equal() {
         //given
         Voucher perecntVoucher = new PercentDiscountVoucher(voucherId, percentDiscount,
-                VoucherType.PERCENT_DISCOUNT_VOUCHER);
+                VoucherType.PERCENT_DISCOUNT_VOUCHER, LocalDateTime.now());
 
         // When
         Voucher result = voucherCreator.createVoucher(voucherId,
                 VoucherType.PERCENT_DISCOUNT_VOUCHER,
-                percentDiscount);
+                percentDiscount, LocalDateTime.now());
 
         // Then
         assertThat(result).usingRecursiveComparison().isEqualTo(perecntVoucher);

@@ -1,7 +1,7 @@
 package com.prgrms.vouhcer.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import com.prgrms.voucher.service.VoucherResponse;
+import com.prgrms.voucher.service.dto.VoucherServiceResponse;
 import com.prgrms.voucher.model.FixedAmountVoucher;
 import com.prgrms.voucher.model.PercentDiscountVoucher;
 import com.prgrms.voucher.model.Voucher;
@@ -11,6 +11,7 @@ import com.prgrms.voucher.model.discount.FixedDiscount;
 import com.prgrms.voucher.model.discount.PercentDiscount;
 import com.prgrms.voucher.repository.VoucherRepository;
 import com.prgrms.voucher.service.VoucherService;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -43,16 +44,16 @@ class VoucherServiceTest {
         //given
         VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
         Discount discount = new FixedDiscount(DISCOUNT_AMOUNT);
-        Voucher createdVoucher = new FixedAmountVoucher(FIXED_ID, discount, voucherType);
+        Voucher createdVoucher = new FixedAmountVoucher(FIXED_ID, discount, voucherType, LocalDateTime.now());
 
         //when
-        VoucherResponse result = voucherService.createVoucher(FIXED_ID, voucherType, DISCOUNT_AMOUNT);
+        VoucherServiceResponse result = voucherService.createVoucher(FIXED_ID, voucherType, DISCOUNT_AMOUNT, LocalDateTime.now());
 
         //then
         assertThat(result)
                 .isNotNull()
                 .usingRecursiveComparison()
-                .isEqualTo(new VoucherResponse(createdVoucher));
+                .isEqualTo(new VoucherServiceResponse(createdVoucher));
     }
 
     @ParameterizedTest
@@ -62,23 +63,23 @@ class VoucherServiceTest {
         // Given
         Voucher voucher1=  voucherRepository.insert(list.get(0));
         Voucher voucher2 = voucherRepository.insert(list.get(1));
-        VoucherResponse voucherResponse1 = new VoucherResponse(voucher1);
-        VoucherResponse voucherResponse2 = new VoucherResponse(voucher2);
+        VoucherServiceResponse voucherServiceResponse1 = new VoucherServiceResponse(voucher1);
+        VoucherServiceResponse voucherServiceResponse2 = new VoucherServiceResponse(voucher2);
 
         // When
-        List<VoucherResponse> result = voucherService.getAllVoucherList();
+        List<VoucherServiceResponse> result = voucherService.getAllVoucherList(null, null);
 
         // Then
         assertThat(result)
-                .containsOnly(voucherResponse1, voucherResponse2);
+                .containsOnly(voucherServiceResponse1, voucherServiceResponse2);
 
     }
 
     private static Stream<List<Voucher>> voucherProvider() {
         Voucher createdVoucher1 = new FixedAmountVoucher(FIXED_ID, new FixedDiscount(20),
-                VoucherType.FIXED_AMOUNT_VOUCHER);
+                VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());
         Voucher createdVoucher2 = new PercentDiscountVoucher(PERCENT_ID, new PercentDiscount(20),
-                VoucherType.PERCENT_DISCOUNT_VOUCHER);
+                VoucherType.PERCENT_DISCOUNT_VOUCHER, LocalDateTime.now());
         return Stream.of(
                 List.of(createdVoucher1, createdVoucher2)
         );
