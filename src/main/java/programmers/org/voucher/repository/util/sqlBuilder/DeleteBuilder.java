@@ -1,6 +1,6 @@
 package programmers.org.voucher.repository.util.sqlBuilder;
 
-import programmers.org.voucher.repository.util.statement.Delete;
+import programmers.org.voucher.repository.util.statement.delete.Delete;
 import programmers.org.voucher.repository.util.statement.Where;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.BLANK;

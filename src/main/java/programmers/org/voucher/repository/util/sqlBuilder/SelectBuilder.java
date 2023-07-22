@@ -1,7 +1,7 @@
 package programmers.org.voucher.repository.util.sqlBuilder;
 
-import programmers.org.voucher.repository.util.statement.From;
-import programmers.org.voucher.repository.util.statement.Select;
+import programmers.org.voucher.repository.util.statement.select.From;
+import programmers.org.voucher.repository.util.statement.select.Select;
 import programmers.org.voucher.repository.util.statement.Where;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.BLANK;

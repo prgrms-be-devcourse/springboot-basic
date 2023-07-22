@@ -1,12 +1,12 @@
-package programmers.org.voucher.repository.util.statement;
+package programmers.org.voucher.repository.util.statement.insert;
 
 import programmers.org.voucher.repository.util.constant.Table;
 
-public class From {
+public class Insert {
 
     private Table table;
 
-    public From(Table table) {
+    public Insert(Table table) {
         this.table = table;
     }
 

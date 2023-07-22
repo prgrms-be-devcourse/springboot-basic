@@ -1,12 +1,12 @@
-package programmers.org.voucher.repository.util.statement;
+package programmers.org.voucher.repository.util.statement.delete;
 
 import programmers.org.voucher.repository.util.constant.Table;
 
-public class Insert {
+public class Delete {
 
     private Table table;
 
-    public Insert(Table table) {
+    public Delete(Table table) {
         this.table = table;
     }
 

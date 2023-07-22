@@ -1,6 +1,7 @@
 package programmers.org.voucher.repository.util.sqlBuilder;
 
-import programmers.org.voucher.repository.util.statement.*;
+import programmers.org.voucher.repository.util.statement.insert.Insert;
+import programmers.org.voucher.repository.util.statement.insert.Values;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.BLANK;
 

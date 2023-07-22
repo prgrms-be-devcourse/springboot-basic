@@ -1,4 +1,4 @@
-package programmers.org.voucher.repository.util.statement;
+package programmers.org.voucher.repository.util.statement.update;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.*;
 import static programmers.org.voucher.repository.util.constant.Symbol.COMMA;
