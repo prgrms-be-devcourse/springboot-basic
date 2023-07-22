@@ -10,6 +10,7 @@ import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.FixedDiscount;
 import com.prgrms.voucher.model.discount.PercentDiscount;
 import com.prgrms.voucher.repository.MemoryVoucherRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -17,23 +18,32 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class MemoryVoucherRepositoryTest {
 
     private static final int FIX_VOUCHER_ID = 1;
     private static final int PERCENT_VOUCHER_ID = 2;
-    private static final int NOT_EXIST_VOUCHER_ID = 2;
+    private static final int NOT_EXIST_VOUCHER_ID = 3;
+
+
+    private final LocalDateTime today = LocalDateTime.now();
+    private final LocalDateTime yesterday = today.minusDays(1);
+    private final LocalDateTime tomorrow = today.plusDays(1);
 
     private MemoryVoucherRepository voucherRepository;
-    private Voucher voucher;
+    private Voucher fixVoucher;
+    private Voucher percemtVoucher;
 
     @BeforeEach
     void setUp() {
-        voucher = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20),
-                VoucherType.FIXED_AMOUNT_VOUCHER);
+        fixVoucher = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20),
+                VoucherType.FIXED_AMOUNT_VOUCHER, today);
+        percemtVoucher = new PercentDiscountVoucher(PERCENT_VOUCHER_ID,
+                new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER, today);
+
         voucherRepository = new MemoryVoucherRepository();
-        voucherRepository.insert(voucher);
+        voucherRepository.insert(fixVoucher);
+        voucherRepository.insert(percemtVoucher);
     }
 
     @Test
@@ -45,7 +55,7 @@ class MemoryVoucherRepositoryTest {
         //then
         assertThat(result.get()).isNotNull()
                 .usingRecursiveComparison()
-                .isEqualTo(voucher);
+                .isEqualTo(fixVoucher);
     }
 
     @Test
@@ -63,7 +73,7 @@ class MemoryVoucherRepositoryTest {
     void insert_InsertedVoucher_EqualsReturnVoucher() {
         //given
         Voucher voucher = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20),
-                VoucherType.FIXED_AMOUNT_VOUCHER);
+                VoucherType.FIXED_AMOUNT_VOUCHER, LocalDateTime.now());
 
         //when
         Voucher result = voucherRepository.insert(voucher);
@@ -73,29 +83,63 @@ class MemoryVoucherRepositoryTest {
                 .isEqualTo(voucher);
     }
 
-    @ParameterizedTest
+    @Test
     @DisplayName("모든 바우처를 조회했을 때 추가한 바우처의 목록과 같다.")
-    @MethodSource("voucherProvider")
-    void getAllVoucher_AllVouchers_SameContents(List<Voucher> voucherList) {
-        //given
-        voucherList.forEach(voucherRepository::insert);
-
+    void getAllVoucher_AllVouchers_SameContents() {
         //when
-        Vouchers result = voucherRepository.getAllVoucher();
+        Vouchers result = voucherRepository.getAllVoucher(null, null);
 
         //then
         assertThat(result.vouchers())
                 .isNotNull()
-                .containsExactlyInAnyOrderElementsOf(voucherList);
+                .contains(fixVoucher,percemtVoucher);
     }
 
-    private static Stream<List<Voucher>> voucherProvider() {
-        Voucher createdVoucher1 = new FixedAmountVoucher(FIX_VOUCHER_ID, new FixedDiscount(20),
-                VoucherType.FIXED_AMOUNT_VOUCHER);
-        Voucher createdVoucher2 = new PercentDiscountVoucher(PERCENT_VOUCHER_ID,
-                new PercentDiscount(20), VoucherType.PERCENT_DISCOUNT_VOUCHER);
-        return Stream.of(
-                List.of(createdVoucher1, createdVoucher2)
-        );
+
+    @Test
+    @DisplayName("필터에 바우처 타입으로 고정된 바우처를 지정했을 때 고정된 바우처의 결과만을 반환한다.")
+    void findAll_FilterWithFixedVoucherType_FixedVoucher() {
+        //when
+        Vouchers result = voucherRepository.getAllVoucher(VoucherType.FIXED_AMOUNT_VOUCHER, null);
+
+        //then
+        assertThat(result.vouchers())
+                .isNotNull()
+                .contains(fixVoucher);
     }
+
+
+    @Test
+    @DisplayName("필터에 바우처 타입으로 할인율 바우처를 지정했을 때 할인율 바우처의 결과만을 반환한다.")
+    void findAll_FilterWithPercentVoucherType_FixedVoucher() {
+        //when
+        Vouchers result = voucherRepository.getAllVoucher(VoucherType.PERCENT_DISCOUNT_VOUCHER, null);
+
+        //then
+        assertThat(result.vouchers())
+                .isNotNull()
+                .contains(percemtVoucher);
+    }
+
+
+    @Test
+    @DisplayName("필터에 날짜 조건만 어제 날짜로 설졍한 경우 어제 날짜 이후로 만들어진 바우처를 반환한다.")
+    void findAll_FilterWithYesterday_LaterThanYesterday() {
+        //when
+        Vouchers result = voucherRepository.getAllVoucher(null, yesterday);
+
+        //then
+        assertThat(result.vouchers()).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("필터에 날짜 조건만 내일 날짜로 설졍한 경우 어떤 바우처도 반환하지 않는다.")
+    void findAll_FilterWithTomorrow_Empty() {
+        //when
+        Vouchers result = voucherRepository.getAllVoucher(null, tomorrow);
+
+        //then
+        assertThat(result.vouchers()).hasSize(0);
+    }
+
 }
