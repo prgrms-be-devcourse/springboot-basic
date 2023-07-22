@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.controller.dto.ControllerCreateVoucherRequest;
+import org.prgrms.kdt.voucher.controller.dto.CreateVoucherControllerRequest;
 import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RequestMapping("/api/voucher")
+@RequestMapping("/api/vouchers")
 @RestController
 public class VoucherApiController {
     private final VoucherService voucherService;
@@ -24,7 +24,7 @@ public class VoucherApiController {
     }
 
     @PostMapping
-    public ResponseEntity<VoucherResponse> create(@RequestBody ControllerCreateVoucherRequest request) {
+    public ResponseEntity<VoucherResponse> create(@RequestBody CreateVoucherControllerRequest request) {
         VoucherResponse response = voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
         return ResponseEntity.ok(response);
     }

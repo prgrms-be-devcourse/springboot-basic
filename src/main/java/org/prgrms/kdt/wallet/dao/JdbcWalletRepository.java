@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -38,8 +37,8 @@ public class JdbcWalletRepository implements WalletRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcWalletRepository(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public JdbcWalletRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
@@ -75,7 +74,8 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public void deleteById(UUID walletId) {
         String sql = "DELETE FROM wallet WHERE id = ?";
-        jdbcTemplate.update(sql, walletId.toString());
+        int update = jdbcTemplate.update(sql, walletId.toString());
+        if (update != 1) throw new NotUpdateException("db에 delete가 수행되지 못했습니다.");
     }
 
     @Override

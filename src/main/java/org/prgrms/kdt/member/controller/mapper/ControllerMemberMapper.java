@@ -1,10 +1,10 @@
 package org.prgrms.kdt.member.controller.mapper;
 
 import org.mapstruct.Mapper;
-import org.prgrms.kdt.member.controller.dto.ControllerCreateMemberRequest;
-import org.prgrms.kdt.member.service.dto.ServiceCreateMemberRequest;
+import org.prgrms.kdt.member.controller.dto.CreateMemberControllerRequest;
+import org.prgrms.kdt.member.service.dto.CreateMemberServiceRequest;
 
 @Mapper(componentModel = "spring")
 public interface ControllerMemberMapper {
-    ServiceCreateMemberRequest controllerRequestToServiceRequest(ControllerCreateMemberRequest request);
+    CreateMemberServiceRequest controllerRequestToServiceRequest(CreateMemberControllerRequest request);
 }

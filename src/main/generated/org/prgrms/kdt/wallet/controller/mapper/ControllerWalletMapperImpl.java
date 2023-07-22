@@ -2,20 +2,20 @@ package org.prgrms.kdt.wallet.controller.mapper;
 
 import java.util.UUID;
 import javax.annotation.processing.Generated;
-import org.prgrms.kdt.wallet.controller.dto.ControllerCreateWalletRequest;
-import org.prgrms.kdt.wallet.service.dto.ServiceCreateWalletRequest;
+import org.prgrms.kdt.wallet.controller.dto.CreateWalletControllerRequest;
+import org.prgrms.kdt.wallet.service.dto.CreateWalletServiceRequest;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-20T18:31:51+0900",
+    date = "2023-07-22T15:51:04+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.7 (Oracle Corporation)"
 )
 @Component
 public class ControllerWalletMapperImpl implements ControllerWalletMapper {
 
     @Override
-    public ServiceCreateWalletRequest controllerRequestToServiceRequest(ControllerCreateWalletRequest request) {
+    public CreateWalletServiceRequest controllerRequestToServiceRequest(CreateWalletControllerRequest request) {
         if ( request == null ) {
             return null;
         }
@@ -28,8 +28,8 @@ public class ControllerWalletMapperImpl implements ControllerWalletMapper {
         memberId = request.memberId();
         voucherId = request.voucherId();
 
-        ServiceCreateWalletRequest serviceCreateWalletRequest = new ServiceCreateWalletRequest( walletId, memberId, voucherId );
+        CreateWalletServiceRequest createWalletServiceRequest = new CreateWalletServiceRequest( walletId, memberId, voucherId );
 
-        return serviceCreateWalletRequest;
+        return createWalletServiceRequest;
     }
 }

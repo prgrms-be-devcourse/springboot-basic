@@ -13,8 +13,8 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
+import org.prgrms.kdt.wallet.service.dto.CreateWalletServiceRequest;
 import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
-import org.prgrms.kdt.wallet.service.dto.ServiceCreateWalletRequest;
 import org.prgrms.kdt.wallet.service.dto.WalletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -59,7 +59,7 @@ class WalletServiceTest {
         UUID expectMemberId = UUID.fromString("9a3d5b3e-2d12-4958-9ef3-52d424485895");
         Member member = memberRepository.insert(new Member(expectMemberId, "giho", MemberStatus.COMMON));
         Voucher voucher = voucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0), LocalDateTime.now()));
-        ServiceCreateWalletRequest request = new ServiceCreateWalletRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
+        CreateWalletServiceRequest request = new CreateWalletServiceRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
 
         //when
         WalletResponse resultWallet = walletService.assignVoucherToCustomer(request);
@@ -75,7 +75,7 @@ class WalletServiceTest {
         //given
         Member member = memberRepository.insert(new Member(UUID.randomUUID(), "giho", MemberStatus.COMMON));
         Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
-        ServiceCreateWalletRequest request = new ServiceCreateWalletRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
+        CreateWalletServiceRequest request = new CreateWalletServiceRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
 
         //when
         Exception exception = catchException(() -> walletService.assignVoucherToCustomer(request));

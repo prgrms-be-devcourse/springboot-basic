@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.controller.dto.ControllerCreateVoucherRequest;
+import org.prgrms.kdt.voucher.controller.dto.CreateVoucherControllerRequest;
 import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
 import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/view/voucher")
+@RequestMapping("/view/vouchers")
 public class VoucherViewController {
     private final VoucherService voucherService;
     private final ControllerVoucherMapper mapper;
@@ -28,9 +28,9 @@ public class VoucherViewController {
     }
 
     @PostMapping("/new")
-    public String create(ControllerCreateVoucherRequest request) {
+    public String create(CreateVoucherControllerRequest request) {
         voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
-        return "redirect:/voucher";
+        return "redirect:/view/vouchers";
     }
 
     @GetMapping("/{id}")
@@ -50,6 +50,6 @@ public class VoucherViewController {
     @PostMapping("/{id}")
     public String deleteById(@PathVariable UUID id) {
         voucherService.deleteById(id);
-        return "redirect:/voucher";
+        return "redirect:/view/vouchers";
     }
 }
