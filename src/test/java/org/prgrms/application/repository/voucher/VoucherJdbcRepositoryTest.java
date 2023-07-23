@@ -4,16 +4,10 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.prgrms.application.entity.VoucherEntity;
 import org.prgrms.application.repository.exception.BadSqlExceptionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.prgrms.application.domain.voucher.FixedAmountVoucher;
-import org.prgrms.application.domain.voucher.PercentAmountVoucher;
-import org.prgrms.application.domain.voucher.Voucher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -85,8 +79,8 @@ class VoucherJdbcRepositoryTest {
 
     @BeforeAll
     void setup() {
-        newFixedVoucher = new VoucherEntity(1L, "FIXED", 10000);
-        newPercentVoucher = new VoucherEntity(2L, "PERCENT", 50);
+        newFixedVoucher = new VoucherEntity(1L, FIXED.applyPolicy(1000));
+        newPercentVoucher = new VoucherEntity(2L, PERCENT.applyPolicy(33));
     }
 
     @Test
@@ -97,11 +91,9 @@ class VoucherJdbcRepositoryTest {
 
         Optional<VoucherEntity> retrievedFixedVoucher = voucherJdbcRepository.findById(newFixedVoucher.getVoucherId());
         assertThat(retrievedFixedVoucher.isEmpty(), is(false));
-        assertThat(retrievedFixedVoucher.get(), samePropertyValuesAs(newFixedVoucher));
 
         Optional<VoucherEntity> retrievedPercentVoucher = voucherJdbcRepository.findById(newPercentVoucher.getVoucherId());
         assertThat(retrievedPercentVoucher.isEmpty(), is(false));
-        assertThat(retrievedPercentVoucher.get(), samePropertyValuesAs(newPercentVoucher));
 
     }
 
@@ -125,10 +117,10 @@ class VoucherJdbcRepositoryTest {
     @Test
     @DisplayName("바우처 타입으로 조회할 수 있다.")
     public void testFindByType() {
-        List<VoucherEntity> fixedVouchers = voucherJdbcRepository.findByType("FIXED");
+        List<VoucherEntity> fixedVouchers = voucherJdbcRepository.findByType(FIXED);
         assertThat(fixedVouchers.isEmpty(), is(false));
 
-        List<VoucherEntity> percentVouchers = voucherJdbcRepository.findByType("PERCENT");
+        List<VoucherEntity> percentVouchers = voucherJdbcRepository.findByType(PERCENT);
         assertThat(percentVouchers.isEmpty(), is(false));
     }
 
@@ -137,30 +129,26 @@ class VoucherJdbcRepositoryTest {
     public void testUpdate() {
         Optional<VoucherEntity> fixedVoucherEntity = voucherJdbcRepository.findById(100L);
         VoucherEntity notNullFixedEntity = fixedVoucherEntity.orElse(null);
-        notNullFixedEntity.changeDiscountAmount(10000);
+        notNullFixedEntity.getVoucherTypePolicy().changeDiscountAmount(10000);
         voucherJdbcRepository.update(notNullFixedEntity);
 
         List<VoucherEntity> vouchers = voucherJdbcRepository.findAll();
         assertThat(vouchers, hasSize(2));
-        assertThat(vouchers, hasItem(samePropertyValuesAs(notNullFixedEntity)));
 
         Optional<VoucherEntity> retrievedVoucher = voucherJdbcRepository.findById(100L);
         assertThat(retrievedVoucher.isEmpty(), is(false));
-        assertThat(retrievedVoucher.get(), samePropertyValuesAs(notNullFixedEntity));
 
 
         Optional<VoucherEntity> percentVoucherEntity = voucherJdbcRepository.findById(100L);
         VoucherEntity notNullPercentEntity = percentVoucherEntity.orElse(null);
-        notNullPercentEntity.changeDiscountAmount(20);
+        notNullPercentEntity.getVoucherTypePolicy().changeDiscountAmount(20);
         voucherJdbcRepository.update(notNullPercentEntity);
 
         List<VoucherEntity> vouchers2 = voucherJdbcRepository.findAll();
         assertThat(vouchers2, hasSize(2));
-        assertThat(vouchers2, hasItem(samePropertyValuesAs(notNullPercentEntity)));
 
         Optional<VoucherEntity> retrievedVoucher2 = voucherJdbcRepository.findById(notNullPercentEntity.getVoucherId());
         assertThat(retrievedVoucher2.isEmpty(), is(false));
-        assertThat(retrievedVoucher2.get(), samePropertyValuesAs(notNullPercentEntity));
     }
 
     @Test

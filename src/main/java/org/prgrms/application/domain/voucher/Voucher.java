@@ -1,17 +1,30 @@
 package org.prgrms.application.domain.voucher;
 
+import org.prgrms.application.domain.voucher.typepolicy.VoucherTypePolicy;
+import org.prgrms.application.entity.VoucherEntity;
 
-public abstract class Voucher {
-    protected static int MIN_DISCOUNT_VALUE = 0;
-    protected Long voucherId;
-    protected double discountAmount;
+public class Voucher {
+    private final Long voucherId;
+    private final VoucherTypePolicy voucherTypePolicy;
 
-    public abstract Long getVoucherId();
+    public Voucher(Long voucherId, VoucherTypePolicy voucherTypePolicy) {
+        this.voucherId = voucherId;
+        this.voucherTypePolicy = voucherTypePolicy;
+    }
 
-    public abstract VoucherType getVoucherType();
+    public static Voucher of(Long voucherId, VoucherTypePolicy voucherTypePolicy) {
+        return new Voucher(voucherId,voucherTypePolicy);
+    }
 
-    public abstract double getDiscountAmount();
+    public Long getVoucherId() {
+        return voucherId;
+    }
 
-    public abstract double discount(double beforeDiscount);
+    public VoucherEntity toEntity(){
+        return new VoucherEntity(this.voucherId, this.voucherTypePolicy);
+    }
 
+    public VoucherTypePolicy getVoucherTypePolicy() {
+        return voucherTypePolicy;
+    }
 }

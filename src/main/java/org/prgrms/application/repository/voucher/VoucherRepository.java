@@ -1,5 +1,6 @@
 package org.prgrms.application.repository.voucher;
 
+import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.entity.VoucherEntity;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,9 @@ public interface VoucherRepository {
 
     Optional<VoucherEntity> findById(Long voucherId);
 
-    List<VoucherEntity> findByType(String voucherType);
+    List<VoucherEntity> findByType(VoucherType voucherType);
 
     void deleteAll();
+
+    void deleteById(Long voucherId);
 }
