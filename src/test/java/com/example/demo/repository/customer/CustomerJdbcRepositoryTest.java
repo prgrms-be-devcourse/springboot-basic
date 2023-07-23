@@ -36,7 +36,7 @@ class CustomerJdbcRepositoryTest {
         Customer customerActual = customerRepository.save(customerExpect);
 
         // then
-        assertThat(customerActual).isEqualTo(customerExpect);
+        assertThat(customerActual).usingRecursiveComparison().isEqualTo(customerExpect);
     }
 
     @Test

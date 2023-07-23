@@ -1,6 +1,7 @@
 package com.example.demo.enums;
 
 public enum VoucherDiscountType {
+    
     FIX("    할인 금액을 입력해주세요 >> "),
     PERCENT("    1 이상 100 이하로 입력해주세요.\n    할인 비율을 입력해주세요 >> ");
 

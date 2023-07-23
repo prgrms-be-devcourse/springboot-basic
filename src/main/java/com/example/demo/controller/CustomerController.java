@@ -16,7 +16,7 @@ public class CustomerController {
 
     public CustomerDto create(String name, int age) {
         CustomerValidator.validateName(name);
-        CustomerValidator.validateAge(age);
+        CustomerValidator.validateAge(String.valueOf(age));
         return customerService.save(name, age);
     }
 
@@ -24,8 +24,8 @@ public class CustomerController {
         return customerService.readList();
     }
 
-    public CustomerDto read(UUID id) {
-        return customerService.read(id);
+    public CustomerDto findById(UUID id) {
+        return customerService.findById(id);
     }
 
     public void updateName(UUID id, String name) {
@@ -33,7 +33,7 @@ public class CustomerController {
         customerService.updateName(id, name);
     }
 
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         customerService.deleteById(id);
     }
 }

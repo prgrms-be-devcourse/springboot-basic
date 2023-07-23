@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum CustomerCommandType {
+
     CREATE_CUSTOMER(1),
     PRINT_CUSTOMER_LIST(2),
     UPDATE_CUSTOMER_NAME(3),
@@ -26,7 +27,7 @@ public enum CustomerCommandType {
         return commandNum;
     }
 
-    public static CustomerCommandType from(Integer input) {
+    public static CustomerCommandType from(int input) {
         if (COMMAND_TYPE_MAP.containsKey(input)) {
             return COMMAND_TYPE_MAP.get(input);
         }

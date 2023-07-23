@@ -8,15 +8,14 @@ import com.example.demo.view.voucher.VoucherView;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class VoucherFlowManager {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherFlowManager.class);
     private final VoucherController voucherController;
     private final VoucherView voucherView;
 
@@ -51,7 +50,7 @@ public class VoucherFlowManager {
                 default -> throw new IllegalArgumentException(String.format("입력하신 %s은 올바르지 않은 커맨드입니다.", voucherCommandType.name()));
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }

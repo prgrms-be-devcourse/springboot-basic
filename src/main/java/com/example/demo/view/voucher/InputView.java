@@ -6,12 +6,11 @@ import com.example.demo.view.validate.CommandValidator;
 import com.example.demo.view.validate.NumberValidator;
 import java.util.Scanner;
 import java.util.UUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class InputView {
 
-    private static final Logger logger = LoggerFactory.getLogger(InputView.class);
     public static Scanner sc = new Scanner(System.in);
 
     public VoucherCommandType readVoucherCommandOption() {
@@ -41,7 +40,7 @@ public class InputView {
         try {
             return UUID.fromString(input);
         } catch (IllegalArgumentException e) {
-            logger.error("View 에러 : 올바르지 않은 포맷의 UUID를 입력 받았습니다. 입력 값 {} 를 UUID 포맷에 맞추어 고쳐주세요.", input);
+            log.error("View 에러 : 올바르지 않은 포맷의 UUID를 입력 받았습니다. 입력 값 {} 를 UUID 포맷에 맞추어 고쳐주세요.", input);
             throw new IllegalArgumentException(String.format("올바르지 않은 포맷의 UUID를 입력 받았습니다. 입력 값 %s 를 UUID 포맷에 맞추어 고쳐주세요.", input));
         }
     }

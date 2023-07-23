@@ -42,7 +42,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
-    public boolean isVoucherNotExist(UUID id) {
+    public boolean notExistById(UUID id) {
         return !voucherHashMap.containsKey(id);
     }
 }

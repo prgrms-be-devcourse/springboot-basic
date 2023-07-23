@@ -7,15 +7,14 @@ import com.example.demo.view.customer.CustomerView;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class CustomerFlowManager {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerFlowManager.class);
     private final CustomerController customerController;
     private final CustomerView customerView;
 
@@ -42,13 +41,13 @@ public class CustomerFlowManager {
                 }
                 case DELETE_CUSTOMER -> {
                     UUID id = customerView.readCustomerId();
-                    customerController.delete(id);
+                    customerController.deleteById(id);
                     customerView.printDeleteMessage();
                 }
                 default -> throw new IllegalArgumentException(String.format("입력하신 %s은 올바르지 않은 커맨드입니다.", customerCommandType.name()));
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }

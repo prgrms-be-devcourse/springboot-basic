@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum VoucherCommandType {
+    
     CREATE_VOUCHER(1),
     PRINT_VOUCHER_LIST(2),
     UPDATE_VOUCHER_AMOUNT(3),

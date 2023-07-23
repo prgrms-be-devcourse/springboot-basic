@@ -40,7 +40,7 @@ class CustomerServiceTest {
                 .willReturn(Optional.of(customerExpect));
 
         // when
-        CustomerDto customerDtoActual = customerService.read(customerExpect.getId());
+        CustomerDto customerDtoActual = customerService.findById(customerExpect.getId());
 
         // then
         then(customerRepository).should(times(1)).findById(customerExpect.getId());

@@ -5,10 +5,8 @@ import com.example.demo.view.validate.NumberValidator;
 import java.util.UUID;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
-@ToString
 public class PercentDiscountVoucher implements Voucher {
 
     private final UUID id;

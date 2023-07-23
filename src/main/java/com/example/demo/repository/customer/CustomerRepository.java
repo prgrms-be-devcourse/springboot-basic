@@ -16,4 +16,6 @@ public interface CustomerRepository {
     void updateName(UUID id, String name);
 
     void deleteById(UUID id);
+
+    boolean notExistById(UUID id);
 }

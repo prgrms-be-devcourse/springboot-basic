@@ -17,7 +17,7 @@ public class VoucherController {
 
 
     public VoucherDto create(VoucherDiscountType voucherDiscountType, int amount) {
-        NumberValidator.validateAmount(voucherDiscountType, String.valueOf(amount));
+        NumberValidator.validateAmount(voucherDiscountType, amount);
         return voucherService.save(voucherDiscountType, amount);
     }
 

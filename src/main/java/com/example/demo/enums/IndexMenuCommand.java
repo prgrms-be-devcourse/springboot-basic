@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum IndexMenuCommand {
+    
     CUSTOMER(1),
     VOUCHER(2),
     EXIT(3);

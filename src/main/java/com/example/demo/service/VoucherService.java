@@ -8,16 +8,14 @@ import com.example.demo.enums.VoucherDiscountType;
 import com.example.demo.repository.voucher.VoucherRepository;
 import java.util.List;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
-
-    public VoucherService(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }
 
     public VoucherDto save(VoucherDiscountType voucherDiscountType, int amount) {
         Voucher voucher = switch (voucherDiscountType) {
@@ -42,7 +40,7 @@ public class VoucherService {
     }
 
     public void updateAmount(UUID id, int discountAmount) {
-        if (voucherRepository.isVoucherNotExist(id)) {
+        if (voucherRepository.notExistById(id)) {
             throw new IllegalArgumentException(String.format("바우처 amount 업데이트 오류 : 입력 된 id에 해당하는 바우처가 존재하지 않습니다. 입력 받은 id : %s ", id.toString()));
         }
 
@@ -50,7 +48,7 @@ public class VoucherService {
     }
 
     public void delete(UUID id) {
-        if (voucherRepository.isVoucherNotExist(id)) {
+        if (voucherRepository.notExistById(id)) {
             throw new IllegalArgumentException(String.format("바우처 삭제 오류 : 입력 된 id에 해당하는 바우처가 존재하지 않습니다. 입력 받은 id : %s ", id.toString()));
         }
 
