@@ -1,16 +1,18 @@
 package org.programers.vouchermanagement.wallet.dto.response;
 
+import lombok.NoArgsConstructor;
 import org.programers.vouchermanagement.member.dto.response.MemberResponse;
 import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import org.programers.vouchermanagement.wallet.domain.Wallet;
 
 import java.util.UUID;
 
+@NoArgsConstructor
 public class WalletResponse {
 
-    private final UUID id;
-    private final VoucherResponse voucher;
-    private final MemberResponse member;
+    private UUID id;
+    private VoucherResponse voucher;
+    private MemberResponse member;
 
     public WalletResponse(Wallet wallet) {
         this(wallet.getId(), new VoucherResponse(wallet.getVoucher()),

@@ -13,11 +13,11 @@ import org.springframework.stereotype.Controller;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
+public class VoucherConsoleController {
 
     private final VoucherService voucherService;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherConsoleController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
@@ -55,7 +55,7 @@ public class VoucherController {
         OutputView.outputCommentAboutPolicy();
         int value = InputView.inputValueOfPolicy();
 
-        VoucherCreationRequest request = new VoucherCreationRequest(type.createPolicy(value), type.getType());
+        VoucherCreationRequest request = new VoucherCreationRequest(type.getType(), value);
         voucherService.save(request);
     }
 

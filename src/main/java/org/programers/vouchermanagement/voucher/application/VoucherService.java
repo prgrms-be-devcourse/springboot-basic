@@ -2,11 +2,11 @@ package org.programers.vouchermanagement.voucher.application;
 
 import org.programers.vouchermanagement.voucher.domain.Voucher;
 import org.programers.vouchermanagement.voucher.domain.VoucherRepository;
+import org.programers.vouchermanagement.voucher.domain.VoucherType;
 import org.programers.vouchermanagement.voucher.dto.request.VoucherCreationRequest;
 import org.programers.vouchermanagement.voucher.dto.response.VoucherResponse;
 import org.programers.vouchermanagement.voucher.dto.request.VoucherUpdateRequest;
 import org.programers.vouchermanagement.voucher.dto.response.VouchersResponse;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +26,9 @@ public class VoucherService {
 
     @Transactional
     public VoucherResponse save(VoucherCreationRequest request) {
-        Voucher voucher = voucherRepository.save(new Voucher(request.getPolicy(), request.getType()));
+        VoucherType type = request.getType();
+        Voucher savingVoucher = type.createVoucher(UUID.randomUUID(), request.getValue());
+        Voucher voucher = voucherRepository.save(savingVoucher);
         return new VoucherResponse(voucher);
     }
 
@@ -35,14 +37,26 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
+    public VouchersResponse findByType(VoucherType type) {
+        List<Voucher> vouchers = voucherRepository.findByType(type);
+        List<VoucherResponse> responses = vouchers.stream()
+                .map(VoucherResponse::new)
+                .collect(Collectors.toList());
+        return new VouchersResponse(responses);
+    }
+
     public VouchersResponse findAll() {
-        List<Voucher> result = voucherRepository.findAll();
-        return new VouchersResponse(result.stream().map(VoucherResponse::new).collect(Collectors.toList()));
+        List<Voucher> vouchers = voucherRepository.findAll();
+        List<VoucherResponse> responses = vouchers.stream()
+                .map(VoucherResponse::new)
+                .collect(Collectors.toList());
+        return new VouchersResponse(responses);
     }
 
     @Transactional
     public void update(VoucherUpdateRequest request) {
-        voucherRepository.update(new Voucher(request.getId(), request.getPolicy(), request.getType()));
+        Voucher voucher = new Voucher(request.getId(), request.getPolicy(), request.getType());
+        voucherRepository.update(voucher);
     }
 
     @Transactional

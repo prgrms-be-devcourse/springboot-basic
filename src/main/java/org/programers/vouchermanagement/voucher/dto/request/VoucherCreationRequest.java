@@ -1,23 +1,17 @@
 package org.programers.vouchermanagement.voucher.dto.request;
 
-import org.programers.vouchermanagement.voucher.domain.VoucherPolicy;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.programers.vouchermanagement.voucher.domain.VoucherType;
 
+@AllArgsConstructor
+@Getter
 public class VoucherCreationRequest {
 
-    private final VoucherPolicy policy;
-    private final VoucherType type;
+    @NotNull
+    private VoucherType type;
 
-    public VoucherCreationRequest(VoucherPolicy policy, VoucherType type) {
-        this.policy = policy;
-        this.type = type;
-    }
-
-    public VoucherPolicy getPolicy() {
-        return policy;
-    }
-
-    public VoucherType getType() {
-        return type;
-    }
+    @NotNull
+    private int value;
 }

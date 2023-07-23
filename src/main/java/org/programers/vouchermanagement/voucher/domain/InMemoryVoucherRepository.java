@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Primary
@@ -26,6 +27,13 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID id) {
         return Optional.ofNullable(VOUCHER_REPOSITORY.get(id));
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return VOUCHER_REPOSITORY.values().stream()
+                .filter(voucher -> voucher.getType() == type)
+                .collect(Collectors.toList());
     }
 
     @Override

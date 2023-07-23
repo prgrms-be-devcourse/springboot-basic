@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class WithRepositoryWalletServiceTest {
 
     private final static VoucherCreationRequest voucherCreationRequest = new VoucherCreationRequest(
-            new FixedAmountPolicy(100), VoucherType.FIXED_AMOUNT);
+            VoucherType.FIXED_AMOUNT, 100);
     private final static MemberCreationRequest memberCreationRequest = new MemberCreationRequest(
             MemberStatus.NORMAL);
 

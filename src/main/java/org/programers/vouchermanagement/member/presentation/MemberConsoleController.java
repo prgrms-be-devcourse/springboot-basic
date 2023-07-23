@@ -13,11 +13,11 @@ import org.springframework.stereotype.Controller;
 import java.util.UUID;
 
 @Controller
-public class MemberController {
+public class MemberConsoleController {
 
     private final MemberService memberService;
 
-    public MemberController(MemberService memberService) {
+    public MemberConsoleController(MemberService memberService) {
         this.memberService = memberService;
     }
 

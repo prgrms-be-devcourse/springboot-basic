@@ -1,18 +1,16 @@
-package org.programers.vouchermanagement.wallet.dto.request;
+package org.programers.vouchermanagement.wallet.dto.response;
 
-import jakarta.validation.constraints.NotNull;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-public class WalletCreationRequest {
+@NoArgsConstructor
+public class WalletViewResponse {
 
-    @NotNull
     private UUID voucherId;
-
-    @NotNull
     private UUID memberId;
 
-    public WalletCreationRequest(UUID voucherId, UUID memberId) {
+    public WalletViewResponse(UUID voucherId, UUID memberId) {
         this.voucherId = voucherId;
         this.memberId = memberId;
     }
