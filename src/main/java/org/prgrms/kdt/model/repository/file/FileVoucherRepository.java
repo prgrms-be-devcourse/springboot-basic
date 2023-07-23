@@ -35,8 +35,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			String voucherJson = objectMapper.writeValueAsString(voucherEntity);
 			fileIO.saveStringToFile(voucherJson + System.lineSeparator());
 		} catch (JsonProcessingException e) {
-			logger.error("save 메서드에서 voucher 저장 실패");
-			logger.error(e.toString());
+			logger.error("save 메서드에서 voucher 저장 실패" + e.toString());
 		}
 
 		return voucherEntity;
@@ -58,8 +57,7 @@ public class FileVoucherRepository implements VoucherRepository {
 					VoucherEntity voucherEntity = objectMapper.readValue(line, VoucherEntity.class);
 					voucherEntities.add(voucherEntity);
 				} catch (JsonProcessingException e) {
-					logger.error("readAll 메서드에서 파일 불러오기 실패");
-					logger.error(e.toString());
+					logger.error("readAll 메서드에서 파일 불러오기 실패" + e.toString());
 				}
 			});
 		return voucherEntities;
@@ -76,7 +74,7 @@ public class FileVoucherRepository implements VoucherRepository {
 		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
 		return voucherEntities
 			.stream()
-			.filter(voucherEntity -> voucherEntity.getVoucherId() == voucherId)
+			.filter(voucherEntity -> voucherEntity.getVoucherId().equals(voucherId))
 			.findFirst();
 	}
 

@@ -31,13 +31,12 @@ public class VoucherController {
 
 	@GetMapping("/vouchers")
 	public String viewVouchersPage(Model model) {
-		List<VoucherResponse> allCustomers = voucherService
+		List<VoucherResponse> vouchers = voucherService
 			.getVouchers()
 			.stream().map(voucherDTO -> VoucherFactory.getVoucherResponse(voucherDTO))
 			.collect(Collectors.toList());
 
-		model.addAttribute("serverTime", LocalDateTime.now());
-		model.addAttribute("vouchers", allCustomers);
+		model.addAttribute("vouchers", vouchers);
 		return "vouchers";
 	}
 
@@ -56,7 +55,7 @@ public class VoucherController {
 		return "redirect:/vouchers";
 	}
 
-	@GetMapping("/vouchers/details/{voucherId}")
+	@GetMapping("/vouchers/{voucherId}")
 	public String findVoucher(@PathVariable("voucherId") Long voucherId, Model model) {
 		Optional<VoucherDTO> maybeVoucher = voucherService.findVoucherById(voucherId);
 

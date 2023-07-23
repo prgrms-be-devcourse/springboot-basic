@@ -50,7 +50,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 		if (map.remove(voucherId) == null) {
 			return false;
 		} else {
-			return false;
+			return true;
 		}
 	}
 }
