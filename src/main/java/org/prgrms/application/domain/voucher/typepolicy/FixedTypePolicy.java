@@ -18,8 +18,19 @@ public class FixedTypePolicy implements VoucherTypePolicy{
     }
 
     @Override
+    public void changeDiscountAmount(double changeAmount) {
+        validatePositive(changeAmount);
+        this.discountAmount = changeAmount;
+    }
+
+    @Override
     public VoucherType getVoucherType() {
         return VoucherType.FIXED;
+    }
+
+    @Override
+    public double getDiscountAmount() {
+        return discountAmount;
     }
 
     @Override

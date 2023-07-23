@@ -4,11 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.prgrms.application.controller.voucher.request.VoucherRegisterRequest;
 import org.prgrms.application.domain.voucher.Voucher;
 import org.prgrms.application.domain.voucher.VoucherDto;
-import org.prgrms.application.domain.voucher.VoucherType;
 import org.prgrms.application.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -16,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,6 +49,7 @@ class VoucherMvcControllerTest {
     void setUp() {
         voucher1 = new VoucherDto(1L, FIXED.applyPolicy(1000));
         voucher2 = new VoucherDto(2L, PERCENT.applyPolicy(33));
+        vouchers = Arrays.asList(Voucher.of(voucher1.voucherId(),voucher1.voucherTypePolicy()), Voucher.of(voucher2.voucherId(),voucher2.voucherTypePolicy()));
     }
 
     @Test

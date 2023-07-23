@@ -8,5 +8,9 @@ public interface VoucherTypePolicy {
 
     VoucherType getVoucherType();
 
+    double getDiscountAmount();
+
+    void changeDiscountAmount(double changeAmount);
+
     double discount(double beforeDiscount);
 }

@@ -22,8 +22,19 @@ public class PercentTypePolicy implements VoucherTypePolicy{
     }
 
     @Override
+    public double getDiscountAmount() {
+        return discountAmount;
+    }
+
+    @Override
     public VoucherType getVoucherType() {
         return VoucherType.PERCENT;
+    }
+
+    @Override
+    public void changeDiscountAmount(double changeAmount) {
+        validatePositive(changeAmount);
+        this.discountAmount = changeAmount;
     }
 
     @Override

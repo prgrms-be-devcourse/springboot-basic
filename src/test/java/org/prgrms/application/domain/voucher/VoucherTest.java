@@ -21,7 +21,7 @@ class VoucherTest {
     @DisplayName("고정 금액 할인 바우처 생성이 성공한다.")
     @ValueSource(doubles = {10000})
     void fixedVoucherCreationSuccess(double discountAmount) {
-        Voucher voucher = new Voucher(id, FIXED, discountAmount);
+        Voucher voucher = new Voucher(id, FIXED.applyPolicy(discountAmount));
         VoucherTypePolicy voucherTypePolicy = voucher.getVoucherTypePolicy();
         assertThat(voucherTypePolicy.equals(FIXED));
     }
@@ -30,7 +30,7 @@ class VoucherTest {
     @ParameterizedTest
     @ValueSource(doubles = {10000})
     void fixedDiscountExceedsAmount(double discountAmount) {
-        Voucher voucher = new Voucher(id, FIXED, discountAmount);
+        Voucher voucher = new Voucher(id, FIXED.applyPolicy(discountAmount));
         VoucherTypePolicy fixedPolicy = voucher.getVoucherTypePolicy();
 
         double stockPrice = 100;
@@ -43,8 +43,7 @@ class VoucherTest {
     @ValueSource(doubles = {-10000,-1})
     void fixedVoucherNegativeFailTest(double discountAmount) {
 
-        assertThatThrownBy(() -> new Voucher(id,FIXED, discountAmount))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Voucher(id,FIXED.applyPolicy(discountAmount))).isInstanceOf(IllegalArgumentException.class);
     }
 
 
@@ -52,7 +51,7 @@ class VoucherTest {
     @DisplayName("고정 금액 할인 바우처가 정상이면 할인에 성공한다.")
     @ValueSource(doubles = {10000,19999})
     void fixedAmountVoucherSuccessTest(double discountAmount) {
-        Voucher voucher = new Voucher(id,FIXED, discountAmount);
+        Voucher voucher = new Voucher(id,FIXED.applyPolicy(discountAmount));
         VoucherTypePolicy fixedPolicy = voucher.getVoucherTypePolicy();
         double stockPrice = 20000;
         double result = fixedPolicy.discount(stockPrice);
@@ -69,7 +68,7 @@ class VoucherTest {
     @DisplayName("퍼센트 금액 할인 바우처 생성이 성공한다.")
     @ValueSource(doubles = {1,99,50})
     void percentVoucherCreationSuccess(double discountAmount) {
-        Voucher voucher = new Voucher(id, PERCENT, discountAmount);
+        Voucher voucher = new Voucher(id, PERCENT.applyPolicy(discountAmount));
         VoucherTypePolicy voucherTypePolicy = voucher.getVoucherTypePolicy();
         assertThat(voucherTypePolicy.equals(PERCENT));
     }
@@ -78,15 +77,14 @@ class VoucherTest {
     @ParameterizedTest
     @ValueSource(doubles = {100, -1,0})
     void percentDiscountFailTest(double percent) {
-        assertThatThrownBy(() -> new Voucher(id, PERCENT, percent))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Voucher(id, PERCENT.applyPolicy(percent))).isInstanceOf(IllegalArgumentException.class);
     }
 
     @ParameterizedTest
     @DisplayName("퍼센트 금액 할인이 성공한다.")
     @ValueSource(doubles = {1,99,50})
     void percentVoucherDiscountSuccess(double percent) {
-        Voucher voucher = new Voucher(id, PERCENT, percent);
+        Voucher voucher = new Voucher(id,  PERCENT.applyPolicy(percent));
         VoucherTypePolicy percentPolicy = voucher.getVoucherTypePolicy();
 
         double stockPrice = 20000;

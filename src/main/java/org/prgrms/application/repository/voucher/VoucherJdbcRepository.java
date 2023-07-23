@@ -18,8 +18,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
     private static final int HAS_UPDATE = 1;
     private static final String VOUCHER_ID = "voucherId";
-    private static final String VOUCHER_TYPE = "voucherType";
-    private static final String DISCOUNT_AMOUNT = "discountAmount";
+    private static final String VOUCHER_TYPE_POLICY = "voucherTypePolicy";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -29,19 +28,20 @@ public class VoucherJdbcRepository implements VoucherRepository {
     // db로부터 정보를 가져옴
     private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, i) -> {
         Long voucherId = resultSet.getLong("voucher_id");
-        String voucherType= resultSet.getString("voucher_type");
+        String voucherType = resultSet.getString("voucher_type");
         Double discountAmount = resultSet.getDouble("discount_amount");
-        VoucherEntity voucherEntity = new VoucherEntity(voucherId, voucherType, discountAmount);
+        VoucherType voucherTypeEnum = VoucherType.findBySelection(voucherType);
+        VoucherEntity voucherEntity = new VoucherEntity(voucherId, voucherTypeEnum.applyPolicy(discountAmount));
         return voucherEntity;
     };
 
     // 맵의 키를 파라미터로 변경
     private Map<String, Object> toParamMap(VoucherEntity voucherEntity) {
-        return new HashMap<>() {{
-            put(VOUCHER_ID, voucherEntity.getVoucherId());
-            put(VOUCHER_TYPE, voucherEntity.getVoucherType());
-            put(DISCOUNT_AMOUNT, voucherEntity.getDiscountAmount());
-        }};
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("voucherId", voucherEntity.getVoucherId());
+        paramMap.put("voucherType", voucherEntity.getVoucherTypePolicy().getVoucherType().name());
+        paramMap.put("discountAmount", voucherEntity.getVoucherTypePolicy().getDiscountAmount());
+        return paramMap;
     }
 
     @Override
@@ -84,11 +84,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public List<VoucherEntity> findByType(VoucherType voucherType) {
-        List<VoucherEntity> vouchers = jdbcTemplate.query("select * from vouchers WHERE voucher_type = :voucherType",
-                Collections.singletonMap(VOUCHER_TYPE, voucherType.toString()),
-                voucherRowMapper);
-        return vouchers;
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("voucherType", voucherType.name());
 
+        List<VoucherEntity> vouchers = jdbcTemplate.query("select * from vouchers WHERE voucher_type = :voucherType",
+                paramMap,
+                voucherRowMapper);
+
+        return vouchers;
     }
 
     @Override

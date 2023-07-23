@@ -44,7 +44,7 @@ class VoucherServiceTest {
     public void createVoucherSuccessTest(String voucherTypeStr, double discountAmount) {
         //given
         VoucherType voucherType = VoucherType.findBySelection(voucherTypeStr);
-        Voucher voucher = Voucher.of(voucherId, voucherType, discountAmount);
+        Voucher voucher = Voucher.of(voucherId, voucherType.applyPolicy(discountAmount));
         VoucherEntity voucherEntity = voucher.toEntity();
 
         when(voucherRepository.insert(any(VoucherEntity.class))).thenReturn(voucherEntity); // 저장된 바우처
@@ -63,8 +63,8 @@ class VoucherServiceTest {
     @DisplayName("바우처 조회 성공 테스트")
     public void getVouchersSuccess() {
         List<VoucherEntity> voucherEntities = new ArrayList<>();
-        voucherEntities.add(new VoucherEntity(1L, FIXED.name(), 1));
-        voucherEntities.add(new VoucherEntity(1L, PERCENT.name(), 1));
+        voucherEntities.add(new VoucherEntity(1L, FIXED.applyPolicy(1000)));
+        voucherEntities.add(new VoucherEntity(1L, PERCENT.applyPolicy(33)));
 
         when(voucherRepository.findAll()).thenReturn(voucherEntities);
 
