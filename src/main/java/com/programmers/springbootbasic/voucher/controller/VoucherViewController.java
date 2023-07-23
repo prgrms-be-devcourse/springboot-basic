@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RequestMapping("voucher")
+@RequestMapping("/voucher")
 @Controller
 public class VoucherViewController {
 

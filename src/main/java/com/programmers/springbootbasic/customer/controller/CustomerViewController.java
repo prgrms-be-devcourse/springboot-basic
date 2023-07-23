@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RequestMapping("customer")
+@RequestMapping("/customer")
 @Controller
 public class CustomerViewController {
 
