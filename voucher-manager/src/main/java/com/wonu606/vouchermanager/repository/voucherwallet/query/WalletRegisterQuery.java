@@ -1,11 +1,11 @@
 package com.wonu606.vouchermanager.repository.voucherwallet.query;
 
-public class WalletUpdateQuery {
+public class WalletRegisterQuery {
 
     private final String customerId;
     private final String voucherId;
 
-    public WalletUpdateQuery(String customerId, String voucherId) {
+    public WalletRegisterQuery(String customerId, String voucherId) {
         this.customerId = customerId;
         this.voucherId = voucherId;
     }

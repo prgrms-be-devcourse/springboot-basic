@@ -4,6 +4,7 @@ import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedCustomersQ
 import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedVouchersQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletDeleteQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletInsertQuery;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletRegisterQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletUpdateQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedCustomerResultSet;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedVoucherResultSet;
@@ -22,4 +23,6 @@ public interface VoucherWalletRepository {
     WalletInsertResultSet insert(WalletInsertQuery wallet);
 
     WalletUpdateResultSet update(WalletUpdateQuery wallet);
+
+    void register(WalletRegisterQuery query);
 }

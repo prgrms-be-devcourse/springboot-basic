@@ -8,6 +8,7 @@ import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSe
 import com.wonu606.vouchermanager.service.customer.converter.CustomerServiceConverterManager;
 import com.wonu606.vouchermanager.service.customer.factory.CustomerFactory;
 import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
+import com.wonu606.vouchermanager.service.customer.param.WalletRegisterParam;
 import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
 import com.wonu606.vouchermanager.service.customer.result.CustomerResult;
 import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
@@ -59,5 +60,9 @@ public class CustomerService {
 
     public void deleteWallet(WalletDeleteParam param) {
         voucherWalletService.deleteWallet(param);
+    }
+
+    public void registerToWallet(WalletRegisterParam param) {
+        voucherWalletService.registerToWallet(param);
     }
 }

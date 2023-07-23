@@ -3,29 +3,37 @@ package com.wonu606.vouchermanager.repository.customer;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
-import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
 import com.wonu606.vouchermanager.domain.customer.email.Email;
+import com.wonu606.vouchermanager.repository.customer.query.CustomerCreateQuery;
+import com.wonu606.vouchermanager.repository.customer.reader.CustomerJdbcReader;
+import com.wonu606.vouchermanager.repository.customer.reader.CustomerReader;
+import com.wonu606.vouchermanager.repository.customer.reader.rowmapper.CustomerReaderRowMapperManager;
+import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
+import com.wonu606.vouchermanager.repository.customer.store.CustomerJdbcStore;
+import com.wonu606.vouchermanager.repository.customer.store.CustomerStore;
 import java.util.List;
-import java.util.Optional;
-import javax.sql.DataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @JdbcTest
 @DisplayName("JdbcCustomerResultSetRepository 테스트")
 class CustomerJdbcRepositoryTest {
 
-    private CustomerJdbcRepository customerJdbcRepository;
+    private CustomerJdbcRepository repository;
 
     @Autowired
-    private DataSource dataSource;
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @BeforeEach
     void setUp() {
-        customerJdbcRepository = new CustomerJdbcRepository(dataSource);
+        CustomerReader reader = new CustomerJdbcReader(namedParameterJdbcTemplate,
+                new CustomerReaderRowMapperManager());
+        CustomerStore store = new CustomerJdbcStore(namedParameterJdbcTemplate);
+        repository = new CustomerJdbcRepository(reader, store);
     }
 
     @Test
@@ -38,47 +46,15 @@ class CustomerJdbcRepositoryTest {
         Email email = new Email(customer.getEmailAddress());
 
         // when
-        customerJdbcRepository.save(customer);
-        var foundCustomer = customerJdbcRepository.findByEmailAddress(
-                email);
+        repository.insert(
+                new CustomerCreateQuery(customer.getEmailAddress(), customer.getNickname()));
+        List<CustomerResultSet> actualAllList = repository.findAll();
 
         // then
-        assertThat(foundCustomer).isPresent();
-        assertThat(foundCustomer.get().getEmailAddress()).isEqualTo(customer.getEmailAddress());
-        assertThat(foundCustomer.get().getNickname()).isEqualTo(customer.getNickname());
-    }
-
-    @Test
-    @DisplayName("findByEmailAddress_저장된 Customer라면_Customer가 반환된다.")
-    void findByEmailAddress_CustomerPresent_ReturnsSameCustomer() {
-        // given
-        Customer customer = new Customer(
-                new Email("Linlin@onepiece.org"), "Big Mom");
-        customerJdbcRepository.save(customer);
-
-        Email email = new Email(customer.getEmailAddress());
-
-        // when
-        var foundCustomer =
-                customerJdbcRepository.findByEmailAddress(email);
-
-        // then
-        assertThat(foundCustomer).isPresent();
-        assertThat(foundCustomer.get().getEmailAddress()).isEqualTo(customer.getEmailAddress());
-    }
-
-    @Test
-    @DisplayName("findByEmailAddress_저장되지 않은 Customer_Empty를 반환한다.")
-    void findByEmailAddress_UnsavedCustomer_ReturnsEmpty() {
-        // given
-        Email unsavedEmail = new Email("unsavedEmailAddress@domain.com");
-
-        // when
-        var foundCustomer =
-                customerJdbcRepository.findByEmailAddress(unsavedEmail);
-
-        // then
-        assertThat(foundCustomer).isNotPresent();
+        assertThat(actualAllList).isNotNull();
+        assertThat(actualAllList).hasSize(1);
+        assertThat(actualAllList.get(0).getEmail()).isEqualTo(customer.getEmailAddress());
+        assertThat(actualAllList.get(0).getNickname()).isEqualTo(customer.getNickname());
     }
 
     @Test
@@ -89,53 +65,38 @@ class CustomerJdbcRepositoryTest {
                 new Email("Linlin@onepiece.org"), "Big Mom");
         Customer customer2 = new Customer(
                 new Email("loopy@onepiece.org"), "Pirate King");
-        customerJdbcRepository.save(customer1);
-        customerJdbcRepository.save(customer2);
+        repository.insert(
+                new CustomerCreateQuery(customer1.getEmailAddress(), customer1.getNickname()));
+        repository.insert(
+                new CustomerCreateQuery(customer2.getEmailAddress(), customer2.getNickname()));
 
         // when
-        List<CustomerResultSet> allCustomers = customerJdbcRepository.findAll();
+        List<CustomerResultSet> allCustomers = repository.findAll();
 
         // then
         assertThat(allCustomers).hasSize(2);
-        assertThat(allCustomers).extracting("emailAddress")
+        assertThat(allCustomers).extracting("email")
                 .contains(customer1.getEmailAddress(), customer2.getEmailAddress());
+        assertThat(allCustomers).extracting("nickname")
+                .contains(customer1.getNickname(), customer2.getNickname());
     }
 
     @Test
-    @DisplayName("deleteByEmailAddress_저장된 Customer_Customer를 제거한다.")
-    void deleteByEmailAddress_SavedCustomer_CustomerDeleted() {
+    @DisplayName("deleteByCustomerId_저장된 Customer_Customer를 제거한다.")
+    void deleteByCustomerId_SavedCustomer_CustomerDeleted() {
         // given
         Customer customer = new Customer(
                 new Email("Linlin@onepiece.org"), "Big Mom");
-        customerJdbcRepository.save(customer);
+        repository.insert(
+                new CustomerCreateQuery(customer.getEmailAddress(), customer.getNickname()));
 
         Email email = new Email(customer.getEmailAddress());
 
         // then
-        customerJdbcRepository.deleteByEmailAddress(email);
-        Optional<CustomerResultSet> foundCustomer = customerJdbcRepository
-                .findByEmailAddress(email);
+        repository.deleteByCustomerId(customer.getEmailAddress());
+        List<CustomerResultSet> actualAllList = repository.findAll();
 
         // when
-        assertThat(foundCustomer).isNotPresent();
-    }
-
-    @Test
-    @DisplayName("deleteAll_저장된 모든 Customer_모든 Customer를 제거한다.")
-    void deleteAll_MultipleCustomers_AllCustomersDeleted() {
-        // given
-        Customer customer1 = new Customer(
-                new Email("Linlin@onepiece.org"), "Big Mom");
-        Customer customer2 = new Customer(
-                new Email("loopy@onepiece.org"), "Pirate King");
-        customerJdbcRepository.save(customer1);
-        customerJdbcRepository.save(customer2);
-
-        // then
-        customerJdbcRepository.deleteAll();
-        List<CustomerResultSet> allCustomers = customerJdbcRepository.findAll();
-
-        // when
-        assertThat(allCustomers).isEmpty();
+        assertThat(actualAllList).hasSize(0);
     }
 }

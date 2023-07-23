@@ -2,6 +2,7 @@ package com.wonu606.vouchermanager.repository.voucherwallet.store;
 
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletDeleteQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletInsertQuery;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletRegisterQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletUpdateQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.WalletInsertResultSet;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.WalletUpdateResultSet;
@@ -45,5 +46,15 @@ public class VoucherWalletJdbcStore implements VoucherWalletStore {
         params.put("voucher_id", query.getVoucherId());
 
         return new WalletUpdateResultSet(jdbcTemplate.update(insertSql, params));
+    }
+
+    @Override
+    public void register(WalletRegisterQuery query) {
+        String updateQuery = "UPDATE voucher_wallet SET customer_id = :customer_id WHERE voucher_id = :voucher_id AND customer_id IS NULL LIMIT 1";
+        Map<String, Object> params = new HashMap<>();
+        params.put("customer_id", query.getCustomerId());
+        params.put("voucher_id", query.getVoucherId());
+
+        jdbcTemplate.update(updateQuery, params);
     }
 }

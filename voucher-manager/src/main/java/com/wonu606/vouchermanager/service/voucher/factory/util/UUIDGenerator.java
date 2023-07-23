@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager.service.util;
+package com.wonu606.vouchermanager.service.voucher.factory.util;
 
 import java.util.UUID;
 import org.springframework.stereotype.Component;

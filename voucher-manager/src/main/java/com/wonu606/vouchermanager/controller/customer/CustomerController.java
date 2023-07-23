@@ -5,11 +5,13 @@ import com.wonu606.vouchermanager.controller.customer.converter.CustomerControll
 import com.wonu606.vouchermanager.controller.customer.request.CustomerCreateRequest;
 import com.wonu606.vouchermanager.controller.customer.request.OwnedVouchersRequest;
 import com.wonu606.vouchermanager.controller.customer.request.WalletDeleteRequest;
+import com.wonu606.vouchermanager.controller.customer.request.WalletRegisterRequest;
 import com.wonu606.vouchermanager.controller.customer.response.CustomerCreateResponse;
 import com.wonu606.vouchermanager.controller.customer.response.CustomerResponse;
 import com.wonu606.vouchermanager.controller.customer.response.OwnedVoucherResponse;
 import com.wonu606.vouchermanager.service.customer.CustomerService;
 import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
+import com.wonu606.vouchermanager.service.customer.param.WalletRegisterParam;
 import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
 import com.wonu606.vouchermanager.service.customer.result.CustomerResult;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
@@ -77,5 +79,10 @@ public class CustomerController {
     public void deleteWallet(WalletDeleteRequest request) {
         WalletDeleteParam param = converterManager.convert(request, WalletDeleteParam.class);
         service.deleteWallet(param);
+    }
+
+    public void registerToWallet(WalletRegisterRequest request) {
+        WalletRegisterParam param = converterManager.convert(request, WalletRegisterParam.class);
+        service.registerToWallet(param);
     }
 }

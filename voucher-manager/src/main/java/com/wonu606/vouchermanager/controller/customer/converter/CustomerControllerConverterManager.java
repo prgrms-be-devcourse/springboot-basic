@@ -16,6 +16,7 @@ public class CustomerControllerConverterManager {
         converterList.add(new OwnedVouchersParamConverter());
         converterList.add(new OwnedVoucherResponseConverter());
         converterList.add(new WalletDeleteParamConverter());
+        converterList.add(new WalletRegisterParamConverter());
     }
 
     @SuppressWarnings("unchecked")

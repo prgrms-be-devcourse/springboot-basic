@@ -1,6 +1,8 @@
 package com.wonu606.vouchermanager.service.voucherwallet;
 
 import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherResultSet;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletRegisterQuery;
+import com.wonu606.vouchermanager.service.customer.param.WalletRegisterParam;
 import com.wonu606.vouchermanager.service.voucher.VoucherService;
 import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
 import com.wonu606.vouchermanager.service.voucher.result.VoucherCreateResult;
@@ -79,5 +81,10 @@ public class VoucherWalletService {
 
     public List<VoucherResult> getVoucherList() {
         return voucherService.getVoucherList();
+    }
+
+    public void registerToWallet(WalletRegisterParam param) {
+        WalletRegisterQuery query = converterManager.convert(param, WalletRegisterQuery.class);
+        voucherWalletRepository.register(query);
     }
 }
