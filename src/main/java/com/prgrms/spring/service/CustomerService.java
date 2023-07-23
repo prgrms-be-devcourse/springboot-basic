@@ -1,4 +1,4 @@
-package com.prgrms.spring.service.customer;
+package com.prgrms.spring.service;
 
 import com.prgrms.spring.controller.dto.request.CustomerCreateRequestDto;
 import com.prgrms.spring.domain.customer.Customer;

@@ -1,12 +1,11 @@
 package com.prgrms.spring.controller.api;
 
-import com.google.protobuf.Api;
 import com.prgrms.spring.common.dto.ApiResponse;
 import com.prgrms.spring.controller.dto.request.VoucherCreateRequestDto;
 import com.prgrms.spring.controller.dto.response.VoucherResponseDto;
 import com.prgrms.spring.domain.voucher.VoucherType;
 import com.prgrms.spring.exception.Success;
-import com.prgrms.spring.service.voucher.VoucherService;
+import com.prgrms.spring.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.prgrms.spring.service.voucher;
+package com.prgrms.spring.service;
 
 import com.prgrms.spring.controller.dto.request.VoucherCreateRequestDto;
 import com.prgrms.spring.controller.dto.response.VoucherResponseDto;

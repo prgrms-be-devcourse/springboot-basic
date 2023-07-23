@@ -5,7 +5,7 @@
 //import com.prgrms.spring.exception.Error;
 //import com.prgrms.spring.exception.Success;
 //import com.prgrms.spring.io.ConsoleView;
-//import com.prgrms.spring.service.customer.CustomerService;
+//import com.prgrms.spring.service.CustomerService;
 //import lombok.AllArgsConstructor;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
