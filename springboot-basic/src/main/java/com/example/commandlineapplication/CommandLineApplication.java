@@ -10,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CommandLineApplication implements CommandLineRunner {
 
   private static final Logger LOG = LoggerFactory.getLogger(CommandLineApplication.class);
-  private final CommandController commandController;
+  private final ConsoleRunner consoleRunner;
 
-  public CommandLineApplication(CommandController commandController) {
-    this.commandController = commandController;
+  public CommandLineApplication(ConsoleRunner consoleRunner) {
+    this.consoleRunner = consoleRunner;
   }
 
   public static void main(String[] args) {
@@ -23,6 +23,6 @@ public class CommandLineApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
-    commandController.run();
+    consoleRunner.run();
   }
 }

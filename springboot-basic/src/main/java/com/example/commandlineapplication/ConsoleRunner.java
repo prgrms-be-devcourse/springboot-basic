@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CommandController implements Runnable {
+public class ConsoleRunner implements Runnable {
 
-  private static final Logger LOG = LoggerFactory.getLogger(CommandController.class);
+  private static final Logger LOG = LoggerFactory.getLogger(ConsoleRunner.class);
   private final Console console;
   private final VoucherService voucherService;
 
