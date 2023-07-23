@@ -1,7 +1,7 @@
 package com.example.commandlineapplication.global.io;
 
+import com.example.commandlineapplication.domain.voucher.VoucherType;
 import com.example.commandlineapplication.domain.voucher.dto.response.VoucherResponse;
-import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import com.example.commandlineapplication.domain.voucher.service.VoucherService;
 import java.util.List;
 import java.util.Scanner;

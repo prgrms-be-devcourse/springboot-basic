@@ -1,6 +1,5 @@
 package com.example.commandlineapplication;
 
-import com.example.commandlineapplication.domain.voucher.controller.VoucherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -11,10 +10,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CommandLineApplication implements CommandLineRunner {
 
   private static final Logger LOG = LoggerFactory.getLogger(CommandLineApplication.class);
-  private final VoucherController voucherController;
+  private final CommandController commandController;
 
-  public CommandLineApplication(VoucherController voucherController) {
-    this.voucherController = voucherController;
+  public CommandLineApplication(CommandController commandController) {
+    this.commandController = commandController;
   }
 
   public static void main(String[] args) {
@@ -24,6 +23,6 @@ public class CommandLineApplication implements CommandLineRunner {
 
   @Override
   public void run(String... args) {
-    voucherController.run();
+    commandController.run();
   }
 }

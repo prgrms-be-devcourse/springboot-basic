@@ -1,4 +1,4 @@
-package com.example.commandlineapplication.domain.voucher.model;
+package com.example.commandlineapplication.domain.voucher;
 
 import java.util.Arrays;
 

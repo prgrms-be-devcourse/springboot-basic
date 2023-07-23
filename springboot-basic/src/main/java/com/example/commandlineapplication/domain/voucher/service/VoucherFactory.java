@@ -1,10 +1,10 @@
 package com.example.commandlineapplication.domain.voucher.service;
 
+import com.example.commandlineapplication.domain.voucher.FixedAmountVoucher;
+import com.example.commandlineapplication.domain.voucher.PercentDiscountVoucher;
+import com.example.commandlineapplication.domain.voucher.Voucher;
+import com.example.commandlineapplication.domain.voucher.VoucherType;
 import com.example.commandlineapplication.domain.voucher.dto.request.VoucherCreateRequest;
-import com.example.commandlineapplication.domain.voucher.model.FixedAmountVoucher;
-import com.example.commandlineapplication.domain.voucher.model.PercentDiscountVoucher;
-import com.example.commandlineapplication.domain.voucher.model.Voucher;
-import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

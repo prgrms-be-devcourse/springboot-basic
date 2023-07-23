@@ -1,9 +1,9 @@
 package com.example.commandlineapplication.domain.voucher.repository;
 
+import com.example.commandlineapplication.domain.voucher.Voucher;
+import com.example.commandlineapplication.domain.voucher.VoucherType;
 import com.example.commandlineapplication.domain.voucher.dto.mapper.VoucherMapper;
 import com.example.commandlineapplication.domain.voucher.dto.request.VoucherCreateRequest;
-import com.example.commandlineapplication.domain.voucher.model.Voucher;
-import com.example.commandlineapplication.domain.voucher.model.VoucherType;
 import com.example.commandlineapplication.domain.voucher.service.VoucherFactory;
 import java.util.List;
 import java.util.Optional;

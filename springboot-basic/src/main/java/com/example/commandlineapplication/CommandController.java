@@ -1,6 +1,6 @@
-package com.example.commandlineapplication.domain.voucher.controller;
+package com.example.commandlineapplication;
 
-import com.example.commandlineapplication.domain.voucher.model.VoucherType;
+import com.example.commandlineapplication.domain.voucher.VoucherType;
 import com.example.commandlineapplication.domain.voucher.service.VoucherService;
 import com.example.commandlineapplication.global.io.Command;
 import com.example.commandlineapplication.global.io.Console;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class VoucherController implements Runnable {
+public class CommandController implements Runnable {
 
-  private static final Logger LOG = LoggerFactory.getLogger(VoucherController.class);
+  private static final Logger LOG = LoggerFactory.getLogger(CommandController.class);
   private final Console console;
   private final VoucherService voucherService;
 

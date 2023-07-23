@@ -1,6 +1,6 @@
 package com.example.commandlineapplication.domain.voucher.dto.response;
 
-import com.example.commandlineapplication.domain.voucher.model.VoucherType;
+import com.example.commandlineapplication.domain.voucher.VoucherType;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
