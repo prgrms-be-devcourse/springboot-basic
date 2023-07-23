@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -30,13 +31,12 @@ public class VoucherAPIController {
 		return voucherService.getVouchers();
 	}
 
-	@GetMapping("/api/vouchers/voucher-type/{voucherTypeIdx}")
+	@GetMapping("/api/vouchers/voucher-type/{voucherType}")
 	@ResponseBody
-	public List<VoucherDTO> findVouchers(@PathVariable("voucherTypeIdx")int voucherTypeIdx, Model model) {
-		VoucherType targetVoucherType = VoucherType.valueOf(voucherTypeIdx);
+	public List<VoucherDTO> findVouchers(@RequestParam("voucherType") VoucherType voucherType, Model model) {
 		return voucherService.getVouchers()
 			.stream()
-			.filter(voucherDTO -> voucherDTO.getVoucherType() == targetVoucherType)
+			.filter(voucherDTO -> voucherDTO.getVoucherType() == voucherType)
 			.collect(Collectors.toList());
 	}
 
