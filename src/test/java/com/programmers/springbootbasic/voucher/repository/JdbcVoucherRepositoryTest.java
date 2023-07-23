@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,7 +29,6 @@ class JdbcVoucherRepositoryTest {
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
 
-    @Transactional
     @DisplayName("바우처를 저장한다")
     @Test
     void save() {
@@ -44,7 +42,6 @@ class JdbcVoucherRepositoryTest {
         assertThat(result.getVoucherId(), is(fixedAmountVoucher.getVoucherId()));
     }
 
-    @Transactional
     @DisplayName("저장된 바우처들을 모두 조회한다")
     @Test
     void findAll() {
@@ -62,7 +59,6 @@ class JdbcVoucherRepositoryTest {
         assertThat(result.size(), is(2));
     }
 
-    @Transactional
     @DisplayName("바우처를 id로 조회한다")
     @Test
     void findById() {
@@ -77,7 +73,6 @@ class JdbcVoucherRepositoryTest {
         assertThat(result.get().getVoucherId(), is(fixedAmountVoucher.getVoucherId()));
     }
 
-    @Transactional
     @DisplayName("바우처를 id로 조회했을 때 존재하지 않으면 예외처리한다")
     @Test
     void findByIdException() {
@@ -90,7 +85,6 @@ class JdbcVoucherRepositoryTest {
                 .isInstanceOf(RuntimeException.class);
     }
 
-    @Transactional
     @DisplayName("바우처를 수정한다")
     @Test
     void update() {
@@ -108,7 +102,6 @@ class JdbcVoucherRepositoryTest {
         assertThat(result.getVoucherValue(), is(20L));
     }
 
-    @Transactional
     @DisplayName("id로 바우처를 삭제한다")
     @Test
     void deleteById() {
@@ -124,7 +117,6 @@ class JdbcVoucherRepositoryTest {
         assertThat(result).isEmpty();
     }
 
-    @Transactional
     @DisplayName("저장된 모든 바우처들을 삭제한다")
     @Test
     void deleteAll() {

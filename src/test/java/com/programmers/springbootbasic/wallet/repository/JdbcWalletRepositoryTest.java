@@ -12,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +27,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcWalletRepositoryTest {
+
     @Autowired
     private JdbcVoucherRepository jdbcVoucherRepository;
 
@@ -37,7 +37,6 @@ class JdbcWalletRepositoryTest {
     @Autowired
     private JdbcWalletRepository jdbcWalletRepository;
 
-    @Transactional
     @DisplayName("특정 회원에게 바우처를 할당한다")
     @Test
     void updateVoucherCustomerId() {
@@ -55,7 +54,6 @@ class JdbcWalletRepositoryTest {
         assertThat(assignedCustomerId, is(customer.getCustomerId()));
     }
 
-    @Transactional
     @DisplayName("고객이 보유하고 있는 바우처를 조회한다")
     @Test
     void findVouchersByCustomerId() {
@@ -80,7 +78,6 @@ class JdbcWalletRepositoryTest {
         assertThat(vouchers.size(), is(2));
     }
 
-    @Transactional
     @DisplayName("특정 바우처를 보유한 고객을 조회한다")
     @Test
     void findCustomerByVoucherId() {
@@ -99,7 +96,6 @@ class JdbcWalletRepositoryTest {
         assertThat(resultCustomer.get().getCustomerId(), is(customer.getCustomerId()));
     }
 
-    @Transactional
     @DisplayName("특정 바우처를 보유한 고객을 찾을 수 없는 경우 빈 Customer를 반환한다")
     @Test
     void findCustomerByVoucherIdEmpty() {
@@ -114,7 +110,6 @@ class JdbcWalletRepositoryTest {
         assertThat(customer).isEmpty();
     }
 
-    @Transactional
     @DisplayName("회원이 보유한 특정 바우처를 제거한다")
     @Test
     void deleteVoucherByVoucherIdAndCustomerId() {
@@ -138,7 +133,6 @@ class JdbcWalletRepositoryTest {
         assertThat(result.size(), is(1));
     }
 
-    @Transactional
     @DisplayName("회원이 보유한 모든 바우처를 제거한다")
     @Test
     void deleteAllVouchersByCustomerId() {

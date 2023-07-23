@@ -7,7 +7,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +27,6 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     private JdbcCustomerRepository jdbcCustomerRepository;
 
-    @Transactional
     @DisplayName("회원을 저장한다")
     @Test
     void save() {
@@ -42,7 +40,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result.getCustomerId(), is(customer.getCustomerId()));
     }
 
-    @Transactional
     @DisplayName("저장된 회원들을 모두 조회한다")
     @Test
     void findAll() {
@@ -60,7 +57,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result.size(), is(2));
     }
 
-    @Transactional
     @DisplayName("회원을 id로 조회한다")
     @Test
     void findById() {
@@ -75,7 +71,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result.get().getCustomerId(), is(customer.getCustomerId()));
     }
 
-    @Transactional
     @DisplayName("회원을 id로 조회했을 때 존재하지 않으면 예외처리한다")
     @Test
     void findByIdException() {
@@ -88,7 +83,6 @@ class JdbcCustomerRepositoryTest {
                 .isInstanceOf(RuntimeException.class);
     }
 
-    @Transactional
     @DisplayName("회원을 수정한다")
     @Test
     void update() {
@@ -105,7 +99,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result.getCustomerName(), is("after"));
     }
 
-    @Transactional
     @DisplayName("id로 회원을 삭제한다")
     @Test
     void deleteById() {
@@ -121,7 +114,6 @@ class JdbcCustomerRepositoryTest {
         assertThat(result).isEmpty();
     }
 
-    @Transactional
     @DisplayName("저장된 모든 회원들을 삭제한다")
     @Test
     void deleteAll() {
