@@ -35,10 +35,7 @@ public class CustomerService {
         return customerRepository.findByEmail(email.getAddress());
     }
 
-    public void updateInfo(String[] updateEmailInfo) {
-        String beforeUpdateEmail = updateEmailInfo[0];
-        String afterUpdateEmail = updateEmailInfo[1];
-
+    public void updateInfo(String beforeUpdateEmail,String afterUpdateEmail) {
         customerRepository.updateInfo(beforeUpdateEmail, afterUpdateEmail);
     }
 
