@@ -40,12 +40,12 @@ public class VoucherController {
 		return "vouchers";
 	}
 
-	@GetMapping("/vouchers/new")
+	@GetMapping("/voucher/new")
 	public String viewNewVoucherPage() {
 		return "new-vouchers";
 	}
 
-	@PostMapping("/vouchers/new")
+	@PostMapping("/voucher/new")
 	public String addNewVoucher(VoucherRequest voucherRequest) {
 		int amount = voucherRequest.getAmount();
 		int voucherTypeIdx = voucherRequest.getVoucherTypeIdx();
