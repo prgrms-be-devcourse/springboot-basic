@@ -54,7 +54,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .values("UUID_TO_BIN(:voucherId)",":voucherType",":discount",":createdAt")
                 .build();
 
-
         jdbcTemplate.update(insertSql, toParamMap(voucher));
     }
 
