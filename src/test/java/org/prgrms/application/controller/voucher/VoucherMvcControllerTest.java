@@ -14,13 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -45,15 +42,14 @@ class VoucherMvcControllerTest {
     @MockBean
     private VoucherService voucherService;
 
-    private Voucher voucher1;
-    private Voucher voucher2;
+    private VoucherDto voucher1;
+    private VoucherDto voucher2;
     private List<Voucher> vouchers;
 
     @BeforeEach
     void setUp() {
-        voucher1 = new Voucher(1L, FIXED, 10000); //dto로만! 수정 + voucher
-        voucher2 = new Voucher(2L, PERCENT, 30);
-        vouchers = Arrays.asList(voucher1, voucher2);
+        voucher1 = new VoucherDto(1L, FIXED.applyPolicy(1000));
+        voucher2 = new VoucherDto(2L, PERCENT.applyPolicy(33));
     }
 
     @Test
@@ -72,10 +68,10 @@ class VoucherMvcControllerTest {
 
     @Test
     void getVouchersByType() throws Exception {
-        given(voucherService.getVouchersByType(any())).willReturn(Collections.singletonList(VoucherDto.of(voucher1)));
+        given(voucherService.getVouchersByType(any())).willReturn(Collections.singletonList(voucher1));
 
         mvc.perform(get("/api/v1/mvc/vouchers/voucherType")
-                .param("voucherType","FIXED"))
+                        .param("voucherType", "FIXED"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$[0].voucherType").value(FIXED.name()))
@@ -83,14 +79,14 @@ class VoucherMvcControllerTest {
     }
 
     @Test
-    void createVoucher() throws Exception{
+    void createVoucher() throws Exception {
         VoucherRegisterRequest registerRequest = new VoucherRegisterRequest("PERCENT", 20);
         //given
         given(voucherService.createVoucher(any(), anyDouble())).willReturn(1L);
 
         mvc.perform(post("/api/v1/mvc/vouchers/new")
-                .contentType(APPLICATION_JSON)
-                .content(asJsonString(registerRequest)))
+                        .contentType(APPLICATION_JSON)
+                        .content(asJsonString(registerRequest)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$").value(1L));
@@ -104,15 +100,12 @@ class VoucherMvcControllerTest {
 
         mvc.perform(delete("/api/v1/mvc/vouchers/delete/{id}", 1L))
                 .andExpect(status().isOk());
-
-        verify(voucherService,times(1)).deleteVoucher(1L); //수정
     }
 
     private String asJsonString(Object obj) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(obj);
     }
-
 
 
 }

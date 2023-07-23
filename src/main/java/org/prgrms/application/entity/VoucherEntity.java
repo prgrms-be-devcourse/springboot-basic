@@ -17,7 +17,7 @@ public class VoucherEntity {
         return voucherId;
     }
 
-    public Voucher toDomain(){ // 수정 변환해주는 것을 독립,
+    public Voucher toDomain(){ //  변환해주는 것을 독립,
         return new Voucher(this.voucherId, this.voucherTypePolicy);
     }
 }
