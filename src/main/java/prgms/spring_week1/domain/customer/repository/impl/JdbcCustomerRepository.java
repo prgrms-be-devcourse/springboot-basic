@@ -12,6 +12,7 @@ import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.DeleteBuilder;
 import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.InsertBuilder;
 import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.SelectBuilder;
 import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.UpdateBuilder;
+import prgms.spring_week1.domain.util.type.TableType;
 import prgms.spring_week1.domain.voucher.repository.impl.JdbcVoucherRepository;
 
 import javax.sql.DataSource;
@@ -54,7 +55,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void insert(Customer customer) {
         String insertSQL = new InsertBuilder()
-                .insert("customers")
+                .insert(TableType.CUSTOMERS)
                 .columns("customer_id","email", "name")
                 .values("UUID_TO_BIN(:customerId)",":email",":name")
                 .build();
@@ -66,8 +67,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public List<Customer> findAll() {
 
         String findAllSql = new SelectBuilder()
-                    .select("*")
-                    .from("customers")
+                    .selectAll()
+                    .from(TableType.CUSTOMERS)
                     .build();
 
         return jdbcTemplate.query(findAllSql, customerRowMapper);
@@ -76,8 +77,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Customer findByEmail(String email) {
         String findByEmailSql = new SelectBuilder()
-                .select("*")
-                .from("customers")
+                .selectAll()
+                .from(TableType.CUSTOMERS)
                 .where("email = :email")
                 .build();
 
@@ -93,7 +94,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void updateInfo(String beforeUpdateEmail, String afterUpdateEmail) {
         String updateInfoSql = new UpdateBuilder()
-                .update("customers")
+                .update(TableType.CUSTOMERS)
                 .set("email = :afterUpdateEmail")
                 .where("email = :beforeUpdateEmail")
                 .build();
@@ -105,7 +106,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteByEmail(String email) {
         String deleteByEmailSql = new DeleteBuilder()
                 .delete()
-                .from("customers")
+                .from(TableType.CUSTOMERS)
                 .where("email = :email")
                 .build();
 
@@ -116,7 +117,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteAll() {
         String deleteAllSql = new DeleteBuilder()
                 .delete()
-                .from("customers")
+                .from(TableType.CUSTOMERS)
                 .build();
 
         jdbcTemplate.update(deleteAllSql, new HashMap<>());

@@ -1,6 +1,7 @@
 package prgms.spring_week1.domain.util.sqlBuilder.actionBuilder;
 
 import prgms.spring_week1.domain.util.sqlBuilder.tableBuilder.FromBuilder;
+import prgms.spring_week1.domain.util.type.TableType;
 
 import static prgms.spring_week1.domain.util.sqlBuilder.LastIndexLength.INVALID_LAST_COMMA;
 
@@ -24,7 +25,7 @@ public class SelectBuilder {
         return this;
     }
 
-    public FromBuilder from(String table) {
+    public FromBuilder from(TableType table) {
         return new FromBuilder(selectSqlBuilder.append(" FROM ").append(table));
     }
 

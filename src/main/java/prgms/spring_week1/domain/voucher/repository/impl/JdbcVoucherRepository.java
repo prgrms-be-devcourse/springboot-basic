@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.DeleteBuilder;
 import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.InsertBuilder;
 import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.SelectBuilder;
+import prgms.spring_week1.domain.util.type.TableType;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
@@ -48,7 +49,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void insert(Voucher voucher) {
         String insertSql = new InsertBuilder()
-                .insert("voucher")
+                .insert(TableType.VOUCHER)
                 .columns("voucher_id","voucher_type", "discount", "created_at")
                 .values("UUID_TO_BIN(:voucherId)",":voucherType",":discount",":createdAt")
                 .build();
@@ -60,8 +61,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         String findAllSql = new SelectBuilder()
-                    .select("*")
-                    .from("voucher")
+                    .selectAll()
+                    .from(TableType.VOUCHER)
                     .build();
 
         return jdbcTemplate.query(findAllSql, voucherRowMapper);
@@ -70,8 +71,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByType(String voucherType) {
         String findByTypeSql = new SelectBuilder()
-                .select("*")
-                .from("voucher")
+                .selectAll()
+                .from(TableType.VOUCHER)
                 .where("voucher_type = :voucherType")
                 .build();
 
@@ -82,7 +83,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void delete() {
         String deleteSql = new DeleteBuilder()
                 .delete()
-                .from("voucher")
+                .from(TableType.VOUCHER)
                 .build();
         jdbcTemplate.update(deleteSql, new HashMap<>());
     }
