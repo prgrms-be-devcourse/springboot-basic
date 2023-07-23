@@ -1,9 +1,12 @@
 package prgms.spring_week1.domain.customer.repository.impl;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.dao.DataAccessException;
+import org.springframework.util.Assert;
 import org.yaml.snakeyaml.events.CollectionEndEvent;
 import prgms.spring_week1.domain.customer.repository.CustomerRepository;
 
@@ -40,7 +43,7 @@ class JdbcCustomerRepositoryTest {
     @Test
     void findByEmail() {
         assertThat(jdbcCustomerRepository.findByEmail("1sehan@naver.com").getName(),is("일세한"));
-        assertThat(jdbcCustomerRepository.findByEmail("3sehan@naver.com"),nullValue());
+        Assertions.assertThrows(DataAccessException.class,() -> jdbcCustomerRepository.findByEmail("3sehan@naver.com"));
     }
 
     @Test
