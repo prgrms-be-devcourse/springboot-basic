@@ -9,6 +9,7 @@ public class Customer {
     private final UUID customerId;
     private String name;
     private Email email;
+    
     protected final LocalDateTime createdAt = LocalDateTime.now();
     protected LocalDateTime updatedAt;
 

@@ -30,7 +30,7 @@ public class Email {
 
     private void checkAddressLength(String address) {
         boolean isInvalidEmailLength = !(MINIMUM_EMAIL_LENGTH < address.length() && address.length() < MAXIMUM_EMAIL_LENGTH);
-        
+
         if (isInvalidEmailLength) {
             throw new IllegalArgumentException("이메일은 4자 이상 50자 이하여야합니다.");
         }
