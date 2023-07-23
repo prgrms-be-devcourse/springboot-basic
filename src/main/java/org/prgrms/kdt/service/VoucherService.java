@@ -32,16 +32,16 @@ public class VoucherService {
 		voucherRepository.createVoucher(voucherEntity);
 	}
 
-	public Optional<VoucherDTO> findVoucherById(Long voucherId) {
+	public VoucherDTO findVoucherById(Long voucherId) {
 		Optional<VoucherEntity> optionalVoucherEntity = voucherRepository.findById(voucherId);
 		if (!optionalVoucherEntity.isPresent()) {
-			logger.error("NOT FOUND VUCHER ID " + voucherId.toString());
-			return Optional.empty();
+			logger.error("NOT FOUND VOUCHER ID " + voucherId.toString());
+			throw new RuntimeException("존재 하지 않는 ID 입니다.");
 		}
 		VoucherEntity voucherEntity = optionalVoucherEntity.get();
 		VoucherDTO voucherDTO = VoucherFactory.getVoucherDTO(voucherEntity.getAmount(), voucherEntity.getVoucherType());
 
-		return Optional.of(voucherDTO);
+		return voucherDTO;
 	}
 
 	public List<VoucherDTO> getVouchers() {

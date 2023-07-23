@@ -57,14 +57,9 @@ public class VoucherController {
 
 	@GetMapping("/vouchers/{voucherId}")
 	public String findVoucher(@PathVariable("voucherId") Long voucherId, Model model) {
-		Optional<VoucherDTO> maybeVoucher = voucherService.findVoucherById(voucherId);
-
-		if (maybeVoucher.isPresent()) {
-			model.addAttribute("voucher", maybeVoucher.get());
-			return "voucher-details";
-		} else {
-			return "404";
-		}
+		VoucherDTO maybeVoucher = voucherService.findVoucherById(voucherId);
+		model.addAttribute("voucher", maybeVoucher);
+		return "voucher-details";
 	}
 
 	@GetMapping("/vouchers/delete/{voucherId}")

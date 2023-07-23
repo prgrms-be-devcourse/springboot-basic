@@ -43,7 +43,7 @@ public class VoucherAPIController {
 	@GetMapping("/api/vouchers/{voucherId}")
 	@ResponseBody
 	public VoucherDTO findVoucherById(@PathVariable("voucherId")Long voucherId, Model model) {
-		return voucherService.findVoucherById(voucherId).orElse(null);
+		return voucherService.findVoucherById(voucherId);
 	}
 
 	@DeleteMapping("/api/vouchers/{voucherId}")
