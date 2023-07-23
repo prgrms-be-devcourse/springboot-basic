@@ -56,4 +56,14 @@ public class VoucherService {
         .map(voucherMapper::voucherToResponse)
         .collect(Collectors.toList());
   }
+
+  @Transactional(readOnly = true)
+  public void printHistory() {
+    List<VoucherResponse> vouchers = findVouchers();
+
+    for (VoucherResponse voucher : vouchers) {
+      System.out.println(voucher.getVoucherType() + " " + voucher.getVoucherId().toString() + " "
+          + voucher.getDiscountAmount());
+    }
+  }
 }

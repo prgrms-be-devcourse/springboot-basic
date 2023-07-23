@@ -8,7 +8,5 @@ public interface Output {
 
   void printDiscount();
 
-  void printHistory();
-
   void printDeleteUUID();
 }

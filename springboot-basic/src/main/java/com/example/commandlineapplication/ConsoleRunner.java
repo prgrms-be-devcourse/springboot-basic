@@ -1,10 +1,8 @@
 package com.example.commandlineapplication;
 
-import com.example.commandlineapplication.domain.voucher.VoucherType;
-import com.example.commandlineapplication.domain.voucher.service.VoucherService;
+import com.example.commandlineapplication.domain.voucher.controller.VoucherController;
 import com.example.commandlineapplication.global.io.Command;
 import com.example.commandlineapplication.global.io.Console;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +14,7 @@ public class ConsoleRunner implements Runnable {
 
   private static final Logger LOG = LoggerFactory.getLogger(ConsoleRunner.class);
   private final Console console;
-  private final VoucherService voucherService;
+  private final VoucherController voucherController;
 
   @Override
   public void run() {
@@ -27,25 +25,7 @@ public class ConsoleRunner implements Runnable {
       try {
         Command command = Command.of(console.input());
 
-        switch (command) {
-          case CREATE:
-            VoucherType inputVoucherType = console.selectVoucherTypeOption();
-            Integer inputDiscount = console.selectDiscount();
-
-            voucherService.createVoucher(inputVoucherType, inputDiscount);
-            continue;
-          case DELETE:
-            console.printDeleteUUID();
-            String inputUUID = console.input();
-
-            voucherService.deleteVoucher(UUID.fromString(inputUUID));
-            continue;
-          case LIST:
-            console.printHistory();
-            continue;
-          case EXIT:
-            isRunning = false;
-        }
+        isRunning = voucherController.handleCommand(command);
       } catch (Exception e) {
         LOG.error(e.getMessage() + e);
         return;

@@ -1,9 +1,6 @@
 package com.example.commandlineapplication.global.io;
 
 import com.example.commandlineapplication.domain.voucher.VoucherType;
-import com.example.commandlineapplication.domain.voucher.dto.response.VoucherResponse;
-import com.example.commandlineapplication.domain.voucher.service.VoucherService;
-import java.util.List;
 import java.util.Scanner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Component;
 public class Console implements Input, Output {
 
   private static final Scanner scanner = new Scanner(System.in);
-  private final VoucherService voucherService;
 
   @Override
   public String input() {
@@ -41,16 +37,6 @@ public class Console implements Input, Output {
   @Override
   public void printDiscount() {
     System.out.println("Input discount amount.");
-  }
-
-  @Override
-  public void printHistory() {
-    List<VoucherResponse> vouchers = voucherService.findVouchers();
-
-    for (VoucherResponse voucher : vouchers) {
-      System.out.println(voucher.getVoucherType() + " " + voucher.getVoucherId().toString() + " "
-          + voucher.getDiscountAmount());
-    }
   }
 
   @Override
