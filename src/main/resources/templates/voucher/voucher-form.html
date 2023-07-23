@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
@@ -14,7 +16,7 @@
 <body class="container-fluid">
 <h1>Voucher Program</h1>
 <h2>Create Voucher</h2>
-<form th:action="@{/voucher/create}" method="post">
+<form>
     <div class="mb-3">
         <label for="name" class="form-label">Name</label>
         <input type="text" class="form-control" id="name" name="name">
@@ -34,13 +36,15 @@
         </select>
     </div>
     <div style="display: inline-block; float: left;">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" id="btn-save" class="btn btn-primary">Submit</button>
     </div>
 </form>
 
 <div style="display: inline-block; float: left; margin-left: 10px;">
     <a th:href="@{/voucher/list}" class="btn btn-outline-success me-md-2" type="button">Back</a>
 </div>
+
+<script src="/js/voucher.js"></script>
 
 </body>
 </html>

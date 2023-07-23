@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
@@ -17,9 +19,9 @@
 
 <div>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end" style="display: inline-block; float: right;">
-        <form th:action="@{/voucher/deleteAll}" method="post">
+        <form>
             <div style="display: inline-block; float: left; margin-left: 10px";>
-                <button type="submit" class="btn btn-outline-primary">Delete All Vouchers</button>
+                <button type="button" id="btn-all-delete" class="btn btn-outline-primary">Delete All Vouchers</button>
             </div>
         </form>
     </div>
@@ -51,6 +53,8 @@
 </table>
 
 <a th:href="@{/}" class="btn btn-outline-success me-md-2" type="button">Home</a>
+
+<script src="/js/voucher.js"></script>
 
 </body>
 </html>
