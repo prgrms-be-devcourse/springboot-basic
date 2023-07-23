@@ -2,11 +2,12 @@ package prgms.spring_week1.domain.voucher.repository.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import prgms.spring_week1.domain.util.SqlBuilder;
+import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.DeleteBuilder;
+import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.InsertBuilder;
+import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.SelectBuilder;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
@@ -16,7 +17,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Component
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -47,7 +47,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        String insertSql = new SqlBuilder.InsertBuilder()
+        String insertSql = new InsertBuilder()
                 .insert("voucher")
                 .columns("voucher_id","voucher_type", "discount", "created_at")
                 .values("UUID_TO_BIN(:voucherId)",":voucherType",":discount",":createdAt")
@@ -59,7 +59,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String findAllSql = new SqlBuilder.SelectBuilder()
+        String findAllSql = new SelectBuilder()
                     .select("*")
                     .from("voucher")
                     .build();
@@ -69,7 +69,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findByType(String voucherType) {
-        String findByTypeSql = new SqlBuilder.SelectBuilder()
+        String findByTypeSql = new SelectBuilder()
                 .select("*")
                 .from("voucher")
                 .where("voucher_type = :voucherType")
@@ -80,7 +80,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void delete() {
-        String deleteSql = new SqlBuilder.DeleteBuilder()
+        String deleteSql = new DeleteBuilder()
                 .delete()
                 .from("voucher")
                 .build();
