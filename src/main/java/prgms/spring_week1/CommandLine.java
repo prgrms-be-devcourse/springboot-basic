@@ -3,6 +3,7 @@ package prgms.spring_week1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.Customer;
 import prgms.spring_week1.domain.customer.model.embeddedType.Email;
@@ -136,15 +137,13 @@ public class CommandLine implements CommandLineRunner {
 
     private void getCustomerByEmail() {
         Email email = input.inputEmail();
-        Customer customer = customerService.findByEmail(email);
 
-        boolean customerIsNull = (customer == null);
-
-        if (customerIsNull) {
+        try {
+            Customer customer = customerService.findByEmail(email);
+            printCustomerInfo(customer);
+        }catch (DataAccessException e){
             return;
         }
-
-        printCustomerInfo(customer);
     }
 
     private void updateCustomerInfo() {

@@ -2,6 +2,8 @@ package prgms.spring_week1.domain.customer.repository.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -85,7 +87,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         List<Customer> foundCustomer = jdbcTemplate.query(findByEmailSql, Collections.singletonMap("email", email), customerRowMapper);
 
         if(foundCustomer.isEmpty()){
-            return null;
+            throw new EmptyResultDataAccessException(1);
         }
 
         return foundCustomer.get(0);
