@@ -32,8 +32,6 @@ public class VoucherController {
 
     @PostMapping("")
     public String newVoucher(VoucherCreateRequestDto requestDto) {
-        System.out.println(requestDto.getVoucherType());
-        System.out.println(requestDto.getDiscount());
         voucherServiceForView.createVoucher(requestDto);
         return "redirect:/voucher";
     }
