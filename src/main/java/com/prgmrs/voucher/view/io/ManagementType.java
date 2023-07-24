@@ -21,15 +21,11 @@ public enum ManagementType {
     }
 
     public static ManagementType of(String orderNumberAsString) {
-        try {
-            int orderNumber = Integer.parseInt(orderNumberAsString);
-            if (isWithinOrderNumberRange(orderNumber)) {
-                return ManagementType.values()[orderNumber];
-            }
-            throw new WrongRangeFormatException("no such option exists");
-        } catch (NumberFormatException e) {
-            throw new WrongRangeFormatException("input must be number");
+        int orderNumber = Integer.parseInt(orderNumberAsString);
+        if (isWithinOrderNumberRange(orderNumber)) {
+            return ManagementType.values()[orderNumber];
         }
+        throw new WrongRangeFormatException("no such option exists");
     }
 
     private static boolean isWithinOrderNumberRange(int orderNumber) {
