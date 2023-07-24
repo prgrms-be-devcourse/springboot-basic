@@ -11,7 +11,7 @@ public class Where {
         this.query = query;
     }
 
-    public StringBuilder getQuery() {
+    StringBuilder getQuery() {
         return query;
     }
 
