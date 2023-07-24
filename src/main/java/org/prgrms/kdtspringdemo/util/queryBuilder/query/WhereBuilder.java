@@ -38,7 +38,7 @@ public class WhereBuilder {
     public WhereBuilder and() {
         stringBuilder.append(BLANK.getValue())
                 .append(AND)
-                .append(BLANK);
+                .append(BLANK.getValue());
 
         return this;
     }
@@ -46,7 +46,7 @@ public class WhereBuilder {
     public WhereBuilder or() {
         stringBuilder.append(BLANK.getValue())
                 .append(OR)
-                .append(BLANK);
+                .append(BLANK.getValue());
 
         return this;
     }

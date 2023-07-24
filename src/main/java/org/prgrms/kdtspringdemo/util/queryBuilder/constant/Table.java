@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.util.queryBuilder.constant;
 
 public enum Table {
     VOUCHER("voucher"),
-    customer("customer")
+    CUSTOMER("customer")
     ;
 
     private final String table;
