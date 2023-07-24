@@ -37,7 +37,7 @@ public class VoucherViewController {
     public String save(@Valid VoucherCreateRequest voucherCreateRequest) {
         VoucherValidator.validateVoucher(
                 voucherCreateRequest.getVoucherType(),
-                String.valueOf(voucherCreateRequest.getDiscountAmount())
+                voucherCreateRequest.getDiscountAmount()
         );
 
         voucherService.save(voucherCreateRequest);

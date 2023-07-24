@@ -38,7 +38,7 @@ public class Console implements Input, Output {
         String inputDiscountAmount = SCANNER.nextLine();
         log.info("사용자가 입력한 할인 양 : {}", inputDiscountAmount);
 
-        VoucherValidator.validateVoucher(voucherType, inputDiscountAmount);
+        VoucherValidator.validateVoucher(voucherType, Long.parseLong(inputDiscountAmount));
 
         return VoucherCreateRequest.builder()
                 .discountAmount(Long.parseLong(inputDiscountAmount))
@@ -54,7 +54,7 @@ public class Console implements Input, Output {
         ParseValidator.validateVoucherUpdateLength(voucherInfo);
 
         VoucherType voucherType = VoucherType.from(voucherInfo[1]);
-        VoucherValidator.validateVoucher(voucherType, voucherInfo[0]);
+        VoucherValidator.validateVoucher(voucherType, Long.parseLong(voucherInfo[0]));
 
         return VoucherUpdateRequest.builder()
                 .voucherId(voucherId)
