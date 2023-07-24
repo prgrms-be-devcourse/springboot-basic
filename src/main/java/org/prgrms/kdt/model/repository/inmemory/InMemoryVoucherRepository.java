@@ -17,7 +17,6 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
 	private final Map<Long, VoucherEntity> map;
 
-	@Autowired
 	public InMemoryVoucherRepository(Map<Long, VoucherEntity> map) {
 		this.map = map;
 	}

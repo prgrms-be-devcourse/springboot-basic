@@ -22,7 +22,6 @@ public class VoucherService {
 	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
 	private final VoucherRepository voucherRepository;
 
-	@Autowired
 	public VoucherService(@Qualifier("JdbcVoucherRepository") VoucherRepository voucherRepository) {
 		this.voucherRepository = voucherRepository;
 	}

@@ -22,7 +22,6 @@ public class MainController {
 	private final OutputView outputView;
 	private final VoucherService voucherService;
 
-	@Autowired
 	public MainController(InputView inputView,
 		OutputView outputView,
 		VoucherService voucherService
