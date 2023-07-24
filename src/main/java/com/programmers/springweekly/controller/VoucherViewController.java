@@ -44,7 +44,7 @@ public class VoucherViewController {
         return "voucher/menu";
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findAll")
     public String getFindAllPage(Model model) {
         VoucherListResponse voucherListResponse = voucherService.findAll();
         model.addAttribute("voucherList", voucherListResponse.getVoucherList());

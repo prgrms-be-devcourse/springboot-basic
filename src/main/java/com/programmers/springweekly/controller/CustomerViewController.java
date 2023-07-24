@@ -38,7 +38,7 @@ public class CustomerViewController {
         return "customer/menu";
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findAll")
     public String getFindAllPage(Model model) {
         CustomerListResponse customerListResponse = customerService.findAll();
         model.addAttribute("customerList", customerListResponse.getCustomerList());
