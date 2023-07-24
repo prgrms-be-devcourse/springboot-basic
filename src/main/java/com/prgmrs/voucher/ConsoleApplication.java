@@ -1,4 +1,4 @@
-package com.prgmrs.voucher.view;
+package com.prgmrs.voucher;
 
 import com.prgmrs.voucher.controller.console.BlacklistController;
 import com.prgmrs.voucher.controller.console.UserController;
@@ -7,6 +7,7 @@ import com.prgmrs.voucher.controller.console.WalletController;
 import com.prgmrs.voucher.controller.console.wrapper.ResponseDTO;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.setting.BlacklistProperties;
+import com.prgmrs.voucher.view.RequestBodyCreator;
 import com.prgmrs.voucher.view.io.ConsoleReader;
 import com.prgmrs.voucher.view.io.ConsoleWriter;
 import com.prgmrs.voucher.view.io.ManagementType;
