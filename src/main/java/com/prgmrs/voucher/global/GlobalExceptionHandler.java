@@ -14,8 +14,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 
-    @ExceptionHandler(WrongRangeFormatException.class)
-    public ResponseEntity<String> handleWrongRangeFormatException(WrongRangeFormatException e) {
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<String> handleNumberFormatException(NumberFormatException e) {
         return ResponseEntity.badRequest().body("invalid number was provided.");
     }
 
