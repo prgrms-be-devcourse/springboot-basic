@@ -1,9 +1,0 @@
-spring:
-  config:
-    activate:
-      on-profile: test
-
-  datasource:
-    url: jdbc:mysql://localhost/voucher_test_db
-    username: admin
-    password: admin1234

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Profile({"jdbc", "test"})
+@Profile("jdbc")
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
