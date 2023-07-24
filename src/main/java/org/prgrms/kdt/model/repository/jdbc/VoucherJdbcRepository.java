@@ -60,15 +60,18 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	@Override
 	public VoucherEntity updateVoucher(VoucherEntity voucherEntity) {
-		int update = jdbcTemplate.update("UPDATE  vouchers SET amount = ?, voucher_type = ? WHERE voucher_id = ?",
-			voucherEntity.getAmount(),
-			voucherEntity.getVoucherType().toString(),
-			voucherEntity.getVoucherId()
-		);
-		if (update != 1) {
-			throw new RuntimeException("Nothing was updated");
+
+		try {
+			VoucherEntity targetVoucher = findById(voucherEntity.getVoucherId());
+			jdbcTemplate.update("UPDATE  vouchers SET amount = ?, voucher_type = ? WHERE voucher_id = ?",
+				targetVoucher.getAmount(),
+				targetVoucher.getVoucherType().toString(),
+				targetVoucher.getVoucherId()
+			);
+			return targetVoucher;
+		} catch (RuntimeException e) {
+			throw new CommonRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
 		}
-		return voucherEntity;
 	}
 
 	@Override

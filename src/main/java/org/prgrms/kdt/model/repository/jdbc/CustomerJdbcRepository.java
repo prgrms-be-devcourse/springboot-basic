@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.CommonRuntimeException;
 import org.prgrms.kdt.model.entity.CustomerEntity;
+import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -55,16 +56,18 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	@Override
-	public CustomerEntity update(CustomerEntity updatedCustomer) {
-		int update = jdbcTemplate.update("UPDATE customers SET name = ?, email = ? WHERE customer_id = ?",
-			updatedCustomer.name(),
-			updatedCustomer.email(),
-			updatedCustomer.customerId()
-		);
-		if (update != 1) {
-			throw new RuntimeException("Nothing was updated");
+	public CustomerEntity update(CustomerEntity customerEntity) {
+		try {
+			CustomerEntity targetCustomer = findById(customerEntity.customerId());
+			jdbcTemplate.update("UPDATE customers SET name = ?, email = ? WHERE customer_id = ?",
+				targetCustomer.name(),
+				targetCustomer.email(),
+				targetCustomer.customerId()
+			);
+			return targetCustomer;
+		} catch (RuntimeException e) {
+			throw new CommonRuntimeException(ErrorCode.CUSTOMER_UPDATE_FAIL);
 		}
-		return updatedCustomer;
 	}
 
 	@Override
