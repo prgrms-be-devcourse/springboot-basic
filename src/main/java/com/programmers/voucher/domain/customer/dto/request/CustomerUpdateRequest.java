@@ -8,8 +8,8 @@ import java.util.UUID;
 public class CustomerUpdateRequest {
     private UUID customerId;
 
-    @NotNull
-    @Pattern(regexp = "^[A-Za-z0-9]{1,20}")
+    @NotNull(message = "Name must not be null")
+    @Pattern(regexp = "^[A-Za-z0-9]{1,20}", message = "Name 20 chars or less")
     private String name;
     private boolean banned;
 
