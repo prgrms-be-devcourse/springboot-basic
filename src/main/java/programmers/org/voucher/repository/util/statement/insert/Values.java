@@ -8,7 +8,7 @@ public class Values {
 
     private StringBuilder query;
 
-    public Values(StringBuilder query) {
+    private Values(StringBuilder query) {
         this.query = query;
     }
 

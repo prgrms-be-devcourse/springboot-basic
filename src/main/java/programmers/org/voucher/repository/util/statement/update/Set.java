@@ -8,7 +8,7 @@ public class Set {
 
     private StringBuilder query;
 
-    public Set(StringBuilder query) {
+    private Set(StringBuilder query) {
         this.query = query;
     }
 

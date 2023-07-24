@@ -7,7 +7,7 @@ public class Where {
 
     private StringBuilder query;
 
-    public Where(StringBuilder query) {
+    private Where(StringBuilder query) {
         this.query = query;
     }
 
