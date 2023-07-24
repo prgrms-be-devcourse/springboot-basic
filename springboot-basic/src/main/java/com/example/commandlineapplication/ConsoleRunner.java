@@ -23,7 +23,7 @@ public class ConsoleRunner implements Runnable {
     while (isRunning) {
       console.printMenu();
       try {
-        Command command = Command.of(console.input());
+        Command command = Command.find(console.input());
 
         isRunning = voucherController.handleCommand(command);
       } catch (Exception e) {
