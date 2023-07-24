@@ -112,7 +112,7 @@ class CustomerJdbcRepositoryTest {
 	public void testInsert() {
 		customerJdbcRepository.create(newCustomer);
 
-		var retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
+		var retrievedCustomer = customerJdbcRepository.findById(newCustomer.customerId());
 
 		assertThat(retrievedCustomer.isEmpty(), is(false));
 		assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
@@ -130,8 +130,8 @@ class CustomerJdbcRepositoryTest {
 	@Order(3)
 	@DisplayName("고객을 수정할 수 있다.")
 	public void updateCustomer() {
-		CustomerEntity updatedCustomer = new CustomerEntity(newCustomer.getCustomerId(), newCustomer.getName(),
-			newCustomer.getEmail(), newCustomer.getCreatedAt());
+		CustomerEntity updatedCustomer = new CustomerEntity(newCustomer.customerId(), newCustomer.name(),
+			newCustomer.email(), newCustomer.createdAt());
 
 		customerJdbcRepository.update(updatedCustomer);
 
@@ -139,7 +139,7 @@ class CustomerJdbcRepositoryTest {
 		assertThat(all, hasSize(1));
 		assertThat(all, everyItem(samePropertyValuesAs(updatedCustomer)));
 
-		Optional<CustomerEntity> retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
+		Optional<CustomerEntity> retrievedCustomer = customerJdbcRepository.findById(newCustomer.customerId());
 		assertThat(retrievedCustomer.isEmpty(), is(false));
 		assertThat(retrievedCustomer.get(), samePropertyValuesAs(updatedCustomer));
 	}

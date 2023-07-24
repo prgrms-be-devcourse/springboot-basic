@@ -36,7 +36,7 @@ public class VoucherAPIController {
 	public List<VoucherDTO> findVouchers(@RequestParam("voucherType") VoucherType voucherType, Model model) {
 		return voucherService.getVouchers()
 			.stream()
-			.filter(voucherDTO -> voucherDTO.getVoucherType() == voucherType)
+			.filter(voucherDTO -> voucherDTO.voucherType() == voucherType)
 			.collect(Collectors.toList());
 	}
 

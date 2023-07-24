@@ -108,9 +108,9 @@ public class ConsoleView implements InputView, OutputView {
 	}
 
 	public void printVoucherDTO(VoucherDTO voucherDTO) {
-		Amount amount = voucherDTO.getAmount();
+		Amount amount = voucherDTO.amount();
 		String voucherDataString = MessageFormat.format("voucher id: {0} voucher type: {1} voucher amount: {2}",
-			voucherDTO.getVoucherId(), voucherDTO.getVoucherType(), amount.getAmount()
+			voucherDTO.voucherId(), voucherDTO.voucherType(), amount.getAmount()
 		);
 
 		System.out.println(voucherDataString);

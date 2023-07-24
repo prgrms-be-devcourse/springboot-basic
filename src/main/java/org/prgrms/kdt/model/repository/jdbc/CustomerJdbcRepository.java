@@ -40,10 +40,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	public CustomerEntity create(CustomerEntity customer) {
 		int update = jdbcTemplate.update(
 			"INSERT INTO customers(customer_id, name, email, created_at) VALUES (?, ?, ?, ?)",
-			customer.getCustomerId().toString(),
-			customer.getName(),
-			customer.getEmail(),
-			Timestamp.valueOf(customer.getCreatedAt())
+			customer.customerId().toString(),
+			customer.name(),
+			customer.email(),
+			Timestamp.valueOf(customer.createdAt())
 		);
 
 		if (update != 1) {
@@ -55,9 +55,9 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	@Override
 	public CustomerEntity update(CustomerEntity updatedCustomer) {
 		int update = jdbcTemplate.update("UPDATE customers SET name = ?, email = ? WHERE customer_id = ?",
-			updatedCustomer.getName(),
-			updatedCustomer.getEmail(),
-			updatedCustomer.getCustomerId()
+			updatedCustomer.name(),
+			updatedCustomer.email(),
+			updatedCustomer.customerId()
 		);
 		if (update != 1) {
 			throw new RuntimeException("Nothing was updated");

@@ -19,10 +19,10 @@ public final class VoucherMapper {
 	}
 
 	public static VoucherEntity toVoucherEntity(VoucherDTO voucherDTO) {
-		Long voucherId = voucherDTO.getVoucherId();
-		Amount amount = voucherDTO.getAmount();
+		Long voucherId = voucherDTO.voucherId();
+		Amount amount = voucherDTO.amount();
 		int amountValue = amount.getAmount();
-		VoucherType voucherType = voucherDTO.getVoucherType();
+		VoucherType voucherType = voucherDTO.voucherType();
 
 		return new VoucherEntity(voucherId, amountValue, voucherType);
 	}

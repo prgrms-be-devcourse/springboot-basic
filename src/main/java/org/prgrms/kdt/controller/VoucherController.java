@@ -1,8 +1,6 @@
 package org.prgrms.kdt.controller;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.prgrms.kdt.enums.VoucherType;
@@ -47,8 +45,8 @@ public class VoucherController {
 
 	@PostMapping("/voucher/new")
 	public String addNewVoucher(VoucherRequest voucherRequest) {
-		int amount = voucherRequest.getAmount();
-		int voucherTypeIdx = voucherRequest.getVoucherTypeIdx();
+		int amount = voucherRequest.amount();
+		int voucherTypeIdx = voucherRequest.voucherTypeIdx();
 
 		VoucherDTO newVoucherDTO = VoucherFactory.getVoucherDTO(amount, VoucherType.valueOf(voucherTypeIdx));
 		voucherService.createVoucher(newVoucherDTO);
