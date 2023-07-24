@@ -23,6 +23,9 @@ public class VoucherValidator {
     }
 
     private void isValidIntegerString(String discountStringValue) {
+        if (discountStringValue == null) {
+            throw new WrongRangeFormatException("discount value must be non-null value");
+        }
         Pattern pattern = Pattern.compile("^[-+]?\\d+$");
         if (!pattern.matcher(discountStringValue).matches()) {
             throw new WrongRangeFormatException("only digit are allowed");
@@ -30,6 +33,10 @@ public class VoucherValidator {
     }
 
     private void isAmountValid(long discountValue, DiscountType discountType) {
+        if (discountType == null) {
+            throw new WrongRangeFormatException("discountType should not be null");
+        }
+
         if (discountType == DiscountType.FIXED_AMOUNT_DISCOUNT
                 && (0 >= discountValue || discountValue > voucherProperties.getMaximumFixedAmount())) {
             throw new WrongRangeFormatException("amount should be between 0 to defined limit");
