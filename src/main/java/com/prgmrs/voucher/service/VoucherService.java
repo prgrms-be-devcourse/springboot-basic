@@ -17,7 +17,7 @@ import com.prgmrs.voucher.model.wrapper.Amount;
 import com.prgmrs.voucher.model.wrapper.Percent;
 import com.prgmrs.voucher.model.wrapper.Username;
 import com.prgmrs.voucher.repository.VoucherRepository;
-import com.prgmrs.voucher.util.UUIDGenerator;
+import com.prgmrs.voucher.util.IdGenerator;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,10 +27,12 @@ import java.util.UUID;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final VoucherValidator voucherValidator;
+    private final IdGenerator idGenerator;
 
-    public VoucherService(VoucherRepository voucherRepository, VoucherValidator voucherValidator) {
+    public VoucherService(VoucherRepository voucherRepository, VoucherValidator voucherValidator, IdGenerator idGenerator) {
         this.voucherRepository = voucherRepository;
         this.voucherValidator = voucherValidator;
+        this.idGenerator = idGenerator;
     }
 
     public VoucherResponse createVoucher(VoucherRequest voucherRequest) {
@@ -38,7 +40,7 @@ public class VoucherService {
         Long validatedLongValue =
                 voucherValidator.convertToLongWithValidation(voucherRequest.discountStringValue(), discountType);
 
-        UUID uuid = UUIDGenerator.generateUUID();
+        UUID uuid = idGenerator.generate();
         Voucher voucher;
 
         switch (discountType) {

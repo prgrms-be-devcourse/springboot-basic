@@ -7,8 +7,8 @@ import com.prgmrs.voucher.dto.response.UserResponse;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.wrapper.Username;
 import com.prgmrs.voucher.repository.UserRepository;
-import com.prgmrs.voucher.util.UUIDGenerator;
-import com.prgmrs.voucher.util.UuidConverter;
+import com.prgmrs.voucher.util.IdGenerator;
+import com.prgmrs.voucher.util.UUIDConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,13 +17,15 @@ import java.util.UUID;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final IdGenerator idGenerator;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, IdGenerator idGenerator) {
         this.userRepository = userRepository;
+        this.idGenerator = idGenerator;
     }
 
     public UserResponse createUser(UserRequest userRequest) { // 유저 생성
-        UUID uuid = UUIDGenerator.generateUUID();
+        UUID uuid = idGenerator.generate();
         User user = new User(uuid, new Username(userRequest.username()));
         userRepository.save(user);
 
@@ -41,7 +43,7 @@ public class UserService {
     }
 
     public UserResponse getUserByVoucherId(VoucherIdRequest voucherIdRequest) {
-        UUID uuid = UuidConverter.fromString(voucherIdRequest.voucherUuid());
+        UUID uuid = UUIDConverter.fromString(voucherIdRequest.voucherUuid());
         User user = userRepository.getUserByVoucherId(uuid);
 
         return new UserResponse(user.userId(), user.username().value());

@@ -1,12 +1,15 @@
 package com.prgmrs.voucher.util;
 
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
-import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-@Component
-public class UuidConverter {
+public class UUIDConverter {
+
+    private UUIDConverter() {
+        throw new IllegalStateException("Util class");
+    }
+
     public static UUID fromString(String uuidString) {
         try {
             return UUID.fromString(uuidString);
