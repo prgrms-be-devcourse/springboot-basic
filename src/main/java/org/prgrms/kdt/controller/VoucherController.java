@@ -53,7 +53,7 @@ public class VoucherController {
 		return "redirect:/vouchers";
 	}
 
-	@GetMapping("/vouchers/{voucherId}")
+	@GetMapping("/vouchers/details/{voucherId}")
 	public String findVoucher(@PathVariable("voucherId") Long voucherId, Model model) {
 		VoucherDTO maybeVoucher = voucherService.findVoucherById(voucherId);
 		model.addAttribute("voucher", maybeVoucher);

@@ -12,19 +12,19 @@ public enum ErrorCode {
 
 	private final String errorMessage;
 
-	private final int errorCode;
+	private final int errorNumber;
 
 
-	ErrorCode( int errorCode, String errorMessage) {
+	ErrorCode( int errorNumber, String errorMessage) {
 		this.errorMessage = errorMessage;
-		this.errorCode = errorCode;
+		this.errorNumber = errorNumber;
 	}
 
 	public String getErrorMessage() {
 		return errorMessage;
 	}
 
-	public int getErrorCode() {
-		return errorCode;
+	public int getErrorNumber() {
+		return errorNumber;
 	}
 }

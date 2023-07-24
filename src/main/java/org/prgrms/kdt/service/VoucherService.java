@@ -10,7 +10,6 @@ import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.util.VoucherFactory;
-import org.prgrms.kdt.util.VoucherMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

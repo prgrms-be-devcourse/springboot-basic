@@ -3,17 +3,17 @@ package org.prgrms.kdt.common.response;
 import org.prgrms.kdt.common.codes.ErrorCode;
 
 public class ErrorResponse {
-	private ErrorCode errorCode;
+	private int errorNumber;
 
 	public ErrorResponse(ErrorCode errorCode) {
-		this.errorCode = errorCode;
+		this.errorNumber = errorCode.getErrorNumber();
 	}
 
-	public ErrorCode getErrorCode() {
-		return errorCode;
+	public int getErrorNumber() {
+		return errorNumber;
 	}
 
-	public void setErrorCode(ErrorCode errorCode) {
-		this.errorCode = errorCode;
+	public void setErrorNumber(int errorNumber) {
+		this.errorNumber = errorNumber;
 	}
 }
