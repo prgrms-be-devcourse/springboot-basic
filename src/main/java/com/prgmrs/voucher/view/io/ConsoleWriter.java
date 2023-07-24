@@ -11,7 +11,7 @@ public class ConsoleWriter {
 
     public void showManagementType() {
         for (ManagementType type : ManagementType.values()) {
-            write(type.getValue());
+            write(type.getMessage());
         }
     }
 
