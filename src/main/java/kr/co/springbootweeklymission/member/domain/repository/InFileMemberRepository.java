@@ -1,9 +1,9 @@
 package kr.co.springbootweeklymission.member.domain.repository;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.FileIOException;
-import kr.co.springbootweeklymission.infrastructure.error.exception.NotSupportedException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
-import kr.co.springbootweeklymission.infrastructure.util.FileConverter;
+import kr.co.springbootweeklymission.global.error.exception.FileIOException;
+import kr.co.springbootweeklymission.global.error.exception.NotSupportedException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
+import kr.co.springbootweeklymission.global.util.FileConverter;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -33,7 +33,7 @@ public class InFileMemberRepository implements MemberRepository {
     }
 
     @Override
-    public List<Member> findAllByBlack() {
+    public List<Member> findBlackMembers() {
         try {
             final BufferedReader reader = new BufferedReader(new FileReader(MEMBER_FILE));
             final List<Member> members = getMembersByBlack(reader);
@@ -43,6 +43,11 @@ public class InFileMemberRepository implements MemberRepository {
         } catch (IOException e) {
             throw new FileIOException(ResponseStatus.FAIL_NOT_FOUND_BLACK_MEMBER);
         }
+    }
+
+    @Override
+    public List<Member> findAll() {
+        throw new NotSupportedException(ResponseStatus.FAIL_NOT_SUPPORTED_READ);
     }
 
     @Override

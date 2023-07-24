@@ -1,8 +1,8 @@
 package kr.co.springbootweeklymission.member.creators;
 
-import kr.co.springbootweeklymission.member.api.dto.request.MemberReqDTO;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
+import kr.co.springbootweeklymission.member.presentation.dto.request.MemberReqDTO;
 
 import java.util.UUID;
 
@@ -31,15 +31,9 @@ public class MemberCreators {
                 .build();
     }
 
-    public static MemberReqDTO.CREATE createBlackMemberCreateDTO() {
-        return MemberReqDTO.CREATE.builder()
-                .memberStatus(MemberStatus.BLACK)
-                .build();
-    }
-
     public static MemberReqDTO.UPDATE updateMemberInformation(MemberStatus memberStatus) {
         return MemberReqDTO.UPDATE.builder()
-                .memberStatus(memberStatus)
+                .memberStatus(memberStatus.toString())
                 .build();
     }
 }

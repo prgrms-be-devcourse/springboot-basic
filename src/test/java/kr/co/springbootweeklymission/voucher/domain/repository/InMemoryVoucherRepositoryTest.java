@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class InMemoryVoucherRepositoryTest {
+class InMemoryVoucherRepositoryTest {
     InMemoryVoucherRepository voucherRepository;
 
     @BeforeEach
@@ -38,7 +38,9 @@ public class InMemoryVoucherRepositoryTest {
                 .build();
 
         //when
-        Voucher expected = voucherRepository.save(actual);
+        voucherRepository.save(actual);
+        Voucher expected = voucherRepository.findById(actual.getVoucherId())
+                .orElse(null);
 
         //then
         assertThat(actual).isEqualTo(expected);

@@ -1,7 +1,7 @@
 package kr.co.springbootweeklymission.member.domain.entity;
 
-import kr.co.springbootweeklymission.member.api.dto.request.MemberReqDTO;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
+import kr.co.springbootweeklymission.member.presentation.dto.request.MemberReqDTO;
 import lombok.*;
 
 import java.util.UUID;
@@ -23,7 +23,7 @@ public class Member {
     public static Member toMember(MemberReqDTO.CREATE create) {
         return Member.builder()
                 .memberId(UUID.randomUUID())
-                .memberStatus(create.getMemberStatus())
+                .memberStatus(MemberStatus.valueOf(create.getMemberStatus()))
                 .build();
     }
 
@@ -31,7 +31,7 @@ public class Member {
         return this.memberStatus == MemberStatus.BLACK;
     }
 
-    public void updateMemberInformation(MemberReqDTO.UPDATE update) {
-        this.memberStatus = update.getMemberStatus();
+    public void updateMemberStatus(MemberReqDTO.UPDATE update) {
+        this.memberStatus = MemberStatus.valueOf(update.getMemberStatus());
     }
 }

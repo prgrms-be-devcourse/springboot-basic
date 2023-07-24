@@ -1,12 +1,12 @@
 package kr.co.springbootweeklymission.voucher.application;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
-import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
+import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.creators.VoucherCreators;
 import kr.co.springbootweeklymission.voucher.domain.entity.Voucher;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import kr.co.springbootweeklymission.voucher.domain.repository.VoucherRepository;
+import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,7 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-public class VoucherServiceTest {
+class VoucherServiceTest {
     @InjectMocks
     VoucherService voucherService;
 
@@ -60,8 +60,9 @@ public class VoucherServiceTest {
 
         //when
         voucherService.updateVoucherById(voucher.getVoucherId(), update);
+        VoucherPolicy actual = VoucherPolicy.valueOf(update.getVoucherPolicy());
 
         //then
-        assertThat(voucher.getVoucherPolicy()).isEqualTo(update.getVoucherPolicy());
+        assertThat(actual).isEqualTo(voucher.getVoucherPolicy());
     }
 }

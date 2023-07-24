@@ -1,9 +1,9 @@
 package kr.co.springbootweeklymission.voucher.domain.entity;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.WrongVoucherPolicyException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
-import kr.co.springbootweeklymission.voucher.api.dto.request.VoucherReqDTO;
+import kr.co.springbootweeklymission.global.error.exception.WrongVoucherPolicyException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
+import kr.co.springbootweeklymission.voucher.presentation.dto.request.VoucherReqDTO;
 import lombok.*;
 
 import java.util.UUID;
@@ -29,7 +29,7 @@ public class Voucher {
         return Voucher.builder()
                 .voucherId(UUID.randomUUID())
                 .amount(create.getAmount())
-                .voucherPolicy(create.getVoucherPolicy())
+                .voucherPolicy(VoucherPolicy.valueOf(create.getVoucherPolicy()))
                 .build();
     }
 
@@ -45,6 +45,6 @@ public class Voucher {
 
     public void updateVoucherInformation(VoucherReqDTO.UPDATE update) {
         this.amount = update.getAmount();
-        this.voucherPolicy = update.getVoucherPolicy();
+        this.voucherPolicy = VoucherPolicy.valueOf(update.getVoucherPolicy());
     }
 }

@@ -1,7 +1,7 @@
 package kr.co.springbootweeklymission.voucher.domain.entity;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.WrongVoucherPolicyException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.exception.WrongVoucherPolicyException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import kr.co.springbootweeklymission.voucher.domain.model.VoucherPolicy;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class VoucherTest {
+class VoucherTest {
 
     @Test
     @DisplayName("고정_할인_가격이_할인전_가격보다_큰_경우 - WrongVoucherPolicyException")

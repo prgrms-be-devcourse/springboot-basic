@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Voucher Program - Create</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+          crossorigin="anonymous"/>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-top: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="py-5 mb-5">회원 등록</h1>
+    <form action="/view/v1/members"
+          method="post">
+        <select id="memberStatus"
+                name="memberStatus"
+                class="form-select">
+            <option value="" selected disabled hidden>회원 상태</option>
+            <option value="BLACK">블랙 회원</option>
+            <option value="WHITE">화이트 회원</option>
+        </select>
+        <hr/>
+
+        <div class="row justify-content-end">
+            <div class="col-auto">
+                <button class="btn btn-primary"
+                        type="submit">등록
+                </button>
+                <a class="btn btn-secondary"
+                   th:href="${'/view/v1/members'}">뒤로 가기
+                </a>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

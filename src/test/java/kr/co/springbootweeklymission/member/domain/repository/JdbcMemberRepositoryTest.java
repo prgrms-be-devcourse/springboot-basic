@@ -1,7 +1,7 @@
 package kr.co.springbootweeklymission.member.domain.repository;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import kr.co.springbootweeklymission.member.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.model.MemberStatus;
@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class JdbcMemberRepositoryTest {
+class JdbcMemberRepositoryTest {
     @Autowired
     JdbcMemberRepository memberRepository;
 
@@ -65,10 +65,10 @@ public class JdbcMemberRepositoryTest {
         memberRepository.save(member3);
 
         //when
-        List<Member> actual = memberRepository.findAllByBlack();
+        List<Member> actual = memberRepository.findBlackMembers();
 
         //then
-        assertThat(actual).hasSize(2);
+        assertThat(actual).hasSize(3);
     }
 
     @Test

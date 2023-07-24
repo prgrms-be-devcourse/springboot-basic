@@ -1,8 +1,8 @@
 package kr.co.springbootweeklymission.wallet.domain.repository;
 
-import kr.co.springbootweeklymission.infrastructure.error.exception.DuplicatedException;
-import kr.co.springbootweeklymission.infrastructure.error.exception.NotFoundException;
-import kr.co.springbootweeklymission.infrastructure.error.model.ResponseStatus;
+import kr.co.springbootweeklymission.global.error.exception.DuplicatedException;
+import kr.co.springbootweeklymission.global.error.exception.NotFoundException;
+import kr.co.springbootweeklymission.global.response.ResponseStatus;
 import kr.co.springbootweeklymission.member.creators.MemberCreators;
 import kr.co.springbootweeklymission.member.domain.entity.Member;
 import kr.co.springbootweeklymission.member.domain.repository.MemberRepository;
@@ -55,10 +55,12 @@ public class JdbcWalletRepositoryTest {
         Wallet wallet = WalletCreators.createWallet(voucher1, member);
 
         //when
-        Wallet actual = walletRepository.save(wallet);
+        walletRepository.save(wallet);
+        Wallet actual = walletRepository.findByVoucherId(wallet.getVoucher().getVoucherId())
+                .orElseThrow(() -> new NotFoundException(ResponseStatus.FAIL_NOT_FOUND_WALLET));
 
         //then
-        assertThat(actual.getWalletId()).isEqualTo(wallet.getWalletId());
+        assertThat(actual).isEqualTo(wallet);
     }
 
     @Test

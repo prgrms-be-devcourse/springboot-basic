@@ -52,12 +52,20 @@ public class JdbcMemberRepository implements MemberRepository {
     }
 
     @Override
-    public List<Member> findAllByBlack() {
+    public List<Member> findBlackMembers() {
         String sql = "" +
                 "select * " +
                 "from tbl_members " +
                 "where member_status = ?";
         return jdbcTemplate.query(sql, memberRowMapper(), MemberStatus.BLACK.toString());
+    }
+
+    @Override
+    public List<Member> findAll() {
+        String sql = "" +
+                "select * " +
+                "from tbl_members";
+        return jdbcTemplate.query(sql, memberRowMapper());
     }
 
     @Override
