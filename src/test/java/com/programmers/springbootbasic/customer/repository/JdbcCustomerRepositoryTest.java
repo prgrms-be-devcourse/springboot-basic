@@ -23,7 +23,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @TestPropertySource(locations = "classpath:/application-test.properties")
 @Import(JdbcCustomerRepository.class)
 @ActiveProfiles("jdbc")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class JdbcCustomerRepositoryTest {
 
     @Autowired
