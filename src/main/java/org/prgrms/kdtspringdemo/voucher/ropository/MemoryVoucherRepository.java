@@ -41,7 +41,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(UUID id, VoucherType type, long amount) {
-        storage.putIfAbsent(id, type.updateVoucher(id, amount));
+        storage.putIfAbsent(id, type.createVoucher(id, amount));
     }
 
     @Override

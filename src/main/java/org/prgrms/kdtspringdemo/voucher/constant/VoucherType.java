@@ -19,7 +19,7 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher updateVoucher(UUID id, long amount) {
+        public Voucher createVoucher(UUID id, long amount) {
             return new FixedAmountVoucher(id, amount);
         }
     },
@@ -30,7 +30,7 @@ public enum VoucherType {
         }
 
         @Override
-        public Voucher updateVoucher(UUID id, long amount) {
+        public Voucher createVoucher(UUID id, long amount) {
             return new PercentAmountVoucher(id, amount);
         }
     }
@@ -40,7 +40,7 @@ public enum VoucherType {
 
     public abstract Voucher createVoucher(long amount);
 
-    public abstract Voucher updateVoucher(UUID voucherId, long amount);
+    public abstract Voucher createVoucher(UUID voucherId, long amount);
 
     public static VoucherType findVoucherType(String userType) {
         return Arrays.stream(VoucherType.values())

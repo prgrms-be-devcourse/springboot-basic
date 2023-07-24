@@ -36,7 +36,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         VoucherType type = VoucherType.valueOf(resultSet.getString(VOUCHER_TYPE));
         long amount = resultSet.getLong(AMOUNT);
 
-        return type.updateVoucher(id, amount);
+        return type.createVoucher(id, amount);
     };
 
     private Map<String, Object> toParamMap(UUID voucherId, VoucherType voucherType, long amount) {

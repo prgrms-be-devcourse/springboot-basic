@@ -48,7 +48,7 @@ public class VoucherServiceImpl implements VoucherService {
     public VoucherResponse update(UUID id, VoucherType type, long amount) {
         voucherRepository.update(id, type, amount);
         Voucher voucher = voucherRepository.findById(id)
-                .orElseGet(() -> voucherRepository.save(type.updateVoucher(id, amount)));
+                .orElseGet(() -> voucherRepository.save(type.createVoucher(id, amount)));
 
         return VoucherResponse.toDto(voucher.getId(), voucher.getType(), voucher.getAmount());
     }
