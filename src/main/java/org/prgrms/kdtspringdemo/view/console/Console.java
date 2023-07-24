@@ -41,6 +41,7 @@ public class Console {
 
     public Long inputAmountByVoucher(Message message) {
         printMessage(message.getText());
+
         String inputAmount = scanner.nextLine();
         validateAmountIsNumeric(inputAmount);
 
@@ -58,6 +59,7 @@ public class Console {
 
     public UUID inputVoucherId(Message message) {
         printMessage(message.getText());
+
         String userVoucherId = scanner.nextLine();
         validateVoucherId(userVoucherId);
 
@@ -95,6 +97,7 @@ public class Console {
 
     public UUID inputCustomerId(Message message) {
         printMessage(message.getText());
+
         String userCustomerId = scanner.nextLine();
         validateCustomerId(userCustomerId);
 
