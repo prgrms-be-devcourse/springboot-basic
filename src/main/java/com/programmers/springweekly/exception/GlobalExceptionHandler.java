@@ -22,8 +22,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleNoSuchElementException(NoSuchElementException e, Model model) {
         log.warn("GlobalExceptionHandler - NoSuchElementException 발생, 찾는 데이터가 없음 {}", e.getMessage(), e);
-        model.addAttribute(ERROR_MSG, e.getMessage());
-        model.addAttribute(ERROR_CODE, 404);
+        addAttributeInModel(e.getMessage(), 404, model);
 
         return ERROR_PAGE;
     }
@@ -32,8 +31,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleNullPointerException(NullPointerException e, Model model) {
         log.error("GlobalExceptionHandler - NullPointerException 발생 {}", e.getMessage(), e);
-        model.addAttribute(ERROR_MSG, e.getMessage());
-        model.addAttribute(ERROR_CODE, 500);
+        addAttributeInModel(e.getMessage(), 500, model);
 
         return ERROR_PAGE;
     }
@@ -42,8 +40,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIllegalArgumentException(IllegalArgumentException e, Model model) {
         log.error("GlobalExceptionHandler - IllegalArgumentException 발생, 클라이언트의 잘못된 입력 값 예상 {}", e.getMessage(), e);
-        model.addAttribute(ERROR_MSG, e.getMessage());
-        model.addAttribute(ERROR_CODE, 400);
+        addAttributeInModel(e.getMessage(), 400, model);
 
         return ERROR_PAGE;
     }
@@ -52,8 +49,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleIndexOutOfBoundsException(IndexOutOfBoundsException e, Model model) {
         log.error("GlobalExceptionHandler - IndexOutOfBoundsException 발생, 배열의 범위를 초과한 작업 예상 {}", e.getMessage(), e);
-        model.addAttribute(ERROR_MSG, e.getMessage());
-        model.addAttribute(ERROR_CODE, 400);
+        addAttributeInModel(e.getMessage(), 400, model);
 
         return ERROR_PAGE;
     }
@@ -62,8 +58,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleDuplicateKeyException(DuplicateKeyException e, Model model) {
         log.error("GlobalExceptionHandler - DuplicateKeyException 발생, 유니크/중복 키 충돌 예상 {}", e.getMessage(), e);
-        model.addAttribute(ERROR_MSG, e.getMessage());
-        model.addAttribute(ERROR_CODE, 409);
+        addAttributeInModel(e.getMessage(), 409, model);
 
         return ERROR_PAGE;
     }
@@ -72,8 +67,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleDataAccessException(DataAccessException e, Model model) {
         log.error("GlobalExceptionHandler - DataAccessException 발생, 데이터 접근 관련 예외 {}", e.getMessage(), e);
-        model.addAttribute(ERROR_MSG, e.getMessage());
-        model.addAttribute(ERROR_CODE, 500);
+        addAttributeInModel(e.getMessage(), 500, model);
 
         return ERROR_PAGE;
     }
@@ -82,10 +76,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleException(Exception e, Model model) {
         log.error("GlobalExceptionHandler - Exception 발생, 개발자가 잡지 못한 예외 {}", e.getMessage(), e);
-        model.addAttribute(ERROR_MSG, e.getMessage());
-        model.addAttribute(ERROR_CODE, 500);
+        addAttributeInModel(e.getMessage(), 500, model);
 
         return ERROR_PAGE;
+    }
+
+    private void addAttributeInModel(String errorMessage, int errorCode, Model model) {
+        model.addAttribute(ERROR_MSG, errorMessage);
+        model.addAttribute(ERROR_CODE, errorCode);
     }
 
 }
