@@ -1,4 +1,4 @@
-package programmers.org.voucher.repository.util.statement.insert;
+package programmers.org.voucher.repository.util.statement;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.*;
 

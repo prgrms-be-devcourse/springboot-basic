@@ -1,4 +1,4 @@
-package programmers.org.voucher.repository.util.statement.update;
+package programmers.org.voucher.repository.util.statement;
 
 import programmers.org.voucher.repository.util.constant.Table;
 

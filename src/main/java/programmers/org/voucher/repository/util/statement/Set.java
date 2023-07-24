@@ -1,13 +1,14 @@
 package programmers.org.voucher.repository.util.statement;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.*;
+import static programmers.org.voucher.repository.util.constant.Symbol.COMMA;
 
-public class Where {
-    private static final String WHERE = "WHERE";
+public class Set {
+    private static final String SET = "SET";
 
     private StringBuilder query;
 
-    private Where(StringBuilder query) {
+    private Set(StringBuilder query) {
         this.query = query;
     }
 
@@ -19,7 +20,7 @@ public class Where {
         private StringBuilder query = new StringBuilder();
 
         public Builder() {
-           query.append(BLANK.getSymbol()).append(WHERE);
+            query.append(BLANK.getSymbol()).append(SET);
         }
 
         public Builder query(String column) {
@@ -32,9 +33,9 @@ public class Where {
             return this;
         }
 
-        public Where build() {
+        public Set build() {
             query.deleteCharAt(query.length() - 1);
-            return new Where(query);
+            return new Set(query);
         }
     }
 }

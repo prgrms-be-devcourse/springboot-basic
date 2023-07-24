@@ -1,4 +1,4 @@
-package programmers.org.voucher.repository.util.statement.select;
+package programmers.org.voucher.repository.util.statement;
 
 import java.util.ArrayList;
 import java.util.List;
