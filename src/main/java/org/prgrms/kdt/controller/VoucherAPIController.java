@@ -48,14 +48,14 @@ public class VoucherAPIController {
 
 	@DeleteMapping("/api/vouchers/{voucherId}")
 	@ResponseBody
-	public ResponseEntity<?> deleteVoucherById(@PathVariable("voucherId")Long voucherId) {
+	public ResponseEntity deleteVoucherById(@PathVariable("voucherId")Long voucherId) {
 		voucherService.deleteVoucherById(voucherId);
 		return ResponseEntity.ok("Voucher deleted");
 	}
 
 	@PostMapping("/api/vouchers")
 	@ResponseBody
-	public ResponseEntity<?> createVoucher(@RequestBody VoucherDTO voucherDTO) {
+	public ResponseEntity createVoucher(@RequestBody VoucherDTO voucherDTO) {
 		voucherService.createVoucher(voucherDTO);
 		return ResponseEntity.ok("Voucher created");
 	}
