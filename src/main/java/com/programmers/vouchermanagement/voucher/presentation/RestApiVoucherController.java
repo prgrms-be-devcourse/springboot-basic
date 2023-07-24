@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v3/vouchers")
+@RequestMapping("/api/v1/vouchers")
 @RequiredArgsConstructor
 public class RestApiVoucherController {
 

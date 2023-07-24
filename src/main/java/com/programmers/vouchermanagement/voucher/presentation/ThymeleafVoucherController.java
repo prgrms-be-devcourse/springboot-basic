@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Slf4j
 @Controller
-@RequestMapping("v2/vouchers")
+@RequestMapping("/api/v1/vouchers")
 @RequiredArgsConstructor
 public class ThymeleafVoucherController {
 
