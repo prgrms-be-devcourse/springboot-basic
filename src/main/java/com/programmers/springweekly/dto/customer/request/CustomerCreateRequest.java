@@ -7,10 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
 public class CustomerCreateRequest {
 
     @NotBlank(message = "이름은 필수 입력 값입니다.")
