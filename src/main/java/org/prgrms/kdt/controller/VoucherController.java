@@ -31,7 +31,7 @@ public class VoucherController {
 	public String viewVouchersPage(Model model) {
 		List<VoucherResponse> vouchers = voucherService
 			.getVouchers()
-			.stream().map(voucherDTO -> VoucherFactory.getVoucherResponse(voucherDTO))
+			.stream().map(voucherDTO -> voucherDTO.toResponse())
 			.collect(Collectors.toList());
 
 		model.addAttribute("vouchers", vouchers);

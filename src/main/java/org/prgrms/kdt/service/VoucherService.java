@@ -27,7 +27,7 @@ public class VoucherService {
 	}
 
 	public void createVoucher(VoucherDTO voucherDTO) {
-		VoucherEntity voucherEntity = VoucherMapper.toVoucherEntity(voucherDTO);
+		VoucherEntity voucherEntity = voucherDTO.toEntity();
 		voucherRepository.createVoucher(voucherEntity);
 	}
 
@@ -44,7 +44,10 @@ public class VoucherService {
 	public List<VoucherDTO> getVouchers() {
 		return voucherRepository.findAll()
 			.stream()
-			.map(VoucherMapper::toVoucherDTO)
+			.map(voucherEntity -> {
+					return voucherEntity.toEntity();
+				}
+			)
 			.collect(Collectors.toList());
 	}
 

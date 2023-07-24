@@ -10,17 +10,6 @@ import org.prgrms.kdt.model.dto.VoucherResponse;
 public final class VoucherFactory {
 	private static final IdGenerator idGenerator = new IdGenerator();
 
-	private VoucherFactory() {
-	}
-
-	public static VoucherResponse getVoucherResponse(VoucherDTO voucherDTO) {
-		Long voucherId = voucherDTO.voucherId();
-		int amountValue = voucherDTO.amount().getAmount();
-		String voucherType = voucherDTO.voucherType().toString();
-
-		return new VoucherResponse(voucherId, amountValue, voucherType);
-	}
-
 	public static VoucherDTO getVoucherDTO(int amount, VoucherType voucherType) {
 		Long voucherId = idGenerator.getRandomId();
 		Amount voucherAmount = getVoucherAmount(amount, voucherType);

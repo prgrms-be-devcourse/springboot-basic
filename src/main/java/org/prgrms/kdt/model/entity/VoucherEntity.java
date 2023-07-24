@@ -1,6 +1,9 @@
 package org.prgrms.kdt.model.entity;
 
 import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.model.Amount;
+import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.util.VoucherFactory;
 
 public class VoucherEntity {
 
@@ -32,5 +35,10 @@ public class VoucherEntity {
 
 	public VoucherType getVoucherType() {
 		return voucherType;
+	}
+
+	public VoucherDTO toEntity() {
+		Amount dtoAmount = VoucherFactory.getVoucherAmount(amount, voucherType);
+		return new VoucherDTO(voucherId, dtoAmount, voucherType);
 	}
 }
