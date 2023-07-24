@@ -6,10 +6,16 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import programmers.org.voucher.domain.Customer;
-
+import programmers.org.voucher.repository.util.InsertBuilder;
+import programmers.org.voucher.repository.util.SelectBuilder;
+import programmers.org.voucher.repository.util.UpdateBuilder;
+import programmers.org.voucher.repository.util.Where;
+import programmers.org.voucher.repository.util.statement.*;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.util.Optional;
+
+import static programmers.org.voucher.repository.util.constant.Table.CUSTOMERS;
 
 public class JdbcCustomerRepository implements CustomerRepository {
 
@@ -21,7 +27,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void save(Customer customer) {
-        String sql = "INSERT INTO customers(name, email) VALUES (?, ?)";
+        Insert insert = new Insert(CUSTOMERS);
+
+        Values values = new Values.Builder()
+                .query("name")
+                .query("email")
+                .build();
+
+        String sql = new InsertBuilder()
+                .insert(insert)
+                .values(values)
+                .build();
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -34,13 +50,40 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void update(Customer customer) {
-        String sql = "UPDATE customer SET name=? WHERE customer_id=?";
+        Update update = new Update(CUSTOMERS);
+
+        Set set = new Set.Builder()
+                .query("name")
+                .build();
+
+        Where where = new Where.Builder()
+                .query("customer_id")
+                .build();
+
+        String sql = new UpdateBuilder()
+                .update(update)
+                .set(set)
+                .where(where)
+                .build();
+
         jdbcTemplate.update(sql, customer.getName(), customer.getId());
     }
 
     @Override
     public Optional<Customer> findById(Long id) {
-        String sql = "SELECT * FROM customers WHERE customer_id=?";
+        Select select = new Select("*");
+
+        From from = new From(CUSTOMERS);
+
+        Where where = new Where.Builder()
+                .query("customer_id")
+                .build();
+
+        String sql = new SelectBuilder()
+                .select(select)
+                .from(from)
+                .where(where)
+                .build();
 
         try {
             Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), id);
@@ -53,7 +96,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        String sql = "SELECT * FROM customers WHERE email=?";
+        Select select = new Select("*");
+
+        From from = new From(CUSTOMERS);
+
+        Where where = new Where.Builder()
+                .query("email")
+                .build();
+
+        String sql = new SelectBuilder()
+                .select(select)
+                .from(from)
+                .where(where)
+                .build();
 
         try {
             Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), email);
