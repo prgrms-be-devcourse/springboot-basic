@@ -1,4 +1,5 @@
 # SpringBoot Basic Weekly Mission
+
 스프링부트 basic 위클리미션을 코드리뷰하는 Repository입니다.
 ### 1주차 PR https://github.com/prgrms-be-devcourse/springboot-basic/pull/730
 - SpringBoot Part1 Weekly Mission(~6/30)

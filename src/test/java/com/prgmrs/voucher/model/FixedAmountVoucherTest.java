@@ -1,7 +1,10 @@
 package com.prgmrs.voucher.model;
 
-import com.prgmrs.voucher.model.vo.Amount;
-import com.prgmrs.voucher.model.vo.DiscountValue;
+import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
+import com.prgmrs.voucher.model.wrapper.Amount;
+import com.prgmrs.voucher.model.wrapper.DiscountValue;
+import com.prgmrs.voucher.util.UUIDGenerator;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,53 +15,69 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 @DisplayName("고정 금액 바우처 테스트")
 class FixedAmountVoucherTest {
+
+    private UUID voucherId;
+    private FixedAmountDiscountStrategy fixedAmountDiscountStrategy;
+    private Amount amount;
+
+    @BeforeEach
+    void setUp() {
+        voucherId = UUIDGenerator.generateUUID();
+        amount = new Amount(500);
+        fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
+    }
+
     @Test
     @DisplayName("주어진 UUID와 생성된 바우처 UUID가 같다.")
-    void getVoucherIdTest() {
-        UUID voucherId = UUID.randomUUID();
-        Amount amount = new Amount(10000);
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
+    void GetVoucherId_NoParam_SameVoucherId() {
+        // Given
+        Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
-        UUID returnedVoucherId = voucher.getVoucherId();
+        // When
+        UUID returnedVoucherId = voucher.voucherId();
 
+        // Then
         assertThat(returnedVoucherId, is(voucherId));
     }
 
     @Test
     @DisplayName("주어진 amount와 바우처 amount가 같다.")
-    void getAmountTest() {
-        UUID voucherId = UUID.randomUUID();
-        Amount amount = new Amount(500);
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
+    void GetAmount_NoParam_SameAmountValue() {
+        // Given
+        Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
-        long returnedAmount = voucher.getAmount().getValue();
+        // When
+        Amount returnedAmount = ((FixedAmountDiscountStrategy) voucher.discountStrategy()).amount();
 
-        assertThat(returnedAmount, is(amount.getValue()));
+        // Then
+        assertThat(returnedAmount.value(), is(amount.value()));
     }
 
     @Test
     @DisplayName("정상적으로 할인이 되었다.")
-    void discountTest() {
-        UUID voucherId = UUID.randomUUID();
-        Amount amount = new Amount(1000);
-        DiscountValue beforeDiscount = new DiscountValue(5000);
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
+    void Discount_BeforeDiscountValue_CorrectAfterCalculation() {
+        // Give
+        DiscountValue beforeDiscount = new DiscountValue(900);
+        Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
+        // When
         DiscountValue amountAfterDiscount = voucher.discount(beforeDiscount);
 
-        assertThat(amountAfterDiscount.getValue(), is(beforeDiscount.getValue() - amount.getValue()));
+        // Then
+        assertThat(amountAfterDiscount.value(), is(beforeDiscount.value() - amount.value()));
     }
 
     @Test
     @DisplayName("할인액이 이미 현재 값보다 크다.")
-    void discountAmountIsSmallerThanValueBeforeDiscount() {
-        UUID voucherId = UUID.randomUUID();
-        Amount amount = new Amount(1000);
-        DiscountValue discountValueBeforeDiscount = new DiscountValue(500);
-        FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
+    void Discount_ExceedingDiscountValue_ZeroAfterCalculation() {
+        // Given
+        DiscountValue discountValueBeforeDiscount = new DiscountValue(100);
+        Voucher voucher = new Voucher(voucherId, fixedAmountDiscountStrategy);
 
+        // When
         DiscountValue discountValueAfterDiscount = voucher.discount(discountValueBeforeDiscount);
 
-        assertThat(discountValueAfterDiscount.getValue(), is(0L));
+        // Then
+        assertThat(discountValueAfterDiscount.value(), is(0L));
     }
 }

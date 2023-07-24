@@ -27,7 +27,7 @@ public class FileBlacklistDatabase {
 
         try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
             String[] nextLine;
-            reader.readNext();  // Skip header
+            reader.readNext();
             while ((nextLine = reader.readNext()) != null) {
                 UUID uuid = UUID.fromString(nextLine[0]);
                 String name = nextLine[1];

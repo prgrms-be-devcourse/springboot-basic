@@ -1,14 +1,18 @@
 package com.prgmrs.voucher.repository;
 
 import com.prgmrs.voucher.model.Voucher;
+import com.prgmrs.voucher.model.wrapper.Username;
 
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
 
 public interface VoucherRepository {
     void save(Voucher voucher);
 
-    Map<UUID, Voucher> findAll();
+    List<Voucher> findAll();
 
-    Voucher findVoucherById(UUID uuid);
+    List<Voucher> getAssignedVoucherListByUsername(Username username);
+
+    List<Voucher> getNotAssignedVoucherList();
+
+    List<Voucher> getAssignedVoucherList();
 }

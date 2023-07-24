@@ -1,7 +1,10 @@
 package com.prgmrs.voucher.controller;
 
-import com.prgmrs.voucher.dto.BlacklistResponse;
+import com.prgmrs.voucher.dto.ResponseDTO;
+import com.prgmrs.voucher.enums.StatusCode;
+import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.service.BlacklistService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,7 +15,11 @@ public class BlacklistController {
         this.blacklistService = blacklistService;
     }
 
-    public BlacklistResponse findAll() {
-        return blacklistService.findAll();
+    public ResponseDTO<?> findAll() {
+        try {
+            return new ResponseDTO<>(blacklistService.findAll(), StatusCode.REQUEST_OK);
+        } catch (WrongRangeFormatException | DataAccessException e) {
+            return new ResponseDTO<>(e.getMessage(), StatusCode.BAD_REQUEST);
+        }
     }
 }

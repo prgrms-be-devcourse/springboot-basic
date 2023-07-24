@@ -1,14 +1,13 @@
 package com.prgmrs.voucher.controller;
 
-import com.prgmrs.voucher.dto.VoucherListResponse;
-import com.prgmrs.voucher.dto.VoucherRequest;
-import com.prgmrs.voucher.dto.VoucherResponse;
+import com.prgmrs.voucher.dto.ResponseDTO;
+import com.prgmrs.voucher.dto.request.UsernameRequest;
+import com.prgmrs.voucher.dto.request.VoucherRequest;
+import com.prgmrs.voucher.enums.StatusCode;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
-import com.prgmrs.voucher.model.Voucher;
 import com.prgmrs.voucher.service.VoucherService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class VoucherController {
@@ -19,15 +18,43 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public VoucherResponse createVoucher(VoucherRequest voucherRequest) throws WrongRangeFormatException {
-        return voucherService.createVoucher(voucherRequest);
+    public ResponseDTO<?> createVoucher(VoucherRequest voucherRequest) {
+        try {
+            return new ResponseDTO<>(voucherService.createVoucher(voucherRequest), StatusCode.REQUEST_OK);
+        } catch (WrongRangeFormatException | DataAccessException e) {
+            return new ResponseDTO<>(e.getMessage(), StatusCode.BAD_REQUEST);
+        }
     }
 
-    public VoucherListResponse findAll() {
-        return voucherService.findAll();
+    public ResponseDTO<?> findAll() {
+        try {
+            return new ResponseDTO<>(voucherService.findAll(), StatusCode.REQUEST_OK);
+        } catch (WrongRangeFormatException | DataAccessException e) {
+            return new ResponseDTO<>(e.getMessage(), StatusCode.BAD_REQUEST);
+        }
     }
 
-    public Voucher findVoucherById(UUID uuid) {
-        return voucherService.findVoucherById(uuid);
+    public ResponseDTO<?> getAssignedVoucherListByUsername(UsernameRequest usernameRequest) {
+        try {
+            return new ResponseDTO<>(voucherService.getAssignedVoucherListByUsername(usernameRequest), StatusCode.REQUEST_OK);
+        } catch (WrongRangeFormatException | DataAccessException e) {
+            return new ResponseDTO<>(e.getMessage(), StatusCode.BAD_REQUEST);
+        }
+    }
+
+    public ResponseDTO<?> getNotAssignedVoucherList() {
+        try {
+            return new ResponseDTO<>(voucherService.getNotAssignedVoucher(), StatusCode.REQUEST_OK);
+        } catch (WrongRangeFormatException | DataAccessException e) {
+            return new ResponseDTO<>(e.getMessage(), StatusCode.BAD_REQUEST);
+        }
+    }
+
+    public ResponseDTO<?> getAssignedVoucherList() {
+        try {
+            return new ResponseDTO<>(voucherService.getAssignedVoucherList(), StatusCode.REQUEST_OK);
+        } catch (WrongRangeFormatException | DataAccessException e) {
+            return new ResponseDTO<>(e.getMessage(), StatusCode.BAD_REQUEST);
+        }
     }
 }

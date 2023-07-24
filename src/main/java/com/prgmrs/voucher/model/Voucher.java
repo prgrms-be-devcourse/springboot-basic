@@ -1,11 +1,13 @@
 package com.prgmrs.voucher.model;
 
-import com.prgmrs.voucher.model.vo.DiscountValue;
+import com.prgmrs.voucher.model.strategy.DiscountStrategy;
+import com.prgmrs.voucher.model.wrapper.DiscountValue;
 
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getVoucherId();
+public record Voucher(UUID voucherId, DiscountStrategy discountStrategy) {
 
-    DiscountValue discount(DiscountValue beforeDiscount);
+    public DiscountValue discount(DiscountValue beforeDiscount) {
+        return discountStrategy.discount(beforeDiscount);
+    }
 }

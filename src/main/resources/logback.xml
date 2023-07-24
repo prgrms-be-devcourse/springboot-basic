@@ -7,6 +7,6 @@
         </encoder>
     </appender>
     <root level="error">
-        <appender-ref ref="File" />
+        <appender-ref ref="File"/>
     </root>
 </configuration>
