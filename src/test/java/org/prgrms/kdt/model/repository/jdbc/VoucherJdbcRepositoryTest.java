@@ -116,8 +116,8 @@ class VoucherJdbcRepositoryTest {
 	@Order(2)
 	@DisplayName("전체 바우처를 조회할 수 있다.")
 	public void testFindAll() {
-		Optional<VoucherEntity> voucher = voucherJdbcRepository.findById(newVoucher.getVoucherId());
-		assertThat(voucher.isEmpty(), is(false));
+		VoucherEntity voucher = voucherJdbcRepository.findById(newVoucher.getVoucherId());
+		assertThat(voucher, samePropertyValuesAs(newVoucher));
 	}
 
 	@Test

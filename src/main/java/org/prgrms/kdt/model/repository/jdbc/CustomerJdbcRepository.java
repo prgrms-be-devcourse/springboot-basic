@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
+import org.prgrms.kdt.common.codes.ErrorCode;
+import org.prgrms.kdt.common.exception.CommonRuntimeException;
 import org.prgrms.kdt.model.entity.CustomerEntity;
 import org.prgrms.kdt.model.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -71,15 +73,15 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	@Override
-	public Optional<CustomerEntity> findById(Long customerId) {
+	public CustomerEntity findById(Long customerId) {
 		try {
-			return Optional.ofNullable(jdbcTemplate.queryForObject(
+			return jdbcTemplate.queryForObject(
 				"select * from customers WHERE customer_id = ?",
 				customerRowMapper,
-				customerId.toString())
+				customerId.toString()
 			);
 		} catch (EmptyResultDataAccessException e) {
-			return Optional.empty();
+			throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 		}
 	}
 }

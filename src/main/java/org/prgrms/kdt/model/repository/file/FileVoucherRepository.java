@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.prgrms.kdt.common.codes.ErrorCode;
+import org.prgrms.kdt.common.exception.CommonRuntimeException;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.util.FileIO;
@@ -69,13 +71,18 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<VoucherEntity> findById(Long voucherId) {
+	public VoucherEntity findById(Long voucherId) {
 		String fileAllText = fileIO.loadStringFromFile();
 		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
 		return voucherEntities
 			.stream()
 			.filter(voucherEntity -> voucherEntity.getVoucherId().equals(voucherId))
-			.findFirst();
+			.findFirst()
+			.orElseThrow(
+				() -> {
+					throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+				}
+			);
 	}
 
 	@Override

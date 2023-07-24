@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.prgrms.kdt.common.codes.ErrorCode;
+import org.prgrms.kdt.common.exception.CommonRuntimeException;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +42,23 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<VoucherEntity> findById(Long voucherId) {
-		return Optional.of(map.get(voucherId));
+	public VoucherEntity findById(Long voucherId) {
+		VoucherEntity foundVoucher = map.get(voucherId);
+
+		if (foundVoucher != null) {
+			return foundVoucher;
+		}
+
+		throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 	}
 
 	@Override
 	public void deleteById(Long voucherId) {
-		VoucherEntity targetVoucher = findById(voucherId).orElseThrow(
-			() -> new RuntimeException("존재하지 않기 때문에 삭제할 수 없는 id 입니다.")
-		);
-		map.remove(targetVoucher.getVoucherId());
+		try {
+			VoucherEntity targetVoucher = findById(voucherId);
+			map.remove(targetVoucher.getVoucherId());
+		} catch (RuntimeException e) {
+			throw new CommonRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
+		}
 	}
 }

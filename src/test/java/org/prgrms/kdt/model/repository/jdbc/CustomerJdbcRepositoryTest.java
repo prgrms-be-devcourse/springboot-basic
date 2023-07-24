@@ -114,8 +114,7 @@ class CustomerJdbcRepositoryTest {
 
 		var retrievedCustomer = customerJdbcRepository.findById(newCustomer.customerId());
 
-		assertThat(retrievedCustomer.isEmpty(), is(false));
-		assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
+		assertThat(retrievedCustomer, samePropertyValuesAs(newCustomer));
 	}
 
 	@Test
@@ -139,8 +138,7 @@ class CustomerJdbcRepositoryTest {
 		assertThat(all, hasSize(1));
 		assertThat(all, everyItem(samePropertyValuesAs(updatedCustomer)));
 
-		Optional<CustomerEntity> retrievedCustomer = customerJdbcRepository.findById(newCustomer.customerId());
-		assertThat(retrievedCustomer.isEmpty(), is(false));
-		assertThat(retrievedCustomer.get(), samePropertyValuesAs(updatedCustomer));
+		CustomerEntity retrievedCustomer = customerJdbcRepository.findById(newCustomer.customerId());
+		assertThat(retrievedCustomer, samePropertyValuesAs(updatedCustomer));
 	}
 }

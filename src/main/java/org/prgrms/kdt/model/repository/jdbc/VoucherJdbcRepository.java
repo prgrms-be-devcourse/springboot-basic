@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
+import org.prgrms.kdt.common.codes.ErrorCode;
+import org.prgrms.kdt.common.exception.CommonRuntimeException;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
@@ -70,24 +72,24 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<VoucherEntity> findById(Long voucherId) {
+	public VoucherEntity findById(Long voucherId) {
 		try {
-			return Optional.ofNullable(jdbcTemplate.queryForObject(
+			return jdbcTemplate.queryForObject(
 				"select * from vouchers WHERE voucher_id = ?",
 				voucherEntityRowMapper,
-				voucherId)
-			);
+				voucherId);
 		} catch (EmptyResultDataAccessException e) {
-			return Optional.empty();
+			throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 		}
 	}
 
 	@Override
 	public void deleteById(Long voucherId) {
-		VoucherEntity targetVoucher = findById(voucherId).orElseThrow(
-			() -> new RuntimeException("존재하지 않기 때문에 삭제할 수 없는 id 입니다.")
-		);
-
-		jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", targetVoucher.getVoucherId());
+		try {
+			VoucherEntity targetVoucher = findById(voucherId);
+			jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", targetVoucher.getVoucherId());
+		} catch (RuntimeException e) {
+			throw new CommonRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
+		}
 	}
 }

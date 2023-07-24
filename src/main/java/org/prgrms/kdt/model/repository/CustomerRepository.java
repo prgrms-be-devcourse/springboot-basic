@@ -12,5 +12,5 @@ public interface CustomerRepository {
 
 	List<CustomerEntity> findAll();
 
-	Optional<CustomerEntity> findById(Long customerId);
+	CustomerEntity findById(Long customerId);
 }
