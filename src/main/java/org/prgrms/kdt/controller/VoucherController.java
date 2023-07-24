@@ -62,12 +62,7 @@ public class VoucherController {
 
 	@GetMapping("/vouchers/delete/{voucherId}")
 	public String deleteVoucherPage(@PathVariable("voucherId") Long voucherId, Model model) {
-		boolean result = voucherService.deleteVoucherById(voucherId);
-
-		if (result) {
-			return "redirect:/vouchers";
-		} else {
-			return "404";
-		}
+		voucherService.deleteVoucherById(voucherId);
+		return "redirect:/vouchers";
 	}
 }

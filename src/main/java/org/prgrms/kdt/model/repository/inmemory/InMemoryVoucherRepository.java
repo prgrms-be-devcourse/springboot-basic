@@ -46,11 +46,10 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public boolean deleteById(Long voucherId) {
-		if (map.remove(voucherId) == null) {
-			return false;
-		} else {
-			return true;
-		}
+	public void deleteById(Long voucherId) {
+		VoucherEntity targetVoucher = findById(voucherId).orElseThrow(
+			() -> new RuntimeException("존재하지 않기 때문에 삭제할 수 없는 id 입니다.")
+		);
+		map.remove(targetVoucher.getVoucherId());
 	}
 }

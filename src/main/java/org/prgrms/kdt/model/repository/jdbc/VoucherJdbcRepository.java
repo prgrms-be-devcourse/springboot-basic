@@ -83,13 +83,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
-	public boolean deleteById(Long voucherId) {
-		int update = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", voucherId);
+	public void deleteById(Long voucherId) {
+		VoucherEntity targetVoucher = findById(voucherId).orElseThrow(
+			() -> new RuntimeException("존재하지 않기 때문에 삭제할 수 없는 id 입니다.")
+		);
 
-		if (update != 1) {
-			return false;
-		}
-
-		return true;
+		jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", targetVoucher.getVoucherId());
 	}
 }

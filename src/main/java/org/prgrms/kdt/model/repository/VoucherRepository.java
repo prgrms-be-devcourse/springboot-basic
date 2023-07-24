@@ -15,5 +15,5 @@ public interface VoucherRepository {
 
 	Optional<VoucherEntity> findById(Long voucherId);
 
-	boolean deleteById(Long voucherId);
+	void deleteById(Long voucherId);
 }

@@ -79,7 +79,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public boolean deleteById(Long voucherId) {
+	public void deleteById(Long voucherId) {
 		throw new UnsupportedOperationException("아직 미 구현한 기능 입니다.");
 	}
 }

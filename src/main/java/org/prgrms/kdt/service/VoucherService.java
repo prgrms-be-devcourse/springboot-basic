@@ -50,7 +50,7 @@ public class VoucherService {
 			.collect(Collectors.toList());
 	}
 
-	public boolean deleteVoucherById(Long voucherId) {
-		return voucherRepository.deleteById(voucherId);
+	public void deleteVoucherById(Long voucherId) {
+		voucherRepository.deleteById(voucherId);
 	}
 }
