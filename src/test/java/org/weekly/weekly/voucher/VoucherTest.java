@@ -30,7 +30,7 @@ public class VoucherTest {
             "100000,12: 1",
             "10,1: 1"
     }, delimiter = ':')
-    void 바우처가_이미_존재하면_예외발생(String userInput, String no) {
+    void 중복된_바우처_저장시_예외발생(String userInput, String no) {
         // Given
         UUID voucherId = UUID.randomUUID();
         VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
@@ -53,8 +53,6 @@ public class VoucherTest {
     })
     void 바우처_발행시간이_유효시간보다_느리면_예외발생(String userInput) {
         // Given
-//        UUID voucherId = UUID.randomUUID();
-//        LocalDate localDate = LocalDate.now();
         DiscountType discount = DiscountType.FIXED;
         VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
 

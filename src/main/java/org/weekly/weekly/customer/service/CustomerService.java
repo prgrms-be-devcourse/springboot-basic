@@ -28,8 +28,8 @@ public class CustomerService {
         validateCustomerNotExist(creationRequest.getEmail());
 
         Customer customer = creationRequest.toCustomer();
-        customerRepository.insert(customer);
-        return CustomerResponse.of(customer);
+        Customer savedCustomer = customerRepository.insert(customer);
+        return CustomerResponse.of(savedCustomer);
     }
 
     @Transactional

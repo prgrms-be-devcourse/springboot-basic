@@ -100,7 +100,6 @@ class JdbcCustomerRepositoryTest {
     void 회원_삭제_실패_테스트() {
         // when
         jdbcCustomerRepository.deleteByEmail(customer.getEmail());
-
     }
 
     @Test

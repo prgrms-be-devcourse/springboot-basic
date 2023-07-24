@@ -2,8 +2,8 @@ package org.weekly.weekly.ui.reader;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import org.weekly.weekly.ui.exception.InputException;
 import org.weekly.weekly.global.handler.ExceptionCode;
+import org.weekly.weekly.ui.exception.InputException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

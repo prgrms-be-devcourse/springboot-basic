@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.weekly.weekly.global.util.*;
-import org.weekly.weekly.util.*;
 import org.weekly.weekly.voucher.domain.DiscountType;
 
 import java.util.Arrays;

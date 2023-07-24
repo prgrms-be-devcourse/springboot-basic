@@ -1,4 +1,4 @@
-package org.weekly.weekly.util;
+package org.weekly.weekly.global.util;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
