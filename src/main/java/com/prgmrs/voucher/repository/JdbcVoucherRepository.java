@@ -63,13 +63,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         paramMap.put("voucherId", voucher.voucherId().toString());
 
         if (voucher.discountStrategy() instanceof FixedAmountDiscountStrategy fixedAmountDiscountStrategy) {
-            short discountType = DiscountType.fromEnumValueStringToShortValue("FIXED_AMOUNT_DISCOUNT");
+            int discountType = DiscountType.fromEnumValueStringToValue("FIXED_AMOUNT_DISCOUNT");
             paramMap.put("discountType", discountType);
             paramMap.put("discountValue", fixedAmountDiscountStrategy.amount().value());
         }
 
         if (voucher.discountStrategy() instanceof PercentDiscountStrategy percentDiscountStrategy) {
-            short discountType = DiscountType.fromEnumValueStringToShortValue("PERCENT_DISCOUNT");
+            int discountType = DiscountType.fromEnumValueStringToValue("PERCENT_DISCOUNT");
             paramMap.put("discountType", discountType);
             paramMap.put("discountValue", percentDiscountStrategy.percent().value());
         }
@@ -87,14 +87,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> getAssignedVoucherListByUsername(Username username) {
         String sql = """
-                         SELECT
-                           v.voucher_id, v.discount_type, v.discount_value
-                         FROM `voucher` v
-                           INNER JOIN `wallet` w ON v.voucher_id = w.voucher_id
-                               INNER JOIN `user` u ON w.user_id = u.user_id
-                         WHERE  u.username = :username
-                           AND w.unassigned_time IS NULL
-                               ORDER BY v.created_at
+                     SELECT
+                         v.voucher_id, v.discount_type, v.discount_value
+                     FROM `voucher` v
+                         INNER JOIN `wallet` w ON v.voucher_id = w.voucher_id
+                         INNER JOIN `user` u ON w.user_id = u.user_id
+                     WHERE  u.username = :username
+                         AND w.unassigned_time IS NULL
+                     ORDER BY v.created_at
                 """;
 
         Map<String, Object> paramMap = new HashMap<>();
@@ -127,12 +127,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                         LEFT JOIN `wallet` w ON v.voucher_id = w.voucher_id
                     WHERE w.voucher_id IS NULL
                         OR (v.voucher_id IN (SELECT
-                                                w.voucher_id
+                                                 w.voucher_id
                                              FROM `wallet` w
-                                                GROUP BY w.voucher_id
-                                                HAVING MAX(w.is_used) = 0
-                                                    AND MAX(CASE WHEN w.unassigned_time
-                                                                IS NULL THEN 1 ELSE 0 END) = 0
+                                             GROUP BY w.voucher_id
+                                                 HAVING MAX(w.is_used) = 0
+                                                     AND MAX(CASE WHEN w.unassigned_time IS NULL THEN 1 ELSE 0 END) = 0
                                             )
                             )
                 """;
@@ -141,13 +140,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByCreationTimeAndDiscountType(LocalDateTime startDate, LocalDateTime endDate, short discountType) {
+    public List<Voucher> findByCreationTimeAndDiscountType(LocalDateTime startDate, LocalDateTime endDate, int discountType) {
         String sql = """
                        SELECT
                            v.voucher_id, v.discount_type, v.discount_value
                        FROM `voucher` v
                        WHERE (v.discount_type = :discountType) 
-                            AND (v.created_at BETWEEN :startDate AND :endDate)
+                           AND (v.created_at BETWEEN :startDate AND :endDate)
                 """;
 
         Map<String, Object> paramMap = new HashMap<>();

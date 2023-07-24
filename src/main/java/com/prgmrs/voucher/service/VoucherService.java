@@ -81,7 +81,7 @@ public class VoucherService {
         LocalDateTime startDate = voucherSearchRequest.startDate();
         LocalDateTime endDate = voucherSearchRequest.endDate();
         DiscountType discountType = DiscountType.fromString(voucherSearchRequest.discountType());
-        return new VoucherListResponse(voucherRepository.findByCreationTimeAndDiscountType(startDate, endDate, discountType.getShortValue()));
+        return new VoucherListResponse(voucherRepository.findByCreationTimeAndDiscountType(startDate, endDate, discountType.getValue()));
     }
 
     public RemoveResponse removeVoucher(VoucherIdRequest voucherIdRequest) {

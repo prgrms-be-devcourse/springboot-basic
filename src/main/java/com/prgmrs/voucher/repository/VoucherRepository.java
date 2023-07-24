@@ -18,7 +18,7 @@ public interface VoucherRepository {
 
     List<Voucher> getAssignedVoucherList();
 
-    List<Voucher> findByCreationTimeAndDiscountType(LocalDateTime startDate, LocalDateTime endDate, short discountType);
+    List<Voucher> findByCreationTimeAndDiscountType(LocalDateTime startDate, LocalDateTime endDate, int discountType);
 
     int removeVoucher(UUID voucherUUID);
 
