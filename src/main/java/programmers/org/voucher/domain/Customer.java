@@ -13,8 +13,8 @@ public class Customer {
         this.email = email;
     }
 
-    public Customer(Long customerId, String name, String email) {
-        this.id = customerId;
+    public Customer(Long id, String name, String email) {
+        this.id = id;
         this.name = name;
         this.email = email;
     }
