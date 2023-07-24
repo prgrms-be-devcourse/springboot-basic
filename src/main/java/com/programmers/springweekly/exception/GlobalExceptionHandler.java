@@ -6,6 +6,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -17,6 +18,15 @@ public class GlobalExceptionHandler {
     private static final String ERROR_MSG = "errorMsg";
     private static final String ERROR_CODE = "errorCode";
     private static final String ERROR_PAGE = "errorPage";
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e, Model model) {
+        log.warn("GlobalExceptionHandler - MethodArgumentNotValidException 발생, 데이터 검증 실패 {}", e.getMessage(), e);
+        addAttributeInModel(e.getBindingResult().getAllErrors().get(0).getDefaultMessage(), 400, model);
+
+        return ERROR_PAGE;
+    }
 
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
