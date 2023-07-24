@@ -6,7 +6,6 @@ import com.prgmrs.voucher.model.Wallet;
 import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
 import com.prgmrs.voucher.model.wrapper.Amount;
 import com.prgmrs.voucher.model.wrapper.Username;
-import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,10 +44,10 @@ class JdbcWalletRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        UUID uuidTyler = UUIDGenerator.generateUUID();
+        UUID uuidTyler = UUID.randomUUID();
         userTyler = new User(uuidTyler, new Username("tyler"));
 
-        UUID voucherUuid = UUIDGenerator.generateUUID();
+        UUID voucherUuid = UUID.randomUUID();
         Amount amount = new Amount(500);
         FixedAmountDiscountStrategy discountStrategy = new FixedAmountDiscountStrategy(amount);
         voucherWithFixedAmountOf500 = new Voucher(voucherUuid, discountStrategy);

@@ -12,7 +12,6 @@ import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.model.wrapper.Amount;
 import com.prgmrs.voucher.model.wrapper.Percent;
 import com.prgmrs.voucher.service.VoucherService;
-import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,13 +43,13 @@ class VoucherJsonControllerTest {
         MockitoAnnotations.openMocks(this);
 
         PercentDiscountStrategy percentDiscountStrategy = new PercentDiscountStrategy(new Percent(10));
-        UUID voucherUuid1 = UUIDGenerator.generateUUID();
+        UUID voucherUuid1 = UUID.randomUUID();
         Voucher voucher1 = new Voucher(voucherUuid1, percentDiscountStrategy);
         voucherRequest = new VoucherRequest("percent", "10");
         voucherResponse = new VoucherResponse(voucherUuid1, percentDiscountStrategy);
 
         FixedAmountDiscountStrategy fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(new Amount(300));
-        UUID voucherUuid2 = UUIDGenerator.generateUUID();
+        UUID voucherUuid2 = UUID.randomUUID();
         Voucher voucher2 = new Voucher(voucherUuid2, fixedAmountDiscountStrategy);
         voucherListResponse = new VoucherListResponse(Arrays.asList(voucher1, voucher2));
     }

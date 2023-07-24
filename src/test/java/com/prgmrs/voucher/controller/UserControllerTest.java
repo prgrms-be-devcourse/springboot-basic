@@ -9,7 +9,6 @@ import com.prgmrs.voucher.dto.response.UserResponse;
 import com.prgmrs.voucher.model.User;
 import com.prgmrs.voucher.model.wrapper.Username;
 import com.prgmrs.voucher.service.UserService;
-import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,13 +40,13 @@ class UserControllerTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        UUID uuidTyler = UUIDGenerator.generateUUID();
+        UUID uuidTyler = UUID.randomUUID();
         User userTyler = new User(uuidTyler, new Username("tyler"));
         userRequest = new UserRequest(userTyler.username().value());
         userResponse = new UserResponse(uuidTyler, userTyler.username().value());
 
 
-        UUID uuidJohn = UUIDGenerator.generateUUID();
+        UUID uuidJohn = UUID.randomUUID();
         User userJohn = new User(uuidJohn, new Username("john"));
         userListResponse = new UserListResponse(Arrays.asList(userTyler, userJohn));
     }
@@ -95,7 +94,7 @@ class UserControllerTest {
     @DisplayName("바우처 아이디에 해당하는 유저를 불러온다.")
     void GetUserByVoucherId_userListRequest_SameUserResponse() {
         // Given
-        UUID voucherUuid = UUIDGenerator.generateUUID();
+        UUID voucherUuid = UUID.randomUUID();
         voucherIdRequest = new VoucherIdRequest(voucherUuid.toString());
         given(userService.getUserByVoucherId(voucherIdRequest)).willReturn(userResponse);
 

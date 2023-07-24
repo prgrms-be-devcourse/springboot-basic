@@ -3,7 +3,6 @@ package com.prgmrs.voucher.model;
 import com.prgmrs.voucher.model.strategy.FixedAmountDiscountStrategy;
 import com.prgmrs.voucher.model.wrapper.Amount;
 import com.prgmrs.voucher.model.wrapper.DiscountValue;
-import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ class FixedAmountVoucherTest {
 
     @BeforeEach
     void setUp() {
-        voucherId = UUIDGenerator.generateUUID();
+        voucherId = UUID.randomUUID();
         amount = new Amount(500);
         fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
     }
