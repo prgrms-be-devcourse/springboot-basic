@@ -1,6 +1,6 @@
 package org.weekly.weekly.voucher.exception;
 
-import org.weekly.weekly.util.ExceptionCode;
+import org.weekly.weekly.global.handler.ExceptionCode;
 import org.weekly.weekly.voucher.domain.DiscountType;
 
 import java.time.LocalDate;

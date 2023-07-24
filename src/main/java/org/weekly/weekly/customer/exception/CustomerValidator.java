@@ -1,6 +1,6 @@
 package org.weekly.weekly.customer.exception;
 
-import org.weekly.weekly.util.ExceptionCode;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 import java.util.regex.Pattern;
 

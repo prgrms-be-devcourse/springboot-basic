@@ -1,7 +1,7 @@
 package org.weekly.weekly.customer.dto.response;
 
 import org.weekly.weekly.customer.domain.Customer;
-import org.weekly.weekly.util.PrintMessageType;
+import org.weekly.weekly.global.util.PrintMessageType;
 
 import java.util.List;
 

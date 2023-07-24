@@ -1,6 +1,6 @@
 package org.weekly.weekly.voucher.exception;
 
-import org.weekly.weekly.util.ExceptionCode;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 public class VoucherException extends RuntimeException {
 

@@ -1,6 +1,6 @@
 package org.weekly.weekly.ui.exception;
 
-import org.weekly.weekly.util.ExceptionCode;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 import java.util.Arrays;
 

@@ -1,6 +1,7 @@
-package org.weekly.weekly.util;
+package org.weekly.weekly.global.util;
 
 import org.weekly.weekly.customer.exception.CustomerException;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 import java.util.Arrays;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.weekly.weekly.api.customer;
+package org.weekly.weekly.customer.controller.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

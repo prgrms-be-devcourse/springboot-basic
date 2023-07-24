@@ -1,7 +1,5 @@
-package org.weekly.weekly.web.customer;
+package org.weekly.weekly.customer.controller.web;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +12,7 @@ import org.weekly.weekly.customer.dto.response.CustomerResponse;
 import org.weekly.weekly.customer.dto.response.CustomersResponse;
 import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.customer.service.CustomerService;
-import org.weekly.weekly.web.exception.WebExceptionDto;
+import org.weekly.weekly.global.handler.WebExceptionDto;
 
 @Controller
 @RequestMapping("/customer")

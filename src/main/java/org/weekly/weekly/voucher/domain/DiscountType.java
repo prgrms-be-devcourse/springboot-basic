@@ -1,6 +1,6 @@
 package org.weekly.weekly.voucher.domain;
 
-import org.weekly.weekly.util.ExceptionCode;
+import org.weekly.weekly.global.handler.ExceptionCode;
 import org.weekly.weekly.voucher.exception.VoucherException;
 
 import java.lang.reflect.InvocationTargetException;

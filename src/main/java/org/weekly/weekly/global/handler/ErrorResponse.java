@@ -1,4 +1,4 @@
-package org.weekly.weekly.api.dto;
+package org.weekly.weekly.global.handler;
 
 public class ErrorResponse {
 

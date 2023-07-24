@@ -1,6 +1,6 @@
 package org.weekly.weekly.voucher.dto.response;
 
-import org.weekly.weekly.util.PrintMessageType;
+import org.weekly.weekly.global.util.PrintMessageType;
 import org.weekly.weekly.voucher.domain.Voucher;
 
 import java.util.List;

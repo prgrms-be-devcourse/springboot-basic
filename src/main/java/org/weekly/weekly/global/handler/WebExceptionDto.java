@@ -1,4 +1,4 @@
-package org.weekly.weekly.web.exception;
+package org.weekly.weekly.global.handler;
 
 public class WebExceptionDto {
 

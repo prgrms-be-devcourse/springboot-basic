@@ -1,4 +1,4 @@
-package org.weekly.weekly.api.voucher;
+package org.weekly.weekly.voucher.controller.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

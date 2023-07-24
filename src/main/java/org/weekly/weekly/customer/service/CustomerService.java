@@ -9,7 +9,7 @@ import org.weekly.weekly.customer.dto.response.CustomerResponse;
 import org.weekly.weekly.customer.dto.response.CustomersResponse;
 import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.customer.repository.CustomerRepository;
-import org.weekly.weekly.util.ExceptionCode;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 import java.util.List;
 import java.util.Optional;

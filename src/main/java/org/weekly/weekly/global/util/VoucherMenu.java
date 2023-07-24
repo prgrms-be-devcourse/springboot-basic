@@ -1,5 +1,6 @@
-package org.weekly.weekly.util;
+package org.weekly.weekly.global.util;
 
+import org.weekly.weekly.global.handler.ExceptionCode;
 import org.weekly.weekly.voucher.exception.VoucherException;
 
 import java.util.Arrays;

@@ -1,12 +1,10 @@
-package org.weekly.weekly.api.advice;
+package org.weekly.weekly.global.handler;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.weekly.weekly.api.dto.ErrorResponse;
 import org.weekly.weekly.customer.exception.CustomerException;
-import org.weekly.weekly.util.ExceptionCode;
 import org.weekly.weekly.voucher.exception.VoucherException;
 
 @RestControllerAdvice(basePackages = {"org.weekly.weekly.api"})

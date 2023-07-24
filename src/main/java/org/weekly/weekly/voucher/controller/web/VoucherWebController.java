@@ -1,4 +1,4 @@
-package org.weekly.weekly.web.voucher;
+package org.weekly.weekly.voucher.controller.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +11,7 @@ import org.weekly.weekly.voucher.dto.response.VoucherCreationResponse;
 import org.weekly.weekly.voucher.dto.response.VouchersResponse;
 import org.weekly.weekly.voucher.exception.VoucherException;
 import org.weekly.weekly.voucher.service.VoucherService;
-import org.weekly.weekly.web.exception.WebExceptionDto;
+import org.weekly.weekly.global.handler.WebExceptionDto;
 
 @Controller
 @RequestMapping("/voucher")

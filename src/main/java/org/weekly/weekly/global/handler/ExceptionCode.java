@@ -1,4 +1,4 @@
-package org.weekly.weekly.util;
+package org.weekly.weekly.global.handler;
 
 import org.springframework.http.HttpStatus;
 

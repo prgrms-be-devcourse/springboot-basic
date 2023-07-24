@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.weekly.weekly.customer.domain.Customer;
 import org.weekly.weekly.customer.exception.CustomerException;
-import org.weekly.weekly.util.ExceptionCode;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
