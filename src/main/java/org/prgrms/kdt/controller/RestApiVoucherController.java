@@ -32,14 +32,14 @@ public class RestApiVoucherController {
         return voucherService.getVouchers();
     }
 
-    @GetMapping
+    @GetMapping("/type")
     public List<Voucher> findByVoucherType(@RequestParam("voucherType") String voucherType) {
         List<Voucher> vouchersByType = voucherService.getVouchersByType(voucherType);
         return vouchersByType;
     } //request-param vs pathvariable
 
 
-    @GetMapping
+    @GetMapping("/detail")
     public Voucher viewVoucher(@RequestParam("voucherId") Long voucherId) {
         return voucherService.getVoucherById(voucherId);
     }

@@ -52,6 +52,6 @@ public class VoucherController {
     @GetMapping("/delete/{voucherId}")
     public String deleteVoucher( @PathVariable("voucherId") Long voucherId) {
         voucherService.deleteById(voucherId);
-        return "/";
+        return "redirect:/";
     }
 }
