@@ -12,7 +12,7 @@ import org.weekly.weekly.customer.service.CustomerService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/customers")
 public class CustomerAPIController {
 
     private final CustomerService customerService;
@@ -21,37 +21,37 @@ public class CustomerAPIController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/customer")
+    @PostMapping
     public ResponseEntity<CustomerResponse> create(@RequestBody CustomerCreationRequest creationRequest) {
         CustomerResponse customerResponse = customerService.createCustomer(creationRequest);
         return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/customers")
+    @GetMapping
     public ResponseEntity<List<CustomerResponse>> customers() {
         CustomersResponse customersResponse = customerService.findAllCustomer();
         return new ResponseEntity<>(customersResponse.getCustomerResponses(), HttpStatus.OK);
     }
 
-    @GetMapping("/find/{customerEmail}")
+    @GetMapping("/{customerEmail}")
     public ResponseEntity<CustomerResponse> findCustomer(@PathVariable String customerEmail) {
         CustomerResponse customerResponse = customerService.findDetailCustomer(customerEmail);
         return new ResponseEntity<>(customerResponse, HttpStatus.OK);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping
     public ResponseEntity<CustomerResponse> updateCustomer(@RequestBody CustomerUpdateRequest customerUpdateRequest) {
         CustomerResponse customerResponse = customerService.updateCustomer(customerUpdateRequest);
         return new ResponseEntity<>(customerResponse, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{customerEmail}")
+    @DeleteMapping("/{customerEmail}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable String customerEmail) {
         customerService.deleteCustomer(customerEmail);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("/delete/all")
+    @DeleteMapping("/delete-all")
     public ResponseEntity<Void> deleteAll() {
         customerService.deleteAllCustomers();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

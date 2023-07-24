@@ -11,7 +11,7 @@ import org.weekly.weekly.voucher.service.VoucherService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/vouchers")
 public class VoucherAPIController {
 
     private final VoucherService voucherService;
@@ -20,14 +20,14 @@ public class VoucherAPIController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("/voucher")
+    @PostMapping
     public ResponseEntity<VoucherCreationResponse> createVoucher(@RequestBody VoucherCreationRequest voucherCreationRequest) {
         VoucherCreationResponse voucherCreationResponse = voucherService.insertVoucher(voucherCreationRequest);
         return new ResponseEntity<>(voucherCreationResponse, HttpStatus.OK);
     }
 
 
-    @GetMapping("/vouchers")
+    @GetMapping
     public ResponseEntity<List<VoucherCreationResponse>> getVouchers() {
         VouchersResponse vouchersResponse = voucherService.getVouchers();
         return new ResponseEntity<>(vouchersResponse.getResult(), HttpStatus.OK);
