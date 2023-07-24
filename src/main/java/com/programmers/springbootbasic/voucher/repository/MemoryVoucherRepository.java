@@ -2,11 +2,13 @@ package com.programmers.springbootbasic.voucher.repository;
 
 import com.programmers.springbootbasic.exception.NotFoundException;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
+import com.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("local")
@@ -36,6 +38,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
         }
 
         return Optional.of(storage.get(id));
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return findAll().stream()
+                .filter(voucher -> Objects.equals(voucher.getVoucherType(), voucherType))
+                .collect(Collectors.toList());
     }
 
     @Override

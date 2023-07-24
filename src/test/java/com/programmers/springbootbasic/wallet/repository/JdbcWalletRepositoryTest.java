@@ -6,72 +6,38 @@ import com.programmers.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.programmers.springbootbasic.voucher.domain.PercentDiscountVoucher;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
 import com.programmers.springbootbasic.voucher.repository.JdbcVoucherRepository;
-import com.programmers.springbootbasic.voucher.repository.VoucherRepository;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@SpringJUnitConfig
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(locations = "classpath:/application-test.properties")
+@Import({JdbcWalletRepository.class, JdbcVoucherRepository.class, JdbcCustomerRepository.class})
+@ActiveProfiles("jdbc")
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class JdbcWalletRepositoryTest {
 
-    @Configuration
-    @ComponentScan(
-            basePackages = {"com.programmers.voucher.repository"}
-    )
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            HikariDataSource dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/voucher_test_db")
-                    .username("admin")
-                    .password("admin1234")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-    }
+    @Autowired
+    private JdbcVoucherRepository jdbcVoucherRepository;
 
     @Autowired
-    private DataSource dataSource;
-
-    private VoucherRepository voucherRepository;
     private JdbcCustomerRepository jdbcCustomerRepository;
+
+    @Autowired
     private JdbcWalletRepository jdbcWalletRepository;
-
-    @BeforeEach
-    void setUp() {
-        voucherRepository = new JdbcVoucherRepository(dataSource);
-        jdbcCustomerRepository = new JdbcCustomerRepository(dataSource);
-        jdbcWalletRepository = new JdbcWalletRepository(dataSource);
-    }
-
-    @AfterEach
-    void after() {
-        voucherRepository.deleteAll();
-        jdbcCustomerRepository.deleteAll();
-    }
 
     @DisplayName("특정 회원에게 바우처를 할당한다")
     @Test
@@ -80,7 +46,7 @@ class JdbcWalletRepositoryTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "voucherName", 10L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
         jdbcCustomerRepository.save(customer);
 
         //when
@@ -99,9 +65,9 @@ class JdbcWalletRepositoryTest {
         PercentDiscountVoucher percentDiscountVoucher2 = new PercentDiscountVoucher(UUID.randomUUID(), "testName3", 40L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
-        voucherRepository.save(percentDiscountVoucher);
-        voucherRepository.save(percentDiscountVoucher2);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher2);
         jdbcCustomerRepository.save(customer);
 
         jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
@@ -121,7 +87,7 @@ class JdbcWalletRepositoryTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testName1", 10L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
         jdbcCustomerRepository.save(customer);
         jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
 
@@ -137,14 +103,13 @@ class JdbcWalletRepositoryTest {
     void findCustomerByVoucherIdEmpty() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), "testName1", 10L);
-        voucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
 
         //when
         Optional<Customer> customer = jdbcWalletRepository.findCustomerByVoucherId(fixedAmountVoucher.getVoucherId());
 
         //then
-        org.assertj.core.api.Assertions.assertThat(customer).isEmpty();
-
+        assertThat(customer).isEmpty();
     }
 
     @DisplayName("회원이 보유한 특정 바우처를 제거한다")
@@ -155,8 +120,8 @@ class JdbcWalletRepositoryTest {
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testName2", 20L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
-        voucherRepository.save(percentDiscountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher);
         jdbcCustomerRepository.save(customer);
 
         jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
@@ -164,7 +129,7 @@ class JdbcWalletRepositoryTest {
 
         //when
         jdbcWalletRepository.deleteVoucherByVoucherIdAndCustomerId(fixedAmountVoucher.getVoucherId(), customer.getCustomerId());
-        List<Voucher> result = voucherRepository.findAll();
+        List<Voucher> result = jdbcVoucherRepository.findAll();
 
         //then
         assertThat(result.size(), is(1));
@@ -178,8 +143,8 @@ class JdbcWalletRepositoryTest {
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), "testName2", 20L);
         Customer customer = new Customer("customerName");
 
-        voucherRepository.save(fixedAmountVoucher);
-        voucherRepository.save(percentDiscountVoucher);
+        jdbcVoucherRepository.save(fixedAmountVoucher);
+        jdbcVoucherRepository.save(percentDiscountVoucher);
         jdbcCustomerRepository.save(customer);
 
         jdbcWalletRepository.updateVoucherCustomerId(customer.getCustomerId(), fixedAmountVoucher.getVoucherId());
@@ -190,6 +155,6 @@ class JdbcWalletRepositoryTest {
         List<Voucher> result = jdbcWalletRepository.findVouchersByCustomerId(customer.getCustomerId());
 
         //then
-        org.assertj.core.api.Assertions.assertThat(result).isEmpty();
+        assertThat(result).isEmpty();
     }
 }

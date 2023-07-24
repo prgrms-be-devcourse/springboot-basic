@@ -1,6 +1,6 @@
 package com.programmers.springbootbasic.exception;
 
-public class NotFoundException extends IllegalStateException {
+public class NotFoundException extends RuntimeException {
 
     public NotFoundException(String message) {
         super(message);

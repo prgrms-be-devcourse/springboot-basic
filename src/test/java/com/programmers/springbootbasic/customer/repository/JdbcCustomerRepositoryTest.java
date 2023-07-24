@@ -1,67 +1,33 @@
 package com.programmers.springbootbasic.customer.repository;
 
 import com.programmers.springbootbasic.customer.domain.Customer;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@SpringJUnitConfig
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(locations = "classpath:/application-test.properties")
+@Import(JdbcCustomerRepository.class)
+@ActiveProfiles("jdbc")
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class JdbcCustomerRepositoryTest {
 
-    @Configuration
-    @ComponentScan(
-            basePackages = {"com.programmers.customer.repository"}
-    )
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            HikariDataSource dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/voucher_test_db")
-                    .username("admin")
-                    .password("admin1234")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-    }
-
     @Autowired
-    private DataSource dataSource;
-
     private JdbcCustomerRepository jdbcCustomerRepository;
-
-    @BeforeEach
-    void setUp() {
-        jdbcCustomerRepository = new JdbcCustomerRepository(dataSource);
-    }
-
-    @AfterEach
-    void after() {
-        jdbcCustomerRepository.deleteAll();
-    }
 
     @DisplayName("회원을 저장한다")
     @Test
@@ -116,7 +82,7 @@ class JdbcCustomerRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> jdbcCustomerRepository.findById(customer.getCustomerId()))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(RuntimeException.class);
     }
 
     @DisplayName("회원을 수정한다")
@@ -147,7 +113,7 @@ class JdbcCustomerRepositoryTest {
         List<Customer> result = jdbcCustomerRepository.findAll();
 
         //then
-        org.assertj.core.api.Assertions.assertThat(result).isEmpty();
+        assertThat(result).isEmpty();
     }
 
     @DisplayName("저장된 모든 회원들을 삭제한다")
@@ -165,6 +131,6 @@ class JdbcCustomerRepositoryTest {
         List<Customer> result = jdbcCustomerRepository.findAll();
 
         //then
-        org.assertj.core.api.Assertions.assertThat(result).isEmpty();
+        assertThat(result).isEmpty();
     }
 }

@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("dev")
@@ -63,6 +64,13 @@ public class FileVoucherRepository implements VoucherRepository {
                 .findAny()
                 .map(Optional::of)
                 .orElseThrow(() -> new NotFoundException("[ERROR] 바우처가 존재하지 않습니다."));
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return findAll().stream()
+                .filter(voucher -> Objects.equals(voucher.getVoucherType(), voucherType))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -3,67 +3,33 @@ package com.programmers.springbootbasic.voucher.repository;
 import com.programmers.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.programmers.springbootbasic.voucher.domain.PercentDiscountVoucher;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-@SpringJUnitConfig
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@TestPropertySource(locations = "classpath:/application-test.properties")
+@Import(JdbcVoucherRepository.class)
+@ActiveProfiles("jdbc")
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 class JdbcVoucherRepositoryTest {
 
-    @Configuration
-    @ComponentScan(
-            basePackages = {"com.programmers.voucher.repository"}
-    )
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            HikariDataSource dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost/voucher_test_db")
-                    .username("admin")
-                    .password("admin1234")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-    }
-
     @Autowired
-    private DataSource dataSource;
-
     private JdbcVoucherRepository jdbcVoucherRepository;
-
-    @BeforeEach
-    void setUp() {
-        jdbcVoucherRepository = new JdbcVoucherRepository(dataSource);
-    }
-
-    @AfterEach
-    void after() {
-        jdbcVoucherRepository.deleteAll();
-    }
 
     @DisplayName("바우처를 저장한다")
     @Test
@@ -118,7 +84,7 @@ class JdbcVoucherRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> jdbcVoucherRepository.findById(fixedAmountVoucher.getVoucherId()))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(RuntimeException.class);
     }
 
     @DisplayName("바우처를 수정한다")
@@ -150,7 +116,7 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> result = jdbcVoucherRepository.findAll();
 
         //then
-        org.assertj.core.api.Assertions.assertThat(result).isEmpty();
+        assertThat(result).isEmpty();
     }
 
     @DisplayName("저장된 모든 바우처들을 삭제한다")
@@ -168,6 +134,6 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> result = jdbcVoucherRepository.findAll();
 
         //then
-        org.assertj.core.api.Assertions.assertThat(result).isEmpty();
+        assertThat(result).isEmpty();
     }
 }

@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class JdbcWalletRepository {
+public class JdbcWalletRepository implements WalletRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -22,18 +22,21 @@ public class JdbcWalletRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    @Override
     public void updateVoucherCustomerId(UUID customerId, UUID voucherId) {
         String sql = "update vouchers set customer_id = ? WHERE id = ?";
 
         jdbcTemplate.update(sql, customerId.toString(), voucherId.toString());
     }
 
+    @Override
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
         String sql = "select * from vouchers where customer_id = ?";
 
         return jdbcTemplate.query(sql, voucherRowMapper(), customerId.toString());
     }
 
+    @Override
     public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
         String sql = "select * from customers where id = (select customer_id from vouchers where id = ?)";
 
@@ -45,12 +48,14 @@ public class JdbcWalletRepository {
         }
     }
 
+    @Override
     public void deleteVoucherByVoucherIdAndCustomerId(UUID voucherId, UUID customerId) {
         String sql = "delete from vouchers where id = ? and customer_id = ?";
 
         jdbcTemplate.update(sql, voucherId.toString(), customerId.toString());
     }
 
+    @Override
     public void deleteAllVouchersByCustomerId(UUID customerId) {
         String sql = "delete from vouchers where customer_id = ?";
 

@@ -3,6 +3,7 @@ package com.programmers.springbootbasic.voucher.repository;
 import com.programmers.springbootbasic.voucher.domain.FixedAmountVoucher;
 import com.programmers.springbootbasic.voucher.domain.PercentDiscountVoucher;
 import com.programmers.springbootbasic.voucher.domain.Voucher;
+import com.programmers.springbootbasic.voucher.domain.VoucherType;
 import org.junit.jupiter.api.*;
 
 import java.util.List;
@@ -44,7 +45,6 @@ class FileVoucherRepositoryTest {
         assertThat(result.get(0).getVoucherId(), is(expected.getVoucherId()));
     }
 
-
     @DisplayName("바우처를 id로 조회한다")
     @Test
     void findById() {
@@ -68,7 +68,21 @@ class FileVoucherRepositoryTest {
         //when
         //then
         assertThatThrownBy(() -> fileVoucherRepository.findById(fixedAmountVoucher.getVoucherId()))
-                .isInstanceOf(IllegalStateException.class);
+                .isInstanceOf(RuntimeException.class);
+    }
+
+    @DisplayName("바우처를 타입으로 조회한다")
+    @Test
+    void findByType() {
+        //given
+        FixedAmountVoucher f1 = new FixedAmountVoucher(UUID.randomUUID(), "voucherName1", 11L);
+        fileVoucherRepository.save(f1);
+
+        //when
+        List<Voucher> result = fileVoucherRepository.findByType(VoucherType.FixedAmountVoucher);
+
+        //then
+        assertThat(result.get(0).getVoucherType(), is(VoucherType.FixedAmountVoucher));
     }
 
     @DisplayName("바우처를 수정한다")

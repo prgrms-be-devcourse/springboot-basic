@@ -57,6 +57,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        String sql = "select * from vouchers where type = ?";
+
+        return jdbcTemplate.query(sql, voucherRowMapper(), voucherType.toString());
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         String sql = "update vouchers set name = ?, value = ? where id = ?";
 
