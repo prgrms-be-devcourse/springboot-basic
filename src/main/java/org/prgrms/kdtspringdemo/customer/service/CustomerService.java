@@ -23,21 +23,21 @@ public class CustomerService {
     public CustomerResponse create(String nickname) {
         Customer savedCustomer = customerRepository.save(new Customer(nickname));
 
-        return CustomerResponse.toDto(savedCustomer.getId(), savedCustomer.getNickname());
+        return new CustomerResponse(savedCustomer.getId(), savedCustomer.getNickname());
     }
 
     public CustomerResponse findById(UUID id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerException(CUSTOMER_ID_LOOKUP_FAILED));
 
-        return CustomerResponse.toDto(customer.getId(), customer.getNickname());
+        return new CustomerResponse(customer.getId(), customer.getNickname());
     }
 
     public CustomerResponse findByNickname(String nickname) {
         Customer customer = customerRepository.findByNickname(nickname)
                 .orElseThrow(() -> new CustomerException(CUSTOMER_NICKNAME_LOOKUP_FAILED));
 
-        return CustomerResponse.toDto(customer.getId(), customer.getNickname());
+        return new CustomerResponse(customer.getId(), customer.getNickname());
     }
 
     public List<CustomerResponse> findAll() {
@@ -52,7 +52,7 @@ public class CustomerService {
         customer.update(nickname);
         customerRepository.update(customer);
 
-        return CustomerResponse.toDto(customer.getId(), customer.getNickname());
+        return new CustomerResponse(customer.getId(), customer.getNickname());
     }
 
     public void delete(UUID customerId) {

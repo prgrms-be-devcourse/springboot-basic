@@ -18,8 +18,4 @@ public class CustomerResponse {
     public String getNickname() {
         return nickname;
     }
-
-    public static CustomerResponse toDto(UUID customerId, String nickname) {
-        return new CustomerResponse(customerId, nickname);
-    }
 }

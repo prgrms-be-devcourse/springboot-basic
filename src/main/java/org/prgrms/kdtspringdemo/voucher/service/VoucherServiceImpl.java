@@ -26,7 +26,7 @@ public class VoucherServiceImpl implements VoucherService {
         Voucher voucher = type.createVoucher(amount);
         Voucher savedVoucher = voucherRepository.save(voucher);
 
-        return VoucherResponse.toDto(savedVoucher.getId(), savedVoucher.getType(), savedVoucher.getAmount());
+        return new VoucherResponse(savedVoucher.getId(), savedVoucher.getType(), savedVoucher.getAmount());
     }
 
     @Override
@@ -34,7 +34,7 @@ public class VoucherServiceImpl implements VoucherService {
         Voucher voucher = voucherRepository.findById(id)
                 .orElseThrow(() -> new VoucherIdNotFoundException(VOUCHER_ID_LOOKUP_FAILED));
 
-        return VoucherResponse.toDto(voucher.getId(), voucher.getType(), voucher.getAmount());
+        return new VoucherResponse(voucher.getId(), voucher.getType(), voucher.getAmount());
     }
 
     @Override
@@ -50,7 +50,7 @@ public class VoucherServiceImpl implements VoucherService {
         Voucher voucher = voucherRepository.findById(id)
                 .orElseGet(() -> voucherRepository.save(type.createVoucher(id, amount)));
 
-        return VoucherResponse.toDto(voucher.getId(), voucher.getType(), voucher.getAmount());
+        return new VoucherResponse(voucher.getId(), voucher.getType(), voucher.getAmount());
     }
 
     @Override

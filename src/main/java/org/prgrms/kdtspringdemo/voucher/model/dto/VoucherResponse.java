@@ -26,12 +26,4 @@ public class VoucherResponse {
     public long getAmount() {
         return amount;
     }
-
-    public static VoucherResponse toDto(UUID voucherId, VoucherType voucher, long amount) {
-        return new VoucherResponse(
-                voucherId,
-                voucher,
-                amount
-        );
-    }
 }
