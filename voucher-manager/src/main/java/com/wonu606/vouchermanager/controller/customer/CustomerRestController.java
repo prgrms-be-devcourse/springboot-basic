@@ -19,6 +19,7 @@ import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedVoucherResul
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,13 +28,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/customers")
-public class CustomerApiController {
+@RequestMapping(value = "/api/customers", produces = MediaType.APPLICATION_JSON_VALUE)
+public class CustomerRestController {
 
     private final CustomerService service;
     private final CustomerControllerConverterManager converterManager;
 
-    public CustomerApiController(CustomerService service) {
+    public CustomerRestController(CustomerService service) {
         this.service = service;
         converterManager = new CustomerControllerConverterManager();
     }

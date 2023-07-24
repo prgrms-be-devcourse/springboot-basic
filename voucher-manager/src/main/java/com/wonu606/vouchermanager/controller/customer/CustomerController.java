@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/customers")
@@ -38,12 +37,11 @@ public class CustomerController {
 
     @GetMapping("/create")
     public String createCustomerForm() {
-        return "customer/create-form";
+        return "customers/create-form";
     }
 
     @PostMapping("/create")
-    public String createCustomer(@ModelAttribute CustomerCreateRequest request,
-            RedirectAttributes redirectAttributes) {
+    public String createCustomer(@ModelAttribute CustomerCreateRequest request) {
         CustomerCreateParam param = converterManager.convert(request, CustomerCreateParam.class);
         service.createCustomer(param);
 
@@ -59,12 +57,12 @@ public class CustomerController {
                 .collect(Collectors.toList());
 
         model.addAttribute("responses", responses);
-        return "customer/list"; // returns the Thymeleaf view name
+        return "customers/list";
     }
 
     @GetMapping("/owned-vouchers")
     public String getOwnedVouchersByCustomerForm() {
-        return "customer/owned-vouchers-form";
+        return "customers/owned-vouchers-form";
     }
 
     @PostMapping("/owned-vouchers")
@@ -80,7 +78,7 @@ public class CustomerController {
         model.addAttribute("responses", responses);
         model.addAttribute("customerId", request.getCustomerId()); // Add customer ID to the model
 
-        return "customer/owned-vouchers-list";
+        return "/customers/owned-vouchers-list";
     }
 
     @PostMapping("/wallet/delete")

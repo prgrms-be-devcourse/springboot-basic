@@ -12,7 +12,7 @@ public class VoucherServiceConverterManager {
 
     public VoucherServiceConverterManager() {
         converterList = new ArrayList<>();
-        converterList.add(new VoucherCreateQueryConverter());
+        converterList.add(new VoucherInsertQueryConverter());
         converterList.add(new VoucherCreateResultConverter());
         converterList.add(new VoucherResultConverter());
     }

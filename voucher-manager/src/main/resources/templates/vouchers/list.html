@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Vouchers</title>
+  <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1>Vouchers</h1>
+  <div>
+    <a href="/vouchers/create" class="btn btn-primary mb-3">Create Voucher</a>
+    <a href="/vouchers/owned-customers" class="btn btn-primary mb-3">Find Owned customers</a>
+    <a href="/vouchers/assign-wallet" class="btn btn-primary mb-3">Assign Wallet</a>
+  </div>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Type</th>
+      <th>Value</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher : ${voucherList}">
+      <td th:text="${voucher.uuid}"></td>
+      <td th:text="${voucher.type}"></td>
+      <td th:text="${voucher.value}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+</html>

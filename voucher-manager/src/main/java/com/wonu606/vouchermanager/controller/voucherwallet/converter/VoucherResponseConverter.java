@@ -8,7 +8,8 @@ public class VoucherResponseConverter implements TypedConverter<VoucherResult, V
 
     @Override
     public VoucherResponse convert(VoucherResult result) {
-        return new VoucherResponse(result.getVoucherUuid());
+        return new VoucherResponse(result.getVoucherUuid(), result.getVoucherClassType(),
+                result.getDiscountValue());
     }
 
     @Override

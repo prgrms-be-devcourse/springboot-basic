@@ -7,6 +7,7 @@ public interface TypedConverter<S, T> extends Converter<S, T> {
     Class<T> getTargetType();
 
     default boolean canConvert(Class<?> sourceType, Class<?> targetType) {
-        return getSourceType() == sourceType && getTargetType() == targetType;
+        return getSourceType().isAssignableFrom(sourceType)
+                && getTargetType().isAssignableFrom(targetType);
     }
 }

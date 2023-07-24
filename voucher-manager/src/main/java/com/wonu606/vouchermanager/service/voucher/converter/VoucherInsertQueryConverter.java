@@ -4,7 +4,7 @@ import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.repository.voucher.query.VoucherInsertQuery;
 import com.wonu606.vouchermanager.util.TypedConverter;
 
-public class VoucherCreateQueryConverter implements TypedConverter<Voucher, VoucherInsertQuery> {
+public class VoucherInsertQueryConverter implements TypedConverter<Voucher, VoucherInsertQuery> {
 
     @Override
     public VoucherInsertQuery convert(Voucher voucher) {

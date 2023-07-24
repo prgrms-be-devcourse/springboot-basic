@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Owned Customers</title>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1>Owned Customers</h1>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Email Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer : ${ownedCustomerResponses}">
+      <td th:text="${customer.email}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <div>
+    <a href="/vouchers/list" class="btn btn-primary mb-3">To Voucher List</a>
+  </div>
+</div>
+</body>
+</html>
