@@ -5,14 +5,25 @@ import programmers.org.voucher.repository.util.statement.select.Select;
 import programmers.org.voucher.repository.util.statement.Where;
 
 import static programmers.org.voucher.repository.util.constant.Symbol.BLANK;
+import static programmers.org.voucher.repository.util.constant.Symbol.COMMA;
 
 public class SelectBuilder {
+    private static final String SELECT = "SELECT";
     private static final String FROM = "FROM";
 
     private StringBuilder query = new StringBuilder();
 
     public SelectBuilder select(Select select) {
-        query.append(select.getQuery());
+        query.append(SELECT);
+
+        for (String column : select.getColumns()) {
+            query.append(BLANK.getSymbol())
+                    .append(column)
+                    .append(COMMA.getSymbol());
+        }
+
+        query.deleteCharAt(query.length() - 1);
+
         return this;
     }
 

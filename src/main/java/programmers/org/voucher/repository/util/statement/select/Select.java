@@ -1,38 +1,22 @@
 package programmers.org.voucher.repository.util.statement.select;
 
-import static programmers.org.voucher.repository.util.constant.Symbol.BLANK;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Select {
-    private static final String SELECT = "SELECT";
 
-    private StringBuilder query;
+    private final List<String> columns = new ArrayList<>();
 
-    public Select(StringBuilder query) {
-        this.query = query;
+    public Select(String column) {
+        columns.add(column);
     }
 
-    public StringBuilder getQuery() {
-        return query;
+    public List<String> getColumns() {
+        return columns;
     }
 
-    static public class Builder {
-        private StringBuilder query = new StringBuilder();
-
-        public Builder() {
-            query.append(SELECT);
-        }
-
-        public Builder query(String column) {
-            query.append(BLANK.getSymbol())
-                    .append(column)
-                    .append(",");
-
-            return this;
-        }
-
-        public Select build() {
-            query.deleteCharAt(query.length() - 1);
-            return new Select(query);
-        }
+    public Select query(String column) {
+        this.columns.add(column);
+        return this;
     }
 }

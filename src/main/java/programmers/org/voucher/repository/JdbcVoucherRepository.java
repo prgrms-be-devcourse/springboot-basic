@@ -61,9 +61,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAll() {
-        Select select = new Select.Builder()
-                .query("*")
-                .build();
+        Select select = new Select("*");
 
         From from = new From(VOUCHERS);
 
@@ -99,9 +97,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(Long id) {
-        Select select = new Select.Builder()
-                .query("*")
-                .build();
+        Select select = new Select("*");
 
         From from = new From(VOUCHERS);
 
