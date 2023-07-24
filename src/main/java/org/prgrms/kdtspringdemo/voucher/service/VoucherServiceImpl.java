@@ -45,8 +45,8 @@ public class VoucherServiceImpl implements VoucherService {
     }
 
     @Override
-    public VoucherResponse update(UUID id, VoucherType type, long amount) {
-        voucherRepository.update(id, type, amount);
+    public VoucherResponse upsert(UUID id, VoucherType type, long amount) {
+        voucherRepository.upsert(id, type, amount);
         Voucher voucher = voucherRepository.findById(id)
                 .orElseGet(() -> voucherRepository.save(type.createVoucher(id, amount)));
 

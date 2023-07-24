@@ -99,12 +99,12 @@ public class VoucherServiceTest {
         PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getId(), 10);
 
         //mocking
-        doNothing().when(voucherRepository).update(any(), any(), anyLong());
+        doNothing().when(voucherRepository).upsert(any(), any(), anyLong());
 
         //then
-        voucherService.update(savedVoucher.getId(), updateVoucher.getType(), updateVoucher.getAmount());
+        voucherService.upsert(savedVoucher.getId(), updateVoucher.getType(), updateVoucher.getAmount());
 
         //when
-        verify(voucherRepository, times(1)).update(updateVoucher.getId(), updateVoucher.getType(), updateVoucher.getAmount());
+        verify(voucherRepository, times(1)).upsert(updateVoucher.getId(), updateVoucher.getType(), updateVoucher.getAmount());
     }
 }

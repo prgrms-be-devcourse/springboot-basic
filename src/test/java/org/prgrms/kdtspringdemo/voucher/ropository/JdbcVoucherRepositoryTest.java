@@ -84,7 +84,7 @@ class JdbcVoucherRepositoryTest {
         PercentAmountVoucher updateVoucher = new PercentAmountVoucher(savedVoucher.getId(), 10);
 
         //when
-        voucherRepository.update(updateVoucher.getId(), updateVoucher.getType(), updateVoucher.getAmount());
+        voucherRepository.upsert(updateVoucher.getId(), updateVoucher.getType(), updateVoucher.getAmount());
         Voucher response = voucherRepository.findById(updateVoucher.getId()).get();
 
         //then

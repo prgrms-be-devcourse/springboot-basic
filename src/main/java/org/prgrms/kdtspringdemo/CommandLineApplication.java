@@ -53,7 +53,7 @@ public class CommandLineApplication implements CommandLineRunner {
             case CREATE -> createVoucher();
             case FIND_ID -> getVoucher();
             case FIND_ALL -> getAllVoucher();
-            case UPDATE -> updateVoucher();
+            case UPDATE -> upsertVoucher();
             case DELETE -> deleteVoucher();
         }
     }
@@ -84,12 +84,12 @@ public class CommandLineApplication implements CommandLineRunner {
         }
     }
 
-    private void updateVoucher() {
+    private void upsertVoucher() {
         UUID userId = console.inputVoucherId(VOUCHER_ID);
         VoucherType userType = console.chooseVoucherType(CHOICE_VOUCHER_TYPE);
         Long userAmount = console.inputAmountByVoucher(AMOUNT_VOUCHER);
 
-        VoucherResponse response = voucherService.update(userId, userType, userAmount);
+        VoucherResponse response = voucherService.upsert(userId, userType, userAmount);
         printVoucherResult(response);
     }
 

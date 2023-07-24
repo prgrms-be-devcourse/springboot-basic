@@ -35,7 +35,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(UUID id, VoucherType type, long amount) {
+    public void upsert(UUID id, VoucherType type, long amount) {
         storage.putIfAbsent(id, type.createVoucher(id, amount));
     }
 

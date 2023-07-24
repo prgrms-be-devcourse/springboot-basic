@@ -82,7 +82,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void update(UUID id, VoucherType type, long amount) {
+    public void upsert(UUID id, VoucherType type, long amount) {
         Query.UpdateBuilder updateQuery = new Query.UpdateBuilder()
                 .update(VOUCHER_TABLE)
                 .set(VOUCHER_TYPE, VOUCHER_TYPE)

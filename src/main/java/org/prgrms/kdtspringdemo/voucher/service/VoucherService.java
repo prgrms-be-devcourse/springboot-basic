@@ -13,7 +13,7 @@ public interface VoucherService {
 
     List<VoucherResponse> findAll();
 
-    VoucherResponse update(UUID id, VoucherType type, long amount);
+    VoucherResponse upsert(UUID id, VoucherType type, long amount);
 
     void delete(UUID id);
 }
