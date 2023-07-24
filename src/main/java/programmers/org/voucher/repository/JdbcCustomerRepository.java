@@ -1,6 +1,5 @@
 package programmers.org.voucher.repository;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -13,6 +12,7 @@ import programmers.org.voucher.repository.util.Where;
 import programmers.org.voucher.repository.util.statement.*;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.util.List;
 import java.util.Optional;
 
 import static programmers.org.voucher.repository.util.constant.Table.CUSTOMERS;
@@ -85,13 +85,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .where(where)
                 .build();
 
-        try {
-            Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), id);
-            return Optional.of(customer);
+        List<Customer> customers = jdbcTemplate.query(sql, customerRowMapper(), id);
 
-        } catch (EmptyResultDataAccessException e) {
+        if (customers.isEmpty()) {
             return Optional.empty();
         }
+
+        return Optional.of(customers.get(0));
     }
 
     @Override
@@ -110,13 +110,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .where(where)
                 .build();
 
-        try {
-            Customer customer = jdbcTemplate.queryForObject(sql, customerRowMapper(), email);
-            return Optional.of(customer);
+        List<Customer> customers = jdbcTemplate.query(sql, customerRowMapper(), email);
 
-        } catch (EmptyResultDataAccessException e) {
+        if (customers.isEmpty()) {
             return Optional.empty();
         }
+
+        return Optional.of(customers.get(0));
     }
 
     private RowMapper<Customer> customerRowMapper() {
