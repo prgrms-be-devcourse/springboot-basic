@@ -1,4 +1,4 @@
-package com.wonu606.vouchermanager;
+package com.wonu606.vouchermanager.console;
 
 import com.wonu606.vouchermanager.console.cableadapter.FrontCableAdapter;
 import org.springframework.boot.CommandLineRunner;

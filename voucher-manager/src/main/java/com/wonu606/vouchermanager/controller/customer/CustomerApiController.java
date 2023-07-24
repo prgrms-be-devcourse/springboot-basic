@@ -5,71 +5,61 @@ import com.wonu606.vouchermanager.controller.customer.request.CustomerCreateRequ
 import com.wonu606.vouchermanager.controller.customer.request.OwnedVouchersRequest;
 import com.wonu606.vouchermanager.controller.customer.request.WalletDeleteRequest;
 import com.wonu606.vouchermanager.controller.customer.request.WalletRegisterRequest;
+import com.wonu606.vouchermanager.controller.customer.response.CustomerCreateResponse;
 import com.wonu606.vouchermanager.controller.customer.response.CustomerResponse;
 import com.wonu606.vouchermanager.controller.customer.response.OwnedVoucherResponse;
 import com.wonu606.vouchermanager.service.customer.CustomerService;
 import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
 import com.wonu606.vouchermanager.service.customer.param.WalletRegisterParam;
+import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
 import com.wonu606.vouchermanager.service.customer.result.CustomerResult;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedVoucherResult;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-@RequestMapping("/customers")
-public class CustomerController {
+@RestController
+@RequestMapping("/api/customers")
+public class CustomerApiController {
 
     private final CustomerService service;
     private final CustomerControllerConverterManager converterManager;
 
-    public CustomerController(CustomerService service) {
+    public CustomerApiController(CustomerService service) {
         this.service = service;
         converterManager = new CustomerControllerConverterManager();
     }
 
-    @GetMapping("/create")
-    public String createCustomerForm() {
-        return "customer/create-form";
-    }
-
     @PostMapping("/create")
-    public String createCustomer(@ModelAttribute CustomerCreateRequest request,
-            RedirectAttributes redirectAttributes) {
+    public ResponseEntity<CustomerCreateResponse> createCustomer(
+            @RequestBody CustomerCreateRequest request) {
         CustomerCreateParam param = converterManager.convert(request, CustomerCreateParam.class);
-        service.createCustomer(param);
+        CustomerCreateResult result = service.createCustomer(param);
 
-        return "redirect:/customers/list";
+        CustomerCreateResponse response = converterManager.convert(result, CustomerCreateResponse.class);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/list")
-    public String getCustomerList(Model model) {
+    public ResponseEntity<List<CustomerResponse>> getCustomerList() {
         List<CustomerResult> results = service.getCustomerList();
-
         List<CustomerResponse> responses = results.stream()
                 .map(rs -> converterManager.convert(rs, CustomerResponse.class))
                 .collect(Collectors.toList());
-
-        model.addAttribute("responses", responses);
-        return "customer/list"; // returns the Thymeleaf view name
-    }
-
-    @GetMapping("/owned-vouchers")
-    public String getOwnedVouchersByCustomerForm() {
-        return "customer/owned-vouchers-form";
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
     @PostMapping("/owned-vouchers")
-    public String getOwnedVouchersByCustomer(@ModelAttribute OwnedVouchersRequest request,
-            Model model) {
+    public ResponseEntity<List<OwnedVoucherResponse>> getOwnedVouchersByCustomer(
+            @RequestBody OwnedVouchersRequest request) {
         OwnedVouchersParam param = converterManager.convert(request, OwnedVouchersParam.class);
         List<OwnedVoucherResult> results = service.findOwnedVouchersByCustomer(param);
 
@@ -77,25 +67,20 @@ public class CustomerController {
                 .map(rs -> converterManager.convert(rs, OwnedVoucherResponse.class))
                 .collect(Collectors.toList());
 
-        model.addAttribute("responses", responses);
-        model.addAttribute("customerId", request.getCustomerId()); // Add customer ID to the model
-
-        return "customer/owned-vouchers-list";
+        return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
     @PostMapping("/wallet/delete")
-    public String deleteWallet(@ModelAttribute WalletDeleteRequest request) {
+    public ResponseEntity<Void> deleteWallet(@RequestBody WalletDeleteRequest request) {
         WalletDeleteParam param = converterManager.convert(request, WalletDeleteParam.class);
         service.deleteWallet(param);
-
-        return "redirect:/customers/owned-vouchers";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/wallet/register")
-    public String registerToWallet(@ModelAttribute WalletRegisterRequest request) {
+    public ResponseEntity<Void> registerToWallet(@RequestBody WalletRegisterRequest request) {
         WalletRegisterParam param = converterManager.convert(request, WalletRegisterParam.class);
         service.registerToWallet(param);
-
-        return "redirect:/customers/owned-vouchers"; // redirect to the owned vouchers page after registration
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

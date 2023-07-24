@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create Customer</title>
+</head>
+<body>
+<h1>Create New Customer</h1>
+
+<form action="/customers/create" method="post">
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email"><br>
+  <label for="nickname">Nickname:</label><br>
+  <input type="text" id="nickname" name="nickname"><br>
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>

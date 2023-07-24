@@ -2,8 +2,11 @@ package com.wonu606.vouchermanager.controller.customer.request;
 
 public class WalletDeleteRequest {
 
-    private final String voucherId;
-    private final String customerId;
+    private String voucherId;
+    private String customerId;
+
+    public WalletDeleteRequest() {
+    }
 
     public WalletDeleteRequest(String voucherId, String customerId) {
         this.voucherId = voucherId;
@@ -14,7 +17,15 @@ public class WalletDeleteRequest {
         return voucherId;
     }
 
+    public void setVoucherId(String voucherId) {
+        this.voucherId = voucherId;
+    }
+
     public String getCustomerId() {
         return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
     }
 }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Get Owned Vouchers</title>
+</head>
+<body>
+<h1>Get Owned Vouchers by Customer</h1>
+
+<form action="/customers/owned-vouchers" method="post">
+  <label for="customerId">Customer ID:</label><br>
+  <input type="text" id="customerId" name="customerId"><br>
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>
