@@ -1,6 +1,6 @@
-package com.prgmrs.voucher.controller;
+package com.prgmrs.voucher.controller.console;
 
-import com.prgmrs.voucher.dto.ResponseDTO;
+import com.prgmrs.voucher.controller.console.wrapper.ResponseDTO;
 import com.prgmrs.voucher.dto.request.AssignVoucherRequest;
 import com.prgmrs.voucher.dto.request.RemoveVoucherRequest;
 import com.prgmrs.voucher.enums.StatusCode;

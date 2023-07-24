@@ -8,7 +8,7 @@ import com.prgmrs.voucher.model.Wallet;
 import com.prgmrs.voucher.model.wrapper.Username;
 import com.prgmrs.voucher.repository.UserRepository;
 import com.prgmrs.voucher.repository.WalletRepository;
-import com.prgmrs.voucher.util.UuidConverter;
+import com.prgmrs.voucher.util.UUIDConverter;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -25,14 +25,14 @@ public class WalletService {
 
     public WalletResponse assignVoucher(AssignVoucherRequest assignVoucherRequest) {
         User user = userRepository.findByUsername(new Username(assignVoucherRequest.username()));
-        Wallet wallet = new Wallet(user.userId(), UuidConverter.fromString(assignVoucherRequest.voucherUuid()));
+        Wallet wallet = new Wallet(user.userId(), UUIDConverter.fromString(assignVoucherRequest.voucherUuid()));
         walletRepository.save(wallet);
 
         return new WalletResponse(wallet.voucherId(), user.username().value());
     }
 
     public WalletResponse removeVoucher(RemoveVoucherRequest removeVoucherRequest) {
-        UUID convertedUuid = UuidConverter.fromString(removeVoucherRequest.voucherUuid());
+        UUID convertedUuid = UUIDConverter.fromString(removeVoucherRequest.voucherUuid());
         User user = userRepository.getUserByVoucherId(convertedUuid);
         Wallet wallet = new Wallet(user.userId(), convertedUuid);
         walletRepository.remove(wallet);

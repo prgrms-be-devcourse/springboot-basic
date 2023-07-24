@@ -10,9 +10,11 @@ public enum ConsoleMessage {
     ConsoleMessage(String message) {
         this.message = message;
     }
+
     public String getValue() {
         return message;
     }
+
     @Override
     public String toString() {
         return this.message;

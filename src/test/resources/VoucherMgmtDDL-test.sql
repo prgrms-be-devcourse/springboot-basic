@@ -19,7 +19,7 @@ CREATE TABLE `wallet`
 (
     `voucher_id`      CHAR(36) NOT NULL,
     `user_id`         CHAR(36) NOT NULL,
-    `assigned_time`   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `assigned_time`   TIMESTAMP         DEFAULT CURRENT_TIMESTAMP,
     `unassigned_time` TIMESTAMP,
     `is_used`         TINYINT  NOT NULL DEFAULT 0,
     PRIMARY KEY (`voucher_id`, `user_id`, `assigned_time`),

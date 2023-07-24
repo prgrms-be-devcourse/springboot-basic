@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<head>
+    <title>Delete Voucher</title>
+    <script>
+        function displayDiscountStrategy() {
+            var selectedOption = $('#voucherId').find(":selected");
+            var discountStrategy = selectedOption.data('strategy');
+            $('#strategyDisplay').text(discountStrategy);
+        }
+    </script>
+</head>
+<body>
+<h1>Delete Voucher</h1>
+
+<form method="post" th:action="@{/vouchers/remove}" th:object="${voucherRemoveRequest}">
+    <select id="voucherId" name="voucherId" onchange="displayDiscountStrategy()" th:field="*{voucherId}">
+        <option th:data-strategy="${voucher.discountStrategy}"
+                th:each="voucher : ${voucherList}"
+                th:text="${voucher.voucherId}"
+                th:value="${voucher.voucherId}">
+        </option>
+    </select>
+    <br>
+    <label>Discount Strategy: </label><span id="strategyDisplay"></span>
+    <br>
+    <input type="submit" value="Delete">
+</form>
+
+</body>
+</html>

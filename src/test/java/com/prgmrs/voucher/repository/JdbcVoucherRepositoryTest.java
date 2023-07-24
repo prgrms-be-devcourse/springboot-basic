@@ -8,7 +8,6 @@ import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.model.wrapper.Amount;
 import com.prgmrs.voucher.model.wrapper.Percent;
 import com.prgmrs.voucher.model.wrapper.Username;
-import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,15 +52,15 @@ class JdbcVoucherRepositoryTest {
 
     @BeforeEach
     void setUp() {
-        voucherUuid1 = UUIDGenerator.generateUUID();
+        voucherUuid1 = UUID.randomUUID();
         Amount amount = new Amount(500);
         fixedAmountDiscountStrategy = new FixedAmountDiscountStrategy(amount);
 
-        voucherUuid2 = UUIDGenerator.generateUUID();
+        voucherUuid2 = UUID.randomUUID();
         Percent percent = new Percent(30);
         percentDiscountStrategy = new PercentDiscountStrategy(percent);
 
-        uuidTyler = UUIDGenerator.generateUUID();
+        uuidTyler = UUID.randomUUID();
         usernameTyler = new Username("tyler");
         userTyler = new User(uuidTyler, usernameTyler);
         userRepository.save(userTyler);

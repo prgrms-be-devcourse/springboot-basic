@@ -14,25 +14,25 @@ public enum ManagementType {
     SHOW_VOUCHER_OWNER("Type '8' to show the owner of specific voucher."),
     SHOW_BLACKLIST("Type '9' to print out the blacklist.");
 
-    private final String value;
+    private final String message;
 
-    ManagementType(String value) {
-        this.value = value;
+    ManagementType(String message) {
+        this.message = message;
     }
 
-    public static ManagementType of(String value) {
-        try {
-            int convertedValue = Integer.parseInt(value);
-            if (convertedValue >= 0 && convertedValue < ManagementType.values().length) {
-                return ManagementType.values()[convertedValue];
-            }
-            throw new WrongRangeFormatException("no such option exists");
-        } catch (NumberFormatException e) {
-            throw new WrongRangeFormatException("input must be number");
+    public static ManagementType of(String orderNumberAsString) {
+        int orderNumber = Integer.parseInt(orderNumberAsString);
+        if (isWithinOrderNumberRange(orderNumber)) {
+            return ManagementType.values()[orderNumber];
         }
+        throw new WrongRangeFormatException("no such option exists");
     }
 
-    public String getValue() {
-        return value;
+    private static boolean isWithinOrderNumberRange(int orderNumber) {
+        return orderNumber >= 0 && orderNumber < ManagementType.values().length;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

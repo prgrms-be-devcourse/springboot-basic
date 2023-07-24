@@ -3,15 +3,15 @@ package com.prgmrs.voucher.enums;
 import com.prgmrs.voucher.exception.WrongRangeFormatException;
 
 public enum DiscountType {
-    FIXED_AMOUNT_DISCOUNT("fixed", (short) 1),
-    PERCENT_DISCOUNT("percent", (short) 2);
+    FIXED_AMOUNT_DISCOUNT("fixed", 1),
+    PERCENT_DISCOUNT("percent", 2);
 
     private final String stringValue;
-    private final short shortValue;
+    private final int value;
 
-    DiscountType(String stringValue, short shortValue) {
+    DiscountType(String stringValue, int value) {
         this.stringValue = stringValue;
-        this.shortValue = shortValue;
+        this.value = value;
     }
 
     public static DiscountType fromString(String value) {
@@ -25,19 +25,23 @@ public enum DiscountType {
 
     public static DiscountType fromShort(short value) {
         for (DiscountType enumValue : DiscountType.values()) {
-            if (enumValue.shortValue == value) {
+            if (enumValue.value == value) {
                 return enumValue;
             }
         }
         throw new WrongRangeFormatException("no matching discount type from short");
     }
 
-    public static short toShortValue(String value) {
+    public static int fromEnumValueStringToValue(String value) {
         for (DiscountType enumValue : DiscountType.values()) {
             if (enumValue.name().equalsIgnoreCase(value)) {
-                return enumValue.shortValue;
+                return enumValue.value;
             }
         }
         throw new WrongRangeFormatException("no matching discount type from enum");
+    }
+
+    public int getValue() {
+        return value;
     }
 }

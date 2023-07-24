@@ -1,11 +1,11 @@
 package com.prgmrs.voucher.controller;
 
-import com.prgmrs.voucher.dto.ResponseDTO;
+import com.prgmrs.voucher.controller.console.WalletController;
+import com.prgmrs.voucher.controller.console.wrapper.ResponseDTO;
 import com.prgmrs.voucher.dto.request.AssignVoucherRequest;
 import com.prgmrs.voucher.dto.request.RemoveVoucherRequest;
 import com.prgmrs.voucher.dto.response.WalletResponse;
 import com.prgmrs.voucher.service.WalletService;
-import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class WalletControllerTest {
 
         String username = "tyler";
 
-        UUID voucherUuid = UUIDGenerator.generateUUID();
+        UUID voucherUuid = UUID.randomUUID();
         String voucherUuidString = voucherUuid.toString();
 
         assignVoucherRequest = new AssignVoucherRequest(username, voucherUuidString);

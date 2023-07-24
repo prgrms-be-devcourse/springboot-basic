@@ -8,7 +8,6 @@ import com.prgmrs.voucher.model.Wallet;
 import com.prgmrs.voucher.model.wrapper.Username;
 import com.prgmrs.voucher.repository.UserRepository;
 import com.prgmrs.voucher.repository.WalletRepository;
-import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,9 +43,9 @@ class WalletServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        voucherUUID = UUIDGenerator.generateUUID();
+        voucherUUID = UUID.randomUUID();
 
-        UUID userUUID = UUIDGenerator.generateUUID();
+        UUID userUUID = UUID.randomUUID();
         username = new Username("tyler");
         user = new User(userUUID, username);
     }

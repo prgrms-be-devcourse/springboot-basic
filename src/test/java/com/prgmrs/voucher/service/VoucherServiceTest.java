@@ -12,7 +12,6 @@ import com.prgmrs.voucher.model.validator.VoucherValidator;
 import com.prgmrs.voucher.model.wrapper.Amount;
 import com.prgmrs.voucher.model.wrapper.Username;
 import com.prgmrs.voucher.repository.VoucherRepository;
-import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,12 +48,12 @@ class VoucherServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        UUID voucherUuid1 = UUIDGenerator.generateUUID();
+        UUID voucherUuid1 = UUID.randomUUID();
         Amount amount1 = new Amount(300);
         FixedAmountDiscountStrategy discountStrategy1 = new FixedAmountDiscountStrategy(amount1);
         voucherFixedAmountOf300 = new Voucher(voucherUuid1, discountStrategy1);
 
-        UUID voucherUuid2 = UUIDGenerator.generateUUID();
+        UUID voucherUuid2 = UUID.randomUUID();
         Amount amount2 = new Amount(200);
         FixedAmountDiscountStrategy discountStrategy2 = new FixedAmountDiscountStrategy(amount2);
         voucherFixedAmountOf200 = new Voucher(voucherUuid2, discountStrategy2);

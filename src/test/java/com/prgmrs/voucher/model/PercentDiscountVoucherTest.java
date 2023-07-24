@@ -4,7 +4,6 @@ import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import com.prgmrs.voucher.model.strategy.PercentDiscountStrategy;
 import com.prgmrs.voucher.model.wrapper.DiscountValue;
 import com.prgmrs.voucher.model.wrapper.Percent;
-import com.prgmrs.voucher.util.UUIDGenerator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ class PercentDiscountVoucherTest {
 
     @BeforeEach
     void setUp() {
-        voucherId = UUIDGenerator.generateUUID();
+        voucherId = UUID.randomUUID();
         percent = new Percent(50);
         percentDiscountStrategy = new PercentDiscountStrategy(percent);
     }
