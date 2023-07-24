@@ -36,11 +36,11 @@ public class FileVoucherRepository implements VoucherRepository {
 		try {
 			String voucherJson = objectMapper.writeValueAsString(voucherEntity);
 			fileIO.saveStringToFile(voucherJson + System.lineSeparator());
+			return voucherEntity;
 		} catch (JsonProcessingException e) {
-			logger.error("save 메서드에서 voucher 저장 실패" + e.toString());
+			logger.error("save 메서드에서 voucher 저장 실패" , e);
+			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
-
-		return voucherEntity;
 	}
 
 	@Override

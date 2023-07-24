@@ -41,30 +41,29 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	@Override
 	public CustomerEntity create(CustomerEntity customer) {
-		int update = jdbcTemplate.update(
-			"INSERT INTO customers(customer_id, name, email, created_at) VALUES (?, ?, ?, ?)",
-			customer.customerId().toString(),
-			customer.name(),
-			customer.email(),
-			Timestamp.valueOf(customer.createdAt())
-		);
-
-		if (update != 1) {
-			throw new RuntimeException("Nothing was created");
+		try{
+			jdbcTemplate.update(
+				"INSERT INTO customers(customer_id, name, email, created_at) VALUES (?, ?, ?, ?)",
+				customer.customerId().toString(),
+				customer.name(),
+				customer.email(),
+				Timestamp.valueOf(customer.createdAt())
+			);
+			return customer;
+		}catch (Exception e) {
+			throw new CommonRuntimeException(ErrorCode.CUSTOMER_CREATE_FAIL);
 		}
-		return customer;
 	}
 
 	@Override
 	public CustomerEntity update(CustomerEntity customerEntity) {
 		try {
-			CustomerEntity targetCustomer = findById(customerEntity.customerId());
 			jdbcTemplate.update("UPDATE customers SET name = ?, email = ? WHERE customer_id = ?",
-				targetCustomer.name(),
-				targetCustomer.email(),
-				targetCustomer.customerId()
+				customerEntity.name(),
+				customerEntity.email(),
+				customerEntity.customerId()
 			);
-			return targetCustomer;
+			return customerEntity;
 		} catch (RuntimeException e) {
 			throw new CommonRuntimeException(ErrorCode.CUSTOMER_UPDATE_FAIL);
 		}

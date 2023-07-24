@@ -25,8 +25,12 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
 	@Override
 	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
-		map.put(voucherEntity.getVoucherId(), voucherEntity);
-		return voucherEntity;
+		try {
+			map.put(voucherEntity.getVoucherId(), voucherEntity);
+			return voucherEntity;
+		} catch (RuntimeException ex) {
+			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
+		}
 	}
 
 	@Override
@@ -36,8 +40,12 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 
 	@Override
 	public VoucherEntity updateVoucher(VoucherEntity voucherEntity) {
-		map.remove(voucherEntity.getVoucherId());
-		map.put(voucherEntity.getVoucherId(), voucherEntity);
+		try {
+			VoucherEntity targetVoucher = findById(voucherEntity.getVoucherId());
+			map.put(voucherEntity.getVoucherId(), voucherEntity);
+		} catch (RuntimeException e) {
+			throw new CommonRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
+		}
 		return voucherEntity;
 	}
 

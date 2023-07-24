@@ -39,18 +39,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
 	@Override
 	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
-		int update = jdbcTemplate.update(
-			"INSERT INTO vouchers(voucher_id, amount, voucher_type) VALUES (?, ?, ?)",
-			voucherEntity.getVoucherId(),
-			voucherEntity.getAmount(),
-			voucherEntity.getVoucherType().toString()
-		);
-
-		if (update != 1) {
-			throw new RuntimeException("Nothing was created");
+		try {
+			jdbcTemplate.update(
+				"INSERT INTO vouchers(voucher_id, amount, voucher_type) VALUES (?, ?, ?)",
+				voucherEntity.getVoucherId(),
+				voucherEntity.getAmount(),
+				voucherEntity.getVoucherType().toString()
+			);
+			return voucherEntity;
+		} catch (Exception e) {
+			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
-
-		return voucherEntity;
 	}
 
 	@Override
@@ -62,13 +61,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	public VoucherEntity updateVoucher(VoucherEntity voucherEntity) {
 
 		try {
-			VoucherEntity targetVoucher = findById(voucherEntity.getVoucherId());
 			jdbcTemplate.update("UPDATE  vouchers SET amount = ?, voucher_type = ? WHERE voucher_id = ?",
-				targetVoucher.getAmount(),
-				targetVoucher.getVoucherType().toString(),
-				targetVoucher.getVoucherId()
+				voucherEntity.getAmount(),
+				voucherEntity.getVoucherType().toString(),
+				voucherEntity.getVoucherId()
 			);
-			return targetVoucher;
+			return voucherEntity;
 		} catch (RuntimeException e) {
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
 		}
