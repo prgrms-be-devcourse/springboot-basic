@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,8 +6,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 public class FileIO {
 
@@ -18,7 +21,7 @@ public class FileIO {
 	public FileIO(String fileName, String dirPath) {
 		this.fileName = fileName;
 		this.dirPath = dirPath;
-		this.file = new File(dirPath, fileName);;
+		this.file = new File(dirPath, fileName);
 	}
 
 	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);

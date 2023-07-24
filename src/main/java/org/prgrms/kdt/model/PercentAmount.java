@@ -21,4 +21,21 @@ public class PercentAmount implements Amount {
 	public int getAmount() {
 		return this.amount;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		PercentAmount that = (PercentAmount)o;
+
+		return amount == that.amount;
+	}
+
+	@Override
+	public int hashCode() {
+		return amount;
+	}
 }

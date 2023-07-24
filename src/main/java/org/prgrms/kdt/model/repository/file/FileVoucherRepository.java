@@ -1,10 +1,13 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.model.repository.file;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.model.repository.VoucherRepository;
+import org.prgrms.kdt.util.FileIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,11 +31,19 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	@Override
 	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
-		return saveVoucher(voucherEntity);
+		try {
+			String voucherJson = objectMapper.writeValueAsString(voucherEntity);
+			fileIO.saveStringToFile(voucherJson + System.lineSeparator());
+		} catch (JsonProcessingException e) {
+			logger.error("save 메서드에서 voucher 저장 실패");
+			logger.error(e.toString());
+		}
+
+		return voucherEntity;
 	}
 
 	@Override
-	public List<VoucherEntity> readAll() {
+	public List<VoucherEntity> findAll() {
 		String fileAllText = fileIO.loadStringFromFile();
 		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
 		return voucherEntities;
@@ -55,15 +66,22 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
-		try {
-			String voucherJson = objectMapper.writeValueAsString(voucherEntity);
-			fileIO.saveStringToFile(voucherJson + System.lineSeparator());
-		} catch (JsonProcessingException e) {
-			logger.error("save 메서드에서 voucher 저장 실패");
-			logger.error(e.toString());
-		}
+	public VoucherEntity updateVoucher(VoucherEntity voucherEntity) {
+		throw new UnsupportedOperationException("아직 미 구현한 기능 입니다.");
+	}
 
-		return voucherEntity;
+	@Override
+	public Optional<VoucherEntity> findById(Long voucherId) {
+		String fileAllText = fileIO.loadStringFromFile();
+		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
+		return voucherEntities
+			.stream()
+			.filter(voucherEntity -> voucherEntity.getVoucherId() == voucherId)
+			.findFirst();
+	}
+
+	@Override
+	public boolean deleteById(Long voucherId) {
+		throw new UnsupportedOperationException("아직 미 구현한 기능 입니다.");
 	}
 }

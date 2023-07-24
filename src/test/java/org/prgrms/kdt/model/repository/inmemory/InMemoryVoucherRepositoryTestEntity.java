@@ -1,4 +1,4 @@
-package org.prgrms.kdt.model.repository;
+package org.prgrms.kdt.model.repository.inmemory;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,6 +14,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.model.repository.VoucherRepository;
 
 class InMemoryVoucherRepositoryTestEntity {
 
@@ -44,7 +45,7 @@ class InMemoryVoucherRepositoryTestEntity {
 	}
 
 	@ParameterizedTest
-	@DisplayName("인메모리 repository 저장 및 불러오기 테스트")
+	@DisplayName("인메모리에서 voucher를 저장하고 불러올 수 있다.")
 	@MethodSource("vouchersProvider")
 	void createVoucherTest(List<VoucherEntity> voucherEntities) {
 		// given
@@ -54,14 +55,12 @@ class InMemoryVoucherRepositoryTestEntity {
 		//when
 		voucherEntities.stream()
 			.forEach(voucher -> voucherRepository.createVoucher(voucher));
-		List<Long> expectedIds = voucherRepository.readAll()
+		List<VoucherEntity> expectedVoucherEntities = voucherRepository.findAll()
 			.stream()
-			.map(VoucherEntity::getVoucherId)
 			.collect(Collectors.toList());
 
 		//then
 		Assertions.assertThat(voucherEntities)
-			.flatExtracting(VoucherEntity::getVoucherId)
-			.containsExactlyInAnyOrderElementsOf(expectedIds);
+			.containsExactlyInAnyOrderElementsOf(expectedVoucherEntities);
 	}
 }
