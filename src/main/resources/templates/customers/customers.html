@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>고객 목록</h2></div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='saveForm.html'"
+                    th:onclick="|location.href='@{/customers}'|"
+                    type="button">고객 등록
+            </button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>이름</th>
+                <th>고객 타입</th>
+                <th>지갑</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${customers.customers().isEmpty()}">
+                <td colspan="4">저장된 고객이 없습니다.</td>
+            </tr>
+            <tr th:each="customer : ${customers.customers()}">
+                <td><a href="customer.html" th:href="@{/customers/{customerId}(customerId=${customer.customerId()})}"
+                       th:text="${customer.customerId()}">ID</a></td>
+                <td><a th:text="${customer.username()}">이름</a></td>
+                <td th:text="${customer.customerType()}">고객 타입</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

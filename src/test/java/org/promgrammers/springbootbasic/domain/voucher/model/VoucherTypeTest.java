@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -15,7 +16,7 @@ class VoucherTypeTest {
     @DisplayName("성공 - [1] percent,[2] fixed면 객체 생성")
     void creationSuccessTest(String voucherType) throws Exception {
 
-        assertDoesNotThrow(() -> VoucherType.from(voucherType));
+        assertDoesNotThrow(() -> VoucherType.fromTypeString(voucherType));
     }
 
     @ParameterizedTest
@@ -23,6 +24,6 @@ class VoucherTypeTest {
     @DisplayName("실패 - [1] percent, [2] fixed외 조건")
     void creationFailTest(String voucherType) throws Exception {
 
-        assertThrows(IllegalArgumentException.class, () -> VoucherType.from(voucherType));
+        assertThrows(BusinessException.class, () -> VoucherType.fromTypeString(voucherType));
     }
 }

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("생성 실패 - amount가 0이하")
     void creationFailTestUnder0(long amount) throws Exception {
 
-        assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), amount));
+        assertThrows(BusinessException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), amount));
     }
 
     @ParameterizedTest
@@ -34,7 +35,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("생성 실패 - amount가 100이상")
     void creationFailTestAbove100(long amount) {
 
-        assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), amount));
+        assertThrows(BusinessException.class, () -> new PercentDiscountVoucher(UUID.randomUUID(), amount));
     }
 
     @ParameterizedTest

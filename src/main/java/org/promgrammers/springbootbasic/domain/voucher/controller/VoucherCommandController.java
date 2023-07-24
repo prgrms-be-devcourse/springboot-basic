@@ -16,12 +16,12 @@ import org.springframework.stereotype.Controller;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
+public class VoucherCommandController {
 
     private final Console console;
     private final VoucherService voucherService;
 
-    public VoucherController(Console console, VoucherService voucherService) {
+    public VoucherCommandController(Console console, VoucherService voucherService) {
         this.console = console;
         this.voucherService = voucherService;
     }
@@ -52,7 +52,7 @@ public class VoucherController {
 
     private VoucherResponse createVoucher() {
         String inputVoucherType = console.askForVoucherType();
-        VoucherType voucherType = VoucherType.from(inputVoucherType);
+        VoucherType voucherType = VoucherType.fromTypeString(inputVoucherType);
         long discountAmount = console.askForDiscountAmount();
 
         CreateVoucherRequest createVoucherRequest = CreateVoucherRequest.of(voucherType, discountAmount);

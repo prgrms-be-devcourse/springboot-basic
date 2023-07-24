@@ -1,9 +1,10 @@
 package org.promgrammers.springbootbasic.domain.voucher.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
-import org.promgrammers.springbootbasic.exception.repository.DuplicateIDException;
-import org.promgrammers.springbootbasic.exception.repository.EntityNotFoundException;
+import org.promgrammers.springbootbasic.global.error.exception.repository.DuplicateIDException;
+import org.promgrammers.springbootbasic.global.error.exception.repository.EntityNotFoundException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -58,6 +59,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findAllByCustomerId(UUID customerId) {
         return storage.values().stream()
                 .filter(voucher -> voucher.getCustomerId() != null && voucher.getCustomerId().equals(customerId))
+                .toList();
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return storage.values().stream()
+                .filter(voucher -> voucher.getVoucherType() == voucherType)
                 .toList();
     }
 

@@ -8,8 +8,9 @@ import org.promgrammers.springbootbasic.domain.voucher.dto.request.UpdateVoucher
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherListResponse;
 import org.promgrammers.springbootbasic.domain.voucher.dto.response.VoucherResponse;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
+import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
-import org.promgrammers.springbootbasic.exception.BusinessException;
+import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-import static org.promgrammers.springbootbasic.exception.ErrorCode.DUPLICATED_VOUCHER;
-import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_CUSTOMER;
-import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_VOUCHER;
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.DUPLICATED_VOUCHER;
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.NOT_FOUND_CUSTOMER;
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.NOT_FOUND_VOUCHER;
 
 @Service
 public class VoucherService {
@@ -56,6 +57,7 @@ public class VoucherService {
         }
 
         wallet.addVoucher(voucher);
+        System.out.println(wallet.getVouchers().toString());
 
         voucherRepository.assignVoucherToCustomer(customer.getCustomerId(), voucher.getVoucherId());
     }
@@ -81,6 +83,21 @@ public class VoucherService {
                 .orElseThrow(() -> new BusinessException(NOT_FOUND_VOUCHER));
 
         return new VoucherResponse(voucher);
+    }
+
+    @Transactional(readOnly = true)
+    public VoucherListResponse findByType(VoucherType voucherType) {
+        List<Voucher> voucherList = voucherRepository.findByType(voucherType);
+
+        if (voucherList == null || voucherList.isEmpty()) {
+            throw new BusinessException(NOT_FOUND_VOUCHER);
+        }
+
+        List<VoucherResponse> voucherResponseList = voucherList.stream()
+                .map(VoucherResponse::new)
+                .toList();
+
+        return new VoucherListResponse(voucherResponseList);
     }
 
     @Transactional(readOnly = true)
@@ -131,6 +148,11 @@ public class VoucherService {
 
     @Transactional
     public void deleteAll() {
+        List<Voucher> voucherList = voucherRepository.findAll();
+
+        if (voucherList == null || voucherList.isEmpty()) {
+            throw new BusinessException(NOT_FOUND_VOUCHER);
+        }
         voucherRepository.deleteAll();
     }
 

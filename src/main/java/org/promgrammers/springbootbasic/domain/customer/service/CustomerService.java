@@ -9,16 +9,16 @@ import org.promgrammers.springbootbasic.domain.customer.repository.CustomerRepos
 import org.promgrammers.springbootbasic.domain.customer.repository.impl.JdbcCustomerRepository;
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.repository.VoucherRepository;
-import org.promgrammers.springbootbasic.exception.BusinessException;
+import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
-import static org.promgrammers.springbootbasic.exception.ErrorCode.DUPLICATED_USERNAME;
-import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_CUSTOMER;
-import static org.promgrammers.springbootbasic.exception.ErrorCode.NOT_FOUND_VOUCHER;
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.DUPLICATED_USERNAME;
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.NOT_FOUND_CUSTOMER;
+import static org.promgrammers.springbootbasic.global.error.exception.ErrorCode.NOT_FOUND_VOUCHER;
 
 @Service
 public class CustomerService {

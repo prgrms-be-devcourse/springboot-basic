@@ -13,7 +13,7 @@ import org.promgrammers.springbootbasic.domain.voucher.model.PercentDiscountVouc
 import org.promgrammers.springbootbasic.domain.voucher.model.Voucher;
 import org.promgrammers.springbootbasic.domain.voucher.model.VoucherType;
 import org.promgrammers.springbootbasic.domain.voucher.repository.impl.JdbcVoucherRepository;
-import org.promgrammers.springbootbasic.exception.BusinessException;
+import org.promgrammers.springbootbasic.global.error.exception.BusinessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -25,10 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -148,6 +145,20 @@ class VoucherServiceTest {
         // when, then
         BusinessException exception = assertThrows(BusinessException.class,
                 () -> voucherService.findAllByCustomerId(customerId));
+    }
+
+    @Test
+    @DisplayName("특정 바우처 타입으로 조회")
+    void findAllByVouchersTypeTest() {
+
+        //given
+        Voucher voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 100L));
+        Voucher voucher2 = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
+
+        // when
+        VoucherListResponse voucherList = voucherService.findByType(VoucherType.FIXED);
+        // then
+        assertThat(voucherList.voucherResponseList()).hasSize(2);
     }
 
     @Test

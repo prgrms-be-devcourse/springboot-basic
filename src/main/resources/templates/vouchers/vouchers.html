@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 600px">
+    <div class="py-5 text-center">
+        <h2>바우처 목록</h2></div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='saveForm.html'"
+                    th:onclick="|location.href='@{/vouchers}'|"
+                    type="button">바우처 등록
+            </button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>바우처 타입</th>
+                <th>할인 금액</th>
+                <th>보유 고객</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${vouchers.voucherResponseList().isEmpty()}">
+                <td colspan="4">저장된 바우처가 없습니다.</td>
+            </tr>
+            <tr th:each="voucher : ${vouchers.voucherResponseList()}">
+                <td><a href="voucher.html" th:href="@{/vouchers/{voucherId}(voucherId=${voucher.voucherId()})}"
+                       th:text="${voucher.voucherId()}">바우처 ID</a></td>
+                <td><a th:text="${voucher.voucherType()}">바우처 타입</a></td>
+                <td th:text="${voucher.amount()}">바우처 금액</td>
+                <td th:text="${voucher.customerId()}">보유 고객</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

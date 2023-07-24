@@ -1,4 +1,4 @@
-package org.promgrammers.springbootbasic.util;
+package org.promgrammers.springbootbasic.global.util;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.voucher.model.FixedAmountVoucher;

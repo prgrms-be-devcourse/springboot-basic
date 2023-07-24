@@ -1,4 +1,4 @@
-package org.promgrammers.springbootbasic.exception;
+package org.promgrammers.springbootbasic.global.error.exception;
 
 import lombok.Getter;
 

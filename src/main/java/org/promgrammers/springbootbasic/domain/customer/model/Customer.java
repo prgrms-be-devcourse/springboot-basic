@@ -1,7 +1,5 @@
 package org.promgrammers.springbootbasic.domain.customer.model;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.promgrammers.springbootbasic.domain.Wallet;
 import org.springframework.util.StringUtils;
@@ -9,8 +7,6 @@ import org.springframework.util.StringUtils;
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
-@EqualsAndHashCode
 public final class Customer {
 
     private final UUID customerId;

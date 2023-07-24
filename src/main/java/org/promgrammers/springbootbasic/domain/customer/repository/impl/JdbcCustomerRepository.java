@@ -2,9 +2,9 @@ package org.promgrammers.springbootbasic.domain.customer.repository.impl;
 
 import org.promgrammers.springbootbasic.domain.customer.model.Customer;
 import org.promgrammers.springbootbasic.domain.customer.repository.CustomerRepository;
+import org.promgrammers.springbootbasic.global.error.exception.repository.DataManipulationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -53,12 +53,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         int saveCount = template.update(SAVE, parameterSource);
 
         if (saveCount != 1) {
-            throw new DataAccessException("고객 저장에 실패 했습니다. => " + customer.getCustomerId()) {
-                @Override
-                public String getMessage() {
-                    return super.getMessage();
-                }
-            };
+            throw new DataManipulationException("고객 저장에 실패 했습니다. => " + customer.getCustomerId());
         }
         return customer;
     }
