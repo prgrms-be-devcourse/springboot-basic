@@ -1,9 +1,15 @@
 package com.programmers.voucher.domain.customer.dto.request;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
 import java.util.UUID;
 
 public class CustomerUpdateRequest {
     private UUID customerId;
+
+    @NotNull
+    @Pattern(regexp = "^[A-Za-z0-9]{1,20}")
     private String name;
     private boolean banned;
 
