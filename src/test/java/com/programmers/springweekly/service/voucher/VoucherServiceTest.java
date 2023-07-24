@@ -117,8 +117,6 @@ public class VoucherServiceTest {
         voucherService.deleteAll();
 
         // then
-        assertThatThrownBy(() -> voucherService.findAll())
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("바우처가 저장되어 있지 않습니다.");
+        assertThat(voucherService.findAll().getVoucherList().size()).isEqualTo(0);
     }
 }
