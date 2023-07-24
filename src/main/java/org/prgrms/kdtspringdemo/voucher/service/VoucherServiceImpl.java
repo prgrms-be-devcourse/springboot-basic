@@ -31,6 +31,7 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public VoucherResponse findById(UUID id) {
+        System.out.println(voucherRepository.findById(id));
         Voucher voucher = voucherRepository.findById(id)
                 .orElseThrow(() -> new VoucherIdNotFoundException(VOUCHER_ID_LOOKUP_FAILED));
 

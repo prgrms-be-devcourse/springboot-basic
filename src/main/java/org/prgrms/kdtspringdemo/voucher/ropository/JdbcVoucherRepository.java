@@ -1,6 +1,11 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
-import org.prgrms.kdtspringdemo.util.Query;
+import org.prgrms.kdtspringdemo.util.queryBuilder.constant.Column;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.DeleteBuilder;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.InsertBuilder;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.SelectBuilder;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.UpdateBuilder;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.WhereBuilder;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.springframework.context.annotation.Primary;
@@ -15,16 +20,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
+import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Column.AMOUNT;
+import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Column.VOUCHER_ID;
+import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Column.VOUCHER_TYPE;
+import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Table.VOUCHER;
 
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final String VOUCHER_TABLE = "voucher";
-    private static final String VOUCHER_ID = "voucher_id";
-    private static final String VOUCHER_TYPE = "voucher_type";
-    private static final String AMOUNT = "amount";
-    private static final String ALL = "*";
-
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -32,28 +35,29 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID id = toUUID(resultSet.getBytes(VOUCHER_ID));
-        VoucherType type = VoucherType.valueOf(resultSet.getString(VOUCHER_TYPE));
-        long amount = resultSet.getLong(AMOUNT);
+        UUID id = toUUID(resultSet.getBytes(VOUCHER_ID.getColumn()));
+        VoucherType type = VoucherType.valueOf(resultSet.getString(VOUCHER_TYPE.getColumn()));
+        long amount = resultSet.getLong(AMOUNT.getColumn());
 
         return type.createVoucher(id, amount);
     };
 
     private Map<String, Object> toParamMap(UUID voucherId, VoucherType voucherType, long amount) {
         return Map.of(
-                VOUCHER_ID, uuidToBytes(voucherId),
-                VOUCHER_TYPE, voucherType.name(),
-                AMOUNT, amount
+                VOUCHER_ID.getColumn(), uuidToBytes(voucherId),
+                VOUCHER_TYPE.getColumn(), voucherType.name(),
+                AMOUNT.getColumn(), amount
         );
     }
 
     @Override
     public Voucher save(Voucher voucher) {
-        Query.InsertBuilder saveQuery = new Query.InsertBuilder()
-                .insert(VOUCHER_TABLE)
+        InsertBuilder saveQuery = new InsertBuilder()
+                .insert(VOUCHER)
                 .values(VOUCHER_ID, VOUCHER_TYPE, AMOUNT)
                 .build();
 
+        System.out.println(saveQuery.toString());
         jdbcTemplate.update(saveQuery.toString(), toParamMap(voucher.getId(), voucher.getType(), voucher.getAmount()));
 
         return voucher;
@@ -61,44 +65,58 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID id) {
-        Query.SelectBuilder findByIdQuery = new Query.SelectBuilder()
-                .select(ALL)
-                .from(VOUCHER_TABLE)
-                .where(VOUCHER_ID, VOUCHER_ID)
+        WhereBuilder where = new WhereBuilder()
+                .equal(VOUCHER_ID)
                 .build();
 
-        return jdbcTemplate.query(findByIdQuery.toString(), Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)), voucherRowMapper).stream()
+        SelectBuilder findByIdQuery = new SelectBuilder().select(Column.ALL)
+                .from(VOUCHER)
+                .where(where)
+                .build();
+
+        System.out.println(findByIdQuery.toString());
+        return jdbcTemplate.query(findByIdQuery.toString(), Collections.singletonMap(VOUCHER_ID.getColumn(), uuidToBytes(id)), voucherRowMapper).stream()
                 .findFirst();
     }
 
     @Override
     public List<Voucher> findAll() {
-        Query.SelectBuilder findAllQuery = new Query.SelectBuilder()
-                .select(ALL)
-                .from(VOUCHER_TABLE)
+        SelectBuilder findAllQuery = new SelectBuilder()
+                .select(Column.ALL)
+                .from(VOUCHER)
                 .build();
 
+        System.out.println(findAllQuery.toString());
         return jdbcTemplate.query(findAllQuery.toString(), voucherRowMapper);
     }
 
     @Override
     public void upsert(UUID id, VoucherType type, long amount) {
-        Query.UpdateBuilder updateQuery = new Query.UpdateBuilder()
-                .update(VOUCHER_TABLE)
-                .set(VOUCHER_TYPE, VOUCHER_TYPE)
-                .addSet(AMOUNT, AMOUNT)
+        WhereBuilder where = new WhereBuilder()
+                .equal(VOUCHER_ID)
                 .build();
 
+        UpdateBuilder updateQuery = new UpdateBuilder()
+                .update(VOUCHER)
+                .set(VOUCHER_TYPE, AMOUNT)
+                .where(where)
+                .build();
+
+        System.out.println(updateQuery.toString());
         jdbcTemplate.update(updateQuery.toString(), toParamMap(id, type, amount));
     }
 
     @Override
     public void deleteById(UUID id) {
-        Query.DeleteBuilder deleteByIdQuery = new Query.DeleteBuilder()
-                .delete(VOUCHER_TABLE)
-                .where(VOUCHER_ID, VOUCHER_ID)
+        WhereBuilder where = new WhereBuilder()
+                .equal(VOUCHER_ID)
                 .build();
 
-        jdbcTemplate.update(deleteByIdQuery.toString(), Collections.singletonMap(VOUCHER_ID, uuidToBytes(id)));
+        DeleteBuilder deleteByIdQuery = new DeleteBuilder()
+                .delete(VOUCHER)
+                .where(where)
+                .build();
+
+        jdbcTemplate.update(deleteByIdQuery.toString(), Collections.singletonMap(VOUCHER_ID.getColumn(), uuidToBytes(id)));
     }
 }
