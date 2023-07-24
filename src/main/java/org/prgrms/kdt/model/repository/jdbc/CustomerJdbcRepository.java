@@ -12,6 +12,9 @@ import org.prgrms.kdt.common.exception.CommonRuntimeException;
 import org.prgrms.kdt.model.entity.CustomerEntity;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.CustomerRepository;
+import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,6 +28,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	private final DataSource dataSource;
 
 	private final JdbcTemplate jdbcTemplate;
+
+	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
 	public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
 		this.dataSource = dataSource;
@@ -51,6 +56,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 			);
 			return customer;
 		}catch (Exception e) {
+			logger.error(ErrorCode.CUSTOMER_CREATE_FAIL.getErrorMessage(), e);
 			throw new CommonRuntimeException(ErrorCode.CUSTOMER_CREATE_FAIL);
 		}
 	}
@@ -65,6 +71,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 			);
 			return customerEntity;
 		} catch (RuntimeException e) {
+			logger.error(ErrorCode.CUSTOMER_UPDATE_FAIL.getErrorMessage(), e);
 			throw new CommonRuntimeException(ErrorCode.CUSTOMER_UPDATE_FAIL);
 		}
 	}
@@ -83,6 +90,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 				customerId.toString()
 			);
 		} catch (EmptyResultDataAccessException e) {
+			logger.error(ErrorCode.CUSTOMER_ID_NOT_FOUND.getErrorMessage(), e);
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 		}
 	}

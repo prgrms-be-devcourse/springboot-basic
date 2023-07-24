@@ -9,6 +9,9 @@ import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.CommonRuntimeException;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
+import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -23,12 +26,15 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 		this.map = map;
 	}
 
+	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+
 	@Override
 	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
 		try {
 			map.put(voucherEntity.getVoucherId(), voucherEntity);
 			return voucherEntity;
 		} catch (RuntimeException ex) {
+			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), ex);
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
 	}
@@ -44,6 +50,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 			VoucherEntity targetVoucher = findById(voucherEntity.getVoucherId());
 			map.put(voucherEntity.getVoucherId(), voucherEntity);
 		} catch (RuntimeException e) {
+			logger.error(ErrorCode.VOUCHER_UPDATE_FAIL.getErrorMessage(), e);
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
 		}
 		return voucherEntity;
@@ -57,6 +64,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 			return foundVoucher;
 		}
 
+		logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage());
 		throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 	}
 
@@ -66,6 +74,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 			VoucherEntity targetVoucher = findById(voucherId);
 			map.remove(targetVoucher.getVoucherId());
 		} catch (RuntimeException e) {
+			logger.error(ErrorCode.VOUCHER_DELETE_FAIL.getErrorMessage(), e);
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
 		}
 	}

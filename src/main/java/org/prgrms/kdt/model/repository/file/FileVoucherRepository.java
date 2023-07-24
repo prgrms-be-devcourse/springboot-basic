@@ -37,8 +37,8 @@ public class FileVoucherRepository implements VoucherRepository {
 			String voucherJson = objectMapper.writeValueAsString(voucherEntity);
 			fileIO.saveStringToFile(voucherJson + System.lineSeparator());
 			return voucherEntity;
-		} catch (JsonProcessingException e) {
-			logger.error("save 메서드에서 voucher 저장 실패" , e);
+		} catch (JsonProcessingException ex) {
+			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), ex);
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
 	}
@@ -80,6 +80,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			.findFirst()
 			.orElseThrow(
 				() -> {
+					logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage());
 					throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 				}
 			);
