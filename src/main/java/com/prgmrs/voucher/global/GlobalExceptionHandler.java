@@ -1,5 +1,6 @@
-package com.prgmrs.voucher.exception;
+package com.prgmrs.voucher.global;
 
+import com.prgmrs.voucher.exception.WrongRangeFormatException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
