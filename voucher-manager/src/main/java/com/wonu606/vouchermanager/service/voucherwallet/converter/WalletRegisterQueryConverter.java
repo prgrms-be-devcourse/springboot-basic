@@ -4,7 +4,8 @@ import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletRegisterQ
 import com.wonu606.vouchermanager.service.customer.param.WalletRegisterParam;
 import com.wonu606.vouchermanager.util.TypedConverter;
 
-public class WalletRegisterQueryConverter implements TypedConverter<WalletRegisterParam, WalletRegisterQuery> {
+public class WalletRegisterQueryConverter implements
+        TypedConverter<WalletRegisterParam, WalletRegisterQuery> {
 
     @Override
     public Class<WalletRegisterParam> getSourceType() {

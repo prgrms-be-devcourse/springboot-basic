@@ -54,7 +54,8 @@ public class VoucherWalletRestController {
     }
 
     @PostMapping("/owned-customers")
-    public ResponseEntity<List<OwnedCustomerResponse>> getOwnedCustomersByVoucher(@RequestBody OwnedCustomersRequest request) {
+    public ResponseEntity<List<OwnedCustomerResponse>> getOwnedCustomersByVoucher(
+            @RequestBody OwnedCustomersRequest request) {
         OwnedCustomersParam param = converterManager.convert(request, OwnedCustomersParam.class);
         List<OwnedCustomerResult> results = service.findOwnedCustomersByVoucher(param);
 
@@ -67,7 +68,8 @@ public class VoucherWalletRestController {
 
     @PostMapping("/assign-wallet")
     public ResponseEntity<Void> assignWallet(@RequestBody WalletAssignRequest walletAssignRequest) {
-        WalletAssignParam param = converterManager.convert(walletAssignRequest, WalletAssignParam.class);
+        WalletAssignParam param = converterManager.convert(walletAssignRequest,
+                WalletAssignParam.class);
         service.assignWallet(param);
         return new ResponseEntity<>(HttpStatus.OK);
     }

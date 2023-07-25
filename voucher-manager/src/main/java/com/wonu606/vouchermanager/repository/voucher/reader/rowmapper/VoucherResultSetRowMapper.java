@@ -4,7 +4,6 @@ import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherResultSet;
 import com.wonu606.vouchermanager.util.TypedRowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component

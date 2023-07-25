@@ -3,7 +3,6 @@ package com.wonu606.vouchermanager.controller.customer.converter;
 import com.wonu606.vouchermanager.controller.customer.response.CustomerCreateResponse;
 import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
 import com.wonu606.vouchermanager.util.TypedConverter;
-import org.springframework.core.convert.converter.Converter;
 
 public class CustomerCreateResponseConverter implements
         TypedConverter<CustomerCreateResult, CustomerCreateResponse> {

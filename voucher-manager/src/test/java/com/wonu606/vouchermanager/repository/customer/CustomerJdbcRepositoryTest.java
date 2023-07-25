@@ -2,8 +2,6 @@ package com.wonu606.vouchermanager.repository.customer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.wonu606.vouchermanager.domain.customer.Customer;
-import com.wonu606.vouchermanager.domain.customer.email.Email;
 import com.wonu606.vouchermanager.repository.customer.query.CustomerCreateQuery;
 import com.wonu606.vouchermanager.repository.customer.reader.CustomerJdbcReader;
 import com.wonu606.vouchermanager.repository.customer.reader.CustomerReader;
@@ -12,13 +10,10 @@ import com.wonu606.vouchermanager.repository.customer.resultset.CustomerCreateRe
 import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
 import com.wonu606.vouchermanager.repository.customer.store.CustomerJdbcStore;
 import com.wonu606.vouchermanager.repository.customer.store.CustomerStore;
-import com.wonu606.vouchermanager.repository.voucher.query.VoucherInsertQuery;
 import java.util.List;
 import java.util.stream.Stream;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

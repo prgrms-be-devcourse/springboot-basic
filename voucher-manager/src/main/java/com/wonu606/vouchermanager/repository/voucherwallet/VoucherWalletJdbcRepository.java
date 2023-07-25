@@ -5,12 +5,10 @@ import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedVouchersQu
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletDeleteQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletInsertQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletRegisterQuery;
-import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletUpdateQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.reader.VoucherWalletReader;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedCustomerResultSet;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedVoucherResultSet;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.WalletInsertResultSet;
-import com.wonu606.vouchermanager.repository.voucherwallet.resultset.WalletUpdateResultSet;
 import com.wonu606.vouchermanager.repository.voucherwallet.store.VoucherWalletStore;
 import java.util.List;
 import org.springframework.stereotype.Component;

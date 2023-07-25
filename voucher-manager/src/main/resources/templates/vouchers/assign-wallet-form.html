@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Find Owned Customers by Voucher</title>
-  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
@@ -10,7 +11,8 @@
   <form action="/vouchers/assign-wallet" th:object="${walletAssignRequest}" method="post">
     <div class="form-group">
       <label for="voucherId">Voucher ID</label>
-      <input type="text" class="form-control" id="voucherId" th:field="*{voucherId}" required placeholder="Enter Voucher ID">
+      <input type="text" class="form-control" id="voucherId" th:field="*{voucherId}" required
+             placeholder="Enter Voucher ID">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

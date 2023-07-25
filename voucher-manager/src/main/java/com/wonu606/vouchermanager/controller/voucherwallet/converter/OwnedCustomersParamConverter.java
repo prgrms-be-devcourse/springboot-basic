@@ -5,7 +5,8 @@ import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersPara
 import com.wonu606.vouchermanager.util.TypedConverter;
 import java.util.UUID;
 
-public class OwnedCustomersParamConverter implements TypedConverter<OwnedCustomersRequest, OwnedCustomersParam> {
+public class OwnedCustomersParamConverter implements
+        TypedConverter<OwnedCustomersRequest, OwnedCustomersParam> {
 
     @Override
     public OwnedCustomersParam convert(OwnedCustomersRequest request) {

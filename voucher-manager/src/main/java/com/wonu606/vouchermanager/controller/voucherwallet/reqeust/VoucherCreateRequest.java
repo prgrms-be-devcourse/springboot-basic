@@ -2,7 +2,7 @@ package com.wonu606.vouchermanager.controller.voucherwallet.reqeust;
 
 public class VoucherCreateRequest {
 
-    private  String type;
+    private String type;
     private double discountValue;
 
     public VoucherCreateRequest() {

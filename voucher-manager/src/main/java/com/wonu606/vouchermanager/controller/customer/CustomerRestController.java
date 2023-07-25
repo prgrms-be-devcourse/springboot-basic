@@ -45,7 +45,8 @@ public class CustomerRestController {
         CustomerCreateParam param = converterManager.convert(request, CustomerCreateParam.class);
         CustomerCreateResult result = service.createCustomer(param);
 
-        CustomerCreateResponse response = converterManager.convert(result, CustomerCreateResponse.class);
+        CustomerCreateResponse response = converterManager.convert(result,
+                CustomerCreateResponse.class);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

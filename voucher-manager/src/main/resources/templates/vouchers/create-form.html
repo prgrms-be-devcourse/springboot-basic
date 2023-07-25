@@ -2,12 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Create Voucher</title>
-  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
   <h1>Create Voucher</h1>
-  <form action="#" th:action="@{/vouchers/create}" th:object="${voucherCreateRequest}" method="post">
+  <form action="#" th:action="@{/vouchers/create}" th:object="${voucherCreateRequest}"
+        method="post">
     <div class="form-group">
       <label for="type">Voucher Type</label>
       <select class="form-control" id="type" th:field="*{type}">
@@ -17,7 +19,8 @@
     </div>
     <div class="form-group">
       <label for="discountValue">Discount Value</label>
-      <input type="number" class="form-control" id="discountValue" th:field="*{discountValue}" placeholder="Enter Discount Value">
+      <input type="number" class="form-control" id="discountValue" th:field="*{discountValue}"
+             placeholder="Enter Discount Value">
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>

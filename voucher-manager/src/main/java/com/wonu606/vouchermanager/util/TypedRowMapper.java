@@ -1,7 +1,5 @@
 package com.wonu606.vouchermanager.util;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 public interface TypedRowMapper<T> extends RowMapper<T> {

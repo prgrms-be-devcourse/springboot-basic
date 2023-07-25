@@ -1,25 +1,24 @@
 package com.wonu606.vouchermanager.service.voucherwallet;
 
-import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherResultSet;
-import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletRegisterQuery;
-import com.wonu606.vouchermanager.service.customer.param.WalletRegisterParam;
-import com.wonu606.vouchermanager.service.voucher.VoucherService;
-import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
-import com.wonu606.vouchermanager.service.voucher.result.VoucherCreateResult;
-import com.wonu606.vouchermanager.service.voucher.result.VoucherResult;
-import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
-import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
-import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.repository.voucherwallet.VoucherWalletRepository;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedCustomersQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.OwnedVouchersQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletDeleteQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletInsertQuery;
+import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletRegisterQuery;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedCustomerResultSet;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedVoucherResultSet;
 import com.wonu606.vouchermanager.repository.voucherwallet.resultset.WalletInsertResultSet;
+import com.wonu606.vouchermanager.service.customer.param.WalletRegisterParam;
+import com.wonu606.vouchermanager.service.voucher.VoucherService;
+import com.wonu606.vouchermanager.service.voucher.param.VoucherCreateParam;
+import com.wonu606.vouchermanager.service.voucher.result.VoucherCreateResult;
+import com.wonu606.vouchermanager.service.voucher.result.VoucherResult;
 import com.wonu606.vouchermanager.service.voucherwallet.converter.VoucherWalletServiceConverterManager;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedVoucherResult;
 import com.wonu606.vouchermanager.service.voucherwallet.result.WalletAssignResult;
@@ -36,7 +35,8 @@ public class VoucherWalletService {
     private final VoucherWalletRepository voucherWalletRepository;
     private final VoucherWalletServiceConverterManager converterManager;
 
-    public VoucherWalletService(VoucherService voucherService, VoucherWalletRepository voucherWalletRepository,
+    public VoucherWalletService(VoucherService voucherService,
+            VoucherWalletRepository voucherWalletRepository,
             VoucherWalletServiceConverterManager converterManager) {
         this.voucherService = voucherService;
         this.voucherWalletRepository = voucherWalletRepository;

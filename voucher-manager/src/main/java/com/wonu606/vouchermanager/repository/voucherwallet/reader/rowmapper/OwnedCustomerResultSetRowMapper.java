@@ -4,7 +4,6 @@ import com.wonu606.vouchermanager.repository.voucherwallet.resultset.OwnedCustom
 import com.wonu606.vouchermanager.util.TypedRowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.springframework.jdbc.core.RowMapper;
 
 public class OwnedCustomerResultSetRowMapper implements TypedRowMapper<OwnedCustomerResultSet> {
 

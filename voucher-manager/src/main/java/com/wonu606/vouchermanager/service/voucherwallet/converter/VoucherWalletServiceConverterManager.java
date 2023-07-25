@@ -1,6 +1,5 @@
 package com.wonu606.vouchermanager.service.voucherwallet.converter;
 
-import com.wonu606.vouchermanager.repository.voucherwallet.query.WalletRegisterQuery;
 import com.wonu606.vouchermanager.util.TypedConverter;
 import java.util.ArrayList;
 import java.util.List;

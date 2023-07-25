@@ -15,7 +15,7 @@ CREATE TABLE customer
 
 CREATE TABLE voucher_wallet
 (
-    voucher_id  VARCHAR(36)  NOT NULL,
+    voucher_id  VARCHAR(36) NOT NULL,
     customer_id VARCHAR(100),
 
     FOREIGN KEY (voucher_id) REFERENCES voucher (voucher_id) ON DELETE CASCADE

@@ -5,8 +5,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 import com.wonu606.vouchermanager.repository.customer.CustomerRepository;
 import com.wonu606.vouchermanager.repository.customer.query.CustomerCreateQuery;

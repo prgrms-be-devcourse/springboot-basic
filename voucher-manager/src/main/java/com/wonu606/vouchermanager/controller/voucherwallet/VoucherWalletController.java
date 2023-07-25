@@ -1,6 +1,5 @@
 package com.wonu606.vouchermanager.controller.voucherwallet;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wonu606.vouchermanager.controller.voucherwallet.converter.VoucherWalletControllerConverterManager;
 import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.OwnedCustomersRequest;
 import com.wonu606.vouchermanager.controller.voucherwallet.reqeust.VoucherCreateRequest;
@@ -13,10 +12,8 @@ import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
 import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedCustomersParam;
 import com.wonu606.vouchermanager.service.voucherwallet.param.WalletAssignParam;
 import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedCustomerResult;
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.boot.Banner.Mode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -89,7 +86,8 @@ public class VoucherWalletController {
 
     @PostMapping("/assign-wallet")
     public String assignWallet(@ModelAttribute WalletAssignRequest walletAssignRequest) {
-        WalletAssignParam param = converterManager.convert(walletAssignRequest, WalletAssignParam.class);
+        WalletAssignParam param = converterManager.convert(walletAssignRequest,
+                WalletAssignParam.class);
         service.assignWallet(param);
         return "redirect:/vouchers/list";
     }
