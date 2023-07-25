@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-import com.programmers.vouchermanagement.voucher.exception.InvalidDiscountAmountException;
+import com.programmers.vouchermanagement.voucher.exception.VoucherException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,8 +30,7 @@ class PercentDiscountPolicyTest {
         void isNotBetween1And100(int amount) {
             // when & then
             assertThatThrownBy(() -> new PercentDiscountPolicy(amount))
-                    .isInstanceOf(InvalidDiscountAmountException.class)
-                    .hasMessage("할인률은 1에서 100 사이여야 합니다.");
+                    .isInstanceOf(VoucherException.class);
         }
     }
 

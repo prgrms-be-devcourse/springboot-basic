@@ -67,13 +67,18 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(sql, id.toString());
     }
 
+    public boolean existById(UUID id) {
+        String sql = "select exists(select 1 from voucher where id = ?)";
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sql, Boolean.class, id.toString()));
+    }
+
     private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> {
             UUID id = UUID.fromString(rs.getString("id"));
             DiscountType type = DiscountType.valueOf(rs.getString("type"));
             int amount = rs.getInt("amount");
             DiscountPolicy discountPolicy = type.createDiscountPolicy(amount);
-            return new Voucher(id, discountPolicy);
+            return Voucher.of(id, discountPolicy);
         };
     }
 }

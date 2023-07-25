@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.customer.domain;
 
-import com.programmers.vouchermanagement.customer.exception.InvalidCustomerTypeException;
+import com.programmers.vouchermanagement.global.exception.ErrorCode;
+import com.programmers.vouchermanagement.voucher.exception.VoucherException;
 
 public enum CustomerType {
     BLACK, WHITE;
@@ -9,7 +10,7 @@ public enum CustomerType {
         try {
             return valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new InvalidCustomerTypeException("잘못된 고객 타입입니다.");
+            throw new VoucherException(ErrorCode.INVALID_CUSTOMER_TYPE);
         }
     }
 }
