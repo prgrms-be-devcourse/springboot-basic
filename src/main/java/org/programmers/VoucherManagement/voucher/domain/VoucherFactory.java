@@ -1,22 +1,29 @@
 package org.programmers.VoucherManagement.voucher.domain;
 
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
-import org.springframework.stereotype.Component;
+import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
 
 import java.util.UUID;
 
-@Component
+
 public class VoucherFactory {
-    public Voucher createVoucher(CreateVoucherRequest createVoucherRequest){
-        DiscountType discountType = createVoucherRequest.getDiscountType();
+    private VoucherFactory() {
+    }
 
-        Voucher voucher = switch (discountType) {
+    public static Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
+        DiscountType discountType = voucherCreateRequest.discountType();
+
+        return switch (discountType) {
             case FIXED ->
-                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherRequest.getDiscountValue()));
+                    new FixedAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(voucherCreateRequest.discountValue()));
             case PERCENT ->
-                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(createVoucherRequest.getDiscountValue()));
+                    new PercentAmountVoucher(UUID.randomUUID(), discountType, new DiscountValue(voucherCreateRequest.discountValue()));
         };
+    }
 
-        return voucher;
+    public static Voucher mapVoucher(UUID voucherId, int discountValue, DiscountType discountType) {
+        return switch (discountType) {
+            case FIXED -> new FixedAmountVoucher(voucherId, discountType, new DiscountValue(discountValue));
+            case PERCENT -> new PercentAmountVoucher(voucherId, discountType, new DiscountValue(discountValue));
+        };
     }
 }

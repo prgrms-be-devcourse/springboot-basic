@@ -1,25 +1,57 @@
 package org.programmers.VoucherManagement.member.application;
 
-import lombok.RequiredArgsConstructor;
-import org.programmers.VoucherManagement.member.infrastructure.MemberRepository;
-import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.member.dto.GetMemberResponse;
+import org.programmers.VoucherManagement.member.domain.Member;
+import org.programmers.VoucherManagement.member.domain.MemberStatus;
+import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
+import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
+import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
+import org.programmers.VoucherManagement.member.exception.MemberException;
+import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
+import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
+
+import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_FOUND_MEMBER;
 
 @Component
-@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
-    private final MemberRepository repository;
+    private final MemberReaderRepository memberReaderRepository;
+    private final MemberStoreRepository memberStoreRepository;
 
-    public GetMemberListResponse getBlackMemberList() {
-        List<GetMemberResponse> getMemberList = repository.findAllByMemberStatus()
-                .stream()
-                .map(GetMemberResponse::toDto)
-                .collect(Collectors.toList());
+    public MemberService(MemberReaderRepository memberReaderRepository, MemberStoreRepository memberStoreRepository) {
+        this.memberReaderRepository = memberReaderRepository;
+        this.memberStoreRepository = memberStoreRepository;
+    }
 
-        return new GetMemberListResponse(getMemberList);
+
+    public MemberGetResponses getAllMembers() {
+        return new MemberGetResponses(memberReaderRepository.findAll());
+    }
+
+    public MemberGetResponses getAllBlackMembers() {
+        return new MemberGetResponses(memberReaderRepository.findAllByMemberStatus(MemberStatus.BLACK));
+    }
+
+    @Transactional
+    public void createMember(MemberCreateRequest memberCreateRequest) {
+        Member member = new Member(UUID.randomUUID(),
+                memberCreateRequest.name(),
+                memberCreateRequest.memberStatus());
+        memberStoreRepository.insert(member);
+    }
+
+    @Transactional
+    public void updateMember(UUID memberId, MemberUpdateRequest memberUpdateRequest) {
+        Member member = memberReaderRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
+        member.changeMemberStatus(memberUpdateRequest.memberStatus());
+        memberStoreRepository.update(member);
+    }
+
+    @Transactional
+    public void deleteMember(UUID memberId) {
+        memberStoreRepository.delete(memberId);
     }
 }

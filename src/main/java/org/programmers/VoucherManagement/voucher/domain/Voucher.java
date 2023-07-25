@@ -19,4 +19,7 @@ public abstract class Voucher {
         return discountValue;
     }
 
+    public void changeDiscountValue(DiscountValue discountValue) {
+        this.discountValue = discountValue;
+    }
 }

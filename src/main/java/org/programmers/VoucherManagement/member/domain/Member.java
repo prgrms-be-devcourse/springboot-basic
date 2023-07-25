@@ -25,4 +25,8 @@ public class Member {
     public MemberStatus getMemberStatus() {
         return memberStatus;
     }
+
+    public void changeMemberStatus(MemberStatus memberStatus) {
+        this.memberStatus = memberStatus;
+    }
 }

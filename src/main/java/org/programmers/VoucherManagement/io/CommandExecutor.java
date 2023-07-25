@@ -1,48 +1,132 @@
 package org.programmers.VoucherManagement.io;
 
+import org.programmers.VoucherManagement.member.domain.MemberStatus;
+import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
+import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
+import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.presentation.MemberController;
-import org.programmers.VoucherManagement.member.dto.GetMemberListResponse;
-import org.programmers.VoucherManagement.voucher.presentation.VoucherController;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
-import org.programmers.VoucherManagement.voucher.dto.CreateVoucherRequest;
-import org.programmers.VoucherManagement.voucher.dto.GetVoucherListResponse;
+import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
+import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
+import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
+import org.programmers.VoucherManagement.voucher.presentation.VoucherController;
+import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
+import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
+import org.programmers.VoucherManagement.wallet.presentation.WalletController;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
+
+import static org.programmers.VoucherManagement.io.ConsoleMessage.*;
 
 @Component
 public class CommandExecutor {
     private final VoucherController voucherController;
     private final MemberController memberController;
+    private final WalletController walletController;
     private final Console console;
 
-    public CommandExecutor(VoucherController voucherController, MemberController memberController, Console console) {
+    public CommandExecutor(VoucherController voucherController,
+                           MemberController memberController,
+                           WalletController walletController,
+                           Console console) {
         this.voucherController = voucherController;
         this.memberController = memberController;
+        this.walletController = walletController;
         this.console = console;
     }
 
     public void execute(MenuType menuType) {
         switch (menuType) {
-            case CREATE -> {
-                console.printDiscountType();
-                CreateVoucherRequest request = makeCreateVoucherRequest();
+            case INSERT_VOUCHER -> {
+                console.printConsoleMessage(DISCOUNT_TYPE_MESSAGE);
+                VoucherCreateRequest request = makeCreateVoucherRequest();
                 voucherController.createVoucher(request);
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
-            case LIST -> {
-                GetVoucherListResponse voucherList = voucherController.getVoucherList();
+            case UPDATE_VOUCHER -> {
+                String voucherId = console.readVoucherId();
+                int voucherValue = console.readDiscountValue();
+                voucherController.updateVoucher(UUID.fromString(voucherId), new VoucherUpdateRequest(voucherValue));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case DELETE_VOUCHER -> {
+                String voucherId = console.readVoucherId();
+                voucherController.deleteVoucher(UUID.fromString(voucherId));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case VOUCHER_LIST -> {
+                VoucherGetResponses voucherList = voucherController.getVoucherList();
                 console.printVoucherList(voucherList);
             }
-            case EXIT -> console.printExitMessage();
-            case BLACKLIST -> {
-                GetMemberListResponse blackMemberList = memberController.getBlackMemberList();
-                console.printMemberList(blackMemberList);
+            case EXIT -> {
+                console.printConsoleMessage(EXIT_MESSAGE);
+            }
+            case INSERT_MEMBER -> {
+                MemberCreateRequest request = makeCreateMemberRequest();
+                memberController.createMember(request);
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case UPDATE_MEMBER -> {
+                String memberId = console.readMemberId();
+                MemberStatus memberStatus = MemberStatus.from(console.readMemberStatus());
+                memberController.updateMember(UUID.fromString(memberId), new MemberUpdateRequest(memberStatus));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case DELETE_MEMBER -> {
+                String memberId = console.readMemberId();
+                memberController.deleteMember(UUID.fromString(memberId));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case BLACK_MEMBER_LIST -> {
+                MemberGetResponses blackMemberList = memberController.getAllBlackMembers();
+                console.printBlackMemberList(blackMemberList);
+            }
+            case MEMBER_LIST -> {
+                MemberGetResponses memberList = memberController.getAllMembers();
+                console.printAllMemberList(memberList);
+            }
+            case INSERT_WALLET -> {
+                WalletCreateRequest request = makeCreateWalletRequest();
+                walletController.createWallet(request);
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
+            }
+            case LIST_WALLET_BY_MEMBER -> {
+                String memberId = console.readMemberId();
+                WalletGetResponses walletList = walletController.getWalletsByMemberId(UUID.fromString(memberId));
+                console.printWalletList(walletList);
+            }
+            case LIST_WALLET_BY_VOUCHER -> {
+                String voucherId = console.readVoucherId();
+                WalletGetResponses walletList = walletController.getWalletsByVoucherId(UUID.fromString(voucherId));
+                console.printWalletList(walletList);
+            }
+            case DELETE_WALLET -> {
+                String walletId = console.readWalletId();
+                walletController.deleteWallet(UUID.fromString(walletId));
+                console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
         }
     }
 
-    private CreateVoucherRequest makeCreateVoucherRequest() {
-        DiscountType discountType = console.readDiscountType();
-        int discountValue = console.readDiscountValue(discountType);
+    private VoucherCreateRequest makeCreateVoucherRequest() {
+        DiscountType discountType = DiscountType.from(console.readDiscountType());
+        int discountValue = console.readDiscountValue();
 
-        return new CreateVoucherRequest(discountType, discountValue);
+        return new VoucherCreateRequest(discountType, discountValue);
+    }
+
+    private MemberCreateRequest makeCreateMemberRequest() {
+        String name = console.readMemberName();
+        MemberStatus memberStatus = MemberStatus.from(console.readMemberStatus());
+
+        return new MemberCreateRequest(name, memberStatus);
+    }
+
+    private WalletCreateRequest makeCreateWalletRequest() {
+        String voucherId = console.readVoucherId();
+        String memberId = console.readMemberId();
+
+        return new WalletCreateRequest(voucherId, memberId);
     }
 }

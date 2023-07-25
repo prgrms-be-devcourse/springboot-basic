@@ -1,3 +1,15 @@
 app:
   path:
-    file: file/customer-blacklist.csv
+    filepath: file/customer-blacklist.csv
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring_database
+    username: root
+    password: root1234!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/*.sql

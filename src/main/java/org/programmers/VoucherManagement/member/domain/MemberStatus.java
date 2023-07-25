@@ -8,7 +8,6 @@ public enum MemberStatus {
     BLACK,
     WHITE;
 
-
     public static MemberStatus from(String status) {
         try {
             return Arrays.stream(values())

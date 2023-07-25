@@ -1,12 +1,19 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.voucher.domain.DiscountType;
-
 public interface Input {
-    MenuType readType();
+    int readType();
 
-    DiscountType readDiscountType();
+    String readDiscountType();
 
-    int readValue();
+    String readMemberId();
 
+    int readDiscountValue();
+
+    String readMemberStatus();
+
+    String readMemberName();
+
+    String readVoucherId();
+
+    String readWalletId();
 }
