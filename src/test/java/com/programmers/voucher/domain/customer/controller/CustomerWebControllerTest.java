@@ -70,6 +70,40 @@ class CustomerWebControllerTest {
     }
 
     @Test
+    @DisplayName("예외: customer 생성 요청 - 잘못된 형식의 email")
+    void createCustomer_ButInvalidEmail_Then_ErrorPage() throws Exception {
+        //given
+        String invalidEmail = "thisIsInvalidCustomerEmail@gmail.com";
+
+        //when
+        ResultActions resultActions = mvc.perform(post("/customers/new")
+                        .param("email", invalidEmail)
+                        .param("name", "customer")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED));
+
+        //then
+        resultActions.andExpect(view().name("errorPage"))
+                .andExpect(model().attributeExists("errorResult"));
+    }
+
+    @Test
+    @DisplayName("예외: customer 생성 요청 - 잘못된 형식의 name")
+    void createCustomer_ButInvalidName_Then_ErrorPage() throws Exception {
+        //given
+        String invalidName = "thisIsInvalidCustomerName";
+
+        //when
+        ResultActions resultActions = mvc.perform(post("/customers/new")
+                        .param("email", "customer@gmail.com")
+                        .param("name", invalidName)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED));
+
+        //then
+        resultActions.andExpect(view().name("errorPage"))
+                .andExpect(model().attributeExists("errorResult"));
+    }
+
+    @Test
     @DisplayName("성공: customer 상세 조회 화면")
     void findCustomer() throws Exception {
         //given
@@ -101,6 +135,21 @@ class CustomerWebControllerTest {
         //then
         resultActions
                 .andExpect(redirectedUrl("/customers/" + customerId));
+    }
+    @Test
+    @DisplayName("예외: customer 업데이트 요청 - 잘못된 형식의 name")
+    void updateCustomer_ButInvalidName_Then_ErrorPage() throws Exception {
+        //given
+        String invalidName = "thisIsInvalidCustomerName";
+
+        //when
+        ResultActions resultActions = mvc.perform(post("/customers/1")
+                        .param("name", invalidName)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED));
+
+        //then
+        resultActions.andExpect(view().name("errorPage"))
+                .andExpect(model().attributeExists("errorResult"));
     }
 
     @Test

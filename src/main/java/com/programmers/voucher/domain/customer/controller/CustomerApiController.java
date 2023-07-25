@@ -4,6 +4,7 @@ import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.customer.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class CustomerApiController {
     }
 
     @PostMapping("/customers")
-    public ResponseEntity<UUID> createCustomer(@RequestBody CustomerCreateRequest request) {
+    public ResponseEntity<UUID> createCustomer(@RequestBody @Valid CustomerCreateRequest request) {
         UUID customerId = customerService.createCustomer(request.getEmail(), request.getName());
         URI location = URI.create("/api/v1/customers/" + customerId);
         return ResponseEntity.created(location).body(customerId);
@@ -43,7 +44,7 @@ public class CustomerApiController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping("/customers/{customerId}")
     public void updateCustomer(@PathVariable UUID customerId,
-                               @RequestBody CustomerUpdateRequest request) {
+                               @RequestBody @Valid CustomerUpdateRequest request) {
         customerService.updateCustomer(customerId, request.getName(), request.isBanned());
     }
 

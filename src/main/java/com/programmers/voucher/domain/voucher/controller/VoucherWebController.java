@@ -4,6 +4,7 @@ import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherSearchRequest;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,7 @@ public class VoucherWebController {
 
     @GetMapping("/vouchers")
     public String findVouchers(Model model,
-                               @ModelAttribute VoucherSearchRequest request) {
+                               @ModelAttribute @Valid VoucherSearchRequest request) {
         List<VoucherDto> vouchers = voucherService.findVouchers(
                 request.getVoucherType(),
                 request.getStartTime(), request.getEndTime());
@@ -38,7 +39,7 @@ public class VoucherWebController {
     }
 
     @PostMapping("/vouchers/new")
-    public String createVoucher(@ModelAttribute VoucherCreateRequest request) {
+    public String createVoucher(@ModelAttribute @Valid VoucherCreateRequest request) {
         UUID voucherId = voucherService.createVoucher(request.getVoucherType(), request.getAmount());
         return "redirect:/vouchers/" + voucherId;
     }

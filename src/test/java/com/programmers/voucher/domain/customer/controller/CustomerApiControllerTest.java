@@ -103,6 +103,48 @@ class CustomerApiControllerTest {
     }
 
     @Test
+    @DisplayName("성공(400): customer 단건 생성 요청 - 잘못된 이메일 형식")
+    void createCustomer_ButInvalidEmail_Then_BadRequest() throws Exception {
+        //given
+        UUID customerId = UUID.randomUUID();
+        String invalidEmail = "thisIsiIvalidCustomerEmail@gmail.com";
+        CustomerCreateRequest request = new CustomerCreateRequest(invalidEmail, "customer");
+
+        given(customerService.createCustomer(any(), any())).willReturn(customerId);
+
+        //when
+        ResultActions resultActions = mvc.perform(post("/api/v1/customers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(request))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @DisplayName("성공(400): customer 단건 생성 요청 - 잘못된 이름 형식")
+    void createCustomer_ButInvalidName_Then_BadRequest() throws Exception {
+        //given
+        UUID customerId = UUID.randomUUID();
+        String invalidName = "thisIsInvalidCustomerName";
+        CustomerCreateRequest request = new CustomerCreateRequest("customer@gmail.com", invalidName);
+
+        given(customerService.createCustomer(any(), any())).willReturn(customerId);
+
+        //when
+        ResultActions resultActions = mvc.perform(post("/api/v1/customers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(request))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+
+        //then
+        resultActions.andExpect(status().isBadRequest());
+    }
+
+    @Test
     @DisplayName("성공: customer 단건 업데이트 요청")
     void updateCustomer() throws Exception {
         //given
@@ -118,6 +160,25 @@ class CustomerApiControllerTest {
 
         //then
         resultActions.andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("성공: customer 단건 업데이트 요청 - 잘못된 이름 형식")
+    void updateCustomer_ButInvalidName_Then_BadRequest() throws Exception {
+        //given
+        UUID customerId = UUID.randomUUID();
+        String invalidName = "thisIsInvalidCustomerName";
+        CustomerUpdateRequest request = new CustomerUpdateRequest(customerId, invalidName, false);
+
+        //when
+        ResultActions resultActions = mvc.perform(patch("/api/v1/customers/" + customerId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(request))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+
+        //then
+        resultActions.andExpect(status().isBadRequest());
     }
 
     @Test

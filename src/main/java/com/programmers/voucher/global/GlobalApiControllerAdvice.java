@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -32,6 +35,22 @@ public class GlobalApiControllerAdvice {
     public ResponseEntity<ErrorResult> illegalArgumentExHandle(IllegalArgumentException ex) {
         ErrorResult errorResult = new ErrorResult("400", ex.getMessage());
         return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResult> methodArgumentNotValidExHandle(MethodArgumentNotValidException ex) {
+        String errorMessages = getBindingResultErrorMessages(ex);
+        ErrorResult errorResult = new ErrorResult("400", errorMessages);
+        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+    }
+
+    private String getBindingResultErrorMessages(MethodArgumentNotValidException ex) {
+        BindingResult bindingResult = ex.getBindingResult();
+        StringBuilder sb = new StringBuilder();
+        for (ObjectError allError : bindingResult.getAllErrors()) {
+            sb.append(allError.getDefaultMessage()).append(",");
+        }
+        return sb.toString();
     }
 
     @ExceptionHandler(RuntimeException.class)

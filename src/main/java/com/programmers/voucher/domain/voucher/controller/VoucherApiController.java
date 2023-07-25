@@ -4,6 +4,7 @@ import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherSearchRequest;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class VoucherApiController {
     }
 
     @GetMapping("/vouchers")
-    public ResponseEntity<List<VoucherDto>> findVouchers(@ModelAttribute VoucherSearchRequest request) {
+    public ResponseEntity<List<VoucherDto>> findVouchers(@ModelAttribute @Valid VoucherSearchRequest request) {
         List<VoucherDto> vouchers = voucherService.findVouchers(
                 request.getVoucherType(),
                 request.getStartTime(), request.getEndTime());
@@ -36,7 +37,7 @@ public class VoucherApiController {
     }
 
     @PostMapping("/vouchers")
-    public ResponseEntity<UUID> createVoucher(@RequestBody VoucherCreateRequest request) {
+    public ResponseEntity<UUID> createVoucher(@RequestBody @Valid VoucherCreateRequest request) {
         UUID voucherId = voucherService.createVoucher(request.getVoucherType(), request.getAmount());
         URI location = URI.create("/api/v1/vouchers/" + voucherId);
         return ResponseEntity.created(location).body(voucherId);
