@@ -6,16 +6,17 @@ import org.springframework.stereotype.Component;
 import java.io.Console;
 
 @Component
-@ConditionalOnProperty(value="command.read", havingValue = "console")
-public class ConsoleWrap implements CommandReader{
-    private final Console consoleWrap;
+@ConditionalOnProperty(value = "command.read", havingValue = "console")
+public class ConsoleWrap implements CommandReader {
+
+    private final Console console;
 
     public ConsoleWrap() {
-        consoleWrap = System.console();
+        console = System.console();
     }
 
     @Override
-    public String readLine()  {
-        return consoleWrap.readLine();
+    public String readLine() {
+        return console.readLine();
     }
 }

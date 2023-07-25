@@ -9,7 +9,9 @@ import java.util.UUID;
 
 public interface VoucherRepository {
     Voucher insert(Voucher voucher);
+
     Optional<Voucher> findById(UUID voucherId);
+
     List<Voucher> findAll();
 
     List<Voucher> findByDiscountType(DiscountType discountType);

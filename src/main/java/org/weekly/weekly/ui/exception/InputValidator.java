@@ -1,34 +1,35 @@
 package org.weekly.weekly.ui.exception;
 
-import org.weekly.weekly.util.ExceptionMsg;
-import org.weekly.weekly.voucher.exception.VoucherException;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 import java.util.Arrays;
 
 public class InputValidator {
-    public InputValidator() {
-        throw new InputException(ExceptionMsg.UTIL_CLASS);
+
+    private InputValidator() {
+        throw new InputException(ExceptionCode.UTIL_CLASS);
     }
 
     private static final int VOUCHER_INPUT_SIZE = 2;
+
     public static void isEmpty(String userInput) {
         if (userInput == null || userInput.isBlank()) {
-            throw new RuntimeException(ExceptionMsg.EMPTY.getMsg());
+            throw new InputException(ExceptionCode.EMPTY);
         }
     }
 
     public static void notVoucherInputSize(String[] userInputs) {
         if (userInputs.length != VOUCHER_INPUT_SIZE) {
-            throw new InputException(ExceptionMsg.NOT_SAME_PARAM_SIZE);
+            throw new InputException(ExceptionCode.NOT_SAME_PARAM_SIZE);
         }
     }
-    
+
     public static void notNumber(String[] userInputs) {
         try {
             Arrays.stream(userInputs)
-                    .peek(Long::parseLong);
+                    .forEach(userInput->Long.parseLong(userInput.trim()));
         } catch (NumberFormatException exception) {
-            throw new InputException(ExceptionMsg.NOT_INPUT_FORMAT);
+            throw new InputException(ExceptionCode.NOT_INPUT_FORMAT);
         }
     }
 }

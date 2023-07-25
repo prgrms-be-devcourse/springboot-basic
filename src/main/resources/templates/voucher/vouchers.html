@@ -1,0 +1,25 @@
+<!doctype html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{global/head.html:: head}">
+    <title>Document</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="container title-line text">
+        <h1>바우처 리스트</h1>
+        <a href="/">Home</a>
+    </div>
+    <div class="container">
+        <table class="table mb-0">
+            <th:block th:replace="global/voucher::voucher-head(1)"></th:block>
+            <tbody>
+            <tr th:each="voucher, i : ${vouchers.result}">
+                <th:block th:replace="global/voucher::voucher-row(${voucher}, ${i.index+1})"></th:block>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

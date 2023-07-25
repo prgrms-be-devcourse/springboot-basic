@@ -8,19 +8,19 @@ import org.weekly.weekly.customer.dto.request.CustomerCreationRequest;
 import org.weekly.weekly.customer.dto.request.CustomerUpdateRequest;
 import org.weekly.weekly.customer.dto.response.CustomerResponse;
 import org.weekly.weekly.customer.dto.response.CustomersResponse;
+import org.weekly.weekly.global.util.CustomerMenu;
+import org.weekly.weekly.global.util.ManageMenu;
+import org.weekly.weekly.global.util.PrintMessageType;
+import org.weekly.weekly.global.util.VoucherMenu;
 import org.weekly.weekly.ui.CommandLineApplication;
-import org.weekly.weekly.util.CustomerMenu;
-import org.weekly.weekly.util.ManageMenu;
-import org.weekly.weekly.util.PrintMessageType;
-import org.weekly.weekly.util.VoucherMenu;
 import org.weekly.weekly.voucher.controller.VoucherController;
-import org.weekly.weekly.voucher.dto.Response;
 import org.weekly.weekly.voucher.dto.request.VoucherCreationRequest;
-
-import java.util.List;
+import org.weekly.weekly.voucher.dto.response.VoucherCreationResponse;
+import org.weekly.weekly.voucher.dto.response.VouchersResponse;
 
 @Component
 public class VoucherManagementController {
+    
     private final Logger logger = LoggerFactory.getLogger(VoucherManagementController.class);
     private final CommandLineApplication commandLineApplication;
     private final VoucherController voucherController;
@@ -33,12 +33,12 @@ public class VoucherManagementController {
     }
 
     public void start() {
-        boolean isExit = false;
+        boolean isRunning = true;
 
-        while(!isExit) {
+        while (isRunning) {
             try {
                 ManageMenu manageMenu = commandLineApplication.readManageMenu();
-                isExit = processManageMenuSelection(manageMenu);
+                isRunning = processManageMenuSelection(manageMenu);
             } catch (RuntimeException runtimeException) {
                 commandLineApplication.printErrorMsg(runtimeException.getMessage());
             }
@@ -46,85 +46,50 @@ public class VoucherManagementController {
     }
 
     private boolean processManageMenuSelection(ManageMenu manageMenu) {
-        if (ManageMenu.EXIT.equals(manageMenu)) {
-            return true;
-        }
-
-        if (ManageMenu.VOUCHER.equals(manageMenu)) {
-            VoucherMenu voucherMenu = commandLineApplication.readVoucherMenu();
-            processVoucherMenuSelection(voucherMenu);
-            return false;
-        }
-
-        if (ManageMenu.CUSTOMER.equals(manageMenu)){
-            CustomerMenu customerMenu = commandLineApplication.readCustomerMenu();
-            processCustomerMenuSelection(customerMenu);
-            return false;
-        }
-
-        return true;
+        return switch (manageMenu) {
+            case VOUCHER -> {
+                VoucherMenu voucherMenu = commandLineApplication.readVoucherMenu();
+                processVoucherMenuSelection(voucherMenu);
+                yield false;
+            }
+            case CUSTOMER -> {
+                CustomerMenu customerMenu = commandLineApplication.readCustomerMenu();
+                processCustomerMenuSelection(customerMenu);
+                yield false;
+            }
+            default -> true;
+        };
     }
 
-    private boolean processVoucherMenuSelection(VoucherMenu selectMenu) {
-        if (VoucherMenu.CREATE.equals(selectMenu)) {
-            handleVoucherCreation();
-            return false;
+    private void processVoucherMenuSelection(VoucherMenu selectMenu) {
+        switch (selectMenu) {
+            case CREATE -> handleVoucherCreation();
+            case LIST -> handleVoucherSearch();
         }
-
-        if (VoucherMenu.LIST.equals(selectMenu)) {
-            handleVoucherSearch();
-            return false;
-        }
-
-
-        return true;
     }
 
     private void handleVoucherCreation() {
         VoucherCreationRequest voucherCreationRequest = commandLineApplication.createVoucherFromInput();
-        Response response = voucherController.createVoucher(voucherCreationRequest);
-        logger.info("{}{}", PrintMessageType.CREATE_VOUCHER_SUCCESS.getMessage(),response.getResult());
+        VoucherCreationResponse response = voucherController.createVoucher(voucherCreationRequest);
+        logger.info("{}{}", PrintMessageType.CREATE_VOUCHER_SUCCESS.getMessage(), response.result());
         commandLineApplication.printResult(response);
     }
 
     private void handleVoucherSearch() {
-        Response response = voucherController.getVouchers();
-        logger.info("{}{}", PrintMessageType.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.getResult());
+        VouchersResponse response = voucherController.getVouchers();
+        logger.info("{}{}", PrintMessageType.FIND_ALL_VOUCHER_SUCCESS.getMessage(), response.result());
         commandLineApplication.printResult(response);
     }
 
-    private boolean processCustomerMenuSelection(CustomerMenu selectMenu) {
-        if (CustomerMenu.CREATE.equals(selectMenu)) {
-            handleCustomerCreation();
-            return false;
+    private void processCustomerMenuSelection(CustomerMenu selectMenu) {
+        switch (selectMenu) {
+            case CREATE -> handleCustomerCreation();
+            case DELETE -> handleCustomerDelete();
+            case DELETE_ALL -> handleCustomerDeleteAll();
+            case FIND_ALL -> handleCustomerFindAll();
+            case FIND_DETAIL -> handleFindDetail();
+            case UPDATE -> handleUpdateCustomer();
         }
-
-        if (CustomerMenu.DELETE.equals(selectMenu)) {
-            handleCustomerDelete();
-            return false;
-        }
-
-        if (CustomerMenu.DELETE_ALL.equals(selectMenu)) {
-            handleCustomerDeleteAll();
-            return false;
-        }
-
-        if (CustomerMenu.FIND_ALL.equals(selectMenu)) {
-            handleCustomerFindAll();
-            return false;
-        }
-
-        if (CustomerMenu.FIND_DETAIL.equals(selectMenu)) {
-            handleFindDetail();
-            return false;
-        }
-
-        if (CustomerMenu.UPDATE.equals(selectMenu)) {
-            handleUpdateCustomer();
-            return false;
-        }
-
-        return true;
     }
 
     private void handleCustomerCreation() {
@@ -160,5 +125,4 @@ public class VoucherManagementController {
         CustomerResponse customerResponse = customerController.updateCustomer(customerUpdateRequest);
         commandLineApplication.printResult(customerResponse);
     }
-
 }

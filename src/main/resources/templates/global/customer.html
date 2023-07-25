@@ -1,0 +1,18 @@
+<div th:fragment="customer-head(index)">
+    <thead class="table-light">
+    <tr>
+        <th th:if="${index != 0}">번호</th>
+        <th>이름</th>
+        <th>이에밀</th>
+        <th>생성일</th>
+    </tr>
+    </thead>
+</div>
+
+
+<th:block th:fragment="customer-row(customer, index)">
+    <td th:if="${index != 0}" th:text="${index}"></td>
+    <td th:text="${customer.name}"></td>
+    <td th:text="${customer.email}"></td>
+    <td th:text="${customer.createAt}"></td>
+</th:block>

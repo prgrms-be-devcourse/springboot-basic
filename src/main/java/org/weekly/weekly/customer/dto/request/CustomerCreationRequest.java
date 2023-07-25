@@ -6,6 +6,7 @@ import org.weekly.weekly.ui.exception.InputValidator;
 import java.util.UUID;
 
 public class CustomerCreationRequest {
+
     private String email;
     private String name;
 
@@ -26,5 +27,17 @@ public class CustomerCreationRequest {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

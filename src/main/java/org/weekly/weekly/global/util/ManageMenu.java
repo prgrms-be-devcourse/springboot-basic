@@ -1,4 +1,6 @@
-package org.weekly.weekly.util;
+package org.weekly.weekly.global.util;
+
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -26,7 +28,7 @@ public enum ManageMenu implements Menu {
         if (MANAGE_MENU_MAP.containsKey(userInput)) {
             return MANAGE_MENU_MAP.get(userInput);
         }
-        throw new RuntimeException(ExceptionMsg.NOT_MENU.getMsg());
+        throw new RuntimeException(ExceptionCode.NOT_MENU.getMessage());
     }
 
     @Override

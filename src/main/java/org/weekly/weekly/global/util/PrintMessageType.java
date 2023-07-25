@@ -1,4 +1,4 @@
-package org.weekly.weekly.util;
+package org.weekly.weekly.global.util;
 
 public enum PrintMessageType {
     MANAGE_PROGRAM("=== Manage Program ==="),

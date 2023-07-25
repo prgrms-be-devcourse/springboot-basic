@@ -1,9 +1,17 @@
 package org.weekly.weekly.voucher.exception;
 
-import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
-public class VoucherException extends RuntimeException{
-    public VoucherException(ExceptionMsg exceptionMsg) {
-        super(exceptionMsg.getMsg());
+public class VoucherException extends RuntimeException {
+
+    private final ExceptionCode exceptionCode;
+
+    public VoucherException(ExceptionCode exceptionMsg) {
+        super(exceptionMsg.getMessage());
+        this.exceptionCode = exceptionMsg;
+    }
+
+    public ExceptionCode getExceptionCode() {
+        return exceptionCode;
     }
 }

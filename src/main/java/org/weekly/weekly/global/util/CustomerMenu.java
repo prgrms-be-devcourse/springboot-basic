@@ -1,4 +1,7 @@
-package org.weekly.weekly.util;
+package org.weekly.weekly.global.util;
+
+import org.weekly.weekly.customer.exception.CustomerException;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -15,6 +18,7 @@ public enum CustomerMenu implements Menu {
 
     private final String printMessage;
     private static final Map<String, CustomerMenu> CUSTOMER_MENU_MAP;
+
     static {
         CUSTOMER_MENU_MAP = new ConcurrentHashMap<>();
         Arrays.stream(CustomerMenu.values())
@@ -29,7 +33,7 @@ public enum CustomerMenu implements Menu {
         if (CUSTOMER_MENU_MAP.containsKey(userInput)) {
             return CUSTOMER_MENU_MAP.get(userInput);
         }
-        throw new RuntimeException(ExceptionMsg.NOT_MENU.getMsg());
+        throw new CustomerException(ExceptionCode.NOT_MENU);
     }
 
     @Override

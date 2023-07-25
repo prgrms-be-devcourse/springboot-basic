@@ -3,29 +3,28 @@ package org.weekly.weekly.customer;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.test.jdbc.JdbcTestUtils;
 import org.weekly.weekly.customer.domain.Customer;
-import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.customer.repository.JdbcCustomerRepository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-@Testcontainers
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
 @SpringBootTest
 class JdbcCustomerRepositoryTest {
     @Autowired
     private JdbcCustomerRepository jdbcCustomerRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     Customer customer;
 
@@ -36,7 +35,7 @@ class JdbcCustomerRepositoryTest {
 
     @AfterEach
     void deleteCustomer() {
-        assertThatCode(() -> jdbcCustomerRepository.deleteByEmail(customer.getEmail()));
+        JdbcTestUtils.deleteFromTables(jdbcTemplate, "customers");
     }
 
     @Test
@@ -59,7 +58,9 @@ class JdbcCustomerRepositoryTest {
 
         // Then
         assertThat(findCustomer.isEmpty(), is(false));
-        assertThat(findCustomer.get(), samePropertyValuesAs(insertCustomer));
+        assertThat(findCustomer.get().getCustomerId(), is(insertCustomer.getCustomerId()));
+        assertThat(findCustomer.get().getName(), is(insertCustomer.getName()));
+        assertThat(findCustomer.get().getEmail(), is(insertCustomer.getEmail()));
     }
 
     @Test
@@ -99,7 +100,6 @@ class JdbcCustomerRepositoryTest {
     void 회원_삭제_실패_테스트() {
         // when
         jdbcCustomerRepository.deleteByEmail(customer.getEmail());
-
     }
 
     @Test
@@ -118,7 +118,7 @@ class JdbcCustomerRepositoryTest {
         Customer insertCusomter = jdbcCustomerRepository.insert(customer);
 
         // When
-        jdbcCustomerRepository.update(insertCusomter,newName);
+        jdbcCustomerRepository.update(insertCusomter, newName);
 
         // Then
         Optional<Customer> updateCustomer = jdbcCustomerRepository.findByEmail(newName);

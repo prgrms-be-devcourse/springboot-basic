@@ -9,13 +9,14 @@ import org.weekly.weekly.customer.dto.response.CustomerResponse;
 import org.weekly.weekly.customer.dto.response.CustomersResponse;
 import org.weekly.weekly.customer.exception.CustomerException;
 import org.weekly.weekly.customer.repository.CustomerRepository;
-import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.global.handler.ExceptionCode;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerService {
+
     private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
@@ -27,26 +28,33 @@ public class CustomerService {
         validateCustomerNotExist(creationRequest.getEmail());
 
         Customer customer = creationRequest.toCustomer();
-        customerRepository.insert(customer);
-        return CustomerResponse.of(customer);
+        Customer savedCustomer = customerRepository.insert(customer);
+        return CustomerResponse.of(savedCustomer);
     }
 
     @Transactional
     public void deleteCustomer(CustomerUpdateRequest updateRequest) {
-        String email = updateRequest.email();
-        customerRepository.deleteByEmail(email);
+        deleteCustomer(updateRequest.email());
+    }
+
+    public void deleteCustomer(String customerEmail) {
+        customerRepository.deleteByEmail(customerEmail);
     }
 
     public void deleteAllCustomers() {
         customerRepository.deleteAll();
     }
 
-
+    @Transactional(readOnly = true)
     public CustomerResponse findDetailCustomer(CustomerUpdateRequest updateRequest) {
-        String email = updateRequest.email();
-        Customer customer = validateCustomerExistAndGet(email);
+        return findDetailCustomer(updateRequest.email());
+    }
+
+    public CustomerResponse findDetailCustomer(String customerEmail) {
+        Customer customer = validateCustomerExistAndGet(customerEmail);
         return CustomerResponse.of(customer);
     }
+
 
     public CustomersResponse findAllCustomer() {
         List<Customer> customers = customerRepository.findAll();
@@ -66,14 +74,14 @@ public class CustomerService {
     private void validateCustomerNotExist(String email) {
         Optional<Customer> findCustomer = customerRepository.findByEmail(email);
         if (findCustomer.isPresent()) {
-            throw new CustomerException(ExceptionMsg.SQL_EXIST);
+            throw new CustomerException(ExceptionCode.SQL_EXIST);
         }
     }
 
     private Customer validateCustomerExistAndGet(String email) {
         Optional<Customer> customer = customerRepository.findByEmail(email);
         if (customer.isEmpty()) {
-            throw new CustomerException(ExceptionMsg.SQL_ERROR);
+            throw new CustomerException(ExceptionCode.SQL_ERROR);
         }
         return customer.get();
     }

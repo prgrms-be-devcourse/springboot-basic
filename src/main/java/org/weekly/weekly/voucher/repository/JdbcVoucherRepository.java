@@ -5,7 +5,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.weekly.weekly.util.ExceptionMsg;
+import org.weekly.weekly.global.handler.ExceptionCode;
 import org.weekly.weekly.voucher.domain.DiscountType;
 import org.weekly.weekly.voucher.domain.Voucher;
 import org.weekly.weekly.voucher.exception.VoucherException;
@@ -22,11 +22,21 @@ import java.util.UUID;
 
 @Profile("!dev")
 @Repository
-public class JdbcVoucherRepository implements VoucherRepository{
+public class JdbcVoucherRepository implements VoucherRepository {
+
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+
+    public static UUID toUUID(byte[] bytes) {
+        var buffer = ByteBuffer.wrap(bytes);
+        return new UUID(buffer.getLong(), buffer.getLong());
+    }
+
+    private byte[] uuidToBytes(UUID voucherId) {
+        return voucherId.toString().getBytes();
     }
 
     @Override
@@ -62,12 +72,12 @@ public class JdbcVoucherRepository implements VoucherRepository{
                     voucher.getDiscountType().name(),
                     Timestamp.valueOf(voucher.getRegistrationDate().atStartOfDay()),
                     Timestamp.valueOf(voucher.getExpirationDate().atStartOfDay()));
-        } catch(DataAccessException dataAccessException) {
-            throw new VoucherException(ExceptionMsg.SQL_INSERT_ERROR);
+        } catch (DataAccessException dataAccessException) {
+            throw new VoucherException(ExceptionCode.SQL_INSERT_ERROR);
         }
 
         if (update != 1) {
-            throw new VoucherException(ExceptionMsg.SQL_ERROR);
+            throw new VoucherException(ExceptionCode.SQL_ERROR);
         }
         return voucher;
     }
@@ -82,7 +92,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
                 Timestamp.valueOf(voucher.getExpirationDate().atStartOfDay()),
                 uuidToBytes(voucher.getVoucherId()));
         if (update != 1) {
-            throw new VoucherException(ExceptionMsg.SQL_ERROR);
+            throw new VoucherException(ExceptionCode.SQL_ERROR);
         }
         return voucher;
     }
@@ -99,15 +109,6 @@ public class JdbcVoucherRepository implements VoucherRepository{
         jdbcTemplate.update(sql);
     }
 
-    public static UUID toUUID(byte[] bytes) {
-        var buffer = ByteBuffer.wrap(bytes);
-        return new UUID(buffer.getLong(), buffer.getLong());
-    }
-    
-    private byte[] uuidToBytes(UUID voucherId) {
-        return voucherId.toString().getBytes();
-    }
-
     private Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         long amount = resultSet.getLong("amount");
@@ -115,9 +116,6 @@ public class JdbcVoucherRepository implements VoucherRepository{
         LocalDate registrationDate = resultSet.getTimestamp("registration_date") == null ? null : resultSet.getTimestamp("registration_date").toLocalDateTime().toLocalDate();
         LocalDate expirationDate = resultSet.getTimestamp("expiration_date") == null ? null : resultSet.getTimestamp("expiration_date").toLocalDateTime().toLocalDate();
 
-        return new Voucher(voucherId,amount, registrationDate, expirationDate, discountType.getNewInstance());
+        return new Voucher(voucherId, amount, registrationDate, expirationDate, discountType.getNewInstance());
     }
-
-    
-
 }

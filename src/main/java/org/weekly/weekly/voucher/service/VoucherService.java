@@ -11,6 +11,7 @@ import java.util.List;
 
 @Service
 public class VoucherService {
+
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -19,14 +20,12 @@ public class VoucherService {
 
     public VoucherCreationResponse insertVoucher(VoucherCreationRequest voucherCreationRequest) {
         Voucher voucher = voucherCreationRequest.toVoucher();
-        voucherRepository.insert(voucher);
-        return new VoucherCreationResponse(voucher);
+        Voucher savedVoucher = voucherRepository.insert(voucher);
+        return new VoucherCreationResponse(savedVoucher);
     }
 
     public VouchersResponse getVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
         return new VouchersResponse(vouchers);
     }
-
-
 }

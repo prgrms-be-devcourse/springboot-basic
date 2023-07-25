@@ -1,4 +1,7 @@
-package org.weekly.weekly.util;
+package org.weekly.weekly.global.util;
+
+import org.weekly.weekly.global.handler.ExceptionCode;
+import org.weekly.weekly.voucher.exception.VoucherException;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -8,9 +11,11 @@ public enum VoucherMenu implements Menu {
     EXIT("Type exit to exit the program."),
     CREATE("Type create to create a new voucher."),
     LIST("Type list to list all vouchers.");
+
     private final String printMessage;
 
-    private final static Map<String, VoucherMenu> VOUCHER_MENU_MAP;
+    private static final Map<String, VoucherMenu> VOUCHER_MENU_MAP;
+
     static {
         VOUCHER_MENU_MAP = new ConcurrentHashMap<>();
         Arrays.stream(VoucherMenu.values())
@@ -25,7 +30,7 @@ public enum VoucherMenu implements Menu {
         if (VOUCHER_MENU_MAP.containsKey(userInput)) {
             return VOUCHER_MENU_MAP.get(userInput);
         }
-        throw new RuntimeException(ExceptionMsg.NOT_MENU.getMsg());
+        throw new VoucherException(ExceptionCode.NOT_MENU);
     }
 
     @Override

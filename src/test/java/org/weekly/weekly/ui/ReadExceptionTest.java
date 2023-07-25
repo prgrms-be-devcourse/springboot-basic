@@ -10,7 +10,7 @@ public class ReadExceptionTest {
     @ParameterizedTest
     @ValueSource(strings = {"", " "})
     void 사용자가_빈값이나_입력오류났을때_예외발생(String userInput) {
-        assertThatThrownBy(()-> InputValidator.isEmpty(userInput))
+        assertThatThrownBy(() -> InputValidator.isEmpty(userInput))
                 .isInstanceOf(RuntimeException.class);
     }
 }

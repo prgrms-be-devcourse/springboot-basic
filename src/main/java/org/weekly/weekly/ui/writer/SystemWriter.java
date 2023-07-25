@@ -4,19 +4,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import org.weekly.weekly.util.*;
+import org.weekly.weekly.global.util.*;
 import org.weekly.weekly.voucher.domain.DiscountType;
 
 import java.util.Arrays;
 
 @Component
-@ConditionalOnProperty(value="command.write", havingValue = "system")
-public class SystemWriter {
+@ConditionalOnProperty(value = "command.write", havingValue = "system")
+public class SystemWriter implements CommandWriter {
     private final Logger logger = LoggerFactory.getLogger(SystemWriter.class);
+
     private void println(String msg) {
         System.out.println(msg);
     }
-    private void print(String msg) {System.out.print(msg);}
+
+    private void print(String msg) {
+        System.out.print(msg);
+    }
 
     public void printMangeProgram() {
         printMenu(ManageMenu.values(), PrintMessageType.MANAGE_PROGRAM);
@@ -61,7 +65,7 @@ public class SystemWriter {
         println(PrintMessageType.NAME_INPUT.getMessage());
     }
 
-    public void printReuslt(String result) {
+    public void printResult(String result) {
         println(PrintMessageType.EMPTY.getMessage());
         println(result);
     }
@@ -69,7 +73,6 @@ public class SystemWriter {
     public void printDeleteMessage() {
         println(PrintMessageType.DELETE.getMessage());
     }
-
 
     private void printMenu(Menu[] menus, PrintMessageType programMessage) {
         println(PrintMessageType.EMPTY.getMessage());

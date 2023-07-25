@@ -14,7 +14,8 @@ import org.weekly.weekly.voucher.repository.MemoryVoucherRepository;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class VoucherTest {
     private MemoryVoucherRepository voucherRepository;
@@ -29,7 +30,7 @@ public class VoucherTest {
             "100000,12: 1",
             "10,1: 1"
     }, delimiter = ':')
-    void 바우처가_이미_존재하면_예외발생(String userInput, String no)  {
+    void 중복된_바우처_저장시_예외발생(String userInput, String no) {
         // Given
         UUID voucherId = UUID.randomUUID();
         VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
@@ -52,15 +53,13 @@ public class VoucherTest {
     })
     void 바우처_발행시간이_유효시간보다_느리면_예외발생(String userInput) {
         // Given
-//        UUID voucherId = UUID.randomUUID();
-//        LocalDate localDate = LocalDate.now();
         DiscountType discount = DiscountType.FIXED;
         VoucherInfoRequest voucherInfo = VoucherInfoRequest.of(userInput);
 
         VoucherCreationRequest request = new VoucherCreationRequest(voucherInfo, discount);
 
         // when + then
-        assertThatThrownBy(()->request.toVoucher())
+        assertThatThrownBy(() -> request.toVoucher())
                 .isInstanceOf(RuntimeException.class);
     }
 
@@ -75,13 +74,13 @@ public class VoucherTest {
             // Given
             DiscountType discountType = DiscountType.FIXED;
 
-            VoucherInfoRequest voucherInfoRequest =  VoucherInfoRequest.of(userInput);
+            VoucherInfoRequest voucherInfoRequest = VoucherInfoRequest.of(userInput);
 
             // when
             VoucherCreationRequest request = new VoucherCreationRequest(voucherInfoRequest, discountType);
 
             // then
-            assertThatThrownBy(()-> request.toVoucher())
+            assertThatThrownBy(() -> request.toVoucher())
                     .isInstanceOf(RuntimeException.class);
         }
 
@@ -118,7 +117,7 @@ public class VoucherTest {
 
 
             // when + then
-            assertThatThrownBy(()->Voucher.of(voucherId, voucherInfo.getAmount(), now, 1, DiscountType.PERCENT))
+            assertThatThrownBy(() -> Voucher.of(voucherId, voucherInfo.getAmount(), now, 1, DiscountType.PERCENT))
                     .isInstanceOf(RuntimeException.class);
         }
 
