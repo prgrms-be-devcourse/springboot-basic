@@ -9,6 +9,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,7 @@ public class CustomerViewController {
         return "customer/menu";
     }
 
-    @GetMapping("/find")
+    @GetMapping("/findAll")
     public String getFindAllPage(Model model) {
         CustomerListResponse customerListResponse = customerService.findAll();
         model.addAttribute("customerList", customerListResponse.getCustomerList());
@@ -54,7 +55,7 @@ public class CustomerViewController {
         return "customer/find";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteById(@PathVariable("id") UUID customerId) {
         customerService.deleteById(customerId);
 

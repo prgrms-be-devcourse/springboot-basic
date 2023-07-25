@@ -19,7 +19,7 @@ public class VoucherController {
     public void save(VoucherCreateRequest voucherCreateRequest) {
         VoucherValidator.validateVoucher(
                 voucherCreateRequest.getVoucherType(),
-                String.valueOf(voucherCreateRequest.getDiscountAmount())
+                voucherCreateRequest.getDiscountAmount()
         );
 
         voucherService.save(voucherCreateRequest);
@@ -28,7 +28,7 @@ public class VoucherController {
     public void update(VoucherUpdateRequest voucherUpdateRequest) {
         VoucherValidator.validateVoucher(
                 voucherUpdateRequest.getVoucherType(),
-                String.valueOf(voucherUpdateRequest.getDiscountAmount())
+                voucherUpdateRequest.getDiscountAmount()
         );
 
         voucherService.update(voucherUpdateRequest);
