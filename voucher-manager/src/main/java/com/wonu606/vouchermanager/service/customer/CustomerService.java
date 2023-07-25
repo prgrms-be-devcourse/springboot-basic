@@ -1,14 +1,22 @@
 package com.wonu606.vouchermanager.service.customer;
 
 import com.wonu606.vouchermanager.domain.customer.Customer;
-import com.wonu606.vouchermanager.domain.customer.CustomerDto;
-import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
-import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddressDto;
-import com.wonu606.vouchermanager.domain.voucher.Voucher;
 import com.wonu606.vouchermanager.repository.customer.CustomerRepository;
+import com.wonu606.vouchermanager.repository.customer.query.CustomerCreateQuery;
+import com.wonu606.vouchermanager.repository.customer.resultset.CustomerCreateResultSet;
+import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
+import com.wonu606.vouchermanager.service.customer.converter.CustomerServiceConverterManager;
+import com.wonu606.vouchermanager.service.customer.factory.CustomerFactory;
+import com.wonu606.vouchermanager.service.customer.param.CustomerCreateParam;
+import com.wonu606.vouchermanager.service.customer.param.WalletRegisterParam;
+import com.wonu606.vouchermanager.service.customer.result.CustomerCreateResult;
+import com.wonu606.vouchermanager.service.customer.result.CustomerResult;
+import com.wonu606.vouchermanager.service.voucherwallet.VoucherWalletService;
+import com.wonu606.vouchermanager.service.voucherwallet.param.OwnedVouchersParam;
+import com.wonu606.vouchermanager.service.voucherwallet.param.WalletDeleteParam;
+import com.wonu606.vouchermanager.service.voucherwallet.result.OwnedVoucherResult;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,36 +24,45 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CustomerService {
 
-    private final CustomerRepository customerRepository;
+    private final VoucherWalletService voucherWalletService;
+    private final CustomerRepository repository;
+    private final CustomerFactory customerFactory;
+    private final CustomerServiceConverterManager converterManager;
 
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public CustomerService(VoucherWalletService voucherWalletService, CustomerRepository repository,
+            CustomerFactory customerFactory, CustomerServiceConverterManager converterManager) {
+        this.voucherWalletService = voucherWalletService;
+        this.repository = repository;
+        this.customerFactory = customerFactory;
+        this.converterManager = converterManager;
     }
 
-    public Customer createCustomer(CustomerDto customerDto) {
-        return convertDtoToCustomer(customerDto);
+    public CustomerCreateResult createCustomer(CustomerCreateParam param) {
+        Customer createdCustomer = customerFactory.create(param);
+        CustomerCreateQuery query = converterManager.convert(createdCustomer,
+                CustomerCreateQuery.class);
+
+        CustomerCreateResultSet resultSet = repository.insert(query);
+        return converterManager.convert(resultSet, CustomerCreateResult.class);
     }
 
-    public Customer saveCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public List<CustomerResult> getCustomerList() {
+        List<CustomerResultSet> resultSets = repository.findAll();
+
+        return resultSets.stream()
+                .map(rs -> converterManager.convert(rs, CustomerResult.class))
+                .collect(Collectors.toList());
     }
 
-    public Optional<Customer> findCustomerByEmailAddress(EmailAddressDto emailAddressDto) {
-        EmailAddress emailAddress = new EmailAddress(emailAddressDto.getEmailAddress());
-        return customerRepository.findByEmailAddress(emailAddress);
+    public List<OwnedVoucherResult> findOwnedVouchersByCustomer(OwnedVouchersParam param) {
+        return voucherWalletService.findOwnedVouchersByCustomer(param);
     }
 
-    public List<Customer> getCustomerList() {
-        return customerRepository.findAll();
+    public void deleteWallet(WalletDeleteParam param) {
+        voucherWalletService.deleteWallet(param);
     }
 
-    public List<Customer> getCustomerList(List<EmailAddress> emailAddresses) {
-        return customerRepository.findAllByEmailAddresses(emailAddresses);
-    }
-
-    private static Customer convertDtoToCustomer(CustomerDto customerDto) {
-        return new Customer(
-                new EmailAddress(customerDto.getEmailAddress()),
-                customerDto.getNickname());
+    public void registerToWallet(WalletRegisterParam param) {
+        voucherWalletService.registerToWallet(param);
     }
 }

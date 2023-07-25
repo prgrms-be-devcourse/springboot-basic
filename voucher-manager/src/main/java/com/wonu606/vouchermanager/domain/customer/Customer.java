@@ -1,20 +1,20 @@
 package com.wonu606.vouchermanager.domain.customer;
 
-import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.email.Email;
 import java.util.Objects;
 
 public class Customer {
 
-    private final EmailAddress emailAddress;
+    private final Email email;
     private final String nickname;
 
-    public Customer(EmailAddress emailAddress, String nickname) {
-        this.emailAddress = emailAddress;
+    public Customer(Email email, String nickname) {
+        this.email = email;
         this.nickname = nickname;
     }
 
     public String getEmailAddress() {
-        return emailAddress.getAddress();
+        return email.getAddress();
     }
 
     public String getNickname() {
@@ -42,7 +42,7 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-                "emailAddress=" + emailAddress +
+                "emailAddress=" + email +
                 ", nickname='" + nickname + '\'' +
                 '}';
     }

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Owned Vouchers</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <h1>Owned Vouchers</h1>
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Voucher Id</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="response : ${responses}">
+      <td th:text="${response.voucherId}"></td>
+      <td>
+        <form action="/customers/wallet/delete" method="post">
+          <input type="hidden" name="voucherId" th:value="${response.voucherId}">
+          <input type="hidden" name="customerId" th:value="${customerId}">
+          <input type="submit" class="btn btn-danger" value="Delete Wallet">
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <h2>Register a New Voucher</h2>
+
+  <form action="/customers/wallet/register" method="post">
+    <div class="form-group">
+      <label for="voucherId">Voucher Id:</label>
+      <input type="text" class="form-control" id="voucherId" name="voucherId" required>
+      <input type="hidden" name="customerId" th:value="${customerId}">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Register Voucher">
+  </form>
+
+  <a href="/customers/list" class="btn btn-secondary mt-3">Get Customers List</a>
+</div>
+</body>
+</html>

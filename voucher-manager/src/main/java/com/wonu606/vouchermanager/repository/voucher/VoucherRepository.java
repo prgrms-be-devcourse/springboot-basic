@@ -1,21 +1,20 @@
 package com.wonu606.vouchermanager.repository.voucher;
 
-import com.wonu606.vouchermanager.domain.voucher.Voucher;
+import com.wonu606.vouchermanager.repository.voucher.query.VoucherDeleteQuery;
+import com.wonu606.vouchermanager.repository.voucher.query.VoucherFindQuery;
+import com.wonu606.vouchermanager.repository.voucher.query.VoucherInsertQuery;
+import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherInsertResultSet;
+import com.wonu606.vouchermanager.repository.voucher.resultset.VoucherResultSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface VoucherRepository {
 
-    Voucher save(Voucher voucher);
+    VoucherInsertResultSet insert(VoucherInsertQuery query);
 
-    Optional<Voucher> findById(UUID id);
+    Optional<VoucherResultSet> findById(VoucherFindQuery query);
 
-    List<Voucher> findAll();
+    List<VoucherResultSet> findAll();
 
-    List<Voucher> findAllByUuIds(List<UUID> uuidList);
-
-    void deleteById(UUID id);
-
-    void deleteAll();
+    void deleteById(VoucherDeleteQuery query);
 }

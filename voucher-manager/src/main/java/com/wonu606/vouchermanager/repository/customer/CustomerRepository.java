@@ -1,21 +1,15 @@
 package com.wonu606.vouchermanager.repository.customer;
 
-import com.wonu606.vouchermanager.domain.customer.Customer;
-import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
+import com.wonu606.vouchermanager.repository.customer.query.CustomerCreateQuery;
+import com.wonu606.vouchermanager.repository.customer.resultset.CustomerCreateResultSet;
+import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomerRepository {
 
-    Customer save(Customer customer);
+    List<CustomerResultSet> findAll();
 
-    Optional<Customer> findByEmailAddress(EmailAddress emailAddress);
+    CustomerCreateResultSet insert(CustomerCreateQuery query);
 
-    List<Customer> findAll();
-
-    List<Customer> findAllByEmailAddresses(List<EmailAddress> emailAddresses);
-
-    void deleteByEmailAddress(EmailAddress emailAddress);
-
-    void deleteAll();
+    void deleteByCustomerId(String email);
 }

@@ -2,7 +2,7 @@ package com.wonu606.vouchermanager.domain.customer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.wonu606.vouchermanager.domain.customer.emailAddress.EmailAddress;
+import com.wonu606.vouchermanager.domain.customer.email.Email;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -16,12 +16,12 @@ class CustomerTest {
     public void constructor_EmailAddress_Success() {
         // Given
         String validAddress = "test@example.com";
-        EmailAddress emailAddress = new EmailAddress(validAddress);
+        Email email = new Email(validAddress);
 
         // When
-        Customer customer = new Customer(emailAddress, "tempNickName");
+        Customer customer = new Customer(email, "tempNickName");
 
         // Then
-        assertThat(customer.getEmailAddress()).isEqualTo(emailAddress.getAddress());
+        assertThat(customer.getEmailAddress()).isEqualTo(email.getAddress());
     }
 }

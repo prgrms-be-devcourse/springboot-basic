@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Get Owned Vouchers</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <h1>Get Owned Vouchers by Customer</h1>
+
+  <form action="/customers/owned-vouchers" method="post">
+    <div class="form-group">
+      <label for="customerId">Customer ID:</label>
+      <input type="text" class="form-control" id="customerId" name="customerId">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Submit">
+  </form>
+</div>
+</body>
+</html>
