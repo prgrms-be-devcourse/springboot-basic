@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -42,14 +42,19 @@ public class GlobalWebControllerAdvice {
 
     @ExceptionHandler(BindException.class)
     public String bindExHandle(BindException ex, Model model) {
-        StringBuilder sb = new StringBuilder();
-        BindingResult bindingResult = ex.getBindingResult();
-        for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            sb.append(fieldError.getDefaultMessage()).append(",");
-        }
-        ErrorResult errorResult = new ErrorResult("400", sb.toString());
+        String errorMessages = getBindingResultErrorMessages(ex);
+        ErrorResult errorResult = new ErrorResult("400", errorMessages);
         model.addAttribute("errorResult", errorResult);
         return "errorPage";
+    }
+
+    private String getBindingResultErrorMessages(BindException ex) {
+        StringBuilder sb = new StringBuilder();
+        BindingResult bindingResult = ex.getBindingResult();
+        for (ObjectError fieldError : bindingResult.getAllErrors()) {
+            sb.append(fieldError.getDefaultMessage()).append(",");
+        }
+        return sb.toString();
     }
 
     @ExceptionHandler(RuntimeException.class)
