@@ -11,7 +11,7 @@ public class PercentDiscountVoucher implements Voucher {
     public PercentDiscountVoucher(UUID voucherId, long discountAmount) {
         VoucherValidator.validateVoucher(
                 VoucherType.PERCENT,
-                String.valueOf(discountAmount)
+                discountAmount
         );
 
         this.voucherId = voucherId;

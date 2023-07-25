@@ -11,7 +11,7 @@ public class FixedAmountVoucher implements Voucher {
     public FixedAmountVoucher(UUID voucherId, long discountAmount) {
         VoucherValidator.validateVoucher(
                 VoucherType.FIXED,
-                String.valueOf(discountAmount)
+                discountAmount
         );
 
         this.voucherId = voucherId;
