@@ -12,28 +12,54 @@ public class Customer {
     private final CustomerType customerType;
     private final LocalDateTime createdAt;
 
-    public Customer(String name, String email, CustomerType customerType) {
-        this.customerId = UUID.randomUUID();
-        this.name = name;
-        this.email = email;
-        this.customerType = customerType;
-        this.createdAt = LocalDateTime.now();
-    }
-
-    public Customer(UUID customerId, String name, String email, CustomerType customerType) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.customerType = customerType;
-        this.createdAt = LocalDateTime.now();
-    }
-
     public Customer(UUID customerId, String name, String email, CustomerType customerType, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.customerType = customerType;
         this.createdAt = createdAt;
+    }
+
+    public static class Builder {
+
+        private UUID customerId = UUID.randomUUID();
+        private String name;
+        private String email;
+        private CustomerType customerType;
+        private LocalDateTime createdAt = LocalDateTime.now();
+        ;
+
+        public Builder() {
+        }
+
+        public Builder customerId(UUID customerId) {
+            this.customerId = customerId;
+
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+
+            return this;
+        }
+
+        public Builder customerType(CustomerType customerType) {
+            this.customerType = customerType;
+
+            return this;
+        }
+
+        public Customer build() {
+            return new Customer(customerId, name, email, customerType, createdAt);
+        }
+
     }
 
     public UUID getCustomerId() {

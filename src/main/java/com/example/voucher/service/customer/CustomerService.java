@@ -21,7 +21,12 @@ public class CustomerService {
     }
 
     public CustomerDTO createCustomer(String name, String email, CustomerType customerType) {
-        Customer createdCustomer = new Customer(name, email, customerType);
+        Customer createdCustomer = new Customer.Builder()
+            .name(name)
+            .email(email)
+            .customerType(customerType)
+            .build();
+
         Customer savedCustomer = customerRepository.save(createdCustomer);
 
         return toDTO(savedCustomer);
@@ -49,7 +54,13 @@ public class CustomerService {
     }
 
     public CustomerDTO update(UUID customerId, String customerName, String customerEmail, CustomerType customerType) {
-        Customer customer = new Customer(customerId, customerName, customerEmail, customerType);
+        Customer customer = new Customer.Builder()
+            .customerId(customerId)
+            .name(customerName)
+            .email(customerEmail)
+            .customerType(customerType)
+            .build();
+
         Customer updatedCustomer = customerRepository.update(customer);
 
         return toDTO(updatedCustomer);
