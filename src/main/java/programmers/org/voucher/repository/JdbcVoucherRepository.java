@@ -1,9 +1,11 @@
 package programmers.org.voucher.repository;
 
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 import programmers.org.voucher.domain.constant.VoucherType;
 import programmers.org.voucher.domain.Voucher;
 import programmers.org.voucher.repository.util.*;
@@ -23,7 +25,9 @@ import java.util.Optional;
 
 import static programmers.org.voucher.repository.util.constant.Table.VOUCHERS;
 
-public class JdbcVoucherRepository implements VoucherRepository {
+@Component
+@Primary
+class JdbcVoucherRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
