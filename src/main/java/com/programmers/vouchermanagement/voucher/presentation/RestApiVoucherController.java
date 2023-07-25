@@ -21,7 +21,6 @@ public class RestApiVoucherController {
 
     @PostMapping
     public VoucherResponse createVoucher(@RequestBody VoucherCreationRequest request) {
-        log.info("{}", request);
         return voucherService.createVoucher(request);
     }
 
@@ -32,20 +31,17 @@ public class RestApiVoucherController {
 
     @GetMapping("/{voucherId}")
     public VoucherResponse getVoucher(@PathVariable UUID voucherId) {
-        log.info("voucherId={}", voucherId);
         return voucherService.getVoucher(voucherId);
     }
 
     @PostMapping("/{voucherId}")
     public boolean updateVoucher(@PathVariable UUID voucherId, @RequestBody VoucherUpdateRequest request) {
-        log.info("voucherId={}, {}", voucherId, request);
         voucherService.updateVoucher(voucherId, request);
         return true;
     }
 
     @DeleteMapping("/{voucherId}")
     public boolean deleteVoucher(@PathVariable UUID voucherId) {
-        log.info("voucherId={}", voucherId);
         voucherService.deleteVoucher(voucherId);
         return true;
     }
