@@ -19,14 +19,16 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public void save(VoucherCreateRequest voucherCreateRequest) {
+    public VoucherResponse save(VoucherCreateRequest voucherCreateRequest) {
         Voucher voucher = VoucherFactory.createVoucher(
                 UUID.randomUUID(),
                 voucherCreateRequest.getVoucherType(),
                 voucherCreateRequest.getDiscountAmount()
         );
 
-        voucherRepository.save(voucher);
+        Voucher resultVoucher = voucherRepository.save(voucher);
+
+        return new VoucherResponse(resultVoucher);
     }
 
     public void update(VoucherUpdateRequest voucherUpdateRequest) {

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Slf4j
-@ControllerAdvice
+// @ControllerAdvice
 public class GlobalExceptionHandler {
 
     private static final String ERROR_MSG = "errorMsg";
