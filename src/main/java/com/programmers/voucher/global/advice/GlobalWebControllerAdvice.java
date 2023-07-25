@@ -1,5 +1,6 @@
-package com.programmers.voucher.global;
+package com.programmers.voucher.global.advice;
 
+import com.programmers.voucher.global.ErrorResult;
 import com.programmers.voucher.global.util.CommonErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

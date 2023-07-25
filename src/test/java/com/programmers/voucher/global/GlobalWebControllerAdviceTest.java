@@ -2,6 +2,7 @@ package com.programmers.voucher.global;
 
 import com.programmers.voucher.domain.customer.controller.CustomerWebController;
 import com.programmers.voucher.domain.customer.service.CustomerService;
+import com.programmers.voucher.global.advice.GlobalWebControllerAdvice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
