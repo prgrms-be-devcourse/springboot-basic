@@ -39,15 +39,6 @@ public class VoucherWalletJdbcStore implements VoucherWalletStore {
         return new WalletInsertResultSet(resultSet);
     }
 
-    public WalletUpdateResultSet update(WalletUpdateQuery query) {
-        String insertSql = "INSERT INTO voucher_wallet (customer_id, voucher_id) VALUES (:customer_id, :voucher_id)";
-        Map<String, Object> params = new HashMap<>();
-        params.put("customer_id", query.getCustomerId());
-        params.put("voucher_id", query.getVoucherId());
-
-        return new WalletUpdateResultSet(jdbcTemplate.update(insertSql, params));
-    }
-
     @Override
     public void register(WalletRegisterQuery query) {
         String updateQuery = "UPDATE voucher_wallet SET customer_id = :customer_id WHERE voucher_id = :voucher_id AND customer_id IS NULL LIMIT 1";

@@ -48,11 +48,6 @@ public class VoucherWalletJdbcRepository implements VoucherWalletRepository {
     }
 
     @Override
-    public WalletUpdateResultSet update(WalletUpdateQuery query) {
-        return store.update(query);
-    }
-
-    @Override
     public void register(WalletRegisterQuery query) {
         store.register(query);
     }

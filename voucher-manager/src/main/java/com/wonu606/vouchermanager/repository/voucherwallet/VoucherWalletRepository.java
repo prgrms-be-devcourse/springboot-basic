@@ -22,7 +22,5 @@ public interface VoucherWalletRepository {
 
     WalletInsertResultSet insert(WalletInsertQuery wallet);
 
-    WalletUpdateResultSet update(WalletUpdateQuery wallet);
-
     void register(WalletRegisterQuery query);
 }

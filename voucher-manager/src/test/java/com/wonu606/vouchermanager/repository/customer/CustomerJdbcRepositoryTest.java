@@ -8,22 +8,29 @@ import com.wonu606.vouchermanager.repository.customer.query.CustomerCreateQuery;
 import com.wonu606.vouchermanager.repository.customer.reader.CustomerJdbcReader;
 import com.wonu606.vouchermanager.repository.customer.reader.CustomerReader;
 import com.wonu606.vouchermanager.repository.customer.reader.rowmapper.CustomerReaderRowMapperManager;
+import com.wonu606.vouchermanager.repository.customer.resultset.CustomerCreateResultSet;
 import com.wonu606.vouchermanager.repository.customer.resultset.CustomerResultSet;
 import com.wonu606.vouchermanager.repository.customer.store.CustomerJdbcStore;
 import com.wonu606.vouchermanager.repository.customer.store.CustomerStore;
+import com.wonu606.vouchermanager.repository.voucher.query.VoucherInsertQuery;
 import java.util.List;
+import java.util.stream.Stream;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @JdbcTest
-@DisplayName("JdbcCustomerResultSetRepository 테스트")
+@DisplayName("CustomerResultSetJdbcRepository 테스트")
 class CustomerJdbcRepositoryTest {
 
-    private CustomerJdbcRepository repository;
+    private CustomerRepository repository;
 
     @Autowired
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -36,67 +43,55 @@ class CustomerJdbcRepositoryTest {
         repository = new CustomerJdbcRepository(reader, store);
     }
 
-    @Test
-    @DisplayName("save_저장되어 있지 않은 Customer면이라면_Customer가 저장된다.")
-    void save_UnsavedCustomer_CustomerSaved() {
+    @ParameterizedTest
+    @MethodSource("givenCustomerCreateQuery")
+    @DisplayName("insert_새 Customer이면_저장된다.")
+    void insert_NewCustomer_ReturnInsertedCustomer(CustomerCreateQuery query) {
         // given
-        Customer customer = new Customer(
-                new Email("Linlin@onepiece.org"), "Big Mom");
-
-        Email email = new Email(customer.getEmailAddress());
+        CustomerCreateResultSet expected = new CustomerCreateResultSet(1);
 
         // when
-        repository.insert(
-                new CustomerCreateQuery(customer.getEmailAddress(), customer.getNickname()));
-        List<CustomerResultSet> actualAllList = repository.findAll();
+        CustomerCreateResultSet actual = repository.insert(
+                new CustomerCreateQuery(query.getEmail(), query.getNickname()));
 
         // then
-        assertThat(actualAllList).isNotNull();
-        assertThat(actualAllList).hasSize(1);
-        assertThat(actualAllList.get(0).getEmail()).isEqualTo(customer.getEmailAddress());
-        assertThat(actualAllList.get(0).getNickname()).isEqualTo(customer.getNickname());
+        assertThat(actual.getTaskSuccess()).isEqualTo(expected.getTaskSuccess());
     }
 
-    @Test
-    @DisplayName("findAll_저장된 모든 Customer_저장된 모든 Customer들을 반환한다.")
-    void findAll_SavedCustomers_ReturnsAllCustomers() {
+    @ParameterizedTest
+    @MethodSource("givenCustomerCreateQuery")
+    @DisplayName("findAll_조건 없음_저장된 모든 Customer들을 반환한다.")
+    void findAll_NoConditions_ReturnAllCustomers(CustomerCreateQuery query) {
         // given
-        Customer customer1 = new Customer(
-                new Email("Linlin@onepiece.org"), "Big Mom");
-        Customer customer2 = new Customer(
-                new Email("loopy@onepiece.org"), "Pirate King");
-        repository.insert(
-                new CustomerCreateQuery(customer1.getEmailAddress(), customer1.getNickname()));
-        repository.insert(
-                new CustomerCreateQuery(customer2.getEmailAddress(), customer2.getNickname()));
+        repository.insert(query);
+        CustomerResultSet expectedResultSet = new CustomerResultSet(query.getEmail(),
+                query.getNickname());
 
         // when
         List<CustomerResultSet> allCustomers = repository.findAll();
 
         // then
-        assertThat(allCustomers).hasSize(2);
-        assertThat(allCustomers).extracting("email")
-                .contains(customer1.getEmailAddress(), customer2.getEmailAddress());
-        assertThat(allCustomers).extracting("nickname")
-                .contains(customer1.getNickname(), customer2.getNickname());
+        assertThat(allCustomers).hasSize(1);
+        assertThat(allCustomers).usingRecursiveComparison().isEqualTo(List.of(expectedResultSet));
     }
 
-    @Test
-    @DisplayName("deleteByCustomerId_저장된 Customer_Customer를 제거한다.")
-    void deleteByCustomerId_SavedCustomer_CustomerDeleted() {
+    @ParameterizedTest
+    @MethodSource("givenCustomerCreateQuery")
+    @DisplayName("deleteByCustomerId_존재하는 Customer이면_Customer를 제거한다.")
+    void deleteByCustomerId_ExistingCustomer_CustomerIsDeleted(CustomerCreateQuery query) {
         // given
-        Customer customer = new Customer(
-                new Email("Linlin@onepiece.org"), "Big Mom");
-        repository.insert(
-                new CustomerCreateQuery(customer.getEmailAddress(), customer.getNickname()));
-
-        Email email = new Email(customer.getEmailAddress());
+        repository.insert(query);
 
         // then
-        repository.deleteByCustomerId(customer.getEmailAddress());
+        repository.deleteByCustomerId(query.getEmail());
         List<CustomerResultSet> actualAllList = repository.findAll();
 
         // when
         assertThat(actualAllList).hasSize(0);
+    }
+
+    static Stream<Arguments> givenCustomerCreateQuery() {
+        CustomerCreateQuery query = new CustomerCreateQuery("Linlin@onepiece.org", "Big Mom");
+        return Stream.of(Arguments.of(query));
     }
 }
