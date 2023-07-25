@@ -84,7 +84,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
-        return null;
+        throw new UnsupportedOperationException("Voucher list search is not supported");
     }
 
     @Override
