@@ -30,7 +30,7 @@ public class VoucherFactoryTest {
 
     @DisplayName("create_type이 FIXED이면_FixedAmountVoucher를 생성한다.")
     @Test
-    public void Create_TypeIsFIXED_CreatesFixedAmountVoucher() {
+    void Create_TypeIsFIXED_CreatesFixedAmountVoucher() {
         // Given
         UUID testUuid = UUID.randomUUID();
         given(uuidGenerator.generateUUID()).willReturn(testUuid);
@@ -49,7 +49,7 @@ public class VoucherFactoryTest {
 
     @DisplayName("create_type이 PERCENT이면_PercentageVoucher를 생성한다.")
     @Test
-    public void Create_TypeIsPERCENT_CreatesPercentageVoucher() {
+    void Create_TypeIsPERCENT_CreatesPercentageVoucher() {
         // Given
         UUID testUuid = UUID.randomUUID();
         given(uuidGenerator.generateUUID()).willReturn(testUuid);
@@ -68,7 +68,7 @@ public class VoucherFactoryTest {
 
     @DisplayName("create_type이 존재하지 않는다면_예외가 발생한다.")
     @Test
-    public void Create_TypeDoesNotExist_ThrowsException() {
+    void Create_TypeDoesNotExist_ThrowsException() {
         // Given
         UUID uuid = UUID.randomUUID();
         double discountValue = 10.0;

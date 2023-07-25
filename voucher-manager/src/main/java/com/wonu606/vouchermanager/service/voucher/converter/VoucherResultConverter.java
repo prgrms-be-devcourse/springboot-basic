@@ -8,7 +8,7 @@ public class VoucherResultConverter implements TypedConverter<VoucherResultSet, 
 
     @Override
     public VoucherResult convert(VoucherResultSet resultSet) {
-        return new VoucherResult(resultSet.getUuid(), resultSet.getSimpleName(),
+        return new VoucherResult(resultSet.getUuid(), resultSet.getVoucherClassType(),
                 resultSet.getDiscountValue());
     }
 

@@ -63,7 +63,7 @@ class VoucherWalletJdbcRepositoryTest {
     @ParameterizedTest
     @MethodSource("givenVoucherInsertQuery")
     @DisplayName("findOwnedVouchersByCustomer_존재하는 Customer라면_소유한 VoucherList 반환한다.")
-    public void findOwnedVouchersByCustomer_ExistingCustomer_ReturnOwnedVouchers(
+    void findOwnedVouchersByCustomer_ExistingCustomer_ReturnOwnedVouchers(
             VoucherInsertQuery voucherInsertQuery) {
         // Given
         voucherRepository.insert(voucherInsertQuery);
@@ -88,7 +88,7 @@ class VoucherWalletJdbcRepositoryTest {
     @ParameterizedTest
     @MethodSource("givenVoucherInsertQuery")
     @DisplayName("findOwnedCustomersByVoucher_존재하는 Voucher라면_소유한 CustomerList 반환한다.")
-    public void findOwnedCustomersByVoucher_ExistingVoucher_ReturnOwnedCustomers(
+    void findOwnedCustomersByVoucher_ExistingVoucher_ReturnOwnedCustomers(
             VoucherInsertQuery voucherInsertQuery) {
         // Given
         voucherRepository.insert(voucherInsertQuery);
@@ -112,7 +112,7 @@ class VoucherWalletJdbcRepositoryTest {
     @ParameterizedTest
     @MethodSource("givenVoucherInsertQuery")
     @DisplayName("delete_존재하는 Wallet이라면_삭제한다.")
-    public void delete_ExistingWallet_WalletIsDeleted(VoucherInsertQuery voucherInsertQuery) {
+    void delete_ExistingWallet_WalletIsDeleted(VoucherInsertQuery voucherInsertQuery) {
         // Given
         voucherRepository.insert(voucherInsertQuery);
         voucherWalletRepository.insert(new WalletInsertQuery(voucherInsertQuery.getVoucherId()));
@@ -136,7 +136,7 @@ class VoucherWalletJdbcRepositoryTest {
     @ParameterizedTest
     @MethodSource("givenVoucherInsertQuery")
     @DisplayName("insert_새로 기입_기입한 정보가 저장된다.")
-    public void insert_NewEntry_EntryIsInserted(VoucherInsertQuery voucherInsertQuery) {
+    void insert_NewEntry_EntryIsInserted(VoucherInsertQuery voucherInsertQuery) {
         // Given
         voucherRepository.insert(voucherInsertQuery);
         voucherWalletRepository.insert(new WalletInsertQuery(voucherInsertQuery.getVoucherId()));

@@ -2,18 +2,18 @@ package com.wonu606.vouchermanager.repository.voucher.resultset;
 
 public class VoucherResultSet {
 
-    private final String simpleName;
     private final String uuid;
+    private final String voucherClassType;
     private final Double discountValue;
 
-    public VoucherResultSet(String simpleName, String uuid, Double discountValue) {
-        this.simpleName = simpleName;
+    public VoucherResultSet(String uuid, String voucherClassType, Double discountValue) {
+        this.voucherClassType = voucherClassType;
         this.uuid = uuid;
         this.discountValue = discountValue;
     }
 
-    public String getSimpleName() {
-        return simpleName;
+    public String getVoucherClassType() {
+        return voucherClassType;
     }
 
     public String getUuid() {
