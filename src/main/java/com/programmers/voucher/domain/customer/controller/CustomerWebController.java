@@ -4,9 +4,13 @@ import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import com.programmers.voucher.domain.customer.dto.request.CustomerCreateRequest;
 import com.programmers.voucher.domain.customer.dto.request.CustomerUpdateRequest;
 import com.programmers.voucher.domain.customer.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,7 +36,7 @@ public class CustomerWebController {
     }
 
     @PostMapping("/customers/new")
-    public String createCustomer(@ModelAttribute CustomerCreateRequest request) {
+    public String createCustomer(@ModelAttribute @Valid CustomerCreateRequest request) {
         UUID customerId = customerService.createCustomer(request.getEmail(), request.getName());
         return "redirect:/customers/" + customerId;
     }
@@ -47,7 +51,7 @@ public class CustomerWebController {
 
     @PostMapping("/customers/{customerId}")
     public String updateCustomer(@PathVariable UUID customerId,
-                                 @ModelAttribute CustomerUpdateRequest request) {
+                                 @ModelAttribute @Valid CustomerUpdateRequest request) {
         customerService.updateCustomer(customerId, request.getName(), request.isBanned());
         return "redirect:/customers/{customerId}";
     }

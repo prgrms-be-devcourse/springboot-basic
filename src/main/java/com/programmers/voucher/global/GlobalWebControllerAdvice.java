@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -32,6 +35,18 @@ public class GlobalWebControllerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     public String illegalArgumentExHandle(IllegalArgumentException ex, Model model) {
         ErrorResult errorResult = new ErrorResult("400", ex.getMessage());
+        model.addAttribute("errorResult", errorResult);
+        return "errorPage";
+    }
+
+    @ExceptionHandler(BindException.class)
+    public String bindExHandle(BindException ex, Model model) {
+        StringBuilder sb = new StringBuilder();
+        BindingResult bindingResult = ex.getBindingResult();
+        for (FieldError fieldError : bindingResult.getFieldErrors()) {
+            sb.append(fieldError.getDefaultMessage()).append(",");
+        }
+        ErrorResult errorResult = new ErrorResult("400", sb.toString());
         model.addAttribute("errorResult", errorResult);
         return "errorPage";
     }
