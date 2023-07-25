@@ -1,9 +1,11 @@
 package com.programmers.voucher.domain.voucher.dto.request;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import com.programmers.voucher.global.validation.VoucherSearchTimeValidation;
 
 import java.time.LocalDateTime;
 
+@VoucherSearchTimeValidation
 public class VoucherSearchRequest {
     private VoucherType voucherType;
     private LocalDateTime startTime;

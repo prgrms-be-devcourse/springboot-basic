@@ -23,7 +23,7 @@ public class VoucherApiController {
     }
 
     @GetMapping("/vouchers")
-    public ResponseEntity<List<VoucherDto>> findVouchers(@ModelAttribute VoucherSearchRequest request) {
+    public ResponseEntity<List<VoucherDto>> findVouchers(@ModelAttribute @Valid VoucherSearchRequest request) {
         List<VoucherDto> vouchers = voucherService.findVouchers(
                 request.getVoucherType(),
                 request.getStartTime(), request.getEndTime());

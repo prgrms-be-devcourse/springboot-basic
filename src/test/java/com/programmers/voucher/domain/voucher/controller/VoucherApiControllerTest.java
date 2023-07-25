@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -65,6 +66,28 @@ class VoucherApiControllerTest {
         resultActions.andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(jsonResponsePayload));
+    }
+
+    @Test
+    @DisplayName("성공(400): voucher 목록 조회 요청 - 검색 시작 시간이 종료 시가 이후")
+    void findVouchers_ButSearchStartTimeIsAfterEndTime_Then_BadRequest() throws Exception {
+        //given
+        LocalDateTime endTime = LocalDateTime.now();
+        LocalDateTime startTime = endTime.plusHours(1);
+        VoucherSearchRequest request = new VoucherSearchRequest(null, startTime, endTime);
+
+        //when
+        ResultActions resultActions = mvc.perform(get("/api/v1/vouchers")
+                        .param("startTime", startTime.toString())
+                        .param("endTime", endTime.toString())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+
+        //then
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.code").value("400"))
+                .andExpect(jsonPath("$.message").isString());
     }
 
     @Test
