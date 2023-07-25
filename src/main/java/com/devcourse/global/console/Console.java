@@ -50,10 +50,10 @@ public class Console {
         Voucher.Type type = parser.parseVoucherType(inputType);
 
         String inputDiscount = read(DISCOUNT_INT_GUIDE);
-        int discount = parser.parseDiscount(inputDiscount);
+        int discount = parser.toValidDiscountByType(type, inputDiscount);
 
         String inputExpiredAt = read(EXPIRATION_DATE_GUIDE);
-        LocalDateTime expiredAt = parser.parseExpiration(inputExpiredAt);
+        LocalDateTime expiredAt = parser.toValidExpiredAt(inputExpiredAt);
 
         return new CreateVoucherRequest(discount, expiredAt, type);
     }

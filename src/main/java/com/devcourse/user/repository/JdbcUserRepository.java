@@ -2,8 +2,6 @@ package com.devcourse.user.repository;
 
 import com.devcourse.global.util.Sql;
 import com.devcourse.user.User;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;

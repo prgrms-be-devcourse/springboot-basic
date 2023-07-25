@@ -58,7 +58,7 @@ public class ApplicationController implements ApplicationRunner {
 
     private void createVoucher() {
         CreateVoucherRequest request = console.readCreationRequest();
-        voucherService.create(request);
+        voucherService.create(request.discount(), request.expiredAt(), request.type());
         console.print(CREATION_RESPONSE);
     }
 
