@@ -20,12 +20,7 @@ public class Customer {
     private final LocalDateTime createdAt;
 
     public Customer(UUID customerId, String email, String name) {
-        validateEmail(email);
-        validateName(name);
-        this.customerId = customerId;
-        this.email = email;
-        this.name = name;
-        this.createdAt = LocalDateTime.now();
+            this(customerId, email, name, false, LocalDateTime.now());
     }
 
     public Customer(UUID customerId, String email, String name, boolean banned, LocalDateTime createdAt) {
