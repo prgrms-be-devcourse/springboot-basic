@@ -7,7 +7,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,13 +39,18 @@ public class GlobalApiControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResult> methodArgumentNotValidExHandle(MethodArgumentNotValidException ex) {
+        String errorMessages = getBindingResultErrorMessages(ex);
+        ErrorResult errorResult = new ErrorResult("400", errorMessages);
+        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+    }
+
+    private String getBindingResultErrorMessages(MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         StringBuilder sb = new StringBuilder();
-        for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            sb.append(fieldError.getDefaultMessage()).append(",");
+        for (ObjectError allError : bindingResult.getAllErrors()) {
+            sb.append(allError.getDefaultMessage()).append(",");
         }
-        ErrorResult errorResult = new ErrorResult("400", sb.toString());
-        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+        return sb.toString();
     }
 
     @ExceptionHandler(RuntimeException.class)

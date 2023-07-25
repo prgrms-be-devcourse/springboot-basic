@@ -9,6 +9,8 @@ import com.programmers.voucher.domain.voucher.service.VoucherService;
 import com.programmers.voucher.testutil.VoucherTestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,8 +27,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(VoucherApiController.class)
 class VoucherApiControllerTest {
@@ -109,6 +110,60 @@ class VoucherApiControllerTest {
         resultActions.andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(jsonResponsePayload));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "-2", "-1", "0"
+    })
+    @DisplayName("성공(400): voucher 단건 생성 요청")
+    void createVoucher_ButInvalidFixedAmount_Then_BadRequest(String amount) throws Exception {
+        //given
+        long invalidAmount = Long.parseLong(amount);
+        VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.FIXED_AMOUNT, invalidAmount);
+        UUID voucherId = UUID.randomUUID();
+
+        given(voucherService.createVoucher(any(), anyLong())).willReturn(voucherId);
+        String jsonRequestPayload = mapper.writeValueAsString(request);
+
+        //when
+        ResultActions resultActions = mvc.perform(post("/api/v1/vouchers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequestPayload)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+
+        //then
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("400"))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "-1", "0", "100", "101"
+    })
+    @DisplayName("성공(400): voucher 단건 생성 요청")
+    void createVoucher_ButInvalidPercent_Then_BadRequest(String percent) throws Exception {
+        //given
+        long invalidPercent = Long.parseLong(percent);
+        VoucherCreateRequest request = new VoucherCreateRequest(VoucherType.PERCENT, invalidPercent);
+        UUID voucherId = UUID.randomUUID();
+
+        given(voucherService.createVoucher(any(), anyLong())).willReturn(voucherId);
+        String jsonRequestPayload = mapper.writeValueAsString(request);
+
+        //when
+        ResultActions resultActions = mvc.perform(post("/api/v1/vouchers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonRequestPayload)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print());
+
+        //then
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("400"))
+                .andExpect(jsonPath("$.message").isString());
     }
 
     @Test

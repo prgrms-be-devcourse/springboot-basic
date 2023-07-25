@@ -1,8 +1,12 @@
 package com.programmers.voucher.domain.voucher.dto.request;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import com.programmers.voucher.global.validation.VoucherTypeAmountValidation;
+import jakarta.validation.constraints.NotNull;
 
+@VoucherTypeAmountValidation
 public class VoucherCreateRequest {
+    @NotNull
     private VoucherType voucherType;
     private long amount;
 
