@@ -16,6 +16,9 @@ repositories {
 }
 
 dependencies {
+	// AOP
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 	// JDBC
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
