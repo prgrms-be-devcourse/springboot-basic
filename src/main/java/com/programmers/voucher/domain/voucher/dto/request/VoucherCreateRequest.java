@@ -6,9 +6,12 @@ import jakarta.validation.constraints.NotNull;
 
 @VoucherTypeAmountValidation
 public class VoucherCreateRequest {
-    @NotNull(message = "Voucher type must not be null")
+    private static final String TYPE_NOT_NULL = "Voucher type must not be null";
+    private static final String AMOUNT_NOT_NULL = "Voucher amount must not be null";
+
+    @NotNull(message = TYPE_NOT_NULL)
     private VoucherType voucherType;
-    @NotNull(message = "Voucher amount must not be null")
+    @NotNull(message = AMOUNT_NOT_NULL)
     private long amount;
 
     public VoucherCreateRequest() {

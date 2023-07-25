@@ -5,10 +5,12 @@ import jakarta.validation.constraints.Pattern;
 import java.util.UUID;
 
 public class CustomerUpdateRequest {
-    private UUID customerId;
+    private static final String NAME_IN_RANGE = "Name 20 chars or less";
+    private static final String NAME_PATTERN = "^[A-Za-z0-9]{1,20}";
 
-    @Pattern(regexp = "^[A-Za-z0-9]{1,20}", message = "Name 20 chars or less")
+    @Pattern(regexp = NAME_PATTERN, message = NAME_IN_RANGE)
     private String name;
+    private UUID customerId;
     private boolean banned;
 
     public CustomerUpdateRequest() {

@@ -11,6 +11,9 @@ import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.P
 
 public class VoucherTypeAmountValidator
         implements ConstraintValidator<VoucherTypeAmountValidation, VoucherCreateRequest> {
+    private static final String AMOUNT_IS_POSITIVE = "Fixed amount must be positive";
+    private static final String PERCENT_BETWEEN_RANGE = "Percent discount must be between 0 and 100";
+
     @Override
     public void initialize(VoucherTypeAmountValidation constraintAnnotation) {
         ConstraintValidator.super.initialize(constraintAnnotation);
@@ -23,12 +26,12 @@ public class VoucherTypeAmountValidator
         VoucherType voucherType = request.getVoucherType();
         long amount = request.getAmount();
         if(voucherType.equals(VoucherType.FIXED_AMOUNT) && validateFixedAmount(amount)) {
-            context.buildConstraintViolationWithTemplate("Fixed amount must be positive")
+            context.buildConstraintViolationWithTemplate(AMOUNT_IS_POSITIVE)
                     .addConstraintViolation();
             return false;
         }
         if (voucherType.equals(VoucherType.PERCENT) && validatePercent(amount)) {
-            context.buildConstraintViolationWithTemplate("Percent discount must be between 0 and 100")
+            context.buildConstraintViolationWithTemplate(PERCENT_BETWEEN_RANGE)
                     .addConstraintViolation();
             return false;
         }
