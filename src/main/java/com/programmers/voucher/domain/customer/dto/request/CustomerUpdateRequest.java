@@ -1,6 +1,5 @@
 package com.programmers.voucher.domain.customer.dto.request;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.UUID;
@@ -8,7 +7,6 @@ import java.util.UUID;
 public class CustomerUpdateRequest {
     private UUID customerId;
 
-    @NotNull(message = "Name must not be null")
     @Pattern(regexp = "^[A-Za-z0-9]{1,20}", message = "Name 20 chars or less")
     private String name;
     private boolean banned;
