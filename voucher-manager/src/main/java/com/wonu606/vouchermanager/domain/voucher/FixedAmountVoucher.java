@@ -1,9 +1,8 @@
 package com.wonu606.vouchermanager.domain.voucher;
 
-import com.wonu606.vouchermanager.domain.discountvalue.FixedAmountValue;
-import com.wonu606.vouchermanager.domain.price.Price;
+import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
+import com.wonu606.vouchermanager.domain.voucher.price.Price;
 import java.util.UUID;
-import lombok.ToString;
 
 public class FixedAmountVoucher extends Voucher {
 
@@ -12,9 +11,7 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public double calculateDiscountedPrice(Price originalPrice) {
-        return Math.max(originalPrice.getValue() - discountValue.getValue(), 0);
+    public Price calculateDiscountedPrice(Price originalPrice) {
+        return new Price(Math.max(originalPrice.getValue() - discountValue.getValue(), 0));
     }
-
-
 }

@@ -1,18 +1,21 @@
 package com.wonu606.vouchermanager;
 
-import com.wonu606.vouchermanager.controller.VoucherConsoleInterface;
-import lombok.AllArgsConstructor;
+import com.wonu606.vouchermanager.consoleInterface.CustomerConsoleInterface;
+import com.wonu606.vouchermanager.consoleInterface.FrontConsoleInterface;
+import com.wonu606.vouchermanager.consoleInterface.VoucherConsoleInterface;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-@AllArgsConstructor
 public class VoucherManagerCommandLineRunner implements CommandLineRunner {
+    private final FrontConsoleInterface frontConsoleInterface;
 
-    private final VoucherConsoleInterface consoleInterface;
+    public VoucherManagerCommandLineRunner(FrontConsoleInterface frontConsoleInterface) {
+        this.frontConsoleInterface = frontConsoleInterface;
+    }
 
     @Override
     public void run(String... args) {
-        consoleInterface.run();
+        frontConsoleInterface.run();
     }
 }

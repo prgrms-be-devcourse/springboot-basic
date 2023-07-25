@@ -22,14 +22,12 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.beryx:text-io:3.4.1'
-	// https://mvnrepository.com/artifact/org.assertj/assertj-core
 	testImplementation 'org.assertj:assertj-core:3.24.2'
-
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	testImplementation 'com.h2database:h2'
 }
 
 tasks.named('test') {

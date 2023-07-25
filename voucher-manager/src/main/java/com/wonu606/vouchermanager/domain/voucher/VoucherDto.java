@@ -1,16 +1,20 @@
 package com.wonu606.vouchermanager.domain.voucher;
 
-import java.util.UUID;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-
-@AllArgsConstructor
-@Getter
-@EqualsAndHashCode
 public class VoucherDto {
 
     private final String type;
-    private final UUID uuid;
     private final double discountValue;
+
+    public VoucherDto(String type, double discountValue) {
+        this.type = type;
+        this.discountValue = discountValue;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public double getDiscountValue() {
+        return discountValue;
+    }
 }

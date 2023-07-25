@@ -1,9 +1,8 @@
 package com.wonu606.vouchermanager.domain.voucher;
 
-import com.wonu606.vouchermanager.domain.discountvalue.PercentageDiscountValue;
-import com.wonu606.vouchermanager.domain.price.Price;
+import com.wonu606.vouchermanager.domain.voucher.discountvalue.PercentageDiscountValue;
+import com.wonu606.vouchermanager.domain.voucher.price.Price;
 import java.util.UUID;
-import lombok.ToString;
 
 public class PercentageVoucher extends Voucher {
 
@@ -12,7 +11,7 @@ public class PercentageVoucher extends Voucher {
     }
 
     @Override
-    public double calculateDiscountedPrice(Price originalPrice) {
-        return originalPrice.getValue() * (1 - discountValue.getValue() / 100);
+    public Price calculateDiscountedPrice(Price originalPrice) {
+        return new Price(originalPrice.getValue() * (1 - discountValue.getValue() / 100));
     }
 }

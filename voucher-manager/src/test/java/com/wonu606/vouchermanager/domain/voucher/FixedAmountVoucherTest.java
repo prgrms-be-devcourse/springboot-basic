@@ -2,8 +2,8 @@ package com.wonu606.vouchermanager.domain.voucher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.wonu606.vouchermanager.domain.discountvalue.FixedAmountValue;
-import com.wonu606.vouchermanager.domain.price.Price;
+import com.wonu606.vouchermanager.domain.voucher.discountvalue.FixedAmountValue;
+import com.wonu606.vouchermanager.domain.voucher.price.Price;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,10 +21,10 @@ class FixedAmountVoucherTest {
         Price originalPrice = new Price(100);
 
         // When
-        double discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
+        Price discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
 
         // Then
-        assertThat(discountedPrice).isEqualTo(
+        assertThat(discountedPrice.getValue()).isEqualTo(
                 originalPrice.getValue() - fixedAmountValue.getValue());
     }
 
@@ -38,9 +38,9 @@ class FixedAmountVoucherTest {
         Price originalPrice = new Price(100);
 
         // When
-        double discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
+        Price discountedPrice = voucher.calculateDiscountedPrice(originalPrice);
 
         // Then
-        assertThat(discountedPrice).isEqualTo(0);
+        assertThat(discountedPrice.getValue()).isEqualTo(0);
     }
 }
