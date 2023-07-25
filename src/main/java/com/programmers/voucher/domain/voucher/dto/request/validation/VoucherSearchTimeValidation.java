@@ -1,4 +1,4 @@
-package com.programmers.voucher.global.validation;
+package com.programmers.voucher.domain.voucher.dto.request.validation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

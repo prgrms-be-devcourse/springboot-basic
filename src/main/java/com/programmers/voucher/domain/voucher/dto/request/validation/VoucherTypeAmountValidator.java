@@ -1,4 +1,4 @@
-package com.programmers.voucher.global.validation;
+package com.programmers.voucher.domain.voucher.dto.request.validation;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;

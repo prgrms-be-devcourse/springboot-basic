@@ -1,7 +1,7 @@
 package com.programmers.voucher.domain.voucher.dto.request;
 
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
-import com.programmers.voucher.global.validation.VoucherSearchTimeValidation;
+import com.programmers.voucher.domain.voucher.dto.request.validation.VoucherSearchTimeValidation;
 
 import java.time.LocalDateTime;
 
