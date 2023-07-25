@@ -13,13 +13,10 @@ public class CustomerCreateRequest {
 
     @NotNull(message = EMAIL_NOT_NULL)
     @Pattern(regexp = EMAIL_PATTERN, message = EMAIL_IN_RANGE)
-    private String email;
+    private final String email;
     @NotNull(message = NAME_NOT_NULL)
     @Pattern(regexp = NAME_PATTERN, message = NAME_IN_RANGE)
-    private String name;
-
-    public CustomerCreateRequest() {
-    }
+    private final String name;
 
     public CustomerCreateRequest(String email, String name) {
         this.email = email;
@@ -32,13 +29,5 @@ public class CustomerCreateRequest {
 
     public String getName() {
         return name;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }

@@ -7,12 +7,9 @@ import java.time.LocalDateTime;
 
 @VoucherSearchTimeValidation
 public class VoucherSearchRequest {
-    private VoucherType voucherType;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-
-    public VoucherSearchRequest() {
-    }
+    private final VoucherType voucherType;
+    private final LocalDateTime startTime;
+    private final LocalDateTime endTime;
 
     public VoucherSearchRequest(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
         this.voucherType = voucherType;
@@ -30,17 +27,5 @@ public class VoucherSearchRequest {
 
     public LocalDateTime getEndTime() {
         return endTime;
-    }
-
-    public void setVoucherType(VoucherType voucherType) {
-        this.voucherType = voucherType;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
     }
 }

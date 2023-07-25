@@ -10,12 +10,9 @@ public class VoucherCreateRequest {
     private static final String AMOUNT_NOT_NULL = "Voucher amount must not be null";
 
     @NotNull(message = TYPE_NOT_NULL)
-    private VoucherType voucherType;
+    private final VoucherType voucherType;
     @NotNull(message = AMOUNT_NOT_NULL)
-    private long amount;
-
-    public VoucherCreateRequest() {
-    }
+    private final long amount;
 
     public VoucherCreateRequest(VoucherType voucherType, long amount) {
         this.voucherType = voucherType;
@@ -28,13 +25,5 @@ public class VoucherCreateRequest {
 
     public long getAmount() {
         return amount;
-    }
-
-    public void setVoucherType(VoucherType voucherType) {
-        this.voucherType = voucherType;
-    }
-
-    public void setAmount(long amount) {
-        this.amount = amount;
     }
 }
