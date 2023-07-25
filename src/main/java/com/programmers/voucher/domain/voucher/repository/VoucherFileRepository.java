@@ -22,7 +22,7 @@ import static com.programmers.voucher.global.util.CommonErrorMessages.CANNOT_ACC
 import static com.programmers.voucher.global.util.DataAccessConstants.UPDATE_ONE;
 
 @Repository
-@Profile("dev")
+@Profile("file")
 public class VoucherFileRepository implements VoucherRepository {
     private static final Logger LOG = LoggerFactory.getLogger(VoucherFileRepository.class);
 

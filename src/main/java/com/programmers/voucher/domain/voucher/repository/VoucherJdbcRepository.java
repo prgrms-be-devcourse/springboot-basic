@@ -5,7 +5,6 @@ import com.programmers.voucher.domain.voucher.domain.VoucherType;
 import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -23,7 +22,6 @@ import java.util.UUID;
 import static com.programmers.voucher.global.util.DataAccessConstants.UPDATE_ONE;
 
 @Repository
-@Profile("db")
 public class VoucherJdbcRepository implements VoucherRepository {
     private static final Logger LOG = LoggerFactory.getLogger(VoucherJdbcRepository.class);
 

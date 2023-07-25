@@ -12,7 +12,7 @@ import java.util.*;
 import static com.programmers.voucher.global.util.DataAccessConstants.UPDATE_ONE;
 
 @Repository
-@Profile("default")
+@Profile("memory")
 public class VoucherMemoryRepository implements VoucherRepository {
     private final Map<UUID, Voucher> store = new HashMap<>();
 
