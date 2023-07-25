@@ -57,7 +57,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .values(VOUCHER_ID, VOUCHER_TYPE, AMOUNT)
                 .build();
 
-        System.out.println(saveQuery.toString());
         jdbcTemplate.update(saveQuery.toString(), toParamMap(voucher.getId(), voucher.getType(), voucher.getAmount()));
 
         return voucher;
@@ -74,7 +73,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .where(where)
                 .build();
 
-        System.out.println(findByIdQuery.toString());
         return jdbcTemplate.query(findByIdQuery.toString(), Collections.singletonMap(VOUCHER_ID.getColumn(), uuidToBytes(id)), voucherRowMapper).stream()
                 .findFirst();
     }
@@ -86,7 +84,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .from(VOUCHER)
                 .build();
 
-        System.out.println(findAllQuery.toString());
         return jdbcTemplate.query(findAllQuery.toString(), voucherRowMapper);
     }
 
@@ -102,7 +99,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .where(where)
                 .build();
 
-        System.out.println(updateQuery.toString());
         jdbcTemplate.update(updateQuery.toString(), toParamMap(id, type, amount));
     }
 
