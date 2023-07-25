@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Create Customer</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>Create New Customer</h1>
+<div class="container">
+  <h1>Create New Customer</h1>
 
-<form action="/customers/create" method="post">
-  <label for="email">Email:</label><br>
-  <input type="email" id="email" name="email"><br>
-  <label for="nickname">Nickname:</label><br>
-  <input type="text" id="nickname" name="nickname"><br>
-  <input type="submit" value="Submit">
-</form>
+  <form action="/customers/create" method="post">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" name="email">
+    </div>
+    <div class="form-group">
+      <label for="nickname">Nickname:</label>
+      <input type="text" class="form-control" id="nickname" name="nickname">
+    </div>
+    <input type="submit" class="btn btn-primary" value="Submit">
+  </form>
+</div>
 </body>
 </html>
