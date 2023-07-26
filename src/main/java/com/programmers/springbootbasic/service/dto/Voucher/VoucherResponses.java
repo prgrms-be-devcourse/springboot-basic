@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic.service.dto;
+package com.programmers.springbootbasic.service.dto.Voucher;
 
 import java.util.List;
 

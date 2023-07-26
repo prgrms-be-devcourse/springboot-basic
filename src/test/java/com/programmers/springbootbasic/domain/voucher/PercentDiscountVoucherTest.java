@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import com.programmers.springbootbasic.domain.model.Duration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -20,29 +21,12 @@ class PercentDiscountVoucherTest {
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
         Duration duration = new Duration(createdAt, expiredAt);
-        int percent = 30;
-
-        // when
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, voucherType, name, duration, percent);
-
-        // then
-        assertThat(percentDiscountVoucher.getName()).isEqualTo(name);
-    }
-
-    @Test
-    void 정상입력값최소금액포함_바우처생성_성공() {
-        // given
-        UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = VoucherType.PERCENT;
-        String name = "회원가입 30% 할인 쿠폰";
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int percent = 30;
+        boolean used = false;
 
         // when
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, duration, percent);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, duration, percent, used);
 
         // then
         assertThat(percentDiscountVoucher.getName()).isEqualTo(name);
@@ -57,27 +41,12 @@ class PercentDiscountVoucherTest {
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
         Duration duration = new Duration(createdAt, expiredAt);
-        int percent = 300;
-
-        // when && then
-        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, voucherType, name, duration, percent))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void 잘못된퍼센트최소금액포함_바우처생성_예외발생() {
-        // given
-        UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = VoucherType.PERCENT;
-        String name = "회원가입 30% 할인 쿠폰";
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int percent = 300;
+        boolean used = false;
 
         // when && then
-        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, duration, percent))
+        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, duration, percent, used))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -91,8 +60,11 @@ class PercentDiscountVoucherTest {
                 UUID.randomUUID(),
                 voucherType,
                 percent + "% 할인권",
+                null,
                 duration,
-                percent);
+                percent,
+                false
+        );
 
         // when
         Long discountedPrice = voucher.getDiscountPrice(price);

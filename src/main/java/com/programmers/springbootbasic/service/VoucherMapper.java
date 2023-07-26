@@ -1,11 +1,11 @@
 package com.programmers.springbootbasic.service;
 
-import com.programmers.springbootbasic.domain.voucher.Duration;
+import com.programmers.springbootbasic.domain.model.Duration;
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherType;
-import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
-import com.programmers.springbootbasic.service.dto.VoucherResponse;
-import com.programmers.springbootbasic.service.dto.VoucherResponses;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherCreationRequest;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponse;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,13 +17,14 @@ public final class VoucherMapper {
     }
 
     public static Voucher toVoucher(VoucherCreationRequest request) {
-        Duration duration = Duration.of(LocalDateTime.now(), request.expirationDate());
+        Duration duration = new Duration(LocalDateTime.now(), request.expirationDate());
         VoucherType voucherType = VoucherType.from(request.voucherType());
+        boolean used = false;
         return switch (voucherType) {
             case FIX ->
-                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent());
+                    Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent(), used);
             case PERCENT ->
-                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent());
+                    Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.name(), request.minimumPriceCondition(), duration, request.amountOrPercent(), used);
         };
     }
 

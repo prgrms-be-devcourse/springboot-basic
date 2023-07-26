@@ -3,18 +3,21 @@ package com.programmers.springbootbasic;
 import com.programmers.springbootbasic.presentation.Command;
 import com.programmers.springbootbasic.presentation.controller.VoucherController;
 import com.programmers.springbootbasic.presentation.view.ConsoleApplicationView;
-import com.programmers.springbootbasic.service.dto.VoucherCreationRequest;
-import com.programmers.springbootbasic.service.dto.VoucherResponse;
-import com.programmers.springbootbasic.service.dto.VoucherResponses;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponse;
+import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @Component
 public class SpringBootConsoleApplication implements CommandLineRunner {
     private final VoucherController voucherController;
     private final ConsoleApplicationView applicationView;
+    private final Logger logger = LoggerFactory.getLogger(SpringBootConsoleApplication.class);
 
     public SpringBootConsoleApplication(VoucherController voucherController, ConsoleApplicationView applicationView) {
         this.voucherController = voucherController;
@@ -35,14 +38,22 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
                     }
                 }
             } catch (IllegalArgumentException | IllegalStateException e) {
+                logger.error(e.getMessage(), e);
                 applicationView.printErrorMessage(e.getMessage());
             }
         }
     }
 
     private void create() throws IOException {
-        VoucherCreationRequest request = applicationView.createVoucherCreationRequestFromInput();
-        VoucherResponse response = voucherController.createVoucher(request);
+        applicationView.startCreation();
+
+        String voucherType = applicationView.inputType();
+        String name = applicationView.inputName();
+        long minimumPriceCondition = applicationView.inputMinimumPriceCondition();
+        LocalDateTime expiredAt = applicationView.inputExpiredAt();
+        int amountOrPercent = applicationView.inputAmountOrPercent();
+
+        VoucherResponse response = voucherController.createVoucher(voucherType, name, minimumPriceCondition, expiredAt, amountOrPercent);
         applicationView.printCreatedVoucher(response);
     }
 

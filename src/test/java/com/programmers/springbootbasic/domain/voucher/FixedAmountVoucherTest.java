@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import com.programmers.springbootbasic.domain.model.Duration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -19,32 +20,13 @@ class FixedAmountVoucherTest {
         String name = "회원가입 5000원 할인 쿠폰";
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
-        int amount = 5_000;
-
-        // when
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, duration, amount);
-
-        // then
-        assertThat(fixedAmountVoucher).isNotNull();
-    }
-
-    @Test
-    void 정상입력값최소금액포함_바우처생성_성공() {
-        // given
-        UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = VoucherType.FIX;
-        String name = "회원가입 5000원 할인 쿠폰";
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
         Long minimumPrice = 3_000L;
         Duration duration = new Duration(createdAt, expiredAt);
         int amount = 5_000;
-
+        boolean used = false;
 
         // when
-
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, duration, amount);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, duration, amount, used);
 
         // then
         assertThat(fixedAmountVoucher).isNotNull();
@@ -61,26 +43,10 @@ class FixedAmountVoucherTest {
         Duration duration = new Duration(createdAt, expiredAt);
         Long minimumPrice = 3_000L;
         int amount = 1_000_000_000;
+        boolean used = false;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, duration, amount))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
-    @Test
-    void 잘못된할인금액최소금액포함_바우처생성_예외발생() {
-        // given
-        UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = VoucherType.FIX;
-        String name = "회원가입 30% 할인 쿠폰";
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
-        Long minimumPrice = 3_000L;
-        int amount = -1;
-
-        // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, duration, amount))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, duration, amount, used))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -94,8 +60,10 @@ class FixedAmountVoucherTest {
                 UUID.randomUUID(),
                 voucherType,
                 amount + "원 할인",
+                0L,
                 duration,
-                amount);
+                amount,
+                false);
 
         // when
         Long discountedPrice = voucher.getDiscountPrice(price);

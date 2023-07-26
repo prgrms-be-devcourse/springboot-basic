@@ -1,6 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher;
 
 import com.programmers.springbootbasic.common.util.Validator;
+import com.programmers.springbootbasic.domain.model.Duration;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -17,31 +18,24 @@ public abstract class Voucher {
     private final Long minimumPriceCondition;
     private final Duration duration;
 
-    private boolean used = false;
+    private boolean used;
 
-    protected Voucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration) {
-        /*
-        null 체크의 기준을 잘 모르겠습니다.
-        VoucherType 과 VoucherDateTime 도 null 체크를 해줘야 될까요?
-        voucherId 는 생성 시에 UUID.randomUUID() 생성해서 바로 대입하기 때문에
-        null 값이 들어올 일이 없다고 생각했는데 멘토님들의 피드백으로 null 체크를 했습니다.
-        위와 같은 맥락이면 voucherType, voucherDateTime 도 해줘야 한다고 생각하는데 해주는게 맞을까요??
-        또, null 체크에 대한 기준을 듣고 싶습니다!
-        */
+    protected Voucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, boolean used) {
         checkNullValue(voucherId, name);
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.name = name;
         this.minimumPriceCondition = minimumPriceCondition != null ? minimumPriceCondition : ZERO;
         this.duration = duration;
+        this.used = used;
     }
 
-    public static Voucher createFixedAmount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int amount) {
-        return new FixedAmountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, amount);
+    public static Voucher createFixedAmount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int amount, boolean used) {
+        return new FixedAmountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, amount, used);
     }
 
-    public static Voucher createPercentDiscount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int percent) {
-        return new PercentDiscountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, percent);
+    public static Voucher createPercentDiscount(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int percent, boolean used) {
+        return new PercentDiscountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, percent, used);
     }
 
     public UUID getVoucherId() {

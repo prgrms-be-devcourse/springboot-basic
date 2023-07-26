@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic.domain.voucher;
+package com.programmers.springbootbasic.domain.model;
 
 import com.programmers.springbootbasic.common.util.Validator;
 
@@ -13,13 +13,9 @@ public class Duration {
         checkNullValue(createdAt, expiredAt);
         if (isInvalidExpiredAt(createdAt, expiredAt)) {
             throw new IllegalArgumentException(INVALID_EXPIRED_AT + expiredAt);
-        }  // 이 부분을 Validator 로 빼려다가 범용성이 떨어지는 것 같아서 그냥 뒀는데, Validator 로 빼주는게 나을까요?
+        }
         this.createdAt = createdAt;
         this.expiredAt = expiredAt;
-    }
-
-    public static Duration of(LocalDateTime createdAt, LocalDateTime expiredAt) {
-        return new Duration(createdAt, expiredAt);
     }
 
     public LocalDateTime getCreatedAt() {
@@ -35,8 +31,8 @@ public class Duration {
     }
 
     private void checkNullValue(LocalDateTime createdAt, LocalDateTime expiredAt) {
-        Validator.checkInvalidDateTime(createdAt);
-        Validator.checkInvalidDateTime(expiredAt);
+        Validator.checkNullDateTime(createdAt);
+        Validator.checkNullDateTime(expiredAt);
     }
 
     private boolean isInvalidExpiredAt(LocalDateTime createdAt, LocalDateTime expiredAt) {
