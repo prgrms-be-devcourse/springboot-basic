@@ -30,7 +30,7 @@ public abstract class Voucher {
         return voucherType;
     }
 
-    protected abstract Long getDiscountPrice(Long priceBeforeDiscount);
+    public abstract Long getDiscountPrice(Long priceBeforeDiscount);
 
-    protected abstract int getAmountOrPercent();
+    public abstract int getAmountOrPercent();
 }
