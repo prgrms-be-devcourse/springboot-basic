@@ -6,16 +6,18 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 import programmers.org.voucher.domain.Customer;
-import programmers.org.voucher.repository.util.InsertBuilder;
-import programmers.org.voucher.repository.util.SelectBuilder;
-import programmers.org.voucher.repository.util.UpdateBuilder;
+import programmers.org.voucher.repository.util.Insert;
+import programmers.org.voucher.repository.util.Select;
+import programmers.org.voucher.repository.util.Update;
 import programmers.org.voucher.repository.util.Where;
-import programmers.org.voucher.repository.util.statement.*;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import static programmers.org.voucher.repository.util.constant.Operator.EQUALS;
 import static programmers.org.voucher.repository.util.constant.Table.CUSTOMERS;
 
 @Component
@@ -29,17 +31,16 @@ class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void save(Customer customer) {
-        Insert insert = new Insert(CUSTOMERS);
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "?");
+        map.put("email", "?");
 
-        Values values = new Values.Builder()
-                .query("name")
-                .query("email")
+        Insert insert = Insert.builder()
+                .insert(CUSTOMERS)
+                .values(map)
                 .build();
 
-        String sql = new InsertBuilder()
-                .insert(insert)
-                .values(values)
-                .build();
+        String sql = insert.getQuery();
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -52,40 +53,30 @@ class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void update(Customer customer) {
-        Update update = new Update(CUSTOMERS);
+        Where where = Where.builder("customer_id", EQUALS, "?").build();
 
-        Set set = new Set.Builder()
-                .query("name")
-                .build();
-
-        Where where = new Where.Builder()
-                .query("customer_id")
-                .build();
-
-        String sql = new UpdateBuilder()
-                .update(update)
-                .set(set)
+        Update update = Update.builder()
+                .update(CUSTOMERS)
+                .set("name", "?")
                 .where(where)
                 .build();
+
+        String sql = update.getQuery();
 
         jdbcTemplate.update(sql, customer.getName(), customer.getId());
     }
 
     @Override
     public Optional<Customer> findById(Long id) {
-        Select select = new Select("*");
+        Where where = Where.builder("customer_id", EQUALS, "?").build();
 
-        From from = new From(CUSTOMERS);
-
-        Where where = new Where.Builder()
-                .query("customer_id")
-                .build();
-
-        String sql = new SelectBuilder()
-                .select(select)
-                .from(from)
+        Select select = Select.builder()
+                .select("*")
+                .from(CUSTOMERS)
                 .where(where)
                 .build();
+
+        String sql = select.getQuery();
 
         List<Customer> customers = jdbcTemplate.query(sql, customerRowMapper(), id);
 
@@ -98,19 +89,15 @@ class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        Select select = new Select("*");
+        Where where = Where.builder("email", EQUALS, "?").build();
 
-        From from = new From(CUSTOMERS);
-
-        Where where = new Where.Builder()
-                .query("email")
-                .build();
-
-        String sql = new SelectBuilder()
-                .select(select)
-                .from(from)
+        Select select = Select.builder()
+                .select("*")
+                .from(CUSTOMERS)
                 .where(where)
                 .build();
+
+        String sql = select.getQuery();
 
         List<Customer> customers = jdbcTemplate.query(sql, customerRowMapper(), email);
 

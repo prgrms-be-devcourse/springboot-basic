@@ -9,20 +9,12 @@ import org.springframework.stereotype.Component;
 import programmers.org.voucher.domain.constant.VoucherType;
 import programmers.org.voucher.domain.Voucher;
 import programmers.org.voucher.repository.util.*;
-import programmers.org.voucher.repository.util.statement.Delete;
-import programmers.org.voucher.repository.util.statement.Insert;
-import programmers.org.voucher.repository.util.statement.Values;
-import programmers.org.voucher.repository.util.statement.From;
-import programmers.org.voucher.repository.util.statement.Select;
-import programmers.org.voucher.repository.util.statement.Set;
-import programmers.org.voucher.repository.util.statement.Update;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
+import static programmers.org.voucher.repository.util.constant.Operator.EQUALS;
 import static programmers.org.voucher.repository.util.constant.Table.VOUCHERS;
 
 @Component
@@ -37,17 +29,16 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        Insert insert = new Insert(VOUCHERS);
+        Map<String, Object> map = new HashMap<>();
+        map.put("discount_amount", "?");
+        map.put("type", "?");
 
-        Values values = new Values.Builder()
-                .query("discount_amount")
-                .query("type")
+        Insert insert = Insert.builder()
+                .insert(VOUCHERS)
+                .values(map)
                 .build();
 
-        String sql = new InsertBuilder()
-                .insert(insert)
-                .values(values)
-                .build();
+        String sql = insert.getQuery();
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -61,14 +52,12 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getAll() {
-        Select select = new Select("*");
-
-        From from = new From(VOUCHERS);
-
-        String sql = new SelectBuilder()
-                .select(select)
-                .from(from)
+        Select select = Select.builder()
+                .select("*")
+                .from(VOUCHERS)
                 .build();
+
+        String sql = select.getQuery();
 
         List<Voucher> voucherList = new ArrayList<>();
         return jdbcTemplate.query(sql, voucherRowMapper(), voucherList.toArray());
@@ -76,40 +65,30 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Long id, int discountAmount) {
-        Update update = new Update(VOUCHERS);
+        Where where = Where.builder("voucher_id", EQUALS, "?").build();
 
-        Set set = new Set.Builder()
-                .query("discount_amount")
-                .build();
-
-        Where where = new Where.Builder()
-                .query("voucher_id")
-                .build();
-
-        String sql = new UpdateBuilder()
-                .update(update)
-                .set(set)
+        Update update = Update.builder()
+                .update(VOUCHERS)
+                .set("discount_amount", "?")
                 .where(where)
                 .build();
+
+        String sql = update.getQuery();
 
         jdbcTemplate.update(sql, discountAmount, id);
     }
 
     @Override
     public Optional<Voucher> findById(Long id) {
-        Select select = new Select("*");
+        Where where = Where.builder("voucher_id", EQUALS, "?").build();
 
-        From from = new From(VOUCHERS);
-
-        Where where = new Where.Builder()
-                .query("voucher_id")
-                .build();
-
-        String sql = new SelectBuilder()
-                .select(select)
-                .from(from)
+        Select select = Select.builder()
+                .select("*")
+                .from(VOUCHERS)
                 .where(where)
                 .build();
+
+        String sql = select.getQuery();
 
         List<Voucher> vouchers = jdbcTemplate.query(sql, voucherRowMapper(), id);
 
@@ -122,16 +101,14 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(Long id) {
-        Delete delete = new Delete(VOUCHERS);
+        Where where = Where.builder("voucher_id", EQUALS, "?").build();
 
-        Where where = new Where.Builder()
-                .query("voucher_id")
-                .build();
-
-        String sql = new DeleteBuilder()
-                .delete(delete)
+        Delete delete = Delete.builder()
+                .delete(VOUCHERS)
                 .where(where)
                 .build();
+
+        String sql = delete.getQuery();
 
         jdbcTemplate.update(sql, id);
     }
