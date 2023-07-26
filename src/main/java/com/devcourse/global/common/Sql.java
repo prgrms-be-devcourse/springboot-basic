@@ -1,4 +1,4 @@
-package com.devcourse.global.util;
+package com.devcourse.global.common;
 
 public class Sql {
     public enum Table {

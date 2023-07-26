@@ -10,10 +10,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.regex.Pattern;
 
 class IoParser {
     private static final Logger logger = LoggerFactory.getLogger(IoParser.class);
     private static final DateTimeFormatter TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final Pattern CHARACTER_ONLY = Pattern.compile("^[a-zA-Z]+$");
+    private static final String INVALID_USER_NAME = "Name MUSH Be Without Number Or Else : ";
     private static final String NOT_SUPPORT_DATE_FORMAT = "Your Input is incorrect Date Format : ";
     private static final String NOT_SUPPORT_COMMAND = "Your Input Is Not Support. Command : ";
     private static final String NOT_SUPPORT_TYPE = "Your Input Is Not Support. Type : ";
@@ -52,6 +55,12 @@ class IoParser {
         int parsedDiscount = parseDiscount(discount);
         validateDiscount(type, parsedDiscount);
         return parsedDiscount;
+    }
+
+    public void validateName(String name) {
+        if (CHARACTER_ONLY.matcher(name).matches()) {
+            throw new IllegalArgumentException(INVALID_USER_NAME + name);
+        }
     }
 
     private LocalDateTime parseExpiration(String expiredAt) {

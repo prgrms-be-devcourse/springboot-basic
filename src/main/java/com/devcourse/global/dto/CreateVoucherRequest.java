@@ -1,4 +1,4 @@
-package com.devcourse.voucher.application.dto;
+package com.devcourse.global.dto;
 
 import com.devcourse.voucher.domain.Voucher;
 

@@ -1,9 +1,11 @@
 package com.devcourse.global;
 
 public enum Command {
-    CREATE,
-    LIST,
+    VOUCHER,
+    VOUCHERLIST,
+    USER,
+    USERLIST,
+    BLACKLIST,
     EXIT,
-    BLACKLIST
     ;
 }

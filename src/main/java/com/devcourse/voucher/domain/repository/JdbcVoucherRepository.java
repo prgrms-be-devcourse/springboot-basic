@@ -1,22 +1,18 @@
 package com.devcourse.voucher.domain.repository;
 
-import com.devcourse.global.util.Sql;
+import com.devcourse.global.common.Sql;
 import com.devcourse.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.devcourse.global.util.Sql.Table.VOUCHERS;
+import static com.devcourse.global.common.Sql.Table.VOUCHERS;
 
 @Component
 @Profile("dev")

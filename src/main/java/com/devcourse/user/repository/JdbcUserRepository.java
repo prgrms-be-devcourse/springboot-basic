@@ -1,6 +1,6 @@
 package com.devcourse.user.repository;
 
-import com.devcourse.global.util.Sql;
+import com.devcourse.global.common.Sql;
 import com.devcourse.user.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.devcourse.global.util.Sql.Table.USERS;
+import static com.devcourse.global.common.Sql.Table.USERS;
 
 @Component
 class JdbcUserRepository implements UserRepository {
