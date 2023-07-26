@@ -6,7 +6,6 @@ import com.programmers.voucher.domain.voucher.dto.VoucherDto;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherCreateRequest;
 import com.programmers.voucher.domain.voucher.dto.request.VoucherSearchRequest;
 import com.programmers.voucher.domain.voucher.service.VoucherService;
-import com.programmers.voucher.testutil.VoucherTestUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,6 +21,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import static com.programmers.voucher.testutil.VoucherTestUtil.createFixedVoucherDto;
+import static com.programmers.voucher.testutil.VoucherTestUtil.createPercentVoucherDto;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -46,8 +47,8 @@ class VoucherApiControllerTest {
     void findVouchers() throws Exception {
         //given
         VoucherSearchRequest request = new VoucherSearchRequest(null, null, null);
-        VoucherDto fixedVoucher = VoucherTestUtil.createFixedVoucherDto();
-        VoucherDto percentVoucher = VoucherTestUtil.createPercentVoucherDto();
+        VoucherDto fixedVoucher = createFixedVoucherDto();
+        VoucherDto percentVoucher = createPercentVoucherDto();
         List<VoucherDto> vouchers = List.of(fixedVoucher, percentVoucher);
 
         given(voucherService.findVouchers(any(), any(), any())).willReturn(vouchers);
@@ -73,7 +74,6 @@ class VoucherApiControllerTest {
         //given
         LocalDateTime endTime = LocalDateTime.now();
         LocalDateTime startTime = endTime.plusHours(1);
-        VoucherSearchRequest request = new VoucherSearchRequest(null, startTime, endTime);
 
         //when
         ResultActions resultActions = mvc.perform(get("/api/v1/vouchers")
@@ -94,7 +94,7 @@ class VoucherApiControllerTest {
     void findVoucher() throws Exception {
         //given
         UUID voucherId = UUID.randomUUID();
-        VoucherDto fixedVoucher = VoucherTestUtil.createFixedVoucherDto();
+        VoucherDto fixedVoucher = createFixedVoucherDto();
 
         given(voucherService.findVoucher(any())).willReturn(fixedVoucher);
         String jsonResponsePayload = mapper.writeValueAsString(fixedVoucher);

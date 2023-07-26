@@ -53,7 +53,7 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("성공: voucher 단건 저장")
     void save() {
         //given
-        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        FixedAmountVoucher fixedVoucher = createFixedVoucher();
 
         //when
         voucherJdbcRepository.save(fixedVoucher);
@@ -69,8 +69,8 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("성공: voucher 목록 조회")
     void findAll() {
         //given
-        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
-        PercentDiscountVoucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+        FixedAmountVoucher fixedVoucher = createFixedVoucher();
+        PercentDiscountVoucher percentVoucher = createPercentVoucher();
         voucherJdbcRepository.save(fixedVoucher);
         voucherJdbcRepository.save(percentVoucher);
 
@@ -144,7 +144,7 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("성공: voucher 단건 조회")
     void findById() {
         //given
-        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        FixedAmountVoucher fixedVoucher = createFixedVoucher();
         voucherJdbcRepository.save(fixedVoucher);
 
         //when
@@ -173,7 +173,7 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("성공: voucher 단건 삭제")
     void deleteById() {
         //given
-        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        FixedAmountVoucher fixedVoucher = createFixedVoucher();
         voucherJdbcRepository.save(fixedVoucher);
 
         //when
