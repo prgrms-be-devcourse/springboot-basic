@@ -1,12 +1,10 @@
 package com.programmers.springbootbasic.service.dto.Voucher;
 
-import java.time.LocalDateTime;
+import com.programmers.springbootbasic.domain.voucher.VoucherType;
+
 
 public record VoucherCreationRequest(
-        String voucherType,
-        String name,
-        Long minimumPriceCondition,
-        LocalDateTime expirationDate,
+        VoucherType voucherType,
         int amountOrPercent
 ) {
 }
