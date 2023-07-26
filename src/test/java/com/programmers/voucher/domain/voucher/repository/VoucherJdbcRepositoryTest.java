@@ -4,6 +4,7 @@ import com.programmers.voucher.domain.voucher.domain.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.domain.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.domain.Voucher;
 import com.programmers.voucher.domain.voucher.domain.VoucherType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +30,23 @@ class VoucherJdbcRepositoryTest {
     @Autowired
     private VoucherJdbcRepository voucherJdbcRepository;
 
+    FixedAmountVoucher givenFixedVoucher;
+    PercentDiscountVoucher givenPercentVoucher;
+
     @TestConfiguration
     static class Config {
         @Bean
         public VoucherJdbcRepository voucherJdbcRepository(NamedParameterJdbcTemplate template) {
             return new VoucherJdbcRepository(template);
         }
+    }
+
+    @BeforeEach
+    void init() {
+        givenFixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        givenPercentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+        voucherJdbcRepository.save(givenFixedVoucher);
+        voucherJdbcRepository.save(givenPercentVoucher);
     }
 
     @Test
@@ -47,10 +59,10 @@ class VoucherJdbcRepositoryTest {
         voucherJdbcRepository.save(fixedVoucher);
 
         //then
-        List<Voucher> findVouchers = voucherJdbcRepository.findAll();
-
-        assertThat(findVouchers.size()).isEqualTo(1);
-        assertThat(findVouchers.get(0)).usingRecursiveComparison().isEqualTo(fixedVoucher);
+        Optional<Voucher> optionalVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId());
+        assertThat(optionalVoucher).isNotEmpty();
+        Voucher findVoucher = optionalVoucher.get();
+        assertThat(findVoucher).usingRecursiveComparison().isEqualTo(fixedVoucher);
     }
 
     @Test
@@ -86,54 +98,46 @@ class VoucherJdbcRepositoryTest {
 
         //then
         assertThat(result).usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(fixedVoucher);
+                .contains(fixedVoucher)
+                .doesNotContain(percentVoucher);
     }
 
     @Test
     @DisplayName("성공: voucher 조건 조회 - 생성 기간")
     void findAll_CreatedAt() {
         //given
-        LocalDateTime createdNow = LocalDateTime.now();
-        LocalDateTime nowPlusOneHour = createdNow.plusHours(1);
-        Voucher fixedVoucher = createFixedVoucher(UUID.randomUUID(), createdNow, 10);
-        Voucher percentVoucher = createPercentVoucher(UUID.randomUUID(), nowPlusOneHour, 10);
+        LocalDateTime startTime = LocalDateTime.now().plusHours(1);
+        LocalDateTime endTime = LocalDateTime.now().plusHours(2);
+        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), startTime, 10);
         voucherJdbcRepository.save(fixedVoucher);
-        voucherJdbcRepository.save(percentVoucher);
-
-        LocalDateTime startTime = fixedVoucher.getCreatedAt().minusHours(1);
-        LocalDateTime endTime = fixedVoucher.getCreatedAt().plusMinutes(30);
 
         //when
         List<Voucher> result = voucherJdbcRepository.findAll(null, startTime, endTime);
 
         //then
         assertThat(result).usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(fixedVoucher);
+                .containsExactly(fixedVoucher)
+                .doesNotContain(givenFixedVoucher, givenPercentVoucher);
     }
 
     @Test
     @DisplayName("성공: voucher 조건 조회 - 바우처 타입, 생성 기간")
     void findAll_VoucherTypeAndCreatedAt() {
         //given
-        LocalDateTime createdNow = LocalDateTime.now();
-        LocalDateTime nowPlusOneHour = createdNow.plusHours(1);
-        Voucher fixedVoucher = createFixedVoucher(UUID.randomUUID(), createdNow, 10);
-        Voucher percentVoucherNow = createPercentVoucher(UUID.randomUUID(), createdNow, 10);
-        Voucher percentVoucherAfterOneHour = createPercentVoucher(UUID.randomUUID(), nowPlusOneHour, 10);
+        LocalDateTime startTime = LocalDateTime.now().plusHours(1);
+        LocalDateTime endTime = LocalDateTime.now().plusHours(2);
+        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), startTime, 10);
+        PercentDiscountVoucher percentVoucher = new PercentDiscountVoucher(UUID.randomUUID(), startTime, 10);
         voucherJdbcRepository.save(fixedVoucher);
-        voucherJdbcRepository.save(percentVoucherNow);
-        voucherJdbcRepository.save(percentVoucherAfterOneHour);
-
-        VoucherType voucherType = VoucherType.FIXED_AMOUNT;
-        LocalDateTime startTime = fixedVoucher.getCreatedAt().minusHours(1);
-        LocalDateTime endTime = fixedVoucher.getCreatedAt().plusMinutes(30);
+        voucherJdbcRepository.save(percentVoucher);
 
         //when
-        List<Voucher> result = voucherJdbcRepository.findAll(voucherType, startTime, endTime);
+        List<Voucher> result = voucherJdbcRepository.findAll(VoucherType.FIXED_AMOUNT, startTime, endTime);
 
         //then
         assertThat(result).usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(fixedVoucher);
+                .containsExactly(fixedVoucher)
+                .doesNotContain(percentVoucher, givenFixedVoucher, givenPercentVoucher);
     }
 
     @Test
@@ -156,10 +160,10 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("성공: voucher 단건 조회 - 존재하지 않는 voucher")
     void findById_ButEmpty() {
         //given
-        FixedAmountVoucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
+        UUID voucherId = UUID.randomUUID();
 
         //when
-        Optional<Voucher> optionalVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId());
+        Optional<Voucher> optionalVoucher = voucherJdbcRepository.findById(voucherId);
 
         //then
         assertThat(optionalVoucher).isEmpty();

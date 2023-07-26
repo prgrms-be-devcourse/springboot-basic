@@ -62,8 +62,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
         String sql = createSearchQuery(voucherType, startTime, endTime);
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("voucherType", voucherType != null ? voucherType.toString() : null)
-                .addValue("startTime", startTime)
-                .addValue("endTime", endTime);
+                .addValue("startTime", startTime != null ? Timestamp.valueOf(startTime) : null)
+                .addValue("endTime", endTime != null ? Timestamp.valueOf(endTime) : null);
         return template.query(sql, param, voucherRowMapper());
     }
 
@@ -84,7 +84,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private String createSearchQuery(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
         String sql = "select * from voucher";
         boolean multipleCondition = false;
-        if(voucherType != null || startTime != null && endTime != null) {
+        if(voucherType != null || (startTime != null && endTime != null)) {
             sql += " where";
         }
         if(voucherType != null) {
