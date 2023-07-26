@@ -35,9 +35,9 @@ class CustomerWebControllerTest {
     void findCustomers() throws Exception {
         //given
         CustomerDto customerA
-                = createCustomerDto(UUID.randomUUID(), "customerA@gmail.com", "customerA", false);
+                = createCustomerDto("customerA@gmail.com");
         CustomerDto customerB
-                = createCustomerDto(UUID.randomUUID(), "customerB@gmail.com", "customerB", false);
+                = createCustomerDto("customerB@gmail.com");
         List<CustomerDto> customerDtos = List.of(customerA, customerB);
 
         given(customerService.findCustomers()).willReturn(customerDtos);
@@ -108,7 +108,7 @@ class CustomerWebControllerTest {
     void findCustomer() throws Exception {
         //given
         CustomerDto customer
-                = createCustomerDto(UUID.randomUUID(), "customer@gmail.com", "customer", false);
+                = createCustomerDto("customer@gmail.com");
 
         given(customerService.findCustomer(any())).willReturn(customer);
 

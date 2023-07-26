@@ -17,10 +17,9 @@ import org.junit.jupiter.api.Test;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.UUID;
 
 import static com.programmers.voucher.global.util.ConsoleMessages.*;
-import static com.programmers.voucher.testutil.CustomerTestUtil.createCustomerDto;
+import static com.programmers.voucher.testutil.CustomerTestUtil.createBannedCustomerDto;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TextIoOutputTest {
@@ -139,9 +138,9 @@ class TextIoOutputTest {
     void printCustomers() {
         //given
         CustomerDto customer
-                = createCustomerDto(UUID.randomUUID(), "customer@gmail.com", "customer", false);
+                = createBannedCustomerDto("customer@gmail.com", false);
         CustomerDto bannedCustomer
-                = createCustomerDto(UUID.randomUUID(), "banned@gmail.com", "banned", true);
+                = createBannedCustomerDto("banned@gmail.com", true);
         List<CustomerDto> givenCustomers = List.of(customer, bannedCustomer);
 
         //when

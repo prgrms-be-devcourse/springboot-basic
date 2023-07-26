@@ -77,9 +77,9 @@ class CustomerConsoleControllerTest {
     void findCustomers() {
         //given
         CustomerDto customerA
-                = createCustomerDto(UUID.randomUUID(), "customerA@gmail.com", "customerA", false);
+                = createCustomerDto("customerA@gmail.com");
         CustomerDto customerB
-                = createCustomerDto(UUID.randomUUID(), "customerB@gmail.com", "customerB", false);
+                = createCustomerDto("customerB@gmail.com");
         List<CustomerDto> customers = List.of(customerA, customerB);
 
         given(customerService.findCustomers()).willReturn(customers);

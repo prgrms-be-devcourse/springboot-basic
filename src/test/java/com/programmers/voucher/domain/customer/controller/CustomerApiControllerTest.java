@@ -42,9 +42,9 @@ class CustomerApiControllerTest {
     void findCustomers() throws Exception {
         //given
         CustomerDto customerA
-                = CustomerTestUtil.createCustomerDto(UUID.randomUUID(), "customerA@gmail.com", "customerA", false);
+                = CustomerTestUtil.createCustomerDto("customerA@gmail.com");
         CustomerDto customerB
-                = CustomerTestUtil.createCustomerDto(UUID.randomUUID(), "customerB@gmail.com", "customerB", false);
+                = CustomerTestUtil.createCustomerDto("customerB@gmail.com");
         List<CustomerDto> customers = List.of(customerA, customerB);
 
         given(customerService.findCustomers()).willReturn(customers);
@@ -65,7 +65,7 @@ class CustomerApiControllerTest {
     void findCustomer() throws Exception {
         //given
         CustomerDto customer
-                = CustomerTestUtil.createCustomerDto(UUID.randomUUID(), "customer@gmail.com", "customer", false);
+                = CustomerTestUtil.createCustomerDto("customer@gmail.com");
 
         given(customerService.findCustomer(any())).willReturn(customer);
 
