@@ -18,15 +18,15 @@ public class Customer {
     }
 
     public UUID getCustomerId() {
-        return customerId;
+        return this.customerId;
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     private void checkInvalidValue(UUID customerId, String email, String name) {
