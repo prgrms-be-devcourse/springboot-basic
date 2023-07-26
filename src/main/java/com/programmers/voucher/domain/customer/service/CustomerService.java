@@ -50,14 +50,24 @@ public class CustomerService {
         return customer.getCustomerId();
     }
 
+    @Transactional(readOnly = true)
+    public List<CustomerDto> findCustomers() {
+        List<Customer> customers = customerRepository.findAll();
+        return customers.stream()
+                .map(CustomerDto::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public CustomerDto findCustomer(UUID customerId) {
+        Customer customer = findCustomerOrElseThrow(customerId);
+
+        return CustomerDto.from(customer);
+    }
+
     @Transactional
     public void updateCustomer(UUID customerId, String name, boolean banned) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> {
-                    String errorMessage = MessageFormat.format(CustomerErrorMessages.NO_SUCH_CUSTOMER, customerId);
-                    LOG.warn(errorMessage);
-                    return new NoSuchElementException(errorMessage);
-                });
+        Customer customer = findCustomerOrElseThrow(customerId);
         String oldCustomerInfo = customer.toString();
 
         customer.update(name, banned);
@@ -67,24 +77,21 @@ public class CustomerService {
         LOG.info(CustomerMessages.UPDATED_CUSTOMER_INFO, oldCustomerInfo, newCustomerInfo);
     }
 
-    @Transactional(readOnly = true)
-    public List<CustomerDto> findCustomers() {
-        List<Customer> customers = customerRepository.findAll();
-        return customers.stream()
-                .map(CustomerDto::from)
-                .toList();
-    }
-
     @Transactional
     public void deleteCustomer(UUID customerId) {
+        Customer customer = findCustomerOrElseThrow(customerId);
+
+        customerRepository.deleteById(customerId);
+        LOG.info(CustomerMessages.DELETED_CUSTOMER, customer);
+    }
+
+    private Customer findCustomerOrElseThrow(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> {
                     String errorMessage = MessageFormat.format(CustomerErrorMessages.NO_SUCH_CUSTOMER, customerId);
                     LOG.warn(errorMessage);
                     return new NoSuchElementException(errorMessage);
                 });
-
-        customerRepository.deleteById(customerId);
-        LOG.info(CustomerMessages.DELETED_CUSTOMER, customer);
+        return customer;
     }
 }

@@ -6,10 +6,17 @@ import com.programmers.voucher.domain.customer.dto.CustomerDto;
 import java.util.UUID;
 
 public class CustomerTestUtil {
-    public static CustomerDto createCustomerDto(UUID customerId, String email, String name, boolean banned) {
-        Customer customer = new Customer(customerId, email, name);
+    private static final String DEFAULT_NAME = "customer";
+
+    public static CustomerDto createCustomerDto(String email) {
+        Customer customer = new Customer(UUID.randomUUID(), email, DEFAULT_NAME);
+        return CustomerDto.from(customer);
+    }
+
+    public static CustomerDto createBannedCustomerDto(String email, boolean banned) {
+        Customer customer = new Customer(UUID.randomUUID(), email, DEFAULT_NAME);
         if(banned) {
-            customer.update(name, true);
+            customer.update(DEFAULT_NAME, true);
         }
         return CustomerDto.from(customer);
     }

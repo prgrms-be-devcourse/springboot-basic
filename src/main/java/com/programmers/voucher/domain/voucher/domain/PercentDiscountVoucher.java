@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.programmers.voucher.domain.voucher.util.VoucherDiscountRange.PERCENT_DISCOUNT_MAX;
@@ -18,6 +19,12 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         super(voucherId);
+        validatePercent(percent);
+        this.percent = percent;
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, LocalDateTime createdAt, long percent) {
+        super(voucherId, createdAt);
         validatePercent(percent);
         this.percent = percent;
     }
@@ -48,8 +55,9 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
-                "voucherId=" + voucherId +
-                ", percent=" + percent +
+                "percent=" + percent +
+                ", voucherId=" + voucherId +
+                ", createdAt=" + createdAt +
                 '}';
     }
 

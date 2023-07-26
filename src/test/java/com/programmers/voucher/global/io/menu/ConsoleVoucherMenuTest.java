@@ -54,8 +54,8 @@ class ConsoleVoucherMenuTest {
     @DisplayName("성공: list 명령 실행 - exit 명령 실행")
     void voucherCommandTypeList() {
         //given
-        VoucherDto fixedVoucher = createFixedVoucherDto(UUID.randomUUID(), 10);
-        VoucherDto percentVoucher = createPercentVoucherDto(UUID.randomUUID(), 10);
+        VoucherDto fixedVoucher = createFixedVoucherDto();
+        VoucherDto percentVoucher = createPercentVoucherDto();
         List<VoucherDto> vouchers = List.of(fixedVoucher, percentVoucher);
 
         given(console.inputVoucherCommandType())

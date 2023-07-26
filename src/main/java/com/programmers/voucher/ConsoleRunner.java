@@ -2,9 +2,11 @@ package com.programmers.voucher;
 
 import com.programmers.voucher.global.io.menu.ConsoleMenu;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("console")
 public class ConsoleRunner implements CommandLineRunner {
     private final ConsoleMenu consoleMenu;
 

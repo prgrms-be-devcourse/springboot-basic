@@ -15,13 +15,14 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.voucher.global.util.CommonErrorMessages.CANNOT_ACCESS_FILE;
 import static com.programmers.voucher.global.util.DataAccessConstants.UPDATE_ONE;
 
 @Repository
-@Profile("dev")
+@Profile("file")
 public class VoucherFileRepository implements VoucherRepository {
     private static final Logger LOG = LoggerFactory.getLogger(VoucherFileRepository.class);
 
@@ -79,6 +80,11 @@ public class VoucherFileRepository implements VoucherRepository {
         return findAll().stream()
                 .filter(voucher -> Objects.equals(voucher.getVoucherId(), voucherId))
                 .findAny();
+    }
+
+    @Override
+    public List<Voucher> findAll(VoucherType voucherType, LocalDateTime startTime, LocalDateTime endTime) {
+        throw new UnsupportedOperationException("Voucher list search is not supported");
     }
 
     @Override
