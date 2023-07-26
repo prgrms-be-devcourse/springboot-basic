@@ -11,7 +11,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @Component
 public class SpringBootConsoleApplication implements CommandLineRunner {
@@ -48,12 +47,9 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
         applicationView.startCreation();
 
         String voucherType = applicationView.inputType();
-        String name = applicationView.inputName();
-        long minimumPriceCondition = applicationView.inputMinimumPriceCondition();
-        LocalDateTime expiredAt = applicationView.inputExpiredAt();
         int amountOrPercent = applicationView.inputAmountOrPercent();
 
-        VoucherResponse response = voucherController.createVoucher(voucherType, name, minimumPriceCondition, expiredAt, amountOrPercent);
+        VoucherResponse response = voucherController.createVoucher(voucherType, amountOrPercent);
         applicationView.printCreatedVoucher(response);
     }
 
