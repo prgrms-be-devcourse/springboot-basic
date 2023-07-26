@@ -40,8 +40,8 @@ class VoucherWebControllerTest {
     @DisplayName("성공: voucher 목록 화면")
     void findVouchers() throws Exception {
         //given
-        VoucherDto percentVoucherDto = createPercentVoucherDto(UUID.randomUUID(), 10);
-        VoucherDto fixedVoucherDto = createFixedVoucherDto(UUID.randomUUID(), 10);
+        VoucherDto percentVoucherDto = createPercentVoucherDto();
+        VoucherDto fixedVoucherDto = createFixedVoucherDto();
         List<VoucherDto> voucherDtos = List.of(percentVoucherDto, fixedVoucherDto);
 
         given(voucherService.findVouchers(any(), any(), any())).willReturn(voucherDtos);
@@ -130,7 +130,7 @@ class VoucherWebControllerTest {
     void findVoucher() throws Exception {
         //given
         UUID voucherId = UUID.randomUUID();
-        VoucherDto fixedVoucherDto = createFixedVoucherDto(voucherId, 10);
+        VoucherDto fixedVoucherDto = createFixedVoucherDto();
 
         given(voucherService.findVoucher(any())).willReturn(fixedVoucherDto);
 

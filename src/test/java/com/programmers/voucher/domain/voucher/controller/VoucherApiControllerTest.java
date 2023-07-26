@@ -47,8 +47,8 @@ class VoucherApiControllerTest {
     void findVouchers() throws Exception {
         //given
         VoucherSearchRequest request = new VoucherSearchRequest(null, null, null);
-        VoucherDto fixedVoucher = VoucherTestUtil.createFixedVoucherDto(UUID.randomUUID(), 10);
-        VoucherDto percentVoucher = VoucherTestUtil.createPercentVoucherDto(UUID.randomUUID(), 10);
+        VoucherDto fixedVoucher = VoucherTestUtil.createFixedVoucherDto();
+        VoucherDto percentVoucher = VoucherTestUtil.createPercentVoucherDto();
         List<VoucherDto> vouchers = List.of(fixedVoucher, percentVoucher);
 
         given(voucherService.findVouchers(any(), any(), any())).willReturn(vouchers);
@@ -95,7 +95,7 @@ class VoucherApiControllerTest {
     void findVoucher() throws Exception {
         //given
         UUID voucherId = UUID.randomUUID();
-        VoucherDto fixedVoucher = VoucherTestUtil.createFixedVoucherDto(voucherId, 10);
+        VoucherDto fixedVoucher = VoucherTestUtil.createFixedVoucherDto();
 
         given(voucherService.findVoucher(any())).willReturn(fixedVoucher);
         String jsonResponsePayload = mapper.writeValueAsString(fixedVoucher);

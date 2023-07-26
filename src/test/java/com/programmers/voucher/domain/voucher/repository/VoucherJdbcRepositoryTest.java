@@ -86,8 +86,8 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("성공: voucher 조건 조회 - 바우처 타입")
     void findAll_VoucherType() {
         //given
-        Voucher fixedVoucher = createFixedVoucher(UUID.randomUUID(), 10);
-        Voucher percentVoucher = createPercentVoucher(UUID.randomUUID(), 10);
+        Voucher fixedVoucher = createFixedVoucher();
+        Voucher percentVoucher = createPercentVoucher();
         voucherJdbcRepository.save(fixedVoucher);
         voucherJdbcRepository.save(percentVoucher);
 

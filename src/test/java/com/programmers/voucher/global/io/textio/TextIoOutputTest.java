@@ -103,8 +103,8 @@ class TextIoOutputTest {
     @DisplayName("성공: 바우처 목록 출력")
     void printVouchers() {
         //given
-        VoucherDto fixedVoucherDto = VoucherTestUtil.createFixedVoucherDto(UUID.randomUUID(), 10);
-        VoucherDto percentVoucherDto = VoucherTestUtil.createPercentVoucherDto(UUID.randomUUID(), 10);
+        VoucherDto fixedVoucherDto = VoucherTestUtil.createFixedVoucherDto();
+        VoucherDto percentVoucherDto = VoucherTestUtil.createPercentVoucherDto();
         List<VoucherDto> givenVouchers = List.of(fixedVoucherDto, percentVoucherDto);
 
         //when

@@ -101,9 +101,8 @@ class VoucherServiceTest {
     @DisplayName("성공: Voucher 목록 조회")
     void findVouchers() {
         //given
-        Voucher fixedVoucher = createFixedVoucher(UUID.randomUUID(), 10);
-        Voucher percentVoucher = createPercentVoucher(UUID.randomUUID(), 10);
-
+        Voucher fixedVoucher = createFixedVoucher();
+        Voucher percentVoucher = createPercentVoucher();
         List<Voucher> store = List.of(fixedVoucher, percentVoucher);
 
         given(voucherRepository.findAll()).willReturn(store);
@@ -123,7 +122,7 @@ class VoucherServiceTest {
     @DisplayName("성공: voucher 단건 삭제")
     void deleteVoucher() {
         //given
-        Voucher fixedVoucher = createFixedVoucher(UUID.randomUUID(), 10);
+        Voucher fixedVoucher = createFixedVoucher();
 
         given(voucherRepository.findById(any())).willReturn(Optional.of(fixedVoucher));
 
