@@ -71,13 +71,9 @@ class JdbcVoucherRepository implements VoucherRepository {
                 .where("id")
                 .build();
 
-        List<Voucher> result = jdbcTemplate.query(sql, voucherMapper, id.toString());
-
-        if (result.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(result.get(0));
+        return jdbcTemplate.query(sql, voucherMapper, id.toString())
+                .stream()
+                .findFirst();
     }
 
     @Override

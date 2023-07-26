@@ -56,13 +56,9 @@ class JdbcUserRepository implements UserRepository {
                 .where("id")
                 .build();
 
-        List<User> result = jdbcTemplate.query(sql, userMapper, id.toString());
-
-        if (result.isEmpty()) {
-            return Optional.empty();
-        }
-
-        return Optional.of(result.get(0));
+        return jdbcTemplate.query(sql, userMapper, id.toString())
+                .stream()
+                .findFirst();
     }
 
     @Override
