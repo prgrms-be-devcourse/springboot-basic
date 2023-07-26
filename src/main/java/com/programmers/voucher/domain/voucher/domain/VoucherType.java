@@ -49,8 +49,8 @@ public enum VoucherType {
                 });
     }
 
-    public Voucher publishVoucher(UUID voucherId, long amount) {
-        return voucherFactory.publishVoucher(voucherId, amount);
+    public Voucher createVoucher(UUID voucherId, long amount) {
+        return voucherFactory.createVoucher(voucherId, amount);
     }
 
     public Voucher retrieveVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
