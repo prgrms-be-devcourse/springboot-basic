@@ -21,10 +21,6 @@ public enum Command {
   public static Command find(String inputCommand) {
     return Optional.ofNullable(commands.get(inputCommand))
         .orElseThrow(IllegalArgumentException::new);
-//    return Arrays.stream(values())
-//        .filter(command -> command.getLowerCaseCommand().equals(inputCommand))
-//        .findFirst()
-//        .orElseThrow(() -> new IllegalArgumentException("잘못된 명령어입니다. " + inputCommand));
   }
 
   public String getLowerCaseCommand() {
