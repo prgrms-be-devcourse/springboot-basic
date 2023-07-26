@@ -1,6 +1,5 @@
 package com.programmers.springbootbasic.presentation.view;
 
-import com.programmers.springbootbasic.common.util.LocalDateTimeParser;
 import com.programmers.springbootbasic.common.util.NumberParser;
 import com.programmers.springbootbasic.common.util.Validator;
 import com.programmers.springbootbasic.presentation.Command;
@@ -9,7 +8,6 @@ import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 @Component
 public class ConsoleApplicationView {
@@ -32,22 +30,6 @@ public class ConsoleApplicationView {
             정액 할인 쿠폰을 생성하려면 "%s" 을 입력하세요.
                         
             입력:\s""";
-    private static final String INPUT_NAME = """
-            바우처의 이름을 입력하세요. (1자 이상)
-                        
-            입력:\s""";
-
-    private static final String INPUT_MINIMUM_PRICE_CONDITION = """
-            바우처의 사용 최소금액 조건을 입력하세요.
-            미입력 시 0원으로 설정됩니다.
-                        
-            입력:\s""";
-
-    private static final String INPUT_EXPIRED_DATETIME = """
-            바우처의 만료기한을 입력하세요. (예시: yyyy-MM-dd, yyyy-MM-dd HH:mm:ss)
-            yyyy-MM-dd 입력 시, yyyy-MM-dd 23:59:59.999로 설정됩니다.
-                        
-            입력:\s""";
 
     private static final String INPUT_AMOUNT_OR_PERCENT = """
             할인 금액을 아래 한도에 맞춰 입력하세요.
@@ -57,7 +39,6 @@ public class ConsoleApplicationView {
             입력:\s""";
     private static final String CREATED_VOUCHER_INFO = "=== 바우처 생성완료 ===";
     private static final String INVALID_VOUCHER_TYPE = "잘못된 바우처 유형입니다. 현재 입력 값: ";
-    private static final Long ZERO = 0L;
 
     private final Console console;
 
@@ -85,36 +66,6 @@ public class ConsoleApplicationView {
         Validator.checkNullOrBlank(voucherType);
         checkInvalidType(voucherType);
         return voucherType;
-    }
-
-    public String inputName() throws IOException {
-        // 이름 입력
-        console.print(INPUT_NAME);
-        String name = console.inputLine();
-        printNewLine();
-        Validator.checkNullOrBlank(name);
-        return name;
-    }
-
-    public long inputMinimumPriceCondition() throws IOException {
-
-        // 최소 금액 입력
-        console.print(INPUT_MINIMUM_PRICE_CONDITION);
-        String minimumPriceConditionInput = console.inputLine();
-        printNewLine();
-        try {
-            return NumberParser.parseToLong(minimumPriceConditionInput);
-        } catch (IllegalArgumentException e) {
-            return ZERO;
-        }
-    }
-
-    public LocalDateTime inputExpiredAt() throws IOException {
-        // 만료기한 입력
-        console.print(INPUT_EXPIRED_DATETIME);
-        String expiredAtInput = console.inputLine();
-        printNewLine();
-        return LocalDateTimeParser.parseToLocalDateTime(expiredAtInput);
     }
 
     public int inputAmountOrPercent() throws IOException {
