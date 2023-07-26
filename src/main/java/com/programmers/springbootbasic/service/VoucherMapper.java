@@ -16,10 +16,7 @@ public final class VoucherMapper {
 
     public static Voucher toVoucher(VoucherCreationRequest request) {
         VoucherType voucherType = request.voucherType();
-        return switch (voucherType) {
-            case FIX -> Voucher.createFixedAmount(UUID.randomUUID(), voucherType, request.amountOrPercent());
-            case PERCENT -> Voucher.createPercentDiscount(UUID.randomUUID(), voucherType, request.amountOrPercent());
-        };
+        return Voucher.createVoucher(UUID.randomUUID(), voucherType, request.amountOrPercent());
     }
 
     public static VoucherResponses toVoucherResponseList(List<Voucher> vouchers) {

@@ -14,12 +14,11 @@ public abstract class Voucher {
         this.voucherType = voucherType;
     }
 
-    public static Voucher createFixedAmount(UUID voucherId, VoucherType voucherType, int amount) {
-        return new FixedAmountVoucher(voucherId, voucherType, amount);
-    }
-
-    public static Voucher createPercentDiscount(UUID voucherId, VoucherType voucherType, int percent) {
-        return new PercentDiscountVoucher(voucherId, voucherType, percent);
+    public static Voucher createVoucher(UUID voucherId, VoucherType voucherType, int amountOrPercent) {
+        return switch (voucherType) {
+            case FIX -> new FixedAmountVoucher(voucherId, amountOrPercent);
+            case PERCENT -> new PercentDiscountVoucher(voucherId, amountOrPercent);
+        };
     }
 
     public UUID getVoucherId() {

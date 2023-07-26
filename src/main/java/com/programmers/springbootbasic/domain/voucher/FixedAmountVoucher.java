@@ -12,8 +12,8 @@ public class FixedAmountVoucher extends Voucher {
 
     private final int amount;
 
-    public FixedAmountVoucher(UUID voucherId, VoucherType voucherType, int amount) {
-        super(voucherId, voucherType);
+    public FixedAmountVoucher(UUID voucherId, int amount) {
+        super(voucherId, VoucherType.FIX);
         if (isInvalidAmount(amount)) {
             throw new IllegalArgumentException(INVALID_AMOUNT + String.format("%d원", amount));
         }

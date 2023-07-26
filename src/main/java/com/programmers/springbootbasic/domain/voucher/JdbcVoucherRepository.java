@@ -25,10 +25,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         VoucherType voucherType = VoucherType.valueOf(rs.getString(VOUCHER_TYPE_SNAKE));
         int amountOrPercent = rs.getInt(AMOUNT_OR_PERCENT_SNAKE);
 
-        return switch (voucherType) {
-            case FIX -> Voucher.createFixedAmount(voucherId, voucherType, amountOrPercent);
-            case PERCENT -> Voucher.createPercentDiscount(voucherId, voucherType, amountOrPercent);
-        };
+        return Voucher.createVoucher(voucherId, voucherType, amountOrPercent);
     };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -56,9 +53,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> vouchers = jdbcTemplate.query(
+        return jdbcTemplate.query(
                 "SELECT * FROM voucher",
                 rowMapper);
-        return vouchers;
     }
 }

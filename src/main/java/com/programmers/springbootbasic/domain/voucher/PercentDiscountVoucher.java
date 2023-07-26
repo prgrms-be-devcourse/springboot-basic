@@ -12,8 +12,8 @@ public class PercentDiscountVoucher extends Voucher {
 
     private final int percent;
 
-    public PercentDiscountVoucher(UUID voucherId, VoucherType voucherType, int percent) {
-        super(voucherId, voucherType);
+    public PercentDiscountVoucher(UUID voucherId, int percent) {
+        super(voucherId, VoucherType.PERCENT);
         if (isInvalidPercent(percent)) {
             throw new IllegalArgumentException(INVALID_PERCENT + String.format("%d%%", percent));
         }
