@@ -31,7 +31,6 @@ public class Customer {
 
     private void checkInvalidValue(UUID customerId, String email, String name) {
         Validator.checkNullUuid(customerId);
-        Validator.checkNullOrBlank(email);
         Validator.checkNullOrBlank(name);
         Validator.checkNullOrWrongEmail(email);
     }
