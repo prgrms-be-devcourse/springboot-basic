@@ -14,5 +14,6 @@ create table customer
     email       varchar(50)  not null,
     name        varchar(20)  not null,
     banned      boolean      not null,
-    created_at  timestamp(9) not null
+    created_at  timestamp(9) not null,
+    constraint Unique_Email unique (email)
 )
