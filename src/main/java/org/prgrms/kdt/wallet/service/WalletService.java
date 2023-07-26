@@ -30,7 +30,7 @@ public class WalletService {
     @Transactional
     public WalletResponse assignVoucherToCustomer(CreateWalletServiceRequest request) {
         memberRepository.findById(request.memberId())
-                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 바우처 입니다."));
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 멤버 입니다."));
         voucherRepository.findById(request.voucherId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 바우처 입니다."));
 

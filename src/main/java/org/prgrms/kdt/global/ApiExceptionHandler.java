@@ -15,7 +15,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException e){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getErrorResponse(400, e));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(getErrorResponse(HttpStatus.BAD_REQUEST.value(), e));
     }
 
     @ExceptionHandler(InvalidInputException.class)
@@ -34,7 +34,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private static ErrorResponse getErrorResponse(int status, Exception e) {
-        ErrorResponse errorResponse = new ErrorResponse(status, e.getMessage());
-        return errorResponse;
+        return new ErrorResponse(status, e.getMessage());
     }
 }
