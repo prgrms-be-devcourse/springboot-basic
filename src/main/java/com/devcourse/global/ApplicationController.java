@@ -1,9 +1,9 @@
 package com.devcourse.global;
 
 import com.devcourse.global.console.Console;
-import com.devcourse.user.repository.BlackListRepository;
+import com.devcourse.global.dto.CreateVoucherRequest;
+import com.devcourse.user.application.UserService;
 import com.devcourse.voucher.application.VoucherService;
-import com.devcourse.voucher.application.dto.CreateVoucherRequest;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -14,21 +14,24 @@ import java.util.List;
 public class ApplicationController implements ApplicationRunner {
     private static final String GREETING = """
             === Voucher Program ===
-           Type <CREATE> to create a new voucher.
+           Type <VOUCHER> to create a new voucher.
            Type <LIST> to list all vouchers.
+           Type <USER> to create a new user.
+           Type <USERLIST> to list all users.
            Type <BLACKLIST> to list all black users.
            Type <EXIT> to exit the program.
            """;
-    private static final String CREATION_RESPONSE = "\n:: Voucher Created ::";
-    private static final String EXITING_RESPONSE = "\n:: Application Ended ::";
+    private static final String VOCHER_CREATED = "\n:: Voucher Created ::";
+    private static final String USER_CREATED = "\n:: USER Created ::";
+    private static final String APPLICATION_ENDED = "\n:: Application Ended ::";
 
     private final Console console = new Console();
     private final VoucherService voucherService;
-    private final BlackListRepository blackListRepository;
+    private final UserService userService;
 
-    public ApplicationController(VoucherService voucherService, BlackListRepository blackListRepository) {
+    public ApplicationController(VoucherService voucherService, UserService userService) {
         this.voucherService = voucherService;
-        this.blackListRepository = blackListRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -44,11 +47,13 @@ public class ApplicationController implements ApplicationRunner {
 
     private boolean executeCommand(Command command) {
         switch (command) {
-            case CREATE -> createVoucher();
-            case LIST -> listVouchers();
+            case VOUCHER -> createVoucher();
+            case VOUCHERLIST -> listVouchers();
+            case USER -> createUser();
+            case USERLIST -> listUsers();
             case BLACKLIST -> listBlackUsers();
             case EXIT -> {
-                console.print(EXITING_RESPONSE);
+                console.print(APPLICATION_ENDED);
                 return false;
             }
         }
@@ -58,8 +63,8 @@ public class ApplicationController implements ApplicationRunner {
 
     private void createVoucher() {
         CreateVoucherRequest request = console.readCreationRequest();
-        voucherService.create(request);
-        console.print(CREATION_RESPONSE);
+        voucherService.create(request.discount(), request.expiredAt(), request.type());
+        console.print(VOCHER_CREATED);
     }
 
     private void listVouchers() {
@@ -67,8 +72,19 @@ public class ApplicationController implements ApplicationRunner {
         console.print(responses);
     }
 
+    private void createUser() {
+        String name = console.readUserName();
+        userService.create(name);
+        console.print(USER_CREATED);
+    }
+
+    private void listUsers() {
+        List<String> users = userService.findAll();
+        console.print(users);
+    }
+
     private void listBlackUsers() {
-        List<String> blackList = blackListRepository.findAllBlack();
+        List<String> blackList = userService.findAllBlack();
         console.print(blackList);
     }
 }

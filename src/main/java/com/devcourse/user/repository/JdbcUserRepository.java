@@ -1,9 +1,7 @@
 package com.devcourse.user.repository;
 
-import com.devcourse.global.util.Sql;
+import com.devcourse.global.common.Sql;
 import com.devcourse.user.User;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -12,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.devcourse.global.util.Sql.Table.USERS;
+import static com.devcourse.global.common.Sql.Table.USERS;
 
 @Component
 class JdbcUserRepository implements UserRepository {
@@ -58,10 +56,9 @@ class JdbcUserRepository implements UserRepository {
                 .where("id")
                 .build();
 
-        List<User> result = jdbcTemplate.query(sql, userMapper, id.toString());
-        User user = DataAccessUtils.singleResult(result);
-
-        return Optional.ofNullable(user);
+        return jdbcTemplate.query(sql, userMapper, id.toString())
+                .stream()
+                .findFirst();
     }
 
     @Override

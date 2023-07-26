@@ -1,9 +1,10 @@
 package com.devcourse.global.util;
 
+import com.devcourse.global.common.Sql;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static com.devcourse.global.util.Sql.Table.USERS;
+import static com.devcourse.global.common.Sql.Table.USERS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SqlTest {
