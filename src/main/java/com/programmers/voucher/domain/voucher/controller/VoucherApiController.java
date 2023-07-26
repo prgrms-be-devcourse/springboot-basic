@@ -44,8 +44,8 @@ public class VoucherApiController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("/vouchers/delete")
-    public void deleteVoucher(@RequestBody UUID voucherId) {
+    @DeleteMapping("/vouchers/{voucherId}")
+    public void deleteVoucher(@PathVariable UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
     }
 }

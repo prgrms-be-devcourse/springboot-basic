@@ -49,8 +49,8 @@ public class CustomerApiController {
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PostMapping("/customers/delete")
-    public void deleteCustomer(@RequestBody UUID customerId) {
+    @DeleteMapping("/customers/{customerId}")
+    public void deleteCustomer(@PathVariable("customerId") UUID customerId) {
         customerService.deleteCustomer(customerId);
     }
 }

@@ -188,7 +188,7 @@ class CustomerApiControllerTest {
         UUID customerId = UUID.randomUUID();
 
         //when
-        ResultActions resultActions = mvc.perform(post("/api/v1/customers/delete")
+        ResultActions resultActions = mvc.perform(delete("/api/v1/customers/" + customerId)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(mapper.writeValueAsString(customerId)))
                 .andDo(print());

@@ -25,8 +25,7 @@ import java.util.UUID;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -195,12 +194,8 @@ class VoucherApiControllerTest {
         //given
         UUID voucherId = UUID.randomUUID();
 
-        String jsonRequestPayload = mapper.writeValueAsString(voucherId);
-
         //when
-        ResultActions resultActions = mvc.perform(post("/api/v1/vouchers/delete")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonRequestPayload))
+        ResultActions resultActions = mvc.perform(delete("/api/v1/vouchers/" + voucherId))
                 .andDo(print());
 
         //then
