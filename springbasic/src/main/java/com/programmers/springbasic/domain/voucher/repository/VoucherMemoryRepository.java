@@ -1,7 +1,7 @@
 package com.programmers.springbasic.domain.voucher.repository;
 
 import com.programmers.springbasic.domain.voucher.entity.Voucher;
-import com.programmers.springbasic.domain.voucher.view.VoucherOption;
+import com.programmers.springbasic.domain.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -31,20 +31,20 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAllByVoucherType(VoucherOption voucherOption) {
-        switch (voucherOption) {
+    public List<Voucher> findAllByVoucherType(VoucherType voucherType) {
+        switch (voucherType) {
             case FIXED_AMOUNT_VOUCHER: {
 
                 return vouchers.values()
                         .stream()
-                        .filter(v -> v.getVoucherType().equals(VoucherOption.FIXED_AMOUNT_VOUCHER))
+                        .filter(v -> v.getVoucherType().equals(VoucherType.FIXED_AMOUNT_VOUCHER))
                         .collect(Collectors.toList());
             }
             case PERCENT_DISCOUNT_VOUCHER: {
 
                 return vouchers.values()
                         .stream()
-                        .filter(v -> v.getVoucherType().equals(VoucherOption.PERCENT_DISCOUNT_VOUCHER))
+                        .filter(v -> v.getVoucherType().equals(VoucherType.PERCENT_DISCOUNT_VOUCHER))
                         .collect(Collectors.toList());
             }
             default: {

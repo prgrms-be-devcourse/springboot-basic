@@ -12,30 +12,35 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class SpringbasicApplication {
 	public static void main(String[] args) {
-		ApplicationContext applicationContext = new SpringApplication(SpringbasicApplication.class).run(args);
+		// Web
+		SpringApplication.run(SpringbasicApplication.class, args);
 
-		IOConsole ioConsole = applicationContext.getBean(IOConsole.class);
-		VoucherController voucherController = applicationContext.getBean(VoucherController.class);
-		CustomerController customerController = applicationContext.getBean(CustomerController.class);
+// 		// Console
+//		ApplicationContext applicationContext = new SpringApplication(SpringbasicApplication.class).run(args);
+//
+//		IOConsole ioConsole = applicationContext.getBean(IOConsole.class);
+//		VoucherController voucherController = applicationContext.getBean(VoucherController.class);
+//		CustomerController customerController = applicationContext.getBean(CustomerController.class);
+//
+//		try {
+//			while (true) {
+//				ioConsole.showMainMenu();
+//				String getMenuChoice = ioConsole.getInput();
+//
+//				switch (getMenuChoice) {
+//					case "1": {
+//						customerController.run();
+//						break;
+//					}
+//					case "2": {
+//						voucherController.run();
+//						break;
+//					}
+//				}
+//			}
+//		} catch (Exception e) {
+//			log.error(e.getMessage());
+//		}
 
-		try {
-			while (true) {
-				ioConsole.showMainMenu();
-				String getMenuChoice = ioConsole.getInput();
-
-				switch (getMenuChoice) {
-					case "1": {
-						customerController.run();
-						break;
-					}
-					case "2": {
-						voucherController.run();
-						break;
-					}
-				}
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage());
-		}
 	}
 }

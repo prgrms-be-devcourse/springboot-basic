@@ -18,14 +18,20 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 
+	// web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	// jdbc 의존성 추가
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 
+	// embedded mysql database
+	implementation 'com.wix:wix-embedded-mysql:4.6.2'
+
+	// thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
 	// mysql
 	runtimeOnly 'com.mysql:mysql-connector-j'
-
-	// embedded mysql database
-	// implementation 'com.wix:wix-embedded-mysql:4.6.1'
 
 	// lombok
 	compileOnly 'org.projectlombok:lombok'

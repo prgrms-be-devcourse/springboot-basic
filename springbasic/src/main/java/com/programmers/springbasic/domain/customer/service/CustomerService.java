@@ -2,11 +2,13 @@ package com.programmers.springbasic.domain.customer.service;
 
 import com.programmers.springbasic.domain.customer.dto.request.CustomerCreateRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.request.CustomerDeleteRequestDTO;
-import com.programmers.springbasic.domain.customer.dto.request.CustomerSingleFindRequestDTO;
+import com.programmers.springbasic.domain.customer.dto.request.CustomerFindRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.request.CustomerUpdateRequestDTO;
 import com.programmers.springbasic.domain.customer.dto.response.CustomerResponseDTO;
 import com.programmers.springbasic.domain.customer.entity.Customer;
+import com.programmers.springbasic.domain.customer.exception.CustomerException;
 import com.programmers.springbasic.domain.customer.repository.CustomerRepository;
+import com.programmers.springbasic.global.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,18 +38,18 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public CustomerResponseDTO findCustomer(CustomerSingleFindRequestDTO customerSingleFindRequestDTO) {
-        String validCustomerId = customerSingleFindRequestDTO.getCustomerId();
+    public CustomerResponseDTO findCustomer(CustomerFindRequestDTO customerFindRequestDTO) {
+        String validCustomerId = customerFindRequestDTO.getCustomerId();
         UUID customerId = UUID.fromString(validCustomerId);
 
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("조회하고자 하는 고객이 없습니다."));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerException(ErrorCode.CUSTOMER_NOT_FOUND));
 
         return new CustomerResponseDTO(customer);
     }
 
     public void updateCustomer(CustomerUpdateRequestDTO customerUpdateRequestDTO) {
         UUID customerId = UUID.fromString(customerUpdateRequestDTO.getCustomerId());
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("조회하고자 하는 고객이 없습니다."));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new CustomerException(ErrorCode.CUSTOMER_NOT_FOUND));
 
         String newName = customerUpdateRequestDTO.getName();
         String newEmail = customerUpdateRequestDTO.getEmail();

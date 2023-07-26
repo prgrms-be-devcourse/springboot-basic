@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CustomerSingleFindRequestDTO {
+public class CustomerFindRequestDTO {
     private String customerId;
 }

@@ -1,0 +1,75 @@
+package com.programmers.springbasic.domain.voucher.controller;
+
+import com.programmers.springbasic.domain.voucher.dto.request.VoucherCreateRequestDTO;
+import com.programmers.springbasic.domain.voucher.dto.request.VoucherUpdateRequestDTO;
+import com.programmers.springbasic.domain.voucher.dto.response.VoucherResponseDTO;
+import com.programmers.springbasic.domain.voucher.model.VoucherType;
+import com.programmers.springbasic.domain.voucher.service.VoucherService;
+import com.programmers.springbasic.domain.voucher.validator.VoucherCodeValidator;
+import com.programmers.springbasic.global.common.response.model.CommonResult;
+import com.programmers.springbasic.global.common.response.model.ListResult;
+import com.programmers.springbasic.global.common.response.model.SingleResult;
+import com.programmers.springbasic.global.common.response.service.ResponseFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/api/vouchers")
+public class VoucherAPIController {
+    private final VoucherService voucherService;
+
+    @PostMapping
+    public ResponseEntity<CommonResult> createVoucher(
+            @RequestBody VoucherCreateRequestDTO voucherCreateRequestDTO
+    ) {
+        voucherService.createVoucher(voucherCreateRequestDTO);
+
+        return ResponseEntity.ok(ResponseFactory.getSuccessResult());
+    }
+
+    @GetMapping
+    public ResponseEntity<ListResult<VoucherResponseDTO>> getListVoucherInfo(
+            @RequestParam VoucherType voucherType
+    ) {
+        List<VoucherResponseDTO> voucherInfos = voucherService.getAllVoucherInfo(voucherType.name());
+
+        return ResponseEntity.ok(ResponseFactory.getListResult(voucherInfos));
+    }
+
+    @GetMapping("/{voucherCode}")
+    public ResponseEntity<SingleResult<VoucherResponseDTO>> getSingleVoucherInfo(
+            @PathVariable String voucherCode
+    ) {
+        VoucherCodeValidator.validateVoucherCode(voucherCode);
+
+        VoucherResponseDTO voucherInfo = voucherService.findVoucher(voucherCode);
+
+        return ResponseEntity.ok(ResponseFactory.getSingleResult(voucherInfo));
+    }
+
+    @PutMapping("/{voucherCode}")
+    public ResponseEntity<CommonResult> updateVoucher(
+            @RequestBody VoucherUpdateRequestDTO voucherUpdateRequestDTO
+    ) {
+        VoucherCodeValidator.validateVoucherCode(voucherUpdateRequestDTO.getVoucherCode());
+
+        voucherService.updateVoucher(voucherUpdateRequestDTO);
+
+        return ResponseEntity.ok(ResponseFactory.getSuccessResult());
+    }
+
+    @DeleteMapping("/{voucherCode}")
+    public ResponseEntity<CommonResult> deleteVoucher(
+            @PathVariable String voucherCode
+    ) {
+        VoucherCodeValidator.validateVoucherCode(voucherCode);
+
+        voucherService.removeVoucher(voucherCode);
+
+        return ResponseEntity.ok(ResponseFactory.getSuccessResult());
+    }
+}

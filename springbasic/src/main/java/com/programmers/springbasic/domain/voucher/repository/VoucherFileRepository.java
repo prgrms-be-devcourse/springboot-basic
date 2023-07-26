@@ -1,7 +1,7 @@
 package com.programmers.springbasic.domain.voucher.repository;
 
 import com.programmers.springbasic.domain.voucher.entity.Voucher;
-import com.programmers.springbasic.domain.voucher.view.VoucherOption;
+import com.programmers.springbasic.domain.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +27,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        VoucherOption voucherType = voucher.getVoucherType();
+        VoucherType voucherType = voucher.getVoucherType();
 
         switch (voucherType) {
             case FIXED_AMOUNT_VOUCHER: {
@@ -56,8 +56,8 @@ public class VoucherFileRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         List<Voucher> allVouchers = new ArrayList<>();
 
-        List<Voucher> fixedAmountVouchers = findAllByVoucherType(VoucherOption.FIXED_AMOUNT_VOUCHER);
-        List<Voucher> percentDiscountVouchers = findAllByVoucherType(VoucherOption.PERCENT_DISCOUNT_VOUCHER);
+        List<Voucher> fixedAmountVouchers = findAllByVoucherType(VoucherType.FIXED_AMOUNT_VOUCHER);
+        List<Voucher> percentDiscountVouchers = findAllByVoucherType(VoucherType.PERCENT_DISCOUNT_VOUCHER);
 
         allVouchers.addAll(fixedAmountVouchers);
         allVouchers.addAll(percentDiscountVouchers);
@@ -66,8 +66,8 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAllByVoucherType(VoucherOption voucherOption) {
-        switch (voucherOption) {
+    public List<Voucher> findAllByVoucherType(VoucherType voucherType) {
+        switch (voucherType) {
             case FIXED_AMOUNT_VOUCHER: {
                 Map<UUID, Voucher> fixedAmountVouchers = readVouchersFromFile(FIXED_AMOUNT_VOUCHER_FILE_PATH);
 
