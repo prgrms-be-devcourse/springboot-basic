@@ -7,9 +7,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
-import com.example.voucher.wallet.model.Wallet;
 import com.example.voucher.util.QueryBuilder;
-import com.example.voucher.util.FormatConvertor;
+import com.example.voucher.wallet.model.Wallet;
 
 @Component
 public class JdbcWalletRepository implements WalletRepository {
@@ -37,21 +36,6 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public List<Wallet> findByConditionId(String condition, UUID conditionID) {
-        String fieldName = FormatConvertor.convertToCamelCase(condition);
-        SqlParameterSource parameterSource = new MapSqlParameterSource().addValue(fieldName, conditionID.toString());
-
-        RowMapper<Wallet> walletRowMapper = walletRowMapper();
-
-        String sql = new QueryBuilder().select("*")
-            .from("WALLET")
-            .where(condition, "=", fieldName)
-            .build();
-
-        return jdbcTemplate.query(sql, parameterSource, walletRowMapper);
-    }
-
-    @Override
     public Wallet findById(UUID walletID) {
         SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("walletId", walletID.toString());
 
@@ -63,6 +47,36 @@ public class JdbcWalletRepository implements WalletRepository {
             .build();
 
         return jdbcTemplate.queryForObject(sql, parameterSource, walletRowMapper);
+    }
+
+    @Override
+    public List<Wallet> findByCustomerId(UUID customerId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+            .addValue("customerId", customerId.toString());
+
+        RowMapper<Wallet> walletRowMapper = walletRowMapper();
+
+        String sql = new QueryBuilder().select("*")
+            .from("WALLET")
+            .where("CUSTOMER_ID", "=", "customerId")
+            .build();
+
+        return jdbcTemplate.query(sql, parameterSource, walletRowMapper);
+    }
+
+    @Override
+    public List<Wallet> findByVoucherId(UUID voucherId) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+            .addValue("voucherId", voucherId.toString());
+
+        RowMapper<Wallet> walletRowMapper = walletRowMapper();
+
+        String sql = new QueryBuilder().select("*")
+            .from("WALLET")
+            .where("VOUCHER_ID", "=", "voucherId")
+            .build();
+
+        return jdbcTemplate.query(sql, parameterSource, walletRowMapper);
     }
 
     @Override

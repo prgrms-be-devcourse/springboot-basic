@@ -10,8 +10,8 @@ import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.customer.controller.CustomerRequest;
-import com.example.voucher.request.WalletRequest;
 import com.example.voucher.voucher.controller.VoucherRequest;
+import com.example.voucher.wallet.controller.WalletRequest;
 
 public class Console {
 
@@ -25,6 +25,30 @@ public class Console {
         this.reader = new Reader();
     }
 
+    public ServiceType getServiceType() {
+        writer.writeMessage(Message.SERVICE_TYPE_SELECTION);
+
+        String input = reader.readString();
+
+        return ServiceType.getServiceType(input);
+    }
+
+    public ModeType getModeType() {
+        writer.writeMessage(Message.MODE_TYPE_SELECTION);
+
+        String input = reader.readString();
+
+        return ModeType.getModeType(input);
+    }
+
+    public ModeType getWalletModeType() {
+        writer.writeMessage(Message.WALLET_MODE_TYPE_SELECTION);
+
+        String input = reader.readString();
+
+        return ModeType.getModeType(input);
+    }
+
     public VoucherRequest getCreateVoucherRequest() {
         VoucherType voucherType = getVoucherType();
         Long discountValue = getDiscountValue();
@@ -35,7 +59,7 @@ public class Console {
             .build();
     }
 
-    public VoucherRequest getReadVoucherRequest() {
+    public VoucherRequest getSearchVoucherRequest() {
         UUID voucherId = getId();
 
         return VoucherRequest.builder()
@@ -93,7 +117,7 @@ public class Console {
             .build();
     }
 
-    public CustomerRequest getReadCustomerRequest() {
+    public CustomerRequest getSearchCustomerRequest() {
         UUID customerId = getId();
 
         return CustomerRequest.builder()
@@ -147,52 +171,40 @@ public class Console {
         return CustomerType.getCustomerType(input);
     }
 
-    public void displayResponse(String resultInfo) {
-        writer.writeMessage(resultInfo);
-    }
-
-    public void displayError(String errorMsg) {
-        logger.error(errorMsg);
-        writer.writeMessage(Message.REQUEST_FAILED);
-    }
-
-    public ServiceType getServiceType() {
-        writer.writeMessage(Message.SERVICE_TYPE_SELECTION);
-
-        String input = reader.readString();
-
-        return ServiceType.getServiceType(input);
-    }
-
-    public ModeType getModeType() {
-        writer.writeMessage(Message.MODE_TYPE_SELECTION);
-
-        String input = reader.readString();
-
-        return ModeType.getModeType(input);
-    }
-
-    public ModeType getWalletModeType() {
-        writer.writeMessage(Message.WALLET_MODE_TYPE_SELECTION);
-
-        String input = reader.readString();
-
-        return ModeType.getModeType(input);
-    }
-
-    public WalletRequest.Create getWalletCreateRequest() {
+    public WalletRequest getCreateWalletRequest() {
         UUID customerId = getId();
         UUID voucherId = getId();
 
-        return new WalletRequest.Create(customerId, voucherId);
+        return WalletRequest.builder()
+            .setCustomerId(customerId)
+            .setWalletId(voucherId)
+            .build();
     }
 
-    public WalletRequest.Update getWalletUpdateRequest() {
-        UUID walletId = getId();
+    public WalletRequest getSearchByCustomerWalletRequest() {
+        UUID customerId = getId();
+
+        return WalletRequest.builder()
+            .setCustomerId(customerId)
+            .build();
+    }
+
+    public WalletRequest getSearchByVoucherWalletRequest() {
+        UUID voucherId = getId();
+
+        return WalletRequest.builder()
+            .setVoucherId(voucherId)
+            .build();
+    }
+
+    public WalletRequest getDeleteWalletRequest() {
         UUID customerId = getId();
         UUID voucherId = getId();
 
-        return new WalletRequest.Update(walletId, customerId, voucherId);
+        return WalletRequest.builder()
+            .setCustomerId(customerId)
+            .setVoucherId(voucherId)
+            .build();
     }
 
     public UUID getId() {
@@ -206,6 +218,15 @@ public class Console {
             return null;
         }
 
+    }
+
+    public void displayResponse(String resultInfo) {
+        writer.writeMessage(resultInfo);
+    }
+
+    public void displayError(String errorMsg) {
+        logger.error(errorMsg);
+        writer.writeMessage(Message.REQUEST_FAILED);
     }
 
     private void validatePositive(long value) {

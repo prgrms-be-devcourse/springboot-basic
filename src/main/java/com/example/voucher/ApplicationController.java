@@ -1,21 +1,20 @@
 package com.example.voucher;
 
-import java.util.UUID;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
-import com.example.voucher.customer.controller.CustomerRequest;
-import com.example.voucher.request.WalletRequest;
-import com.example.voucher.response.Response;
 import com.example.voucher.customer.controller.CustomerController;
-import com.example.voucher.io.Console;
+import com.example.voucher.customer.controller.CustomerRequest;
 import com.example.voucher.customer.service.dto.CustomerDTO;
+import com.example.voucher.io.Console;
+import com.example.voucher.response.Response;
+import com.example.voucher.voucher.controller.VoucherController;
 import com.example.voucher.voucher.controller.VoucherRequest;
 import com.example.voucher.voucher.service.dto.VoucherDTO;
-import com.example.voucher.wallet.service.dto.WalletDTO;
-import com.example.voucher.voucher.controller.VoucherController;
 import com.example.voucher.wallet.controller.WalletController;
+import com.example.voucher.wallet.controller.WalletRequest;
+import com.example.voucher.wallet.service.dto.WalletDTO;
 
 @Controller
 public class ApplicationController implements CommandLineRunner {
@@ -107,8 +106,8 @@ public class ApplicationController implements CommandLineRunner {
 
         switch (selectedModeType) {
             case CREATE -> createWallet();
-            case SEARCH_BY_CUSTOMER -> searchWallet("CUSTOMER_ID");
-            case SEARCH_BY_VOUCHER -> searchWallet("VOUCHER_ID");
+            case SEARCH_BY_CUSTOMER -> getWalletByCustomer();
+            case SEARCH_BY_VOUCHER -> getWalletByVoucher();
             case DELETE -> deleteWallet();
         }
     }
@@ -129,7 +128,7 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void getVoucher() {
-        VoucherRequest request = console.getReadVoucherRequest();
+        VoucherRequest request = console.getSearchVoucherRequest();
 
         Response<VoucherDTO> response = voucherController.getVoucher(request);
 
@@ -176,7 +175,7 @@ public class ApplicationController implements CommandLineRunner {
 
     private void getCustomer() {
         try {
-            CustomerRequest request = console.getReadCustomerRequest();
+            CustomerRequest request = console.getSearchCustomerRequest();
             Response<CustomerDTO> response = customerController.getCustomer(request);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
@@ -210,7 +209,7 @@ public class ApplicationController implements CommandLineRunner {
 
     private void createWallet() {
         try {
-            WalletRequest.Create walletRequest = console.getWalletCreateRequest();
+            WalletRequest walletRequest = console.getCreateWalletRequest();
             Response<WalletDTO> response = walletController.createWallet(walletRequest);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
@@ -218,10 +217,20 @@ public class ApplicationController implements CommandLineRunner {
         }
     }
 
-    private void searchWallet(String condition) {
+    private void getWalletByCustomer() {
         try {
-            UUID conditionId = console.getId();
-            Response<WalletDTO> response = walletController.search(condition, conditionId);
+            WalletRequest walletRequest = console.getSearchByCustomerWalletRequest();
+            Response<WalletDTO> response = walletController.getWalletByCustomer(walletRequest);
+            console.displayResponse(response.getResultMessage());
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
+    }
+
+    private void getWalletByVoucher() {
+        try {
+            WalletRequest walletRequest = console.getSearchByVoucherWalletRequest();
+            Response<WalletDTO> response = walletController.getWalletByVoucher(walletRequest);
             console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
             console.displayError(e.getMessage());
@@ -230,9 +239,8 @@ public class ApplicationController implements CommandLineRunner {
 
     private void deleteWallet() {
         try {
-            UUID customerId = console.getId();
-            UUID voucherId = console.getId();
-            walletController.deleteWallet(customerId, voucherId);
+            WalletRequest walletRequest = console.getDeleteWalletRequest();
+            walletController.deleteWallet(walletRequest);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }

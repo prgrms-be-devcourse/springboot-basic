@@ -3,9 +3,9 @@ package com.example.voucher.wallet.service;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
-import com.example.voucher.wallet.service.dto.WalletDTO;
 import com.example.voucher.wallet.model.Wallet;
 import com.example.voucher.wallet.repository.WalletRepository;
+import com.example.voucher.wallet.service.dto.WalletDTO;
 
 @Service
 public class WalletService {
@@ -24,8 +24,15 @@ public class WalletService {
         return toDTO(savedWallet);
     }
 
-    public List<WalletDTO> search(String condition, UUID conditionId) {
-        return walletRepository.findByConditionId(condition, conditionId)
+    public List<WalletDTO> getByCustomer(UUID customerId) {
+        return walletRepository.findByCustomerId(customerId)
+            .stream()
+            .map(v -> toDTO(v))
+            .toList();
+    }
+
+    public List<WalletDTO> getByVoucher(UUID voucherId) {
+        return walletRepository.findByVoucherId(voucherId)
             .stream()
             .map(v -> toDTO(v))
             .toList();
