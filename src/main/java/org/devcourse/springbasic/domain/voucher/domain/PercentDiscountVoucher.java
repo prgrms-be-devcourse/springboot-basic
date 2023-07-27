@@ -1,24 +1,20 @@
 package org.devcourse.springbasic.domain.voucher.domain;
 
-import org.devcourse.springbasic.global.validator.Validator;
-import org.devcourse.springbasic.global.validator.VoucherValidator;
+import org.devcourse.springbasic.global.exception.custom.OutOfLimitsDiscountRateException;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
 
-    private static final long PERCENT_DISCOUNT_RATE = 50L;
-
-    public PercentDiscountVoucher() {
-        super(UUID.randomUUID(), PERCENT_DISCOUNT_RATE, VoucherType.PERCENT_DISCOUNT_VOUCHER);
-        Validator<Voucher> voucherValidator = new VoucherValidator();
-        voucherValidator.validate(this);
+    public PercentDiscountVoucher(Long percentDiscountRate) {
+        super(UUID.randomUUID(), percentDiscountRate, VoucherType.PERCENT_DISCOUNT, LocalDateTime.now());
+        this.validate();
     }
 
-    public PercentDiscountVoucher(UUID voucherId, Long percent_discount_rate) {
-        super(voucherId, percent_discount_rate, VoucherType.PERCENT_DISCOUNT_VOUCHER);
-        Validator<Voucher> voucherValidator = new VoucherValidator();
-        voucherValidator.validate(this);
+    public PercentDiscountVoucher(UUID voucherId, Long percentDiscountRate, LocalDateTime createdAt) {
+        super(voucherId, percentDiscountRate, VoucherType.PERCENT_DISCOUNT, createdAt);
+        this.validate();
     }
 
     @Override
@@ -27,8 +23,9 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public long maxDiscountRate() {
-        return PERCENT_DISCOUNT_RATE;
+    public void validate() {
+        if(getDiscountRate() < 0 || getDiscountRate() > 100) {
+            throw new OutOfLimitsDiscountRateException("할인 비율의 범위가 올바르지 않습니다.");
+        }
     }
-
 }

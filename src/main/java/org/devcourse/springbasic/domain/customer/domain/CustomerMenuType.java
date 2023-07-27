@@ -1,37 +1,32 @@
 package org.devcourse.springbasic.domain.customer.domain;
 
-import org.devcourse.springbasic.global.util.DigitChecker;
-
 import java.util.Arrays;
 
 
 public enum CustomerMenuType {
 
-    EXIT(1),
-    SAVE(2);
+    EXIT("1"),
+    SAVE("2");
 
-    private final int inputNum;
+    private final String inputNum;
 
-    CustomerMenuType(int inputNum) {
+    CustomerMenuType(String inputNum) {
         this.inputNum = inputNum;
     }
 
+    private static boolean hasMenuByInputNum(String input) {
+        return Arrays.stream(CustomerMenuType.values())
+                .anyMatch(menuType -> menuType.inputNum.equals(input));
+    }
+
     public static CustomerMenuType findCustomerMenuByInput(String input) {
-
-        if (DigitChecker.isDigit(input)) {
-            return Arrays.stream(CustomerMenuType.values())
-                    .filter(customerMenuType -> (customerMenuType.inputNum == Integer.parseInt(input)))
-                    .findAny()
-                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다."));
-        } else {
-            return CustomerMenuType.valueOf(input.toUpperCase());
+        String upperCaseInput = input.toUpperCase();
+        if (hasMenuByInputNum(upperCaseInput)) {
+            return CustomerMenuType.valueOf(upperCaseInput);
         }
+        throw new IllegalArgumentException("존재하지 않는 메뉴입니다.");
     }
 
-
-    public boolean isExit() {
-        return this == EXIT;
-    }
     public boolean isSave() {
         return this == SAVE;
     }

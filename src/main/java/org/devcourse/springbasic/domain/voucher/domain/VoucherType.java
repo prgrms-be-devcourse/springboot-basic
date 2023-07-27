@@ -1,36 +1,23 @@
 package org.devcourse.springbasic.domain.voucher.domain;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.util.Arrays;
-import java.util.UUID;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
 
+@Getter
+@RequiredArgsConstructor
 public enum VoucherType {
-    FIXED_AMOUNT_VOUCHER(1, FixedAmountVoucher::new, FixedAmountVoucher::new),
-    PERCENT_DISCOUNT_VOUCHER(2, PercentDiscountVoucher::new, PercentDiscountVoucher::new);
+    FIXED_AMOUNT("금액 할인 바우처", "원"),
+    PERCENT_DISCOUNT("비율 할인 바우처", "%");
 
-    private final int inputNum;
-    private final Supplier<Voucher> voucherSupplier;
-    private final BiFunction<UUID, Long, Voucher> voucherBiFunction;
+    private final String voucherName;
+    private final String unit;
 
-    VoucherType(int inputNum, Supplier<Voucher> voucherSupplier, BiFunction<UUID, Long, Voucher> voucherBiFunction) {
-        this.inputNum = inputNum;
-        this.voucherSupplier = voucherSupplier;
-        this.voucherBiFunction = voucherBiFunction;
-    }
-    public Supplier<Voucher> getVoucherSupplier() {
-        return voucherSupplier;
-    }
-    public BiFunction<UUID, Long, Voucher> getVoucherBiFunction() {
-        return voucherBiFunction;
-    }
-
-
-    public static VoucherType findByMenuNum(int menuNum) {
+    public static VoucherType findVoucherType(String type) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> (voucherType.inputNum == menuNum))
+                .filter(voucherType -> (type.equalsIgnoreCase(voucherType.toString())))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 메뉴입니다. 메뉴 번호를 숫자로 정확히 입력해주세요."));
     }
-
 }
