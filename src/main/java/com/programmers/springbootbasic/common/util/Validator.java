@@ -31,7 +31,7 @@ public final class Validator {
     }
 
     public static void checkNullOrWrongEmail(String input) {
-        if (input == null || !PatternUtils.isEmail(input) || input.isBlank()) {
+        if (input == null || !PatternUtils.isEmail(input)) {
             throw new IllegalArgumentException(EMAIL_IS_WRONG_OR_NULL + input);
         }
     }
