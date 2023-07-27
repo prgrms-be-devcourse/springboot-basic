@@ -21,7 +21,7 @@ public class CustomerService {
     }
 
     public CustomerDTO createCustomer(String name, String email, CustomerType customerType) {
-        Customer createdCustomer = new Customer.Builder()
+        Customer createdCustomer = Customer.builder()
             .name(name)
             .email(email)
             .customerType(customerType)
@@ -54,7 +54,7 @@ public class CustomerService {
     }
 
     public CustomerDTO update(UUID customerId, String customerName, String customerEmail, CustomerType customerType) {
-        Customer customer = new Customer.Builder()
+        Customer customer = Customer.builder()
             .customerId(customerId)
             .name(customerName)
             .email(customerEmail)

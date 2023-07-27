@@ -109,12 +109,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private RowMapper<Customer> custoemrRowMapper() {
         return (rs, rowNum) -> {
             UUID customerId = UUID.fromString(rs.getString("customer_id"));
-            String customerName = rs.getString("customer_name");
-            String customerEmail = rs.getString("customer_email");
+            String name = rs.getString("customer_name");
+            String email = rs.getString("customer_email");
             CustomerType customerType = CustomerType.valueOf(rs.getString("customer_type"));
             LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
-            return new Customer(customerId, customerName, customerEmail, customerType, createdAt);
+            return Customer.builder()
+                .customerId(customerId)
+                .name(name)
+                .email(email)
+                .customerType(customerType)
+                .createdAt(createdAt)
+                .build();
+
         };
     }
 

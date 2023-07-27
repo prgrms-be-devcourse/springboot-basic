@@ -12,12 +12,16 @@ public class Customer {
     private final CustomerType customerType;
     private final LocalDateTime createdAt;
 
-    public Customer(UUID customerId, String name, String email, CustomerType customerType, LocalDateTime createdAt) {
+    private Customer(UUID customerId, String name, String email, CustomerType customerType, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.customerType = customerType;
         this.createdAt = createdAt;
+    }
+
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder {
@@ -27,7 +31,6 @@ public class Customer {
         private String email;
         private CustomerType customerType;
         private LocalDateTime createdAt = LocalDateTime.now();
-        ;
 
         public Builder() {
         }
@@ -52,6 +55,12 @@ public class Customer {
 
         public Builder customerType(CustomerType customerType) {
             this.customerType = customerType;
+
+            return this;
+        }
+
+        public Builder createdAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
 
             return this;
         }
