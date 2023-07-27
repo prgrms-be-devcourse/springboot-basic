@@ -4,7 +4,7 @@ import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 
 import java.util.UUID;
 
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_INCLUDE_1_TO_100;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_INCLUDE_1_TO_100;
 
 public class PercentAmountVoucher extends Voucher {
     public PercentAmountVoucher(UUID voucherId, DiscountType discountType, DiscountValue discountValue) {
