@@ -5,9 +5,9 @@ import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
 import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
 import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.presentation.MemberController;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherCreateRequest;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherUpdateRequest;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.presentation.VoucherController;
 import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
@@ -113,7 +113,7 @@ public class CommandExecutor {
         DiscountType discountType = DiscountType.from(console.readDiscountType());
         int discountValue = console.readDiscountValue();
 
-        return new VoucherCreateRequest(discountType, discountValue);
+        return new VoucherCreateRequest(discountType.toString(), discountValue);
     }
 
     private MemberCreateRequest makeCreateMemberRequest() {

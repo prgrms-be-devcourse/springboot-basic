@@ -1,8 +1,8 @@
 package org.programmers.VoucherManagement.voucher.presentation;
 
 import org.programmers.VoucherManagement.voucher.application.VoucherService;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherCreateRequest;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherUpdateRequest;
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.springframework.stereotype.Component;
 
