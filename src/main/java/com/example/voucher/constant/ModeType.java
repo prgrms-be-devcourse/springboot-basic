@@ -1,7 +1,6 @@
 package com.example.voucher.constant;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
-
 import java.util.Arrays;
 
 public enum ModeType {

@@ -9,9 +9,9 @@ import com.example.voucher.constant.CustomerType;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.controller.request.CustomerRequest;
-import com.example.voucher.controller.request.VoucherRequest;
-import com.example.voucher.controller.request.WalletRequest;
+import com.example.voucher.request.CustomerRequest;
+import com.example.voucher.request.VoucherRequest;
+import com.example.voucher.request.WalletRequest;
 
 public class Console {
 
@@ -128,7 +128,12 @@ public class Console {
 
         String input = reader.readString();
 
-        return UUID.fromString(input);
+        try {
+            return UUID.fromString(input);
+        } catch (Exception e) {
+            return null;
+        }
+
     }
 
     public String getName() {

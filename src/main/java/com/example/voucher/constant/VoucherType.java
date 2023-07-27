@@ -1,12 +1,11 @@
 package com.example.voucher.constant;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
-
 import java.util.Arrays;
 import java.util.UUID;
-import com.example.voucher.domain.voucher.FixedAmountVoucher;
-import com.example.voucher.domain.voucher.PercentDiscountVoucher;
-import com.example.voucher.domain.voucher.Voucher;
+import com.example.voucher.voucher.model.FixedAmountVoucher;
+import com.example.voucher.voucher.model.PercentDiscountVoucher;
+import com.example.voucher.voucher.model.Voucher;
 
 public enum VoucherType {
 
