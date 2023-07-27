@@ -2,6 +2,7 @@ package com.example.voucher.io;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
 import static com.example.voucher.io.Writer.*;
+
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +10,8 @@ import com.example.voucher.constant.CustomerType;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.request.CustomerRequest;
-import com.example.voucher.request.VoucherRequest;
 import com.example.voucher.request.WalletRequest;
+import com.example.voucher.voucher.controller.VoucherRequest;
 
 public class Console {
 
@@ -23,6 +23,62 @@ public class Console {
     public Console() {
         this.writer = new Writer();
         this.reader = new Reader();
+    }
+
+    public VoucherRequest getCreateVoucherRequest() {
+        VoucherType voucherType = getVoucherType();
+        Long discountValue = getDiscountValue();
+
+        return VoucherRequest.builder()
+            .setVoucherType(voucherType)
+            .setDiscountValue(discountValue)
+            .build();
+    }
+
+    public VoucherRequest getReadVoucherRequest() {
+        UUID voucherId = getId();
+
+        return VoucherRequest.builder()
+            .setVoucherId(voucherId)
+            .build();
+    }
+
+    public VoucherRequest getUpdateVoucherRequest() {
+        UUID voucherId = getId();
+        VoucherType voucherType = getVoucherType();
+        Long discountValue = getDiscountValue();
+
+        return VoucherRequest.builder()
+            .setVoucherId(voucherId)
+            .setVoucherType(voucherType)
+            .setDiscountValue(discountValue)
+            .build();
+    }
+
+    public VoucherRequest getDeleteVoucherRequest() {
+        UUID voucherId = getId();
+
+        return VoucherRequest.builder()
+            .setVoucherId(voucherId)
+            .build();
+    }
+
+    public VoucherType getVoucherType() {
+        writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
+        writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
+
+        int number = reader.readInteger();
+
+        return VoucherType.getVouchersType(number);
+    }
+
+    public Long getDiscountValue() {
+        writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
+
+        Long discountAmount = reader.readLong();
+        validatePositive(discountAmount);
+
+        return discountAmount;
     }
 
     public void displayResponse(String resultInfo) {
@@ -71,39 +127,6 @@ public class Console {
         UUID voucherId = getId();
 
         return new WalletRequest.Update(walletId, customerId, voucherId);
-    }
-
-    public VoucherRequest.Create getVoucherCreateRequest() {
-        VoucherType voucherType = getVoucherType();
-        Long discountValue = getDiscountValue();
-
-        return new VoucherRequest.Create(voucherType, discountValue);
-    }
-
-    public VoucherRequest.Update getVoucherUpdateRequest() {
-        VoucherType voucherType = getVoucherType();
-        Long discountValue = getDiscountValue();
-        UUID voucherId = getId();
-
-        return new VoucherRequest.Update(voucherId, voucherType, discountValue);
-    }
-
-    public VoucherType getVoucherType() {
-        writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
-        writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
-
-        int number = reader.readInteger();
-
-        return VoucherType.getVouchersType(number);
-    }
-
-    public Long getDiscountValue() {
-        writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
-
-        Long discountAmount = reader.readLong();
-        validatePositive(discountAmount);
-
-        return discountAmount;
     }
 
     public CustomerRequest.Create getCustomerCreateRequest() {

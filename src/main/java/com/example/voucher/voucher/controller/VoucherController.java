@@ -1,12 +1,10 @@
 package com.example.voucher.voucher.controller;
 
 import java.util.List;
-import java.util.UUID;
 import org.springframework.stereotype.Controller;
-import com.example.voucher.request.VoucherRequest;
 import com.example.voucher.response.Response;
-import com.example.voucher.voucher.service.dto.VoucherDTO;
 import com.example.voucher.voucher.service.VoucherService;
+import com.example.voucher.voucher.service.dto.VoucherDTO;
 
 @Controller
 public class VoucherController {
@@ -17,13 +15,15 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Response<VoucherDTO> createVoucher(VoucherRequest.Create request) {
+    public Response<VoucherDTO> createVoucher(VoucherRequest request) {
         VoucherDTO voucher = voucherService.createVoucher(request.getVoucherType(), request.getDiscountValue());
+
         return new Response<>(voucher);
     }
 
     public Response<VoucherDTO> getVouchers() {
         List<VoucherDTO> vouchers = voucherService.getVouchers();
+
         return new Response<>(vouchers);
     }
 
@@ -31,21 +31,22 @@ public class VoucherController {
         voucherService.deleteVouchers();
     }
 
-    public Response<VoucherDTO> search(UUID voucherId) {
+    public Response<VoucherDTO> search(VoucherRequest request) {
+        VoucherDTO voucher = voucherService.search(request.getVoucherId());
 
-        VoucherDTO voucher = voucherService.search(voucherId);
         return new Response<>(voucher);
     }
 
-    public Response<VoucherDTO> update(VoucherRequest.Update request) {
+    public Response<VoucherDTO> update(VoucherRequest request) {
 
         VoucherDTO voucher = voucherService.update(request.getVoucherId(), request.getVoucherType(),
             request.getDiscountValue());
+
         return new Response<>(voucher);
     }
 
-    public void deleteVoucher(UUID voucherId) {
-        voucherService.deleteVoucher(voucherId);
+    public void deleteVoucher(VoucherRequest request) {
+        voucherService.deleteVoucher(request.getVoucherId());
     }
 
 }

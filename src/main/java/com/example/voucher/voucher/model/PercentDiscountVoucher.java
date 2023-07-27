@@ -9,9 +9,8 @@ public class PercentDiscountVoucher implements Voucher {
 
     private static final int PERCENT_DIVISOR = 100;
 
-    private final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
-
     private final UUID voucherId;
+    private final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
     private final long percent;
 
     public PercentDiscountVoucher(long percent) {

@@ -7,9 +7,8 @@ import com.example.voucher.constant.VoucherType;
 
 public class FixedAmountVoucher implements Voucher {
 
-    private final VoucherType voucherType = VoucherType.FIXED_AMOUNT_DISCOUNT;
-
     private final UUID voucherId;
+    private final VoucherType voucherType = VoucherType.FIXED_AMOUNT_DISCOUNT;
     private final long amount;
 
     public FixedAmountVoucher(long amount) {
