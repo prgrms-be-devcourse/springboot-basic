@@ -27,22 +27,21 @@ public class VoucherController {
         return new Response<>(vouchers);
     }
 
-    public void deleteVouchers() {
-        voucherService.deleteVouchers();
-    }
-
-    public Response<VoucherDTO> search(VoucherRequest request) {
+    public Response<VoucherDTO> getVoucher(VoucherRequest request) {
         VoucherDTO voucher = voucherService.search(request.getVoucherId());
 
         return new Response<>(voucher);
     }
 
     public Response<VoucherDTO> update(VoucherRequest request) {
-
         VoucherDTO voucher = voucherService.update(request.getVoucherId(), request.getVoucherType(),
             request.getDiscountValue());
 
         return new Response<>(voucher);
+    }
+
+    public void deleteVouchers() {
+        voucherService.deleteVouchers();
     }
 
     public void deleteVoucher(VoucherRequest request) {

@@ -66,10 +66,10 @@ public class ApplicationController implements CommandLineRunner {
 
         switch (selectedModeType) {
             case CREATE -> createVoucher();
-            case LIST -> searchVouchers();
-            case DELETE_ALL -> removeVouchers();
-            case SEARCH -> searchVoucher();
+            case LIST -> getVouchers();
+            case SEARCH -> getVoucher();
             case UPDATE -> updateVoucher();
+            case DELETE_ALL -> removeVouchers();
             case DELETE -> removeVoucher();
         }
     }
@@ -123,15 +123,15 @@ public class ApplicationController implements CommandLineRunner {
         }
     }
 
-    private void searchVouchers() {
+    private void getVouchers() {
         Response<VoucherDTO> response = voucherController.getVouchers();
         console.displayResponse(response.getResultMessage());
     }
 
-    private void searchVoucher() {
+    private void getVoucher() {
         VoucherRequest request = console.getReadVoucherRequest();
 
-        Response<VoucherDTO> response = voucherController.search(request);
+        Response<VoucherDTO> response = voucherController.getVoucher(request);
 
         console.displayResponse(response.getResultMessage());
     }
