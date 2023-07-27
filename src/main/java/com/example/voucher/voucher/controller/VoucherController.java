@@ -28,7 +28,7 @@ public class VoucherController {
     }
 
     public Response<VoucherDTO> getVoucher(VoucherRequest request) {
-        VoucherDTO voucher = voucherService.search(request.getVoucherId());
+        VoucherDTO voucher = voucherService.getVoucher(request.getVoucherId());
 
         return new Response<>(voucher);
     }

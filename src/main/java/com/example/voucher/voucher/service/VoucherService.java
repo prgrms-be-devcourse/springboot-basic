@@ -38,7 +38,7 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    public VoucherDTO search(UUID voucherId) {
+    public VoucherDTO getVoucher(UUID voucherId) {
         Voucher selectedVoucher = voucherRepository.findById(voucherId);
 
         return toDTO(selectedVoucher);

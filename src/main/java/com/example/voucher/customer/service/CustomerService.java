@@ -43,7 +43,7 @@ public class CustomerService {
         customerRepository.deleteAll();
     }
 
-    public CustomerDTO search(UUID customerId) {
+    public CustomerDTO getCustomer(UUID customerId) {
         Customer selectedCustomer = customerRepository.findById(customerId);
 
         return toDTO(selectedCustomer);

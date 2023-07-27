@@ -29,7 +29,7 @@ public class CustomerController {
     }
 
     public Response<CustomerDTO> getCustomer(CustomerRequest request) {
-        CustomerDTO customer = customerService.search(request.getCustomerId());
+        CustomerDTO customer = customerService.getCustomer(request.getCustomerId());
 
         return new Response<>(customer);
     }
