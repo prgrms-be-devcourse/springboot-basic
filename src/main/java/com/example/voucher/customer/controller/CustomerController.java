@@ -2,9 +2,11 @@ package com.example.voucher.customer.controller;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
+
+import com.example.voucher.customer.controller.model.CustomerRequest;
+import com.example.voucher.customer.controller.model.CustomerResponse;
 import com.example.voucher.customer.service.CustomerService;
 import com.example.voucher.customer.service.dto.CustomerDTO;
-import com.example.voucher.response.Response;
 
 @Controller
 public class CustomerController {
@@ -15,30 +17,30 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public Response<CustomerDTO> createCustomer(CustomerRequest request) {
+    public CustomerResponse createCustomer(CustomerRequest request) {
         CustomerDTO customer = customerService.createCustomer(request.getName(), request.getEmail(),
             request.getCustomerType());
 
-        return new Response<>(customer);
+        return new CustomerResponse(customer);
     }
 
-    public Response<CustomerDTO> getCustomers() {
+    public CustomerResponse getCustomers() {
         List<CustomerDTO> customers = customerService.getCustomers();
 
-        return new Response<>(customers);
+        return new CustomerResponse(customers);
     }
 
-    public Response<CustomerDTO> getCustomer(CustomerRequest request) {
+    public CustomerResponse getCustomer(CustomerRequest request) {
         CustomerDTO customer = customerService.getCustomer(request.getCustomerId());
 
-        return new Response<>(customer);
+        return new CustomerResponse(customer);
     }
 
-    public Response<CustomerDTO> update(CustomerRequest request) {
+    public CustomerResponse update(CustomerRequest request) {
         CustomerDTO customer = customerService.update(request.getCustomerId(), request.getName(), request.getEmail(),
             request.getCustomerType());
 
-        return new Response<>(customer);
+        return new CustomerResponse(customer);
     }
 
     public void deleteCustomers() {

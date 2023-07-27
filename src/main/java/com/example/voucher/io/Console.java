@@ -9,9 +9,15 @@ import com.example.voucher.constant.CustomerType;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.customer.controller.CustomerRequest;
-import com.example.voucher.voucher.controller.VoucherRequest;
-import com.example.voucher.wallet.controller.WalletRequest;
+import com.example.voucher.customer.controller.model.CustomerRequest;
+import com.example.voucher.customer.controller.model.CustomerResponse;
+import com.example.voucher.customer.service.dto.CustomerDTO;
+import com.example.voucher.voucher.controller.model.VoucherRequest;
+import com.example.voucher.voucher.controller.model.VoucherResponse;
+import com.example.voucher.voucher.service.dto.VoucherDTO;
+import com.example.voucher.wallet.controller.model.WalletRequest;
+import com.example.voucher.wallet.controller.model.WalletResponse;
+import com.example.voucher.wallet.service.dto.WalletDTO;
 
 public class Console {
 
@@ -220,8 +226,23 @@ public class Console {
 
     }
 
-    public void displayResponse(String resultInfo) {
-        writer.writeMessage(resultInfo);
+    public void displayVoucherResponse(VoucherResponse voucherResponse) {
+        for (VoucherDTO voucher : voucherResponse.getVouchers()) {
+            writer.writeVoucherResponse(voucher.voucherId(), voucher.value(), voucher.voucherType());
+        }
+    }
+
+    public void displayCustomerResponse(CustomerResponse customerResponse) {
+        for (CustomerDTO customer : customerResponse.getCustomers()) {
+            writer.writeCustomerResponse(customer.customerId(), customer.name(), customer.email(),
+                customer.customerType(), customer.createdAt());
+        }
+    }
+
+    public void displayWalletResponse(WalletResponse walletResponse) {
+        for (WalletDTO wallet : walletResponse.getWallets()) {
+            writer.writeWalletResponse(wallet.walletId(), wallet.customerId(), wallet.voucherId());
+        }
     }
 
     public void displayError(String errorMsg) {

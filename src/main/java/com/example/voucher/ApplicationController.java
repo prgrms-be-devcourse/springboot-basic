@@ -5,16 +5,15 @@ import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.customer.controller.CustomerController;
-import com.example.voucher.customer.controller.CustomerRequest;
-import com.example.voucher.customer.service.dto.CustomerDTO;
+import com.example.voucher.customer.controller.model.CustomerRequest;
+import com.example.voucher.customer.controller.model.CustomerResponse;
 import com.example.voucher.io.Console;
-import com.example.voucher.response.Response;
 import com.example.voucher.voucher.controller.VoucherController;
-import com.example.voucher.voucher.controller.VoucherRequest;
-import com.example.voucher.voucher.service.dto.VoucherDTO;
+import com.example.voucher.voucher.controller.model.VoucherRequest;
+import com.example.voucher.voucher.controller.model.VoucherResponse;
 import com.example.voucher.wallet.controller.WalletController;
-import com.example.voucher.wallet.controller.WalletRequest;
-import com.example.voucher.wallet.service.dto.WalletDTO;
+import com.example.voucher.wallet.controller.model.WalletRequest;
+import com.example.voucher.wallet.controller.model.WalletResponse;
 
 @Controller
 public class ApplicationController implements CommandLineRunner {
@@ -115,31 +114,31 @@ public class ApplicationController implements CommandLineRunner {
     private void createVoucher() {
         try {
             VoucherRequest request = console.getCreateVoucherRequest();
-            Response<VoucherDTO> response = voucherController.createVoucher(request);
-            console.displayResponse(response.getResultMessage());
+            VoucherResponse response = voucherController.createVoucher(request);
+            console.displayVoucherResponse(response);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }
     }
 
     private void getVouchers() {
-        Response<VoucherDTO> response = voucherController.getVouchers();
-        console.displayResponse(response.getResultMessage());
+        VoucherResponse response = voucherController.getVouchers();
+        console.displayVoucherResponse(response);
     }
 
     private void getVoucher() {
         VoucherRequest request = console.getSearchVoucherRequest();
 
-        Response<VoucherDTO> response = voucherController.getVoucher(request);
+        VoucherResponse response = voucherController.getVoucher(request);
 
-        console.displayResponse(response.getResultMessage());
+        console.displayVoucherResponse(response);
     }
 
     private void updateVoucher() {
         try {
             VoucherRequest request = console.getUpdateVoucherRequest();
-            Response<VoucherDTO> response = voucherController.update(request);
-            console.displayResponse(response.getResultMessage());
+            VoucherResponse response = voucherController.update(request);
+            console.displayVoucherResponse(response);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }
@@ -161,34 +160,33 @@ public class ApplicationController implements CommandLineRunner {
     public void createCustomer() {
         try {
             CustomerRequest request = console.getCreateCustomerRequest();
-            Response<CustomerDTO> response = customerController.createCustomer(request);
-            console.displayResponse(response.getResultMessage());
+            CustomerResponse response = customerController.createCustomer(request);
+            console.displayCustomerResponse(response);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }
     }
 
     private void getCustomers() {
-        Response<CustomerDTO> response = customerController.getCustomers();
-        console.displayResponse(response.getResultMessage());
+        CustomerResponse response = customerController.getCustomers();
+        console.displayCustomerResponse(response);
     }
 
     private void getCustomer() {
         try {
             CustomerRequest request = console.getSearchCustomerRequest();
-            Response<CustomerDTO> response = customerController.getCustomer(request);
-            console.displayResponse(response.getResultMessage());
+            CustomerResponse response = customerController.getCustomer(request);
+            console.displayCustomerResponse(response);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }
-
     }
 
     private void updateCustomer() {
         try {
             CustomerRequest request = console.getUpdateCustomerRequest();
-            Response<CustomerDTO> response = customerController.update(request);
-            console.displayResponse(response.getResultMessage());
+            CustomerResponse response = customerController.update(request);
+            console.displayCustomerResponse(response);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }
@@ -210,8 +208,8 @@ public class ApplicationController implements CommandLineRunner {
     private void createWallet() {
         try {
             WalletRequest walletRequest = console.getCreateWalletRequest();
-            Response<WalletDTO> response = walletController.createWallet(walletRequest);
-            console.displayResponse(response.getResultMessage());
+            WalletResponse response = walletController.createWallet(walletRequest);
+            console.displayWalletResponse(response);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }
@@ -220,8 +218,8 @@ public class ApplicationController implements CommandLineRunner {
     private void getWalletByCustomer() {
         try {
             WalletRequest walletRequest = console.getSearchByCustomerWalletRequest();
-            Response<WalletDTO> response = walletController.getWalletByCustomer(walletRequest);
-            console.displayResponse(response.getResultMessage());
+            WalletResponse response = walletController.getWalletByCustomer(walletRequest);
+            console.displayWalletResponse(response);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }
@@ -230,8 +228,8 @@ public class ApplicationController implements CommandLineRunner {
     private void getWalletByVoucher() {
         try {
             WalletRequest walletRequest = console.getSearchByVoucherWalletRequest();
-            Response<WalletDTO> response = walletController.getWalletByVoucher(walletRequest);
-            console.displayResponse(response.getResultMessage());
+            WalletResponse response = walletController.getWalletByVoucher(walletRequest);
+            console.displayWalletResponse(response);
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }

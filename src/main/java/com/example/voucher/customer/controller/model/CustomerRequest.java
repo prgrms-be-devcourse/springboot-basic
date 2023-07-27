@@ -1,4 +1,4 @@
-package com.example.voucher.customer.controller;
+package com.example.voucher.customer.controller.model;
 
 import java.util.UUID;
 import com.example.voucher.constant.CustomerType;

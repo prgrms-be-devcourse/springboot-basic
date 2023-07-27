@@ -2,7 +2,9 @@ package com.example.voucher.voucher.controller;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
-import com.example.voucher.response.Response;
+
+import com.example.voucher.voucher.controller.model.VoucherRequest;
+import com.example.voucher.voucher.controller.model.VoucherResponse;
 import com.example.voucher.voucher.service.VoucherService;
 import com.example.voucher.voucher.service.dto.VoucherDTO;
 
@@ -15,29 +17,29 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Response<VoucherDTO> createVoucher(VoucherRequest request) {
+    public VoucherResponse createVoucher(VoucherRequest request) {
         VoucherDTO voucher = voucherService.createVoucher(request.getVoucherType(), request.getDiscountValue());
 
-        return new Response<>(voucher);
+        return new VoucherResponse(voucher);
     }
 
-    public Response<VoucherDTO> getVouchers() {
+    public VoucherResponse getVouchers() {
         List<VoucherDTO> vouchers = voucherService.getVouchers();
 
-        return new Response<>(vouchers);
+        return new VoucherResponse(vouchers);
     }
 
-    public Response<VoucherDTO> getVoucher(VoucherRequest request) {
+    public VoucherResponse getVoucher(VoucherRequest request) {
         VoucherDTO voucher = voucherService.getVoucher(request.getVoucherId());
 
-        return new Response<>(voucher);
+        return new VoucherResponse(voucher);
     }
 
-    public Response<VoucherDTO> update(VoucherRequest request) {
+    public VoucherResponse update(VoucherRequest request) {
         VoucherDTO voucher = voucherService.update(request.getVoucherId(), request.getVoucherType(),
             request.getDiscountValue());
 
-        return new Response<>(voucher);
+        return new VoucherResponse(voucher);
     }
 
     public void deleteVouchers() {

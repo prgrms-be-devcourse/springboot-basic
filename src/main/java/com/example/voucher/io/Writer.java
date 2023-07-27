@@ -1,5 +1,10 @@
 package com.example.voucher.io;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+import com.example.voucher.constant.CustomerType;
+import com.example.voucher.constant.VoucherType;
+
 class Writer {
 
     enum Message {
@@ -76,8 +81,21 @@ class Writer {
         System.out.println(message.getText());
     }
 
-    public void writeMessage(String resultInfo) {
-        System.out.println(resultInfo);
+    public void writeVoucherResponse(UUID voucherId, long value, VoucherType voucherType) {
+        System.out.println(String.format("ID : %s discountValue : %d voucherType %s", voucherId, value, voucherType));
+    }
+
+    public void writeCustomerResponse(UUID customerId, String name, String email, CustomerType customerType,
+        LocalDateTime createdAt) {
+        System.out.println(
+            String.format("ID : %s name : %s email : %s customerType : %s createdAt : %s", customerId, name, email,
+                customerType, createdAt.toString()));
+    }
+
+    public void writeWalletResponse(UUID walletId, UUID customerId, UUID voucherId) {
+        System.out.println(
+            String.format("WALLET ID : %s CUSTOMER ID : %s VOUCHER ID %s", walletId.toString(), customerId.toString(),
+                voucherId.toString()));
     }
 
 }

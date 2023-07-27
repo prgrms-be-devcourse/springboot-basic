@@ -2,7 +2,9 @@ package com.example.voucher.wallet.controller;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
-import com.example.voucher.response.Response;
+
+import com.example.voucher.wallet.controller.model.WalletRequest;
+import com.example.voucher.wallet.controller.model.WalletResponse;
 import com.example.voucher.wallet.service.WalletService;
 import com.example.voucher.wallet.service.dto.WalletDTO;
 
@@ -15,22 +17,22 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    public Response<WalletDTO> createWallet(WalletRequest request) {
+    public WalletResponse createWallet(WalletRequest request) {
         WalletDTO wallet = walletService.createWallet(request.getCustomerId(), request.getVoucherId());
 
-        return new Response<>(wallet);
+        return new WalletResponse(wallet);
     }
 
-    public Response<WalletDTO> getWalletByCustomer(WalletRequest walletRequest) {
+    public WalletResponse getWalletByCustomer(WalletRequest walletRequest) {
         List<WalletDTO> wallets = walletService.getByCustomer(walletRequest.getCustomerId());
 
-        return new Response<>(wallets);
+        return new WalletResponse(wallets);
     }
 
-    public Response<WalletDTO> getWalletByVoucher(WalletRequest walletRequest) {
+    public WalletResponse getWalletByVoucher(WalletRequest walletRequest) {
         List<WalletDTO> wallets = walletService.getByVoucher(walletRequest.getVoucherId());
 
-        return new Response<>(wallets);
+        return new WalletResponse(wallets);
     }
 
     public void deleteWallet(WalletRequest request) {

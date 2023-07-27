@@ -1,4 +1,4 @@
-package com.example.voucher.wallet.controller;
+package com.example.voucher.wallet.controller.model;
 
 import java.util.UUID;
 
