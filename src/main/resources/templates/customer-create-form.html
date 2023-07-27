@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 추가</title>
+</head>
+<body>
+<h1>회원 추가 페이지</h1>
+
+<!-- 에러 메시지가 있는 경우 알림 창으로 표시 -->
+<script th:if="${errorMessage}" th:inline="javascript">
+        alert([[${errorMessage}]]);
+    </script>
+
+<form action="/customers" method="post">
+
+    <label for="name">이름:</label>
+    <input type="text" name="name" required>
+    <br>
+
+    <label for="email">이메일:</label>
+    <input type="email" name="email" required>
+    <br>
+
+    <input type="submit" value="회원 추가">
+</form>
+</body>
+</html>
