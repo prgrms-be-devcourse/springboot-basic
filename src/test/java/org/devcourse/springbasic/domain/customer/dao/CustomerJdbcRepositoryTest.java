@@ -1,141 +1,256 @@
 package org.devcourse.springbasic.domain.customer.dao;
 
 import org.devcourse.springbasic.domain.customer.domain.Customer;
-import org.devcourse.springbasic.domain.customer.dto.CustomerDto;
+import org.devcourse.springbasic.global.exception.custom.DuplicateEmailException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@SpringBootTest
-@Transactional
-class CustomerJdbcRepositoryTest {
+
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+public class CustomerJdbcRepositoryTest {
 
     @Autowired
-    CustomerJdbcRepository customerJdbcRepository;
+    private CustomerJdbcRepository customerRepository;
 
-    @Test
-    @DisplayName("고객을 추가할 수 있다.")
-    public void testSave() {
-        //== given ==//
-        Customer expectedCustomer = new Customer(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now(), LocalDateTime.now());        //== when ==//
-        customerJdbcRepository.save(expectedCustomer);
-        //== then ==//
-        assertThat(expectedCustomer).isNotNull();
-    }
-
-    @Test
-    @DisplayName("중복 이메일로 가입할 수 없다.")
-    public void testNotDuplicateSave() {
-
-        assertThrows(IllegalArgumentException.class,
-                () -> {
-                    Customer newCustomer1 = new Customer(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-                    customerJdbcRepository.save(newCustomer1);
-                    Customer newCustomer2 = new Customer(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-                    customerJdbcRepository.save(newCustomer2);
-                });
-    }
-
-    @Test
-    @DisplayName("모든 고객을 조회할 수 있다.")
-    public void testFindAll() {
-        //== given ==//
-        int N = 3;
-        for (int i = 0; i < N; i++) {
-            String name = "customer" + i;
-            Customer newCustomer = new Customer(UUID.randomUUID(), name, name + "@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-            customerJdbcRepository.save(newCustomer);
+    @TestConfiguration
+    static class Config {
+        @Bean
+        public CustomerJdbcRepository customerRepository(NamedParameterJdbcTemplate template) {
+            return new CustomerJdbcRepository(template);
         }
-
-        //== when ==//
-        List<Customer> allCustomer = customerJdbcRepository.findAll();
-
-        //== then ==//
-        assertThat(allCustomer.size()).isEqualTo(N);
     }
 
+    private Customer getetCustomer() {
+        UUID customerId = UUID.randomUUID();
+        String name = "lee";
+        String email = "lee@example.com";
+        LocalDateTime createdAt = LocalDateTime.now();
+        Customer customer = new Customer(customerId, name, email, null, createdAt);
+        return customer;
+    }
 
     @Test
-    @DisplayName("Id를 통해 고객정보를 조회할 수 있다.")
-    public void testFindById() {
+    @DisplayName("새로운 회원 추가")
+    void savedValidCustomer() {
+        // given
+        Customer customer = getetCustomer();
+        // when
+        UUID savedCustomerId = customerRepository.save(customer);
+        // then
+        assertThat(savedCustomerId).isEqualTo(customer.getCustomerId());
+    }
 
-        //== given ==//
-        Customer expectedCustomer = new Customer(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        customerJdbcRepository.save(expectedCustomer);
-        Customer.CustomerBuilder expected = Customer.builder()
-                .name(expectedCustomer.getName())
-                .email(expectedCustomer.getEmail());
+    @Test
+    @DisplayName("중복된 이메일 가입 시, 예외가 발생")
+    void saveDuplicateEmail() {
+        // given
+        Customer customer = getetCustomer();
+        customerRepository.save(customer);
+        Customer customer2 = new Customer(UUID.randomUUID(), "kim", customer.getEmail(), null, LocalDateTime.now());
+        // when
+        assertThatThrownBy(() -> customerRepository.save(customer2))
+                .isInstanceOf(DuplicateEmailException.class);
+    }
 
-        //== when ==//
-        Customer actualCustomer = customerJdbcRepository.findById(expectedCustomer.getCustomerId());
-        Customer.CustomerBuilder actual = Customer.builder()
-                .name(actualCustomer.getName())
-                .email(actualCustomer.getEmail());
+    @Test
+    @DisplayName("회원 업데이트")
+    void updateExistingCustomer() {
+        // given
+        Customer customer = getetCustomer();
+        customerRepository.save(customer);
 
-        //== then ==//
-        assertThat(expected)
+        // when
+        String updatedName = "kim";
+        String updatedEmail = "kim@example.com";
+        Customer updatedCustomer = new Customer(
+                customer.getCustomerId(),
+                updatedName,
+                updatedEmail,
+                null,
+                customer.getCreatedAt());
+        UUID updatedCustomerId = customerRepository.update(updatedCustomer);
+
+        // then
+        assertThat(updatedCustomerId).isEqualTo(customer.getCustomerId());
+        Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
+        assertThat(foundCustomer).isPresent();
+        assertThat(foundCustomer.get().getName()).isEqualTo(updatedName);
+        assertThat(foundCustomer.get().getEmail()).isEqualTo(updatedEmail);
+    }
+
+    @Test
+    @DisplayName("없는 회원 수정 시도, 예외 발생")
+    void updateNonExistingCustomer() {
+        // given
+        Customer customer = getetCustomer();
+        // when
+        assertThatThrownBy(() -> customerRepository.update(customer))
+                .isInstanceOf(EmptyResultDataAccessException.class);
+    }
+
+    @Test
+    @DisplayName("id를 통한 고객 조회")
+    void findByIdExistingCustomerId() {
+        // given
+        Customer customer = getetCustomer();
+        customerRepository.save(customer);
+        // when
+        Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
+        // then
+        assertThat(foundCustomer).isPresent();
+        assertThat(foundCustomer.get())
                 .usingRecursiveComparison()
-                .isEqualTo(actual);
+                .isEqualTo(customer);
     }
 
     @Test
-    @DisplayName("없는 Id는 조회에 실패한다.")
-    public void testNotFoundById() {
-        //== given ==//
-        Customer expectedCustomer = new Customer(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        customerJdbcRepository.save(expectedCustomer);
-
-        //== when ==//
-        assertThrows(IllegalArgumentException.class,
-                () -> customerJdbcRepository.findById(UUID.randomUUID()));
+    @DisplayName("없는 고객 id조회 시, 빈 Optional 반환")
+    void findById_NonExistingCustomerId_ReturnsEmptyOptional() {
+        UUID noId = UUID.randomUUID();
+        Optional<Customer> foundCustomer = customerRepository.findById(noId);
+        assertThat(foundCustomer).isEmpty();
     }
 
     @Test
-    @DisplayName("e-mail을 통해 고객정보를 조회할 수 있다.")
-    public void testFindByEmail() {
+    @DisplayName("동일한 이름을 가진 회원, 전부 조회")
+    void findByNameExistingName() {
+        // given
+        List<Customer> expectedCustomers = new ArrayList<>();
+        String name = "lee";
 
-        //== given ==//
-        Customer expectedCustomer = new Customer(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        customerJdbcRepository.save(expectedCustomer);
-        Customer.CustomerBuilder expected = Customer.builder()
-                .name(expectedCustomer.getName())
-                .email(expectedCustomer.getEmail());
+        Customer customer1 = new Customer(
+                        UUID.randomUUID(),
+                        name,
+                        "lee@example.com",
+                        null,
+                        LocalDateTime.now());
+        expectedCustomers.add(customer1);
+        customerRepository.save(customer1);
+        Customer customer2 = new Customer(
+                UUID.randomUUID(),
+                name,
+                "lee2@example.com",
+                null,
+                LocalDateTime.now());
+        expectedCustomers.add(customer2);
+        customerRepository.save(customer2);
 
-        //== when ==//
-        Customer actualCustomer = customerJdbcRepository.findByEmail(expectedCustomer.getEmail());
-        Customer.CustomerBuilder actual = Customer.builder()
-                .name(actualCustomer.getName())
-                .email(actualCustomer.getEmail());
-
-        //== then ==//
-        assertThat(expected)
+        // when
+        List<Customer> foundCustomers = customerRepository.findByName(name);
+        //then
+        assertThat(foundCustomers).isNotNull();
+        assertThat(foundCustomers).hasSize(2);
+        expectedCustomers.sort(Comparator.comparing(Customer::getEmail));
+        foundCustomers.sort(Comparator.comparing(Customer::getEmail));
+        assertThat(foundCustomers)
                 .usingRecursiveComparison()
-                .isEqualTo(actual);
+                .ignoringFields("createdAt")
+                .isEqualTo(expectedCustomers);
     }
 
     @Test
-    @DisplayName("고객 정보를 업데이트 할 수 있다.")
-    public void testUpdate(){
+    @DisplayName("없는 이름 조회 시, 빈 리스트 반환")
+    void findByNameNonExistingName() {
+        // given
+        String nonExistingName = "NoName";
+        // when
+        List<Customer> foundCustomers = customerRepository.findByName(nonExistingName);
+        // then
+        assertThat(foundCustomers).isNotNull();
+        assertThat(foundCustomers).isEmpty();
+    }
 
-        //== given ==//
-        Customer customer = new Customer(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now(), LocalDateTime.now());
-        customerJdbcRepository.save(customer);
-        CustomerDto.UpdateRequestDto updateRequestDto = new CustomerDto.UpdateRequestDto(UUID.randomUUID(), "customerB", "customerB@gmail.com");
-        Customer updateCustomer = new Customer(updateRequestDto.getCustomerId(), updateRequestDto.getName(), updateRequestDto.getEmail(), LocalDateTime.now(), LocalDateTime.now());
+    @Test
+    @DisplayName("이메일로 고객 조회")
+    void findByEmail() {
+        // given
+        Customer customer = getetCustomer();
+        // when
+        customerRepository.save(customer);
+        Optional<Customer> foundCustomer = customerRepository.findByEmail(customer.getEmail());
+        // then
+        assertThat(foundCustomer).isPresent();
+        assertThat(foundCustomer.get())
+                .usingRecursiveComparison()
+                .isEqualTo(customer);
+    }
 
-        //== when ==//
-        UUID actualCustomerId = customerJdbcRepository.update(updateCustomer);
+    @Test
+    @DisplayName("없는 이메일 조회 시, 빈 Optional 반환")
+    void findByEmailNonExistingEmail() {
+        // given
+        String nonExistingEmail = "nonMail@example.com";
+        // when
+        Optional<Customer> foundCustomer = customerRepository.findByEmail(nonExistingEmail);
+        // then
+        assertThat(foundCustomer).isEmpty();
+    }
 
-        //== then ==//
-        assertThat(actualCustomerId).isEqualTo(updateCustomer.getCustomerId());
+    @Test
+    @DisplayName("모든 고객 조회")
+    void findAll() {
+        // given
+        List<Customer> expectedCustomers = new ArrayList<>();
+        Customer customer1 = getetCustomer();
+        customerRepository.save(customer1);
+        expectedCustomers.add(customer1);
+
+        Customer customer2 = new Customer(
+                UUID.randomUUID(),
+                "kim",
+                "kim@example.com",
+                null,
+                LocalDateTime.now()
+        );
+        customerRepository.save(customer2);
+        expectedCustomers.add(customer2);
+
+        // when
+        List<Customer> foundCustomers = customerRepository.findAll();
+        // then
+        assertThat(foundCustomers).isNotNull();
+        assertThat(foundCustomers).hasSize(2);
+        expectedCustomers.sort(Comparator.comparing(Customer::getEmail));
+        foundCustomers.sort(Comparator.comparing(Customer::getEmail));
+        assertThat(foundCustomers)
+                .usingRecursiveComparison()
+                .ignoringFields("createdAt")
+                .isEqualTo(expectedCustomers);
+    }
+
+    @Test
+    @DisplayName("회원 삭제")
+    void deleteById() {
+
+        // given
+        Customer customer = getetCustomer();
+        // when
+        customerRepository.save(customer);
+        customerRepository.deleteById(customer.getCustomerId());
+        // then
+        Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
+        assertThat(foundCustomer).isEmpty();
+    }
+
+    @Test
+    @DisplayName("없는 고객 Id로 삭제 시, 예외 발생")
+    void deleteByIdNonExistingId() {
+        UUID nonExistingId = UUID.randomUUID();
+        assertThatThrownBy(() -> customerRepository.deleteById(nonExistingId))
+                .isInstanceOf(NoSuchElementException.class);
     }
 }

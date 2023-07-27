@@ -1,141 +1,159 @@
 package org.devcourse.springbasic.domain.customer.service;
 
+import org.devcourse.springbasic.domain.customer.dao.CustomerRepository;
 import org.devcourse.springbasic.domain.customer.domain.Customer;
 import org.devcourse.springbasic.domain.customer.dto.CustomerDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@Transactional
 class CustomerServiceTest {
 
-    @Autowired
-    CustomerService customerService;
+    @Mock
+    private CustomerRepository customerRepository;
+    @InjectMocks
+    private CustomerService customerService;
 
-    @Test
-    @DisplayName("고객을 추가할 수 있다.")
-    public void testSave() {
-        //== given ==//
-        CustomerDto.SaveRequestDto expectedCustomer = new CustomerDto.SaveRequestDto(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now());
-        //== when ==//
-        customerService.save(expectedCustomer);
-        //== then ==//
-        assertThat(expectedCustomer).isNotNull();
+    @BeforeEach
+    void setUp() {
+        // Mock 객체 초기화
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    @DisplayName("중복 이메일로 가입할 수 없다.")
-    public void testNotDuplicateSave() {
-
-        assertThrows(IllegalArgumentException.class,
-                () -> {
-                    CustomerDto.SaveRequestDto newCustomer1 = new CustomerDto.SaveRequestDto(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now());
-                    customerService.save(newCustomer1);
-                    CustomerDto.SaveRequestDto newCustomer2 = new CustomerDto.SaveRequestDto(UUID.randomUUID(), "customerB", "customerA@gmail.com", LocalDateTime.now());
-                    customerService.save(newCustomer2);
-                });
+    @DisplayName("고객 추가")
+    void save() {
+        // given
+        CustomerDto.SaveRequest saveRequest = new CustomerDto.SaveRequest("lee", "lee@example.com");
+        // when
+        when(customerRepository.save(any(Customer.class))).thenReturn(UUID.randomUUID());
+        UUID generatedUUID = customerService.save(saveRequest);
+        // then
+        assertThat(generatedUUID).isNotNull();
     }
 
     @Test
-    @DisplayName("모든 고객을 조회할 수 있다.")
-    public void testFindAll() {
+    @DisplayName("고객이름 수정")
+    void update() {
+        // given
+        Customer customer = new Customer(
+                UUID.randomUUID(),
+                "lee",
+                "lee@example.com",
+                null,
+                LocalDateTime.now()
+        );
 
-        //== given ==//
-        int N = 3;
-        for (int i = 0; i < N; i++) {
-            String name = "customer" + i;
-            CustomerDto.SaveRequestDto newCustomer = new CustomerDto.SaveRequestDto(UUID.randomUUID(), name, name + "@gmail.com", LocalDateTime.now());
-            customerService.save(newCustomer);
-        }
+        // when
+        when(customerRepository.findById(customer.getCustomerId())).thenReturn(java.util.Optional.of(customer));
+        when(customerRepository.update(any(Customer.class))).thenReturn(customer.getCustomerId());
+        CustomerDto.UpdateRequest updateRequest =
+                new CustomerDto.UpdateRequest(customer.getCustomerId(), "new Lee");
+        UUID updatedCustomerId = customerService.update(updateRequest);
 
-        //== when ==//
-        List<CustomerDto.ResponseDto> allCustomer = customerService.findAll();
-
-        //== then ==//
-        assertThat(allCustomer.size()).isEqualTo(N);
+        // Then
+        assertThat(updatedCustomerId).isEqualTo(customer.getCustomerId());
+        assertThat(customer.getName()).isEqualTo("new Lee");
     }
 
     @Test
-    @DisplayName("Id를 통해 고객정보를 조회할 수 있다.")
-    public void testFindById() {
+    @DisplayName("없는 고객 수정 시도 -> 예외발생")
+    void update_NonCustomer() {
+        // given
+        UUID nonCustomerId = UUID.randomUUID();
+        when(customerRepository.findById(nonCustomerId)).thenReturn(java.util.Optional.empty());
+        CustomerDto.UpdateRequest updateRequest = new CustomerDto.UpdateRequest(nonCustomerId, "newName");
 
-        //== given ==//
-        CustomerDto.SaveRequestDto expectedCustomer = new CustomerDto.SaveRequestDto(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now());
-        customerService.save(expectedCustomer);
-        Customer.CustomerBuilder expected = Customer.builder()
-                .name(expectedCustomer.getName())
-                .email(expectedCustomer.getEmail());
-
-        //== when ==//
-        CustomerDto.ResponseDto actualCustomer = customerService.findById(expectedCustomer.getCustomerId());
-        Customer.CustomerBuilder actual = Customer.builder()
-                .name(actualCustomer.getName())
-                .email(actualCustomer.getEmail());
-
-        //== then ==//
-        assertThat(expected)
-                .usingRecursiveComparison()
-                .isEqualTo(actual);
+        // when
+        assertThatThrownBy(() -> customerService.update(updateRequest))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("회원을 찾을 수 없습니다.");
     }
 
     @Test
-    @DisplayName("없는 Id는 조회에 실패한다.")
-    public void testNotFoundById() {
-        //== given ==//
-        CustomerDto.SaveRequestDto expectedCustomer = new CustomerDto.SaveRequestDto(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now());
-        customerService.save(expectedCustomer);
-
-        //== when ==//
-        assertThrows(IllegalArgumentException.class,
-                () -> customerService.findById(UUID.randomUUID()));
+    @DisplayName("id로 고객 삭제")
+    void deleteById() {
+        // given
+        UUID customerId = UUID.randomUUID();
+        Customer customer = new Customer(
+                customerId,
+                "lee",
+                "lee@example.com",
+                null,
+                LocalDateTime.now()
+        );
+        when(customerRepository.findById(customerId)).thenReturn(java.util.Optional.of(customer));
+        // when
+        customerService.deleteById(customerId);
+        // then
+        verify(customerRepository, times(1)).deleteById(customerId);
     }
 
     @Test
-    @DisplayName("e-mail을 통해 고객정보를 조회할 수 있다.")
-    public void testFindByEmail() {
+    @DisplayName("이름으로 고객 조회")
+    void findByCriteriaByName() {
+        // given
+        Customer customerLee = new Customer(UUID.randomUUID(), "lee", "lee@example.com", null, LocalDateTime.now());
+        Customer customerKim = new Customer(UUID.randomUUID(), "kim", "kim@example.com", null, LocalDateTime.now());
+        when(customerRepository.findByName("lee")).thenReturn(List.of(customerLee));
+        CustomerDto.Request request = new CustomerDto.Request("lee", null);
 
-        //== given ==//
-        CustomerDto.SaveRequestDto expectedCustomer = new CustomerDto.SaveRequestDto(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now());
-        customerService.save(expectedCustomer);
-        Customer.CustomerBuilder expected = Customer.builder()
-                .name(expectedCustomer.getName())
-                .email(expectedCustomer.getEmail());
+        // when
+        List<CustomerDto.Response> matchingCustomers = customerService.findByCriteria(request);
 
-        //== when ==//
-        CustomerDto.ResponseDto actualCustomer = customerService.findByEmail(expectedCustomer.getEmail());
-        Customer.CustomerBuilder actual = Customer.builder()
-                .name(actualCustomer.getName())
-                .email(actualCustomer.getEmail());
-
-        //== then ==//
-        assertThat(expected)
-                .usingRecursiveComparison()
-                .isEqualTo(actual);
+        // then
+        assertThat(matchingCustomers).hasSize(1);
+        assertThat(matchingCustomers.get(0).getName()).isEqualTo("lee");
     }
 
     @Test
-    @DisplayName("고객 정보를 업데이트 할 수 있다.")
-    public void testUpdate(){
+    @DisplayName("이메일로 고객 조회")
+    void findByCriteriaByEmail() {
+        // given
+        UUID customerId = UUID.randomUUID();
+        String customerEmail = "lee@example.com";
+        Customer customer = new Customer(
+                customerId,
+                "lee",
+                customerEmail,
+                null,
+                LocalDateTime.now()
+        );
+        when(customerRepository.findByEmail(customerEmail)).thenReturn(Optional.of(customer));
+        CustomerDto.Request request = new CustomerDto.Request(null, customerEmail);
 
-        //== given ==//
-        CustomerDto.SaveRequestDto customer = new CustomerDto.SaveRequestDto(UUID.randomUUID(), "customerA", "customerA@gmail.com", LocalDateTime.now());
-        customerService.save(customer);
-        CustomerDto.UpdateRequestDto expectedCustomer = new CustomerDto.UpdateRequestDto(UUID.randomUUID(), "customerB", "customerB@gmail.com");
+        // when
+        List<CustomerDto.Response> matchingCustomers = customerService.findByCriteria(request);
 
-        //== when ==//
-        UUID actualCustomerId = customerService.update(expectedCustomer);
+        // then
+        assertThat(matchingCustomers).hasSize(1);
+        assertThat(matchingCustomers.get(0).getEmail()).isEqualTo(customerEmail);
+    }
 
-        //== then ==//
-        assertThat(actualCustomerId).isEqualTo(expectedCustomer.getCustomerId());
+    @Test
+    @DisplayName("아무 필터도 없으면 전체 고객을 조회")
+    void findByCriteriaNothing() {
+        // given
+        Customer customerLee = new Customer(UUID.randomUUID(),  "lee","lee@example.com", null, LocalDateTime.now());
+        Customer customerKim = new Customer(UUID.randomUUID(),  "kim","kim@example.com", null, LocalDateTime.now());
+        when(customerRepository.findAll()).thenReturn(List.of(customerLee, customerKim));
+        CustomerDto.Request request = new CustomerDto.Request(null, null);
+        // When
+        List<CustomerDto.Response> allCustomers = customerService.findByCriteria(request);
+        // Then
+        assertThat(allCustomers).hasSize(2);
     }
 }
