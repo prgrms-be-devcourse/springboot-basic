@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${errorMessage}">Error</title>
+</head>
+<body>
+    <h1 th:text="${errorMessage}" >Error</h1>
+    <p th:text="'Error Code: ' + ${errorCode}"></p>
+</body>
+</html>
