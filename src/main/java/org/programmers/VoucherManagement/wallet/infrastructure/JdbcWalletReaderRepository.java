@@ -1,5 +1,6 @@
 package org.programmers.VoucherManagement.wallet.infrastructure;
 
+import org.programmers.VoucherManagement.global.response.ErrorCode;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
@@ -14,9 +15,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_FOUND_MEMBER;
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_FOUND_VOUCHER;
 
 @Repository
 @Primary
@@ -60,8 +58,8 @@ public class JdbcWalletReaderRepository implements WalletReaderRepository {
     public RowMapper<Wallet> walletRowMapper() {
         return (result, rowNum) -> new Wallet(
                 UUID.fromString(result.getString("wallet_id")),
-                voucherReaderRepository.findById(UUID.fromString(result.getString("voucher_id"))).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER)),
-                memberReaderRepository.findById(UUID.fromString(result.getString("member_id"))).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER))
+                voucherReaderRepository.findById(UUID.fromString(result.getString("voucher_id"))).orElseThrow(() -> new VoucherException(ErrorCode.NOT_FOUND_VOUCHER)),
+                memberReaderRepository.findById(UUID.fromString(result.getString("member_id"))).orElseThrow(() -> new MemberException(ErrorCode.NOT_FOUND_MEMBER))
         );
     }
 }

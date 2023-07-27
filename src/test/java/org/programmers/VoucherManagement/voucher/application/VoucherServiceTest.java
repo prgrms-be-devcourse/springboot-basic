@@ -2,8 +2,8 @@ package org.programmers.VoucherManagement.voucher.application;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherUpdateRequest;
 import org.programmers.VoucherManagement.voucher.domain.*;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponse;
 import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;

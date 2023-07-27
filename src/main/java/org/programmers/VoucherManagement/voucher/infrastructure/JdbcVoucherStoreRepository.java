@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.*;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.*;
 
 @Repository
 @Primary
@@ -28,7 +28,7 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
                 voucher.getDiscountType().getType());
 
         if (insertCount != 1) {
-            throw new VoucherException(FAIL_TO_INSERT);
+            throw new VoucherException(FAIL_TO_INSERT_VOUCHER);
         }
         return voucher;
     }
@@ -39,7 +39,7 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
         int deleteCount = jdbcTemplate.update(sql,
                 voucherId.toString());
         if (deleteCount != 1) {
-            throw new VoucherException(FAIL_TO_DELETE);
+            throw new VoucherException(FAIL_TO_DELETE_VOUCHER);
         }
     }
 
@@ -50,7 +50,7 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
                 voucher.getDiscountValue().getValue(),
                 voucher.getVoucherId().toString());
         if (updateCount != 1) {
-            throw new VoucherException(FAIL_TO_UPDATE);
+            throw new VoucherException(FAIL_TO_UPDATE_VOUCHER);
         }
     }
 }

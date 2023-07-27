@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-import static org.programmers.VoucherManagement.wallet.exception.WalletExceptionMessage.FAIL_TO_DELETE;
-import static org.programmers.VoucherManagement.wallet.exception.WalletExceptionMessage.FAIL_TO_INSERT;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.FAIL_TO_DELETE_WALLET;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.FAIL_TO_INSERT_WALLET;
 
 @Repository
 @Primary
@@ -29,7 +29,7 @@ public class JdbcWalletStoreRepository implements WalletStoreRepository {
                 wallet.getVoucher().getVoucherId().toString(),
                 wallet.getMember().getMemberUUID().toString());
         if (insertCount != 1) {
-            throw new WalletException(FAIL_TO_INSERT);
+            throw new WalletException(FAIL_TO_INSERT_WALLET);
         }
         return wallet;
     }
@@ -40,7 +40,7 @@ public class JdbcWalletStoreRepository implements WalletStoreRepository {
         int deleteCount = jdbcTemplate.update(sql,
                 walletId.toString());
         if (deleteCount != 1) {
-            throw new WalletException(FAIL_TO_DELETE);
+            throw new WalletException(FAIL_TO_DELETE_WALLET);
         }
     }
 }

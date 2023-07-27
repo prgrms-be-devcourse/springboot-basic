@@ -1,8 +1,13 @@
 package org.programmers.VoucherManagement.member.exception;
 
-public class MemberException extends RuntimeException {
+import lombok.Getter;
+import org.programmers.VoucherManagement.global.response.ErrorCode;
 
-    public MemberException(MemberExceptionMessage exceptionMessage) {
-        super(exceptionMessage.getMessage());
+@Getter
+public class MemberException extends RuntimeException {
+    private final ErrorCode errorCode;
+
+    public MemberException(ErrorCode errorCode) {
+        this.errorCode = errorCode;
     }
 }

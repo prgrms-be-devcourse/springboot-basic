@@ -1,16 +1,14 @@
 package org.programmers.VoucherManagement.voucher.exception;
 
+import lombok.Getter;
+import org.programmers.VoucherManagement.global.response.ErrorCode;
+
+@Getter
 public class VoucherException extends RuntimeException {
+    private final ErrorCode errorCode;
 
-    private final VoucherExceptionMessage exceptionMessage;
-
-    public VoucherException(VoucherExceptionMessage exceptionMessage) {
-        super(exceptionMessage.getMessage());
-        this.exceptionMessage = exceptionMessage;
+    public VoucherException(ErrorCode errorCode) {
+        this.errorCode = errorCode;
     }
 
-    public VoucherException(VoucherExceptionMessage exceptionMessage, Throwable cause) {
-        super(exceptionMessage.getMessage(), cause);
-        this.exceptionMessage = exceptionMessage;
-    }
 }

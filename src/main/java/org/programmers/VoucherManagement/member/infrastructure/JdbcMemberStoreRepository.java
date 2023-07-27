@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
-import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.*;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.*;
 
 @Primary
 @Repository
@@ -29,7 +29,7 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
                 member.getMemberStatus().toString());
 
         if (insertCount != 1) {
-            throw new MemberException(FAIL_TO_INSERT);
+            throw new MemberException(FAIL_TO_INSERT_MEMBER);
         }
         return member;
     }
@@ -42,7 +42,7 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
                 member.getMemberStatus().toString(),
                 member.getMemberUUID().toString());
         if (updateCount != 1) {
-            throw new MemberException(FAIL_TO_UPDATE);
+            throw new MemberException(FAIL_TO_UPDATE_MEMBER);
         }
     }
 
@@ -52,7 +52,7 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
         int deleteCount = jdbcTemplate.update(sql,
                 memberId.toString());
         if (deleteCount != 1) {
-            throw new MemberException(FAIL_TO_DELETE);
+            throw new MemberException(FAIL_TO_DELETE_MEMBER);
         }
     }
 }

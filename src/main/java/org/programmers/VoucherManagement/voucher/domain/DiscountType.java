@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_EXIST_DISCOUNT_TYPE;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_EXIST_DISCOUNT_TYPE;
 
 public enum DiscountType {
     PERCENT("percent", "%"),
