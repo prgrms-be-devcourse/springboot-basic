@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -20,55 +20,46 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     @Transactional
-    public UUID save(CustomerDto.SaveRequestDto saveRequestDto) {
+    public UUID save(CustomerDto.SaveRequest saveRequest) {
         Customer customer = Customer.builder()
-                .customerId(saveRequestDto.getCustomerId())
-                .email(saveRequestDto.getEmail())
-                .name(saveRequestDto.getName())
-                .createdAt(saveRequestDto.getCreatedAt())
+                .customerId(saveRequest.getCustomerId())
+                .email(saveRequest.getEmail())
+                .name(saveRequest.getName())
+                .createdAt(saveRequest.getCreatedAt())
                 .build();
         return customerRepository.save(customer);
     }
 
     @Transactional
-    public UUID update(CustomerDto.UpdateRequestDto updateRequestDto) {
-        Customer customer = Customer.builder()
-                .customerId(updateRequestDto.getCustomerId())
-                .email(updateRequestDto.getEmail())
-                .name(updateRequestDto.getName())
-                .build();
+    public UUID update(CustomerDto.UpdateRequest request) {
+        Customer customer = customerRepository.findById(request.getCustomerId())
+                .orElseThrow(() -> new NoSuchElementException("회원을 찾을 수 없습니다."));
+        customer.changeName(request.getName());
         return customerRepository.update(customer);
     }
 
     @Transactional
-    public void lastLoginUpdate(CustomerDto.LoginRequestDto loginRequestDto) {
-        Customer customer = Customer.builder()
-                .customerId(loginRequestDto.getCustomerId())
-                .lastLoginAt(loginRequestDto.getLastLoginAt())
-                .build();
-        customerRepository.lastLoginUpdate(customer);
+    public void deleteById(UUID customerId) {
+        customerRepository.deleteById(customerId);
     }
 
-    public List<CustomerDto.ResponseDto> findAll() {
+    public List<CustomerDto.Response> findByCriteria(CustomerDto.Request request) {
 
-        List<Customer> customers = customerRepository.findAll();
-        return customers.stream()
-                .map(customer -> new CustomerDto.ResponseDto(customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt()))
-                .collect(Collectors.toList());
+        if (request.getName() != null) {
+            return CustomerDto.Response.fromEntities(customerRepository.findByName(request.getName()));
+
+        } else if (request.getEmail() != null) {
+            Customer customer = customerRepository.findByEmail(request.getEmail())
+                    .orElseThrow(() -> new NoSuchElementException("회원을 찾을 수 없습니다."));
+            return List.of(CustomerDto.Response.fromEntity(customer));
+        }
+
+        return CustomerDto.Response.fromEntities(customerRepository.findAll());
     }
 
-    public CustomerDto.ResponseDto findById(UUID customerId) {
-        Customer customer = customerRepository.findById(customerId);
-        return new CustomerDto.ResponseDto(customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt());
-    }
-
-    public CustomerDto.ResponseDto findByName(String name) {
-        Customer customer = customerRepository.findByName(name);
-        return new CustomerDto.ResponseDto(customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt());
-    }
-
-    public CustomerDto.ResponseDto findByEmail(String email) {
-        Customer customer = customerRepository.findByEmail(email);
-        return new CustomerDto.ResponseDto(customer.getName(), customer.getEmail(), customer.getLastLoginAt(), customer.getCreatedAt());
+    public CustomerDto.Response findById(UUID customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NoSuchElementException("회원을 찾을 수 없습니다."));
+        return CustomerDto.Response.fromEntity(customer);
     }
 }
