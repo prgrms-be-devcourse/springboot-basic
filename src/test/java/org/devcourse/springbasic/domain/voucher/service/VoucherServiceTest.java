@@ -1,90 +1,196 @@
 package org.devcourse.springbasic.domain.voucher.service;
 
+import org.devcourse.springbasic.domain.voucher.dao.VoucherRepository;
 import org.devcourse.springbasic.domain.voucher.domain.Voucher;
+import org.devcourse.springbasic.domain.voucher.domain.VoucherFactory;
 import org.devcourse.springbasic.domain.voucher.domain.VoucherType;
 import org.devcourse.springbasic.domain.voucher.dto.VoucherDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
-@SpringBootTest
-@Transactional
 class VoucherServiceTest {
 
-    @Autowired
-    VoucherService voucherService;
+    @Mock
+    private VoucherRepository voucherRepository;
 
-    @Test
-    @DisplayName("요청을 통해 바우처를 저장할 수 있다.")
-    public void testSave() {
-        VoucherDto.SaveRequestDto saveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.FIXED_AMOUNT_VOUCHER);
-        voucherService.save(saveRequestDto);
+    @InjectMocks
+    private VoucherService voucherService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    @DisplayName("(ResultSet에서 값을 추출해서) Voucher 객체를 만들 수 있다.")
-    public void testRowMapper() {
-        //== given  ==//
+    @DisplayName("바우처 추가")
+    void save() {
+        // given
+        VoucherDto.SaveRequest saveRequest = new VoucherDto.SaveRequest(VoucherType.FIXED_AMOUNT, 500L);
+        Voucher savedVoucher = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, 500L);
+        // when
+        when(voucherRepository.save(any(Voucher.class))).thenReturn(UUID.randomUUID());
+        UUID generatedUUID = voucherService.save(saveRequest);
+        // then
+        assertThat(generatedUUID).isNotNull();
+        verify(voucherRepository, times(1)).save(any());
+    }
+
+
+    @Test
+    @DisplayName("바우처 삭제")
+    void deleteById() {
+        // given
         UUID voucherId = UUID.randomUUID();
-        Long discountAmount = 50L;
-
-        //== when ==//
-        Voucher voucher = VoucherType.PERCENT_DISCOUNT_VOUCHER.getVoucherBiFunction().apply(voucherId, discountAmount);
-
-        //== then ==//
-        assertThat(voucher.getVoucherId()).isEqualTo(voucherId);
-        assertThat(voucher.getDiscountRate()).isEqualTo(discountAmount);
+        // when
+        voucherService.deleteById(voucherId);
+        // then
+        verify(voucherRepository, times(1)).deleteById(voucherId);
     }
 
     @Test
-    @DisplayName("Id를 통해 바우처를 조회할 수 있다.")
-    public void testFindById() {
-        //== given ==//
-        VoucherDto.SaveRequestDto fixedVoucherSaveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.FIXED_AMOUNT_VOUCHER);
-        VoucherDto.SaveRequestDto percentVoucherSaveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.PERCENT_DISCOUNT_VOUCHER);
-        UUID fixedVoucherId = voucherService.save(fixedVoucherSaveRequestDto);
-        UUID percentVoucherId = voucherService.save(percentVoucherSaveRequestDto);
+    @DisplayName("바우처 검색 - 이름, 기간, 할인타입 모두 지정")
+    void findByCriteria_AllParamsSpecified() {
+        // Given
+        Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, 500L);
+        Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.PERCENT_DISCOUNT, 10L);
+        when(voucherRepository.findByCriteria(any(), any(), any())).thenReturn(Collections.singletonList(voucher1));
 
-        //== when ==//
-        VoucherDto.ResponseDto fixedVoucherResponseDto = voucherService.findById(fixedVoucherId);
-        VoucherDto.ResponseDto percentVoucherResponseDto = voucherService.findById(percentVoucherId);
+        // When
+        VoucherDto.Request request = new VoucherDto.Request(
+                LocalDate.of(2023, 7, 1),
+                LocalDate.of(2023, 7, 31 ),
+                "FIXED_AMOUNT"
+        );
+        List<VoucherDto.Response> foundVouchers = voucherService.findByCriteria(request);
 
-        //== then ==//
-        assertThat(fixedVoucherResponseDto.getVoucherType()).isEqualTo(fixedVoucherResponseDto.getVoucherType());
-        assertThat(fixedVoucherResponseDto.getDiscountRate()).isEqualTo(fixedVoucherResponseDto.getDiscountRate());
-        assertThat(percentVoucherResponseDto.getVoucherType()).isEqualTo(percentVoucherResponseDto.getVoucherType());
-        assertThat(percentVoucherResponseDto.getDiscountRate() ).isEqualTo(percentVoucherResponseDto.getDiscountRate());
+        // Then
+        assertThat(foundVouchers).hasSize(1);
+        assertThat(foundVouchers.get(0)).isEqualToComparingFieldByField(new VoucherDto.Response(
+                voucher1.getVoucherId(),
+                VoucherType.FIXED_AMOUNT.getVoucherName(),
+                "500원"
+        ));
     }
 
     @Test
-    @DisplayName("모든 바우처를 조회할 수 있다.")
-    public void testFindAll() {
-        //== given ==//
-        VoucherDto.SaveRequestDto fixedVoucherSaveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.FIXED_AMOUNT_VOUCHER);
-        VoucherDto.SaveRequestDto percentVoucherSaveRequestDto = new VoucherDto.SaveRequestDto(VoucherType.PERCENT_DISCOUNT_VOUCHER);
-        UUID fixedVoucherId = voucherService.save(fixedVoucherSaveRequestDto);
-        UUID percentVoucherId = voucherService.save(percentVoucherSaveRequestDto);
-        List<UUID> expectVoucherIds = new ArrayList<>(List.of(fixedVoucherId, percentVoucherId));
+    @DisplayName("바우처 검색 - 이름, 기간만 지정")
+    void findByCriteria_NameAndPeriodSpecified() {
+        // Given
+        Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, 500L);
+        Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.PERCENT_DISCOUNT, 10L);
+        when(voucherRepository.findByCriteria(any(), any(), any())).thenReturn(Collections.singletonList(voucher1));
 
-        //== when ==//
-        List<VoucherDto.ResponseDto> Vouchers = voucherService.findAll();
-        List<UUID> actualVoucherIds = Vouchers.stream().map(VoucherDto.ResponseDto::getVoucherId).collect(Collectors.toList());
+        // When
+        VoucherDto.Request request = new VoucherDto.Request(
+                LocalDate.of(2023, 7, 1),
+                LocalDate.of(2023, 7, 31 ),
+                null
+        );
+        List<VoucherDto.Response> foundVouchers = voucherService.findByCriteria(request);
 
-        //== then ==//
-        Collections.sort(expectVoucherIds);
-        Collections.sort(actualVoucherIds);
+        // Then
+        assertThat(foundVouchers).hasSize(1);
+        assertThat(foundVouchers.get(0)).isEqualToComparingFieldByField(new VoucherDto.Response(
+                voucher1.getVoucherId(),
+                VoucherType.FIXED_AMOUNT.getVoucherName(),
+                "500원"
+        ));
+    }
 
-        assertThat(expectVoucherIds).usingRecursiveComparison()
-                .isEqualTo(actualVoucherIds);
+    @Test
+    @DisplayName("바우처 검색 - 이름만 지정")
+    void findByCriteria_NameSpecified() {
+        // Given
+        Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, 500L);
+        Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.PERCENT_DISCOUNT, 10L);
+        when(voucherRepository.findByCriteria(any(), any(), any())).thenReturn(Collections.singletonList(voucher1));
+
+        // When
+        VoucherDto.Request request = new VoucherDto.Request(
+                null,
+                null,
+                "FIXED_AMOUNT"
+        );
+        List<VoucherDto.Response> foundVouchers = voucherService.findByCriteria(request);
+
+        // Then
+        assertThat(foundVouchers).hasSize(1);
+        assertThat(foundVouchers.get(0)).isEqualToComparingFieldByField(new VoucherDto.Response(
+                voucher1.getVoucherId(),
+                VoucherType.FIXED_AMOUNT.getVoucherName(),
+                "500원"
+        ));
+    }
+
+    @Test
+    @DisplayName("바우처 검색 - 아무 필터 없이 전체 검색")
+    void findByCriteria_NoFilterSpecified() {
+        // Given
+        Voucher voucher1 = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, 500L);
+        Voucher voucher2 = VoucherFactory.createVoucher(VoucherType.PERCENT_DISCOUNT, 10L);
+        when(voucherRepository
+                .findByCriteria(null, null, null))
+                .thenReturn(List.of(voucher1, voucher2)
+        );
+
+        // When
+        VoucherDto.Request request = new VoucherDto.Request(null, null, null);
+        List<VoucherDto.Response> foundVouchers = voucherService.findByCriteria(request);
+
+        // Then
+        assertThat(foundVouchers).hasSize(2);
+        assertThat(foundVouchers.get(0)).isEqualToComparingFieldByField(new VoucherDto.Response(
+                voucher1.getVoucherId(),
+                VoucherType.FIXED_AMOUNT.getVoucherName(),
+                "500원"
+        ));
+        assertThat(foundVouchers.get(1)).isEqualToComparingFieldByField(new VoucherDto.Response(
+                voucher2.getVoucherId(),
+                VoucherType.PERCENT_DISCOUNT.getVoucherName(),
+                "10%"
+        ));
+    }
+
+    @Test
+    @DisplayName("바우처 조회 - 존재하는 ID로 조회")
+    void findById_ExistingId() {
+        // Given
+        Voucher voucher = VoucherFactory.createVoucher(VoucherType.FIXED_AMOUNT, 500L);
+        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
+
+        // When
+        VoucherDto.Response foundVoucher = voucherService.findById(voucher.getVoucherId());
+
+        // Then
+        assertThat(foundVoucher).isEqualToComparingFieldByField(new VoucherDto.Response(
+                voucher.getVoucherId(),
+                VoucherType.FIXED_AMOUNT.getVoucherName(),
+                "500원"
+        ));
+    }
+
+    @Test
+    @DisplayName("바우처 조회 - 존재하지 않는 ID로 조회")
+    void findById_NonExistingId() {
+        // Given
+        UUID nonExistingId = UUID.randomUUID();
+        when(voucherRepository.findById(nonExistingId)).thenReturn(Optional.empty());
+
+        // When, Then
+        assertThatThrownBy(() -> voucherService.findById(nonExistingId))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining("존재하지 않는 바우처입니다.");
     }
 }
