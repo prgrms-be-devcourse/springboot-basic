@@ -28,7 +28,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
     private Map<String, Object> toParamMap(Customer customer) {
         return Map.of(
                 CUSTOMER_ID_CAMEL, customer.getCustomerId().toString(),
