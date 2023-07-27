@@ -112,8 +112,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void createVoucher() {
+        VoucherRequest request = console.getCreateVoucherRequest();
         try {
-            VoucherRequest request = console.getCreateVoucherRequest();
             VoucherResponse response = voucherController.createVoucher(request);
             console.displayVoucherResponse(response);
         } catch (Exception e) {
@@ -135,8 +135,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void updateVoucher() {
+        VoucherRequest request = console.getUpdateVoucherRequest();
         try {
-            VoucherRequest request = console.getUpdateVoucherRequest();
             VoucherResponse response = voucherController.update(request);
             console.displayVoucherResponse(response);
         } catch (Exception e) {
@@ -149,8 +149,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void removeVoucher() {
+        VoucherRequest request = console.getDeleteVoucherRequest();
         try {
-            VoucherRequest request = console.getDeleteVoucherRequest();
             voucherController.deleteVoucher(request);
         } catch (Exception e) {
             console.displayError(e.getMessage());
@@ -158,8 +158,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     public void createCustomer() {
+        CustomerRequest request = console.getCreateCustomerRequest();
         try {
-            CustomerRequest request = console.getCreateCustomerRequest();
             CustomerResponse response = customerController.createCustomer(request);
             console.displayCustomerResponse(response);
         } catch (Exception e) {
@@ -173,8 +173,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void getCustomer() {
+        CustomerRequest request = console.getSearchCustomerRequest();
         try {
-            CustomerRequest request = console.getSearchCustomerRequest();
             CustomerResponse response = customerController.getCustomer(request);
             console.displayCustomerResponse(response);
         } catch (Exception e) {
@@ -183,8 +183,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void updateCustomer() {
+        CustomerRequest request = console.getUpdateCustomerRequest();
         try {
-            CustomerRequest request = console.getUpdateCustomerRequest();
             CustomerResponse response = customerController.update(request);
             console.displayCustomerResponse(response);
         } catch (Exception e) {
@@ -197,8 +197,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void removeCustomer() {
+        CustomerRequest request = console.getDeleteCustomerRequest();
         try {
-            CustomerRequest request = console.getDeleteCustomerRequest();
             customerController.deleteCustomer(request);
         } catch (Exception e) {
             console.displayError(e.getMessage());
@@ -206,8 +206,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void createWallet() {
+        WalletRequest walletRequest = console.getCreateWalletRequest();
         try {
-            WalletRequest walletRequest = console.getCreateWalletRequest();
             WalletResponse response = walletController.createWallet(walletRequest);
             console.displayWalletResponse(response);
         } catch (Exception e) {
@@ -216,8 +216,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void getWalletByCustomer() {
+        WalletRequest walletRequest = console.getSearchByCustomerWalletRequest();
         try {
-            WalletRequest walletRequest = console.getSearchByCustomerWalletRequest();
             WalletResponse response = walletController.getWalletByCustomer(walletRequest);
             console.displayWalletResponse(response);
         } catch (Exception e) {
@@ -226,8 +226,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void getWalletByVoucher() {
+        WalletRequest walletRequest = console.getSearchByVoucherWalletRequest();
         try {
-            WalletRequest walletRequest = console.getSearchByVoucherWalletRequest();
             WalletResponse response = walletController.getWalletByVoucher(walletRequest);
             console.displayWalletResponse(response);
         } catch (Exception e) {
@@ -236,8 +236,8 @@ public class ApplicationController implements CommandLineRunner {
     }
 
     private void deleteWallet() {
+        WalletRequest walletRequest = console.getDeleteWalletRequest();
         try {
-            WalletRequest walletRequest = console.getDeleteWalletRequest();
             walletController.deleteWallet(walletRequest);
         } catch (Exception e) {
             console.displayError(e.getMessage());

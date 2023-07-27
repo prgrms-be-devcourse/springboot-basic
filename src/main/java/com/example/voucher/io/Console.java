@@ -1,6 +1,5 @@
 package com.example.voucher.io;
 
-import static com.example.voucher.constant.ExceptionMessage.*;
 import static com.example.voucher.io.Writer.*;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -94,21 +93,38 @@ public class Console {
     }
 
     private VoucherType getVoucherType() {
-        writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
-        writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
+        while (true) {
+            writer.writeMessage(Message.VOUCHER_INFO_INPUT_REQUEST);
+            writer.writeMessage(Message.VOUCHER_TYPE_SELECTION);
 
-        int number = reader.readInteger();
+            Integer number = null;
 
-        return VoucherType.getVouchersType(number);
+            try {
+                reader.readInteger();
+            } catch (NumberFormatException e) {
+                displayError(e.getMessage());
+            }
+
+            try {
+                return VoucherType.getVouchersType(number);
+            } catch (IllegalArgumentException e) {
+                displayError(e.getMessage());
+                writer.writeMessage(Message.INVALID_ARGUMENT);
+            }
+        }
     }
 
     private Long getDiscountValue() {
-        writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
+        while (true) {
+            writer.writeMessage(Message.DISCOUNT_VALUE_INPUT_REQUEST);
 
-        Long discountAmount = reader.readLong();
-        validatePositive(discountAmount);
-
-        return discountAmount;
+            try {
+                return reader.readLong();
+            } catch (NumberFormatException e) {
+                displayError(e.getMessage());
+                writer.writeMessage(Message.INVALID_ARGUMENT);
+            }
+        }
     }
 
     public CustomerRequest getCreateCustomerRequest() {
@@ -170,11 +186,18 @@ public class Console {
     }
 
     private CustomerType getCustomerType() {
-        writer.writeMessage(Message.CUSTOMER_TYPE_SELECTION);
+        while (true) {
+            writer.writeMessage(Message.CUSTOMER_TYPE_SELECTION);
 
-        String input = reader.readString();
+            String input = reader.readString();
 
-        return CustomerType.getCustomerType(input);
+            try {
+                return CustomerType.getCustomerType(input);
+            } catch (IllegalArgumentException e) {
+                displayError(e.getMessage());
+                writer.writeMessage(Message.INVALID_ARGUMENT);
+            }
+        }
     }
 
     public WalletRequest getCreateWalletRequest() {
@@ -214,16 +237,17 @@ public class Console {
     }
 
     public UUID getId() {
-        writer.writeMessage(Message.ID_INPUT_REQUEST);
+        while (true) {
+            writer.writeMessage(Message.ID_INPUT_REQUEST);
+            String input = reader.readString();
 
-        String input = reader.readString();
-
-        try {
-            return UUID.fromString(input);
-        } catch (Exception e) {
-            return null;
+            try {
+                return UUID.fromString(input);
+            } catch (IllegalArgumentException e) {
+                displayError(e.getMessage());
+                writer.writeMessage(Message.INVALID_ARGUMENT);
+            }
         }
-
     }
 
     public void displayVoucherResponse(VoucherResponse voucherResponse) {
@@ -248,12 +272,6 @@ public class Console {
     public void displayError(String errorMsg) {
         logger.error(errorMsg);
         writer.writeMessage(Message.REQUEST_FAILED);
-    }
-
-    private void validatePositive(long value) {
-        if (value <= 0) {
-            throw new IllegalArgumentException(MESSAGE_ERROR_POSITIVE_CONSTRAINT);
-        }
     }
 
 }
