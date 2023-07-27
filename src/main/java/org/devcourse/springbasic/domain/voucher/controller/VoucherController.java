@@ -1,51 +1,60 @@
 package org.devcourse.springbasic.domain.voucher.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.devcourse.springbasic.domain.voucher.domain.VoucherMenuType;
-import org.devcourse.springbasic.domain.voucher.domain.VoucherType;
 import org.devcourse.springbasic.domain.voucher.dto.VoucherDto;
 import org.devcourse.springbasic.domain.voucher.service.VoucherService;
-import org.devcourse.springbasic.global.io.ErrorMsgPrinter;
-import org.devcourse.springbasic.global.io.input.voucher.VoucherInput;
-import org.devcourse.springbasic.global.io.output.voucher.VoucherOutput;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/vouchers")
 public class VoucherController {
 
     private final VoucherService voucherService;
 
-    public void run(VoucherInput voucherInput, VoucherOutput voucherOutput) {
-        VoucherMenuType menu = VoucherMenuType.EXIT;
-        do {
-            try {
-                voucherOutput.menus();
-                menu = voucherInput.menu();
-
-                switch (menu) {
-                    case CREATE:
-                        createVoucher(voucherInput, voucherOutput);
-                    case LIST:
-                        getHistory(voucherOutput);
-                }
-            } catch (IllegalArgumentException e) {
-                ErrorMsgPrinter.print(e.getMessage());
-            }
-        } while (!menu.isExit());
+    @GetMapping()
+    public String findByCriteria(
+            @ModelAttribute VoucherDto.Request request,
+            Model model
+    ) {
+        List<VoucherDto.Response> vouchers = voucherService.findByCriteria(request);
+        model.addAttribute("vouchers", vouchers);
+        return "voucher-list";
     }
 
-    private void createVoucher(VoucherInput voucherInput, VoucherOutput voucherOutput) {
-        voucherOutput.voucherMenus();
-        VoucherType voucherType = voucherInput.voucherMenu();
-        VoucherDto.SaveRequestDto voucherDto = new VoucherDto.SaveRequestDto(voucherType);
-        voucherService.save(voucherDto);
+    @GetMapping("/{voucherId}")
+    public String findById(
+            @PathVariable UUID voucherId,
+            Model model
+    ) {
+        VoucherDto.Response response = voucherService.findById(voucherId);
+        model.addAttribute("voucher", response);
+        return "voucher-details";
     }
 
-    private void getHistory(VoucherOutput voucherOutput) {
-        List<VoucherDto.ResponseDto> vouchers = voucherService.findAll();
-        voucherOutput.vouchers(vouchers);
+    @GetMapping("/create")
+    public String createVoucherForm() {
+        return "voucher-create-form";
+    }
+
+    @PostMapping()
+    public String createNewVoucher(
+            VoucherDto.SaveRequest request
+    ) {
+        voucherService.save(request);
+        return "redirect:/vouchers";
+    }
+
+    @DeleteMapping("/{voucherId}")
+    public String deleteVoucher(
+            @PathVariable UUID voucherId
+    ) {
+        voucherService.deleteById(voucherId);
+        return "redirect:/vouchers";
     }
 }

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>바우처 생성</title>
+</head>
+<body>
+<h1>바우처 생성 페이지</h1>
+
+<!-- 에러 메시지가 있는 경우 알림 창으로 표시 -->
+<script th:if="${errorMessage}" th:inline="javascript">
+    alert([[${errorMessage}]]);
+</script>
+
+<form action="/vouchers" method="post">
+    <label for="voucherType">바우처 타입:</label>
+    <select name="voucherType" id="voucherType">
+        <option value="FIXED_AMOUNT">금액 할인</option>
+        <option value="PERCENT_DISCOUNT">비율 할인</option>
+    </select>
+    <br>
+
+    <label>할인율:</label>
+    <input type="number" step="any" name="discountRate" required>
+
+    <br>
+    <input type="submit" value="바우처 생성">
+</form>
+</body>
+</html>

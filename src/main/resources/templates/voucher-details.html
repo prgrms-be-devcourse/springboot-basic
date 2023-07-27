@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>바우처 상세 정보</title>
+</head>
+<body>
+<h1>바우처 상세 정보</h1>
+
+<table>
+    <tr>
+        <td>바우처 ID:</td>
+        <td th:text="${voucher.voucherId}"></td>
+    </tr>
+    <tr>
+        <td>바우처 타입:</td>
+        <td>
+            <span th:text="${voucher.voucherType}"></span>
+        </td>
+    </tr>
+    <tr>
+        <td>할인율:</td>
+        <td>
+            <span th:text="${voucher.discountRate}"></span>
+        </td>
+    </tr>
+</table>
+
+<div>
+
+    <form th:action="@{|/vouchers/${voucher.voucherId}|}" th:method="delete" style="display: inline;">
+        <button th:onclick="|location.href='@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}'|"
+                type="submit" class="btn btn-danger">삭제
+        </button>
+    </form>
+</div>
+
+<a th:href="@{/vouchers}" th:text="돌아가기"></a>
+
+</body>
+</html>
