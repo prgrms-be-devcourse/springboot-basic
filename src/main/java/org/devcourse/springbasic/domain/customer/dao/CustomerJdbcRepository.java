@@ -2,6 +2,8 @@ package org.devcourse.springbasic.domain.customer.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.devcourse.springbasic.domain.customer.domain.Customer;
+import org.devcourse.springbasic.domain.customer.domain.CustomerTable;
+import org.devcourse.springbasic.global.exception.custom.DuplicateEmailException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Repository;
 import java.nio.ByteBuffer;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -22,8 +26,15 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public UUID save(Customer customer) {
-        String QUERY = "insert into customers(customer_id, name, email, created_at) " +
-                     "values (UUID_TO_BIN(:customerId), :name, :email, :createdAt)";
+        String QUERY =
+                "INSERT INTO " + CustomerTable.TABLE_NAME +
+                "(" +
+                CustomerTable.CUSTOMER_ID + ", "+
+                CustomerTable.NAME + ", " +
+                CustomerTable.EMAIL + ", " +
+                CustomerTable.CREATED_AT +
+                ") " + " VALUES (UUID_TO_BIN(:customerId), :name, :email, :createdAt)";
+
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("customerId", customer.getCustomerId().toString().getBytes())
                 .addValue("name", customer.getName())
@@ -34,74 +45,93 @@ public class CustomerJdbcRepository implements CustomerRepository {
             jdbcTemplate.update(QUERY, paramMap);
             return customer.getCustomerId();
         } catch (DuplicateKeyException duplicateKeyException) {
-            throw new IllegalArgumentException("이미 존재하는 회원입니다.");
+            throw new DuplicateEmailException("이미 존재하는 회원입니다.");
         }
     }
 
     @Override
     public UUID update(Customer customer) {
-        String QUERY = "update customers set name = :name, email = :email " +
-                     "where customer_id = UUID_TO_BIN(:customerId)";
+        String QUERY =
+                "UPDATE " + CustomerTable.TABLE_NAME +
+                " SET " +
+                CustomerTable.NAME + " = :name, " +
+                CustomerTable.EMAIL + " = :email " +
+                "WHERE " +
+                CustomerTable.CUSTOMER_ID + " = UUID_TO_BIN(:customerId)";
+
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("customerId", customer.getCustomerId().toString().getBytes())
                 .addValue("name", customer.getName())
                 .addValue("email", customer.getEmail());
 
-        jdbcTemplate.update(QUERY, paramMap);
-        return customer.getCustomerId();
+        UpdateResult updateResult = new UpdateResult(jdbcTemplate.update(QUERY, paramMap));
+        if (updateResult.isSucceeded()) {
+            return customer.getCustomerId();
+        }
+        throw new EmptyResultDataAccessException("변경된 회원이 없습니다.", 1);
     }
 
     @Override
-    public void lastLoginUpdate(Customer customer) {
-        String QUERY = "update customers set last_login_at = :lastLoginAt " +
-                     "where customer_id = UUID_TO_BIN(:customer_id)";
+    public Optional<Customer> findById(UUID customerId) {
+        String QUERY =  "SELECT * " +
+                        " FROM " + CustomerTable.TABLE_NAME +
+                        " WHERE " + CustomerTable.CUSTOMER_ID + " = UUID_TO_BIN(:customerId)";
+
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("lastLoginAt", customer.getLastLoginAt());
-        jdbcTemplate.update(QUERY, paramMap);
+                .addValue("customerId", customerId.toString().getBytes());
+        try {
+            Customer customer = jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Customer> findByName(String name) {
+        String QUERY =  "SELECT * " +
+                        " FROM " + CustomerTable.TABLE_NAME +
+                        " WHERE " + CustomerTable.NAME + " = :name";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("name", name);
+        return jdbcTemplate.query(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        String QUERY =  "SELECT * " +
+                        " FROM " + CustomerTable.TABLE_NAME +
+                        " WHERE " + CustomerTable.EMAIL + " = :email";
+
+        MapSqlParameterSource paramMap = new MapSqlParameterSource()
+                .addValue("email", email);
+        try {
+            Customer customer = jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<Customer> findAll() {
-        String QUERY = "select * from customers";
+        String QUERY = "SELECT * " +
+                     " FROM " + CustomerTable.TABLE_NAME;
         return jdbcTemplate.query(QUERY, CUSTOMER_ROW_MAPPER);
-
     }
 
     @Override
-    public Customer findById(UUID customerId) {
-
-        String QUERY = "select * from customers where customer_id = UUID_TO_BIN(:customerId)";
+    public void deleteById(UUID customerId) {
+        String QUERY =
+                "DELETE FROM " + CustomerTable.TABLE_NAME +
+                " WHERE " + CustomerTable.CUSTOMER_ID + " = UUID_TO_BIN(:customerId)";
         MapSqlParameterSource paramMap = new MapSqlParameterSource()
                 .addValue("customerId", customerId.toString().getBytes());
-        try {
-            return jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
-        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
-            throw new IllegalArgumentException("해당 ID를 가진 회원이 없습니다.");
-        }
-    }
 
-    @Override
-    public Customer findByName(String name) {
-        String QUERY = "select * from customers where name = :name";
-        MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("name", name);
-        try {
-            return jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
-        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
-            throw new IllegalArgumentException("해당 이름을 가진 회원이 없습니다.");
-        }
-    }
-
-
-    @Override
-    public Customer findByEmail(String email) {
-        String QUERY = "select * from customers where email = :email";
-        MapSqlParameterSource paramMap = new MapSqlParameterSource()
-                .addValue("email", email);
-        try {
-            return jdbcTemplate.queryForObject(QUERY, paramMap, CUSTOMER_ROW_MAPPER);
-        } catch (EmptyResultDataAccessException emptyResultDataAccessException) {
-            throw new IllegalArgumentException("해당 이메일을 가진 회원이 없습니다.");
+        UpdateResult updateResult = new UpdateResult(jdbcTemplate.update(QUERY, paramMap));
+        if (!updateResult.isSucceeded()) {
+            throw new NoSuchElementException("삭제할 회원이 존재하지 않습니다.");
         }
     }
 
