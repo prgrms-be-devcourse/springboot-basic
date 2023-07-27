@@ -13,7 +13,7 @@ public enum ErrorCode {
      */
     FAIL(500, "10000", "요청에 실패하였습니다."),
     INVALID_INPUT_VALUE_ERROR(400, "10001", "유효하지 않은 입력값입니다."),
-    INVALID_METHOD_ERROR(405, "10002", "지원하지 않는 HTTP 메소드입니다."),
+    INVALID_METHOD_ERROR(405, "10002", "Method Argument가 적절하지 않습니다."),
     REQUEST_BODY_MISSING_ERROR(400, "10003", "RequestBody에 데이터가 존재하지 않습니다."),
     REQUEST_PARAM_MISSING_ERROR(400, "10004", "RequestParam에 데이터가 전달되지 않았습니다."),
     INVALID_TYPE_VALUE_ERROR(400, "10005", "타입이 유효하지 않습니다."),
