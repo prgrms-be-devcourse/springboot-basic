@@ -1,14 +1,14 @@
 package org.programmers.VoucherManagement.voucher.presentation;
 
 
+import jakarta.validation.Valid;
 import org.programmers.VoucherManagement.global.response.BaseResponse;
 import org.programmers.VoucherManagement.voucher.application.VoucherService;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateResponse;
-import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.presentation.dto.VoucherCreateRequestData;
+import org.programmers.VoucherManagement.voucher.presentation.dto.VoucherCreateResponseData;
 import org.programmers.VoucherManagement.voucher.presentation.dto.VoucherUpdateRequestData;
 import org.programmers.VoucherManagement.voucher.presentation.mapper.VoucherControllerMapper;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -32,8 +32,9 @@ public class VoucherRestController {
      * @return BaseResponse<VoucherCreateResponse>
      */
     @PostMapping()
-    public BaseResponse<VoucherCreateResponse> createVoucher(@Validated @RequestBody VoucherCreateRequestData data) {
-        return new BaseResponse<>(voucherService.saveVoucher(VoucherControllerMapper.INSTANCE.dataToCreateRequest(data)));
+    public BaseResponse<VoucherCreateResponseData> createVoucher(@Valid @RequestBody VoucherCreateRequestData data) {
+        return new BaseResponse<>(VoucherControllerMapper.INSTANCE.UpdateResponseToData(
+                voucherService.saveVoucher(VoucherControllerMapper.INSTANCE.dataToCreateRequest(data))));
     }
 
     /**
@@ -44,7 +45,7 @@ public class VoucherRestController {
      * @return BaseResponse<String>
      */
     @PatchMapping("/{voucherId}")
-    public BaseResponse<String> updateVoucher(@PathVariable String voucherId, @RequestBody VoucherUpdateRequestData data) {
+    public BaseResponse<String> updateVoucher(@PathVariable String voucherId, @Valid @RequestBody VoucherUpdateRequestData data) {
         UUID voucherUUID = UUID.fromString(voucherId);
         voucherService.updateVoucher(voucherUUID, VoucherControllerMapper.INSTANCE.dataToUpdateRequest(data));
         return new BaseResponse<>(UPDATE_VOUCHER_SUCCESS);

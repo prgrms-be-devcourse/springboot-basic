@@ -1,7 +1,7 @@
 package org.programmers.VoucherManagement.io;
 
 import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
-import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherGetResponses;
 import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
 
 public interface Output {

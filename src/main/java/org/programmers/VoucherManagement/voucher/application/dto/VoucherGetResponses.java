@@ -1,5 +1,6 @@
-package org.programmers.VoucherManagement.voucher.dto.response;
+package org.programmers.VoucherManagement.voucher.application.dto;
 
+import org.programmers.VoucherManagement.voucher.application.mapper.VoucherServiceMapper;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
 import java.util.Collections;
@@ -12,8 +13,9 @@ public class VoucherGetResponses {
     public VoucherGetResponses(List<Voucher> vouchers) {
         this.voucherResponses = vouchers
                 .stream()
-                .map(VoucherGetResponse::toDto)
+                .map(v -> VoucherServiceMapper.INSTANCE.domainToGetResponse(v))
                 .collect(Collectors.toList());
+
     }
 
     public List<VoucherGetResponse> getGetVoucherListRes() {
