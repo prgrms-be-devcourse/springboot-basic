@@ -8,14 +8,14 @@ import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_FOUND_MEMBER;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_FOUND_MEMBER;
 
-@Component
+@Service
 @Transactional(readOnly = true)
 public class MemberService {
     private final MemberReaderRepository memberReaderRepository;
@@ -25,7 +25,6 @@ public class MemberService {
         this.memberReaderRepository = memberReaderRepository;
         this.memberStoreRepository = memberStoreRepository;
     }
-
 
     public MemberGetResponses getAllMembers() {
         return new MemberGetResponses(memberReaderRepository.findAll());
@@ -40,6 +39,7 @@ public class MemberService {
         Member member = new Member(UUID.randomUUID(),
                 memberCreateRequest.name(),
                 memberCreateRequest.memberStatus());
+
         memberStoreRepository.insert(member);
     }
 

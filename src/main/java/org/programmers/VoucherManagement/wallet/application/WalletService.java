@@ -11,15 +11,15 @@ import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
 import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletReaderRepository;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletStoreRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_FOUND_MEMBER;
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_FOUND_VOUCHER;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_FOUND_MEMBER;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_FOUND_VOUCHER;
 
-@Component
+@Service
 @Transactional(readOnly = true)
 public class WalletService {
     private final WalletReaderRepository walletReaderRepository;
