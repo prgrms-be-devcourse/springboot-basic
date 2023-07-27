@@ -5,6 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
+import com.example.voucher.customer.controller.CustomerRequest;
 import com.example.voucher.request.WalletRequest;
 import com.example.voucher.response.Response;
 import com.example.voucher.customer.controller.CustomerController;
@@ -86,10 +87,10 @@ public class ApplicationController implements CommandLineRunner {
 
         switch (selectedModeType) {
             case CREATE -> createCustomer();
-            case LIST -> displayCustomers();
-            case DELETE_ALL -> removeCustomers();
-            case SEARCH -> searchCustomer();
+            case LIST -> getCustomers();
+            case SEARCH -> getCustomer();
             case UPDATE -> updateCustomer();
+            case DELETE_ALL -> removeCustomers();
             case DELETE -> removeCustomer();
         }
     }
@@ -110,7 +111,6 @@ public class ApplicationController implements CommandLineRunner {
             case SEARCH_BY_VOUCHER -> searchWallet("VOUCHER_ID");
             case DELETE -> deleteWallet();
         }
-
     }
 
     private void createVoucher() {
@@ -159,6 +159,55 @@ public class ApplicationController implements CommandLineRunner {
         }
     }
 
+    public void createCustomer() {
+        try {
+            CustomerRequest request = console.getCreateCustomerRequest();
+            Response<CustomerDTO> response = customerController.createCustomer(request);
+            console.displayResponse(response.getResultMessage());
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
+    }
+
+    private void getCustomers() {
+        Response<CustomerDTO> response = customerController.getCustomers();
+        console.displayResponse(response.getResultMessage());
+    }
+
+    private void getCustomer() {
+        try {
+            CustomerRequest request = console.getReadCustomerRequest();
+            Response<CustomerDTO> response = customerController.getCustomer(request);
+            console.displayResponse(response.getResultMessage());
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
+
+    }
+
+    private void updateCustomer() {
+        try {
+            CustomerRequest request = console.getUpdateCustomerRequest();
+            Response<CustomerDTO> response = customerController.update(request);
+            console.displayResponse(response.getResultMessage());
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
+    }
+
+    private void removeCustomers() {
+        customerController.deleteCustomers();
+    }
+
+    private void removeCustomer() {
+        try {
+            CustomerRequest request = console.getDeleteCustomerRequest();
+            customerController.deleteCustomer(request);
+        } catch (Exception e) {
+            console.displayError(e.getMessage());
+        }
+    }
+
     private void createWallet() {
         try {
             WalletRequest.Create walletRequest = console.getWalletCreateRequest();
@@ -184,58 +233,6 @@ public class ApplicationController implements CommandLineRunner {
             UUID customerId = console.getId();
             UUID voucherId = console.getId();
             walletController.deleteWallet(customerId, voucherId);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
-        }
-    }
-
-    public void createCustomer() {
-        try {
-            CustomerRequest.Create request = console.getCustomerCreateRequest();
-            Response<CustomerDTO> response = customerController.createCustomer(request);
-            console.displayResponse(response.getResultMessage());
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
-        }
-    }
-
-    private void displayCustomers() {
-        Response<CustomerDTO> response = customerController.getCustomers();
-        console.displayResponse(response.getResultMessage());
-    }
-
-    private void searchCustomer() {
-
-        UUID customerId = null;
-        try {
-            customerId = console.getId();
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
-        }
-
-        Response<CustomerDTO> response = customerController.search(customerId);
-        console.displayResponse(response.getResultMessage());
-
-    }
-
-    private void removeCustomers() {
-        customerController.deleteCustomers();
-    }
-
-    private void removeCustomer() {
-        try {
-            UUID customerId = console.getId();
-            customerController.deleteCustomer(customerId);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
-        }
-    }
-
-    private void updateCustomer() {
-        try {
-            CustomerRequest.Update request = console.getCustomerUpdateRequest();
-            Response<CustomerDTO> response = customerController.update(request);
-            console.displayResponse(response.getResultMessage());
         } catch (Exception e) {
             console.displayError(e.getMessage());
         }

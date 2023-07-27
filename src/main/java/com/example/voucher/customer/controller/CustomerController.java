@@ -1,12 +1,10 @@
 package com.example.voucher.customer.controller;
 
 import java.util.List;
-import java.util.UUID;
 import org.springframework.stereotype.Controller;
-import com.example.voucher.request.CustomerRequest;
-import com.example.voucher.response.Response;
 import com.example.voucher.customer.service.CustomerService;
 import com.example.voucher.customer.service.dto.CustomerDTO;
+import com.example.voucher.response.Response;
 
 @Controller
 public class CustomerController {
@@ -17,7 +15,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public Response<CustomerDTO> createCustomer(CustomerRequest.Create request) {
+    public Response<CustomerDTO> createCustomer(CustomerRequest request) {
         CustomerDTO customer = customerService.createCustomer(request.getName(), request.getEmail(),
             request.getCustomerType());
 
@@ -26,26 +24,29 @@ public class CustomerController {
 
     public Response<CustomerDTO> getCustomers() {
         List<CustomerDTO> customers = customerService.getCustomers();
+
         return new Response<>(customers);
+    }
+
+    public Response<CustomerDTO> getCustomer(CustomerRequest request) {
+        CustomerDTO customer = customerService.search(request.getCustomerId());
+
+        return new Response<>(customer);
+    }
+
+    public Response<CustomerDTO> update(CustomerRequest request) {
+        CustomerDTO customer = customerService.update(request.getCustomerId(), request.getName(), request.getEmail(),
+            request.getCustomerType());
+
+        return new Response<>(customer);
     }
 
     public void deleteCustomers() {
         customerService.deleteCustomers();
     }
 
-    public Response<CustomerDTO> search(UUID customerId) {
-        CustomerDTO customer = customerService.search(customerId);
-        return new Response<>(customer);
-    }
-
-    public Response<CustomerDTO> update(CustomerRequest.Update request) {
-        CustomerDTO customer = customerService.update(request.getCustomerId(), request.getName(), request.getEmail(),
-            request.getCustomerType());
-        return new Response<>(customer);
-    }
-
-    public void deleteCustomer(UUID customerId) {
-        customerService.deleteCustomer(customerId);
+    public void deleteCustomer(CustomerRequest request) {
+        customerService.deleteCustomer(request.getCustomerId());
     }
 
 }
