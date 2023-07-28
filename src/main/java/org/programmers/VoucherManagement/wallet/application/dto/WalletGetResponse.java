@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.wallet.dto.response;
+package org.programmers.VoucherManagement.wallet.application.dto;
 
 import lombok.Builder;
 import org.programmers.VoucherManagement.member.domain.Member;
@@ -22,7 +22,7 @@ public record WalletGetResponse(UUID walletId,
 
         return WalletGetResponse.builder()
                 .walletId(wallet.getWalletId())
-                .memberId(member.getMemberUUID())
+                .memberId(member.getMemberId())
                 .voucherId(voucher.getVoucherId())
                 .memberName(member.getName())
                 .discountType(voucher.getDiscountType())

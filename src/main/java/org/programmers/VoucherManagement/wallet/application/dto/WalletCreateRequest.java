@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.wallet.dto.request;
+package org.programmers.VoucherManagement.wallet.application.dto;
 
 public record WalletCreateRequest(
         String voucherId,

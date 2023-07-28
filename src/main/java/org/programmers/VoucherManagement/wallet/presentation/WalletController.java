@@ -1,8 +1,8 @@
 package org.programmers.VoucherManagement.wallet.presentation;
 
 import org.programmers.VoucherManagement.wallet.application.WalletService;
-import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
-import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletCreateRequest;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponses;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

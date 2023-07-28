@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.wallet.dto.response;
+package org.programmers.VoucherManagement.wallet.application.dto;
 
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
 

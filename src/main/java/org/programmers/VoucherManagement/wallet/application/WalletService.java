@@ -6,9 +6,11 @@ import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepos
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherReaderRepository;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletCreateRequest;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletCreateResponse;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponses;
+import org.programmers.VoucherManagement.wallet.application.mapper.WalletServiceMapper;
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
-import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
-import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletReaderRepository;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletStoreRepository;
 import org.springframework.stereotype.Service;
@@ -38,7 +40,7 @@ public class WalletService {
     }
 
     @Transactional
-    public void createWallet(WalletCreateRequest walletCreateRequest) {
+    public WalletCreateResponse createWallet(WalletCreateRequest walletCreateRequest) {
         Voucher voucher = voucherReaderRepository
                 .findById(UUID.fromString(walletCreateRequest.voucherId()))
                 .orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
@@ -51,6 +53,8 @@ public class WalletService {
                 member);
 
         walletStoreRepository.insert(wallet);
+
+        return WalletServiceMapper.INSTANCE.domainToCreateResponse(wallet);
     }
 
     public WalletGetResponses getWalletsByVoucherId(UUID voucherId) {
