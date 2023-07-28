@@ -23,7 +23,7 @@ public class JdbcWalletStoreRepository implements WalletStoreRepository {
 
     @Override
     public Wallet insert(Wallet wallet) {
-        String sql = "insert into wallet_table(wallet_id, voucher_id, member_id) values (?,?,?)";
+        String sql = "INSERT INTO wallet_table(wallet_id, voucher_id, member_id) VALUES (?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
                 wallet.getWalletId().toString(),
                 wallet.getVoucher().getVoucherId().toString(),
@@ -36,7 +36,7 @@ public class JdbcWalletStoreRepository implements WalletStoreRepository {
 
     @Override
     public void delete(UUID walletId) {
-        String sql = "delete from wallet_table where wallet_id = ?";
+        String sql = "DELETE FROM wallet_table WHERE wallet_id = ?";
         int deleteCount = jdbcTemplate.update(sql,
                 walletId.toString());
         if (deleteCount != 1) {

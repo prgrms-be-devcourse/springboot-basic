@@ -31,7 +31,7 @@ public class JdbcWalletReaderRepository implements WalletReaderRepository {
 
     @Override
     public Optional<Wallet> findById(UUID walletId) {
-        String sql = "select wallet_id, voucher_id, member_id from wallet_table where wallet_id = ?";
+        String sql = "SELECT wallet_id, voucher_id, member_id FROM wallet_table WHERE wallet_id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     walletRowMapper(),
@@ -43,14 +43,14 @@ public class JdbcWalletReaderRepository implements WalletReaderRepository {
 
     @Override
     public List<Wallet> findAllByMemberId(UUID memberId) {
-        String sql = "select wallet_id, voucher_id, member_id from wallet_table where member_id = ?";
+        String sql = "SELECT wallet_id, voucher_id, member_id FROM wallet_table WHERE member_id = ?";
 
         return jdbcTemplate.query(sql, walletRowMapper(), memberId.toString());
     }
 
     @Override
     public List<Wallet> findAllByVoucherId(UUID voucherId) {
-        String sql = "select wallet_id, voucher_id, member_id from wallet_table where voucher_id = ?";
+        String sql = "SELECT wallet_id, voucher_id, member_id FROM wallet_table WHERE voucher_id = ?";
 
         return jdbcTemplate.query(sql, walletRowMapper(), voucherId.toString());
     }

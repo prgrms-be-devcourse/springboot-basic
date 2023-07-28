@@ -23,21 +23,21 @@ public class JdbcMemberReaderRepository implements MemberReaderRepository {
 
     @Override
     public List<Member> findAll() {
-        String sql = "select member_id, member_status, name from member_table";
+        String sql = "SELECT member_id, member_status, name FROM member_table";
 
         return jdbcTemplate.query(sql, memberRowMapper());
     }
 
     @Override
     public List<Member> findAllByMemberStatus(MemberStatus memberStatus) {
-        String sql = "select member_id, member_status, name from member_table where member_status = ?";
+        String sql = "SELECT member_id, member_status, name FROM member_table WHERE member_status = ?";
 
         return jdbcTemplate.query(sql, memberRowMapper(), memberStatus.toString());
     }
 
     @Override
     public Optional<Member> findById(UUID memberId) {
-        String sql = "select member_id, member_status, name from member_table where member_id = ?";
+        String sql = "SELECT member_id, member_status, name FROM member_table WHERE member_id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     memberRowMapper(),

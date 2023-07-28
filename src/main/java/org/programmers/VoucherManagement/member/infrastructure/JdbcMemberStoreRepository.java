@@ -22,7 +22,7 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
 
     @Override
     public Member insert(Member member) {
-        String sql = "insert into member_table(member_id, name, member_status) values (?,?,?)";
+        String sql = "INSERT INTO member_table(member_id, name, member_status) VALUES (?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
                 member.getMemberId().toString(),
                 member.getName(),
@@ -36,7 +36,7 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
 
     @Override
     public void update(Member member) {
-        String sql = "update member_table set name = ?, member_status = ? where member_id = ?";
+        String sql = "UPDATE member_table SET name = ?, member_status = ? WHERE member_id = ?";
         int updateCount = jdbcTemplate.update(sql,
                 member.getName(),
                 member.getMemberStatus().toString(),
@@ -48,7 +48,7 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
 
     @Override
     public void delete(UUID memberId) {
-        String sql = "delete from member_table where member_id = ?";
+        String sql = "DELETE FROM member_table WHERE member_id = ?";
         int deleteCount = jdbcTemplate.update(sql,
                 memberId.toString());
         if (deleteCount != 1) {

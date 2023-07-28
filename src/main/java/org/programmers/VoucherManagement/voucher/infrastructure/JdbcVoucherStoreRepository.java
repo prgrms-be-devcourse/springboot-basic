@@ -21,7 +21,7 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        String sql = "insert into voucher_table(voucher_id, voucher_value , voucher_type) values (?,?,?)";
+        String sql = "INSERT INTO voucher_table(voucher_id, voucher_value , voucher_type) VALUES (?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
                 voucher.getVoucherId().toString(),
                 voucher.getDiscountValue().getValue(),
@@ -35,7 +35,7 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
 
     @Override
     public void delete(UUID voucherId) {
-        String sql = "delete from voucher_table where voucher_id = ?";
+        String sql = "DELETE FROM voucher_table WHERE voucher_id = ?";
         int deleteCount = jdbcTemplate.update(sql,
                 voucherId.toString());
         if (deleteCount != 1) {
@@ -45,7 +45,7 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
 
     @Override
     public void update(Voucher voucher) {
-        String sql = "update voucher_table set voucher_value = ? where voucher_id = ?";
+        String sql = "UPDATE voucher_table SET voucher_value = ? WHERE voucher_id = ?";
         int updateCount = jdbcTemplate.update(sql,
                 voucher.getDiscountValue().getValue(),
                 voucher.getVoucherId().toString());
