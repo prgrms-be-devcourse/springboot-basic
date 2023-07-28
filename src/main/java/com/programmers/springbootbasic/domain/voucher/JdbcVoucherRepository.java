@@ -13,17 +13,17 @@ import java.util.UUID;
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final String VOUCHER_ID_FOR_DATABASE = "voucher_id";
-    private static final String VOUCHER_ID_FOR_OBJECT = "voucherId";
-    private static final String VOUCHER_TYPE_FOR_DATABASE = "voucher_type";
-    private static final String VOUCHER_TYPE_FOR_OBJECT = "voucherType";
-    private static final String AMOUNT_OR_PERCENT_FOR_DATABASE = "amount_or_percent";
-    private static final String AMOUNT_OR_PERCENT_FOR_OBJECT = "amountOrPercent";
+    private static final String DATABASE_VOUCHER_ID = "voucher_id";
+    private static final String VOUCHER_ID = "voucherId";
+    private static final String DATABASE_VOUCHER_TYPE = "voucher_type";
+    private static final String VOUCHER_TYPE = "voucherType";
+    private static final String DATABASE_AMOUNT_OR_PERCENT = "amount_or_percent";
+    private static final String AMOUNT_OR_PERCENT = "amountOrPercent";
     private final RowMapper<Voucher> rowMapper = (rs, rowNum) -> {
 
-        UUID voucherId = UUID.fromString(rs.getString(VOUCHER_ID_FOR_DATABASE));
-        VoucherType voucherType = VoucherType.valueOf(rs.getString(VOUCHER_TYPE_FOR_DATABASE));
-        int amountOrPercent = rs.getInt(AMOUNT_OR_PERCENT_FOR_DATABASE);
+        UUID voucherId = UUID.fromString(rs.getString(DATABASE_VOUCHER_ID));
+        VoucherType voucherType = VoucherType.valueOf(rs.getString(DATABASE_VOUCHER_TYPE));
+        int amountOrPercent = rs.getInt(DATABASE_AMOUNT_OR_PERCENT);
 
         return Voucher.createVoucher(voucherId, voucherType, amountOrPercent);
     };
@@ -35,9 +35,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         return Map.of(
-                VOUCHER_ID_FOR_OBJECT, voucher.getVoucherId().toString(),
-                VOUCHER_TYPE_FOR_OBJECT, voucher.getVoucherType().name(),
-                AMOUNT_OR_PERCENT_FOR_OBJECT, voucher.getAmountOrPercent()
+                VOUCHER_ID, voucher.getVoucherId().toString(),
+                VOUCHER_TYPE, voucher.getVoucherType().name(),
+                AMOUNT_OR_PERCENT, voucher.getAmountOrPercent()
         );
     }
 

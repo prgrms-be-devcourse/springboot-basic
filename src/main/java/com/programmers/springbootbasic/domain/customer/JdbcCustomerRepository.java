@@ -12,13 +12,13 @@ import java.util.UUID;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
-    private static final String CUSTOMER_ID_FOR_DATABASE = "customer_id";
-    private static final String CUSTOMER_ID_FOR_OBJECT = "customerId";
+    private static final String DATABASE_CUSTOMER_ID = "customer_id";
+    private static final String CUSTOMER_ID = "customerId";
     private static final String NAME = "name";
     private static final String EMAIL = "email";
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final RowMapper<Customer> rowMapper = (rs, rowNum) -> {
-        UUID customerId = UUID.fromString(rs.getString(CUSTOMER_ID_FOR_DATABASE));
+        UUID customerId = UUID.fromString(rs.getString(DATABASE_CUSTOMER_ID));
         String email = rs.getString(EMAIL);
         String name = rs.getString(NAME);
         return new Customer(customerId, email, name);
@@ -30,7 +30,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         return Map.of(
-                CUSTOMER_ID_FOR_OBJECT, customer.getCustomerId().toString(),
+                CUSTOMER_ID, customer.getCustomerId().toString(),
                 NAME, customer.getName(),
                 EMAIL, customer.getEmail()
         );
