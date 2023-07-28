@@ -17,8 +17,8 @@ public class Console implements Input, Output {
   }
 
   @Override
-  public Integer getDiscount() {
-    return Integer.valueOf(scanner.nextLine());
+  public Long getDiscount() {
+    return Long.valueOf(scanner.nextLine());
   }
 
   @Override
@@ -49,7 +49,7 @@ public class Console implements Input, Output {
     return VoucherType.of(input());
   }
 
-  public Integer selectDiscount() {
+  public Long selectDiscount() {
     printDiscount();
     return getDiscount();
   }

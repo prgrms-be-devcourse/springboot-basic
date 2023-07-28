@@ -15,11 +15,11 @@ public class VoucherController {
   private final Console console;
   private final VoucherService voucherService;
 
-  public boolean handleCommand(Command command) {
+  public Boolean handleCommand(Command command) {
     switch (command) {
       case CREATE:
         VoucherType inputVoucherType = console.selectVoucherTypeOption();
-        Integer inputDiscount = console.selectDiscount();
+        Long inputDiscount = console.selectDiscount();
 
         voucherService.createVoucher(inputVoucherType, inputDiscount);
         return true;

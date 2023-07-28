@@ -47,7 +47,7 @@ class VoucherServiceTest {
       "1", "10", "100"
   })
   @DisplayName("FixedAmountVoucher 저장 성공")
-  void createFixedAmountVoucher(int amount) {
+  void createFixedAmountVoucher(long amount) {
 
     //given
     VoucherType voucherType = VoucherType.FIXED;
@@ -72,7 +72,7 @@ class VoucherServiceTest {
       "1", "10", "100"
   })
   @DisplayName("PercentDiscountVoucher 저장 성공")
-  void createPercentDiscountVoucher(int amount) {
+  void createPercentDiscountVoucher(long amount) {
 
     //given
     VoucherType voucherType = VoucherType.PERCENT;
