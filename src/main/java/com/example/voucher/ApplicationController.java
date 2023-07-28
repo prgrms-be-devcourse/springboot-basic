@@ -3,6 +3,7 @@ package com.example.voucher;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Controller;
 import com.example.voucher.constant.ModeType;
+import com.example.voucher.constant.ResponseStatus;
 import com.example.voucher.constant.ServiceType;
 import com.example.voucher.customer.controller.CustomerController;
 import com.example.voucher.customer.controller.model.CustomerRequest;
@@ -113,17 +114,23 @@ public class ApplicationController implements CommandLineRunner {
 
     private void createVoucher() {
         VoucherRequest request = console.getCreateVoucherRequest();
-        try {
-            VoucherResponse response = voucherController.createVoucher(request);
+        VoucherResponse response = voucherController.createVoucher(request);
+
+        if (response.getStatus() == ResponseStatus.SC) {
             console.displayVoucherResponse(response);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
     private void getVouchers() {
         VoucherResponse response = voucherController.getVouchers();
-        console.displayVoucherResponse(response);
+
+        if (response.getStatus() == ResponseStatus.SC) {
+            console.displayVoucherResponse(response);
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
+        }
     }
 
     private void getVoucher() {
@@ -131,29 +138,38 @@ public class ApplicationController implements CommandLineRunner {
 
         VoucherResponse response = voucherController.getVoucher(request);
 
-        console.displayVoucherResponse(response);
+        if (response.getStatus() == ResponseStatus.SC) {
+            console.displayVoucherResponse(response);
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
+        }
     }
 
     private void updateVoucher() {
         VoucherRequest request = console.getUpdateVoucherRequest();
-        try {
-            VoucherResponse response = voucherController.update(request);
+        VoucherResponse response = voucherController.update(request);
+
+        if (response.getStatus() == ResponseStatus.SC) {
             console.displayVoucherResponse(response);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
     private void removeVouchers() {
-        voucherController.deleteVouchers();
+        VoucherResponse response = voucherController.deleteVouchers();
+
+        if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
+        }
     }
 
     private void removeVoucher() {
         VoucherRequest request = console.getDeleteVoucherRequest();
-        try {
-            voucherController.deleteVoucher(request);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        VoucherResponse response = voucherController.deleteVoucher(request);
+
+        if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
