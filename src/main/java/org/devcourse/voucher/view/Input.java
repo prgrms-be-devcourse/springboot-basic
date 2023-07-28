@@ -6,9 +6,13 @@ import java.io.InputStreamReader;
 
 public class Input {
 
-    public String getUserInput() throws IOException {
+    public String getUserInput() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-        return reader.readLine();
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException("입력 도중 에러 발생");
+        }
     }
 }

@@ -4,7 +4,9 @@ import org.devcourse.voucher.app.VoucherService;
 import org.devcourse.voucher.controller.console.dto.VoucherInfoResponse;
 import org.devcourse.voucher.controller.console.dto.VoucherSaveRequest;
 
-import java.util.ArrayList;
+import org.devcourse.voucher.domain.voucher.Voucher;
+import org.devcourse.voucher.domain.voucher.vo.VoucherVO;
+
 import java.util.List;
 
 public class VoucherController {
@@ -16,10 +18,18 @@ public class VoucherController {
     }
 
     public VoucherInfoResponse createVoucher(VoucherSaveRequest request) {
-        return new VoucherInfoResponse(0, "", 0);
+        Voucher voucher = Voucher.of(request.voucherType(), request.amount());
+        Voucher savedVoucher = voucherService.save(voucher);
+
+        VoucherVO value = savedVoucher.values();
+
+        return new VoucherInfoResponse(value);
     }
 
     public List<VoucherInfoResponse> listVoucher() {
-        return new ArrayList<>();
+        return voucherService.findAll().stream()
+                .map(Voucher::values)
+                .map(VoucherInfoResponse::new)
+                .toList();
     }
 }
