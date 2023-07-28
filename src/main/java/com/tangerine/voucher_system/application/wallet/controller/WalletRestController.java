@@ -1,7 +1,9 @@
 package com.tangerine.voucher_system.application.wallet.controller;
 
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
+import com.tangerine.voucher_system.application.customer.controller.mapper.CustomerControllerMapper;
 import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
+import com.tangerine.voucher_system.application.voucher.controller.mapper.VoucherControllerMapper;
 import com.tangerine.voucher_system.application.wallet.controller.dto.CreateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.controller.dto.UpdateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.controller.mapper.WalletControllerMapper;
@@ -22,37 +24,31 @@ public class WalletRestController {
         this.walletService = walletService;
     }
 
-    @PostMapping("/create")
-    public void createWallet(@RequestBody CreateWalletRequest request) {
-        walletService.createWallet(WalletControllerMapper.INSTANCE.requestToParam(request));
+    @PostMapping("")
+    public ResponseEntity<UUID> createWallet(@RequestBody CreateWalletRequest request) {
+        return ResponseEntity.ok(walletService.createWallet(WalletControllerMapper.INSTANCE.requestToParam(request)));
     }
 
-    @PostMapping("/update")
-    public void updateWallet(@RequestBody UpdateWalletRequest request) {
-        walletService.updateWallet(WalletControllerMapper.INSTANCE.requestToParam(request));
+    @PatchMapping("")
+    public ResponseEntity<UUID> updateWallet(@RequestBody UpdateWalletRequest request) {
+        return ResponseEntity.ok(walletService.updateWallet(WalletControllerMapper.INSTANCE.requestToParam(request)));
     }
 
-    @DeleteMapping("/delete/{walletId}")
-    public void deleteWalletById(@PathVariable UUID walletId) {
-        walletService.deleteWalletById(walletId);
+    @DeleteMapping("")
+    public ResponseEntity<UUID> deleteWalletById(@RequestParam(name = "id") UUID walletId) {
+        return ResponseEntity.ok(walletService.deleteWalletById(walletId));
     }
 
-    @GetMapping("/customer/{customerId}")
-    public ResponseEntity<List<VoucherResponse>> voucherListOfCustomer(@PathVariable UUID customerId) {
+    @GetMapping("/customer")
+    public ResponseEntity<List<VoucherResponse>> voucherListOfCustomer(@RequestParam(name = "id") UUID customerId) {
         return ResponseEntity.ok(
-                walletService.findVouchersByCustomerId(customerId)
-                        .stream()
-                        .map(WalletControllerMapper.INSTANCE::resultToResponse)
-                        .toList());
+                VoucherControllerMapper.INSTANCE.resultsToResponses(walletService.findVouchersByCustomerId(customerId)));
     }
 
-    @GetMapping("/voucher/{voucherId}")
-    public ResponseEntity<List<CustomerResponse>> customerListHasVoucher(@PathVariable UUID voucherId) {
+    @GetMapping("/voucher")
+    public ResponseEntity<List<CustomerResponse>> customerListHasVoucher(@RequestParam(name = "id") UUID voucherId) {
         return ResponseEntity.ok(
-                walletService.findCustomersByVoucherId(voucherId)
-                        .stream()
-                        .map(WalletControllerMapper.INSTANCE::resultToResponse)
-                        .toList());
+                CustomerControllerMapper.INSTANCE.resultsToResponses(walletService.findCustomersByVoucherId(voucherId)));
     }
 
 }

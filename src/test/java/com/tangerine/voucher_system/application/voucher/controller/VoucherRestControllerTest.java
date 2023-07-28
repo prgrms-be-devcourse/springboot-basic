@@ -1,8 +1,8 @@
 package com.tangerine.voucher_system.application.voucher.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.UpdateVoucherRequest;
-import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.service.VoucherService;
@@ -15,8 +15,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,12 +26,13 @@ import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringJUnitConfig
 class VoucherRestControllerTest {
 
     @InjectMocks
@@ -38,79 +41,109 @@ class VoucherRestControllerTest {
     @Mock
     VoucherService service;
 
+    MockMvc mockMvc;
+    ObjectMapper objectMapper;
+
     @BeforeEach
     void init() {
-        service = mock(VoucherService.class);
-        controller = new VoucherRestController(service);
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        objectMapper = new ObjectMapper();
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 바우처를 생성 시 성공한다.")
     @MethodSource("provideCreateVoucherRequests")
-    void createVoucher_ParamNotExistVoucherDto_RegisterAndReturnVoucherDto(CreateVoucherRequest request, VoucherResult result) {
+    void createVoucher_ParamNotExistVoucherDto_RegisterAndReturnVoucherDto(CreateVoucherRequest request, VoucherResult result) throws Exception {
         given(service.createVoucher(any())).willReturn(result);
 
-        ResponseEntity<VoucherResponse> createdVoucher = controller.createVoucher(request);
+        mockMvc.perform(post("/api/v1/vouchers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.voucherId").value(result.voucherId().toString()))
+                .andExpect(jsonPath("$.voucherType").value(result.voucherType().toString()));
 
-        assertThat(createdVoucher.getBody()).isNotNull();
-        assertThat(createdVoucher.getBody().voucherId()).isEqualTo(result.voucherId());
+        verify(service, times(1)).createVoucher(any());
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 바우처를 갱신 시 성공한다.")
     @MethodSource("provideUpdateVoucherRequests")
-    void updateVoucher_ParamExistVoucherDto_UpdateAndReturnVoucherDto(UpdateVoucherRequest request, VoucherResult result) {
+    void updateVoucher_ParamExistVoucherDto_UpdateAndReturnVoucherDto(UpdateVoucherRequest request, VoucherResult result) throws Exception {
         given(service.updateVoucher(any())).willReturn(result);
 
-        ResponseEntity<VoucherResponse> updatedVoucher = controller.updateVoucher(request);
+        mockMvc.perform(patch("/api/v1/vouchers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.voucherId").value(result.voucherId().toString()))
+                .andExpect(jsonPath("$.voucherType").value(result.voucherType().toString()));
 
-        assertThat(updatedVoucher.getBody()).isNotNull();
-        assertThat(updatedVoucher.getBody().voucherId()).isEqualTo(result.voucherId());
+        verify(service, times(1)).updateVoucher(any());
     }
 
     @Test
     @DisplayName("모든 바우처 Dto 를 리스트로 반환한다.")
-    void voucherList_ParamVoid_ReturnVoucherList() {
+    void voucherList_ParamVoid_ReturnVoucherList() throws Exception {
         given(service.findVouchers()).willReturn(voucherResults);
 
-        ResponseEntity<List<VoucherResponse>> result = controller.voucherList();
+        mockMvc.perform(get("/api/v1/vouchers"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].voucherId").value(voucherResults.get(0).voucherId().toString()))
+                .andExpect(jsonPath("$[0].voucherType").value(voucherResults.get(0).voucherType().toString()));
 
-        assertThat(result.getBody()).isNotEmpty();
+        verify(service, times(1)).findVouchers();
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 바우처를 아이디로 찾으면 성공한다.")
     @MethodSource("provideVoucherResults")
-    void voucherById_ParamExistVoucherId_ReturnVoucherDto(VoucherResult result) {
+    void voucherById_ParamExistVoucherId_ReturnVoucherDto(VoucherResult result) throws Exception {
         given(service.findVoucherById(any())).willReturn(result);
 
-        ResponseEntity<VoucherResponse> foundVoucherDto = controller.voucherById(result.voucherId());
+        mockMvc.perform(get("/api/v1/vouchers/" + result.voucherId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.voucherId").value(result.voucherId().toString()))
+                .andExpect(jsonPath("$.voucherType").value(result.voucherType().toString()));
 
-        assertThat(foundVoucherDto.getBody()).isNotNull();
-        assertThat(foundVoucherDto.getBody().voucherId()).isEqualTo(result.voucherId());
+        verify(service, times(1)).findVoucherById(result.voucherId());
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 바우처를 생성일자로 찾으면 성공한다.")
     @MethodSource("provideVoucherResults")
-    void voucherByCreatedAt_ParamExistVoucherId_ReturnVoucherDto(VoucherResult result) {
+    void voucherByCreatedAt_ParamExistVoucherId_ReturnVoucherDto(VoucherResult result) throws Exception {
         given(service.findVoucherByCreatedAt(any())).willReturn(voucherResults);
 
-        ResponseEntity<List<VoucherResponse>> foundVoucherDto = controller.voucherByCreatedAt(result.createdAt());
+        mockMvc.perform(get("/api/v1/vouchers/by-created-at")
+                        .param("createdAt", result.createdAt().toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].voucherId").value(voucherResults.get(0).voucherId().toString()))
+                .andExpect(jsonPath("$[0].voucherType").value(voucherResults.get(0).voucherType().toString()));
 
-        assertThat(foundVoucherDto.getBody()).isNotEmpty();
+        verify(service, times(1)).findVoucherByCreatedAt(result.createdAt());
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 바우처를 제거하면 성공한다.")
     @MethodSource("provideVoucherResults")
-    void deleteVoucherById_ParamExistVoucherId_DeleteAndReturnVoucherDto(VoucherResult result) {
+    void deleteVoucherById_ParamExistVoucherId_DeleteAndReturnVoucherDto(VoucherResult result) throws Exception {
         given(service.deleteVoucherById(any())).willReturn(result);
 
-        ResponseEntity<VoucherResponse> deletedVoucherDto = controller.deleteVoucherById(result.voucherId());
+        mockMvc.perform(delete("/api/v1/vouchers")
+                        .param("id", result.voucherId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.voucherId").value(result.voucherId().toString()))
+                .andExpect(jsonPath("$.voucherType").value(result.voucherType().toString()));
 
-        assertThat(deletedVoucherDto.getBody()).isNotNull();
-        assertThat(deletedVoucherDto.getBody().voucherId()).isEqualTo(result.voucherId());
+        verify(service, times(1)).deleteVoucherById(result.voucherId());
     }
 
     static List<VoucherResult> voucherResults = List.of(

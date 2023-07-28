@@ -22,7 +22,7 @@ public class VoucherRestController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<VoucherResponse> createVoucher(@RequestBody CreateVoucherRequest request) {
         return ResponseEntity.ok(
                 VoucherControllerMapper.INSTANCE.resultToResponse(
@@ -30,7 +30,7 @@ public class VoucherRestController {
         );
     }
 
-    @PostMapping("/update")
+    @PatchMapping("")
     public ResponseEntity<VoucherResponse> updateVoucher(@RequestBody UpdateVoucherRequest request) {
         return ResponseEntity.ok(
                 VoucherControllerMapper.INSTANCE.resultToResponse(
@@ -38,35 +38,30 @@ public class VoucherRestController {
         );
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<List<VoucherResponse>> voucherList() {
         return ResponseEntity.ok(
-                voucherService.findVouchers()
-                        .stream()
-                        .map(VoucherControllerMapper.INSTANCE::resultToResponse)
-                        .toList()
+                VoucherControllerMapper.INSTANCE.resultsToResponses(voucherService.findVouchers())
         );
     }
 
-    @GetMapping("/id/{voucherId}")
-    public ResponseEntity<VoucherResponse> voucherById(@PathVariable UUID voucherId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<VoucherResponse> voucherById(@PathVariable("id") UUID voucherId) {
         return ResponseEntity.ok(
                 VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.findVoucherById(voucherId))
         );
     }
 
-    @GetMapping("/created-date/{createdAt}")
-    public ResponseEntity<List<VoucherResponse>> voucherByCreatedAt(@PathVariable LocalDate createdAt) {
+    @GetMapping("/by-created-at")
+    public ResponseEntity<List<VoucherResponse>> voucherByCreatedAt(
+            @RequestParam(name = "createdAt") LocalDate createdAt) {
         return ResponseEntity.ok(
-                voucherService.findVoucherByCreatedAt(createdAt)
-                        .stream()
-                        .map(VoucherControllerMapper.INSTANCE::resultToResponse)
-                        .toList()
+                VoucherControllerMapper.INSTANCE.resultsToResponses(voucherService.findVoucherByCreatedAt(createdAt))
         );
     }
 
-    @DeleteMapping("/delete/{voucherId}")
-    public ResponseEntity<VoucherResponse> deleteVoucherById(@PathVariable UUID voucherId) {
+    @DeleteMapping("")
+    public ResponseEntity<VoucherResponse> deleteVoucherById(@RequestParam(name = "id") UUID voucherId) {
         return ResponseEntity.ok(
                 VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.deleteVoucherById(voucherId))
         );

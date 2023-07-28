@@ -1,11 +1,15 @@
 package com.tangerine.voucher_system.application.customer.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tangerine.voucher_system.application.customer.controller.dto.CreateCustomerRequest;
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
 import com.tangerine.voucher_system.application.customer.controller.dto.UpdateCustomerRequest;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.CustomerService;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
+import com.tangerine.voucher_system.application.customer.service.mapper.CustomerServiceMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,8 +18,18 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,9 +39,11 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringJUnitConfig
 class CustomerRestControllerTest {
 
     @InjectMocks
@@ -36,93 +52,120 @@ class CustomerRestControllerTest {
     @Mock
     CustomerService service;
 
+    MockMvc mockMvc;
+    ObjectMapper objectMapper;
+
     @BeforeEach
-    void init() {
-        service = mock(CustomerService.class);
-        controller = new CustomerRestController(service);
-    }
-
-    @Test
-    @DisplayName("진상고객 정보를 리스트로 반환하면 성공한다.")
-    void blackCustomerList_ParamVoid_ReturnCustomerResponseList() {
-        given(service.findBlackCustomers()).willReturn(blackCustomerResults);
-
-        ResponseEntity<List<CustomerResponse>> result = controller.blackCustomerList();
-
-        assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
-        assertThat(result.getBody()).isNotEmpty();
-        assertThat(result.getBody().get(0).customerId()).isSameAs(blackCustomerResults.get(0).customerId());
+    void setup() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        objectMapper = new ObjectMapper();
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객을 추가하면 성공한다.")
     @MethodSource("provideCreateCustomerRequests")
-    void registerCustomer_ParamCreateCustomerRequests_InsertAndReturnCustomerResponse(CreateCustomerRequest request, CustomerResult result) {
+    void registerCustomer_ParamCreateCustomerRequests_InsertAndReturnCustomerResponse(CreateCustomerRequest request, CustomerResult result) throws Exception {
         given(service.createCustomer(any())).willReturn(result);
 
-        ResponseEntity<CustomerResponse> insertedCustomer = controller.registerCustomer(request);
+        mockMvc.perform(post("/api/v1/customers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name").value(request.name()));
 
-        assertThat(insertedCustomer.getBody()).isNotNull();
-        assertThat(insertedCustomer.getBody().name()).isEqualTo(result.name());
+        verify(service, times(1)).createCustomer(any());
+    }
+
+    @Test
+    @DisplayName("진상고객 정보를 리스트로 반환하면 성공한다.")
+    void blackCustomerList_ParamVoid_ReturnCustomerResponseList() throws Exception {
+        given(service.findBlackCustomers()).willReturn(blackCustomerResults);
+
+        mockMvc.perform(get("/api/v1/customers/black")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].customerId").value(blackCustomerResults.get(0).customerId().toString()));
+
+        verify(service, times(1)).findBlackCustomers();
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 고객을 업데이트하면 성공한다.")
     @MethodSource("provideUpdateCustomerRequests")
-    void updateCustomer_ParamExistCustomerDto_UpdateCustomerDto(UpdateCustomerRequest request, CustomerResult result) {
+    void updateCustomer_ParamExistCustomerDto_UpdateCustomerDto(UpdateCustomerRequest request, CustomerResult result) throws Exception {
         given(service.updateCustomer(any())).willReturn(result);
 
-        ResponseEntity<CustomerResponse> updatedCustomer = controller.updateCustomer(request);
+        mockMvc.perform(patch("/api/v1/customers")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.name").value(request.name()));
 
-        assertThat(updatedCustomer.getBody()).isNotNull();
-        assertThat(updatedCustomer.getBody().customerId()).isSameAs(result.customerId());
+        verify(service, times(1)).updateCustomer(any());
     }
 
     @Test
     @DisplayName("모든 고객을 반환하면 성공한다.")
-    void customerList_ParamVoid_ReturnCustomerDtoList() {
+    void customerList_ParamVoid_ReturnCustomerDtoList() throws Exception {
         given(service.findAllCustomers()).willReturn(customerResults);
 
-        ResponseEntity<List<CustomerResponse>> list = controller.customerList();
+        mockMvc.perform(get("/api/v1/customers"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].customerId").value(customerResults.get(0).customerId().toString()));
 
-        assertThat(list.getBody()).isNotEmpty();
-        assertThat(list.getBody().get(0).customerId()).isEqualTo(customerResults.get(0).customerId());
+        verify(service, times(1)).findAllCustomers();
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 고객을 아이디로 조회 시 성공한다.")
     @MethodSource("provideCustomerResults")
-    void customerById_ParamExistCustomerDto_ReturnCustomerDto(CustomerResult result) {
+    void customerById_ParamExistCustomerDto_ReturnCustomerDto(CustomerResult result) throws Exception {
         given(service.findCustomerById(any())).willReturn(result);
 
-        ResponseEntity<CustomerResponse> foundCustomer = controller.customerById(result.customerId());
+        mockMvc.perform(get("/api/v1/customers/" + result.customerId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.customerId").value(result.customerId().toString()))
+                .andExpect(jsonPath("$.name").value(result.name().getValue()));
 
-        assertThat(foundCustomer.getBody()).isNotNull();
-        assertThat(foundCustomer.getBody().customerId()).isEqualTo(result.customerId());
+        verify(service, times(1)).findCustomerById(any());
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 고객을 이름으로 조회 시 성공한다.")
     @MethodSource("provideCustomerResults")
-    void customerByName_ParamExistCustomerDto_ReturnCustomerDto(CustomerResult result) {
+    void customerByName_ParamExistCustomerDto_ReturnCustomerDto(CustomerResult result) throws Exception {
         given(service.findCustomerByName(any())).willReturn(result);
 
-        ResponseEntity<CustomerResponse> foundCustomer = controller.customerByName(result.name());
+        mockMvc.perform(get("/api/v1/customers/name")
+                        .param("name", result.name().getValue()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.customerId").value(result.customerId().toString()))
+                .andExpect(jsonPath("$.name").value(result.name().getValue()));
 
-        assertThat(foundCustomer.getBody()).isNotNull();
-        assertThat(foundCustomer.getBody().customerId()).isEqualTo(result.customerId());
+        verify(service, times(1)).findCustomerByName(any());
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 고객을 아이디로 제거하면 성공한다.")
     @MethodSource("provideCustomerResults")
-    void unregisterCustomerById_ParamExistCustomer_ReturnAndDeleteCustomer(CustomerResult result) {
+    void unregisterCustomerById_ParamExistCustomer_ReturnAndDeleteCustomer(CustomerResult result) throws Exception {
         given(service.deleteCustomerById(any())).willReturn(result);
 
-        ResponseEntity<CustomerResponse> deletedCustomer = controller.unregisterCustomerById(result.customerId());
+        mockMvc.perform(delete("/api/v1/customers")
+                .param("id", result.customerId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.customerId").value(result.customerId().toString()))
+                .andExpect(jsonPath("$.name").value(result.name().getValue()));
 
-        assertThat(deletedCustomer.getBody()).isNotNull();
-        assertThat(deletedCustomer.getBody().customerId()).isEqualTo(result.customerId());
+        verify(service, times(1)).deleteCustomerById(result.customerId());
     }
 
     static Stream<Arguments> provideCreateCustomerRequests() {
@@ -153,11 +196,11 @@ class CustomerRestControllerTest {
     );
 
     static List<CreateCustomerRequest> createCustomerRequests = customerResults.stream()
-            .map(result -> new CreateCustomerRequest(result.name(), result.isBlack()))
+            .map(result -> new CreateCustomerRequest(result.name().getValue(), result.isBlack()))
             .toList();
 
     static List<UpdateCustomerRequest> updateCustomerRequests = customerResults.stream()
-            .map(result -> new UpdateCustomerRequest(result.customerId(), result.name(), result.isBlack()))
+            .map(result -> new UpdateCustomerRequest(result.customerId(), result.name().getValue(), result.isBlack()))
             .toList();
 
 }

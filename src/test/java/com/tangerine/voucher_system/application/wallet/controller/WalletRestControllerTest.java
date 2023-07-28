@@ -1,16 +1,22 @@
 package com.tangerine.voucher_system.application.wallet.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
+import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
 import com.tangerine.voucher_system.application.wallet.controller.dto.CreateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.controller.dto.UpdateWalletRequest;
+import com.tangerine.voucher_system.application.wallet.model.Wallet;
 import com.tangerine.voucher_system.application.wallet.service.WalletService;
 import com.tangerine.voucher_system.application.wallet.service.dto.WalletParam;
+import com.tangerine.voucher_system.application.wallet.service.dto.WalletResult;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,79 +24,123 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringJUnitConfig
+
 class WalletRestControllerTest {
+
     @InjectMocks
     WalletRestController controller;
+
     @Mock
     WalletService service;
 
-    @Test
+    MockMvc mockMvc;
+    ObjectMapper objectMapper;
+
+    @BeforeEach
+    void setup() {
+        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+        objectMapper = new ObjectMapper();
+    }
+
+    @ParameterizedTest
     @DisplayName("지갑 생성하면 성공한다.")
-    void createWallet_ParamWallet_CreateWallet() {
-        doNothing().when(service).createWallet(any());
+    @MethodSource("provideWallets")
+    void createWallet_ParamWallet_CreateWallet(WalletResult result) throws Exception {
+        given(service.createWallet(any())).willReturn(result.walletId());
 
-        controller.createWallet(new CreateWalletRequest(UUID.randomUUID(), UUID.randomUUID()));
+        mockMvc.perform(post("/api/v1/wallets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new CreateWalletRequest(result.voucherId(), result.customerId()))))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(result.walletId().toString()));
 
-        verify(service).createWallet(any(WalletParam.class));
+        verify(service, times(1)).createWallet(any());
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("지갑 갱신하면 성공한다.")
-    void updateWallet_ParamWallet_UpdateWallet() {
-        doNothing().when(service).updateWallet(any());
+    @MethodSource("provideWallets")
+    void updateWallet_ParamWallet_UpdateWallet(WalletResult result) throws Exception {
+        given(service.updateWallet(any())).willReturn(result.walletId());
 
-        controller.updateWallet(new UpdateWalletRequest(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID()));
+        mockMvc.perform(patch("/api/v1/wallets")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(new CreateWalletRequest(result.voucherId(), result.customerId()))))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(result.walletId().toString()));
 
-        verify(service).updateWallet(any(WalletParam.class));
+        verify(service, times(1)).updateWallet(any());
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("지갑 삭제하면 성공한다.")
-    void deleteWalletById_ParamWalletId_DeleteWallet() {
-        doNothing().when(service).deleteWalletById(any());
+    @MethodSource("provideWallets")
+    void deleteWalletById_ParamWalletId_DeleteWallet(WalletResult result) throws Exception {
+        given(service.deleteWalletById(any())).willReturn(result.walletId());
 
-        controller.deleteWalletById(UUID.randomUUID());
+        mockMvc.perform(delete("/api/v1/wallets")
+                        .param("id", result.walletId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").value(result.walletId().toString()));
 
-        verify(service).deleteWalletById(any(UUID.class));
+        verify(service, times(1)).deleteWalletById(any());
     }
 
     @ParameterizedTest
     @DisplayName("고객 아이디로 할당된 모든 바우처를 반환한다.")
     @MethodSource("provideCustomers")
-    void voucherListOfCustomer_ParamCustomerId_ReturnVoucherList(CustomerResult customer) {
+    void voucherListOfCustomer_ParamCustomerId_ReturnVoucherList(CustomerResult customer) throws Exception {
         given(service.findVouchersByCustomerId(any())).willReturn(voucherResults);
 
-        ResponseEntity<List<VoucherResponse>> result = controller.voucherListOfCustomer(customer.customerId());
+        mockMvc.perform(get("/api/v1/wallets/customer")
+                        .param("id", customer.customerId().toString()))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].voucherId").value(voucherResults.get(0).voucherId().toString()));
 
-        assertThat(result).isNotNull();
-        assertThat(result.getBody()).isNotEmpty();
+        verify(service, times(1)).findVouchersByCustomerId(any());
     }
 
     @ParameterizedTest
     @DisplayName("바우처를 소유한 모든 고객을 바우처 아이디로 찾는다.")
     @MethodSource("provideVouchers")
-    void customerHasVoucher_ParamVoucherId_ReturnCustomer(VoucherResult voucher) {
+    void customerHasVoucher_ParamVoucherId_ReturnCustomer(VoucherResult voucher) throws Exception {
         given(service.findCustomersByVoucherId(any())).willReturn(customerResults);
 
-        ResponseEntity<List<CustomerResponse>> result = controller.customerListHasVoucher(voucher.voucherId());
+        mockMvc.perform(get("/api/v1/wallets/voucher")
+                        .param("id", voucher.voucherId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].customerId").value(customerResults.get(0).customerId().toString()));
 
-        assertThat(result).isNotNull();
-        assertThat(result.getBody()).isNotEmpty();
+        verify(service, times(1)).findCustomersByVoucherId(any());
     }
 
     static List<VoucherResult> voucherResults = List.of(
@@ -105,6 +155,12 @@ class WalletRestControllerTest {
             new CustomerResult(UUID.randomUUID(), new Name("배"), false)
     );
 
+    static List<WalletResult> walletResults = List.of(
+            new WalletResult(UUID.randomUUID(), voucherResults.get(0).voucherId(), customerResults.get(0).customerId()),
+            new WalletResult(UUID.randomUUID(), voucherResults.get(1).voucherId(), customerResults.get(1).customerId()),
+            new WalletResult(UUID.randomUUID(), voucherResults.get(2).voucherId(), customerResults.get(2).customerId())
+    );
+
     static Stream<Arguments> provideVouchers() {
         return voucherResults.stream()
                 .map(Arguments::of);
@@ -112,6 +168,11 @@ class WalletRestControllerTest {
 
     static Stream<Arguments> provideCustomers() {
         return customerResults.stream()
+                .map(Arguments::of);
+    }
+
+    static Stream<Arguments> provideWallets() {
+        return walletResults.stream()
                 .map(Arguments::of);
     }
 

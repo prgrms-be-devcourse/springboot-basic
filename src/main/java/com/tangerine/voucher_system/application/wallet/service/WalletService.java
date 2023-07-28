@@ -28,16 +28,19 @@ public class WalletService {
         this.customerRepository = customerRepository;
     }
 
-    public void createWallet(WalletParam param) {
+    public UUID createWallet(WalletParam param) {
         walletRepository.insert(WalletServiceMapper.INSTANCE.paramToDomain(param));
+        return param.walletId();
     }
 
-    public void updateWallet(WalletParam param) {
+    public UUID updateWallet(WalletParam param) {
         walletRepository.update(WalletServiceMapper.INSTANCE.paramToDomain(param));
+        return param.walletId();
     }
 
-    public void deleteWalletById(UUID walletId) {
+    public UUID deleteWalletById(UUID walletId) {
         walletRepository.deleteById(walletId);
+        return walletId;
     }
 
     public List<WalletResult> findWalletsByCustomerId(UUID customerId) {

@@ -22,56 +22,50 @@ public class CustomerRestController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("")
     public ResponseEntity<CustomerResponse> registerCustomer(@RequestBody CreateCustomerRequest createCustomerRequest) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.createCustomer(CustomerControllerMapper.INSTANCE.requestToParam(createCustomerRequest))));
     }
     
-    @PostMapping("/update")
+    @PatchMapping("")
     public ResponseEntity<CustomerResponse> updateCustomer(@RequestBody UpdateCustomerRequest updateCustomerRequest) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.updateCustomer(CustomerControllerMapper.INSTANCE.requestToParam(updateCustomerRequest))));
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<List<CustomerResponse>> customerList() {
         return ResponseEntity.ok(
-                customerService.findAllCustomers()
-                        .stream()
-                        .map(CustomerControllerMapper.INSTANCE::resultToResponse)
-                        .toList()
+                CustomerControllerMapper.INSTANCE.resultsToResponses(customerService.findAllCustomers())
         );
     }
 
     @GetMapping("/black")
     public ResponseEntity<List<CustomerResponse>> blackCustomerList() {
         return ResponseEntity.ok(
-                customerService.findBlackCustomers()
-                        .stream()
-                        .map(CustomerControllerMapper.INSTANCE::resultToResponse)
-                        .toList()
+                CustomerControllerMapper.INSTANCE.resultsToResponses(customerService.findBlackCustomers())
         );
     }
 
-    @GetMapping("/id/{customerId}")
-    public ResponseEntity<CustomerResponse> customerById(@PathVariable("customerId") UUID customerId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerResponse> customerById(@PathVariable("id") UUID customerId) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.findCustomerById(customerId)));
     }
     
-    @GetMapping("/name/{name}")
-    public ResponseEntity<CustomerResponse> customerByName(@PathVariable("name") Name name) {
+    @GetMapping("/name")
+    public ResponseEntity<CustomerResponse> customerByName(@RequestParam(name = "name") Name name) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.findCustomerByName(name)));
     }
 
-    @DeleteMapping("/unregister/{customerId}")
-    public ResponseEntity<CustomerResponse> unregisterCustomerById(@PathVariable("customerId") UUID customerId) {
+    @DeleteMapping("")
+    public ResponseEntity<CustomerResponse> unregisterCustomerById(@RequestParam(name = "id") UUID customerId) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.deleteCustomerById(customerId)));

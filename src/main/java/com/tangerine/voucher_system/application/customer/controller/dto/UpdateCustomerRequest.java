@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public record UpdateCustomerRequest(
         UUID customerId,
-        Name name,
+        String name,
         boolean isBlack
 ) {
 }

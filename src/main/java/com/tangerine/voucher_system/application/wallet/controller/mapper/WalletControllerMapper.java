@@ -13,6 +13,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface WalletControllerMapper {
 
@@ -32,5 +34,4 @@ public interface WalletControllerMapper {
     VoucherResponse resultToResponse(VoucherResult result);
 
     CustomerResponse resultToResponse(CustomerResult result);
-
 }
