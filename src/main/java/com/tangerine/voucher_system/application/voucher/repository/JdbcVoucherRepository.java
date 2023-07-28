@@ -19,14 +19,6 @@ import java.util.*;
 @Profile({"default", "test"})
 public class JdbcVoucherRepository implements VoucherRepository {
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNumber) -> {
-        UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
-        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        DiscountValue discountValue = new DiscountValue(voucherType, resultSet.getDouble("discount_value"));
-        LocalDate createdAt = resultSet.getDate("created_at").toLocalDate();
-        return new Voucher(voucherId, voucherType, discountValue, createdAt);
-    };
-
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -37,8 +29,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         try {
             int updateResult = jdbcTemplate.update(
-                    "INSERT INTO vouchers(voucher_id, voucher_type, discount_value, created_at)" +
-                            " VALUES (:voucherId, :voucherType, :discountValue, :createdAt)",
+                    """
+                        INSERT INTO vouchers(voucher_id, voucher_type, discount_value, created_at)
+                            VALUES (:voucherId, :voucherType, :discountValue, :createdAt)
+                    """,
                     toParamMap(voucher)
             );
             if (updateResult != 1) {
@@ -54,7 +48,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher update(Voucher voucher) {
         try {
             int updateResult = jdbcTemplate.update(
-                    "UPDATE vouchers SET voucher_type = :voucherType, discount_value = :discountValue, created_at = :createdAt WHERE voucher_id = :voucherId",
+                    """
+                        UPDATE vouchers
+                            SET voucher_type = :voucherType, discount_value = :discountValue, created_at = :createdAt
+                            WHERE voucher_id = :voucherId
+                        """,
                     toParamMap(voucher)
             );
             if (updateResult != 1) {
@@ -70,7 +68,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         try {
             return jdbcTemplate.query(
-                    "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers",
+                    """
+                    SELECT voucher_id, voucher_type, discount_value, created_at
+                        FROM vouchers
+                    """,
                     voucherRowMapper
             );
         } catch (DataAccessException e) {
@@ -83,7 +84,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers WHERE voucher_id = :voucherId",
+                            """
+                            SELECT voucher_id, voucher_type, discount_value, created_at
+                                FROM vouchers
+                                WHERE voucher_id = :voucherId
+                            """,
                             Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                             voucherRowMapper
                     )
@@ -97,7 +102,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findByCreatedAt(LocalDate createdAt) {
         try {
             return jdbcTemplate.query(
-                    "SELECT voucher_id, voucher_type, discount_value, created_at FROM vouchers WHERE created_at = :createdAt",
+                    """
+                    SELECT voucher_id, voucher_type, discount_value, created_at
+                        FROM vouchers
+                        WHERE created_at = :createdAt
+                    """,
                     Collections.singletonMap("createdAt", createdAt),
                     voucherRowMapper
             );
@@ -110,13 +119,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         try {
             jdbcTemplate.update(
-                    "DELETE FROM vouchers WHERE voucher_id = :voucherId",
+                    """
+                    DELETE FROM vouchers
+                        WHERE voucher_id = :voucherId
+                    """,
                     Collections.singletonMap("voucherId", voucherId.toString())
             );
         } catch (DataAccessException e) {
             throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
         }
     }
+
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNumber) -> {
+        UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
+        VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
+        DiscountValue discountValue = new DiscountValue(voucherType, resultSet.getDouble("discount_value"));
+        LocalDate createdAt = resultSet.getDate("created_at").toLocalDate();
+        return new Voucher(voucherId, voucherType, discountValue, createdAt);
+    };
 
     private Map<String, Object> toParamMap(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>();

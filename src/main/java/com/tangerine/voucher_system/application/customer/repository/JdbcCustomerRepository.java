@@ -16,13 +16,6 @@ import java.util.*;
 @Profile({"default", "test"})
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
-        Name name = new Name(resultSet.getString("name"));
-        boolean isBlack = resultSet.getBoolean("black");
-        return new Customer(customerId, name, isBlack);
-    };
-
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -33,7 +26,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer insert(Customer customer) {
         try {
             int updateResult = jdbcTemplate.update(
-                    "INSERT INTO customers(customer_id, name, black) VALUES (:customerId, :name, :black)",
+                    """
+                        INSERT INTO customers(customer_id, name, black)
+                            VALUES (:customerId, :name, :black)
+                    """,
                     toParamMap(customer)
             );
             if (updateResult != 1) {
@@ -49,7 +45,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer update(Customer customer) {
         try {
             int updateResult = jdbcTemplate.update(
-                    "UPDATE customers SET name = :name, black = :black WHERE customer_id = :customerId",
+                    """
+                        UPDATE customers
+                            SET name = :name, black = :black
+                            WHERE customer_id = :customerId
+                    """,
                     toParamMap(customer)
             );
             if (updateResult != 1) {
@@ -65,7 +65,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public List<Customer> findAll() {
         try {
             return jdbcTemplate.query(
-                    "SELECT customer_id, name, black FROM customers",
+                    """
+                        SELECT customer_id, name, black 
+                            FROM customers
+                    """,
                     customerRowMapper
             );
         } catch (DataAccessException exception) {
@@ -77,7 +80,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public List<Customer> findAllBlackCustomers() {
         try {
             return jdbcTemplate.query(
-                    "SELECT customer_id, name, black FROM customers WHERE black = TRUE",
+                    """
+                        SELECT customer_id, name, black 
+                            FROM customers 
+                            WHERE black = TRUE
+                    """,
                     customerRowMapper
             );
         } catch (DataAccessException e) {
@@ -90,7 +97,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT customer_id, name, black FROM customers WHERE customer_id = :customerId",
+                            """
+                                SELECT customer_id, name, black
+                                    FROM customers
+                                    WHERE customer_id = :customerId
+                            """,
                             Collections.singletonMap("customerId", customerId.toString()),
                             customerRowMapper
                     )
@@ -105,7 +116,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
-                            "SELECT customer_id, name, black FROM customers WHERE name = :name",
+                            """
+                                SELECT customer_id, name, black
+                                    FROM customers
+                                    WHERE name = :name
+                            """,
                             Collections.singletonMap("name", name.getValue()),
                             customerRowMapper
                     )
@@ -119,13 +134,23 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteById(UUID customerId) {
         try {
             jdbcTemplate.update(
-                    "DELETE FROM customers WHERE customer_id = :customerId",
+                    """
+                        DELETE FROM customers
+                            WHERE customer_id = :customerId
+                    """,
                     Map.of("customerId", customerId.toString())
             );
         } catch (DataAccessException e) {
             throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
         }
     }
+
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
+        UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
+        Name name = new Name(resultSet.getString("name"));
+        boolean isBlack = resultSet.getBoolean("black");
+        return new Customer(customerId, name, isBlack);
+    };
 
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();

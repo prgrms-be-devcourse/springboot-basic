@@ -15,24 +15,10 @@ import java.util.*;
 @Profile({"default", "test"})
 public class JdbcWalletRepository implements WalletRepository {
 
-    static RowMapper<Wallet> walletRowMapper = (resultSet, rowNumber) -> {
-        UUID walletId = UUID.fromString(resultSet.getString("wallet_id"));
-        UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
-        UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
-        return new Wallet(walletId, voucherId, customerId);
-    };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcWalletRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    private Map<String, Object> toParamMap(Wallet wallet) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("walletId", wallet.walletId().toString());
-        paramMap.put("voucherId", wallet.voucherId().toString());
-        paramMap.put("customerId", wallet.customerId().toString());
-        return paramMap;
     }
 
     @Override
@@ -94,13 +80,33 @@ public class JdbcWalletRepository implements WalletRepository {
     public List<Wallet> findByVoucherId(UUID voucherId) {
         try {
             return jdbcTemplate.query(
-                    "SELECT wallet_id, voucher_id, customer_id FROM wallets WHERE voucher_id = :voucherId",
+            """
+                    SELECT
+                        wallet_id, voucher_id, customer_id
+                    FROM wallets
+                    WHERE voucher_id = :voucherId
+                """,
                     Collections.singletonMap("voucherId", voucherId.toString()),
                     walletRowMapper
             );
         } catch (DataAccessException e) {
             return List.of();
         }
+    }
+
+    private static final RowMapper<Wallet> walletRowMapper = (resultSet, rowNumber) -> {
+        UUID walletId = UUID.fromString(resultSet.getString("wallet_id"));
+        UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
+        UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
+        return new Wallet(walletId, voucherId, customerId);
+    };
+
+    private Map<String, Object> toParamMap(Wallet wallet) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("walletId", wallet.walletId().toString());
+        paramMap.put("voucherId", wallet.voucherId().toString());
+        paramMap.put("customerId", wallet.customerId().toString());
+        return paramMap;
     }
 
 }
