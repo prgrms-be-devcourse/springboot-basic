@@ -135,7 +135,6 @@ public class ApplicationController implements CommandLineRunner {
 
     private void getVoucher() {
         VoucherRequest request = console.getSearchVoucherRequest();
-
         VoucherResponse response = voucherController.getVoucher(request);
 
         if (response.getStatus() == ResponseStatus.SC) {
@@ -226,7 +225,6 @@ public class ApplicationController implements CommandLineRunner {
 
     private void removeCustomer() {
         CustomerRequest request = console.getDeleteCustomerRequest();
-
         CustomerResponse response = customerController.deleteCustomer(request);
 
         if (response.getStatus() == ResponseStatus.ER) {
@@ -236,40 +234,43 @@ public class ApplicationController implements CommandLineRunner {
 
     private void createWallet() {
         WalletRequest walletRequest = console.getCreateWalletRequest();
-        try {
-            WalletResponse response = walletController.createWallet(walletRequest);
+        WalletResponse response = walletController.createWallet(walletRequest);
+
+        if (response.getStatus() == ResponseStatus.SC) {
             console.displayWalletResponse(response);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
     private void getWalletByCustomer() {
         WalletRequest walletRequest = console.getSearchByCustomerWalletRequest();
-        try {
-            WalletResponse response = walletController.getWalletByCustomer(walletRequest);
+        WalletResponse response = walletController.getWalletByCustomer(walletRequest);
+
+        if (response.getStatus() == ResponseStatus.SC) {
             console.displayWalletResponse(response);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
     private void getWalletByVoucher() {
         WalletRequest walletRequest = console.getSearchByVoucherWalletRequest();
-        try {
-            WalletResponse response = walletController.getWalletByVoucher(walletRequest);
+        WalletResponse response = walletController.getWalletByVoucher(walletRequest);
+
+        if (response.getStatus() == ResponseStatus.SC) {
             console.displayWalletResponse(response);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
     private void deleteWallet() {
         WalletRequest walletRequest = console.getDeleteWalletRequest();
-        try {
-            walletController.deleteWallet(walletRequest);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        WalletResponse response = walletController.deleteWallet(walletRequest);
+
+        if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
