@@ -4,7 +4,6 @@ import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface VoucherReaderRepository {
     /**
@@ -20,5 +19,5 @@ public interface VoucherReaderRepository {
      * @param voucherId
      * @return Optional<Voucher> - voucherId를 이용해 조회한 바우처
      */
-    Optional<Voucher> findById(UUID voucherId); //조회
+    Optional<Voucher> findById(String voucherId); //조회
 }

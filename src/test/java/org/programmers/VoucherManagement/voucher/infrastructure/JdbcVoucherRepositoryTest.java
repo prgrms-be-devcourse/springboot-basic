@@ -94,7 +94,7 @@ public class JdbcVoucherRepositoryTest {
     @DisplayName("id를 이용해 Percent 바우처를 조회할 수 있다. - 성공")
     void findById_VoucherID_EqualsFindVoucher() {
         //given
-        UUID findVoucherId = percentVoucher.getVoucherId();
+        String findVoucherId = percentVoucher.getVoucherId();
         voucherStoreRepository.insert(percentVoucher);
         voucherStoreRepository.insert(fixedVoucher);
 
@@ -125,7 +125,7 @@ public class JdbcVoucherRepositoryTest {
         //given
         voucherStoreRepository.insert(percentVoucher);
         voucherStoreRepository.insert(fixedVoucher);
-        UUID deleteVoucherId = percentVoucher.getVoucherId();
+        String deleteVoucherId = percentVoucher.getVoucherId();
 
         //when
         voucherStoreRepository.delete(deleteVoucherId);

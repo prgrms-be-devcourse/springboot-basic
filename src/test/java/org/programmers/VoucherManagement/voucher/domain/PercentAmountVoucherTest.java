@@ -15,7 +15,7 @@ public class PercentAmountVoucherTest {
     @DisplayName("Percent 바우처를 생성한다. - 성공")
     void PercentAmountVoucher_Parameters_createPercentAmountVoucher() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UUID.randomUUID();
         DiscountType discountType = DiscountType.PERCENT;
         DiscountValue discountValue = new DiscountValue(15);
 
@@ -32,7 +32,7 @@ public class PercentAmountVoucherTest {
     @DisplayName("Percent 바우처를 생성한다. - 실패")
     void PercentAmountVoucher_Parameters_throwVoucherException() {
         //given&when
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UUID.randomUUID();
         DiscountType discountType = DiscountType.PERCENT;
         DiscountValue discountValue = new DiscountValue(101);
 

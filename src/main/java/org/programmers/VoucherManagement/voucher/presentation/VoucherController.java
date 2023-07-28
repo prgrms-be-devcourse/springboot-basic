@@ -6,8 +6,6 @@ import org.programmers.VoucherManagement.voucher.application.dto.VoucherGetRespo
 import org.programmers.VoucherManagement.voucher.application.dto.VoucherUpdateRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class VoucherController {
     private final VoucherService voucherService;
@@ -28,11 +26,11 @@ public class VoucherController {
         return voucherService.getVoucherList();
     }
 
-    public void deleteVoucher(UUID voucherId) {
+    public void deleteVoucher(String voucherId) {
         voucherService.deleteVoucher(voucherId);
     }
 
-    public void updateVoucher(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
+    public void updateVoucher(String voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         voucherService.updateVoucher(voucherId, voucherUpdateRequest);
     }
 }

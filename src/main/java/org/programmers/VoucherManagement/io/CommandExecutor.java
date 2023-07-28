@@ -47,12 +47,12 @@ public class CommandExecutor {
             case UPDATE_VOUCHER -> {
                 String voucherId = console.readVoucherId();
                 int voucherValue = console.readDiscountValue();
-                voucherController.updateVoucher(UUID.fromString(voucherId), new VoucherUpdateRequest(voucherValue));
+                voucherController.updateVoucher(voucherId, new VoucherUpdateRequest(voucherValue));
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
             case DELETE_VOUCHER -> {
                 String voucherId = console.readVoucherId();
-                voucherController.deleteVoucher(UUID.fromString(voucherId));
+                voucherController.deleteVoucher(voucherId);
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
             case VOUCHER_LIST -> {
@@ -98,7 +98,7 @@ public class CommandExecutor {
             }
             case LIST_WALLET_BY_VOUCHER -> {
                 String voucherId = console.readVoucherId();
-                WalletGetResponses walletList = walletController.getWalletsByVoucherId(UUID.fromString(voucherId));
+                WalletGetResponses walletList = walletController.getWalletsByVoucherId(voucherId);
                 console.printWalletList(walletList);
             }
             case DELETE_WALLET -> {

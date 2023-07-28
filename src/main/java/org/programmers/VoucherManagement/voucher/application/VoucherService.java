@@ -15,8 +15,6 @@ import org.programmers.VoucherManagement.voucher.infrastructure.VoucherStoreRepo
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
-
 
 @Service
 @Transactional(readOnly = true)
@@ -30,7 +28,7 @@ public class VoucherService {
     }
 
     @Transactional
-    public void updateVoucher(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
+    public void updateVoucher(String voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         Voucher voucher = voucherReaderRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new VoucherException(ErrorCode.NOT_FOUND_VOUCHER));
@@ -52,7 +50,7 @@ public class VoucherService {
     }
 
     @Transactional
-    public void deleteVoucher(UUID voucherId) {
+    public void deleteVoucher(String voucherId) {
         voucherStoreRepository.delete(voucherId);
     }
 }

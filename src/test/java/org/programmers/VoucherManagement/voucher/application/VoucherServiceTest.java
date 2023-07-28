@@ -40,7 +40,7 @@ public class VoucherServiceTest {
     @DisplayName("Fixed 바우처를 수정할 수 있다. - 성공")
     void updateFixedVoucher_Dto_Success() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UUID.randomUUID();
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(100));
         voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(1000);
@@ -57,7 +57,7 @@ public class VoucherServiceTest {
     @DisplayName("Percent 바우처를 수정할 수 있다. - 성공")
     void updatePercentVoucher_Dto_Success() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
         voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(40);
@@ -74,7 +74,7 @@ public class VoucherServiceTest {
     @DisplayName("Percent 바우처를 수정할 수 있다.(1-100을 넘어가면 예외 발생) - 실패")
     void updatePercentVoucher_Dto_ThrowVoucherException() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UUID.randomUUID();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
         voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(-1);
@@ -89,7 +89,7 @@ public class VoucherServiceTest {
     @DisplayName("바우처ID를 입력받아 해당 바우처를 삭제할 수 있다. - 성공")
     void deleteVoucher_voucherId_Success() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UUID.randomUUID();
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(1000));
         voucherStoreRepository.insert(saveVoucher);
 

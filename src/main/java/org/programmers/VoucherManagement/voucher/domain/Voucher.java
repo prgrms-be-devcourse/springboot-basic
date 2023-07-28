@@ -2,10 +2,8 @@ package org.programmers.VoucherManagement.voucher.domain;
 
 import org.programmers.VoucherManagement.global.entity.BaseTimeEntity;
 
-import java.util.UUID;
-
 public abstract class Voucher extends BaseTimeEntity {
-    protected UUID voucherId;
+    protected String voucherId;
     protected DiscountValue discountValue;
     protected DiscountType discountType;
 
@@ -13,7 +11,7 @@ public abstract class Voucher extends BaseTimeEntity {
         return discountType;
     }
 
-    public UUID getVoucherId() {
+    public String getVoucherId() {
         return voucherId;
     }
 

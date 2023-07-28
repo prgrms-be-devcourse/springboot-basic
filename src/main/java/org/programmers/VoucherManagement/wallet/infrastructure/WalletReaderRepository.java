@@ -29,5 +29,5 @@ public interface WalletReaderRepository {
      * @param voucherId
      * @return List<Wallet> - voucherId를 이용해 wallet에 저장된 Voucher 리스트
      */
-    List<Wallet> findAllByVoucherId(UUID voucherId);
+    List<Wallet> findAllByVoucherId(String voucherId);
 }

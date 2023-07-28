@@ -2,8 +2,6 @@ package org.programmers.VoucherManagement.voucher.infrastructure;
 
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
-import java.util.UUID;
-
 public interface VoucherStoreRepository {
     /**
      * db에 바우처 저장
@@ -25,5 +23,5 @@ public interface VoucherStoreRepository {
      *
      * @param voucherId
      */
-    void delete(UUID voucherId);
+    void delete(String voucherId);
 }

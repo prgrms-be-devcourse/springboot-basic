@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 import static org.programmers.VoucherManagement.global.response.ErrorCode.*;
 
 @Repository
@@ -23,7 +21,7 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
     public Voucher insert(Voucher voucher) {
         String sql = "INSERT INTO voucher_table(voucher_id, voucher_value, voucher_type, created_at) VALUES (?,?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
-                voucher.getVoucherId().toString(),
+                voucher.getVoucherId(),
                 voucher.getDiscountValue().getValue(),
                 voucher.getDiscountType().getType(),
                 voucher.getCreatedAt()
@@ -36,10 +34,10 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
     }
 
     @Override
-    public void delete(UUID voucherId) {
+    public void delete(String voucherId) {
         String sql = "DELETE FROM voucher_table WHERE voucher_id = ?";
         int deleteCount = jdbcTemplate.update(sql,
-                voucherId.toString());
+                voucherId);
         if (deleteCount != 1) {
             throw new VoucherException(FAIL_TO_DELETE_VOUCHER);
         }
@@ -50,7 +48,7 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
         String sql = "UPDATE voucher_table SET voucher_value = ? WHERE voucher_id = ?";
         int updateCount = jdbcTemplate.update(sql,
                 voucher.getDiscountValue().getValue(),
-                voucher.getVoucherId().toString());
+                voucher.getVoucherId());
         if (updateCount != 1) {
             throw new VoucherException(FAIL_TO_UPDATE_VOUCHER);
         }

@@ -33,8 +33,7 @@ public class WalletRestController {
 
     @GetMapping("/voucher/{voucherId}")
     public BaseResponse<WalletGetResponses> getWalletsByVoucherId(@PathVariable String voucherId) {
-        UUID voucherUUID = UUID.fromString(voucherId);
-        WalletGetResponses responses = walletService.getWalletsByVoucherId(voucherUUID);
+        WalletGetResponses responses = walletService.getWalletsByVoucherId(voucherId);
         return new BaseResponse<>(responses);
     }
 

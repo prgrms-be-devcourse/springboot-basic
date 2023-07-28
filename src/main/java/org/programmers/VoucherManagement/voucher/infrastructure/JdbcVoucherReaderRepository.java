@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @Primary
@@ -30,12 +29,12 @@ public class JdbcVoucherReaderRepository implements VoucherReaderRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(String voucherId) {
         String sql = "SELECT voucher_id, voucher_value, voucher_type FROM voucher_table WHERE voucher_id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     voucherRowMapper(),
-                    voucherId.toString()));
+                    voucherId));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -43,7 +42,7 @@ public class JdbcVoucherReaderRepository implements VoucherReaderRepository {
 
     public static RowMapper<Voucher> voucherRowMapper() {
         return (result, rowNum) -> VoucherFactory.mapVoucher(
-                UUID.fromString(result.getString("voucher_id")),
+                result.getString("voucher_id"),
                 result.getInt("voucher_value"),
                 DiscountType.from(result.getString("voucher_type"))
         );

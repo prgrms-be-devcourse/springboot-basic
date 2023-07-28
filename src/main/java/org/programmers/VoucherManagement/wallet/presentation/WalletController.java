@@ -19,7 +19,7 @@ public class WalletController {
         walletService.createWallet(walletCreateRequest);
     }
 
-    public WalletGetResponses getWalletsByVoucherId(UUID voucherId) {
+    public WalletGetResponses getWalletsByVoucherId(String voucherId) {
         return walletService.getWalletsByVoucherId(voucherId);
     }
 

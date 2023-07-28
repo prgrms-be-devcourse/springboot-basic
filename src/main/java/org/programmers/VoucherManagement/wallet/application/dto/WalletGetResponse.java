@@ -11,7 +11,7 @@ import java.util.UUID;
 @Builder
 public record WalletGetResponse(UUID walletId,
                                 String memberId,
-                                UUID voucherId,
+                                String voucherId,
                                 String memberName,
                                 DiscountType discountType,
                                 int discountValue) {

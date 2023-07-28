@@ -42,7 +42,7 @@ public class WalletService {
     @Transactional
     public WalletCreateResponse createWallet(WalletCreateRequest walletCreateRequest) {
         Voucher voucher = voucherReaderRepository
-                .findById(UUID.fromString(walletCreateRequest.voucherId()))
+                .findById(walletCreateRequest.voucherId())
                 .orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
         Member member = memberReaderRepository
                 .findById(walletCreateRequest.memberId())
@@ -57,7 +57,7 @@ public class WalletService {
         return WalletServiceMapper.INSTANCE.domainToCreateResponse(wallet);
     }
 
-    public WalletGetResponses getWalletsByVoucherId(UUID voucherId) {
+    public WalletGetResponses getWalletsByVoucherId(String voucherId) {
         return new WalletGetResponses(walletReaderRepository.findAllByVoucherId(voucherId));
     }
 

@@ -4,11 +4,9 @@ import lombok.Builder;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
-import java.util.UUID;
-
 @Builder
 public record VoucherCreateResponse(
-        UUID voucherId,
+        String voucherId,
         DiscountType discountType,
         int discountValue
 ) {

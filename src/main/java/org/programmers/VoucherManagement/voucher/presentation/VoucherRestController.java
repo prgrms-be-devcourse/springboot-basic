@@ -11,8 +11,6 @@ import org.programmers.VoucherManagement.voucher.presentation.dto.VoucherUpdateR
 import org.programmers.VoucherManagement.voucher.presentation.mapper.VoucherControllerMapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 import static org.programmers.VoucherManagement.global.response.SuccessCode.DELETE_VOUCHER_SUCCESS;
 import static org.programmers.VoucherManagement.global.response.SuccessCode.UPDATE_VOUCHER_SUCCESS;
 
@@ -46,8 +44,8 @@ public class VoucherRestController {
      */
     @PatchMapping("/{voucherId}")
     public BaseResponse<String> updateVoucher(@PathVariable String voucherId, @Valid @RequestBody VoucherUpdateRequestData data) {
-        UUID voucherUUID = UUID.fromString(voucherId);
-        voucherService.updateVoucher(voucherUUID, VoucherControllerMapper.INSTANCE.dataToUpdateRequest(data));
+
+        voucherService.updateVoucher(voucherId, VoucherControllerMapper.INSTANCE.dataToUpdateRequest(data));
         return new BaseResponse<>(UPDATE_VOUCHER_SUCCESS);
     }
 
@@ -69,7 +67,7 @@ public class VoucherRestController {
      */
     @DeleteMapping("/{voucherId}")
     public BaseResponse<String> deleteVoucher(@PathVariable String voucherId) {
-        voucherService.deleteVoucher(UUID.fromString(voucherId));
+        voucherService.deleteVoucher(voucherId);
         return new BaseResponse<>(DELETE_VOUCHER_SUCCESS);
     }
 
