@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 import static org.programmers.VoucherManagement.global.response.ErrorCode.*;
 
 @Primary
@@ -24,7 +22,7 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
     public Member insert(Member member) {
         String sql = "INSERT INTO member_table(member_id, name, member_status, created_at) VALUES (?,?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
-                member.getMemberId().toString(),
+                member.getMemberId(),
                 member.getName(),
                 member.getMemberStatus().toString(),
                 member.getCreatedAt()
@@ -42,17 +40,17 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
         int updateCount = jdbcTemplate.update(sql,
                 member.getName(),
                 member.getMemberStatus().toString(),
-                member.getMemberId().toString());
+                member.getMemberId());
         if (updateCount != 1) {
             throw new MemberException(FAIL_TO_UPDATE_MEMBER);
         }
     }
 
     @Override
-    public void delete(UUID memberId) {
+    public void delete(String memberId) {
         String sql = "DELETE FROM member_table WHERE member_id = ?";
         int deleteCount = jdbcTemplate.update(sql,
-                memberId.toString());
+                memberId);
         if (deleteCount != 1) {
             throw new MemberException(FAIL_TO_DELETE_MEMBER);
         }

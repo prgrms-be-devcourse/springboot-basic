@@ -6,8 +6,6 @@ import org.programmers.VoucherManagement.member.application.dto.MemberGetRespons
 import org.programmers.VoucherManagement.member.application.dto.MemberUpdateRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class MemberController {
     private final MemberService memberService;
@@ -28,11 +26,11 @@ public class MemberController {
         memberService.createMember(memberCreateRequest);
     }
 
-    public void updateMember(UUID memberId, MemberUpdateRequest memberUpdateRequest) {
+    public void updateMember(String memberId, MemberUpdateRequest memberUpdateRequest) {
         memberService.updateMember(memberId, memberUpdateRequest);
     }
 
-    public void deleteMember(UUID memberId) {
+    public void deleteMember(String memberId) {
         memberService.deleteMember(memberId);
     }
 }

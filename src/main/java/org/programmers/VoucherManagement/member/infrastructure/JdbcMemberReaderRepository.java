@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Primary
 @Repository
@@ -36,12 +35,12 @@ public class JdbcMemberReaderRepository implements MemberReaderRepository {
     }
 
     @Override
-    public Optional<Member> findById(UUID memberId) {
+    public Optional<Member> findById(String memberId) {
         String sql = "SELECT member_id, member_status, name FROM member_table WHERE member_id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     memberRowMapper(),
-                    memberId.toString()));
+                    memberId));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -49,7 +48,8 @@ public class JdbcMemberReaderRepository implements MemberReaderRepository {
 
     public static RowMapper<Member> memberRowMapper() {
         return (result, rowNum) -> new Member(
-                UUID.fromString(result.getString("member_id")),
+//                UUID.fromString(result.getString("member_id")),
+                result.getString("member_id"),
                 result.getString("name"),
                 MemberStatus.from(result.getString("member_status"))
         );

@@ -41,8 +41,7 @@ public class WalletRestController {
 
     @GetMapping("/member/{memberId}")
     public BaseResponse<WalletGetResponses> getWalletsByMemberId(@PathVariable String memberId) {
-        UUID memberUUID = UUID.fromString(memberId);
-        WalletGetResponses responses = walletService.getWalletsByMemberId(memberUUID);
+        WalletGetResponses responses = walletService.getWalletsByMemberId(memberId);
         return new BaseResponse<>(responses);
     }
 

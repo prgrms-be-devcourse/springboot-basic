@@ -45,7 +45,7 @@ public class WalletService {
                 .findById(UUID.fromString(walletCreateRequest.voucherId()))
                 .orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
         Member member = memberReaderRepository
-                .findById(UUID.fromString(walletCreateRequest.memberId()))
+                .findById(walletCreateRequest.memberId())
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
 
         Wallet wallet = new Wallet(UUID.randomUUID(),
@@ -61,7 +61,7 @@ public class WalletService {
         return new WalletGetResponses(walletReaderRepository.findAllByVoucherId(voucherId));
     }
 
-    public WalletGetResponses getWalletsByMemberId(UUID memberId) {
+    public WalletGetResponses getWalletsByMemberId(String memberId) {
         return new WalletGetResponses(walletReaderRepository.findAllByMemberId(memberId));
     }
 

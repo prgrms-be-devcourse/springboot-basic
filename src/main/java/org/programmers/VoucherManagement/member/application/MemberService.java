@@ -13,8 +13,6 @@ import org.programmers.VoucherManagement.member.infrastructure.MemberStoreReposi
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
-
 import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_FOUND_MEMBER;
 
 @Service
@@ -38,22 +36,22 @@ public class MemberService {
 
     @Transactional
     public MemberCreateResponse createMember(MemberCreateRequest memberCreateRequest) {
-        Member member = MemberServiceMapper.INSTANCE.createRequestToDomain(memberCreateRequest);
 
+        Member member = MemberServiceMapper.INSTANCE.createRequestToDomain(memberCreateRequest);
         memberStoreRepository.insert(member);
 
         return MemberServiceMapper.INSTANCE.domainToCreateResponse(member);
     }
 
     @Transactional
-    public void updateMember(UUID memberId, MemberUpdateRequest memberUpdateRequest) {
+    public void updateMember(String memberId, MemberUpdateRequest memberUpdateRequest) {
         Member member = memberReaderRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
         member.changeMemberStatus(memberUpdateRequest.memberStatus());
         memberStoreRepository.update(member);
     }
 
     @Transactional
-    public void deleteMember(UUID memberId) {
+    public void deleteMember(String memberId) {
         memberStoreRepository.delete(memberId);
     }
 }

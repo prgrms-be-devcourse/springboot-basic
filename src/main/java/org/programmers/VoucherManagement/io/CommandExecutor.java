@@ -70,12 +70,12 @@ public class CommandExecutor {
             case UPDATE_MEMBER -> {
                 String memberId = console.readMemberId();
                 MemberStatus memberStatus = MemberStatus.from(console.readMemberStatus());
-                memberController.updateMember(UUID.fromString(memberId), new MemberUpdateRequest(memberStatus));
+                memberController.updateMember(memberId, new MemberUpdateRequest(memberStatus));
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
             case DELETE_MEMBER -> {
                 String memberId = console.readMemberId();
-                memberController.deleteMember(UUID.fromString(memberId));
+                memberController.deleteMember(memberId);
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
             case BLACK_MEMBER_LIST -> {
@@ -93,7 +93,7 @@ public class CommandExecutor {
             }
             case LIST_WALLET_BY_MEMBER -> {
                 String memberId = console.readMemberId();
-                WalletGetResponses walletList = walletController.getWalletsByMemberId(UUID.fromString(memberId));
+                WalletGetResponses walletList = walletController.getWalletsByMemberId(memberId);
                 console.printWalletList(walletList);
             }
             case LIST_WALLET_BY_VOUCHER -> {

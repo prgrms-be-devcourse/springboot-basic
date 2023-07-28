@@ -10,8 +10,6 @@ import org.programmers.VoucherManagement.member.presentation.dto.MemberUpdateReq
 import org.programmers.VoucherManagement.member.presentation.mapper.MemberControllerMapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 import static org.programmers.VoucherManagement.global.response.SuccessCode.DELETE_MEMBER_SUCCESS;
 import static org.programmers.VoucherManagement.global.response.SuccessCode.UPDATE_MEMBER_SUCCESS;
 
@@ -44,16 +42,14 @@ public class MemberRestController {
 
     @PatchMapping("/{memberId}")
     public BaseResponse<String> updateMember(@PathVariable String memberId, @Valid @RequestBody MemberUpdateRequestData data) {
-        UUID memberUUID = UUID.fromString(memberId);
-        memberService.updateMember(memberUUID, MemberControllerMapper.INSTANCE.dataToUpdateRequest(data));
+        memberService.updateMember(memberId, MemberControllerMapper.INSTANCE.dataToUpdateRequest(data));
 
         return new BaseResponse<>(UPDATE_MEMBER_SUCCESS);
     }
 
     @DeleteMapping("/{memberId}")
     public BaseResponse<String> deleteMember(@PathVariable String memberId) {
-        UUID memberUUID = UUID.fromString(memberId);
-        memberService.deleteMember(memberUUID);
+        memberService.deleteMember(memberId);
 
         return new BaseResponse<>(DELETE_MEMBER_SUCCESS);
     }

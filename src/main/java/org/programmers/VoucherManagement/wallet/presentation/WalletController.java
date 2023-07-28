@@ -23,7 +23,7 @@ public class WalletController {
         return walletService.getWalletsByVoucherId(voucherId);
     }
 
-    public WalletGetResponses getWalletsByMemberId(UUID memberId) {
+    public WalletGetResponses getWalletsByMemberId(String memberId) {
         return walletService.getWalletsByMemberId(memberId);
     }
 

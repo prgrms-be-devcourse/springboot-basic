@@ -5,7 +5,6 @@ import org.programmers.VoucherManagement.member.domain.MemberStatus;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface MemberReaderRepository {
     /**
@@ -28,5 +27,5 @@ public interface MemberReaderRepository {
      * @param memberId
      * @return Optional<Member> - memberId값을 이용해 조회한 회원
      */
-    Optional<Member> findById(UUID memberId);
+    Optional<Member> findById(String memberId);
 }

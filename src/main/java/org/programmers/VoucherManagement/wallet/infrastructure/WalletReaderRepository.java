@@ -21,7 +21,7 @@ public interface WalletReaderRepository {
      * @param memberId
      * @return List<Wallet> - memberId를 이용해 조회한 특정 회원이 가지고 있는 Wallet 리스트
      */
-    List<Wallet> findAllByMemberId(UUID memberId);
+    List<Wallet> findAllByMemberId(String memberId);
 
     /**
      * voucherId를 이용해 Wallet 조회

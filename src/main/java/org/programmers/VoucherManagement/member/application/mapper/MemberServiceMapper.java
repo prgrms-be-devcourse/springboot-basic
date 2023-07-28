@@ -17,7 +17,7 @@ public interface MemberServiceMapper {
     @Mapping(source = "memberStatus", target = "memberStatus")
     MemberCreateResponse domainToCreateResponse(Member member);
 
-    @Mapping(target = "memberId", expression = "java(java.util.UUID.randomUUID())")
+    @Mapping(target = "memberId", expression = "java(com.github.f4b6a3.ulid.UlidCreator.getUlid().toString())")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "memberStatus", target = "memberStatus")
     Member createRequestToDomain(MemberCreateRequest request);

@@ -42,10 +42,10 @@ public class JdbcWalletReaderRepository implements WalletReaderRepository {
     }
 
     @Override
-    public List<Wallet> findAllByMemberId(UUID memberId) {
+    public List<Wallet> findAllByMemberId(String memberId) {
         String sql = "SELECT wallet_id, voucher_id, member_id FROM wallet_table WHERE member_id = ?";
 
-        return jdbcTemplate.query(sql, walletRowMapper(), memberId.toString());
+        return jdbcTemplate.query(sql, walletRowMapper(), memberId);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class JdbcWalletReaderRepository implements WalletReaderRepository {
         return (result, rowNum) -> new Wallet(
                 UUID.fromString(result.getString("wallet_id")),
                 voucherReaderRepository.findById(UUID.fromString(result.getString("voucher_id"))).orElseThrow(() -> new VoucherException(ErrorCode.NOT_FOUND_VOUCHER)),
-                memberReaderRepository.findById(UUID.fromString(result.getString("member_id"))).orElseThrow(() -> new MemberException(ErrorCode.NOT_FOUND_MEMBER))
+                memberReaderRepository.findById(result.getString("member_id")).orElseThrow(() -> new MemberException(ErrorCode.NOT_FOUND_MEMBER))
         );
     }
 }
