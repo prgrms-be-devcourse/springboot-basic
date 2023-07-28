@@ -48,6 +48,9 @@ dependencies {
 
     //validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // ulid-creator
+    implementation group: 'com.github.f4b6a3', name: 'ulid-creator', version: '5.1.0'
 }
 
 tasks.named('test') {
