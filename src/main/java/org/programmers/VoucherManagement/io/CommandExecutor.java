@@ -15,8 +15,6 @@ import org.programmers.VoucherManagement.wallet.application.dto.WalletGetRespons
 import org.programmers.VoucherManagement.wallet.presentation.WalletController;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 import static org.programmers.VoucherManagement.io.ConsoleMessage.*;
 
 @Component
@@ -103,7 +101,7 @@ public class CommandExecutor {
             }
             case DELETE_WALLET -> {
                 String walletId = console.readWalletId();
-                walletController.deleteWallet(UUID.fromString(walletId));
+                walletController.deleteWallet(walletId);
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
         }

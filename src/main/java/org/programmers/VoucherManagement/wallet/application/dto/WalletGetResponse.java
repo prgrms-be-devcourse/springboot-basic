@@ -9,7 +9,7 @@ import org.programmers.VoucherManagement.wallet.domain.Wallet;
 import java.util.UUID;
 
 @Builder
-public record WalletGetResponse(UUID walletId,
+public record WalletGetResponse(String walletId,
                                 String memberId,
                                 String voucherId,
                                 String memberName,

@@ -5,8 +5,6 @@ import org.programmers.VoucherManagement.wallet.application.dto.WalletCreateRequ
 import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponses;
 import org.springframework.stereotype.Component;
 
-import java.util.UUID;
-
 @Component
 public class WalletController {
     private final WalletService walletService;
@@ -27,7 +25,7 @@ public class WalletController {
         return walletService.getWalletsByMemberId(memberId);
     }
 
-    public void deleteWallet(UUID walletId) {
+    public void deleteWallet(String walletId) {
         walletService.deleteWallet(walletId);
     }
 }

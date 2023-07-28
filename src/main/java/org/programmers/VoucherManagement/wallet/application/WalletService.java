@@ -1,5 +1,6 @@
 package org.programmers.VoucherManagement.wallet.application;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
@@ -15,8 +16,6 @@ import org.programmers.VoucherManagement.wallet.infrastructure.WalletReaderRepos
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletStoreRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_FOUND_MEMBER;
 import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_FOUND_VOUCHER;
@@ -48,7 +47,7 @@ public class WalletService {
                 .findById(walletCreateRequest.memberId())
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
 
-        Wallet wallet = new Wallet(UUID.randomUUID(),
+        Wallet wallet = new Wallet(UlidCreator.getUlid().toString(),
                 voucher,
                 member);
 
@@ -66,7 +65,7 @@ public class WalletService {
     }
 
     @Transactional
-    public void deleteWallet(UUID walletId) {
+    public void deleteWallet(String walletId) {
         walletStoreRepository.delete(walletId);
     }
 }

@@ -9,8 +9,6 @@ import org.programmers.VoucherManagement.wallet.presentation.dto.WalletCreateRes
 import org.programmers.VoucherManagement.wallet.presentation.mapper.WalletControllerMapper;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 import static org.programmers.VoucherManagement.global.response.SuccessCode.DELETE_WALLET_SUCCESS;
 
 @RestController
@@ -46,8 +44,7 @@ public class WalletRestController {
 
     @DeleteMapping("/{walletId}")
     public BaseResponse<String> deleteWallet(@PathVariable String walletId) {
-        UUID walletUUID = UUID.fromString(walletId);
-        walletService.deleteWallet(walletUUID);
+        walletService.deleteWallet(walletId);
 
         return new BaseResponse<>(DELETE_WALLET_SUCCESS);
     }

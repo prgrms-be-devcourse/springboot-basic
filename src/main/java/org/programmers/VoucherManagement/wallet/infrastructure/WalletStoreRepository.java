@@ -2,8 +2,6 @@ package org.programmers.VoucherManagement.wallet.infrastructure;
 
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
 
-import java.util.UUID;
-
 public interface WalletStoreRepository {
     /**
      * db에 wallet 저장
@@ -18,5 +16,5 @@ public interface WalletStoreRepository {
      *
      * @param walletId
      */
-    void delete(UUID walletId);
+    void delete(String walletId);
 }

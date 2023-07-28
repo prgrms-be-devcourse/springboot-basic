@@ -6,8 +6,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
 import static org.programmers.VoucherManagement.global.response.ErrorCode.FAIL_TO_DELETE_WALLET;
 import static org.programmers.VoucherManagement.global.response.ErrorCode.FAIL_TO_INSERT_WALLET;
 
@@ -25,7 +23,7 @@ public class JdbcWalletStoreRepository implements WalletStoreRepository {
     public Wallet insert(Wallet wallet) {
         String sql = "INSERT INTO wallet_table(wallet_id, voucher_id, member_id, created_at) VALUES (?,?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
-                wallet.getWalletId().toString(),
+                wallet.getWalletId(),
                 wallet.getVoucher().getVoucherId(),
                 wallet.getMember().getMemberId(),
                 wallet.getCreatedAt()
@@ -37,10 +35,10 @@ public class JdbcWalletStoreRepository implements WalletStoreRepository {
     }
 
     @Override
-    public void delete(UUID walletId) {
+    public void delete(String walletId) {
         String sql = "DELETE FROM wallet_table WHERE wallet_id = ?";
         int deleteCount = jdbcTemplate.update(sql,
-                walletId.toString());
+                walletId);
         if (deleteCount != 1) {
             throw new WalletException(FAIL_TO_DELETE_WALLET);
         }

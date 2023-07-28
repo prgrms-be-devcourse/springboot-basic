@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 @Primary
@@ -30,7 +29,7 @@ public class JdbcWalletReaderRepository implements WalletReaderRepository {
     }
 
     @Override
-    public Optional<Wallet> findById(UUID walletId) {
+    public Optional<Wallet> findById(String walletId) {
         String sql = "SELECT wallet_id, voucher_id, member_id FROM wallet_table WHERE wallet_id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
@@ -57,7 +56,7 @@ public class JdbcWalletReaderRepository implements WalletReaderRepository {
 
     public RowMapper<Wallet> walletRowMapper() {
         return (result, rowNum) -> new Wallet(
-                UUID.fromString(result.getString("wallet_id")),
+                result.getString("wallet_id"),
                 voucherReaderRepository.findById(result.getString("voucher_id")).orElseThrow(() -> new VoucherException(ErrorCode.NOT_FOUND_VOUCHER)),
                 memberReaderRepository.findById(result.getString("member_id")).orElseThrow(() -> new MemberException(ErrorCode.NOT_FOUND_MEMBER))
         );
