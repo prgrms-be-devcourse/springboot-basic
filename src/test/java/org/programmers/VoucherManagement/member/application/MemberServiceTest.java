@@ -4,11 +4,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponse;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberUpdateRequest;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
-import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponse;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
@@ -65,7 +65,7 @@ public class MemberServiceTest {
         memberStoreRepository.insert(saveMember);
 
         //when
-        memberService.deleteMember(saveMember.getMemberUUID());
+        memberService.deleteMember(saveMember.getMemberId());
 
         //then
         Optional<Member> optionalMember = memberReaderRepository.findById(memberId);
@@ -81,7 +81,7 @@ public class MemberServiceTest {
         memberStoreRepository.insert(saveMember);
 
         //when
-        memberService.deleteMember(saveMember.getMemberUUID());
+        memberService.deleteMember(saveMember.getMemberId());
 
         //then
         UUID strangeId = UUID.randomUUID();

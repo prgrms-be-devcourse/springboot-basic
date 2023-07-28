@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.member.dto.response;
+package org.programmers.VoucherManagement.member.application.dto;
 
 import lombok.Builder;
 import org.programmers.VoucherManagement.member.domain.Member;
@@ -14,7 +14,7 @@ public record MemberGetResponse(
 ) {
     public static MemberGetResponse toDto(Member member) {
         return MemberGetResponse.builder()
-                .memberId(member.getMemberUUID())
+                .memberId(member.getMemberId())
                 .name(member.getName())
                 .memberStatus(member.getMemberStatus())
                 .build();

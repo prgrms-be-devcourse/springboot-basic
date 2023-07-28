@@ -1,8 +1,8 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
 import org.programmers.VoucherManagement.voucher.application.dto.VoucherGetResponses;
-import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponses;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;

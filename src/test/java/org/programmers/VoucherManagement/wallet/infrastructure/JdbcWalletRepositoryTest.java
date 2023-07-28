@@ -92,7 +92,7 @@ public class JdbcWalletRepositoryTest {
         walletStoreRepository.insert(wallet2);
 
         //when
-        List<Wallet> walletList = walletReaderRepository.findAllByMemberId(member1.getMemberUUID());
+        List<Wallet> walletList = walletReaderRepository.findAllByMemberId(member1.getMemberId());
 
         //then
         assertThat(walletList.size()).isEqualTo(2);

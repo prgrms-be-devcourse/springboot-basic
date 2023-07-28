@@ -2,7 +2,7 @@ package org.programmers.VoucherManagement.member.domain;
 
 import java.util.Arrays;
 
-import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_EXIST_MEMBER_STATUS;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_EXIST_MEMBER_STATUS;
 
 public enum MemberStatus {
     BLACK,

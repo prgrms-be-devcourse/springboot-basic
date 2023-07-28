@@ -25,7 +25,7 @@ public class MemberConverterTest {
         String expectedName = "Park";
         MemberStatus expectedStatus = MemberStatus.BLACK;
 
-        assertThat(member.getMemberUUID()).isEqualTo(expectedId);
+        assertThat(member.getMemberId()).isEqualTo(expectedId);
         assertThat(member.getName()).isEqualTo(expectedName);
         assertThat(member.getMemberStatus()).isEqualTo(expectedStatus);
     }

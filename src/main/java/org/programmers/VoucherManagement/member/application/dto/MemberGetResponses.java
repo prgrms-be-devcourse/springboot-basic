@@ -1,4 +1,4 @@
-package org.programmers.VoucherManagement.member.dto.response;
+package org.programmers.VoucherManagement.member.application.dto;
 
 import org.programmers.VoucherManagement.member.domain.Member;
 
@@ -12,7 +12,8 @@ public class MemberGetResponses {
     public MemberGetResponses(List<Member> members) {
         this.memberResponses = members
                 .stream()
-                .map(MemberGetResponse::toDto).collect(Collectors.toList());
+                .map(MemberGetResponse::toDto)
+                .collect(Collectors.toList());
     }
 
     public List<MemberGetResponse> getGetMemberListRes() {

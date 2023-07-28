@@ -9,9 +9,9 @@ import org.programmers.VoucherManagement.member.domain.MemberStatus;
 import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
 import org.programmers.VoucherManagement.voucher.domain.*;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherStoreRepository;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponse;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponses;
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
-import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponse;
-import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
 import org.programmers.VoucherManagement.wallet.exception.WalletException;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletReaderRepository;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletStoreRepository;
@@ -82,7 +82,7 @@ public class WalletServiceTest {
         walletStoreRepository.insert(wallet2);
 
         //when
-        WalletGetResponses walletListResponse = walletService.getWalletsByMemberId(member2.getMemberUUID());
+        WalletGetResponses walletListResponse = walletService.getWalletsByMemberId(member2.getMemberId());
 
         //then
         List<WalletGetResponse> responseExpect = walletList.stream()

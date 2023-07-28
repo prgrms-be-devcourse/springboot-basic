@@ -27,7 +27,7 @@ public class JdbcWalletStoreRepository implements WalletStoreRepository {
         int insertCount = jdbcTemplate.update(sql,
                 wallet.getWalletId().toString(),
                 wallet.getVoucher().getVoucherId().toString(),
-                wallet.getMember().getMemberUUID().toString());
+                wallet.getMember().getMemberId().toString());
         if (insertCount != 1) {
             throw new WalletException(FAIL_TO_INSERT_WALLET);
         }

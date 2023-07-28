@@ -24,7 +24,7 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
     public Member insert(Member member) {
         String sql = "insert into member_table(member_id, name, member_status) values (?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
-                member.getMemberUUID().toString(),
+                member.getMemberId().toString(),
                 member.getName(),
                 member.getMemberStatus().toString());
 
@@ -40,7 +40,7 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
         int updateCount = jdbcTemplate.update(sql,
                 member.getName(),
                 member.getMemberStatus().toString(),
-                member.getMemberUUID().toString());
+                member.getMemberId().toString());
         if (updateCount != 1) {
             throw new MemberException(FAIL_TO_UPDATE_MEMBER);
         }

@@ -6,11 +6,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponse;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberUpdateRequest;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
-import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponse;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
 
@@ -67,7 +67,7 @@ public class MemberServiceMockTest {
         memberStoreRepository.insert(saveMember);
 
         //when
-        memberService.deleteMember(saveMember.getMemberUUID());
+        memberService.deleteMember(saveMember.getMemberId());
 
         //then
         verify(memberStoreRepository, times(1)).delete(memberId);

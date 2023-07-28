@@ -40,7 +40,7 @@ public class JdbcMemberRepositoryTest {
         memberStoreRepository.insert(blackMember);
 
         //then
-        Member memberExpect = memberReaderRepository.findById(blackMember.getMemberUUID()).get();
+        Member memberExpect = memberReaderRepository.findById(blackMember.getMemberId()).get();
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(blackMember);
     }
 
@@ -51,7 +51,7 @@ public class JdbcMemberRepositoryTest {
         memberStoreRepository.insert(whiteMember);
 
         //then
-        Member memberExpect = memberReaderRepository.findById(whiteMember.getMemberUUID()).get();
+        Member memberExpect = memberReaderRepository.findById(whiteMember.getMemberId()).get();
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(whiteMember);
     }
 
@@ -66,7 +66,7 @@ public class JdbcMemberRepositoryTest {
         memberStoreRepository.update(whiteMember);
 
         //then
-        Member memberExpect = memberReaderRepository.findById(whiteMember.getMemberUUID()).get();
+        Member memberExpect = memberReaderRepository.findById(whiteMember.getMemberId()).get();
         assertThat(memberExpect).usingRecursiveComparison().isEqualTo(whiteMember);
     }
 
@@ -103,7 +103,7 @@ public class JdbcMemberRepositoryTest {
     void findById_MemberId_EqualsFindMember() {
         //given
         memberStoreRepository.insert(blackMember);
-        UUID findMemberId = blackMember.getMemberUUID();
+        UUID findMemberId = blackMember.getMemberId();
 
         //when
         Member memberExpect = memberReaderRepository.findById(findMemberId).get();
@@ -117,7 +117,7 @@ public class JdbcMemberRepositoryTest {
     void delete_MemberId_Success() {
         //given
         memberStoreRepository.insert(blackMember);
-        UUID deleteMemberId = blackMember.getMemberUUID();
+        UUID deleteMemberId = blackMember.getMemberId();
 
         //when
         memberStoreRepository.delete(deleteMemberId);
