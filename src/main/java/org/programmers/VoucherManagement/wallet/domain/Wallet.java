@@ -1,11 +1,12 @@
 package org.programmers.VoucherManagement.wallet.domain;
 
+import org.programmers.VoucherManagement.global.entity.BaseTimeEntity;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
 import java.util.UUID;
 
-public class Wallet {
+public class Wallet extends BaseTimeEntity {
     private UUID walletId;
     private Voucher voucher;
     private Member member;

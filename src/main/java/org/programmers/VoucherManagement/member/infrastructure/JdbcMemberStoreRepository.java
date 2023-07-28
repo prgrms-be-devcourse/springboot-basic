@@ -22,11 +22,13 @@ public class JdbcMemberStoreRepository implements MemberStoreRepository {
 
     @Override
     public Member insert(Member member) {
-        String sql = "INSERT INTO member_table(member_id, name, member_status) VALUES (?,?,?)";
+        String sql = "INSERT INTO member_table(member_id, name, member_status, created_at) VALUES (?,?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
                 member.getMemberId().toString(),
                 member.getName(),
-                member.getMemberStatus().toString());
+                member.getMemberStatus().toString(),
+                member.getCreatedAt()
+        );
 
         if (insertCount != 1) {
             throw new MemberException(FAIL_TO_INSERT_MEMBER);

@@ -23,11 +23,13 @@ public class JdbcWalletStoreRepository implements WalletStoreRepository {
 
     @Override
     public Wallet insert(Wallet wallet) {
-        String sql = "INSERT INTO wallet_table(wallet_id, voucher_id, member_id) VALUES (?,?,?)";
+        String sql = "INSERT INTO wallet_table(wallet_id, voucher_id, member_id, created_at) VALUES (?,?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
                 wallet.getWalletId().toString(),
                 wallet.getVoucher().getVoucherId().toString(),
-                wallet.getMember().getMemberId().toString());
+                wallet.getMember().getMemberId().toString(),
+                wallet.getCreatedAt()
+        );
         if (insertCount != 1) {
             throw new WalletException(FAIL_TO_INSERT_WALLET);
         }

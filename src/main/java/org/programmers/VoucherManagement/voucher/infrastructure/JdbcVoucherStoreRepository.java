@@ -21,11 +21,13 @@ public class JdbcVoucherStoreRepository implements VoucherStoreRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        String sql = "INSERT INTO voucher_table(voucher_id, voucher_value , voucher_type) VALUES (?,?,?)";
+        String sql = "INSERT INTO voucher_table(voucher_id, voucher_value, voucher_type, created_at) VALUES (?,?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
                 voucher.getVoucherId().toString(),
                 voucher.getDiscountValue().getValue(),
-                voucher.getDiscountType().getType());
+                voucher.getDiscountType().getType(),
+                voucher.getCreatedAt()
+        );
 
         if (insertCount != 1) {
             throw new VoucherException(FAIL_TO_INSERT_VOUCHER);

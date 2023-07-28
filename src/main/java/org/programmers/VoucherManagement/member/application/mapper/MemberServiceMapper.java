@@ -21,5 +21,4 @@ public interface MemberServiceMapper {
     @Mapping(source = "name", target = "name")
     @Mapping(source = "memberStatus", target = "memberStatus")
     Member createRequestToDomain(MemberCreateRequest request);
-
 }
