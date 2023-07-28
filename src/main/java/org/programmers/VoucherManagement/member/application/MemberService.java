@@ -1,10 +1,12 @@
 package org.programmers.VoucherManagement.member.application;
 
+import org.programmers.VoucherManagement.member.application.dto.MemberCreateRequest;
+import org.programmers.VoucherManagement.member.application.dto.MemberCreateResponse;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberUpdateRequest;
+import org.programmers.VoucherManagement.member.application.mapper.MemberServiceMapper;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
-import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
-import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
@@ -35,12 +37,12 @@ public class MemberService {
     }
 
     @Transactional
-    public void createMember(MemberCreateRequest memberCreateRequest) {
-        Member member = new Member(UUID.randomUUID(),
-                memberCreateRequest.name(),
-                memberCreateRequest.memberStatus());
+    public MemberCreateResponse createMember(MemberCreateRequest memberCreateRequest) {
+        Member member = MemberServiceMapper.INSTANCE.createRequestToDomain(memberCreateRequest);
 
         memberStoreRepository.insert(member);
+
+        return MemberServiceMapper.INSTANCE.domainToCreateResponse(member);
     }
 
     @Transactional

@@ -1,9 +1,9 @@
 package org.programmers.VoucherManagement.member.presentation;
 
 import org.programmers.VoucherManagement.member.application.MemberService;
-import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
-import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberCreateRequest;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberUpdateRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

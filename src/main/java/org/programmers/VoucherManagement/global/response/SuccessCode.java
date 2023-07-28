@@ -10,15 +10,18 @@ public enum SuccessCode {
      * 2000번 -> Voucher
      */
     DELETE_VOUCHER_SUCCESS(200, "V2000", "바우처 삭제를 성공하였습니다"),
-    UPDATE_VOUCHER_SUCCESS(200, "V2001", "바우처 수정을 성공하였습니다");
+    UPDATE_VOUCHER_SUCCESS(200, "V2001", "바우처 수정을 성공하였습니다"),
 
     /**
      * 3000번 -> Member
      */
+    UPDATE_MEMBER_SUCCESS(200, "V3000", "멤버 수정을 성공하였습니다"),
+    DELETE_MEMBER_SUCCESS(200, "V3001", "멤버 삭제를 성공하였습니다"),
 
     /**
-     * 3000번 -> Wallet
+     * 4000번 -> Wallet
      */
+    DELETE_WALLET_SUCCESS(200, "V4000", "월렛 삭제를 성공하였습니다");
 
 
     private final int status;
