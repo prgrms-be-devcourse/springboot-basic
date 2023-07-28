@@ -175,49 +175,62 @@ public class ApplicationController implements CommandLineRunner {
 
     public void createCustomer() {
         CustomerRequest request = console.getCreateCustomerRequest();
-        try {
-            CustomerResponse response = customerController.createCustomer(request);
+        CustomerResponse response = customerController.createCustomer(request);
+
+        if (response.getStatus() == ResponseStatus.SC) {
             console.displayCustomerResponse(response);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
     private void getCustomers() {
         CustomerResponse response = customerController.getCustomers();
-        console.displayCustomerResponse(response);
+
+        if (response.getStatus() == ResponseStatus.SC) {
+            console.displayCustomerResponse(response);
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
+        }
     }
 
     private void getCustomer() {
         CustomerRequest request = console.getSearchCustomerRequest();
-        try {
-            CustomerResponse response = customerController.getCustomer(request);
+        CustomerResponse response = customerController.getCustomer(request);
+
+        if (response.getStatus() == ResponseStatus.SC) {
             console.displayCustomerResponse(response);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
     private void updateCustomer() {
         CustomerRequest request = console.getUpdateCustomerRequest();
-        try {
-            CustomerResponse response = customerController.update(request);
+        CustomerResponse response = customerController.update(request);
+
+        if (response.getStatus() == ResponseStatus.SC) {
             console.displayCustomerResponse(response);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+        } else if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
     private void removeCustomers() {
-        customerController.deleteCustomers();
+        CustomerResponse response = customerController.deleteCustomers();
+
+        if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
+        }
     }
 
     private void removeCustomer() {
         CustomerRequest request = console.getDeleteCustomerRequest();
-        try {
-            customerController.deleteCustomer(request);
-        } catch (Exception e) {
-            console.displayError(e.getMessage());
+
+        CustomerResponse response = customerController.deleteCustomer(request);
+
+        if (response.getStatus() == ResponseStatus.ER) {
+            console.displayError(response.getErrorMsg());
         }
     }
 
