@@ -26,5 +26,5 @@ public interface VoucherControllerMapper {
     @Mapping(source = "voucherId", target = "voucherId")
     @Mapping(source = "discountType", target = "discountType")
     @Mapping(source = "discountValue", target = "discountValue")
-    VoucherCreateResponseData UpdateResponseToData(VoucherCreateResponse response);
+    VoucherCreateResponseData createResponseToData(VoucherCreateResponse response);
 }

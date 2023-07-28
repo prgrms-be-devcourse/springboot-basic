@@ -1,6 +1,6 @@
 package org.programmers.VoucherManagement.voucher.domain;
 
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherCreateRequest;
 
 import java.util.UUID;
 
@@ -10,7 +10,7 @@ public class VoucherFactory {
     }
 
     public static Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
-        DiscountType discountType = voucherCreateRequest.discountType();
+        DiscountType discountType = DiscountType.from(voucherCreateRequest.discountType());
 
         return switch (discountType) {
             case FIXED ->

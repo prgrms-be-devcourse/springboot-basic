@@ -33,7 +33,7 @@ public class VoucherRestController {
      */
     @PostMapping()
     public BaseResponse<VoucherCreateResponseData> createVoucher(@Valid @RequestBody VoucherCreateRequestData data) {
-        return new BaseResponse<>(VoucherControllerMapper.INSTANCE.UpdateResponseToData(
+        return new BaseResponse<>(VoucherControllerMapper.INSTANCE.createResponseToData(
                 voucherService.saveVoucher(VoucherControllerMapper.INSTANCE.dataToCreateRequest(data))));
     }
 
@@ -67,8 +67,8 @@ public class VoucherRestController {
      * @param voucherId
      * @return BaseResponse<String>
      */
-    @DeleteMapping()
-    public BaseResponse<String> deleteVoucher(@RequestParam String voucherId) {
+    @DeleteMapping("/{voucherId}")
+    public BaseResponse<String> deleteVoucher(@PathVariable String voucherId) {
         voucherService.deleteVoucher(UUID.fromString(voucherId));
         return new BaseResponse<>(DELETE_VOUCHER_SUCCESS);
     }
