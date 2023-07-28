@@ -1,9 +1,12 @@
 package com.example.voucher.io;
 
 import static com.example.voucher.io.Writer.*;
+
 import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.example.voucher.constant.CustomerType;
 import com.example.voucher.constant.ModeType;
 import com.example.voucher.constant.ServiceType;
@@ -100,7 +103,7 @@ public class Console {
             Integer number = null;
 
             try {
-                reader.readInteger();
+                number = reader.readInteger();
             } catch (NumberFormatException e) {
                 displayError(e.getMessage());
             }
