@@ -90,11 +90,12 @@ class VoucherRestControllerTest {
     void voucherList_ParamVoid_ReturnVoucherList() throws Exception {
         given(service.findVouchers()).willReturn(voucherResults);
 
-        mockMvc.perform(get("/api/v1/vouchers"))
+        mockMvc.perform(get("/api/v1/vouchers")
+                        .param("isBlack", String.valueOf(false)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].voucherId").value(voucherResults.get(0).voucherId().toString()))
-                .andExpect(jsonPath("$[0].voucherType").value(voucherResults.get(0).voucherType().toString()));
+                .andExpect(jsonPath("$.responses[0].voucherId").value(voucherResults.get(0).voucherId().toString()))
+                .andExpect(jsonPath("$.responses[0].voucherType").value(voucherResults.get(0).voucherType().toString()));
 
         verify(service, times(1)).findVouchers();
     }
@@ -120,12 +121,11 @@ class VoucherRestControllerTest {
     void voucherByCreatedAt_ParamExistVoucherId_ReturnVoucherDto(VoucherResult result) throws Exception {
         given(service.findVoucherByCreatedAt(any())).willReturn(voucherResults);
 
-        mockMvc.perform(get("/api/v1/vouchers/by-created-at")
-                        .param("createdAt", result.createdAt().toString()))
+        mockMvc.perform(get("/api/v1/vouchers/created-at/" + result.createdAt()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].voucherId").value(voucherResults.get(0).voucherId().toString()))
-                .andExpect(jsonPath("$[0].voucherType").value(voucherResults.get(0).voucherType().toString()));
+                .andExpect(jsonPath("$.responses[0].voucherId").value(voucherResults.get(0).voucherId().toString()))
+                .andExpect(jsonPath("$.responses[0].voucherType").value(voucherResults.get(0).voucherType().toString()));
 
         verify(service, times(1)).findVoucherByCreatedAt(result.createdAt());
     }
@@ -136,8 +136,7 @@ class VoucherRestControllerTest {
     void deleteVoucherById_ParamExistVoucherId_DeleteAndReturnVoucherDto(VoucherResult result) throws Exception {
         given(service.deleteVoucherById(any())).willReturn(result);
 
-        mockMvc.perform(delete("/api/v1/vouchers")
-                        .param("id", result.voucherId().toString()))
+        mockMvc.perform(delete("/api/v1/vouchers/" + result.voucherId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.voucherId").value(result.voucherId().toString()))

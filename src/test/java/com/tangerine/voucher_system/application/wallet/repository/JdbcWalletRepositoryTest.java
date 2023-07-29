@@ -4,6 +4,7 @@ import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
@@ -92,7 +93,7 @@ class JdbcWalletRepositoryTest {
 
         Exception exception = catchException(() -> repository.update(wallet));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @ParameterizedTest

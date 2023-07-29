@@ -1,6 +1,7 @@
 package com.tangerine.voucher_system.application.voucher.service;
 
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.repository.JdbcVoucherRepository;
@@ -75,7 +76,7 @@ class VoucherServiceTest {
 
         Exception exception = catchException(() -> service.updateVoucher(param));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @Test
@@ -106,7 +107,7 @@ class VoucherServiceTest {
 
         Exception exception = catchException(() -> service.findVoucherById(param.voucherId()));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @ParameterizedTest
@@ -148,7 +149,7 @@ class VoucherServiceTest {
 
         Exception exception = catchException(() -> service.deleteVoucherById(param.voucherId()));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     static Stream<Arguments> provideVoucherParams() {

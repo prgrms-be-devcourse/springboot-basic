@@ -121,9 +121,8 @@ class WalletRestControllerTest {
         mockMvc.perform(get("/api/v1/wallets/customer")
                         .param("id", customer.customerId().toString()))
                 .andExpect(status().isOk())
-                .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].voucherId").value(voucherResults.get(0).voucherId().toString()));
+                .andExpect(jsonPath("$.responses[0].voucherId").value(voucherResults.get(0).voucherId().toString()));
 
         verify(service, times(1)).findVouchersByCustomerId(any());
     }
@@ -138,7 +137,7 @@ class WalletRestControllerTest {
                         .param("id", voucher.voucherId().toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].customerId").value(customerResults.get(0).customerId().toString()));
+                .andExpect(jsonPath("$.responses[0].customerId").value(customerResults.get(0).customerId().toString()));
 
         verify(service, times(1)).findCustomersByVoucherId(any());
     }

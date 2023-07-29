@@ -30,7 +30,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     """
                         INSERT INTO customers(customer_id, name, black)
                             VALUES (:customerId, :name, :black)
-                    """,
+                        """,
                     toParamMap(customer)
             );
             if (updateResult != 1) {
@@ -67,7 +67,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return jdbcTemplate.query(
                     """
-                        SELECT customer_id, name, black 
+                        SELECT customer_id, name, black
                             FROM customers
                     """,
                     customerRowMapper
@@ -82,8 +82,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             return jdbcTemplate.query(
                     """
-                        SELECT customer_id, name, black 
-                            FROM customers 
+                        SELECT customer_id, name, black
+                            FROM customers
                             WHERE black = TRUE
                     """,
                     customerRowMapper
@@ -99,10 +99,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
                             """
-                                SELECT customer_id, name, black
-                                    FROM customers
-                                    WHERE customer_id = :customerId
-                            """,
+                                        SELECT customer_id, name, black
+                                            FROM customers
+                                            WHERE customer_id = :customerId
+                                    """,
                             Collections.singletonMap("customerId", customerId.toString()),
                             customerRowMapper
                     )

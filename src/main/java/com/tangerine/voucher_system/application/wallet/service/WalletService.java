@@ -23,26 +23,20 @@ public class WalletService {
     private final WalletRepository walletRepository;
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
-    private final WalletServiceMapper walletMapper;
-    private final CustomerServiceMapper customerMapper;
-    private final VoucherServiceMapper voucherMapper;
 
-    public WalletService(WalletRepository walletRepository, VoucherRepository voucherRepository, CustomerRepository customerRepository, WalletServiceMapper walletMapper, CustomerServiceMapper customerMapper, VoucherServiceMapper voucherMapper) {
+    public WalletService(WalletRepository walletRepository, VoucherRepository voucherRepository, CustomerRepository customerRepository) {
         this.walletRepository = walletRepository;
         this.voucherRepository = voucherRepository;
         this.customerRepository = customerRepository;
-        this.walletMapper = walletMapper;
-        this.customerMapper = customerMapper;
-        this.voucherMapper = voucherMapper;
     }
 
     public UUID createWallet(WalletParam param) {
-        walletRepository.insert(walletMapper.paramToDomain(param));
+        walletRepository.insert(WalletServiceMapper.INSTANCE.paramToDomain(param));
         return param.walletId();
     }
 
     public UUID updateWallet(WalletParam param) {
-        walletRepository.update(walletMapper.paramToDomain(param));
+        walletRepository.update(WalletServiceMapper.INSTANCE.paramToDomain(param));
         return param.walletId();
     }
 
@@ -51,15 +45,15 @@ public class WalletService {
         return walletId;
     }
 
-    private List<WalletResult> findWalletsByCustomerId(UUID customerId) {
+    public List<WalletResult> findWalletsByCustomerId(UUID customerId) {
         return walletRepository.findByCustomerId(customerId)
                 .stream()
-                .map(walletMapper::domainToResult)
+                .map(WalletServiceMapper.INSTANCE::domainToResult)
                 .toList();
     }
 
     public List<VoucherResult> findVouchersByCustomerId(UUID customerId) {
-        return voucherMapper.domainsToResults(
+        return VoucherServiceMapper.INSTANCE.domainsToResults(
                 findWalletsByCustomerId(customerId)
                         .stream()
                         .map(wallet -> voucherRepository.findById(wallet.voucherId())
@@ -67,15 +61,15 @@ public class WalletService {
                         .toList());
     }
 
-    private List<WalletResult> findWalletsByVoucherId(UUID voucherId) {
+    public List<WalletResult> findWalletsByVoucherId(UUID voucherId) {
         return walletRepository.findByVoucherId(voucherId)
                 .stream()
-                .map(walletMapper::domainToResult)
+                .map(WalletServiceMapper.INSTANCE::domainToResult)
                 .toList();
     }
 
     public List<CustomerResult> findCustomersByVoucherId(UUID voucherId) {
-        return customerMapper.domainsToResults(
+        return CustomerServiceMapper.INSTANCE.domainsToResults(
                 findWalletsByVoucherId(voucherId)
                         .stream()
                         .map(wallet -> customerRepository.findById(wallet.customerId())

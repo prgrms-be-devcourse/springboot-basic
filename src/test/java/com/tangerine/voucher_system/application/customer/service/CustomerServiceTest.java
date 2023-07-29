@@ -1,10 +1,12 @@
 package com.tangerine.voucher_system.application.customer.service;
 
 import com.tangerine.voucher_system.application.customer.model.Name;
+import com.tangerine.voucher_system.application.customer.repository.CustomerRepository;
 import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerParam;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -30,12 +32,18 @@ class CustomerServiceTest {
     @Autowired
     CustomerService service;
 
-    @Test
+    @ParameterizedTest
     @DisplayName("블랙고객 리스트 반환 시 성공한다.")
-    void findBlackCustomers_ParamVoid_ReturnVoucherList() {
-        customerParams.forEach(service::createCustomer);
+    @MethodSource("provideBlackCustomerParams")
+    void findBlackCustomers_ParamVoid_ReturnVoucherList(CustomerParam param) {
+
+        System.out.println(param.isBlack());
+        service.createCustomer(param);
 
         List<CustomerResult> blackCustomers = service.findBlackCustomers();
+
+        System.out.println(blackCustomers);
+        System.out.println(service.findAllCustomers());
 
         assertThat(blackCustomers).isNotEmpty();
         assertThat(blackCustomers.get(0).isBlack()).isTrue();
@@ -85,7 +93,7 @@ class CustomerServiceTest {
         CustomerParam newCustomer = new CustomerParam(param.customerId(), new Name("new_name"), true);
         Exception exception = catchException(() -> service.updateCustomer(newCustomer));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @Test
@@ -116,7 +124,7 @@ class CustomerServiceTest {
 
         Exception exception = catchException(() -> service.findCustomerById(param.customerId()));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @ParameterizedTest
@@ -125,9 +133,9 @@ class CustomerServiceTest {
     void findCustomerByName_ParamExistCustomer_ReturnCustomer(CustomerParam param) {
         service.createCustomer(param);
 
-        CustomerResult foundCustomer = service.findCustomerByName(param.name());
+        List<CustomerResult> foundCustomer = service.findCustomerByName(param.name());
 
-        assertThat(foundCustomer.customerId()).isEqualTo(param.customerId());
+        assertThat(foundCustomer.get(0).name().getValue()).isEqualTo(param.name().getValue());
     }
 
     @ParameterizedTest
@@ -135,9 +143,9 @@ class CustomerServiceTest {
     @MethodSource("provideCustomerParams")
     void findCustomerByName_ParamNotExistCustomer_Exception(CustomerParam param) {
 
-        Exception exception = catchException(() -> service.findCustomerByName(param.name()));
+        List<CustomerResult> result = service.findCustomerByName(param.name());
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(result).isEmpty();
     }
 
     @ParameterizedTest
@@ -158,11 +166,16 @@ class CustomerServiceTest {
 
         Exception exception = catchException(() -> service.deleteCustomerById(param.customerId()));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     static Stream<Arguments> provideCustomerParams() {
         return customerParams.stream()
+                .map(Arguments::of);
+    }
+
+    static Stream<Arguments> provideBlackCustomerParams() {
+        return blackCustomerParams.stream()
                 .map(Arguments::of);
     }
 
@@ -172,5 +185,9 @@ class CustomerServiceTest {
             new CustomerParam(UUID.randomUUID(), new Name("포도"), false),
             new CustomerParam(UUID.randomUUID(), new Name("배"), false)
     );
+
+    static List<CustomerParam> blackCustomerParams = customerParams.stream()
+            .filter(CustomerParam::isBlack)
+            .toList();
 
 }

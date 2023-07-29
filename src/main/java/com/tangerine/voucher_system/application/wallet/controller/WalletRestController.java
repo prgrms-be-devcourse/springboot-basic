@@ -19,21 +19,19 @@ import java.util.UUID;
 public class WalletRestController {
 
     private final WalletService walletService;
-    private final WalletControllerMapper mapper;
 
-    public WalletRestController(WalletService walletService, WalletControllerMapper mapper) {
+    public WalletRestController(WalletService walletService) {
         this.walletService = walletService;
-        this.mapper = mapper;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UUID> addWallet(@RequestBody CreateWalletRequest request) {
-        return ResponseEntity.ok(walletService.createWallet(mapper.requestToParam(request)));
+        return ResponseEntity.ok(walletService.createWallet(WalletControllerMapper.INSTANCE.requestToParam(request)));
     }
 
     @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UUID> modifyWallet(@RequestBody UpdateWalletRequest request) {
-        return ResponseEntity.ok(walletService.updateWallet(mapper.requestToParam(request)));
+        return ResponseEntity.ok(walletService.updateWallet(WalletControllerMapper.INSTANCE.requestToParam(request)));
     }
 
     @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,13 +42,13 @@ public class WalletRestController {
     @GetMapping(path = "/customer", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoucherResponses> getVoucherListOfCustomer(@RequestParam(name = "id") UUID customerId) {
         return ResponseEntity.ok(
-                mapper.resultsToResponses(walletService.findVouchersByCustomerId(customerId)));
+                new VoucherResponses(VoucherControllerMapper.INSTANCE.resultsToResponses(walletService.findVouchersByCustomerId(customerId))));
     }
 
     @GetMapping(path = "/voucher", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerResponses> getCustomerListHasVoucher(@RequestParam(name = "id") UUID voucherId) {
         return ResponseEntity.ok(
-                mapper.resultsToResponses(walletService.findCustomersByVoucherId(voucherId)));
+                new CustomerResponses(CustomerControllerMapper.INSTANCE.resultsToResponses(walletService.findCustomersByVoucherId(voucherId))));
     }
 
 }

@@ -83,11 +83,12 @@ class CustomerRestControllerTest {
     void blackCustomerList_ParamVoid_ReturnCustomerResponseList() throws Exception {
         given(service.findBlackCustomers()).willReturn(blackCustomerResults);
 
-        mockMvc.perform(get("/api/v1/customers/black")
-                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/api/v1/customers")
+                        .param("isBlack", String.valueOf(true))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].customerId").value(blackCustomerResults.get(0).customerId().toString()));
+                .andExpect(jsonPath("$.responses[0].customerId").value(blackCustomerResults.get(0).customerId().toString()));
 
         verify(service, times(1)).findBlackCustomers();
     }
@@ -113,10 +114,11 @@ class CustomerRestControllerTest {
     void customerList_ParamVoid_ReturnCustomerDtoList() throws Exception {
         given(service.findAllCustomers()).willReturn(customerResults);
 
-        mockMvc.perform(get("/api/v1/customers"))
+        mockMvc.perform(get("/api/v1/customers")
+                        .param("isBlack", String.valueOf(false)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].customerId").value(customerResults.get(0).customerId().toString()));
+                .andExpect(jsonPath("$.responses[0].customerId").value(customerResults.get(0).customerId().toString()));
 
         verify(service, times(1)).findAllCustomers();
     }
@@ -140,14 +142,12 @@ class CustomerRestControllerTest {
     @DisplayName("존재하는 고객을 이름으로 조회 시 성공한다.")
     @MethodSource("provideCustomerResults")
     void customerByName_ParamExistCustomerDto_ReturnCustomerDto(CustomerResult result) throws Exception {
-        given(service.findCustomerByName(any())).willReturn(result);
+        given(service.findCustomerByName(any())).willReturn(customerResults);
 
-        mockMvc.perform(get("/api/v1/customers/name")
-                        .param("name", result.name().getValue()))
+        mockMvc.perform(get("/api/v1/customers/name/" + result.name().getValue()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.customerId").value(result.customerId().toString()))
-                .andExpect(jsonPath("$.name").value(result.name().getValue()));
+                .andExpect(jsonPath("$.responses[0].name").value(customerResults.get(0).name().getValue()));
 
         verify(service, times(1)).findCustomerByName(any());
     }
@@ -158,8 +158,7 @@ class CustomerRestControllerTest {
     void unregisterCustomerById_ParamExistCustomer_ReturnAndDeleteCustomer(CustomerResult result) throws Exception {
         given(service.deleteCustomerById(any())).willReturn(result);
 
-        mockMvc.perform(delete("/api/v1/customers")
-                .param("id", result.customerId().toString()))
+        mockMvc.perform(delete("/api/v1/customers/" + result.customerId()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.customerId").value(result.customerId().toString()))

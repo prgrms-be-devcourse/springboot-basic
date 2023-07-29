@@ -18,54 +18,50 @@ import java.util.UUID;
 public class CustomerRestController {
 
     private final CustomerService customerService;
-    private final CustomerControllerMapper mapper;
 
-    public CustomerRestController(CustomerService customerService, CustomerControllerMapper mapper) {
+    public CustomerRestController(CustomerService customerService) {
         this.customerService = customerService;
-        this.mapper = mapper;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerResponse> registerCustomer(@RequestBody CreateCustomerRequest createCustomerRequest) {
         return ResponseEntity.ok(
-                mapper.resultToResponse(
-                        customerService.createCustomer(mapper.requestToParam(createCustomerRequest))));
+                CustomerControllerMapper.INSTANCE.resultToResponse(
+                        customerService.createCustomer(CustomerControllerMapper.INSTANCE.requestToParam(createCustomerRequest))));
     }
     
     @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerResponse> modifyCustomer(@RequestBody UpdateCustomerRequest updateCustomerRequest) {
         return ResponseEntity.ok(
-                mapper.resultToResponse(
-                        customerService.updateCustomer(mapper.requestToParam(updateCustomerRequest))));
+                CustomerControllerMapper.INSTANCE.resultToResponse(
+                        customerService.updateCustomer(CustomerControllerMapper.INSTANCE.requestToParam(updateCustomerRequest))));
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerResponses> getCustomerList(@RequestParam(name = "isBlack", defaultValue = "false") boolean isBlack) {
         return ResponseEntity.ok(
-                mapper.resultsToResponses(
-                        isBlack ? customerService.findBlackCustomers() : customerService.findAllCustomers()
-                )
+                new CustomerResponses(CustomerControllerMapper.INSTANCE.resultsToResponses(
+                        isBlack ? customerService.findBlackCustomers() : customerService.findAllCustomers()))
         );
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable("id") UUID customerId) {
         return ResponseEntity.ok(
-                mapper.resultToResponse(
+                CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.findCustomerById(customerId)));
     }
     
     @GetMapping(path = "/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerResponses> getCustomerByName(@PathVariable(name = "name") String name) {
         return ResponseEntity.ok(
-                mapper.resultsToResponses(
-                        customerService.findCustomerByName(new Name(name))));
+                new CustomerResponses(CustomerControllerMapper.INSTANCE.resultsToResponses(customerService.findCustomerByName(new Name(name)))));
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerResponse> unregisterCustomerById(@PathVariable(name = "id") UUID customerId) {
         return ResponseEntity.ok(
-                mapper.resultToResponse(
+                CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.deleteCustomerById(customerId)));
     }
 

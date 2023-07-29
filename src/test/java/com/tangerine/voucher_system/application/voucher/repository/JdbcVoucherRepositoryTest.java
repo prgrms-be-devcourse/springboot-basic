@@ -3,6 +3,7 @@ package com.tangerine.voucher_system.application.voucher.repository;
 import com.tangerine.voucher_system.application.customer.repository.CustomerRepository;
 import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
@@ -79,7 +80,7 @@ class JdbcVoucherRepositoryTest {
     void update_ParamNotExistVoucher_Exception(Voucher voucher) {
         Exception exception = catchException(() -> voucherRepository.update(voucher));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @Test
@@ -108,9 +109,10 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("존재하지 않은 바우처를 아이디로 조회 시 실패한다.")
     @MethodSource("provideVouchers")
     void findById_ParamNotExistVoucher_ReturnOptionalEmpty(Voucher voucher) {
-        Optional<Voucher> result = voucherRepository.findById(voucher.voucherId());
 
-        assertThat(result).isEmpty();
+        Exception exception = catchException(() -> voucherRepository.findById(voucher.voucherId()));
+
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @ParameterizedTest
@@ -143,8 +145,8 @@ class JdbcVoucherRepositoryTest {
 
         voucherRepository.deleteById(voucher.voucherId());
 
-        Optional<Voucher> maybeNull = voucherRepository.findById(voucher.voucherId());
-        assertThat(maybeNull).isEmpty();
+        Exception exception = catchException(() -> voucherRepository.findById(voucher.voucherId()));
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     static List<Voucher> vouchers = List.of(
