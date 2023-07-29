@@ -8,6 +8,7 @@ public class VoucherException extends RuntimeException {
     private final ErrorCode errorCode;
 
     public VoucherException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
         this.errorCode = errorCode;
     }
 
