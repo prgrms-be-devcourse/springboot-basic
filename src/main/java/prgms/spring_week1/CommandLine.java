@@ -11,6 +11,7 @@ import prgms.spring_week1.domain.customer.service.CustomerService;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.service.VoucherService;
+import prgms.spring_week1.exception.NoCustomerFoundException;
 import prgms.spring_week1.exception.NoSuchVoucherTypeException;
 import prgms.spring_week1.io.Input;
 import prgms.spring_week1.io.Output;
@@ -141,14 +142,14 @@ public class CommandLine implements CommandLineRunner {
         try {
             Customer customer = customerService.findByEmail(email);
             printCustomerInfo(customer);
-        }catch (DataAccessException e){
+        } catch (NoCustomerFoundException e) {
             return;
         }
     }
 
     private void updateCustomerInfo() {
         String[] emailInputs = input.inputUpdateEmailInfo();
-        customerService.updateInfo(emailInputs[0],emailInputs[1]);
+        customerService.updateInfo(emailInputs[0], emailInputs[1]);
     }
 
     private void deleteByEmail() {

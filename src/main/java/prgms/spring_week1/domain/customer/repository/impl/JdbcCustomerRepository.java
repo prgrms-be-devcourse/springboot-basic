@@ -87,7 +87,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         List<Customer> foundCustomer = jdbcTemplate.query(findByEmailSql, Collections.singletonMap("email", email), customerRowMapper);
 
         if(foundCustomer.isEmpty()){
-            throw new EmptyResultDataAccessException(1);
+            return null;
         }
 
         return foundCustomer.get(0);
