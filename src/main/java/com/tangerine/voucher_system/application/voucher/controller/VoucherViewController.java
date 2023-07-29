@@ -19,9 +19,11 @@ import java.util.UUID;
 public class VoucherViewController {
 
     private final VoucherService voucherService;
+    private final VoucherControllerMapper mapper;
 
-    public VoucherViewController(VoucherService voucherService) {
+    public VoucherViewController(VoucherService voucherService, VoucherControllerMapper mapper) {
         this.voucherService = voucherService;
+        this.mapper = mapper;
     }
 
     @GetMapping("/form")
@@ -31,13 +33,13 @@ public class VoucherViewController {
 
     @PostMapping("/create")
     public String createVoucher(CreateVoucherRequest request) {
-        voucherService.createVoucher(VoucherControllerMapper.INSTANCE.requestToParam(request));
+        voucherService.createVoucher(mapper.requestToParam(request));
         return "redirect:/vouchers";
     }
 
     @PostMapping("/update")
     public String updateVoucher(UpdateVoucherRequest request) {
-        voucherService.updateVoucher(VoucherControllerMapper.INSTANCE.requestToParam(request));
+        voucherService.updateVoucher(mapper.requestToParam(request));
         return "redirect:/vouchers";
     }
 
@@ -45,7 +47,7 @@ public class VoucherViewController {
     public String voucherList(Model model) {
         model.addAttribute(
                 "vouchers",
-                VoucherControllerMapper.INSTANCE.resultsToResponses(voucherService.findVouchers()));
+                mapper.resultsToResponses(voucherService.findVouchers()));
         return "voucher/vouchers";
     }
 
@@ -53,7 +55,7 @@ public class VoucherViewController {
     public String voucherById(@PathVariable("voucherId") UUID voucherId, Model model) {
         model.addAttribute(
                 "vouchers",
-                VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.findVoucherById(voucherId)));
+                mapper.resultToResponse(voucherService.findVoucherById(voucherId)));
         return "voucher/voucher-detail";
     }
 
@@ -61,7 +63,7 @@ public class VoucherViewController {
     public String voucherByCreatedAt(@PathVariable("createdAt") LocalDate createdAt, Model model) {
         model.addAttribute(
                 "vouchers",
-                VoucherControllerMapper.INSTANCE.resultsToResponses(voucherService.findVoucherByCreatedAt(createdAt)));
+                mapper.resultsToResponses(voucherService.findVoucherByCreatedAt(createdAt)));
         return "voucher/vouchers";
     }
 

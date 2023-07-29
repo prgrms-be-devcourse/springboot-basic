@@ -18,46 +18,48 @@ import java.util.UUID;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final CustomerServiceMapper mapper;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, CustomerServiceMapper mapper) {
         this.customerRepository = customerRepository;
+        this.mapper = mapper;
     }
 
     public CustomerResult createCustomer(CustomerParam param) {
-        return CustomerServiceMapper.INSTANCE.domainToParam(
-                customerRepository.insert(CustomerServiceMapper.INSTANCE.paramToDomain(param))
+        return mapper.domainToParam(
+                customerRepository.insert(mapper.paramToDomain(param))
         );
     }
 
     public CustomerResult updateCustomer(CustomerParam param) {
-        return CustomerServiceMapper.INSTANCE.domainToParam(
-                customerRepository.update(CustomerServiceMapper.INSTANCE.paramToDomain(param))
+        return mapper.domainToParam(
+                customerRepository.update(mapper.paramToDomain(param))
         );
     }
 
     public List<CustomerResult> findAllCustomers() {
-        return CustomerServiceMapper.INSTANCE.domainsToResults(customerRepository.findAll());
+        return mapper.domainsToResults(customerRepository.findAll());
     }
 
     public List<CustomerResult> findBlackCustomers() {
-        return CustomerServiceMapper.INSTANCE.domainsToResults(customerRepository.findAllBlackCustomers());
+        return mapper.domainsToResults(customerRepository.findAllBlackCustomers());
     }
 
     public CustomerResult findCustomerById(UUID customerId) {
-        return CustomerServiceMapper.INSTANCE.domainToParam(
+        return mapper.domainToParam(
                 customerRepository.findById(customerId)
                         .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()))
         );
     }
 
     public List<CustomerResult> findCustomerByName(Name name) {
-        return CustomerServiceMapper.INSTANCE.domainsToResults(customerRepository.findByName(name));
+        return mapper.domainsToResults(customerRepository.findByName(name));
     }
 
     public CustomerResult deleteCustomerById(UUID customerId) {
         Optional<Customer> deletedCustomer = customerRepository.findById(customerId);
         customerRepository.deleteById(customerId);
-        return CustomerServiceMapper.INSTANCE.domainToParam(
+        return mapper.domainToParam(
                 deletedCustomer.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()))
         );
     }

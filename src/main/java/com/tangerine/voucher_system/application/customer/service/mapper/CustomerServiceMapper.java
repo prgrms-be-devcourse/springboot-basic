@@ -11,7 +11,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface CustomerServiceMapper {
-    CustomerServiceMapper INSTANCE = Mappers.getMapper(CustomerServiceMapper.class);
 
     Customer paramToDomain(CustomerParam param);
 

@@ -4,14 +4,11 @@ import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherParam;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface VoucherServiceMapper {
-
-    VoucherServiceMapper INSTANCE = Mappers.getMapper(VoucherServiceMapper.class);
 
     Voucher paramToDomain(VoucherParam voucherParam);
 

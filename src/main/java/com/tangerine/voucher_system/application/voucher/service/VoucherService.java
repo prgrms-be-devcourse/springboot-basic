@@ -13,47 +13,48 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final VoucherServiceMapper mapper;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository, VoucherServiceMapper mapper) {
         this.voucherRepository = voucherRepository;
+        this.mapper = mapper;
     }
 
     public VoucherResult createVoucher(VoucherParam param) {
-        return VoucherServiceMapper.INSTANCE.domainToResult(
-                voucherRepository.insert(VoucherServiceMapper.INSTANCE.paramToDomain(param)));
+        return mapper.domainToResult(
+                voucherRepository.insert(mapper.paramToDomain(param)));
     }
 
     public VoucherResult updateVoucher(VoucherParam param) {
-        return VoucherServiceMapper.INSTANCE.domainToResult(
-                voucherRepository.update(VoucherServiceMapper.INSTANCE.paramToDomain(param))
+        return mapper.domainToResult(
+                voucherRepository.update(mapper.paramToDomain(param))
         );
     }
 
     public List<VoucherResult> findVouchers() {
-        return VoucherServiceMapper.INSTANCE.domainsToResults(voucherRepository.findAll());
+        return mapper.domainsToResults(voucherRepository.findAll());
     }
 
     public VoucherResult findVoucherById(UUID voucherId) {
-        return VoucherServiceMapper.INSTANCE.domainToResult(
+        return mapper.domainToResult(
                 voucherRepository.findById(voucherId)
                         .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()))
         );
     }
 
     public List<VoucherResult> findVoucherByCreatedAt(LocalDate createdAt) {
-        return VoucherServiceMapper.INSTANCE.domainsToResults(voucherRepository.findByCreatedAt(createdAt));
+        return mapper.domainsToResults(voucherRepository.findByCreatedAt(createdAt));
     }
 
     public VoucherResult deleteVoucherById(UUID voucherId) {
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         voucherRepository.deleteById(voucherId);
-        return VoucherServiceMapper.INSTANCE.domainToResult(
+        return mapper.domainToResult(
                 foundVoucher.orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())));
     }
 
