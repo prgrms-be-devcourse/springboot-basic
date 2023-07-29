@@ -19,8 +19,4 @@ public interface WalletServiceMapper {
 
     WalletResult domainToResult(Wallet domain);
 
-    VoucherResult domainToResult(Voucher domain);
-
-    CustomerResult domainToResult(Customer domain);
-
 }

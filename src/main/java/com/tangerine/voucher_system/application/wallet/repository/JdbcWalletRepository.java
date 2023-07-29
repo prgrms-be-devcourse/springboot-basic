@@ -2,6 +2,7 @@ package com.tangerine.voucher_system.application.wallet.repository;
 
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import com.tangerine.voucher_system.application.wallet.model.Wallet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
@@ -29,7 +30,7 @@ public class JdbcWalletRepository implements WalletRepository {
                     toParamMap(wallet)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INVALID_CREATION.getMessageText());
+                throw new SqlException(ErrorMessage.INVALID_CREATION.getMessageText());
             }
         } catch (DataAccessException e) {
             throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e);
@@ -44,7 +45,7 @@ public class JdbcWalletRepository implements WalletRepository {
                     toParamMap(wallet)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INVALID_CREATION.getMessageText());
+                throw new SqlException(ErrorMessage.INVALID_CREATION.getMessageText());
             }
         } catch (DataAccessException e) {
             throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e);
@@ -59,7 +60,7 @@ public class JdbcWalletRepository implements WalletRepository {
                     Collections.singletonMap("walletId", walletId.toString())
             );
         } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e);
+            throw new SqlException(e);
         }
     }
 
@@ -72,7 +73,7 @@ public class JdbcWalletRepository implements WalletRepository {
                     walletRowMapper
             );
         } catch (DataAccessException e) {
-            return List.of();
+            throw new SqlException(e);
         }
     }
 
@@ -90,7 +91,7 @@ public class JdbcWalletRepository implements WalletRepository {
                     walletRowMapper
             );
         } catch (DataAccessException e) {
-            return List.of();
+            throw new SqlException(e);
         }
     }
 

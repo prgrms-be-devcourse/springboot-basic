@@ -2,10 +2,12 @@ package com.tangerine.voucher_system.application.wallet.service;
 
 import com.tangerine.voucher_system.application.customer.repository.CustomerRepository;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
+import com.tangerine.voucher_system.application.customer.service.mapper.CustomerServiceMapper;
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import com.tangerine.voucher_system.application.voucher.repository.VoucherRepository;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
+import com.tangerine.voucher_system.application.voucher.service.mapper.VoucherServiceMapper;
 import com.tangerine.voucher_system.application.wallet.repository.WalletRepository;
 import com.tangerine.voucher_system.application.wallet.service.dto.WalletParam;
 import com.tangerine.voucher_system.application.wallet.service.dto.WalletResult;
@@ -43,7 +45,7 @@ public class WalletService {
         return walletId;
     }
 
-    public List<WalletResult> findWalletsByCustomerId(UUID customerId) {
+    private List<WalletResult> findWalletsByCustomerId(UUID customerId) {
         return walletRepository.findByCustomerId(customerId)
                 .stream()
                 .map(WalletServiceMapper.INSTANCE::domainToResult)
@@ -51,15 +53,15 @@ public class WalletService {
     }
 
     public List<VoucherResult> findVouchersByCustomerId(UUID customerId) {
-        return findWalletsByCustomerId(customerId)
-                .stream()
-                .map(wallet -> voucherRepository.findById(wallet.voucherId())
-                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())))
-                .map(WalletServiceMapper.INSTANCE::domainToResult)
-                .toList();
+        return VoucherServiceMapper.INSTANCE.domainsToResults(
+                findWalletsByCustomerId(customerId)
+                        .stream()
+                        .map(wallet -> voucherRepository.findById(wallet.voucherId())
+                                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())))
+                        .toList());
     }
 
-    public List<WalletResult> findWalletsByVoucherId(UUID voucherId) {
+    private List<WalletResult> findWalletsByVoucherId(UUID voucherId) {
         return walletRepository.findByVoucherId(voucherId)
                 .stream()
                 .map(WalletServiceMapper.INSTANCE::domainToResult)
@@ -67,12 +69,12 @@ public class WalletService {
     }
 
     public List<CustomerResult> findCustomersByVoucherId(UUID voucherId) {
-        return findWalletsByVoucherId(voucherId)
-                .stream()
-                .map(wallet -> customerRepository.findById(wallet.customerId())
-                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())))
-                .map(WalletServiceMapper.INSTANCE::domainToResult)
-                .toList();
+        return CustomerServiceMapper.INSTANCE.domainsToResults(
+                findWalletsByVoucherId(voucherId)
+                        .stream()
+                        .map(wallet -> customerRepository.findById(wallet.customerId())
+                                .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText())))
+                        .toList());
     }
 
 }

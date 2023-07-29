@@ -36,10 +36,7 @@ public class VoucherService {
     }
 
     public List<VoucherResult> findVouchers() {
-        return voucherRepository.findAll()
-                .stream()
-                .map(VoucherServiceMapper.INSTANCE::domainToResult)
-                .toList();
+        return VoucherServiceMapper.INSTANCE.domainsToResults(voucherRepository.findAll());
     }
 
     public VoucherResult findVoucherById(UUID voucherId) {
@@ -50,10 +47,7 @@ public class VoucherService {
     }
 
     public List<VoucherResult> findVoucherByCreatedAt(LocalDate createdAt) {
-        return voucherRepository.findByCreatedAt(createdAt)
-                .stream()
-                .map(VoucherServiceMapper.INSTANCE::domainToResult)
-                .toList();
+        return VoucherServiceMapper.INSTANCE.domainsToResults(voucherRepository.findByCreatedAt(createdAt));
     }
 
     public VoucherResult deleteVoucherById(UUID voucherId) {

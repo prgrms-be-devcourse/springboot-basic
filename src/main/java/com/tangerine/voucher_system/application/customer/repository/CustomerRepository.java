@@ -19,7 +19,7 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID customerId);
 
-    Optional<Customer> findByName(Name name);
+    List<Customer> findByName(Name name);
 
     void deleteById(UUID customerId);
 

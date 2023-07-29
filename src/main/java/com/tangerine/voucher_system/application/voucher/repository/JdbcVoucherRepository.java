@@ -2,6 +2,7 @@ package com.tangerine.voucher_system.application.voucher.repository;
 
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
@@ -30,17 +31,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             int updateResult = jdbcTemplate.update(
                     """
-                        INSERT INTO vouchers(voucher_id, voucher_type, discount_value, created_at)
-                            VALUES (:voucherId, :voucherType, :discountValue, :createdAt)
-                    """,
+                                INSERT INTO vouchers(voucher_id, voucher_type, discount_value, created_at)
+                                    VALUES (:voucherId, :voucherType, :discountValue, :createdAt)
+                            """,
                     toParamMap(voucher)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INVALID_CREATION.getMessageText());
+                throw new SqlException(ErrorMessage.INVALID_CREATION.getMessageText());
             }
             return voucher;
         } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e);
         }
     }
 
@@ -49,18 +50,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             int updateResult = jdbcTemplate.update(
                     """
-                        UPDATE vouchers
-                            SET voucher_type = :voucherType, discount_value = :discountValue, created_at = :createdAt
-                            WHERE voucher_id = :voucherId
-                        """,
+                            UPDATE vouchers
+                                SET voucher_type = :voucherType, discount_value = :discountValue, created_at = :createdAt
+                                WHERE voucher_id = :voucherId
+                            """,
                     toParamMap(voucher)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INVALID_UPDATE.getMessageText());
+                throw new SqlException(ErrorMessage.INVALID_UPDATE.getMessageText());
             }
             return voucher;
         } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e);
         }
     }
 
@@ -69,13 +70,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return jdbcTemplate.query(
                     """
-                    SELECT voucher_id, voucher_type, discount_value, created_at
-                        FROM vouchers
-                    """,
+                            SELECT voucher_id, voucher_type, discount_value, created_at
+                                FROM vouchers
+                            """,
                     voucherRowMapper
             );
         } catch (DataAccessException e) {
-            return List.of();
+            throw new SqlException(e);
         }
     }
 
@@ -85,16 +86,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(
                             """
-                            SELECT voucher_id, voucher_type, discount_value, created_at
-                                FROM vouchers
-                                WHERE voucher_id = :voucherId
-                            """,
+                                    SELECT voucher_id, voucher_type, discount_value, created_at
+                                        FROM vouchers
+                                        WHERE voucher_id = :voucherId
+                                    """,
                             Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                             voucherRowMapper
                     )
             );
         } catch (DataAccessException e) {
-            return Optional.empty();
+            throw new SqlException(e);
         }
     }
 
@@ -103,15 +104,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             return jdbcTemplate.query(
                     """
-                    SELECT voucher_id, voucher_type, discount_value, created_at
-                        FROM vouchers
-                        WHERE created_at = :createdAt
-                    """,
+                            SELECT voucher_id, voucher_type, discount_value, created_at
+                                FROM vouchers
+                                WHERE created_at = :createdAt
+                            """,
                     Collections.singletonMap("createdAt", createdAt),
                     voucherRowMapper
             );
         } catch (DataAccessException e) {
-            return List.of();
+            throw new SqlException(e);
         }
     }
 
@@ -120,13 +121,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             jdbcTemplate.update(
                     """
-                    DELETE FROM vouchers
-                        WHERE voucher_id = :voucherId
-                    """,
+                            DELETE FROM vouchers
+                                WHERE voucher_id = :voucherId
+                            """,
                     Collections.singletonMap("voucherId", voucherId.toString())
             );
         } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
+            throw new SqlException(e);
         }
     }
 

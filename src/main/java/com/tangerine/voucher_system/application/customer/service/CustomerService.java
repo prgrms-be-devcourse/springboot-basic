@@ -36,17 +36,11 @@ public class CustomerService {
     }
 
     public List<CustomerResult> findAllCustomers() {
-        return customerRepository.findAll()
-                .stream()
-                .map(CustomerServiceMapper.INSTANCE::domainToParam)
-                .toList();
+        return CustomerServiceMapper.INSTANCE.domainsToResults(customerRepository.findAll());
     }
 
     public List<CustomerResult> findBlackCustomers() {
-        return customerRepository.findAllBlackCustomers()
-                .stream()
-                .map(CustomerServiceMapper.INSTANCE::domainToParam)
-                .toList();
+        return CustomerServiceMapper.INSTANCE.domainsToResults(customerRepository.findAllBlackCustomers());
     }
 
     public CustomerResult findCustomerById(UUID customerId) {
@@ -56,11 +50,8 @@ public class CustomerService {
         );
     }
 
-    public CustomerResult findCustomerByName(Name name) {
-        return CustomerServiceMapper.INSTANCE.domainToParam(
-                customerRepository.findByName(name)
-                        .orElseThrow(() -> new InvalidDataException(ErrorMessage.INVALID_PROPERTY.getMessageText()))
-        );
+    public List<CustomerResult> findCustomerByName(Name name) {
+        return CustomerServiceMapper.INSTANCE.domainsToResults(customerRepository.findByName(name));
     }
 
     public CustomerResult deleteCustomerById(UUID customerId) {

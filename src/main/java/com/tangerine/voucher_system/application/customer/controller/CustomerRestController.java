@@ -54,9 +54,9 @@ public class CustomerRestController {
     }
     
     @GetMapping(path = "/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<CustomerResponse> getCustomerByName(@PathVariable(name = "name") String name) {
+    public ResponseEntity<List<CustomerResponse>> getCustomerByName(@PathVariable(name = "name") String name) {
         return ResponseEntity.ok(
-                CustomerControllerMapper.INSTANCE.resultToResponse(
+                CustomerControllerMapper.INSTANCE.resultsToResponses(
                         customerService.findCustomerByName(new Name(name))));
     }
 

@@ -4,6 +4,7 @@ import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.global.exception.ErrorMessage;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -33,11 +34,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     toParamMap(customer)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INVALID_CREATION.getMessageText());
+                throw new SqlException(ErrorMessage.INVALID_CREATION.getMessageText());
             }
             return customer;
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception);
         }
     }
 
@@ -53,11 +54,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     toParamMap(customer)
             );
             if (updateResult != 1) {
-                throw new InvalidDataException(ErrorMessage.INVALID_UPDATE.getMessageText());
+                throw new SqlException(ErrorMessage.INVALID_UPDATE.getMessageText());
             }
             return customer;
         } catch (DataAccessException exception) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception.getCause());
+            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), exception);
         }
     }
 
@@ -71,8 +72,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     """,
                     customerRowMapper
             );
-        } catch (DataAccessException exception) {
-            return List.of();
+        } catch (DataAccessException e) {
+            throw new SqlException(e);
         }
     }
 
@@ -88,7 +89,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper
             );
         } catch (DataAccessException e) {
-            return List.of();
+            throw new SqlException(e);
         }
     }
 
@@ -107,26 +108,24 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     )
             );
         } catch (DataAccessException e) {
-            return Optional.empty();
+            throw new SqlException(e);
         }
     }
 
     @Override
-    public Optional<Customer> findByName(Name name) {
+    public List<Customer> findByName(Name name) {
         try {
-            return Optional.ofNullable(
-                    jdbcTemplate.queryForObject(
-                            """
-                                SELECT customer_id, name, black
-                                    FROM customers
-                                    WHERE name = :name
-                            """,
-                            Collections.singletonMap("name", name.getValue()),
-                            customerRowMapper
-                    )
+            return jdbcTemplate.query(
+                    """
+                        SELECT customer_id, name, black
+                            FROM customers
+                            WHERE name = :name
+                    """,
+                    Collections.singletonMap("name", name.getValue()),
+                    customerRowMapper
             );
         } catch (DataAccessException e) {
-            return Optional.empty();
+            throw new SqlException(e);
         }
     }
 
@@ -141,7 +140,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     Map.of("customerId", customerId.toString())
             );
         } catch (DataAccessException e) {
-            throw new InvalidDataException(ErrorMessage.INVALID_SQL.getMessageText(), e.getCause());
+            throw new SqlException(e);
         }
     }
 
