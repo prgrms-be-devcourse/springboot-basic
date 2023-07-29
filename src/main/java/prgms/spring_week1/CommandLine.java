@@ -149,7 +149,10 @@ public class CommandLine implements CommandLineRunner {
 
     private void updateCustomerInfo() {
         String[] emailInputs = input.inputUpdateEmailInfo();
-        customerService.updateInfo(emailInputs[0], emailInputs[1]);
+        String beforeUpdateEmail = emailInputs[0];
+        String afterUpdateEmail = emailInputs[1];
+
+        customerService.updateInfo(beforeUpdateEmail, afterUpdateEmail);
     }
 
     private void deleteByEmail() {
