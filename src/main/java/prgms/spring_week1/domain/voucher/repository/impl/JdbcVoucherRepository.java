@@ -5,9 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.DeleteBuilder;
-import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.InsertBuilder;
-import prgms.spring_week1.domain.util.sqlBuilder.actionBuilder.SelectBuilder;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Dml;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Delete;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Insert;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Select;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.conditionBuilder.Where;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.tableBuilder.Column;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.tableBuilder.Values;
 import prgms.spring_week1.domain.util.type.TableType;
 import prgms.spring_week1.domain.voucher.model.Voucher;
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
@@ -24,8 +28,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    private final int VALID_ROW_RESULT = 1;
 
     private final RowMapper<Voucher> voucherRowMapper = (resultset, i) -> {
         var voucherType = VoucherType.valueOf(resultset.getString("voucher_type"));
@@ -46,44 +48,55 @@ public class JdbcVoucherRepository implements VoucherRepository {
         );
     }
 
+    Column column = new Column.ColumnBuilder()
+            .columns("voucher_id","voucher_type", "discount", "created_at")
+            .build();
+
+    Values values = new Values.ValuesBuilder()
+            .values("UUID_TO_BIN(:voucherId)",":voucherType",":discount",":createdAt")
+            .build();
+
     @Override
     public void insert(Voucher voucher) {
-        String insertSql = new InsertBuilder()
-                .insert(TableType.VOUCHER)
-                .columns("voucher_id","voucher_type", "discount", "created_at")
-                .values("UUID_TO_BIN(:voucherId)",":voucherType",":discount",":createdAt")
+        Dml insertSql = new Insert.InsertBuilder()
+                .insert(TableType.voucher)
+                .columns(column)
+                .values(values)
                 .build();
 
-        jdbcTemplate.update(insertSql, toParamMap(voucher));
+        jdbcTemplate.update(insertSql.toString(), toParamMap(voucher));
     }
 
     @Override
     public List<Voucher> findAll() {
-        String findAllSql = new SelectBuilder()
-                    .selectAll()
-                    .from(TableType.VOUCHER)
-                    .build();
+        Dml findAllSql = new Select.SelectBuilder()
+                .selectAll()
+                .from(TableType.voucher)
+                .build();
 
-        return jdbcTemplate.query(findAllSql, voucherRowMapper);
+        return jdbcTemplate.query(findAllSql.toString(), voucherRowMapper);
     }
+
+    Where where = new Where.WhereBuilder()
+            .equal("voucher_type",":voucherType")
+            .build();
 
     @Override
     public List<Voucher> findByType(String voucherType) {
-        String findByTypeSql = new SelectBuilder()
-                .selectAll()
-                .from(TableType.VOUCHER)
-                .where("voucher_type = :voucherType")
+        Dml findByTypeSql = new Select.SelectBuilder()
+                .from(TableType.voucher)
+                .where(where)
                 .build();
 
-        return jdbcTemplate.query(findByTypeSql, Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
+        return jdbcTemplate.query(findByTypeSql.toString(), Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
     }
 
     @Override
     public void delete() {
-        String deleteSql = new DeleteBuilder()
-                .delete()
-                .from(TableType.VOUCHER)
+        Dml deleteSql = new Delete.DeleteBuilder()
+                .delete(TableType.voucher)
                 .build();
-        jdbcTemplate.update(deleteSql, new HashMap<>());
+
+        jdbcTemplate.update(deleteSql.toString(), new HashMap<>());
     }
 }
