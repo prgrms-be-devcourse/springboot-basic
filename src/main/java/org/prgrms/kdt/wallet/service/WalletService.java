@@ -4,13 +4,13 @@ import org.prgrms.kdt.global.Generator;
 import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.member.dao.MemberRepository;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
-import org.prgrms.kdt.wallet.dao.WalletRepository;
-import org.prgrms.kdt.wallet.domain.JoinedWallet;
+import org.prgrms.kdt.wallet.dao.WalletCommandRepository;
+import org.prgrms.kdt.wallet.dao.WalletQueryRepository;
+import org.prgrms.kdt.wallet.domain.QueryWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
 import org.prgrms.kdt.wallet.service.dto.CreateWalletRequest;
 import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
 import org.prgrms.kdt.wallet.service.dto.WalletResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +22,15 @@ import java.util.UUID;
 public class WalletService {
     private final MemberRepository memberRepository;
     private final VoucherRepository voucherRepository;
-    private final WalletRepository walletRepository;
+    private final WalletQueryRepository walletQueryRepository;
+    private final WalletCommandRepository walletCommandRepository;
     private final Generator generator;
 
-    public WalletService(MemberRepository memberRepository, VoucherRepository voucherRepository, WalletRepository walletRepository, Generator generator) {
+    public WalletService(MemberRepository memberRepository, VoucherRepository voucherRepository, WalletQueryRepository walletQueryRepository, WalletCommandRepository walletCommandRepository, Generator generator) {
         this.memberRepository = memberRepository;
         this.voucherRepository = voucherRepository;
-        this.walletRepository = walletRepository;
+        this.walletQueryRepository = walletQueryRepository;
+        this.walletCommandRepository = walletCommandRepository;
         this.generator = generator;
     }
 
@@ -40,26 +42,26 @@ public class WalletService {
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 바우처 입니다."));
 
         Wallet wallet = new Wallet(generator.generateId(), request.memberId(), request.voucherId());
-        return new WalletResponse(walletRepository.insert(wallet));
+        return new WalletResponse(walletCommandRepository.insert(wallet));
     }
 
     public JoinedWalletResponses findVouchersByMemberId(UUID memberId) {
-        List<JoinedWallet> joinedWallets = walletRepository.findWithMemeberAndVoucherByMemberId(memberId);
-        return JoinedWalletResponses.of(joinedWallets);
+        List<QueryWallet> queryWallets = walletQueryRepository.findWithMemeberAndVoucherByMemberId(memberId);
+        return JoinedWalletResponses.of(queryWallets);
     }
 
     @Transactional
     public void deleteWalletById(UUID walletId) {
-        walletRepository.deleteById(walletId);
+        walletCommandRepository.deleteById(walletId);
     }
 
     public JoinedWalletResponses findMembersByVoucherId(UUID voucherId) {
-        List<JoinedWallet> joinedWallets = walletRepository.findWithMemeberAndVoucherByVoucherId(voucherId);
-        return JoinedWalletResponses.of(joinedWallets);
+        List<QueryWallet> queryWallets = walletQueryRepository.findWithMemeberAndVoucherByVoucherId(voucherId);
+        return JoinedWalletResponses.of(queryWallets);
     }
 
     public JoinedWalletResponses findAllWallet() {
-        List<JoinedWallet> joinedWallets = walletRepository.findWithMemeberAndVoucherAll();
-        return JoinedWalletResponses.of(joinedWallets);
+        List<QueryWallet> queryWallets = walletQueryRepository.findWithMemeberAndVoucherAll();
+        return JoinedWalletResponses.of(queryWallets);
     }
 }

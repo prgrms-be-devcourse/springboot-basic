@@ -10,8 +10,8 @@ import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.wallet.dao.WalletRepository;
-import org.prgrms.kdt.wallet.domain.JoinedWallet;
+import org.prgrms.kdt.wallet.dao.WalletQueryRepository;
+import org.prgrms.kdt.wallet.domain.QueryWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
 import org.prgrms.kdt.wallet.service.dto.CreateWalletRequest;
 import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
@@ -37,7 +37,7 @@ class WalletServiceTest {
     @Autowired
     WalletService walletService;
     @Autowired
-    WalletRepository walletRepository;
+    WalletQueryRepository walletQueryRepository;
     @Autowired
     MemberRepository memberRepository;
     @Autowired
@@ -102,8 +102,8 @@ class WalletServiceTest {
         walletService.deleteWalletById(UUID.fromString("f7c23946-7174-4f56-b464-3ed1fa5224d7"));
 
         //then
-        List<JoinedWallet> findJoinedWalletList = walletRepository.findWithMemeberAndVoucherByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
-        assertThat(findJoinedWalletList.size()).isEqualTo(1);
+        List<QueryWallet> findQueryWalletList = walletQueryRepository.findWithMemeberAndVoucherByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
+        assertThat(findQueryWalletList.size()).isEqualTo(1);
     }
 
     @Test
@@ -121,10 +121,10 @@ class WalletServiceTest {
     @DisplayName("setup을 통해 저장된 월렛2개 전체 조회를 통해 사이즈 확인")
     void findAllWallet_collectWalletSize() {
         //when
-        List<JoinedWallet> joinedWallets = walletRepository.findWithMemeberAndVoucherAll();
+        List<QueryWallet> queryWallets = walletQueryRepository.findWithMemeberAndVoucherAll();
 
         //then
-        assertThat(joinedWallets.size()).isEqualTo(2);
+        assertThat(queryWallets.size()).isEqualTo(2);
     }
 
     void setupInsertWallets() {
@@ -147,7 +147,7 @@ class WalletServiceTest {
         memberRepository.insert(member2);
         voucherRepository.insert(voucher1);
         voucherRepository.insert(voucher2);
-        walletRepository.insert(wallet1);
-        walletRepository.insert(wallet2);
+        walletQueryRepository.insert(wallet1);
+        walletQueryRepository.insert(wallet2);
     }
 }

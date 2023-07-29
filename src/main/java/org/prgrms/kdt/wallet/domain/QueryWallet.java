@@ -5,12 +5,12 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.UUID;
 
-public class JoinedWallet {
+public class QueryWallet {
     private final UUID walletId;
     private final Member member;
     private final Voucher voucher;
 
-    public JoinedWallet(UUID walletId, Member member, Voucher voucher) {
+    public QueryWallet(UUID walletId, Member member, Voucher voucher) {
         this.walletId = walletId;
         this.member = member;
         this.voucher = voucher;
