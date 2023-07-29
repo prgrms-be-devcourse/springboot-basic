@@ -6,19 +6,19 @@ import javax.annotation.processing.Generated;
 import org.prgrms.kdt.voucher.domain.DiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.service.dto.ServiceCreateVoucherRequest;
+import org.prgrms.kdt.voucher.service.dto.CreateVoucherRequest;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-26T15:46:22+0900",
+    date = "2023-07-29T23:28:38+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.7 (Oracle Corporation)"
 )
 @Component
 public class ServiceVoucherMapperImpl implements ServiceVoucherMapper {
 
     @Override
-    public Voucher serviceDtoToVoucher(ServiceCreateVoucherRequest request) {
+    public Voucher serviceDtoToVoucher(CreateVoucherRequest request) {
         if ( request == null ) {
             return null;
         }

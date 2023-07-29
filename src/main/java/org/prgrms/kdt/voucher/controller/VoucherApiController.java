@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.controller.dto.CreateVoucherControllerRequest;
+import org.prgrms.kdt.voucher.controller.dto.CreateVoucherApiRequest;
 import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
@@ -25,7 +25,7 @@ public class VoucherApiController {
     }
 
     @PostMapping
-    public ResponseEntity<VoucherResponse> create(@RequestBody @Valid CreateVoucherControllerRequest request) {
+    public ResponseEntity<VoucherResponse> create(@RequestBody @Valid CreateVoucherApiRequest request) {
         VoucherResponse response = voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
         return ResponseEntity.ok(response);
     }

@@ -1,6 +1,6 @@
 package org.prgrms.kdt.member.controller;
 
-import org.prgrms.kdt.member.controller.dto.CreateMemberControllerRequest;
+import org.prgrms.kdt.member.controller.dto.CreateMemberApiRequest;
 import org.prgrms.kdt.member.controller.mapper.ControllerMemberMapper;
 import org.prgrms.kdt.member.service.dto.MemberResponses;
 import org.prgrms.kdt.member.service.MemberService;
@@ -16,7 +16,7 @@ public class MemberController {
         this.mapper = mapper;
     }
 
-    public void createMember(CreateMemberControllerRequest request) {
+    public void createMember(CreateMemberApiRequest request) {
         memberService.createMember(mapper.controllerRequestToServiceRequest(request));
     }
 

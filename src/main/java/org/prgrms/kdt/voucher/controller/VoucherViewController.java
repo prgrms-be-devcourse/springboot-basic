@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.controller.dto.CreateVoucherControllerRequest;
+import org.prgrms.kdt.voucher.controller.dto.CreateVoucherApiRequest;
 import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
 import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
@@ -28,7 +28,7 @@ public class VoucherViewController {
     }
 
     @PostMapping("/new")
-    public String create(CreateVoucherControllerRequest request) {
+    public String create(CreateVoucherApiRequest request) {
         voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
         return "redirect:/view/vouchers";
     }

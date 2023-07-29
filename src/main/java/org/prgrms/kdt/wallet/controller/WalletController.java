@@ -1,6 +1,6 @@
 package org.prgrms.kdt.wallet.controller;
 
-import org.prgrms.kdt.wallet.controller.dto.CreateWalletControllerRequest;
+import org.prgrms.kdt.wallet.controller.dto.CreateWalletApiRequest;
 import org.prgrms.kdt.wallet.controller.mapper.ControllerWalletMapper;
 import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
 import org.prgrms.kdt.wallet.service.WalletService;
@@ -18,7 +18,7 @@ public class WalletController {
         this.mapper = mapper;
     }
 
-    public void createWallet(CreateWalletControllerRequest request) {
+    public void createWallet(CreateWalletApiRequest request) {
         walletService.assignVoucherToCustomer(mapper.controllerRequestToServiceRequest(request));
     }
 

@@ -4,9 +4,9 @@ import org.junit.jupiter.api.*;
 import org.prgrms.kdt.member.dao.JdbcMemberRepository;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
+import org.prgrms.kdt.member.service.dto.CreateMemberRequest;
 import org.prgrms.kdt.member.service.dto.MemberResponse;
 import org.prgrms.kdt.member.service.dto.MemberResponses;
-import org.prgrms.kdt.member.service.dto.CreateMemberServiceRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -39,7 +39,7 @@ class MemberServiceTest {
     @DisplayName("멤버를 저장하고 제대로 멤버를 반환하는지 확인")
     void createMember_correctRequest_correctMemberName() {
         //given
-        CreateMemberServiceRequest request = new CreateMemberServiceRequest("james", MemberStatus.COMMON);
+        CreateMemberRequest request = new CreateMemberRequest("james", MemberStatus.COMMON);
 
         //when
         MemberResponse result = memberService.createMember(request);

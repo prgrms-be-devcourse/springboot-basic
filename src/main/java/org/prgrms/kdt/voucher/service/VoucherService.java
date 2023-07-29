@@ -4,7 +4,7 @@ import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.service.dto.ServiceCreateVoucherRequest;
+import org.prgrms.kdt.voucher.service.dto.CreateVoucherRequest;
 import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
@@ -24,7 +24,7 @@ public class VoucherService {
         this.mapper = mapper;
     }
 
-    public VoucherResponse createVoucher(ServiceCreateVoucherRequest request) {
+    public VoucherResponse createVoucher(CreateVoucherRequest request) {
         Voucher voucher = voucherRepository.insert(mapper.serviceDtoToVoucher(request));
         return new VoucherResponse(voucher);
     }

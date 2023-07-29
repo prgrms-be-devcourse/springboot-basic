@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.controller.dto.CreateVoucherControllerRequest;
+import org.prgrms.kdt.voucher.controller.dto.CreateVoucherApiRequest;
 import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
 import org.prgrms.kdt.voucher.service.VoucherService;
@@ -16,7 +16,7 @@ public class VoucherController {
         this.mapper = mapper;
     }
 
-    public void create(CreateVoucherControllerRequest request) {
+    public void create(CreateVoucherApiRequest request) {
         voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
     }
 

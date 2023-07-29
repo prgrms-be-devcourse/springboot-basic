@@ -9,7 +9,7 @@ import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
-import org.prgrms.kdt.voucher.service.dto.ServiceCreateVoucherRequest;
+import org.prgrms.kdt.voucher.service.dto.CreateVoucherRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -44,7 +44,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 생성 후 반환된 바우처의 amount 확인")
     void createVoucher_correctRequest_correctAmount() {
         //given
-        ServiceCreateVoucherRequest request = new ServiceCreateVoucherRequest(VoucherType.FIXED, 50.0);
+        CreateVoucherRequest request = new CreateVoucherRequest(VoucherType.FIXED, 50.0);
 
         //when
         VoucherResponse voucher = voucherService.createVoucher(request);

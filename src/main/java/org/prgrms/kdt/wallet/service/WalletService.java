@@ -6,7 +6,7 @@ import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.wallet.dao.WalletRepository;
 import org.prgrms.kdt.wallet.domain.JoinedWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
-import org.prgrms.kdt.wallet.service.dto.CreateWalletServiceRequest;
+import org.prgrms.kdt.wallet.service.dto.CreateWalletRequest;
 import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
 import org.prgrms.kdt.wallet.service.dto.WalletResponse;
 import org.springframework.stereotype.Component;
@@ -28,7 +28,7 @@ public class WalletService {
     }
 
     @Transactional
-    public WalletResponse assignVoucherToCustomer(CreateWalletServiceRequest request) {
+    public WalletResponse assignVoucherToCustomer(CreateWalletRequest request) {
         memberRepository.findById(request.memberId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 멤버 입니다."));
         voucherRepository.findById(request.voucherId())
