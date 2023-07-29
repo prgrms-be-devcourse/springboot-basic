@@ -1,11 +1,9 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import com.programmers.springbootbasic.domain.model.Duration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,19 +15,13 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         VoucherType voucherType = VoucherType.PERCENT;
-        String name = "회원가입 30% 할인 쿠폰";
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
-        Long minimumPrice = 3_000L;
         int percent = 30;
-        boolean used = false;
 
         // when
-        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, duration, percent, used);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(voucherId, voucherType, percent);
 
         // then
-        assertThat(percentDiscountVoucher.getName()).isEqualTo(name);
+        assertThat(percentDiscountVoucher).isNotNull();
     }
 
     @Test
@@ -37,16 +29,10 @@ class PercentDiscountVoucherTest {
         // given
         UUID voucherId = UUID.randomUUID();
         VoucherType voucherType = VoucherType.PERCENT;
-        String name = "회원가입 30% 할인 쿠폰";
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
-        Long minimumPrice = 3_000L;
         int percent = 300;
-        boolean used = false;
 
         // when && then
-        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, voucherType, name, minimumPrice, duration, percent, used))
+        assertThatThrownBy(() -> new PercentDiscountVoucher(voucherId, voucherType, percent))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
@@ -54,16 +40,11 @@ class PercentDiscountVoucherTest {
     @CsvSource(value = {"4550,33,3050", "5500,10,4950"})
     void 물건금액할인퍼센트_할인_할인된금액(Long price, int percent, Long expectedPrice) {
         // given
-        Duration duration = new Duration(LocalDateTime.now(), LocalDateTime.MAX);
         VoucherType voucherType = VoucherType.PERCENT;
         PercentDiscountVoucher voucher = new PercentDiscountVoucher(
                 UUID.randomUUID(),
                 voucherType,
-                percent + "% 할인권",
-                null,
-                duration,
-                percent,
-                false
+                percent
         );
 
         // when

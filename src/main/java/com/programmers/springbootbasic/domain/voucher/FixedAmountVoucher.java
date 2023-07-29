@@ -1,7 +1,5 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import com.programmers.springbootbasic.domain.model.Duration;
-
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
@@ -14,8 +12,8 @@ public class FixedAmountVoucher extends Voucher {
 
     private final int amount;
 
-    public FixedAmountVoucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int amount, boolean used) {
-        super(voucherId, voucherType, name, minimumPriceCondition, duration, used);
+    public FixedAmountVoucher(UUID voucherId, int amount) {
+        super(voucherId, VoucherType.FIX);
         if (isInvalidAmount(amount)) {
             throw new IllegalArgumentException(INVALID_AMOUNT + String.format("%d원", amount));
         }
@@ -28,6 +26,11 @@ public class FixedAmountVoucher extends Voucher {
             return ZERO;
         }
         return priceBeforeDiscount - amount;
+    }
+
+    @Override
+    public int getAmountOrPercent() {
+        return amount;
     }
 
     private boolean isInvalidAmount(int amount) {

@@ -17,8 +17,8 @@ public class VoucherService {
     }
 
     public VoucherResponse createVoucher(VoucherCreationRequest request) {
-        Voucher fixedAmountVoucher = VoucherMapper.toVoucher(request);
-        return voucherRepository.save(fixedAmountVoucher)
+        Voucher voucher = VoucherMapper.toVoucher(request);
+        return voucherRepository.save(voucher)
                 .map(VoucherMapper::toVoucherResponse)
                 .orElseThrow(() -> new IllegalArgumentException(FAIL_TO_CREATE));
     }

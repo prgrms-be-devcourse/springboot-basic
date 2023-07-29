@@ -1,6 +1,5 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import com.programmers.springbootbasic.domain.model.Duration;
 
 import java.util.UUID;
 
@@ -13,8 +12,8 @@ public class PercentDiscountVoucher extends Voucher {
 
     private final int percent;
 
-    public PercentDiscountVoucher(UUID voucherId, VoucherType voucherType, String name, Long minimumPriceCondition, Duration duration, int percent, boolean used) {
-        super(voucherId, voucherType, name, minimumPriceCondition, duration, used);
+    public PercentDiscountVoucher(UUID voucherId, int percent) {
+        super(voucherId, VoucherType.PERCENT);
         if (isInvalidPercent(percent)) {
             throw new IllegalArgumentException(INVALID_PERCENT + String.format("%d%%", percent));
         }
@@ -28,6 +27,12 @@ public class PercentDiscountVoucher extends Voucher {
         double discountedPrice = priceBeforeDiscount - discountAmount;
         return Math.round((discountedPrice) / tenForRound) * tenForRound;
     }
+
+    @Override
+    public int getAmountOrPercent() {
+        return this.percent;
+    }
+
 
     private boolean isInvalidPercent(int percent) {
         return percent < MIN_PERCENT || MAX_PERCENT < percent;

@@ -1,9 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import com.programmers.springbootbasic.domain.model.Duration;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,16 +14,10 @@ class VoucherTest {
         //given
         UUID voucherId = UUID.randomUUID();
         VoucherType voucherType = VoucherType.FIX;
-        String name = "회원가입 10000원 할인 쿠폰";
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
-        Long minimumPrice = 3_000L;
         int amount = 10_000;
-        boolean used = false;
 
         // when
-        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, duration, amount, used);
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, voucherType, amount);
 
         // then
         assertThat(fixedAmountVoucher).isNotNull();
@@ -36,35 +28,10 @@ class VoucherTest {
         // given
         UUID voucherId = null;
         VoucherType voucherType = VoucherType.FIX;
-        String name = "회원가입 10000원 할인 쿠폰";
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
-        Long minimumPrice = 3_000L;
         int amount = 10_000;
-        boolean used = false;
 
         // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, duration, amount, used))
+        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, amount))
                 .isInstanceOf(IllegalArgumentException.class);
     }
-
-    @Test
-    void 잘못된이름_바우처생성_예외발생() {
-        // given
-        UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = VoucherType.FIX;
-        String name = "";
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
-        Long minimumPrice = 3_000L;
-        int amount = 10_000;
-        boolean used = false;
-
-        // when && then
-        assertThatThrownBy(() -> new FixedAmountVoucher(voucherId, voucherType, name, minimumPrice, duration, amount, used))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
 }

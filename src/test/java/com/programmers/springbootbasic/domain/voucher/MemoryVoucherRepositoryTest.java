@@ -1,11 +1,9 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import com.programmers.springbootbasic.domain.model.Duration;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,21 +18,15 @@ class MemoryVoucherRepositoryTest {
     void 바우처생성_바우처저장_성공(VoucherType voucherType) {
         // given
         UUID voucherId = UUID.randomUUID();
-        String name = "회원가입 쿠폰";
-        Long minimumPriceCondition = 0L;
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
-        boolean used = false;
         // when
         Voucher voucher = switch (voucherType) {
             case FIX -> {
                 int amount = 5_000;
-                yield new FixedAmountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, amount, used);
+                yield new FixedAmountVoucher(voucherId, voucherType, amount);
             }
             case PERCENT -> {
                 int percent = 30;
-                yield new PercentDiscountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, percent, used);
+                yield new PercentDiscountVoucher(voucherId, voucherType, percent);
             }
         };
         Optional<Voucher> save = voucherRepository.save(voucher);
@@ -47,20 +39,15 @@ class MemoryVoucherRepositoryTest {
         // given
         UUID voucherId = UUID.randomUUID();
         VoucherType voucherType = VoucherType.FIX;
-        String name = "회원가입 5000원 할인 쿠폰";
-        Long minimumPriceCondition = 0L;
-        LocalDateTime createdAt = LocalDateTime.now();
-        LocalDateTime expiredAt = createdAt.plusMonths(3);
-        Duration duration = new Duration(createdAt, expiredAt);
         int amount = 5_000;
-        boolean used = false;
-        Voucher voucher = new FixedAmountVoucher(voucherId, voucherType, name, minimumPriceCondition, duration, amount, used);
+
+        Voucher voucher = new FixedAmountVoucher(voucherId, voucherType, amount);
         Optional<Voucher> saved = voucherRepository.save(voucher);
 
         // when
         List<Voucher> all = voucherRepository.findAll();
 
         // then
-        assertThat(all).isNotNull(); // TODO: Notnull 말고 NOTEmpty로 체크해볼것
+        assertThat(all).isNotNull();
     }
 }

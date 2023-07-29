@@ -20,6 +20,6 @@ public final class CustomerMapper {
     }
 
     public static CustomerResponse toCustomerResponse(Customer customer) {
-        return new CustomerResponse(customer.getName(), customer.getEmail());
+        return new CustomerResponse(customer.getCustomerId(), customer.getName(), customer.getEmail());
     }
 }

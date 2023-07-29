@@ -1,12 +1,14 @@
 package com.programmers.springbootbasic.service.dto.Voucher;
 
 
-import com.programmers.springbootbasic.domain.model.Duration;
+import com.programmers.springbootbasic.domain.voucher.VoucherType;
+
+import java.util.UUID;
 
 public record VoucherResponse(
-        String name,
-        Long minimumPriceCondition,
-        Duration duration
+        UUID voucherId,
+        VoucherType voucherType,
+        int amountOrPercent
 ) {
 
 }
