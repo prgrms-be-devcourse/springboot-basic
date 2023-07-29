@@ -29,7 +29,7 @@ public class VoucherViewController {
 
     @PostMapping("/new")
     public String create(CreateVoucherApiRequest request) {
-        voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
+        voucherService.createVoucher(mapper.convertRequest(request));
         return "redirect:/view/vouchers";
     }
 

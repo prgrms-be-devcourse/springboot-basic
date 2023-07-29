@@ -6,5 +6,5 @@ import org.prgrms.kdt.wallet.service.dto.CreateWalletRequest;
 
 @Mapper(componentModel = "spring")
 public interface ControllerWalletMapper {
-     CreateWalletRequest controllerRequestToServiceRequest(CreateWalletApiRequest request);
+     CreateWalletRequest convertRequest(CreateWalletApiRequest request);
 }

@@ -26,7 +26,7 @@ public class VoucherApiController {
 
     @PostMapping
     public ResponseEntity<VoucherResponse> create(@RequestBody @Valid CreateVoucherApiRequest request) {
-        VoucherResponse response = voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
+        VoucherResponse response = voucherService.createVoucher(mapper.convertRequest(request));
         return ResponseEntity.ok(response);
     }
 

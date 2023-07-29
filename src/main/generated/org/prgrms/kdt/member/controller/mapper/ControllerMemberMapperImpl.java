@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-29T23:28:37+0900",
+    date = "2023-07-30T02:19:39+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.7 (Oracle Corporation)"
 )
 @Component
 public class ControllerMemberMapperImpl implements ControllerMemberMapper {
 
     @Override
-    public CreateMemberRequest controllerRequestToServiceRequest(CreateMemberApiRequest request) {
+    public CreateMemberRequest convertRequest(CreateMemberApiRequest request) {
         if ( request == null ) {
             return null;
         }

@@ -6,5 +6,5 @@ import org.prgrms.kdt.voucher.service.dto.CreateVoucherRequest;
 
 @Mapper(componentModel = "spring")
 public interface ControllerVoucherMapper {
-    CreateVoucherRequest controllerDtoToServiceDto(CreateVoucherApiRequest createVoucherApiRequest);
+    CreateVoucherRequest convertRequest(CreateVoucherApiRequest createVoucherApiRequest);
 }

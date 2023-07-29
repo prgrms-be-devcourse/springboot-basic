@@ -8,27 +8,25 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-29T23:28:39+0900",
+    date = "2023-07-30T02:23:50+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.7 (Oracle Corporation)"
 )
 @Component
 public class ControllerWalletMapperImpl implements ControllerWalletMapper {
 
     @Override
-    public CreateWalletRequest controllerRequestToServiceRequest(CreateWalletApiRequest request) {
+    public CreateWalletRequest convertRequest(CreateWalletApiRequest request) {
         if ( request == null ) {
             return null;
         }
 
-        UUID walletId = null;
         UUID memberId = null;
         UUID voucherId = null;
 
-        walletId = request.walletId();
         memberId = request.memberId();
         voucherId = request.voucherId();
 
-        CreateWalletRequest createWalletRequest = new CreateWalletRequest( walletId, memberId, voucherId );
+        CreateWalletRequest createWalletRequest = new CreateWalletRequest( memberId, voucherId );
 
         return createWalletRequest;
     }

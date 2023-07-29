@@ -19,7 +19,7 @@ public class WalletController {
     }
 
     public void createWallet(CreateWalletApiRequest request) {
-        walletService.assignVoucherToCustomer(mapper.controllerRequestToServiceRequest(request));
+        walletService.assignVoucherToCustomer(mapper.convertRequest(request));
     }
 
     public JoinedWalletResponses findVouchersByMemberId(UUID memberId) {

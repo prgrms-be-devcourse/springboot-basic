@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-07-29T23:28:38+0900",
+    date = "2023-07-30T02:19:38+0900",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.7 (Oracle Corporation)"
 )
 @Component
 public class ControllerVoucherMapperImpl implements ControllerVoucherMapper {
 
     @Override
-    public CreateVoucherRequest controllerDtoToServiceDto(CreateVoucherApiRequest createVoucherApiRequest) {
+    public CreateVoucherRequest convertRequest(CreateVoucherApiRequest createVoucherApiRequest) {
         if ( createVoucherApiRequest == null ) {
             return null;
         }

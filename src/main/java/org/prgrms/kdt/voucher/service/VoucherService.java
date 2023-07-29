@@ -25,7 +25,7 @@ public class VoucherService {
     }
 
     public VoucherResponse createVoucher(CreateVoucherRequest request) {
-        Voucher voucher = voucherRepository.insert(mapper.serviceDtoToVoucher(request));
+        Voucher voucher = voucherRepository.insert(mapper.convertVoucher(request));
         return new VoucherResponse(voucher);
     }
 

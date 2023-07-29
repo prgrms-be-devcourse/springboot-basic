@@ -20,7 +20,7 @@ public class MemberService {
     }
 
     public MemberResponse createMember(CreateMemberRequest request) {
-        Member member = mapper.serviceRequestToMember(request);
+        Member member = mapper.convertMember(request);
         return new MemberResponse(memberRepository.insert(member));
     }
 

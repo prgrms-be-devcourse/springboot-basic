@@ -17,7 +17,7 @@ public class VoucherController {
     }
 
     public void create(CreateVoucherApiRequest request) {
-        voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
+        voucherService.createVoucher(mapper.convertRequest(request));
     }
 
     public VoucherResponses findAll() {

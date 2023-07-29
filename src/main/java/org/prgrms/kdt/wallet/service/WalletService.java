@@ -1,5 +1,6 @@
 package org.prgrms.kdt.wallet.service;
 
+import org.prgrms.kdt.global.Generator;
 import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.member.dao.MemberRepository;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
@@ -20,11 +21,13 @@ public class WalletService {
     private final MemberRepository memberRepository;
     private final VoucherRepository voucherRepository;
     private final WalletRepository walletRepository;
+    private final Generator generator;
 
-    public WalletService(MemberRepository memberRepository, VoucherRepository voucherRepository, WalletRepository walletRepository) {
+    public WalletService(MemberRepository memberRepository, VoucherRepository voucherRepository, WalletRepository walletRepository, Generator generator) {
         this.memberRepository = memberRepository;
         this.voucherRepository = voucherRepository;
         this.walletRepository = walletRepository;
+        this.generator = generator;
     }
 
     @Transactional
@@ -34,7 +37,7 @@ public class WalletService {
         voucherRepository.findById(request.voucherId())
                 .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 바우처 입니다."));
 
-        Wallet wallet = new Wallet(request.walletId(), request.memberId(), request.voucherId());
+        Wallet wallet = new Wallet(generator.generateId(), request.memberId(), request.voucherId());
         return new WalletResponse(walletRepository.insert(wallet));
     }
 

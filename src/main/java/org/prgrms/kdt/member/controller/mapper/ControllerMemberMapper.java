@@ -6,5 +6,5 @@ import org.prgrms.kdt.member.service.dto.CreateMemberRequest;
 
 @Mapper(componentModel = "spring")
 public interface ControllerMemberMapper {
-    CreateMemberRequest controllerRequestToServiceRequest(CreateMemberApiRequest request);
+    CreateMemberRequest convertRequest(CreateMemberApiRequest request);
 }

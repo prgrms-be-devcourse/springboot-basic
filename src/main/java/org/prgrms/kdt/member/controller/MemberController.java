@@ -17,7 +17,7 @@ public class MemberController {
     }
 
     public void createMember(CreateMemberApiRequest request) {
-        memberService.createMember(mapper.controllerRequestToServiceRequest(request));
+        memberService.createMember(mapper.convertRequest(request));
     }
 
     public MemberResponses findAllMember() {
