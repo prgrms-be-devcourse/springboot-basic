@@ -12,17 +12,18 @@ public class DiscountValue {
         this.value = value;
     }
 
-    public DiscountValue(int value, DiscountType discountType) {
-        validateValue(discountType);
-        this.value = value;
+    public DiscountValue(int discountValue, DiscountType discountType) {
+        validateValue(discountValue, discountType);
+        this.value = discountValue;
     }
 
     public int getValue() {
         return value;
     }
 
-    private void validateValue(DiscountType discountType) {
-        if (discountType == DiscountType.PERCENT && (value > 100 || value < 0)) {
+    private void validateValue(int discountValue, DiscountType discountType) {
+
+        if (discountType == DiscountType.PERCENT && (discountValue > 100 || discountValue < 0)) {
             throw new VoucherException(NOT_INCLUDE_1_TO_100);
         }
     }
