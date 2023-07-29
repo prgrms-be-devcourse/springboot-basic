@@ -1,14 +1,15 @@
 package org.programmers.VoucherManagement.member.application;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponse;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberUpdateRequest;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
-import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponse;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
@@ -19,12 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.FAIL_TO_DELETE_MEMBER;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -43,7 +44,7 @@ public class MemberServiceTest {
     @DisplayName("회원 정보(status)를 BLACK으로 수정한다. - 성공")
     void updateMember_IdAndDto_Success() {
         //given
-        UUID memberId = UUID.randomUUID();
+        String memberId = UlidCreator.getUlid().toString();
         Member saveMember = new Member(memberId, "Kim", MemberStatus.WHITE);
         memberStoreRepository.insert(saveMember);
         MemberUpdateRequest updateRequestDto = new MemberUpdateRequest(MemberStatus.BLACK);
@@ -60,12 +61,12 @@ public class MemberServiceTest {
     @DisplayName("회원Id를 입력받아 회원을 삭제할 수 있다. - 성공")
     void deleteMember_Id_Success() {
         //given
-        UUID memberId = UUID.randomUUID();
+        String memberId = UlidCreator.getUlid().toString();
         Member saveMember = new Member(memberId, "Kim", MemberStatus.BLACK);
         memberStoreRepository.insert(saveMember);
 
         //when
-        memberService.deleteMember(saveMember.getMemberUUID());
+        memberService.deleteMember(saveMember.getMemberId());
 
         //then
         Optional<Member> optionalMember = memberReaderRepository.findById(memberId);
@@ -76,18 +77,18 @@ public class MemberServiceTest {
     @DisplayName("회원Id를 입력받아 회원을 삭제할 수 있다. - 실패")
     void deleteMember_Id_ThrowMemberException() {
         //given
-        UUID memberId = UUID.randomUUID();
+        String memberId = UlidCreator.getUlid().toString();
         Member saveMember = new Member(memberId, "Kim", MemberStatus.BLACK);
         memberStoreRepository.insert(saveMember);
 
         //when
-        memberService.deleteMember(saveMember.getMemberUUID());
+        memberService.deleteMember(saveMember.getMemberId());
 
         //then
-        UUID strangeId = UUID.randomUUID();
+        String strangeId = UlidCreator.getUlid().toString();
         assertThatThrownBy(() -> memberService.deleteMember(strangeId))
                 .isInstanceOf(MemberException.class)
-                .hasMessage("데이터가 정상적으로 삭제되지 않았습니다.");
+                .hasMessage(FAIL_TO_DELETE_MEMBER.getMessage());
     }
 
     @ParameterizedTest
@@ -132,8 +133,8 @@ public class MemberServiceTest {
     }
 
     private static Stream<List<Member>> member_Data() {
-        Member member1 = new Member(UUID.randomUUID(), "Kim", MemberStatus.BLACK);
-        Member member2 = new Member(UUID.randomUUID(), "Park", MemberStatus.WHITE);
+        Member member1 = new Member(UlidCreator.getUlid().toString(), "Kim", MemberStatus.BLACK);
+        Member member2 = new Member(UlidCreator.getUlid().toString(), "Park", MemberStatus.WHITE);
         return Stream.of(
                 List.of(member1, member2)
         );

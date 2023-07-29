@@ -1,5 +1,6 @@
 package org.programmers.VoucherManagement.wallet.infrastructure;
 
+import org.programmers.VoucherManagement.global.response.ErrorCode;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
@@ -13,10 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-
-import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_FOUND_MEMBER;
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_FOUND_VOUCHER;
 
 @Repository
 @Primary
@@ -32,8 +29,8 @@ public class JdbcWalletReaderRepository implements WalletReaderRepository {
     }
 
     @Override
-    public Optional<Wallet> findById(UUID walletId) {
-        String sql = "select wallet_id, voucher_id, member_id from wallet_table where wallet_id = ?";
+    public Optional<Wallet> findById(String walletId) {
+        String sql = "SELECT wallet_id, voucher_id, member_id FROM wallet_table WHERE wallet_id = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
                     walletRowMapper(),
@@ -44,24 +41,24 @@ public class JdbcWalletReaderRepository implements WalletReaderRepository {
     }
 
     @Override
-    public List<Wallet> findAllByMemberId(UUID memberId) {
-        String sql = "select wallet_id, voucher_id, member_id from wallet_table where member_id = ?";
+    public List<Wallet> findAllByMemberId(String memberId) {
+        String sql = "SELECT wallet_id, voucher_id, member_id FROM wallet_table WHERE member_id = ?";
 
-        return jdbcTemplate.query(sql, walletRowMapper(), memberId.toString());
+        return jdbcTemplate.query(sql, walletRowMapper(), memberId);
     }
 
     @Override
-    public List<Wallet> findAllByVoucherId(UUID voucherId) {
-        String sql = "select wallet_id, voucher_id, member_id from wallet_table where voucher_id = ?";
+    public List<Wallet> findAllByVoucherId(String voucherId) {
+        String sql = "SELECT wallet_id, voucher_id, member_id FROM wallet_table WHERE voucher_id = ?";
 
-        return jdbcTemplate.query(sql, walletRowMapper(), voucherId.toString());
+        return jdbcTemplate.query(sql, walletRowMapper(), voucherId);
     }
 
     public RowMapper<Wallet> walletRowMapper() {
         return (result, rowNum) -> new Wallet(
-                UUID.fromString(result.getString("wallet_id")),
-                voucherReaderRepository.findById(UUID.fromString(result.getString("voucher_id"))).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER)),
-                memberReaderRepository.findById(UUID.fromString(result.getString("member_id"))).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER))
+                result.getString("wallet_id"),
+                voucherReaderRepository.findById(result.getString("voucher_id")).orElseThrow(() -> new VoucherException(ErrorCode.NOT_FOUND_VOUCHER)),
+                memberReaderRepository.findById(result.getString("member_id")).orElseThrow(() -> new MemberException(ErrorCode.NOT_FOUND_MEMBER))
         );
     }
 }

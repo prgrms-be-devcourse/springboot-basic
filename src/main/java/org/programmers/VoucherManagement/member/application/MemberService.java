@@ -1,21 +1,21 @@
 package org.programmers.VoucherManagement.member.application;
 
+import org.programmers.VoucherManagement.member.application.dto.MemberCreateRequest;
+import org.programmers.VoucherManagement.member.application.dto.MemberCreateResponse;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberUpdateRequest;
+import org.programmers.VoucherManagement.member.application.mapper.MemberServiceMapper;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
-import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
-import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.member.infrastructure.MemberStoreRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_FOUND_MEMBER;
 
-import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_FOUND_MEMBER;
-
-@Component
+@Service
 @Transactional(readOnly = true)
 public class MemberService {
     private final MemberReaderRepository memberReaderRepository;
@@ -26,7 +26,6 @@ public class MemberService {
         this.memberStoreRepository = memberStoreRepository;
     }
 
-
     public MemberGetResponses getAllMembers() {
         return new MemberGetResponses(memberReaderRepository.findAll());
     }
@@ -36,22 +35,23 @@ public class MemberService {
     }
 
     @Transactional
-    public void createMember(MemberCreateRequest memberCreateRequest) {
-        Member member = new Member(UUID.randomUUID(),
-                memberCreateRequest.name(),
-                memberCreateRequest.memberStatus());
+    public MemberCreateResponse createMember(MemberCreateRequest memberCreateRequest) {
+
+        Member member = MemberServiceMapper.INSTANCE.createRequestToDomain(memberCreateRequest);
         memberStoreRepository.insert(member);
+
+        return MemberServiceMapper.INSTANCE.domainToCreateResponse(member);
     }
 
     @Transactional
-    public void updateMember(UUID memberId, MemberUpdateRequest memberUpdateRequest) {
+    public void updateMember(String memberId, MemberUpdateRequest memberUpdateRequest) {
         Member member = memberReaderRepository.findById(memberId).orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
         member.changeMemberStatus(memberUpdateRequest.memberStatus());
         memberStoreRepository.update(member);
     }
 
     @Transactional
-    public void deleteMember(UUID memberId) {
+    public void deleteMember(String memberId) {
         memberStoreRepository.delete(memberId);
     }
 }

@@ -4,12 +4,11 @@ import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Component
 public class MemoryVoucherRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> map = new LinkedHashMap<>();
+    private final Map<String, Voucher> map = new LinkedHashMap<>();
 
     @Override
     public Voucher insert(Voucher voucher) {
@@ -25,19 +24,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void delete(UUID voucherId) {
+    public void delete(String voucherId) {
         map.remove(voucherId);
     }
 
     @Override
     public List<Voucher> findAll() {
-        return map.values()
-                .stream()
-                .collect(Collectors.toList());
+        return new ArrayList<>(map.values());
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(String voucherId) {
         return Optional.ofNullable(map.get(voucherId));
     }
 }

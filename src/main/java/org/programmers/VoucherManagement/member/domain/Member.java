@@ -1,21 +1,21 @@
 package org.programmers.VoucherManagement.member.domain;
 
-import java.util.UUID;
+import org.programmers.VoucherManagement.global.entity.BaseTimeEntity;
 
-public class Member {
-
-    private UUID memberUUID;
+public class Member extends BaseTimeEntity {
+    private String memberId;
     private String name;
     private MemberStatus memberStatus;
 
-    public Member(UUID memberUUID, String name, MemberStatus memberStatus) {
-        this.memberUUID = memberUUID;
+    public Member(String memberId, String name, MemberStatus memberStatus) {
+        super();
+        this.memberId = memberId;
         this.name = name;
         this.memberStatus = memberStatus;
     }
 
-    public UUID getMemberUUID() {
-        return memberUUID;
+    public String getMemberId() {
+        return memberId;
     }
 
     public String getName() {

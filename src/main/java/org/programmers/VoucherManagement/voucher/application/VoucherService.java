@@ -1,23 +1,22 @@
 package org.programmers.VoucherManagement.voucher.application;
 
+import org.programmers.VoucherManagement.global.response.ErrorCode;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherCreateRequest;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherCreateResponse;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherGetResponses;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherUpdateRequest;
+import org.programmers.VoucherManagement.voucher.application.mapper.VoucherServiceMapper;
 import org.programmers.VoucherManagement.voucher.domain.DiscountValue;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.domain.VoucherFactory;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
-import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherReaderRepository;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherStoreRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
 
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_FOUND_VOUCHER;
-
-
-@Component
+@Service
 @Transactional(readOnly = true)
 public class VoucherService {
     private final VoucherReaderRepository voucherReaderRepository;
@@ -29,19 +28,21 @@ public class VoucherService {
     }
 
     @Transactional
-    public void updateVoucher(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
-        Voucher voucher = voucherReaderRepository.findById(voucherId).orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
-        DiscountValue discountValue = new DiscountValue(voucherUpdateRequest.discountValue());
-        discountValue.validateValue(voucher.getDiscountType());
+    public void updateVoucher(String voucherId, VoucherUpdateRequest voucherUpdateRequest) {
+        Voucher voucher = voucherReaderRepository
+                .findById(voucherId)
+                .orElseThrow(() -> new VoucherException(ErrorCode.NOT_FOUND_VOUCHER));
+
+        DiscountValue discountValue = new DiscountValue(voucherUpdateRequest.discountValue(), voucher.getDiscountType());
 
         voucher.changeDiscountValue(discountValue);
         voucherStoreRepository.update(voucher);
     }
 
     @Transactional
-    public void saveVoucher(VoucherCreateRequest voucherCreateRequest) {
+    public VoucherCreateResponse saveVoucher(VoucherCreateRequest voucherCreateRequest) {
         Voucher voucher = VoucherFactory.createVoucher(voucherCreateRequest);
-        voucherStoreRepository.insert(voucher);
+        return VoucherServiceMapper.INSTANCE.domainToCreateResponse(voucherStoreRepository.insert(voucher));
     }
 
     public VoucherGetResponses getVoucherList() {
@@ -49,7 +50,7 @@ public class VoucherService {
     }
 
     @Transactional
-    public void deleteVoucher(UUID voucherId) {
+    public void deleteVoucher(String voucherId) {
         voucherStoreRepository.delete(voucherId);
     }
 }

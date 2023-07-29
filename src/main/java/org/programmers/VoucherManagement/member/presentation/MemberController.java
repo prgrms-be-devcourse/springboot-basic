@@ -1,12 +1,10 @@
 package org.programmers.VoucherManagement.member.presentation;
 
 import org.programmers.VoucherManagement.member.application.MemberService;
-import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
-import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberCreateRequest;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberUpdateRequest;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class MemberController {
@@ -28,11 +26,11 @@ public class MemberController {
         memberService.createMember(memberCreateRequest);
     }
 
-    public void updateMember(UUID memberId, MemberUpdateRequest memberUpdateRequest) {
+    public void updateMember(String memberId, MemberUpdateRequest memberUpdateRequest) {
         memberService.updateMember(memberId, memberUpdateRequest);
     }
 
-    public void deleteMember(UUID memberId) {
+    public void deleteMember(String memberId) {
         memberService.deleteMember(memberId);
     }
 }

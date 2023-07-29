@@ -1,25 +1,26 @@
 package org.programmers.VoucherManagement.wallet.application;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import org.programmers.VoucherManagement.member.domain.Member;
 import org.programmers.VoucherManagement.member.exception.MemberException;
 import org.programmers.VoucherManagement.member.infrastructure.MemberReaderRepository;
 import org.programmers.VoucherManagement.voucher.domain.Voucher;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherReaderRepository;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletCreateRequest;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletCreateResponse;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponses;
+import org.programmers.VoucherManagement.wallet.application.mapper.WalletServiceMapper;
 import org.programmers.VoucherManagement.wallet.domain.Wallet;
-import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
-import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletReaderRepository;
 import org.programmers.VoucherManagement.wallet.infrastructure.WalletStoreRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_FOUND_MEMBER;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.NOT_FOUND_VOUCHER;
 
-import static org.programmers.VoucherManagement.member.exception.MemberExceptionMessage.NOT_FOUND_MEMBER;
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_FOUND_VOUCHER;
-
-@Component
+@Service
 @Transactional(readOnly = true)
 public class WalletService {
     private final WalletReaderRepository walletReaderRepository;
@@ -38,31 +39,33 @@ public class WalletService {
     }
 
     @Transactional
-    public void createWallet(WalletCreateRequest walletCreateRequest) {
+    public WalletCreateResponse createWallet(WalletCreateRequest walletCreateRequest) {
         Voucher voucher = voucherReaderRepository
-                .findById(UUID.fromString(walletCreateRequest.voucherId()))
+                .findById(walletCreateRequest.voucherId())
                 .orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
         Member member = memberReaderRepository
-                .findById(UUID.fromString(walletCreateRequest.memberId()))
+                .findById(walletCreateRequest.memberId())
                 .orElseThrow(() -> new MemberException(NOT_FOUND_MEMBER));
 
-        Wallet wallet = new Wallet(UUID.randomUUID(),
+        Wallet wallet = new Wallet(UlidCreator.getUlid().toString(),
                 voucher,
                 member);
 
         walletStoreRepository.insert(wallet);
+
+        return WalletServiceMapper.INSTANCE.domainToCreateResponse(wallet);
     }
 
-    public WalletGetResponses getWalletsByVoucherId(UUID voucherId) {
+    public WalletGetResponses getWalletsByVoucherId(String voucherId) {
         return new WalletGetResponses(walletReaderRepository.findAllByVoucherId(voucherId));
     }
 
-    public WalletGetResponses getWalletsByMemberId(UUID memberId) {
+    public WalletGetResponses getWalletsByMemberId(String memberId) {
         return new WalletGetResponses(walletReaderRepository.findAllByMemberId(memberId));
     }
 
     @Transactional
-    public void deleteWallet(UUID walletId) {
+    public void deleteWallet(String walletId) {
         walletStoreRepository.delete(walletId);
     }
 }

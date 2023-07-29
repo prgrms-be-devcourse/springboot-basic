@@ -1,5 +1,6 @@
 package org.programmers.VoucherManagement.io;
 
+import org.programmers.VoucherManagement.global.response.ErrorCode;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 
 import java.util.Arrays;
@@ -7,8 +8,6 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.NOT_EXIST_COMMAND;
 
 public enum MenuType {
     //Member
@@ -50,7 +49,7 @@ public enum MenuType {
 
     public static MenuType from(int type) {
         if (!COMMAND_TYPE_MAP.containsKey(type)) {
-            throw new VoucherException(NOT_EXIST_COMMAND);
+            throw new VoucherException(ErrorCode.NOT_EXIST_COMMAND);
         }
         return COMMAND_TYPE_MAP.get(type);
     }

@@ -1,21 +1,19 @@
 package org.programmers.VoucherManagement.io;
 
+import org.programmers.VoucherManagement.member.application.dto.MemberCreateRequest;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberUpdateRequest;
 import org.programmers.VoucherManagement.member.domain.MemberStatus;
-import org.programmers.VoucherManagement.member.dto.request.MemberCreateRequest;
-import org.programmers.VoucherManagement.member.dto.request.MemberUpdateRequest;
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
 import org.programmers.VoucherManagement.member.presentation.MemberController;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherCreateRequest;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherGetResponses;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherUpdateRequest;
 import org.programmers.VoucherManagement.voucher.domain.DiscountType;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherCreateRequest;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
-import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.presentation.VoucherController;
-import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
-import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletCreateRequest;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponses;
 import org.programmers.VoucherManagement.wallet.presentation.WalletController;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 import static org.programmers.VoucherManagement.io.ConsoleMessage.*;
 
@@ -47,12 +45,12 @@ public class CommandExecutor {
             case UPDATE_VOUCHER -> {
                 String voucherId = console.readVoucherId();
                 int voucherValue = console.readDiscountValue();
-                voucherController.updateVoucher(UUID.fromString(voucherId), new VoucherUpdateRequest(voucherValue));
+                voucherController.updateVoucher(voucherId, new VoucherUpdateRequest(voucherValue));
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
             case DELETE_VOUCHER -> {
                 String voucherId = console.readVoucherId();
-                voucherController.deleteVoucher(UUID.fromString(voucherId));
+                voucherController.deleteVoucher(voucherId);
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
             case VOUCHER_LIST -> {
@@ -70,12 +68,12 @@ public class CommandExecutor {
             case UPDATE_MEMBER -> {
                 String memberId = console.readMemberId();
                 MemberStatus memberStatus = MemberStatus.from(console.readMemberStatus());
-                memberController.updateMember(UUID.fromString(memberId), new MemberUpdateRequest(memberStatus));
+                memberController.updateMember(memberId, new MemberUpdateRequest(memberStatus));
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
             case DELETE_MEMBER -> {
                 String memberId = console.readMemberId();
-                memberController.deleteMember(UUID.fromString(memberId));
+                memberController.deleteMember(memberId);
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
             case BLACK_MEMBER_LIST -> {
@@ -93,17 +91,17 @@ public class CommandExecutor {
             }
             case LIST_WALLET_BY_MEMBER -> {
                 String memberId = console.readMemberId();
-                WalletGetResponses walletList = walletController.getWalletsByMemberId(UUID.fromString(memberId));
+                WalletGetResponses walletList = walletController.getWalletsByMemberId(memberId);
                 console.printWalletList(walletList);
             }
             case LIST_WALLET_BY_VOUCHER -> {
                 String voucherId = console.readVoucherId();
-                WalletGetResponses walletList = walletController.getWalletsByVoucherId(UUID.fromString(voucherId));
+                WalletGetResponses walletList = walletController.getWalletsByVoucherId(voucherId);
                 console.printWalletList(walletList);
             }
             case DELETE_WALLET -> {
                 String walletId = console.readWalletId();
-                walletController.deleteWallet(UUID.fromString(walletId));
+                walletController.deleteWallet(walletId);
                 console.printConsoleMessage(TASK_SUCCESSFUL_MESSAGE);
             }
         }
@@ -113,7 +111,7 @@ public class CommandExecutor {
         DiscountType discountType = DiscountType.from(console.readDiscountType());
         int discountValue = console.readDiscountValue();
 
-        return new VoucherCreateRequest(discountType, discountValue);
+        return new VoucherCreateRequest(discountType.toString(), discountValue);
     }
 
     private MemberCreateRequest makeCreateMemberRequest() {

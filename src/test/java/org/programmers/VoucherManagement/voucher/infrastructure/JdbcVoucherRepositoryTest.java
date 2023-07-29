@@ -1,5 +1,6 @@
 package org.programmers.VoucherManagement.voucher.infrastructure;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,6 @@ import org.springframework.context.annotation.Import;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,15 +28,14 @@ public class JdbcVoucherRepositoryTest {
 
     @BeforeEach
     void initVoucher() {
-        fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(1000));
-        percentVoucher = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
+        fixedVoucher = new FixedAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.FIXED, new DiscountValue(1000));
+        percentVoucher = new PercentAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.PERCENT, new DiscountValue(10));
     }
 
     @Test
     @DisplayName("Percent 바우처를 생성할 수 있다.")
     void insert_PercentVoucher_EqualsNewPercentVoucher() {
         //given
-        System.out.println(percentVoucher.getVoucherId());
         voucherStoreRepository.insert(percentVoucher);
 
         //when
@@ -94,7 +93,7 @@ public class JdbcVoucherRepositoryTest {
     @DisplayName("id를 이용해 Percent 바우처를 조회할 수 있다. - 성공")
     void findById_VoucherID_EqualsFindVoucher() {
         //given
-        UUID findVoucherId = percentVoucher.getVoucherId();
+        String findVoucherId = percentVoucher.getVoucherId();
         voucherStoreRepository.insert(percentVoucher);
         voucherStoreRepository.insert(fixedVoucher);
 
@@ -125,7 +124,7 @@ public class JdbcVoucherRepositoryTest {
         //given
         voucherStoreRepository.insert(percentVoucher);
         voucherStoreRepository.insert(fixedVoucher);
-        UUID deleteVoucherId = percentVoucher.getVoucherId();
+        String deleteVoucherId = percentVoucher.getVoucherId();
 
         //when
         voucherStoreRepository.delete(deleteVoucherId);

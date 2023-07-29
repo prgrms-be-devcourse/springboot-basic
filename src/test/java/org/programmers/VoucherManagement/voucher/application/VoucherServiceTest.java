@@ -1,11 +1,12 @@
 package org.programmers.VoucherManagement.voucher.application;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherGetResponse;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherGetResponses;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherUpdateRequest;
 import org.programmers.VoucherManagement.voucher.domain.*;
-import org.programmers.VoucherManagement.voucher.dto.request.VoucherUpdateRequest;
-import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponse;
-import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherReaderRepository;
 import org.programmers.VoucherManagement.voucher.infrastructure.VoucherStoreRepository;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,7 +40,7 @@ public class VoucherServiceTest {
     @DisplayName("Fixed 바우처를 수정할 수 있다. - 성공")
     void updateFixedVoucher_Dto_Success() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UlidCreator.getUlid().toString();
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(100));
         voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(1000);
@@ -57,7 +57,7 @@ public class VoucherServiceTest {
     @DisplayName("Percent 바우처를 수정할 수 있다. - 성공")
     void updatePercentVoucher_Dto_Success() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UlidCreator.getUlid().toString();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
         voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(40);
@@ -74,7 +74,7 @@ public class VoucherServiceTest {
     @DisplayName("Percent 바우처를 수정할 수 있다.(1-100을 넘어가면 예외 발생) - 실패")
     void updatePercentVoucher_Dto_ThrowVoucherException() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UlidCreator.getUlid().toString();
         Voucher saveVoucher = new PercentAmountVoucher(voucherId, DiscountType.PERCENT, new DiscountValue(10));
         voucherStoreRepository.insert(saveVoucher);
         VoucherUpdateRequest updateRequestDto = new VoucherUpdateRequest(-1);
@@ -89,7 +89,7 @@ public class VoucherServiceTest {
     @DisplayName("바우처ID를 입력받아 해당 바우처를 삭제할 수 있다. - 성공")
     void deleteVoucher_voucherId_Success() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UlidCreator.getUlid().toString();
         Voucher saveVoucher = new FixedAmountVoucher(voucherId, DiscountType.FIXED, new DiscountValue(1000));
         voucherStoreRepository.insert(saveVoucher);
 
@@ -105,8 +105,8 @@ public class VoucherServiceTest {
     @DisplayName("바우처 전체 목록을 가져올 수 있다. - 성공")
     void getVouchers_EqualsListOfVouchers() {
         //given
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(100));
-        Voucher voucher2 = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
+        Voucher voucher1 = new FixedAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.FIXED, new DiscountValue(100));
+        Voucher voucher2 = new PercentAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.PERCENT, new DiscountValue(10));
         voucherStoreRepository.insert(voucher1);
         voucherStoreRepository.insert(voucher2);
         List<Voucher> voucherList = Arrays.asList(voucher1, voucher2);

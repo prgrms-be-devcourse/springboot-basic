@@ -1,15 +1,15 @@
 package org.programmers.VoucherManagement.io;
 
-import org.programmers.VoucherManagement.member.dto.response.MemberGetResponses;
-import org.programmers.VoucherManagement.voucher.dto.response.VoucherGetResponses;
-import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
+import org.programmers.VoucherManagement.member.application.dto.MemberGetResponses;
+import org.programmers.VoucherManagement.voucher.application.dto.VoucherGetResponses;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponses;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Scanner;
 
+import static org.programmers.VoucherManagement.global.response.ErrorCode.AMOUNT_IS_NOT_NUMBER;
 import static org.programmers.VoucherManagement.io.ConsoleMessage.*;
-import static org.programmers.VoucherManagement.voucher.exception.VoucherExceptionMessage.AMOUNT_IS_NOT_NUMBER;
 
 @Component
 public class Console implements Input, Output {

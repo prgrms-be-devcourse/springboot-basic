@@ -2,8 +2,6 @@ package org.programmers.VoucherManagement.member.infrastructure;
 
 import org.programmers.VoucherManagement.member.domain.Member;
 
-import java.util.UUID;
-
 public interface MemberStoreRepository {
     /**
      * db에 회원 저장
@@ -25,5 +23,5 @@ public interface MemberStoreRepository {
      *
      * @param memberId
      */
-    void delete(UUID memberId); //삭제
+    void delete(String memberId); //삭제
 }

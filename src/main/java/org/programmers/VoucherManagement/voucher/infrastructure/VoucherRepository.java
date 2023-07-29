@@ -4,7 +4,6 @@ import org.programmers.VoucherManagement.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface VoucherRepository {
     /**
@@ -27,7 +26,7 @@ public interface VoucherRepository {
      *
      * @param voucherId
      */
-    void delete(UUID voucherId); //삭제
+    void delete(String voucherId); //삭제
 
     /**
      * db에 저장된 전체 바우처 조회
@@ -42,5 +41,5 @@ public interface VoucherRepository {
      * @param voucherId
      * @return Optional<Voucher> - voucherId를 이용해 조회한 바우처
      */
-    Optional<Voucher> findById(UUID voucherId); //조회
+    Optional<Voucher> findById(String voucherId); //조회
 }

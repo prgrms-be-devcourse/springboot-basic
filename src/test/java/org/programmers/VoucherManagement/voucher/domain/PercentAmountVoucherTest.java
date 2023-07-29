@@ -1,10 +1,9 @@
 package org.programmers.VoucherManagement.voucher.domain;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.VoucherManagement.voucher.exception.VoucherException;
-
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -15,7 +14,7 @@ public class PercentAmountVoucherTest {
     @DisplayName("Percent 바우처를 생성한다. - 성공")
     void PercentAmountVoucher_Parameters_createPercentAmountVoucher() {
         //given
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UlidCreator.getUlid().toString();
         DiscountType discountType = DiscountType.PERCENT;
         DiscountValue discountValue = new DiscountValue(15);
 
@@ -32,7 +31,7 @@ public class PercentAmountVoucherTest {
     @DisplayName("Percent 바우처를 생성한다. - 실패")
     void PercentAmountVoucher_Parameters_throwVoucherException() {
         //given&when
-        UUID voucherId = UUID.randomUUID();
+        String voucherId = UlidCreator.getUlid().toString();
         DiscountType discountType = DiscountType.PERCENT;
         DiscountValue discountValue = new DiscountValue(101);
 

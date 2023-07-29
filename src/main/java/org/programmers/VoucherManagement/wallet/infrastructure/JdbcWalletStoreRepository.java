@@ -6,10 +6,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.UUID;
-
-import static org.programmers.VoucherManagement.wallet.exception.WalletExceptionMessage.FAIL_TO_DELETE;
-import static org.programmers.VoucherManagement.wallet.exception.WalletExceptionMessage.FAIL_TO_INSERT;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.FAIL_TO_DELETE_WALLET;
+import static org.programmers.VoucherManagement.global.response.ErrorCode.FAIL_TO_INSERT_WALLET;
 
 @Repository
 @Primary
@@ -23,24 +21,26 @@ public class JdbcWalletStoreRepository implements WalletStoreRepository {
 
     @Override
     public Wallet insert(Wallet wallet) {
-        String sql = "insert into wallet_table(wallet_id, voucher_id, member_id) values (?,?,?)";
+        String sql = "INSERT INTO wallet_table(wallet_id, voucher_id, member_id, created_at) VALUES (?,?,?,?)";
         int insertCount = jdbcTemplate.update(sql,
-                wallet.getWalletId().toString(),
-                wallet.getVoucher().getVoucherId().toString(),
-                wallet.getMember().getMemberUUID().toString());
+                wallet.getWalletId(),
+                wallet.getVoucher().getVoucherId(),
+                wallet.getMember().getMemberId(),
+                wallet.getCreatedAt()
+        );
         if (insertCount != 1) {
-            throw new WalletException(FAIL_TO_INSERT);
+            throw new WalletException(FAIL_TO_INSERT_WALLET);
         }
         return wallet;
     }
 
     @Override
-    public void delete(UUID walletId) {
-        String sql = "delete from wallet_table where wallet_id = ?";
+    public void delete(String walletId) {
+        String sql = "DELETE FROM wallet_table WHERE wallet_id = ?";
         int deleteCount = jdbcTemplate.update(sql,
-                walletId.toString());
+                walletId);
         if (deleteCount != 1) {
-            throw new WalletException(FAIL_TO_DELETE);
+            throw new WalletException(FAIL_TO_DELETE_WALLET);
         }
     }
 }

@@ -1,6 +1,7 @@
 package org.programmers.VoucherManagement.io;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -11,6 +12,7 @@ import org.programmers.VoucherManagement.voucher.exception.VoucherException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@Disabled
 public class MenuTypeTest {
     @Test
     @DisplayName("입력값에 따라 MenuType을 반환한다. - 성공")

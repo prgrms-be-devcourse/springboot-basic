@@ -4,7 +4,6 @@ import org.programmers.VoucherManagement.wallet.domain.Wallet;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface WalletReaderRepository {
     /**
@@ -13,7 +12,7 @@ public interface WalletReaderRepository {
      * @param walletId
      * @return Optional<Wallet> - walletId를 이용해 조회한 Wallet
      */
-    Optional<Wallet> findById(UUID walletId);
+    Optional<Wallet> findById(String walletId);
 
     /**
      * memberId를 이용해 Wallet 조회
@@ -21,7 +20,7 @@ public interface WalletReaderRepository {
      * @param memberId
      * @return List<Wallet> - memberId를 이용해 조회한 특정 회원이 가지고 있는 Wallet 리스트
      */
-    List<Wallet> findAllByMemberId(UUID memberId);
+    List<Wallet> findAllByMemberId(String memberId);
 
     /**
      * voucherId를 이용해 Wallet 조회
@@ -29,5 +28,5 @@ public interface WalletReaderRepository {
      * @param voucherId
      * @return List<Wallet> - voucherId를 이용해 wallet에 저장된 Voucher 리스트
      */
-    List<Wallet> findAllByVoucherId(UUID voucherId);
+    List<Wallet> findAllByVoucherId(String voucherId);
 }

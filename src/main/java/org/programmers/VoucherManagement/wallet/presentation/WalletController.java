@@ -1,11 +1,9 @@
 package org.programmers.VoucherManagement.wallet.presentation;
 
 import org.programmers.VoucherManagement.wallet.application.WalletService;
-import org.programmers.VoucherManagement.wallet.dto.request.WalletCreateRequest;
-import org.programmers.VoucherManagement.wallet.dto.response.WalletGetResponses;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletCreateRequest;
+import org.programmers.VoucherManagement.wallet.application.dto.WalletGetResponses;
 import org.springframework.stereotype.Component;
-
-import java.util.UUID;
 
 @Component
 public class WalletController {
@@ -19,15 +17,15 @@ public class WalletController {
         walletService.createWallet(walletCreateRequest);
     }
 
-    public WalletGetResponses getWalletsByVoucherId(UUID voucherId) {
+    public WalletGetResponses getWalletsByVoucherId(String voucherId) {
         return walletService.getWalletsByVoucherId(voucherId);
     }
 
-    public WalletGetResponses getWalletsByMemberId(UUID memberId) {
+    public WalletGetResponses getWalletsByMemberId(String memberId) {
         return walletService.getWalletsByMemberId(memberId);
     }
 
-    public void deleteWallet(UUID walletId) {
+    public void deleteWallet(String walletId) {
         walletService.deleteWallet(walletId);
     }
 }

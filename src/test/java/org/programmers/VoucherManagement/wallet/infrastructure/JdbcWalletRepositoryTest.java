@@ -1,5 +1,6 @@
 package org.programmers.VoucherManagement.wallet.infrastructure;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,6 @@ import org.springframework.context.annotation.Import;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,10 +43,10 @@ public class JdbcWalletRepositoryTest {
 
     @BeforeEach
     void initVoucher() {
-        member1 = new Member(UUID.randomUUID(), "Kim", MemberStatus.BLACK);
-        member2 = new Member(UUID.randomUUID(), "Park", MemberStatus.BLACK);
-        voucher1 = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
-        voucher2 = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(10000));
+        member1 = new Member(UlidCreator.getUlid().toString(), "Kim", MemberStatus.BLACK);
+        member2 = new Member(UlidCreator.getUlid().toString(), "Park", MemberStatus.BLACK);
+        voucher1 = new PercentAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.PERCENT, new DiscountValue(10));
+        voucher2 = new FixedAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.FIXED, new DiscountValue(10000));
         memberStoreRepository.insert(member1);
         memberStoreRepository.insert(member2);
         voucherStoreRepository.insert(voucher1);
@@ -57,7 +57,7 @@ public class JdbcWalletRepositoryTest {
     @DisplayName("Wallet을 생성할 수 있다. - 성공")
     void insert_Wallet_EqualsNewWallet() {
         //given
-        Wallet wallet = new Wallet(UUID.randomUUID(), voucher1, member1);
+        Wallet wallet = new Wallet(UlidCreator.getUlid().toString(), voucher1, member1);
 
         //when
         walletStoreRepository.insert(wallet);
@@ -72,7 +72,7 @@ public class JdbcWalletRepositoryTest {
     @DisplayName("id를 이용해 Wallet을 조회할 수 있다. - 성공")
     void findById_WalletID_EqualsFindWallet() {
         //given
-        Wallet wallet = new Wallet(UUID.randomUUID(), voucher1, member1);
+        Wallet wallet = new Wallet(UlidCreator.getUlid().toString(), voucher1, member1);
         walletStoreRepository.insert(wallet);
 
         //when
@@ -86,13 +86,13 @@ public class JdbcWalletRepositoryTest {
     @DisplayName("회원Id를 이용하여 가지고 있는 Wallet 리스트를 반환할 수 있다. - 성공")
     void findAllByMemberId_MemberId_Success() {
         //given
-        Wallet wallet1 = new Wallet(UUID.randomUUID(), voucher1, member1);
-        Wallet wallet2 = new Wallet(UUID.randomUUID(), voucher2, member1);
+        Wallet wallet1 = new Wallet(UlidCreator.getUlid().toString(), voucher1, member1);
+        Wallet wallet2 = new Wallet(UlidCreator.getUlid().toString(), voucher2, member1);
         walletStoreRepository.insert(wallet1);
         walletStoreRepository.insert(wallet2);
 
         //when
-        List<Wallet> walletList = walletReaderRepository.findAllByMemberId(member1.getMemberUUID());
+        List<Wallet> walletList = walletReaderRepository.findAllByMemberId(member1.getMemberId());
 
         //then
         assertThat(walletList.size()).isEqualTo(2);
@@ -103,8 +103,8 @@ public class JdbcWalletRepositoryTest {
     @DisplayName("바우처Id를 이용하여 가지고 있는 Wallet 리스트를 반환할 수 있다. - 성공")
     void findAllByVoucherId_VoucherId_Success() {
         //given
-        Wallet wallet1 = new Wallet(UUID.randomUUID(), voucher1, member1);
-        Wallet wallet2 = new Wallet(UUID.randomUUID(), voucher2, member1);
+        Wallet wallet1 = new Wallet(UlidCreator.getUlid().toString(), voucher1, member1);
+        Wallet wallet2 = new Wallet(UlidCreator.getUlid().toString(), voucher2, member1);
         walletStoreRepository.insert(wallet1);
         walletStoreRepository.insert(wallet2);
 
@@ -120,7 +120,7 @@ public class JdbcWalletRepositoryTest {
     @DisplayName("등록된 Wallet을 삭제할 수 있다. - 성공")
     void delete_VoucherId_Success() {
         //given
-        Wallet wallet = new Wallet(UUID.randomUUID(), voucher1, member1);
+        Wallet wallet = new Wallet(UlidCreator.getUlid().toString(), voucher1, member1);
         walletStoreRepository.insert(wallet);
 
         //when
