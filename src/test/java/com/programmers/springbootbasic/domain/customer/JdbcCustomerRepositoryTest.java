@@ -23,10 +23,10 @@ class JdbcCustomerRepositoryTest {
         // given
         Customer customer = new Customer(UUID.randomUUID(), "test@gmail.com", "test");
         // when
-        Optional<Customer> save = repository.save(customer);
+        Optional<Customer> result = repository.save(customer);
 
         // then
-        assertThat(save).isPresent();
+        assertThat(result).isPresent();
     }
 
     @Test
@@ -36,8 +36,8 @@ class JdbcCustomerRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "test@gmail.com", "test");
         repository.save(customer);
         // when
-        Optional<Customer> byEmail = repository.findByEmail(customer.getEmail());
+        Optional<Customer> result = repository.findByEmail(customer.getEmail());
         // then
-        assertThat(byEmail).isPresent();
+        assertThat(result).isPresent();
     }
 }
