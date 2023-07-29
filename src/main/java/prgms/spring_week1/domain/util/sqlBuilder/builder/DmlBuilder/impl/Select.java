@@ -29,7 +29,7 @@ public class Select implements Dml {
             return this;
         }
 
-        public SelectBuilder selectAll(String... column) {
+        public SelectBuilder selectAll() {
             selectBuilder.append("SELECT *");
             return this;
         }
