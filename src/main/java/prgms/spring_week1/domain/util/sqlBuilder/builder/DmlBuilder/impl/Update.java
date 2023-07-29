@@ -1,11 +1,11 @@
 package prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl;
 
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.DmlBuilder;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Dml;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.conditionBuilder.Where;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.tableBuilder.Set;
 import prgms.spring_week1.domain.util.type.TableType;
 
-public class Update implements DmlBuilder {
+public class Update implements Dml {
     private StringBuilder update;
 
     public Update(StringBuilder updateBuilder) {

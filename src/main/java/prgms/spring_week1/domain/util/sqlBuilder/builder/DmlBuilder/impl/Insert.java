@@ -1,11 +1,11 @@
 package prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl;
 
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.DmlBuilder;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Dml;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.tableBuilder.Column;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.tableBuilder.Values;
 import prgms.spring_week1.domain.util.type.TableType;
 
-public class Insert implements DmlBuilder {
+public class Insert implements Dml {
     private StringBuilder insert;
 
     public Insert(StringBuilder insertBuilder) {

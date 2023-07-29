@@ -1,13 +1,13 @@
 package prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl;
 
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.DmlBuilder;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Dml;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.conditionBuilder.Order;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.conditionBuilder.Where;
 import prgms.spring_week1.domain.util.type.TableType;
 
 import static prgms.spring_week1.domain.util.sqlBuilder.LastIndexLength.INVALID_LAST_COMMA;
 
-public class Select implements DmlBuilder {
+public class Select implements Dml {
     private StringBuilder select;
 
     public Select(StringBuilder selectBuilder) {

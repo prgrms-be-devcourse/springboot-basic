@@ -1,10 +1,10 @@
 package prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl;
 
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.DmlBuilder;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Dml;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.conditionBuilder.Where;
 import prgms.spring_week1.domain.util.type.TableType;
 
-public class Delete implements DmlBuilder {
+public class Delete implements Dml {
     private StringBuilder delete;
 
     public Delete(StringBuilder deleteSqlBuilder) {
