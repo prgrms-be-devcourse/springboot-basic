@@ -1,5 +1,6 @@
 package org.programmers.VoucherManagement.voucher.infrastructure;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,6 @@ import org.programmers.VoucherManagement.voucher.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,8 +32,8 @@ public class MemoryVoucherRepositoryTest {
     @DisplayName("바우처를 메모리에 저장하는 테스트 - 성공")
     void save_Voucher_Success() {
         //given
-        Voucher fixedVoucher = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(1000));
-        Voucher percentVoucher = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
+        Voucher fixedVoucher = new FixedAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.FIXED, new DiscountValue(1000));
+        Voucher percentVoucher = new PercentAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.PERCENT, new DiscountValue(10));
 
         //when
         voucherRepository.insert(fixedVoucher);
@@ -63,10 +63,10 @@ public class MemoryVoucherRepositoryTest {
 
     private static Stream<Arguments> 저장된바우처를_모두조회_성공() {
         List<Voucher> voucherList = new ArrayList<>();
-        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(1000)));
-        voucherList.add(new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10)));
-        voucherList.add(new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(2000)));
-        voucherList.add(new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(20)));
+        voucherList.add(new FixedAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.FIXED, new DiscountValue(1000)));
+        voucherList.add(new PercentAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.PERCENT, new DiscountValue(10)));
+        voucherList.add(new FixedAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.FIXED, new DiscountValue(2000)));
+        voucherList.add(new PercentAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.PERCENT, new DiscountValue(20)));
         return Stream.of(Arguments.of(voucherList));
     }
 }

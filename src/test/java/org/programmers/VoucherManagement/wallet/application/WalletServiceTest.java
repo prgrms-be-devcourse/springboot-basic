@@ -1,5 +1,6 @@
 package org.programmers.VoucherManagement.wallet.application;
 
+import com.github.f4b6a3.ulid.UlidCreator;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +23,6 @@ import org.springframework.test.context.ActiveProfiles;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -119,12 +119,12 @@ public class WalletServiceTest {
     }
 
     private void setUpWalletServiceTest() {
-        member1 = new Member(UUID.randomUUID(), "Kim", MemberStatus.BLACK);
-        member2 = new Member(UUID.randomUUID(), "Park", MemberStatus.BLACK);
-        voucher1 = new PercentAmountVoucher(UUID.randomUUID(), DiscountType.PERCENT, new DiscountValue(10));
-        voucher2 = new FixedAmountVoucher(UUID.randomUUID(), DiscountType.FIXED, new DiscountValue(10000));
-        wallet1 = new Wallet(UUID.randomUUID(), voucher1, member1);
-        wallet2 = new Wallet(UUID.randomUUID(), voucher1, member2);
+        member1 = new Member(UlidCreator.getUlid().toString(), "Kim", MemberStatus.BLACK);
+        member2 = new Member(UlidCreator.getUlid().toString(), "Park", MemberStatus.BLACK);
+        voucher1 = new PercentAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.PERCENT, new DiscountValue(10));
+        voucher2 = new FixedAmountVoucher(UlidCreator.getUlid().toString(), DiscountType.FIXED, new DiscountValue(10000));
+        wallet1 = new Wallet(UlidCreator.getUlid().toString(), voucher1, member1);
+        wallet2 = new Wallet(UlidCreator.getUlid().toString(), voucher1, member2);
         memberStoreRepository.insert(member1);
         memberStoreRepository.insert(member2);
         voucherStoreRepository.insert(voucher1);
