@@ -2,5 +2,8 @@ package org.prgrms.kdt.voucher.controller.dto;
 
 import org.prgrms.kdt.voucher.domain.VoucherType;
 
-public record CreateVoucherControllerRequest(VoucherType voucherType, double discountAmount) {
+import javax.validation.constraints.NotNull;
+
+public record CreateVoucherControllerRequest(@NotNull VoucherType voucherType,
+                                             @NotNull double discountAmount) {
 }

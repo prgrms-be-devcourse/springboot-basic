@@ -10,6 +10,7 @@ import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.UUID;
 
 @RequestMapping("/api/vouchers")
@@ -24,7 +25,7 @@ public class VoucherApiController {
     }
 
     @PostMapping
-    public ResponseEntity<VoucherResponse> create(@RequestBody CreateVoucherControllerRequest request) {
+    public ResponseEntity<VoucherResponse> create(@RequestBody @Valid CreateVoucherControllerRequest request) {
         VoucherResponse response = voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
         return ResponseEntity.ok(response);
     }
