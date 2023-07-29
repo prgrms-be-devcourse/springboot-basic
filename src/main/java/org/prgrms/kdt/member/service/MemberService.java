@@ -8,7 +8,9 @@ import org.prgrms.kdt.member.service.dto.MemberResponse;
 import org.prgrms.kdt.member.service.dto.MemberResponses;
 import org.prgrms.kdt.member.service.mapper.ServiceMemberMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional(readOnly = true)
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
@@ -19,6 +21,7 @@ public class MemberService {
         this.mapper = mapper;
     }
 
+    @Transactional
     public MemberResponse createMember(CreateMemberRequest request) {
         Member member = mapper.convertMember(request);
         return new MemberResponse(memberRepository.insert(member));

@@ -23,7 +23,7 @@ public class VoucherViewController {
     }
 
     @GetMapping("/new")
-    public String save() {
+    public String create() {
         return "voucher/voucher_create";
     }
 
@@ -47,7 +47,7 @@ public class VoucherViewController {
         return "voucher/vouchers";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteById(@PathVariable UUID id) {
         voucherService.deleteById(id);
         return "redirect:/view/vouchers";

@@ -11,12 +11,14 @@ import org.prgrms.kdt.wallet.service.dto.CreateWalletRequest;
 import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
 import org.prgrms.kdt.wallet.service.dto.WalletResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Transactional(readOnly = true)
+@Service
 public class WalletService {
     private final MemberRepository memberRepository;
     private final VoucherRepository voucherRepository;

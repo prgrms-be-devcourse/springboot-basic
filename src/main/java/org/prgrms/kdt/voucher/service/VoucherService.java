@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@Transactional(readOnly = true)
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
@@ -24,6 +25,7 @@ public class VoucherService {
         this.mapper = mapper;
     }
 
+    @Transactional
     public VoucherResponse createVoucher(CreateVoucherRequest request) {
         Voucher voucher = voucherRepository.insert(mapper.convertVoucher(request));
         return new VoucherResponse(voucher);

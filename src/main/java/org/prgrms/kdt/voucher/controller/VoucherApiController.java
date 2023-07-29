@@ -36,9 +36,9 @@ public class VoucherApiController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/type/{type}")
-    public ResponseEntity<VoucherResponses> findByType(@PathVariable VoucherType type) {
-        VoucherResponses response = voucherService.findByType(type);
+    @GetMapping("/type")
+    public ResponseEntity<VoucherResponses> findByType(@RequestParam VoucherType voucherType) {
+        VoucherResponses response = voucherService.findByType(voucherType);
         return ResponseEntity.ok(response);
     }
 
