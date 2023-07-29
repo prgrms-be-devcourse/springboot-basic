@@ -2,7 +2,6 @@ package com.tangerine.voucher_system.application.voucher.controller;
 
 import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.UpdateVoucherRequest;
-import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
 import com.tangerine.voucher_system.application.voucher.controller.mapper.VoucherControllerMapper;
 import com.tangerine.voucher_system.application.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -43,30 +41,27 @@ public class VoucherViewController {
         return "redirect:/vouchers";
     }
 
-    @GetMapping("")
+    @GetMapping
     public String voucherList(Model model) {
-        List<VoucherResponse> vouchers = voucherService.findVouchers()
-                .stream()
-                .map(VoucherControllerMapper.INSTANCE::resultToResponse)
-                .toList();
-        model.addAttribute("vouchers", vouchers);
+        model.addAttribute(
+                "vouchers",
+                VoucherControllerMapper.INSTANCE.resultsToResponses(voucherService.findVouchers()));
         return "voucher/vouchers";
     }
 
     @GetMapping("/id/{voucherId}")
     public String voucherById(@PathVariable("voucherId") UUID voucherId, Model model) {
-        VoucherResponse voucher = VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.findVoucherById(voucherId));
-        model.addAttribute("vouchers", voucher);
+        model.addAttribute(
+                "vouchers",
+                VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.findVoucherById(voucherId)));
         return "voucher/voucher-detail";
     }
 
     @GetMapping("/created/{createdAt}")
     public String voucherByCreatedAt(@PathVariable("createdAt") LocalDate createdAt, Model model) {
-        List<VoucherResponse> vouchers = voucherService.findVoucherByCreatedAt(createdAt)
-                .stream()
-                .map(VoucherControllerMapper.INSTANCE::resultToResponse)
-                .toList();
-        model.addAttribute("vouchers", vouchers);
+        model.addAttribute(
+                "vouchers",
+                VoucherControllerMapper.INSTANCE.resultsToResponses(voucherService.findVoucherByCreatedAt(createdAt)));
         return "voucher/vouchers";
     }
 

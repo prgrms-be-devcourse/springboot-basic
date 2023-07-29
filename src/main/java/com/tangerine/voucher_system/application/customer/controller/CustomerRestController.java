@@ -6,6 +6,7 @@ import com.tangerine.voucher_system.application.customer.controller.dto.UpdateCu
 import com.tangerine.voucher_system.application.customer.controller.mapper.CustomerControllerMapper;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.CustomerService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,50 +23,45 @@ public class CustomerRestController {
         this.customerService = customerService;
     }
 
-    @PostMapping("")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerResponse> registerCustomer(@RequestBody CreateCustomerRequest createCustomerRequest) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.createCustomer(CustomerControllerMapper.INSTANCE.requestToParam(createCustomerRequest))));
     }
     
-    @PatchMapping("")
-    public ResponseEntity<CustomerResponse> updateCustomer(@RequestBody UpdateCustomerRequest updateCustomerRequest) {
+    @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomerResponse> modifyCustomer(@RequestBody UpdateCustomerRequest updateCustomerRequest) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.updateCustomer(CustomerControllerMapper.INSTANCE.requestToParam(updateCustomerRequest))));
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<CustomerResponse>> customerList() {
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CustomerResponse>> getCustomerList(@RequestParam(name = "isBlack", defaultValue = "false") boolean isBlack) {
         return ResponseEntity.ok(
-                CustomerControllerMapper.INSTANCE.resultsToResponses(customerService.findAllCustomers())
+                CustomerControllerMapper.INSTANCE.resultsToResponses(
+                        isBlack ? customerService.findBlackCustomers() : customerService.findAllCustomers()
+                )
         );
     }
 
-    @GetMapping("/black")
-    public ResponseEntity<List<CustomerResponse>> blackCustomerList() {
-        return ResponseEntity.ok(
-                CustomerControllerMapper.INSTANCE.resultsToResponses(customerService.findBlackCustomers())
-        );
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerResponse> customerById(@PathVariable("id") UUID customerId) {
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomerResponse> getCustomerById(@PathVariable("id") UUID customerId) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.findCustomerById(customerId)));
     }
     
-    @GetMapping("/name")
-    public ResponseEntity<CustomerResponse> customerByName(@RequestParam(name = "name") Name name) {
+    @GetMapping(path = "/name/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomerResponse> getCustomerByName(@PathVariable(name = "name") String name) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
-                        customerService.findCustomerByName(name)));
+                        customerService.findCustomerByName(new Name(name))));
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<CustomerResponse> unregisterCustomerById(@RequestParam(name = "id") UUID customerId) {
+    @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CustomerResponse> unregisterCustomerById(@PathVariable(name = "id") UUID customerId) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultToResponse(
                         customerService.deleteCustomerById(customerId)));

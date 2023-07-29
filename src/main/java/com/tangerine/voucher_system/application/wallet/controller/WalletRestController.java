@@ -8,6 +8,7 @@ import com.tangerine.voucher_system.application.wallet.controller.dto.CreateWall
 import com.tangerine.voucher_system.application.wallet.controller.dto.UpdateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.controller.mapper.WalletControllerMapper;
 import com.tangerine.voucher_system.application.wallet.service.WalletService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,29 +25,29 @@ public class WalletRestController {
         this.walletService = walletService;
     }
 
-    @PostMapping("")
-    public ResponseEntity<UUID> createWallet(@RequestBody CreateWalletRequest request) {
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UUID> addWallet(@RequestBody CreateWalletRequest request) {
         return ResponseEntity.ok(walletService.createWallet(WalletControllerMapper.INSTANCE.requestToParam(request)));
     }
 
-    @PatchMapping("")
-    public ResponseEntity<UUID> updateWallet(@RequestBody UpdateWalletRequest request) {
+    @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UUID> modifyWallet(@RequestBody UpdateWalletRequest request) {
         return ResponseEntity.ok(walletService.updateWallet(WalletControllerMapper.INSTANCE.requestToParam(request)));
     }
 
-    @DeleteMapping("")
+    @DeleteMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UUID> deleteWalletById(@RequestParam(name = "id") UUID walletId) {
         return ResponseEntity.ok(walletService.deleteWalletById(walletId));
     }
 
-    @GetMapping("/customer")
-    public ResponseEntity<List<VoucherResponse>> voucherListOfCustomer(@RequestParam(name = "id") UUID customerId) {
+    @GetMapping(path = "/customer", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<VoucherResponse>> getVoucherListOfCustomer(@RequestParam(name = "id") UUID customerId) {
         return ResponseEntity.ok(
                 VoucherControllerMapper.INSTANCE.resultsToResponses(walletService.findVouchersByCustomerId(customerId)));
     }
 
-    @GetMapping("/voucher")
-    public ResponseEntity<List<CustomerResponse>> customerListHasVoucher(@RequestParam(name = "id") UUID voucherId) {
+    @GetMapping(path = "/voucher", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<CustomerResponse>> getCustomerListHasVoucher(@RequestParam(name = "id") UUID voucherId) {
         return ResponseEntity.ok(
                 CustomerControllerMapper.INSTANCE.resultsToResponses(walletService.findCustomersByVoucherId(voucherId)));
     }
