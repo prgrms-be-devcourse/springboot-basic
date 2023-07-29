@@ -84,6 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByType(String voucherType) {
         Dml findByTypeSql = new Select.SelectBuilder()
+                .select("voucher_type","discount")
                 .from(TableType.voucher)
                 .where(where)
                 .build();
