@@ -5,13 +5,22 @@ import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
 @Builder
 @Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class VoucherCreateRequest {
 
-  private final UUID voucherId;
-  private final VoucherType voucherType;
-  private final long discountAmount;
+  private UUID voucherId;
+  private VoucherType voucherType;
+  private Long discountAmount;
+
+  public VoucherCreateRequest(VoucherType voucherType, Long discountAmount) {
+    this.voucherType = voucherType;
+    this.discountAmount = discountAmount;
+  }
 }

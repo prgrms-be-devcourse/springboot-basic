@@ -66,4 +66,12 @@ public class VoucherService {
           + voucher.getDiscountAmount());
     }
   }
+
+  @Transactional(readOnly = true)
+  public VoucherResponse getVoucher(String voucherId) {
+    Voucher foundVoucher = voucherRepository.findById(UUID.fromString(voucherId))
+        .orElseThrow(IllegalArgumentException::new);
+
+    return voucherMapper.voucherToResponse(foundVoucher);
+  }
 }
