@@ -5,6 +5,7 @@ import com.example.commandlineapplication.domain.voucher.VoucherType;
 import com.example.commandlineapplication.domain.voucher.dto.mapper.VoucherMapper;
 import com.example.commandlineapplication.domain.voucher.dto.request.VoucherCreateRequest;
 import com.example.commandlineapplication.domain.voucher.service.VoucherFactory;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -93,6 +94,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
     String sql = "select * from voucher";
 
     return template.query(sql, rowMapper());
+  }
+
+  @Override
+  public List<Voucher> findVouchersByVoucherType(VoucherType voucherType) {
+    String type = voucherType.name();
+    String sql = "select * from voucher where voucher_type = :type";
+
+    return template.query(sql, Collections.singletonMap("type", type),
+        rowMapper());
   }
 
   @Override

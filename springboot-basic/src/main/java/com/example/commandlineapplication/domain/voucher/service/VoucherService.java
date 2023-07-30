@@ -58,6 +58,14 @@ public class VoucherService {
   }
 
   @Transactional(readOnly = true)
+  public List<VoucherResponse> getVouchersByVoucherType(VoucherType voucherType) {
+    return voucherRepository.findVouchersByVoucherType(voucherType)
+        .stream()
+        .map(voucherMapper::voucherToResponse)
+        .collect(Collectors.toList());
+  }
+
+  @Transactional(readOnly = true)
   public void printHistory() {
     List<VoucherResponse> vouchers = findVouchers();
 

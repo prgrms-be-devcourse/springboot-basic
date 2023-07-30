@@ -1,6 +1,7 @@
 package com.example.commandlineapplication.domain.voucher.repository;
 
 import com.example.commandlineapplication.domain.voucher.Voucher;
+import com.example.commandlineapplication.domain.voucher.VoucherType;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,5 +37,12 @@ public class VoucherMemoryRepository implements VoucherRepository {
   public void deleteById(UUID voucherId) {
     Voucher foundVoucher = findById(voucherId).orElseThrow(IllegalArgumentException::new);
     storage.remove(foundVoucher.getVoucherId());
+  }
+
+  @Override
+  public List<Voucher> findVouchersByVoucherType(VoucherType voucherType) {
+    return findVouchersByVoucherType(voucherType)
+        .stream()
+        .collect(Collectors.toList());
   }
 }
