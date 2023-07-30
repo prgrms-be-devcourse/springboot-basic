@@ -29,8 +29,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return List.copyOf(storage.values());
+    public List<Voucher> findAll(VoucherType voucherType) {
+        throw new RuntimeException("지원이 중지된 기능입니다.");
     }
 
     @Override

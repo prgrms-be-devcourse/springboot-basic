@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -59,8 +60,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return jdbcTemplate.query("select id, type, amount, created_at from voucher", voucherRowMapper);
+    public List<Voucher> findAll(VoucherType voucherType) {
+        StringBuilder query = new StringBuilder("SELECT id, type, amount, created_at FROM voucher WHERE 1 = 1");
+        ArrayList<String> queryArgs = new ArrayList<>();
+
+        if (voucherType != null){
+            query.append(" AND type = ?");
+            queryArgs.add(String.valueOf(voucherType.getDescripton()));
+        }
+        return jdbcTemplate.query(query.toString(), voucherRowMapper, queryArgs.toArray());
     }
 
     @Override

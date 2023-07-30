@@ -10,6 +10,7 @@ import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.wallet.dao.WalletCommandRepository;
 import org.prgrms.kdt.wallet.dao.WalletQueryRepository;
 import org.prgrms.kdt.wallet.domain.QueryWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
@@ -39,6 +40,8 @@ class WalletServiceTest {
     @Autowired
     WalletQueryRepository walletQueryRepository;
     @Autowired
+    WalletCommandRepository walletCommandRepository;
+    @Autowired
     MemberRepository memberRepository;
     @Autowired
     VoucherRepository voucherRepository;
@@ -59,7 +62,7 @@ class WalletServiceTest {
         UUID expectMemberId = UUID.fromString("9a3d5b3e-2d12-4958-9ef3-52d424485895");
         Member member = memberRepository.insert(new Member(expectMemberId, "giho", MemberStatus.COMMON));
         Voucher voucher = voucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0), LocalDateTime.now()));
-        CreateWalletRequest request = new CreateWalletRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
+        CreateWalletRequest request = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
 
         //when
         WalletResponse resultWallet = walletService.assignVoucherToCustomer(request);
@@ -75,7 +78,7 @@ class WalletServiceTest {
         //given
         Member member = memberRepository.insert(new Member(UUID.randomUUID(), "giho", MemberStatus.COMMON));
         Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
-        CreateWalletRequest request = new CreateWalletRequest(UUID.randomUUID(), member.getMemberId(), voucher.getVoucherId());
+        CreateWalletRequest request = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
 
         //when
         Exception exception = catchException(() -> walletService.assignVoucherToCustomer(request));
@@ -147,7 +150,7 @@ class WalletServiceTest {
         memberRepository.insert(member2);
         voucherRepository.insert(voucher1);
         voucherRepository.insert(voucher2);
-        walletQueryRepository.insert(wallet1);
-        walletQueryRepository.insert(wallet2);
+        walletCommandRepository.insert(wallet1);
+        walletCommandRepository.insert(wallet2);
     }
 }

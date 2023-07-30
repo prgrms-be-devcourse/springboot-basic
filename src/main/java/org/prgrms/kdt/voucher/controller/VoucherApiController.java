@@ -9,8 +9,10 @@ import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.UUID;
 
 @RequestMapping("/api/vouchers")
@@ -27,7 +29,14 @@ public class VoucherApiController {
     @PostMapping
     public ResponseEntity<VoucherResponse> create(@RequestBody @Valid CreateVoucherApiRequest request) {
         VoucherResponse response = voucherService.createVoucher(mapper.convertRequest(request));
-        return ResponseEntity.ok(response);
+
+        URI uri = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(response.voucherId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(response);
     }
 
     @GetMapping("/{id}")
@@ -36,15 +45,9 @@ public class VoucherApiController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/type")
-    public ResponseEntity<VoucherResponses> findByType(@RequestParam VoucherType voucherType) {
-        VoucherResponses response = voucherService.findByType(voucherType);
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping
-    public ResponseEntity<VoucherResponses> findAll() {
-        VoucherResponses response = voucherService.findAll();
+    public ResponseEntity<VoucherResponses> findAll(@RequestParam(required = false) VoucherType voucherType) {
+        VoucherResponses response = voucherService.findAll(voucherType);
         return ResponseEntity.ok(response);
     }
 

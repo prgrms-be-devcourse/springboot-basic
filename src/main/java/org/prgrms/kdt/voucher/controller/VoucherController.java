@@ -21,6 +21,6 @@ public class VoucherController {
     }
 
     public VoucherResponses findAll() {
-        return voucherService.findAll();
+        return voucherService.findAll(null);
     }
 }

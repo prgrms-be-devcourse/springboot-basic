@@ -42,7 +42,7 @@ public class VoucherViewController {
 
     @GetMapping
     public String findAll(Model model) {
-        VoucherResponses response = voucherService.findAll();
+        VoucherResponses response = voucherService.findAll(null);
         model.addAttribute("vouchers", response);
         return "voucher/vouchers";
     }

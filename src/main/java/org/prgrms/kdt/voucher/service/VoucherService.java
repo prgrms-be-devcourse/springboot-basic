@@ -31,8 +31,8 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
-    public VoucherResponses findAll() {
-        return VoucherResponses.of(voucherRepository.findAll());
+    public VoucherResponses findAll(VoucherType voucherType) {
+        return VoucherResponses.of(voucherRepository.findAll(voucherType));
     }
 
     public VoucherDetailResponse findById(UUID id) {

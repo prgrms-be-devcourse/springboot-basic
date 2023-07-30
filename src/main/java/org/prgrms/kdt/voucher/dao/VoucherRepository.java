@@ -12,7 +12,7 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
-    List<Voucher> findAll();
+    List<Voucher> findAll(VoucherType voucherType);
 
     void deleteById(UUID id);
 
