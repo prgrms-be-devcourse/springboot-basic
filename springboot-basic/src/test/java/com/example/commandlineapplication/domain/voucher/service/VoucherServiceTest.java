@@ -101,14 +101,14 @@ class VoucherServiceTest {
         VoucherCreateRequest.builder()
             .voucherId(UUID.randomUUID())
             .voucherType(VoucherType.PERCENT)
-            .discountAmount(10)
+            .discountAmount(10L)
             .build());
 
     Voucher voucher2 = voucherFactory.create(
         VoucherCreateRequest.builder()
             .voucherId(UUID.randomUUID())
             .voucherType(VoucherType.FIXED)
-            .discountAmount(10)
+            .discountAmount(10L)
             .build());
 
     List<Voucher> voucherList = new ArrayList<>();
@@ -138,7 +138,7 @@ class VoucherServiceTest {
         VoucherCreateRequest.builder()
             .voucherId(UUID.randomUUID())
             .voucherType(VoucherType.PERCENT)
-            .discountAmount(10)
+            .discountAmount(10L)
             .build());
 
     given(voucherRepository.findById(any())).willReturn(Optional.of(voucher));
