@@ -1,9 +1,9 @@
 package com.programmers.voucher.stream.voucher;
 
+import com.programmers.voucher.domain.enums.VoucherType;
 import com.programmers.voucher.domain.voucher.FixedAmountVoucher;
 import com.programmers.voucher.domain.voucher.PercentDiscountVoucher;
 import com.programmers.voucher.domain.voucher.Voucher;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -13,14 +13,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class JdbcVoucherStream implements VoucherStream{
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    @Value("${name.voucher.fixed-amount-voucher}")
-    private String fixedAmountVoucher;
-    @Value("${name.voucher.percent-discount-voucher}")
-    private String percentDiscountVoucher;
 
     public JdbcVoucherStream(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -99,18 +94,21 @@ public class JdbcVoucherStream implements VoucherStream{
 
     private  Voucher voucherRowMapper(ResultSet resultSet) throws SQLException {
         String voucherId = resultSet.getString("voucher_id");
-        String voucherType = resultSet.getString("type");
+        String stringVoucherType = resultSet.getString("type");
+        VoucherType voucherType = VoucherType.decideVoucherType(stringVoucherType).orElseThrow(
+                () -> new IllegalStateException("만족하지 않는 데이터가 있습니다.")
+        );
         Integer amount = resultSet.getInt("amount");
         Integer rate = resultSet.getInt("rate");
-
-        if (Objects.equals(fixedAmountVoucher, voucherType)) {
-            return new FixedAmountVoucher(voucherId, amount);
+        switch (voucherType) {
+            case FIXED ->{
+                return new FixedAmountVoucher(voucherId, amount);
+            }
+            case PERCENT -> {
+                return new PercentDiscountVoucher(voucherId, rate);
+            }
+            default -> throw new IllegalStateException("만족하지 않는 데이터가 있습니다.");
         }
-
-        if (Objects.equals(percentDiscountVoucher, voucherType) ){
-            return new PercentDiscountVoucher(voucherId, rate);
-        }
-        throw new IllegalStateException("만족하지 않는 데이터가 있습니다.");
     }
 
 }

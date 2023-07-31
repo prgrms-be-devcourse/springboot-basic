@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="../static/css/bootstrap.min.css"
+              th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <title>Main Page</title>
+</head>
+<body>
+<h1> Welcome To Voucher Application</h1>
+<button type="button" class="btn btn-primary"
+        onclick="location.href='/voucher/list.html'"
+        th:onclick="|location.href='@{/vouchers}'|">Voucher</button>
+</body>
+</html>

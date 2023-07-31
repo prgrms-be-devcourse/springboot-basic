@@ -3,6 +3,7 @@ package com.programmers.voucher.domain.voucher;
 import com.programmers.voucher.domain.enums.VoucherType;
 import com.programmers.voucher.stream.voucher.VoucherStream;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 
 import java.util.UUID;
 
@@ -13,6 +14,25 @@ public class VoucherFactory {
 
     public VoucherFactory(VoucherStream voucherStream) {
         this.voucherStream = voucherStream;
+    }
+
+    public String create(Integer discount, String type, Model model) {
+        if ("FixedAmountVoucher".equals(type)) {
+            FixedAmountVoucher voucher = new FixedAmountVoucher(UUID.randomUUID().toString().substring(0, 7), discount);
+            voucherStream.save(voucher);
+            model.addAttribute("voucher", voucher);
+            return "redirect:/vouchers/" + voucher.getVoucherId();
+        } else if ("PercentDiscountVoucher".equals(type)) {
+            if (discount <= 0 || discount >= 100) {
+                return "redirect:/vouchers";
+            }
+            PercentDiscountVoucher voucher = new PercentDiscountVoucher(UUID.randomUUID().toString().substring(0, 7), discount);
+            voucherStream.save(voucher);
+            model.addAttribute("voucher", voucher);
+            return "redirect:/vouchers/" + voucher.getVoucherId();
+        } else {
+            return "redirect:/vouchers";
+        }
     }
 
     public Voucher createVoucher(VoucherType voucherType, Integer inputNumber) {

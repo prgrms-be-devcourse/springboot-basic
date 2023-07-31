@@ -11,16 +11,18 @@ public interface VoucherStream {
     Map<String, Voucher> findAll();
 
     default Voucher findById(String voucherId) {
-        return null;
+        throw new UnsupportedOperationException("지원하지 않는 기능입니다.");
     }
 
     default Voucher update(Voucher voucher) {
-        return null;
+        throw new UnsupportedOperationException("지원하지 않는 기능입니다.");
     }
 
     default void deleteById(String voucherId) {
+        throw new UnsupportedOperationException("지원하지 않는 기능입니다.");
     }
 
     default void deleteAll() {
+        throw new UnsupportedOperationException("지원하지 않는 기능입니다.");
     }
 }

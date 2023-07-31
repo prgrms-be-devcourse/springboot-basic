@@ -40,6 +40,16 @@ public class PercentDiscountVoucher implements Voucher {
         this.rate = updateAmount;
     }
 
+    @Override
+    public long getDiscount() {
+        return this.rate;
+    }
+
+    @Override
+    public String getType() {
+        return "PercentDiscountVoucher";
+    }
+
     private void validateRate(long rate) {
         if (rate < 0 || rate >= 100) {
             throw new IllegalArgumentException("할인률은 0 초과 100미만 이어야합니다.");

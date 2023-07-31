@@ -60,8 +60,10 @@ class JdbcVoucherStreamTest {
         Voucher findVoucher = voucherMap.get(voucherId);
         String actualId = findVoucher.getVoucherId();
 
-        assertThat(actualId).isSameAs("skdodoll");
-        assertThat(findVoucher).isInstanceOf(FixedAmountVoucher.class);
+        assertAll(
+                () -> assertThat(actualId).isSameAs("skdodoll"),
+                () -> assertThat(findVoucher).isInstanceOf(FixedAmountVoucher.class)
+        );
 
     }
 

@@ -6,4 +6,8 @@ public interface Voucher {
     long discount(long originalPrice);
 
     void update(long updateAmount);
+
+    long getDiscount();
+
+    String getType();
 }
