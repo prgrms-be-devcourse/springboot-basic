@@ -22,8 +22,9 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
-@Repository
+
 @Primary
+@Repository
 @RequiredArgsConstructor
 public class VoucherJdbcRepository implements VoucherRepository {
 
