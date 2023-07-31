@@ -31,14 +31,7 @@ public class VoucherService {
         inputDiscount);
     Voucher voucher = voucherFactory.create(voucherCreateRequest);
 
-    save(voucher);
-  }
-
-  public Voucher save(Voucher voucher) {
-    LOG.info(
-        "Voucher가 저장되었습니다. ID : " + voucher.getVoucherId() + " type : " + voucher.getVoucherType()
-            .name());
-    return voucherRepository.insert(voucher);
+    voucherRepository.insert(voucher);
   }
 
   @Transactional
