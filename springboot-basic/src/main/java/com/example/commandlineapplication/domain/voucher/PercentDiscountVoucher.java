@@ -18,11 +18,11 @@ public class PercentDiscountVoucher extends Voucher {
 
   @Override
   public double discountedPrice(long price) {
-    checkDiscountPercent();
+    validateDiscountPercent();
     return price - price * (discountPercent / MAX_PERCENT);
   }
 
-  private void checkDiscountPercent() {
+  private void validateDiscountPercent() {
     if (discountPercent > MAX_PERCENT || discountPercent < MIN_PERCENT) {
       throw new IllegalArgumentException("할인율 범위를 확인해주세요.");
     }

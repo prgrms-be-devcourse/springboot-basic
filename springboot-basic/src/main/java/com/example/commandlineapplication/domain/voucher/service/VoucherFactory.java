@@ -28,12 +28,12 @@ public class VoucherFactory {
     switch (voucherType) {
       case FIXED:
         LOG.info("FixedAmountVoucher가 생성되었습니다.");
-        checkFixedAmount(amount);
+        validateFixedAmount(amount);
         return new FixedAmountVoucher(voucherId, amount);
 
       case PERCENT:
         LOG.info("PercentDiscountVoucher가 생성되었습니다.");
-        checkPercentAmount(amount);
+        validatePercentAmount(amount);
         return new PercentDiscountVoucher(voucherId, amount);
 
       default:
@@ -42,14 +42,14 @@ public class VoucherFactory {
     }
   }
 
-  public void checkPercentAmount(long amount) {
+  public void validatePercentAmount(long amount) {
     if (amount < MIN_PERCENT || amount > MAX_PERCENT) {
       LOG.warn("amount 범위를 확인해주세요.");
       throw new IllegalArgumentException("amount 범위를 확인해주세요.");
     }
   }
 
-  public void checkFixedAmount(long amount) {
+  public void validateFixedAmount(long amount) {
     if (amount < MIN_FIXED_AMOUNT) {
       LOG.warn("amount는 음수가 될 수 없습니다.");
       throw new IllegalArgumentException("amount 범위를 확인해주세요.");

@@ -11,8 +11,8 @@ public class Customer {
   private String customerEmail;
 
   public Customer(UUID customerId, String customerName, String customerEmail) {
-    checkCustomerName();
-    checkCustomerEmail();
+    validateCustomerName();
+    validateCustomerEmail();
     this.customerId = customerId;
     this.customerName = customerName;
     this.customerEmail = customerEmail;
@@ -30,7 +30,7 @@ public class Customer {
     return this.customerEmail;
   }
 
-  private void checkCustomerName() {
+  private void validateCustomerName() {
     if (this.customerName.isBlank()) {
       throw new IllegalArgumentException("이름은 빈칸이 될 수 없습니다.");
     }
@@ -39,7 +39,7 @@ public class Customer {
     }
   }
 
-  private void checkCustomerEmail() {
+  private void validateCustomerEmail() {
     if (this.customerEmail.isBlank()) {
       throw new RuntimeException("이메일은 빈칸이 될 수 없습니다.");
     }

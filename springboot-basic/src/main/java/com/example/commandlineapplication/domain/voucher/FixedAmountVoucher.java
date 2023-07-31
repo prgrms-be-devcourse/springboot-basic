@@ -26,14 +26,14 @@ public class FixedAmountVoucher extends Voucher {
   }
 
   public double discountedPrice(long price) {
-    checkDiscountedPrice(price);
+    validateDiscountedPrice(price);
     if (price < discount) {
       return MIN_DISCOUNTED_PRICE;
     }
     return price - discount;
   }
 
-  private void checkDiscountedPrice(long price) {
+  private void validateDiscountedPrice(long price) {
     if (price < MIN_DISCOUNTED_PRICE) {
       throw new IllegalArgumentException("고정 할인 범위를 확인해주세요.");
     }
