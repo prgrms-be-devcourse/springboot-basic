@@ -1,8 +1,8 @@
 package org.prgrms.kdt.voucher.controller;
 
+import org.prgrms.kdt.voucher.controller.dto.SearchApiRequest;
 import org.prgrms.kdt.voucher.controller.dto.CreateVoucherApiRequest;
 import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
-import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
@@ -46,8 +46,8 @@ public class VoucherApiController {
     }
 
     @GetMapping
-    public ResponseEntity<VoucherResponses> findAll(@RequestParam(required = false) VoucherType voucherType) {
-        VoucherResponses response = voucherService.findAll(voucherType);
+    public ResponseEntity<VoucherResponses> findAllBy(@ModelAttribute @Valid SearchApiRequest request) {
+        VoucherResponses response = voucherService.findAll(mapper.convertRequest(request));
         return ResponseEntity.ok(response);
     }
 

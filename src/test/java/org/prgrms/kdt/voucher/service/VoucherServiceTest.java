@@ -6,10 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.voucher.dao.JdbcVoucherRepository;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
-import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
-import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
-import org.prgrms.kdt.voucher.service.dto.CreateVoucherRequest;
+import org.prgrms.kdt.voucher.service.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -58,7 +55,8 @@ class VoucherServiceTest {
     @DisplayName("바우처 전체 조회하여 사이즈 확인")
     void findAll_correctSize() {
         //when
-        VoucherResponses vouchers = voucherService.findAll();
+        SearchRequest searchRequest = new SearchRequest(1, 10, null);
+        VoucherResponses vouchers = voucherService.findAll(searchRequest);
 
         //then
         int resultSize = vouchers.vouchers().size();
@@ -88,7 +86,8 @@ class VoucherServiceTest {
         voucherService.deleteById(uuid);
 
         //then
-        int size = jdbcVoucherRepository.findAll().size();
+        SearchRequest searchRequest = new SearchRequest(1, 10, null);
+        int size = jdbcVoucherRepository.findAll(searchRequest).size();
         assertThat(size).isEqualTo(2);
     }
 

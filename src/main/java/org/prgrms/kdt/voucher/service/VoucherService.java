@@ -4,10 +4,7 @@ import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.service.dto.CreateVoucherRequest;
-import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
-import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
-import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
+import org.prgrms.kdt.voucher.service.dto.*;
 import org.prgrms.kdt.voucher.service.mapper.ServiceVoucherMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +28,8 @@ public class VoucherService {
         return new VoucherResponse(voucher);
     }
 
-    public VoucherResponses findAll(VoucherType voucherType) {
-        return VoucherResponses.of(voucherRepository.findAll(voucherType));
+    public VoucherResponses findAll(SearchRequest request) {
+        return VoucherResponses.of(voucherRepository.findAll(request));
     }
 
     public VoucherDetailResponse findById(UUID id) {

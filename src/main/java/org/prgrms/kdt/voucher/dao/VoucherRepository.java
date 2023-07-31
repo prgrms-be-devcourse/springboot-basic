@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.dao;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.service.dto.SearchRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +13,7 @@ public interface VoucherRepository {
 
     Voucher insert(Voucher voucher);
 
-    List<Voucher> findAll(VoucherType voucherType);
+    List<Voucher> findAll(SearchRequest searchRequest);
 
     void deleteById(UUID id);
 

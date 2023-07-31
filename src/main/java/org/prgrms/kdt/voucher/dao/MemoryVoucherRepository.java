@@ -2,6 +2,7 @@ package org.prgrms.kdt.voucher.dao;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.service.dto.SearchRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +30,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll(VoucherType voucherType) {
+    public List<Voucher> findAll(SearchRequest searchRequest) {
         throw new RuntimeException("지원이 중지된 기능입니다.");
     }
 

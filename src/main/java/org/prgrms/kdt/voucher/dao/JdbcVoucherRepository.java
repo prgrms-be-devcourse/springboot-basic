@@ -4,6 +4,7 @@ import org.prgrms.kdt.global.exception.NotUpdateException;
 import org.prgrms.kdt.voucher.domain.DiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.service.dto.SearchRequest;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -60,14 +61,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll(VoucherType voucherType) {
+    public List<Voucher> findAll(SearchRequest searchRequest) {
         StringBuilder query = new StringBuilder("SELECT id, type, amount, created_at FROM voucher WHERE 1 = 1");
-        ArrayList<String> queryArgs = new ArrayList<>();
+        ArrayList<Object> queryArgs = new ArrayList<>();
 
+        VoucherType voucherType = searchRequest.getVoucherType();
         if (voucherType != null){
             query.append(" AND type = ?");
             queryArgs.add(String.valueOf(voucherType.getDescripton()));
         }
+
+        query.append(" LIMIT ?, ?");
+        queryArgs.add(searchRequest.getOffset());
+        queryArgs.add(searchRequest.getRecordSize());
         return jdbcTemplate.query(query.toString(), voucherRowMapper, queryArgs.toArray());
     }
 
