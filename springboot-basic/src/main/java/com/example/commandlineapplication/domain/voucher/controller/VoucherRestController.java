@@ -25,7 +25,7 @@ public class VoucherRestController {
 
   private final VoucherService voucherService;
 
-  @PostMapping(path = "/vouchers")
+  @PostMapping("/vouchers")
   public ResponseEntity<String> createVoucher(
       @Valid @RequestBody VoucherCreateRequest voucherCreateRequest) {
 
