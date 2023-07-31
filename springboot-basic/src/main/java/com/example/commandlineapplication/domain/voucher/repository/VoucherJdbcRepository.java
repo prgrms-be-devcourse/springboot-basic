@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Primary
+@RequiredArgsConstructor
 public class VoucherJdbcRepository implements VoucherRepository {
 
   private static final Logger LOG = LoggerFactory.getLogger(VoucherJdbcRepository.class);
@@ -30,13 +32,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
   private final NamedParameterJdbcTemplate template;
   private final VoucherFactory voucherFactory;
   private final VoucherMapper voucherMapper;
-
-  public VoucherJdbcRepository(NamedParameterJdbcTemplate template, VoucherFactory voucherFactory,
-      VoucherMapper voucherMapper) {
-    this.template = template;
-    this.voucherFactory = voucherFactory;
-    this.voucherMapper = voucherMapper;
-  }
 
   private RowMapper<Voucher> rowMapper() {
     return (resultSet, rowMap) -> {
