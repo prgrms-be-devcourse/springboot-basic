@@ -4,16 +4,14 @@ import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.service.dto.ServiceCreateVoucherRequest;
-import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
-import org.prgrms.kdt.voucher.service.dto.VoucherResponse;
-import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
+import org.prgrms.kdt.voucher.service.dto.*;
 import org.prgrms.kdt.voucher.service.mapper.ServiceVoucherMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+@Transactional(readOnly = true)
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
@@ -24,13 +22,14 @@ public class VoucherService {
         this.mapper = mapper;
     }
 
-    public VoucherResponse createVoucher(ServiceCreateVoucherRequest request) {
-        Voucher voucher = voucherRepository.insert(mapper.serviceDtoToVoucher(request));
+    @Transactional
+    public VoucherResponse createVoucher(CreateVoucherRequest request) {
+        Voucher voucher = voucherRepository.insert(mapper.convertVoucher(request));
         return new VoucherResponse(voucher);
     }
 
-    public VoucherResponses findAll() {
-        return VoucherResponses.of(voucherRepository.findAll());
+    public VoucherResponses findAll(SearchRequest request) {
+        return VoucherResponses.of(voucherRepository.findAll(request));
     }
 
     public VoucherDetailResponse findById(UUID id) {

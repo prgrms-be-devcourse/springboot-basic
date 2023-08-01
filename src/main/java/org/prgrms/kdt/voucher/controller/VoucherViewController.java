@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.voucher.controller.dto.CreateVoucherControllerRequest;
+import org.prgrms.kdt.voucher.controller.dto.CreateVoucherApiRequest;
+import org.prgrms.kdt.voucher.controller.dto.SearchApiRequest;
 import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
 import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
@@ -23,13 +24,13 @@ public class VoucherViewController {
     }
 
     @GetMapping("/new")
-    public String save() {
+    public String create() {
         return "voucher/voucher_create";
     }
 
     @PostMapping("/new")
-    public String create(CreateVoucherControllerRequest request) {
-        voucherService.createVoucher(mapper.controllerDtoToServiceDto(request));
+    public String create(CreateVoucherApiRequest request) {
+        voucherService.createVoucher(mapper.convertRequest(request));
         return "redirect:/view/vouchers";
     }
 
@@ -42,12 +43,13 @@ public class VoucherViewController {
 
     @GetMapping
     public String findAll(Model model) {
-        VoucherResponses response = voucherService.findAll();
+        SearchApiRequest request = new SearchApiRequest(1, 100, null);
+        VoucherResponses response = voucherService.findAll(mapper.convertRequest(request));
         model.addAttribute("vouchers", response);
         return "voucher/vouchers";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteById(@PathVariable UUID id) {
         voucherService.deleteById(id);
         return "redirect:/view/vouchers";

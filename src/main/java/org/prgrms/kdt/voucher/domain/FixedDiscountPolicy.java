@@ -11,7 +11,7 @@ public class FixedDiscountPolicy extends DiscountPolicy {
     }
 
     private void validate(double amount) {
-        if (amount < MIN_AMOUNT) throw new InvalidDiscountException("올바르지 않은 할인 금액입니다.");
+        if (amount <= MIN_AMOUNT) throw new InvalidDiscountException("올바르지 않은 할인 금액입니다.");
     }
 
     @Override

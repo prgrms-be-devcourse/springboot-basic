@@ -1,14 +1,14 @@
 package org.prgrms.kdt.wallet.service.dto;
 
-import org.prgrms.kdt.wallet.domain.JoinedWallet;
+import org.prgrms.kdt.wallet.domain.QueryWallet;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 public record JoinedWalletResponses(List<JoinedWalletResponse> wallets) {
 
-    public static JoinedWalletResponses of(List<JoinedWallet> joinedWallets) {
-        List<JoinedWalletResponse> walletsResponse = joinedWallets.stream().map(JoinedWalletResponse::new).collect(Collectors.toList());
+    public static JoinedWalletResponses of(List<QueryWallet> queryWallets) {
+        List<JoinedWalletResponse> walletsResponse = queryWallets.stream().map(JoinedWalletResponse::new).collect(Collectors.toList());
         return new JoinedWalletResponses(walletsResponse);
     }
 

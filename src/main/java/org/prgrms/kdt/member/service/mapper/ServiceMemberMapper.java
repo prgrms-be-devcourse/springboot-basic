@@ -1,18 +1,19 @@
 package org.prgrms.kdt.member.service.mapper;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.prgrms.kdt.global.Generator;
 import org.prgrms.kdt.member.domain.Member;
-import org.prgrms.kdt.member.service.dto.CreateMemberServiceRequest;
+import org.prgrms.kdt.member.service.dto.CreateMemberRequest;
+import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+@Component
+public class ServiceMemberMapper {
+    private final Generator generator;
 
-@Mapper(componentModel = "spring")
-public interface ServiceMemberMapper {
-    @Mapping(target = "memberId", expression = "java(createUUID())")
-    Member serviceRequestToMember(CreateMemberServiceRequest request);
+    public ServiceMemberMapper(Generator generator) {
+        this.generator = generator;
+    }
 
-    default UUID createUUID(){
-        return UUID.randomUUID();
+    public Member convertMember(CreateMemberRequest request){
+        return new Member(generator.generateId(), request.name(), request.status());
     }
 }

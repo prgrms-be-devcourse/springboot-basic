@@ -3,12 +3,12 @@ package org.prgrms.kdt;
 import org.prgrms.kdt.commendLine.Console;
 import org.prgrms.kdt.member.controller.MemberController;
 import org.prgrms.kdt.member.domain.MemberStatus;
-import org.prgrms.kdt.member.controller.dto.CreateMemberControllerRequest;
+import org.prgrms.kdt.member.controller.dto.CreateMemberApiRequest;
 import org.prgrms.kdt.voucher.controller.VoucherController;
+import org.prgrms.kdt.voucher.controller.dto.CreateVoucherApiRequest;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.voucher.controller.dto.CreateVoucherControllerRequest;
 import org.prgrms.kdt.wallet.controller.WalletController;
-import org.prgrms.kdt.wallet.controller.dto.CreateWalletControllerRequest;
+import org.prgrms.kdt.wallet.controller.dto.CreateWalletApiRequest;
 import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +32,7 @@ public class ViewManager {
     public void createVoucher() throws IOException {
         VoucherType voucherType = VoucherType.getTypeByNum(console.getVoucherTypes());
         double discountAmount = Double.parseDouble(console.getDiscountAmount());
-        voucherController.create(new CreateVoucherControllerRequest(voucherType, discountAmount));
+        voucherController.create(new CreateVoucherApiRequest(voucherType, discountAmount));
     }
 
     public void findAllVoucher() {
@@ -45,7 +45,7 @@ public class ViewManager {
 
     public void createMember() throws IOException {
         String memberName = console.getMemberName();
-        memberController.createMember(new CreateMemberControllerRequest(memberName, MemberStatus.COMMON));
+        memberController.createMember(new CreateMemberApiRequest(memberName, MemberStatus.COMMON));
     }
 
     public void findAllMember() {
@@ -55,7 +55,7 @@ public class ViewManager {
     public void assignVoucher() throws IOException {
         UUID memberUuid = console.getMemberId();
         UUID voucherUuid = console.getVoucherId();
-        walletController.createWallet(new CreateWalletControllerRequest(memberUuid, voucherUuid));
+        walletController.createWallet(new CreateWalletApiRequest(memberUuid, voucherUuid));
     }
 
     public void findVouchersByMember() throws IOException {
