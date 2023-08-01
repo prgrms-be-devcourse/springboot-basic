@@ -8,26 +8,26 @@
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body class="container-fluid">
-    <h1>Voucher Management</h1>
-    <h2>Add Voucher</h2>
-    <form th:action="@{/vouchers/create}" method="post">
+<h1>Voucher Management</h1>
+<h2>Add Voucher</h2>
+<form th:action="@{/vouchers/create}" method="post">
 
-        <div class="mb-3">
-            <label for="voucherType" class="form-label">Category</label>
-            <select id="voucherType" name="voucherType" class="form-select">
-                <option selected>Choose voucher type</option>
-                <option value="FIXED_AMOUNT">FIXED AMOUNT VOUCHER</option>
-                <option value="PERCENT_DISCOUNT">PERCENT DISCOUNT VOUCHER</option>
-            </select>
-        </div>
+    <div class="mb-3">
+        <label for="voucherType" class="form-label">Category</label>
+        <select id="voucherType" name="voucherType" class="form-select">
+            <option selected>Choose voucher type</option>
+            <option value="FIXED_AMOUNT">FIXED AMOUNT VOUCHER</option>
+            <option value="PERCENT_DISCOUNT">PERCENT DISCOUNT VOUCHER</option>
+        </select>
+    </div>
 
-        <div class="mb-3">
-            <label for="discountValue" class="form-label">Discount Value</label>
-            <input type="number" class="form-control" id="discountValue" name="discountValue">
-        </div>
+    <div class="mb-3">
+        <label for="discountValue" class="form-label">Discount Value</label>
+        <input type="number" class="form-control" id="discountValue" name="discountValue">
+    </div>
 
-        <button type="submit" class="btn btn-primary">Add Voucher</button>
+    <button type="submit" class="btn btn-primary">Add Voucher</button>
 
-    </form>
+</form>
 </body>
 </html>

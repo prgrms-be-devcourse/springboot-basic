@@ -3,21 +3,35 @@ package com.tangerine.voucher_system.application.voucher.service.mapper;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherParam;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface VoucherServiceMapper {
+@Component
+public class VoucherServiceMapper {
 
-    VoucherServiceMapper INSTANCE = Mappers.getMapper(VoucherServiceMapper.class);
+    public Voucher paramToDomain(VoucherParam voucherParam) {
+        return new Voucher(
+                voucherParam.voucherId(),
+                voucherParam.voucherType(),
+                voucherParam.discountValue(),
+                voucherParam.createdAt()
+        );
+    }
 
-    Voucher paramToDomain(VoucherParam voucherParam);
+    public VoucherResult domainToResult(Voucher domain) {
+        return new VoucherResult(
+                domain.voucherId(),
+                domain.voucherType(),
+                domain.discountValue(),
+                domain.createdAt()
+        );
+    }
 
-    VoucherResult domainToResult(Voucher domain);
-
-    List<VoucherResult> domainsToResults(List<Voucher> domains);
+    public List<VoucherResult> domainsToResults(List<Voucher> domains) {
+        return domains.stream()
+                .map(this::domainToResult)
+                .toList();
+    }
 
 }

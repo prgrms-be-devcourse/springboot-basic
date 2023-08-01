@@ -4,6 +4,7 @@ import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
+import com.tangerine.voucher_system.application.customer.service.mapper.CustomerServiceMapper;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import com.tangerine.voucher_system.application.global.exception.SqlException;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
@@ -11,9 +12,11 @@ import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.repository.JdbcVoucherRepository;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
+import com.tangerine.voucher_system.application.voucher.service.mapper.VoucherServiceMapper;
 import com.tangerine.voucher_system.application.wallet.repository.JdbcWalletRepository;
 import com.tangerine.voucher_system.application.wallet.service.dto.WalletParam;
 import com.tangerine.voucher_system.application.wallet.service.dto.WalletResult;
+import com.tangerine.voucher_system.application.wallet.service.mapper.WalletServiceMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,7 +40,8 @@ import static org.assertj.core.api.Assertions.catchException;
 
 @JdbcTest
 @ActiveProfiles("test")
-@Import({WalletService.class, JdbcWalletRepository.class, JdbcCustomerRepository.class, JdbcVoucherRepository.class})
+@Import({WalletService.class, JdbcWalletRepository.class, JdbcCustomerRepository.class, JdbcVoucherRepository.class,
+        CustomerServiceMapper.class, VoucherServiceMapper.class, WalletServiceMapper.class})
 class WalletServiceTest {
 
     @Autowired

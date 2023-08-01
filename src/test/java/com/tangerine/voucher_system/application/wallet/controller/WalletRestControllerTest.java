@@ -1,37 +1,31 @@
 package com.tangerine.voucher_system.application.wallet.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
+import com.tangerine.voucher_system.application.customer.controller.mapper.CustomerControllerMapper;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
-import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVoucherRequest;
-import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
+import com.tangerine.voucher_system.application.global.generator.IdGenerator;
+import com.tangerine.voucher_system.application.voucher.controller.mapper.VoucherControllerMapper;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
 import com.tangerine.voucher_system.application.wallet.controller.dto.CreateWalletRequest;
-import com.tangerine.voucher_system.application.wallet.controller.dto.UpdateWalletRequest;
-import com.tangerine.voucher_system.application.wallet.model.Wallet;
+import com.tangerine.voucher_system.application.wallet.controller.mapper.WalletControllerMapper;
 import com.tangerine.voucher_system.application.wallet.service.WalletService;
 import com.tangerine.voucher_system.application.wallet.service.dto.WalletParam;
 import com.tangerine.voucher_system.application.wallet.service.dto.WalletResult;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -45,37 +39,33 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
+@WebMvcTest(WalletRestController.class)
+@Import({WalletControllerMapper.class, VoucherControllerMapper.class, CustomerControllerMapper.class, IdGenerator.class})
 class WalletRestControllerTest {
 
-    @InjectMocks
-    WalletRestController controller;
-
-    @Mock
+    @MockBean
     WalletService service;
 
+    @Autowired
     MockMvc mockMvc;
-    ObjectMapper objectMapper;
 
-    @BeforeEach
-    void setup() {
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        objectMapper = new ObjectMapper();
-    }
+    @Autowired
+    ObjectMapper objectMapper;
 
     @ParameterizedTest
     @DisplayName("지갑 생성하면 성공한다.")
     @MethodSource("provideWallets")
     void createWallet_ParamWallet_CreateWallet(WalletResult result) throws Exception {
-        given(service.createWallet(any())).willReturn(result.walletId());
+        given(service.createWallet(any(WalletParam.class)))
+                .willReturn(result.walletId());
 
         mockMvc.perform(post("/api/v1/wallets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new CreateWalletRequest(result.voucherId(), result.customerId()))))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value(result.walletId().toString()));
+                .andExpect(jsonPath("$")
+                        .value(MessageFormat.format("{0} is created successfully.", result.walletId().toString())));
 
         verify(service, times(1)).createWallet(any());
     }
@@ -92,7 +82,8 @@ class WalletRestControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value(result.walletId().toString()));
+                .andExpect(jsonPath("$")
+                        .value(MessageFormat.format("{0} is updated successfully.", result.walletId().toString())));
 
         verify(service, times(1)).updateWallet(any());
     }
@@ -107,7 +98,7 @@ class WalletRestControllerTest {
                         .param("id", result.walletId().toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value(result.walletId().toString()));
+                .andExpect(jsonPath("$").value(result.walletId() + " is deleted successfully."));
 
         verify(service, times(1)).deleteWalletById(any());
     }

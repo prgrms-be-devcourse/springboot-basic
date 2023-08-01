@@ -1,28 +1,34 @@
 package com.tangerine.voucher_system.application.wallet.controller.mapper;
 
-import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
+import com.tangerine.voucher_system.application.global.generator.IdGenerator;
 import com.tangerine.voucher_system.application.wallet.controller.dto.CreateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.controller.dto.UpdateWalletRequest;
 import com.tangerine.voucher_system.application.wallet.service.dto.WalletParam;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface WalletControllerMapper {
+@Component
+public class WalletControllerMapper {
 
-    WalletControllerMapper INSTANCE = Mappers.getMapper(WalletControllerMapper.class);
+    private final IdGenerator idGenerator;
 
-    @Mapping(target = "walletId", expression = "java(java.util.UUID.randomUUID())")
-    WalletParam requestToParam(CreateWalletRequest request);
+    public WalletControllerMapper(IdGenerator idGenerator) {
+        this.idGenerator = idGenerator;
+    }
 
-    WalletParam requestToParam(UpdateWalletRequest request);
+    public WalletParam requestToParam(CreateWalletRequest request) {
+        return new WalletParam(
+                idGenerator.getUuid(),
+                request.voucherId(),
+                request.customerId()
+        );
+    }
 
-    @Named("getDiscountValue")
-    static double getDiscountValue(DiscountValue discountValue) {
-        return discountValue.value();
+    public WalletParam requestToParam(UpdateWalletRequest request) {
+        return new WalletParam(
+                request.walletId(),
+                request.voucherId(),
+                request.customerId()
+        );
     }
 
 }

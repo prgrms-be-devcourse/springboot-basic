@@ -1,14 +1,13 @@
 package com.tangerine.voucher_system.application.customer.service;
 
 import com.tangerine.voucher_system.application.customer.model.Name;
-import com.tangerine.voucher_system.application.customer.repository.CustomerRepository;
 import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerParam;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
+import com.tangerine.voucher_system.application.customer.service.mapper.CustomerServiceMapper;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
 import com.tangerine.voucher_system.application.global.exception.SqlException;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -26,7 +25,7 @@ import static org.assertj.core.api.Assertions.catchException;
 
 @JdbcTest
 @ActiveProfiles("test")
-@Import({CustomerService.class, JdbcCustomerRepository.class})
+@Import({CustomerService.class, JdbcCustomerRepository.class, CustomerServiceMapper.class})
 class CustomerServiceTest {
 
     @Autowired
@@ -36,14 +35,9 @@ class CustomerServiceTest {
     @DisplayName("블랙고객 리스트 반환 시 성공한다.")
     @MethodSource("provideBlackCustomerParams")
     void findBlackCustomers_ParamVoid_ReturnVoucherList(CustomerParam param) {
-
-        System.out.println(param.isBlack());
         service.createCustomer(param);
 
         List<CustomerResult> blackCustomers = service.findBlackCustomers();
-
-        System.out.println(blackCustomers);
-        System.out.println(service.findAllCustomers());
 
         assertThat(blackCustomers).isNotEmpty();
         assertThat(blackCustomers.get(0).isBlack()).isTrue();
@@ -96,10 +90,11 @@ class CustomerServiceTest {
         assertThat(exception).isInstanceOf(SqlException.class);
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("모든 고객을 리스트로 반환한다.")
-    void findAllCustomers_ParamVoid_ReturnCustomerList() {
-        customerParams.forEach(service::createCustomer);
+    @MethodSource("provideCustomerParams")
+    void findAllCustomers_ParamVoid_ReturnCustomerList(CustomerParam param) {
+        service.createCustomer(param);
 
         List<CustomerResult> customers = service.findAllCustomers();
 

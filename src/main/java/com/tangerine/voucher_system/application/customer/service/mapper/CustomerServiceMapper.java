@@ -1,24 +1,35 @@
 package com.tangerine.voucher_system.application.customer.service.mapper;
 
 import com.tangerine.voucher_system.application.customer.model.Customer;
-import com.tangerine.voucher_system.application.customer.service.CustomerService;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerParam;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface CustomerServiceMapper {
+@Component
+public class CustomerServiceMapper {
 
-    CustomerServiceMapper INSTANCE = Mappers.getMapper(CustomerServiceMapper.class);
+    public Customer paramToDomain(CustomerParam param) {
+        return new Customer(
+                param.customerId(),
+                param.name(),
+                param.isBlack()
+        );
+    }
 
-    Customer paramToDomain(CustomerParam param);
+    public CustomerResult domainToParam(Customer domain) {
+        return new CustomerResult(
+                domain.customerId(),
+                domain.name(),
+                domain.isBlack()
+        );
+    }
 
-    CustomerResult domainToParam(Customer domain);
-    
-    List<CustomerResult> domainsToResults(List<Customer> domains);
-    
+    public List<CustomerResult> domainsToResults(List<Customer> domains) {
+        return domains.stream()
+                .map(this::domainToParam)
+                .toList();
+    }
+
 }

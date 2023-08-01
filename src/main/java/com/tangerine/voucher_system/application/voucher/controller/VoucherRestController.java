@@ -6,7 +6,6 @@ import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherRe
 import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponses;
 import com.tangerine.voucher_system.application.voucher.controller.mapper.VoucherControllerMapper;
 import com.tangerine.voucher_system.application.voucher.service.VoucherService;
-import com.tangerine.voucher_system.application.voucher.service.mapper.VoucherServiceMapper;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,53 +18,47 @@ import java.util.UUID;
 public class VoucherRestController {
 
     private final VoucherService voucherService;
+    private final VoucherControllerMapper mapper;
 
-    public VoucherRestController(VoucherService voucherService) {
+    public VoucherRestController(VoucherService voucherService, VoucherControllerMapper mapper) {
         this.voucherService = voucherService;
+        this.mapper = mapper;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoucherResponse> addVoucher(@RequestBody CreateVoucherRequest request) {
-        return ResponseEntity.ok(
-                VoucherControllerMapper.INSTANCE.resultToResponse(
-                        voucherService.createVoucher(VoucherControllerMapper.INSTANCE.requestToParam(request)))
-        );
+        return ResponseEntity.ok(mapper.resultToResponse(
+                voucherService.createVoucher(mapper.requestToParam(request))));
     }
 
     @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoucherResponse> modifyVoucher(@RequestBody UpdateVoucherRequest request) {
-        return ResponseEntity.ok(
-                VoucherControllerMapper.INSTANCE.resultToResponse(
-                        voucherService.updateVoucher(VoucherControllerMapper.INSTANCE.requestToParam(request)))
-        );
+        return ResponseEntity.ok(mapper.resultToResponse(
+                voucherService.updateVoucher(mapper.requestToParam(request))));
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoucherResponses> voucherList() {
         return ResponseEntity.ok(
-                new VoucherResponses(VoucherControllerMapper.INSTANCE.resultsToResponses(voucherService.findVouchers()))
-        );
+                mapper.resultsToResponses(voucherService.findVouchers()));
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoucherResponse> voucherById(@PathVariable("id") UUID voucherId) {
-        return ResponseEntity.ok(
-                VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.findVoucherById(voucherId))
-        );
+        return ResponseEntity.ok(mapper.resultToResponse(
+                voucherService.findVoucherById(voucherId)));
     }
 
     @GetMapping(path = "/created-at/{createdAt}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoucherResponses> voucherByCreatedAt(@PathVariable("createdAt") LocalDate createdAt) {
-        return ResponseEntity.ok(
-                new VoucherResponses(VoucherControllerMapper.INSTANCE.resultsToResponses(voucherService.findVoucherByCreatedAt(createdAt)))
-        );
+        return ResponseEntity.ok(mapper.resultsToResponses(
+                voucherService.findVoucherByCreatedAt(createdAt)));
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<VoucherResponse> deleteVoucherById(@PathVariable("id") UUID voucherId) {
-        return ResponseEntity.ok(
-                VoucherControllerMapper.INSTANCE.resultToResponse(voucherService.deleteVoucherById(voucherId))
-        );
+        return ResponseEntity.ok(mapper.resultToResponse(
+                voucherService.deleteVoucherById(voucherId)));
     }
 
 }

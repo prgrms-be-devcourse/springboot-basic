@@ -1,24 +1,25 @@
 package com.tangerine.voucher_system.application.voucher.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tangerine.voucher_system.application.global.generator.IdGenerator;
 import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.UpdateVoucherRequest;
+import com.tangerine.voucher_system.application.voucher.controller.mapper.VoucherControllerMapper;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.service.VoucherService;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,23 +34,18 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@WebMvcTest(VoucherRestController.class)
+@Import({VoucherControllerMapper.class, IdGenerator.class})
 class VoucherRestControllerTest {
 
-    @InjectMocks
-    VoucherRestController controller;
-
-    @Mock
+    @MockBean
     VoucherService service;
 
+    @Autowired
     MockMvc mockMvc;
-    ObjectMapper objectMapper;
 
-    @BeforeEach
-    void init() {
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        objectMapper = new ObjectMapper();
-    }
+    @Autowired
+    ObjectMapper objectMapper;
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 바우처를 생성 시 성공한다.")

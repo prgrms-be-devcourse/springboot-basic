@@ -4,30 +4,53 @@ import com.tangerine.voucher_system.application.customer.controller.dto.CreateCu
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
 import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponses;
 import com.tangerine.voucher_system.application.customer.controller.dto.UpdateCustomerRequest;
+import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerParam;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
 import com.tangerine.voucher_system.application.global.generator.IdGenerator;
-import org.mapstruct.*;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface CustomerControllerMapper {
+@Component
+public class CustomerControllerMapper {
 
-    CustomerControllerMapper INSTANCE = Mappers.getMapper(CustomerControllerMapper.class);
+    private final IdGenerator generator;
 
-    @Mapping(target = "customerId", expression = "java(java.util.UUID.randomUUID())")
-    @Mapping(source = "name", target = "name.value")
-    CustomerParam requestToParam(CreateCustomerRequest request);
+    public CustomerControllerMapper(IdGenerator generator) {
+        this.generator = generator;
+    }
 
-    @Mapping(source = "name", target = "name.value")
-    CustomerParam requestToParam(UpdateCustomerRequest request);
+    public CustomerParam requestToParam(CreateCustomerRequest request) {
+        return new CustomerParam(
+                generator.getUuid(),
+                new Name(request.name()),
+                request.isBlack()
+        );
+    }
 
-    @Mapping(source = "name.value", target = "name")
-    CustomerResponse resultToResponse(CustomerResult result);
+    public CustomerParam requestToParam(UpdateCustomerRequest request) {
+        return new CustomerParam(
+                request.customerId(),
+                new Name(request.name()),
+                request.isBlack()
+        );
+    }
 
-    List<CustomerResponse> resultsToResponses(List<CustomerResult> customerResults);
+    public CustomerResponse resultToResponse(CustomerResult result) {
+        return new CustomerResponse(
+                result.customerId(),
+                result.name().getValue(),
+                result.isBlack()
+        );
+    }
+
+    public CustomerResponses resultsToResponses(List<CustomerResult> customerResults) {
+        return new CustomerResponses(
+                customerResults.stream()
+                        .map(this::resultToResponse)
+                        .toList()
+        );
+    }
 
 }

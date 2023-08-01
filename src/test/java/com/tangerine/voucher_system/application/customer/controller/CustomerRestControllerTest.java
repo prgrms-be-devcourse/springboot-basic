@@ -1,66 +1,49 @@
 package com.tangerine.voucher_system.application.customer.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tangerine.voucher_system.application.customer.controller.dto.CreateCustomerRequest;
-import com.tangerine.voucher_system.application.customer.controller.dto.CustomerResponse;
 import com.tangerine.voucher_system.application.customer.controller.dto.UpdateCustomerRequest;
+import com.tangerine.voucher_system.application.customer.controller.mapper.CustomerControllerMapper;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.CustomerService;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
-import com.tangerine.voucher_system.application.customer.service.mapper.CustomerServiceMapper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.tangerine.voucher_system.application.global.generator.IdGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MockMvcBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@WebMvcTest(CustomerRestController.class)
+@Import({CustomerControllerMapper.class, IdGenerator.class})
 class CustomerRestControllerTest {
 
-    @InjectMocks
-    CustomerRestController controller;
-
-    @Mock
+    @MockBean
     CustomerService service;
 
+    @Autowired
     MockMvc mockMvc;
-    ObjectMapper objectMapper;
 
-    @BeforeEach
-    void setup() {
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-        objectMapper = new ObjectMapper();
-    }
+    @Autowired
+    ObjectMapper objectMapper;
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 고객을 추가하면 성공한다.")

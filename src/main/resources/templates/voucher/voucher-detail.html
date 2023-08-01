@@ -8,57 +8,59 @@
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body class="container-fluid">
-    <h1>Voucher Management</h1>
-    <h2>Voucher Detail</h2>
-    <table class="table table-hover table-striped">
-        <thead>
-        <tr>
-            <th scope="col">voucher id</th>
-            <th scope="col">voucher type</th>
-            <th scope="col">discount value</th>
-            <th scope="col">created at</TH>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
-            <td th:text="*{voucherId}"></td>
-            <td th:text="*{voucherType}"></td>
-            <td th:text="*{discountValue}"></td>
-            <td th:text="*{createdAt}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <form th:action="@{/vouchers/delete/{id}(id=${voucherId})}" method="post">
-        <div style="display: inline-block; float: left; margin-left: 10px;">
-            <button type="submit" class="btn btn-outline-primary">Delete</button>
-        </div>
-    </form>
-    <br><br>
-    <hr><br>
-    <h2>Update Voucher</h2>
-    <form th:action="@{/vouchers/update}" method="post">
+<h1>Voucher Management</h1>
+<h2>Voucher Detail</h2>
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th scope="col">voucher id</th>
+        <th scope="col">voucher type</th>
+        <th scope="col">discount value</th>
+        <th scope="col">created at</TH>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
+        <td th:text="*{voucherId}"></td>
+        <td th:text="*{voucherType}"></td>
+        <td th:text="*{discountValue}"></td>
+        <td th:text="*{createdAt}"></td>
+    </tr>
+    </tbody>
+</table>
+<form th:action="@{/vouchers/delete/{id}(id=${voucherId})}" method="post">
+    <div style="display: inline-block; float: left; margin-left: 10px;">
+        <button type="submit" class="btn btn-outline-primary">Delete</button>
+    </div>
+</form>
+<br><br>
+<hr>
+<br>
+<h2>Update Voucher</h2>
+<form th:action="@{/vouchers/update}" method="post">
 
-        <div class="mb-3">
-            <label for="voucherId" class="form-label">Voucher Id</label>
-            <input type="text" class="form-control" id="voucherId" name="voucherId" th:object="${vouchers}" th:field="*{voucherId}" th:readonly="readonly">
-        </div>
+    <div class="mb-3">
+        <label for="voucherId" class="form-label">Voucher Id</label>
+        <input type="text" class="form-control" id="voucherId" name="voucherId" th:object="${vouchers}"
+               th:field="*{voucherId}" th:readonly="readonly">
+    </div>
 
-        <div class="mb-3">
-            <label for="voucherType" class="form-label">Category</label>
-            <select id="voucherType" name="voucherType" class="form-select">
-                <option selected>Choose voucher type</option>
-                <option value="FIXED_AMOUNT">FIXED AMOUNT VOUCHER</option>
-                <option value="PERCENT_DISCOUNT">PERCENT DISCOUNT VOUCHER</option>
-            </select>
-        </div>
+    <div class="mb-3">
+        <label for="voucherType" class="form-label">Category</label>
+        <select id="voucherType" name="voucherType" class="form-select">
+            <option selected>Choose voucher type</option>
+            <option value="FIXED_AMOUNT">FIXED AMOUNT VOUCHER</option>
+            <option value="PERCENT_DISCOUNT">PERCENT DISCOUNT VOUCHER</option>
+        </select>
+    </div>
 
-        <div class="mb-3">
-            <label for="discountValue" class="form-label">Discount Value</label>
-            <input type="number" class="form-control" id="discountValue" name="discountValue">
-        </div>
+    <div class="mb-3">
+        <label for="discountValue" class="form-label">Discount Value</label>
+        <input type="number" class="form-control" id="discountValue" name="discountValue">
+    </div>
 
-        <button type="submit" class="btn btn-primary">Update Voucher</button>
+    <button type="submit" class="btn btn-primary">Update Voucher</button>
 
-    </form>
+</form>
 </body>
 </html>

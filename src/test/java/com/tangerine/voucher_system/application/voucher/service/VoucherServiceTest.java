@@ -7,6 +7,7 @@ import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.repository.JdbcVoucherRepository;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherParam;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
+import com.tangerine.voucher_system.application.voucher.service.mapper.VoucherServiceMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,7 +28,7 @@ import static org.assertj.core.api.Assertions.catchException;
 
 @JdbcTest
 @ActiveProfiles("test")
-@Import({VoucherService.class, JdbcVoucherRepository.class})
+@Import({VoucherService.class, JdbcVoucherRepository.class, VoucherServiceMapper.class})
 class VoucherServiceTest {
 
     @Autowired

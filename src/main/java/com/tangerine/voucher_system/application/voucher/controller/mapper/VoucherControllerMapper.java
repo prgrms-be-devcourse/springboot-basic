@@ -1,44 +1,58 @@
 package com.tangerine.voucher_system.application.voucher.controller.mapper;
 
+import com.tangerine.voucher_system.application.global.generator.IdGenerator;
 import com.tangerine.voucher_system.application.voucher.controller.dto.CreateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.UpdateVoucherRequest;
 import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponse;
+import com.tangerine.voucher_system.application.voucher.controller.dto.VoucherResponses;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherParam;
 import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
-@Mapper(componentModel = "spring", injectionStrategy = InjectionStrategy.CONSTRUCTOR)
-public interface VoucherControllerMapper {
+@Component
+public class VoucherControllerMapper {
 
-    VoucherControllerMapper INSTANCE = Mappers.getMapper(VoucherControllerMapper.class);
+    private final IdGenerator generator;
 
-    @Mapping(target = "voucherId", expression = "java(java.util.UUID.randomUUID())")
-    @Mapping(source = "voucherType", target = "voucherType")
-    @Mapping(source = "voucherType", target = "discountValue.voucherType")
-    @Mapping(source = "discountValue", target = "discountValue.value")
-    @Mapping(target = "createdAt", expression = "java(java.time.LocalDate.now())")
-    VoucherParam requestToParam(CreateVoucherRequest request);
-
-    @Mapping(source = "voucherType", target = "voucherType")
-    @Mapping(source = "voucherType", target = "discountValue.voucherType")
-    @Mapping(source = "discountValue", target = "discountValue.value")
-    @Mapping(target = "createdAt", expression = "java(java.time.LocalDate.now())")
-    VoucherParam requestToParam(UpdateVoucherRequest request);
-
-    @Named("getDiscountValue")
-    static double getDiscountValue(DiscountValue discountValue) {
-        return discountValue.value();
+    public VoucherControllerMapper(IdGenerator generator) {
+        this.generator = generator;
     }
 
-    @Mapping(source = "discountValue", target = "discountValue", qualifiedByName = "getDiscountValue")
-    VoucherResponse resultToResponse(VoucherResult result);
+    public VoucherParam requestToParam(CreateVoucherRequest request) {
+        return new VoucherParam(
+                generator.getUuid(),
+                request.voucherType(),
+                new DiscountValue(request.voucherType(), request.discountValue()),
+                LocalDate.now()
+        );
+    }
 
-    List<VoucherResponse> resultsToResponses(List<VoucherResult> voucherResults);
+    public VoucherParam requestToParam(UpdateVoucherRequest request) {
+        return new VoucherParam(
+                request.voucherId(),
+                request.voucherType(),
+                new DiscountValue(request.voucherType(), request.discountValue()),
+                LocalDate.now()
+        );
+    }
+
+    public VoucherResponse resultToResponse(VoucherResult result) {
+        return new VoucherResponse(
+                result.voucherId(),
+                result.voucherType(),
+                result.discountValue().value(),
+                result.createdAt()
+        );
+    }
+
+    public VoucherResponses resultsToResponses(List<VoucherResult> voucherResults) {
+        return new VoucherResponses(
+                voucherResults.stream()
+                        .map(this::resultToResponse)
+                        .toList());
+    }
 }

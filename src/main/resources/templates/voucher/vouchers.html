@@ -26,7 +26,8 @@
     </thead>
     <tbody>
     <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
-        <td><a th:href="'/vouchers/id/'+*{voucherId}" th:text="*{voucherId}" style="text-decoration:none; color: inherit;"></a></td>
+        <td><a th:href="'/vouchers/id/'+*{voucherId}" th:text="*{voucherId}"
+               style="text-decoration:none; color: inherit;"></a></td>
         <td th:text="*{voucherType}"></td>
         <td th:text="*{discountValue}"></td>
         <td th:text="*{createdAt}"></td>
