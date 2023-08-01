@@ -1,5 +1,6 @@
 package org.prgrms.kdt.global;
 
+import com.fasterxml.uuid.Generators;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,9 @@ public class GeneratorImp implements Generator{
 
     @Override
     public UUID generateId() {
-        return UUID.randomUUID();
+        UUID generateId = Generators.timeBasedGenerator().generate();
+        String[] idArr = generateId.toString().split("-");
+        return UUID.fromString(idArr[2]+"-"+idArr[1]+"-"+idArr[0]+"-"+idArr[3]+"-"+idArr[4]);
     }
 
     @Override

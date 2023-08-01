@@ -5,5 +5,6 @@ import java.util.UUID;
 
 public interface Generator {
     UUID generateId();
+
     LocalDateTime generateTime();
 }

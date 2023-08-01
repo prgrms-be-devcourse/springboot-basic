@@ -1,6 +1,7 @@
 package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.voucher.controller.dto.CreateVoucherApiRequest;
+import org.prgrms.kdt.voucher.controller.dto.SearchApiRequest;
 import org.prgrms.kdt.voucher.controller.mapper.ControllerVoucherMapper;
 import org.prgrms.kdt.voucher.service.dto.VoucherDetailResponse;
 import org.prgrms.kdt.voucher.service.dto.VoucherResponses;
@@ -42,7 +43,8 @@ public class VoucherViewController {
 
     @GetMapping
     public String findAll(Model model) {
-        VoucherResponses response = voucherService.findAll(null);
+        SearchApiRequest request = new SearchApiRequest(1, 100, null);
+        VoucherResponses response = voucherService.findAll(mapper.convertRequest(request));
         model.addAttribute("vouchers", response);
         return "voucher/vouchers";
     }

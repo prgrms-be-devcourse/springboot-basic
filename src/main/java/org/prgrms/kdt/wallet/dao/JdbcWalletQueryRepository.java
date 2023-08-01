@@ -1,13 +1,11 @@
 package org.prgrms.kdt.wallet.dao;
 
-import org.prgrms.kdt.global.exception.NotUpdateException;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.voucher.domain.DiscountPolicy;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
 import org.prgrms.kdt.wallet.domain.QueryWallet;
-import org.prgrms.kdt.wallet.domain.Wallet;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

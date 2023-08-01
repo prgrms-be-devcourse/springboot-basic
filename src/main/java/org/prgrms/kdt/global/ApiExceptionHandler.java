@@ -20,7 +20,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
-public class ApiExceptionHandler{
+public class ApiExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
     @ExceptionHandler(BindException.class)
@@ -45,7 +45,7 @@ public class ApiExceptionHandler{
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFoundException(HttpServletRequest request, EntityNotFoundException e){
+    public ResponseEntity<ErrorResponse> handleNotFoundException(HttpServletRequest request, EntityNotFoundException e) {
         int statusCode = HttpStatus.NOT_FOUND.value();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(getErrorResponse(statusCode, e.getMessage(), request.getRequestURI()));
     }
