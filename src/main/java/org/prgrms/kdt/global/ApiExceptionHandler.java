@@ -52,9 +52,9 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(HttpServletRequest request, Exception e) {
-        logger.error("Exception: ", e);
-        int statusCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(getErrorResponse(statusCode, e.getMessage(), request.getRequestURI()));
+        logger.error("Sever Exception: ", e.getMessage());
+        int statusCode = HttpStatus.OK.value();
+        return ResponseEntity.ok(getErrorResponse(statusCode, e.getMessage(), request.getRequestURI()));
     }
 
     private static ErrorResponse getErrorResponse(int status, String masesage, String requestURI) {
