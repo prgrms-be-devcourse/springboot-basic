@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tangerine.voucher_system.application.customer.controller.mapper.CustomerControllerMapper;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
+import com.tangerine.voucher_system.application.global.exception.ResponseMessage;
 import com.tangerine.voucher_system.application.global.generator.IdGenerator;
 import com.tangerine.voucher_system.application.voucher.controller.mapper.VoucherControllerMapper;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
@@ -65,7 +66,7 @@ class WalletRestControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$")
-                        .value(MessageFormat.format("{0} is created successfully.", result.walletId().toString())));
+                        .value(result.walletId().toString() + ResponseMessage.CREATE_SUCCESS));
 
         verify(service, times(1)).createWallet(any());
     }
@@ -83,7 +84,7 @@ class WalletRestControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$")
-                        .value(MessageFormat.format("{0} is updated successfully.", result.walletId().toString())));
+                        .value(result.walletId().toString() + ResponseMessage.UPDATE_SUCCESS));
 
         verify(service, times(1)).updateWallet(any());
     }
@@ -98,7 +99,8 @@ class WalletRestControllerTest {
                         .param("id", result.walletId().toString()))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value(result.walletId() + " is deleted successfully."));
+                .andExpect(jsonPath("$")
+                        .value(result.walletId().toString() + ResponseMessage.DELETE_SUCCESS));
 
         verify(service, times(1)).deleteWalletById(any());
     }

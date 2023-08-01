@@ -81,12 +81,12 @@ public class JdbcWalletRepository implements WalletRepository {
     public List<Wallet> findByVoucherId(UUID voucherId) {
         try {
             return jdbcTemplate.query(
-            """
-                    SELECT
-                        wallet_id, voucher_id, customer_id
-                    FROM wallets
-                    WHERE voucher_id = :voucherId
-                """,
+                    """
+                                SELECT
+                                    wallet_id, voucher_id, customer_id
+                                FROM wallets
+                                WHERE voucher_id = :voucherId
+                            """,
                     Collections.singletonMap("voucherId", voucherId.toString()),
                     walletRowMapper
             );
