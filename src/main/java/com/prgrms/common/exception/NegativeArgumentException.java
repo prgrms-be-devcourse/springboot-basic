@@ -1,4 +1,4 @@
-package com.prgrms.exception;
+package com.prgrms.exception.custom;
 
 public class NegativeArgumentException extends RuntimeException {
 

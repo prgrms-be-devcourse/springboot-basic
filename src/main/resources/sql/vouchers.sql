@@ -1,6 +1,6 @@
 create table vouchers
 (
-    voucher_id   BIGINT      not null,
+    voucher_id   varchar(20) not null,
     discount     BIGINT      not null,
     voucher_type varchar(20) not null,
 

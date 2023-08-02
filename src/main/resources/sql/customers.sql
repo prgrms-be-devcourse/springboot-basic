@@ -1,6 +1,6 @@
 CREATE TABLE customers
 (
-    customer_id   BIGINT PRIMARY KEY,
+    customer_id   varchar(20) PRIMARY KEY,
     name          varchar(20) NOT NULL,
     email         varchar(50) NOT NULL,
     last_login_at datetime             DEFAULT NULL,

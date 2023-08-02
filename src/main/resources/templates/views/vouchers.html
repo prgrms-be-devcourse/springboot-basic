@@ -11,7 +11,7 @@
 <h1>Voucher Application</h1>
 
 <div class="d-grid gap-2 d-md-block">
-  <a th:href="@{/v1/vouchers/new}" class="btn btn-primary" type="button">create</a>
+  <a th:href="@{/view/vouchers/new}" class="btn btn-primary" type="button">create</a>
 </div>
 <table class="table">
   <thead>
@@ -26,8 +26,8 @@
     <th scope="row" th:text="*{voucherId}"></th>
     <td th:text="*{voucherType}"></td>
     <td th:text="*{discount}"></td>
-    <td><a th:href="@{'/v1/vouchers/detail/' + *{voucherId}}" class="btn btn-primary" type="button">detail</a></td>
-    <td><a th:href="@{'/v1/vouchers/delete/' + *{voucherId}}" class="btn btn-primary" type="button">delete</a></td>
+    <td><a th:href="@{'/view/vouchers/detail/' + *{voucherId}}" class="btn btn-primary" type="button">detail</a></td>
+    <td><a th:href="@{'/view/vouchers/delete/' + *{voucherId}}" class="btn btn-primary" type="button">delete</a></td>
   </tr>
   </tbody>
 </table>

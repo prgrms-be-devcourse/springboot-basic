@@ -1,8 +1,8 @@
 CREATE TABLE wallets
 (
-    wallet_id   BIGINT PRIMARY KEY,
-    customer_id BIGINT,
-    voucher_id  BIGINT,
+    wallet_id   varchar(20) PRIMARY KEY,
+    customer_id varchar(20),
+    voucher_id  varchar(20),
     deleted     boolean DEFAULT FALSE
 );
 INSERT INTO wallets(wallet_id, customer_id, voucher_id)

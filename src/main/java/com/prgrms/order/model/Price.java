@@ -1,7 +1,7 @@
-package com.prgrms.order.model;
+package com.prgrms.order.vo;
 
-import com.prgrms.common.message.ErrorMessage;
-import com.prgrms.exception.NegativeArgumentException;
+import com.prgrms.exception.custom.NegativeArgumentException;
+
 
 public record Price(double cost) {
 
@@ -11,7 +11,7 @@ public record Price(double cost) {
 
     private void validPositiveDiscount(double cost) {
         if (cost < 0) {
-            throw new NegativeArgumentException(ErrorMessage.NEGATIVE_ARGUMENT.getMessage());
+            throw new NegativeArgumentException("가격 : " + cost);
         }
     }
 

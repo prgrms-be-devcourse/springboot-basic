@@ -1,6 +1,6 @@
-package com.prgrms.voucher.model;
+package com.prgrms.voucher.vo;
 
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import java.util.List;
 
 public record Vouchers(List<Voucher> vouchers) {

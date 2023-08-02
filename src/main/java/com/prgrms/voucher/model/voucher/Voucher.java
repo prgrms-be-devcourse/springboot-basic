@@ -11,7 +11,7 @@ public abstract class Voucher {
     private final Discount discount;
     private final VoucherType voucherType;
     private final LocalDateTime createdAt;
-    private boolean deleted = false;
+    private final boolean deleted = false;
 
     public Voucher(int voucherId, Discount discount, VoucherType voucherType,
             LocalDateTime createdAt) {

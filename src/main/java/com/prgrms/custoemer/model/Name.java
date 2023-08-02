@@ -1,6 +1,4 @@
-package com.prgrms.custoemer.model;
-
-import com.prgrms.common.message.ErrorMessage;
+package com.prgrms.custoemer.vo;
 
 public class Name {
 
@@ -18,7 +16,7 @@ public class Name {
 
     private void validateName(String name) {
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException(ErrorMessage.NULL_ARGUMENT.getMessage());
+            throw new IllegalArgumentException();
         }
     }
 

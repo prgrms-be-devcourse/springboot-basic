@@ -1,20 +1,16 @@
 package com.prgrms.vouhcer.controller;
 
-import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.prgrms.common.KeyGenerator;
-import com.prgrms.voucher.controller.VoucherV2Controller;
-import com.prgrms.voucher.model.FixedAmountVoucher;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.voucher.controller.VoucherV1Controller;
+import com.prgrms.voucher.model.voucher.FixedAmountVoucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.FixedDiscount;
@@ -27,14 +23,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
-@WebMvcTest(VoucherV2Controller.class)
-class VoucherV2ControllerTest {
+@WebMvcTest(VoucherV1Controller.class)
+class VoucherV1ControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -46,12 +41,12 @@ class VoucherV2ControllerTest {
     private KeyGenerator keyGenerator;
 
     @Test
-    @DisplayName("바우처 타입과 생성 일을 기준으로 검색하면 관련 목록을 Json으로 반환하며 해당 목록에는 검색 조건에 해당하는 목록이 포함되어 있다.")
-    void getVouchers_FilterWithVoucherTypeAndCreatedAt_Json() throws Exception {
+    @DisplayName("바우처 타입과 생성 일을 기준으로 검색하면 관련 목록을 Model에 저장하고 view에 반환한다.")
+    void getVouchers_FilterWithVoucherTypeAndCreatedAt_ModelAndView() throws Exception {
         //given
         VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
         Discount discount = new FixedDiscount(20);
-        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime createdAt = LocalDateTime.of(2023, 7, 22, 12, 0);
 
         Voucher voucher = new FixedAmountVoucher(50,discount,voucherType,LocalDateTime.now());
         VoucherServiceResponse voucherServiceResponse = new VoucherServiceResponse(voucher);
@@ -59,38 +54,35 @@ class VoucherV2ControllerTest {
         given(voucherService.getAllVoucherList(voucherType, createdAt)).willReturn(List.of(voucherServiceResponse));
 
         //when_then
-        mockMvc.perform(MockMvcRequestBuilders.get("/v2/vouchers")
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/vouchers")
                         .param("voucherType", voucherType.toString())
                         .param("createdAt", createdAt.toString()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].voucherType", is(voucherType.toString())))
-                .andExpect(jsonPath("$[0].discount", is(20.0)));
+                .andExpect(MockMvcResultMatchers.model().attributeExists("vouchers"))
+                .andExpect(MockMvcResultMatchers.view().name("views/vouchers"));
 
         then(voucherService).should().getAllVoucherList(voucherType, createdAt);
     }
 
     @Test
-    @DisplayName("바우처 아이디에 해당하는 바우처 삭제 요청이 들어왔을 때 삭제하고 나면 삭제한 바우처의 아이디를 반환한다.")
-    void deleteVoucher_VoucherId_DeletedVoucherId() throws Exception {
+    @DisplayName("바우처 아이디에 해당하는 바우처 삭제 요청이 들어왔을 때 삭제 후 목록 조회 화면으로 redirect 한다.")
+    void deleteVoucher_VoucherId_RedirectVouchers() throws Exception {
         //given
-        Integer voucherId = 1;
-        given(voucherService.deleteByVoucherId(voucherId)).willReturn(voucherId);
+        int voucherId = 1;
 
         //when_then
-        mockMvc.perform(MockMvcRequestBuilders.delete("/v2/vouchers/{voucherId}", voucherId))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", is(voucherId)));
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/vouchers/delete/{voucherId}", voucherId))
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/v1/vouchers"));
 
         then(voucherService).should().deleteByVoucherId(voucherId);
     }
 
     @Test
-    @DisplayName("바우처 아이디에 해당하는 상세 게시글 요청이 들어오면 해당 게시글에 대한 정보를 Json으로 반환한다.")
-    void detailVoucher_VoucherID_JsonVoucherResponse() throws Exception {
+    @DisplayName("바우처 아이디에 해당하는 상세 게시글 요청이 들어오면 해당 게시글에 대한 정보를 Model에 저장하고 이를 View에 반환한다.")
+    void detailVoucher_VoucherId_ModelAndView() throws Exception {
         //given
-        int voucherId =100;
+        int voucherId = 50;
         VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
         Discount discount = new FixedDiscount(20);
 
@@ -100,28 +92,25 @@ class VoucherV2ControllerTest {
         given(voucherService.detailVoucher(voucherId)).willReturn(voucherServiceResponse);
 
         //when_then
-        mockMvc.perform(MockMvcRequestBuilders.get("/v2/vouchers/{voucherId}", voucherId))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/vouchers/detail/{voucherId}", voucherId))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.voucherType", is(voucherType.toString())))
-                .andExpect(jsonPath("$.discount", is(20.0)));
+                .andExpect(MockMvcResultMatchers.model().attributeExists("voucher"))
+                .andExpect(MockMvcResultMatchers.view().name("views/detail"));
 
         then(voucherService).should().detailVoucher(voucherId);
     }
 
     @Test
     @DisplayName("바우처 생성 요청이 들어왔을 때 생성 후에 목록으로 redirect 한다.")
-    void createVoucher_PostRequest_RedirectVouchers()  throws Exception {
+    void createVoucher_PostRequest_RedirectVouchers() throws Exception {
         //when_then
-        mockMvc.perform(MockMvcRequestBuilders.post("/v2/vouchers")
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/vouchers/new")
                         .param("voucherType", VoucherType.FIXED_AMOUNT_VOUCHER.toString())
                         .param("discountAmount", "10.0"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(content().string("redirect:/v1/vouchers"));
+                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/v1/vouchers"));
 
-        then(voucherService).should().createVoucher(anyInt(), eq(VoucherType.FIXED_AMOUNT_VOUCHER), eq(10.0),
-                any(LocalDateTime.class));
+        then(voucherService).should().createVoucher(anyInt(), eq(VoucherType.FIXED_AMOUNT_VOUCHER), eq(10.0), any(LocalDateTime.class));
     }
 
 }
-
