@@ -1,7 +1,6 @@
 package com.prgrms.voucher.controller;
 
-import com.google.protobuf.Api;
-import com.prgrms.common.KeyGenerator;
+import com.prgrms.common.util.Generator;
 import com.prgrms.common.codes.SuccessCode;
 import com.prgrms.common.response.ApiResponse;
 import com.prgrms.voucher.controller.dto.VoucherListRequest;
@@ -27,17 +26,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping("/v2/vouchers")
-public class VoucherV2Controller {
+@RequestMapping("/api/vouchers")
+public class VoucherRestController {
 
     private final VoucherService voucherService;
-    private final KeyGenerator keyGenerator;
+    private final Generator generator;
     private final VoucherControllerConverter voucherControllerConverter;
 
-    public VoucherV2Controller(VoucherService voucherService, KeyGenerator keyGenerator,
+    public VoucherRestController(VoucherService voucherService, Generator generator,
             VoucherControllerConverter voucherControllerConverter) {
         this.voucherService = voucherService;
-        this.keyGenerator = keyGenerator;
+        this.generator = generator;
         this.voucherControllerConverter = voucherControllerConverter;
     }
 
@@ -54,16 +53,16 @@ public class VoucherV2Controller {
 
     @DeleteMapping("/{voucherId}")
     public ApiResponse<VoucherDeleteResponse> deleteVoucher(
-            @PathVariable("voucherId") int voucherId) {
+            @PathVariable("voucherId") String voucherId) {
 
-        int deletedVoucherId = voucherService.deleteByVoucherId(voucherId);
+        String deletedVoucherId = voucherService.deleteByVoucherId(voucherId);
 
         return new ApiResponse<>(new VoucherDeleteResponse(deletedVoucherId),SuccessCode.DELETE_SUCCESS);
     }
 
     @GetMapping("/{voucherId}")
     public ApiResponse<VoucherServiceResponse> detailVoucher(
-            @PathVariable("voucherId") int voucherId) {
+            @PathVariable("voucherId") String voucherId) {
 
         return new ApiResponse<>(voucherService.detailVoucher(voucherId),SuccessCode.SELECT_SUCCESS);
     }
@@ -71,8 +70,9 @@ public class VoucherV2Controller {
     @PostMapping
     public ResponseEntity<VoucherServiceResponse> createVoucher(
             @RequestBody VoucherCreateRequest voucherCreateRequest) {
+        String id = generator.makeKey();
+        LocalDateTime createdAt = generator.makeDate();
 
-        int id = keyGenerator.make();
         VoucherServiceCreateRequest createRequest = voucherControllerConverter.ofVoucherServiceCreateRequest(
                 voucherCreateRequest);
 
@@ -82,7 +82,7 @@ public class VoucherV2Controller {
                 .toUri();
 
         return ResponseEntity.created(location)
-                .body(voucherService.createVoucher(id, createRequest, LocalDateTime.now()));
+                .body(voucherService.createVoucher(id, createRequest, createdAt));
     }
 
 }

@@ -1,17 +1,16 @@
 package com.prgrms.voucher.repository;
 
-import com.prgrms.exception.NotUpdateException;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.common.exception.InsertException;
+import com.prgrms.common.exception.UpdateException;
+import com.prgrms.common.exception.UserNotFoundException;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherCreator;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.DiscountCreator;
-import com.prgrms.common.message.ErrorMessage;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,8 +23,6 @@ import java.util.*;
 @Primary
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
-
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final DiscountCreator discountCreator;
@@ -55,7 +52,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 toParamMap(voucher));
 
         if (update != 1) {
-            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
+            throw new InsertException("바우처 아이디 : " + voucher.getVoucherId());
         }
 
         return voucher;
@@ -86,20 +83,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findById(int voucher_id) {
+    public Optional<Voucher> findById(String voucher_id) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                     "select voucher_id, voucher_type, discount, created_at from vouchers where voucher_id = :voucher_id",
                     Collections.singletonMap("voucher_id", voucher_id),
                     getVoucherRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.debug(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
-            return Optional.empty();
+            throw new UserNotFoundException("아이디 : " + voucher_id );
         }
     }
 
     @Override
-    public int deleteById(int voucherId) {
+    public String deleteById(String voucherId) {
         int update = jdbcTemplate.update(
                 "UPDATE vouchers "
                         + "SET deleted = true "
@@ -107,7 +103,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 Collections.singletonMap("voucherId", voucherId));
 
         if (update != 1) {
-            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
+            throw new UpdateException("바우처 아이디 : " + voucherId);
         }
 
         return voucherId;
@@ -115,7 +111,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     public RowMapper<Voucher> getVoucherRowMapper() {
         return (resultSet, i) -> {
-            int voucherId = resultSet.getInt("voucher_id");
+            String voucherId = resultSet.getString("voucher_id");
             VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
             double discountValue = resultSet.getDouble("discount");
             Discount discount = discountCreator.createDiscount(voucherType, discountValue);

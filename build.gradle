@@ -38,6 +38,10 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.beryx:text-io:3.4.1'
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+    implementation "com.fasterxml.uuid:java-uuid-generator:4.0.1"
 }
 
 tasks.named('test') {

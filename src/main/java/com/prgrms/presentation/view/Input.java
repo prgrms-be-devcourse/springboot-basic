@@ -22,10 +22,10 @@ public class Input {
         }
     }
 
-    public int enterID() {
+    public String enterID() {
         try {
             String input = bufferedReader.readLine();
-            return Integer.parseInt(input);
+            return input;
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException(e);
         }

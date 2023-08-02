@@ -26,7 +26,7 @@ public class CustomerListCommand implements Command {
     @Override
     public Power execute() {
         output.write(GuideMessage.CUSTOMER_LIST.toString());
-        int voucherId = input.enterID();
+        String voucherId = input.enterID();
 
         List<CustomerResponse> customers = walletService.customerList(voucherId);
 

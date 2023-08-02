@@ -2,8 +2,8 @@ package com.prgrms.wallet.service.dto;
 
 import com.prgrms.wallet.model.Wallet;
 
-public record WalletServiceResponse(int voucherId,
-                                    int customerId,
+public record WalletServiceResponse(String voucherId,
+                                    String customerId,
                                     boolean deleted) {
 
     public WalletServiceResponse(Wallet wallet) {

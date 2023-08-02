@@ -1,6 +1,6 @@
 package com.prgrms.voucher.controller;
 
-import com.prgrms.common.KeyGenerator;
+import com.prgrms.common.util.Generator;
 import com.prgrms.voucher.controller.dto.VoucherListRequest;
 import com.prgrms.voucher.controller.dto.VoucherCreateRequest;
 import com.prgrms.voucher.controller.mapper.VoucherControllerConverter;
@@ -21,20 +21,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/v1/vouchers")
+@RequestMapping("/view/vouchers")
 
-public class VoucherV1Controller {
+public class VoucherViewController {
 
-    private static final String REDIRECT_URL = "redirect:/v1/vouchers";
+    private static final String REDIRECT_URL = "redirect:/view/vouchers";
 
     private final VoucherService voucherService;
-    private final KeyGenerator keyGenerator;
+    private final Generator generator;
     private final VoucherControllerConverter voucherControllerConverter;
 
-    public VoucherV1Controller(VoucherService voucherService, KeyGenerator keyGenerator,
+    public VoucherViewController(VoucherService voucherService, Generator generator,
             VoucherControllerConverter voucherControllerConverter) {
         this.voucherService = voucherService;
-        this.keyGenerator = keyGenerator;
+        this.generator = generator;
         this.voucherControllerConverter = voucherControllerConverter;
     }
 
@@ -53,14 +53,14 @@ public class VoucherV1Controller {
     }
 
     @GetMapping("/delete/{voucherId}")
-    public String deleteVoucher(@PathVariable("voucherId") int voucherId) {
+    public String deleteVoucher(@PathVariable("voucherId") String voucherId) {
         voucherService.deleteByVoucherId(voucherId);
 
         return REDIRECT_URL;
     }
 
     @GetMapping("/detail/{voucherId}")
-    public String detailVoucher(@PathVariable("voucherId") int voucherId, Model model) {
+    public String detailVoucher(@PathVariable("voucherId") String voucherId, Model model) {
         model.addAttribute("voucher", voucherService.detailVoucher(voucherId));
 
         return "views/detail";
@@ -77,13 +77,15 @@ public class VoucherV1Controller {
     @PostMapping("/new")
     public ResponseEntity<VoucherServiceResponse> createVoucher(
             @ModelAttribute VoucherCreateRequest voucherCreateRequest) {
-        int id = keyGenerator.make();
+        String id = generator.makeKey();
+        LocalDateTime createdAt = generator.makeDate();
+
         VoucherServiceCreateRequest voucherServiceCreateRequest = voucherControllerConverter.ofVoucherServiceCreateRequest(
                 voucherCreateRequest);
 
         return new ResponseEntity<>(
                 voucherService.createVoucher(id,
-                        voucherServiceCreateRequest, LocalDateTime.now()),
+                        voucherServiceCreateRequest, createdAt),
                 HttpStatus.CREATED);
     }
 

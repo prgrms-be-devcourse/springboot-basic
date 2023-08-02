@@ -1,4 +1,4 @@
-package com.prgrms.custoemer.vo;
+package com.prgrms.custoemer.model;
 
 public class Name {
 

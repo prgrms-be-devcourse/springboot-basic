@@ -1,6 +1,6 @@
 package com.prgrms.presentation.command.wallet;
 
-import com.prgrms.common.KeyGenerator;
+import com.prgrms.common.util.Generator;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.message.GuideMessage;
@@ -16,20 +16,20 @@ public class GiveVoucherCommand implements Command {
     private final Output output;
     private final Input input;
     private final WalletService walletService;
-    private final KeyGenerator keyGenerator;
+    private final Generator generator;
 
     public GiveVoucherCommand(Output output, Input input, WalletService walletService,
-            KeyGenerator keyGenerator) {
+            Generator generator) {
         this.output = output;
         this.input = input;
         this.walletService = walletService;
-        this.keyGenerator = keyGenerator;
+        this.generator = generator;
     }
 
     @Override
     public Power execute() {
         WalletServiceRequest walletRequest = guideGiveVoucherToCustomer();
-        int id = keyGenerator.make();
+        String id = generator.makeKey();
         walletService.giveVoucher(id, walletRequest);
 
         return Power.ON;
@@ -37,10 +37,10 @@ public class GiveVoucherCommand implements Command {
 
     private WalletServiceRequest guideGiveVoucherToCustomer() {
         output.write(GuideMessage.GIVE_VOUCHER.toString());
-        int customerId = input.enterID();
+        String customerId = input.enterID();
 
         output.write(GuideMessage.WANT_TO_VOUCHER_ID.toString());
-        int voucherId = input.enterID();
+        String voucherId = input.enterID();
 
         return new WalletServiceRequest(customerId, voucherId);
     }

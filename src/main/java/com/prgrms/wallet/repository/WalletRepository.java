@@ -9,16 +9,16 @@ import java.util.Optional;
 
 public interface WalletRepository {
 
-    Optional<Wallet> findById(int walletId);
+    Optional<Wallet> findById(String walletId);
 
     List<Wallet> findAllWallet();
 
-    List<Customer> findAllCustomersByVoucher(int voucherId);
+    List<Customer> findAllCustomersByVoucher(String voucherId);
 
-    Vouchers findAllVouchersByCustomer(int customerId);
+    Vouchers findAllVouchersByCustomer(String customerId);
 
     Wallet insert(Wallet wallet);
 
-    Wallet deleteWithVoucherIdAndCustomerId(int voucherId, int customerId);
+    Wallet deleteWithVoucherIdAndCustomerId(String voucherId, String customerId);
 
 }

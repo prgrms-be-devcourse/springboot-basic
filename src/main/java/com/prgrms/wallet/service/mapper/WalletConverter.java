@@ -9,9 +9,9 @@ public class WalletConverter {
 
     private WalletConverter() { }
 
-    public Wallet convertWallet(int id, WalletServiceRequest walletServiceRequest) {
-        int customerId = walletServiceRequest.customerId();
-        int voucherId = walletServiceRequest.voucherId();
+    public Wallet convertWallet(String id, WalletServiceRequest walletServiceRequest) {
+        String customerId = walletServiceRequest.customerId();
+        String voucherId = walletServiceRequest.voucherId();
 
         return new Wallet(id, customerId, voucherId);
     }

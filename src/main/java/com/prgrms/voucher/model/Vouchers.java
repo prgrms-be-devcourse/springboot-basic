@@ -1,4 +1,4 @@
-package com.prgrms.voucher.vo;
+package com.prgrms.voucher.model;
 
 import com.prgrms.voucher.model.voucher.Voucher;
 import java.util.List;

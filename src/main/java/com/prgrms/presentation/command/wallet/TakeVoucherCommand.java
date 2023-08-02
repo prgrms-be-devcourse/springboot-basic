@@ -32,10 +32,10 @@ public class TakeVoucherCommand implements Command {
 
     private WalletServiceRequest guideTakeVoucherFromCustomer() {
         output.write(GuideMessage.TAKE_VOUCHER.toString());
-        int customerId = input.enterID();
+        String customerId = input.enterID();
 
         output.write(GuideMessage.TAKE_FROM_VOUCHER_ID.toString());
-        int voucherId = input.enterID();
+        String voucherId = input.enterID();
 
         return new WalletServiceRequest(customerId, voucherId);
     }

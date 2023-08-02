@@ -1,7 +1,6 @@
-package com.prgrms.order.vo;
+package com.prgrms.order.model;
 
-import com.prgrms.exception.custom.NegativeArgumentException;
-
+import com.prgrms.common.exception.NegativeArgumentException;
 
 public record Price(double cost) {
 

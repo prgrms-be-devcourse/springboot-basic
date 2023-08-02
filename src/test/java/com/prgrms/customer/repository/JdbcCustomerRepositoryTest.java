@@ -25,15 +25,13 @@ import org.springframework.test.context.ActiveProfiles;
 @Import(JdbcCustomerRepository.class)
 class JdbcCustomerRepositoryTest {
 
-    private final Name testUserName = new Name("test-user");
-    private final String testUserEmail = "test1-user@gmail.com";
-    private final int id = 10;
-
+    final Name testUserName = new Name("test-user");
+    final String testUserEmail = "test1-user@gmail.com";
+    final String id = "10";
 
     @Autowired
-    private JdbcCustomerRepository jdbcCustomerRepository;
-
-    private Customer newCustomer;
+    JdbcCustomerRepository jdbcCustomerRepository;
+    Customer newCustomer;
 
     @BeforeEach
     void clean() {
