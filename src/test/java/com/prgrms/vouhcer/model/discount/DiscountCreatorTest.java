@@ -19,9 +19,9 @@ import org.springframework.test.context.ActiveProfiles;
 class DiscountCreatorTest {
 
     @Autowired
-    private DiscountCreator discountCreator;
+    DiscountCreator discountCreator;
 
-    private final double VALUE = 10;
+    final double VALUE = 10;
 
     @Test
     @DisplayName("고정금액을 나타내는 값 객체를 잘 만드는지 값과 타입을 확인한다.")

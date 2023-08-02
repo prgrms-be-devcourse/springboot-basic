@@ -2,7 +2,7 @@ package com.prgrms.vouhcer.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.Vouchers;
 import java.util.ArrayList;
 import java.util.List;

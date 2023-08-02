@@ -6,8 +6,8 @@ import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 import com.prgrms.custoemer.model.Customer;
 import com.prgrms.custoemer.model.Name;
-import com.prgrms.voucher.model.FixedAmountVoucher;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.voucher.model.voucher.FixedAmountVoucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherCreator;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.Vouchers;
@@ -32,9 +32,9 @@ import org.springframework.test.context.ActiveProfiles;
 @Import({JdbcWalletRepository.class, DiscountCreator.class, VoucherCreator.class})
 class JdbcWalletRepositoryTest {
 
-    private final int walletId = 10;
-    private final int voucherId = 10;
-    private final int customerId = 10;
+    private final String walletId = "10";
+    private final String voucherId = "10";
+    private final String customerId = "10";
     private final Name testUserName = new Name("test-user");
     private final String testUserEmail = "test1-user@gmail.com";
 

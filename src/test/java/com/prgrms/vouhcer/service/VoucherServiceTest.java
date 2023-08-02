@@ -1,10 +1,13 @@
 package com.prgrms.vouhcer.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import com.prgrms.voucher.service.dto.VoucherServiceCreateRequest;
+import com.prgrms.voucher.service.dto.VoucherServiceListRequest;
 import com.prgrms.voucher.service.dto.VoucherServiceResponse;
-import com.prgrms.voucher.model.FixedAmountVoucher;
-import com.prgrms.voucher.model.PercentDiscountVoucher;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.voucher.model.voucher.FixedAmountVoucher;
+import com.prgrms.voucher.model.voucher.PercentDiscountVoucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.FixedDiscount;
@@ -28,9 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class VoucherServiceTest {
 
-    private final static int FIXED_ID = 2;
-    private final static int PERCENT_ID = 40;
-    private final static double DISCOUNT_AMOUNT = 20;
+    final static String FIXED_ID = "2";
+    final static String PERCENT_ID = "40";
+    final static double DISCOUNT_AMOUNT = 20;
 
     @Autowired
     private VoucherRepository voucherRepository;
@@ -45,9 +48,10 @@ class VoucherServiceTest {
         VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
         Discount discount = new FixedDiscount(DISCOUNT_AMOUNT);
         Voucher createdVoucher = new FixedAmountVoucher(FIXED_ID, discount, voucherType, LocalDateTime.now());
+        VoucherServiceCreateRequest serviceCreateRequest = new VoucherServiceCreateRequest(voucherType,DISCOUNT_AMOUNT);
 
         //when
-        VoucherServiceResponse result = voucherService.createVoucher(FIXED_ID, voucherType, DISCOUNT_AMOUNT, LocalDateTime.now());
+        VoucherServiceResponse result = voucherService.createVoucher(FIXED_ID, serviceCreateRequest, LocalDateTime.now());
 
         //then
         assertThat(result)
@@ -65,9 +69,10 @@ class VoucherServiceTest {
         Voucher voucher2 = voucherRepository.insert(list.get(1));
         VoucherServiceResponse voucherServiceResponse1 = new VoucherServiceResponse(voucher1);
         VoucherServiceResponse voucherServiceResponse2 = new VoucherServiceResponse(voucher2);
+        VoucherServiceListRequest voucherServiceListRequest = new VoucherServiceListRequest(null, null);
 
         // When
-        List<VoucherServiceResponse> result = voucherService.getAllVoucherList(null, null);
+        List<VoucherServiceResponse> result = voucherService.getAllVoucherList(voucherServiceListRequest);
 
         // Then
         assertThat(result)

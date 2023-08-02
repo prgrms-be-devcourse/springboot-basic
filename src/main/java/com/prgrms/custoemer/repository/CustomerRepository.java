@@ -1,7 +1,6 @@
 package com.prgrms.custoemer.repository;
 
 import com.prgrms.custoemer.model.Customer;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +12,12 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
-    Optional<Customer> findById(int customerId);
+    Optional<Customer> findById(String customerId);
 
     Optional<Customer> findByName(String name);
 
     Optional<Customer> findByEmail(String email);
 
-    boolean existsById(int voucher_id);
+    boolean existsById(String voucher_id);
 
 }

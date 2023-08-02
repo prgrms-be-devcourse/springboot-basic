@@ -4,20 +4,20 @@ import java.time.LocalDateTime;
 
 public class Customer {
 
-    private final int customerId;
+    private final String customerId;
     private final String email;
     private final LocalDateTime createdAt;
-    private Name name;
+    private final Name name;
     private LocalDateTime lastLoginAt;
 
-    public Customer(int customerId, Name name, String email, LocalDateTime createdAt) {
+    public Customer(String customerId, Name name, String email, LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
     }
 
-    public Customer(int customerId, Name name, String email, LocalDateTime lastLoginAt,
+    public Customer(String customerId, Name name, String email, LocalDateTime lastLoginAt,
             LocalDateTime createdAt) {
         this.customerId = customerId;
         this.name = name;
@@ -30,7 +30,7 @@ public class Customer {
         this.lastLoginAt = lastLoginAt;
     }
 
-    public int getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 

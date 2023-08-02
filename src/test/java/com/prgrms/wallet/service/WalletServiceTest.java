@@ -5,8 +5,8 @@ import com.prgrms.custoemer.dto.CustomerResponse;
 import com.prgrms.voucher.service.dto.VoucherServiceResponse;
 import com.prgrms.custoemer.model.Customer;
 import com.prgrms.custoemer.model.Name;
-import com.prgrms.voucher.model.FixedAmountVoucher;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.voucher.model.voucher.FixedAmountVoucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.FixedDiscount;
 import com.prgrms.wallet.model.Wallet;
@@ -31,9 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 class WalletServiceTest {
 
-    private static final int CUSTOMER_ID = 10;
-    private static final int VOUCHER_ID = 10;
-    private static final int WALLET_ID = 10;
+    private static final String CUSTOMER_ID = "10";
+    private static final String VOUCHER_ID = "10";
+    private static final String WALLET_ID = "10";
     private static final LocalDateTime CREATE_AT = LocalDateTime.now();
     private static final Name TEST_USER_NAME = new Name("test-user");
     private static final String TEST_USER_EMAIL = "test1-user@gmail.com";

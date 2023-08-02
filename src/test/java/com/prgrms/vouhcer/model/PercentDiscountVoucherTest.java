@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.prgrms.order.model.OrderItem;
 import com.prgrms.order.model.Price;
-import com.prgrms.voucher.model.PercentDiscountVoucher;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.voucher.model.voucher.PercentDiscountVoucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.PercentDiscount;
 import java.time.LocalDateTime;
@@ -15,12 +15,12 @@ import org.junit.jupiter.api.Test;
 
 class PercentDiscountVoucherTest {
 
-    private final int voucherId = 1;
-    private final int orderId = 1;
-    private final int quantity = 1;
+    final String voucherId = "1";
+    final String orderId = "1";
+    final int quantity = 1;
 
-    private OrderItem orderItem;
-    private Price productPrice = new Price(1000);
+    OrderItem orderItem;
+    Price productPrice = new Price(1000);
 
     @BeforeEach
     void setUp() {

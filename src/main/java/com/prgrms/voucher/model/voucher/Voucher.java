@@ -1,19 +1,20 @@
-package com.prgrms.voucher.model;
+package com.prgrms.voucher.model.voucher;
 
 import com.prgrms.order.model.OrderItem;
 import com.prgrms.order.model.Price;
+import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.Discount;
 import java.time.LocalDateTime;
 
 public abstract class Voucher {
 
-    private final int voucherId;
+    private final String voucherId;
     private final Discount discount;
     private final VoucherType voucherType;
     private final LocalDateTime createdAt;
     private final boolean deleted = false;
 
-    public Voucher(int voucherId, Discount discount, VoucherType voucherType,
+    public Voucher(String voucherId, Discount discount, VoucherType voucherType,
             LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.discount = discount;
@@ -21,7 +22,7 @@ public abstract class Voucher {
         this.createdAt = createdAt;
     }
 
-    public int getVoucherId() {
+    public String getVoucherId() {
         return voucherId;
     }
 

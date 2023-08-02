@@ -2,9 +2,9 @@ package com.prgrms.vouhcer.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.prgrms.voucher.model.FixedAmountVoucher;
-import com.prgrms.voucher.model.PercentDiscountVoucher;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.voucher.model.voucher.FixedAmountVoucher;
+import com.prgrms.voucher.model.voucher.PercentDiscountVoucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherCreator;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.Discount;
@@ -21,10 +21,10 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class VoucherCreatorTest {
 
-    private final int voucherId = 1;
-    private final double discountAmount = 20;
-    private final Discount fixedDiscount = new FixedDiscount(discountAmount);
-    private final Discount percentDiscount = new PercentDiscount(discountAmount);
+    final String voucherId = "1";
+    final double discountAmount = 20;
+    final Discount fixedDiscount = new FixedDiscount(discountAmount);
+    final Discount percentDiscount = new PercentDiscount(discountAmount);
 
     @Autowired
     private VoucherCreator voucherCreator;

@@ -2,37 +2,52 @@ package com.prgrms.vouhcer.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.prgrms.voucher.model.FixedAmountVoucher;
-import com.prgrms.voucher.model.PercentDiscountVoucher;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.common.util.Generator;
+import com.prgrms.voucher.model.voucher.FixedAmountVoucher;
+import com.prgrms.voucher.model.voucher.PercentDiscountVoucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.FixedDiscount;
 import com.prgrms.voucher.model.discount.PercentDiscount;
 import com.prgrms.voucher.repository.MemoryVoucherRepository;
+import com.prgrms.vouhcer.repository.JdbcVoucherRepositoryTest.TestGenerator;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
 
 class MemoryVoucherRepositoryTest {
 
-    private static final int FIX_VOUCHER_ID = 1;
-    private static final int PERCENT_VOUCHER_ID = 2;
-    private static final int NOT_EXIST_VOUCHER_ID = 3;
+    class TestGenerator implements Generator {
 
+        @Override
+        public String makeKey() {
+            return "1";
+        }
 
-    private final LocalDateTime today = LocalDateTime.now();
-    private final LocalDateTime yesterday = today.minusDays(1);
-    private final LocalDateTime tomorrow = today.plusDays(1);
+        @Override
+        public LocalDateTime makeDate() {
+            String str = "2023-07-29 13:47:13.248";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+            return LocalDateTime.parse(str, formatter);
+        }
+    }
 
-    private MemoryVoucherRepository voucherRepository;
-    private Voucher fixVoucher;
-    private Voucher percemtVoucher;
+    static final String FIX_VOUCHER_ID = "1";
+    static final String PERCENT_VOUCHER_ID = "2";
+    static final String NOT_EXIST_VOUCHER_ID = "3";
+
+    final TestGenerator testGenerator = new TestGenerator();
+    final LocalDateTime today = testGenerator.makeDate();
+    final LocalDateTime yesterday = today.minusDays(1);
+    final LocalDateTime tomorrow = today.plusDays(1);
+
+    MemoryVoucherRepository voucherRepository;
+    Voucher fixVoucher;
+    Voucher percemtVoucher;
 
     @BeforeEach
     void setUp() {

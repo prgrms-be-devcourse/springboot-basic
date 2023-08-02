@@ -7,8 +7,9 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
-import com.prgrms.voucher.model.FixedAmountVoucher;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.common.util.Generator;
+import com.prgrms.voucher.model.voucher.FixedAmountVoucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherCreator;
 import com.prgrms.voucher.repository.JdbcVoucherRepository;
 import com.prgrms.voucher.model.VoucherType;
@@ -16,6 +17,7 @@ import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.DiscountCreator;
 import com.prgrms.voucher.model.discount.FixedDiscount;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,17 +34,33 @@ import org.springframework.test.context.ActiveProfiles;
 @Import({JdbcVoucherRepository.class, DiscountCreator.class, VoucherCreator.class})
 class JdbcVoucherRepositoryTest {
 
-    private final int fixVoucherId = 4;
-    private final int percentVoucherId = 5;
-    private final LocalDateTime today = LocalDateTime.now();
-    private final LocalDateTime yesterday = today.minusDays(1);
-    private final LocalDateTime tomorrow = today.plusDays(1);
+    class TestGenerator implements Generator {
+
+        @Override
+        public String makeKey() {
+            return "1";
+        }
+
+        @Override
+        public LocalDateTime makeDate() {
+            String str = "2023-07-29 13:47:13.248";
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+            return LocalDateTime.parse(str, formatter);
+        }
+    }
+
+    TestGenerator testGenerator = new TestGenerator();
+    final String fixVoucherId = "4";
+    final String percentVoucherId = "5";
+    final LocalDateTime today = testGenerator.makeDate();
+    final LocalDateTime yesterday = today.minusDays(1);
+    final LocalDateTime tomorrow = today.plusDays(1);
 
     @Autowired
-    private JdbcVoucherRepository jdbcVoucherRepository;
+    JdbcVoucherRepository jdbcVoucherRepository;
 
-    private Voucher newTodayFixVoucher;
-    private Voucher newTodayPercentVoucher;
+    Voucher newTodayFixVoucher;
+    Voucher newTodayPercentVoucher;
 
     @BeforeEach
     void clean() {

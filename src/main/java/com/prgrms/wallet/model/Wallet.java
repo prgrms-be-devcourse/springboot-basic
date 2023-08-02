@@ -2,12 +2,12 @@ package com.prgrms.wallet.model;
 
 public class Wallet {
 
-    private final int customerId;
-    private final int voucherId;
-    private final int walletId;
+    private final String customerId;
+    private final String voucherId;
+    private final String walletId;
     private boolean deleted = false;
 
-    public Wallet(int walletId, int customerId, int voucherId) {
+    public Wallet(String walletId, String customerId, String voucherId) {
         this.walletId = walletId;
         this.customerId = customerId;
         this.voucherId = voucherId;
@@ -17,15 +17,15 @@ public class Wallet {
         return deleted = true;
     }
 
-    public int getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
-    public int getVoucherId() {
+    public String getVoucherId() {
         return voucherId;
     }
 
-    public int getWalletId() {
+    public String getWalletId() {
         return walletId;
     }
 
