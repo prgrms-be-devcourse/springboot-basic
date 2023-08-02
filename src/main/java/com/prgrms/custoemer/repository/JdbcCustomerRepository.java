@@ -1,9 +1,10 @@
 package com.prgrms.custoemer.repository;
 
-import com.prgrms.exception.NotUpdateException;
+import com.prgrms.common.exception.UpdateException;
 import com.prgrms.custoemer.model.Customer;
 import com.prgrms.custoemer.model.Name;
-import com.prgrms.common.message.ErrorMessage;
+import com.prgrms.common.exception.InsertException;
+import com.prgrms.common.exception.UserNotFoundException;
 import java.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 "INSERT INTO customers(customer_id, name, email, created_at) VALUES (:customer_id, :name, :email, :created_at)",
                 toParamMap(customer));
         if (update != 1) {
-            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
+            throw new InsertException("고객 아이디 : " + customer.getCustomerId() );
         }
         return customer;
     }
@@ -55,7 +56,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 "UPDATE customers SET name = :name, email = :email, last_login_at = :last_login_at WHERE customer_id = :customer_id",
                 toParamMap(customer));
         if (update != 1) {
-            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
+            throw new UpdateException("고객 아이디 : " + customer.getCustomerId());
         }
         return customer;
     }
@@ -67,15 +68,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 getCustomerRowMapper());
     }
 
-    public Optional<Customer> findById(int customerId) {
+    public Optional<Customer> findById(String customerId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                     "select last_login_at, customer_id, name, email, created_at from customers WHERE customer_id = :customer_id",
                     Collections.singletonMap("customer_id", customerId),
                     getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.debug(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
-            return Optional.empty();
+            throw new UserNotFoundException("아이디 : " + customerId);
         }
     }
 
@@ -87,8 +87,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     Collections.singletonMap("name", name),
                     getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.debug(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
-            return Optional.empty();
+            throw new UserNotFoundException("이름 : " + name);
         }
     }
 
@@ -100,13 +99,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     Collections.singletonMap("email", email),
                     getCustomerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
-            logger.info(ErrorMessage.NO_RESULT_RETURN_EMPTY.getMessage(), e);
-            return Optional.empty();
+            throw new UserNotFoundException("이메일 : " + email);
         }
     }
 
     @Override
-    public boolean existsById(int customer_id) {
+    public boolean existsById(String customer_id) {
 
         return jdbcTemplate.queryForObject(
                "SELECT 1 " +
@@ -118,7 +116,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     public RowMapper<Customer> getCustomerRowMapper() {
         return (resultSet, i) -> {
-            int customerId = resultSet.getInt("customer_id");
+            String customerId = resultSet.getString("customer_id");
             Name customerName = new Name(resultSet.getString("name"));
             String email = resultSet.getString("email");
             LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?

@@ -1,8 +1,7 @@
 package com.prgrms.voucher.model.discount;
 
-import com.prgrms.exception.NegativeArgumentException;
+import com.prgrms.common.exception.NegativeArgumentException;
 import com.prgrms.order.model.Price;
-import com.prgrms.common.message.ErrorMessage;
 import java.util.Objects;
 
 public abstract class Discount {
@@ -17,7 +16,7 @@ public abstract class Discount {
 
     private void validPositiveDiscount(double value) {
         if (value < 0) {
-            throw new NegativeArgumentException(ErrorMessage.NEGATIVE_ARGUMENT.getMessage());
+            throw new NegativeArgumentException("할인 인자 : " + value);
         }
     }
 

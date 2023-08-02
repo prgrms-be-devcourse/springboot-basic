@@ -1,4 +1,4 @@
-package com.prgrms.exception.custom;
+package com.prgrms.voucher.exception;
 
 public class PercentLimitException extends RuntimeException {
 

@@ -1,16 +1,16 @@
 package com.prgrms.wallet.repository;
 
-import com.prgrms.exception.NotUpdateException;
+import com.prgrms.common.exception.UpdateException;
 import com.prgrms.custoemer.model.Customer;
 import com.prgrms.custoemer.model.Name;
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.common.exception.InsertException;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherCreator;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.DiscountCreator;
 import com.prgrms.wallet.model.Wallet;
-import com.prgrms.common.message.ErrorMessage;
 import com.prgrms.voucher.repository.JdbcVoucherRepository;
 import java.time.LocalDateTime;
 import org.slf4j.Logger;
@@ -55,14 +55,14 @@ public class JdbcWalletRepository implements WalletRepository {
                 toParamMap(wallet));
 
         if (update != 1) {
-            throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
+            throw new InsertException("지갑 아이디 : " + wallet.getWalletId());
         }
 
         return wallet;
     }
 
     @Override
-    public Optional<Wallet> findById(int walletId) {
+    public Optional<Wallet> findById(String walletId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_WALLET_ID,
                     Collections.singletonMap("walletId", walletId),
@@ -81,7 +81,7 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public List<Customer> findAllCustomersByVoucher(int voucherId) {
+    public List<Customer> findAllCustomersByVoucher(String voucherId) {
         List<Customer> customers = jdbcTemplate.query(FIND_ALL_WALLET_BY_VOUCHER_ID,
                 Collections.singletonMap("voucherId", voucherId),
                 getCustomerRowMapper());
@@ -89,7 +89,7 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Vouchers findAllVouchersByCustomer(int customerId) {
+    public Vouchers findAllVouchersByCustomer(String customerId) {
         List<Voucher> vouchers = jdbcTemplate.query(FIND_ALL_WALLET_BY_CUSTOMER_ID,
                 Collections.singletonMap("customerId", customerId),
                 getVoucherRowMapper());
@@ -97,7 +97,7 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Wallet deleteWithVoucherIdAndCustomerId(int voucherId, int customerId) {
+    public Wallet deleteWithVoucherIdAndCustomerId(String voucherId, String customerId) {
 
         Wallet wallet = jdbcTemplate.queryForObject(
                 SELECT_WALLET_WITH_VOUCHER_ID_AND_CUSTOMER_ID,
@@ -113,7 +113,7 @@ public class JdbcWalletRepository implements WalletRepository {
             );
 
             if (update != 1) {
-                throw new NotUpdateException(ErrorMessage.NOT_UPDATE.getMessage());
+                throw new UpdateException("바우처 아이디 : " + voucherId + "고객 아이디 : " + customerId);
             }
         }
         wallet.markAsDeleted();
@@ -124,9 +124,9 @@ public class JdbcWalletRepository implements WalletRepository {
 
     public RowMapper<Wallet> getWalletRowMapper() {
         return (resultSet, i) -> {
-            int voucherId = resultSet.getInt("voucher_id");
-            int walletId = resultSet.getInt("wallet_id");
-            int customerId = resultSet.getInt("customer_id");
+            String voucherId = resultSet.getString("voucher_id");
+            String walletId = resultSet.getString("wallet_id");
+            String customerId = resultSet.getString("customer_id");
 
             return new Wallet(walletId, customerId, voucherId);
         };
@@ -134,7 +134,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     public RowMapper<Customer> getCustomerRowMapper() {
         return (resultSet, i) -> {
-            int customerId = resultSet.getInt("customer_id");
+            String customerId = resultSet.getString("customer_id");
             Name customerName = new Name(resultSet.getString("name"));
             String email = resultSet.getString("email");
             LocalDateTime lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
@@ -147,7 +147,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     public RowMapper<Voucher> getVoucherRowMapper() {
         return (resultSet, i) -> {
-            int voucherId = resultSet.getInt("voucher_id");
+            String voucherId = resultSet.getString("voucher_id");
             VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
             double discountValue = resultSet.getDouble("discount");
             Discount discount = discountCreator.createDiscount(voucherType, discountValue);

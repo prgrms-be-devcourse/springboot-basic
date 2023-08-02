@@ -1,12 +1,11 @@
 package com.prgrms.voucher.model.discount;
 
-import com.prgrms.exception.DiscountLimitException;
+import com.prgrms.voucher.exception.AmountLimitException;
 import com.prgrms.order.model.Price;
 
 public class FixedDiscount extends Discount {
 
     private final int limit = 10_000;
-    private final String limitException = "할인 금액은" + limit + "원을 넘을 수 없습니다.";
 
     public FixedDiscount(double value) {
         super(value);
@@ -15,7 +14,7 @@ public class FixedDiscount extends Discount {
     @Override
     protected void validLimit(double value) {
         if (value > limit) {
-            throw new DiscountLimitException(limitException);
+            throw new AmountLimitException("입력한 금액 : "+value);
         }
     }
 

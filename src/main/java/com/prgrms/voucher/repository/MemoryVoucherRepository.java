@@ -1,6 +1,6 @@
 package com.prgrms.voucher.repository;
 
-import com.prgrms.voucher.model.Voucher;
+import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.Vouchers;
 import java.time.LocalDateTime;
@@ -13,15 +13,15 @@ import java.util.TreeMap;
 @Component
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<Integer, Voucher> storage = new TreeMap<>();
+    private final Map<String, Voucher> storage = new TreeMap<>();
 
     @Override
-    public Optional<Voucher> findById(int voucherId) {
+    public Optional<Voucher> findById(String voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
     }
 
     @Override
-    public int deleteById(int voucherId) {
+    public String deleteById(String voucherId) {
         storage.remove(voucherId);
         return voucherId;
     }
@@ -55,7 +55,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
         if (createdAt == null) {
             return true;
         }
-        return createdAt.compareTo(targetCreatedAt) <= 0;
+        return !createdAt.isAfter(targetCreatedAt);
     }
 
 }

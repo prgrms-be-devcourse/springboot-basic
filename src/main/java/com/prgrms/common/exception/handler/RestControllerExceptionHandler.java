@@ -20,7 +20,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class RestControllerExceptionHandler {
 
     private final HttpStatus HTTP_STATUS_OK = HttpStatus.OK;
 
