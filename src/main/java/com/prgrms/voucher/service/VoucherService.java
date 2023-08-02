@@ -1,5 +1,6 @@
 package com.prgrms.voucher.service;
 
+import com.prgrms.common.util.Generator;
 import com.prgrms.voucher.model.voucher.Voucher;
 import com.prgrms.voucher.model.VoucherCreator;
 import com.prgrms.voucher.model.VoucherType;
@@ -24,23 +25,25 @@ public class VoucherService {
     private final VoucherConverter voucherConverter;
     private final VoucherCreator voucherCreator;
     private final DiscountCreator discountCreator;
+    private final Generator generator;
 
     public VoucherService(VoucherRepository voucherRepository, VoucherConverter voucherConverter,
             VoucherCreator voucherFactory,
-            DiscountCreator discountCreator) {
+            DiscountCreator discountCreator, Generator generator) {
         this.voucherRepository = voucherRepository;
         this.voucherConverter = voucherConverter;
         this.voucherCreator = voucherFactory;
         this.discountCreator = discountCreator;
+        this.generator = generator;
     }
 
-    public VoucherServiceResponse createVoucher(String id, VoucherServiceCreateRequest voucherServiceCreateRequest,  LocalDateTime createdAt) {
+    public VoucherServiceResponse createVoucher( VoucherServiceCreateRequest voucherServiceCreateRequest) {
 
         VoucherType voucherType = voucherServiceCreateRequest.getVoucherType();
         double discountAmount = voucherServiceCreateRequest.getDiscountAmount();
 
         Discount discount = discountCreator.createDiscount(voucherType, discountAmount);
-        Voucher voucher = voucherCreator.createVoucher(id, voucherType, discount, createdAt);
+        Voucher voucher = voucherCreator.createVoucher(generator, voucherType, discount);
         voucherRepository.insert(voucher);
 
         return new VoucherServiceResponse(voucher);
@@ -52,7 +55,7 @@ public class VoucherService {
         VoucherType voucherType = voucherServiceLIstRequest.voucherType();
         LocalDateTime createdAt = voucherServiceLIstRequest.startCreatedAt();
 
-        Vouchers vouchers = voucherRepository.getAllVoucher( voucherType, createdAt);
+        Vouchers vouchers = voucherRepository.getAllVoucher(voucherType, createdAt);
 
         return voucherConverter.convertVoucherResponses(vouchers);
     }

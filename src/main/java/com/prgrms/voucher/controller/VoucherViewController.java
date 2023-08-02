@@ -1,6 +1,5 @@
 package com.prgrms.voucher.controller;
 
-import com.prgrms.common.util.Generator;
 import com.prgrms.voucher.controller.dto.VoucherListRequest;
 import com.prgrms.voucher.controller.dto.VoucherCreateRequest;
 import com.prgrms.voucher.controller.mapper.VoucherControllerConverter;
@@ -8,7 +7,6 @@ import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.service.dto.VoucherServiceCreateRequest;
 import com.prgrms.voucher.service.dto.VoucherServiceListRequest;
 import com.prgrms.voucher.service.dto.VoucherServiceResponse;
-import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -22,19 +20,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/view/vouchers")
-
 public class VoucherViewController {
 
     private static final String REDIRECT_URL = "redirect:/view/vouchers";
 
     private final VoucherService voucherService;
-    private final Generator generator;
     private final VoucherControllerConverter voucherControllerConverter;
 
-    public VoucherViewController(VoucherService voucherService, Generator generator,
+    public VoucherViewController(VoucherService voucherService,
             VoucherControllerConverter voucherControllerConverter) {
         this.voucherService = voucherService;
-        this.generator = generator;
         this.voucherControllerConverter = voucherControllerConverter;
     }
 
@@ -77,15 +72,11 @@ public class VoucherViewController {
     @PostMapping("/new")
     public ResponseEntity<VoucherServiceResponse> createVoucher(
             @ModelAttribute VoucherCreateRequest voucherCreateRequest) {
-        String id = generator.makeKey();
-        LocalDateTime createdAt = generator.makeDate();
-
         VoucherServiceCreateRequest voucherServiceCreateRequest = voucherControllerConverter.ofVoucherServiceCreateRequest(
                 voucherCreateRequest);
 
         return new ResponseEntity<>(
-                voucherService.createVoucher(id,
-                        voucherServiceCreateRequest, createdAt),
+                voucherService.createVoucher(voucherServiceCreateRequest),
                 HttpStatus.CREATED);
     }
 

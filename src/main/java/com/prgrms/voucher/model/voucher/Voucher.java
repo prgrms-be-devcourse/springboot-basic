@@ -1,5 +1,6 @@
 package com.prgrms.voucher.model.voucher;
 
+import com.prgrms.common.util.Generator;
 import com.prgrms.order.model.OrderItem;
 import com.prgrms.order.model.Price;
 import com.prgrms.voucher.model.VoucherType;
@@ -13,6 +14,13 @@ public abstract class Voucher {
     private final VoucherType voucherType;
     private final LocalDateTime createdAt;
     private final boolean deleted = false;
+
+    public Voucher(Generator generator, Discount discount, VoucherType voucherType) {
+        this.voucherId = generator.makeKey();
+        this.createdAt = generator.makeDate();
+        this.discount = discount;
+        this.voucherType = voucherType;
+    }
 
     public Voucher(String voucherId, Discount discount, VoucherType voucherType,
             LocalDateTime createdAt) {

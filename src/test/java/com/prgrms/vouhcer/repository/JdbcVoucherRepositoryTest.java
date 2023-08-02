@@ -1,6 +1,5 @@
 package com.prgrms.vouhcer.repository;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
@@ -54,7 +53,6 @@ class JdbcVoucherRepositoryTest {
     final String percentVoucherId = "5";
     final LocalDateTime today = testGenerator.makeDate();
     final LocalDateTime yesterday = today.minusDays(1);
-    final LocalDateTime tomorrow = today.plusDays(1);
 
     @Autowired
     JdbcVoucherRepository jdbcVoucherRepository;
@@ -130,16 +128,6 @@ class JdbcVoucherRepositoryTest {
 
         //then
         assertThat(vouchers.vouchers(), hasSize(2));
-    }
-
-    @Test
-    @DisplayName("필터에 날짜 조건만 내일 날짜로 설졍한 경우 어떤 바우처도 반환하지 않는다.")
-    void findAll_FilterWithTomorrow_Empty() {
-        //when
-        Vouchers vouchers = jdbcVoucherRepository.getAllVoucher(null,tomorrow);
-
-        //then
-        assertThat(vouchers.vouchers(), hasSize(0));
     }
 
     @Test

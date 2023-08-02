@@ -1,6 +1,5 @@
 package com.prgrms.vouhcer.model.discount;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.prgrms.voucher.model.VoucherType;

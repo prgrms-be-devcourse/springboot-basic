@@ -29,4 +29,5 @@ public record VoucherServiceResponse(VoucherType voucherType,
     public int hashCode() {
         return Objects.hash(voucherType, discount, voucherId);
     }
+
 }

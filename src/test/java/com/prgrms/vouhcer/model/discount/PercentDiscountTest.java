@@ -2,6 +2,7 @@ package com.prgrms.vouhcer.model.discount;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.prgrms.voucher.exception.PercentLimitException;
 import com.prgrms.voucher.model.discount.PercentDiscount;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class PercentDiscountTest {
 
         //when_then
         assertThatThrownBy(() -> new PercentDiscount(value))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(PercentLimitException.class);
     }
 
 }

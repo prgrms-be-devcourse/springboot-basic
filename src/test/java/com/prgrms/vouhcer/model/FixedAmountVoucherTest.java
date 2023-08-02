@@ -3,6 +3,7 @@ package com.prgrms.vouhcer.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.prgrms.common.exception.NegativeArgumentException;
 import com.prgrms.order.model.OrderItem;
 import com.prgrms.order.model.Price;
 import com.prgrms.voucher.model.voucher.FixedAmountVoucher;
@@ -43,7 +44,7 @@ class FixedAmountVoucherTest {
     }
 
     @Test
-    @DisplayName("할인ㄷ된 금액이 원가보다 커서 할인된 금액이 음수가 나오는 경우 예외를 던진다.")
+    @DisplayName("할인된 금액이 원가보다 커서 할인된 금액이 음수가 나오는 경우 예외를 던진다.")
     void discountPrice_NegativeDiscountedPrice_ThrowsException() {
         //given
         Voucher createdVoucher = new FixedAmountVoucher(voucherId, new FixedDiscount(2000),
@@ -51,7 +52,7 @@ class FixedAmountVoucherTest {
 
         //when_then
         assertThatThrownBy(() -> createdVoucher.discountPrice(orderItem))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NegativeArgumentException.class);
     }
 
 }

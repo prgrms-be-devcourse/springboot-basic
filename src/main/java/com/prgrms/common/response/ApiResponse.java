@@ -1,7 +1,9 @@
 package com.prgrms.common.response;
 
 import com.prgrms.common.codes.SuccessCode;
+import lombok.Getter;
 
+@Getter
 public class ApiResponse<T> {
 
     private T result;

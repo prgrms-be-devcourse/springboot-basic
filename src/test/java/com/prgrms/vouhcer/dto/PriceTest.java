@@ -3,6 +3,7 @@ package com.prgrms.vouhcer.dto;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.prgrms.common.exception.NegativeArgumentException;
 import com.prgrms.order.model.Price;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +22,7 @@ class PriceTest {
 
         //when_then
         assertThatThrownBy(() -> new Price(value))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NegativeArgumentException.class);
     }
 
     @DisplayName("제품의 가격과 할인 금액을 넣었을 때 할인된 가격을 반환한다.")

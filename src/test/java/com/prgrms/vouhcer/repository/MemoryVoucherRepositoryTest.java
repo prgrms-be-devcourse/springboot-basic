@@ -11,7 +11,6 @@ import com.prgrms.voucher.model.Vouchers;
 import com.prgrms.voucher.model.discount.FixedDiscount;
 import com.prgrms.voucher.model.discount.PercentDiscount;
 import com.prgrms.voucher.repository.MemoryVoucherRepository;
-import com.prgrms.vouhcer.repository.JdbcVoucherRepositoryTest.TestGenerator;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;

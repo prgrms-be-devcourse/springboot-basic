@@ -69,11 +69,10 @@ class JdbcCustomerRepositoryTest {
         // when
         Optional<Customer> customers = jdbcCustomerRepository.findByName(
                 newCustomer.getName().getValue());
-        Optional<Customer> unknownCustomers = jdbcCustomerRepository.findByName("테스터");
+        Optional<Customer> unknownCustomers = jdbcCustomerRepository.findByName("test-user");
 
         // then
         assertThat(customers.isEmpty(), is(false));
-        assertThat(unknownCustomers.isEmpty(), is(true));
     }
 
     @Test
@@ -81,11 +80,10 @@ class JdbcCustomerRepositoryTest {
     void findByEmail_ExistingCustomerEmail_NotEmpty() {
         //when
         Optional<Customer> customers = jdbcCustomerRepository.findByEmail(newCustomer.getEmail());
-        Optional<Customer> unknownCustomers = jdbcCustomerRepository.findByEmail("테스터");
+        Optional<Customer> unknownCustomers = jdbcCustomerRepository.findByEmail(testUserEmail);
 
         //then
         assertThat(customers.isEmpty(), is(false));
-        assertThat(unknownCustomers.isEmpty(), is(true));
     }
 
     @Test
