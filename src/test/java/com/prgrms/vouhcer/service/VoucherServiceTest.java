@@ -2,6 +2,9 @@ package com.prgrms.vouhcer.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.prgrms.config.TestConfig;
+import com.prgrms.voucher.repository.VoucherRepository;
+import com.prgrms.voucher.service.VoucherService;
 import com.prgrms.voucher.service.dto.VoucherServiceCreateRequest;
 import com.prgrms.voucher.service.dto.VoucherServiceListRequest;
 import com.prgrms.voucher.service.dto.VoucherServiceResponse;
@@ -12,8 +15,6 @@ import com.prgrms.voucher.model.VoucherType;
 import com.prgrms.voucher.model.discount.Discount;
 import com.prgrms.voucher.model.discount.FixedDiscount;
 import com.prgrms.voucher.model.discount.PercentDiscount;
-import com.prgrms.voucher.repository.VoucherRepository;
-import com.prgrms.voucher.service.VoucherService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
@@ -23,23 +24,23 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 
-@ActiveProfiles("test")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Transactional
+@SpringBootTest
+@Import({TestConfig.class})
 class VoucherServiceTest {
 
-    final static String FIXED_ID = "2";
+    final static String FIXED_ID = "22";
     final static String PERCENT_ID = "40";
     final static double DISCOUNT_AMOUNT = 20;
 
     @Autowired
-    private VoucherRepository voucherRepository;
+    VoucherService voucherService;
 
     @Autowired
-    private VoucherService voucherService;
+    VoucherRepository voucherRepository;
 
     @Test
     @DisplayName("만들고자 하는 바우처를 createVoucher()로 만들었을 때 기대값과 같은 바우처를 반환한다.")
@@ -47,17 +48,15 @@ class VoucherServiceTest {
         //given
         VoucherType voucherType = VoucherType.FIXED_AMOUNT_VOUCHER;
         Discount discount = new FixedDiscount(DISCOUNT_AMOUNT);
-        Voucher createdVoucher = new FixedAmountVoucher(FIXED_ID, discount, voucherType, LocalDateTime.now());
         VoucherServiceCreateRequest serviceCreateRequest = new VoucherServiceCreateRequest(voucherType,DISCOUNT_AMOUNT);
 
         //when
-        VoucherServiceResponse result = voucherService.createVoucher(FIXED_ID, serviceCreateRequest, LocalDateTime.now());
+        VoucherServiceResponse result = voucherService.createVoucher(serviceCreateRequest);
 
         //then
-        assertThat(result)
+        assertThat(result.voucherId())
                 .isNotNull()
-                .usingRecursiveComparison()
-                .isEqualTo(new VoucherServiceResponse(createdVoucher));
+                .isEqualTo("22");
     }
 
     @ParameterizedTest
