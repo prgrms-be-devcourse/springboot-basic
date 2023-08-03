@@ -3,7 +3,6 @@ package org.prgrms.kdt.model.repository.inmemory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.CommonRuntimeException;
@@ -12,7 +11,6 @@ import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
@@ -29,27 +27,29 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
 	@Override
-	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
+	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
 		try {
 			map.put(voucherEntity.getVoucherId(), voucherEntity);
 			return voucherEntity;
 		} catch (RuntimeException ex) {
+			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), ex);
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
 	}
 
 	@Override
-	public List<VoucherEntity> findAll() {
+	public List<VoucherEntity> findAllEntities() {
 		return new ArrayList<>(map.values());
 	}
 
 	@Override
 	public VoucherEntity updateVoucher(VoucherEntity voucherEntity) {
 		try {
-			VoucherEntity targetVoucher = findById(voucherEntity.getVoucherId());
+			VoucherEntity targetVoucher = findVoucherById(voucherEntity.getVoucherId());
 			map.put(voucherEntity.getVoucherId(), voucherEntity);
 		} catch (RuntimeException e) {
+			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_UPDATE_FAIL.getErrorMessage(), e);
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
 		}
@@ -57,7 +57,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity findById(Long voucherId) {
+	public VoucherEntity findVoucherById(Long voucherId) {
 		VoucherEntity foundVoucher = map.get(voucherId);
 
 		if (foundVoucher != null) {
@@ -69,11 +69,12 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void deleteById(Long voucherId) {
+	public void deleteVoucherById(Long voucherId) {
 		try {
-			VoucherEntity targetVoucher = findById(voucherId);
+			VoucherEntity targetVoucher = findVoucherById(voucherId);
 			map.remove(targetVoucher.getVoucherId());
 		} catch (RuntimeException e) {
+			logger.error("voucher entity id is {}", voucherId);
 			logger.error(ErrorCode.VOUCHER_DELETE_FAIL.getErrorMessage(), e);
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
 		}

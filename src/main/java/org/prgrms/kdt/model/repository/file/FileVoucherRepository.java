@@ -3,7 +3,6 @@ package org.prgrms.kdt.model.repository.file;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.CommonRuntimeException;
@@ -32,19 +31,20 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
+	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
 		try {
 			String voucherJson = objectMapper.writeValueAsString(voucherEntity);
 			fileIO.saveStringToFile(voucherJson + System.lineSeparator());
 			return voucherEntity;
 		} catch (JsonProcessingException ex) {
+			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), ex);
 			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
 	}
 
 	@Override
-	public List<VoucherEntity> findAll() {
+	public List<VoucherEntity> findAllEntities() {
 		String fileAllText = fileIO.loadStringFromFile();
 		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
 		return voucherEntities;
@@ -71,7 +71,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity findById(Long voucherId) {
+	public VoucherEntity findVoucherById(Long voucherId) {
 		String fileAllText = fileIO.loadStringFromFile();
 		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
 		return voucherEntities
@@ -80,6 +80,7 @@ public class FileVoucherRepository implements VoucherRepository {
 			.findFirst()
 			.orElseThrow(
 				() -> {
+					logger.error("voucher entity id is {}", voucherId);
 					logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage());
 					throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 				}
@@ -87,7 +88,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void deleteById(Long voucherId) {
+	public void deleteVoucherById(Long voucherId) {
 		throw new UnsupportedOperationException("아직 미 구현한 기능 입니다.");
 	}
 }
