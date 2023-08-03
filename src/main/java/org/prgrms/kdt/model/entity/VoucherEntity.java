@@ -1,14 +1,12 @@
 package org.prgrms.kdt.model.entity;
 
-import org.prgrms.kdt.enums.VoucherType;
-
 public class VoucherEntity {
 
 	private Long voucherId;
 
 	private int amount;
 
-	private VoucherType voucherType;
+	private String voucherType;
 
 	/**
 	 * <p>json으로 deserialization하는 ObjectMapper 클래스에서 default 생성자를 요구하여 작성하였습니다.</p>
@@ -16,7 +14,7 @@ public class VoucherEntity {
 	public VoucherEntity() {
 	}
 
-	public VoucherEntity(Long voucherId, int amount, VoucherType voucherType) {
+	public VoucherEntity(Long voucherId, int amount, String voucherType) {
 		this.voucherId = voucherId;
 		this.amount = amount;
 		this.voucherType = voucherType;
@@ -30,7 +28,7 @@ public class VoucherEntity {
 		return amount;
 	}
 
-	public VoucherType getVoucherType() {
+	public String getVoucherType() {
 		return voucherType;
 	}
 }

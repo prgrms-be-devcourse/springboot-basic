@@ -1,21 +1,26 @@
 package org.prgrms.kdt.model.dto;
 
+import org.prgrms.kdt.model.domain.Voucher;
+import org.prgrms.kdt.util.VoucherFactory;
+
 public class VoucherRequest {
-
 	private int amount;
+	private String voucherType;
 
-	private int voucherTypeIdx;
-
-	public VoucherRequest(int amount, int voucherTypeIdx) {
+	public VoucherRequest(int amount, String voucherType) {
 		this.amount = amount;
-		this.voucherTypeIdx = voucherTypeIdx;
+		this.voucherType = voucherType;
 	}
 
 	public int getAmount() {
 		return amount;
 	}
 
-	public int getVoucherTypeIdx() {
-		return voucherTypeIdx;
+	public String getVoucherType() {
+		return voucherType;
+	}
+
+	public Voucher toDto() {
+		return VoucherFactory.createVoucherDomain(amount, voucherType);
 	}
 }

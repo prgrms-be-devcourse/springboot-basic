@@ -8,8 +8,7 @@ import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.Amount;
-import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,7 +24,7 @@ public class ConsoleView implements InputView, OutputView {
 		Arrays.stream(Command.values())
 			.forEach(
 				command -> {
-					String commandDescription = MessageFormat.format(
+					java.lang.String commandDescription = MessageFormat.format(
 						"Type {0} {1}", command.name(), command.getDescription()
 					);
 
@@ -39,7 +38,7 @@ public class ConsoleView implements InputView, OutputView {
 		Arrays.stream(VoucherType.values())
 			.forEach(
 				voucherType -> {
-					String voucherIdxDescription = MessageFormat.format(
+					java.lang.String voucherIdxDescription = MessageFormat.format(
 						"{0}: {1}", voucherType.name(), voucherType.getVoucherIdx()
 					);
 					System.out.println(voucherIdxDescription);
@@ -55,7 +54,7 @@ public class ConsoleView implements InputView, OutputView {
 
 	@Override
 	public Command getCommand() {
-		String commandString = this.textIo.newStringInputReader()
+		java.lang.String commandString = this.textIo.newStringInputReader()
 			.withInputTrimming(true)
 			.withMinLength(1)
 			.read("command input: ")
@@ -96,9 +95,9 @@ public class ConsoleView implements InputView, OutputView {
 	}
 
 	@Override
-	public void displayVoucherList(List<VoucherDTO> voucherDTOS) {
-		for (VoucherDTO voucherDTO : voucherDTOS) {
-			printVoucherDTO(voucherDTO);
+	public void displayVoucherList(List<VoucherResponse> vouchers) {
+		for (VoucherResponse voucher : vouchers) {
+			printVoucherDTO(voucher);
 		}
 	}
 
@@ -107,10 +106,9 @@ public class ConsoleView implements InputView, OutputView {
 		System.out.println("잘 못된 명령어 입니다.");
 	}
 
-	public void printVoucherDTO(VoucherDTO voucherDTO) {
-		Amount amount = voucherDTO.getAmount();
+	public void printVoucherDTO(VoucherResponse voucher) {
 		String voucherDataString = MessageFormat.format("voucher id: {0} voucher type: {1} voucher amount: {2}",
-			voucherDTO.getVoucherId(), voucherDTO.getVoucherType(), amount.getAmount()
+			voucher.voucherId(), voucher.voucherType(), voucher.amount()
 		);
 
 		System.out.println(voucherDataString);
