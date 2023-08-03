@@ -57,8 +57,7 @@ class WalletRestControllerTest {
     @DisplayName("지갑 생성하면 성공한다.")
     @MethodSource("provideWallets")
     void createWallet_ParamWallet_CreateWallet(WalletResult result) throws Exception {
-        given(service.createWallet(any(WalletParam.class)))
-                .willReturn(result.walletId());
+        given(service.createWallet(any())).willReturn(result.walletId());
 
         mockMvc.perform(post("/api/v1/wallets")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -66,7 +65,7 @@ class WalletRestControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$")
-                        .value(result.walletId().toString() + ResponseMessage.CREATE_SUCCESS));
+                        .value(result.walletId().toString() + ResponseMessage.CREATE_SUCCESS.getPrompt()));
 
         verify(service, times(1)).createWallet(any());
     }
@@ -84,7 +83,7 @@ class WalletRestControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$")
-                        .value(result.walletId().toString() + ResponseMessage.UPDATE_SUCCESS));
+                        .value(result.walletId().toString() + ResponseMessage.UPDATE_SUCCESS.getPrompt()));
 
         verify(service, times(1)).updateWallet(any());
     }
@@ -100,7 +99,7 @@ class WalletRestControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$")
-                        .value(result.walletId().toString() + ResponseMessage.DELETE_SUCCESS));
+                        .value(result.walletId().toString() + ResponseMessage.DELETE_SUCCESS.getPrompt()));
 
         verify(service, times(1)).deleteWalletById(any());
     }
