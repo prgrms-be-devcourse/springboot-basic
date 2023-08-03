@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -64,7 +65,6 @@ class CustomerJdbcRepositoryTest {
 			return new JdbcTemplate(dataSource);
 		}
 
-
 		@Bean
 		public IdGenerator idGenerator() {
 			return new IdGenerator();
@@ -110,18 +110,19 @@ class CustomerJdbcRepositoryTest {
 	@Order(1)
 	@DisplayName("고객을 추가할 수 있다.")
 	public void testInsert() {
-		customerJdbcRepository.saveCustomer(newCustomer);
+		customerJdbcRepository.create(newCustomer);
 
-		var retrievedCustomer = customerJdbcRepository.findCustomerById(newCustomer.customerId());
+		var retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
 
-		assertThat(retrievedCustomer, samePropertyValuesAs(newCustomer));
+		assertThat(retrievedCustomer.isEmpty(), is(false));
+		assertThat(retrievedCustomer.get(), samePropertyValuesAs(newCustomer));
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("전체 고객을 조회할 수 있다.")
 	public void testFindAll() {
-		List<CustomerEntity> customers = customerJdbcRepository.findAllCustomers();
+		List<CustomerEntity> customers = customerJdbcRepository.findAll();
 		assertThat(customers.isEmpty(), is(false));
 	}
 
@@ -129,16 +130,17 @@ class CustomerJdbcRepositoryTest {
 	@Order(3)
 	@DisplayName("고객을 수정할 수 있다.")
 	public void updateCustomer() {
-		CustomerEntity updatedCustomer = new CustomerEntity(newCustomer.customerId(), newCustomer.name(),
-			newCustomer.email(), newCustomer.createdAt());
+		CustomerEntity updatedCustomer = new CustomerEntity(newCustomer.getCustomerId(), newCustomer.getName(),
+			newCustomer.getEmail(), newCustomer.getCreatedAt());
 
-		customerJdbcRepository.updateCustomer(updatedCustomer);
+		customerJdbcRepository.update(updatedCustomer);
 
-		List<CustomerEntity> all = customerJdbcRepository.findAllCustomers();
+		List<CustomerEntity> all = customerJdbcRepository.findAll();
 		assertThat(all, hasSize(1));
 		assertThat(all, everyItem(samePropertyValuesAs(updatedCustomer)));
 
-		CustomerEntity retrievedCustomer = customerJdbcRepository.findCustomerById(newCustomer.customerId());
-		assertThat(retrievedCustomer, samePropertyValuesAs(updatedCustomer));
+		Optional<CustomerEntity> retrievedCustomer = customerJdbcRepository.findById(newCustomer.getCustomerId());
+		assertThat(retrievedCustomer.isEmpty(), is(false));
+		assertThat(retrievedCustomer.get(), samePropertyValuesAs(updatedCustomer));
 	}
 }

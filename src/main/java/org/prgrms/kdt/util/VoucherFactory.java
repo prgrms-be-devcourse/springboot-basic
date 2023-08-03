@@ -4,23 +4,27 @@ import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.Amount;
 import org.prgrms.kdt.model.FixedAmount;
 import org.prgrms.kdt.model.PercentAmount;
-import org.prgrms.kdt.model.domain.Voucher;
-import org.prgrms.kdt.model.dto.VoucherRequest;
-import org.prgrms.kdt.model.entity.VoucherEntity;
+import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.model.dto.VoucherResponse;
 
 public final class VoucherFactory {
 	private static final IdGenerator idGenerator = new IdGenerator();
 
-	public static Voucher createVoucherDomain(int amount, String voucherTypeString) {
-		Long voucherId = idGenerator.getRandomId();
-		VoucherType voucherType = VoucherType.value(voucherTypeString);
-		Amount voucherAmount = getVoucherAmount(amount, voucherType);
-		return new Voucher(voucherId, voucherAmount, voucherType);
+	private VoucherFactory() {
 	}
 
-	public static VoucherEntity createVoucherEntity(VoucherRequest voucherRequest) {
+	public static VoucherResponse getVoucherResponse(VoucherDTO voucherDTO) {
+		Long voucherId = voucherDTO.getVoucherId();
+		int amountValue = voucherDTO.getAmount().getAmount();
+		String voucherType = voucherDTO.getVoucherType().toString();
+
+		return new VoucherResponse(voucherId, amountValue, voucherType);
+	}
+
+	public static VoucherDTO getVoucherDTO(int amount, VoucherType voucherType) {
 		Long voucherId = idGenerator.getRandomId();
-		return new VoucherEntity(voucherId, voucherRequest.getAmount(), voucherRequest.getVoucherType());
+		Amount voucherAmount = getVoucherAmount(amount, voucherType);
+		return new VoucherDTO(voucherId, voucherAmount, voucherType);
 	}
 
 	public static Amount getVoucherAmount(int amount, VoucherType voucherType) {

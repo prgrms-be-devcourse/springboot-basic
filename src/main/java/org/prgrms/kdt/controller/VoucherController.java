@@ -1,10 +1,16 @@
 package org.prgrms.kdt.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.dto.VoucherRequest;
 import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.prgrms.kdt.service.VoucherService;
+import org.prgrms.kdt.util.VoucherFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -25,32 +31,51 @@ public class VoucherController {
 
 	@GetMapping("/vouchers")
 	public String viewVouchersPage(Model model) {
-		List<VoucherResponse> vouchers = voucherService.getVouchers();
-		model.addAttribute("vouchers", vouchers);
+		List<VoucherResponse> allCustomers = voucherService
+			.getVouchers()
+			.stream().map(voucherDTO -> VoucherFactory.getVoucherResponse(voucherDTO))
+			.collect(Collectors.toList());
+
+		model.addAttribute("serverTime", LocalDateTime.now());
+		model.addAttribute("vouchers", allCustomers);
 		return "vouchers";
 	}
 
-	@GetMapping("/voucher/new")
+	@GetMapping("/vouchers/new")
 	public String viewNewVoucherPage() {
 		return "new-vouchers";
 	}
 
-	@PostMapping("/voucher/new")
+	@PostMapping("/vouchers/new")
 	public String addNewVoucher(VoucherRequest voucherRequest) {
-		voucherService.saveVoucher(voucherRequest);
+		int amount = voucherRequest.getAmount();
+		int voucherTypeIdx = voucherRequest.getVoucherTypeIdx();
+
+		VoucherDTO newVoucherDTO = VoucherFactory.getVoucherDTO(amount, VoucherType.valueOf(voucherTypeIdx));
+		voucherService.createVoucher(newVoucherDTO);
 		return "redirect:/vouchers";
 	}
 
 	@GetMapping("/vouchers/details/{voucherId}")
 	public String findVoucher(@PathVariable("voucherId") Long voucherId, Model model) {
-		VoucherResponse voucherResponse = voucherService.findVoucherById(voucherId);
-		model.addAttribute("voucher", voucherResponse);
-		return "voucher-details";
+		Optional<VoucherDTO> maybeVoucher = voucherService.findVoucherById(voucherId);
+
+		if (maybeVoucher.isPresent()) {
+			model.addAttribute("voucher", maybeVoucher.get());
+			return "voucher-details";
+		} else {
+			return "404";
+		}
 	}
 
 	@GetMapping("/vouchers/delete/{voucherId}")
 	public String deleteVoucherPage(@PathVariable("voucherId") Long voucherId, Model model) {
-		voucherService.deleteVoucherById(voucherId);
-		return "redirect:/vouchers";
+		boolean result = voucherService.deleteVoucherById(voucherId);
+
+		if (result) {
+			return "redirect:/vouchers";
+		} else {
+			return "404";
+		}
 	}
 }

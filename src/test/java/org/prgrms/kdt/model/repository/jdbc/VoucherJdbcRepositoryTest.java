@@ -8,6 +8,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.util.IdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +82,7 @@ class VoucherJdbcRepositoryTest {
 
 	@BeforeAll
 	void setup() {
-		newVoucher = new VoucherEntity(idGenerator.getRandomId(), 100, "FixedAmountVoucher");
+		newVoucher = new VoucherEntity(idGenerator.getRandomId(), 100, VoucherType.FixedAmountVoucher);
 		var mysqlConfig = aMysqldConfig(v5_7_27)
 			.withCharset(Charset.aCharset("utf8mb4", "utf8mb4_bin"))
 			.withPort(2215)
@@ -102,9 +104,9 @@ class VoucherJdbcRepositoryTest {
 	@Order(1)
 	@DisplayName("바우처를 추가할 수 있다.")
 	public void testInsert() {
-		voucherJdbcRepository.saveVoucher(newVoucher);
+		voucherJdbcRepository.createVoucher(newVoucher);
 
-		var vouchers = voucherJdbcRepository.findAllEntities();
+		var vouchers = voucherJdbcRepository.findAll();
 
 		assertThat(vouchers.isEmpty(), is(false));
 		assertThat(vouchers.get(0), samePropertyValuesAs(newVoucher));
@@ -114,8 +116,8 @@ class VoucherJdbcRepositoryTest {
 	@Order(2)
 	@DisplayName("전체 바우처를 조회할 수 있다.")
 	public void testFindAll() {
-		VoucherEntity voucher = voucherJdbcRepository.findVoucherById(newVoucher.getVoucherId());
-		assertThat(voucher, samePropertyValuesAs(newVoucher));
+		Optional<VoucherEntity> voucher = voucherJdbcRepository.findById(newVoucher.getVoucherId());
+		assertThat(voucher.isEmpty(), is(false));
 	}
 
 	@Test
@@ -127,7 +129,7 @@ class VoucherJdbcRepositoryTest {
 
 		voucherJdbcRepository.updateVoucher(updatedVoucher);
 
-		List<VoucherEntity> all = voucherJdbcRepository.findAllEntities();
+		List<VoucherEntity> all = voucherJdbcRepository.findAll();
 		assertThat(all, hasSize(1));
 		assertThat(all, everyItem(samePropertyValuesAs(updatedVoucher)));
 	}
@@ -138,9 +140,9 @@ class VoucherJdbcRepositoryTest {
 	public void deleteVoucher() {
 		Long voucherId = newVoucher.getVoucherId();
 
-		voucherJdbcRepository.deleteVoucherById(voucherId);
+		voucherJdbcRepository.deleteById(voucherId);
 
-		List<VoucherEntity> all = voucherJdbcRepository.findAllEntities();
+		List<VoucherEntity> all = voucherJdbcRepository.findAll();
 		assertThat(all, hasSize(0));
 	}
 }

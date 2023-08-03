@@ -3,9 +3,8 @@ package org.prgrms.kdt.model.repository.file;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
-import org.prgrms.kdt.common.codes.ErrorCode;
-import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.util.FileIO;
@@ -31,20 +30,20 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
+	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
 		try {
 			String voucherJson = objectMapper.writeValueAsString(voucherEntity);
 			fileIO.saveStringToFile(voucherJson + System.lineSeparator());
-			return voucherEntity;
-		} catch (JsonProcessingException ex) {
-			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
-			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), ex);
-			throw new VoucherRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
+		} catch (JsonProcessingException e) {
+			logger.error("save 메서드에서 voucher 저장 실패");
+			logger.error(e.toString());
 		}
+
+		return voucherEntity;
 	}
 
 	@Override
-	public List<VoucherEntity> findAllEntities() {
+	public List<VoucherEntity> findAll() {
 		String fileAllText = fileIO.loadStringFromFile();
 		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
 		return voucherEntities;
@@ -59,7 +58,8 @@ public class FileVoucherRepository implements VoucherRepository {
 					VoucherEntity voucherEntity = objectMapper.readValue(line, VoucherEntity.class);
 					voucherEntities.add(voucherEntity);
 				} catch (JsonProcessingException e) {
-					logger.error("readAll 메서드에서 파일 불러오기 실패" + e.toString());
+					logger.error("readAll 메서드에서 파일 불러오기 실패");
+					logger.error(e.toString());
 				}
 			});
 		return voucherEntities;
@@ -71,24 +71,17 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity findVoucherById(Long voucherId) {
+	public Optional<VoucherEntity> findById(Long voucherId) {
 		String fileAllText = fileIO.loadStringFromFile();
 		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
 		return voucherEntities
 			.stream()
-			.filter(voucherEntity -> voucherEntity.getVoucherId().equals(voucherId))
-			.findFirst()
-			.orElseThrow(
-				() -> {
-					logger.error("voucher entity id is {}", voucherId);
-					logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage());
-					throw new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
-				}
-			);
+			.filter(voucherEntity -> voucherEntity.getVoucherId() == voucherId)
+			.findFirst();
 	}
 
 	@Override
-	public void deleteVoucherById(Long voucherId) {
+	public boolean deleteById(Long voucherId) {
 		throw new UnsupportedOperationException("아직 미 구현한 기능 입니다.");
 	}
 }

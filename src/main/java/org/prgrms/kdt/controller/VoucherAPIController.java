@@ -1,20 +1,22 @@
 package org.prgrms.kdt.controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.dto.VoucherRequest;
-import org.prgrms.kdt.model.dto.VoucherResponse;
+import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -25,37 +27,39 @@ public class VoucherAPIController {
 		this.voucherService = voucherService;
 	}
 
-	@GetMapping("/api/vouchers")
+	@GetMapping("/api/v1/vouchers")
 	@ResponseBody
-	public List<VoucherResponse> findVouchers() {
+	public List<VoucherDTO> findVouchers() {
 		return voucherService.getVouchers();
 	}
 
-	@GetMapping("/api/vouchers/search")
+	@GetMapping("/api/v1/vouchers/voucher-type/{voucherTypeIdx}")
 	@ResponseBody
-	public List<VoucherResponse> findVouchers(
-		@RequestParam(value = "voucher-type", required = false, defaultValue = "") String voucherType
-	) {
-		return voucherService.findVoucherByVoucherType(VoucherType.valueOf(voucherType));
+	public List<VoucherDTO> findVouchers(@PathVariable("voucherTypeIdx")int voucherTypeIdx, Model model) {
+		VoucherType targetVoucherType = VoucherType.valueOf(voucherTypeIdx);
+		return voucherService.getVouchers()
+			.stream()
+			.filter(voucherDTO -> voucherDTO.getVoucherType() == targetVoucherType)
+			.collect(Collectors.toList());
 	}
 
-	@GetMapping("/api/vouchers/{voucher-id}")
+	@GetMapping("/api/v1/vouchers/{voucherId}")
 	@ResponseBody
-	public VoucherResponse findVoucherById(@PathVariable("voucher-id")Long voucherId, Model model) {
-		return voucherService.findVoucherById(voucherId);
+	public VoucherDTO findVoucherById(@PathVariable("voucherId")Long voucherId, Model model) {
+		return voucherService.findVoucherById(voucherId).orElse(null);
 	}
 
-	@DeleteMapping("/api/vouchers/{voucher-id}")
+	@DeleteMapping("/api/v1/vouchers/{voucherId}")
 	@ResponseBody
-	public ResponseEntity deleteVoucherById(@PathVariable("voucher-id")Long voucherId) {
+	public ResponseEntity<?> deleteVoucherById(@PathVariable("voucherId")Long voucherId) {
 		voucherService.deleteVoucherById(voucherId);
 		return ResponseEntity.ok("Voucher deleted");
 	}
 
-	@PostMapping("/api/vouchers/new")
+	@PostMapping("/api/v1/vouchers")
 	@ResponseBody
-	public ResponseEntity saveVoucher(@RequestBody VoucherRequest voucherRequest) {
-		voucherService.saveVoucher(voucherRequest);
+	public ResponseEntity<?> createVoucher(@RequestBody VoucherDTO voucherDTO) {
+		voucherService.createVoucher(voucherDTO);
 		return ResponseEntity.ok("Voucher created");
 	}
 }

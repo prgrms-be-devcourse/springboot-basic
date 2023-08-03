@@ -1,15 +1,17 @@
-package org.prgrms.kdt.model.domain;
+package org.prgrms.kdt.model.dto;
 
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.Amount;
-import org.prgrms.kdt.model.dto.VoucherResponse;
 
-public final class Voucher {
+public class VoucherDTO {
+
 	private final Long voucherId;
+
 	private final Amount amount;
+
 	private final VoucherType voucherType;
 
-	public Voucher(Long voucherId, Amount amount, VoucherType voucherType) {
+	public VoucherDTO(Long voucherId, Amount amount, VoucherType voucherType) {
 		this.voucherId = voucherId;
 		this.amount = amount;
 		this.voucherType = voucherType;

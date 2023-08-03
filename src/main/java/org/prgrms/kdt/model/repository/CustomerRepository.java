@@ -1,15 +1,16 @@
 package org.prgrms.kdt.model.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.prgrms.kdt.model.entity.CustomerEntity;
 
 public interface CustomerRepository {
-	CustomerEntity saveCustomer(CustomerEntity customer);
+	CustomerEntity create(CustomerEntity customer);
 
-	CustomerEntity updateCustomer(CustomerEntity updatedCustomer);
+	CustomerEntity update(CustomerEntity updatedCustomer);
 
-	List<CustomerEntity> findAllCustomers();
+	List<CustomerEntity> findAll();
 
-	CustomerEntity findCustomerById(Long customerId);
+	Optional<CustomerEntity> findById(Long customerId);
 }

@@ -3,33 +3,25 @@ package org.prgrms.kdt.model.repository.jdbc;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
-import org.prgrms.kdt.common.codes.ErrorCode;
-import org.prgrms.kdt.common.exception.CustomerRuntimeException;
-import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.model.entity.CustomerEntity;
 import org.prgrms.kdt.model.repository.CustomerRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Primary
 @Qualifier("JdbcCustomerRepository")
 public class CustomerJdbcRepository implements CustomerRepository {
 
 	private final DataSource dataSource;
 
 	private final JdbcTemplate jdbcTemplate;
-
-	private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
 
 	public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
 		this.dataSource = dataSource;
@@ -45,56 +37,49 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	};
 
 	@Override
-	public CustomerEntity saveCustomer(CustomerEntity customer) {
-		try{
-			jdbcTemplate.update(
-				"INSERT INTO customers(customer_id, name, email, created_at) VALUES (?, ?, ?, ?)",
-				customer.customerId().toString(),
-				customer.name(),
-				customer.email(),
-				Timestamp.valueOf(customer.createdAt())
-			);
-			return customer;
-		}catch (Exception e) {
-			logger.error("CustomerEntity id is {}",customer.customerId());
-			logger.error(ErrorCode.CUSTOMER_CREATE_FAIL.getErrorMessage(), e);
-			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_CREATE_FAIL);
+	public CustomerEntity create(CustomerEntity customer) {
+		int update = jdbcTemplate.update(
+			"INSERT INTO customers(customer_id, name, email, created_at) VALUES (?, ?, ?, ?)",
+			customer.getCustomerId().toString(),
+			customer.getName(),
+			customer.getEmail(),
+			Timestamp.valueOf(customer.getCreatedAt())
+		);
+
+		if (update != 1) {
+			throw new RuntimeException("Nothing was created");
 		}
+		return customer;
 	}
 
 	@Override
-	public CustomerEntity updateCustomer(CustomerEntity customerEntity) {
-		try {
-			jdbcTemplate.update("UPDATE customers SET name = ?, email = ? WHERE customer_id = ?",
-				customerEntity.name(),
-				customerEntity.email(),
-				customerEntity.customerId()
-			);
-			return customerEntity;
-		} catch (RuntimeException e) {
-			logger.error("CustomerEntity id is {}",customerEntity.customerId());
-			logger.error(ErrorCode.CUSTOMER_UPDATE_FAIL.getErrorMessage(), e);
-			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_UPDATE_FAIL);
+	public CustomerEntity update(CustomerEntity updatedCustomer) {
+		int update = jdbcTemplate.update("UPDATE customers SET name = ?, email = ? WHERE customer_id = ?",
+			updatedCustomer.getName(),
+			updatedCustomer.getEmail(),
+			updatedCustomer.getCustomerId()
+		);
+		if (update != 1) {
+			throw new RuntimeException("Nothing was updated");
 		}
+		return updatedCustomer;
 	}
 
 	@Override
-	public List<CustomerEntity> findAllCustomers() {
+	public List<CustomerEntity> findAll() {
 		return jdbcTemplate.query("select * from customers", customerRowMapper);
 	}
 
 	@Override
-	public CustomerEntity findCustomerById(Long customerId) {
+	public Optional<CustomerEntity> findById(Long customerId) {
 		try {
-			return jdbcTemplate.queryForObject(
+			return Optional.ofNullable(jdbcTemplate.queryForObject(
 				"select * from customers WHERE customer_id = ?",
 				customerRowMapper,
-				customerId.toString()
+				customerId.toString())
 			);
 		} catch (EmptyResultDataAccessException e) {
-			logger.error("CustomerEntity id is {}", customerId);
-			logger.error(ErrorCode.CUSTOMER_ID_NOT_FOUND.getErrorMessage(), e);
-			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_ID_NOT_FOUND);
+			return Optional.empty();
 		}
 	}
 }
