@@ -1,10 +1,9 @@
 package org.prgrms.kdt.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.model.dto.VoucherRequest;
+import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.prgrms.kdt.service.VoucherService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,36 +26,33 @@ public class VoucherAPIController {
 
 	@GetMapping("/api/vouchers")
 	@ResponseBody
-	public List<VoucherDTO> findVouchers() {
+	public List<VoucherResponse> findVouchers() {
 		return voucherService.getVouchers();
 	}
 
-	@GetMapping("/api/vouchers/voucher-type/{voucherType}")
+	@GetMapping("/api/vouchers/search/{voucher-type}")
 	@ResponseBody
-	public List<VoucherDTO> findVouchers(@RequestParam("voucherType") VoucherType voucherType, Model model) {
-		return voucherService.getVouchers()
-			.stream()
-			.filter(voucherDTO -> voucherDTO.voucherType() == voucherType)
-			.collect(Collectors.toList());
+	public List<VoucherResponse> findVouchers(@RequestParam("voucherType") String voucherType) {
+		return voucherService.findVoucherByVoucherType(voucherType);
 	}
 
-	@GetMapping("/api/vouchers/{voucherId}")
+	@GetMapping("/api/vouchers/{voucher-id}")
 	@ResponseBody
-	public VoucherDTO findVoucherById(@PathVariable("voucherId")Long voucherId, Model model) {
+	public VoucherResponse findVoucherById(@PathVariable("voucher-id")Long voucherId, Model model) {
 		return voucherService.findVoucherById(voucherId);
 	}
 
-	@DeleteMapping("/api/vouchers/{voucherId}")
+	@DeleteMapping("/api/vouchers/{voucher-id}")
 	@ResponseBody
-	public ResponseEntity deleteVoucherById(@PathVariable("voucherId")Long voucherId) {
+	public ResponseEntity deleteVoucherById(@PathVariable("voucher-id")Long voucherId) {
 		voucherService.deleteVoucherById(voucherId);
 		return ResponseEntity.ok("Voucher deleted");
 	}
 
-	@PostMapping("/api/vouchers")
+	@PostMapping("/api/vouchers/new")
 	@ResponseBody
-	public ResponseEntity createVoucher(@RequestBody VoucherDTO voucherDTO) {
-		voucherService.createVoucher(voucherDTO);
+	public ResponseEntity saveVoucher(@RequestBody VoucherRequest voucherRequest) {
+		voucherService.saveVoucher(voucherRequest);
 		return ResponseEntity.ok("Voucher created");
 	}
 }
