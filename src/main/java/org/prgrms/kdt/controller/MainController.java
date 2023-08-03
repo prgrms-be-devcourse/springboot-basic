@@ -4,14 +4,13 @@ import java.util.List;
 
 import org.prgrms.kdt.enums.Command;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.model.dto.VoucherRequest;
+import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.util.VoucherFactory;
 import org.prgrms.kdt.view.InputView;
 import org.prgrms.kdt.view.OutputView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -55,8 +54,8 @@ public class MainController {
 				int amount = inputView.getAmount();
 
 				try {
-					VoucherDTO voucherDTO = VoucherFactory.getVoucherDTO(amount, voucherType);
-					this.voucherService.createVoucher(voucherDTO);
+					VoucherRequest voucherRequest = new VoucherRequest(amount, voucherType.toString());
+					this.voucherService.saveVoucher(voucherRequest);
 					logger.error("바우처 생성 성공");
 				} catch (IllegalArgumentException e) {
 					logger.error("잘못 된 할인 값으로 인한 바우처 생성 실패");
@@ -65,8 +64,8 @@ public class MainController {
 				}
 			}
 			case LIST -> {
-				List<VoucherDTO> voucherDTOs = voucherService.getVouchers();
-				outputView.displayVoucherList(voucherDTOs);
+				List<VoucherResponse> vouchers = voucherService.getVouchers();
+				outputView.displayVoucherList(vouchers);
 				logger.info("바우처 리스트 출력");
 			}
 			case EXIT -> {

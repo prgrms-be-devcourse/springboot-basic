@@ -2,7 +2,7 @@ package org.prgrms.kdt.view;
 
 import java.util.List;
 
-import org.prgrms.kdt.model.dto.VoucherDTO;
+import org.prgrms.kdt.model.dto.VoucherResponse;
 
 public interface OutputView {
 	void displayCommandGuideMessage();
@@ -13,7 +13,7 @@ public interface OutputView {
 
 	void displayAmountErrorMessage();
 
-	void displayVoucherList(List<VoucherDTO> voucherTypes);
+	void displayVoucherList(List<VoucherResponse> voucherTypes);
 
 	void displayCommandErrorMessage();
 
