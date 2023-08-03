@@ -7,10 +7,10 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
-import org.prgrms.kdt.common.exception.CommonRuntimeException;
+import org.prgrms.kdt.common.exception.CustomerRuntimeException;
+import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.model.entity.CustomerEntity;
 import org.prgrms.kdt.model.repository.CustomerRepository;
-import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -58,7 +58,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		}catch (Exception e) {
 			logger.error("CustomerEntity id is {}",customer.customerId());
 			logger.error(ErrorCode.CUSTOMER_CREATE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.CUSTOMER_CREATE_FAIL);
+			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_CREATE_FAIL);
 		}
 	}
 
@@ -74,7 +74,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		} catch (RuntimeException e) {
 			logger.error("CustomerEntity id is {}",customerEntity.customerId());
 			logger.error(ErrorCode.CUSTOMER_UPDATE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.CUSTOMER_UPDATE_FAIL);
+			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_UPDATE_FAIL);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 		} catch (EmptyResultDataAccessException e) {
 			logger.error("CustomerEntity id is {}", customerId);
 			logger.error(ErrorCode.CUSTOMER_ID_NOT_FOUND.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_ID_NOT_FOUND);
 		}
 	}
 }

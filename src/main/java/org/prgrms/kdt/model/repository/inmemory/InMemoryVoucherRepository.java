@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
-import org.prgrms.kdt.common.exception.CommonRuntimeException;
+import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
@@ -34,7 +34,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 		} catch (RuntimeException ex) {
 			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), ex);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
 	}
 
@@ -51,7 +51,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 		} catch (RuntimeException e) {
 			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_UPDATE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
 		}
 		return voucherEntity;
 	}
@@ -65,7 +65,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 		}
 
 		logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage());
-		throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+		throw new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 		} catch (RuntimeException e) {
 			logger.error("voucher entity id is {}", voucherId);
 			logger.error(ErrorCode.VOUCHER_DELETE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
 		}
 	}
 }

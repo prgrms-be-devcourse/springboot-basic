@@ -2,10 +2,10 @@ package org.prgrms.kdt.common.exception;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
 
-public class CommonRuntimeException extends RuntimeException{
+public class VoucherRuntimeException extends RuntimeException{
 	private final ErrorCode errorCode;
 
-	public CommonRuntimeException(ErrorCode errorCode) {
+	public VoucherRuntimeException(ErrorCode errorCode) {
 		this.errorCode = errorCode;
 	}
 

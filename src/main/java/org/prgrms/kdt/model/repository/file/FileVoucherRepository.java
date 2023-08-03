@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
-import org.prgrms.kdt.common.exception.CommonRuntimeException;
+import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.util.FileIO;
@@ -39,7 +39,7 @@ public class FileVoucherRepository implements VoucherRepository {
 		} catch (JsonProcessingException ex) {
 			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), ex);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
 	}
 
@@ -82,7 +82,7 @@ public class FileVoucherRepository implements VoucherRepository {
 				() -> {
 					logger.error("voucher entity id is {}", voucherId);
 					logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage());
-					throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+					throw new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 				}
 			);
 	}

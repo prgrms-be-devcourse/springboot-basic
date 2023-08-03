@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
-import org.prgrms.kdt.common.exception.CommonRuntimeException;
+import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.controller.MainController;
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.dto.VoucherRequest;
@@ -37,7 +37,7 @@ public class VoucherService {
 			return new VoucherResponse(voucherEntity.getVoucherId(), voucherEntity.getAmount(), voucherEntity.getVoucherType());
 		} catch (RuntimeException ex){
 			logger.error("NOT FOUND VOUCHER ID " + voucherId.toString());
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 		}
 	}
 

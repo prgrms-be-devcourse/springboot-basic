@@ -5,7 +5,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
-import org.prgrms.kdt.common.exception.CommonRuntimeException;
+import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
@@ -54,7 +54,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		} catch (Exception e) {
 			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
 	}
 
@@ -76,7 +76,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		} catch (RuntimeException e) {
 			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_UPDATE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
 		}
 	}
 
@@ -90,7 +90,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		} catch (EmptyResultDataAccessException e) {
 			logger.error("voucher entity id is {}", voucherId);
 			logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 		}
 	}
 
@@ -102,7 +102,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		} catch (RuntimeException e) {
 			logger.error("voucher entity id is {}", voucherId);
 			logger.error(ErrorCode.VOUCHER_DELETE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
 		}
 	}
 }

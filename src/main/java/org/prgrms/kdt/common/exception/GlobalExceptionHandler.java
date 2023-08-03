@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
-	@ExceptionHandler(CommonRuntimeException.class)
-	protected ErrorResponse handleRuntimeException(CommonRuntimeException ex) {
+	@ExceptionHandler(VoucherRuntimeException.class)
+	protected ErrorResponse handleRuntimeException(VoucherRuntimeException ex) {
 		logger.error("Common Runtime Exception", ex);
 		return new ErrorResponse(ex.getErrorCode());
 	}
