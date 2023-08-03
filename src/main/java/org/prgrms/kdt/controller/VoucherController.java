@@ -1,14 +1,10 @@
 package org.prgrms.kdt.controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.dto.VoucherDTO;
 import org.prgrms.kdt.model.dto.VoucherRequest;
 import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.prgrms.kdt.service.VoucherService;
-import org.prgrms.kdt.util.VoucherFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -29,11 +25,7 @@ public class VoucherController {
 
 	@GetMapping("/vouchers")
 	public String viewVouchersPage(Model model) {
-		List<VoucherResponse> vouchers = voucherService
-			.getVouchers()
-			.stream().map(voucherDTO -> voucherDTO.toResponse())
-			.collect(Collectors.toList());
-
+		List<VoucherResponse> vouchers = voucherService.getVouchers();
 		model.addAttribute("vouchers", vouchers);
 		return "vouchers";
 	}
@@ -45,18 +37,14 @@ public class VoucherController {
 
 	@PostMapping("/voucher/new")
 	public String addNewVoucher(VoucherRequest voucherRequest) {
-		int amount = voucherRequest.amount();
-		int voucherTypeIdx = voucherRequest.voucherTypeIdx();
-
-		VoucherDTO newVoucherDTO = VoucherFactory.getVoucherDTO(amount, VoucherType.valueOf(voucherTypeIdx));
-		voucherService.createVoucher(newVoucherDTO);
+		voucherService.saveVoucher(voucherRequest);
 		return "redirect:/vouchers";
 	}
 
 	@GetMapping("/vouchers/details/{voucherId}")
 	public String findVoucher(@PathVariable("voucherId") Long voucherId, Model model) {
-		VoucherDTO maybeVoucher = voucherService.findVoucherById(voucherId);
-		model.addAttribute("voucher", maybeVoucher);
+		VoucherResponse voucherResponse = voucherService.findVoucherById(voucherId);
+		model.addAttribute("voucher", voucherResponse);
 		return "voucher-details";
 	}
 

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.util.FileIO;
@@ -27,8 +26,8 @@ class FileVoucherRepositoryTest {
 	void createVoucherTest(List<VoucherEntity> voucherEntities) {
 		//given
 		Path currentFolderPath = Paths.get("");
-		String currentFolder = currentFolderPath.toAbsolutePath().toString();
-		String fileName = "voucherTest.txt";
+		java.lang.String currentFolder = currentFolderPath.toAbsolutePath().toString();
+		java.lang.String fileName = "voucherTest.txt";
 		Path voucherFilePath = Paths.get(currentFolder, fileName);
 
 		File file = new File(voucherFilePath.toString());
@@ -46,8 +45,8 @@ class FileVoucherRepositoryTest {
 
 		//when
 		voucherEntities.stream()
-			.forEach(voucher -> voucherRepository.createVoucher(voucher));
-		List<VoucherEntity> expectedVoucherEntities = voucherRepository.findAll()
+			.forEach(voucher -> voucherRepository.saveVoucher(voucher));
+		List<VoucherEntity> expectedVoucherEntities = voucherRepository.findAllEntities()
 			.stream()
 			.collect(Collectors.toList());
 
@@ -58,21 +57,21 @@ class FileVoucherRepositoryTest {
 
 	private static Stream<Arguments> vouchersProvider() {
 		List<VoucherEntity> vouchers1 = Arrays.asList(
-			new VoucherEntity(5L, 100, VoucherType.FixedAmountVoucher),
-			new VoucherEntity(6L, 10, VoucherType.PercentDiscountVoucher),
-			new VoucherEntity(7L, 50, VoucherType.FixedAmountVoucher)
+			new VoucherEntity(5L, 100, "FixedAmountVoucher"),
+			new VoucherEntity(6L, 10, "PercentDiscountVoucher"),
+			new VoucherEntity(7L, 50, "FixedAmountVoucher")
 		);
 
 		List<VoucherEntity> vouchers2 = Arrays.asList(
-			new VoucherEntity(5L, 30, VoucherType.PercentDiscountVoucher),
-			new VoucherEntity(2L, 20, VoucherType.FixedAmountVoucher),
-			new VoucherEntity(4L, 10, VoucherType.FixedAmountVoucher)
+			new VoucherEntity(5L, 30, "PercentDiscountVoucher"),
+			new VoucherEntity(2L, 20, "FixedAmountVoucher"),
+			new VoucherEntity(4L, 10, "FixedAmountVoucher")
 		);
 
 		List<VoucherEntity> vouchers3 = Arrays.asList(
-			new VoucherEntity(3L, 10, VoucherType.FixedAmountVoucher),
-			new VoucherEntity(2L, 50, VoucherType.PercentDiscountVoucher),
-			new VoucherEntity(1L, 30, VoucherType.PercentDiscountVoucher)
+			new VoucherEntity(3L, 10, "FixedAmountVoucher"),
+			new VoucherEntity(2L, 50, "PercentDiscountVoucher"),
+			new VoucherEntity(1L, 30, "PercentDiscountVoucher")
 		);
 
 		return Stream.of(
@@ -83,8 +82,8 @@ class FileVoucherRepositoryTest {
 	}
 
 	private FileIO getFileIO(Path voucherFilePath) {
-		String fileName = voucherFilePath.getFileName().toString();
-		String dirPath = voucherFilePath.getParent().toString();
+		java.lang.String fileName = voucherFilePath.getFileName().toString();
+		java.lang.String dirPath = voucherFilePath.getParent().toString();
 
 		FileIO fileIO = new FileIO(fileName, dirPath);
 		return fileIO;
