@@ -2,6 +2,7 @@ package org.prgrms.kdt.controller;
 
 import java.util.List;
 
+import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.dto.VoucherRequest;
 import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.prgrms.kdt.service.VoucherService;
@@ -30,10 +31,12 @@ public class VoucherAPIController {
 		return voucherService.getVouchers();
 	}
 
-	@GetMapping("/api/vouchers/search/{voucher-type}")
+	@GetMapping("/api/vouchers/search")
 	@ResponseBody
-	public List<VoucherResponse> findVouchers(@RequestParam("voucherType") String voucherType) {
-		return voucherService.findVoucherByVoucherType(voucherType);
+	public List<VoucherResponse> findVouchers(
+		@RequestParam(value = "voucher-type", required = false, defaultValue = "") String voucherType
+	) {
+		return voucherService.findVoucherByVoucherType(VoucherType.valueOf(voucherType));
 	}
 
 	@GetMapping("/api/vouchers/{voucher-id}")
