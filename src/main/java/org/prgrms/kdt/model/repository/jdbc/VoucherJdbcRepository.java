@@ -1,25 +1,25 @@
 package org.prgrms.kdt.model.repository.jdbc;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.sql.DataSource;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
-import org.prgrms.kdt.common.exception.CommonRuntimeException;
-import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Primary
 @Qualifier("JdbcVoucherRepository")
 public class VoucherJdbcRepository implements VoucherRepository {
 
@@ -33,8 +33,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		Long voucherId = resultSet.getLong("voucher_id");
 		int amount = resultSet.getInt("amount");
 		String voucherTypeString = resultSet.getString("voucher_type");
-		VoucherType voucherType = VoucherType.valueOf(voucherTypeString);
-		return new VoucherEntity(voucherId, amount, voucherType);
+		return new VoucherEntity(voucherId, amount, voucherTypeString);
 	};
 
 	public VoucherJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
@@ -43,7 +42,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity createVoucher(VoucherEntity voucherEntity) {
+	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
 		try {
 			jdbcTemplate.update(
 				"INSERT INTO vouchers(voucher_id, amount, voucher_type) VALUES (?, ?, ?)",
@@ -53,13 +52,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
 			);
 			return voucherEntity;
 		} catch (Exception e) {
+			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
 		}
 	}
 
 	@Override
-	public List<VoucherEntity> findAll() {
+	public List<VoucherEntity> findAllEntities() {
 		return jdbcTemplate.query("select * from vouchers", voucherEntityRowMapper);
 	}
 
@@ -74,32 +74,35 @@ public class VoucherJdbcRepository implements VoucherRepository {
 			);
 			return voucherEntity;
 		} catch (RuntimeException e) {
+			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_UPDATE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
 		}
 	}
 
 	@Override
-	public VoucherEntity findById(Long voucherId) {
+	public VoucherEntity findVoucherById(Long voucherId) {
 		try {
 			return jdbcTemplate.queryForObject(
 				"select * from vouchers WHERE voucher_id = ?",
 				voucherEntityRowMapper,
 				voucherId);
 		} catch (EmptyResultDataAccessException e) {
+			logger.error("voucher entity id is {}", voucherId);
 			logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
 		}
 	}
 
 	@Override
-	public void deleteById(Long voucherId) {
+	public void deleteVoucherById(Long voucherId) {
 		try {
-			VoucherEntity targetVoucher = findById(voucherId);
+			VoucherEntity targetVoucher = findVoucherById(voucherId);
 			jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", targetVoucher.getVoucherId());
 		} catch (RuntimeException e) {
+			logger.error("voucher entity id is {}", voucherId);
 			logger.error(ErrorCode.VOUCHER_DELETE_FAIL.getErrorMessage(), e);
-			throw new CommonRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
+			throw new VoucherRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);
 		}
 	}
 }
