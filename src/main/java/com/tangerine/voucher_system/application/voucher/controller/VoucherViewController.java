@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/vouchers")
+@RequestMapping("/api/v2/vouchers")
 public class VoucherViewController {
 
     private final VoucherService voucherService;

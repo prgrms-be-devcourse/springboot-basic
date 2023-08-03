@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.UUID;
 
 @RestController
@@ -37,8 +38,6 @@ public class CustomerRestController {
                 customerService.updateCustomer(mapper.requestToParam(updateCustomerRequest))));
     }
 
-    //todo: pageable
-    //todo: api 문서 ansidocs
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CustomerResponses> getCustomerList(@RequestParam(name = "isBlack", defaultValue = "false") boolean isBlack) {
         return ResponseEntity.ok(mapper.resultsToResponses(isBlack ?

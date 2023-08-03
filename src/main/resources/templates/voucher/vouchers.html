@@ -13,7 +13,7 @@
 <h1>Voucher Management</h1>
 <h2>Voucher List</h2>
 <div class="d-grid gap-2">
-    <a th:href="@{/vouchers/form}" class="btn btn-primary" type="button">Add</a>
+    <a th:href="@{/api/v2/vouchers/form}" class="btn btn-primary" type="button">Add</a>
 </div>
 <table class="table table-hover table-striped">
     <thead>
@@ -26,7 +26,7 @@
     </thead>
     <tbody>
     <tr th:each="voucher: ${vouchers}" th:object="${voucher}">
-        <td><a th:href="'/vouchers/id/'+*{voucherId}" th:text="*{voucherId}"
+        <td><a th:href="'/api/v2/vouchers/id/'+*{voucherId}" th:text="*{voucherId}"
                style="text-decoration:none; color: inherit;"></a></td>
         <td th:text="*{voucherType}"></td>
         <td th:text="*{discountValue}"></td>

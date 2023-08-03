@@ -17,21 +17,28 @@ public class VoucherSystemExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> internetServerErrorExceptionHandler(Exception e) {
         String errorMessage = "Internal Server Error";
-        logger.error(errorMessage);
+        logger.error(errorMessage, e);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> runtimeErrorExceptionHandler(RuntimeException e) {
+        String errorMessage = MessageFormat.format("Runtime error: {0}", e.getMessage());
+        logger.error(errorMessage, e);
+        return ResponseEntity.badRequest().body(errorMessage);
     }
 
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<String> invalidDataExceptionHandler(InvalidDataException e) {
         String errorMessage = MessageFormat.format("Invalid Data: {0}", e.getMessage());
-        logger.error(errorMessage);
+        logger.error(errorMessage, e);
         return ResponseEntity.badRequest().body(errorMessage);
     }
 
     @ExceptionHandler(SqlException.class)
     public ResponseEntity<String> sqlErrorExceptionHandler(SqlException e) {
         String errorMessage = MessageFormat.format("SQL Error: {0}", e.getMessage());
-        logger.error(errorMessage);
+        logger.error(errorMessage, e);
         return ResponseEntity.badRequest().body(errorMessage);
     }
 }
