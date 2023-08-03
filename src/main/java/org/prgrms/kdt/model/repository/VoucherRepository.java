@@ -1,19 +1,18 @@
 package org.prgrms.kdt.model.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.prgrms.kdt.model.entity.VoucherEntity;
 
 public interface VoucherRepository {
 
-	VoucherEntity createVoucher(VoucherEntity voucherEntity);
+	VoucherEntity saveVoucher(VoucherEntity voucherEntity);
 
-	List<VoucherEntity> findAll();
+	List<VoucherEntity> findAllEntities();
 
 	VoucherEntity updateVoucher(VoucherEntity voucherEntity);
 
-	VoucherEntity findById(Long voucherId);
+	VoucherEntity findVoucherById(Long voucherId);
 
-	void deleteById(Long voucherId);
+	void deleteVoucherById(Long voucherId);
 }
