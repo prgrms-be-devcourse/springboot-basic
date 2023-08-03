@@ -4,16 +4,23 @@ import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.Amount;
 import org.prgrms.kdt.model.FixedAmount;
 import org.prgrms.kdt.model.PercentAmount;
-import org.prgrms.kdt.model.dto.VoucherDTO;
-import org.prgrms.kdt.model.dto.VoucherResponse;
+import org.prgrms.kdt.model.domain.Voucher;
+import org.prgrms.kdt.model.dto.VoucherRequest;
+import org.prgrms.kdt.model.entity.VoucherEntity;
 
 public final class VoucherFactory {
 	private static final IdGenerator idGenerator = new IdGenerator();
 
-	public static VoucherDTO getVoucherDTO(int amount, VoucherType voucherType) {
+	public static Voucher createVoucherDomain(int amount, String voucherTypeString) {
 		Long voucherId = idGenerator.getRandomId();
+		VoucherType voucherType = VoucherType.value(voucherTypeString);
 		Amount voucherAmount = getVoucherAmount(amount, voucherType);
-		return new VoucherDTO(voucherId, voucherAmount, voucherType);
+		return new Voucher(voucherId, voucherAmount, voucherType);
+	}
+
+	public static VoucherEntity createVoucherEntity(VoucherRequest voucherRequest) {
+		Long voucherId = idGenerator.getRandomId();
+		return new VoucherEntity(voucherId, voucherRequest.getAmount(), voucherRequest.getVoucherType());
 	}
 
 	public static Amount getVoucherAmount(int amount, VoucherType voucherType) {
