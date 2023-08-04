@@ -21,8 +21,6 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 
-    private final DataSource dataSource;
-
     private final JdbcTemplate jdbcTemplate;
     private static RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         String customerName = resultSet.getString("name");
@@ -34,8 +32,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     };
 
-    public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
+    public CustomerJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
