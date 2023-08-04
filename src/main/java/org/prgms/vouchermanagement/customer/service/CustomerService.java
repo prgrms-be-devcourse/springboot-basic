@@ -30,7 +30,7 @@ public class CustomerService implements ApplicationContextAware {
         Resource resource = applicationContext.getResource("customer_blacklist.csv");
         try {
             console.printCustomerBlackList(resource.getFile().toPath().toString());
-        } catch (IOException e){
+        } catch (IOException e) {
             throw new NoSuchFileException(ExceptionMessageConstant.NO_BLACK_LIST_FILE_EXCEPTION);
         }
     }

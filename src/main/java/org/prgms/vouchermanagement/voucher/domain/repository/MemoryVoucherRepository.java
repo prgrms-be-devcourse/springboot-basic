@@ -4,33 +4,42 @@ import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 @Repository
 @Profile("memory")
-public class MemoryVoucherRepository implements VoucherRepository{
-    private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
+public class MemoryVoucherRepository implements VoucherRepository {
+    private final List<Voucher> voucherStorage = new ArrayList<>();
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(voucherStorage.get(voucherId));
+        return voucherStorage.stream()
+                .filter(voucher -> voucher.getVoucherId() == voucherId)
+                .findAny();
     }
 
     @Override
-    public Optional<Voucher> saveVoucher(Voucher voucher) {
-        voucherStorage.put(voucher.getVoucherId(), voucher);
-        return Optional.of(voucher);
+    public Voucher save(Voucher voucher) {
+        voucherStorage.add(voucher);
+        return voucher;
     }
 
     @Override
-    public Map<UUID, Voucher> getVoucherList() {
+    public List<Voucher> findAll() {
         if (!voucherStorage.isEmpty()) {
-            return Collections.unmodifiableMap(voucherStorage);
+            return Collections.unmodifiableList(voucherStorage);
         }
-        return Collections.emptyMap();
+        return Collections.emptyList();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        // 메모리에서 구현 X, 타임리프 구현
+        return voucher;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        // 메모리에서 구현 X, 타임리프 구현
     }
 }

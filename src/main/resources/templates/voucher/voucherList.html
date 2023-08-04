@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+          crossorigin="anonymous">
+    <title>바우처 리스트 조회 페이지</title>
+</head>
+<body class="container-fluid">
+<h1>바우처 리스트 조회 페이지</h1>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/vouchers/create}" class="btn btn-primary me-md-2" role="button">Add Voucher</a>
+</div>
+<table class="table table-hover table-striped">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Voucher Id</th>
+        <th scope="col">Discount Amount</th>
+        <th scope="col">Voucher Type</th>
+    </tr>
+    </thead>
+    <tbody class="table-group-divider">
+    <tr th:each="voucher: ${allVouchers}">
+        <td><a th:text="${voucher.voucherId}" th:href="@{/vouchers/detail/{id}(id = ${voucher.voucherId})}"></a></td>
+        <td th:text="${voucher.discount}"></td>
+        <td th:text="${voucher.voucherType}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

@@ -40,7 +40,7 @@ public class CustomerNamedJdbcRepository implements CustomerRepository {
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("createdAt", customer.getCreatedAt());
-    }};
+        }};
     }
 
     public CustomerNamedJdbcRepository(DataSource dataSource) {

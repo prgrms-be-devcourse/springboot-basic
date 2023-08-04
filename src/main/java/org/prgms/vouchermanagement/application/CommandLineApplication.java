@@ -7,13 +7,12 @@ import org.prgms.vouchermanagement.voucher.exception.VoucherException;
 import org.prgms.vouchermanagement.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.nio.file.NoSuchFileException;
 
 @Component
-public class CommandLineApplication implements CommandLineRunner {
+public class CommandLineApplication {
 
     private static final Logger logger = LoggerFactory.getLogger(CommandLineApplication.class);
 
@@ -27,7 +26,6 @@ public class CommandLineApplication implements CommandLineRunner {
         this.customerService = customerService;
     }
 
-    @Override
     public void run(String... args) {
         while (true) {
             console.printCommandMenu();

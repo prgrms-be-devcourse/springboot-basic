@@ -1,8 +1,8 @@
 package org.prgms.vouchermanagement.global.io;
 
 import org.prgms.vouchermanagement.customer.domain.entity.Customer;
-import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
+import org.prgms.vouchermanagement.voucher.validator.VoucherInputValidator;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
@@ -13,9 +13,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.UUID;
 
 @Component
 public class Console {
@@ -66,7 +64,7 @@ public class Console {
         System.out.print("Type 1 or 2: ");
     }
 
-    public void printVoucherList(Map<UUID, Voucher> voucherList, VoucherType listVoucherType) {
+    public void printVoucherList(List<Voucher> voucherList, VoucherType listVoucherType) {
         if (voucherList.isEmpty()) {
             System.out.println("조회할 Voucher가 없습니다!!!");
             return;
@@ -74,19 +72,22 @@ public class Console {
 
         if (listVoucherType == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE) {
             System.out.println("=== Fixed Amount Voucher List ===");
-            voucherList.forEach((k, v) -> {
-                    if (v.getVoucherType() == VoucherType.FIXED_AMOUNT_VOUCHER_TYPE)
-                        System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
-                }
-            );
-        } else if (listVoucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
-            System.out.println("=== Percent Discount Voucher List ===");
-            voucherList.forEach((k, v) -> {
-                    if (v.getVoucherType() == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE)
-                        System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}", k, v.returnDiscount()));
-                }
-            );
         }
+
+        if (listVoucherType == VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE) {
+            System.out.println("=== Percent Discount Voucher List ===");
+        }
+
+        printEachVoucher(voucherList, listVoucherType);
+    }
+
+    public void printEachVoucher(List<Voucher> voucherList, VoucherType listVoucherType) {
+        voucherList.forEach(voucher -> {
+            if (voucher.getVoucherType() == listVoucherType) {
+                System.out.println(MessageFormat.format("VoucherId: {0}, Discount: {1}",
+                        voucher.getVoucherId(), voucher.getDiscount()));
+            }
+        });
     }
 
     public void printCustomerBlackList(String path) throws IOException {
@@ -100,7 +101,7 @@ public class Console {
             records.add(Arrays.asList(values));
         }
 
-        for (List<String> eachRecord: records) {
+        for (List<String> eachRecord : records) {
             System.out.println(eachRecord.toString());
         }
         br.close();

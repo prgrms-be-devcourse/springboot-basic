@@ -13,7 +13,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.prgms.vouchermanagement.voucher.VoucherType;
 import org.prgms.vouchermanagement.voucher.domain.entity.Voucher;
-import org.prgms.vouchermanagement.voucher.domain.entity.VoucherImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -69,8 +68,8 @@ class VoucherNamedJdbcRepositoryTest {
     VoucherNamedJdbcRepository voucherNamedJdbcRepository;
 
     EmbeddedMysql embeddedMysql;
-    VoucherImpl fixedAmountVoucher;
-    VoucherImpl percentDiscountVoucher;
+    Voucher fixedAmountVoucher;
+    Voucher percentDiscountVoucher;
 
     @BeforeAll
     void setUp() {
@@ -85,8 +84,8 @@ class VoucherNamedJdbcRepositoryTest {
                 .addSchema("test_voucher", classPathScript("VoucherSchema.sql"))
                 .start();
 
-        percentDiscountVoucher = new VoucherImpl(UUID.randomUUID(), 60, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
-        fixedAmountVoucher = new VoucherImpl(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
+        percentDiscountVoucher = new Voucher(UUID.randomUUID(), 60, VoucherType.PERCENT_DISCOUNT_VOUCHER_TYPE);
+        fixedAmountVoucher = new Voucher(UUID.randomUUID(), 1000, VoucherType.FIXED_AMOUNT_VOUCHER_TYPE);
     }
 
     @AfterAll
@@ -105,7 +104,7 @@ class VoucherNamedJdbcRepositoryTest {
     @Order(2)
     @DisplayName("Voucher save 기능 test")
     void testSave() {
-        voucherNamedJdbcRepository.saveVoucher(fixedAmountVoucher);
+        voucherNamedJdbcRepository.save(fixedAmountVoucher);
 
         Optional<Voucher> savedVoucher = voucherNamedJdbcRepository.findById(fixedAmountVoucher.getVoucherId());
         assertThat(savedVoucher).isNotEmpty();
@@ -114,14 +113,35 @@ class VoucherNamedJdbcRepositoryTest {
 
     @Test
     @Order(3)
-    @DisplayName("Voucher get voucherList 기능 test")
+    @DisplayName("Voucher findAll 기능 test")
     void testGetVoucherList() {
-        voucherNamedJdbcRepository.saveVoucher(percentDiscountVoucher);
+        voucherNamedJdbcRepository.save(percentDiscountVoucher);
 
-        Map<UUID, Voucher> voucherList = voucherNamedJdbcRepository.getVoucherList();
-        assertThat(voucherList).isNotEmpty();
-        assertThat(voucherList).size().isEqualTo(2);
+        List<Voucher> voucherList = voucherNamedJdbcRepository.findAll();
+        assertThat(voucherList).isNotEmpty().hasSize(2);
+    }
 
-        voucherList.forEach((v1, v2) -> logger.info("UUID -> {}, Amount -> {}", v1, v2.returnDiscount()));
+    @Test
+    @Order(4)
+    @DisplayName("Voucher update 기능 test")
+    void testUpdateVoucher() {
+        Voucher updateVoucher = new Voucher(fixedAmountVoucher.getVoucherId(), 9000, fixedAmountVoucher.getVoucherType());
+        voucherNamedJdbcRepository.update(updateVoucher);
+
+        Optional<Voucher> voucher = voucherNamedJdbcRepository.findById(fixedAmountVoucher.getVoucherId());
+        assertThat(voucher).isNotEmpty();
+        assertThat(voucher.get()).usingRecursiveComparison().isEqualTo(updateVoucher);
+        assertThat(voucher.get().getVoucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("Voucher delete 기능 test")
+    void testDeleteVoucherById() {
+        voucherNamedJdbcRepository.deleteById(fixedAmountVoucher.getVoucherId());
+        voucherNamedJdbcRepository.deleteById(percentDiscountVoucher.getVoucherId());
+
+        List<Voucher> voucherList = voucherNamedJdbcRepository.findAll();
+        assertThat(voucherList).isEmpty();
     }
 }
