@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("api/v1/vouchers")
@@ -22,14 +21,14 @@ public class VoucherRestController {
 
     private final VoucherService voucherService;
 
-    @GetMapping("")
+    @GetMapping
     public List<VoucherResponseDTO> getAllVouchers() {
         return voucherService.getAllVoucherDTOs();
     }
 
     @GetMapping("/{voucherId}")
     public ResponseEntity getVoucherById(@PathVariable("voucherId") UUID voucherId) {
-        Optional<VoucherResponseDTO> voucher = voucherService.getVoucherById(voucherId);
+        VoucherResponseDTO voucher = voucherService.getVoucherById(voucherId);
         return ResponseEntity.ok(voucher);
     }
 

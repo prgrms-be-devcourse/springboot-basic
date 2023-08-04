@@ -6,12 +6,11 @@ import org.prgrms.assignment.voucher.model.Voucher;
 import org.prgrms.assignment.voucher.model.VoucherType;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface VoucherService {
 
-    Optional<VoucherResponseDTO> getVoucherById(UUID voucherId);
+    VoucherResponseDTO getVoucherById(UUID voucherId);
 
     List<VoucherResponseDTO> getAllVoucherDTOs();
 

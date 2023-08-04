@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -82,16 +83,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<VoucherEntity> findVoucherEntityById(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL,
-            Collections.singletonMap("voucherId", voucherId.toString()),
-            voucherRowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL,
+                Collections.singletonMap("voucherId", voucherId.toString()),
+                voucherRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<VoucherHistoryEntity> findVoucherHistoryEntityById(UUID historyId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_HISTORY_BY_ID_SQL,
-            Collections.singletonMap("historyId", historyId.toString()),
-            voucherHistoryRowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_HISTORY_BY_ID_SQL,
+                Collections.singletonMap("historyId", historyId.toString()),
+                voucherHistoryRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

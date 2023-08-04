@@ -4,6 +4,8 @@ import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
 import org.prgrms.assignment.voucher.dto.VoucherServiceRequestDTO;
 import org.prgrms.assignment.voucher.entity.VoucherEntity;
 import org.prgrms.assignment.voucher.entity.VoucherHistoryEntity;
+import org.prgrms.assignment.voucher.exception.ErrorCode;
+import org.prgrms.assignment.voucher.exception.GlobalCustomException;
 import org.prgrms.assignment.voucher.model.Voucher;
 import org.prgrms.assignment.voucher.model.VoucherStatus;
 import org.prgrms.assignment.voucher.model.VoucherType;
@@ -31,34 +33,30 @@ public class VoucherServiceImpl implements VoucherService{
     }
 
     @Override
-    public Optional<VoucherResponseDTO> getVoucherById(UUID voucherId) {
-        if(voucherRepository.findVoucherEntityById(voucherId).isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(VoucherResponseDTO.of(voucherRepository.
-            findVoucherEntityById(voucherId).get()));
+    public VoucherResponseDTO getVoucherById(UUID voucherId) {
+        VoucherEntity voucher = voucherRepository.findVoucherEntityById(voucherId).orElseThrow(() ->
+            new GlobalCustomException(ErrorCode.NO_DATA_ERROR));
+        return VoucherResponseDTO.of(voucher);
     }
 
     @Override
     public List<VoucherResponseDTO> getAllVoucherDTOs() {
-        return voucherRepository.findAll().
-                stream().
-                map(voucherEntity -> new VoucherResponseDTO(voucherEntity.voucherId(),
-                    voucherEntity.voucherType(),
-                    voucherEntity.benefit(),
-                    voucherEntity.createdAt(),
-                    voucherEntity.expireDate())
-                    )
-                .toList();
+        return voucherRepository.findAll()
+            .stream()
+            .map(voucherEntity -> new VoucherResponseDTO(voucherEntity.voucherId(),
+                voucherEntity.voucherType(),
+                voucherEntity.benefit(),
+                voucherEntity.createdAt(),
+                voucherEntity.expireDate())
+                )
+            .toList();
     }
 
-    // repo에서 한번에 해주기
     @Override
     @Transactional
     public void updateVoucherEntity(VoucherServiceRequestDTO voucher) {
         voucherRepository.update(VoucherEntity.of(voucher), VoucherHistoryEntity.of(voucher, VoucherStatus.UPDATED));
     }
-
 
     // repo에서 한번에 해주기
     @Override
