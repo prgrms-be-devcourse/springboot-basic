@@ -1,8 +1,6 @@
 package org.prgrms.assignment.voucher.view;
 
-import org.prgrms.assignment.voucher.dto.VoucherDTO;
-import org.prgrms.assignment.voucher.entity.VoucherEntity;
-import org.prgrms.assignment.voucher.model.Menu;
+import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
 import org.prgrms.assignment.voucher.model.VoucherType;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +10,7 @@ import java.util.List;
 @Component
 public class ConsoleOutput implements Output {
 
-    private static final String DEFAULT_PROGRAM_MESSAGE = "=== Voucher Program ===";
+    private static final String  DEFAULT_PROGRAM_MESSAGE = "=== Voucher Program ===";
     private static final String EMPTY_MESSAGE = "This Repository is EMPTY!!";
     private static final String space = "%-30s";
     private static final String format;
@@ -24,10 +22,10 @@ public class ConsoleOutput implements Output {
     }
 
     @Override
-    public void showMenu(Menu[] menuList) {
+    public void showMenu(MenuExplain[] menuExplains) {
         System.out.println(DEFAULT_PROGRAM_MESSAGE);
-        Arrays.stream(menuList)
-            .forEach(menu -> System.out.println(menu.getMenuExplain()));
+        Arrays.stream(menuExplains)
+            .forEach(menuExplain -> System.out.println(menuExplain.getMenuExplain()));
     }
 
     @Override
@@ -38,14 +36,14 @@ public class ConsoleOutput implements Output {
     }
 
     @Override
-    public void showVoucherList(List<VoucherDTO> voucherDTOList) {
+    public void showVoucherList(List<VoucherResponseDTO> voucherDTOList) {
         if(voucherDTOList.isEmpty()) {
             System.out.println(EMPTY_MESSAGE);
             return;
         }
         System.out.println(DEFAULT_VOUCHER_CATEGORIES);
         StringBuilder stringBuilder = new StringBuilder();
-        for(VoucherDTO voucherDTO : voucherDTOList) {
+        for(VoucherResponseDTO voucherDTO : voucherDTOList) {
             stringBuilder.append(String.format(space, voucherDTO.voucherType().toString()))
                 .append(String.format(space, voucherDTO.benefit()))
                 .append(String.format(space, voucherDTO.createdAt()))

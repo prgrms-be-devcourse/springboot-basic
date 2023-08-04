@@ -1,19 +1,22 @@
 package org.prgrms.assignment.voucher.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgrms.assignment.voucher.exception.ErrorCode;
+import org.prgrms.assignment.voucher.exception.GlobalCustomException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
-    private static final int MIN_VOUCHER_AMOUNT = 0;
+    private static final int MIN_VOUCHER_AMOUNT = 1;
     private static final long MAX_VOUCHER_AMOUNT = 10000;
-    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+    private static final String AMOUNT_ERROR_MESSAGE = "Amount out of range";
+    private static final String EXPIRE_DATE_ERROR_MESSAGE = "Expiredate out of range";
 
     private final UUID voucherId;
     private final LocalDateTime createdAt;
+
     private long amount;
+
     private LocalDateTime expireDate;
 
     public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt, LocalDateTime expireDate) {
@@ -45,11 +48,6 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public void setBenefit(long benefit) {
-        this.amount = benefit;
-    }
-
-    @Override
     public LocalDateTime getExpireDate() {
         return expireDate;
     }
@@ -63,17 +61,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     private void checkValid(long amount) {
-        if (amount < MIN_VOUCHER_AMOUNT) {
-            logger.error("Amount should be positive");
-            throw new IllegalArgumentException("Amount should be positive");
-        }
-        if (amount == MIN_VOUCHER_AMOUNT) {
-            logger.error("Amount should not be zero");
-            throw new IllegalArgumentException("Amount should not be zero");
-        }
-        if (amount > MAX_VOUCHER_AMOUNT) {
-            logger.error("Amount should be less than " + MAX_VOUCHER_AMOUNT);
-            throw new IllegalArgumentException("Amount should be less than " + MAX_VOUCHER_AMOUNT);
+        if (amount < MIN_VOUCHER_AMOUNT || amount > MAX_VOUCHER_AMOUNT) {
+            throw new GlobalCustomException(ErrorCode.AMOUNT_ERROR);
         }
     }
 }

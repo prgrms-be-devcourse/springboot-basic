@@ -1,45 +1,26 @@
 package org.prgrms.assignment.voucher.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.prgrms.assignment.voucher.exception.ErrorCode;
+import org.prgrms.assignment.voucher.exception.GlobalCustomException;
 
 public enum VoucherType {
-    FIXED(1, "FixedAmountVoucher", "Type your discount amount"),
 
-    PERCENT(2, "PercentDiscountVoucher", "Type your discount percent");
+    FIXED( "FixedAmountVoucher"),
 
-    VoucherType(int voucherTypeNum, String voucherTypeName, String benefitMessage) {
-        this.voucherTypeNum = voucherTypeNum;
+    PERCENT("PercentDiscountVoucher");
+
+    VoucherType(String voucherTypeName) {
         this.voucherTypeName = voucherTypeName;
-        this.benefitMessage = benefitMessage;
     }
-
-    private final int voucherTypeNum;
 
     private final String voucherTypeName;
 
-    private final String benefitMessage;
-
-    private static final Map<Integer, VoucherType> voucherTypeNameMap = new HashMap<>();
-    static {
-        for(VoucherType voucherType : VoucherType.values()) {
-            voucherTypeNameMap.put(voucherType.voucherTypeNum, voucherType);
+    public static VoucherType of(String voucherTypeName) {
+        try {
+            return VoucherType.valueOf(voucherTypeName.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new GlobalCustomException(ErrorCode.NO_VOUCHER_TYPE_ERROR);
         }
     }
 
-    public String getVoucherTypeName() {
-        return voucherTypeName;
-    }
-
-    public static VoucherType of(Integer voucherTypeNum) {
-        return voucherTypeNameMap.get(voucherTypeNum);
-    }
-
-    public static VoucherType of(String voucherTypeName) {
-        return VoucherType.valueOf(voucherTypeName.toUpperCase());
-    }
-
-    public String getBenefitMessage() {
-        return benefitMessage;
-    }
 }

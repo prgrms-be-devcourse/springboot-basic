@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -33,11 +35,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String FIND_HISTORY_BY_ID_SQL = "SELECT * FROM voucher_history WHERE history_id = UUID_TO_BIN(:historyId)";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
     private static final String SELECT_ALL_COUNT_SQL = "select count(*) from vouchers";
-
     private static final String DELETE_ALL_SQL = "DELETE FROM vouchers";
     private static final String DELETE_BY_ID_SQL = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String FIND_BY_TYPE_SQL = "SELECT * FROM vouchers WHERE voucher_type = :voucherType";
 
-//    private final DataClassRowMapper<VoucherEntity> voucherRowMapper = new DataClassRowMapper<>(VoucherEntity.class);
     private static final RowMapper<VoucherEntity> voucherRowMapper = (resultSet, rowNumber) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         VoucherType voucherType = VoucherType.of(resultSet.getString("voucher_type"));
@@ -57,7 +58,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return new VoucherHistoryEntity(voucherId, historyId, voucherStatus, recordedTime);
     };
 
-//    private final DataClassRowMapper<VoucherHistoryEntity> voucherHistoryRowMapper = new DataClassRowMapper<>(VoucherHistoryEntity.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -65,25 +65,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherEntity insertVoucherEntity(VoucherEntity voucherEntity) {
-        int update = jdbcTemplate.update(INSERT_SQL,
+    public void insert(VoucherEntity voucherEntity, VoucherHistoryEntity voucherHistoryEntity) {
+        int entityUpdate = jdbcTemplate.update(INSERT_SQL,
             toMapSqlParams(voucherEntity));
-        if(update != 1) {
-            logger.error("insert error");
-            throw new RuntimeException("Nothing was inserted!");
-        }
-        return voucherEntity;
-    }
-
-    @Override
-    public VoucherHistoryEntity insertVoucherHistoryEntity(VoucherHistoryEntity voucherHistoryEntity) {
-        int update = jdbcTemplate.update(INSERT_HISTORY_SQL,
+        int historyUpdate = jdbcTemplate.update(INSERT_HISTORY_SQL,
             toMapSqlParams(voucherHistoryEntity));
-        if(update != 1) {
+        if (entityUpdate != 1 || historyUpdate != 1) {
             logger.error("insert error");
             throw new RuntimeException("Nothing was inserted!");
         }
-        return voucherHistoryEntity;
     }
 
     @Override
@@ -93,23 +83,33 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<VoucherEntity> findVoucherEntityById(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL,
-            Collections.singletonMap("voucherId", voucherId.toString()),
-            voucherRowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_SQL,
+                Collections.singletonMap("voucherId", voucherId.toString()),
+                voucherRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<VoucherHistoryEntity> findVoucherHistoryEntityById(UUID historyId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_HISTORY_BY_ID_SQL,
-            Collections.singletonMap("historyId", historyId.toString()),
-            voucherHistoryRowMapper));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_HISTORY_BY_ID_SQL,
+                Collections.singletonMap("historyId", historyId.toString()),
+                voucherHistoryRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
-    public VoucherEntity update(VoucherEntity voucherEntity) {
-        int update = jdbcTemplate.update(UPDATE_SQL,
+    public VoucherEntity update(VoucherEntity voucherEntity, VoucherHistoryEntity voucherHistoryEntity) {
+        int entityUpdate = jdbcTemplate.update(UPDATE_SQL,
             toMapSqlParams(voucherEntity));
-        if(update != 1) {
+        int historyUpdate = jdbcTemplate.update(INSERT_HISTORY_SQL,
+            toMapSqlParams(voucherHistoryEntity));
+        if(entityUpdate != 1 || historyUpdate != 1) {
             logger.error("update error");
             throw new RuntimeException("Nothing was updated!");
         }
@@ -125,6 +125,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void delete(UUID voucherId) {
         jdbcTemplate.update(DELETE_BY_ID_SQL,
             Collections.singletonMap("voucherId", voucherId.toString()));
+    }
+
+    @Override
+    public List<VoucherEntity> findVouchersByType(VoucherType voucherType) {
+        return jdbcTemplate.query(
+            FIND_BY_TYPE_SQL,
+            Collections.singletonMap("voucherType", voucherType.toString()),
+            voucherRowMapper
+        );
     }
 
     public int count() {

@@ -1,75 +1,65 @@
 package org.prgrms.assignment.voucher.controller;
 
-import org.prgrms.assignment.voucher.model.Menu;
-import org.prgrms.assignment.voucher.model.Voucher;
-import org.prgrms.assignment.voucher.model.VoucherType;
+import lombok.RequiredArgsConstructor;
+import org.prgrms.assignment.voucher.dto.VoucherServiceRequestDTO;
+import org.prgrms.assignment.voucher.dto.VoucherCreateRequestDTO;
+import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
 import org.prgrms.assignment.voucher.service.VoucherService;
-import org.prgrms.assignment.voucher.service.VoucherServiceImpl;
-import org.prgrms.assignment.voucher.view.Input;
-import org.prgrms.assignment.voucher.view.MenuExplain;
-import org.prgrms.assignment.voucher.view.Output;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
-import java.nio.ByteBuffer;
-import java.util.InputMismatchException;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+@RequestMapping("vouchers")
 @Controller
+@RequiredArgsConstructor
 public class VoucherController {
 
-    private static final String SELECT_VOUCHER_MESSAGE = "TYPE YOUR VOUCHER";
-    private static final String TYPE_DURATION_MESSAGE = "TYPE YOUR VOUCHER'S DURATION";
-
-    private final Input input;
-    private final Output output;
     private final VoucherService voucherService;
 
-    public VoucherController(Input input, Output output, VoucherServiceImpl voucherService) {
-        this.input = input;
-        this.output = output;
-        this.voucherService = voucherService;
+    @GetMapping()
+    public String getAllVoucherDTOs(Model model) {
+        List<VoucherResponseDTO> allVoucherDTOs = voucherService.getAllVoucherDTOs();
+        model.addAttribute("serverTime", LocalDateTime.now());
+        model.addAttribute("allVoucherDTOs", allVoucherDTOs);
+        return "views/vouchers";
     }
 
-    public void run() {
-        while(true) {
-            try {
-                output.showMenu(MenuExplain.values());
-                String command = input.getCommandInput();
+    @PostMapping("/new")
+    public String createVoucher(VoucherCreateRequestDTO voucherDTO) {
+        voucherService.createVoucher(VoucherServiceRequestDTO.of(voucherDTO));
+        return "redirect:/vouchers";
+    }
 
-                switch (Menu.of(command)) {
-                    case EXIT-> {
-                        return;
-                    }
-                    case CREATE -> {
-                        output.printMessage(SELECT_VOUCHER_MESSAGE);
-                        output.showVoucherTypes(VoucherType.values());
-
-                        String voucherTypeName = input.getVoucherInput();
-                        VoucherType voucherType = VoucherType.of(voucherTypeName);
-
-                        output.printMessage(voucherType.getBenefitMessage());
-                        Long benefit = input.getBenefit();
-
-                        output.printMessage(TYPE_DURATION_MESSAGE);
-                        Long durationDate = input.getDurationInput();
-
-                        voucherService.createVoucher(voucherType, benefit, durationDate);
-                    }
-                    case LIST -> {
-                        output.showVoucherList(voucherService
-                                .convertToVoucherDTOs());
-                    }
-                }
-            } catch(IllegalArgumentException | InputMismatchException e) {
-                e.printStackTrace();
-            }
+    @GetMapping("/{voucherId}")
+    public String getVoucher(@PathVariable("voucherId") UUID voucherId, Model model) {
+        Optional<VoucherResponseDTO> voucher = voucherService.getVoucherById(voucherId);
+        model.addAttribute("serverTime", LocalDateTime.now());
+        if(voucher.isPresent()) {
+            model.addAttribute("voucher", voucher.get());
+            return "views/voucher-details";
         }
+        return "views/404";
     }
 
-    public static UUID convertBytesToUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        long high = byteBuffer.getLong();
-        long low = byteBuffer.getLong();
-        return new UUID(high, low);
+    @DeleteMapping("/delete")
+    public String deleteVoucher(String voucherId) {
+        voucherService.delete(UUID.fromString(voucherId));
+        return "redirect:/vouchers";
     }
+
+    @GetMapping("/new")
+    public String viewNewVoucherPage() {
+        return "views/new-voucher";
+    }
+
+    @GetMapping("/delete")
+    public String viewDeletePage() {
+        return "views/voucher-delete";
+    }
+
 }

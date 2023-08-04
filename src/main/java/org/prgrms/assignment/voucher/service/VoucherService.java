@@ -1,6 +1,7 @@
 package org.prgrms.assignment.voucher.service;
 
-import org.prgrms.assignment.voucher.dto.VoucherDTO;
+import org.prgrms.assignment.voucher.dto.VoucherResponseDTO;
+import org.prgrms.assignment.voucher.dto.VoucherServiceRequestDTO;
 import org.prgrms.assignment.voucher.model.Voucher;
 import org.prgrms.assignment.voucher.model.VoucherType;
 
@@ -9,14 +10,16 @@ import java.util.UUID;
 
 public interface VoucherService {
 
-    Voucher getVoucherById(UUID voucherId);
+    VoucherResponseDTO getVoucherById(UUID voucherId);
 
-    List<VoucherDTO> convertToVoucherDTOs();
+    List<VoucherResponseDTO> getAllVoucherDTOs();
 
-    void update(Voucher voucher);
+    void updateVoucherEntity(VoucherServiceRequestDTO voucher);
 
-    Voucher createVoucher(VoucherType voucherType, long benefit, long durationDate);
+    Voucher createVoucher(VoucherServiceRequestDTO voucher);
 
     void delete(UUID voucherId);
+
+    List<VoucherResponseDTO> getVouchersByType(VoucherType voucherType);
 
 }
