@@ -14,11 +14,5 @@ public class GlobalExceptionHandler {
             .status(e.getErrorCode().getStatus().value())
             .body(new ErrorResponse(e.getErrorCode()));
     }
-
-    @ExceptionHandler(DataAccessException.class)
-    public ResponseEntity<ErrorResponse> handleDataAccessException() {
-        return ResponseEntity
-            .status(ErrorCode.NO_DATA_ERROR.getStatus().value())
-            .body(new ErrorResponse(ErrorCode.NO_DATA_ERROR));
-    }
+    
 }
