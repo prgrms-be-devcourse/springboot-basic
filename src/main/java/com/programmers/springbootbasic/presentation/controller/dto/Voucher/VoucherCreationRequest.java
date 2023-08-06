@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 public record VoucherCreationRequest(
         @NotNull
         VoucherType voucherType,
-        @NotNull
         int amountOrPercent
 ) {
 }
