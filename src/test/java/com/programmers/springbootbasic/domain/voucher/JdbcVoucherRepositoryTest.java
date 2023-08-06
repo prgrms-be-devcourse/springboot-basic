@@ -21,7 +21,7 @@ class JdbcVoucherRepositoryTest {
     private JdbcVoucherRepository repository;
 
     @ParameterizedTest
-    @CsvSource(value = {"정률 할인, 10000", "정액 할인, 10"})
+    @CsvSource(value = {"정률 할인, 10", "정액 할인, 10000"})
     @DisplayName("바우처를 저장할 수 있다")
     void save(String voucherType, int amountOrPercent) {
         // given
