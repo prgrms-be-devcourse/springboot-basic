@@ -8,10 +8,12 @@ import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+@Profile("console")
 @Component
 public class SpringBootConsoleApplication implements CommandLineRunner {
     private final VoucherController voucherController;
