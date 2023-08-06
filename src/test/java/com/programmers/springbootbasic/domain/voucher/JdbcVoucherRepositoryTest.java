@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,9 +27,9 @@ class JdbcVoucherRepositoryTest {
         // given
         Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), VoucherType.from(voucherType), amountOrPercent);
         // when
-        Optional<Voucher> save = repository.save(voucher);
+        UUID id = repository.save(voucher);
         // then
-        assertThat(save).isPresent();
+        assertThat(id).isNotNull();
     }
 
     @Test

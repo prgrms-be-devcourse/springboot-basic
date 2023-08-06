@@ -7,7 +7,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,9 +30,9 @@ class MemoryVoucherRepositoryTest {
                 yield new PercentDiscountVoucher(voucherId, percent);
             }
         };
-        Optional<Voucher> save = voucherRepository.save(voucher);
+        UUID id = voucherRepository.save(voucher);
         // then
-        assertThat(save).isPresent();
+        assertThat(id).isNotNull();
     }
 
     @Test
@@ -43,7 +42,7 @@ class MemoryVoucherRepositoryTest {
         int amount = 5_000;
 
         Voucher voucher = new FixedAmountVoucher(voucherId, amount);
-        Optional<Voucher> saved = voucherRepository.save(voucher);
+        voucherRepository.save(voucher);
 
         // when
         List<Voucher> all = voucherRepository.findAll();
