@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.customer;
 
+import com.programmers.springbootbasic.domain.customer.Repository.JdbcCustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@JdbcTest
+@JdbcTest  // 내부적으로 in memory db 사용하게 되어 있음
 @Import(JdbcCustomerRepository.class)
 class JdbcCustomerRepositoryTest {
     @Autowired
@@ -24,7 +25,6 @@ class JdbcCustomerRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "test@gmail.com", "test");
         // when
         Optional<Customer> result = repository.save(customer);
-
         // then
         assertThat(result).isPresent();
     }

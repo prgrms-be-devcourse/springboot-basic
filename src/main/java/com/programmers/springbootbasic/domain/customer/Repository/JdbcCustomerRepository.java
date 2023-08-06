@@ -1,5 +1,6 @@
-package com.programmers.springbootbasic.domain.customer;
+package com.programmers.springbootbasic.domain.customer.Repository;
 
+import com.programmers.springbootbasic.domain.customer.Customer;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -28,14 +29,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private Map<String, Object> toParamMap(Customer customer) {
-        return Map.of(
-                CUSTOMER_ID, customer.getCustomerId().toString(),
-                NAME, customer.getName(),
-                EMAIL, customer.getEmail()
-        );
-    }
-
     @Override
     public Optional<Customer> save(Customer customer) {
         int affectedRow = jdbcTemplate.update(
@@ -45,6 +38,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
             return Optional.empty();
         }
         return Optional.of(customer);
+    }
+
+    private Map<String, Object> toParamMap(Customer customer) {
+        return Map.of(
+                CUSTOMER_ID, customer.getCustomerId().toString(),
+                NAME, customer.getName(),
+                EMAIL, customer.getEmail()
+        );
     }
 
     @Override

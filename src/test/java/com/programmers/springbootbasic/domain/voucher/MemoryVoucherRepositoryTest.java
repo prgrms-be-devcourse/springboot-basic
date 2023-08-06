@@ -1,5 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import com.programmers.springbootbasic.domain.voucher.Repository.MemoryVoucherRepository;
+import com.programmers.springbootbasic.domain.voucher.Repository.VoucherRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
@@ -22,11 +24,11 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher = switch (voucherType) {
             case FIX -> {
                 int amount = 5_000;
-                yield new FixedAmountVoucher(voucherId, voucherType, amount);
+                yield new FixedAmountVoucher(voucherId, amount);
             }
             case PERCENT -> {
                 int percent = 30;
-                yield new PercentDiscountVoucher(voucherId, voucherType, percent);
+                yield new PercentDiscountVoucher(voucherId, percent);
             }
         };
         Optional<Voucher> save = voucherRepository.save(voucher);
@@ -38,10 +40,9 @@ class MemoryVoucherRepositoryTest {
     void 바우처생성및저장_모든바우처가져오기_성공() {
         // given
         UUID voucherId = UUID.randomUUID();
-        VoucherType voucherType = VoucherType.FIX;
         int amount = 5_000;
 
-        Voucher voucher = new FixedAmountVoucher(voucherId, voucherType, amount);
+        Voucher voucher = new FixedAmountVoucher(voucherId, amount);
         Optional<Voucher> saved = voucherRepository.save(voucher);
 
         // when

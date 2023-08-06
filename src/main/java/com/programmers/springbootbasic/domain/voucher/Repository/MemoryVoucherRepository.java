@@ -1,5 +1,6 @@
-package com.programmers.springbootbasic.domain.voucher;
+package com.programmers.springbootbasic.domain.voucher.Repository;
 
+import com.programmers.springbootbasic.domain.voucher.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

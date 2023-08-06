@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic.service.dto.Customer;
+package com.programmers.springbootbasic.presentation.controller.dto.Customer;
 
 
 public record CustomerCreationRequest(

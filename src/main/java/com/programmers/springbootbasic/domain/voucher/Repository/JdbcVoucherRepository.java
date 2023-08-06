@@ -1,5 +1,7 @@
-package com.programmers.springbootbasic.domain.voucher;
+package com.programmers.springbootbasic.domain.voucher.Repository;
 
+import com.programmers.springbootbasic.domain.voucher.Voucher;
+import com.programmers.springbootbasic.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -33,14 +35,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private Map<String, Object> toParamMap(Voucher voucher) {
-        return Map.of(
-                VOUCHER_ID, voucher.getVoucherId().toString(),
-                VOUCHER_TYPE, voucher.getVoucherType().name(),
-                AMOUNT_OR_PERCENT, voucher.getAmountOrPercent()
-        );
-    }
-
     @Override
     public Optional<Voucher> save(Voucher voucher) {
         int affectedRow = jdbcTemplate.update("INSERT INTO voucher(voucher_id, voucher_type, amount_or_percent) VALUES (:voucherId, :voucherType, :amountOrPercent)"
@@ -49,6 +43,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return Optional.empty();
         }
         return Optional.of(voucher);
+    }
+
+    private Map<String, Object> toParamMap(Voucher voucher) {
+        return Map.of(
+                VOUCHER_ID, voucher.getVoucherId().toString(),
+                VOUCHER_TYPE, voucher.getVoucherType().name(),
+                AMOUNT_OR_PERCENT, voucher.getAmountOrPercent()
+        );
     }
 
     @Override

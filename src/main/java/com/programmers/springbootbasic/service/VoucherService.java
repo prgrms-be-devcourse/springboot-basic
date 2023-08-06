@@ -1,8 +1,8 @@
 package com.programmers.springbootbasic.service;
 
+import com.programmers.springbootbasic.domain.voucher.Repository.VoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.Voucher;
-import com.programmers.springbootbasic.domain.voucher.VoucherRepository;
-import com.programmers.springbootbasic.service.dto.Voucher.VoucherCreationRequest;
+import com.programmers.springbootbasic.presentation.controller.dto.Voucher.VoucherCreationRequest;
 import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 import org.springframework.stereotype.Service;
