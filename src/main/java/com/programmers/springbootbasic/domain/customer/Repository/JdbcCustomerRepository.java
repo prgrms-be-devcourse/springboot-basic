@@ -13,6 +13,8 @@ import java.util.UUID;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
+    private static final String FAIL_TO_CREATE = "유저 생성에 실패했습니다. 입력값을 확인해주세요";
+    private static final String FAIL_TO_UPDATE = "유저 업데이트에 실패했습니다. 입력값을 확인해주세요";
     private static final String DATABASE_CUSTOMER_ID = "customer_id";
     private static final String CUSTOMER_ID = "customerId";
     private static final String NAME = "name";
@@ -30,14 +32,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> save(Customer customer) {
+    public UUID save(Customer customer) {
         int affectedRow = jdbcTemplate.update(
                 "INSERT INTO customer(customer_id, name, email) VALUES(:customerId, :name, :email)",
                 toParamMap(customer));
         if (affectedRow != 1) {
-            return Optional.empty();
+            throw new IllegalArgumentException(FAIL_TO_CREATE);
         }
-        return Optional.of(customer);
+        return customer.getCustomerId();
     }
 
     private Map<String, Object> toParamMap(Customer customer) {
@@ -49,15 +51,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> update(Customer customer) {
+    public void update(Customer customer) {
         int affectedRow = jdbcTemplate.update(
-                "UPDATE customer SET name = :name, email = :email WHERE customer_id = :cusomterId",
+                "UPDATE customer SET name = :name, email = :email WHERE customer_id = :customerId",
                 toParamMap(customer)
         );
         if (affectedRow != 1) {
-            return Optional.empty();
+            throw new IllegalArgumentException(FAIL_TO_UPDATE);
         }
-        return Optional.of(customer);
     }
 
     @Override
