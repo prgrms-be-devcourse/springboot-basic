@@ -15,7 +15,6 @@ import java.sql.PreparedStatement;
 import java.util.*;
 
 import static programmers.org.voucher.repository.util.constant.Operator.EQUALS;
-import static programmers.org.voucher.repository.util.constant.Table.VOUCHERS;
 
 @Component
 @Primary
@@ -34,7 +33,7 @@ class JdbcVoucherRepository implements VoucherRepository {
         map.put("type", "?");
 
         Insert insert = Insert.builder()
-                .insert(VOUCHERS)
+                .insert(Voucher.class)
                 .values(map)
                 .build();
 
@@ -53,12 +52,11 @@ class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> getAll() {
         Select select = Select.builder()
-                .select("*")
-                .from(VOUCHERS)
+                .select()
+                .from(Voucher.class)
                 .build();
 
         String sql = select.getQuery();
-
         List<Voucher> voucherList = new ArrayList<>();
         return jdbcTemplate.query(sql, voucherRowMapper(), voucherList.toArray());
     }
@@ -68,7 +66,7 @@ class JdbcVoucherRepository implements VoucherRepository {
         Where where = Where.builder("voucher_id", EQUALS, "?").build();
 
         Update update = Update.builder()
-                .update(VOUCHERS)
+                .update(Voucher.class)
                 .set("discount_amount", "?")
                 .where(where)
                 .build();
@@ -83,8 +81,8 @@ class JdbcVoucherRepository implements VoucherRepository {
         Where where = Where.builder("voucher_id", EQUALS, "?").build();
 
         Select select = Select.builder()
-                .select("*")
-                .from(VOUCHERS)
+                .select()
+                .from(Voucher.class)
                 .where(where)
                 .build();
 
@@ -104,7 +102,7 @@ class JdbcVoucherRepository implements VoucherRepository {
         Where where = Where.builder("voucher_id", EQUALS, "?").build();
 
         Delete delete = Delete.builder()
-                .delete(VOUCHERS)
+                .delete(Voucher.class)
                 .where(where)
                 .build();
 

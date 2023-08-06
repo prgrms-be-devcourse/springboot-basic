@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import static programmers.org.voucher.repository.util.constant.Operator.EQUALS;
-import static programmers.org.voucher.repository.util.constant.Table.CUSTOMERS;
 
 @Component
 class JdbcCustomerRepository implements CustomerRepository {
@@ -36,7 +35,7 @@ class JdbcCustomerRepository implements CustomerRepository {
         map.put("email", "?");
 
         Insert insert = Insert.builder()
-                .insert(CUSTOMERS)
+                .insert(Customer.class)
                 .values(map)
                 .build();
 
@@ -56,7 +55,7 @@ class JdbcCustomerRepository implements CustomerRepository {
         Where where = Where.builder("customer_id", EQUALS, "?").build();
 
         Update update = Update.builder()
-                .update(CUSTOMERS)
+                .update(Customer.class)
                 .set("name", "?")
                 .where(where)
                 .build();
@@ -71,8 +70,8 @@ class JdbcCustomerRepository implements CustomerRepository {
         Where where = Where.builder("customer_id", EQUALS, "?").build();
 
         Select select = Select.builder()
-                .select("*")
-                .from(CUSTOMERS)
+                .select()
+                .from(Customer.class)
                 .where(where)
                 .build();
 
@@ -92,8 +91,8 @@ class JdbcCustomerRepository implements CustomerRepository {
         Where where = Where.builder("email", EQUALS, "?").build();
 
         Select select = Select.builder()
-                .select("*")
-                .from(CUSTOMERS)
+                .select()
+                .from(Customer.class)
                 .where(where)
                 .build();
 
