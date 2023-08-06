@@ -1,6 +1,10 @@
 package com.devcourse.voucher.domain.repository;
 
-import com.devcourse.global.common.Sql;
+import com.devcourse.global.sql.Delete;
+import com.devcourse.global.sql.Insert;
+import com.devcourse.global.sql.Select;
+import com.devcourse.global.sql.Update;
+import com.devcourse.global.sql.Where;
 import com.devcourse.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,8 +15,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static com.devcourse.global.common.Sql.Table.VOUCHERS;
 
 @Component
 @Profile("dev")
@@ -34,12 +36,12 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = Sql.builder()
-                .insertInto(VOUCHERS)
+        Insert insert = Insert.builder()
+                .into(Voucher.class)
                 .values("id", "discount", "expired_at", "type", "status")
                 .build();
 
-        jdbcTemplate.update(sql,
+        jdbcTemplate.update(insert.getQuery(),
                 voucher.id().toString(),
                 voucher.discount(),
                 voucher.expireAt(),
@@ -51,45 +53,54 @@ class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        String sql = Sql.builder()
-                .select("*")
-                .from(VOUCHERS)
+        Select select = Select.builder()
+                .select(Voucher.class)
                 .build();
 
-        return jdbcTemplate.query(sql, voucherMapper);
+        return jdbcTemplate.query(select.getQuery(), voucherMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID id) {
-        String sql = Sql.builder()
-                .select("*")
-                .from(VOUCHERS)
-                .where("id")
-                .build();
+        Select select = Select.builder()
+                .select(Voucher.class)
+                .where(
+                        Where
+                                .builder()
+                                .condition("id")
+                                .build()
+                ).build();
 
-        return jdbcTemplate.query(sql, voucherMapper, id.toString())
+        return jdbcTemplate.query(select.getQuery(), voucherMapper, id.toString())
                 .stream()
                 .findFirst();
     }
 
     @Override
     public void deleteById(UUID id) {
-        String sql = Sql.builder()
-                .deleteFrom(VOUCHERS)
-                .where("id")
-                .build();
+        Delete delete = Delete.builder()
+                .from(Voucher.class)
+                .where(
+                        Where
+                                .builder()
+                                .condition("id")
+                                .build()
+                ).build();
 
-        jdbcTemplate.update(sql, id.toString());
+        jdbcTemplate.update(delete.getQuery(), id.toString());
     }
 
     @Override
     public void updateStatus(UUID id, String status) {
-        String sql = Sql.builder()
-                .update(VOUCHERS)
-                .set("status")
-                .where("id")
-                .build();
+        Update update = Update.builder()
+                .table(Voucher.class)
+                .values("status")
+                .where(
+                        Where.builder()
+                                .condition("id")
+                                .build()
+                ).build();
 
-        jdbcTemplate.update(sql, status, id.toString());
+        jdbcTemplate.update(update.getQuery(), status, id.toString());
     }
 }

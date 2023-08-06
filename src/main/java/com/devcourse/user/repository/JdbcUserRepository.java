@@ -1,6 +1,10 @@
 package com.devcourse.user.repository;
 
-import com.devcourse.global.common.Sql;
+import com.devcourse.global.sql.Delete;
+import com.devcourse.global.sql.Insert;
+import com.devcourse.global.sql.Select;
+import com.devcourse.global.sql.Update;
+import com.devcourse.global.sql.Where;
 import com.devcourse.user.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -9,8 +13,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static com.devcourse.global.common.Sql.Table.USERS;
 
 @Component
 class JdbcUserRepository implements UserRepository {
@@ -29,56 +31,63 @@ class JdbcUserRepository implements UserRepository {
     @Override
     public UUID save(String name) {
         UUID id = UUID.randomUUID();
-        String sql = Sql.builder()
-                .insertInto(USERS)
+        Insert insert = Insert.builder()
+                .into(User.class)
                 .values("id", "name")
                 .build();
 
-        jdbcTemplate.update(sql, id.toString(), name);
+        jdbcTemplate.update(insert.getQuery(), id.toString(), name);
         return id;
     }
 
     @Override
     public List<User> findAll() {
-        String sql = Sql.builder()
-                .select("*")
-                .from(USERS)
+        Select select = Select.builder()
+                .select(User.class)
                 .build();
 
-        return jdbcTemplate.query(sql, userMapper);
+        return jdbcTemplate.query(select.getQuery(), userMapper);
     }
 
     @Override
     public Optional<User> findById(UUID id) {
-        String sql = Sql.builder()
-                .select("*")
-                .from(USERS)
-                .where("id")
-                .build();
+        Select select = Select.builder()
+                .select(User.class)
+                .where(
+                        Where.builder()
+                                .condition("id")
+                                .build()
+                ).build();
 
-        return jdbcTemplate.query(sql, userMapper, id.toString())
+        return jdbcTemplate.query(select.getQuery(), userMapper, id.toString())
                 .stream()
                 .findFirst();
     }
 
     @Override
     public void deleteById(UUID id) {
-        String sql = Sql.builder()
-                .deleteFrom(USERS)
-                .where("id")
-                .build();
+        Delete delete = Delete.builder()
+                .from(User.class)
+                .where(
+                        Where.builder()
+                                .condition("id")
+                                .build()
+                ).build();
 
-        jdbcTemplate.update(sql, id.toString());
+        jdbcTemplate.update(delete.getQuery(), id.toString());
     }
 
     @Override
     public void update(UUID id, String name) {
-        String sql = Sql.builder().
-                update(USERS)
-                .set("name")
-                .where("id")
-                .build();
+        Update update = Update.builder()
+                .table(User.class)
+                .values("name")
+                .where(
+                        Where.builder()
+                                .condition("id")
+                                .build()
+                ).build();
 
-        jdbcTemplate.update(sql, name, id.toString());
+        jdbcTemplate.update(update.getQuery(), name, id.toString());
     }
 }
