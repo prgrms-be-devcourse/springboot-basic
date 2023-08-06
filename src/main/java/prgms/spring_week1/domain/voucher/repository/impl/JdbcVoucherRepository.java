@@ -5,10 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Dml;
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Delete;
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Insert;
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Select;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Delete;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Insert;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Select;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.conditionBuilder.Where;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.tableBuilder.Column;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.tableBuilder.Values;
@@ -48,56 +47,57 @@ public class JdbcVoucherRepository implements VoucherRepository {
         );
     }
 
-    Column column = new Column.ColumnBuilder()
-            .columns("voucher_id","voucher_type", "discount", "created_at")
-            .build();
-
-    Values values = new Values.ValuesBuilder()
-            .values("UUID_TO_BIN(:voucherId)",":voucherType",":discount",":createdAt")
-            .build();
-
     @Override
     public void insert(Voucher voucher) {
-        Dml insertSql = new Insert.InsertBuilder()
+        Insert insertSql = Insert.builder()
                 .insert(TableType.voucher)
-                .columns(column)
-                .values(values)
+                .into(Column
+                        .builder()
+                        .columns("voucher_id", "voucher_type", "discount", "created_at")
+                        .build())
+                .values(Values
+                        .builder()
+                        .values("UUID_TO_BIN(:voucherId)", ":voucherType", ":discount", ":createdAt")
+                        .build())
                 .build();
 
-        jdbcTemplate.update(insertSql.toString(), toParamMap(voucher));
+        jdbcTemplate.update(insertSql.getQuery(), toParamMap(voucher));
     }
 
     @Override
     public List<Voucher> findAll() {
-        Dml findAllSql = new Select.SelectBuilder()
+        Select findAllSql = Select.builder()
                 .selectAll()
                 .from(TableType.voucher)
                 .build();
 
-        return jdbcTemplate.query(findAllSql.toString(), voucherRowMapper);
+        return jdbcTemplate.query(findAllSql.getQuery(), voucherRowMapper);
     }
-
-    Where where = new Where.WhereBuilder()
-            .equal("voucher_type",":voucherType")
-            .build();
 
     @Override
     public List<Voucher> findByType(String voucherType) {
-        Dml findByTypeSql = new Select.SelectBuilder()
-                .select("voucher_type","discount")
+        Select findByTypeSql = Select.builder()
+                .select(Column
+                        .builder()
+                        .columns("voucher_type", "discount")
+                        .build())
                 .from(TableType.voucher)
-                .where(where)
+                .where(Where
+                        .builder()
+                        .where("voucher_type", ":voucherType")
+                        .build())
                 .build();
 
-        return jdbcTemplate.query(findByTypeSql.toString(), Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
+        return jdbcTemplate.query(findByTypeSql.getQuery(), Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
     }
 
     @Override
     public void delete() {
-        Dml deleteSql = new Delete.DeleteBuilder()
-                .delete(TableType.voucher)
+        Delete deleteSql = Delete
+                .builder()
+                .deleteFrom(TableType.voucher)
                 .build();
 
-        jdbcTemplate.update(deleteSql.toString(), new HashMap<>());
+        jdbcTemplate.update(deleteSql.getQuery(), new HashMap<>());
     }
 }
