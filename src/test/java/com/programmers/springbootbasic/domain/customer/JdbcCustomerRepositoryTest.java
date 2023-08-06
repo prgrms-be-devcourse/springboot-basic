@@ -24,9 +24,9 @@ class JdbcCustomerRepositoryTest {
         // given
         Customer customer = new Customer(UUID.randomUUID(), "test@gmail.com", "test");
         // when
-        Optional<Customer> result = repository.save(customer);
+        UUID id = repository.save(customer);
         // then
-        assertThat(result).isPresent();
+        assertThat(id).isNotNull();
     }
 
     @Test
@@ -39,5 +39,19 @@ class JdbcCustomerRepositoryTest {
         Optional<Customer> result = repository.findByEmail(customer.getEmail());
         // then
         assertThat(result).isPresent();
+    }
+
+    @Test
+    @DisplayName("고객을 수정 할 수 있다")
+    void update() {
+        // given
+        Customer customer = new Customer(UUID.randomUUID(), "test@gmail.com", "test");
+        repository.save(customer);
+        Customer forUpdate = new Customer(customer.getCustomerId(), "update@gmail.com", "update");
+        // when
+        repository.update(forUpdate);
+        // then
+        Optional<Customer> updated = repository.findByEmail(forUpdate.getEmail());
+        assertThat(updated).get().usingRecursiveComparison().isEqualTo(forUpdate);
     }
 }
