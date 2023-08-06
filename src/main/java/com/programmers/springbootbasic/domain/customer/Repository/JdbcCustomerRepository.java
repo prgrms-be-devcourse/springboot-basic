@@ -1,6 +1,7 @@
 package com.programmers.springbootbasic.domain.customer.Repository;
 
 import com.programmers.springbootbasic.domain.customer.Customer;
+import com.programmers.springbootbasic.domain.customer.CustomerUpdateDto;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -51,14 +52,22 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void update(Customer customer) {
+    public void update(CustomerUpdateDto updateDto) {
         int affectedRow = jdbcTemplate.update(
                 "UPDATE customer SET name = :name, email = :email WHERE customer_id = :customerId",
-                toParamMap(customer)
+                toParamMap(updateDto)
         );
         if (affectedRow != 1) {
             throw new IllegalArgumentException(FAIL_TO_UPDATE);
         }
+    }
+
+    private Map<String, Object> toParamMap(CustomerUpdateDto forUpdate) {
+        return Map.of(
+                CUSTOMER_ID, forUpdate.id().toString(),
+                NAME, forUpdate.name(),
+                EMAIL, forUpdate.email()
+        );
     }
 
     @Override
