@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher;
 
+import com.programmers.springbootbasic.domain.voucher.Repository.JdbcVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -9,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,15 +21,15 @@ class JdbcVoucherRepositoryTest {
     private JdbcVoucherRepository repository;
 
     @ParameterizedTest
-    @CsvSource(value = {"정률 할인, 10000", "정액 할인, 10"})
+    @CsvSource(value = {"정률 할인, 10", "정액 할인, 10000"})
     @DisplayName("바우처를 저장할 수 있다")
     void save(String voucherType, int amountOrPercent) {
         // given
         Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), VoucherType.from(voucherType), amountOrPercent);
         // when
-        Optional<Voucher> save = repository.save(voucher);
+        UUID id = repository.save(voucher);
         // then
-        assertThat(save).isPresent();
+        assertThat(id).isNotNull();
     }
 
     @Test

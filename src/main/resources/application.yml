@@ -1,6 +1,4 @@
 spring:
-  main:
-    web-application-type: none
   datasource:
     url: jdbc:mysql://localhost:3306/spring_basic
     username: root
@@ -9,3 +7,17 @@ spring:
   sql:
     init:
       mode: always
+
+---
+spring:
+  config:
+    activate:
+      on-profile: console
+  main:
+    web-application-type: none
+
+---
+spring:
+  config:
+    activate:
+      on-profile: web

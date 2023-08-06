@@ -1,5 +1,7 @@
-package com.programmers.springbootbasic.domain.customer;
+package com.programmers.springbootbasic.domain.customer.Repository;
 
+import com.programmers.springbootbasic.domain.customer.Customer;
+import com.programmers.springbootbasic.domain.customer.CustomerUpdateDto;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,6 +14,8 @@ import java.util.UUID;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
+    private static final String FAIL_TO_CREATE = "유저 생성에 실패했습니다. 입력값을 확인해주세요";
+    private static final String FAIL_TO_UPDATE = "유저 업데이트에 실패했습니다. 입력값을 확인해주세요";
     private static final String DATABASE_CUSTOMER_ID = "customer_id";
     private static final String CUSTOMER_ID = "customerId";
     private static final String NAME = "name";
@@ -28,6 +32,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
+    public UUID save(Customer customer) {
+        int affectedRow = jdbcTemplate.update(
+                "INSERT INTO customer(customer_id, name, email) VALUES(:customerId, :name, :email)",
+                toParamMap(customer));
+        if (affectedRow != 1) {
+            throw new IllegalArgumentException(FAIL_TO_CREATE);
+        }
+        return customer.getCustomerId();
+    }
+
     private Map<String, Object> toParamMap(Customer customer) {
         return Map.of(
                 CUSTOMER_ID, customer.getCustomerId().toString(),
@@ -37,26 +52,22 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> save(Customer customer) {
+    public void update(CustomerUpdateDto updateDto) {
         int affectedRow = jdbcTemplate.update(
-                "INSERT INTO customer(customer_id, name, email) VALUES(:customerId, :name, :email)",
-                toParamMap(customer));
-        if (affectedRow != 1) {
-            return Optional.empty();
-        }
-        return Optional.of(customer);
-    }
-
-    @Override
-    public Optional<Customer> update(Customer customer) {
-        int affectedRow = jdbcTemplate.update(
-                "UPDATE customer SET name = :name, email = :email WHERE customer_id = :cusomterId",
-                toParamMap(customer)
+                "UPDATE customer SET name = :name, email = :email WHERE customer_id = :customerId",
+                toParamMap(updateDto)
         );
         if (affectedRow != 1) {
-            return Optional.empty();
+            throw new IllegalArgumentException(FAIL_TO_UPDATE);
         }
-        return Optional.of(customer);
+    }
+
+    private Map<String, Object> toParamMap(CustomerUpdateDto forUpdate) {
+        return Map.of(
+                CUSTOMER_ID, forUpdate.id().toString(),
+                NAME, forUpdate.name(),
+                EMAIL, forUpdate.email()
+        );
     }
 
     @Override
