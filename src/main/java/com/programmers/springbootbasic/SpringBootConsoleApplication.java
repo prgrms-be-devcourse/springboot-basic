@@ -3,7 +3,6 @@ package com.programmers.springbootbasic;
 import com.programmers.springbootbasic.presentation.Command;
 import com.programmers.springbootbasic.presentation.controller.VoucherController;
 import com.programmers.springbootbasic.presentation.view.ConsoleApplicationView;
-import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponse;
 import com.programmers.springbootbasic.service.dto.Voucher.VoucherResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.UUID;
 
 @Profile("console")
 @Component
@@ -51,8 +51,8 @@ public class SpringBootConsoleApplication implements CommandLineRunner {
         String voucherType = applicationView.inputType();
         int amountOrPercent = applicationView.inputAmountOrPercent();
 
-        VoucherResponse response = voucherController.createVoucher(voucherType, amountOrPercent);
-        applicationView.printCreatedVoucher(response);
+        UUID voucherId = voucherController.createVoucher(voucherType, amountOrPercent);
+        applicationView.printCreatedVoucherId(voucherId);
     }
 
     private void list() throws IOException {
