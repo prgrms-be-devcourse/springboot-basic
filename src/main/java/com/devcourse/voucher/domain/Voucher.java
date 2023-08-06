@@ -18,26 +18,28 @@ public class Voucher {
     }
 
     private final UUID id;
+
+    @Transient
     private final DiscountPolicy discountPolicy;
     private final int discount;
-    private final LocalDateTime expireAt;
+    private final LocalDateTime expiredAt;
     private final Type type;
     private Status status;
 
-    public Voucher(UUID id, int discount, LocalDateTime expireAt, Type type, Status status) {
+    public Voucher(UUID id, int discount, LocalDateTime expiredAt, Type type, Status status) {
         this.id = id;
         this.discountPolicy = createPolicy(type);
         this.discount = discount;
-        this.expireAt = expireAt;
+        this.expiredAt = expiredAt;
         this.type = type;
         this.status = status;
     }
 
-    public Voucher(int discount, LocalDateTime expireAt, Type type) {
+    public Voucher(int discount, LocalDateTime expiredAt, Type type) {
         this.id = UUID.randomUUID();
         this.discountPolicy = createPolicy(type);
         this.discount = discount;
-        this.expireAt = expireAt;
+        this.expiredAt = expiredAt;
         this.type = type;
         this.status = ISSUED;
     }
@@ -55,7 +57,7 @@ public class Voucher {
     }
 
     public LocalDateTime expireAt() {
-        return expireAt;
+        return expiredAt;
     }
 
     public Type type() {
@@ -74,7 +76,7 @@ public class Voucher {
         return id + DELIMITER +
                 discount + DELIMITER +
                 type + DELIMITER +
-                expireAt + DELIMITER +
+                expiredAt + DELIMITER +
                 status;
     }
 
