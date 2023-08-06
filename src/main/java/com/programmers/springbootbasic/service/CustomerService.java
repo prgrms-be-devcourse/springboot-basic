@@ -1,6 +1,7 @@
 package com.programmers.springbootbasic.service;
 
 import com.programmers.springbootbasic.domain.customer.Customer;
+import com.programmers.springbootbasic.domain.customer.CustomerUpdateDto;
 import com.programmers.springbootbasic.domain.customer.Repository.CustomerRepository;
 import com.programmers.springbootbasic.presentation.controller.dto.Customer.CustomerCreationRequest;
 import com.programmers.springbootbasic.presentation.controller.dto.Customer.CustomerUpdateRequest;
@@ -23,9 +24,9 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public void updateCustomerName(CustomerUpdateRequest request) {
-        Customer customer = CustomerMapper.toCustomer(request);
-        customerRepository.update(customer);
+    public void updateCustomer(UUID id, CustomerUpdateRequest request) {
+        CustomerUpdateDto customerUpdateDto = CustomerMapper.toCustomerUpdateDto(id, request);
+        customerRepository.update(customerUpdateDto);
     }
 
     public CustomerResponse findByEmail(String email) {
