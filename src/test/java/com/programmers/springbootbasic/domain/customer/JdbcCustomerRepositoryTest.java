@@ -12,7 +12,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@JdbcTest  // 내부적으로 in memory db 사용하게 되어 있음
+@JdbcTest
 @Import(JdbcCustomerRepository.class)
 class JdbcCustomerRepositoryTest {
     @Autowired
