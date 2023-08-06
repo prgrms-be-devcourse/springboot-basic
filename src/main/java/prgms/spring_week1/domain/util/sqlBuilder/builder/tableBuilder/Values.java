@@ -9,6 +9,10 @@ public class Values {
         this.values = valuesBuilder;
     }
 
+    public static ValuesBuilder builder(){
+        return new ValuesBuilder();
+    }
+
     public static class ValuesBuilder {
         private StringBuilder valuesBuilder = new StringBuilder();
 
@@ -30,7 +34,8 @@ public class Values {
         }
     }
 
-    public String toString() {
+    public String getQuery() {
         return values.toString();
     }
 }
+

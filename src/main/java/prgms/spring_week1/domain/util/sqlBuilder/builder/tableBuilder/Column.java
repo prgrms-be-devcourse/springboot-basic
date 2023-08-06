@@ -9,18 +9,19 @@ public class Column {
         this.column = column;
     }
 
+    public static ColumnBuilder builder(){
+        return new ColumnBuilder();
+    }
+
     public static class ColumnBuilder {
         private StringBuilder columnBuilder = new StringBuilder();
 
         public ColumnBuilder columns(String... columns) {
-            columnBuilder.append("(");
-
             for (String column : columns) {
                 columnBuilder.append(column + ",");
             }
 
             columnBuilder.setLength(columnBuilder.length() - INVALID_LAST_COMMA);
-            columnBuilder.append(")");
 
             return this;
         }
@@ -29,9 +30,7 @@ public class Column {
             return new Column(columnBuilder);
         }
     }
-
-
-    public String toString() {
+    public String getQuery() {
         return column.toString();
     }
 }

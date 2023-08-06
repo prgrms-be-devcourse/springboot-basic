@@ -7,6 +7,10 @@ public class Set {
         this.set = set;
     }
 
+    public static SetBuilder builder(){
+        return new SetBuilder();
+    }
+
     public static class SetBuilder {
         private StringBuilder setBuilder = new StringBuilder();
 
@@ -20,7 +24,7 @@ public class Set {
         }
     }
 
-    public String toString() {
+    public String getQuery() {
         return set.toString();
     }
 }

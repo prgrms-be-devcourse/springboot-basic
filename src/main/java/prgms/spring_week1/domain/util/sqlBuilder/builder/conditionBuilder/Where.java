@@ -7,10 +7,14 @@ public class Where {
         where = whereBuilder;
     }
 
+    public static WhereBuilder builder(){
+        return new WhereBuilder();
+    }
+
     public static class WhereBuilder {
         private StringBuilder whereBuilder = new StringBuilder();
 
-        public WhereBuilder equal(String column, String value) {
+        public WhereBuilder where(String column, String value) {
             whereBuilder.append(" WHERE ").append(column).append(" = ").append(value);
             return this;
         }
@@ -30,7 +34,8 @@ public class Where {
         }
     }
 
-    public String toString() {
+    public String getQuery() {
         return where.toString();
     }
 }
+

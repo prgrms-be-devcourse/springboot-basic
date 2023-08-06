@@ -9,6 +9,10 @@ public class Order {
         this.order = orderBuilder;
     }
 
+    public static OrderBuilder builder(){
+        return new OrderBuilder();
+    }
+
     public static class OrderBuilder {
         private StringBuilder orderBuilder = new StringBuilder();
 
@@ -27,7 +31,7 @@ public class Order {
         }
     }
 
-    public String toString() {
+    public String getQuery() {
         return order.toString();
     }
 }
