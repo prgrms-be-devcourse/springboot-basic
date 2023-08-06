@@ -8,11 +8,10 @@ import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.Customer;
 import prgms.spring_week1.domain.customer.model.embeddedType.Email;
 import prgms.spring_week1.domain.customer.repository.CustomerRepository;
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Dml;
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Delete;
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Insert;
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Select;
-import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.impl.Update;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Delete;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Insert;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Select;
+import prgms.spring_week1.domain.util.sqlBuilder.builder.DmlBuilder.Update;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.conditionBuilder.Where;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.tableBuilder.Column;
 import prgms.spring_week1.domain.util.sqlBuilder.builder.tableBuilder.Set;
@@ -57,47 +56,45 @@ public class JdbcCustomerRepository implements CustomerRepository {
         );
     }
 
-    Column column = new Column.ColumnBuilder()
-            .columns("customer_id", "email", "name")
-            .build();
-    Values values = new Values.ValuesBuilder()
-            .values("UUID_TO_BIN(:customerId)", ":email", ":name")
-            .build();
-
     @Override
     public void insert(Customer customer) {
-        Dml insertSQL = new Insert.InsertBuilder()
+        Insert insertSQL = Insert.builder()
                 .insert(TableType.customers)
-                .columns(column)
-                .values(values)
+                .into(Column
+                        .builder()
+                        .columns("customer_id", "email", "name")
+                        .build())
+                .values(Values
+                        .builder()
+                        .values("UUID_TO_BIN(:customerId)", ":email", ":name")
+                        .build())
                 .build();
 
-        jdbcTemplate.update(insertSQL.toString(), toParamMap(customer));
+        jdbcTemplate.update(insertSQL.getQuery(), toParamMap(customer));
     }
 
     @Override
     public List<Customer> findAll() {
-        Dml findAllSql = new Select.SelectBuilder()
+        Select findAllSql = Select.builder()
                 .selectAll()
                 .from(TableType.customers)
                 .build();
 
-        return jdbcTemplate.query(findAllSql.toString(), customerRowMapper);
+        return jdbcTemplate.query(findAllSql.getQuery(), customerRowMapper);
     }
-
-    Where findWhere = new Where.WhereBuilder()
-            .equal("email",":email")
-            .build();
 
     @Override
     public Customer findByEmail(String email) {
-        Dml findByEmailSql = new Select.SelectBuilder()
+        Select findByEmailSql = Select.builder()
                 .selectAll()
                 .from(TableType.customers)
-                .where(findWhere)
+                .where(Where
+                        .builder()
+                        .where("email", ":email")
+                        .build())
                 .build();
 
-        List<Customer> foundCustomer = jdbcTemplate.query(findByEmailSql.toString(), Collections.singletonMap("email", email), customerRowMapper);
+        List<Customer> foundCustomer = jdbcTemplate.query(findByEmailSql.getQuery(), Collections.singletonMap("email", email), customerRowMapper);
 
         if (foundCustomer.isEmpty()) {
             return null;
@@ -106,43 +103,43 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return foundCustomer.get(0);
     }
 
-    Set set = new Set.SetBuilder()
-            .set("email",":afterUpdateEmail")
-            .build();
-
-    Where updateWhere = new Where.WhereBuilder()
-            .equal("email",":beforeUpdateEmail")
-            .build();
-
     @Override
     public void updateInfo(String beforeUpdateEmail, String afterUpdateEmail) {
-        Dml updateInfoSql = new Update.UpdateBuilder()
+        Update updateInfoSql = Update.builder()
                 .update(TableType.customers)
-                .set(set)
-                .where(updateWhere)
+                .set(Set.builder()
+                        .set("email", ":afterUpdateEmail")
+                        .build())
+                .where(Where.builder()
+                        .where("email", ":beforeUpdateEmail")
+                        .build())
                 .build();
 
-        jdbcTemplate.update(updateInfoSql.toString(), toEmailParamMap(beforeUpdateEmail, afterUpdateEmail));
+        jdbcTemplate.update(updateInfoSql.getQuery(), toEmailParamMap(beforeUpdateEmail, afterUpdateEmail));
     }
 
-    Where deleteWhere = new Where.WhereBuilder()
-            .equal("email",":email")
+    Where deleteWhere = Where.builder()
+            .where("email", ":email")
             .build();
 
     @Override
     public void deleteByEmail(String email) {
-        Dml deleteByEmailSql = new Delete.DeleteBuilder()
-                .delete(TableType.customers)
-                .where(deleteWhere)
+        Delete deleteByEmailSql = Delete.builder()
+                .deleteFrom(TableType.customers)
+                .where(Where.builder()
+                        .where("email", ":email")
+                        .build())
                 .build();
 
-        jdbcTemplate.update(deleteByEmailSql.toString(), Collections.singletonMap("email", email));
+        jdbcTemplate.update(deleteByEmailSql.getQuery(), Collections.singletonMap("email", email));
     }
 
     @Override
     public void deleteAll() {
-        Dml deleteAllSql = new Delete.DeleteBuilder().delete(TableType.customers).build();
+        Delete deleteAllSql = Delete.builder()
+                .deleteFrom(TableType.customers)
+                .build();
 
-        jdbcTemplate.update(deleteAllSql.toString(), new HashMap<>());
+        jdbcTemplate.update(deleteAllSql.getQuery(), new HashMap<>());
     }
 }
