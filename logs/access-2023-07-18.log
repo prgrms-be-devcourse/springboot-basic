@@ -1,0 +1,42 @@
+17:21:48.476 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 934 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+17:21:48.479 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+17:21:50.311 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.293 seconds (JVM running for 3.117)
+17:23:34.034 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 950 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+17:23:34.036 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+17:23:35.687 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 1.967 seconds (JVM running for 2.782)
+17:28:24.143 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 992 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+17:28:24.146 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+17:28:25.835 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.012 seconds (JVM running for 2.898)
+17:39:19.119 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 1056 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+17:39:19.122 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+17:39:20.748 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.047 seconds (JVM running for 2.947)
+18:21:20.930 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 1362 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+18:21:20.933 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+18:21:22.605 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.127 seconds (JVM running for 3.048)
+18:23:14.566 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 1374 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+18:23:14.571 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+18:23:16.239 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.001 seconds (JVM running for 2.776)
+21:05:31.219 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 1855 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+21:05:31.222 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+21:05:33.094 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.319 seconds (JVM running for 3.28)
+21:06:08.879 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 1865 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+21:06:08.882 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+21:06:10.714 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.232 seconds (JVM running for 3.054)
+21:21:13.704 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 2145 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+21:21:13.708 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+21:21:15.604 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.401 seconds (JVM running for 3.212)
+21:22:20.112 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 2162 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+21:22:20.114 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+21:22:21.766 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.026 seconds (JVM running for 2.927)
+22:57:00.128 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 3229 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+22:57:00.131 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+22:57:01.949 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.259 seconds (JVM running for 3.29)
+22:59:00.009 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 3249 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+22:59:00.011 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+22:59:01.828 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.182 seconds (JVM running for 3.675)
+23:32:28.333 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 3407 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+23:32:28.336 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+23:32:30.150 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.263 seconds (JVM running for 3.244)
+23:32:47.970 [main] INFO  p.org.voucher.VoucherApplication - Starting VoucherApplication using Java 11.0.14 on MacBookPro411.local with PID 3416 (/Users/kim-ys/Downloads/voucher/out/production/classes started by kim-ys in /Users/kim-ys/Downloads/voucher)
+23:32:47.973 [main] INFO  p.org.voucher.VoucherApplication - No active profile set, falling back to 1 default profile: "default"
+23:32:49.736 [main] INFO  p.org.voucher.VoucherApplication - Started VoucherApplication in 2.13 seconds (JVM running for 2.88)
