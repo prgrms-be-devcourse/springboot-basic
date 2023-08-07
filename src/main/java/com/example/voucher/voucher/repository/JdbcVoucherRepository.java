@@ -1,15 +1,19 @@
 package com.example.voucher.voucher.repository;
 
 import static java.util.Map.*;
+
 import java.util.List;
 import java.util.UUID;
+
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
+
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.query.Delete;
+import com.example.voucher.query.Insert;
 import com.example.voucher.query.Select;
 import com.example.voucher.query.Where;
 import com.example.voucher.query.operator.Eq;
@@ -33,11 +37,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
             .addValue("discountValue", voucher.getValue())
             .addValue("voucherType", voucher.getVoucherType().toString());
 
-        String sql = new QueryBuilder().insertInto("VOUCHER")
-            .values("voucherId", "discountValue", "voucherType")
-            .build();
+        Insert insert = Insert.into(Voucher.class)
+            .values(of(
+                "VOUCHER_ID", ":voucherId",
+                "DISCOUNT_VALUE", ":discountValue",
+                "VOUCHER_TYPE", ":voucherType"
+            ));
 
-        jdbcTemplate.update(sql, parameterSource);
+        jdbcTemplate.update(insert.getQuery(), parameterSource);
         UUID voucherID = voucher.getVoucherId();
 
         return findById(voucherID);
