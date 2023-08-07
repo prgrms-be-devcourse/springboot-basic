@@ -17,7 +17,7 @@ class OrderTest {
             .build();
 
         // then
-        assertEquals("ORDER BY VOUCHER_ID ", order.getQuery());
+        assertEquals("ORDER BY VOUCHER_ID", order.getQuery());
     }
 
     @DisplayName("ORDER 절 정렬 조건 추가 생성 테스트")

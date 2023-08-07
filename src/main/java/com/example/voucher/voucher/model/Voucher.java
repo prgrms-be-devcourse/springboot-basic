@@ -3,8 +3,9 @@ package com.example.voucher.voucher.model;
 import static com.example.voucher.constant.ExceptionMessage.*;
 import java.util.UUID;
 import com.example.voucher.constant.VoucherType;
+import com.example.voucher.query.marker.Entity;
 
-public interface Voucher {
+public interface Voucher extends Entity {
 
     UUID getVoucherId();
 

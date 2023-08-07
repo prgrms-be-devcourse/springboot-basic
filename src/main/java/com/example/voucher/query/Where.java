@@ -3,7 +3,6 @@ package com.example.voucher.query;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import com.example.voucher.query.operator.Operator;
 
 public class Where {
@@ -28,7 +27,7 @@ public class Where {
             .map(condition -> " " + condition)
             .collect(Collectors.joining());
 
-        return baseCondition + logicalConditions;
+        return baseCondition.concat(logicalConditions).trim();
     }
 
 

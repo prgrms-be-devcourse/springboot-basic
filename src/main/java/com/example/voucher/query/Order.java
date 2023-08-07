@@ -25,7 +25,7 @@ public class Order {
         String columnName = this.columName;
         String sort = this.sort == null ? "" : this.sort.name();
 
-        return String.format("ORDER BY %s %s", columnName, sort);
+        return String.format("ORDER BY %s %s", columnName, sort).trim();
     }
 
     public static OrderCriteria builder() {
