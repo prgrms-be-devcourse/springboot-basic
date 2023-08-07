@@ -1,9 +1,12 @@
 package programmers.org.voucher.io;
 
-import programmers.org.voucher.domain.Voucher;
+import programmers.org.voucher.dto.VoucherResponse;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
+
+import static programmers.org.voucher.exception.ErrorMessage.INVALID_INPUT_VALUE;
 
 public class VoucherConsole {
 
@@ -13,15 +16,14 @@ public class VoucherConsole {
         System.out.println("=== Voucher Program ===\n" +
                 "Type exit to exit the program.\n" +
                 "Type create to create a new voucher.\n" +
-                "Type list to list all vouchers.");
+                "Type list to list all vouchers.\n" +
+                "Type find to find a voucher.\n" +
+                "Type update to edit a voucher.\n" +
+                "type delete to remove a voucher");
     }
 
-    public void printVoucherList(List<Voucher> voucherList) {
+    public void printVoucherList(List<VoucherResponse> voucherList) {
         voucherList.forEach(this::printVoucher);
-    }
-
-    public void printError(String error) {
-        System.out.println(error);
     }
 
     public String inputCommand() {
@@ -35,12 +37,25 @@ public class VoucherConsole {
 
     public int inputVoucherInfo() {
         System.out.println("바우처 정보 입력: ");
-        return scanner.nextInt();
+        try {
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            throw new InputMismatchException(INVALID_INPUT_VALUE.getMessage());
+        }
     }
 
-    private void printVoucher(Voucher voucher) {
-        System.out.println("VoucherID : " + voucher.getVoucherId()
-                + " Type : " + voucher.getVoucherType()
+    public long inputVoucherId() {
+        System.out.println("바우처 ID 입력: ");
+        try {
+            return scanner.nextLong();
+        } catch (InputMismatchException e) {
+            throw new InputMismatchException(INVALID_INPUT_VALUE.getMessage());
+        }
+    }
+
+    public void printVoucher(VoucherResponse voucher) {
+        System.out.println("VoucherID : " + voucher.getId()
+                + " Type : " + voucher.getType()
                 + " DiscountAmount : " + voucher.getDiscountAmount());
     }
 }

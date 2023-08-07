@@ -1,19 +1,23 @@
 package programmers.org.voucher.constant;
 
-import programmers.org.voucher.exception.ErrorMessage;
-
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+
+import static programmers.org.voucher.exception.ErrorMessage.INVALID_COMMAND;
 
 public enum Command {
     CREATE,
     LIST,
-    EXIT;
+    FIND,
+    UPDATE,
+    DELETE,
+    EXIT
+    ;
 
     public static Command find(String type) {
         return Arrays.stream(Command.values())
-                .filter(command -> command.name().equals(type))
+                .filter(command -> command.name().equalsIgnoreCase(type))
                 .findAny()
-                .orElseThrow(() -> new NoSuchElementException(ErrorMessage.COMMAND_ERROR_MESSAGE.getMessage()));
+                .orElseThrow(() -> new NoSuchElementException(INVALID_COMMAND.getMessage()));
     }
 }

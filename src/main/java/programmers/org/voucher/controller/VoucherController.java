@@ -5,8 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import programmers.org.voucher.constant.Command;
-import programmers.org.voucher.constant.VoucherType;
-import programmers.org.voucher.domain.Voucher;
+import programmers.org.voucher.domain.constant.VoucherType;
+import programmers.org.voucher.dto.VoucherResponse;
 import programmers.org.voucher.io.VoucherConsole;
 import programmers.org.voucher.service.VoucherService;
 
@@ -42,6 +42,15 @@ public class VoucherController implements CommandLineRunner {
                 case LIST:
                     printVoucherList();
                     break;
+                case FIND:
+                    printFoundVoucher();
+                    break;
+                case UPDATE:
+                    updateVoucher();
+                    break;
+                case DELETE:
+                    deleteVoucher();
+                    break;
                 case EXIT:
                     isRunning = false;
             }
@@ -50,15 +59,31 @@ public class VoucherController implements CommandLineRunner {
 
     private void createVoucher() {
         String voucherType = voucherConsole.inputVoucherType();
+        int discountAmount = voucherConsole.inputVoucherInfo();
 
-        VoucherType findVoucherType = VoucherType.find(voucherType);
-
-        int voucherInfo = voucherConsole.inputVoucherInfo();
-        voucherService.create(voucherInfo, findVoucherType);
+        voucherService.create(discountAmount, VoucherType.find(voucherType));
     }
 
     private void printVoucherList() {
-        List<Voucher> voucherList = voucherService.getAllVouchers();
+        List<VoucherResponse> voucherList = voucherService.getAllVouchers();
         voucherConsole.printVoucherList(voucherList);
+    }
+
+    private void printFoundVoucher() {
+        long voucherId = voucherConsole.inputVoucherId();
+        VoucherResponse response = voucherService.getVoucher(voucherId);
+        voucherConsole.printVoucher(response);
+    }
+
+    private void updateVoucher() {
+        long voucherId = voucherConsole.inputVoucherId();
+        int discountAmount = voucherConsole.inputVoucherInfo();
+
+        voucherService.update(voucherId, discountAmount);
+    }
+
+    private void deleteVoucher() {
+        long voucherId = voucherConsole.inputVoucherId();
+        voucherService.delete(voucherId);
     }
 }
