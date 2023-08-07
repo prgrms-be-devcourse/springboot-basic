@@ -8,8 +8,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.voucher.model.Voucher;
+import com.example.voucher.query.Select;
+import com.example.voucher.query.Where;
+import com.example.voucher.query.operator.Eq;
 import com.example.voucher.util.QueryBuilder;
+import com.example.voucher.voucher.model.Voucher;
 
 @Component
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -43,12 +46,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         RowMapper<Voucher> voucherRowMapper = voucherRowMapper();
 
-        String sql = new QueryBuilder().select("*")
-            .from("VOUCHER")
-            .where("VOUCHER_ID", "=", "voucherId")
+        Where where = Where.builder()
+            .where(new Eq("VOUCHER_ID", ":voucherId"))
             .build();
 
-        return jdbcTemplate.queryForObject(sql, parameterSource, voucherRowMapper);
+        Select select = Select.builder()
+            .select("*")
+            .from(Voucher.class)
+            .where(where)
+            .build();
+
+        return jdbcTemplate.queryForObject(select.getQuery(), parameterSource, voucherRowMapper);
     }
 
     @Override
@@ -84,11 +92,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         RowMapper<Voucher> voucherRowMapper = voucherRowMapper();
 
-        String sql = new QueryBuilder().select("*")
-            .from("VOUCHER")
+        Select select = Select.builder()
+            .select("*")
+            .from(Voucher.class)
             .build();
 
-        return jdbcTemplate.query(sql, voucherRowMapper);
+        return jdbcTemplate.query(select.getQuery(), voucherRowMapper);
     }
 
     @Override
