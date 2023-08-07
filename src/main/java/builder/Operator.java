@@ -14,6 +14,10 @@ public class Operator {
 	}
 
 	private String generateQuery() {
+		if(value instanceof String) {
+			return "%s %s \'%s\'".formatted(this.column, this.type.getSymbol(), this.value);
+		}
+
 		return "%s %s %s".formatted(this.column, this.type.getSymbol(), this.value);
 	}
 
