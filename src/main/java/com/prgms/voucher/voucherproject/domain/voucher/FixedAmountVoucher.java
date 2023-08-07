@@ -1,8 +1,10 @@
 package com.prgms.voucher.voucherproject.domain.voucher;
 
+import builder.builderEntity.Entity;
+
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher implements Voucher, Entity {
     private final static long MIN_AMOUNT = 0;
     private final static long MAX_AMOUNT = 1000000;
 

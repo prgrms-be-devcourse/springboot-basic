@@ -1,8 +1,10 @@
 package com.prgms.voucher.voucherproject.domain.voucher;
 
+import builder.builderEntity.Entity;
+
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher implements Voucher, Entity {
     private static final long MIN_PERCENT = 1;
     private static final long MAX_PERCENT = 99;
 

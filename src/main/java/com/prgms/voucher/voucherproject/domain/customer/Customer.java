@@ -1,10 +1,12 @@
 package com.prgms.voucher.voucherproject.domain.customer;
 
+import builder.builderEntity.Entity;
+
 import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.UUID;
 
-public class Customer {
+public class Customer implements Entity {
     private final UUID customerId;
     private final String email;
     private String name;
