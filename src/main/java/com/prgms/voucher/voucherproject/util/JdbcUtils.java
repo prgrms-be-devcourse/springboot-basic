@@ -12,6 +12,13 @@ public class JdbcUtils {
     return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
   }
 
+  public static byte[] UUID_TO_BIN(UUID uuid) {
+    ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
+    bb.putLong(uuid.getMostSignificantBits());
+    bb.putLong(uuid.getLeastSignificantBits());
+    return bb.array();
+  }
+
   public static LocalDateTime toLocalDateTime(Timestamp timestamp) {
     return timestamp != null ? timestamp.toLocalDateTime() : null;
   }
