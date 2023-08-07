@@ -1,10 +1,11 @@
 package builder;
 
-
 import builder.builderEntity.Entity;
+import com.prgms.voucher.voucherproject.util.JdbcUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class Insert {
 	private final Class<? extends Entity> table;
@@ -27,11 +28,11 @@ public class Insert {
 				.stream()
 				.map(Map.Entry::getValue)
 				.map(value -> {
-					if (value instanceof String) {
-						return String.format("\'%s\'", value);
+					if (value instanceof UUID uuid) {
+						return "\'" + JdbcUtils.UUID_TO_BIN(uuid) + "\'";
 					}
 
-					return value.toString();
+					return String.format("\'%s\'", value);
 				})
 				.toList();
 
