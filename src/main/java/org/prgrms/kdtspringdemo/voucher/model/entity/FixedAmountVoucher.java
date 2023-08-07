@@ -4,36 +4,57 @@ import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Objects;
 import java.util.UUID;
+
+import static org.prgrms.kdtspringdemo.voucher.exception.VoucherExceptionMessage.OUT_OF_RANGE_AMOUNT;
 
 public class FixedAmountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private static final long MIN_AMOUNT = 0;
-    private static final String OUT_OF_RANGE_AMOUNT = "할인 범위가 아닙니다.";
 
-    private final UUID voucherId;
-    private final VoucherType voucherType;
+    private final UUID id;
+    private final VoucherType type;
     private final long amount;
 
     public FixedAmountVoucher(long amount) {
-        this.voucherId = UUID.randomUUID();
-        this.voucherType = VoucherType.FIXED;
+        this.id = UUID.randomUUID();
+        this.type = VoucherType.FIXED;
+        this.amount = validateAmount(amount);
+    }
+
+    public FixedAmountVoucher(UUID id, long amount) {
+        this.id = id;
+        this.type = VoucherType.FIXED;
         this.amount = validateAmount(amount);
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    public UUID getId() {
+        return id;
     }
 
     @Override
-    public VoucherType getVoucherType() {
-        return voucherType;
+    public VoucherType getType() {
+        return type;
     }
 
     @Override
     public long getAmount() {
         return amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FixedAmountVoucher voucher = (FixedAmountVoucher) o;
+        return Objects.equals(id, voucher.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
@@ -44,8 +65,8 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public long validateAmount(long amount) {
         if (amount <= MIN_AMOUNT) {
-            logger.warn("원인 : {} -> 에러 메시지 : {}", amount, OUT_OF_RANGE_AMOUNT);
-            throw new IllegalArgumentException(OUT_OF_RANGE_AMOUNT);
+            logger.warn("원인 : {} -> 에러 메시지 : {}", amount, OUT_OF_RANGE_AMOUNT.getMessage());
+            throw new IllegalArgumentException(OUT_OF_RANGE_AMOUNT.getMessage());
         }
 
         return amount;
