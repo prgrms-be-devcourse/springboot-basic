@@ -1,30 +1,31 @@
 package com.prgms.voucher.voucherproject.repository.voucher;
 
-import com.prgms.voucher.voucherproject.domain.voucher.FixedAmountVoucher;
-import com.prgms.voucher.voucherproject.domain.voucher.PercentDiscountVoucher;
+import builder.Delete;
+import builder.Insert;
+import builder.Select;
+import builder.Where;
 import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
+import com.prgms.voucher.voucherproject.domain.voucher.VoucherResponse;
 import com.prgms.voucher.voucherproject.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.prgms.voucher.voucherproject.util.JdbcUtils.toUUID;
+import static builder.Operator.Type.*;
+import static com.prgms.voucher.voucherproject.util.JdbcUtils.UUID_TO_BIN;
 
 
 @Component
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final String SQL_INSERT = "INSERT INTO voucher(voucher_id, voucher_type, discount) VALUES (UUID_TO_BIN(?), ? ,?)";
-    private static final String SQL_FINDALL = "SELECT * FROM voucher";
-    private static final String SQL_FINDBYID = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
-    private static final String SQL_DELETEBYID = "DELETE FROM voucher WHERE voucher_id = ?";
     public static final int SUCCESS_QUERY = 1;
-
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
@@ -33,8 +34,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        int save = jdbcTemplate.update(SQL_INSERT, voucher.getId().toString().getBytes(),
-                    voucher.getVoucherType().toString(), voucher.getDiscount());
+        Map<String, Object> values = new HashMap<>();
+        values.put("voucher_id", voucher.getId());
+        values.put("voucher_type", voucher.getVoucherType().toString());
+        values.put("discount", voucher.getDiscount());
+
+        Insert insert = Insert.into(Voucher.class)
+                .values(values)
+                .build();
+
+        int save = jdbcTemplate.update(insert.getQuery());
 
         if (save != SUCCESS_QUERY) {
             throw new IllegalArgumentException("바우처 저장에 실패하였습니다.");
@@ -43,24 +52,44 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        List<Voucher> vouchers = jdbcTemplate.query(SQL_FINDALL, voucherRowMapper);
+        Select selectQueryAll = Select.builder()
+                .select(VoucherResponse.class)
+                .from(Voucher.class)
+                .build();
+
+        List<Voucher> vouchers = jdbcTemplate.query(selectQueryAll.getQuery(), voucherRowMapper);
         return vouchers;
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return jdbcTemplate.query(SQL_FINDBYID, voucherRowMapper)
-            .stream()
-            .findFirst();
+        Select select = Select.builder()
+                .select(VoucherResponse.class)
+                .from(Voucher.class)
+                .where(
+                        Where.builder("voucher_id", EQ, UUID_TO_BIN(voucherId))
+                                .build()
+                )
+                .build();
+
+        return jdbcTemplate.query(select.getQuery(), voucherRowMapper)
+                .stream()
+                .findFirst();
     }
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(SQL_DELETEBYID, voucherId);
+        Delete delete = Delete.from(Voucher.class)
+                .where(
+                        Where.builder("voucher_id", EQ, UUID_TO_BIN(voucherId))
+                                .build()
+                )
+                .build();
+
+        jdbcTemplate.update(delete.getQuery());
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         String voucherType = resultSet.getString("voucher_type");
         long discount = resultSet.getLong("discount");
 
