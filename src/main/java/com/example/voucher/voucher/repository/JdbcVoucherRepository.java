@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import com.example.voucher.constant.VoucherType;
+import com.example.voucher.query.Delete;
 import com.example.voucher.query.Select;
 import com.example.voucher.query.Where;
 import com.example.voucher.query.operator.Eq;
@@ -63,11 +64,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherID) {
         SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("voucherId", voucherID.toString());
 
-        String sql = new QueryBuilder().delete("VOUCHER")
-            .where("VOUCHER_ID", "=", "voucherId")
+        Where where = Where.builder()
+            .where(new Eq("VOUCHER_ID", ":voucherId"))
             .build();
 
-        jdbcTemplate.update(sql, parameterSource);
+        Delete delete = Delete.builder()
+            .delete(Voucher.class)
+            .where(where)
+            .build();
+
+        jdbcTemplate.update(delete.getQuery(), parameterSource);
     }
 
     @Override
@@ -104,11 +110,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         SqlParameterSource parameterSource = new MapSqlParameterSource();
 
-        String sql = new QueryBuilder()
-            .delete("VOUCHER")
+        Delete delete = Delete.builder()
+            .delete(Voucher.class)
             .build();
 
-        jdbcTemplate.update(sql, parameterSource);
+        jdbcTemplate.update(delete.getQuery(), parameterSource);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
