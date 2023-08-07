@@ -3,8 +3,9 @@ package com.example.voucher.customer.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 import com.example.voucher.constant.CustomerType;
+import com.example.voucher.query.marker.Entity;
 
-public class Customer {
+public class Customer implements Entity {
 
     private final UUID customerId;
     private final String name;

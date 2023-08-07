@@ -1,5 +1,6 @@
 package com.example.voucher.customer.repository;
 
+import static java.util.Map.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -10,7 +11,12 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import com.example.voucher.constant.CustomerType;
 import com.example.voucher.customer.model.Customer;
-import com.example.voucher.util.QueryBuilder;
+import com.example.voucher.query.Delete;
+import com.example.voucher.query.Insert;
+import com.example.voucher.query.Select;
+import com.example.voucher.query.Update;
+import com.example.voucher.query.Where;
+import com.example.voucher.query.operator.Eq;
 
 @Component
 public class JdbcCustomerRepository implements CustomerRepository {
@@ -30,11 +36,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
             .addValue("customerType", customer.getCustomerType().toString())
             .addValue("createdAt", customer.getCreatedAt());
 
-        String sql = new QueryBuilder().insertInto("CUSTOMER")
-            .values("customerId", "name", "email", "customerType", "createdAt")
-            .build();
+        Insert insert = Insert.into(Customer.class)
+            .values(of(
+                "CUSTOMER_ID", ":customerId",
+                "CUSTOMER_NAME", ":name",
+                "CUSTOMER_EMAIL", ":email",
+                "CUSTOMER_TYPE", ":customerType",
+                "CREATED_AT", ":createdAt"
+            ));
 
-        jdbcTemplate.update(sql, parameterSource);
+        jdbcTemplate.update(insert.getQuery(), parameterSource);
 
         return findById(customer.getCustomerId());
     }
@@ -43,22 +54,23 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public List<Customer> findAll() {
         RowMapper<Customer> custoemrRowMapper = custoemrRowMapper();
 
-        String sql = new QueryBuilder().select("*")
-            .from("CUSTOMER")
+        Select select = Select.builder()
+            .select("*")
+            .from(Customer.class)
             .build();
 
-        return jdbcTemplate.query(sql, custoemrRowMapper);
+        return jdbcTemplate.query(select.getQuery(), custoemrRowMapper);
     }
 
     @Override
     public void deleteAll() {
         SqlParameterSource parameterSource = new MapSqlParameterSource();
 
-        String sql = new QueryBuilder()
-            .delete("CUSTOMER")
+        Delete delete = Delete.builder()
+            .delete(Customer.class)
             .build();
 
-        jdbcTemplate.update(sql, parameterSource);
+        jdbcTemplate.update(delete.getQuery(), parameterSource);
     }
 
     @Override
@@ -67,23 +79,33 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         RowMapper<Customer> custoemrRowMapper = custoemrRowMapper();
 
-        String sql = new QueryBuilder().select("*")
-            .from("CUSTOMER")
-            .where("CUSTOMER_ID", "=", "customerId")
+        Where where = Where.builder()
+            .where(new Eq("CUSTOMER_ID", ":customerId"))
             .build();
 
-        return jdbcTemplate.queryForObject(sql, parameterSource, custoemrRowMapper);
+        Select select = Select.builder()
+            .select("*")
+            .from(Customer.class)
+            .where(where)
+            .build();
+
+        return jdbcTemplate.queryForObject(select.getQuery(), parameterSource, custoemrRowMapper);
     }
 
     @Override
     public void deleteById(UUID customerID) {
         SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("customerId", customerID.toString());
 
-        String sql = new QueryBuilder().delete("CUSTOMER")
-            .where("CUSTOMER_ID", "=", "customerId")
+        Where where = Where.builder()
+            .where(new Eq("CUSTOMER_ID", ":customerId"))
             .build();
 
-        jdbcTemplate.update(sql, parameterSource);
+        Delete delete = Delete.builder()
+            .delete(Customer.class)
+            .where(where)
+            .build();
+
+        jdbcTemplate.update(delete.getQuery(), parameterSource);
     }
 
     @Override
@@ -94,14 +116,23 @@ public class JdbcCustomerRepository implements CustomerRepository {
             .addValue("email", customer.getEmail())
             .addValue("customerType", customer.getCustomerType().toString());
 
-        String sql = new QueryBuilder().update("CUSTOMER")
-            .set("CUSTOMER_NAME", "name")
-            .addSet("CUSTOMER_EMAIL", "email")
-            .addSet("CUSTOMER_TYPE", "customerType")
-            .where("CUSTOMER_ID", "=", "customerId")
+        Where where = Where.builder()
+            .where(new Eq("CUSTOMER_ID", ":customerId"))
             .build();
 
-        jdbcTemplate.update(sql, parameterSource);
+        Update update = Update.builder()
+            .updateInto(Customer.class)
+            .set(
+                of(
+                    "CUSTOMER_NAME", ":name",
+                    "CUSTOMER_EMAIL", ":email",
+                    "CUSTOMER_TYPE", ":customerType"
+                )
+            )
+            .where(where)
+            .build();
+
+        jdbcTemplate.update(update.getQuery(), parameterSource);
 
         return findById(customer.getCustomerId());
     }

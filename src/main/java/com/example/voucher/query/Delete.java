@@ -22,7 +22,7 @@ public class Delete {
         String table = this.table.getSimpleName().toUpperCase();
         String where = this.where == null ? "" : this.where.getQuery();
 
-        return String.format("DELETE %s %s", table, where).trim();
+        return String.format("DELETE FROM %s %s", table, where).trim();
     }
 
     public static DeleteCriteria builder() {

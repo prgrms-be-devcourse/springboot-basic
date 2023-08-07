@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
-
 import com.example.voucher.constant.VoucherType;
 import com.example.voucher.query.Delete;
 import com.example.voucher.query.Insert;
@@ -18,7 +17,6 @@ import com.example.voucher.query.Select;
 import com.example.voucher.query.Where;
 import com.example.voucher.query.operator.Eq;
 import com.example.voucher.query.Update;
-import com.example.voucher.util.QueryBuilder;
 import com.example.voucher.voucher.model.Voucher;
 
 @Component
