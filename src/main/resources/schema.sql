@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS voucher;
+DROP TABLE IF EXISTS customer;
+
 CREATE TABLE voucher
 (
     voucher_id   BINARY(16) PRIMARY KEY,
