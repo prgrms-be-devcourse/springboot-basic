@@ -1,6 +1,7 @@
 package com.devcourse.voucher.domain.repository;
 
 import com.devcourse.voucher.domain.Voucher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -21,16 +22,20 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Component
 @Profile("file")
-class FileVoucherRepository implements VoucherRepository {
+class FileVoucherRepository extends AbstractVoucherRepository {
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
     private static final String SAVE_FAIL = "Voucher Save Failed.";
 
-    private final File vouchers = new File("src/main/resources/file/vouchers.txt");
+    private final File vouchers;
+
+    public FileVoucherRepository(@Value("${path.txt}") String path) {
+        vouchers = new File(path);
+    }
 
     @Override
     public Voucher save(Voucher voucher) {
         try (FileWriter writer = new FileWriter(vouchers, true)) {
-            writer.write(voucher.toText());
+            writer.write(voucher.toText() + "\n");
             return voucher;
         } catch (IOException e) {
             throw new RuntimeException(SAVE_FAIL);

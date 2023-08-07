@@ -1,15 +1,17 @@
 package com.devcourse.global.console;
 
-import com.devcourse.voucher.application.dto.CreateVoucherRequest;
+import com.devcourse.global.dto.CreateVoucherRequest;
 import com.devcourse.voucher.domain.Voucher;
-import com.devcourse.voucher.presentation.Command;
+import com.devcourse.global.Command;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Console {
     private static final Scanner scanner = new Scanner(System.in);
+    private static final String USER_NAME_GUIDE = "\n:: Input User Name,  ::";
     private static final String GET_COMMAND_GUIDE = """
             \n:: Support Command(CREATE, LIST, BLACKLIST, EXIT) ::
             Type Command :\s""";
@@ -50,11 +52,17 @@ public class Console {
         Voucher.Type type = parser.parseVoucherType(inputType);
 
         String inputDiscount = read(DISCOUNT_INT_GUIDE);
-        int discount = parser.parseDiscount(inputDiscount);
+        int discount = parser.toValidDiscountByType(type, inputDiscount);
 
         String inputExpiredAt = read(EXPIRATION_DATE_GUIDE);
-        LocalDateTime expiredAt = parser.parseExpiration(inputExpiredAt);
+        LocalDateTime expiredAt = parser.toValidExpiredAt(inputExpiredAt);
 
         return new CreateVoucherRequest(discount, expiredAt, type);
+    }
+
+    public String readUserName() {
+        String name = read(USER_NAME_GUIDE);
+        parser.validateName(name);
+        return name;
     }
 }

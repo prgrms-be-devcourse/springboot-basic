@@ -1,7 +1,7 @@
-package com.devcourse.user.domain.repository;
+package com.devcourse.user.repository;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,13 +13,16 @@ import static com.devcourse.global.common.Constant.DELIMITER;
 import static com.devcourse.global.common.Constant.FILE_READ_FAIL;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-@Component
-@Profile({"dev", "file"})
-class FileUserRepository implements UserRepository {
+@Repository
+public class BlackListRepository {
     private static final String DEFAULT_DELIMITER = ", ";
-    private final File blackList = new File("src/main/resources/file/customer_blackList.csv");
 
-    @Override
+    private final File blackList;
+
+    public BlackListRepository(@Value("${path.csv}") String path) {
+        blackList = new File(path);
+    }
+
     public List<String> findAllBlack() {
         try (BufferedReader reader = new BufferedReader(new FileReader(blackList, UTF_8))) {
             return reader.lines()

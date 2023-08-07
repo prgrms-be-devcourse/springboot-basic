@@ -1,66 +1,44 @@
 package com.devcourse.voucher.application;
 
-import com.devcourse.voucher.application.dto.CreateVoucherRequest;
-import com.devcourse.voucher.domain.repository.MemoryVoucherRepository;
+import com.devcourse.voucher.domain.Voucher;
+import com.devcourse.voucher.domain.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 
-import static com.devcourse.voucher.domain.Voucher.Type.FIXED;
-import static com.devcourse.voucher.domain.Voucher.Type.PERCENT;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 
-@SpringJUnitConfig(classes = {VoucherService.class, MemoryVoucherRepository.class})
+@ExtendWith(SpringExtension.class)
 class VoucherServiceTest {
-    @Autowired
+    @InjectMocks
     private VoucherService voucherService;
-    private final LocalDateTime invalidExpiration = LocalDateTime.of(2022, 1, 1, 0, 0);
 
-    @Nested
-    @DisplayName("바우처 생성 유효성 테스트")
-    class creationValidationTest {
-        private final LocalDateTime expiredAt = LocalDateTime.now().plusMonths(1);
+    @Mock
+    private VoucherRepository voucherRepository;
 
-        @Test
-        @DisplayName("0보다 작은 할인량을 받으면 예외가 발생한다..")
-        void validateDiscountAmountTest() {
-            // given
-            int discountAmount = -1;
-            CreateVoucherRequest request = new CreateVoucherRequest(discountAmount, expiredAt, FIXED);
+    private final LocalDateTime expiredAt = LocalDateTime.now().plusMonths(1);
 
-            // when, then
-            assertThatThrownBy(() -> voucherService.create(request))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
+    @ParameterizedTest
+    @DisplayName("생성 요청에 따라 repository를 한번만 호출해야 한다.")
+    @CsvSource({"5000, FIXED",
+                "50, PERCENT"})
+    void createTest(int discount, Voucher.Type type) {
+        // given
+        given(voucherRepository.save(any())).willReturn(any());
 
-        @ParameterizedTest
-        @DisplayName("0보다 작거나 100보다 큰 할인률을 받으면 예외가 발생한다.")
-        @ValueSource(ints = {-1, 101})
-        void validateDiscountRateTest(int discountRate) {
-            // given
-            CreateVoucherRequest request = new CreateVoucherRequest(discountRate, expiredAt, PERCENT);
+        // when
+        voucherService.create(discount, expiredAt, type);
 
-            // when, then
-            assertThatThrownBy(() -> voucherService.create(request))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
-
-        @Test
-        @DisplayName("현재보다 과거인 만료일을 받으면 예외가 발생한다.")
-        void validateExpirationTest() {
-            // given
-            int discountAmount = 1_500;
-            CreateVoucherRequest request = new CreateVoucherRequest(discountAmount, invalidExpiration, FIXED);
-
-            // when, then
-            assertThatThrownBy(() -> voucherService.create(request))
-                    .isInstanceOf(IllegalArgumentException.class);
-        }
+        // then
+        then(voucherRepository).should(times(1)).save(any());
     }
 }

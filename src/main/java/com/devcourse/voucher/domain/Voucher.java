@@ -18,42 +18,65 @@ public class Voucher {
     }
 
     private final UUID id;
+
+    @Transient
     private final DiscountPolicy discountPolicy;
     private final int discount;
-    private final LocalDateTime expireAt;
+    private final LocalDateTime expiredAt;
     private final Type type;
     private Status status;
 
-    public Voucher(UUID id, int discount, LocalDateTime expireAt, Type type, Status status) {
+    public Voucher(UUID id, int discount, LocalDateTime expiredAt, Type type, Status status) {
         this.id = id;
         this.discountPolicy = createPolicy(type);
         this.discount = discount;
-        this.expireAt = expireAt;
+        this.expiredAt = expiredAt;
         this.type = type;
         this.status = status;
     }
 
-    public static Voucher of(int discount, LocalDateTime expireAt, Type type) {
-        return new Voucher(UUID.randomUUID(), discount, expireAt, type, ISSUED);
+    public Voucher(int discount, LocalDateTime expiredAt, Type type) {
+        this.id = UUID.randomUUID();
+        this.discountPolicy = createPolicy(type);
+        this.discount = discount;
+        this.expiredAt = expiredAt;
+        this.type = type;
+        this.status = ISSUED;
     }
 
     public boolean isUsed() {
         return this.status == USED;
     }
 
-    public UUID getId() {
+    public UUID id() {
         return id;
     }
 
-    public LocalDateTime getExpireAt() {
-        return expireAt;
+    public int discount() {
+        return discount;
+    }
+
+    public LocalDateTime expireAt() {
+        return expiredAt;
+    }
+
+    public Type type() {
+        return type;
+    }
+
+    public Status status() {
+        return status;
+    }
+
+    public DiscountPolicy policy() {
+        return discountPolicy;
     }
 
     public String toText() {
         return id + DELIMITER +
                 discount + DELIMITER +
                 type + DELIMITER +
-                expireAt + DELIMITER +
+                expiredAt + DELIMITER +
                 status;
     }
 
