@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class Insert {
 	private final Class<? extends Entity> table;
-	private Map<String, Object> values;
+	private final Map<String, Object> values;
 	private final String query;
 
 	public Insert(Class<? extends Entity> table, Map<String, Object> values) {
@@ -51,13 +51,29 @@ public class Insert {
 
 	public static class InsertCriteria {
 		private final Class<? extends Entity> table;
+		private Map<String, Object> values;
 
 		private InsertCriteria(Class<? extends Entity> table) {
 			this.table = table;
 		}
 
-		public Insert values(Map<String, Object> values) {
-			return new Insert(this.table, values);
+		public Builder values(Map<String, Object> values) {
+			this.values = values;
+			return new Builder(this.table, this.values);
+		}
+	}
+
+	public static class Builder {
+		private final Class<? extends Entity> table;
+		private final Map<String, Object> values;
+
+		private Builder(Class<? extends Entity> table, Map<String, Object> values) {
+			this.table = table;
+			this.values = values;
+		}
+
+		public Insert build() {
+			return new Insert(this.table, this.values);
 		}
 	}
 }
