@@ -1,5 +1,6 @@
 package com.example.voucher.voucher.repository;
 
+import static java.util.Map.*;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,6 +13,7 @@ import com.example.voucher.query.Delete;
 import com.example.voucher.query.Select;
 import com.example.voucher.query.Where;
 import com.example.voucher.query.operator.Eq;
+import com.example.voucher.query.Update;
 import com.example.voucher.util.QueryBuilder;
 import com.example.voucher.voucher.model.Voucher;
 
@@ -83,13 +85,22 @@ public class JdbcVoucherRepository implements VoucherRepository {
             .addValue("discountValue", voucher.getValue())
             .addValue("voucherType", voucher.getVoucherType().toString());
 
-        String sql = new QueryBuilder().update("VOUCHER")
-            .set("DISCOUNT_VALUE", "discountValue")
-            .addSet("VOUCHER_TYPE", "voucherType")
-            .where("VOUCHER_ID", "=", "voucherId")
+        Where where = Where.builder()
+            .where(new Eq("VOUCHER_ID", ":voucherId"))
             .build();
 
-        jdbcTemplate.update(sql, parameterSource);
+        Update update = Update.builder()
+            .updateInto(Voucher.class)
+            .set(
+                of(
+                    "DISCOUNT_VALUE", ":discountValue",
+                    "VOUCHER_TYPE", ":voucherType"
+                )
+            )
+            .where(where)
+            .build();
+
+        jdbcTemplate.update(update.getQuery(), parameterSource);
 
         return findById(voucher.getVoucherId());
     }
