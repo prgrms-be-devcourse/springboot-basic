@@ -5,8 +5,8 @@ logging:
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/voucherproject?useSSL=false
-    username: spring4
-    password: spring4
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   sql:
     init:
