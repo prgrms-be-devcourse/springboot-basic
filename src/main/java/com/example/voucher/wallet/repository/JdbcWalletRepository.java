@@ -1,5 +1,6 @@
 package com.example.voucher.wallet.repository;
 
+import static java.util.Map.*;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.jdbc.core.RowMapper;
@@ -7,7 +8,11 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
-import com.example.voucher.util.QueryBuilder;
+import com.example.voucher.query.Delete;
+import com.example.voucher.query.Insert;
+import com.example.voucher.query.Select;
+import com.example.voucher.query.Where;
+import com.example.voucher.query.operator.Eq;
 import com.example.voucher.wallet.model.Wallet;
 
 @Component
@@ -26,11 +31,14 @@ public class JdbcWalletRepository implements WalletRepository {
             .addValue("customerId", wallet.getCustomerId().toString())
             .addValue("voucherId", wallet.getVoucherId().toString());
 
-        String sql = new QueryBuilder().insertInto("WALLET")
-            .values("walletId", "customerId", "voucherId")
-            .build();
+        Insert insert = Insert.into(Wallet.class)
+            .values(of(
+                "WALLET_ID", ":walletId",
+                "CUSTOMER_ID", ":customerId",
+                "VOUCHER_ID", ":voucherId"
+            ));
 
-        jdbcTemplate.update(sql, parameterSource);
+        jdbcTemplate.update(insert.getQuery(), parameterSource);
 
         return findById(wallet.getWalletId());
     }
@@ -41,12 +49,17 @@ public class JdbcWalletRepository implements WalletRepository {
 
         RowMapper<Wallet> walletRowMapper = walletRowMapper();
 
-        String sql = new QueryBuilder().select("*")
-            .from("WALLET")
-            .where("WALLET_ID", "=", "walletId")
+        Where where = Where.builder()
+            .where(new Eq("WALLET_ID", ":walletId"))
             .build();
 
-        return jdbcTemplate.queryForObject(sql, parameterSource, walletRowMapper);
+        Select select = Select.builder()
+            .select("*")
+            .from(Wallet.class)
+            .where(where)
+            .build();
+
+        return jdbcTemplate.queryForObject(select.getQuery(), parameterSource, walletRowMapper);
     }
 
     @Override
@@ -56,12 +69,17 @@ public class JdbcWalletRepository implements WalletRepository {
 
         RowMapper<Wallet> walletRowMapper = walletRowMapper();
 
-        String sql = new QueryBuilder().select("*")
-            .from("WALLET")
-            .where("CUSTOMER_ID", "=", "customerId")
+        Where where = Where.builder()
+            .where(new Eq("CUSTOMER_ID", ":customerId"))
             .build();
 
-        return jdbcTemplate.query(sql, parameterSource, walletRowMapper);
+        Select select = Select.builder()
+            .select("*")
+            .from(Wallet.class)
+            .where(where)
+            .build();
+
+        return jdbcTemplate.query(select.getQuery(), parameterSource, walletRowMapper);
     }
 
     @Override
@@ -71,12 +89,17 @@ public class JdbcWalletRepository implements WalletRepository {
 
         RowMapper<Wallet> walletRowMapper = walletRowMapper();
 
-        String sql = new QueryBuilder().select("*")
-            .from("WALLET")
-            .where("VOUCHER_ID", "=", "voucherId")
+        Where where = Where.builder()
+            .where(new Eq("VOUCHER_ID", ":voucherId"))
             .build();
 
-        return jdbcTemplate.query(sql, parameterSource, walletRowMapper);
+        Select select = Select.builder()
+            .select("*")
+            .from(Wallet.class)
+            .where(where)
+            .build();
+
+        return jdbcTemplate.query(select.getQuery(), parameterSource, walletRowMapper);
     }
 
     @Override
@@ -85,12 +108,17 @@ public class JdbcWalletRepository implements WalletRepository {
             .addValue("customerId", customerId.toString())
             .addValue("voucherId", voucherId.toString());
 
-        String sql = new QueryBuilder().delete("WALLET")
-            .where("CUSTOMER_ID", "=", "customerId")
-            .and("VOUCHER_ID", "=", "voucherId")
+        Where where = Where.builder()
+            .where(new Eq("CUSTOMER_ID", ":customerId"))
+            .and(new Eq("VOUCHER_ID", ":voucherId"))
             .build();
 
-        jdbcTemplate.update(sql, parameterSource);
+        Delete delete = Delete.builder()
+            .delete(Wallet.class)
+            .where(where)
+            .build();
+
+        jdbcTemplate.update(delete.getQuery(), parameterSource);
     }
 
     private RowMapper<Wallet> walletRowMapper() {

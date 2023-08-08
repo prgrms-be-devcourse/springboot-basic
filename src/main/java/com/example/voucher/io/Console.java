@@ -209,7 +209,7 @@ public class Console {
 
         return WalletRequest.builder()
             .setCustomerId(customerId)
-            .setWalletId(voucherId)
+            .setVoucherId(voucherId)
             .build();
     }
 

@@ -2,7 +2,9 @@ package com.example.voucher.wallet.model;
 
 import java.util.UUID;
 
-public class Wallet {
+import com.example.voucher.query.marker.Entity;
+
+public class Wallet implements Entity {
 
     private final UUID walletId;
     private final UUID customerId;
