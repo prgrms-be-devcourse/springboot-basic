@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED(1){
+    FIXED(1) {
         @Override
         public Voucher createVoucher(long discount) {
             return new FixedAmountVoucher(discount);

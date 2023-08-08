@@ -2,7 +2,6 @@ package com.prgms.voucher.voucherproject.service;
 
 import com.prgms.voucher.voucherproject.domain.customer.Customer;
 import com.prgms.voucher.voucherproject.repository.customer.CustomerRepository;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,7 +22,7 @@ public class CustomerService {
     }
 
     public void createCustomer(Customer customer) {
-        try{
+        try {
             customerRepository.save(customer);
         } catch (DuplicateKeyException e) {
             logger.error("customer DuplicateKeyException email -> {}", customer.getEmail());

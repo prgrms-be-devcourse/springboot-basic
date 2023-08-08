@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static builder.Operator.Type.*;
+import static builder.Operator.Type.EQ;
 import static com.prgms.voucher.voucherproject.util.JdbcUtils.UUID_TO_BIN;
 
 

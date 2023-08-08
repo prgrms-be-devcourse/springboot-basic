@@ -5,52 +5,52 @@ import java.util.List;
 
 
 public class Order {
-	private final List<Sort> sorts;
-	private final String query;
+    private final List<Sort> sorts;
+    private final String query;
 
-	private Order(List<Sort> sorts) {
-		this.sorts = sorts;
-		this.query = generateQuery();
-	}
+    private Order(List<Sort> sorts) {
+        this.sorts = sorts;
+        this.query = generateQuery();
+    }
 
-	private String generateQuery() {
-		List<String> queries = new ArrayList<>();
+    public static Builder builder() {
+        return new Builder();
+    }
 
-		for(Sort sort : sorts) {
-			queries.add(sort.getQuery());
-		}
+    private String generateQuery() {
+        List<String> queries = new ArrayList<>();
 
-		return String.join(", ", queries);
-	}
+        for (Sort sort : sorts) {
+            queries.add(sort.getQuery());
+        }
 
-	public String getQuery() {
-		return this.query;
-	}
+        return String.join(", ", queries);
+    }
 
-	public static Builder builder() {
-		return new Builder();
-	}
+    public String getQuery() {
+        return this.query;
+    }
 
-	public static class Builder {
-		private final List<Sort> sorts  = new ArrayList<>();
+    public static class Builder {
+        private final List<Sort> sorts = new ArrayList<>();
 
-		private Builder() {
-		}
+        private Builder() {
+        }
 
-		public Builder asc(String column) {
-			Sort asc = Sort.asc(column);
-			sorts.add(asc);
-			return this;
-		}
+        public Builder asc(String column) {
+            Sort asc = Sort.asc(column);
+            sorts.add(asc);
+            return this;
+        }
 
-		public Builder desc(String column) {
-			Sort desc = Sort.desc(column);
-			sorts.add(desc);
-			return this;
-		}
+        public Builder desc(String column) {
+            Sort desc = Sort.desc(column);
+            sorts.add(desc);
+            return this;
+        }
 
-		public Order build() {
-			return new Order(sorts);
-		}
-	}
+        public Order build() {
+            return new Order(sorts);
+        }
+    }
 }
