@@ -1,13 +1,16 @@
-package com.prgms.voucher.voucherproject.domain;
+package com.prgms.voucher.voucherproject.domain.voucher;
+
+import builder.builderEntity.Entity;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher implements Voucher, Entity {
     private final static long MIN_AMOUNT = 0;
     private final static long MAX_AMOUNT = 1000000;
 
     private final UUID voucherId;
     private final long discount;
+
 
     public FixedAmountVoucher(long discount) {
         if (discount <= MIN_AMOUNT || discount >= MAX_AMOUNT) {
@@ -17,7 +20,13 @@ public class FixedAmountVoucher implements Voucher {
         this.voucherId = UUID.randomUUID();
     }
 
-    public long discount(long beforeDiscount) {
+    public FixedAmountVoucher(UUID voucherId, long discount) {
+        this.voucherId = voucherId;
+        this.discount = discount;
+    }
+
+
+    public long getDiscountedAmount(long beforeDiscount) {
         long discountedAmount = beforeDiscount - this.discount;
         return discountedAmount < 0 ? 0 : discountedAmount;
     }

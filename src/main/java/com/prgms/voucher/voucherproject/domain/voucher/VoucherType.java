@@ -1,13 +1,25 @@
-package com.prgms.voucher.voucherproject.domain;
+package com.prgms.voucher.voucherproject.domain.voucher;
 
 import java.util.InputMismatchException;
 import java.util.stream.Stream;
 
 public enum VoucherType {
-    FIXED(1),
-    PERCENT(2);
+    FIXED(1) {
+        @Override
+        public Voucher createVoucher(long discount) {
+            return new FixedAmountVoucher(discount);
+        }
+    },
+    PERCENT(2) {
+        @Override
+        public Voucher createVoucher(long discount) {
+            return new PercentDiscountVoucher(discount);
+        }
+    };
 
     private int voucherNum;
+
+    public abstract Voucher createVoucher(long discount);
 
     VoucherType(int voucherNum) {
         this.voucherNum = voucherNum;

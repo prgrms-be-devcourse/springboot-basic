@@ -1,10 +1,8 @@
 package com.prgms.voucher.voucherproject.service;
 
-import com.prgms.voucher.voucherproject.domain.FixedAmountVoucher;
-import com.prgms.voucher.voucherproject.domain.PercentDiscountVoucher;
-import com.prgms.voucher.voucherproject.domain.Voucher;
-import com.prgms.voucher.voucherproject.domain.VoucherType;
-import com.prgms.voucher.voucherproject.repository.VoucherRepository;
+import com.prgms.voucher.voucherproject.domain.voucher.Voucher;
+import com.prgms.voucher.voucherproject.domain.voucher.VoucherType;
+import com.prgms.voucher.voucherproject.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,15 +19,13 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public List<Voucher> list() {
+    public List<Voucher> getVoucherList() {
         return voucherRepository.findAll();
     }
 
-    public void create(VoucherType voucherType, long discount) {
-        Voucher voucher = switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(discount);
-            case PERCENT -> new PercentDiscountVoucher(discount);
-        };
+    public void createVoucher(VoucherType voucherType, long discount) {
+
+        Voucher voucher = voucherType.createVoucher(discount);
 
         try {
             voucherRepository.save(voucher);

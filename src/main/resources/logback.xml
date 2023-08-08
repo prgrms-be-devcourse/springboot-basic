@@ -20,11 +20,11 @@
         </encoder>
     </appender>
 
-    <logger name="com.prgms.voucher.voucherproject.VoucherApp" level="warn">
+    <logger name="com.prgms.voucher.voucherproject.App.VoucherApp" level="warn">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
 
-    <root level="warn">
+    <root level="info">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
