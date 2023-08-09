@@ -1,12 +1,10 @@
-package prgms.spring_week1.domain.customer.repository.impl;
+package prgms.spring_week1.domain.customer.repository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import prgms.spring_week1.domain.customer.model.BlackConsumer;
-import prgms.spring_week1.domain.customer.repository.BlackListRepository;
-import prgms.spring_week1.domain.voucher.service.VoucherService;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public final class CsvRepository implements BlackListRepository {
+public class CsvRepository {
     private final Logger logger = LoggerFactory.getLogger(CsvRepository.class);
     private final String csvFilePath;
 
@@ -26,7 +24,6 @@ public final class CsvRepository implements BlackListRepository {
         this.csvFilePath = csvFilePath;
     }
 
-    @Override
     public List<BlackConsumer> getBlackConsumerList() {
         List<String> csvList = null;
         List<BlackConsumer> blackConsumerList = new ArrayList<>();

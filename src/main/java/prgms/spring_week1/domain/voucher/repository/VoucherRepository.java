@@ -10,4 +10,8 @@ public interface VoucherRepository {
     List<Voucher> findAll();
 
     void insert(Voucher voucher);
+
+    List<Voucher> findByType(String voucherType);
+
+    void delete();
 }

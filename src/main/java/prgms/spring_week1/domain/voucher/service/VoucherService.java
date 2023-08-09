@@ -7,7 +7,6 @@ import prgms.spring_week1.domain.voucher.model.Voucher;
 
 import prgms.spring_week1.domain.voucher.model.type.VoucherType;
 import prgms.spring_week1.domain.voucher.repository.VoucherRepository;
-import prgms.spring_week1.io.Input;
 
 import java.util.List;
 
@@ -29,4 +28,11 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public List<Voucher> findByType(String voucherType) {
+        return voucherRepository.findByType(voucherType);
+    }
+
+    public void deleteAll() {
+        voucherRepository.delete();
+    }
 }

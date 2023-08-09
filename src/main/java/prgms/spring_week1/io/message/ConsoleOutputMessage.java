@@ -8,16 +8,42 @@ public final class ConsoleOutputMessage {
             """
                     === Voucher Program ===
                     Type exit to exit the program.
-                    Type create to create a new voucher.
-                    Type list to list all vouchers.
-                    Type black to list all blackList
+                    Type voucher to manage voucher.
+                    Type customer to manage customer.                
                     """;
+
+    public static final String VOUCHER_MENU_LIST_MESSAGE =
+            """
+                    === Voucher Program ===
+                    Type INSERT to create new voucher.
+                    Type FIND_ALL to find all voucher.
+                    Type FIND_BY_TYPE to find a voucher by type.
+                    Type DELETE_ALL to delete all voucher.                
+                    """;
+
+    public static final String CUSTOMER_MENU_LIST_MESSAGE =
+            """
+                    === Voucher Program ===
+                    Type INSERT to create new customer.
+                    Type FIND_ALL to find all customer.
+                    Type FIND_BY_EMAIL to find a voucher by type.
+                    Type UPDATE to update customer information.
+                    Type DELETE_ALL to delete all voucher.                
+                    """;
+
 
     public static final String TYPE_SELECT_MESSAGE =
             """
                     === Voucher Select ===
                     Fixed Amount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> Fixed       
                     Percent Discount Voucher 을 생성하려면 띄어쓰기 없이 입력하세요. -> Percent
+                    """;
+
+    public static final String FIND_TYPE_SELECT_MESSAGE =
+            """
+                    === Voucher Select ===
+                    Fixed Amount Voucher 를 바우처를 찾으려면 띄어쓰기 없이 입력하세요. -> Fixed       
+                    Percent Discount Voucher 를 바우처를 찾으려면 띄어쓰기 없이 입력하세요. -> Percent
                     """;
 
     public static final String NO_VOUCHER_LIST_MESSAGE = "조회된 바우처 리스트가 없습니다.";
@@ -35,4 +61,12 @@ public final class ConsoleOutputMessage {
     public static final String COMPLETE_VOUCHER_INSERT_MESSAGE = "상품권 등록이 완료되었습니다.";
 
     public static final String EMPTY_BLACK_LIST_MESSAGE = "블랙리스트 목록이 없습니다.";
+
+    public static final String INPUT_EMAIL_MESSAGE = "이메일을 입력해주세요.";
+
+    public static final String INPUT_NAME_AND_EMAIL_MESSAGE = "이름과 이메일을 한칸 띄고 입력해주세요";
+
+    public static final String INPUT_BEFORE_EMAIL_AND_AFTER_EMAIL_MESSAGE = "현재 이메일과 변경할 이메일을 한 칸 띄고 입력해주세요";
+    public static final String INPUT_CUSTOMER_NAME = "이름을 입력해주세요";
+    public static final String INVALID_LENGTH_CUSTOMER_NAME = "이름은 15자 이하여야 합니다";
 }
