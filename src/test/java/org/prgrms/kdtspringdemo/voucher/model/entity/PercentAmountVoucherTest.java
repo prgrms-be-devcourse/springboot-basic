@@ -12,7 +12,7 @@ class PercentAmountVoucherTest {
         //when & Then
         Assertions.assertThatThrownBy(() -> new PercentAmountVoucher(discount))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("할인 범위가 아닙니다.");
+                .hasMessage("[ERROR] : 할인 범위가 아닙니다.");
     }
 
     @Test
@@ -23,6 +23,6 @@ class PercentAmountVoucherTest {
         //when & Then
         Assertions.assertThatThrownBy(() -> new PercentAmountVoucher(discount))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("할인 범위가 아닙니다.");
+                .hasMessage("[ERROR] : 할인 범위가 아닙니다.");
     }
 }

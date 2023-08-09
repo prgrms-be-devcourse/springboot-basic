@@ -11,7 +11,7 @@ class FixedAmountVoucherTest {
         //when & Then
         Assertions.assertThatThrownBy(() -> new FixedAmountVoucher(discount))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("할인 범위가 아닙니다.");
+                .hasMessage("[ERROR] : 할인 범위가 아닙니다.");
 
     }
 }
