@@ -21,10 +21,10 @@ import java.util.UUID;
 
 import static java.util.Map.of;
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
-import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Column.ALL;
-import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Column.AMOUNT;
-import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Column.VOUCHER_ID;
-import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Column.VOUCHER_TYPE;
+import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.ALL;
+import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.AMOUNT;
+import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.VOUCHER_ID;
+import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.VOUCHER_TYPE;
 
 @Repository
 @Primary
@@ -61,9 +61,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                                 AMOUNT.getColumn(), ":amount"
                         )
                 );
-
-        System.out.println(insert.getQuery());
-
         jdbcTemplate.update(insert.getQuery(), toParamMap(voucher.getId(), voucher.getType(), voucher.getAmount()));
 
         return voucher;
@@ -87,7 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         Select selectAll = Select.builder()
-                .select("*")
+                .select(ALL.getColumn())
                 .from(Voucher.class)
                 .build();
 
