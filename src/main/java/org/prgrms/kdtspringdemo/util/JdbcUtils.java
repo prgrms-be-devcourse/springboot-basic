@@ -9,12 +9,4 @@ public class JdbcUtils {
 
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
-
-    public static byte[] uuidToBytes(UUID uuid) {
-        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-        bb.putLong(uuid.getMostSignificantBits());
-        bb.putLong(uuid.getMostSignificantBits());
-
-        return bb.array();
-    }
 }
