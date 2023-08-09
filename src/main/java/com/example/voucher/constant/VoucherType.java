@@ -3,9 +3,9 @@ package com.example.voucher.constant;
 import static com.example.voucher.constant.ExceptionMessage.*;
 import java.util.Arrays;
 import java.util.UUID;
-import com.example.voucher.domain.FixedAmountVoucher;
-import com.example.voucher.domain.PercentDiscountVoucher;
-import com.example.voucher.domain.Voucher;
+import com.example.voucher.voucher.model.FixedAmountVoucher;
+import com.example.voucher.voucher.model.PercentDiscountVoucher;
+import com.example.voucher.voucher.model.Voucher;
 
 public enum VoucherType {
 
@@ -23,7 +23,7 @@ public enum VoucherType {
     PERCENT_DISCOUNT(2) {
         @Override
         public Voucher createVoucher(Long discountValue) {
-            return new FixedAmountVoucher(discountValue);
+            return new PercentDiscountVoucher(discountValue);
         }
 
         @Override

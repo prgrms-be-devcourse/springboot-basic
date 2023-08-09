@@ -1,19 +1,35 @@
 package com.example.voucher.io;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+import com.example.voucher.constant.CustomerType;
 import com.example.voucher.constant.VoucherType;
 
 class Writer {
 
     enum Message {
-        MODE_TYPE_SELECTION("""
-            === Voucher Program ===
+        SERVICE_TYPE_SELECTION("""
+            === Voucher Management Program ===
             Type exit to exit the program.
-            Type create to create a new voucher.
-            Type list to list all vouchers.
-            Type delete_all to delete all vouchers.
-            Type search to search voucher by id.
-            Type update to update voucher by id.
+            Type voucher to start voucher service.
+            Type customer to start customer program. 
+            Type wallet to start wallet program.              
+            """),
+        MODE_TYPE_SELECTION("""
+            === Mode ===
+            Type create to create a new.
+            Type list to find all.
+            Type delete_all to delete all.
+            Type search to search by id.
+            Type update to update by id.
+            Type delete to delete by id.
+            """),
+        WALLET_MODE_TYPE_SELECTION("""
+            === Mode ===
+            Type create to create a new wallet.
+            Type search_by_customer to list customer vouchers.
+            Type search_by_voucher to list voucher customers.
+            Type delete to delete voucher by id.
             """),
         VOUCHER_INFO_INPUT_REQUEST("""
             Select VoucherType And Info
@@ -23,11 +39,22 @@ class Writer {
             1. FixedAmount
             2. PercentDiscount
               	"""),
+        CUSTOMER_TYPE_SELECTION("""
+            * Input Type for select VoucherType
+            NORMAL
+            BLACK
+              	"""),
         DISCOUNT_VALUE_INPUT_REQUEST("""
             * Input Discount Value
             """),
         ID_INPUT_REQUEST("""
             * Input Id
+            """),
+        NAME_INPUT_REQUEST("""
+            * Input Name
+            """),
+        NAME_INPUT_EMAIL("""
+            * Input Email
             """),
         INVALID_ARGUMENT("""
             유효하지 않은 값 입니다. 다시 입력해주세요.
@@ -50,14 +77,25 @@ class Writer {
     public Writer() {
     }
 
-    public static final String VOUCHER_INFO_TEMPLATE = "voucherId : %s, VoucherType : %s, discountValue : %d";
-
-    public void writeMessage(UUID voucherId, VoucherType voucherType, long discountValue) {
-        System.out.println(String.format(VOUCHER_INFO_TEMPLATE, voucherId.toString(), voucherType, discountValue));
-    }
-
     public void writeMessage(Message message) {
         System.out.println(message.getText());
+    }
+
+    public void writeVoucherResponse(UUID voucherId, long value, VoucherType voucherType) {
+        System.out.println(String.format("ID : %s discountValue : %d voucherType %s", voucherId, value, voucherType));
+    }
+
+    public void writeCustomerResponse(UUID customerId, String name, String email, CustomerType customerType,
+        LocalDateTime createdAt) {
+        System.out.println(
+            String.format("ID : %s name : %s email : %s customerType : %s createdAt : %s", customerId, name, email,
+                customerType, createdAt.toString()));
+    }
+
+    public void writeWalletResponse(UUID walletId, UUID customerId, UUID voucherId) {
+        System.out.println(
+            String.format("WALLET ID : %s CUSTOMER ID : %s VOUCHER ID %s", walletId.toString(), customerId.toString(),
+                voucherId.toString()));
     }
 
 }

@@ -1,18 +1,19 @@
 package com.example.voucher.constant;
 
 import static com.example.voucher.constant.ExceptionMessage.*;
-
 import java.util.Arrays;
 
 public enum ModeType {
 
-    EXIT,
     CREATE,
     LIST,
     DELETE_ALL,
     SEARCH,
     UPDATE,
-    DELETE;
+    DELETE,
+    SEARCH_BY_CUSTOMER,
+    SEARCH_BY_VOUCHER
+    ;
 
     public static ModeType getModeType(String inputTypeName) {
         return Arrays.stream(values())

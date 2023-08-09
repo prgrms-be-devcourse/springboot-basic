@@ -3,7 +3,9 @@ package com.example.voucher.service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
@@ -17,11 +19,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import com.example.voucher.constant.VoucherType;
-import com.example.voucher.domain.FixedAmountVoucher;
-import com.example.voucher.domain.PercentDiscountVoucher;
-import com.example.voucher.domain.Voucher;
-import com.example.voucher.domain.dto.VoucherDTO;
-import com.example.voucher.repository.VoucherRepository;
+import com.example.voucher.voucher.model.FixedAmountVoucher;
+import com.example.voucher.voucher.model.PercentDiscountVoucher;
+import com.example.voucher.voucher.model.Voucher;
+import com.example.voucher.voucher.service.dto.VoucherDTO;
+import com.example.voucher.voucher.repository.VoucherRepository;
+import com.example.voucher.voucher.service.VoucherService;
 
 @ExtendWith(MockitoExtension.class)
 class VoucherServiceTest {
@@ -123,6 +126,8 @@ class VoucherServiceTest {
         assertEquals(voucher.getVoucherId(), result.voucherId());
         assertEquals(voucher.getVoucherType(), result.voucherType());
         assertEquals(voucher.getValue(), result.value());
+
+        Map<Integer, Integer> map = new HashMap<>();
     }
 
     private static Stream<Arguments> voucherData() {
