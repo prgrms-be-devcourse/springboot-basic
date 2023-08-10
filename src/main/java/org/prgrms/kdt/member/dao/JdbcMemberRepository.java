@@ -1,6 +1,6 @@
 package org.prgrms.kdt.member.dao;
 
-import org.prgrms.kdt.exception.NotUpdateException;
+import org.prgrms.kdt.global.exception.NotUpdateException;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,8 +23,8 @@ public class JdbcMemberRepository implements MemberRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcMemberRepository(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    public JdbcMemberRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override

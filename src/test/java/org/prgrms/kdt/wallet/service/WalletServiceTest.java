@@ -3,24 +3,26 @@ package org.prgrms.kdt.wallet.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.exception.EntityNotFoundException;
+import org.prgrms.kdt.global.exception.EntityNotFoundException;
 import org.prgrms.kdt.member.dao.MemberRepository;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
 import org.prgrms.kdt.voucher.dao.VoucherRepository;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.domain.VoucherType;
-import org.prgrms.kdt.wallet.dao.WalletRepository;
-import org.prgrms.kdt.wallet.domain.JoinedWallet;
+import org.prgrms.kdt.wallet.dao.WalletCommandRepository;
+import org.prgrms.kdt.wallet.dao.WalletQueryRepository;
+import org.prgrms.kdt.wallet.domain.QueryWallet;
 import org.prgrms.kdt.wallet.domain.Wallet;
-import org.prgrms.kdt.wallet.dto.request.CreateWalletRequest;
-import org.prgrms.kdt.wallet.dto.response.JoinedWalletResponses;
-import org.prgrms.kdt.wallet.dto.response.WalletResponse;
+import org.prgrms.kdt.wallet.service.dto.CreateWalletRequest;
+import org.prgrms.kdt.wallet.service.dto.JoinedWalletResponses;
+import org.prgrms.kdt.wallet.service.dto.WalletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +38,9 @@ class WalletServiceTest {
     @Autowired
     WalletService walletService;
     @Autowired
-    WalletRepository walletRepository;
+    WalletQueryRepository walletQueryRepository;
+    @Autowired
+    WalletCommandRepository walletCommandRepository;
     @Autowired
     MemberRepository memberRepository;
     @Autowired
@@ -57,11 +61,11 @@ class WalletServiceTest {
         //given
         UUID expectMemberId = UUID.fromString("9a3d5b3e-2d12-4958-9ef3-52d424485895");
         Member member = memberRepository.insert(new Member(expectMemberId, "giho", MemberStatus.COMMON));
-        Voucher voucher = voucherRepository.insert(new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0)));
-        CreateWalletRequest createWalletRequest = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
+        Voucher voucher = voucherRepository.insert(new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(35.0), LocalDateTime.now()));
+        CreateWalletRequest request = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
 
         //when
-        WalletResponse resultWallet = walletService.assignVoucherToCustomer(createWalletRequest);
+        WalletResponse resultWallet = walletService.assignVoucherToCustomer(request);
 
         //then
         UUID resultMemberId = resultWallet.memberId();
@@ -72,12 +76,12 @@ class WalletServiceTest {
     @DisplayName("존재하지 않는 바우처가 담긴 request객체를 통해 월렛 할당 시 EntityNotFoundException 확인")
     void assignVoucherToCustomer_incorrectRequest_EntityNotFoundException() {
         //given
-        Member member = memberRepository.insert(new Member("giho", MemberStatus.COMMON));
-        Voucher voucher = new Voucher(VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        CreateWalletRequest createWalletRequest = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
+        Member member = memberRepository.insert(new Member(UUID.randomUUID(), "giho", MemberStatus.COMMON));
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
+        CreateWalletRequest request = new CreateWalletRequest(member.getMemberId(), voucher.getVoucherId());
 
         //when
-        Exception exception = catchException(() -> walletService.assignVoucherToCustomer(createWalletRequest));
+        Exception exception = catchException(() -> walletService.assignVoucherToCustomer(request));
 
         //then
         assertThat(exception).isInstanceOf(EntityNotFoundException.class);
@@ -101,8 +105,8 @@ class WalletServiceTest {
         walletService.deleteWalletById(UUID.fromString("f7c23946-7174-4f56-b464-3ed1fa5224d7"));
 
         //then
-        List<JoinedWallet> findJoinedWalletList = walletRepository.findWithMemeberAndVoucherByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
-        assertThat(findJoinedWalletList.size()).isEqualTo(1);
+        List<QueryWallet> findQueryWalletList = walletQueryRepository.findWithMemeberAndVoucherByMemberId(UUID.fromString("1a3d5b3e-2d12-4958-9ef3-52d424485895"));
+        assertThat(findQueryWalletList.size()).isEqualTo(1);
     }
 
     @Test
@@ -120,10 +124,10 @@ class WalletServiceTest {
     @DisplayName("setup을 통해 저장된 월렛2개 전체 조회를 통해 사이즈 확인")
     void findAllWallet_collectWalletSize() {
         //when
-        List<JoinedWallet> joinedWallets = walletRepository.findWithMemeberAndVoucherAll();
+        List<QueryWallet> queryWallets = walletQueryRepository.findWithMemeberAndVoucherAll();
 
         //then
-        assertThat(joinedWallets.size()).isEqualTo(2);
+        assertThat(queryWallets.size()).isEqualTo(2);
     }
 
     void setupInsertWallets() {
@@ -134,8 +138,8 @@ class WalletServiceTest {
 
         UUID voucherId1 = UUID.fromString("3c3dda5e-eb09-4b21-b57f-d9ef54bacd29");
         UUID voucherId2 = UUID.fromString("5c3aba5e-eb09-4b21-b57f-d9ef54bacd29");
-        Voucher voucher1 = new Voucher(voucherId1, VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0));
-        Voucher voucher2 = new Voucher(voucherId2, VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0));
+        Voucher voucher1 = new Voucher(voucherId1, VoucherType.FIXED, VoucherType.FIXED.createPolicy(30.0), LocalDateTime.now());
+        Voucher voucher2 = new Voucher(voucherId2, VoucherType.PERCENT, VoucherType.PERCENT.createPolicy(70.0), LocalDateTime.now());
 
         UUID walletId1 = UUID.fromString("f7c23946-7174-4f56-b464-3ed1fa5224d7");
         UUID walletId2 = UUID.fromString("c9c23946-7174-4f56-b464-3ed1fa5224d7");
@@ -146,7 +150,7 @@ class WalletServiceTest {
         memberRepository.insert(member2);
         voucherRepository.insert(voucher1);
         voucherRepository.insert(voucher2);
-        walletRepository.insert(wallet1);
-        walletRepository.insert(wallet2);
+        walletCommandRepository.insert(wallet1);
+        walletCommandRepository.insert(wallet2);
     }
 }

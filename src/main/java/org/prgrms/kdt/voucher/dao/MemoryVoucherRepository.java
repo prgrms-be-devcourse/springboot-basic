@@ -1,6 +1,8 @@
 package org.prgrms.kdt.voucher.dao;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherType;
+import org.prgrms.kdt.voucher.service.dto.SearchRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Profile("dev")
 @Component
@@ -27,7 +30,19 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        return List.copyOf(storage.values());
+    public List<Voucher> findAll(SearchRequest searchRequest) {
+        throw new RuntimeException("지원이 중지된 기능입니다.");
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        storage.remove(id);
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return storage.values().stream()
+                .filter(e -> e.getVoucherType() == type)
+                .collect(Collectors.toList());
     }
 }

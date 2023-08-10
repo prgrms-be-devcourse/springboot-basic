@@ -4,14 +4,16 @@ import org.junit.jupiter.api.*;
 import org.prgrms.kdt.member.dao.JdbcMemberRepository;
 import org.prgrms.kdt.member.domain.Member;
 import org.prgrms.kdt.member.domain.MemberStatus;
-import org.prgrms.kdt.member.dto.CreateMemberRequest;
-import org.prgrms.kdt.member.dto.MemberResponse;
-import org.prgrms.kdt.member.dto.MemberResponses;
+import org.prgrms.kdt.member.service.dto.CreateMemberRequest;
+import org.prgrms.kdt.member.service.dto.MemberResponse;
+import org.prgrms.kdt.member.service.dto.MemberResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -28,9 +30,9 @@ class MemberServiceTest {
 
     @BeforeEach
     void setup(){
-        jdbcMemberRepository.insert(new Member("lala", MemberStatus.BLACK));
-        jdbcMemberRepository.insert(new Member("pipo", MemberStatus.BLACK));
-        jdbcMemberRepository.insert(new Member("pipo", MemberStatus.COMMON));
+        jdbcMemberRepository.insert(new Member(UUID.randomUUID(), "lala", MemberStatus.BLACK));
+        jdbcMemberRepository.insert(new Member(UUID.randomUUID(), "pipo", MemberStatus.BLACK));
+        jdbcMemberRepository.insert(new Member(UUID.randomUUID(), "pipo", MemberStatus.COMMON));
     }
 
     @Test
