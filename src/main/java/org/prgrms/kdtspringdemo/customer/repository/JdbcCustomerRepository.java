@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,20 +29,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<Customer> customerRowMapper = (resultSet, i)
-            ->  {
+    private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID uuid = toUUID(resultSet.getBytes(CUSTOMER_ID.getColumn()));
         String nickname = resultSet.getString(NICKNAME.getColumn());
 
         return new Customer(uuid, nickname);
     };
-
-    private Map<String, Object> toParamMap(Customer customer) {
-        return of(
-                CUSTOMER_ID.getColumn(), customer.getId().toString().getBytes(),
-                NICKNAME.getColumn(), customer.getNickname()
-        );
-    }
 
     @Override
     public Customer save(Customer customer) {
@@ -55,7 +46,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
                         )
                 );
 
-        jdbcTemplate.update(insert.getQuery(), toParamMap(customer));
+        jdbcTemplate.update(
+                insert.getQuery(),
+                of(
+                        CUSTOMER_ID.getColumn(), customer.getId().toString().getBytes(),
+                        NICKNAME.getColumn(), customer.getNickname()
+                ));
 
         return customer;
     }
@@ -124,7 +120,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 )
                 .build();
 
-        jdbcTemplate.update(update.getQuery(), toParamMap(customer));
+        jdbcTemplate.update(
+                update.getQuery(),
+                of(
+                        CUSTOMER_ID.getColumn(), customer.getId().toString().getBytes(),
+                        NICKNAME.getColumn(), customer.getNickname()
+                )
+
+        );
     }
 
     @Override

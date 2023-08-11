@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -42,14 +41,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return type.createVoucher(id, amount);
     };
 
-    private Map<String, Object> toParamMap(UUID voucherId, VoucherType voucherType, long amount) {
-        return Map.of(
-                VOUCHER_ID.getColumn(), voucherId.toString().getBytes(),
-                VOUCHER_TYPE.getColumn(), voucherType.name(),
-                AMOUNT.getColumn(), amount
-        );
-    }
-
     @Override
     public Voucher save(Voucher voucher) {
         Insert insert = Insert.into(Voucher.class)
@@ -60,7 +51,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
                                 AMOUNT.getColumn(), ":amount"
                         )
                 );
-        jdbcTemplate.update(insert.getQuery(), toParamMap(voucher.getId(), voucher.getType(), voucher.getAmount()));
+        jdbcTemplate.update(
+                insert.getQuery(),
+                of(
+                        VOUCHER_ID.getColumn(), voucher.getId().toString().getBytes(),
+                        VOUCHER_TYPE.getColumn(), voucher.getType().name(),
+                        AMOUNT.getColumn(), voucher.getAmount()
+                ));
 
         return voucher;
     }
@@ -105,7 +102,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 )
                 .build();
 
-        jdbcTemplate.update(update.getQuery(), toParamMap(id, type, amount));
+        jdbcTemplate.update(
+                update.getQuery(),
+                of(
+                        VOUCHER_ID.getColumn(), id.toString().getBytes(),
+                        VOUCHER_TYPE.getColumn(), type.name(),
+                        AMOUNT.getColumn(), amount
+                ));
     }
 
     @Override
