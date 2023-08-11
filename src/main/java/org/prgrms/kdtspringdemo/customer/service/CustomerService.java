@@ -28,14 +28,14 @@ public class CustomerService {
 
     public CustomerResponse findById(UUID id) {
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_ID_LOOKUP_FAILED));
+                .orElseThrow(() -> new CustomerNotFoundException(id, CUSTOMER_ID_LOOKUP_FAILED));
 
         return new CustomerResponse(customer.getId(), customer.getNickname());
     }
 
     public CustomerResponse findByNickname(String nickname) {
         Customer customer = customerRepository.findByNickname(nickname)
-                .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_NICKNAME_LOOKUP_FAILED));
+                .orElseThrow(() -> new CustomerNotFoundException(nickname, CUSTOMER_NICKNAME_LOOKUP_FAILED));
 
         return new CustomerResponse(customer.getId(), customer.getNickname());
     }
