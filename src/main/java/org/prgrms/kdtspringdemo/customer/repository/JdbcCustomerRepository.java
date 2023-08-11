@@ -19,7 +19,6 @@ import java.util.UUID;
 
 import static java.util.Map.of;
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
-import static org.prgrms.kdtspringdemo.customer.constant.CustomerColumn.ALL;
 import static org.prgrms.kdtspringdemo.customer.constant.CustomerColumn.CUSTOMER_ID;
 import static org.prgrms.kdtspringdemo.customer.constant.CustomerColumn.NICKNAME;
 
@@ -64,7 +63,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID id) {
         Select selectId = Select.builder()
-                .select(ALL.getColumn())
+                .select()
                 .from(Customer.class)
                 .where(
                         Where
@@ -84,7 +83,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findByNickname(String nickname) {
         Select selectNickName = Select.builder()
-                .select(ALL.getColumn())
+                .select()
                 .from(Customer.class)
                 .where(
                         Where
@@ -104,7 +103,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         Select selectAll = Select.builder()
-                .select(ALL.getColumn())
+                .select()
                 .from(Customer.class)
                 .build();
 

@@ -63,6 +63,12 @@ public class Select {
         private SelectCriteria() {
         }
 
+        public FromCriteria select() {
+            this.columns.add("*");
+
+            return new FromCriteria(this.columns);
+        }
+
         public FromCriteria select(String... columns) {
             this.columns = List.of(columns);
 

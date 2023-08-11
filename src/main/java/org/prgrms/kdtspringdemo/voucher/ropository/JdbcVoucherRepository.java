@@ -21,7 +21,6 @@ import java.util.UUID;
 
 import static java.util.Map.of;
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
-import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.ALL;
 import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.AMOUNT;
 import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.VOUCHER_ID;
 import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.VOUCHER_TYPE;
@@ -69,7 +68,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID id) {
         Select selectOne = Select.builder()
-                .select(ALL.getColumn())
+                .select()
                 .from(Voucher.class)
                 .where(
                         Where.builder(VOUCHER_ID.getColumn(), Operator.EQUALS, "UUID_TO_BIN(:voucher_id)")
@@ -84,7 +83,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         Select selectAll = Select.builder()
-                .select(ALL.getColumn())
+                .select()
                 .from(Voucher.class)
                 .build();
 

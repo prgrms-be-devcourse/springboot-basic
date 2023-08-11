@@ -4,7 +4,6 @@ public enum VoucherColumn {
     VOUCHER_ID("voucher_id"),
     VOUCHER_TYPE("voucher_type"),
     AMOUNT("amount"),
-    ALL("*")
     ;
 
     private final String column;

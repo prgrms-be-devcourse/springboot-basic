@@ -3,7 +3,6 @@ package org.prgrms.kdtspringdemo.customer.constant;
 public enum CustomerColumn {
     CUSTOMER_ID("customer_id"),
     NICKNAME("nickname"),
-    ALL("*")
     ;
 
     private final String column;
