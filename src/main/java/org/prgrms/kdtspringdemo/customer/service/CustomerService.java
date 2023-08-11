@@ -28,7 +28,7 @@ public class CustomerService {
 
     public CustomerResponse findById(UUID id) {
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new CustomerNotFoundException(id, CUSTOMER_ID_LOOKUP_FAILED));
+                .orElseThrow(() -> new CustomerNotFoundException(id.toString(), CUSTOMER_ID_LOOKUP_FAILED));
 
         return new CustomerResponse(customer.getId(), customer.getNickname());
     }
