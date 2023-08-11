@@ -32,7 +32,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private final RowMapper<Customer> customerRowMapper = (resultSet, i)
-            -> new Customer(toUUID(resultSet.getBytes(CUSTOMER_ID.getColumn())), resultSet.getString(NICKNAME.getColumn()));
+            ->  {
+        UUID uuid = toUUID(resultSet.getBytes(CUSTOMER_ID.getColumn()));
+        String nickname = resultSet.getString(NICKNAME.getColumn());
+
+        return new Customer(uuid, nickname);
+    };
 
     private Map<String, Object> toParamMap(Customer customer) {
         return of(

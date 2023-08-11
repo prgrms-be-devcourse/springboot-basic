@@ -18,39 +18,24 @@ public class Where {
     }
 
     public static class Builder {
-        private static final String AND = " AND ";
-        private static final String OR = " OR ";
         private static final String WHERE = "WHERE";
         private final StringBuilder query = new StringBuilder();
 
         private Builder(String column, Operator operator, Object value) {
-            query.append(column)
-                    .append(" ")
-                    .append(operator.getSymbol())
-                    .append(" ")
-                    .append(value);
+            String formatting = String.format("%s %s %s", column, operator.getSymbol(), value);
+            query.append(formatting);
         }
 
         public Builder and(String column, Operator operator, Object value) {
-            query
-                    .append(AND)
-                    .append(column)
-                    .append(" ")
-                    .append(operator.getSymbol())
-                    .append(" ")
-                    .append(value);
+            String formatting = String.format(" AND %s %s %s", column, operator.getSymbol(), value);
+            query.append(formatting);
 
             return this;
         }
 
         public Builder or(String column, Operator operator, Object value) {
-            query
-                    .append(OR)
-                    .append(column)
-                    .append(" ")
-                    .append(operator.getSymbol())
-                    .append(" ")
-                    .append(value);
+            String formatting = String.format(" OR %s %s %s", column, operator.getSymbol(), value);
+            query.append(formatting);
 
             return this;
         }
