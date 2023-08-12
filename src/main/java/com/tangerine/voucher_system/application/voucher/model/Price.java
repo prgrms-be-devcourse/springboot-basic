@@ -21,9 +21,9 @@ public class Price {
     }
 
     public Price applyDiscount(DiscountValue discountValue) {
-        double result = switch (discountValue.getVoucherType()) {
-            case FIXED_AMOUNT -> value - discountValue.getValue();
-            case PERCENT_DISCOUNT -> value * (1 - discountValue.getValue() / 100);
+        double result = switch (discountValue.voucherType()) {
+            case FIXED_AMOUNT -> value - discountValue.value();
+            case PERCENT_DISCOUNT -> value * (1 - discountValue.value() / 100);
         };
         return new Price(result);
     }

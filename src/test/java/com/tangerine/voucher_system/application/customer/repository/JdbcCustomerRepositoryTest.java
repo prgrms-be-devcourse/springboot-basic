@@ -3,6 +3,7 @@ package com.tangerine.voucher_system.application.customer.repository;
 import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,6 +20,7 @@ import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.catchException;
 
 @JdbcTest
@@ -95,7 +97,7 @@ class JdbcCustomerRepositoryTest {
 
         Exception exception = catchException(() -> customerRepository.update(customer));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @ParameterizedTest
@@ -126,9 +128,9 @@ class JdbcCustomerRepositoryTest {
     @MethodSource("provideValidCustomers")
     void findById_ParamNotExistCustomerId_ReturnEmptyOptional(Customer customer) {
 
-        Optional<Customer> result = customerRepository.findById(customer.customerId());
+        Exception exception = catchException(() -> customerRepository.findById(customer.customerId()));
 
-        assertThat(result).isEmpty();
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @ParameterizedTest
@@ -137,10 +139,10 @@ class JdbcCustomerRepositoryTest {
     void findByName_ParamExistName_ReturnCustomerOptional(Customer customer) {
         customerRepository.insert(customer);
 
-        Optional<Customer> foundCustomer = customerRepository.findByName(customer.name());
+        List<Customer> foundCustomer = customerRepository.findByName(customer.name());
 
         assertThat(foundCustomer).isNotEmpty();
-        assertThat(foundCustomer.get().customerId()).isEqualTo(customer.customerId());
+        assertThat(foundCustomer.get(0).name().getValue()).isEqualTo(customer.name().getValue());
     }
 
     @ParameterizedTest
@@ -149,7 +151,7 @@ class JdbcCustomerRepositoryTest {
     void findByName_ParamNotExistName_ReturnEmptyOptional(Customer customer) {
         customerRepository.insert(customer);
 
-        Optional<Customer> result = customerRepository.findByName(customer.name());
+        List<Customer> result = customerRepository.findByName(customer.name());
 
         assertThat(result).isNotEmpty();
     }
@@ -162,7 +164,7 @@ class JdbcCustomerRepositoryTest {
 
         customerRepository.deleteById(customer.customerId());
 
-        Optional<Customer> result = customerRepository.findById(customer.customerId());
-        assertThat(result).isEmpty();
+        assertThatThrownBy(() -> customerRepository.findById(customer.customerId()))
+                .isInstanceOf(SqlException.class);
     }
 }

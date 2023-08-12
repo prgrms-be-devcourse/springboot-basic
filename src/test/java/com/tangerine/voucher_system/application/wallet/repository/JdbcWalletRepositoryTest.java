@@ -4,6 +4,7 @@ import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
@@ -78,7 +79,7 @@ class JdbcWalletRepositoryTest {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 21), LocalDate.now());
         voucherRepository.insert(newVoucher);
 
-        Wallet newWallet = new Wallet(wallet.walletId(), newVoucher.getVoucherId(), wallet.customerId());
+        Wallet newWallet = new Wallet(wallet.walletId(), newVoucher.voucherId(), wallet.customerId());
         repository.update(newWallet);
 
         List<Wallet> result = repository.findByCustomerId(wallet.customerId());
@@ -92,7 +93,7 @@ class JdbcWalletRepositoryTest {
 
         Exception exception = catchException(() -> repository.update(wallet));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @ParameterizedTest
@@ -164,7 +165,7 @@ class JdbcWalletRepositoryTest {
     );
 
     static List<Wallet> wallets = IntStream.range(0, vouchers.size())
-            .mapToObj(i -> new Wallet(UUID.randomUUID(), vouchers.get(i).getVoucherId(), customers.get(0).customerId()))
+            .mapToObj(i -> new Wallet(UUID.randomUUID(), vouchers.get(i).voucherId(), customers.get(0).customerId()))
             .toList();
 
     static Stream<Arguments> provideWallets() {

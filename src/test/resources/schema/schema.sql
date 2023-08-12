@@ -7,6 +7,8 @@ create table customers
     primary key (customer_id)
 );
 
+--
+
 create table vouchers
 (
     voucher_id     varchar(50) not null,
@@ -19,7 +21,7 @@ create table vouchers
 
 create table wallets
 (
-    wallet_id   varchar(50) not null,
+    wallet_id   varchar(50),
     voucher_id  varchar(50) not null,
     customer_id varchar(50) not null,
 

@@ -3,13 +3,20 @@ package com.tangerine.voucher_system.application.wallet.service;
 import com.tangerine.voucher_system.application.customer.model.Customer;
 import com.tangerine.voucher_system.application.customer.model.Name;
 import com.tangerine.voucher_system.application.customer.repository.JdbcCustomerRepository;
+import com.tangerine.voucher_system.application.customer.service.dto.CustomerResult;
+import com.tangerine.voucher_system.application.customer.service.mapper.CustomerServiceMapper;
 import com.tangerine.voucher_system.application.global.exception.InvalidDataException;
+import com.tangerine.voucher_system.application.global.exception.SqlException;
 import com.tangerine.voucher_system.application.voucher.model.DiscountValue;
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
 import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import com.tangerine.voucher_system.application.voucher.repository.JdbcVoucherRepository;
-import com.tangerine.voucher_system.application.wallet.model.Wallet;
+import com.tangerine.voucher_system.application.voucher.service.dto.VoucherResult;
+import com.tangerine.voucher_system.application.voucher.service.mapper.VoucherServiceMapper;
 import com.tangerine.voucher_system.application.wallet.repository.JdbcWalletRepository;
+import com.tangerine.voucher_system.application.wallet.service.dto.WalletParam;
+import com.tangerine.voucher_system.application.wallet.service.dto.WalletResult;
+import com.tangerine.voucher_system.application.wallet.service.mapper.WalletServiceMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,7 +40,8 @@ import static org.assertj.core.api.Assertions.catchException;
 
 @JdbcTest
 @ActiveProfiles("test")
-@Import({WalletService.class, JdbcWalletRepository.class, JdbcCustomerRepository.class, JdbcVoucherRepository.class})
+@Import({WalletService.class, JdbcWalletRepository.class, JdbcCustomerRepository.class, JdbcVoucherRepository.class,
+        CustomerServiceMapper.class, VoucherServiceMapper.class, WalletServiceMapper.class})
 class WalletServiceTest {
 
     @Autowired
@@ -52,103 +60,103 @@ class WalletServiceTest {
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 지갑을 추가하면 성공한다.")
-    @MethodSource("provideWallets")
-    void insert_ParamNotExistWallet_InsertWallet(Wallet wallet) {
+    @MethodSource("provideWalletParams")
+    void insert_ParamNotExistWallet_InsertWallet(WalletParam param) {
 
-        service.createWallet(wallet);
+        service.createWallet(param);
 
-        List<Wallet> result = service.findWalletsByCustomerId(wallet.customerId());
+        List<WalletResult> result = service.findWalletsByCustomerId(param.customerId());
         assertThat(result).isNotEmpty();
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 지갑을 추가하면 실패한다.")
-    @MethodSource("provideWallets")
-    void insert_ParamExistWallet_Exception(Wallet wallet) {
-        service.createWallet(wallet);
+    @MethodSource("provideWalletParams")
+    void insert_ParamExistWallet_Exception(WalletParam param) {
+        service.createWallet(param);
 
-        Exception exception = catchException(() -> service.createWallet(wallet));
+        Exception exception = catchException(() -> service.createWallet(param));
 
         assertThat(exception).isInstanceOf(InvalidDataException.class);
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 지갑을 업데이트하면 성공한다.")
-    @MethodSource("provideWallets")
-    void update_ParamExistWallet_UpdateWallet(Wallet wallet) {
-        service.createWallet(wallet);
+    @MethodSource("provideWalletParams")
+    void update_ParamExistWallet_UpdateWallet(WalletParam param) {
+        service.createWallet(param);
         Voucher newVoucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED_AMOUNT, new DiscountValue(VoucherType.FIXED_AMOUNT, 21), LocalDate.now());
         voucherRepository.insert(newVoucher);
 
-        Wallet newWallet = new Wallet(wallet.walletId(), newVoucher.getVoucherId(), wallet.customerId());
+        WalletParam newWallet = new WalletParam(param.walletId(), newVoucher.voucherId(), param.customerId());
         service.updateWallet(newWallet);
 
-        List<Wallet> result = service.findWalletsByCustomerId(wallet.customerId());
+        List<WalletResult> result = service.findWalletsByCustomerId(param.customerId());
         assertThat(result).isNotEmpty();
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 지갑을 업데이트하면 실패한다.")
-    @MethodSource("provideWallets")
-    void update_ParamNotExistWallet_Exception(Wallet wallet) {
+    @MethodSource("provideWalletParams")
+    void update_ParamNotExistWallet_Exception(WalletParam param) {
 
-        Exception exception = catchException(() -> service.updateWallet(wallet));
+        Exception exception = catchException(() -> service.updateWallet(param));
 
-        assertThat(exception).isInstanceOf(InvalidDataException.class);
+        assertThat(exception).isInstanceOf(SqlException.class);
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 지갑을 삭제하면 성공한다.")
-    @MethodSource("provideWallets")
-    void deleteById_ParamExistWalletId_DeleteWallet(Wallet wallet) {
-        service.createWallet(wallet);
+    @MethodSource("provideWalletParams")
+    void deleteById_ParamExistWalletId_DeleteWallet(WalletParam param) {
+        service.createWallet(param);
 
-        service.deleteWalletById(wallet.walletId());
+        service.deleteWalletById(param.walletId());
 
-        boolean result = service.findWalletsByCustomerId(wallet.customerId())
+        boolean result = service.findWalletsByCustomerId(param.customerId())
                 .stream()
-                .anyMatch(w -> Objects.equals(wallet.walletId(), w.walletId()));
+                .anyMatch(walletResult -> Objects.equals(param.walletId(), walletResult.walletId()));
         assertThat(result).isFalse();
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 지갑을 고객 아이디로 조회하면 성공한다.")
-    @MethodSource("provideWallets")
-    void findByCustomerId_ParamExistWallet_ReturnWallet(Wallet wallet) {
-        service.createWallet(wallet);
+    @MethodSource("provideWalletParams")
+    void findByCustomerId_ParamExistWallet_ReturnWallet(WalletParam param) {
+        service.createWallet(param);
 
-        List<Wallet> result = service.findWalletsByCustomerId(wallet.customerId());
+        List<WalletResult> result = service.findWalletsByCustomerId(param.customerId());
 
         assertThat(result).isNotEmpty();
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 지갑을 고객 아이디로 조회하면 실패한다.")
-    @MethodSource("provideWallets")
-    void findByCustomerId_ParamNotExistWallet_ReturnWallet(Wallet wallet) {
+    @MethodSource("provideWalletParams")
+    void findByCustomerId_ParamNotExistWallet_ReturnWallet(WalletParam param) {
 
-        List<Wallet> wallets = service.findWalletsByCustomerId(wallet.customerId());
+        List<WalletResult> wallets = service.findWalletsByCustomerId(param.customerId());
 
         assertThat(wallets).isEmpty();
     }
 
     @ParameterizedTest
     @DisplayName("존재하는 지갑을 바우처 아이디로 조회하면 성공한다.")
-    @MethodSource("provideWallets")
-    void findByVoucherId_ParamExistWallet_ReturnWallet(Wallet wallet) {
-        service.createWallet(wallet);
+    @MethodSource("provideWalletParams")
+    void findByVoucherId_ParamExistWallet_ReturnWallet(WalletParam param) {
+        service.createWallet(param);
 
-        List<Wallet> result = service.findWalletsByVoucherId(wallet.voucherId());
+        List<WalletResult> result = service.findWalletsByVoucherId(param.voucherId());
 
         assertThat(result).isNotEmpty();
     }
 
     @ParameterizedTest
     @DisplayName("존재하지 않는 지갑을 바우처 아이디로 조회하면 실패한다.")
-    @MethodSource("provideWallets")
-    void findByVoucherId_ParamNotExistWallet_ReturnWallet(Wallet wallet) {
+    @MethodSource("provideWalletParams")
+    void findByVoucherId_ParamNotExistWallet_ReturnWallet(WalletParam param) {
 
-        List<Wallet> wallets = service.findWalletsByVoucherId(wallet.voucherId());
+        List<WalletResult> wallets = service.findWalletsByVoucherId(param.voucherId());
 
         assertThat(wallets).isEmpty();
     }
@@ -156,14 +164,10 @@ class WalletServiceTest {
     @Test
     @DisplayName("바우처, 고객, 지갑이 존재할 때 고객 아이디로 조회 시 성공한다.")
     void findVouchersByCustomerId_ParamAllExist_ReturnVoucherList() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 2), LocalDate.now());
-        Customer customer = new Customer(UUID.randomUUID(), new Name("사과"), true);
-        voucherRepository.insert(voucher);
-        customerRepository.insert(customer);
-        Wallet wallet = new Wallet(UUID.randomUUID(), voucher.getVoucherId(), customer.customerId());
+        WalletParam wallet = new WalletParam(UUID.randomUUID(), vouchers.get(0).voucherId(), customers.get(0).customerId());
         service.createWallet(wallet);
 
-        List<Voucher> vouchers = service.findVouchersByCustomerId(wallet.customerId());
+        List<VoucherResult> vouchers = service.findVouchersByCustomerId(wallet.customerId());
 
         assertThat(vouchers).isNotEmpty();
     }
@@ -171,14 +175,10 @@ class WalletServiceTest {
     @Test
     @DisplayName("바우처, 고객, 지갑이 존재할 때 바우처 아이디로 조회 시 성공한다.")
     void findCustomersByVoucherId_ParamAllExist_ReturnCustomerList() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.PERCENT_DISCOUNT, new DiscountValue(VoucherType.PERCENT_DISCOUNT, 2), LocalDate.now());
-        Customer customer = new Customer(UUID.randomUUID(), new Name("사과"), true);
-        voucherRepository.insert(voucher);
-        customerRepository.insert(customer);
-        Wallet wallet = new Wallet(UUID.randomUUID(), voucher.getVoucherId(), customer.customerId());
+        WalletParam wallet = new WalletParam(UUID.randomUUID(), vouchers.get(0).voucherId(), customers.get(0).customerId());
         service.createWallet(wallet);
 
-        List<Customer> vouchers = service.findCustomersByVoucherId(wallet.voucherId());
+        List<CustomerResult> vouchers = service.findCustomersByVoucherId(wallet.voucherId());
 
         assertThat(vouchers).isNotEmpty();
     }
@@ -195,12 +195,12 @@ class WalletServiceTest {
             new Customer(UUID.randomUUID(), new Name("배"), false)
     );
 
-    static List<Wallet> wallets = IntStream.range(0, vouchers.size())
-            .mapToObj(i -> new Wallet(UUID.randomUUID(), vouchers.get(i).getVoucherId(), customers.get(0).customerId()))
+    static List<WalletParam> walletParams = IntStream.range(0, vouchers.size())
+            .mapToObj(i -> new WalletParam(UUID.randomUUID(), vouchers.get(i).voucherId(), customers.get(i).customerId()))
             .toList();
 
-    static Stream<Arguments> provideWallets() {
-        return wallets.stream()
+    static Stream<Arguments> provideWalletParams() {
+        return walletParams.stream()
                 .map(Arguments::of);
     }
 

@@ -36,6 +36,12 @@ dependencies {
 
 	// jasypt
 	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4'
+
+	// web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 test {

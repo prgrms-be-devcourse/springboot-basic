@@ -1,7 +1,6 @@
 package com.tangerine.voucher_system.application.voucher.repository;
 
 import com.tangerine.voucher_system.application.voucher.model.Voucher;
-import com.tangerine.voucher_system.application.voucher.model.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
@@ -46,17 +45,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findByVoucherType(VoucherType voucherType) {
+    public List<Voucher> findByCreatedAt(LocalDate createdAt) {
         return findAll().stream()
-                .filter(voucher -> voucher.getVoucherType() == voucherType)
-                .findAny();
-    }
-
-    @Override
-    public Optional<Voucher> findByCreatedAt(LocalDate createdAt) {
-        return findAll().stream()
-                .filter(voucher -> voucher.getCreatedAt() == createdAt)
-                .findAny();
+                .filter(voucher -> voucher.createdAt() == createdAt)
+                .toList();
     }
 
     @Override
