@@ -4,6 +4,7 @@ import org.prgrms.kdtspringdemo.util.queryBuilder.Entity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class Insert {
     private final Class<? extends Entity> table;
@@ -25,11 +26,11 @@ public class Insert {
         List<String> valueSet = this.values.entrySet().stream()
                 .map(Map.Entry::getValue)
                 .map(value -> {
-                    if (value instanceof String) {
-                        return String.format("%s", value);
+                    if (value instanceof UUID uuid) {
+                        return "UNHEX(REPLACE('%s','-',''))".formatted(uuid);
                     }
 
-                    return value.toString();
+                    return String.format("'%s'", value);
                 })
                 .toList();
 

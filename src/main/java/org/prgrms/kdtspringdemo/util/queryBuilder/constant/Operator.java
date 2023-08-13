@@ -1,7 +1,7 @@
 package org.prgrms.kdtspringdemo.util.queryBuilder.constant;
 
 public enum Operator {
-    EQUALS("="),
+    EQ("="),
     GT(">"),
     LT("<"),
     GTE(">="),

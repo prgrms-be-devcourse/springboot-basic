@@ -9,4 +9,8 @@ public class JdbcUtils {
 
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
+
+    public static String uuidToBin(UUID id) {
+        return "UUID_TO_BIN('%s')".formatted(id);
+    }
 }

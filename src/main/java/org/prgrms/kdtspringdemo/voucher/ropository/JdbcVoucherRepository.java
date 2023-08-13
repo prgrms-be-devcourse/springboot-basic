@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.voucher.ropository;
 
-import org.prgrms.kdtspringdemo.util.queryBuilder.constant.Operator;
 import org.prgrms.kdtspringdemo.util.queryBuilder.query.Delete;
 import org.prgrms.kdtspringdemo.util.queryBuilder.query.Insert;
 import org.prgrms.kdtspringdemo.util.queryBuilder.query.Select;
@@ -9,17 +8,17 @@ import org.prgrms.kdtspringdemo.util.queryBuilder.query.Where;
 import org.prgrms.kdtspringdemo.voucher.constant.VoucherType;
 import org.prgrms.kdtspringdemo.voucher.model.entity.Voucher;
 import org.springframework.context.annotation.Primary;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import static java.util.Map.of;
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
+import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Operator.EQ;
 import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.AMOUNT;
 import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.VOUCHER_ID;
 import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.VOUCHER_TYPE;
@@ -27,9 +26,9 @@ import static org.prgrms.kdtspringdemo.voucher.constant.VoucherColumn.VOUCHER_TY
 @Repository
 @Primary
 public class JdbcVoucherRepository implements VoucherRepository {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -46,18 +45,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Insert insert = Insert.into(Voucher.class)
                 .values(
                         of(
-                                VOUCHER_ID.getColumn(), "UUID_TO_BIN(:voucher_id)",
-                                VOUCHER_TYPE.getColumn(), ":voucher_type",
-                                AMOUNT.getColumn(), ":amount"
+                                VOUCHER_ID.getColumn(), voucher.getId(),
+                                VOUCHER_TYPE.getColumn(), voucher.getType().name(),
+                                AMOUNT.getColumn(), voucher.getAmount()
                         )
                 );
-        jdbcTemplate.update(
-                insert.getQuery(),
-                of(
-                        VOUCHER_ID.getColumn(), voucher.getId().toString().getBytes(),
-                        VOUCHER_TYPE.getColumn(), voucher.getType().name(),
-                        AMOUNT.getColumn(), voucher.getAmount()
-                ));
+        jdbcTemplate.update(insert.getQuery());
 
         return voucher;
     }
@@ -68,12 +61,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .select()
                 .from(Voucher.class)
                 .where(
-                        Where.builder(VOUCHER_ID.getColumn(), Operator.EQUALS, "UUID_TO_BIN(:voucher_id)")
+                        Where.builder(VOUCHER_ID.getColumn(), EQ, id)
                                 .build()
                 )
                 .build();
 
-        return jdbcTemplate.query(selectOne.getQuery(), Collections.singletonMap(VOUCHER_ID.getColumn(), id.toString().getBytes()), voucherRowMapper).stream()
+        return jdbcTemplate.query(selectOne.getQuery(), voucherRowMapper).stream()
                 .findFirst();
     }
 
@@ -92,23 +85,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Update update = Update.builder()
                 .update(Voucher.class)
                 .set(of(
-                        VOUCHER_TYPE.getColumn(), ":voucher_type",
-                        AMOUNT.getColumn(), ":amount"
+                        VOUCHER_TYPE.getColumn(), type.name(),
+                        AMOUNT.getColumn(), amount
                 ))
                 .where(
                         Where
-                                .builder(VOUCHER_ID.getColumn(), Operator.EQUALS, "UUID_TO_BIN(:voucher_id)")
+                                .builder(VOUCHER_ID.getColumn(), EQ, id)
                                 .build()
                 )
                 .build();
 
-        jdbcTemplate.update(
-                update.getQuery(),
-                of(
-                        VOUCHER_ID.getColumn(), id.toString().getBytes(),
-                        VOUCHER_TYPE.getColumn(), type.name(),
-                        AMOUNT.getColumn(), amount
-                ));
+        jdbcTemplate.update(update.getQuery());
     }
 
     @Override
@@ -117,11 +104,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .delete(Voucher.class)
                 .where(
                         Where
-                                .builder(VOUCHER_ID.getColumn(), Operator.EQUALS, "UUID_TO_BIN(:voucher_id)")
+                                .builder(VOUCHER_ID.getColumn(), EQ, id)
                                 .build()
                 )
                 .build();
 
-        jdbcTemplate.update(delete.getQuery(), Collections.singletonMap(VOUCHER_ID.getColumn(), id.toString().getBytes()));
+        jdbcTemplate.update(delete.getQuery());
     }
 }

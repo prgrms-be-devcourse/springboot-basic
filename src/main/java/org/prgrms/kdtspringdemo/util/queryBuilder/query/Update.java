@@ -1,9 +1,13 @@
 package org.prgrms.kdtspringdemo.util.queryBuilder.query;
 
+import org.prgrms.kdtspringdemo.util.JdbcUtils;
 import org.prgrms.kdtspringdemo.util.queryBuilder.Entity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import static org.prgrms.kdtspringdemo.util.JdbcUtils.uuidToBin;
 
 public class Update {
     private final Class<? extends Entity> table;
@@ -22,11 +26,11 @@ public class Update {
         String tableName = this.table.getSimpleName().toLowerCase();
         List<String> entrySet = this.values.entrySet().stream()
                 .map(entry -> {
-                    if (entry.getValue() instanceof String) {
-                        return String.format("%s = %s", entry.getKey(), entry.getValue());
+                    if (entry.getValue() instanceof UUID uuid) {
+                        return entry.getKey() + " = " + uuidToBin(uuid);
                     }
 
-                    return String.format("%s = %s", entry.getKey(), entry.getValue().toString());
+                    return String.format("%s = '%s'", entry.getKey(), entry.getValue().toString());
                 })
                 .toList();
         String entries = String.join(", ", entrySet);

@@ -1,17 +1,15 @@
 package org.prgrms.kdtspringdemo.customer.repository;
 
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
-import org.prgrms.kdtspringdemo.util.queryBuilder.constant.Operator;
 import org.prgrms.kdtspringdemo.util.queryBuilder.query.Delete;
 import org.prgrms.kdtspringdemo.util.queryBuilder.query.Insert;
 import org.prgrms.kdtspringdemo.util.queryBuilder.query.Select;
 import org.prgrms.kdtspringdemo.util.queryBuilder.query.Update;
 import org.prgrms.kdtspringdemo.util.queryBuilder.query.Where;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,12 +18,13 @@ import static java.util.Map.of;
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
 import static org.prgrms.kdtspringdemo.customer.constant.CustomerColumn.CUSTOMER_ID;
 import static org.prgrms.kdtspringdemo.customer.constant.CustomerColumn.NICKNAME;
+import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Operator.EQ;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
-    private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -41,17 +40,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
         Insert insert = Insert.into(Customer.class)
                 .values(
                         of(
-                                CUSTOMER_ID.getColumn(), "UUID_TO_BIN(:customer_id)",
-                                NICKNAME.getColumn(), ":nickname"
+                                CUSTOMER_ID.getColumn(), customer.getId(),
+                                NICKNAME.getColumn(), customer.getNickname()
                         )
                 );
 
-        jdbcTemplate.update(
-                insert.getQuery(),
-                of(
-                        CUSTOMER_ID.getColumn(), customer.getId().toString().getBytes(),
-                        NICKNAME.getColumn(), customer.getNickname()
-                ));
+        jdbcTemplate.update(insert.getQuery());
 
         return customer;
     }
@@ -64,15 +58,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .where(
                         Where
                                 .builder(
-                                        CUSTOMER_ID.getColumn(), Operator.EQUALS, "UUID_TO_BIN(:customer_id)"
+                                        CUSTOMER_ID.getColumn(), EQ, id
                                 )
                                 .build()
                 )
                 .build();
 
-        return jdbcTemplate.query(selectId.getQuery(),
-                        Collections.singletonMap(CUSTOMER_ID.getColumn(), id.toString().getBytes()),
-                        customerRowMapper).stream()
+        return jdbcTemplate.query(selectId.getQuery(), customerRowMapper).stream()
                 .findFirst();
     }
 
@@ -84,15 +76,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .where(
                         Where
                                 .builder(
-                                        NICKNAME.getColumn(), Operator.EQUALS, ":nickname"
+                                        NICKNAME.getColumn(), EQ, nickname
                                 )
                                 .build()
                 )
                 .build();
 
-        return jdbcTemplate.query(selectNickName.getQuery(),
-                        Collections.singletonMap(NICKNAME.getColumn(), nickname),
-                        customerRowMapper).stream()
+        return jdbcTemplate.query(selectNickName.getQuery(), customerRowMapper).stream()
                 .findFirst();
     }
 
@@ -111,23 +101,17 @@ public class JdbcCustomerRepository implements CustomerRepository {
         Update update = Update.builder()
                 .update(Customer.class)
                 .set(of(
-                        NICKNAME.getColumn(), ":nickname"
+                        CUSTOMER_ID.getColumn(), customer.getId(),
+                        NICKNAME.getColumn(), customer.getNickname()
                 ))
                 .where(
                         Where
-                                .builder(CUSTOMER_ID.getColumn(), Operator.EQUALS, "UUID_TO_BIN(:customer_id)")
+                                .builder(CUSTOMER_ID.getColumn(), EQ, customer.getId())
                                 .build()
                 )
                 .build();
 
-        jdbcTemplate.update(
-                update.getQuery(),
-                of(
-                        CUSTOMER_ID.getColumn(), customer.getId().toString().getBytes(),
-                        NICKNAME.getColumn(), customer.getNickname()
-                )
-
-        );
+        jdbcTemplate.update(update.getQuery());
     }
 
     @Override
@@ -136,12 +120,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .delete(Customer.class)
                 .where(
                         Where
-                                .builder(CUSTOMER_ID.getColumn(), Operator.EQUALS, "UUID_TO_BIN(:customer_id)")
+                                .builder(CUSTOMER_ID.getColumn(), EQ, id)
                                 .build()
                 )
                 .build();
 
-        jdbcTemplate.update(delete.getQuery(),
-                Collections.singletonMap(CUSTOMER_ID.getColumn(), id.toString().getBytes()));
+        jdbcTemplate.update(delete.getQuery());
     }
 }
