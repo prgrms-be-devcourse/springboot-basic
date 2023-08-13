@@ -1,75 +1,130 @@
 package org.prgrms.kdtspringdemo.customer.repository;
 
 import org.prgrms.kdtspringdemo.customer.model.entity.Customer;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.Delete;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.Insert;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.Select;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.Update;
+import org.prgrms.kdtspringdemo.util.queryBuilder.query.Where;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import static java.util.Map.of;
 import static org.prgrms.kdtspringdemo.util.JdbcUtils.*;
+import static org.prgrms.kdtspringdemo.customer.constant.CustomerColumn.CUSTOMER_ID;
+import static org.prgrms.kdtspringdemo.customer.constant.CustomerColumn.NICKNAME;
+import static org.prgrms.kdtspringdemo.util.queryBuilder.constant.Operator.EQ;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
-    private static final String CUSTOMER_ID = "customer_id";
-    private static final String NICKNAME = "nickname";
+    private final JdbcTemplate jdbcTemplate;
 
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<Customer> customerRowMapper = (resultSet, i)
-            -> new Customer(toUUID(resultSet.getBytes(CUSTOMER_ID)), resultSet.getString(NICKNAME));
+    private final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+        UUID uuid = toUUID(resultSet.getBytes(CUSTOMER_ID.getColumn()));
+        String nickname = resultSet.getString(NICKNAME.getColumn());
 
-    private Map<String, Object> toParamMap(Customer customer) {
-        return Map.of(
-                CUSTOMER_ID, uuidToBytes(customer.getId()),
-                NICKNAME, customer.getNickname()
-        );
-    }
+        return new Customer(uuid, nickname);
+    };
 
     @Override
     public Customer save(Customer customer) {
-        jdbcTemplate.update("INSERT INTO customer(customer_id, nickname) VALUES(:customer_id, :nickname)", toParamMap(customer));
+        Insert insert = Insert.into(Customer.class)
+                .values(
+                        of(
+                                CUSTOMER_ID.getColumn(), customer.getId(),
+                                NICKNAME.getColumn(), customer.getNickname()
+                        )
+                );
+
+        jdbcTemplate.update(insert.getQuery());
 
         return customer;
     }
 
     @Override
     public Optional<Customer> findById(UUID id) {
-        return jdbcTemplate.query("SELECT * FROM customer WHERE customer_id = :customer_id",
-                        Collections.singletonMap(CUSTOMER_ID, uuidToBytes(id)),
-                        customerRowMapper).stream()
+        Select selectId = Select.builder()
+                .select()
+                .from(Customer.class)
+                .where(
+                        Where
+                                .builder(
+                                        CUSTOMER_ID.getColumn(), EQ, id
+                                )
+                                .build()
+                )
+                .build();
+
+        return jdbcTemplate.query(selectId.getQuery(), customerRowMapper).stream()
                 .findFirst();
     }
 
     @Override
     public Optional<Customer> findByNickname(String nickname) {
-        return jdbcTemplate.query("SELECT * FROM customer WHERE nickname = :nickname",
-                        Collections.singletonMap(NICKNAME, nickname),
-                        customerRowMapper).stream()
+        Select selectNickName = Select.builder()
+                .select()
+                .from(Customer.class)
+                .where(
+                        Where
+                                .builder(
+                                        NICKNAME.getColumn(), EQ, nickname
+                                )
+                                .build()
+                )
+                .build();
+
+        return jdbcTemplate.query(selectNickName.getQuery(), customerRowMapper).stream()
                 .findFirst();
     }
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("SELECT * FROM customer", customerRowMapper);
+        Select selectAll = Select.builder()
+                .select()
+                .from(Customer.class)
+                .build();
+
+        return jdbcTemplate.query(selectAll.getQuery(), customerRowMapper);
     }
 
     @Override
     public void update(Customer customer) {
-        jdbcTemplate.update("UPDATE customer SET nickname = :nickname WHERE customer_id = :customer_id", toParamMap(customer));
+        Update update = Update.builder()
+                .update(Customer.class)
+                .set(of(
+                        CUSTOMER_ID.getColumn(), customer.getId(),
+                        NICKNAME.getColumn(), customer.getNickname()
+                ))
+                .where(
+                        Where
+                                .builder(CUSTOMER_ID.getColumn(), EQ, customer.getId())
+                                .build()
+                )
+                .build();
+
+        jdbcTemplate.update(update.getQuery());
     }
 
     @Override
     public void deleteById(UUID id) {
-        jdbcTemplate.update("DELETE FROM customer WHERE customer_id = :customer_id",
-                Collections.singletonMap(CUSTOMER_ID, uuidToBytes(id)));
+        Delete delete = Delete.builder()
+                .delete(Customer.class)
+                .where(
+                        Where
+                                .builder(CUSTOMER_ID.getColumn(), EQ, id)
+                                .build()
+                )
+                .build();
+
+        jdbcTemplate.update(delete.getQuery());
     }
 }

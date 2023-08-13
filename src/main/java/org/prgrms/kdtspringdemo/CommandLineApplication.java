@@ -67,7 +67,7 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void printVoucherResult(VoucherResponse response) {
-        console.printVoucher(PRINT_VOUCHER_INFO, response.getId(), response.getType(), response.getAmount());
+        console.printVoucher(PRINT_VOUCHER_INFO, response.id(), response.type(), response.amount());
     }
 
     private void getVoucher() {
@@ -120,7 +120,7 @@ public class CommandLineApplication implements CommandLineRunner {
     }
 
     private void printCustomerResult(CustomerResponse customerResponse) {
-        console.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.getId(), customerResponse.getNickname());
+        console.printCustomer(PRINT_CUSTOMER_INFO, customerResponse.id(), customerResponse.nickname());
     }
 
     private void findByIdCustomer() {

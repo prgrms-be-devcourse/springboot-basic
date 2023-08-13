@@ -1,15 +1,14 @@
-package org.prgrms.kdtspringdemo.util.queryBuilder.constant;
+package org.prgrms.kdtspringdemo.voucher.constant;
 
-public enum Column {
+public enum VoucherColumn {
     VOUCHER_ID("voucher_id"),
     VOUCHER_TYPE("voucher_type"),
     AMOUNT("amount"),
-    ALL("*")
     ;
 
     private final String column;
 
-    Column(String column) {
+    VoucherColumn(String column) {
         this.column = column;
     }
 

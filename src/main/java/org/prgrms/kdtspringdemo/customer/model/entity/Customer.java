@@ -1,9 +1,11 @@
 package org.prgrms.kdtspringdemo.customer.model.entity;
 
+import org.prgrms.kdtspringdemo.util.queryBuilder.Entity;
+
 import java.util.Objects;
 import java.util.UUID;
 
-public class Customer {
+public class Customer implements Entity {
     private final UUID id;
     private String nickname;
 
