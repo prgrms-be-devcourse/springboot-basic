@@ -3,6 +3,7 @@ package org.prgrms.kdt.model.repository.inmemory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.VoucherRuntimeException;
@@ -46,7 +47,6 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	@Override
 	public VoucherEntity updateVoucher(VoucherEntity voucherEntity) {
 		try {
-			VoucherEntity targetVoucher = findVoucherById(voucherEntity.getVoucherId());
 			map.put(voucherEntity.getVoucherId(), voucherEntity);
 		} catch (RuntimeException e) {
 			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
@@ -57,11 +57,11 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity findVoucherById(Long voucherId) {
+	public Optional<VoucherEntity> findVoucherById(Long voucherId) {
 		VoucherEntity foundVoucher = map.get(voucherId);
 
 		if (foundVoucher != null) {
-			return foundVoucher;
+			return Optional.of(foundVoucher);
 		}
 
 		logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage());
@@ -71,8 +71,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 	@Override
 	public void deleteVoucherById(Long voucherId) {
 		try {
-			VoucherEntity targetVoucher = findVoucherById(voucherId);
-			map.remove(targetVoucher.getVoucherId());
+			map.remove(voucherId);
 		} catch (RuntimeException e) {
 			logger.error("voucher entity id is {}", voucherId);
 			logger.error(ErrorCode.VOUCHER_DELETE_FAIL.getErrorMessage(), e);

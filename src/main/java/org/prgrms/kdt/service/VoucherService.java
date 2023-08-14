@@ -5,12 +5,13 @@ import java.util.stream.Collectors;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.VoucherRuntimeException;
-import org.prgrms.kdt.controller.MainController;
 import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.model.domain.Voucher;
 import org.prgrms.kdt.model.dto.VoucherRequest;
 import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
+import org.prgrms.kdt.util.IdGenerator;
 import org.prgrms.kdt.util.VoucherFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,38 +20,39 @@ import org.springframework.stereotype.Service;
 @Service
 public class VoucherService {
 
-	private static final Logger logger = LoggerFactory.getLogger(MainController.class);
+	private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 	private final VoucherRepository voucherRepository;
+	private final IdGenerator idGenerator;
 
-	public VoucherService(VoucherRepository voucherRepository) {
+	public VoucherService(VoucherRepository voucherRepository, IdGenerator idGenerator) {
 		this.voucherRepository = voucherRepository;
+		this.idGenerator = idGenerator;
 	}
 
-	public void saveVoucher(VoucherRequest voucherRequest) {
-		VoucherEntity voucherEntity = VoucherFactory.createVoucherEntity(voucherRequest);
+	public Long saveVoucher(VoucherRequest voucherRequest) {
+		Long voucherId = idGenerator.getRandomId();
+		VoucherEntity voucherEntity = new VoucherEntity(voucherId, voucherRequest.getAmount(), voucherRequest.getVoucherType());
 		voucherRepository.saveVoucher(voucherEntity);
+
+		return voucherId;
 	}
 
 	public VoucherResponse findVoucherById(Long voucherId) {
-		try {
-			VoucherEntity voucherEntity = voucherRepository.findVoucherById(voucherId);
-			return new VoucherResponse(voucherEntity.getVoucherId(), voucherEntity.getAmount(), voucherEntity.getVoucherType());
-		} catch (RuntimeException ex){
-			logger.error("NOT FOUND VOUCHER ID " + voucherId.toString());
-			throw new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
-		}
+		VoucherEntity voucherEntity = voucherRepository.findVoucherById(voucherId)
+		.orElseThrow(
+			() -> {
+				logger.error("NOT FOUND VOUCHER ID " + voucherId.toString());
+				return new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+			}
+		);
+
+		return VoucherResponse.from(voucherEntity);
 	}
 
 	public List<VoucherResponse> getVouchers() {
 		return voucherRepository.findAllEntities()
 			.stream()
-			.map(voucherEntity -> {
-					Long id = voucherEntity.getVoucherId();
-					int amount = voucherEntity.getAmount();
-					String voucherType = voucherEntity.getVoucherType();
-					return new VoucherResponse(id, amount, voucherType);
-				}
-			)
+			.map(VoucherResponse::from)
 			.collect(Collectors.toList());
 	}
 
@@ -64,6 +66,8 @@ public class VoucherService {
 	}
 
 	public void deleteVoucherById(Long voucherId) {
-		voucherRepository.deleteVoucherById(voucherId);
+		VoucherResponse voucher = findVoucherById(voucherId);
+		voucherRepository.deleteVoucherById(voucher.voucherId());
+		logger.info("voucher id {} is deleted", voucherId);
 	}
 }

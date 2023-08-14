@@ -1,8 +1,7 @@
 package org.prgrms.kdt.model.repository.jdbc;
 
 import java.util.List;
-
-import javax.sql.DataSource;
+import java.util.Optional;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.VoucherRuntimeException;
@@ -13,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -22,8 +22,6 @@ import org.springframework.stereotype.Repository;
 @Primary
 @Qualifier("JdbcVoucherRepository")
 public class VoucherJdbcRepository implements VoucherRepository {
-
-	private final DataSource dataSource;
 
 	private final JdbcTemplate jdbcTemplate;
 
@@ -36,8 +34,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 		return new VoucherEntity(voucherId, amount, voucherTypeString);
 	};
 
-	public VoucherJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-		this.dataSource = dataSource;
+	public VoucherJdbcRepository(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
@@ -48,10 +45,10 @@ public class VoucherJdbcRepository implements VoucherRepository {
 				"INSERT INTO vouchers(voucher_id, amount, voucher_type) VALUES (?, ?, ?)",
 				voucherEntity.getVoucherId(),
 				voucherEntity.getAmount(),
-				voucherEntity.getVoucherType().toString()
+				voucherEntity.getVoucherType()
 			);
 			return voucherEntity;
-		} catch (Exception e) {
+		} catch (DataAccessException e) {
 			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_CREATE_FAIL.getErrorMessage(), e);
 			throw new VoucherRuntimeException(ErrorCode.VOUCHER_CREATE_FAIL);
@@ -73,7 +70,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 				voucherEntity.getVoucherId()
 			);
 			return voucherEntity;
-		} catch (RuntimeException e) {
+		} catch (DataAccessException e) {
 			logger.error("voucher entity id is {}", voucherEntity.getVoucherId());
 			logger.error(ErrorCode.VOUCHER_UPDATE_FAIL.getErrorMessage(), e);
 			throw new VoucherRuntimeException(ErrorCode.VOUCHER_UPDATE_FAIL);
@@ -81,25 +78,23 @@ public class VoucherJdbcRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity findVoucherById(Long voucherId) {
+	public Optional<VoucherEntity> findVoucherById(Long voucherId) {
 		try {
-			return jdbcTemplate.queryForObject(
+			VoucherEntity voucherEntity = jdbcTemplate.queryForObject(
 				"select * from vouchers WHERE voucher_id = ?",
 				voucherEntityRowMapper,
 				voucherId);
+			return Optional.ofNullable(voucherEntity);
 		} catch (EmptyResultDataAccessException e) {
-			logger.error("voucher entity id is {}", voucherId);
-			logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage(), e);
-			throw new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+			return Optional.empty();
 		}
 	}
 
 	@Override
 	public void deleteVoucherById(Long voucherId) {
 		try {
-			VoucherEntity targetVoucher = findVoucherById(voucherId);
-			jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", targetVoucher.getVoucherId());
-		} catch (RuntimeException e) {
+			jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = ?", voucherId);
+		} catch (DataAccessException e) {
 			logger.error("voucher entity id is {}", voucherId);
 			logger.error(ErrorCode.VOUCHER_DELETE_FAIL.getErrorMessage(), e);
 			throw new VoucherRuntimeException(ErrorCode.VOUCHER_DELETE_FAIL);

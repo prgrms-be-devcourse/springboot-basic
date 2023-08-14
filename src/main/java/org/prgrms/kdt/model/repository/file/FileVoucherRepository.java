@@ -3,6 +3,7 @@ package org.prgrms.kdt.model.repository.file;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.VoucherRuntimeException;
@@ -59,7 +60,7 @@ public class FileVoucherRepository implements VoucherRepository {
 					VoucherEntity voucherEntity = objectMapper.readValue(line, VoucherEntity.class);
 					voucherEntities.add(voucherEntity);
 				} catch (JsonProcessingException e) {
-					logger.error("readAll 메서드에서 파일 불러오기 실패" + e.toString());
+					logger.error("readAll 메서드에서 파일 불러오기 실패 {} ", e);
 				}
 			});
 		return voucherEntities;
@@ -71,20 +72,13 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public VoucherEntity findVoucherById(Long voucherId) {
+	public Optional<VoucherEntity> findVoucherById(Long voucherId) {
 		String fileAllText = fileIO.loadStringFromFile();
 		List<VoucherEntity> voucherEntities = toVoucherEntities(fileAllText);
 		return voucherEntities
 			.stream()
 			.filter(voucherEntity -> voucherEntity.getVoucherId().equals(voucherId))
-			.findFirst()
-			.orElseThrow(
-				() -> {
-					logger.error("voucher entity id is {}", voucherId);
-					logger.error(ErrorCode.VOUCHER_ID_NOT_FOUND.getErrorMessage());
-					throw new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
-				}
-			);
+			.findFirst();
 	}
 
 	@Override

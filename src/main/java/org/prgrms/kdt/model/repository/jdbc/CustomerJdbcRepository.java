@@ -3,12 +3,10 @@ package org.prgrms.kdt.model.repository.jdbc;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import javax.sql.DataSource;
+import java.util.Optional;
 
 import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.CustomerRuntimeException;
-import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.model.entity.CustomerEntity;
 import org.prgrms.kdt.model.repository.CustomerRepository;
 import org.slf4j.Logger;
@@ -25,18 +23,15 @@ import org.springframework.stereotype.Repository;
 @Qualifier("JdbcCustomerRepository")
 public class CustomerJdbcRepository implements CustomerRepository {
 
-	private final DataSource dataSource;
-
 	private final JdbcTemplate jdbcTemplate;
 
 	private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
 
-	public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-		this.dataSource = dataSource;
+	public CustomerJdbcRepository(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	private static RowMapper<CustomerEntity> customerRowMapper = (resultSet, i) -> {
+	private static final RowMapper<CustomerEntity> customerRowMapper = (resultSet, i) -> {
 		String customerName = resultSet.getString("name");
 		String email = resultSet.getString("email");
 		Long customerId = resultSet.getLong("customer_id");
@@ -73,7 +68,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 			return customerEntity;
 		} catch (RuntimeException e) {
 			logger.error("CustomerEntity id is {}",customerEntity.customerId());
-			logger.error(ErrorCode.CUSTOMER_UPDATE_FAIL.getErrorMessage(), e);
+			//logger.error(ErrorCode.CUSTOMER_UPDATE_FAIL.getErrorMessage(), e);
 			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_UPDATE_FAIL);
 		}
 	}
@@ -84,17 +79,16 @@ public class CustomerJdbcRepository implements CustomerRepository {
 	}
 
 	@Override
-	public CustomerEntity findCustomerById(Long customerId) {
+	public Optional<CustomerEntity> findCustomerById(Long customerId) {
 		try {
-			return jdbcTemplate.queryForObject(
+			CustomerEntity customerEntity = jdbcTemplate.queryForObject(
 				"select * from customers WHERE customer_id = ?",
 				customerRowMapper,
 				customerId.toString()
 			);
+			return Optional.ofNullable(customerEntity);
 		} catch (EmptyResultDataAccessException e) {
-			logger.error("CustomerEntity id is {}", customerId);
-			logger.error(ErrorCode.CUSTOMER_ID_NOT_FOUND.getErrorMessage(), e);
-			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_ID_NOT_FOUND);
+			return Optional.empty();
 		}
 	}
 }

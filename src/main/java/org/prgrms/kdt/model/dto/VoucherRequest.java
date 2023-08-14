@@ -3,6 +3,9 @@ package org.prgrms.kdt.model.dto;
 import org.prgrms.kdt.model.domain.Voucher;
 import org.prgrms.kdt.util.VoucherFactory;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class VoucherRequest {
 	private int amount;
 	private String voucherType;
