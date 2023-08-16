@@ -3,9 +3,9 @@ package org.prgrms.kdt.model.repository.file;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.Assertions;
@@ -23,7 +23,7 @@ class FileVoucherRepositoryTest {
 	@ParameterizedTest
 	@DisplayName("파일에서 voucher를 저장할 수 있다.")
 	@MethodSource("vouchersProvider")
-	void createVoucherTest(List<VoucherEntity> voucherEntities) {
+	void 바우처_생성_테스트(List<VoucherEntity> voucherEntities) {
 		//given
 		Path currentFolderPath = Paths.get("");
 		String currentFolder = currentFolderPath.toAbsolutePath().toString();
@@ -44,11 +44,9 @@ class FileVoucherRepositoryTest {
 		VoucherRepository voucherRepository = new FileVoucherRepository(objectMapper, fileIO);
 
 		//when
-		voucherEntities.stream()
-			.forEach(voucher -> voucherRepository.saveVoucher(voucher));
-		List<VoucherEntity> expectedVoucherEntities = voucherRepository.findAllEntities()
-			.stream()
-			.collect(Collectors.toList());
+		voucherEntities
+			.forEach(voucherRepository::saveVoucher);
+		List<VoucherEntity> expectedVoucherEntities = new ArrayList<>(voucherRepository.findAllEntities());
 
 		//then
 		Assertions.assertThat(voucherEntities)
@@ -85,7 +83,6 @@ class FileVoucherRepositoryTest {
 		String fileName = voucherFilePath.getFileName().toString();
 		String dirPath = voucherFilePath.getParent().toString();
 
-		FileIO fileIO = new FileIO(fileName, dirPath);
-		return fileIO;
+		return new FileIO(fileName, dirPath);
 	}
 }

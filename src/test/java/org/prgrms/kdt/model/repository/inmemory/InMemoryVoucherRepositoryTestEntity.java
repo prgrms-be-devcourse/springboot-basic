@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -19,10 +20,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class InMemoryVoucherRepositoryTestEntity {
+class InMemoryVoucherRepositoryTest {
 	private VoucherRepository voucherRepository;
 	@BeforeAll
-	private void setUp() {
+	public void setUp() {
 		Map<Long, VoucherEntity> store = new HashMap<>();
 		voucherRepository = new InMemoryVoucherRepository(store);
 	}
@@ -73,9 +74,11 @@ class InMemoryVoucherRepositoryTestEntity {
 		VoucherEntity targetVoucher = targetVouchers.get(0);
 
 		// when
-		VoucherEntity foundVoucher = voucherRepository.findVoucherById(targetVoucher.getVoucherId());
+		Optional<VoucherEntity> optionalVoucherEntity = voucherRepository.findVoucherById(targetVoucher.getVoucherId());
 
 		// then
+		assertThat(optionalVoucherEntity.isEmpty(), is(false));
+		VoucherEntity foundVoucher = optionalVoucherEntity.get();
 		assertThat(foundVoucher.getVoucherId(), is(targetVoucher.getVoucherId()));
 	}
 }

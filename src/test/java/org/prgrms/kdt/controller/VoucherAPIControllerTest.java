@@ -5,15 +5,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.prgrms.kdt.enums.VoucherType;
-import org.prgrms.kdt.model.domain.Voucher;
 import org.prgrms.kdt.model.dto.VoucherRequest;
 import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.prgrms.kdt.service.VoucherService;
@@ -28,7 +23,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebMvcTest(VoucherAPIController.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherAPIControllerTest {
 
 	@Autowired
@@ -39,25 +33,15 @@ class VoucherAPIControllerTest {
 
 	@Autowired
 	private ObjectMapper objectMapper;
-	private VoucherRequest voucherRequest;
-	private List<VoucherResponse> voucherResponses;
 
-	@BeforeAll
-	void setup() {
-		voucherResponses = new ArrayList<>();
-
-		voucherRequest = new VoucherRequest(1, "FixedAmountVoucher");
-
+	@Test
+	@DisplayName("모든 바우처를 불러올 수 있다.")
+	void 모든_바우처_찾기_테스트() throws Exception {
+		// given
+		ArrayList<VoucherResponse> voucherResponses = new ArrayList<>();
 		VoucherResponse voucherResponse = new VoucherResponse(1L, 90, "FixedAmountVoucher");
 		voucherResponses.add(voucherResponse);
 
-		Voucher newVoucher = voucherRequest.toDto();
-	}
-
-	@Test
-	@DisplayName("api로 바우처를 불러올 수 있다.")
-	void findVouchersTest() throws Exception {
-		// given
 		given(voucherService.getVouchers()).willReturn(voucherResponses);
 
 		// when
@@ -72,15 +56,15 @@ class VoucherAPIControllerTest {
 	}
 
 	@Test
-	@DisplayName("api로 바우처를 찾을 수 있다.")
+	@DisplayName("특정 바우처를 찾을 수 있다.")
 	void 바우처_찾기_테스트() throws Exception {
 		// given
-		VoucherResponse expectedVoucherResponse = voucherResponses.get(0);
+		VoucherResponse expectedVoucherResponse = new VoucherResponse(1L, 90, "FixedAmountVoucher");
 		given(voucherService.findVoucherById(expectedVoucherResponse.voucherId())).willReturn(expectedVoucherResponse);
 
 		// when
 		ResultActions resultActions = this.mockMvc.perform(
-			MockMvcRequestBuilders.get(MessageFormat.format("/api/vouchers/{0}", expectedVoucherResponse.voucherId()))
+			MockMvcRequestBuilders.get("/api/vouchers/{0}", expectedVoucherResponse.voucherId())
 		);
 
 		// then
@@ -90,7 +74,7 @@ class VoucherAPIControllerTest {
 	}
 
 	@Test
-	@DisplayName("api로 바우처를 삭제할 수 있다.")
+	@DisplayName("바우처를 삭제할 수 있다.")
 	void 바우처_삭제_테스트() throws Exception {
 		// when
 		ResultActions resultActions = this.mockMvc.perform(
@@ -103,9 +87,10 @@ class VoucherAPIControllerTest {
 			.andExpect(status().isOk());
 	}
 	@Test
-	@DisplayName("api로 바우처를 저장할 수 있다.")
+	@DisplayName("바우처를 저장할 수 있다.")
 	void 바우처_저장_테스트() throws Exception {
 		// given
+		VoucherRequest voucherRequest = new VoucherRequest(1, "FixedAmountVoucher");
 		String content = objectMapper.writeValueAsString(voucherRequest);
 
 		// when
@@ -122,20 +107,18 @@ class VoucherAPIControllerTest {
 	}
 
 	@Test
-	@DisplayName("api로 voucherType을 검색할 수 있다.")
+	@DisplayName("바우처타입을 검색할 수 있다.")
 	void 바우처타입_검색_테스트() throws Exception {
 		// given
+		ArrayList<VoucherResponse> expectedVoucherResponses = new ArrayList<>();
 		VoucherType targetVoucherType = VoucherType.FixedAmountVoucher;
-		List<VoucherResponse> filteredVoucherResponses = voucherResponses.stream()
-			.filter(
-				voucherResponse ->
-					voucherResponse.voucherType().equals(targetVoucherType.toString())
-			).collect(Collectors.toList());
+		VoucherResponse voucherResponse = new VoucherResponse(1L, 90, targetVoucherType.toString());
+		expectedVoucherResponses.add(voucherResponse);
 
 		given(voucherService.findVoucherByVoucherType(targetVoucherType))
-			.willReturn(filteredVoucherResponses);
+			.willReturn(expectedVoucherResponses);
 
-		String content = objectMapper.writeValueAsString(filteredVoucherResponses);
+		String content = objectMapper.writeValueAsString(expectedVoucherResponses);
 
 		// when
 		ResultActions resultActions = this.mockMvc.perform(

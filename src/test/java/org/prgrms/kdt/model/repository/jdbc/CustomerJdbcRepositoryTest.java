@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.sql.DataSource;
 
@@ -109,7 +110,7 @@ class CustomerJdbcRepositoryTest {
 	@Test
 	@Order(1)
 	@DisplayName("고객을 추가할 수 있다.")
-	public void testInsert() {
+	public void 바우처_생성_테스트() {
 		customerJdbcRepository.saveCustomer(newCustomer);
 
 		var retrievedCustomer = customerJdbcRepository.findCustomerById(newCustomer.customerId());
@@ -120,7 +121,7 @@ class CustomerJdbcRepositoryTest {
 	@Test
 	@Order(2)
 	@DisplayName("전체 고객을 조회할 수 있다.")
-	public void testFindAll() {
+	public void 전체_고객_조회_테스트() {
 		List<CustomerEntity> customers = customerJdbcRepository.findAllCustomers();
 		assertThat(customers.isEmpty(), is(false));
 	}
@@ -128,7 +129,7 @@ class CustomerJdbcRepositoryTest {
 	@Test
 	@Order(3)
 	@DisplayName("고객을 수정할 수 있다.")
-	public void updateCustomer() {
+	public void 고객_수정_테스트() {
 		CustomerEntity updatedCustomer = new CustomerEntity(newCustomer.customerId(), newCustomer.name(),
 			newCustomer.email(), newCustomer.createdAt());
 
@@ -138,7 +139,8 @@ class CustomerJdbcRepositoryTest {
 		assertThat(all, hasSize(1));
 		assertThat(all, everyItem(samePropertyValuesAs(updatedCustomer)));
 
-		CustomerEntity retrievedCustomer = customerJdbcRepository.findCustomerById(newCustomer.customerId());
+		CustomerEntity retrievedCustomer = customerJdbcRepository.findCustomerById(newCustomer.customerId())
+			.orElseThrow(() -> new NoSuchElementException("존재 하지 않은 customer"));
 		assertThat(retrievedCustomer, samePropertyValuesAs(updatedCustomer));
 	}
 }

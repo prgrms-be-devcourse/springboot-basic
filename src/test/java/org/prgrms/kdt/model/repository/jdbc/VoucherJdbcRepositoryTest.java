@@ -8,6 +8,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -42,7 +43,6 @@ class VoucherJdbcRepositoryTest {
 		basePackages = {"org.prgrms.kdt.model.repository.jdbc"}
 	)
 	static class Config {
-
 		@Bean
 		public DataSource dataSource() {
 			HikariDataSource dataSource = DataSourceBuilder.create()
@@ -101,7 +101,7 @@ class VoucherJdbcRepositoryTest {
 	@Test
 	@Order(1)
 	@DisplayName("바우처를 추가할 수 있다.")
-	public void testInsert() {
+	public void 바우처_생성_테스트() {
 		voucherJdbcRepository.saveVoucher(newVoucher);
 
 		var vouchers = voucherJdbcRepository.findAllEntities();
@@ -113,15 +113,19 @@ class VoucherJdbcRepositoryTest {
 	@Test
 	@Order(2)
 	@DisplayName("전체 바우처를 조회할 수 있다.")
-	public void testFindAll() {
-		VoucherEntity voucher = voucherJdbcRepository.findVoucherById(newVoucher.getVoucherId());
+	public void 전체_바우처_조회_테스트() {
+		//when
+		Optional<VoucherEntity> voucher = voucherJdbcRepository.findVoucherById(newVoucher.getVoucherId());
+
+		//then
+		assertThat(voucher.isEmpty(), is(false));
 		assertThat(voucher, samePropertyValuesAs(newVoucher));
 	}
 
 	@Test
 	@Order(3)
 	@DisplayName("바우처를 수정할 수 있다.")
-	public void updateVoucher() {
+	public void 바우처_수정_테스트() {
 		VoucherEntity updatedVoucher = new VoucherEntity(newVoucher.getVoucherId(), newVoucher.getAmount(),
 			newVoucher.getVoucherType());
 
@@ -135,7 +139,7 @@ class VoucherJdbcRepositoryTest {
 	@Test
 	@Order(4)
 	@DisplayName("바우처를 삭제할 수 있다.")
-	public void deleteVoucher() {
+	public void 바우처_삭제_테스트() {
 		Long voucherId = newVoucher.getVoucherId();
 
 		voucherJdbcRepository.deleteVoucherById(voucherId);
