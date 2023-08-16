@@ -2,7 +2,6 @@ package org.prgrms.kdt.model.domain;
 
 import org.prgrms.kdt.enums.VoucherType;
 import org.prgrms.kdt.model.Amount;
-import org.prgrms.kdt.model.dto.VoucherResponse;
 
 public final class Voucher {
 	private final Long voucherId;

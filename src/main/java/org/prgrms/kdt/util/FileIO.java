@@ -6,23 +6,18 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FileIO {
 
-	private final String fileName;
-	private final String dirPath;
 	private final File file;
 
 	public FileIO(String fileName, String dirPath) {
-		this.fileName = fileName;
-		this.dirPath = dirPath;
 		this.file = new File(dirPath, fileName);
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(FileIO.class);
 
 	public void saveStringToFile(String data) {
 		try {

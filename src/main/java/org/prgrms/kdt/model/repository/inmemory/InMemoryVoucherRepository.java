@@ -9,7 +9,6 @@ import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
-import org.prgrms.kdt.model.repository.file.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,7 +24,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
 		this.map = map;
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+	private static final Logger logger = LoggerFactory.getLogger(InMemoryVoucherRepository.class);
 
 	@Override
 	public VoucherEntity saveVoucher(VoucherEntity voucherEntity) {
