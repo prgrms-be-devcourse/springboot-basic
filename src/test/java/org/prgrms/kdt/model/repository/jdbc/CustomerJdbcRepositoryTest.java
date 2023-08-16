@@ -65,7 +65,6 @@ class CustomerJdbcRepositoryTest {
 			return new JdbcTemplate(dataSource);
 		}
 
-
 		@Bean
 		public IdGenerator idGenerator() {
 			return new IdGenerator();

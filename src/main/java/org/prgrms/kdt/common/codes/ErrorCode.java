@@ -4,7 +4,9 @@ public enum ErrorCode {
 	VOUCHER_ID_NOT_FOUND(10001, "존재하지 않는 Voucher Id 조회"),
 	VOUCHER_DELETE_FAIL(10002, "Voucher 객체 삭제 실패"),
 	VOUCHER_CREATE_FAIL(10003, "Voucher 생성 실패"),
-	VOUCHER_UPDATE_FAIL(10004, "Voucher 수정 실패"),
+	VOUCHER_PERCENT_AMOUNT_ERROR(10004, "Voucher PERCENT AMOUNT 값 오류"),
+	VOUCHER_FIXED_AMOUNT_ERROR(10005, "Voucher FIXED AMOUNT 값 오류"),
+	VOUCHER_UPDATE_FAIL(10006, "Voucher 수정 실패"),
 	CUSTOMER_ID_NOT_FOUND(20001, "존재하지 않은 Customer Id 조회"),
 	CUSTOMER_DELETE_FAIL(20002, "Customer 객체 삭제 실패"),
 	CUSTOMER_CREATE_FAIL(20003, "Customer 생성 실패"),
@@ -14,8 +16,7 @@ public enum ErrorCode {
 
 	private final int errorNumber;
 
-
-	ErrorCode( int errorNumber, String errorMessage) {
+	ErrorCode(int errorNumber, String errorMessage) {
 		this.errorMessage = errorMessage;
 		this.errorNumber = errorNumber;
 	}

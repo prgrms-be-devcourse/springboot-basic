@@ -19,9 +19,11 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.prgrms.kdt.model.entity.VoucherEntity;
 import org.prgrms.kdt.model.repository.VoucherRepository;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class InMemoryVoucherRepositoryTest {
 	private VoucherRepository voucherRepository;
+
 	@BeforeAll
 	public void setUp() {
 		Map<Long, VoucherEntity> store = new HashMap<>();
@@ -51,6 +53,7 @@ class InMemoryVoucherRepositoryTest {
 		//then
 		assertThat(voucherEntities.size(), is(expectedVoucherEntities.size()));
 	}
+
 	@DisplayName("인메모리에서 voucher를 불러오고 삭제할 수 있다.")
 	@Test
 	void 바우처_삭제_테스트() {
@@ -63,7 +66,7 @@ class InMemoryVoucherRepositoryTest {
 
 		// then
 		List<VoucherEntity> voucherEntitiesAfterDeleted = voucherRepository.findAllEntities();
-		assertThat(voucherEntitiesAfterDeleted.size(), is(voucherEntitiesBeforeDeleted.size()-1));
+		assertThat(voucherEntitiesAfterDeleted.size(), is(voucherEntitiesBeforeDeleted.size() - 1));
 	}
 
 	@DisplayName("인메모리에서 voucher를 불러오고 찾을 수 있다.")

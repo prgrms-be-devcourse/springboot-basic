@@ -79,18 +79,19 @@ class VoucherAPIControllerTest {
 		// when
 		ResultActions resultActions = this.mockMvc.perform(
 			MockMvcRequestBuilders
-				.delete(MessageFormat.format("/api/vouchers/{0}",1))
+				.delete(MessageFormat.format("/api/vouchers/{0}", 1))
 		);
 
 		// then
 		resultActions
 			.andExpect(status().isOk());
 	}
+
 	@Test
 	@DisplayName("바우처를 저장할 수 있다.")
 	void 바우처_저장_테스트() throws Exception {
 		// given
-		VoucherRequest voucherRequest = new VoucherRequest(1, "FixedAmountVoucher");
+		VoucherRequest voucherRequest = new VoucherRequest(1, VoucherType.FixedAmountVoucher);
 		String content = objectMapper.writeValueAsString(voucherRequest);
 
 		// when
@@ -124,7 +125,7 @@ class VoucherAPIControllerTest {
 		ResultActions resultActions = this.mockMvc.perform(
 			MockMvcRequestBuilders
 				.get("/api/vouchers/search")
-				.param("voucher-type",targetVoucherType.toString())
+				.param("voucher-type", targetVoucherType.toString())
 		);
 
 		// then

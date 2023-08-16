@@ -41,7 +41,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
 	@Override
 	public CustomerEntity saveCustomer(CustomerEntity customer) {
-		try{
+		try {
 			jdbcTemplate.update(
 				"INSERT INTO customers(customer_id, name, email, created_at) VALUES (?, ?, ?, ?)",
 				customer.customerId().toString(),
@@ -50,8 +50,8 @@ public class CustomerJdbcRepository implements CustomerRepository {
 				Timestamp.valueOf(customer.createdAt())
 			);
 			return customer;
-		}catch (Exception e) {
-			logger.error("CustomerEntity id is {}",customer.customerId());
+		} catch (Exception e) {
+			logger.error("CustomerEntity id is {}", customer.customerId());
 			logger.error(ErrorCode.CUSTOMER_CREATE_FAIL.getErrorMessage(), e);
 			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_CREATE_FAIL);
 		}
@@ -67,7 +67,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 			);
 			return customerEntity;
 		} catch (RuntimeException e) {
-			logger.error("CustomerEntity id is {}",customerEntity.customerId());
+			logger.error("CustomerEntity id is {}", customerEntity.customerId());
 			//logger.error(ErrorCode.CUSTOMER_UPDATE_FAIL.getErrorMessage(), e);
 			throw new CustomerRuntimeException(ErrorCode.CUSTOMER_UPDATE_FAIL);
 		}

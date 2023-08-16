@@ -1,16 +1,15 @@
 package org.prgrms.kdt.model.dto;
 
-import org.prgrms.kdt.model.domain.Voucher;
-import org.prgrms.kdt.util.VoucherFactory;
+import org.prgrms.kdt.enums.VoucherType;
 
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class VoucherRequest {
 	private int amount;
-	private String voucherType;
+	private VoucherType voucherType;
 
-	public VoucherRequest(int amount, String voucherType) {
+	public VoucherRequest(int amount, VoucherType voucherType) {
 		this.amount = amount;
 		this.voucherType = voucherType;
 	}
@@ -19,11 +18,8 @@ public class VoucherRequest {
 		return amount;
 	}
 
-	public String getVoucherType() {
+	public VoucherType getVoucherType() {
 		return voucherType;
 	}
 
-	public Voucher toDto() {
-		return VoucherFactory.createVoucherDomain(amount, voucherType);
-	}
 }

@@ -35,12 +35,12 @@ public class VoucherAPIController {
 	}
 
 	@GetMapping("/api/vouchers/{voucher-id}")
-	public VoucherResponse findVoucherById(@PathVariable("voucher-id")Long voucherId) {
+	public VoucherResponse findVoucherById(@PathVariable("voucher-id") Long voucherId) {
 		return voucherService.findVoucherById(voucherId);
 	}
 
 	@DeleteMapping("/api/vouchers/{voucher-id}")
-	public void deleteVoucherById(@PathVariable("voucher-id")Long voucherId) {
+	public void deleteVoucherById(@PathVariable("voucher-id") Long voucherId) {
 		voucherService.deleteVoucherById(voucherId);
 	}
 

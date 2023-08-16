@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.prgrms.kdt.common.codes.ErrorCode;
 import org.prgrms.kdt.common.exception.VoucherRuntimeException;
 import org.prgrms.kdt.enums.VoucherType;
+import org.prgrms.kdt.model.domain.Voucher;
 import org.prgrms.kdt.model.dto.VoucherRequest;
 import org.prgrms.kdt.model.dto.VoucherResponse;
 import org.prgrms.kdt.model.entity.VoucherEntity;
@@ -29,20 +30,21 @@ public class VoucherService {
 
 	public Long saveVoucher(VoucherRequest voucherRequest) {
 		Long voucherId = idGenerator.getRandomId();
-		VoucherEntity voucherEntity = new VoucherEntity(voucherId, voucherRequest.getAmount(), voucherRequest.getVoucherType());
-		voucherRepository.saveVoucher(voucherEntity);
+		VoucherType voucherType = voucherRequest.getVoucherType();
+		Voucher voucher = voucherType.createVoucher(voucherId, voucherRequest.getAmount(), voucherType);
+		voucherRepository.saveVoucher(voucher.toEntity());
 
 		return voucherId;
 	}
 
 	public VoucherResponse findVoucherById(Long voucherId) {
 		VoucherEntity voucherEntity = voucherRepository.findVoucherById(voucherId)
-		.orElseThrow(
-			() -> {
-				logger.error("NOT FOUND VOUCHER ID " + voucherId.toString());
-				return new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
-			}
-		);
+			.orElseThrow(
+				() -> {
+					logger.error("NOT FOUND VOUCHER ID " + voucherId.toString());
+					return new VoucherRuntimeException(ErrorCode.VOUCHER_ID_NOT_FOUND);
+				}
+			);
 
 		return VoucherResponse.from(voucherEntity);
 	}

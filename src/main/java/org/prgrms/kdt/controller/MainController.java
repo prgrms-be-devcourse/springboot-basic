@@ -54,7 +54,7 @@ public class MainController {
 				int amount = inputView.getAmount();
 
 				try {
-					VoucherRequest voucherRequest = new VoucherRequest(amount, voucherType.toString());
+					VoucherRequest voucherRequest = new VoucherRequest(amount, voucherType);
 					this.voucherService.saveVoucher(voucherRequest);
 					logger.error("바우처 생성 성공");
 				} catch (IllegalArgumentException e) {
