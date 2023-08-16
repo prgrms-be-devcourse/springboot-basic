@@ -13,7 +13,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-@Profile("!test")
+@Profile("console")
 @Component
 public class CommandLineApplication implements CommandLineRunner {
 

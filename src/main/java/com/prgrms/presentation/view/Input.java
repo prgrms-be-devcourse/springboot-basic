@@ -1,10 +1,9 @@
 package com.prgrms.presentation.view;
 
-import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import org.springframework.stereotype.Component;
 
 @Component
 public class Input {
@@ -23,10 +22,10 @@ public class Input {
         }
     }
 
-    public int enterID() {
+    public String enterID() {
         try {
             String input = bufferedReader.readLine();
-            return Integer.parseInt(input);
+            return input;
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException(e);
         }

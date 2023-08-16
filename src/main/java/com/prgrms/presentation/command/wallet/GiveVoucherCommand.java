@@ -1,13 +1,13 @@
 package com.prgrms.presentation.command.wallet;
 
-import com.prgrms.dto.wallet.WalletRequest;
-import com.prgrms.model.KeyGenerator;
+import com.prgrms.common.util.Generator;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
-import com.prgrms.service.wallet.WalletService;
+import com.prgrms.wallet.service.WalletService;
+import com.prgrms.wallet.service.dto.WalletServiceRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,33 +16,33 @@ public class GiveVoucherCommand implements Command {
     private final Output output;
     private final Input input;
     private final WalletService walletService;
-    private final KeyGenerator keyGenerator;
+    private final Generator generator;
 
     public GiveVoucherCommand(Output output, Input input, WalletService walletService,
-            KeyGenerator keyGenerator) {
+            Generator generator) {
         this.output = output;
         this.input = input;
         this.walletService = walletService;
-        this.keyGenerator = keyGenerator;
+        this.generator = generator;
     }
 
     @Override
     public Power execute() {
-        WalletRequest walletRequest = guideGiveVoucherToCustomer();
-        int id = keyGenerator.make();
+        WalletServiceRequest walletRequest = guideGiveVoucherToCustomer();
+        String id = generator.makeKey();
         walletService.giveVoucher(id, walletRequest);
 
         return Power.ON;
     }
 
-    private WalletRequest guideGiveVoucherToCustomer() {
+    private WalletServiceRequest guideGiveVoucherToCustomer() {
         output.write(GuideMessage.GIVE_VOUCHER.toString());
-        int customerId = input.enterID();
+        String customerId = input.enterID();
 
         output.write(GuideMessage.WANT_TO_VOUCHER_ID.toString());
-        int voucherId = input.enterID();
+        String voucherId = input.enterID();
 
-        return new WalletRequest(customerId, voucherId);
+        return new WalletServiceRequest(customerId, voucherId);
     }
 
 }

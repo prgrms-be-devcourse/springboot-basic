@@ -1,15 +1,14 @@
 package com.prgrms.presentation.command.wallet;
 
-import com.prgrms.dto.customer.CustomerResponse;
+import com.prgrms.custoemer.dto.CustomerResponse;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
-import com.prgrms.service.wallet.WalletService;
-import org.springframework.stereotype.Component;
-
+import com.prgrms.wallet.service.WalletService;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerListCommand implements Command {
@@ -27,7 +26,7 @@ public class CustomerListCommand implements Command {
     @Override
     public Power execute() {
         output.write(GuideMessage.CUSTOMER_LIST.toString());
-        int voucherId = input.enterID();
+        String voucherId = input.enterID();
 
         List<CustomerResponse> customers = walletService.customerList(voucherId);
 

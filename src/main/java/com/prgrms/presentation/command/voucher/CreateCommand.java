@@ -1,16 +1,15 @@
 package com.prgrms.presentation.command.voucher;
 
-import com.prgrms.model.KeyGenerator;
-import com.prgrms.model.voucher.VoucherType;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
-import com.prgrms.service.voucher.VoucherService;
-import org.springframework.stereotype.Component;
-
+import com.prgrms.voucher.model.VoucherType;
+import com.prgrms.voucher.service.VoucherService;
+import com.prgrms.voucher.service.dto.VoucherServiceCreateRequest;
 import java.util.Arrays;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CreateCommand implements Command {
@@ -18,23 +17,20 @@ public class CreateCommand implements Command {
     private final Input input;
     private final Output output;
     private final VoucherService voucherService;
-    private final KeyGenerator keyGenerator;
 
-    public CreateCommand(Input input, Output output, VoucherService voucherService,
-            KeyGenerator keyGenerator) {
+    public CreateCommand(Input input, Output output, VoucherService voucherService) {
         this.input = input;
         this.output = output;
         this.voucherService = voucherService;
-        this.keyGenerator = keyGenerator;
     }
 
     @Override
     public Power execute() {
-        int id = keyGenerator.make();
         VoucherType voucherType = guideCreateVoucher();
         double discountAmount = guideVoucherPolicy(voucherType);
 
-        voucherService.createVoucher(id, voucherType, discountAmount);
+        voucherService.createVoucher(
+                new VoucherServiceCreateRequest(voucherType, discountAmount));
 
         return Power.ON;
     }

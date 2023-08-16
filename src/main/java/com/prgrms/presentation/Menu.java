@@ -1,7 +1,6 @@
 package com.prgrms.presentation;
 
 import com.prgrms.presentation.message.ErrorMessage;
-
 import java.util.Arrays;
 
 public enum Menu {

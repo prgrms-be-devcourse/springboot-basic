@@ -1,12 +1,12 @@
 package com.prgrms.presentation.command.wallet;
 
-import com.prgrms.dto.wallet.WalletRequest;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.message.GuideMessage;
 import com.prgrms.presentation.view.Input;
 import com.prgrms.presentation.view.Output;
-import com.prgrms.service.wallet.WalletService;
+import com.prgrms.wallet.service.WalletService;
+import com.prgrms.wallet.service.dto.WalletServiceRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,20 +24,20 @@ public class TakeVoucherCommand implements Command {
 
     @Override
     public Power execute() {
-        WalletRequest walletRequest = guideTakeVoucherFromCustomer();
+        WalletServiceRequest walletRequest = guideTakeVoucherFromCustomer();
         walletService.takeVoucher(walletRequest);
 
         return Power.ON;
     }
 
-    private WalletRequest guideTakeVoucherFromCustomer() {
+    private WalletServiceRequest guideTakeVoucherFromCustomer() {
         output.write(GuideMessage.TAKE_VOUCHER.toString());
-        int customerId = input.enterID();
+        String customerId = input.enterID();
 
         output.write(GuideMessage.TAKE_FROM_VOUCHER_ID.toString());
-        int voucherId = input.enterID();
+        String voucherId = input.enterID();
 
-        return new WalletRequest(customerId, voucherId);
+        return new WalletServiceRequest(customerId, voucherId);
     }
 
 }

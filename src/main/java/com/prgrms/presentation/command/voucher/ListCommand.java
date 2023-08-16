@@ -1,13 +1,13 @@
 package com.prgrms.presentation.command.voucher;
 
-import com.prgrms.dto.voucher.VoucherResponse;
 import com.prgrms.presentation.Power;
 import com.prgrms.presentation.command.Command;
 import com.prgrms.presentation.view.Output;
-import com.prgrms.service.voucher.VoucherService;
-import org.springframework.stereotype.Component;
-
+import com.prgrms.voucher.service.VoucherService;
+import com.prgrms.voucher.service.dto.VoucherServiceListRequest;
+import com.prgrms.voucher.service.dto.VoucherServiceResponse;
 import java.util.List;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ListCommand implements Command {
@@ -22,7 +22,8 @@ public class ListCommand implements Command {
 
     @Override
     public Power execute() {
-        List<VoucherResponse> vouchers = voucherService.getAllVoucherList();
+
+        List<VoucherServiceResponse> vouchers = voucherService.getAllVoucherList(new VoucherServiceListRequest(null, null));
         vouchers.forEach(v -> output.write(v.toString()));
 
         return Power.ON;
