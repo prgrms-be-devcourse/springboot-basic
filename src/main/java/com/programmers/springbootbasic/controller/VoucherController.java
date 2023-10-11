@@ -3,21 +3,17 @@ package com.programmers.springbootbasic.controller;
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherType;
 import com.programmers.springbootbasic.infra.InputReader;
-import com.programmers.springbootbasic.service.Service;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.programmers.springbootbasic.service.VoucherService;
+import lombok.AllArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import java.util.List;
 
 @ShellComponent
-public class Controller {
-    private final Service service;
-
-    @Autowired
-    public Controller(Service service) {
-        this.service = service;
-    }
+@AllArgsConstructor
+public class VoucherController {
+    private final VoucherService voucherService;
 
     @ShellMethod(key = "exit")
     public void exit() {
@@ -31,14 +27,14 @@ public class Controller {
         VoucherType voucherType = VoucherType.select(inputReader.readVoucherTypeId());
         Long amount = inputReader.readAmount();
 
-        service.create(voucherType, amount);
+        voucherService.create(voucherType, amount);
 
         inputReader.close();
     }
 
     @ShellMethod(key = "list")
     public void list() {
-        List<Voucher> vouchers = service.getAll();
+        List<Voucher> vouchers = voucherService.getAll();
         for (Voucher voucher : vouchers) {
             System.out.println(voucher.toString());
         }
