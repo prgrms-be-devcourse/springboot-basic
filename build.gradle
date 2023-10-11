@@ -16,7 +16,12 @@ repositories {
 }
 
 dependencies {
+    // SpringBoot Starter
     implementation 'org.springframework.boot:spring-boot-starter'
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    // SpringBoot Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
