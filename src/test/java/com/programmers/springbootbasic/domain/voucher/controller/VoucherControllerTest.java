@@ -6,6 +6,7 @@ import com.programmers.springbootbasic.domain.voucher.entity.FixedAmountVoucher;
 import com.programmers.springbootbasic.domain.voucher.entity.PercentDiscountVoucher;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
+import com.programmers.springbootbasic.domain.voucher.repository.MemoryVoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.repository.VoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.service.VoucherService;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ class VoucherControllerTest {
 
     @BeforeEach
     void init() {
-        voucherRepository = new VoucherRepository();
+        voucherRepository = new MemoryVoucherRepository();
         voucherController = new VoucherController(new VoucherService(voucherRepository));
     }
 
