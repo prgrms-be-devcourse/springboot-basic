@@ -2,7 +2,7 @@ package com.programmers.springbootbasic.domain.voucher.service;
 
 import com.programmers.springbootbasic.domain.voucher.dto.VoucherRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
-import com.programmers.springbootbasic.domain.voucher.repository.MemoryVoucherRepository;
+import com.programmers.springbootbasic.domain.voucher.repository.VoucherMemoryRepository;
 import com.programmers.springbootbasic.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ class VoucherServiceTest {
 
     @BeforeEach
     void init() {
-        voucherRepository = new MemoryVoucherRepository();
+        voucherRepository = new VoucherMemoryRepository();
         voucherService = new VoucherService(voucherRepository);
     }
 

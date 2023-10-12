@@ -2,6 +2,7 @@ package com.programmers.springbootbasic.domain.voucher.repository;
 
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import lombok.NoArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -10,8 +11,9 @@ import java.util.Map;
 import java.util.UUID;
 
 @Repository
+@Profile("dev")
 @NoArgsConstructor
-public class MemoryVoucherRepository implements VoucherRepository {
+public class VoucherMemoryRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMemory = new HashMap<>();
 
     @Override

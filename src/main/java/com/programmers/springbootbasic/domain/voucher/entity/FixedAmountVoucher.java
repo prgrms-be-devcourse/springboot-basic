@@ -24,4 +24,5 @@ public class FixedAmountVoucher implements Voucher {
                 FixedAmount: %d
                 """, voucherId.toString(), value);
     }
+
 }
