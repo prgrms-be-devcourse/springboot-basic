@@ -28,8 +28,6 @@ public class VoucherController {
         Long amount = inputReader.readAmount();
 
         voucherService.create(voucherType, amount);
-
-        inputReader.close();
     }
 
     @ShellMethod(key = "list")
