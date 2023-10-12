@@ -17,7 +17,7 @@ public class VoucherFileRepository implements VoucherRepository {
     private final String FOLDER_PATH = System.getProperty("user.dir") + "/data";
     private String filePath;
 
-    @Value("${repository.fileName}")
+    @Value("${repository.voucher.fileName}")
     private String fileName;
 
     @PostConstruct

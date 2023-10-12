@@ -1,2 +1,5 @@
 repository:
-  fileName: "VoucherRepository"
+  voucher:
+    fileName: VoucherRepository
+  blacklist:
+    fileName: customer_blacklist.csv
