@@ -15,4 +15,13 @@ public class FixedAmountVoucher implements Voucher {
     public long discount(long beforeDiscount) {
         return beforeDiscount - value;
     }
+
+    @Override
+    public String getInformation() {
+        return String.format("""
+                FixedAmountVoucher:
+                Voucher ID: %s
+                FixedAmount: %d
+                """, voucherId.toString(), value);
+    }
 }

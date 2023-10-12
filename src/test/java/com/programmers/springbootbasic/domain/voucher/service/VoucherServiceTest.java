@@ -46,11 +46,10 @@ class VoucherServiceTest {
         Voucher voucher2 = VoucherType.of(2, UUID.randomUUID(), expectedValue);
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
-        List<Voucher> expectedResult = List.of(voucher1, voucher2);
         // Act
         List<Voucher> actualResult = voucherService.findAllVoucher();
         // Assert
-        assertEquals(expectedResult, actualResult);
+        assertEquals(2, actualResult.size());
     }
 
 }

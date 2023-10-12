@@ -32,8 +32,17 @@ public class ConsoleIOManager {
         println(programMenu);
     }
 
+    public void printVoucherSelectMenu() {
+        String voucherMenu = """
+                === Select Voucher ===
+                Type 1 to select Fixed Amount Voucher
+                Type 2 to select Percent Discount Voucher
+                """;
+        println(voucherMenu);
+    }
+
     public void printSystemMsg(String s) {
-        println("[System] %s".formatted(s));
+        println("[System] %s\n".formatted(s));
     }
 
     public String getInput() throws IOException {
