@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CommandHandler {
-    public static Command run() {
+    public Command run() {
         System.out.println(ConsoleMessage.SELECT_FUNCTION);
 
         switch (Reader.sc.nextLine()) {
