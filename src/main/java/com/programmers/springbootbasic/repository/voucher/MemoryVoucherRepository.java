@@ -9,7 +9,7 @@ import java.util.*;
 @Repository
 @Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
-    Map<UUID, Voucher> storage = new HashMap<>();
+    private final Map<UUID, Voucher> storage = new HashMap<>();
 
     public void save(Voucher voucher) {
         storage.put(voucher.getId(), voucher);
