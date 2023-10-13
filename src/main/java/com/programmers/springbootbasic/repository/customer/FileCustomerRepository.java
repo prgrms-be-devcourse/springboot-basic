@@ -2,38 +2,36 @@ package com.programmers.springbootbasic.repository.customer;
 
 import com.programmers.springbootbasic.config.properties.FileProperties;
 import com.programmers.springbootbasic.domain.customer.Customer;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import com.programmers.springbootbasic.util.CsvMapper;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
-@RequiredArgsConstructor
-@EnableConfigurationProperties(FileProperties.class)
 public class FileCustomerRepository implements CustomerRepository {
-    private final FileProperties fileProperties;
+    private final CsvMapper csvMapper;
+    private final Map<UUID, Customer> storage;
 
-    @Override
-    public List<Customer> findAllBlacklisted() {
-        String FILE_NAME = fileProperties.getCustomerBlacklist();
+    public FileCustomerRepository(FileProperties fileProperties) {
+        this.csvMapper = new CsvMapper();
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ClassPathResource(FILE_NAME).getInputStream()))) {
-            return reader.lines().skip(1).map(this::parseCsvLine).collect(Collectors.toList());
+        try {
+            List<Customer> customers = csvMapper.readFile(new ClassPathResource(fileProperties.getCustomers()).getFile(), Customer::parseCsvLine);
+            storage = customers.stream().collect(Collectors.toMap(Customer::getId, customer -> customer));
         } catch (IOException e) {
-            throw new RuntimeException("Error reading blacklist CSV file", e);
+            throw new RuntimeException("Failed to initialize customer repository", e);
         }
     }
 
-    private Customer parseCsvLine(String line) {
-        String[] parts = line.split(",");
-        return new Customer(UUID.fromString(parts[0]), parts[1]);
+    @Override
+    public List<Customer> findAllBlacklisted() {
+        return storage.values().stream()
+                .filter(Customer::isBlacklisted)
+                .collect(Collectors.toList());
     }
 }

@@ -8,5 +8,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @RequiredArgsConstructor
 @ConfigurationProperties(prefix = "app.file")
 public class FileProperties {
-    private final String customerBlacklist;
+    private final String customers;
 }

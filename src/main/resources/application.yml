@@ -4,4 +4,4 @@ spring:
 
 app:
   file:
-    customer-blacklist: customer_blacklist.csv
+    customers: customers.csv
