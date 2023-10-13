@@ -7,6 +7,7 @@ import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import com.programmers.vouchermanagement.voucher.exception.IllegalDiscountException;
+import com.programmers.vouchermanagement.voucher.exception.VoucherNotFoundException;
 import com.programmers.vouchermanagement.voucher.exception.VoucherTypeNotFoundException;
 import org.springframework.stereotype.Controller;
 
@@ -55,8 +56,11 @@ public class VoucherController {
 
         consoleOutputManager.printList();
 
-        List<VoucherResponseDto> voucherResponseDtos = voucherService.readAllVoucher();
-
-        consoleOutputManager.printVoucherInfo(voucherResponseDtos);
+        try{
+            List<VoucherResponseDto> voucherResponseDtos = voucherService.readAllVoucher();
+            consoleOutputManager.printVoucherInfo(voucherResponseDtos);
+        } catch (VoucherNotFoundException e) {
+            consoleOutputManager.printReturnMain(e.getMessage());
+        }
     }
 }

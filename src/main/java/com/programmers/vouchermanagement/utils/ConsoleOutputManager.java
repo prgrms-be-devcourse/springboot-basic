@@ -35,16 +35,12 @@ public class ConsoleOutputManager {
 
     public void printVoucherInfo(List<VoucherResponseDto> voucherResponseDtos) {
 
-        if (voucherResponseDtos.isEmpty()) {
-            System.out.println("There is no any voucher. \n");
-        } else {
-            for (VoucherResponseDto voucherResponseDto : voucherResponseDtos) {
-                System.out.println("voucherId : " + voucherResponseDto.getVoucherId() + " \n" +
-                        "voucherType : " + voucherResponseDto.getVoucherType() + " \n" +
-                        "discount : " + voucherResponseDto.getDiscount() + " \n");
+        for (VoucherResponseDto voucherResponseDto : voucherResponseDtos) {
+            System.out.println("voucherId : " + voucherResponseDto.getVoucherId() + " \n" +
+                    "voucherType : " + voucherResponseDto.getVoucherType() + " \n" +
+                    "discount : " + voucherResponseDto.getDiscount() + " \n");
 
-                System.out.println("------------------------------ \n");
-            }
+            System.out.println("------------------------------ \n");
         }
     }
 

@@ -6,6 +6,7 @@ import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
+import com.programmers.vouchermanagement.voucher.exception.VoucherNotFoundException;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,10 @@ public class VoucherService {
     public List<VoucherResponseDto> readAllVoucher() {
 
         List<Voucher> vouchers = voucherRepository.findAll();
+
+        if (vouchers.isEmpty()) {
+            throw new VoucherNotFoundException();
+        }
 
         List<VoucherResponseDto> voucherResponseDtos = vouchers.stream()
                 .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount()))
