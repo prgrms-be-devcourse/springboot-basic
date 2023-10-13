@@ -1,6 +1,9 @@
 package com.programmers.springbootbasic.repository.customer;
 
+import com.programmers.springbootbasic.config.properties.FileProperties;
 import com.programmers.springbootbasic.domain.customer.Customer;
+import lombok.AllArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
@@ -12,16 +15,17 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
+@AllArgsConstructor
+@EnableConfigurationProperties(FileProperties.class)
 public class FileCustomerRepository implements CustomerRepository {
-    private static final String FILE_NAME = "customer_blacklist.csv";
+    private final FileProperties fileProperties;
 
     @Override
     public List<Customer> findAllBlacklisted() {
+        String FILE_NAME = fileProperties.getCustomerBlacklist();
+
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new ClassPathResource(FILE_NAME).getInputStream()))) {
-            return reader.lines()
-                    .skip(1)
-                    .map(this::parseCsvLine)
-                    .collect(Collectors.toList());
+            return reader.lines().skip(1).map(this::parseCsvLine).collect(Collectors.toList());
         } catch (IOException e) {
             throw new RuntimeException("Error reading blacklist CSV file", e);
         }

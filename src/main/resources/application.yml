@@ -1,0 +1,3 @@
+app:
+  file:
+    customer-blacklist: customer_blacklist.csv
