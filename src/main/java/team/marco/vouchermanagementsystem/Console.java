@@ -31,7 +31,7 @@ public class Console {
         try {
             return reader.readLine();
         } catch (IOException e) {
-            throw new RuntimeException("입력을 읽어올 수 없습니다.");
+            throw new RuntimeException("unreadable input");
         }
     }
 
