@@ -3,20 +3,21 @@ package com.programmers.springbootbasic.service;
 import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherType;
 import com.programmers.springbootbasic.repository.voucher.VoucherRepository;
-import com.programmers.springbootbasic.util.UuidProvider;
+import com.programmers.springbootbasic.util.IdProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    private final UuidProvider uuidProvider;
+    private final IdProvider<UUID> idProvider;
 
     public void create(VoucherType voucherType, Long amount) {
-        Voucher voucher = voucherType.createVoucher(uuidProvider.generateUUID(), amount);
+        Voucher voucher = voucherType.createVoucher(idProvider.generateId(), amount);
         voucherRepository.save(voucher);
     }
 
