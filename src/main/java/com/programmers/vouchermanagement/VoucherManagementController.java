@@ -30,12 +30,13 @@ public class VoucherManagementController implements CommandLineRunner {
 
             consoleOutputManager.printCommandMenu();
 
-            Command command = null;
+            Command command;
 
             try {
-                command = Command.getCommandByName(consoleInputManager.inputString());
+                command = Command.getCommandByName(consoleInputManager.inputString().toLowerCase());
             } catch (CommandNotFoundException e) {
                 consoleOutputManager.printEnterAgain(e.getMessage());
+                continue;
             }
 
             switch (command) {

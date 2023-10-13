@@ -5,7 +5,6 @@ import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 public class VoucherRequestDto {
 
     private final VoucherType voucherType;
-
     private final Long discount;
 
     public VoucherRequestDto(VoucherType voucherType, Long discount) {
