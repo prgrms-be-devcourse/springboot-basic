@@ -9,12 +9,16 @@ import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import com.programmers.vouchermanagement.voucher.exception.IllegalDiscountException;
 import com.programmers.vouchermanagement.voucher.exception.VoucherNotFoundException;
 import com.programmers.vouchermanagement.voucher.exception.VoucherTypeNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
 @Controller
 public class VoucherController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(VoucherController.class);
 
     private final ConsoleInputManager consoleInputManager;
     private final ConsoleOutputManager consoleOutputManager;
@@ -31,10 +35,14 @@ public class VoucherController {
         consoleOutputManager.printVoucherTypeMenu();
 
         VoucherType voucherType;
+        String input = consoleInputManager.inputString().toLowerCase();
 
         try {
-            voucherType = VoucherType.getVoucherTypeByName(consoleInputManager.inputString().toLowerCase());
+            voucherType = VoucherType.getVoucherTypeByName(input);
         } catch (VoucherTypeNotFoundException e) {
+
+            LOGGER.error(e.getMessage() + "Console Input : " + input);
+
             consoleOutputManager.printReturnMain(e.getMessage());
             return;
         }
@@ -45,6 +53,9 @@ public class VoucherController {
         try {
             voucherService.createVoucher(new VoucherRequestDto(voucherType, discount));
         } catch (IllegalDiscountException e) {
+
+            LOGGER.error(e.getMessage() + "Console Input : " + discount);
+
             consoleOutputManager.printReturnMain(e.getMessage());
             return;
         }
@@ -60,6 +71,9 @@ public class VoucherController {
             List<VoucherResponseDto> voucherResponseDtos = voucherService.readAllVoucher();
             consoleOutputManager.printVoucherInfo(voucherResponseDtos);
         } catch (VoucherNotFoundException e) {
+
+            LOGGER.error(e.getMessage());
+
             consoleOutputManager.printReturnMain(e.getMessage());
         }
     }

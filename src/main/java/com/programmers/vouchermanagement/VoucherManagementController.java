@@ -5,11 +5,15 @@ import com.programmers.vouchermanagement.utils.CommandNotFoundException;
 import com.programmers.vouchermanagement.utils.ConsoleInputManager;
 import com.programmers.vouchermanagement.utils.ConsoleOutputManager;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VoucherManagementController implements CommandLineRunner {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(VoucherManagementController.class);
 
     private final ConsoleInputManager consoleInputManager;
     private final ConsoleOutputManager consoleOutputManager;
@@ -24,6 +28,8 @@ public class VoucherManagementController implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
+        LOGGER.info("Start Voucher Program.");
+
         boolean chooseExit = false;
 
         while (!chooseExit) {
@@ -31,10 +37,13 @@ public class VoucherManagementController implements CommandLineRunner {
             consoleOutputManager.printCommandMenu();
 
             Command command;
+            String input = consoleInputManager.inputString().toLowerCase();
 
             try {
-                command = Command.getCommandByName(consoleInputManager.inputString().toLowerCase());
+                command = Command.getCommandByName(input);
             } catch (CommandNotFoundException e) {
+                LOGGER.error(e.getMessage() + "Console Input : " + input);
+
                 consoleOutputManager.printEnterAgain(e.getMessage());
                 continue;
             }
@@ -51,5 +60,7 @@ public class VoucherManagementController implements CommandLineRunner {
                 }
             }
         }
+
+        LOGGER.info("Exit Voucher Program.");
     }
 }
