@@ -1,6 +1,6 @@
 package com.programmers.springbootbasic;
 
-import com.programmers.springbootbasic.common.CommonController;
+import com.programmers.springbootbasic.common.handler.CommandHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -10,8 +10,8 @@ public class SpringbootBasicApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SpringbootBasicApplication.class, args);
-        var commonController = context.getBean(CommonController.class);
-        commonController.run();
+        CommandHandler commandHandler = context.getBean(CommandHandler.class);
+        commandHandler.run();
     }
 
 }

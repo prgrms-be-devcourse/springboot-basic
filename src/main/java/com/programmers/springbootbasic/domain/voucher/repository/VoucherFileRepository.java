@@ -3,6 +3,7 @@ package com.programmers.springbootbasic.domain.voucher.repository;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Profile("default")
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
 
