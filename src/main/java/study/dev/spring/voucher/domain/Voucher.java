@@ -34,6 +34,10 @@ public class Voucher {
 	}
 
 	//==Utility method==//
+	public UUID getUuid() {
+		return uuid;
+	}
+
 	public String getName() {
 		return name;
 	}
