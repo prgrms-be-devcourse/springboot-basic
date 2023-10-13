@@ -1,13 +1,13 @@
-package com.programmers.vouchermanangement;
+package com.programmers.vouchermanagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class VoucherManangementApplication {
+public class VoucherManagementApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(VoucherManangementApplication.class, args);
+		SpringApplication.run(VoucherManagementApplication.class, args);
 	}
 
 }
