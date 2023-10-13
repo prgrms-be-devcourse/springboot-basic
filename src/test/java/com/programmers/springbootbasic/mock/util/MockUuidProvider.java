@@ -5,7 +5,12 @@ import com.programmers.springbootbasic.util.IdProvider;
 import java.util.UUID;
 
 public class MockUuidProvider implements IdProvider<UUID> {
+    private final UUID fixture;
+
+    public MockUuidProvider(UUID fixture) {
+        this.fixture = fixture;
+    }
     public UUID generateId() {
-        return UUID.fromString("00000000-0000-0000-0000-000000000000");
+        return fixture;
     }
 }
