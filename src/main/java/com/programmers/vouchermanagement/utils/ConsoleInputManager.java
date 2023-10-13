@@ -8,12 +8,27 @@ import java.util.Scanner;
 public class ConsoleInputManager {
 
     private final Scanner scanner = new Scanner(System.in);
+    private final ConsoleOutputManager consoleOutputManager;
+
+    public ConsoleInputManager(ConsoleOutputManager consoleOutputManager) {
+        this.consoleOutputManager = consoleOutputManager;
+    }
 
     public String inputString() {
         return scanner.nextLine();
     }
 
     public Long inputDiscount() {
-        return Long.parseLong(scanner.nextLine());
+
+        String input = scanner.nextLine();
+
+        while (!input.matches("^[0-9]+$")) {
+
+            consoleOutputManager.printWrongInputLong();
+
+            input = scanner.nextLine();
+        }
+
+        return Long.parseLong(input);
     }
 }
