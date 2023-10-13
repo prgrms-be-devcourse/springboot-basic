@@ -40,6 +40,7 @@ public class VoucherManagerApplication implements CommandLineRunner {
             if(command == Command.CREATE) {
                 VoucherInfo voucherInfo = commandHandler.getVoucherInfo();
                 service.create(voucherInfo);
+                System.out.println(ConsoleMessage.COMPLETE_CREATE_VOUCHER);
             } else if(command == Command.LIST) {
                 service.list();
             }

@@ -5,10 +5,19 @@ import com.example.vouchermanager.domain.FixedAmountVoucher;
 import com.example.vouchermanager.domain.PercentAmountVoucher;
 import com.example.vouchermanager.domain.Voucher;
 import com.example.vouchermanager.domain.VoucherInfo;
+import com.example.vouchermanager.repository.MemoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VoucherService {
+
+    MemoryRepository repository;
+
+    @Autowired
+    public VoucherService(MemoryRepository repository) {
+        this.repository = repository;
+    }
 
     public void create(VoucherInfo voucherInfo) {
         Voucher voucher = null;
