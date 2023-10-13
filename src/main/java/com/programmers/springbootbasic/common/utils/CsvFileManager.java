@@ -1,6 +1,7 @@
 package com.programmers.springbootbasic.common.utils;
 
 import com.programmers.springbootbasic.domain.customer.entity.Customer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Component
 public class CsvFileManager {
     private final ResourceLoader resourceLoader;
@@ -38,8 +40,8 @@ public class CsvFileManager {
                         .build();
                 customerMemory.put(customer.getCustomerId(), customer);
             }
-        } catch (Exception ignore) {
-
+        } catch (Exception e) {
+            log.error(e.toString());
         }
         return customerMemory;
     }

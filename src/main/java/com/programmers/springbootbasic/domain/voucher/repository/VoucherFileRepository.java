@@ -2,6 +2,7 @@ package com.programmers.springbootbasic.domain.voucher.repository;
 
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Slf4j
 @Profile("default")
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
@@ -37,20 +39,16 @@ public class VoucherFileRepository implements VoucherRepository {
             voucherMemory.put(voucher.getVoucherId(), voucher);
             outputStream.writeObject(voucherMemory);
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
+            log.error(e.toString());
         }
     }
 
     private Map<UUID, Voucher> readVouchersFromFile() {
-        Map<UUID, Voucher> voucherMemory = null;
+        Map<UUID, Voucher> voucherMemory = new HashMap<>();
         try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath))) {
             voucherMemory = (Map<UUID, Voucher>) inputStream.readObject();
-        } catch (Exception ignore) {
-
-        } finally {
-            if (voucherMemory == null) {
-                voucherMemory = new HashMap<>();
-            }
+        } catch (Exception e) {
+            log.error(e.toString());
         }
         return voucherMemory;
     }

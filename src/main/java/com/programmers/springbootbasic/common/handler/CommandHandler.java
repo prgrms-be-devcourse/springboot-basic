@@ -5,10 +5,12 @@ import com.programmers.springbootbasic.common.utils.ConsoleIOManager;
 import com.programmers.springbootbasic.domain.customer.controller.BlacklistCustomerController;
 import com.programmers.springbootbasic.domain.voucher.controller.VoucherController;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class CommandHandler {
@@ -28,7 +30,7 @@ public class CommandHandler {
                 default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
             }
         } catch (IOException e) {
-            consoleIOManager.printSystemMsg("잘못된 입력 오류입니다.");
+            log.error(e.toString());
         }
     }
 
@@ -45,7 +47,7 @@ public class CommandHandler {
                     default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
                 }
             } catch (IOException e) {
-                consoleIOManager.printSystemMsg("잘못된 입력 오류입니다.");
+                log.error(e.toString());
             }
         } while (!command.equals(CommandType.Exit));
     }
@@ -62,7 +64,7 @@ public class CommandHandler {
                     default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
                 }
             } catch (IOException e) {
-                consoleIOManager.printSystemMsg("잘못된 입력 오류입니다.");
+                log.error(e.toString());
             }
         } while (!command.equals(CommandType.Exit));
     }

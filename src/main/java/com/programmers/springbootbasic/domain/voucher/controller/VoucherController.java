@@ -7,8 +7,10 @@ import com.programmers.springbootbasic.domain.voucher.dto.VoucherRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class VoucherController {
@@ -21,8 +23,10 @@ public class VoucherController {
                     .value(Long.parseLong(value))
                     .build());
         } catch (NumberFormatException e) {
+            log.warn(e.toString());
             return ResponseFactory.getFailResult("잘못된 숫자 형식입니다.");
         } catch (Exception e) {
+            log.warn(e.toString());
             return ResponseFactory.getFailResult(e.getMessage());
         }
         return ResponseFactory.getSuccessResult();
