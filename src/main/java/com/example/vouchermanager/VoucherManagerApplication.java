@@ -3,6 +3,7 @@ package com.example.vouchermanager;
 import com.example.vouchermanager.console.Command;
 import com.example.vouchermanager.console.CommandHandler;
 import com.example.vouchermanager.console.VoucherType;
+import com.example.vouchermanager.domain.VoucherInfo;
 import com.example.vouchermanager.exception.NotCorrectCommand;
 import com.example.vouchermanager.message.ConsoleMessage;
 import com.example.vouchermanager.service.VoucherService;
@@ -37,8 +38,8 @@ public class VoucherManagerApplication implements CommandLineRunner {
             Command command = commandHandler.run();
 
             if(command == Command.CREATE) {
-                VoucherType voucherType = commandHandler.selectVoucherType();
-                service.create(voucherType);
+                VoucherInfo voucherInfo = commandHandler.getVoucherInfo();
+                service.create(voucherInfo);
             } else if(command == Command.LIST) {
                 service.list();
             }

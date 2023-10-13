@@ -1,5 +1,6 @@
 package com.example.vouchermanager.console;
 
+import com.example.vouchermanager.domain.VoucherInfo;
 import com.example.vouchermanager.exception.NotCorrectCommand;
 import com.example.vouchermanager.message.ConsoleMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import java.util.Scanner;
 @Component
 public class CommandHandler {
 
-    private Scanner sc;
+    private final Scanner sc;
 
     @Autowired
     public CommandHandler(Reader reader) {
@@ -33,12 +34,28 @@ public class CommandHandler {
         }
     }
 
-    public VoucherType selectVoucherType() {
+    public VoucherInfo getVoucherInfo() {
         System.out.println(ConsoleMessage.SELECT_VOUCHER_TYPE);
+        String type = sc.nextLine();
+        VoucherType voucherType;
 
-        if(sc.nextLine().equals("fixed")) return VoucherType.FIXED;
-        else if(sc.nextLine().equals("percent")) return VoucherType.PERCENT;
-        else {
+        if(type.equals("fixed")) {
+            voucherType = VoucherType.FIXED;
+            System.out.println(ConsoleMessage.GET_DISCOUNT_AMOUNT);
+        } else if(type.equals("percent")) {
+            voucherType = VoucherType.PERCENT;
+            System.out.println(ConsoleMessage.GET_DISCOUNT_PERCENT);
+        } else {
+            throw new NotCorrectCommand();
+        }
+
+        try {
+            long discount = Long.parseLong(sc.nextLine());
+            if(voucherType == VoucherType.PERCENT && !(discount >= 0 && discount <= 100)) {
+                throw new NotCorrectCommand();
+            }
+            return new VoucherInfo(voucherType, discount);
+        } catch (NumberFormatException | NotCorrectCommand e) {
             throw new NotCorrectCommand();
         }
     }
