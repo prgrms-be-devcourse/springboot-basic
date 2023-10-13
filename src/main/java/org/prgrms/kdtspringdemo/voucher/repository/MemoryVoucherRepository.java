@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.voucher.repository;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,5 +24,10 @@ public class MemoryVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
+    }
+
+    @Override
+    public Optional<Map<UUID, Voucher>> getAllVouchers() {
+        return Optional.ofNullable(storage);
     }
 }

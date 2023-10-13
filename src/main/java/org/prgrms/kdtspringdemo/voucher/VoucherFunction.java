@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher;
 
+import org.prgrms.kdtspringdemo.voucher.controller.VoucherController;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 
 import java.io.IOException;
@@ -8,23 +9,23 @@ import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 public enum VoucherFunction {
-    CREATE("create", "바우처 등록", voucherService -> {
+    CREATE("create", "바우처 등록", voucherController -> {
         try {
-            voucherService.createVoucher();
+            voucherController.createVoucher();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }),
-    LIST_ALL_VOUCHERS("list", "바우처 목록", VoucherService::getVoucherList),
-    EXIT("exit", "프로그램을 종료합니다.", VoucherService::endVoucherService);
+    LIST_ALL_VOUCHERS("list", "바우처 목록", VoucherController::showAllVouchers),
+    EXIT("exit", "프로그램을 종료합니다.", VoucherController::endProgram);
     private final String fun;
     private final String description;
-    private final Consumer<VoucherService> voucherServiceConsumer;
+    private final Consumer<VoucherController> voucherControllerConsumer;
 
-    VoucherFunction(String fun, String description, Consumer<VoucherService> voucherServiceConsumer) {
+    VoucherFunction(String fun, String description, Consumer<VoucherController> voucherControllerConsumer) {
         this.fun = fun;
         this.description = description;
-        this.voucherServiceConsumer = voucherServiceConsumer;
+        this.voucherControllerConsumer = voucherControllerConsumer;
     }
 
     public static VoucherFunction findByCode(String fun) {
@@ -34,7 +35,7 @@ public enum VoucherFunction {
                 .orElseThrow(() -> new NoSuchElementException("해당 명령어가 존재하지 않습니다."));
     }
 
-    public void execute(VoucherService voucherService) {
-        this.voucherServiceConsumer.accept(voucherService);
+    public void execute(VoucherController voucherController) {
+        this.voucherControllerConsumer.accept(voucherController);
     }
 }
