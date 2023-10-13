@@ -18,6 +18,12 @@ public enum ConsoleMessage {
     GET_PRICE("Type the amount before discount."),
     COMPLETE_CREATE_VOUCHER("A voucher has been created.");
 
+    private final String message;
     ConsoleMessage(String message) {
+        this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

@@ -32,7 +32,7 @@ public class VoucherManagerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println(ConsoleMessage.SELECT_FUNCTION);
+        System.out.println(ConsoleMessage.SELECT_FUNCTION.getMessage());
 
         try {
             Command command = commandHandler.run();
@@ -40,13 +40,13 @@ public class VoucherManagerApplication implements CommandLineRunner {
             if(command == Command.CREATE) {
                 VoucherInfo voucherInfo = commandHandler.getVoucherInfo();
                 service.create(voucherInfo);
-                System.out.println(ConsoleMessage.COMPLETE_CREATE_VOUCHER);
+                System.out.println(ConsoleMessage.COMPLETE_CREATE_VOUCHER.getMessage());
             } else if(command == Command.LIST) {
                 service.list();
             }
         } catch (NotCorrectCommand e) {
-            System.out.println(ConsoleMessage.NOT_CORRECT_COMMAND);
-            System.out.println(ConsoleMessage.FINISH_PROGRAM);
+            System.out.println(ConsoleMessage.NOT_CORRECT_COMMAND.getMessage());
+            System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
             System.exit(0);
         }
     }

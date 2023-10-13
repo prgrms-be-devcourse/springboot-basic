@@ -19,7 +19,7 @@ public class CommandHandler {
     }
 
     public Command run() {
-        System.out.println(ConsoleMessage.SELECT_FUNCTION);
+        System.out.println(ConsoleMessage.SELECT_FUNCTION.getMessage());
 
         switch (sc.nextLine()) {
             case "create" -> {
@@ -35,7 +35,7 @@ public class CommandHandler {
     }
 
     public VoucherInfo getVoucherInfo() {
-        System.out.println(ConsoleMessage.SELECT_VOUCHER_TYPE);
+        System.out.println(ConsoleMessage.SELECT_VOUCHER_TYPE.getMessage());
         String type = sc.nextLine();
         VoucherType voucherType;
 
@@ -48,7 +48,7 @@ public class CommandHandler {
         }
 
         try {
-            System.out.println(ConsoleMessage.GET_PRICE);
+            System.out.println(ConsoleMessage.GET_PRICE.getMessage());
             long price = Long.parseLong(sc.nextLine());
             return new VoucherInfo(voucherType, price);
         } catch (NumberFormatException | NotCorrectCommand e) {
