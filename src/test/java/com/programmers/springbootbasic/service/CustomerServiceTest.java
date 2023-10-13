@@ -19,8 +19,8 @@ class CustomerServiceTest {
     @BeforeEach
     void setUp() {
         customerFixtures = Arrays.asList(
-                new Customer(UUID.fromString("00000000-0000-0000-0000-000000000000"), "철수"),
-                new Customer(UUID.fromString("11111111-1111-1111-1111-111111111111"), "영희")
+                new Customer(UUID.fromString("00000000-0000-0000-0000-000000000000"), "철수", true),
+                new Customer(UUID.fromString("11111111-1111-1111-1111-111111111111"), "영희", false)
         );
         CustomerRepository customerRepository = new MockCustomerRepository(customerFixtures);
 
@@ -33,10 +33,9 @@ class CustomerServiceTest {
         // when
         List<Customer> customers = customerService.blacklist();
         // then
-        assertThat(customers).hasSize(2);
+        assertThat(customers).hasSize(1);
         assertThat(customers.get(0).getId()).isEqualTo((customerFixtures.get(0).getId()));
-        assertThat(customers.get(1).getId()).isEqualTo((customerFixtures.get(1).getId()));
         assertThat(customers.get(0).getName()).isEqualTo(customerFixtures.get(0).getName());
-        assertThat(customers.get(1).getName()).isEqualTo(customerFixtures.get(1).getName());
+        assertThat(customers.get(0).isBlacklisted()).isEqualTo(customerFixtures.get(0).isBlacklisted());
     }
 }

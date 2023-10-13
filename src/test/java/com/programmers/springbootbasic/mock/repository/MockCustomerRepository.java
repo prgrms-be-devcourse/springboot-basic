@@ -4,6 +4,7 @@ import com.programmers.springbootbasic.domain.customer.Customer;
 import com.programmers.springbootbasic.repository.customer.CustomerRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MockCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> storage = new HashMap<>();
@@ -14,6 +15,8 @@ public class MockCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlacklisted() {
-        return new ArrayList<>(storage.values());
+        return storage.values().stream()
+                .filter(Customer::isBlacklisted)
+                .collect(Collectors.toList());
     }
 }
