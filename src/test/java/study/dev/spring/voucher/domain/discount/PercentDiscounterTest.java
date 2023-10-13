@@ -6,7 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @DisplayName("[PercentDiscounter Test] - Domain Layer")
-public class PercentDiscounterTest {
+class PercentDiscounterTest {
 
 	@Test
 	@DisplayName("정률 할인을 수행한다")
