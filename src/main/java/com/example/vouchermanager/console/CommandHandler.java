@@ -41,20 +41,16 @@ public class CommandHandler {
 
         if(type.equals("fixed")) {
             voucherType = VoucherType.FIXED;
-            System.out.println(ConsoleMessage.GET_DISCOUNT_AMOUNT);
         } else if(type.equals("percent")) {
             voucherType = VoucherType.PERCENT;
-            System.out.println(ConsoleMessage.GET_DISCOUNT_PERCENT);
         } else {
             throw new NotCorrectCommand();
         }
 
         try {
-            long discount = Long.parseLong(sc.nextLine());
-            if(voucherType == VoucherType.PERCENT && !(discount >= 0 && discount <= 100)) {
-                throw new NotCorrectCommand();
-            }
-            return new VoucherInfo(voucherType, discount);
+            System.out.println(ConsoleMessage.GET_PRICE);
+            long price = Long.parseLong(sc.nextLine());
+            return new VoucherInfo(voucherType, price);
         } catch (NumberFormatException | NotCorrectCommand e) {
             throw new NotCorrectCommand();
         }

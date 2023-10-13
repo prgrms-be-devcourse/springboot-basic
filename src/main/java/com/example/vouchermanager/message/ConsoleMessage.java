@@ -15,8 +15,7 @@ public enum ConsoleMessage {
             ex) percent 30
             """),
     NOT_CORRECT_COMMAND("This is not a valid command."),
-    GET_DISCOUNT_AMOUNT("Type discount amount."),
-    GET_DISCOUNT_PERCENT("Type discount percent.");
+    GET_PRICE("Type the amount before discount.");
 
     ConsoleMessage(String message) {
     }

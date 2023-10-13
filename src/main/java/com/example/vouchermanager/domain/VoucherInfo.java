@@ -1,13 +1,16 @@
 package com.example.vouchermanager.domain;
 
 import com.example.vouchermanager.console.VoucherType;
+import lombok.Getter;
 
+@Getter
 public class VoucherInfo {
-    private long discount;
+    @Getter
+    private long amount;
     private VoucherType voucherType;
 
-    public VoucherInfo(VoucherType voucherType, long discount) {
-        this.discount = discount;
+    public VoucherInfo(VoucherType voucherType, long amount) {
+        this.amount = amount;
         this.voucherType = voucherType;
     }
 }
