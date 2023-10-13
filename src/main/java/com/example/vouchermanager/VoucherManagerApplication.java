@@ -32,8 +32,6 @@ public class VoucherManagerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        System.out.println(ConsoleMessage.SELECT_FUNCTION.getMessage());
-
         try {
             Command command = commandHandler.run();
 
