@@ -21,7 +21,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.programmers.springbootbasic" level="info">
+    <logger name="com.programmers.vouchermanagement" level="info">
         <appender-ref ref="FILE" />
     </logger>
 
