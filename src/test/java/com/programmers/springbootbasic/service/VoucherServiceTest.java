@@ -50,7 +50,7 @@ class VoucherServiceTest {
     }
 
     @Test
-    void getAll() {
+    void list() {
         // given
         // when
         List<Voucher> vouchers = voucherService.getAll();
