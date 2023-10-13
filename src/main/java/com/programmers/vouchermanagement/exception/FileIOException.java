@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.voucher.exception;
+package com.programmers.vouchermanagement.exception;
 
 public class FileIOException extends RuntimeException {
 

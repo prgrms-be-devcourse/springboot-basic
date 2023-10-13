@@ -6,7 +6,7 @@ import com.programmers.vouchermanagement.voucher.application.VoucherService;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
-import com.programmers.vouchermanagement.voucher.exception.FileIOException;
+import com.programmers.vouchermanagement.exception.FileIOException;
 import com.programmers.vouchermanagement.voucher.exception.IllegalDiscountException;
 import com.programmers.vouchermanagement.voucher.exception.VoucherNotFoundException;
 import com.programmers.vouchermanagement.voucher.exception.VoucherTypeNotFoundException;

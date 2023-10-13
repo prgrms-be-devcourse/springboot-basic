@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.exception.FileIOException;
+import com.programmers.vouchermanagement.exception.FileIOException;
 import com.programmers.vouchermanagement.voucher.mapper.VoucherMapper;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
