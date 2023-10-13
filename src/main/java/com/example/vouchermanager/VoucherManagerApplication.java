@@ -2,22 +2,27 @@ package com.example.vouchermanager;
 
 import com.example.vouchermanager.console.Command;
 import com.example.vouchermanager.console.CommandHandler;
+import com.example.vouchermanager.console.VoucherType;
+import com.example.vouchermanager.exception.NotCorrectCommand;
 import com.example.vouchermanager.message.ConsoleMessage;
+import com.example.vouchermanager.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.Optional;
 import java.util.logging.ConsoleHandler;
 
 @SpringBootApplication
 public class VoucherManagerApplication implements CommandLineRunner {
-    private CommandHandler commandHandler;
+    private final CommandHandler commandHandler;
+    private final VoucherService service;
 
-    @Autowired
-    public VoucherManagerApplication(CommandHandler commandHandler) {
+    public VoucherManagerApplication(CommandHandler commandHandler, VoucherService service) {
         this.commandHandler = commandHandler;
+        this.service = service;
     }
 
     public static void main(String[] args) {
@@ -27,10 +32,20 @@ public class VoucherManagerApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         System.out.println(ConsoleMessage.SELECT_FUNCTION);
-        Command command = commandHandler.run();
 
-        if(command == Command.CREATE) {
-        } else if(command == Command.LIST) {
-        } else if(command == Command.EXIT) {}
+        try {
+            Command command = commandHandler.run();
+
+            if(command == Command.CREATE) {
+                VoucherType voucherType = commandHandler.selectVoucherType();
+                service.create(voucherType);
+            } else if(command == Command.LIST) {
+                service.list();
+            }
+        } catch (NotCorrectCommand e) {
+            System.out.println(ConsoleMessage.NOT_CORRECT_COMMAND);
+            System.out.println(ConsoleMessage.FINISH_PROGRAM);
+            System.exit(0);
+        }
     }
 }
