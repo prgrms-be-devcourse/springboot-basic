@@ -1,12 +1,12 @@
 package com.programmers.springbootbasic.domain.voucher;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PercentDiscountVoucher implements Voucher {
     private final UUID id;
     private final long amount;

@@ -4,14 +4,14 @@ import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherType;
 import com.programmers.springbootbasic.infra.InputReader;
 import com.programmers.springbootbasic.service.VoucherService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import java.util.List;
 
 @ShellComponent
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class VoucherController {
     private final VoucherService voucherService;
 

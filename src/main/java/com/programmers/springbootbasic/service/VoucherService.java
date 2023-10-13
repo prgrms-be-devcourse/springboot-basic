@@ -4,14 +4,14 @@ import com.programmers.springbootbasic.domain.voucher.Voucher;
 import com.programmers.springbootbasic.domain.voucher.VoucherType;
 import com.programmers.springbootbasic.repository.voucher.VoucherRepository;
 import com.programmers.springbootbasic.util.IdProvider;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final IdProvider<UUID> idProvider;

@@ -2,14 +2,14 @@ package com.programmers.springbootbasic.controller;
 
 import com.programmers.springbootbasic.domain.customer.Customer;
 import com.programmers.springbootbasic.service.CustomerService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 
 import java.util.List;
 
 @ShellComponent
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
 

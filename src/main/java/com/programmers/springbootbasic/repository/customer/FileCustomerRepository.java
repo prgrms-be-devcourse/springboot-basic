@@ -3,6 +3,7 @@ package com.programmers.springbootbasic.repository.customer;
 import com.programmers.springbootbasic.config.properties.FileProperties;
 import com.programmers.springbootbasic.domain.customer.Customer;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableConfigurationProperties(FileProperties.class)
 public class FileCustomerRepository implements CustomerRepository {
     private final FileProperties fileProperties;
