@@ -11,15 +11,40 @@ public class VoucherApplication  {
     }
 
     public void run() {
-        while (true) {
-            console.printCommandManual();
-            String input = console.readString();
+        console.printCommandManual();
+        String input = console.readString();
 
-            if(input.equals("exit")) {
-                System.out.println("종료 되었습니다.");
+        try {
+            CommandType commandType = CommandType.getCommandType(input);
+            runCommand(commandType);
+        } catch (IllegalArgumentException e) {
+            System.out.printf("'%s' is invalid command%n%n", input);
+            run();
+        }
+    }
+
+    public void runCommand(CommandType commandType) {
+        switch (commandType) {
+            case CREATE -> createVoucher();
+            case LIST -> getVoucherList();
+            case EXIT -> {
+                close();
 
                 return;
             }
         }
+
+        run();
+    }
+
+    private void createVoucher() {
+    }
+
+    private void getVoucherList() {
+    }
+
+    private void close() {
+        // TODO: 데이터 저장 기능
+        System.out.println("exit program...");
     }
 }
