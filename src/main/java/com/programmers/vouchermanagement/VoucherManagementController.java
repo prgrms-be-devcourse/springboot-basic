@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement;
 
+import com.programmers.vouchermanagement.member.presentation.MemberController;
 import com.programmers.vouchermanagement.utils.Command;
 import com.programmers.vouchermanagement.utils.CommandNotFoundException;
 import com.programmers.vouchermanagement.utils.ConsoleInputManager;
@@ -18,11 +19,13 @@ public class VoucherManagementController implements CommandLineRunner {
     private final ConsoleInputManager consoleInputManager;
     private final ConsoleOutputManager consoleOutputManager;
     private final VoucherController voucherController;
+    private final MemberController memberController;
 
-    public VoucherManagementController(ConsoleInputManager consoleInputManager, ConsoleOutputManager consoleOutputManager, VoucherController voucherController) {
+    public VoucherManagementController(ConsoleInputManager consoleInputManager, ConsoleOutputManager consoleOutputManager, VoucherController voucherController, MemberController memberController) {
         this.consoleInputManager = consoleInputManager;
         this.consoleOutputManager = consoleOutputManager;
         this.voucherController = voucherController;
+        this.memberController = memberController;
     }
 
     @Override
@@ -41,6 +44,7 @@ public class VoucherManagementController implements CommandLineRunner {
 
             try {
                 command = Command.getCommandByName(input);
+
             } catch (CommandNotFoundException e) {
                 LOGGER.error(e.getMessage() + "Console Input : " + input);
 
@@ -53,6 +57,8 @@ public class VoucherManagementController implements CommandLineRunner {
                 case CREATE -> voucherController.createVoucher();
 
                 case LIST -> voucherController.readAllVoucher();
+
+                case BLACKLIST -> memberController.readAllBlackList();
 
                 case EXIT -> {
                     consoleOutputManager.printExit();
