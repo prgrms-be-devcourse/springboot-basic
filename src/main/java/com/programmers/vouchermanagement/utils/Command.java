@@ -6,6 +6,7 @@ public enum Command {
 
     CREATE,
     LIST,
+    BLACKLIST,
     EXIT;
 
     public static Command getCommandByName(String name) {
