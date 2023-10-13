@@ -1,6 +1,9 @@
 package com.programmers.vouchermanagement.utils;
 
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ConsoleOutputManager {
@@ -22,8 +25,35 @@ public class ConsoleOutputManager {
         System.out.println("Type a discount amount. \n");
     }
 
+    public void printSuccessCreation() {
+        System.out.println("Voucher creation completed. \n");
+    }
+
+    public void printList() {
+        System.out.println("=== List All Vouchers ===");
+    }
+
+    public void printVoucherInfo(List<VoucherResponseDto> voucherResponseDtos) {
+
+        if (voucherResponseDtos.isEmpty()) {
+            System.out.println("There is no any voucher. \n");
+        } else {
+            for (VoucherResponseDto voucherResponseDto : voucherResponseDtos) {
+                System.out.println("voucherId : " + voucherResponseDto.getVoucherId() + " \n" +
+                        "voucherType : " + voucherResponseDto.getVoucherType() + " \n" +
+                        "discount : " + voucherResponseDto.getDiscount() + " \n");
+
+                System.out.println("------------------------------ \n");
+            }
+        }
+    }
+
     public void printExit() {
         System.out.println("You have typed exit. Exit the program. \n");
+    }
+
+    public void printWrongInputLong() {
+        System.out.println("Only integers can be entered. Please enter it again. \n");
     }
 
     public void printEnterAgain(String message) {
