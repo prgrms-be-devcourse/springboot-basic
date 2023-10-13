@@ -2,12 +2,19 @@ package org.prgrms.kdtspringdemo.voucher;
 
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 public enum VoucherFunction {
-    CREATE("create", "바우처 등록", VoucherService::createVoucher),
+    CREATE("create", "바우처 등록", voucherService -> {
+        try {
+            voucherService.createVoucher();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }),
     LIST_ALL_VOUCHERS("list", "바우처 목록", VoucherService::getVoucherList),
     EXIT("exit", "프로그램을 종료합니다.", VoucherService::endVoucherService);
     private final String fun;

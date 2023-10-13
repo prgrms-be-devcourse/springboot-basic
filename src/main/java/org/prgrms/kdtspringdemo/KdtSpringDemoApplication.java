@@ -23,7 +23,7 @@ public class KdtSpringDemoApplication {
 
 		inputConsole = new InputConsole(new BufferedReader(new InputStreamReader(System.in)));
 		outputConsole = new OutputConsole();
-		voucherService = new VoucherService(new MemoryVoucherRepository());
+		voucherService = new VoucherService(new MemoryVoucherRepository(), inputConsole, outputConsole);
 
 		while(true) {
 			outputConsole.start();

@@ -3,7 +3,7 @@ package org.prgrms.kdtspringdemo.voucher.domain;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher{
-    private UUID voucherId;
+    private final UUID voucherId;
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
