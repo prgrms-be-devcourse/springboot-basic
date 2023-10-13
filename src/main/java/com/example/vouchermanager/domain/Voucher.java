@@ -1,4 +1,4 @@
-package com.example.vouchermanager;
+package com.example.vouchermanager.domain;
 
 public interface Voucher {
     public long discount(long beforeDiscount);
