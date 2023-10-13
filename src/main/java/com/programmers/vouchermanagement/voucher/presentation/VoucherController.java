@@ -6,6 +6,7 @@ import com.programmers.vouchermanagement.voucher.application.VoucherService;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
+import com.programmers.vouchermanagement.voucher.exception.FileIOException;
 import com.programmers.vouchermanagement.voucher.exception.IllegalDiscountException;
 import com.programmers.vouchermanagement.voucher.exception.VoucherNotFoundException;
 import com.programmers.vouchermanagement.voucher.exception.VoucherTypeNotFoundException;
@@ -39,8 +40,8 @@ public class VoucherController {
 
         try {
             voucherType = VoucherType.getVoucherTypeByName(input);
-        } catch (VoucherTypeNotFoundException e) {
 
+        } catch (VoucherTypeNotFoundException e) {
             LOGGER.error(e.getMessage() + "Console Input : " + input);
 
             consoleOutputManager.printReturnMain(e.getMessage());
@@ -52,9 +53,15 @@ public class VoucherController {
 
         try {
             voucherService.createVoucher(new VoucherRequestDto(voucherType, discount));
-        } catch (IllegalDiscountException e) {
 
+        } catch (IllegalDiscountException e) {
             LOGGER.error(e.getMessage() + "Console Input : " + discount);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+            return;
+
+        } catch (FileIOException e) {
+            LOGGER.error(e.getMessage());
 
             consoleOutputManager.printReturnMain(e.getMessage());
             return;
@@ -67,11 +74,11 @@ public class VoucherController {
 
         consoleOutputManager.printList();
 
-        try{
+        try {
             List<VoucherResponseDto> voucherResponseDtos = voucherService.readAllVoucher();
             consoleOutputManager.printVoucherInfo(voucherResponseDtos);
-        } catch (VoucherNotFoundException e) {
 
+        } catch (VoucherNotFoundException | FileIOException | VoucherTypeNotFoundException e) {
             LOGGER.error(e.getMessage());
 
             consoleOutputManager.printReturnMain(e.getMessage());
