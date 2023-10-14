@@ -107,6 +107,7 @@ public class ConsolePrint {
         vouchers.forEach(voucher -> {
             log.info(voucher.toString());
             System.out.println(voucher);
+            System.out.println("---------------");
         });
 
         System.out.println();

@@ -1,7 +1,10 @@
 package com.example.vouchermanager.domain;
 
+import java.util.UUID;
+
 public class PercentAmountVoucher implements Voucher {
 
+    private final UUID id = UUID.randomUUID();
     private final long percent;
 
     public PercentAmountVoucher(long percent) {
@@ -14,6 +17,10 @@ public class PercentAmountVoucher implements Voucher {
     }
 
     public String toString() {
-        return "Voucher type: percent\nDiscount: " + percent + "%";
+        return """
+                Id : %s
+                Discount Type : %s
+                Discount percent : %d
+                """.formatted(id, "percent discount", percent);
     }
 }
