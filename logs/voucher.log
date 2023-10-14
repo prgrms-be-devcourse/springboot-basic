@@ -16,3 +16,136 @@
 02:28:50.556 [main] INFO  c.e.v.service.VoucherService -- create list 시작
 02:28:50.556 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository에서 보낼 voucher 목록: []
 02:28:50.558 [main] INFO  c.e.v.console.ConsolePrint -- voucher list 출력 시작
+02:46:27.426 [main] INFO  c.e.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 23816 (C:\데브코스\voucher-manager\build\classes\java\main started by skylim in C:\데브코스\voucher-manager)
+02:46:27.427 [main] INFO  c.e.v.VoucherManagerApplication -- No active profile set, falling back to 1 default profile: "default"
+02:46:28.093 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat initialized with port(s): 8080 (http)
+02:46:28.100 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Initializing ProtocolHandler ["http-nio-8080"]
+02:46:28.101 [main] INFO  o.a.catalina.core.StandardService -- Starting service [Tomcat]
+02:46:28.101 [main] INFO  o.a.catalina.core.StandardEngine -- Starting Servlet engine: [Apache Tomcat/10.1.13]
+02:46:28.178 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] -- Initializing Spring embedded WebApplicationContext
+02:46:28.179 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext -- Root WebApplicationContext: initialization completed in 715 ms
+02:46:28.236 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor -- Autowired annotation is not supported on static methods: public static void com.example.vouchermanager.VoucherManagerApplication.main(java.lang.String[])
+02:46:28.443 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Starting ProtocolHandler ["http-nio-8080"]
+02:46:28.461 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat started on port(s): 8080 (http) with context path ''
+02:46:28.467 [main] INFO  c.e.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.317 seconds (process running for 1.863)
+02:46:28.469 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:46:46.537 [main] INFO  c.e.v.console.ConsolePrint -- create 기능 선택
+02:46:46.537 [main] INFO  c.e.v.controller.VoucherController -- create 기능 시작
+02:46:46.537 [main] INFO  c.e.v.console.ConsolePrint -- voucher 종류 얻기
+02:47:07.709 [main] INFO  c.e.v.console.ConsolePrint -- voucher discount 정보 얻기
+02:47:08.993 [main] INFO  c.e.v.controller.VoucherController -- voucher 종류: null, voucher 할인량/할인율: 30
+02:47:08.995 [main] INFO  c.e.v.service.VoucherService -- create service 시작
+02:47:08.996 [main] INFO  c.e.v.service.VoucherService -- 만들어진 voucher 종류: Voucher type: percent
+Discount: 30%
+02:47:08.996 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository로 넘어온 voucher: Voucher type: percent
+Discount: 30%
+02:47:08.996 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:47:11.650 [main] INFO  c.e.v.console.ConsolePrint -- 적절하지 않은 명령어 입력 오류
+02:47:11.650 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:47:14.207 [main] INFO  c.e.v.console.ConsolePrint -- list 기능 선택
+02:47:14.207 [main] INFO  c.e.v.controller.VoucherController -- list 기능 시작
+02:47:14.207 [main] INFO  c.e.v.service.VoucherService -- create list 시작
+02:47:14.207 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository에서 보낼 voucher 목록: [Voucher type: percent
+Discount: 30%]
+02:47:14.207 [main] INFO  c.e.v.console.ConsolePrint -- voucher list 출력 시작
+02:47:14.208 [main] INFO  c.e.v.console.ConsolePrint -- voucher 종류: Voucher type: percent
+Discount: 30%, voucher 할인량/할인율: {}
+02:47:14.208 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:47:35.129 [main] INFO  c.e.v.controller.VoucherController -- 프로그램 종료
+02:49:48.273 [main] INFO  c.e.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 19332 (C:\데브코스\voucher-manager\build\classes\java\main started by skylim in C:\데브코스\voucher-manager)
+02:49:48.274 [main] INFO  c.e.v.VoucherManagerApplication -- No active profile set, falling back to 1 default profile: "default"
+02:49:48.957 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat initialized with port(s): 8080 (http)
+02:49:48.964 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Initializing ProtocolHandler ["http-nio-8080"]
+02:49:48.965 [main] INFO  o.a.catalina.core.StandardService -- Starting service [Tomcat]
+02:49:48.965 [main] INFO  o.a.catalina.core.StandardEngine -- Starting Servlet engine: [Apache Tomcat/10.1.13]
+02:49:49.040 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] -- Initializing Spring embedded WebApplicationContext
+02:49:49.040 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext -- Root WebApplicationContext: initialization completed in 726 ms
+02:49:49.095 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor -- Autowired annotation is not supported on static methods: public static void com.example.vouchermanager.VoucherManagerApplication.main(java.lang.String[])
+02:49:49.290 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Starting ProtocolHandler ["http-nio-8080"]
+02:49:49.308 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat started on port(s): 8080 (http) with context path ''
+02:49:49.314 [main] INFO  c.e.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.348 seconds (process running for 1.866)
+02:49:49.316 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:49:52.063 [main] INFO  c.e.v.console.ConsolePrint -- create 기능 선택
+02:49:52.063 [main] INFO  c.e.v.controller.VoucherController -- create 기능 시작
+02:49:52.063 [main] INFO  c.e.v.console.ConsolePrint -- voucher 종류 얻기
+02:50:01.232 [main] INFO  c.e.v.console.ConsolePrint -- voucher discount 정보 얻기
+02:50:01.933 [main] INFO  c.e.v.controller.VoucherController -- voucher 종류: null, voucher 할인량/할인율: 30
+02:50:01.935 [main] INFO  c.e.v.service.VoucherService -- create service 시작
+02:50:01.936 [main] INFO  c.e.v.service.VoucherService -- 만들어진 voucher 종류: Voucher type: percent
+Discount: 30%
+02:50:01.936 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository로 넘어온 voucher: Voucher type: percent
+Discount: 30%
+02:50:01.936 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:50:05.490 [main] INFO  c.e.v.console.ConsolePrint -- list 기능 선택
+02:50:05.490 [main] INFO  c.e.v.controller.VoucherController -- list 기능 시작
+02:50:05.490 [main] INFO  c.e.v.service.VoucherService -- create list 시작
+02:50:05.490 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository에서 보낼 voucher 목록: [Voucher type: percent
+Discount: 30%]
+02:50:05.490 [main] INFO  c.e.v.console.ConsolePrint -- voucher list 출력 시작
+02:50:05.490 [main] INFO  c.e.v.console.ConsolePrint -- voucher 종류: Voucher type: percent
+Discount: 30%, voucher 할인량/할인율: {}
+02:50:05.490 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:50:13.799 [main] INFO  c.e.v.controller.VoucherController -- 프로그램 종료
+02:51:08.411 [main] INFO  c.e.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 22640 (C:\데브코스\voucher-manager\build\classes\java\main started by skylim in C:\데브코스\voucher-manager)
+02:51:08.412 [main] INFO  c.e.v.VoucherManagerApplication -- No active profile set, falling back to 1 default profile: "default"
+02:51:09.100 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat initialized with port(s): 8080 (http)
+02:51:09.106 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Initializing ProtocolHandler ["http-nio-8080"]
+02:51:09.108 [main] INFO  o.a.catalina.core.StandardService -- Starting service [Tomcat]
+02:51:09.108 [main] INFO  o.a.catalina.core.StandardEngine -- Starting Servlet engine: [Apache Tomcat/10.1.13]
+02:51:09.185 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] -- Initializing Spring embedded WebApplicationContext
+02:51:09.186 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext -- Root WebApplicationContext: initialization completed in 732 ms
+02:51:09.240 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor -- Autowired annotation is not supported on static methods: public static void com.example.vouchermanager.VoucherManagerApplication.main(java.lang.String[])
+02:51:09.444 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Starting ProtocolHandler ["http-nio-8080"]
+02:51:09.458 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat started on port(s): 8080 (http) with context path ''
+02:51:09.464 [main] INFO  c.e.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.323 seconds (process running for 1.876)
+02:51:09.466 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:51:16.001 [main] INFO  c.e.v.console.ConsolePrint -- create 기능 선택
+02:51:16.002 [main] INFO  c.e.v.controller.VoucherController -- create 기능 시작
+02:51:16.002 [main] INFO  c.e.v.console.ConsolePrint -- voucher 종류 얻기
+02:51:18.225 [main] INFO  c.e.v.console.ConsolePrint -- voucher discount 정보 얻기
+02:51:19.593 [main] INFO  c.e.v.controller.VoucherController -- voucher 종류: null, voucher 할인량/할인율: 10000
+02:51:19.595 [main] INFO  c.e.v.service.VoucherService -- create service 시작
+02:51:19.595 [main] INFO  c.e.v.service.VoucherService -- 만들어진 voucher 종류: com.example.vouchermanager.domain.FixedAmountVoucher@42505474
+02:51:19.596 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository로 넘어온 voucher: com.example.vouchermanager.domain.FixedAmountVoucher@42505474
+02:51:19.596 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:51:21.172 [main] INFO  c.e.v.console.ConsolePrint -- list 기능 선택
+02:51:21.172 [main] INFO  c.e.v.controller.VoucherController -- list 기능 시작
+02:51:21.172 [main] INFO  c.e.v.service.VoucherService -- create list 시작
+02:51:21.172 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository에서 보낼 voucher 목록: [com.example.vouchermanager.domain.FixedAmountVoucher@42505474]
+02:51:21.172 [main] INFO  c.e.v.console.ConsolePrint -- voucher list 출력 시작
+02:51:21.172 [main] INFO  c.e.v.console.ConsolePrint -- voucher 종류: com.example.vouchermanager.domain.FixedAmountVoucher@42505474, voucher 할인량/할인율: {}
+02:51:21.172 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:53:13.721 [main] INFO  c.e.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 4572 (C:\데브코스\voucher-manager\build\classes\java\main started by skylim in C:\데브코스\voucher-manager)
+02:53:13.722 [main] INFO  c.e.v.VoucherManagerApplication -- No active profile set, falling back to 1 default profile: "default"
+02:53:14.380 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat initialized with port(s): 8080 (http)
+02:53:14.387 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Initializing ProtocolHandler ["http-nio-8080"]
+02:53:14.388 [main] INFO  o.a.catalina.core.StandardService -- Starting service [Tomcat]
+02:53:14.388 [main] INFO  o.a.catalina.core.StandardEngine -- Starting Servlet engine: [Apache Tomcat/10.1.13]
+02:53:14.471 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] -- Initializing Spring embedded WebApplicationContext
+02:53:14.472 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext -- Root WebApplicationContext: initialization completed in 712 ms
+02:53:14.533 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor -- Autowired annotation is not supported on static methods: public static void com.example.vouchermanager.VoucherManagerApplication.main(java.lang.String[])
+02:53:14.734 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Starting ProtocolHandler ["http-nio-8080"]
+02:53:14.749 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat started on port(s): 8080 (http) with context path ''
+02:53:14.756 [main] INFO  c.e.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.308 seconds (process running for 1.854)
+02:53:14.758 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:53:21.030 [main] INFO  c.e.v.console.ConsolePrint -- create 기능 선택
+02:53:21.031 [main] INFO  c.e.v.controller.VoucherController -- create 기능 시작
+02:53:21.031 [main] INFO  c.e.v.console.ConsolePrint -- voucher 종류 얻기
+02:53:23.167 [main] INFO  c.e.v.console.ConsolePrint -- voucher discount 정보 얻기
+02:53:24.600 [main] INFO  c.e.v.controller.VoucherController -- voucher 종류: null, voucher 할인량/할인율: 2000
+02:53:24.602 [main] INFO  c.e.v.service.VoucherService -- create service 시작
+02:53:24.603 [main] INFO  c.e.v.service.VoucherService -- 만들어진 voucher 종류: Voucher type: fixed
+Discount: 2000
+02:53:24.603 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository로 넘어온 voucher: Voucher type: fixed
+Discount: 2000
+02:53:24.603 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:53:26.191 [main] INFO  c.e.v.console.ConsolePrint -- list 기능 선택
+02:53:26.191 [main] INFO  c.e.v.controller.VoucherController -- list 기능 시작
+02:53:26.191 [main] INFO  c.e.v.service.VoucherService -- create list 시작
+02:53:26.191 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository에서 보낼 voucher 목록: [Voucher type: fixed
+Discount: 2000]
+02:53:26.191 [main] INFO  c.e.v.console.ConsolePrint -- voucher list 출력 시작
+02:53:26.191 [main] INFO  c.e.v.console.ConsolePrint -- voucher 종류: Voucher type: fixed
+Discount: 2000, voucher 할인량/할인율: {}
+02:53:26.191 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:54:15.422 [main] INFO  c.e.v.controller.VoucherController -- 프로그램 종료

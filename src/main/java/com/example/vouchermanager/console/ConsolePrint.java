@@ -45,7 +45,7 @@ public class ConsolePrint {
                 return Command.EXIT;
             }
             default -> {
-                log.info(LogMessage.NOT_CORRECT_COMMAND.getMessage());
+                log.error(LogMessage.NOT_CORRECT_COMMAND.getMessage());
 
                 throw new NotCorrectCommand();
             }
@@ -100,8 +100,8 @@ public class ConsolePrint {
         log.info(LogMessage.VOUCHER_LIST_PRINT.getMessage());
 
         vouchers.forEach(voucher -> {
-            log.info(LogMessage.VOUCHER_INFO.getMessage(), voucher.toString());
-            System.out.println(voucher.toString());
+            log.info(voucher.toString());
+            System.out.println(voucher);
         });
     }
 }
