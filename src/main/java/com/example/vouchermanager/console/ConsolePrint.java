@@ -104,16 +104,18 @@ public class ConsolePrint {
     public void printList(List<Voucher> vouchers) {
         log.info(LogMessage.VOUCHER_LIST_PRINT.getMessage());
 
-        if(vouchers.isEmpty()) {
-            System.out.println(ConsoleMessage.NO_VOUCHER.getMessage());
-        } else {
-            vouchers.forEach(voucher -> {
-                log.info(voucher.toString());
-                System.out.println(voucher);
-                System.out.println("---------------");
-            });
-        }
+        vouchers.forEach(voucher -> {
+                    log.info(voucher.toString());
+                    System.out.println(voucher);
+                    System.out.println("---------------");
+                });
+        System.out.println();
+    }
 
+    public void printListEmpty() {
+        log.info(LogMessage.LIST_EMPTY.getMessage());
+
+        System.out.println(ConsoleMessage.NO_VOUCHER.getMessage());
         System.out.println();
     }
 }

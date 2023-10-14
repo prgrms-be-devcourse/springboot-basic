@@ -16,6 +16,7 @@ public enum LogMessage {
     GET_VOUCHER_DISCOUNT("voucher discount 정보 얻기"),
     VOUCHER_INFO("voucher 종류: {}, voucher 할인량/할인율: {}"),
     LIST_START("list 기능 시작"),
+    LIST_EMPTY("빈 list"),
     VOUCHER_LIST_PRINT("voucher list 출력 시작"),
     VOUCHER_TYPE_INFO("만들어진 voucher 종류: {}"),
 
