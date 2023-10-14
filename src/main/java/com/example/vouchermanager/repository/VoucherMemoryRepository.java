@@ -5,24 +5,26 @@ import com.example.vouchermanager.message.LogMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 @Slf4j
 public class VoucherMemoryRepository {
 
-    List<Voucher> vouchers = new ArrayList<>();
+    Map<UUID, Voucher> vouchers = new HashMap<>();
 
     public void create(Voucher voucher) {
         log.info(LogMessage.REPOSITORY_CREATE_VOUCHER.getMessage(), voucher.toString());
 
-        vouchers.add(voucher);
+        vouchers.put(voucher.getId(), voucher);
     }
 
     public List<Voucher> list() {
         log.info(LogMessage.REPOSITORY_LIST_LIST.getMessage(), vouchers);
 
-        return vouchers;
+        return vouchers
+                .values()
+                .stream()
+                .toList();
     }
 }

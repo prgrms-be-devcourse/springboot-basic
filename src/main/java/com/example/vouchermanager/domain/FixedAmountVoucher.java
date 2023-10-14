@@ -1,7 +1,10 @@
 package com.example.vouchermanager.domain;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
+@Getter
 public class FixedAmountVoucher implements Voucher {
 
     private final UUID id = UUID.randomUUID();
