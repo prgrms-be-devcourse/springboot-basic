@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.handler;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.voucher.VoucherType;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
+@Slf4j
 public class Handler {
     private final Input input;
     private final Output output;
@@ -29,7 +31,7 @@ public class Handler {
                 break;
                 case "2" : customerLauncher();
                 break;
-                default: output.print("1과 2중 선택해주세요");
+                default: log.error("입력 값 : {}", menu + " (1과 2중 선택해야 합니다)");
             }
         }
     }
@@ -44,15 +46,13 @@ public class Handler {
                 voucherCreate();
             else if(menu == VoucherType.LIST)
                 voucherList();
-            else if(menu == VoucherType.EXIT){
-                continueOrNot = false; //프로그램 종료
-                return;
-            }
+            else if(menu == VoucherType.EXIT)
+                continueOrNot = false;
         }catch (IllegalArgumentException e){
             output.print(e.getMessage());
         }
         catch (InputValueException e){
-            output.print(e.getMessage());
+            log.error(e.getMessage() + "(create or list or exit)");
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -71,7 +71,7 @@ public class Handler {
             VoucherType voucherType = VoucherType.fromValue(createType);
             voucherController.create(voucherType);
         }catch (InputValueException e){
-            System.out.println(e.getMessage());
+            log.error(e.getMessage() + "(Fixed or Percent)");
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -87,12 +87,10 @@ public class Handler {
                 customerList();
             else if(customerType == VoucherType.CREATE)
                 customerCreate();
-            else if(customerType == VoucherType.EXIT){
+            else if(customerType == VoucherType.EXIT)
                 continueOrNot = false;
-                return;
-            }
         }catch (InputValueException e){
-            output.print(e.getMessage());
+            log.error(e.getMessage() + "(create or list or exit)");
         }
         catch (IOException e){
             e.printStackTrace();

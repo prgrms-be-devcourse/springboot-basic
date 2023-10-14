@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.Repository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -16,6 +17,7 @@ import java.util.List;
 @Repository
 @Profile("production")
 @RequiredArgsConstructor
+@Slf4j
 public class CsvCustomerRepository implements CustomerRepositroy{
 
     @Value("${csv.file-path}")
@@ -38,6 +40,7 @@ public class CsvCustomerRepository implements CustomerRepositroy{
                 result.add(customer);
             }
         }catch (IOException e){
+            log.error("Fail to read file");
             e.printStackTrace();
         }
         return result;

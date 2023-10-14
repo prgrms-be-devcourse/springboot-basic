@@ -13,3 +13,7 @@
 [2023-10-15 04:45:27:526][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 21660 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
 [2023-10-15 04:45:27:527][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
 [2023-10-15 04:45:28:890][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.671 seconds (process running for 1.249)
+[2023-10-15 04:54:52:8333][main] ERROR o.p.v.domain.voucher.VoucherType - value : asd
+[2023-10-15 04:54:52:8335][main] ERROR o.p.vouchermanager.handler.Handler - 입력값이 잘못됐ㅅ브니다 입력값이 잘못 되었습니다. 지정된 범위 내의 사항을 입력해주세요.
+[2023-10-15 04:56:56:3401][main] ERROR o.p.v.domain.voucher.VoucherType - ㅁㄴㅇ는 제공되는 실행명령이 아닙니다.
+[2023-10-15 04:56:56:3403][main] ERROR o.p.vouchermanager.handler.Handler - 입력값이 잘못 되었습니다. 지정된 범위 내의 사항을 입력해주세요.

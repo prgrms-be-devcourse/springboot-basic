@@ -23,7 +23,7 @@ public enum VoucherType {
                 return menu;
             }
         }
-        log.error("value : {}", value);
+        log.error("입력값 : {}", value);
         throw new InputValueException();
     }
 }
