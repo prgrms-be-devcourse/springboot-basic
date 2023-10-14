@@ -57,7 +57,7 @@ public class Handler {
 
     private void voucherList() {
         List<Voucher> allVouchers = voucherController.list();
-        allVouchers.forEach(voucher -> output.printVoucherInfo(voucher.toString()));
+        allVouchers.forEach(voucher -> output.print(voucher.toString()));
     }
 
     private void voucherCreate(){
@@ -108,6 +108,6 @@ public class Handler {
 
     private void customerList() {
         List<Customer> all = customerController.list();
-        all.forEach(Object::toString);
+        all.forEach(customer -> output.print(customer.toString()));
     }
 }

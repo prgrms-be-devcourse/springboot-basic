@@ -22,11 +22,7 @@ public class Output {
     }
 
     public void customerInit(){
-        System.out.println("Type exit to exit the program.\n" + "Type list to list all vouchers.");
-    }
-
-    public void printVoucherInfo(String voucherInfo){
-        System.out.println(voucherInfo);
+        System.out.println("=== Blacklsit Customer Program ===\n" + "Type **exit** to exit the program.\n" + "Type **create** to create a new customer.\n" + "Type **list** to list all customers.\n" + "```");
     }
 
     public void print(String message){
