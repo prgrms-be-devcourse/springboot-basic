@@ -18,6 +18,9 @@ buildNumber.properties
 # Include JAR files
 !*.jar
 
+#log
+.logs/
+
 # OS-specific
 .DS_Store
 Thumbs.db
