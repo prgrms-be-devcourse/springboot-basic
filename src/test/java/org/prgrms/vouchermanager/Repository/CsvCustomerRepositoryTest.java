@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.prgrms.vouchermanager.domain.customer.Customer;
 
 import java.util.List;
 import java.util.Map;
@@ -17,9 +18,9 @@ class CsvCustomerRepositoryTest {
 
     @Test
     public void findAll(){
-        List<List<String>> all = repository.findAll();
-        String s = all.get(0).get(1);
-        assertThat(s).isEqualTo("최인준");
+        List<Customer> all = repository.findAll();
+        String name = all.get(0).getName();
+        assertThat(name).isEqualTo("최인준");
     }
 
 }

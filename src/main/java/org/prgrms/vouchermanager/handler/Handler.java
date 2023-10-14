@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.handler;
 
 import lombok.RequiredArgsConstructor;
+import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.prgrms.vouchermanager.exception.InputValueException;
@@ -84,7 +85,6 @@ public class Handler {
     }
 
     private void customerList() {
-        List<List<String>> all = customerController.findAll();
-        all.forEach(x -> {output.print(x.get(0) + "," + x.get(1));});
+        List<Customer> all = customerController.findAll();
     }
 }

@@ -6,7 +6,16 @@ import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 @RequiredArgsConstructor
+@Getter
 public class Customer {
-    private final UUID customerId;
+    private final String customerId;
     private final String name;
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
