@@ -11,10 +11,14 @@ class PercentDiscountVoucherTest {
 
     @Test
     public void PercentDiscount(){
+        //given
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20L);
+        //when
         long discountPrice = percentDiscountVoucher.discount(200L);
+        //then
         Assertions.assertThat(discountPrice).isEqualTo(160L);
-
     }
+
+
 
 }
