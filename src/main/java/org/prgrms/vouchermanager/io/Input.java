@@ -17,16 +17,16 @@ public class Input {
 
     public String voucherInit() throws IOException{
         String mode = br.readLine(); // create or list or exit
-        return mode;
+        return mode.toLowerCase();
     }
 
     public String createVoucher() throws IOException{
         String message = br.readLine(); // fixed or percent
-        return message;
+        return message.toLowerCase();
     }
 
     public String customerInit() throws IOException{
-        String s = br.readLine(); // exit or list
+        String s = br.readLine().toLowerCase(); // exit or list
         return s;
     }
 }

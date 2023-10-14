@@ -3,10 +3,7 @@ package org.prgrms.vouchermanager.Repository;
 import org.prgrms.vouchermanager.domain.Voucher;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -25,6 +22,7 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findAll() {
-        return (List<Voucher>) storage.values();
+        List<Voucher> all = new ArrayList<>(storage.values());
+        return all;
     }
 }

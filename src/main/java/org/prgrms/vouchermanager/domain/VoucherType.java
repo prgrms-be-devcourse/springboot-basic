@@ -5,7 +5,9 @@ import org.prgrms.vouchermanager.exception.InputValueException;
 public enum VoucherType {
     CREATE("create"),
     LIST("list"),
-    EXIT("exit");
+    EXIT("exit"),
+    FIXED("fixed"),
+    PERCENT("percent");
     private final String value;
 
     VoucherType(String value) {
@@ -22,6 +24,6 @@ public enum VoucherType {
                 return menu;
             }
         }
-        throw new InputValueException("Invalid Menu: " + value);
+        throw new InputValueException();
     }
 }

@@ -25,5 +25,13 @@ public class Output {
         System.out.println("Type exit to exit the program.\n" + "Type list to list all vouchers.");
     }
 
+    public void printVoucherInfo(String voucherInfo){
+        System.out.println(voucherInfo);
+    }
+
+    public void print(String message){
+        System.out.println(message);
+    }
+
 
 }
