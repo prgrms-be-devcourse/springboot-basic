@@ -18,8 +18,11 @@ public enum LogMessage {
     VOUCHER_LIST_PRINT("voucher list 출력 시작"),
     VOUCHER_TYPE_INFO("만들어진 voucher 종류: {}"),
 
-    CREATE_SERVICE_START("create service 시작"),
-    LIST_SERVICE_START("create list 시작"),
+    SERVICE_CREATE_START("create service 시작"),
+    SERVICE_LIST_START("create list 시작"),
+
+    REPOSITORY_CREATE_VOUCHER("repository로 넘어온 voucher: {}"),
+    REPOSITORY_LIST_LIST("repository에서 보낼 voucher 목록: {}"),
 
     NOT_CORRECT_COMMAND("적절하지 않은 명령어 입력 오류"),
     NOT_CORRECT_FORM("적절하지 않은 형식의 입력 오류"),

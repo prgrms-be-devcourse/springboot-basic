@@ -24,7 +24,7 @@ public class VoucherService {
     }
 
     public void create(VoucherType voucherType, long discount) {
-        log.info(LogMessage.CREATE_SERVICE_START.getMessage());
+        log.info(LogMessage.SERVICE_CREATE_START.getMessage());
 
         Voucher voucher = null;
         if(voucherType == VoucherType.FIXED) {
@@ -38,7 +38,7 @@ public class VoucherService {
         repository.create(voucher);
     }
     public List<Voucher> list() {
-        log.info(LogMessage.LIST_SERVICE_START.getMessage());
+        log.info(LogMessage.SERVICE_LIST_START.getMessage());
 
         return repository.list();
     }
