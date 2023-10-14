@@ -21,12 +21,13 @@ public class CsvCustomerRepository implements CustomerRepositroy{
     @Value("${csv.file-path}")
     private String csvFilePath;
 
-    List<Customer> result = new ArrayList<>();
+
     BufferedReader br = null;
 
 
     @Override
     public List<Customer> findAll() {
+        List<Customer> result = new ArrayList<>();
         try{
             br = Files.newBufferedReader(Paths.get(csvFilePath));
             String line = "";

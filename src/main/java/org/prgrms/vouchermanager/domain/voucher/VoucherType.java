@@ -1,7 +1,9 @@
 package org.prgrms.vouchermanager.domain.voucher;
 
+import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.exception.InputValueException;
 
+@Slf4j
 public enum VoucherType {
     CREATE("create"),
     LIST("list"),
@@ -14,9 +16,6 @@ public enum VoucherType {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
 
     public static VoucherType fromValue(String value) {
         for (VoucherType menu : VoucherType.values()) {
@@ -24,6 +23,7 @@ public enum VoucherType {
                 return menu;
             }
         }
+        log.error("value : {}", value);
         throw new InputValueException();
     }
 }

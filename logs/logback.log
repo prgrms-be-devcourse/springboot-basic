@@ -1,0 +1,15 @@
+[2023-10-15 04:43:38:532][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 22964 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-15 04:43:38:533][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
+[2023-10-15 04:43:39:903][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.674 seconds (process running for 1.221)
+[2023-10-15 04:43:50:572][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 25440 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-15 04:43:50:575][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
+[2023-10-15 04:43:50:947][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.68 seconds (process running for 1.38)
+[2023-10-15 04:44:07:527][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 21180 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-15 04:44:07:528][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
+[2023-10-15 04:44:07:895][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.661 seconds (process running for 1.202)
+[2023-10-15 04:44:25:566][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 10220 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-15 04:44:25:568][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
+[2023-10-15 04:44:25:942][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.686 seconds (process running for 1.263)
+[2023-10-15 04:45:27:526][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 21660 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-15 04:45:27:527][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
+[2023-10-15 04:45:28:890][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.671 seconds (process running for 1.249)
