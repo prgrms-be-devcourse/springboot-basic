@@ -1,12 +1,10 @@
 package org.prgrms.kdtspringdemo.voucher.domain;
 
-import org.prgrms.kdtspringdemo.voucher.VoucherFunction;
-
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-public enum VoucherCreateFunction {
+public enum VoucherTypeFunction {
     FIXED_AMOUNT_VOUCHER("fixedAmount", "고정 할인 바우처") {
         @Override
         public Voucher create(UUID voucherId, long amount) {
@@ -23,12 +21,12 @@ public enum VoucherCreateFunction {
     private final String type;
     private final String description;
 
-    VoucherCreateFunction(String type, String description) {
+    VoucherTypeFunction(String type, String description) {
         this.type = type;
         this.description = description;
     }
 
-    public static VoucherCreateFunction findByCode(String type) {
+    public static VoucherTypeFunction findByCode(String type) {
         return Arrays.stream(values())
                 .filter(option -> option.type.equals(type))
                 .findFirst()

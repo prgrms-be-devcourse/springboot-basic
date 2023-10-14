@@ -17,9 +17,20 @@ public class OutputConsole {
     }
 
     public void printVoucher(Voucher voucher) {
-        System.out.println("----------------------------------");
+        System.out.println("=====================================");
         System.out.println("voucherId : " + voucher.getVoucherId());
         System.out.println("voucherAmount : " + voucher.getAmount());
         System.out.println();
+    }
+
+    public void getVoucherType() {
+        System.out.println("==============================================");
+        System.out.println("Enter Voucher Type (fixedAmount / percentDiscount)");
+        System.out.print(start_string);
+    }
+
+    public void getVoucherAmount() {
+        System.out.println("Enter Voucher Amount or Percent");
+        System.out.print(start_string);
     }
 }

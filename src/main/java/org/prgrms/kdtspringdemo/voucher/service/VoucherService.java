@@ -1,13 +1,9 @@
 package org.prgrms.kdtspringdemo.voucher.service;
 
-import org.prgrms.kdtspringdemo.view.InputConsole;
-import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.domain.VoucherCreateFunction;
+import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 
-import java.io.IOException;
-import java.util.List;
 import java.text.MessageFormat;
 import java.util.Map;
 import java.util.UUID;
@@ -19,17 +15,17 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(String type, UUID voucherId, long amount) throws IOException {
-        System.out.println("create voucher");
+    public VoucherTypeFunction getVoucherType(String type) {
+        return VoucherTypeFunction.findByCode(type);
+    }
 
-        VoucherCreateFunction voucherType = VoucherCreateFunction.findByCode(type);
+    public Voucher createVoucher(VoucherTypeFunction voucherType, UUID voucherId, long amount){
         Voucher voucher = voucherType.create(voucherId, amount);
-
+        voucherRepository.insert(voucher);
         return voucher;
     }
 
     public Map<UUID, Voucher> getVoucherList() {
-        System.out.println("getvoucherlist");
         return voucherRepository.getAllVouchers().get();
     }
 
@@ -37,9 +33,6 @@ public class VoucherService {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not fnd a voucher for {0}", voucherId)));
-    }
-
-    public void useVoucher(Voucher voucher) {
     }
 
     public void endVoucherService() {

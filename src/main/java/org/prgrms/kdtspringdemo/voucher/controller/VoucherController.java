@@ -3,6 +3,7 @@ package org.prgrms.kdtspringdemo.voucher.controller;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 
 import java.io.IOException;
@@ -21,9 +22,16 @@ public class VoucherController {
         this.outputConsole = outputConsole;
     }
 
-    public void createVoucher() throws IOException {
+    public VoucherTypeFunction findVoucherType() throws IOException {
+        outputConsole.getVoucherType();
         String voucherType = inputConsole.getString();
+        return voucherService.getVoucherType(voucherType);
+    }
+
+    public void createVoucher() throws IOException {
+        VoucherTypeFunction voucherType = findVoucherType();
         UUID voucherId = UUID.randomUUID();
+        outputConsole.getVoucherAmount();
         long amount = Long.parseLong(inputConsole.getString());
         voucherService.createVoucher(voucherType, voucherId, amount);
     }
