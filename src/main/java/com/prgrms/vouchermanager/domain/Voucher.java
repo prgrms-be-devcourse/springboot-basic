@@ -1,4 +1,4 @@
-package com.example.vouchermanager.domain;
+package com.prgrms.vouchermanager.domain;
 
 import lombok.Getter;
 

@@ -1,15 +1,15 @@
-package com.example.vouchermanager.controller;
+package com.prgrms.vouchermanager.controller;
 
-import com.example.vouchermanager.console.Command;
-import com.example.vouchermanager.console.ConsolePrint;
-import com.example.vouchermanager.console.VoucherType;
-import com.example.vouchermanager.domain.Voucher;
-import com.example.vouchermanager.exception.NotCorrectCommand;
-import com.example.vouchermanager.exception.NotCorrectForm;
-import com.example.vouchermanager.exception.NotCorrectScope;
-import com.example.vouchermanager.message.ConsoleMessage;
-import com.example.vouchermanager.message.LogMessage;
-import com.example.vouchermanager.service.VoucherService;
+import com.prgrms.vouchermanager.console.Command;
+import com.prgrms.vouchermanager.console.ConsolePrint;
+import com.prgrms.vouchermanager.console.VoucherType;
+import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.exception.NotCorrectCommand;
+import com.prgrms.vouchermanager.exception.NotCorrectForm;
+import com.prgrms.vouchermanager.exception.NotCorrectScope;
+import com.prgrms.vouchermanager.message.ConsoleMessage;
+import com.prgrms.vouchermanager.message.LogMessage;
+import com.prgrms.vouchermanager.service.VoucherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 

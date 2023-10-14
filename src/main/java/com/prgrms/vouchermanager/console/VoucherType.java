@@ -1,4 +1,4 @@
-package com.example.vouchermanager.console;
+package com.prgrms.vouchermanager.console;
 
 import lombok.Getter;
 

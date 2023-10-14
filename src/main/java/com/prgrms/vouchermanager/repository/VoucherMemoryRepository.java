@@ -1,7 +1,7 @@
-package com.example.vouchermanager.repository;
+package com.prgrms.vouchermanager.repository;
 
-import com.example.vouchermanager.domain.Voucher;
-import com.example.vouchermanager.message.LogMessage;
+import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.message.LogMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -20,11 +20,13 @@ public class VoucherMemoryRepository {
     }
 
     public List<Voucher> list() {
-        log.info(LogMessage.REPOSITORY_LIST_LIST.getMessage(), vouchers);
-
-        return vouchers
+        List<Voucher> voucherList = vouchers
                 .values()
                 .stream()
                 .toList();
+
+        log.info(LogMessage.REPOSITORY_LIST_LIST.getMessage(), voucherList.getClass());
+
+        return voucherList;
     }
 }

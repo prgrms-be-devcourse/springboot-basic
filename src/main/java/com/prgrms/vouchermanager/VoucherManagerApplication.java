@@ -1,18 +1,11 @@
-package com.example.vouchermanager;
+package com.prgrms.vouchermanager;
 
-import com.example.vouchermanager.console.Command;
-import com.example.vouchermanager.console.ConsolePrint;
-import com.example.vouchermanager.console.VoucherType;
-import com.example.vouchermanager.controller.VoucherController;
-import com.example.vouchermanager.exception.NotCorrectForm;
-import com.example.vouchermanager.exception.NotCorrectScope;
-import com.example.vouchermanager.message.ConsoleMessage;
-import com.example.vouchermanager.message.LogMessage;
-import com.example.vouchermanager.service.VoucherService;
+import com.prgrms.vouchermanager.controller.VoucherController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
@@ -28,6 +21,7 @@ public class VoucherManagerApplication implements CommandLineRunner {
     @Autowired
 
     public static void main(String[] args) {
+        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         SpringApplication.run(VoucherManagerApplication.class, args);
     }
 

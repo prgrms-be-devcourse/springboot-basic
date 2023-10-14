@@ -1,11 +1,11 @@
-package com.example.vouchermanager.service;
+package com.prgrms.vouchermanager.service;
 
-import com.example.vouchermanager.console.VoucherType;
-import com.example.vouchermanager.domain.FixedAmountVoucher;
-import com.example.vouchermanager.domain.PercentAmountVoucher;
-import com.example.vouchermanager.domain.Voucher;
-import com.example.vouchermanager.message.LogMessage;
-import com.example.vouchermanager.repository.VoucherMemoryRepository;
+import com.prgrms.vouchermanager.console.VoucherType;
+import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
+import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
+import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.message.LogMessage;
+import com.prgrms.vouchermanager.repository.VoucherMemoryRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
