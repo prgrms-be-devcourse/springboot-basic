@@ -1,44 +1,23 @@
-build/
-.gradle/
+# IntelliJ IDEA-specific
 .idea/
-.vscode/
-out/
-
-# IntelliJ IDEA 관련 파일
 *.iml
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/.name
-.idea/compiler.xml
-.idea/encodings.xml
-.idea/misc.xml
-.idea/modules.xml
-.idea/runConfigurations.xml
+*.ipr
+*.iws
+.idea_modules/
+out/
+.target/
 
 # Maven-specific
 target/
-*.iml
-*.log
-*.swp
+pom.xml.tag
+pom.xml.releaseBackup
+release.properties
 dependency-reduced-pom.xml
-checkstyle-suppressions.xml
+buildNumber.properties
 
-# 자바 컴파일 관련 파일
-/target/
+# Include JAR files
 !*.jar
-*.class
 
-# 로그 파일
-*.log
-
-# 임시 파일
-*.tmp
-
-# Gradle 환경 파일
-gradle.properties
-
-# macOS 관련 파일
+# OS-specific
 .DS_Store
-
-# 캐시 파일 (옵션)
-.caches/
+Thumbs.db
