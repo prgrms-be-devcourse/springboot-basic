@@ -6,6 +6,8 @@ import org.prgrms.kdtspringdemo.voucher.VoucherFunction;
 import org.prgrms.kdtspringdemo.voucher.controller.VoucherController;
 import org.prgrms.kdtspringdemo.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -18,8 +20,9 @@ public class KdtSpringDemoApplication {
 	static InputConsole inputConsole;
 	static OutputConsole outputConsole;
 	static VoucherController voucherController;
+	static Logger logger = LoggerFactory.getLogger(KdtSpringDemoApplication.class);
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		SpringApplication.run(KdtSpringDemoApplication.class, args);
 
 		inputConsole = new InputConsole(new BufferedReader(new InputStreamReader(System.in)));
@@ -27,14 +30,18 @@ public class KdtSpringDemoApplication {
 		VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
 		voucherController = new VoucherController(voucherService, inputConsole, outputConsole);
 
-		while(true) {
-			outputConsole.start();
-			String fun = inputConsole.getString();
-			try {
-				VoucherFunction.findByCode(fun).execute(voucherController);
-			} catch (Exception e) {
-				System.out.println(e.getMessage());
+		try {
+			while (true) {
+				outputConsole.start();
+				String fun = inputConsole.getString();
+				try {
+					VoucherFunction.findByCode(fun).execute(voucherController);
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
 			}
+		} catch (Exception e) {
+			logger.error(e.getMessage());
 		}
 
 	}

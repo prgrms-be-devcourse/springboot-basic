@@ -33,4 +33,8 @@ public class OutputConsole {
         System.out.println("Enter Voucher Amount or Percent");
         System.out.print(start_string);
     }
+
+    public void printNumberFormatException() {
+        System.out.println("올바른 숫자 형식이 아닙니다.");
+    }
 }

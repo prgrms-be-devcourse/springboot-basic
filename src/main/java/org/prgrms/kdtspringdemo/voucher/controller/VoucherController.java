@@ -5,6 +5,8 @@ import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Map;
@@ -15,6 +17,7 @@ public class VoucherController {
     private final VoucherService voucherService;
     private final InputConsole inputConsole;
     private final OutputConsole outputConsole;
+    private final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     public VoucherController(VoucherService voucherService, InputConsole inputConsole, OutputConsole outputConsole) {
         this.voucherService = voucherService;
@@ -28,15 +31,20 @@ public class VoucherController {
         return voucherService.getVoucherType(voucherType);
     }
 
-    public void createVoucher() throws IOException {
-        VoucherTypeFunction voucherType = findVoucherType();
-        UUID voucherId = UUID.randomUUID();
-        outputConsole.getVoucherAmount();
+    public void createVoucher() {
         try {
+            VoucherTypeFunction voucherType = findVoucherType();
+            UUID voucherId = UUID.randomUUID();
+            outputConsole.getVoucherAmount();
+
             long amount = Long.parseLong(inputConsole.getString());
             voucherService.createVoucher(voucherType, voucherId, amount);
         } catch (NumberFormatException e) {
-            System.out.println("올바른 숫자 형식이 아닙니다.");
+            logger.error("올바른 숫자 형식이 아닙니다.");
+            outputConsole.printNumberFormatException();
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
