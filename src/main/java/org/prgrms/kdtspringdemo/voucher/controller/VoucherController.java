@@ -32,8 +32,12 @@ public class VoucherController {
         VoucherTypeFunction voucherType = findVoucherType();
         UUID voucherId = UUID.randomUUID();
         outputConsole.getVoucherAmount();
-        long amount = Long.parseLong(inputConsole.getString());
-        voucherService.createVoucher(voucherType, voucherId, amount);
+        try {
+            long amount = Long.parseLong(inputConsole.getString());
+            voucherService.createVoucher(voucherType, voucherId, amount);
+        } catch (NumberFormatException e) {
+            System.out.println("올바른 숫자 형식이 아닙니다.");
+        }
     }
 
     public void showAllVouchers() {
