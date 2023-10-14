@@ -29,4 +29,9 @@ public class Input {
         String s = br.readLine().toLowerCase(); // exit or list
         return s;
     }
+
+    public String inputCustomerName() throws IOException{
+        String name = br.readLine();
+        return name;
+    }
 }

@@ -33,5 +33,9 @@ public class Output {
         System.out.println(message);
     }
 
+    public void outputCustomerName(){
+        System.out.println("블랙리스트에 등록 할 고객의 이름을 입력하세요.");
+    }
+
 
 }

@@ -33,10 +33,11 @@ public class Handler {
         }
     }
 
-    private void voucherLauncher() throws IOException{
+    private void voucherLauncher(){
         output.voucherInit();
-        String voucherMenu = input.voucherInit();
+
         try{
+            String voucherMenu = input.voucherInit();
             VoucherType menu = VoucherType.fromValue(voucherMenu);
             if(menu == VoucherType.CREATE)
                 voucherCreate();
@@ -49,6 +50,8 @@ public class Handler {
         }
         catch (InputValueException e){
             output.print(e.getMessage());
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -57,35 +60,54 @@ public class Handler {
         allVouchers.forEach(voucher -> output.printVoucherInfo(voucher.toString()));
     }
 
-    private void voucherCreate() throws IOException{
+    private void voucherCreate(){
         output.createVoucherMenu();
-        String createType = input.createVoucher();
+
         try{
+            String createType = input.createVoucher();
             VoucherType voucherType = VoucherType.fromValue(createType);
             voucherController.create(voucherType);
         }catch (InputValueException e){
             System.out.println(e.getMessage());
+        }catch (IOException e){
+            e.printStackTrace();
         }
     }
 
 
-    private void customerLauncher() throws IOException{
+    private void customerLauncher(){
         output.customerInit();
-        String customerMenu = input.customerInit();
         try{
+            String customerMenu = input.customerInit();
             VoucherType customerType = VoucherType.fromValue(customerMenu);
             if(customerType == VoucherType.LIST)
                 customerList();
+            else if(customerType == VoucherType.CREATE)
+                customerCreate();
             else if(customerType == VoucherType.EXIT)
                 continueOrNot = false;
         }catch (InputValueException e){
             output.print(e.getMessage());
         }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    private void customerCreate() {
+        output.outputCustomerName();
+        try{
+            String name = input.inputCustomerName();
+            customerController.create(name);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 
     private void customerList() {
-        List<Customer> all = customerController.findAll();
+        List<Customer> all = customerController.list();
         all.forEach(Object::toString);
     }
 }
