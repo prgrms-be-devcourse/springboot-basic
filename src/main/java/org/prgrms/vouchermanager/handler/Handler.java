@@ -17,6 +17,7 @@ public class Handler {
     private final Input input;
     private final Output output;
     private final VoucherController voucherController;
+    private final CustomerController customerController;
     private boolean continueOrNot = true;
     public void init() throws IOException {
         while(continueOrNot){
@@ -25,6 +26,8 @@ public class Handler {
 
             switch (menu){
                 case "1" : voucherLauncher();
+                case "2" : customerLauncher();
+                default: output.print("1과 2중 선택해주세요");
             }
         }
     }
@@ -50,7 +53,7 @@ public class Handler {
 
     private void voucherList() {
         List<Voucher> allVouchers = voucherController.list();
-        allVouchers.stream().forEach(voucher -> output.printVoucherInfo(voucher.toString()));
+        allVouchers.forEach(voucher -> output.printVoucherInfo(voucher.toString()));
     }
 
     private void voucherCreate() throws IOException{
@@ -62,5 +65,26 @@ public class Handler {
         }catch (InputValueException e){
             System.out.println(e.getMessage());
         }
+    }
+
+
+    private void customerLauncher() throws IOException{
+        output.customerInit();
+        String customerMenu = input.customerInit();
+        try{
+            VoucherType customerType = VoucherType.fromValue(customerMenu);
+            if(customerType == VoucherType.LIST)
+                customerList();
+            else if(customerType == VoucherType.EXIT)
+                continueOrNot = false;
+        }catch (InputValueException e){
+            output.print(e.getMessage());
+        }
+
+    }
+
+    private void customerList() {
+        List<List<String>> all = customerController.findAll();
+        all.forEach(x -> {output.print(x.get(0) + "," + x.get(1));});
     }
 }
