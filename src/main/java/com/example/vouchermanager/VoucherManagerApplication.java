@@ -42,9 +42,13 @@ public class VoucherManagerApplication implements CommandLineRunner {
                 service.create(voucherInfo);
                 System.out.println(ConsoleMessage.COMPLETE_CREATE_VOUCHER.getMessage());
             } else if(command == Command.LIST) {
+                log.info(LogMessage.LIST_START.getMessage());
+
                 consolePrint.printList(service.list());
             }
         } catch (NotCorrectCommand e) {
+            log.info(LogMessage.NOT_CORRECT_COMMAND.getMessage());
+
             System.out.println(ConsoleMessage.NOT_CORRECT_COMMAND.getMessage());
             System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
             System.exit(0);

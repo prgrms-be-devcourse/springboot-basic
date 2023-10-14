@@ -10,11 +10,12 @@ public enum LogMessage {
     SELECT_CREATE("create 기능 선택"),
     SELECT_LIST("list 기능 선택"),
 
-    CREATE_START("create 모드 시작"),
+    CREATE_START("create 기능 시작"),
     GET_VOUCHER_INFO("voucher 정보 얻기"),
     VOUCHER_TYPE_INFO("voucher 종류: {}"),
     VOUCHER_PRICE_INFO("voucher 기본 가격: {}"),
 
+    LIST_START("list 기능 시작"),
     VOUCHER_LIST_PRINT("voucher list 출력 시작"),
     VOUCHER_INFO("voucher 정보 : {}"),
 
