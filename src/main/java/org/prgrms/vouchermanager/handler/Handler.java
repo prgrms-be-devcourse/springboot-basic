@@ -24,10 +24,11 @@ public class Handler {
         while(continueOrNot){
             output.selectMenu();
             String menu = input.selectMenu();
-
             switch (menu){
                 case "1" : voucherLauncher();
+                break;
                 case "2" : customerLauncher();
+                break;
                 default: output.print("1과 2중 선택해주세요");
             }
         }
@@ -43,8 +44,10 @@ public class Handler {
                 voucherCreate();
             else if(menu == VoucherType.LIST)
                 voucherList();
-            else if(menu == VoucherType.EXIT)
+            else if(menu == VoucherType.EXIT){
                 continueOrNot = false; //프로그램 종료
+                return;
+            }
         }catch (IllegalArgumentException e){
             output.print(e.getMessage());
         }
@@ -84,8 +87,10 @@ public class Handler {
                 customerList();
             else if(customerType == VoucherType.CREATE)
                 customerCreate();
-            else if(customerType == VoucherType.EXIT)
+            else if(customerType == VoucherType.EXIT){
                 continueOrNot = false;
+                return;
+            }
         }catch (InputValueException e){
             output.print(e.getMessage());
         }
