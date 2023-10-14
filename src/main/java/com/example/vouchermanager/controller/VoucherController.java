@@ -3,6 +3,7 @@ package com.example.vouchermanager.controller;
 import com.example.vouchermanager.console.Command;
 import com.example.vouchermanager.console.ConsolePrint;
 import com.example.vouchermanager.console.VoucherType;
+import com.example.vouchermanager.exception.NotCorrectCommand;
 import com.example.vouchermanager.exception.NotCorrectForm;
 import com.example.vouchermanager.exception.NotCorrectScope;
 import com.example.vouchermanager.message.ConsoleMessage;
@@ -40,15 +41,18 @@ public class VoucherController {
                 log.info(LogMessage.LIST_START.getMessage());
 
                 consolePrint.printList(service.list());
+            } else if(command == Command.EXIT) {
+                log.info(LogMessage.FINISH_PROGRAM.getMessage());
+
+                System.exit(0);
             }
         } catch (NotCorrectForm e) {
             System.out.println(ConsoleMessage.NOT_CORRECT_FORM.getMessage());
-            System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
-            System.exit(0);
         } catch (NotCorrectScope e) {
             System.out.println(ConsoleMessage.NOT_CORRECT_SCOPE.getMessage());
-            System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
-            System.exit(0);
+        } catch(NotCorrectCommand e) {
+            System.out.println(ConsoleMessage.NOT_CORRECT_COMMAND.getMessage());
         }
+        this.run();
     }
 }

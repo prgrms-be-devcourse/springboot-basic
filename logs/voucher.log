@@ -1,0 +1,18 @@
+02:28:00.101 [main] INFO  c.e.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 24488 (C:\데브코스\voucher-manager\build\classes\java\main started by skylim in C:\데브코스\voucher-manager)
+02:28:00.103 [main] INFO  c.e.v.VoucherManagerApplication -- No active profile set, falling back to 1 default profile: "default"
+02:28:00.775 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat initialized with port(s): 8080 (http)
+02:28:00.781 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Initializing ProtocolHandler ["http-nio-8080"]
+02:28:00.782 [main] INFO  o.a.catalina.core.StandardService -- Starting service [Tomcat]
+02:28:00.782 [main] INFO  o.a.catalina.core.StandardEngine -- Starting Servlet engine: [Apache Tomcat/10.1.13]
+02:28:00.858 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] -- Initializing Spring embedded WebApplicationContext
+02:28:00.859 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext -- Root WebApplicationContext: initialization completed in 714 ms
+02:28:00.909 [main] INFO  o.s.b.f.a.AutowiredAnnotationBeanPostProcessor -- Autowired annotation is not supported on static methods: public static void com.example.vouchermanager.VoucherManagerApplication.main(java.lang.String[])
+02:28:01.102 [main] INFO  o.a.coyote.http11.Http11NioProtocol -- Starting ProtocolHandler ["http-nio-8080"]
+02:28:01.117 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer -- Tomcat started on port(s): 8080 (http) with context path ''
+02:28:01.123 [main] INFO  c.e.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.301 seconds (process running for 1.846)
+02:28:01.125 [main] INFO  c.e.v.console.ConsolePrint -- 기능 선택
+02:28:50.556 [main] INFO  c.e.v.console.ConsolePrint -- list 기능 선택
+02:28:50.556 [main] INFO  c.e.v.controller.VoucherController -- list 기능 시작
+02:28:50.556 [main] INFO  c.e.v.service.VoucherService -- create list 시작
+02:28:50.556 [main] INFO  c.e.v.r.VoucherMemoryRepository -- repository에서 보낼 voucher 목록: []
+02:28:50.558 [main] INFO  c.e.v.console.ConsolePrint -- voucher list 출력 시작

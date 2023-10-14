@@ -39,6 +39,11 @@ public class ConsolePrint {
 
                 return Command.LIST;
             }
+            case "exit" -> {
+                System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
+
+                return Command.EXIT;
+            }
             default -> {
                 log.info(LogMessage.NOT_CORRECT_COMMAND.getMessage());
 
@@ -51,7 +56,7 @@ public class ConsolePrint {
     public VoucherType getVoucherType() throws NotCorrectForm {
         log.info(LogMessage.GET_VOUCHER_TYPE.getMessage());
 
-        System.out.println(ConsoleMessage.SELECT_VOUCHER_TYPE.getMessage());
+        System.out.println(ConsoleMessage.GET_VOUCHER_TYPE.getMessage());
         String type = sc.nextLine();
 
         try {
@@ -78,9 +83,8 @@ public class ConsolePrint {
             } else if (type == VoucherType.PERCENT) {
                 System.out.println(ConsoleMessage.GET_DISCOUNT_PERCENT.getMessage());
                 discount = Long.parseLong(sc.nextLine());
+                if(discount < 0 || discount > 100) throw new NotCorrectScope();
             }
-
-            if(discount < 0 || discount > 100) throw new NotCorrectScope();
         } catch (NumberFormatException e) {
             log.error(LogMessage.NOT_CORRECT_FORM.getMessage());
             throw new NotCorrectForm();

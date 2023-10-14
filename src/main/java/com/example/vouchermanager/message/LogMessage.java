@@ -9,6 +9,7 @@ public enum LogMessage {
     SELECT_FUNCTION("기능 선택"),
     SELECT_CREATE("create 기능 선택"),
     SELECT_LIST("list 기능 선택"),
+    FINISH_PROGRAM("프로그램 종료"),
 
     CREATE_START("create 기능 시작"),
     GET_VOUCHER_TYPE("voucher 종류 얻기"),
