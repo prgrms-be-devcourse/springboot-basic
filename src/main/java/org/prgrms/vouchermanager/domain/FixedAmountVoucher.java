@@ -1,5 +1,7 @@
 package org.prgrms.vouchermanager.domain;
 
+
+
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher{
