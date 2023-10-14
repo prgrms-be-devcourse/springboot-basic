@@ -25,7 +25,7 @@ checkstyle-suppressions.xml
 
 # 자바 컴파일 관련 파일
 /target/
-!target/*.jar
+!*.jar
 *.class
 
 # 로그 파일
