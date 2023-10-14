@@ -1,28 +1,25 @@
 package com.example.vouchermanager;
 
 import com.example.vouchermanager.console.Command;
-import com.example.vouchermanager.console.CommandHandler;
-import com.example.vouchermanager.console.VoucherType;
+import com.example.vouchermanager.console.ConsolePrint;
+import com.example.vouchermanager.domain.Voucher;
 import com.example.vouchermanager.domain.VoucherInfo;
 import com.example.vouchermanager.exception.NotCorrectCommand;
 import com.example.vouchermanager.message.ConsoleMessage;
 import com.example.vouchermanager.service.VoucherService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 
-import java.util.Optional;
-import java.util.logging.ConsoleHandler;
+import java.awt.*;
 
 @SpringBootApplication
 public class VoucherManagerApplication implements CommandLineRunner {
-    private final CommandHandler commandHandler;
+    private final ConsolePrint consolePrint;
     private final VoucherService service;
 
-    public VoucherManagerApplication(CommandHandler commandHandler, VoucherService service) {
-        this.commandHandler = commandHandler;
+    public VoucherManagerApplication(ConsolePrint consolePrint, VoucherService service) {
+        this.consolePrint = consolePrint;
         this.service = service;
     }
 
@@ -33,14 +30,14 @@ public class VoucherManagerApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         try {
-            Command command = commandHandler.run();
+            Command command = consolePrint.run();
 
             if(command == Command.CREATE) {
-                VoucherInfo voucherInfo = commandHandler.getVoucherInfo();
+                VoucherInfo voucherInfo = consolePrint.getVoucherInfo();
                 service.create(voucherInfo);
                 System.out.println(ConsoleMessage.COMPLETE_CREATE_VOUCHER.getMessage());
             } else if(command == Command.LIST) {
-                service.list();
+                consolePrint.printList(service.list());
             }
         } catch (NotCorrectCommand e) {
             System.out.println(ConsoleMessage.NOT_CORRECT_COMMAND.getMessage());

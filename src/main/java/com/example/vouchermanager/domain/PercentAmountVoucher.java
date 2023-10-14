@@ -12,4 +12,8 @@ public class PercentAmountVoucher implements Voucher {
     public long discount(long beforeDiscount) {
         return beforeDiscount - beforeDiscount * (percent / 100);
     }
+
+    public String toString() {
+        return "Voucher type: percent\nDiscount: " + percent + "%";
+    }
 }

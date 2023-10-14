@@ -16,4 +16,6 @@ public class MemoryRepository{
     public void create(Voucher voucher) {
         vouchers.add(voucher);
     }
+
+    public List<Voucher> list() { return vouchers; }
 }

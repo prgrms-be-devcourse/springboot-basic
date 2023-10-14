@@ -9,6 +9,8 @@ import com.example.vouchermanager.repository.MemoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VoucherService {
 
@@ -30,5 +32,7 @@ public class VoucherService {
         }
         repository.create(voucher);
     }
-    public void list() {}
+    public List<Voucher> list() {
+        return repository.list();
+    }
 }

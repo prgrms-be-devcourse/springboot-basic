@@ -1,20 +1,22 @@
 package com.example.vouchermanager.console;
 
+import com.example.vouchermanager.domain.Voucher;
 import com.example.vouchermanager.domain.VoucherInfo;
 import com.example.vouchermanager.exception.NotCorrectCommand;
 import com.example.vouchermanager.message.ConsoleMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Component
-public class CommandHandler {
+public class ConsolePrint {
 
     private final Scanner sc;
 
     @Autowired
-    public CommandHandler(Reader reader) {
+    public ConsolePrint(Reader reader) {
         this.sc = reader.sc;
     }
 
@@ -54,5 +56,11 @@ public class CommandHandler {
         } catch (NumberFormatException | NotCorrectCommand e) {
             throw new NotCorrectCommand();
         }
+    }
+
+    public void printList(List<Voucher> vouchers) {
+        vouchers.forEach(voucher -> {
+            System.out.println(voucher.toString());
+        });
     }
 }

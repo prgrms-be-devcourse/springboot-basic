@@ -12,4 +12,7 @@ public class FixedAmountVoucher implements Voucher {
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }
+    public String toString() {
+        return "Voucher type: fixed\nDiscount: " + amount;
+    }
 }
