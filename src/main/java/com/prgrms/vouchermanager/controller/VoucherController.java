@@ -35,7 +35,7 @@ public class VoucherController {
                 VoucherType voucherType = consolePrint.getVoucherType();
                 long discount = consolePrint.getVoucherDiscount(voucherType);
 
-                log.info(LogMessage.VOUCHER_INFO.getMessage(), voucherType.getType(), discount);
+                log.info(LogMessage.VOUCHER_TYPE_AND_DISCOUNT.getMessage(), voucherType.getType(), discount);
 
                 service.create(voucherType, discount);
                 consolePrint.printCompleteCreate();

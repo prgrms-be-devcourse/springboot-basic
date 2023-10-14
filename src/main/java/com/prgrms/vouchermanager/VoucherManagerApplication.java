@@ -9,7 +9,6 @@ import org.springframework.boot.ansi.AnsiOutput;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@Slf4j
 public class VoucherManagerApplication implements CommandLineRunner {
 
     private final VoucherController controller;

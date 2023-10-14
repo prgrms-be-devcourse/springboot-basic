@@ -27,8 +27,6 @@ public class VoucherService {
     }
 
     public void create(VoucherType voucherType, long discount) {
-        log.info(LogMessage.SERVICE_CREATE_START.getMessage());
-
         Voucher voucher = null;
         if(voucherType == VoucherType.FIXED) {
             voucher = new FixedAmountVoucher(discount);
@@ -36,7 +34,7 @@ public class VoucherService {
             voucher = new PercentAmountVoucher(discount);
         }
 
-        log.info(LogMessage.VOUCHER_TYPE_INFO.getMessage(), voucher);
+        log.info(LogMessage.VOUCHER_INFO.getMessage(), voucher);
 
         voucherRepository.create(voucher);
     }
