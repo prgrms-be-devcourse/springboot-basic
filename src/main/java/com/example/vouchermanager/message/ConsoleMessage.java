@@ -17,8 +17,13 @@ public enum ConsoleMessage {
             ex) fixed 1000
             ex) percent 30
             """),
+
     NOT_CORRECT_COMMAND("This is not a valid command."),
-    GET_PRICE("Type the amount before discount."),
+    NOT_CORRECT_FORM("This is not an correct input format."),
+    NOT_CORRECT_SCOPE("The discount percent must be a number from 0 to 100."),
+
+    GET_DISCOUNT_AMOUNT("Type the discount amount."),
+    GET_DISCOUNT_PERCENT("Type the discount percent."),
     COMPLETE_CREATE_VOUCHER("A voucher has been created.");
 
     private final String message;

@@ -2,9 +2,12 @@ package com.example.vouchermanager;
 
 import com.example.vouchermanager.console.Command;
 import com.example.vouchermanager.console.ConsolePrint;
+import com.example.vouchermanager.console.VoucherType;
 import com.example.vouchermanager.domain.Voucher;
 import com.example.vouchermanager.domain.VoucherInfo;
 import com.example.vouchermanager.exception.NotCorrectCommand;
+import com.example.vouchermanager.exception.NotCorrectForm;
+import com.example.vouchermanager.exception.NotCorrectScope;
 import com.example.vouchermanager.message.ConsoleMessage;
 import com.example.vouchermanager.message.LogMessage;
 import com.example.vouchermanager.service.VoucherService;
@@ -38,18 +41,24 @@ public class VoucherManagerApplication implements CommandLineRunner {
             if(command == Command.CREATE) {
                 log.info(LogMessage.CREATE_START.getMessage());
 
-                VoucherInfo voucherInfo = consolePrint.getVoucherInfo();
-                service.create(voucherInfo);
+                VoucherType voucherType = consolePrint.getVoucherType();
+                long discount = consolePrint.getVoucherDiscount(voucherType);
+
+                log.info(LogMessage.VOUCHER_INFO.getMessage(), voucherType.getType(), discount);
+
+                service.create(voucherType, discount);
                 System.out.println(ConsoleMessage.COMPLETE_CREATE_VOUCHER.getMessage());
             } else if(command == Command.LIST) {
                 log.info(LogMessage.LIST_START.getMessage());
 
                 consolePrint.printList(service.list());
             }
-        } catch (NotCorrectCommand e) {
-            log.info(LogMessage.NOT_CORRECT_COMMAND.getMessage());
-
-            System.out.println(ConsoleMessage.NOT_CORRECT_COMMAND.getMessage());
+        } catch (NotCorrectForm e) {
+            System.out.println(ConsoleMessage.NOT_CORRECT_FORM.getMessage());
+            System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
+            System.exit(0);
+        } catch (NotCorrectScope e) {
+            System.out.println(ConsoleMessage.NOT_CORRECT_SCOPE.getMessage());
             System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
             System.exit(0);
         }

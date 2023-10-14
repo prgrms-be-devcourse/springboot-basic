@@ -6,11 +6,11 @@ import lombok.Getter;
 @Getter
 public class VoucherInfo {
     @Getter
-    private long amount;
+    private long discount;
     private VoucherType voucherType;
 
-    public VoucherInfo(VoucherType voucherType, long amount) {
-        this.amount = amount;
+    public VoucherInfo(VoucherType voucherType, long discount) {
+        this.discount = discount;
         this.voucherType = voucherType;
     }
 }

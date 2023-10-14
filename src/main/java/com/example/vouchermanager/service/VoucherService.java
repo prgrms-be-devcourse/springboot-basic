@@ -4,8 +4,7 @@ import com.example.vouchermanager.console.VoucherType;
 import com.example.vouchermanager.domain.FixedAmountVoucher;
 import com.example.vouchermanager.domain.PercentAmountVoucher;
 import com.example.vouchermanager.domain.Voucher;
-import com.example.vouchermanager.domain.VoucherInfo;
-import com.example.vouchermanager.repository.MemoryRepository;
+import com.example.vouchermanager.repository.VoucherMemoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,22 +13,21 @@ import java.util.List;
 @Service
 public class VoucherService {
 
-    MemoryRepository repository;
+    VoucherMemoryRepository repository;
 
     @Autowired
-    public VoucherService(MemoryRepository repository) {
+    public VoucherService(VoucherMemoryRepository repository) {
         this.repository = repository;
     }
 
-    public void create(VoucherInfo voucherInfo) {
+    public void create(VoucherType voucherType, long discount) {
         Voucher voucher = null;
-        long beforeDiscount = voucherInfo.getAmount();
-        VoucherType voucherType = voucherInfo.getVoucherType();
         if(voucherType == VoucherType.FIXED) {
-            voucher = new FixedAmountVoucher(beforeDiscount);
+            voucher = new FixedAmountVoucher(discount);
         } else if(voucherType == VoucherType.PERCENT) {
-            voucher = new PercentAmountVoucher(beforeDiscount);
+            voucher = new PercentAmountVoucher(discount);
         }
+
         repository.create(voucher);
     }
     public List<Voucher> list() {
