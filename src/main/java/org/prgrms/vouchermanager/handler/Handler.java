@@ -86,5 +86,6 @@ public class Handler {
 
     private void customerList() {
         List<Customer> all = customerController.findAll();
+        all.forEach(Object::toString);
     }
 }

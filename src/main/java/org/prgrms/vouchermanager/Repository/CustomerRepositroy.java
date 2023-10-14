@@ -7,4 +7,6 @@ import java.util.Map;
 
 public interface CustomerRepositroy {
     List<Customer> findAll();
+
+    Customer save(Customer customer);
 }

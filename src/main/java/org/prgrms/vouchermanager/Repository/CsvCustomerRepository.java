@@ -6,6 +6,7 @@ import org.apache.commons.csv.CSVRecord;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -18,6 +19,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Profile("production")
 public class CsvCustomerRepository implements CustomerRepositroy{
 
     String csvFilePath = "D:\\Users\\programmers\\vouchermanager\\src\\main\\java\\org\\prgrms\\vouchermanager\\Repository\\blacklist.csv";
@@ -40,5 +42,10 @@ public class CsvCustomerRepository implements CustomerRepositroy{
             e.printStackTrace();
         }
         return result;
+    }
+
+    @Override
+    public Customer save(Customer customer) {
+        return null;
     }
 }

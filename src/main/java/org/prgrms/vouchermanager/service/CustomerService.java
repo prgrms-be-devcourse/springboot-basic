@@ -15,4 +15,8 @@ public class CustomerService {
     public List<Customer> findAll(){
         return customerRepositroy.findAll();
     }
+
+    public Customer createCustomer(Customer customer){
+        return customerRepositroy.save(customer);
+    }
 }
