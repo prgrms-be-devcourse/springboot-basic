@@ -3,6 +3,7 @@ package com.prgrms.vouchermanager.controller;
 import com.prgrms.vouchermanager.console.Command;
 import com.prgrms.vouchermanager.console.ConsolePrint;
 import com.prgrms.vouchermanager.console.VoucherType;
+import com.prgrms.vouchermanager.domain.Customer;
 import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.exception.NotCorrectCommand;
 import com.prgrms.vouchermanager.exception.NotCorrectForm;
@@ -31,8 +32,6 @@ public class VoucherController {
             Command command = consolePrint.run();
 
             if(command == Command.CREATE) {
-                log.info(LogMessage.CREATE_START.getMessage());
-
                 VoucherType voucherType = consolePrint.getVoucherType();
                 long discount = consolePrint.getVoucherDiscount(voucherType);
 
@@ -41,8 +40,6 @@ public class VoucherController {
                 service.create(voucherType, discount);
                 consolePrint.printCompleteCreate();
             } else if(command == Command.LIST) {
-                log.info(LogMessage.LIST_START.getMessage());
-
                 List<Voucher> vouchers = service.list();
                 if(vouchers.isEmpty()) consolePrint.printListEmpty();
                 else consolePrint.printList(service.list());
@@ -50,6 +47,10 @@ public class VoucherController {
                 log.info(LogMessage.FINISH_PROGRAM.getMessage());
 
                 System.exit(0);
+            } else if(command == Command.BLACKLIST) {
+                List<Customer> customers = service.blacklist();
+                if(customers.isEmpty()) consolePrint.printListEmpty();
+                else consolePrint.printBlacklist(service.blacklist());
             }
         } catch (NotCorrectForm e) {
             System.out.println(ConsoleMessage.NOT_CORRECT_FORM.getMessage());

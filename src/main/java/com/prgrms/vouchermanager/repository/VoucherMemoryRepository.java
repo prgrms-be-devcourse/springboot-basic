@@ -8,25 +8,18 @@ import org.springframework.stereotype.Repository;
 import java.util.*;
 
 @Repository
-@Slf4j
-public class VoucherMemoryRepository {
+public class VoucherMemoryRepository implements VoucherRepository {
 
     Map<UUID, Voucher> vouchers = new HashMap<>();
 
     public void create(Voucher voucher) {
-        log.info(LogMessage.REPOSITORY_CREATE_VOUCHER.getMessage(), voucher.toString());
-
         vouchers.put(voucher.getId(), voucher);
     }
 
     public List<Voucher> list() {
-        List<Voucher> voucherList = vouchers
+        return vouchers
                 .values()
                 .stream()
                 .toList();
-
-        log.info(LogMessage.REPOSITORY_LIST_LIST.getMessage(), voucherList.getClass());
-
-        return voucherList;
     }
 }

@@ -9,6 +9,7 @@ public enum LogMessage {
     SELECT_FUNCTION("기능 선택"),
     SELECT_CREATE("create 기능 선택"),
     SELECT_LIST("list 기능 선택"),
+    SELECT_BLACKLIST("blacklist 기능 선택"),
     FINISH_PROGRAM("프로그램 종료"),
 
     CREATE_START("create 기능 시작"),
@@ -19,9 +20,11 @@ public enum LogMessage {
     LIST_EMPTY("빈 list"),
     VOUCHER_LIST_PRINT("voucher list 출력 시작"),
     VOUCHER_TYPE_INFO("만들어진 voucher 종류: {}"),
+    BLACKLIST_PRINT("blacklist 출력 시작"),
 
     SERVICE_CREATE_START("create service 시작"),
-    SERVICE_LIST_START("create list 시작"),
+    SERVICE_LIST_START("list service 시작"),
+    SERVICE_BLACKLIST_START("blacklist service 시작"),
 
     REPOSITORY_CREATE_VOUCHER("repository로 넘어온 voucher: {}"),
     REPOSITORY_LIST_LIST("repository에서 보낼 voucher 목록: {}"),

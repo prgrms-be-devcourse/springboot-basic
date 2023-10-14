@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.console;
 
+import com.prgrms.vouchermanager.domain.Customer;
 import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.exception.NotCorrectCommand;
 import com.prgrms.vouchermanager.exception.NotCorrectForm;
@@ -25,7 +26,6 @@ public class ConsolePrint {
     }
 
     public Command run() {
-        log.info(LogMessage.SELECT_FUNCTION.getMessage());
         System.out.println(ConsoleMessage.SELECT_FUNCTION.getMessage());
 
         switch (sc.nextLine()) {
@@ -44,6 +44,11 @@ public class ConsolePrint {
 
                 return Command.EXIT;
             }
+            case "blacklist" -> {
+                log.info(LogMessage.SELECT_BLACKLIST.getMessage());
+
+                return Command.BLACKLIST;
+            }
             default -> {
                 log.error(LogMessage.NOT_CORRECT_COMMAND.getMessage());
 
@@ -54,8 +59,6 @@ public class ConsolePrint {
 
 
     public VoucherType getVoucherType() throws NotCorrectForm {
-        log.info(LogMessage.GET_VOUCHER_TYPE.getMessage());
-
         System.out.println(ConsoleMessage.GET_VOUCHER_TYPE.getMessage());
         String type = sc.nextLine();
 
@@ -74,7 +77,6 @@ public class ConsolePrint {
     }
 
     public long getVoucherDiscount(VoucherType type) throws NotCorrectScope, NotCorrectForm {
-        log.info(LogMessage.GET_VOUCHER_DISCOUNT.getMessage());
         long discount = 0;
         try {
             if (type == VoucherType.FIXED) {
@@ -102,10 +104,7 @@ public class ConsolePrint {
     }
 
     public void printList(List<Voucher> vouchers) {
-        log.info(LogMessage.VOUCHER_LIST_PRINT.getMessage());
-
         vouchers.forEach(voucher -> {
-                    log.info(voucher.toString());
                     System.out.println(voucher);
                     System.out.println("---------------");
                 });
@@ -113,9 +112,15 @@ public class ConsolePrint {
     }
 
     public void printListEmpty() {
-        log.info(LogMessage.LIST_EMPTY.getMessage());
-
         System.out.println(ConsoleMessage.NO_VOUCHER.getMessage());
+        System.out.println();
+    }
+
+    public void printBlacklist(List<Customer> blacklist) {
+        blacklist.forEach(customer -> {
+            System.out.println(customer);
+            System.out.println("---------------");
+        });
         System.out.println();
     }
 }
