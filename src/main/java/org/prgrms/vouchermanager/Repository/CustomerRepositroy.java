@@ -4,5 +4,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface CustomerRepositroy {
-    List<Map<String, String>> findAll();
+    List<List<String>> findAll();
 }
