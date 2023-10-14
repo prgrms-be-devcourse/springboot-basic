@@ -1,11 +1,12 @@
 package com.prgrms.vouchermanager.repository;
 
 import com.prgrms.vouchermanager.domain.Voucher;
-import com.prgrms.vouchermanager.message.LogMessage;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class VoucherMemoryRepository implements VoucherRepository {
