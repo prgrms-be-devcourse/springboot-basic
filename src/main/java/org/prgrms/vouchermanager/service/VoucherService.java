@@ -1,18 +1,16 @@
 package org.prgrms.vouchermanager.service;
 
+import lombok.RequiredArgsConstructor;
 import org.prgrms.vouchermanager.Repository.VoucherRepository;
-import org.prgrms.vouchermanager.domain.Voucher;
+import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-
-    public VoucherService(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }
 
     public List<Voucher> getAllVoucher(){
         return voucherRepository.findAll();

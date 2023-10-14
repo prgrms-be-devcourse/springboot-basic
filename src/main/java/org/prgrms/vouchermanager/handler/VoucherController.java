@@ -1,10 +1,10 @@
 package org.prgrms.vouchermanager.handler;
 
 import org.prgrms.vouchermanager.Repository.MemoryVoucherRepository;
-import org.prgrms.vouchermanager.domain.FixedAmountVoucher;
-import org.prgrms.vouchermanager.domain.PercentDiscountVoucher;
-import org.prgrms.vouchermanager.domain.Voucher;
-import org.prgrms.vouchermanager.domain.VoucherType;
+import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
+import org.prgrms.vouchermanager.domain.voucher.Voucher;
+import org.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.prgrms.vouchermanager.service.VoucherService;
 import org.springframework.stereotype.Component;
 

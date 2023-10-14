@@ -2,10 +2,9 @@ package org.prgrms.vouchermanager.domain;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
 
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PercentDiscountVoucherTest {
 

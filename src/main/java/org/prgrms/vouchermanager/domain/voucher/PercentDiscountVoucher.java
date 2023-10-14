@@ -1,17 +1,15 @@
-package org.prgrms.vouchermanager.domain;
+package org.prgrms.vouchermanager.domain.voucher;
 
 
+
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
+@RequiredArgsConstructor
 public class PercentDiscountVoucher implements Voucher{
     private final UUID voucherId;
     private final long percent;
-
-    public PercentDiscountVoucher(UUID voucherId, long percent) {
-        this.voucherId = voucherId;
-        this.percent = percent;
-    }
 
     @Override
     public UUID getVoucherId() {

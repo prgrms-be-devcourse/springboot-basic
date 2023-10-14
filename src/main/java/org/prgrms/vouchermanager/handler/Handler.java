@@ -1,8 +1,8 @@
 package org.prgrms.vouchermanager.handler;
 
 import lombok.RequiredArgsConstructor;
-import org.prgrms.vouchermanager.domain.Voucher;
-import org.prgrms.vouchermanager.domain.VoucherType;
+import org.prgrms.vouchermanager.domain.voucher.Voucher;
+import org.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.prgrms.vouchermanager.exception.InputValueException;
 import org.prgrms.vouchermanager.io.Input;
 import org.prgrms.vouchermanager.io.Output;

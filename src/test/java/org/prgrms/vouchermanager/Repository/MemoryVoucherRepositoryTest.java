@@ -1,17 +1,14 @@
 package org.prgrms.vouchermanager.Repository;
 
 import lombok.RequiredArgsConstructor;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.prgrms.vouchermanager.domain.FixedAmountVoucher;
-import org.prgrms.vouchermanager.domain.Voucher;
+import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import org.prgrms.vouchermanager.domain.voucher.Voucher;
 
-import java.io.File;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @RequiredArgsConstructor
 class MemoryVoucherRepositoryTest {
