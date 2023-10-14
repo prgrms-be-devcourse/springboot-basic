@@ -1,13 +1,11 @@
 package com.example.vouchermanager.console;
 
 import com.example.vouchermanager.domain.Voucher;
-import com.example.vouchermanager.domain.VoucherInfo;
 import com.example.vouchermanager.exception.NotCorrectCommand;
 import com.example.vouchermanager.exception.NotCorrectForm;
 import com.example.vouchermanager.exception.NotCorrectScope;
 import com.example.vouchermanager.message.ConsoleMessage;
 import com.example.vouchermanager.message.LogMessage;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

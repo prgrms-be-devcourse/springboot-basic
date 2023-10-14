@@ -3,9 +3,6 @@ package com.example.vouchermanager;
 import com.example.vouchermanager.console.Command;
 import com.example.vouchermanager.console.ConsolePrint;
 import com.example.vouchermanager.console.VoucherType;
-import com.example.vouchermanager.domain.Voucher;
-import com.example.vouchermanager.domain.VoucherInfo;
-import com.example.vouchermanager.exception.NotCorrectCommand;
 import com.example.vouchermanager.exception.NotCorrectForm;
 import com.example.vouchermanager.exception.NotCorrectScope;
 import com.example.vouchermanager.message.ConsoleMessage;
@@ -15,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.awt.*;
 
 @SpringBootApplication
 @Slf4j
