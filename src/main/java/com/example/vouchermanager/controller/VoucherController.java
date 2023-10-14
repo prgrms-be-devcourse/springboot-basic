@@ -36,7 +36,7 @@ public class VoucherController {
                 log.info(LogMessage.VOUCHER_INFO.getMessage(), voucherType.getType(), discount);
 
                 service.create(voucherType, discount);
-                System.out.println(ConsoleMessage.COMPLETE_CREATE_VOUCHER.getMessage());
+                consolePrint.printCompleteCreate();
             } else if(command == Command.LIST) {
                 log.info(LogMessage.LIST_START.getMessage());
 

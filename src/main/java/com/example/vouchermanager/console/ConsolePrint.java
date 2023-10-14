@@ -96,6 +96,11 @@ public class ConsolePrint {
         return discount;
     }
 
+    public void printCompleteCreate() {
+        System.out.println(ConsoleMessage.COMPLETE_CREATE_VOUCHER.getMessage());
+        System.out.println();
+    }
+
     public void printList(List<Voucher> vouchers) {
         log.info(LogMessage.VOUCHER_LIST_PRINT.getMessage());
 
@@ -103,5 +108,7 @@ public class ConsolePrint {
             log.info(voucher.toString());
             System.out.println(voucher);
         });
+
+        System.out.println();
     }
 }

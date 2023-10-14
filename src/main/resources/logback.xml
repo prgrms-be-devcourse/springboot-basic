@@ -9,6 +9,7 @@
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>logs/voucher.log</file>
+        <append>false</append>
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
