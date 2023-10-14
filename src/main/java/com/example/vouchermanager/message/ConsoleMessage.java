@@ -1,5 +1,8 @@
 package com.example.vouchermanager.message;
 
+import lombok.Getter;
+
+@Getter
 public enum ConsoleMessage {
     SELECT_FUNCTION("""
             === Voucher Program ===
@@ -23,7 +26,4 @@ public enum ConsoleMessage {
         this.message = message;
     }
 
-    public String getMessage() {
-        return message;
-    }
 }
