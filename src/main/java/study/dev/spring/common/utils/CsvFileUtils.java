@@ -2,15 +2,19 @@ package study.dev.spring.common.utils;
 
 import static study.dev.spring.common.exception.GlobalErrorCode.*;
 
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.opencsv.bean.CsvToBeanBuilder;
+import com.opencsv.bean.StatefulBeanToCsv;
+import com.opencsv.bean.StatefulBeanToCsvBuilder;
 
 import lombok.RequiredArgsConstructor;
 import study.dev.spring.common.exception.GlobalException;
@@ -28,20 +32,36 @@ public class CsvFileUtils implements FileUtils {
 	}
 
 	@Override
-	public Object readFile(final String filePath) {
-		Resource resource = new ClassPathResource(filePath);
+	public <T> List<Object> readFile(final String filePath, final Class<T> type) {
+		Resource resource = new PathResource(filePath);
 
-		try {
-			CsvMapper csvMapper = new CsvMapper();
-			CsvSchema schema = CsvSchema.emptySchema().withHeader();
-
-			return csvMapper
-				.readerFor(Object.class)
-				.with(schema)
-				.readValues(resource.getFile())
-				.readAll();
+		try (FileReader fileReader = new FileReader(resource.getFile())) {
+			return new CsvToBeanBuilder<>(fileReader)
+				.withType(type)
+				.build()
+				.parse();
 		} catch (IOException e) {
 			throw new GlobalException(FILE_READ_EX);
+		}
+	}
+
+	@Override
+	public void writeFile(final String filePath, final List<Object> data) {
+		Resource resource = new PathResource(filePath);
+		validateFileIsExist(resource);
+
+		try (FileWriter fileWriter = new FileWriter(resource.getFile())) {
+			StatefulBeanToCsv<Object> beanToCsv = new StatefulBeanToCsvBuilder<>(fileWriter).build();
+
+			beanToCsv.write(data);
+		} catch (Exception e) {
+			throw new GlobalException(FILE_WRITE_EX);
+		}
+	}
+
+	private void validateFileIsExist(final Resource resource) {
+		if (!resource.exists()) {
+			throw new GlobalException(FILE_WRITE_EX);
 		}
 	}
 }
