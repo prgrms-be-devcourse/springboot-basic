@@ -1,7 +1,6 @@
 package org.prgrms.vouchermanagement.repository;
 
 import org.prgrms.vouchermanagement.voucher.Voucher;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -28,7 +27,6 @@ public class MemoryRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> voucherLists() {
-        System.out.println("local");
         return storage.values().stream()
                 .toList();
     }
