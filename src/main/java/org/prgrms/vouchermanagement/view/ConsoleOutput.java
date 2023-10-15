@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanagement.view;
 
+import org.prgrms.vouchermanagement.customer.Customer;
 import org.prgrms.vouchermanagement.voucher.Voucher;
 
 import java.util.List;
@@ -9,9 +10,10 @@ public class ConsoleOutput {
     private static final String welcome = """
                             
             === Voucher Program ===
-            Type exit to exit the program.
             Type create to create a new voucher.
             Type list to list all vouchers.
+            Type blacklist to list customer in blacklist
+            Type exit to exit the program.
             """;
 
     private static final String createVoucher = """
@@ -29,6 +31,11 @@ public class ConsoleOutput {
     private static final String showVoucherLists = """
                             
             === VOUCHER LISTS ===
+            """;
+
+    private static final String showBlackList = """
+                            
+            === CUSTOMER BLACKLIST ===
             """;
 
     private static final String exit = """
@@ -58,6 +65,13 @@ public class ConsoleOutput {
 
     public void printCreateVoucherCompleteMessage() {
         printMessage(createVoucherComplete);
+    }
+
+    public void printBlackList(List<Customer> blackList) {
+        printMessage(showBlackList);
+        for(Customer customer : blackList) {
+            printlnMessage("customerId : " + customer.getCustomerId() + ", name : " + customer.getName() + ", age : " + customer.getAge());
+        }
     }
 
     public void printVouchers(List<Voucher> vouchers) {
