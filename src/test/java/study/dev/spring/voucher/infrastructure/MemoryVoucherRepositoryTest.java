@@ -23,7 +23,7 @@ class MemoryVoucherRepositoryTest {
 		memoryVoucherRepository.save(voucher);
 
 		//then
-		Voucher expected = memoryVoucherRepository.findById(voucher.getUuid());
+		Voucher expected = memoryVoucherRepository.findById(voucher.getUuid()).orElseThrow();
 		assertThat(voucher).isEqualTo(expected);
 	}
 
@@ -35,7 +35,7 @@ class MemoryVoucherRepositoryTest {
 		memoryVoucherRepository.save(voucher);
 
 		//when
-		Voucher actual = memoryVoucherRepository.findById(voucher.getUuid());
+		Voucher actual = memoryVoucherRepository.findById(voucher.getUuid()).orElseThrow();
 
 		//then
 		assertThat(actual).isEqualTo(voucher);
