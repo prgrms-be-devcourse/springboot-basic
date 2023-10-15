@@ -2,14 +2,23 @@ package com.weeklyMission.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher extends Voucher{
+public class FixedAmountVoucher implements Voucher{
 
-    protected FixedAmountVoucher(UUID voucherId, long amount) {
-        super(voucherId, amount);
+    private final UUID voucherId;
+    private final long amount;
+
+    public FixedAmountVoucher(UUID voucherId, long amount) {
+        this.voucherId = voucherId;
+        this.amount = amount;
     }
 
     @Override
-    long discount(long beforeDiscount) {
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    @Override
+    public long discount(long beforeDiscount) {
         return beforeDiscount-amount;
     }
 }
