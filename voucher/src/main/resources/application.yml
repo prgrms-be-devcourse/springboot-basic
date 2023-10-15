@@ -1,0 +1,13 @@
+---
+spring:
+  profiles:
+    active: dev
+  messages:
+    basename: message/messages
+
+---
+spring:
+  profiles:
+    active: prod
+  messages:
+    basename: message/messages
