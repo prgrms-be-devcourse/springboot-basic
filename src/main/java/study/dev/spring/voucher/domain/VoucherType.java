@@ -45,4 +45,8 @@ public enum VoucherType {
 	public void validateDiscountAmount(final double discountAmount) {
 		validator.accept(discountAmount);
 	}
+
+	public String getDescription() {
+		return description;
+	}
 }
