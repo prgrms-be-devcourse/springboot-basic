@@ -11,13 +11,13 @@ public enum VoucherTypeFunction {
     FIXED_AMOUNT_VOUCHER("fixedAmount", "고정 할인 바우처") {
         @Override
         public Voucher create(UUID voucherId, long amount) {
-            return new FixedAmountVoucher(voucherId, amount);
+            return new FixedAmountVoucher(voucherId, amount, "fixedAmount");
         }
     },
     PERCENT_DISCOUNT_VOUCHER("percentDiscount", "비율 할인 바우처") {
         @Override
         public Voucher create(UUID voucherId, long amount) {
-            return new PercentDiscountVoucher(voucherId, amount);
+            return new PercentDiscountVoucher(voucherId, amount, "percentDiscount");
         }
     };
 

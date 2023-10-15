@@ -1,9 +1,11 @@
 package org.prgrms.kdtspringdemo;
 
+import org.prgrms.kdtspringdemo.file.CsvFileHandler;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.VoucherFunction;
 import org.prgrms.kdtspringdemo.voucher.controller.VoucherController;
+import org.prgrms.kdtspringdemo.voucher.repository.FileVoucherRepository;
 import org.prgrms.kdtspringdemo.voucher.repository.MemoryVoucherRepository;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -27,6 +29,7 @@ public class KdtSpringDemoApplication {
 
 		inputConsole = new InputConsole(new BufferedReader(new InputStreamReader(System.in)));
 		outputConsole = new OutputConsole();
+		//VoucherService voucherService = new VoucherService(new FileVoucherRepository(new CsvFileHandler("src/main/resources/voucherList.csv")));
 		VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
 		voucherController = new VoucherController(voucherService, inputConsole, outputConsole);
 

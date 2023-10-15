@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
-import java.util.List;
 
 public class VoucherController {
     private final VoucherService voucherService;
@@ -28,7 +27,7 @@ public class VoucherController {
     public VoucherTypeFunction findVoucherType() throws IOException {
         outputConsole.getVoucherType();
         String voucherType = inputConsole.getString();
-        return voucherService.getVoucherType(voucherType);
+        return voucherService.getVoucherTypeFunction(voucherType);
     }
 
     public void createVoucher() {
@@ -36,8 +35,8 @@ public class VoucherController {
             VoucherTypeFunction voucherType = findVoucherType();
             UUID voucherId = UUID.randomUUID();
             outputConsole.getVoucherAmount();
-
             long amount = Long.parseLong(inputConsole.getString());
+
             voucherService.createVoucher(voucherType, voucherId, amount);
         } catch (NumberFormatException e) {
             logger.error("올바른 숫자 형식이 아닙니다.");

@@ -2,8 +2,6 @@ package org.prgrms.kdtspringdemo.view;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 
-import java.io.BufferedReader;
-
 public class OutputConsole {
     private final String start_string = "> ";
 
@@ -20,6 +18,7 @@ public class OutputConsole {
         System.out.println("=====================================");
         System.out.println("voucherId : " + voucher.getVoucherId());
         System.out.println("voucherAmount : " + voucher.getAmount());
+        System.out.println("voucherType : " + voucher.getVoucherType());
         System.out.println();
     }
 

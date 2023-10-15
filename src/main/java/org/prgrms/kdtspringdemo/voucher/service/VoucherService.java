@@ -18,7 +18,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherTypeFunction getVoucherType(String type) {
+    public VoucherTypeFunction getVoucherTypeFunction(String type) {
         return VoucherTypeFunction.findByCode(type);
     }
 
