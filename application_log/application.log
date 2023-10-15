@@ -1,0 +1,14 @@
+20231015 17:36:45.137 [main] ERROR [SpringApplication:827] - Application run failed 
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:777)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at org.prgrms.vouchermanagement.VoucherManagementApplication.main(VoucherManagementApplication.java:9)
+Caused by: org.prgrms.vouchermanagement.exception.InvalidInputException: 잘못된 command 입력입니다.
+	at org.prgrms.vouchermanagement.view.ConsoleInput.validateAndConvertToCommand(ConsoleInput.java:35)
+	at org.prgrms.vouchermanagement.view.ConsoleInput.commandInput(ConsoleInput.java:17)
+	at org.prgrms.vouchermanagement.Controller.run(Controller.java:32)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	... 5 common frames omitted
