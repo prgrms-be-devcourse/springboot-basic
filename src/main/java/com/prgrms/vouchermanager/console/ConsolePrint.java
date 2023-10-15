@@ -9,6 +9,7 @@ import com.prgrms.vouchermanager.message.ConsoleMessage;
 import com.prgrms.vouchermanager.message.LogMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

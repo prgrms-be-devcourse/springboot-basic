@@ -1,0 +1,2 @@
+csv:
+  path: "src\\main\\resources\\customer_blacklist.csv"

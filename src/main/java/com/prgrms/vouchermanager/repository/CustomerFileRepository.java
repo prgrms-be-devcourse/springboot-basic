@@ -2,21 +2,21 @@ package com.prgrms.vouchermanager.repository;
 
 import com.prgrms.vouchermanager.console.Reader;
 import com.prgrms.vouchermanager.domain.Customer;
+import com.prgrms.vouchermanager.exception.FileIOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.*;
 
 @Repository
 public class CustomerFileRepository implements CustomerRepository {
     private final Map<Integer, Customer> customerMap = new HashMap<>();
-    private final Scanner fc;
+    private final BufferedReader bf;
     @Autowired
     public CustomerFileRepository(Reader reader) {
-        this.fc = reader.fc;
+        this.bf = reader.bf;
         fileToMap();
     }
 
@@ -28,8 +28,15 @@ public class CustomerFileRepository implements CustomerRepository {
     }
 
     private void fileToMap() {
-        while(fc.hasNextLine()) {
-            String[] split = fc.nextLine().split(",");
+        String line = "";
+
+        while(true) {
+            try {
+                if ((line = bf.readLine()) == null) break;
+            } catch (IOException e) {
+                throw new FileIOException();
+            }
+            String[] split = line.split(",");
             Customer customer
                     = new Customer(Integer.parseInt(split[0]), split[1], Integer.parseInt(split[2]));
             customerMap.put(Integer.parseInt(split[0]), customer);
