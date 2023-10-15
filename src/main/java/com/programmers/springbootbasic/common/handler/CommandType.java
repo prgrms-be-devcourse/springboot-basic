@@ -3,14 +3,14 @@ package com.programmers.springbootbasic.common.handler;
 import java.util.Arrays;
 
 public enum CommandType {
-    Init(""),
-    Voucher("voucher"),
-    Customer("customer"),
-    Create("create"),
-    List("list"),
-    Blacklist("blacklist"),
-    Exit("exit"),
-    Error("error");
+    init(""),
+    voucher("voucher"),
+    customer("customer"),
+    create("create"),
+    list("list"),
+    blacklist("blacklist"),
+    exit("exit"),
+    error("error");
 
     private final String command;
 
@@ -22,7 +22,7 @@ public enum CommandType {
         return Arrays.stream(CommandType.values())
                 .filter(commandType -> commandType.command.equals(command))
                 .findAny()
-                .orElse(Error);
+                .orElse(error);
     }
 
 

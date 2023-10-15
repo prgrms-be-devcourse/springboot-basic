@@ -24,9 +24,9 @@ public class CommandHandler {
         try {
             command = CommandType.from(consoleIOManager.getInput());
             switch (command) {
-                case Voucher -> voucherProgram();
-                case Customer -> customerProgram();
-                case Exit -> consoleIOManager.printSystemMsg("종료합니다.");
+                case voucher -> voucherProgram();
+                case customer -> customerProgram();
+                case exit -> consoleIOManager.printSystemMsg("종료합니다.");
                 default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
             }
         } catch (IOException e) {
@@ -35,38 +35,38 @@ public class CommandHandler {
     }
 
     private void voucherProgram() {
-        CommandType command = CommandType.Init;
+        CommandType command = CommandType.init;
         do {
             consoleIOManager.printVoucherProgramMenu();
             try {
                 command = CommandType.from(consoleIOManager.getInput());
                 switch (command) {
-                    case Create -> create();
-                    case List -> list();
-                    case Exit -> consoleIOManager.printSystemMsg("종료합니다.");
+                    case create -> create();
+                    case list -> list();
+                    case exit -> consoleIOManager.printSystemMsg("종료합니다.");
                     default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
                 }
             } catch (IOException e) {
                 log.error(e.toString());
             }
-        } while (!command.equals(CommandType.Exit));
+        } while (!command.equals(CommandType.exit));
     }
 
     private void customerProgram() {
-        CommandType command = CommandType.Init;
+        CommandType command = CommandType.init;
         do {
             consoleIOManager.printCustomerProgramMenu();
             try {
                 command = CommandType.from(consoleIOManager.getInput());
                 switch (command) {
-                    case Blacklist -> blacklist();
-                    case Exit -> consoleIOManager.printSystemMsg("종료합니다.");
+                    case blacklist -> blacklist();
+                    case exit -> consoleIOManager.printSystemMsg("종료합니다.");
                     default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
                 }
             } catch (IOException e) {
                 log.error(e.toString());
             }
-        } while (!command.equals(CommandType.Exit));
+        } while (!command.equals(CommandType.exit));
     }
 
     private void create() throws IOException {

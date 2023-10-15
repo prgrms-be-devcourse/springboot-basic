@@ -6,6 +6,10 @@ import com.programmers.springbootbasic.common.response.model.ListResult;
 import java.util.List;
 
 public class ResponseFactory {
+
+    private ResponseFactory() {
+    }
+
     public static CommonResult getSuccessResult() {
         return new CommonResult(true, "완료");
     }

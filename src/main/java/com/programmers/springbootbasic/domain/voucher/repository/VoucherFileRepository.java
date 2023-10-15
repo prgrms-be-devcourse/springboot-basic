@@ -18,7 +18,7 @@ import java.util.UUID;
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
 
-    private final String FOLDER_PATH = System.getProperty("user.dir") + "/data";
+    private final String FOLDER_PATH = System.getProperty("user.dir") + File.separator + "data";
     private String filePath;
 
     @Value("${repository.voucher.fileName}")
@@ -26,7 +26,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @PostConstruct
     private void init() {
-        this.filePath = FOLDER_PATH + "/" + fileName + ".ser";
+        this.filePath = FOLDER_PATH + File.separator + fileName + ".ser";
         File file = new File(FOLDER_PATH);
         if (!file.exists()) {
             file.mkdir();
