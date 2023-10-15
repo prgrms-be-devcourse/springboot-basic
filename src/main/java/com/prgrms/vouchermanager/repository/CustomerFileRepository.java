@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Repository
 public class CustomerFileRepository implements CustomerRepository {
