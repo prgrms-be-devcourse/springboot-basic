@@ -1,6 +1,7 @@
 package com.prgrms.springbasic;
 
 import com.prgrms.springbasic.constant.MenuType;
+import com.prgrms.springbasic.domain.customer.controller.CustomerController;
 import com.prgrms.springbasic.domain.voucher.controller.VoucherController;
 import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
 import com.prgrms.springbasic.io.Console;
@@ -17,10 +18,12 @@ public class VoucherRunner implements CommandLineRunner {
 
     private final Console console;
     private final VoucherController voucherController;
+    private final CustomerController customerController;
 
-    public VoucherRunner(Console console, VoucherController voucherController) {
+    public VoucherRunner(Console console, VoucherController voucherController, CustomerController customerController) {
         this.console = console;
         this.voucherController = voucherController;
+        this.customerController = customerController;
     }
 
     @Override
@@ -41,6 +44,7 @@ public class VoucherRunner implements CommandLineRunner {
                     voucherController.saveVoucher(makeCreateVoucherRequest());
                 }
                 case LIST -> voucherController.findAll();
+                case BLACK_LIST -> customerController.findAllBlackLists();
             }
         }
     }

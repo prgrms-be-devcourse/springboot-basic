@@ -7,6 +7,7 @@ public enum MenuType {
     EXIT,
     CREATE,
     LIST,
+    BLACK_LIST
     ;
 
     public static MenuType find(String menu) {

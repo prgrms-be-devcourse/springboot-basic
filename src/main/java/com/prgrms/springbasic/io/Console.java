@@ -1,6 +1,7 @@
 package com.prgrms.springbasic.io;
 
 import com.prgrms.springbasic.constant.MenuType;
+import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import org.beryx.textio.TextIO;
@@ -49,6 +50,17 @@ public class Console implements Output, Input {
         }
         for (VoucherResponse voucher : vouchers) {
             textIO.getTextTerminal().println(voucher.toString());
+        }
+    }
+
+    @Override
+    public void printCustomers(List<CustomerResponse> customers) {
+        if (customers.isEmpty()) {
+            textIO.getTextTerminal().println(ConsoleMessage.NO_VOUCHER_EXIST.getMessage());
+            return;
+        }
+        for (CustomerResponse customer : customers) {
+            textIO.getTextTerminal().println(customer.toString());
         }
     }
 }
