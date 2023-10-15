@@ -4,9 +4,9 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final int percent;
+    private final long percent;
 
-    public PercentDiscountVoucher(UUID voucherId, int percent) {
+    public PercentDiscountVoucher(UUID voucherId, long percent) {
         if (percent > 100 || percent < 0)
             throw new IllegalArgumentException("percent value is out of range.");
 
