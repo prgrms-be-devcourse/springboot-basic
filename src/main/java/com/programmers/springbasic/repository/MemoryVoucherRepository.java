@@ -1,4 +1,4 @@
-package com.programmers.basic.repository;
+package com.programmers.springbasic.repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.stereotype.Repository;
 
-import com.programmers.basic.entity.Voucher;
+import com.programmers.springbasic.entity.Voucher;
 
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
