@@ -1,4 +1,4 @@
-package com.prgrms.springbasic.dto;
+package com.prgrms.springbasic.domain.voucher.dto;
 
 public class CreateVoucherRequest {
     private String discountType;

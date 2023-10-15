@@ -1,15 +1,20 @@
 package com.prgrms.springbasic;
 
 import com.prgrms.springbasic.constant.MenuType;
-import com.prgrms.springbasic.controller.VoucherController;
-import com.prgrms.springbasic.dto.CreateVoucherRequest;
+import com.prgrms.springbasic.domain.voucher.controller.VoucherController;
+import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
 import com.prgrms.springbasic.io.Console;
 import com.prgrms.springbasic.io.ConsoleMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class VoucherRunner implements CommandLineRunner {
+    Logger logger = LoggerFactory.getLogger(VoucherRunner.class);
+
     private final Console console;
     private final VoucherController voucherController;
 
@@ -20,6 +25,9 @@ public class VoucherRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
+        logger.warn("start program");
+
         boolean isRunning = true;
         MenuType menuType;
 

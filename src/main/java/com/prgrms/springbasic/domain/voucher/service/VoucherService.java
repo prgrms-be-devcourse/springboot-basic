@@ -1,21 +1,24 @@
-package com.prgrms.springbasic.service;
+package com.prgrms.springbasic.domain.voucher.service;
 
-import com.prgrms.springbasic.domain.DiscountType;
-import com.prgrms.springbasic.domain.FixedAmountVoucher;
-import com.prgrms.springbasic.domain.PercentDiscountVoucher;
-import com.prgrms.springbasic.domain.Voucher;
-import com.prgrms.springbasic.dto.CreateVoucherRequest;
-import com.prgrms.springbasic.dto.VoucherResponse;
-import com.prgrms.springbasic.repository.VoucherRepository;
-import org.springframework.stereotype.Component;
+import com.prgrms.springbasic.domain.voucher.entity.FixedAmountVoucher;
+import com.prgrms.springbasic.domain.voucher.entity.Voucher;
+import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
+import com.prgrms.springbasic.domain.voucher.entity.PercentDiscountVoucher;
+import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
+import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
+import com.prgrms.springbasic.domain.voucher.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class VoucherService {
 
-    private final VoucherRepository voucherRepository;
+    private final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
+    private final VoucherRepository voucherRepository;
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }

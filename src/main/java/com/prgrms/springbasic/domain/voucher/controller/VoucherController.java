@@ -1,14 +1,14 @@
-package com.prgrms.springbasic.controller;
+package com.prgrms.springbasic.domain.voucher.controller;
 
-import com.prgrms.springbasic.dto.CreateVoucherRequest;
-import com.prgrms.springbasic.dto.VoucherResponse;
+import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
+import com.prgrms.springbasic.domain.voucher.service.VoucherService;
+import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
 import com.prgrms.springbasic.io.Console;
-import com.prgrms.springbasic.service.VoucherService;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@Component
+@Controller
 public class VoucherController {
     private final VoucherService voucherService;
     private final Console console;

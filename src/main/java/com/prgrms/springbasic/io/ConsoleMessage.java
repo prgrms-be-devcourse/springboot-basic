@@ -6,8 +6,8 @@ public enum ConsoleMessage {
              === Voucher Program ===
             Type exit to exit the program.
             Type create to create a new voucher.
-            Type list to list all vouchers.
-            Please choose one of the modes displayed below and enter it."""),
+            Type list to list all vouchers."""),
+    CHOOSE_MENU_TYPE("Please choose one of the menu displayed below and enter it."),
     CREATE_VOUCHER("=== Create Voucher ===" + System.lineSeparator()),
     GET_DISCOUNT_TYPE("Choose voucher type displayed below and enter it."),
     GET_DISCOUNT_VALUE("Type discount value : "),

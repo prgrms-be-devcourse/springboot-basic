@@ -1,7 +1,7 @@
-package com.prgrms.springbasic.dto;
+package com.prgrms.springbasic.domain.voucher.dto;
 
-import com.prgrms.springbasic.domain.DiscountType;
-import com.prgrms.springbasic.domain.Voucher;
+import com.prgrms.springbasic.domain.voucher.entity.Voucher;
+import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 
 import java.util.UUID;
 

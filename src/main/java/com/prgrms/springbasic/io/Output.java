@@ -1,6 +1,6 @@
 package com.prgrms.springbasic.io;
 
-import com.prgrms.springbasic.dto.VoucherResponse;
+import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 
 import java.util.List;
 

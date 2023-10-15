@@ -1,8 +1,8 @@
 package com.prgrms.springbasic.io;
 
 import com.prgrms.springbasic.constant.MenuType;
-import com.prgrms.springbasic.domain.DiscountType;
-import com.prgrms.springbasic.dto.VoucherResponse;
+import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
+import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,7 @@ public class Console implements Output, Input {
         return textIO.newStringInputReader()
                 .withIgnoreCase()
                 .withPossibleValues(MenuType.allowedMenuTypes())
-                .read();
+                .read(ConsoleMessage.CHOOSE_MENU_TYPE.getMessage());
     }
 
     @Override

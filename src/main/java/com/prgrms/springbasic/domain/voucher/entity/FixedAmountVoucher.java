@@ -1,4 +1,4 @@
-package com.prgrms.springbasic.domain;
+package com.prgrms.springbasic.domain.voucher.entity;
 
 import java.util.UUID;
 

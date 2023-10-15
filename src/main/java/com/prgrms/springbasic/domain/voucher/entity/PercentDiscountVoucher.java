@@ -1,4 +1,4 @@
-package com.prgrms.springbasic.domain;
+package com.prgrms.springbasic.domain.voucher.entity;
 
 import java.util.UUID;
 
@@ -16,6 +16,6 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - beforeDiscount * (discountValue / 100);
+        return beforeDiscount * (discountValue / 100);
     }
 }
