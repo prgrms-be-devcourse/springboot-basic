@@ -2,11 +2,14 @@ package study.dev.spring.voucher.infrastructure;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import study.dev.spring.voucher.domain.Voucher;
 import study.dev.spring.voucher.domain.VoucherType;
+import study.dev.spring.voucher.fixture.VoucherFixture;
 
 @DisplayName("[MemoryVoucherRepository Test] - Infrastructure Layer")
 class MemoryVoucherRepositoryTest {
@@ -39,5 +42,25 @@ class MemoryVoucherRepositoryTest {
 
 		//then
 		assertThat(actual).isEqualTo(voucher);
+	}
+
+	@Test
+	@DisplayName("[모든 바우처를 조회한다]")
+	void findAllTest() {
+		//given
+		List<Voucher> vouchers = List.of(
+			VoucherFixture.getFixedVoucher(),
+			VoucherFixture.getFixedVoucher(),
+			VoucherFixture.getFixedVoucher()
+		);
+		vouchers.forEach(memoryVoucherRepository::save);
+
+		//when
+		List<Voucher> actual = memoryVoucherRepository.findAll();
+
+		//then
+		assertThat(actual)
+			.hasSameSizeAs(vouchers)
+			.containsAll(vouchers);
 	}
 }

@@ -1,5 +1,7 @@
 package study.dev.spring.voucher.infrastructure;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,5 +27,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	@Override
 	public Optional<Voucher> findById(final UUID uuid) {
 		return Optional.ofNullable(storage.get(uuid));
+	}
+
+	@Override
+	public List<Voucher> findAll() {
+		return new ArrayList<>(storage.values());
 	}
 }

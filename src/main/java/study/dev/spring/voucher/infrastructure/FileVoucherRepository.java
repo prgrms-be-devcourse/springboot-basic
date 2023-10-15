@@ -54,6 +54,11 @@ public class FileVoucherRepository implements VoucherRepository {
 		return Optional.ofNullable(storage.get(uuid));
 	}
 
+	@Override
+	public List<Voucher> findAll() {
+		return new ArrayList<>(storage.values());
+	}
+
 	private static FileUtils getFileUtils(List<FileUtils> fileUtilsList, String filePath) {
 		return fileUtilsList.stream()
 			.filter(fileUtil -> fileUtil.isSupported(filePath))
