@@ -2,6 +2,8 @@ package org.prgms.springbootbasic.domain;
 
 import java.util.UUID;
 
+import static java.lang.Math.max;
+
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
@@ -18,6 +20,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - this.amount;
+        return max(0, beforeDiscount - this.amount);
     }
 }
