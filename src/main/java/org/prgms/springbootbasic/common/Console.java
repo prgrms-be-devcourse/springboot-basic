@@ -1,5 +1,6 @@
 package org.prgms.springbootbasic.common;
 
+import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.Voucher;
 import org.prgms.springbootbasic.repository.VoucherRepository;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 @Component
+@Slf4j
 public class Console {
     private static final String EXIT = "exit";
     private static final String LIST = "list";
@@ -34,6 +36,9 @@ public class Console {
 
             try {
                 cmd = CONSOLE_INPUT.next();
+
+                log.info("cmd input is {}", cmd);
+
                 checkCmdValidation(cmd);
             }catch (IllegalArgumentException e){
                 System.out.println("Invalid argument. Type command again.");
@@ -51,7 +56,10 @@ public class Console {
             case CREATE -> create();
             case LIST -> list();
             case EXIT -> {}
-            default -> throw new IllegalArgumentException("Invalid command. Type command again.");
+            default -> {
+                log.warn("invalid cmd. now cmd = {}", cmd);
+                throw new IllegalArgumentException("Invalid command. Type command again.");
+            }
         }
     }
 
@@ -69,11 +77,14 @@ public class Console {
             int discountVal = getDiscountVal(voucherType);
             voucherRepository.create(voucherType, discountVal);
         }catch (InputMismatchException e){
-            CONSOLE_INPUT.nextLine();
+            String invalidVal = CONSOLE_INPUT.nextLine();
+            log.warn("User input = {}", invalidVal);
             throw new IllegalArgumentException("Not integer.");
         }catch (NoSuchElementException e){
+            log.error("input is exhausted");
             throw new RuntimeException("Input is exhausted");
         }catch (IllegalStateException e){
+            log.error("Scanner is closed");
             throw new RuntimeException("Scanner is closed.");
         }
     }
