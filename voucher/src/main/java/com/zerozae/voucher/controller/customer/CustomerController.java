@@ -1,4 +1,4 @@
-package com.zerozae.voucher.controller;
+package com.zerozae.voucher.controller.customer;
 
 import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
