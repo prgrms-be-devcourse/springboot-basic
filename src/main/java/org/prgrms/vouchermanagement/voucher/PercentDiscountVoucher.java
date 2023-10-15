@@ -20,6 +20,11 @@ public class PercentDiscountVoucher implements DiscountPolicy {
     }
 
     @Override
+    public long getAmountOrPercent() {
+        return percent;
+    }
+
+    @Override
     public PolicyStatus getPolicyStatus() {
         return policyStatus;
     }

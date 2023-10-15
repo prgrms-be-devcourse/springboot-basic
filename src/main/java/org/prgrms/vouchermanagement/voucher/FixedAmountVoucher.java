@@ -20,6 +20,11 @@ public class FixedAmountVoucher implements DiscountPolicy {
     }
 
     @Override
+    public long getAmountOrPercent() {
+        return amount;
+    }
+
+    @Override
     public PolicyStatus getPolicyStatus() {
         return policyStatus;
     }
