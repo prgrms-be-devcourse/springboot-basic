@@ -4,4 +4,5 @@ public interface Input {
     String inputMenuType();
     String inputDiscountType();
     long inputLong(ConsoleMessage consoleMessage);
+    long inputPercentValue();
 }

@@ -2,8 +2,8 @@ package com.prgrms.springbasic.io;
 
 import com.prgrms.springbasic.common.MenuType;
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
-import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
+import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class Console implements Output, Input {
 
     @Override
     public void printConsoleMessage(ConsoleMessage consoleMessage) {
-        textIO.getTextTerminal().println(consoleMessage.getMessage());
+        textIO.getTextTerminal().print(consoleMessage.getMessage());
     }
 
     @Override
@@ -42,11 +42,20 @@ public class Console implements Output, Input {
     }
 
     @Override
+    public long inputPercentValue() {
+        return textIO.newLongInputReader()
+                .withMinVal(1L)
+                .withMaxVal(100L)
+                .read(ConsoleMessage.GET_PERCENT_DISCOUNT_VALUE.getMessage());
+    }
+
+    @Override
     public void printVouchers(List<VoucherResponse> vouchers) {
         if (vouchers.isEmpty()) {
             textIO.getTextTerminal().println(ConsoleMessage.NO_VOUCHER_EXIST.getMessage());
             return;
         }
+        textIO.getTextTerminal().println(ConsoleMessage.FIND_ALL_VOUCHERS.getMessage());
         for (VoucherResponse voucher : vouchers) {
             textIO.getTextTerminal().println(voucher.toString());
         }

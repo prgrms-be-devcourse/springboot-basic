@@ -12,8 +12,9 @@ public enum ConsoleMessage {
     CHOOSE_MENU_TYPE("Please choose one of the menu displayed below and enter it."),
     CREATE_VOUCHER("=== Create Voucher ===" + System.lineSeparator()),
     GET_DISCOUNT_TYPE("Choose voucher type displayed below and enter it."),
-    GET_DISCOUNT_VALUE("Type discount value : "),
-    FIND_ALL_VOUCHERS("=== Show all vouchers ===" + System.lineSeparator()),
+    GET_FIXED_DISCOUNT_VALUE("Type discount value : "),
+    GET_PERCENT_DISCOUNT_VALUE("Type discount percent : "),
+    FIND_ALL_VOUCHERS("=== Show all vouchers ==="),
     NO_VOUCHER_EXIST("<warn> Couldn't find voucher information."),
     NO_CUSTOMER_EXIST("<warn> Couldn't find customer information.")
     ;

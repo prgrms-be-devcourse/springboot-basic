@@ -5,6 +5,7 @@ import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.voucher.controller.VoucherController;
 import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
+import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import com.prgrms.springbasic.io.Console;
 import com.prgrms.springbasic.io.ConsoleMessage;
 import org.springframework.stereotype.Component;
@@ -51,7 +52,10 @@ public class MenuHandler {
 
     private CreateVoucherRequest makeCreateVoucherRequest() {
         String discountType = console.inputDiscountType();
-        long discountValue = console.inputLong(ConsoleMessage.GET_DISCOUNT_VALUE);
+        long discountValue = switch (DiscountType.find(discountType)) {
+            case PERCENT -> console.inputPercentValue();
+            case FIXED -> console.inputLong(ConsoleMessage.GET_FIXED_DISCOUNT_VALUE);
+        };
         return new CreateVoucherRequest(discountType, discountValue);
     }
 }
