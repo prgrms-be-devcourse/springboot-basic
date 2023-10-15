@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanagement.repository;
 
-import org.prgrms.vouchermanagement.voucher.Voucher;
+import org.prgrms.vouchermanagement.exception.InvalidRangeException;
+import org.prgrms.vouchermanagement.voucher.*;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -15,9 +16,24 @@ public class MemoryRepository implements VoucherRepository{
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
+
     @Override
-    public void create(Voucher voucher) {
-        storage.put(voucher.getVoucherId(), voucher);
+    public void load() {
+
+    }
+
+    @Override
+    public void create(UUID voucherId, long amountOrPercent, PolicyStatus policy) {
+        DiscountPolicy discountPolicy = null;
+        if (policy == PolicyStatus.FIXED) {
+            discountPolicy = new FixedAmountVoucher(voucherId, amountOrPercent, policy);
+        } else if (policy == PolicyStatus.PERCENT) {
+            validateAmountOrPercentRange(amountOrPercent);
+            discountPolicy = new PercentDiscountVoucher(voucherId, amountOrPercent, policy);
+        }
+
+        Voucher voucher = new Voucher(voucherId, discountPolicy);
+        storage.put(voucherId, voucher);
     }
 
     @Override
@@ -29,5 +45,11 @@ public class MemoryRepository implements VoucherRepository{
     public List<Voucher> voucherLists() {
         return storage.values().stream()
                 .toList();
+    }
+
+    private void validateAmountOrPercentRange(long amountOrPercent) {
+        if (amountOrPercent < 0 || amountOrPercent > 100) {
+            throw new InvalidRangeException("PercentDiscountPolicy는 0~100 사이의 값을 가져야 합니다.");
+        }
     }
 }
