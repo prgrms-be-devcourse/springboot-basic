@@ -1,6 +1,6 @@
 package com.prgrms.springbasic.io;
 
-import com.prgrms.springbasic.constant.MenuType;
+import com.prgrms.springbasic.common.MenuType;
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
