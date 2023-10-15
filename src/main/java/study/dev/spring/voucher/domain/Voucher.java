@@ -23,6 +23,18 @@ public class Voucher {
 		this.discountAmount = discountAmount;
 	}
 
+	public Voucher(
+		final UUID uuid,
+		final String name,
+		final VoucherType type,
+		final double discountAmount
+	) {
+		this.uuid = uuid;
+		this.name = name;
+		this.type = type;
+		this.discountAmount = discountAmount;
+	}
+
 	//==Factory method==//
 	public static Voucher createVoucher(
 		final VoucherType voucherType,
