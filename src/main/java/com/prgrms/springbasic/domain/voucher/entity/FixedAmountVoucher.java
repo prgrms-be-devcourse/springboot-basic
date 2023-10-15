@@ -10,6 +10,12 @@ public class FixedAmountVoucher extends Voucher {
         this.discountValue = discountValue;
     }
 
+    public FixedAmountVoucher(UUID voucherId, String discountType, long discountValue) {
+        this.voucherId = voucherId;
+        this.discountType = DiscountType.find(discountType);
+        this.discountValue = discountValue;
+    }
+
     @Override
     long discount(long beforeDiscount) {
         return beforeDiscount - discountValue;

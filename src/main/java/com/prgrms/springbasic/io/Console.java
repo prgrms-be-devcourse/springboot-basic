@@ -12,12 +12,11 @@ import java.util.List;
 
 @Component
 public class Console implements Output, Input {
-
     TextIO textIO = TextIoFactory.getTextIO();
 
     @Override
     public void printConsoleMessage(ConsoleMessage consoleMessage) {
-        System.out.print(consoleMessage.getMessage());
+        textIO.getTextTerminal().println(consoleMessage.getMessage());
     }
 
     @Override
@@ -56,7 +55,7 @@ public class Console implements Output, Input {
     @Override
     public void printCustomers(List<CustomerResponse> customers) {
         if (customers.isEmpty()) {
-            textIO.getTextTerminal().println(ConsoleMessage.NO_VOUCHER_EXIST.getMessage());
+            textIO.getTextTerminal().println(ConsoleMessage.NO_CUSTOMER_EXIST.getMessage());
             return;
         }
         for (CustomerResponse customer : customers) {

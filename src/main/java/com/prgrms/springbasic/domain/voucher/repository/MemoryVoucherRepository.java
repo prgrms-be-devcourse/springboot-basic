@@ -1,6 +1,7 @@
 package com.prgrms.springbasic.domain.voucher.repository;
 
 import com.prgrms.springbasic.domain.voucher.entity.Voucher;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,8 +10,9 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Primary
 public class MemoryVoucherRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private static final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
     public Voucher saveVoucher(Voucher voucher) {
