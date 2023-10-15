@@ -1,4 +1,4 @@
-package com.programmers.basic.command;
+package com.programmers.springbasic.command;
 
 public interface Command {
 	void execute();

@@ -1,8 +1,8 @@
-package com.programmers.basic.controller.dto;
+package com.programmers.springbasic.controller.dto;
 
 import java.util.UUID;
 
-import com.programmers.basic.entity.FixedAmountVoucher;
+import com.programmers.springbasic.entity.FixedAmountVoucher;
 
 public record CreateFixedAmountVoucherRequest(long amount) {
 	public FixedAmountVoucher toEntity(UUID voucherId) {
