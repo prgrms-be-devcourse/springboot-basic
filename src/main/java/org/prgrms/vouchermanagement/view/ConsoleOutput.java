@@ -77,7 +77,7 @@ public class ConsoleOutput {
     public void printVouchers(List<Voucher> vouchers) {
         printMessage(showVoucherLists);
         for(Voucher voucher : vouchers) {
-            printlnMessage("voucherId : " + voucher.getVoucherId() + ", policy : " + voucher.getDiscountPolicy().getPolicyStatus());
+            printlnMessage("voucherId : " + voucher.getVoucherId() + ", policy : " + voucher.getDiscountPolicy().getPolicyStatus() + ", amountOrPercent : " + voucher.getDiscountPolicy().getAmountOrPercent());
         }
     }
 
