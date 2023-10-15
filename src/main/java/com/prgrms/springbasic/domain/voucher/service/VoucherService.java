@@ -15,20 +15,23 @@ import java.util.List;
 
 @Service
 public class VoucherService {
-
     private final Logger logger = LoggerFactory.getLogger(VoucherService.class);
-
     private final VoucherRepository voucherRepository;
+
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
     public VoucherResponse saveVoucher(CreateVoucherRequest request) {
+        logger.info("Voucher service saveVoucher run.. Discount Type : {}, Discount Value : {}", request.getDiscountType(), request.getDiscountValue());
+
         Voucher voucher = voucherRepository.saveVoucher(createVoucher(request));
         return VoucherResponse.from(voucher);
     }
 
     public List<VoucherResponse> findAll() {
+        logger.info("Voucher service findAll run..");
+
         return voucherRepository.findAll().stream()
                 .map(VoucherResponse::from)
                 .toList();
