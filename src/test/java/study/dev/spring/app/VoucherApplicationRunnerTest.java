@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import study.dev.spring.app.exception.ExitException;
 import study.dev.spring.common.io.InputHandler;
 import study.dev.spring.common.io.OutputHandler;
+import study.dev.spring.user.presentation.UserController;
 import study.dev.spring.voucher.presentation.VoucherController;
 
 @DisplayName("[VoucherApplicationRunner Test] - App")
@@ -23,14 +24,16 @@ class VoucherApplicationRunnerTest {
 	private final VoucherApplicationRunner runner;
 	private final InputHandler mockInputHandler;
 	private final VoucherController mockController;
+	private final UserController mockUserController;
 
 	public VoucherApplicationRunnerTest() {
 		mockController = Mockito.mock(VoucherController.class);
+		mockUserController = Mockito.mock(UserController.class);
 		mockInputHandler = Mockito.mock(InputHandler.class);
 		OutputHandler mockOutputHandler = Mockito.mock(OutputHandler.class);
 
 		this.runner = new VoucherApplicationRunner(
-			mockController, mockInputHandler, mockOutputHandler
+			mockController, mockUserController, mockInputHandler, mockOutputHandler
 		);
 	}
 
@@ -78,6 +81,19 @@ class VoucherApplicationRunnerTest {
 
 			//then
 			verify(mockController, times(1)).findAllVouchers();
+		}
+
+		@Test
+		@DisplayName("[블랙리스트 조회 기능을 실행시킨다]")
+		void blackListTest() {
+			//given
+			given(mockInputHandler.inputString())
+				.willReturn("black_list");
+
+			//when
+			runner.run();
+
+			verify(mockUserController, times(1)).findAllBlackListUsers();
 		}
 	}
 }

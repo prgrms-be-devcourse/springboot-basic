@@ -10,7 +10,7 @@ public class VoucherExceptionHandler extends VoucherApplicationRunner {
 	public VoucherExceptionHandler(
 		final VoucherApplicationRunner target
 	) {
-		super(null, null, null);
+		super(null, null, null, null);
 		this.target = target;
 	}
 
