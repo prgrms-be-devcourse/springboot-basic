@@ -6,4 +6,3 @@ file:
   voucher-path: ${user.home}/data/vouchers.csv
   blacklist-path: ${user.home}/data/customer_blacklist.csv
 
-
