@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.console;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -10,14 +11,11 @@ public class Reader {
 
     Scanner sc = new Scanner(System.in);
 
-//    @Value("${csv.path}")
-//    private String path;
+//    @Value("${csv.blacklist}")
+//    String blackListFilepath;
 
-    File blackListFile = new File("src\\main\\resources\\customer_blacklist.csv");
-    public BufferedReader bf = new BufferedReader(new FileReader(blackListFile));
-
-    File voucherFile = new File("src/main/resources/voucher_list.csv");
-    public BufferedReader vf = new BufferedReader(new FileReader(voucherFile));
+    public BufferedReader bf = new BufferedReader(new FileReader("src/main/resources/customer_blacklist.csv"));;
+    public BufferedReader vf = new BufferedReader(new FileReader("src/main/resources/voucher_list.csv"));;
 
     public Reader() throws IOException {
     }

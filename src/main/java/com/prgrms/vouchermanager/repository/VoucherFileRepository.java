@@ -6,6 +6,7 @@ import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.exception.FileIOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,9 @@ public class VoucherFileRepository implements VoucherRepository {
 
     Map<UUID, Voucher> vouchers = new HashMap<>();
     private final BufferedReader vf;
+
+    @Value("${csv.voucher}")
+    String path;
 
     @Autowired
     public VoucherFileRepository(Reader reader) {
@@ -66,7 +70,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     private void updateFile() {
         try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/voucher_list.csv"));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(path));
 
             vouchers.forEach((key, voucher) -> {
                 UUID id = voucher.getId();
