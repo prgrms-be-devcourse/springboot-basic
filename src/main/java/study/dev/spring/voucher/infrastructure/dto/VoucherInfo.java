@@ -7,12 +7,10 @@ import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import study.dev.spring.voucher.domain.Voucher;
 import study.dev.spring.voucher.domain.VoucherType;
 
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class VoucherInfo {
