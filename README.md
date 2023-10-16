@@ -35,8 +35,7 @@
 - [ ]  YAML 프라퍼티를 만들고 어떤 설정을 만들수 있을지 고민해본다.
 
 ### 👩‍💻 구조도
-
-![KakaoTalk_Photo_2023-10-16-23-53-54.jpeg](..%2FKakaoTalk_Photo_2023-10-16-23-53-54.jpeg)
+![KakaoTalk_Photo_2023-10-16-23-53-54](https://github.com/voidmelody/springboot-basic/assets/63526857/76f0bd84-3e1f-47e8-8b98-1c28927d0f0e)
 
 ### ✅ PR 포인트 & 궁금한 점
 
