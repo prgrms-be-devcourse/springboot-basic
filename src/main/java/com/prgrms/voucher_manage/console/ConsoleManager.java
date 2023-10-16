@@ -2,9 +2,12 @@ package com.prgrms.voucher_manage.console;
 
 import com.prgrms.voucher_manage.domain.customer.controller.CustomerController;
 import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
+import com.prgrms.voucher_manage.exception.InvalidInputException;
 import com.prgrms.voucher_manage.util.InputUtil;
 import com.prgrms.voucher_manage.util.OutputUtil;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -20,23 +23,27 @@ public class ConsoleManager implements ApplicationRunner {
     private final VoucherController voucherController;
     private final CustomerController customerController;
 
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleManager.class);
 
     @Override
-    public void run(ApplicationArguments args){
-        MenuType menuType=null;
+    public void run(ApplicationArguments args) {
+        MenuType menuType = null;
         do {
             try {
                 outputUtil.printMenu();
                 menuType = matchMenuType(inputUtil.getStringInput());
                 selectMenu(menuType);
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                outputUtil.printMessage(e.getMessage());
+                logger.error(e.getMessage());
             }
 
         } while (menuType != EXIT);
     }
 
     public void selectMenu(MenuType menuType) throws Exception {
+        if (menuType == null) throw new InvalidInputException();
+
         switch (menuType) {
             case CREATE -> setVoucherInfo();
             case LIST -> voucherController.showVoucherList();
@@ -47,6 +54,7 @@ public class ConsoleManager implements ApplicationRunner {
     public void setVoucherInfo() throws Exception {
         outputUtil.printVoucherSelect();
         VoucherType voucherType = VoucherType.matchVoucherType(inputUtil.getStringInput());
+        if (voucherType == null) throw new InvalidInputException();
 
         switch (voucherType) {
             case FIXED -> outputUtil.requestDiscountPriceInfo();
@@ -54,7 +62,6 @@ public class ConsoleManager implements ApplicationRunner {
         }
 
         Long discountAmount = inputUtil.getLongInput();
-
         voucherController.createVoucher(voucherType, discountAmount);
     }
 }
