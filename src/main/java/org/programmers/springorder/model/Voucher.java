@@ -1,5 +1,6 @@
 package org.programmers.springorder.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Voucher {
@@ -7,7 +8,7 @@ public class Voucher {
     private final long discountValue;
     private final VoucherType voucherType;
 
-    public Voucher(UUID voucherId, Long discountValue, VoucherType voucherType) {
+    public Voucher(UUID voucherId, long discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.discountValue = discountValue;
         this.voucherType = voucherType;
@@ -19,6 +20,19 @@ public class Voucher {
 
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Voucher voucher = (Voucher) o;
+        return discountValue == voucher.discountValue && Objects.equals(voucherId, voucher.voucherId) && voucherType == voucher.voucherType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherId, discountValue, voucherType);
     }
 
 }
