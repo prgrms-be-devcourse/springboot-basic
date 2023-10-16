@@ -5,9 +5,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class Client {
     private final ConsoleManager consoleManager;
+    private final VoucherController voucherController;
 
-    public Client(ConsoleManager consoleManager) {
+    public Client(ConsoleManager consoleManager, VoucherController voucherController) {
         this.consoleManager = consoleManager;
+        this.voucherController = voucherController;
     }
 
     public boolean selectMenu() {
@@ -18,6 +20,7 @@ public class Client {
             return false;
         }
 
+        executeMenu(menu);
         return true;
     }
 
@@ -27,5 +30,14 @@ public class Client {
         }
 
         return true;
+    }
+
+    public void executeMenu(String menu) {
+        switch (menu) {
+            case "create" -> {
+                Voucher voucher = consoleManager.instructCreate();
+                voucherController.create(voucher);
+            }
+        }
     }
 }
