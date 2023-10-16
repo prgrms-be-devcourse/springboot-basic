@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum InputErrorMessage {
 
     INVALID_COMMAND("Invalid command. Please try again."),
-    NOT_NUMBER("Input is not a number. Please try again.");
+    NOT_NUMBER("Input is not a number. Please try again."),
+    INVALID_DISCOUNT_VALUE("Invalid discount value. Please try again.");
 
     private final String message;
 
