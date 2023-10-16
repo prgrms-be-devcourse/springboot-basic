@@ -18,7 +18,7 @@ public class Reader {
 
     File voucherFile = new File("src/main/resources/voucher_list.csv");
     public BufferedReader vf = new BufferedReader(new FileReader(voucherFile));
-    public BufferedWriter vw = new BufferedWriter(new FileWriter(voucherFile));
+
     public Reader() throws IOException {
     }
 }

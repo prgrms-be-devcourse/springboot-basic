@@ -6,10 +6,12 @@ import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.exception.FileIOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -17,16 +19,15 @@ import java.util.Map;
 import java.util.UUID;
 
 @Repository
+@Profile("prod")
 public class VoucherFileRepository implements VoucherRepository {
 
     Map<UUID, Voucher> vouchers = new HashMap<>();
     private final BufferedReader vf;
-    private final BufferedWriter vw;
 
     @Autowired
     public VoucherFileRepository(Reader reader) {
         this.vf = reader.vf;
-        this.vw = reader.vw;
         fileToMap();
     }
 
@@ -64,16 +65,24 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     private void updateFile() {
-        vouchers.forEach((key, voucher) -> {
-            UUID id = voucher.getId();
-            String type = voucher instanceof FixedAmountVoucher ? "fixed" : "percent";
-            long discount = voucher instanceof FixedAmountVoucher ?
-                    ((FixedAmountVoucher) voucher).getAmount() : ((PercentAmountVoucher) voucher).getPercent();
-            try {
-                vw.write(id + "," + type + "," + discount);
-            } catch (IOException e) {
-                throw new FileIOException();
-            }
-        });
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("src/main/resources/voucher_list.csv"));
+
+            vouchers.forEach((key, voucher) -> {
+                UUID id = voucher.getId();
+                String type = voucher instanceof FixedAmountVoucher ? "fixed" : "percent";
+                long discount = voucher instanceof FixedAmountVoucher ?
+                        ((FixedAmountVoucher) voucher).getAmount() : ((PercentAmountVoucher) voucher).getPercent();
+
+                try {
+                    bw.write(id + "," + type + "," + discount + "\n");
+                } catch (IOException e) {
+                    throw new FileIOException();
+                }
+            });
+            bw.close();
+        } catch (IOException e) {
+            throw new FileIOException();
+        }
     }
 }

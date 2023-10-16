@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanager.repository;
 
 import com.prgrms.vouchermanager.domain.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Repository
+@Profile("dev")
 public class VoucherMemoryRepository implements VoucherRepository {
 
     Map<UUID, Voucher> vouchers = new HashMap<>();

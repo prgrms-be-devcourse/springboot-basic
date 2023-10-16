@@ -1,2 +1,6 @@
 csv:
   path: "src\\main\\resources\\customer_blacklist.csv"
+
+spring:
+  profiles:
+    active: prod

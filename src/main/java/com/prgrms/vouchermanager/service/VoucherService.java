@@ -8,6 +8,7 @@ import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.message.LogMessage;
 import com.prgrms.vouchermanager.repository.CustomerRepository;
 import com.prgrms.vouchermanager.repository.VoucherMemoryRepository;
+import com.prgrms.vouchermanager.repository.VoucherRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,14 @@ import java.util.List;
 @Slf4j
 public class VoucherService {
 
-    VoucherMemoryRepository voucherRepository;
+    VoucherRepository voucherRepository;
     CustomerRepository customerRepository;
     @Autowired
-    public VoucherService(VoucherMemoryRepository voucherRepository, CustomerRepository customerRepository) {
+    public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
         this.voucherRepository = voucherRepository;
         this.customerRepository = customerRepository;
+        log.info(LogMessage.CHECK_VOUCHER_REPOSITORY.getMessage(), voucherRepository.getClass());
+        log.info(LogMessage.CHECK_CUSTOMER_REPOSITORY.getMessage(), customerRepository.getClass());
     }
 
     public void create(VoucherType voucherType, long discount) {
