@@ -20,19 +20,22 @@ public class Client {
     }
 
     public void run(){
-        String mode = consoleIOHandler.printSelectMode();
-        switch (mode) {
-            case "voucher" ->{
-                voucherMode();
-            }
-            case "member" ->{
-                memberMode();
-            }
-            case "exit" ->{
-                consoleIOHandler.printExitMessage();
-            }
-            default -> {
-                throw new NoSuchElementException();
+        while(true) {
+            String mode = consoleIOHandler.printSelectMode();
+            switch (mode) {
+                case "voucher" -> {
+                    voucherMode();
+                }
+                case "member" -> {
+                    memberMode();
+                }
+                case "exit" -> {
+                    consoleIOHandler.printExitMessage();
+                    return;
+                }
+                default -> {
+                    throw new NoSuchElementException();
+                }
             }
         }
     }
