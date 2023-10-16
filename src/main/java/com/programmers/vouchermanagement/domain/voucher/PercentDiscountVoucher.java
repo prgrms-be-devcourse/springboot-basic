@@ -12,6 +12,11 @@ public class PercentDiscountVoucher implements Voucher {
     private final long amount;
 
     @Override
+    public VoucherType getType() {
+        return VoucherType.FIXED_AMOUNT;
+    }
+
+    @Override
     public String toString() {
         return "PercentDiscountVoucher{" +
                 "id=" + id +

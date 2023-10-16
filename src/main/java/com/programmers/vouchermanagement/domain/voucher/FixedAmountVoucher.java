@@ -12,6 +12,11 @@ public class FixedAmountVoucher implements Voucher {
     private final long amount;
 
     @Override
+    public VoucherType getType() {
+        return VoucherType.FIXED_AMOUNT;
+    }
+
+    @Override
     public String toString() {
         return "FixedAmountVoucher{" +
                 "id=" + id +

@@ -49,6 +49,7 @@ class VoucherServiceTest {
         assertThat(vouchers).hasSize(3);
         assertThat(createdVoucher.getId()).isEqualTo(uuidFixture);
         assertThat(createdVoucher.getAmount()).isEqualTo(amount);
+        assertThat(createdVoucher.getType()).isEqualTo(VoucherType.FIXED_AMOUNT);
     }
 
     @Test
