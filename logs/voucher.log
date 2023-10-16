@@ -1,0 +1,17 @@
+13:31:34.363 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication v0.0.1-SNAPSHOT using Java 17.0.8 with PID 26704 (C:\programmers\voucher-manager\build\libs\voucher-manager-0.0.1-SNAPSHOT.jar started by skylim in C:\programmers\voucher-manager)
+13:31:34.366 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+13:31:36.338 [main] INFO  c.p.v.service.VoucherService -- voucher ë¦¬í¬ì§€í† ë¦¬ ëª¨ë“œ: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+13:31:36.341 [main] INFO  c.p.v.service.VoucherService -- customer ë¦¬í¬ì§€í† ë¦¬ ëª¨ë“œ: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
+13:31:37.398 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 3.521 seconds (process running for 4.44)
+13:33:45.801 [main] INFO  c.p.v.controller.VoucherController -- í”„ë¡œê·¸ë¨ ì¢…ë£Œ
+13:34:04.888 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication v0.0.1-SNAPSHOT using Java 17.0.8 with PID 8100 (C:\programmers\voucher-manager\build\libs\voucher-manager-0.0.1-SNAPSHOT.jar started by skylim in C:\programmers\voucher-manager)
+13:34:04.892 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+13:34:06.762 [main] INFO  c.p.v.service.VoucherService -- voucher ¸®Æ÷ÁöÅä¸® ¸ğµå: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+13:34:06.765 [main] INFO  c.p.v.service.VoucherService -- customer ¸®Æ÷ÁöÅä¸® ¸ğµå: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
+13:34:07.772 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 3.355 seconds (process running for 4.157)
+13:34:10.517 [main] INFO  c.p.v.controller.VoucherController -- ÇÁ·Î±×·¥ Á¾·á
+13:36:52.732 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication v0.0.1-SNAPSHOT using Java 17.0.8 with PID 28492 (C:\programmers\voucher-manager\build\libs\voucher-manager-0.0.1-SNAPSHOT.jar started by skylim in C:\programmers\voucher-manager)
+13:36:52.737 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+13:36:54.628 [main] INFO  c.p.v.service.VoucherService -- voucher ¸®Æ÷ÁöÅä¸® ¸ğµå: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+13:36:54.634 [main] INFO  c.p.v.service.VoucherService -- customer ¸®Æ÷ÁöÅä¸® ¸ğµå: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
+13:36:55.697 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 3.482 seconds (process running for 4.244)
