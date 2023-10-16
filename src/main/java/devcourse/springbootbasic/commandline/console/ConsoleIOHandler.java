@@ -51,7 +51,7 @@ public class ConsoleIOHandler {
         try {
             return parseFunction.apply(getInputWithPrint());
         } catch (NumberFormatException e) {
-            throw new InputException(NOT_NUMBER);
+            throw InputException.of(NOT_NUMBER);
         }
     }
 

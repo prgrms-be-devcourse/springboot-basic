@@ -2,7 +2,11 @@ package devcourse.springbootbasic.commandline.exception;
 
 public class InputException extends RuntimeException {
 
-    public InputException(InputErrorMessage inputErrorMessage) {
+    private InputException(InputErrorMessage inputErrorMessage) {
         super(inputErrorMessage.getMessage());
+    }
+
+    public static InputException of(InputErrorMessage inputErrorMessage) {
+        return new InputException(inputErrorMessage);
     }
 }
