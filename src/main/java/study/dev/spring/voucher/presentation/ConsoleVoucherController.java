@@ -11,7 +11,7 @@ import study.dev.spring.voucher.application.dto.VoucherInfo;
 
 @Controller
 @RequiredArgsConstructor
-public class VoucherController {
+public class ConsoleVoucherController {
 
 	private final VoucherService voucherService;
 	private final VoucherIoProcessor ioProcessor;

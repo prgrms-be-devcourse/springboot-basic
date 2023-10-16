@@ -5,15 +5,15 @@ import study.dev.spring.app.exception.ExitException;
 import study.dev.spring.common.io.InputHandler;
 import study.dev.spring.common.io.OutputHandler;
 import study.dev.spring.user.presentation.UserController;
-import study.dev.spring.voucher.presentation.VoucherController;
+import study.dev.spring.voucher.presentation.ConsoleVoucherController;
 
 @RequiredArgsConstructor
-public class VoucherApplicationRunner {
+public class ConsoleVoucherApplicationRunner {
 
 	private static final String EXIT = "EXIT";
 	private static final String BLACK_LIST = "BLACK_LIST";
 
-	private final VoucherController voucherController;
+	private final ConsoleVoucherController consoleVoucherController;
 	private final UserController userController;
 	private final InputHandler inputHandler;
 	private final OutputHandler outputHandler;
@@ -33,6 +33,6 @@ public class VoucherApplicationRunner {
 		}
 
 		VoucherMethodExecutor executor = VoucherMethodExecutor.convert(function);
-		executor.execute(voucherController);
+		executor.execute(consoleVoucherController);
 	}
 }
