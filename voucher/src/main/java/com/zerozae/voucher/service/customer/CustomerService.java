@@ -25,18 +25,19 @@ public class CustomerService {
             validateDuplicateCustomer(customerRequest);
             Customer customer = new Customer(customerRequest.getCustomerName(), customerRequest.getCustomerType());
             customerRepository.save(customer);
-
             return CustomerResponse.toDto(customer);
         }catch (ExceptionHandler e){
             throw ExceptionHandler.err(e.getMessage());
         }
     }
+
     public List<CustomerResponse> findAllCustomers(){
         return customerRepository.findAll()
                 .stream()
                 .map(CustomerResponse::toDto)
                 .toList();
     }
+
     public List<CustomerResponse> findAllBlacklistCustomer() {
         return customerRepository.findAll()
                 .stream()
@@ -44,6 +45,7 @@ public class CustomerService {
                 .map(CustomerResponse::toDto)
                 .toList();
     }
+
     private void validateDuplicateCustomer(CustomerRequest customerRequest) {
         Optional<Customer> findCustomer = customerRepository.findAll()
                 .stream()

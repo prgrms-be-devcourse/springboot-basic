@@ -17,6 +17,7 @@ public class VoucherService {
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
+
     public VoucherResponse createVoucher(VoucherRequest voucherRequest){
         VoucherType voucherType = voucherRequest.getVoucherType();
         Voucher voucher = switch (voucherType) {
@@ -26,8 +27,9 @@ public class VoucherService {
         voucherRepository.save(voucher);
         return VoucherResponse.toDto(voucher);
     }
+
     public List<VoucherResponse> findAllVouchers(){
-        return voucherRepository.findAllVouchers()
+        return voucherRepository.findAll()
                 .stream()
                 .map(VoucherResponse::toDto)
                 .toList();

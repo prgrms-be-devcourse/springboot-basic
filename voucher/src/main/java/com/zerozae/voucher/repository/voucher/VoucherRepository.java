@@ -5,6 +5,6 @@ import com.zerozae.voucher.domain.voucher.Voucher;
 import java.util.List;
 
 public interface VoucherRepository {
-    void save(Voucher voucher);
-    List<Voucher> findAllVouchers();
+    Voucher save(Voucher voucher);
+    List<Voucher> findAll();
 }

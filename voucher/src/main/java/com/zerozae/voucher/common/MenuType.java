@@ -15,6 +15,7 @@ public enum MenuType {
     CUSTOMER,
     BACK;
     private static final Logger logger = LoggerFactory.getLogger(MenuType.class);
+
     public static MenuType of(String menuType){
         try {
             return MenuType.valueOf(menuType.toUpperCase());

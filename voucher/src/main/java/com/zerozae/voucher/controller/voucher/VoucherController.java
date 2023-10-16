@@ -26,6 +26,7 @@ public class VoucherController {
         voucherService.createVoucher(voucherRequest);
         return Response.success();
     }
+
     public Response findAllVouchers(){
         return Response.success(voucherService.findAllVouchers().stream().map(VoucherResponse::getInfo).toList());
     }

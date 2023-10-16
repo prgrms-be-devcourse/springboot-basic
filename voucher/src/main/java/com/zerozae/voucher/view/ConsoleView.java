@@ -21,10 +21,6 @@ public class ConsoleView implements Input, Output{
     }
 
     @Override
-    public String inputCommand(){
-        return checkInputAndGet();
-    }
-    @Override
     public Long inputVoucherDiscount(){
         try {
             return InputValidator.validateInputDiscount(bufferedReader.readLine());
@@ -35,18 +31,22 @@ public class ConsoleView implements Input, Output{
         }
     }
     @Override
+    public String inputCommand(){
+        return checkInputStringAndGet();
+    }
+    @Override
     public String inputVoucherType(){
-        return checkInputAndGet();
+        return checkInputStringAndGet();
     }
 
     @Override
     public String inputCustomerName() {
-        return checkInputAndGet();
+        return checkInputStringAndGet();
     }
 
     @Override
     public String inputCustomerType() {
-        return checkInputAndGet();
+        return checkInputStringAndGet();
     }
 
     @Override
@@ -61,15 +61,18 @@ public class ConsoleView implements Input, Output{
         out.println(command);
         printPrompt();
     }
+
     @Override
     public void printInfo(String voucherInfo) {
         out.print(voucherInfo);
     }
+
     @Override
     public void printSystemMessage(String message) {
         String systemMessage = MessageFormat.format("\n[System] {0}\n", message);
         out.println(systemMessage);
     }
+
     @Override
     public void printErrorMessage(String message) {
         String systemMessage = MessageFormat.format("\n[System] {0}", message);
@@ -106,7 +109,8 @@ public class ConsoleView implements Input, Output{
     public void printPrompt(){
         out.print("> ");
     }
-    private String checkInputAndGet() {
+
+    private String checkInputStringAndGet() {
         try {
             return InputValidator.validateInputString(bufferedReader.readLine());
         } catch (IOException e) {

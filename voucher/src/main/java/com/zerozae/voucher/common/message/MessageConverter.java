@@ -10,6 +10,7 @@ public class MessageConverter {
     public MessageConverter(MessageSource messageSource) {
         this.messageSource = messageSource;
     }
+
     public static String getMessage(String message){
         return messageSource.getMessage(message, null, LocaleContextHolder.getLocale());
     }

@@ -31,7 +31,8 @@ public class CustomerRepository {
         createFile();
         this.customers = loadBlacklistFromCsvFile();
     }
-    public void save(Customer customer) {
+
+    public Customer save(Customer customer) {
         CustomerType customerType = customer.getCustomerType();
         if (customerType.equals(CustomerType.BLACKLIST)) {
             try {
@@ -43,6 +44,7 @@ public class CustomerRepository {
             }
         }
         customers.put(customer.getCustomerId(), customer);
+        return customer;
     }
 
     public List<Customer> findAll() {
@@ -78,6 +80,7 @@ public class CustomerRepository {
 
         return String.join(DELIMITER, customerId,customerName, customerType);
     }
+
     private void createFile(){
         File file = new File(FILE_PATH);
         if (!file.exists()) {
