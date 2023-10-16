@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
     <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 

@@ -7,15 +7,18 @@ import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository{
     private final CsvFileHandler csvFileHandler;
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-
     public FileVoucherRepository(CsvFileHandler csvFileHandler) {
         this.csvFileHandler = csvFileHandler;
     }

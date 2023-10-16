@@ -1,7 +1,9 @@
 package org.prgrms.kdtspringdemo.view;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OutputConsole {
     private final String start_string = "> ";
 

@@ -7,11 +7,14 @@ import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
+@Controller
 public class VoucherController {
     private final VoucherService voucherService;
     private final InputConsole inputConsole;

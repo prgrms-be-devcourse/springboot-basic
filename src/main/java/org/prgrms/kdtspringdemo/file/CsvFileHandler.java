@@ -10,13 +10,15 @@ import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CsvFileHandler {
     private final String filePath;
     private final Logger logger = LoggerFactory.getLogger(CsvFileHandler.class);
 
-    public CsvFileHandler(String filePath) {
-        this.filePath = filePath;
+    public CsvFileHandler() {
+        this.filePath = "src/main/resources/voucherList.csv";
     }
 
     public List<CSVRecord> readCSV() throws IOException {
