@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.mock.repository;
+package com.programmers.vouchermanagement.stub.repository;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
@@ -6,10 +6,10 @@ import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MockCustomerRepository implements CustomerRepository {
+public class StubCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> storage = new HashMap<>();
 
-    public MockCustomerRepository(List<Customer> customers) {
+    public StubCustomerRepository(List<Customer> customers) {
         customers.forEach(customer -> storage.put(customer.getId(), customer));
     }
 

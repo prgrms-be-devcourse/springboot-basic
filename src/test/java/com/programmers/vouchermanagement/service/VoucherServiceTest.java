@@ -4,8 +4,8 @@ import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
-import com.programmers.vouchermanagement.mock.repository.MockVoucherRepository;
-import com.programmers.vouchermanagement.mock.util.MockUuidProvider;
+import com.programmers.vouchermanagement.stub.repository.StubVoucherRepository;
+import com.programmers.vouchermanagement.stub.util.StubUuidProvider;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,10 +29,10 @@ class VoucherServiceTest {
                 new FixedAmountVoucher(UUID.fromString("00000000-0000-0000-0000-000000000000"), 1000L),
                 new PercentDiscountVoucher(UUID.fromString("11111111-1111-1111-1111-111111111111"), 2000L)
         );
-        voucherRepository = new MockVoucherRepository(voucherFixtures);
+        voucherRepository = new StubVoucherRepository(voucherFixtures);
 
         uuidFixture = UUID.fromString("22222222-2222-2222-2222-222222222222");
-        voucherService = new VoucherService(voucherRepository, new MockUuidProvider(uuidFixture));
+        voucherService = new VoucherService(voucherRepository, new StubUuidProvider(uuidFixture));
     }
 
     @Test

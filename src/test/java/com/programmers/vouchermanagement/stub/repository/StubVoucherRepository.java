@@ -1,14 +1,14 @@
-package com.programmers.vouchermanagement.mock.repository;
+package com.programmers.vouchermanagement.stub.repository;
 
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 
 import java.util.*;
 
-public class MockVoucherRepository implements VoucherRepository {
+public class StubVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new HashMap<>();
 
-    public MockVoucherRepository(List<Voucher> vouchers) {
+    public StubVoucherRepository(List<Voucher> vouchers) {
         vouchers.forEach(voucher -> storage.put(voucher.getId(), voucher));
     }
 

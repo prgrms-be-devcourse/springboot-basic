@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.service;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.mock.repository.MockCustomerRepository;
+import com.programmers.vouchermanagement.stub.repository.StubCustomerRepository;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class CustomerServiceTest {
                 new Customer(UUID.fromString("00000000-0000-0000-0000-000000000000"), "철수", true),
                 new Customer(UUID.fromString("11111111-1111-1111-1111-111111111111"), "영희", false)
         );
-        CustomerRepository customerRepository = new MockCustomerRepository(customerFixtures);
+        CustomerRepository customerRepository = new StubCustomerRepository(customerFixtures);
 
         customerService = new CustomerService(customerRepository);
     }
