@@ -53,6 +53,7 @@ public class Console implements CommandLineRunner {
                 .withMinLength(1)
                 .read("Voucher Name: ");
         float discountAmount = textIO.newFloatInputReader()
+                .withMinVal(0f)
                 .read("Discount Amount: ");
 
         voucherService.createVoucher(voucherName, discountAmount, voucherType);
