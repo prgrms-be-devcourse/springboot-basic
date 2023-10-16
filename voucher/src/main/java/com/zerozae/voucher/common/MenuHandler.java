@@ -26,33 +26,33 @@ public class MenuHandler {
         this.customerController = customerController;
     }
 
-    public String showAndSelectCommand(){
+    public MenuType showAndSelectCommand(){
         consoleView.printCommand();
         try {
-            return String.valueOf(MenuType.of(consoleView.inputCommand()));
+            return MenuType.of(consoleView.inputCommand());
         }catch (ExceptionHandler e){
-            consoleView.printErrorMessage(e.getMessage());
-            return e.getMessage();
+            throw ExceptionHandler.err(e.getMessage());
         }
     }
-    public String selectedCustomerProgram(){
+
+    public MenuType selectedCustomerProgram(){
         consoleView.printCustomerCommand();
         try {
-            return String.valueOf(MenuType.of(consoleView.inputCommand()));
+            return MenuType.of(consoleView.inputCommand());
         }catch (ExceptionHandler e){
-            consoleView.printErrorMessage(e.getMessage());
-            return e.getMessage();
+            throw ExceptionHandler.err(e.getMessage());
         }
     }
-    public String selectedVoucherProgram(){
+
+    public MenuType selectedVoucherProgram(){
         consoleView.printVoucherCommand();
         try {
-            return String.valueOf(MenuType.of(consoleView.inputCommand()));
+            return MenuType.of(consoleView.inputCommand());
         }catch (ExceptionHandler e){
-            consoleView.printErrorMessage(e.getMessage());
-            return e.getMessage();
+            throw ExceptionHandler.err(e.getMessage());
         }
     }
+
     public void exit(){
         consoleView.printSystemMessage(getMessage("EXIT_PROGRAM.MSG"));
     }
@@ -72,6 +72,7 @@ public class MenuHandler {
             consoleView.printErrorMessage(e.getMessage());
         }
     }
+
     public void createCustomer(){
         try {
             consoleView.printSystemMessage(getMessage("INPUT_CUSTOMER_NAME.MSG"));
@@ -88,14 +89,17 @@ public class MenuHandler {
             consoleView.printErrorMessage(e.getMessage());
         }
     }
+
     public void voucherList(){
         List<String> vouchers = voucherController.findAllVouchers().getData();
         vouchers.forEach(consoleView::printInfo);
     }
+
     public void customerBlacklist() {
         List<String> blackCustomers = customerController.findAllBlacklistCustomers().getData();
         blackCustomers.forEach(consoleView::printInfo);
     }
+
     public void customerList() {
         List<String> customers = customerController.findAllCustomers().getData();
         customers.forEach(consoleView::printInfo);

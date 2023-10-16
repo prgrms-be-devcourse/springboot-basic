@@ -20,18 +20,21 @@ public class CustomerController {
     public Response createCustomer(CustomerRequest customerRequest){
         try{
             validateCustomerInfo(customerRequest);
+            customerService.createCustomer(customerRequest);
         }catch (ExceptionHandler e){
             return Response.failure(e.getMessage());
         }
-        customerService.createCustomer(customerRequest);
         return Response.success();
     }
+
     public Response findAllCustomers(){
         return Response.success(customerService.findAllCustomers().stream().map(CustomerResponse::getInfo).toList());
     }
+
     public Response findAllBlacklistCustomers(){
         return Response.success(customerService.findAllBlacklistCustomer().stream().map(CustomerResponse::getInfo).toList());
     }
+
     private void validateCustomerInfo(CustomerRequest customerRequest) {
         if(customerRequest.getCustomerName().isBlank()){
             throw ExceptionHandler.err(getMessage("EMPTY_CUSTOMER_NAME.MSG"));

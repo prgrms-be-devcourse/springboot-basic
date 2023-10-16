@@ -16,12 +16,15 @@ public class MemoryVoucherRepository implements VoucherRepository{
     public MemoryVoucherRepository() {
         this.vouchers = new ConcurrentHashMap<>();
     }
+
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
+
     @Override
-    public List<Voucher> findAllVouchers() {
+    public List<Voucher> findAll() {
         return vouchers.values().stream().toList();
     }
 }

@@ -17,6 +17,7 @@ public class CustomerResponse {
         this.customerName = customerName;
         this.customerType = customerType;
     }
+
     public static CustomerResponse toDto(Customer customer) {
         return new CustomerResponse(
                 customer.getCustomerId().toString(),
@@ -24,6 +25,7 @@ public class CustomerResponse {
                 customer.getCustomerType()
         );
     }
+
     public String getInfo(){
         return """
                 회원 번호  : %s

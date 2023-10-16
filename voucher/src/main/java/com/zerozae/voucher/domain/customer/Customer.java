@@ -15,6 +15,7 @@ public class Customer {
         this.customerName = customerName;
         this.customerType = customerType;
     }
+
     public Customer(UUID customerId, String customerName, CustomerType customerType) {
         this.customerId = customerId;
         this.customerName = customerName;

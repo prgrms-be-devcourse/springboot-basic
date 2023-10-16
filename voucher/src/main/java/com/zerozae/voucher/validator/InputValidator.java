@@ -8,6 +8,7 @@ import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 
 public class InputValidator {
     private static final Logger logger = LoggerFactory.getLogger(InputValidator.class);
+
     public static Long validateInputDiscount(String input) {
         if (input != null && input.matches("\\d+")) {
             return Long.valueOf(input);
@@ -17,6 +18,7 @@ public class InputValidator {
             throw ExceptionHandler.err(message);
         }
     }
+
     public static String validateInputString(String input) {
         if (input != null && input.matches("[a-zA-Z\uAC00-\uD7A3]+")) {
             return input;

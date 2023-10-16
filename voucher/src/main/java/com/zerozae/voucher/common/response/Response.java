@@ -19,13 +19,17 @@ public class Response<T> {
         this.isSuccess = isSuccess;
         this.data = data;
     }
+
     public static Response success(){
         return new Response(true, MessageConverter.getMessage("SUCCESS.MSG"));
     }
+
     public static Response failure(String message){
         return new Response(false, message);
     }
+
     public static <T> Response success(List<T> data) {
         return new Response(true,  data);
     }
 }
+

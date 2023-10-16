@@ -31,13 +31,15 @@ public class FileVoucherRepository implements VoucherRepository{
     private static final String DELIMITER = ",";
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final Map<UUID, Voucher> vouchers;
+
     public FileVoucherRepository() {
         createFile();
         this.vouchers = loadVoucherFromCsvFile();
 
     }
+
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         try {
             vouchers.put(voucher.getVoucherId(), voucher);
             String voucherInfo = getVoucherInfo(voucher) + System.lineSeparator();
@@ -46,10 +48,11 @@ public class FileVoucherRepository implements VoucherRepository{
             logger.error("Error Message ={}", e.getMessage());
             throw ExceptionHandler.err(getMessage("WRITE_FILE_ERROR.MSG"));
         }
+        return voucher;
     }
 
     @Override
-    public List<Voucher> findAllVouchers() {
+    public List<Voucher> findAll() {
         return vouchers.values().stream().toList();
     }
 
@@ -77,6 +80,7 @@ public class FileVoucherRepository implements VoucherRepository{
         }
         return loadedVouchers;
     }
+
     private String getVoucherInfo(Voucher voucher) {
         String voucherId = String.valueOf(voucher.getVoucherId());
         String discount = String.valueOf(voucher.getDiscount());
@@ -85,6 +89,7 @@ public class FileVoucherRepository implements VoucherRepository{
 
         return String.join(DELIMITER, voucherId, discount, voucherType, useStatusType);
     }
+
     private void createFile(){
         File file = new File(FILE_PATH);
         if (!file.exists()) {

@@ -1,5 +1,6 @@
 package com.zerozae.voucher.common;
 
+import com.zerozae.voucher.exception.ExceptionHandler;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,56 +14,70 @@ public class ProgramRunner implements CommandLineRunner {
     @Override
     public void run(String... args) {
         while(true){
-            MenuType command = MenuType.valueOf(menuHandler.showAndSelectCommand());
+            try{
+                MenuType command = menuHandler.showAndSelectCommand();
 
-            boolean continueRun = true;
-            switch (command){
-                case VOUCHER -> {
-                    continueRun = executeVoucherCommand();
+                boolean continueRun = true;
+                switch (command){
+                    case VOUCHER -> {
+                        continueRun = executeVoucherCommand();
+                    }
+                    case CUSTOMER -> {
+                        continueRun = executeCustomerCommand();
+                    }
+                    case EXIT -> {
+                        menuHandler.exit();
+                        continueRun = false;
+                    }
                 }
-                case CUSTOMER -> {
-                    continueRun = executeCustomerCommand();
-                }
-                case EXIT -> {
-                    menuHandler.exit();
-                    continueRun = false;
-                }
+                if(!continueRun) break;
+            }catch (Exception e){
+                System.out.println(e.getMessage());
             }
-            if(!continueRun) break;
         }
     }
+
     private boolean executeVoucherCommand() {
         while(true){
-            MenuType command = MenuType.valueOf(menuHandler.selectedVoucherProgram());
-            switch (command) {
-                case CREATE -> {
-                    menuHandler.createVoucher();
+            try{
+                MenuType command = menuHandler.selectedVoucherProgram();
+                switch (command) {
+                    case CREATE -> {
+                        menuHandler.createVoucher();
+                    }
+                    case LIST -> {
+                        menuHandler.voucherList();
+                    }
+                    case BACK -> {
+                        return true;
+                    }
                 }
-                case LIST -> {
-                    menuHandler.voucherList();
-                }
-                case BACK -> {
-                    return true;
-                }
+            }catch (Exception e){
+                System.out.println(e.getMessage());
             }
         }
     }
+
     private boolean executeCustomerCommand() {
         while(true){
-            MenuType command = MenuType.valueOf(menuHandler.selectedCustomerProgram());
-            switch (command) {
-                case CREATE -> {
-                    menuHandler.createCustomer();
+            try{
+                MenuType command = menuHandler.selectedCustomerProgram();
+                switch (command) {
+                    case CREATE -> {
+                        menuHandler.createCustomer();
+                    }
+                    case LIST -> {
+                        menuHandler.customerList();
+                    }
+                    case BLACKLIST -> {
+                        menuHandler.customerBlacklist();
+                    }
+                    case BACK -> {
+                        return true;
+                    }
                 }
-                case LIST -> {
-                    menuHandler.customerList();
-                }
-                case BLACKLIST -> {
-                    menuHandler.customerBlacklist();
-                }
-                case BACK -> {
-                    return true;
-                }
+            }catch (Exception e){
+                System.out.println(e.getMessage());
             }
         }
     }
