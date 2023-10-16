@@ -7,10 +7,15 @@ import java.util.UUID;
 @Getter
 public class PercentAmountVoucher implements Voucher {
 
-    private final UUID id = UUID.randomUUID();
+    private UUID id = UUID.randomUUID();
     private final long percent;
 
     public PercentAmountVoucher(long percent) {
+        this.percent = percent;
+    }
+
+    public PercentAmountVoucher(UUID id, long percent) {
+        this.id = id;
         this.percent = percent;
     }
 
