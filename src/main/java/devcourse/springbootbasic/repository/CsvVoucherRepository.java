@@ -5,7 +5,7 @@ import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.util.CsvFileHandler;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-@Primary
+@Profile("default")
 @Repository
 public class CsvVoucherRepository implements VoucherRepository {
 
