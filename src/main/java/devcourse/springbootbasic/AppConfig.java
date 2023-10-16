@@ -35,7 +35,7 @@ public class AppConfig {
     }
 
     @Bean(name = "customerCsvFileHandler")
-    public CsvFileHandler<User> userCsvFileHansdler() {
+    public CsvFileHandler<User> userCsvFileHandler() {
         return new CsvFileHandler<>("src/main/resources/customer.csv");
     }
 }
