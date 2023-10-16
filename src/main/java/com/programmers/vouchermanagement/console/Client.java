@@ -1,6 +1,9 @@
-package com.programmers.vouchermanagement;
+package com.programmers.vouchermanagement.console;
 
 import org.springframework.stereotype.Component;
+
+import com.programmers.vouchermanagement.voucher.Voucher;
+import com.programmers.vouchermanagement.voucher.VoucherController;
 
 @Component
 public class Client {

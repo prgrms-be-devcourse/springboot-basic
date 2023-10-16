@@ -1,10 +1,13 @@
-package com.programmers.vouchermanagement;
+package com.programmers.vouchermanagement.voucher;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
+
+import com.programmers.vouchermanagement.voucher.Voucher;
+import com.programmers.vouchermanagement.voucher.VoucherRepository;
 
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {

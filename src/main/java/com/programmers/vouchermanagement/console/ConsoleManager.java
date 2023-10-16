@@ -1,9 +1,13 @@
-package com.programmers.vouchermanagement;
+package com.programmers.vouchermanagement.console;
 
 import java.util.UUID;
 
 import org.beryx.textio.TextIO;
 import org.springframework.stereotype.Component;
+
+import com.programmers.vouchermanagement.voucher.FixedAmountVoucher;
+import com.programmers.vouchermanagement.voucher.PercentVoucher;
+import com.programmers.vouchermanagement.voucher.Voucher;
 
 @Component
 public class ConsoleManager {

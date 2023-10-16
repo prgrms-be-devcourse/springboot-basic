@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement;
+package com.programmers.vouchermanagement.configuration;
 
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;

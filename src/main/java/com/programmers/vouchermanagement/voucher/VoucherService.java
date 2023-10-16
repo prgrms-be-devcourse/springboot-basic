@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement;
+package com.programmers.vouchermanagement.voucher;
 
 import org.springframework.stereotype.Service;
 
