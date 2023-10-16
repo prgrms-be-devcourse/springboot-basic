@@ -1,5 +1,6 @@
 package devcourse.springbootbasic.service;
 
+import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.exception.InputErrorMessage;
 import devcourse.springbootbasic.exception.InputException;
 import devcourse.springbootbasic.dto.VoucherCreateRequest;
@@ -16,12 +17,12 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public void create(VoucherCreateRequest voucherCreateRequest) {
+    public Voucher create(VoucherCreateRequest voucherCreateRequest) {
         if (!voucherCreateRequest.validateDiscountValue()) {
             throw InputException.of(InputErrorMessage.INVALID_DISCOUNT_VALUE);
         }
 
-        voucherRepository.save(voucherCreateRequest.toEntity());
+        return voucherRepository.save(voucherCreateRequest.toEntity());
     }
 
     public List<VoucherFindResponse> findAll() {

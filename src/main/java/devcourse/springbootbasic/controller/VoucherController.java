@@ -1,5 +1,6 @@
 package devcourse.springbootbasic.controller;
 
+import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.dto.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.VoucherFindResponse;
 import devcourse.springbootbasic.service.VoucherService;
@@ -14,8 +15,8 @@ public class VoucherController {
 
     private final VoucherService voucherService;
 
-    public void createVoucher(VoucherCreateRequest voucherCreateRequest) {
-        this.voucherService.create(voucherCreateRequest);
+    public Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
+        return this.voucherService.create(voucherCreateRequest);
     }
 
     public List<VoucherFindResponse> findAllVouchers() {

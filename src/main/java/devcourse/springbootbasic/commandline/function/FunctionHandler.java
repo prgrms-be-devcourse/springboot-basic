@@ -1,19 +1,23 @@
 package devcourse.springbootbasic.commandline.function;
 
 import devcourse.springbootbasic.commandline.console.ConsoleIOHandler;
+import devcourse.springbootbasic.commandline.constant.ConsoleConstants;
 import devcourse.springbootbasic.commandline.constant.InputMessage;
 import devcourse.springbootbasic.commandline.domain.VoucherTypeSelector;
 import devcourse.springbootbasic.controller.VoucherController;
+import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.dto.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.VoucherFindResponse;
 import devcourse.springbootbasic.exception.InputErrorMessage;
 import devcourse.springbootbasic.exception.InputException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class FunctionHandler {
@@ -36,7 +40,8 @@ public class FunctionHandler {
 
         long amount = consoleIOHandler.inputLongWithMessage(InputMessage.DISCOUNT_VALUE);
 
-        voucherController.createVoucher(new VoucherCreateRequest(voucherType, amount));
+        Voucher voucher = voucherController.createVoucher(new VoucherCreateRequest(voucherType, amount));
+        log.info(String.format(ConsoleConstants.VOUCHER_CREATE_MESSAGE, voucher.getId()));
     }
 
     public void listAllVouchers() {
