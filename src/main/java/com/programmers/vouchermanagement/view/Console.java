@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.view;
 
 import com.programmers.vouchermanagement.common.ConsoleMessage;
+import com.programmers.vouchermanagement.domain.VoucherType;
 import com.programmers.vouchermanagement.service.VoucherService;
 import jakarta.annotation.PostConstruct;
 import org.beryx.textio.TextIO;
@@ -32,31 +33,42 @@ public class Console implements CommandLineRunner {
     @Override
     public void run(String... args) {
         while (true) {
-            try {
-                commandMap.get(getCommand()).run();
-            } catch (NullPointerException e) {
-                textIO.getTextTerminal().println(ConsoleMessage.INVALID_COMMAND_MESSAGE.getMessage());
-            }
+            commandMap.get(getCommand()).run();
         }
     }
 
     private String getCommand() {
-        textIO.getTextTerminal().println(ConsoleMessage.COMMAND_LIST_MESSAGE.getMessage());
-        return textIO.newStringInputReader()
-                .read(">");
-
-    }
-
-    private void exit() {
-        textIO.getTextTerminal().println(ConsoleMessage.EXIT_MESSAGE.getMessage());
-        System.exit(0);
+        displayMessage(ConsoleMessage.COMMAND_LIST_MESSAGE.getMessage());
+        Command command = textIO.newEnumInputReader(Command.class)
+                .withPossibleValues()
+                .read();
+        return command.toString();
     }
 
     private void createVoucher() {
-        voucherService.createVoucher();
+        VoucherType voucherType = textIO.newEnumInputReader(VoucherType.class)
+                .withAllValues()
+                .read();
+        String voucherName = textIO.newStringInputReader()
+                .withMinLength(1)
+                .read("Voucher Name: ");
+        float discountAmount = textIO.newFloatInputReader()
+                .read("Discount Amount: ");
+
+        voucherService.createVoucher(voucherName, discountAmount, voucherType);
     }
 
     private void displayVoucherList() {
-        voucherService.voucherList();
+        voucherService.voucherList()
+                .forEach(voucher -> displayMessage(voucher.toString()));
+    }
+
+    private void exit() {
+        displayMessage(ConsoleMessage.EXIT_MESSAGE.getMessage());
+        System.exit(0);
+    }
+
+    private void displayMessage(String message) {
+        textIO.getTextTerminal().println(message);
     }
 }
