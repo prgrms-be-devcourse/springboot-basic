@@ -20,7 +20,8 @@ public class ConsoleOutputHandler implements OutputHandler {
 		String message = "=== Voucher Program ===" + NEW_LINE
 			+ "Type exit to exit the program." + NEW_LINE
 			+ "Type create to create a new voucher." + NEW_LINE
-			+ "Type list to list all vouchers." + NEW_LINE;
+			+ "Type list to list all vouchers." + NEW_LINE
+			+ "Type black_list to list all black_list of customer." + NEW_LINE;
 
 		out.println(message);
 	}
