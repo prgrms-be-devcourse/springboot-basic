@@ -11,8 +11,8 @@ public class Reader {
 
     Scanner sc = new Scanner(System.in);
 
-    String blackListFilePath;
-    String voucherFilePath;
+    private String blackListFilePath;
+    private String voucherFilePath;
 
     public BufferedReader bf;
     public BufferedReader vf;
