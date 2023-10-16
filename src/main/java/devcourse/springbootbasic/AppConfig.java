@@ -5,7 +5,7 @@ import devcourse.springbootbasic.commandline.console.input.ConsoleInput;
 import devcourse.springbootbasic.commandline.console.input.ScannerInput;
 import devcourse.springbootbasic.commandline.console.output.ConsoleOutput;
 import devcourse.springbootbasic.commandline.console.output.PrintStreamOutput;
-import devcourse.springbootbasic.domain.user.User;
+import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.util.CsvFileHandler;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +41,7 @@ public class AppConfig {
     }
 
     @Bean(name = "customerCsvFileHandler")
-    public CsvFileHandler<User> userCsvFileHandler() {
+    public CsvFileHandler<Customer> customerCsvFileHandler() {
         return new CsvFileHandler<>(customerFilePath);
     }
 }

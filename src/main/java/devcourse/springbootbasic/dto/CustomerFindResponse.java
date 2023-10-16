@@ -1,20 +1,20 @@
 package devcourse.springbootbasic.dto;
 
 
-import devcourse.springbootbasic.domain.user.User;
+import devcourse.springbootbasic.domain.customer.Customer;
 
 import java.util.UUID;
 
-public class UserFindResponse {
+public class CustomerFindResponse {
 
     private final UUID id;
     private final String name;
     private final String isBlacklisted;
 
-    public UserFindResponse(User user) {
-        this.id = user.getId();
-        this.name = user.getName();
-        this.isBlacklisted = user.isBlacklisted() ? "Yes" : "No";
+    public CustomerFindResponse(Customer customer) {
+        this.id = customer.getId();
+        this.name = customer.getName();
+        this.isBlacklisted = customer.isBlacklisted() ? "Yes" : "No";
     }
 
     @Override

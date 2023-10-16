@@ -1,4 +1,4 @@
-package devcourse.springbootbasic.domain.user;
+package devcourse.springbootbasic.domain.customer;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -11,15 +11,15 @@ import java.util.UUID;
 @Builder
 @EqualsAndHashCode
 @RequiredArgsConstructor
-public class User {
+public class Customer {
 
     @Builder.Default
     private final UUID id = UUID.randomUUID();
     private final String name;
     private final boolean isBlacklisted;
 
-    public static User createUser(UUID uuid, String name, boolean isBlacklisted) {
-        return User.builder()
+    public static Customer createCustomer(UUID uuid, String name, boolean isBlacklisted) {
+        return Customer.builder()
                 .id(uuid)
                 .name(name)
                 .isBlacklisted(isBlacklisted)
