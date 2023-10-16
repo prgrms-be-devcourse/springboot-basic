@@ -15,11 +15,6 @@ import java.util.List;
 public class VoucherShellController {
     private final VoucherService voucherService;
 
-    @ShellMethod(key = "exit")
-    public void exit() {
-        System.exit(0);
-    }
-
     @ShellMethod(key = "create")
     public void create() {
         InputReader inputReader = new InputReader();
