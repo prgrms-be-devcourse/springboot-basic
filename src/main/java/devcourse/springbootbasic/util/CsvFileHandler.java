@@ -20,7 +20,7 @@ public class CsvFileHandler<T> {
 
     private static void validateFilePath(String filePath) {
         if (filePath == null || filePath.trim().isEmpty()) {
-            throw new FileException(FileErrorMessage.FILE_PATH_IS_NULL_OR_EMPTY);
+            throw FileException.of(FileErrorMessage.FILE_PATH_IS_NULL_OR_EMPTY);
         }
     }
 
@@ -33,12 +33,12 @@ public class CsvFileHandler<T> {
                 if (line == null) break;
                 String[] parts = line.split(CSV_DELIMITER);
                 if (parts.length != csvLineTemplate.split(CSV_DELIMITER).length) {
-                    throw new FileException(FileErrorMessage.CSV_FIELD_COUNT_MISMATCH);
+                    throw FileException.of(FileErrorMessage.CSV_FIELD_COUNT_MISMATCH);
                 }
                 itemList.add(parser.apply(parts));
             }
         } catch (IOException e) {
-            throw new FileException(FileErrorMessage.IO_EXCEPTION);
+            throw FileException.of(FileErrorMessage.IO_EXCEPTION);
         }
 
         return itemList;
@@ -53,7 +53,7 @@ public class CsvFileHandler<T> {
                 bufferedWriter.newLine();
             }
         } catch (IOException e) {
-            throw new FileException(FileErrorMessage.IO_EXCEPTION);
+            throw FileException.of(FileErrorMessage.IO_EXCEPTION);
         }
     }
 }

@@ -2,8 +2,6 @@ package devcourse.springbootbasic.repository;
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
-import devcourse.springbootbasic.exception.FileErrorMessage;
-import devcourse.springbootbasic.exception.FileException;
 import devcourse.springbootbasic.util.CsvFileHandler;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
