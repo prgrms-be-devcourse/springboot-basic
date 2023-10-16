@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.customer.repository;
 
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
-import com.prgrms.voucher_manage.util.FileManager;
+import com.prgrms.voucher_manage.util.CustomerFileManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -13,10 +13,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerRepository {
     private final String PATH = System.getProperty("user.dir") + "/src/main/resources/customer_blacklist.csv";
-    private final FileManager fileManager;
+    private final CustomerFileManager customerFileManager;
 
     public List<Customer> findAll() {
-        Map<UUID, Customer> storage = fileManager.loadData(PATH);
+        Map<UUID, Customer> storage = customerFileManager.loadCustomerData(PATH);
         return storage.values().stream().toList();
     }
 }
