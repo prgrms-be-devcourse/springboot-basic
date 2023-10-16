@@ -18,9 +18,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository{
     private final CsvFileHandler csvFileHandler;
+    private final String filePath = "src/main/resources/voucherList.csv";
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-    public FileVoucherRepository(CsvFileHandler csvFileHandler) {
-        this.csvFileHandler = csvFileHandler;
+    public FileVoucherRepository() {
+        this.csvFileHandler = new CsvFileHandler(filePath);
     }
 
     @Override
@@ -72,6 +73,7 @@ public class FileVoucherRepository implements VoucherRepository{
                 UUID voucherId = UUID.fromString(line.get("voucherId"));
                 Long amount = Long.parseLong(line.get("amount"));
                 String voucherType = line.get("voucherType");
+
                 VoucherTypeFunction voucherTypeFunction = VoucherTypeFunction.findByCode(voucherType);
                 Voucher voucher = voucherTypeFunction.create(voucherId, amount);
                 voucherMap.put(voucherId, voucher);
@@ -80,6 +82,6 @@ public class FileVoucherRepository implements VoucherRepository{
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        return Optional.of(null);
+        return Optional.of(voucherMap);
     }
 }
