@@ -1,5 +1,7 @@
 package com.programmers.springbasic.entity;
 
+import static com.programmers.springbasic.ErrorCode.*;
+
 import java.util.Arrays;
 
 public enum MenuType {
@@ -17,6 +19,6 @@ public enum MenuType {
 		return Arrays.stream(MenuType.values())
 			.filter(type -> type.message.equalsIgnoreCase(readString))
 			.findFirst()
-			.orElseThrow(() -> new IllegalArgumentException("No enum constant " + MenuType.class.getCanonicalName() + " for string: " + readString));
+			.orElseThrow(() -> new IllegalArgumentException(INVALID_MENU.getMessage()));
 	}
 }

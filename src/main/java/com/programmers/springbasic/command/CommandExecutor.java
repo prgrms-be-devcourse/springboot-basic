@@ -1,5 +1,6 @@
 package com.programmers.springbasic.command;
 
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.console.ConsoleInputHandler;
@@ -8,6 +9,7 @@ import com.programmers.springbasic.entity.MenuType;
 
 @Component
 public class CommandExecutor {
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(CommandExecutor.class);
 	private final ConsoleOutputHandler consoleOutputHandler;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final CommandFactory commandFactory;
@@ -20,12 +22,17 @@ public class CommandExecutor {
 
 	public void executeCommands() {
 		while (true) {
-			consoleOutputHandler.printMainMenu();
-			MenuType menu = consoleInputHandler.readMenu();
-			if (menu == MenuType.EXIT)
-				break;
-			Command command = commandFactory.getCommand(menu);
-			command.execute();
+			try {
+				consoleOutputHandler.printMainMenu();
+				MenuType menu = MenuType.from(consoleInputHandler.readString());
+				if (menu == MenuType.EXIT) {
+					System.exit(0);
+				}
+				Command command = commandFactory.getCommand(menu);
+				command.execute();
+			} catch (Exception e) {
+				logger.error(e.getMessage());
+			}
 		}
 	}
 }

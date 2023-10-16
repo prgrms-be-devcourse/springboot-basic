@@ -21,16 +21,9 @@ public class VoucherService {
 		this.voucherRepository = voucherRepository;
 	}
 
-	public Voucher createVoucher(Voucher voucher) {
-		return voucherRepository.save(voucher);
-	}
-
 	public List<ListVouchersResponse> listVoucher() {
 		List<Voucher> vouchers = voucherRepository.findAll();
-		// return vouchers.stream()
-		// 	.map(ListVouchersResponse::from)
-		// 	.collect(Collectors.toList());
-		return null;
+		return vouchers.stream().map(ListVouchersResponse::new).collect(Collectors.toList());
 	}
 
 	public UUID createPercentDiscountVoucher(CreatePercentDiscountVoucherRequest request) {

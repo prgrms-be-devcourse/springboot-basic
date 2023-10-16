@@ -2,8 +2,10 @@ package com.programmers.springbasic.entity;
 
 import java.util.Arrays;
 
+import com.programmers.springbasic.ErrorCode;
+
 public enum VoucherType {
-	FIXED_AMOUNT("1"), PERCENT_DISCOUNT("2");
+	FIXED_AMOUNT("fixed"), PERCENT_DISCOUNT("percent");
 
 	private final String message;
 
@@ -15,6 +17,6 @@ public enum VoucherType {
 		return Arrays.stream(VoucherType.values())
 			.filter(type -> type.message.equalsIgnoreCase(readString))
 			.findFirst()
-			.orElseThrow(() -> new IllegalArgumentException("No enum constant " + VoucherType.class.getCanonicalName() + " for string: " + readString));
+			.orElseThrow(() -> new IllegalArgumentException(ErrorCode.INVALID_VOUCHER_TYPE.getMessage()));
 	}
 }

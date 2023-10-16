@@ -30,16 +30,17 @@ public class ConsoleOutputHandler {
 	}
 
 	public void printChooseVoucherType() {
-		String chooseVoucherType = "Voucher type : Fixed/Percent";
+		String chooseVoucherType = "Type voucher type : [fixed/percent] => ";
 		print(chooseVoucherType);
+	}
+
+	public void printVoucherList(List<ListVouchersResponse> vouchers) {
+		vouchers.forEach(System.out::println);
 	}
 
 	private void print(String menuPrompt) {
 		System.out.print(menuPrompt);
 	}
 
-	public void printVoucherList(List<ListVouchersResponse> vouchers) {
-		vouchers.forEach(System.out::println);
-	}
 }
 
