@@ -14,9 +14,9 @@ public enum VoucherType {
         this.label = label;
     }
 
-    public static VoucherType matchVoucherType(String voucherType) {
+    public static VoucherType matchVoucherType(String voucher) {
         return Arrays.stream(VoucherType.values())
-                .filter(modeType -> modeType.getLabel().equals(voucherType))
+                .filter(voucherType -> voucherType.getLabel().equals(voucher))
                 .findFirst()
                 .orElse(null);
     }
