@@ -30,7 +30,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	public FileVoucherRepository(
 		final List<FileUtils> fileUtilsList,
-		@Value("${file.path}") final String filePath
+		@Value("${voucher.file.path}") final String filePath
 	) {
 		this.storage = new ConcurrentHashMap<>();
 		this.filePath = filePath;
