@@ -1,4 +1,4 @@
-package com.programmers.springbasic.entity;
+package com.programmers.springbasic.entity.voucher;
 
 import java.util.UUID;
 
