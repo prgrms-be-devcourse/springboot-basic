@@ -24,12 +24,12 @@ public class OutputUtil {
                                 """);
     }
 
-    public void printDiscountPercentInfo(){
-        System.out.println("Type discount percent");
+    public void requestDiscountPercentInfo(){
+        System.out.println("\nType discount percent\n");
     }
 
-    public void printDiscountPriceInfo(){
-        System.out.println("Type discount price");
+    public void requestDiscountPriceInfo(){
+        System.out.println("\nType discount price\n");
     }
 
     public void printVoucherInfo(Voucher voucher){

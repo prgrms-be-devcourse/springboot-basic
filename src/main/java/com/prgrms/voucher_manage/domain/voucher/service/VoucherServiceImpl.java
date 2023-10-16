@@ -26,11 +26,11 @@ public class VoucherServiceImpl implements VoucherService {
         switch (voucherType) {
             case FIXED -> voucherRepository.insert(new FixedAmountVoucher(dto.getDiscountAmount()));
             case PERCENT -> {
-//                System.out.println("dto.isValidPercent() = " + dto.isValidPercent());
                 if (!dto.isValidPercent()) {
                     throw new InvalidPercentException();
                 }
                 voucherRepository.insert(new PercentAmountVoucher(dto.getDiscountAmount()));
+
             }
         }
     }

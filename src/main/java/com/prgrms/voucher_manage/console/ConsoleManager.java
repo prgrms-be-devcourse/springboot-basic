@@ -40,7 +40,11 @@ public class ConsoleManager implements ApplicationRunner {
         outputUtil.printVoucherSelect();
         VoucherType voucherType = VoucherType.matchVoucherType(inputUtil.getStringInput());
 
-        outputUtil.printMessage("Type discount amount of voucher");
+        switch (voucherType){
+            case FIXED -> outputUtil.requestDiscountPriceInfo();
+            case PERCENT -> outputUtil.requestDiscountPercentInfo();
+        }
+
         Long discountAmount = inputUtil.getLongInput();
 
         voucherController.createVoucher(voucherType, discountAmount);
