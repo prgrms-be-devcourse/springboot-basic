@@ -7,6 +7,7 @@ import java.util.Arrays;
 public enum MenuType {
 	CREATE_VOUCHER("create"),
 	LIST_VOUCHERS("list"),
+	LIST_BLACKLIST_CUSTOMERS("blacklist"),
 	EXIT("exit");
 
 	private final String message;
