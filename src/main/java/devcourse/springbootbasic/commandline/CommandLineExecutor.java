@@ -43,7 +43,7 @@ public class CommandLineExecutor implements CommandLineRunner {
                                 throw InputException.of(InputErrorMessage.INVALID_COMMAND);
                             });
         } catch (RuntimeException e) {
-            log.warn(Arrays.toString(e.getStackTrace()));
+            log.warn(e.getMessage());
         } catch (Exception e) {
             isRunning = false;
             log.error(Arrays.toString(e.getStackTrace()));
