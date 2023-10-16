@@ -8,11 +8,17 @@ import devcourse.springbootbasic.commandline.console.output.PrintStreamOutput;
 import devcourse.springbootbasic.domain.user.User;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.util.CsvFileHandler;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
+
+    @Value("${spring.myapp.file-path.voucher}")
+    private String voucherFilePath;
+    @Value("${spring.myapp.file-path.customer}")
+    private String customerFilePath;
 
     @Bean
     public ConsoleIOHandler consoleIOHandler(ConsoleInput consoleInput, ConsoleOutput consoleOutput) {
@@ -31,11 +37,11 @@ public class AppConfig {
 
     @Bean(name = "voucherCsvFileHandler")
     public CsvFileHandler<Voucher> voucherCsvFileHandler() {
-        return new CsvFileHandler<>("src/main/resources/voucher.csv");
+        return new CsvFileHandler<>(voucherFilePath);
     }
 
     @Bean(name = "customerCsvFileHandler")
     public CsvFileHandler<User> userCsvFileHandler() {
-        return new CsvFileHandler<>("src/main/resources/customer.csv");
+        return new CsvFileHandler<>(customerFilePath);
     }
 }
