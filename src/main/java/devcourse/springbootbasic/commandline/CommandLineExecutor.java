@@ -2,6 +2,10 @@ package devcourse.springbootbasic.commandline;
 
 import devcourse.springbootbasic.commandline.console.ConsoleIOHandler;
 import devcourse.springbootbasic.commandline.console.constant.ConsoleConstants;
+import devcourse.springbootbasic.commandline.exception.InputErrorMessage;
+import devcourse.springbootbasic.commandline.exception.InputException;
+import devcourse.springbootbasic.commandline.function.Function;
+import devcourse.springbootbasic.commandline.function.FunctionHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -15,6 +19,7 @@ import java.util.Arrays;
 public class CommandLineExecutor implements CommandLineRunner {
 
     private final ConsoleIOHandler consoleIOHandler;
+    private final FunctionHandler functionHandler;
 
     private boolean isRunning = true;
 
@@ -28,6 +33,15 @@ public class CommandLineExecutor implements CommandLineRunner {
     private void progress() {
         try {
             consoleIOHandler.printMenuTitle(ConsoleConstants.VOUCHER);
+            consoleIOHandler.printEnumString(Function.class);
+            String command = consoleIOHandler.getInputWithPrint();
+
+            Function.fromString(command)
+                    .ifPresentOrElse(
+                            function -> function.execute(functionHandler),
+                            () -> {
+                                throw InputException.of(InputErrorMessage.INVALID_COMMAND);
+                            });
         } catch (RuntimeException e) {
             log.warn(Arrays.toString(e.getStackTrace()));
         } catch (Exception e) {
