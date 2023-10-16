@@ -59,7 +59,10 @@ public class FileVoucherRepository implements VoucherRepository {
 		return new ArrayList<>(storage.values());
 	}
 
-	private static FileUtils getFileUtils(List<FileUtils> fileUtilsList, String filePath) {
+	private FileUtils getFileUtils(
+		final List<FileUtils> fileUtilsList,
+		final String filePath
+	) {
 		return fileUtilsList.stream()
 			.filter(fileUtil -> fileUtil.isSupported(filePath))
 			.findFirst()

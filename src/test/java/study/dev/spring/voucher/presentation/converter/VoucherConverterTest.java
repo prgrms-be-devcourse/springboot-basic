@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import study.dev.spring.voucher.application.dto.CreateVoucherRequest;
 import study.dev.spring.voucher.exception.VoucherException;
 
-@DisplayName("[VoucherConverter Test]")
+@DisplayName("[VoucherConverter Test] - Presentation Layer")
 class VoucherConverterTest {
 
 	private final VoucherConverter voucherConverter = new VoucherConverter();
