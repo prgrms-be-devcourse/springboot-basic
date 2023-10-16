@@ -1,4 +1,4 @@
-package com.programmers.springbasic.repository;
+package com.programmers.springbasic.repository.voucher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,11 +6,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.programmers.springbasic.entity.Voucher;
+import com.programmers.springbasic.entity.voucher.Voucher;
 
 @Repository
+@Profile("default")
 public class MemoryVoucherRepository implements VoucherRepository {
 
 	private final Map<UUID, Voucher> storage;
