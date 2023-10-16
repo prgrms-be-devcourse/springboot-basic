@@ -8,6 +8,7 @@ import com.programmers.vouchermanagement.stub.repository.StubVoucherRepository;
 import com.programmers.vouchermanagement.stub.util.StubUuidProvider;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -36,6 +37,7 @@ class VoucherServiceTest {
     }
 
     @Test
+    @DisplayName("바우처를 생성할 수 있다.")
     void create() {
         // given
         Long amount = 3000L;
@@ -50,6 +52,7 @@ class VoucherServiceTest {
     }
 
     @Test
+    @DisplayName("바우처 목록을 조회할 수 있다.")
     void list() {
         // given
         // when

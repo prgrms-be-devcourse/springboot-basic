@@ -4,6 +4,7 @@ import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.stub.repository.StubCustomerRepository;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -28,6 +29,7 @@ class CustomerServiceTest {
     }
 
     @Test
+    @DisplayName("고개 블랙 리스트를 조회할 수 있다.")
     void blacklist() {
         // given
         // when
