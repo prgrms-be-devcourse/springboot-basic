@@ -13,22 +13,29 @@ import study.dev.spring.voucher.domain.VoucherType;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class VoucherInfo {
+public class VoucherData {
 
 	@CsvBindByName
 	private UUID uuid;
 	@CsvBindByName
 	private String name;
 	@CsvBindByName
-	private VoucherType voucherType;
+	private String voucherType;
 	@CsvBindByName
 	private double discountAmount;
+
+	public VoucherData(final Voucher voucher) {
+		this.uuid = voucher.getUuid();
+		this.name = voucher.getName();
+		this.voucherType = voucher.getTypeName();
+		this.discountAmount = voucher.getDiscountAmount();
+	}
 
 	public Voucher toVoucher() {
 		return new Voucher(
 			uuid,
 			name,
-			voucherType,
+			VoucherType.valueOf(voucherType),
 			discountAmount
 		);
 	}

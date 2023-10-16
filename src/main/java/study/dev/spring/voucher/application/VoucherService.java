@@ -33,7 +33,7 @@ public class VoucherService {
 			.map(voucher ->
 				new VoucherInfo(
 					voucher.getName(),
-					voucher.getType().getDescription(),
+					voucher.getTypeDescription(),
 					voucher.getDiscountAmount()
 				)
 			).toList();

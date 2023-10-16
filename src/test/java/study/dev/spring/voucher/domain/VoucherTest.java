@@ -31,7 +31,7 @@ class VoucherTest {
 			//then
 			assertAll(
 				() -> assertThat(actual.getName()).isEqualTo(name),
-				() -> assertThat(actual.getType()).isEqualTo(VoucherType.FIXED),
+				() -> assertThat(actual.getTypeDescription()).isEqualTo(VoucherType.FIXED.getDescription()),
 				() -> assertThat(actual.getDiscountAmount()).isEqualTo(discountAmount)
 			);
 		}
@@ -70,7 +70,7 @@ class VoucherTest {
 			//then
 			assertAll(
 				() -> assertThat(actual.getName()).isEqualTo(name),
-				() -> assertThat(actual.getType()).isEqualTo(VoucherType.PERCENT),
+				() -> assertThat(actual.getTypeDescription()).isEqualTo(VoucherType.PERCENT.getDescription()),
 				() -> assertThat(actual.getDiscountAmount()).isEqualTo(discountAmount)
 			);
 		}

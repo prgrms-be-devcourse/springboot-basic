@@ -18,7 +18,7 @@ import study.dev.spring.common.exception.GlobalException;
 import study.dev.spring.common.utils.FileUtils;
 import study.dev.spring.voucher.domain.Voucher;
 import study.dev.spring.voucher.domain.VoucherRepository;
-import study.dev.spring.voucher.infrastructure.dto.VoucherInfo;
+import study.dev.spring.voucher.infrastructure.dto.VoucherData;
 
 @Repository
 @Profile("prod")
@@ -41,7 +41,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	@PreDestroy
 	public void saveData() {
-		fileUtils.writeFile(filePath, new ArrayList<>(storage.values()));
+		List<VoucherData> voucherData = storage.values()
+			.stream()
+			.map(VoucherData::new)
+			.toList();
+
+		fileUtils.writeFile(filePath, new ArrayList<>(voucherData));
 	}
 
 	@Override
@@ -70,10 +75,10 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	private void copyFileData(final String filePath) {
-		List<Object> fileData = fileUtils.readFile(filePath, VoucherInfo.class);
+		List<Object> fileData = fileUtils.readFile(filePath, VoucherData.class);
 		fileData.forEach(data -> {
-			VoucherInfo voucherInfo = (VoucherInfo)data;
-			storage.put(voucherInfo.getUuid(), voucherInfo.toVoucher());
+			VoucherData voucherData = (VoucherData)data;
+			storage.put(voucherData.getUuid(), voucherData.toVoucher());
 		});
 	}
 }

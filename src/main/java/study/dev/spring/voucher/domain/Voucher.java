@@ -54,8 +54,12 @@ public class Voucher {
 		return name;
 	}
 
-	public VoucherType getType() {
-		return type;
+	public String getTypeDescription() {
+		return type.getDescription();
+	}
+
+	public String getTypeName() {
+		return type.name();
 	}
 
 	public double getDiscountAmount() {
