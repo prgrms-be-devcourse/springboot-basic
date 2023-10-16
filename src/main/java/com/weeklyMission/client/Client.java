@@ -41,8 +41,7 @@ public class Client {
         String function = consoleIOHandler.printSelectVoucherFunction();
         switch(function){
             case "create" -> {
-                String type = consoleIOHandler.printSelectVoucherType();
-                VoucherType voucherType = VoucherType.of(type);
+                VoucherType voucherType = VoucherType.of(consoleIOHandler.printSelectVoucherType());
                 Voucher voucher = voucherType.giveVoucher(consoleIOHandler);
                 VoucherResponse voucherDto = voucherController.create(voucher);
                 consoleIOHandler.printSuccessCreate(voucherDto);
