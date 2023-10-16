@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 public class FileCustomerRepository implements CustomerRepository{
     private final CsvFileHandler csvFileHandler;
-    private final String blackListFilePath = "src/main/resources/customer_blacklist.csv";
+    private final String blackListFilePath = "src/main/resources/csvFiles/customer_blacklist.csv";
 
     public FileCustomerRepository() {
         this.csvFileHandler = new CsvFileHandler(blackListFilePath);

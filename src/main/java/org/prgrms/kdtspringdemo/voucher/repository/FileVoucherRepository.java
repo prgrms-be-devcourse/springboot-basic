@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository{
     private final CsvFileHandler csvFileHandler;
-    private final String filePath = "src/main/resources/voucherList.csv";
+    private final String filePath = "src/main/resources/csvFiles/voucherList.csv";
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     public FileVoucherRepository() {
         this.csvFileHandler = new CsvFileHandler(filePath);
