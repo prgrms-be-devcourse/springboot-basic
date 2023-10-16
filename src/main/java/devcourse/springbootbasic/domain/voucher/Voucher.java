@@ -17,4 +17,12 @@ public class Voucher {
     private final UUID id = UUID.randomUUID();
     private final VoucherType voucherType;
     private final long discountValue;
+
+    public static Voucher createVoucher(UUID uuid, VoucherType voucherType, long discountValue) {
+        return Voucher.builder()
+                .id(uuid)
+                .voucherType(voucherType)
+                .discountValue(discountValue)
+                .build();
+    }
 }
