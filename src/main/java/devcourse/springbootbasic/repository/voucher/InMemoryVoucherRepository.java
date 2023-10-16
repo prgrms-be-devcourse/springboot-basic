@@ -1,4 +1,4 @@
-package devcourse.springbootbasic.repository;
+package devcourse.springbootbasic.repository.voucher;
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;

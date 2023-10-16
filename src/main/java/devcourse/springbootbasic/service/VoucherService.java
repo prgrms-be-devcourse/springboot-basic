@@ -5,7 +5,7 @@ import devcourse.springbootbasic.exception.InputErrorMessage;
 import devcourse.springbootbasic.exception.InputException;
 import devcourse.springbootbasic.dto.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.VoucherFindResponse;
-import devcourse.springbootbasic.repository.VoucherRepository;
+import devcourse.springbootbasic.repository.voucher.VoucherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

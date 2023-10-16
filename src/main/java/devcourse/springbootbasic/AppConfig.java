@@ -29,7 +29,7 @@ public class AppConfig {
     }
 
     @Bean(name = "voucherCsvFileHandler")
-    public CsvFileHandler<Voucher> csvFileHandler() {
+    public CsvFileHandler<Voucher> voucherCsvFileHandler() {
         return new CsvFileHandler<>("src/main/resources/voucher.csv");
     }
 }
