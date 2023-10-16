@@ -26,6 +26,7 @@ public class Console {
     }
 
     public void run(){
+        log.info("voucherRepository = {}", voucherRepository.getClass().getCanonicalName());
         String cmd = "";
         while (!cmd.equals(EXIT)){
 
