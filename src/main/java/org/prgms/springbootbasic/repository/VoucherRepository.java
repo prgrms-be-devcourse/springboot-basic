@@ -10,4 +10,5 @@ public interface VoucherRepository {
     Voucher findById(UUID voucherId);
     List<Voucher> findAll();
     Voucher create(VoucherType type, int val);
+    Voucher create(Voucher voucher);
 }
