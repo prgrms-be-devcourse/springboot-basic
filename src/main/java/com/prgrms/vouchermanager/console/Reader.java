@@ -11,12 +11,16 @@ public class Reader {
 
     Scanner sc = new Scanner(System.in);
 
-//    @Value("${csv.blacklist}")
-//    String blackListFilepath;
+    String blackListFilePath;
+    String voucherFilePath;
 
-    public BufferedReader bf = new BufferedReader(new FileReader("src/main/resources/customer_blacklist.csv"));;
-    public BufferedReader vf = new BufferedReader(new FileReader("src/main/resources/voucher_list.csv"));;
+    public BufferedReader bf;
+    public BufferedReader vf;
 
-    public Reader() throws IOException {
+    public Reader(@Value("${csv.blacklist}") String blackListFilePath, @Value("${csv.voucher}") String voucherFilePath) throws IOException {
+        this.blackListFilePath = blackListFilePath;
+        this.voucherFilePath = voucherFilePath;
+        bf = new BufferedReader(new FileReader(blackListFilePath));;
+        vf = new BufferedReader(new FileReader(voucherFilePath));
     }
 }
