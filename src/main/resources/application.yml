@@ -1,0 +1,9 @@
+repository:
+  voucher:
+    filePath: voucher.csv
+  customer:
+    blacklist_filePath: customer_blacklist.csv
+
+spring:
+  profiles:
+    active: default
