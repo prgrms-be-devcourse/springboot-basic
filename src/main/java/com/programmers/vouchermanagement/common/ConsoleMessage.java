@@ -8,8 +8,17 @@ public enum ConsoleMessage {
             Type list to list all vouchers.
             """),
 
-    INVALID_COMMAND_MESSAGE("[System] Invalid command."),
-    EXIT_MESSAGE("[System] Program exited.");
+    EXIT_MESSAGE("[System] Program exited."),
+
+    // create voucher messages
+    INPUT_VOUCHER_NAME_MESSAGE("Enter voucher name: "),
+
+    INPUT_VOUCHER_AMOUNT_MESSAGE("Enter voucher amount: "),
+
+    INPUT_VOUCHER_PERCENT_MESSAGE("Enter voucher percent: "),
+
+    VOUCHER_CREATED_MESSAGE("[System] Voucher created.");
+
     private final String message;
 
     ConsoleMessage(String message) {
