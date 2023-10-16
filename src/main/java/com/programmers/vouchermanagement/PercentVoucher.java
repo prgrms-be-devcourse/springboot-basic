@@ -20,4 +20,9 @@ public class PercentVoucher implements Voucher {
     public long discount(long priceBeforeDiscount) {
         return (long) (priceBeforeDiscount * (1 - discountPercent / 100));
     }
+
+    @Override
+    public boolean validatePositiveDiscount() {
+        return discountPercent > 0;
+    }
 }

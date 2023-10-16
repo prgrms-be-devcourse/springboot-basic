@@ -20,4 +20,9 @@ public class FixedAmountVoucher implements Voucher {
     public long discount(long priceBeforeDiscount) {
         return priceBeforeDiscount - discountAmount;
     }
+
+    @Override
+    public boolean validatePositiveDiscount() {
+        return discountAmount > 0;
+    }
 }
