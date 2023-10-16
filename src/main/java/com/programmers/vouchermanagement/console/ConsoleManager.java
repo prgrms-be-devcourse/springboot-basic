@@ -11,6 +11,7 @@ import com.programmers.vouchermanagement.voucher.Voucher;
 
 @Component
 public class ConsoleManager {
+    //TODO: consider responsibility of console manager regarding to messages
     private static final String menuSelectionInstruction = """
             ===Voucher Program ===
             Type **exit** to exit the program.
@@ -43,6 +44,7 @@ public class ConsoleManager {
         long discountAmount = textIO.newLongInputReader()
                 .read(voucherDiscountAmountDecision);
 
+        // TODO: reconsider constructing models (Bean, factory method in DTO)
         switch (createMenu) {
             case "fixed" -> {
                 return new FixedAmountVoucher(UUID.randomUUID(), discountAmount);

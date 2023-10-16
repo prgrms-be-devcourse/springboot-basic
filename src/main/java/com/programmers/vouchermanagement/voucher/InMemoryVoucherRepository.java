@@ -6,9 +6,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
 
-import com.programmers.vouchermanagement.voucher.Voucher;
-import com.programmers.vouchermanagement.voucher.VoucherRepository;
-
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> vouchers;

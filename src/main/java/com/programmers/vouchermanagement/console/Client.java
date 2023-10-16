@@ -16,6 +16,7 @@ public class Client {
     }
 
     public boolean selectMenu() {
+        // TODO: menu enumeration + business conflict with ConsoleManager
         String menu = consoleManager.selectMenu();
 
         if (!validateMenu(menu)) {

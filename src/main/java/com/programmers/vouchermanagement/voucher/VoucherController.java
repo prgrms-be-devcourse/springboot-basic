@@ -10,6 +10,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
+    //TODO: add DTO
     public Voucher create(Voucher voucher) {
         return voucherService.create(voucher);
     }

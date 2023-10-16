@@ -2,8 +2,6 @@ package com.programmers.vouchermanagement.voucher;
 
 import java.util.UUID;
 
-import com.programmers.vouchermanagement.voucher.Voucher;
-
 public class PercentVoucher implements Voucher {
     private final UUID voucherID;
     private final long discountPercent;
