@@ -2,6 +2,9 @@ package study.dev.spring.common.io;
 
 import java.io.PrintStream;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ConsoleOutputHandler implements OutputHandler {
 
 	private static final PrintStream out = System.out;
