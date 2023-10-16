@@ -82,6 +82,7 @@ public class ConsolePrint {
             if (type == VoucherType.FIXED) {
                 System.out.println(ConsoleMessage.GET_DISCOUNT_AMOUNT.getMessage());
                 discount = Long.parseLong(sc.nextLine());
+                if(discount < 0) throw new NotCorrectScope();
             } else if (type == VoucherType.PERCENT) {
                 System.out.println(ConsoleMessage.GET_DISCOUNT_PERCENT.getMessage());
                 discount = Long.parseLong(sc.nextLine());
