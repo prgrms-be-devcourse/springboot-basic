@@ -1,5 +1,6 @@
 package com.prgrms.voucher_manage.util;
 
+import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,7 @@ public class OutputUtil {
                 Type exit to exit the program.
                 Type create to create a new voucher.
                 Type list to list all vouchers.
+                Type customer to get customer black list.
                 """);
     }
 
@@ -21,7 +23,7 @@ public class OutputUtil {
                 === Voucher Program ===
                 Type fixed to create fixed amount voucher.
                 Type percent to create percent amount voucher.
-                                """);
+                """);
     }
 
     public void requestDiscountPercentInfo(){
@@ -32,9 +34,19 @@ public class OutputUtil {
         System.out.println("\nType discount price\n");
     }
 
-    public void printVoucherInfo(Voucher voucher){
-        System.out.println(MessageFormat.format("\nVoucher id: {0} \nVoucher discount amount: {1}\n"
+    public void printFixedVoucherInfo(Voucher voucher){
+        System.out.println(MessageFormat.format("\nVoucher id: {0} \nVoucher discount price: {1}\n"
                 ,voucher.getVoucherId(), voucher.getDiscountAmount()));
+    }
+
+    public void printPercentVoucherInfo(Voucher voucher){
+        System.out.println(MessageFormat.format("\nVoucher id: {0} \nVoucher discount percent: {1}%\n"
+                ,voucher.getVoucherId(), voucher.getDiscountAmount()));
+    }
+
+    public void printCustomerInfo(Customer customer){
+        System.out.println(MessageFormat.format("\nCustomer id: {0} \nCustomer name: {1}\n"
+                ,customer.getCustomerId(), customer.getName()));
     }
 
     public void printMessage(String message){
