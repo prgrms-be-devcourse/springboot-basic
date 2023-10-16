@@ -1,4 +1,4 @@
-package devcourse.springbootbasic.commandline.exception;
+package devcourse.springbootbasic.exception;
 
 public class InputException extends RuntimeException {
 

@@ -1,7 +1,7 @@
 package devcourse.springbootbasic.service;
 
-import devcourse.springbootbasic.commandline.exception.InputErrorMessage;
-import devcourse.springbootbasic.commandline.exception.InputException;
+import devcourse.springbootbasic.exception.InputErrorMessage;
+import devcourse.springbootbasic.exception.InputException;
 import devcourse.springbootbasic.dto.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.VoucherFindResponse;
 import devcourse.springbootbasic.repository.VoucherRepository;

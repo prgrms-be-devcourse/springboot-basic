@@ -1,15 +1,15 @@
 package devcourse.springbootbasic.commandline.console;
 
-import devcourse.springbootbasic.commandline.console.constant.InputMessage;
+import devcourse.springbootbasic.commandline.constant.InputMessage;
 import devcourse.springbootbasic.commandline.console.input.ConsoleInput;
 import devcourse.springbootbasic.commandline.console.output.ConsoleOutput;
-import devcourse.springbootbasic.commandline.exception.InputException;
+import devcourse.springbootbasic.exception.InputException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.function.Function;
 
-import static devcourse.springbootbasic.commandline.exception.InputErrorMessage.NOT_NUMBER;
+import static devcourse.springbootbasic.exception.InputErrorMessage.NOT_NUMBER;
 
 
 @RequiredArgsConstructor

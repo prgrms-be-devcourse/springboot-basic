@@ -1,4 +1,4 @@
-package devcourse.springbootbasic.commandline.console.constant;
+package devcourse.springbootbasic.commandline.constant;
 
 public final class ConsoleConstants {
 

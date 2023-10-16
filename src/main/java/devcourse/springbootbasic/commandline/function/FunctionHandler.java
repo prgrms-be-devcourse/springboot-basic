@@ -1,7 +1,7 @@
 package devcourse.springbootbasic.commandline.function;
 
 import devcourse.springbootbasic.commandline.console.ConsoleIOHandler;
-import devcourse.springbootbasic.commandline.console.constant.ConsoleConstants;
+import devcourse.springbootbasic.commandline.constant.ConsoleConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

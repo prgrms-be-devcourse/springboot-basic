@@ -1,9 +1,9 @@
 package devcourse.springbootbasic.commandline;
 
 import devcourse.springbootbasic.commandline.console.ConsoleIOHandler;
-import devcourse.springbootbasic.commandline.console.constant.ConsoleConstants;
-import devcourse.springbootbasic.commandline.exception.InputErrorMessage;
-import devcourse.springbootbasic.commandline.exception.InputException;
+import devcourse.springbootbasic.commandline.constant.ConsoleConstants;
+import devcourse.springbootbasic.exception.InputErrorMessage;
+import devcourse.springbootbasic.exception.InputException;
 import devcourse.springbootbasic.commandline.function.Function;
 import devcourse.springbootbasic.commandline.function.FunctionHandler;
 import lombok.RequiredArgsConstructor;
