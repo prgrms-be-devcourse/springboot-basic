@@ -15,7 +15,7 @@ import java.util.List;
 @ShellComponent
 @RequiredArgsConstructor
 @Slf4j
-public class VoucherController {
+public class VoucherShellController {
     private final VoucherService voucherService;
 
     @ShellMethod(key = "exit")

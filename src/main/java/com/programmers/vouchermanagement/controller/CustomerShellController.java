@@ -13,7 +13,7 @@ import java.util.List;
 @ShellComponent
 @RequiredArgsConstructor
 @Slf4j
-public class CustomerController {
+public class CustomerShellController {
     private final CustomerService customerService;
 
     @ShellMethod(key = "blacklist")
