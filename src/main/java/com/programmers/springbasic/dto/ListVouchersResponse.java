@@ -1,9 +1,9 @@
-package com.programmers.springbasic.controller.dto;
+package com.programmers.springbasic.dto;
 
 import java.util.UUID;
 
-import com.programmers.springbasic.entity.Voucher;
-import com.programmers.springbasic.entity.VoucherType;
+import com.programmers.springbasic.entity.voucher.Voucher;
+import com.programmers.springbasic.entity.voucher.VoucherType;
 
 public class ListVouchersResponse {
 	private final UUID voucherId;

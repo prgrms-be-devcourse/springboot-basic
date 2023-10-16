@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 
-import com.programmers.springbasic.controller.dto.ListBlacklistCustomerResponse;
+import com.programmers.springbasic.dto.ListBlacklistCustomerResponse;
 import com.programmers.springbasic.service.CustomerService;
 
 @Controller

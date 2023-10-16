@@ -1,9 +1,9 @@
-package com.programmers.springbasic.controller.dto;
+package com.programmers.springbasic.dto;
 
 import java.util.UUID;
 
-import com.programmers.springbasic.ErrorCode;
-import com.programmers.springbasic.entity.FixedAmountVoucher;
+import com.programmers.springbasic.enums.ErrorCode;
+import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
 
 public class CreateFixedAmountVoucherRequest {
 
