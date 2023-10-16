@@ -15,24 +15,24 @@ import study.dev.spring.app.exception.ExitException;
 import study.dev.spring.common.io.InputHandler;
 import study.dev.spring.common.io.OutputHandler;
 import study.dev.spring.user.presentation.UserController;
-import study.dev.spring.voucher.presentation.VoucherController;
+import study.dev.spring.voucher.presentation.ConsoleVoucherController;
 
-@DisplayName("[VoucherApplicationRunner Test] - App")
+@DisplayName("[ConsoleVoucherApplicationRunner Test] - App")
 @ExtendWith(MockitoExtension.class)
-class VoucherApplicationRunnerTest {
+class ConsoleVoucherApplicationRunnerTest {
 
-	private final VoucherApplicationRunner runner;
+	private final ConsoleVoucherApplicationRunner runner;
 	private final InputHandler mockInputHandler;
-	private final VoucherController mockController;
+	private final ConsoleVoucherController mockController;
 	private final UserController mockUserController;
 
-	public VoucherApplicationRunnerTest() {
-		mockController = Mockito.mock(VoucherController.class);
+	public ConsoleVoucherApplicationRunnerTest() {
+		mockController = Mockito.mock(ConsoleVoucherController.class);
 		mockUserController = Mockito.mock(UserController.class);
 		mockInputHandler = Mockito.mock(InputHandler.class);
 		OutputHandler mockOutputHandler = Mockito.mock(OutputHandler.class);
 
-		this.runner = new VoucherApplicationRunner(
+		this.runner = new ConsoleVoucherApplicationRunner(
 			mockController, mockUserController, mockInputHandler, mockOutputHandler
 		);
 	}

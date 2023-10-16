@@ -9,10 +9,10 @@ import org.junit.jupiter.api.function.Executable;
 import study.dev.spring.voucher.stub.VoucherIoProcessorStub;
 import study.dev.spring.voucher.stub.VoucherServiceStub;
 
-@DisplayName("[VoucherController Test] - Presentation Layer")
-class VoucherControllerTest {
+@DisplayName("[ConsoleVoucherController Test] - Presentation Layer")
+class ConsoleVoucherControllerTest {
 
-	private final VoucherController voucherController = new VoucherController(
+	private final ConsoleVoucherController consoleVoucherController = new ConsoleVoucherController(
 		new VoucherServiceStub(), new VoucherIoProcessorStub()
 	);
 
@@ -20,7 +20,7 @@ class VoucherControllerTest {
 	@DisplayName("[바우처 생성 프로세스를 실행한다]")
 	void createVoucherTest() {
 		//when
-		Executable when = voucherController::createVoucher;
+		Executable when = consoleVoucherController::createVoucher;
 
 		//then
 		assertDoesNotThrow(when);
@@ -30,7 +30,7 @@ class VoucherControllerTest {
 	@DisplayName("[바우처 전체 조회 프로세스를 실행한다]")
 	void findAllVouchersTest() {
 		//when
-		Executable when = voucherController::findAllVouchers;
+		Executable when = consoleVoucherController::findAllVouchers;
 
 		//then
 		assertDoesNotThrow(when);

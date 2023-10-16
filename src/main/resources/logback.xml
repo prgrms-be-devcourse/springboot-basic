@@ -19,7 +19,7 @@
         </encoder>
     </appender>
 
-    <logger name="study.dev.spring.app.exception.VoucherExceptionHandler" level="error">
+    <logger name="study.dev.spring.app.exception.ConsoleVoucherExceptionHandler" level="error">
         <appender-ref ref="FILE" />
     </logger>
 

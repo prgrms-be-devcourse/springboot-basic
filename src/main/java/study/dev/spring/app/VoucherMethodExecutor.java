@@ -7,17 +7,17 @@ import java.util.function.Consumer;
 
 import lombok.RequiredArgsConstructor;
 import study.dev.spring.common.exception.GlobalException;
-import study.dev.spring.voucher.presentation.VoucherController;
+import study.dev.spring.voucher.presentation.ConsoleVoucherController;
 
 @RequiredArgsConstructor
 public enum VoucherMethodExecutor {
 
-	CREATE(VoucherController::createVoucher),
-	LIST(VoucherController::findAllVouchers);
+	CREATE(ConsoleVoucherController::createVoucher),
+	LIST(ConsoleVoucherController::findAllVouchers);
 
-	private final Consumer<VoucherController> target;
+	private final Consumer<ConsoleVoucherController> target;
 
-	public void execute(final VoucherController controller) {
+	public void execute(final ConsoleVoucherController controller) {
 		target.accept(controller);
 	}
 

@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
-import study.dev.spring.app.VoucherApplicationRunner;
+import study.dev.spring.app.ConsoleVoucherApplicationRunner;
 
 @SpringBootApplication
 public class VoucherApplication {
@@ -12,7 +12,7 @@ public class VoucherApplication {
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = SpringApplication.run(VoucherApplication.class, args);
 
-		VoucherApplicationRunner runner = applicationContext.getBean(VoucherApplicationRunner.class);
+		ConsoleVoucherApplicationRunner runner = applicationContext.getBean(ConsoleVoucherApplicationRunner.class);
 
 		while (true) {
 			runner.run();
