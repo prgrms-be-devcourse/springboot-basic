@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.view;
 
+import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,14 @@ public class OutputConsole {
         System.out.println("voucherId : " + voucher.getVoucherId());
         System.out.println("voucherAmount : " + voucher.getAmount());
         System.out.println("voucherType : " + voucher.getVoucherType());
+        System.out.println();
+    }
+
+    public void printCustomer(Customer customer) {
+        System.out.println("=====================================");
+        System.out.println("customerId : " + customer.getCustomerId());
+        System.out.println("name : " + customer.getName());
+        System.out.println("isBlack : " + customer.isBlack());
         System.out.println();
     }
 

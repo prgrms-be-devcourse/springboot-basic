@@ -12,4 +12,16 @@ public class Customer {
         this.name = name;
         this.isBlack = isBlack;
     }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isBlack() {
+        return isBlack;
+    }
 }

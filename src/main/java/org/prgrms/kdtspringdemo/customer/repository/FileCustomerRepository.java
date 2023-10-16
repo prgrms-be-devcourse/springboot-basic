@@ -27,7 +27,7 @@ public class FileCustomerRepository implements CustomerRepository{
 
         List<CSVRecord> data = csvFileHandler.readCSV();
         data.stream()
-                .filter(line -> line.get("isBlack").equals(true))
+                .filter(line -> line.get("isBlack").equals("true"))
                 .forEach(line -> {
                     UUID customerId = UUID.fromString(line.get("customerId"));
                     String name = line.get("name");
