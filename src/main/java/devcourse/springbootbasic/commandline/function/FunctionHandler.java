@@ -1,7 +1,6 @@
 package devcourse.springbootbasic.commandline.function;
 
 import devcourse.springbootbasic.commandline.console.ConsoleIOHandler;
-import devcourse.springbootbasic.commandline.constant.ConsoleConstants;
 import devcourse.springbootbasic.commandline.constant.InputMessage;
 import devcourse.springbootbasic.commandline.domain.VoucherTypeSelector;
 import devcourse.springbootbasic.controller.VoucherController;
@@ -27,7 +26,6 @@ public class FunctionHandler {
     }
 
     public void createVoucher() {
-        consoleIOHandler.printMenuTitle(ConsoleConstants.CREATE_VOUCHER);
         consoleIOHandler.printEnumString(VoucherTypeSelector.class);
 
         String voucherTypeCode = consoleIOHandler.inputStringWithMessage(InputMessage.VOUCHER_TYPE);
@@ -42,7 +40,6 @@ public class FunctionHandler {
     }
 
     public void listAllVouchers() {
-        consoleIOHandler.printMenuTitle(ConsoleConstants.LIST_ALL_VOUCHERS);
         List<VoucherFindResponse> voucherList = voucherController.findAllVouchers();
 
         consoleIOHandler.printListString(voucherList);

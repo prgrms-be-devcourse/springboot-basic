@@ -32,7 +32,7 @@ public class CommandLineExecutor implements CommandLineRunner {
 
     private void progress() {
         try {
-            consoleIOHandler.printMenuTitle(ConsoleConstants.VOUCHER);
+            consoleIOHandler.printMenuTitle(ConsoleConstants.VOUCHER_PROGRAM_START_MESSAGE);
             consoleIOHandler.printEnumString(Function.class);
             String command = consoleIOHandler.getInputWithPrint();
 
