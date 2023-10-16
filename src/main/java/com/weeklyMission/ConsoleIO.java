@@ -3,7 +3,9 @@ package com.weeklyMission;
 import com.weeklyMission.dto.VoucherResponse;
 import java.util.List;
 import java.util.Scanner;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ConsoleIO {
 
     private final Scanner sc;
@@ -48,10 +50,11 @@ public class ConsoleIO {
     }
 
     public void printSuccessCreate(VoucherResponse voucherResponse){
-        System.out.println(voucherResponse.toString() + "생성 완료");
+        System.out.println(voucherResponse.toString() + "create Success");
     }
 
     public void printSuccessGetAllList(List<VoucherResponse> voucherList){
+        System.out.println("=== Voucher List ===");
         voucherList.forEach(v-> System.out.println(v.toString() + System.lineSeparator()));
     }
 

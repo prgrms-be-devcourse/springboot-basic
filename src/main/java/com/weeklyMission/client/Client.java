@@ -2,10 +2,13 @@ package com.weeklyMission.client;
 
 import com.weeklyMission.ConsoleIO;
 import com.weeklyMission.controller.VoucherController;
+import com.weeklyMission.domain.Voucher;
 import com.weeklyMission.dto.VoucherResponse;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Client {
 
     private final ConsoleIO consoleIOHandler;
@@ -40,8 +43,8 @@ public class Client {
             case "create" -> {
                 String type = consoleIOHandler.printSelectVoucherType();
                 VoucherType voucherType = VoucherType.of(type);
-                VoucherResponse voucherDto = voucherController.create(
-                    voucherType.giveVoucher(consoleIOHandler));
+                Voucher voucher = voucherType.giveVoucher(consoleIOHandler);
+                VoucherResponse voucherDto = voucherController.create(voucher);
                 consoleIOHandler.printSuccessCreate(voucherDto);
             }
             case "list" -> {

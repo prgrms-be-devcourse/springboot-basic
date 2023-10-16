@@ -4,7 +4,9 @@ import com.weeklyMission.domain.Voucher;
 import com.weeklyMission.dto.VoucherResponse;
 import com.weeklyMission.service.VoucherService;
 import java.util.List;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class VoucherController {
 
     private final VoucherService voucherService;

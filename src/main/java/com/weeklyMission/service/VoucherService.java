@@ -3,7 +3,9 @@ package com.weeklyMission.service;
 import com.weeklyMission.domain.Voucher;
 import com.weeklyMission.repository.VoucherRepository;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
