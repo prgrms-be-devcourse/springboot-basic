@@ -4,9 +4,11 @@ import devcourse.springbootbasic.commandline.console.ConsoleIOHandler;
 import devcourse.springbootbasic.commandline.constant.ConsoleConstants;
 import devcourse.springbootbasic.commandline.constant.InputMessage;
 import devcourse.springbootbasic.commandline.domain.VoucherTypeSelector;
+import devcourse.springbootbasic.controller.UserController;
 import devcourse.springbootbasic.controller.VoucherController;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
+import devcourse.springbootbasic.dto.UserFindResponse;
 import devcourse.springbootbasic.dto.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.VoucherFindResponse;
 import devcourse.springbootbasic.exception.InputErrorMessage;
@@ -23,6 +25,7 @@ import java.util.List;
 public class FunctionHandler {
 
     private final VoucherController voucherController;
+    private final UserController userController;
     private final ConsoleIOHandler consoleIOHandler;
 
     public void exit() {
@@ -48,5 +51,11 @@ public class FunctionHandler {
         List<VoucherFindResponse> voucherList = voucherController.findAllVouchers();
 
         consoleIOHandler.printListString(voucherList);
+    }
+
+    public void listAllBlacklistedUsers() {
+        List<UserFindResponse> userList = userController.findAllBlacklistedUsers();
+
+        consoleIOHandler.printListString(userList);
     }
 }

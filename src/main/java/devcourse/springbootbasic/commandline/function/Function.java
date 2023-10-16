@@ -12,7 +12,8 @@ public enum Function {
 
     EXIT("exit", "Type exit to exit the program.", FunctionHandler::exit),
     CREATE_VOUCHER("create", "Type create to create a new voucher.", FunctionHandler::createVoucher),
-    LIST_VOUCHERS("list", "Type list to list all vouchers.", FunctionHandler::listAllVouchers);
+    LIST_VOUCHERS("list", "Type list to list all vouchers.", FunctionHandler::listAllVouchers),
+    LIST_BLACKLISTED_USERS("blacklist", "Type blacklist to list all blacklisted users.", FunctionHandler::listAllBlacklistedUsers);
 
     private final String functionString;
     @Getter
