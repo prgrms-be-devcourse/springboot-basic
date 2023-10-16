@@ -13,7 +13,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public VoucherType getType() {
-        return VoucherType.FIXED_AMOUNT;
+        return VoucherType.PERCENT_DISCOUNT;
     }
 
     @Override
