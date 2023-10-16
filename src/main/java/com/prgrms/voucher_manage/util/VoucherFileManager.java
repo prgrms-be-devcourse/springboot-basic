@@ -3,6 +3,7 @@ package com.prgrms.voucher_manage.util;
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.PercentAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -12,9 +13,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class VoucherFileManager {
-    private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
+    private String path = System.getProperty("user.dir");
 
-    public Map<UUID, Voucher> loadVoucherData(String path){
+    public VoucherFileManager(@Value("${file-path.voucher}")String path) {
+        this.path += path;
+    }
+
+    private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
+    public Map<UUID, Voucher> loadVoucherData(){
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -36,7 +42,7 @@ public class VoucherFileManager {
         return voucherStorage;
     }
 
-    public void updateFile(Map<UUID, Voucher> storage, String path){
+    public void updateFile(Map<UUID, Voucher> storage){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
             for( UUID key : storage.keySet() ){
                 Voucher voucher = storage.get(key);

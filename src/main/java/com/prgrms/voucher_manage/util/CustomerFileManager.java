@@ -1,6 +1,7 @@
 package com.prgrms.voucher_manage.util;
 
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -12,9 +13,15 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class CustomerFileManager {
 
+    private String path = System.getProperty("user.dir");
+
     private final Map<UUID, Customer> customerStorage = new ConcurrentHashMap<>();
 
-    public Map<UUID, Customer> loadCustomerData(String path){
+    public CustomerFileManager(@Value("${file-path.customer}") String path) {
+        this.path += path;
+    }
+
+    public Map<UUID, Customer> loadCustomerData(){
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {

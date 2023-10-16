@@ -16,7 +16,7 @@ public class CustomerRepository {
     private final CustomerFileManager customerFileManager;
 
     public List<Customer> findAll() {
-        Map<UUID, Customer> storage = customerFileManager.loadCustomerData(PATH);
+        Map<UUID, Customer> storage = customerFileManager.loadCustomerData();
         return storage.values().stream().toList();
     }
 }
