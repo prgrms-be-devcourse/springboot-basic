@@ -39,8 +39,8 @@ public class VoucherService {
 
     private Voucher createVoucher(CreateVoucherRequest request) {
         return switch (DiscountType.find(request.getDiscountType())) {
-            case FIXED -> new FixedAmountVoucher(request.getDiscountType(), request.getDiscountValue());
-            case PERCENT -> new PercentDiscountVoucher(request.getDiscountType(), request.getDiscountValue());
+            case FIXED -> FixedAmountVoucher.create(request.getDiscountType(), request.getDiscountValue());
+            case PERCENT -> PercentDiscountVoucher.create(request.getDiscountType(), request.getDiscountValue());
         };
     }
 }

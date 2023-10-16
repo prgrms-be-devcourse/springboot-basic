@@ -1,12 +1,25 @@
 package com.prgrms.springbasic.domain.voucher.entity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
-    public PercentDiscountVoucher(String discountType, long discountValue) {
+    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
+
+    private PercentDiscountVoucher(String discountType, long discountValue) {
         this.voucherId = UUID.randomUUID();
         this.discountType = DiscountType.find(discountType);
         this.discountValue = discountValue;
+    }
+
+    public static PercentDiscountVoucher create(String discountType, long discountValue) {
+        if(discountValue < 0 || discountValue > 100) {
+            logger.error("The percentage should be between 1 and 100. Inserted discount value : {}", discountValue);
+            throw new IllegalArgumentException("The percentage should be between 1 and 100.");
+        }
+        return new PercentDiscountVoucher(discountType, discountValue);
     }
 
     public PercentDiscountVoucher(UUID voucherId, String discountType, long discountValue) {
@@ -22,6 +35,6 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount * (discountValue / 100);
+        return beforeDiscount - beforeDiscount * (discountValue / 100);
     }
 }

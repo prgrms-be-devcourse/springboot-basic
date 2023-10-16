@@ -1,13 +1,29 @@
 package com.prgrms.springbasic.domain.voucher.entity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
+    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
-    public FixedAmountVoucher(String discountType, long discountValue) {
+    private FixedAmountVoucher(String discountType, long discountValue) {
+        if(discountValue < 0) {
+            logger.error("discount value should be positive. Inserted discount value : {}", discountValue);
+            throw new IllegalArgumentException("discount value should be positive.");
+        }
         this.voucherId = UUID.randomUUID();
         this.discountType = DiscountType.find(discountType);
         this.discountValue = discountValue;
+    }
+
+    public static FixedAmountVoucher create(String discountType, long discountValue) {
+        if(discountValue < 0) {
+            logger.error("discount value should be positive. Inserted discount value : {}", discountValue);
+            throw new IllegalArgumentException("discount value should be positive");
+        }
+        return new FixedAmountVoucher(discountType, discountValue);
     }
 
     public FixedAmountVoucher(UUID voucherId, String discountType, long discountValue) {
@@ -18,6 +34,7 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     long discount(long beforeDiscount) {
-        return beforeDiscount - discountValue;
+        long discountAmount = beforeDiscount - discountValue;
+        return (discountAmount < 0) ? 0 : discountAmount;
     }
 }
