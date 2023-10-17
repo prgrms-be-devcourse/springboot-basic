@@ -5,6 +5,8 @@ import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -14,6 +16,7 @@ public class AppController {
     private final Scanner scanner = new Scanner(System.in);
     private final VoucherService voucherService;
     private final CustomerService customerService;
+    private final static Logger logger = LoggerFactory.getLogger(AppController.class);
 
     public AppController(VoucherService voucherService, CustomerService customerService) {
         this.voucherService = voucherService;
@@ -43,6 +46,7 @@ public class AppController {
             }
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            logger.error(e.getMessage());
             selectFunction();
         }
     }
@@ -79,6 +83,7 @@ public class AppController {
             scanner.nextLine();
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
+            logger.error(e.getMessage());
             createVoucher();
         }
         selectFunction();

@@ -2,6 +2,8 @@ package org.prgms.kdtspringweek1.customer.repository;
 
 import jakarta.annotation.PostConstruct;
 import org.prgms.kdtspringweek1.customer.entity.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +23,7 @@ public class FileCustomerRepository implements CustomerRepository {
     private File blackCustomerInfoCsv;
     @Value("${spring.file.black-customer.path}")
     private String blackCustomerInfoCsvPath;
+    private final static Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
     @PostConstruct
     private void init() {
@@ -30,6 +33,7 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAllBlackConsumer() {
         blackCustomers = getAllBlackCustomersFromCSV();
+        logger.info("Success to findAllVouchers");
         return new ArrayList<>(blackCustomers.values());
     }
 
@@ -48,6 +52,7 @@ public class FileCustomerRepository implements CustomerRepository {
             }
         } catch (IOException e) {
             System.out.println("파일 읽기 에러가 발생했습니다.");
+            logger.error("Fail to read file when getAllVouchersFromCSV");
         }
 
         return blackCustomers;

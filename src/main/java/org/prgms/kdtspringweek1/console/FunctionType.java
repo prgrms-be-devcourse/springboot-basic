@@ -1,5 +1,8 @@
 package org.prgms.kdtspringweek1.console;
 
+import org.prgms.kdtspringweek1.voucher.exception.ExceptionCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum FunctionType {
     EXIT("exit"),
@@ -8,6 +11,7 @@ public enum FunctionType {
     BLACK_LIST("blackList");
 
     private String name;
+    private final static Logger logger = LoggerFactory.getLogger(FunctionType.class);
 
     FunctionType(String name) {
         this.name = name;
@@ -19,5 +23,7 @@ public enum FunctionType {
                 return functionType;
             }
         }
+        logger.debug("Invalid Function Type -> {}", name);
+        throw new IllegalArgumentException(ExceptionCode.INVALID_VOUCHER_FUNCTION_TYPE.getMessage());
     }
 }

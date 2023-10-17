@@ -1,5 +1,8 @@
 package org.prgms.kdtspringweek1.voucher.entity;
 
+import org.prgms.kdtspringweek1.voucher.exception.ExceptionCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public enum VoucherType {
     FIXED_AMOUNT(1, "fixed amount voucher", "amount"),
@@ -8,6 +11,7 @@ public enum VoucherType {
     private long num;
     private String name;
     private String unit;
+    private final static Logger logger = LoggerFactory.getLogger(VoucherType.class);
 
     VoucherType(long num, String name, String unit) {
         this.num = num;
@@ -29,4 +33,7 @@ public enum VoucherType {
                 return voucherType;
             }
         }
+        logger.debug("Invalid Voucher Type -> {}", num);
+        throw new IllegalArgumentException(ExceptionCode.INVALID_VOUCHER_TYPE.getMessage());
+    }
 }

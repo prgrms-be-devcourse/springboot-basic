@@ -1,6 +1,8 @@
 package org.prgms.kdtspringweek1.voucher.entity;
 
 import org.prgms.kdtspringweek1.voucher.exception.ExceptionCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.UUID;
@@ -9,6 +11,7 @@ public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long percent;
     private final static VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
+    private final static Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
     public static PercentDiscountVoucher createWithPercent(long percent) {
         return new PercentDiscountVoucher(percent);
@@ -23,6 +26,8 @@ public class PercentDiscountVoucher implements Voucher {
             this.voucherId = UUID.randomUUID();
             this.percent = percent;
         } else {
+            logger.debug("Fail to create {} -> {} percent", VoucherType.PERCENT_DISCOUNT.getName(), percent);
+            throw new IllegalArgumentException(ExceptionCode.INVALID_PERCENT_DISCOUNT.getMessage());
         }
     }
 

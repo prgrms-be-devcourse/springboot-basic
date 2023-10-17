@@ -1,5 +1,8 @@
 package org.prgms.kdtspringweek1.voucher.entity;
 
+import org.prgms.kdtspringweek1.voucher.exception.ExceptionCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
 import java.util.UUID;
@@ -8,6 +11,7 @@ public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long amount;
     private final static VoucherType voucherType = VoucherType.FIXED_AMOUNT;
+    private final static Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
     public static FixedAmountVoucher createWithAmount(long amount) {
         return new FixedAmountVoucher(amount);
@@ -22,6 +26,8 @@ public class FixedAmountVoucher implements Voucher {
             this.voucherId = UUID.randomUUID();
             this.amount = amount;
         } else {
+            logger.debug("Fail to create {} -> {} amount", VoucherType.FIXED_AMOUNT.getName(), amount);
+            throw new IllegalArgumentException(ExceptionCode.INVALID_FIXED_AMOUNT.getMessage());
         }
     }
 

@@ -5,6 +5,8 @@ import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -20,6 +22,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private File voucherInfoCsv;
     @Value("${spring.file.voucher.path}")
     private String vouchInfoCsvPath;
+    private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     @PostConstruct
     private void init() {
@@ -32,12 +35,17 @@ public class FileVoucherRepository implements VoucherRepository {
     public Voucher save(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
         updateVouchersInfoOnCsv();
+        logger.info("Success to create {} -> {} {} discount",
+                voucher.getVoucherType().getName(),
+                voucher.getDiscountValue(),
+                voucher.getVoucherType().getUnit());
         return voucher;
     }
 
     @Override
     public List<Voucher> findAllVouchers() {
         List<Voucher> allVouchers = new ArrayList<>(vouchers.values());
+        logger.info("Success to findAllVouchers");
         return allVouchers;
     }
 
@@ -49,6 +57,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException ioException) {
             System.out.println("파일 쓰기 에러가 발생했습니다.");
+            logger.error("Fail to write file when prepareCsv");
         }
     }
 
@@ -72,6 +81,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             System.out.println("파일 읽기 에러가 발생했습니다.");
+            logger.error("Fail to read file when getAllVouchersFromCSV");
         }
 
         return vouchers;
@@ -87,6 +97,7 @@ public class FileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             System.out.println("파일 쓰기 에러가 발생했습니다.");
+            logger.error("Fail to write file when updateVouchersInfoOnCsv");
         }
     }
 }
