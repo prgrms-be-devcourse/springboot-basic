@@ -16,11 +16,10 @@ import java.util.stream.Stream;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
-    private final CsvMapper csvMapper;
     private final Map<UUID, Customer> storage;
 
     public FileCustomerRepository(FileProperties fileProperties) {
-        this.csvMapper = new CsvMapper();
+        CsvMapper csvMapper = new CsvMapper();
 
         try {
             List<Customer> customers = csvMapper.readFile(new ClassPathResource(fileProperties.getCustomers()).getFile(), Customer::parseCsvLine);

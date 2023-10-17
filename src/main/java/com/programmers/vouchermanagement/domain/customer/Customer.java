@@ -11,16 +11,24 @@ import java.util.stream.IntStream;
 
 @Getter
 @ToString
-@RequiredArgsConstructor
 public class Customer {
     private UUID id;
-    private String name;
-    private boolean blacklisted;
+    private final String name;
+    private final boolean blacklisted;
 
-    public Customer(UUID id, String name, boolean blacklisted) {
+    public Customer(String name, boolean blacklisted) {
+        this.name = name;
+        this.blacklisted = blacklisted;
+    }
+
+    private Customer(UUID id, String name, boolean blacklisted) {
         this.id = id;
         this.name = name;
         this.blacklisted = blacklisted;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public static Customer parseCsvLine(String header, String line) {

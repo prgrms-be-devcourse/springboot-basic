@@ -8,16 +8,19 @@ import java.util.UUID;
 @Getter
 @ToString
 public class PercentDiscountVoucher implements Voucher {
-    private final UUID id;
+    private UUID id;
     private final long amount;
 
-    public PercentDiscountVoucher(UUID id, long amount) {
+    public PercentDiscountVoucher(long amount) {
         if(amount < 0 || amount > 100) {
             throw new IllegalArgumentException("Percent discount amount should be between 0 and 100");
         }
-
-        this.id = id;
         this.amount = amount;
+    }
+
+    @Override
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     @Override
