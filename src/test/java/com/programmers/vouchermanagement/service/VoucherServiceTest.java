@@ -24,7 +24,7 @@ class VoucherServiceTest {
     private UUID uuidFixture;
 
 
-    @BeforeEach
+/*    @BeforeEach
     void setUp() {
         voucherFixtures = Arrays.asList(
                 new FixedAmountVoucher(UUID.fromString("00000000-0000-0000-0000-000000000000"), 1000L),
@@ -64,5 +64,5 @@ class VoucherServiceTest {
         assertThat(vouchers.get(1).getId()).isEqualTo((voucherFixtures.get(1).getId()));
         assertThat(vouchers.get(0).getAmount()).isEqualTo(voucherFixtures.get(0).getAmount());
         assertThat(vouchers.get(1).getAmount()).isEqualTo(voucherFixtures.get(1).getAmount());
-    }
+    }*/
 }

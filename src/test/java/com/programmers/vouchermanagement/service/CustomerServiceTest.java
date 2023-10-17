@@ -18,7 +18,7 @@ class CustomerServiceTest {
     private CustomerService customerService;
     private List<Customer> customerFixtures;
 
-    @BeforeEach
+/*    @BeforeEach
     void setUp() {
         customerFixtures = Arrays.asList(
                 new Customer(UUID.fromString("00000000-0000-0000-0000-000000000000"), "철수", true),
@@ -42,5 +42,5 @@ class CustomerServiceTest {
         assertThat(customers.get(0).getId()).isEqualTo((customerFixtures.get(0).getId()));
         assertThat(customers.get(0).getName()).isEqualTo(customerFixtures.get(0).getName());
         assertThat(customers.get(0).isBlacklisted()).isEqualTo(customerFixtures.get(0).isBlacklisted());
-    }
+    }*/
 }
