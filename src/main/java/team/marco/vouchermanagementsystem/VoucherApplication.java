@@ -70,6 +70,6 @@ public class VoucherApplication {
 
     private void close() {
         // TODO: 데이터 저장 기능
-        System.out.println("프로그램이 종료되었습니다.");
+        console.print("프로그램이 종료되었습니다.");
     }
 }
