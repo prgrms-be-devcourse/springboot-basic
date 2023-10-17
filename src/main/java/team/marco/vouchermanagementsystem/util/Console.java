@@ -62,4 +62,8 @@ public class Console {
             System.out.println(e.getMessage());
         }
     }
+
+    public void print(Object object) {
+        System.out.println(object);
+    }
 }

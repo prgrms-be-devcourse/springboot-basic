@@ -4,8 +4,11 @@ import org.springframework.stereotype.Component;
 import team.marco.vouchermanagementsystem.service.VoucherService;
 import team.marco.vouchermanagementsystem.util.Console;
 
+import java.util.stream.Collectors;
+
 @Component
 public class VoucherApplication {
+    private static final String INFO_DELIMINATOR  = "\n";
     private final Console console;
     private final VoucherService voucherService;
 
@@ -63,6 +66,8 @@ public class VoucherApplication {
     }
 
     private void getVoucherList() {
+        String vouchersInfo = String.join(INFO_DELIMINATOR, voucherService.getVouchersInfo());
+        console.print(vouchersInfo);
     }
 
     private void close() {

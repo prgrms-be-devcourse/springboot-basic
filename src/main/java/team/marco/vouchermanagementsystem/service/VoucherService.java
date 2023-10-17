@@ -6,6 +6,8 @@ import team.marco.vouchermanagementsystem.model.FixedAmountVoucher;
 import team.marco.vouchermanagementsystem.model.PercentDiscountVoucher;
 import team.marco.vouchermanagementsystem.model.Voucher;
 
+import java.util.List;
+
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
@@ -22,5 +24,11 @@ public class VoucherService {
     public void createPercentDiscountVoucher(int percent) {
         Voucher voucher = new PercentDiscountVoucher(percent);
         voucherRepository.save(voucher);
+    }
+
+    public List<String> getVouchersInfo() {
+        return voucherRepository.findAll().stream()
+                .map(Voucher::getInfo)
+                .toList();
     }
 }
