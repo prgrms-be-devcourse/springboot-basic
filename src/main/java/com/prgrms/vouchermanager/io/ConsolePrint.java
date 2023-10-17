@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanager.console;
+package com.prgrms.vouchermanager.io;
 
 import com.prgrms.vouchermanager.domain.Customer;
 import com.prgrms.vouchermanager.domain.Voucher;
@@ -18,43 +18,34 @@ import java.util.Scanner;
 @Slf4j
 public class ConsolePrint {
 
-    private final Scanner sc;
-
-    @Autowired
-    public ConsolePrint(Reader reader) {
-        this.sc = reader.getSc();
-    }
+    private final Scanner sc = new Scanner(System.in);
 
     public Command run() {
         System.out.println(ConsoleMessage.SELECT_FUNCTION.getMessage());
 
-        switch (sc.nextLine()) {
-            case "create" -> {
-                log.info(LogMessage.SELECT_CREATE.getMessage());
+            switch (sc.nextLine()) {
+                case "create" -> {
+                    log.info(LogMessage.SELECT_CREATE.getMessage());
 
-                return Command.CREATE;
-            }
-            case "list" -> {
-                log.info(LogMessage.SELECT_LIST.getMessage());
+                    return Command.CREATE;
+                }
+                case "list" -> {
+                    log.info(LogMessage.SELECT_LIST.getMessage());
 
-                return Command.LIST;
-            }
-            case "exit" -> {
-                System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
+                    return Command.LIST;
+                }
+                case "exit" -> {
+                    System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
 
-                return Command.EXIT;
-            }
-            case "blacklist" -> {
-                log.info(LogMessage.SELECT_BLACKLIST.getMessage());
+                    return Command.EXIT;
+                }
+                case "blacklist" -> {
+                    log.info(LogMessage.SELECT_BLACKLIST.getMessage());
 
-                return Command.BLACKLIST;
+                    return Command.BLACKLIST;
+                }
+                default -> throw new NotCorrectCommand();
             }
-            default -> {
-                log.error(LogMessage.NOT_CORRECT_COMMAND.getMessage());
-
-                throw new NotCorrectCommand();
-            }
-        }
     }
 
 
@@ -71,7 +62,6 @@ public class ConsolePrint {
                 throw new NotCorrectForm();
             }
         } catch (NotCorrectForm e) {
-            log.error(LogMessage.NOT_CORRECT_FORM.getMessage());
             throw new NotCorrectForm();
         }
     }
@@ -89,10 +79,8 @@ public class ConsolePrint {
                 if(discount < 0 || discount > 100) throw new NotCorrectScope();
             }
         } catch (NumberFormatException e) {
-            log.error(LogMessage.NOT_CORRECT_FORM.getMessage());
             throw new NotCorrectForm();
         } catch (NotCorrectScope e) {
-            log.error(LogMessage.NOT_CORRECT_SCOPE.getMessage());
             throw new NotCorrectScope();
         }
 
@@ -109,11 +97,6 @@ public class ConsolePrint {
                     System.out.println(voucher);
                     System.out.println("---------------");
                 });
-        System.out.println();
-    }
-
-    public void printListEmpty() {
-        System.out.println(ConsoleMessage.NO_VOUCHER.getMessage());
         System.out.println();
     }
 

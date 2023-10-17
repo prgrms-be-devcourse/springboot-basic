@@ -16,12 +16,7 @@ public enum ConsoleMessage {
             Type percent if you want a percent discount voucher."""),
     GET_DISCOUNT_AMOUNT("Type the discount amount."),
     GET_DISCOUNT_PERCENT("Type the discount percent."),
-    COMPLETE_CREATE_VOUCHER("A voucher has been created."),
-
-    NO_VOUCHER("There is no registered voucher."),
-    NOT_CORRECT_COMMAND("This is not a valid command."),
-    NOT_CORRECT_FORM("This is not an correct input format."),
-    NOT_CORRECT_SCOPE("The discount percent must be a number from 0 to 100.");
+    COMPLETE_CREATE_VOUCHER("A voucher has been created.");
 
     private final String message;
     ConsoleMessage(String message) {

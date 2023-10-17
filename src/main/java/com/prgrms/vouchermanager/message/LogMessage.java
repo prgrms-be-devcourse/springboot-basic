@@ -17,11 +17,7 @@ public enum LogMessage {
     VOUCHER_TYPE_AND_DISCOUNT("voucher 타입: {}, 할인 정보: {}"),
     VOUCHER_INFO("""
             Voucher 정보 :
-            {}"""),
-
-    NOT_CORRECT_COMMAND("적절하지 않은 명령어 입력 오류"),
-    NOT_CORRECT_FORM("적절하지 않은 형식의 입력 오류"),
-    NOT_CORRECT_SCOPE("적절하지 않은 percent 범위");
+            {}""");
 
     private final String message;
 

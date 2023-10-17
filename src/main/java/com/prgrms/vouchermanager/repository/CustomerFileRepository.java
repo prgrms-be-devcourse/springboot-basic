@@ -1,9 +1,10 @@
 package com.prgrms.vouchermanager.repository;
 
-import com.prgrms.vouchermanager.console.Reader;
 import com.prgrms.vouchermanager.domain.Customer;
 import com.prgrms.vouchermanager.exception.FileIOException;
+import com.prgrms.vouchermanager.io.FileIO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -15,11 +16,10 @@ import java.util.Map;
 @Repository
 public class CustomerFileRepository implements CustomerRepository {
     private final Map<Integer, Customer> customerMap = new HashMap<>();
-    private final BufferedReader bf;
     @Autowired
-    public CustomerFileRepository(Reader reader) {
-        this.bf = reader.getBf();
-        fileToMap();
+    public CustomerFileRepository(@Value("${csv.blacklist}") String fileName) {
+        FileIO fileIO = new FileIO(fileName);
+        fileIO.fileToCustomerMap(customerMap);
     }
 
     @Override
@@ -27,21 +27,5 @@ public class CustomerFileRepository implements CustomerRepository {
         return customerMap
                 .values()
                 .stream().toList();
-    }
-
-    private void fileToMap() {
-        String line = "";
-
-        while(true) {
-            try {
-                if ((line = bf.readLine()) == null) break;
-            } catch (IOException e) {
-                throw new FileIOException();
-            }
-            String[] split = line.split(",");
-            Customer customer
-                    = new Customer(Integer.parseInt(split[0]), split[1], Integer.parseInt(split[2]));
-            customerMap.put(Integer.parseInt(split[0]), customer);
-        }
     }
 }

@@ -1,13 +1,12 @@
 package com.prgrms.vouchermanager.service;
 
-import com.prgrms.vouchermanager.console.VoucherType;
+import com.prgrms.vouchermanager.io.VoucherType;
 import com.prgrms.vouchermanager.domain.Customer;
 import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.message.LogMessage;
 import com.prgrms.vouchermanager.repository.CustomerRepository;
-import com.prgrms.vouchermanager.repository.VoucherMemoryRepository;
 import com.prgrms.vouchermanager.repository.VoucherRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

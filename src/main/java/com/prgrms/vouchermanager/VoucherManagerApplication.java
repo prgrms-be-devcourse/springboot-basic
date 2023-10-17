@@ -18,7 +18,6 @@ public class VoucherManagerApplication implements CommandLineRunner {
     }
 
     public static void main(String[] args) {
-//        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         SpringApplication.run(VoucherManagerApplication.class, args);
     }
 
