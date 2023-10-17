@@ -29,7 +29,7 @@ public enum VoucherType {
 
     public static void printAllDescriptionsToConsole() {
         for (VoucherType vt : VoucherType.values()) {
-            System.out.println((vt.ordinal() + 1) + ". " + vt.description + (vt.ordinal() == 0 ? " (default)" : ""));
+            System.out.println((vt.ordinal() + 1) + ". " + vt.description + (vt.id == 1 ? " (default)" : ""));
         }
     }
 
