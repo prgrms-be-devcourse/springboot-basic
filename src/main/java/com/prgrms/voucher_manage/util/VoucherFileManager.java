@@ -47,6 +47,7 @@ public class VoucherFileManager {
             for( UUID key : storage.keySet() ){
                 Voucher voucher = storage.get(key);
                 bw.write(voucher.getVoucherId() + "," + voucher.getDiscountAmount() + "," + voucher.getVoucherType());
+                bw.newLine();
             }
 
         } catch (IOException e) {
