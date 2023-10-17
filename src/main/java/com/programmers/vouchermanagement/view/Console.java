@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.view;
 
 import com.programmers.vouchermanagement.common.ConsoleMessage;
-import com.programmers.vouchermanagement.domain.VoucherType;
+import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.service.VoucherService;
 import jakarta.annotation.PostConstruct;
 import org.beryx.textio.TextIO;

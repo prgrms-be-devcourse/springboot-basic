@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.domain;
+package com.programmers.vouchermanagement.domain.voucher;
 
 public enum VoucherType {
     FIXED, PERCENTAGE;
