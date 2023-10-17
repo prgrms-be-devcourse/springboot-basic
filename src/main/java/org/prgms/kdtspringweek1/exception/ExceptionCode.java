@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.voucher.exception;
+package org.prgms.kdtspringweek1.exception;
 
 public enum ExceptionCode {
     INVALID_VOUCHER_FUNCTION_TYPE("[System] 지원 가능한 기능을 올바르게 입력해주세요."),
