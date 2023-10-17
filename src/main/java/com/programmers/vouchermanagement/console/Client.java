@@ -1,5 +1,7 @@
 package com.programmers.vouchermanagement.console;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.programmers.vouchermanagement.voucher.Voucher;
@@ -43,7 +45,8 @@ public class Client {
                 voucherController.create(voucher);
             }
             case "list" -> {
-                voucherController.readAllVouchers();
+                List<Voucher> vouchers = voucherController.readAllVouchers();
+                consoleManager.printReadAll(vouchers);
             }
         }
     }

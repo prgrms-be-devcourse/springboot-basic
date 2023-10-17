@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher;
 
+import java.lang.System;
 import java.util.UUID;
 
 public class PercentVoucher implements Voucher {
@@ -24,5 +25,15 @@ public class PercentVoucher implements Voucher {
     @Override
     public boolean validatePositiveDiscount() {
         return discountPercent > 0;
+    }
+
+    @Override
+    public String toConsoleFormat() {
+        return """
+                Voucher ID : %s
+                Voucher Type : Percent Discount Voucher
+                Discount Percentage : %s%%
+                -------------------------"""
+                .formatted(voucherID, discountPercent);
     }
 }

@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.voucher;
 
 import org.springframework.stereotype.Controller;
 
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -21,8 +22,11 @@ public class VoucherController {
         try {
             return voucherService.readAllVouchers();
         } catch (RuntimeException e) {
+            //TODO: add exception handling method externally
             System.out.println(e.getMessage());
+
+            //TODO: reconsider return empty list from service
+            return Collections.emptyList();
         }
-        return null;
     }
 }

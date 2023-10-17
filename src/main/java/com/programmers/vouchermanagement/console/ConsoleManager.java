@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.console;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.beryx.textio.TextIO;
@@ -13,7 +14,7 @@ import com.programmers.vouchermanagement.voucher.Voucher;
 public class ConsoleManager {
     //TODO: consider responsibility of console manager regarding to messages
     private static final String menuSelectionInstruction = """
-            ===Voucher Program ===
+            === Voucher Program ===
             Type **exit** to exit the program.
             Type **create** to create a new voucher.
             Type **list** to list all vouchers.
@@ -41,6 +42,7 @@ public class ConsoleManager {
         String createMenu = textIO.newStringInputReader()
                 .read(createSelectionInstruction);
 
+        //TODO: refactor order of inputs obtaining
         long discountAmount = textIO.newLongInputReader()
                 .read(voucherDiscountAmountDecision);
 
@@ -57,6 +59,10 @@ public class ConsoleManager {
             default ->
                     throw new IllegalArgumentException("Voucher type should be either fixed amount or percent discount voucher");
         }
+    }
+
+    public void printReadAll(List<Voucher> vouchers) {
+        vouchers.forEach(voucher -> textIO.getTextTerminal().println(voucher.toConsoleFormat()));
     }
 
     public void printExit() {

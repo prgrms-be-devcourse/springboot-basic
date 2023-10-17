@@ -9,4 +9,5 @@ public interface Voucher {
 
     boolean validatePositiveDiscount();
 
+    String toConsoleFormat();
 }

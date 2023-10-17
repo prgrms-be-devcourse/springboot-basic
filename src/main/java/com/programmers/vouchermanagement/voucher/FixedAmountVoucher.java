@@ -25,4 +25,14 @@ public class FixedAmountVoucher implements Voucher {
     public boolean validatePositiveDiscount() {
         return discountAmount > 0;
     }
+
+    @Override
+    public String toConsoleFormat() {
+        return """
+                Voucher ID : %s
+                Voucher Type : Fixed Amount Voucher
+                Discount Amount : %s
+                -------------------------"""
+                .formatted(voucherID, discountAmount);
+    }
 }
