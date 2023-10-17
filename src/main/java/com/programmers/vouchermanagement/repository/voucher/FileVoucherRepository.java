@@ -79,9 +79,6 @@ public class FileVoucherRepository implements VoucherRepository {
                             logger.error("Error occurred at FileWriter: ", e);
                         }
                     });
-        } catch (FileNotFoundException e) {
-            logger.warn(ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage());
-            logger.warn(MessageFormat.format("Csv File Path: {0}", csvFilePath));
         } catch (IOException e) {
             logger.error("Error occurred af FileWriter: ", e);
         }
