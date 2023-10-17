@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Getter
 @ToString
@@ -20,8 +23,14 @@ public class Customer {
         this.blacklisted = blacklisted;
     }
 
-    public static Customer parseCsvLine(String line) {
-        String[] parts = line.split(",");
-        return new Customer(UUID.fromString(parts[0]), parts[1], Boolean.parseBoolean(parts[2]));
+    public static Customer parseCsvLine(String header, String line) {
+        String[] headers = header.split(",");
+        String[] values = line.split(",");
+
+        Map<String, String> info = IntStream.range(0, headers.length)
+                .boxed()
+                .collect(Collectors.toMap(i -> headers[i], i -> values[i]));
+
+        return new Customer(UUID.fromString(info.get("id")), info.get("name"), Boolean.parseBoolean(info.get("blacklisted")));
     }
 }
