@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.config.properties.FileProperties;
 import com.programmers.vouchermanagement.domain.customer.Customer;
+import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
 import com.programmers.vouchermanagement.util.CsvMapper;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
@@ -29,9 +31,13 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAllBlacklisted() {
-        return storage.values().stream()
-                .filter(Customer::isBlacklisted)
-                .collect(Collectors.toList());
+    public List<Customer> findAll(GetCustomersRequestDto request) {
+        Stream<Customer> stream = storage.values().stream();
+
+        if (request.isBlacklisted()) {
+            stream = stream.filter(Customer::isBlacklisted);
+        }
+
+        return stream.collect(Collectors.toList());
     }
 }

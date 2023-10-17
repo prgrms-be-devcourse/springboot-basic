@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.service;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
+import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
 import com.programmers.vouchermanagement.stub.repository.StubCustomerRepository;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,8 +33,10 @@ class CustomerServiceTest {
     @DisplayName("고개 블랙 리스트를 조회할 수 있다.")
     void blacklist() {
         // given
+        GetCustomersRequestDto request = new GetCustomersRequestDto();
+        request.setBlacklisted(true);
         // when
-        List<Customer> customers = customerService.blacklist();
+        List<Customer> customers = customerService.getCustomers(request);
         // then
         assertThat(customers).hasSize(1);
         assertThat(customers.get(0).getId()).isEqualTo((customerFixtures.get(0).getId()));
