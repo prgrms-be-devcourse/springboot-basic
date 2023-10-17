@@ -2,7 +2,7 @@ package com.prgrms.voucher_manage.console;
 
 import com.prgrms.voucher_manage.domain.customer.controller.CustomerController;
 import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
-import com.prgrms.voucher_manage.exception.InvalidInputException;
+import com.prgrms.voucher_manage.exception.InvalidCmdInputException;
 import com.prgrms.voucher_manage.util.InputUtil;
 import com.prgrms.voucher_manage.util.OutputUtil;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class ConsoleManager implements ApplicationRunner {
     }
 
     public void selectMenu(MenuType menuType) throws Exception {
-        if (menuType == null) throw new InvalidInputException();
+        if (menuType == null) throw new InvalidCmdInputException();
 
         switch (menuType) {
             case CREATE -> setVoucherInfo();
@@ -54,7 +54,7 @@ public class ConsoleManager implements ApplicationRunner {
     public void setVoucherInfo() throws Exception {
         outputUtil.printVoucherSelect();
         VoucherType voucherType = VoucherType.matchVoucherType(inputUtil.getStringInput());
-        if (voucherType == null) throw new InvalidInputException();
+        if (voucherType == null) throw new InvalidCmdInputException();
 
         switch (voucherType) {
             case FIXED -> outputUtil.requestDiscountPriceInfo();

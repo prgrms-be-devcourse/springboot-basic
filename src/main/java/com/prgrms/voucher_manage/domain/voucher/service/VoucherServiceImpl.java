@@ -6,7 +6,7 @@ import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.PercentAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.repository.VoucherRepository;
-import com.prgrms.voucher_manage.exception.InvalidPercentException;
+import com.prgrms.voucher_manage.exception.InvalidDiscountRange;
 import com.prgrms.voucher_manage.util.OutputUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,11 +25,12 @@ public class VoucherServiceImpl implements VoucherService {
     public void createVoucher(CreateVoucherDto dto) {
         VoucherType voucherType = dto.voucherType();
         switch (voucherType) {
-            case FIXED -> voucherRepository.insert(new FixedAmountVoucher(dto.discountAmount()));
+            case FIXED -> {
+                if (dto.isInValidPrice()) throw new InvalidDiscountRange();
+                voucherRepository.insert(new FixedAmountVoucher(dto.discountAmount()));
+            }
             case PERCENT -> {
-                if (!dto.isValidPercent()) {
-                    throw new InvalidPercentException();
-                }
+                if (!dto.isInvalidPercent()) throw new InvalidDiscountRange();
                 voucherRepository.insert(new PercentAmountVoucher(dto.discountAmount()));
             }
         }

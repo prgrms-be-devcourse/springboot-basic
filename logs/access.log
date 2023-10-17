@@ -1,0 +1,3 @@
+10:46:31.517 [main] ERROR c.p.v.console.ConsoleManager - Empty input is not allowed.
+10:47:31.027 [main] ERROR c.p.v.console.ConsoleManager - Invalid Percent Range
+11:01:01.629 [main] ERROR c.p.v.console.ConsoleManager - Invalid discount range.
