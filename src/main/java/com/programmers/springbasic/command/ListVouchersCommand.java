@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.VoucherController;
-import com.programmers.springbasic.controller.dto.ListVouchersResponse;
+import com.programmers.springbasic.dto.ListVouchersResponse;
 
 public class ListVouchersCommand implements Command {
 	private final VoucherController voucherController;
@@ -18,6 +18,6 @@ public class ListVouchersCommand implements Command {
 	@Override
 	public void execute() {
 		List<ListVouchersResponse> vouchers = voucherController.listVoucher();
-		consoleOutputHandler.printVoucherList(vouchers);
+		consoleOutputHandler.printList(vouchers);
 	}
 }

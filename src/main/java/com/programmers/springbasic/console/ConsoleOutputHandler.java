@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.programmers.springbasic.controller.dto.ListVouchersResponse;
-
 @Component
 public class ConsoleOutputHandler {
 	public void printMainMenu() {
@@ -14,10 +12,10 @@ public class ConsoleOutputHandler {
 			Type exit to exit the program.
 			Type create to create a new voucher.
 			Type list to list all vouchers.    
+			Type blacklist to list all blacklist customers.    
 			""";
 		print(menuPrompt);
 	}
-
 
 	public void printFixedAmount() {
 		String amountPrompt = "Amount : ";
@@ -30,12 +28,12 @@ public class ConsoleOutputHandler {
 	}
 
 	public void printChooseVoucherType() {
-		String chooseVoucherType = "Type voucher type : [fixed/percent] => ";
+		String chooseVoucherType = "Choose voucher type : [fixed/percent] => ";
 		print(chooseVoucherType);
 	}
 
-	public void printVoucherList(List<ListVouchersResponse> vouchers) {
-		vouchers.forEach(System.out::println);
+	public <T> void printList(List<T> list) {
+		list.forEach(System.out::println);
 	}
 
 	private void print(String menuPrompt) {
