@@ -1,7 +1,7 @@
 package com.zerozae.voucher.domain.voucher;
 
 import com.zerozae.voucher.common.message.MessageConverter;
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +16,7 @@ public enum VoucherType {
             return VoucherType.valueOf(voucherType.toUpperCase());
         }catch (RuntimeException e){
             logger.error("Error Message = {}", e.getMessage());
-            throw ExceptionHandler.err(MessageConverter.getMessage("INVALID_VOUCHER_TYPE.MSG"));
+            throw ErrorMessage.error(MessageConverter.getMessage("INVALID_VOUCHER_TYPE.MSG"));
         }
     }
 }

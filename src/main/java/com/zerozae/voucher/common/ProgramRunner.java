@@ -1,6 +1,5 @@
 package com.zerozae.voucher.common;
 
-import com.zerozae.voucher.exception.ExceptionHandler;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

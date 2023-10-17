@@ -5,7 +5,8 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher implements Voucher {
+
     private final UUID voucherId;
     private final long discount;
     private final VoucherType voucherType;

@@ -6,7 +6,7 @@ import com.zerozae.voucher.controller.customer.CustomerController;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,7 +55,7 @@ class CustomerControllerTest {
     void createCustomerFailureServiceExceptionTest() {
         // Given: 유효한 고객 정보, CustomerService에서 발생하는 예외
         CustomerRequest customerRequest = new CustomerRequest("Alice", CustomerType.NORMAL);
-        doThrow(ExceptionHandler.class).when(customerService).createCustomer(customerRequest);
+        doThrow(ErrorMessage.class).when(customerService).createCustomer(customerRequest);
 
         // When: createCustomer 메서드 호출
         Response response = customerController.createCustomer(customerRequest);

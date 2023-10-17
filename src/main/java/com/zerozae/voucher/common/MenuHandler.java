@@ -6,7 +6,7 @@ import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.voucher.VoucherRequest;
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.view.ConsoleView;
 import org.springframework.stereotype.Component;
 
@@ -30,8 +30,8 @@ public class MenuHandler {
         consoleView.printCommand();
         try {
             return MenuType.of(consoleView.inputCommand());
-        }catch (ExceptionHandler e){
-            throw ExceptionHandler.err(e.getMessage());
+        }catch (ErrorMessage e){
+            throw ErrorMessage.error(e.getMessage());
         }
     }
 
@@ -39,8 +39,8 @@ public class MenuHandler {
         consoleView.printCustomerCommand();
         try {
             return MenuType.of(consoleView.inputCommand());
-        }catch (ExceptionHandler e){
-            throw ExceptionHandler.err(e.getMessage());
+        }catch (ErrorMessage e){
+            throw ErrorMessage.error(e.getMessage());
         }
     }
 
@@ -48,8 +48,8 @@ public class MenuHandler {
         consoleView.printVoucherCommand();
         try {
             return MenuType.of(consoleView.inputCommand());
-        }catch (ExceptionHandler e){
-            throw ExceptionHandler.err(e.getMessage());
+        }catch (ErrorMessage e){
+            throw ErrorMessage.error(e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class MenuHandler {
 
             VoucherRequest voucherRequest = new VoucherRequest(discount, voucherType);
             consoleView.printSystemMessage(voucherController.createVoucher(voucherRequest).getMessage());
-        }catch (ExceptionHandler e){
+        }catch (ErrorMessage e){
             consoleView.printErrorMessage(e.getMessage());
         }
     }
@@ -86,7 +86,7 @@ public class MenuHandler {
 
             CustomerRequest customerRequest = new CustomerRequest(customerName, customerType);
             consoleView.printSystemMessage(customerController.createCustomer(customerRequest).getMessage());
-        }catch (ExceptionHandler e){
+        }catch (ErrorMessage e){
             consoleView.printErrorMessage(e.getMessage());
         }
     }

@@ -1,6 +1,6 @@
 package com.zerozae.voucher.view;
 
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.validator.InputValidator;
 import org.springframework.stereotype.Component;
 
@@ -26,9 +26,9 @@ public class ConsoleView implements Input, Output{
         try {
             return InputValidator.validateInputDiscount(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ExceptionHandler.err("입력을 읽을 때 오류가 발생했습니다");
-        } catch (ExceptionHandler e){
-            throw ExceptionHandler.err(e.getMessage());
+            throw ErrorMessage.error("입력을 읽을 때 오류가 발생했습니다");
+        } catch (ErrorMessage e){
+            throw ErrorMessage.error(e.getMessage());
         }
     }
 
@@ -117,9 +117,9 @@ public class ConsoleView implements Input, Output{
         try {
             return InputValidator.validateInputString(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ExceptionHandler.err(getMessage("READ_INPUT_ERROR.MSG"));
-        } catch (ExceptionHandler e){
-            throw ExceptionHandler.err(e.getMessage());
+            throw ErrorMessage.error(getMessage("READ_INPUT_ERROR.MSG"));
+        } catch (ErrorMessage e){
+            throw ErrorMessage.error(e.getMessage());
         }
     }
 }

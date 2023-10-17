@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class CustomerRequest {
+
     private String customerName;
     private CustomerType customerType;
 

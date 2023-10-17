@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class VoucherRequest {
+
     private long discount;
     private VoucherType voucherType;
 

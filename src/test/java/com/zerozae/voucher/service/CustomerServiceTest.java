@@ -5,7 +5,7 @@ import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.repository.customer.CustomerRepository;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.context.MessageSource;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -27,7 +28,7 @@ class CustomerServiceTest {
     void callCreateCustomerTest(){
         // Given
         CustomerRequest customerRequest = new CustomerRequest("영재", CustomerType.BLACKLIST);
-        Customer savedCustomer = new Customer("영재", CustomerType.BLACKLIST);
+        Customer savedCustomer = new Customer(UUID.randomUUID(), "영재", CustomerType.BLACKLIST);
 
         when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
 
@@ -44,8 +45,8 @@ class CustomerServiceTest {
     void callFindAllBlacklistTest(){
         // Given
         List<Customer> customerList = List.of(
-                new Customer("고객1", CustomerType.NORMAL),
-                new Customer("고객2", CustomerType.BLACKLIST)
+                new Customer(UUID.randomUUID(),"고객1", CustomerType.NORMAL),
+                new Customer(UUID.randomUUID(),"고객2", CustomerType.BLACKLIST)
         );
 
         when(customerRepository.findAll()).thenReturn(customerList);
@@ -67,12 +68,12 @@ class CustomerServiceTest {
         // Given
         CustomerRequest customerRequest = new CustomerRequest("고객1", CustomerType.NORMAL);
 
-        when(customerRepository.findAll()).thenReturn(List.of(new Customer("고객1", CustomerType.NORMAL)));
+        when(customerRepository.findAll()).thenReturn(List.of(new Customer(UUID.randomUUID(),"고객1", CustomerType.NORMAL)));
 
         // When
 
         // Then
-        assertThrows(ExceptionHandler.class, () -> {
+        assertThrows(ErrorMessage.class, () -> {
             customerService.createCustomer(customerRequest);
         });
     }

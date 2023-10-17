@@ -1,12 +1,13 @@
 package com.zerozae.voucher.validator;
 
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 
 public class InputValidator {
+
     private static final Logger logger = LoggerFactory.getLogger(InputValidator.class);
 
     public static Long validateInputDiscount(String input) {
@@ -15,7 +16,7 @@ public class InputValidator {
         } else {
             String message = getMessage("INPUT_TYPE_INTEGER.MSG");
             logger.error("Error Message = {}", message);
-            throw ExceptionHandler.err(message);
+            throw ErrorMessage.error(message);
         }
     }
 
@@ -25,7 +26,7 @@ public class InputValidator {
         } else {
             String message = getMessage("INPUT_TYPE_STRING.MSG");
             logger.error("Error Message = {}", message);
-            throw ExceptionHandler.err(message);
+            throw ErrorMessage.error(message);
         }
     }
 }

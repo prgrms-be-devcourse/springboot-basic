@@ -5,7 +5,7 @@ import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -26,7 +26,8 @@ import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 
 @Profile("prod")
 @Repository
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
+
     private static final String FILE_PATH = System.getProperty("user.home") + "/voucher.csv";
     private static final String DELIMITER = ",";
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -46,7 +47,7 @@ public class FileVoucherRepository implements VoucherRepository{
             Files.writeString(Path.of(FILE_PATH), voucherInfo, StandardOpenOption.APPEND);
         } catch (IOException e) {
             logger.error("Error Message ={}", e.getMessage());
-            throw ExceptionHandler.err(getMessage("WRITE_FILE_ERROR.MSG"));
+            throw ErrorMessage.error(getMessage("WRITE_FILE_ERROR.MSG"));
         }
         return voucher;
     }
@@ -76,7 +77,7 @@ public class FileVoucherRepository implements VoucherRepository{
             }
         } catch (IOException e) {
             logger.error("Error Message ={}", e.getMessage());
-            throw ExceptionHandler.err(getMessage("READ_FILE_ERROR.MSG"));
+            throw ErrorMessage.error(getMessage("READ_FILE_ERROR.MSG"));
         }
         return loadedVouchers;
     }
@@ -97,7 +98,7 @@ public class FileVoucherRepository implements VoucherRepository{
                 file.createNewFile();
             } catch (IOException e) {
                 logger.error("Error Message ={}", e.getMessage());
-                throw ExceptionHandler.err(getMessage("CREATE_FILE_ERROR.MSG"));
+                throw ErrorMessage.error(getMessage("CREATE_FILE_ERROR.MSG"));
             }
         }
     }
