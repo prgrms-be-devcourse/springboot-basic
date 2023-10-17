@@ -21,9 +21,6 @@ public class VoucherController {
     }
 
     public List<VoucherResponse> getVoucherList(){
-        List<Voucher> voucherList = voucherService.getVoucherList();
-        return voucherList.stream()
-            .map(VoucherResponse::new)
-            .toList();
+        return voucherService.getVoucherList();
     }
 }

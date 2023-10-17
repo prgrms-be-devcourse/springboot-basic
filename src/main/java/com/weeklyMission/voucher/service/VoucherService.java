@@ -1,6 +1,7 @@
 package com.weeklyMission.voucher.service;
 
 import com.weeklyMission.voucher.domain.Voucher;
+import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.repository.VoucherRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,9 @@ public class VoucherService {
         return voucherRepository.createVoucher(voucher);
     }
 
-    public List<Voucher> getVoucherList(){
-        return voucherRepository.getVoucherList();
+    public List<VoucherResponse> getVoucherList(){
+        return voucherRepository.getVoucherList().stream()
+            .map(VoucherResponse::new)
+            .toList();
     }
 }
