@@ -13,6 +13,7 @@ public class SpringOrderApplication {
 	public static void main(String[] args) {
 		log.info("Voucher 관리 애플리케이션 구동");
 		SpringApplication.run(SpringOrderApplication.class, args);
+		// TODO: EXIT 버튼 누를 시 종료될 수 있게 만들기
 	}
 
 }
