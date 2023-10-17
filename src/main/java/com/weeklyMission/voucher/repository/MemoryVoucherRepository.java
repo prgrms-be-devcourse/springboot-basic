@@ -1,6 +1,6 @@
-package com.weeklyMission.Voucher.repository;
+package com.weeklyMission.voucher.repository;
 
-import com.weeklyMission.Voucher.domain.Voucher;
+import com.weeklyMission.voucher.domain.Voucher;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

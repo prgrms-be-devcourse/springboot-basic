@@ -1,8 +1,8 @@
-package com.weeklyMission.Voucher.controller;
+package com.weeklyMission.voucher.controller;
 
-import com.weeklyMission.Voucher.dto.VoucherResponse;
-import com.weeklyMission.Voucher.service.VoucherService;
-import com.weeklyMission.Voucher.domain.Voucher;
+import com.weeklyMission.voucher.dto.VoucherResponse;
+import com.weeklyMission.voucher.service.VoucherService;
+import com.weeklyMission.voucher.domain.Voucher;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 

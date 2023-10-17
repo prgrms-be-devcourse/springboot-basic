@@ -1,7 +1,7 @@
-package com.weeklyMission.Voucher.repository;
+package com.weeklyMission.voucher.repository;
 
-import com.weeklyMission.Voucher.domain.FixedAmountVoucher;
-import com.weeklyMission.Voucher.domain.Voucher;
+import com.weeklyMission.voucher.domain.FixedAmountVoucher;
+import com.weeklyMission.voucher.domain.Voucher;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import java.io.BufferedReader;

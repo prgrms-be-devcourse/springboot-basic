@@ -1,9 +1,9 @@
 package com.weeklyMission.client;
 
 import com.weeklyMission.console.ConsoleIO;
-import com.weeklyMission.Voucher.controller.VoucherController;
-import com.weeklyMission.Voucher.domain.Voucher;
-import com.weeklyMission.Voucher.dto.VoucherResponse;
+import com.weeklyMission.voucher.controller.VoucherController;
+import com.weeklyMission.voucher.domain.Voucher;
+import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.exception.IncorrectInputException;
 import java.util.List;
 import org.springframework.stereotype.Component;

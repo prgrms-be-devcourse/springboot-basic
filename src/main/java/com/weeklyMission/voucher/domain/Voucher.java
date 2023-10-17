@@ -1,4 +1,4 @@
-package com.weeklyMission.Voucher.domain;
+package com.weeklyMission.voucher.domain;
 
 import java.util.UUID;
 
