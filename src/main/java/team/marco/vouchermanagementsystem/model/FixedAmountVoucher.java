@@ -12,4 +12,9 @@ public class FixedAmountVoucher implements Voucher {
         this.id = UUID.randomUUID();
         this.amount = amount;
     }
+
+    @Override
+    public UUID getId() {
+        return id;
+    }
 }
