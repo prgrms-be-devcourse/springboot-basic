@@ -18,13 +18,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("dev")
-@Primary
 public class FileVoucherRepository implements VoucherRepository{
     private final String path;
     private final String seperator = ",";
