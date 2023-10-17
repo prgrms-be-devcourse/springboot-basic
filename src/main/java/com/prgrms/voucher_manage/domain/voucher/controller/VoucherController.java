@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
 public class VoucherController {
     private final VoucherService voucherService;
 
-    public void createVoucher(VoucherType voucherType, Long discountAmount){
+    public void createVoucher(VoucherType voucherType, Long discountAmount) {
         voucherService.createVoucher(new CreateVoucherDto(voucherType, discountAmount));
     }
 
-    public void showVoucherList(){
+    public void showVoucherList() {
         voucherService.showVoucherList();
     }
 }

@@ -8,7 +8,8 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
-    public void showBlackListCustomers(){
+
+    public void showBlackListCustomers() {
         customerService.showCustomerBlackList();
     }
 }

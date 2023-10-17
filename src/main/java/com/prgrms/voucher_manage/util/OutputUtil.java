@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 
 @Component
 public class OutputUtil {
-    public void printMenu(){
+    public void printMenu() {
         System.out.println("""
                 === Voucher Program ===
                 Type exit to exit the program.
@@ -18,7 +18,7 @@ public class OutputUtil {
                 """);
     }
 
-    public void printVoucherSelect(){
+    public void printVoucherSelect() {
         System.out.println("""
                 === Voucher Program ===
                 Type fixed to create fixed amount voucher.
@@ -26,30 +26,30 @@ public class OutputUtil {
                 """);
     }
 
-    public void requestDiscountPercentInfo(){
+    public void requestDiscountPercentInfo() {
         System.out.println("\nType discount percent\n");
     }
 
-    public void requestDiscountPriceInfo(){
+    public void requestDiscountPriceInfo() {
         System.out.println("\nType discount price\n");
     }
 
-    public void printFixedVoucherInfo(Voucher voucher){
+    public void printFixedVoucherInfo(Voucher voucher) {
         System.out.println(MessageFormat.format("\nVoucher id: {0} \nVoucher discount price: {1}\n"
-                ,voucher.getVoucherId(), voucher.getDiscountAmount()));
+                , voucher.getVoucherId(), voucher.getDiscountAmount()));
     }
 
-    public void printPercentVoucherInfo(Voucher voucher){
+    public void printPercentVoucherInfo(Voucher voucher) {
         System.out.println(MessageFormat.format("\nVoucher id: {0} \nVoucher discount percent: {1}%\n"
-                ,voucher.getVoucherId(), voucher.getDiscountAmount()));
+                , voucher.getVoucherId(), voucher.getDiscountAmount()));
     }
 
-    public void printCustomerInfo(Customer customer){
+    public void printCustomerInfo(Customer customer) {
         System.out.println(MessageFormat.format("\nCustomer id: {0} \nCustomer name: {1}\n"
-                ,customer.getCustomerId(), customer.getName()));
+                , customer.getCustomerId(), customer.getName()));
     }
 
-    public void printMessage(String message){
-        System.out.println(MessageFormat.format("\n[System] {0}\n",message));
+    public void printMessage(String message) {
+        System.out.println(MessageFormat.format("\n[System] {0}\n", message));
     }
 }

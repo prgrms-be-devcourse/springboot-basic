@@ -21,7 +21,7 @@ public class CustomerFileManager {
         this.path += path;
     }
 
-    public Map<UUID, Customer> loadCustomerData(){
+    public Map<UUID, Customer> loadCustomerData() {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -29,7 +29,7 @@ public class CustomerFileManager {
                 Customer customer = new Customer(UUID.fromString(data[0]), data[1]);
                 customerStorage.put(UUID.fromString(data[0]), customer);
             }
-        }  catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return customerStorage;

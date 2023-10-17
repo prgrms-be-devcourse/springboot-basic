@@ -9,7 +9,8 @@ public record CreateVoucherDto(VoucherType voucherType, Long discountAmount) {
     public boolean isInvalidPercent() {
         return (discountAmount < MIN_DISCOUNT_PERCENT) || (discountAmount > MAX_DISCOUNT_PERCENT);
     }
-    public boolean isInValidPrice(){
+
+    public boolean isInValidPrice() {
         return discountAmount < 0;
     }
 }

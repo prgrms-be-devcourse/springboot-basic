@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository
 @Profile("prod")
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
     private final VoucherFileManager voucherFileManager;
     private final Map<UUID, Voucher> storage;
 

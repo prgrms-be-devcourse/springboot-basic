@@ -11,7 +11,7 @@ public class FixedAmountVoucher implements Voucher {
     private final Long discountPrice;
     private final VoucherType voucherType = FIXED;
 
-    public FixedAmountVoucher(Long discountPrice){
+    public FixedAmountVoucher(Long discountPrice) {
         this.voucherId = UUID.randomUUID();
         this.discountPrice = discountPrice;
     }
@@ -28,5 +28,7 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public VoucherType getVoucherType() {return voucherType;}
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
 }

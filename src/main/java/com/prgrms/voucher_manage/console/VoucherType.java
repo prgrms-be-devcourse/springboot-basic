@@ -3,6 +3,7 @@ package com.prgrms.voucher_manage.console;
 import lombok.Getter;
 
 import java.util.Arrays;
+
 @Getter
 public enum VoucherType {
     FIXED("fixed"),
