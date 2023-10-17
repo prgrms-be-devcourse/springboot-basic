@@ -31,7 +31,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Autowired
     public VoucherFileRepository(Reader reader) {
-        this.vf = reader.vf;
+        this.vf = reader.getVf();
         fileToMap();
     }
 

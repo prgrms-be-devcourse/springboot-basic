@@ -9,18 +9,30 @@ import java.util.Scanner;
 @Component
 public class Reader {
 
-    Scanner sc = new Scanner(System.in);
+    private final Scanner sc = new Scanner(System.in);
 
-    private String blackListFilePath;
-    private String voucherFilePath;
+    private final String blackListFilePath;
+    private final String voucherFilePath;
 
-    public BufferedReader bf;
-    public BufferedReader vf;
+    private final BufferedReader bf;
+    private final BufferedReader vf;
 
     public Reader(@Value("${csv.blacklist}") String blackListFilePath, @Value("${csv.voucher}") String voucherFilePath) throws IOException {
         this.blackListFilePath = blackListFilePath;
         this.voucherFilePath = voucherFilePath;
         bf = new BufferedReader(new FileReader(blackListFilePath));;
         vf = new BufferedReader(new FileReader(voucherFilePath));
+    }
+
+    public Scanner getSc() {
+        return sc;
+    }
+
+    public BufferedReader getBf() {
+        return bf;
+    }
+
+    public BufferedReader getVf() {
+        return vf;
     }
 }

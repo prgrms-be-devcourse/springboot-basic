@@ -7,10 +7,11 @@ import java.util.UUID;
 @Getter
 public class FixedAmountVoucher implements Voucher {
 
-    private UUID id = UUID.randomUUID();
+    private final UUID id;
     private final long amount;
 
     public FixedAmountVoucher(long amount) {
+        this.id = UUID.randomUUID();
         this.amount = amount;
     }
     public FixedAmountVoucher(UUID id, long amount) {

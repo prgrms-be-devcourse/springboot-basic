@@ -18,7 +18,7 @@ public class CustomerFileRepository implements CustomerRepository {
     private final BufferedReader bf;
     @Autowired
     public CustomerFileRepository(Reader reader) {
-        this.bf = reader.bf;
+        this.bf = reader.getBf();
         fileToMap();
     }
 

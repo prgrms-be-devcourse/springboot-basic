@@ -22,7 +22,7 @@ public class ConsolePrint {
 
     @Autowired
     public ConsolePrint(Reader reader) {
-        this.sc = reader.sc;
+        this.sc = reader.getSc();
     }
 
     public Command run() {
