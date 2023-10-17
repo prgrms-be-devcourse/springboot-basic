@@ -1,6 +1,10 @@
-package team.marco.vouchermanagementsystem;
+package team.marco.vouchermanagementsystem.service;
 
 import org.springframework.stereotype.Service;
+import team.marco.vouchermanagementsystem.repository.VoucherRepository;
+import team.marco.vouchermanagementsystem.model.FixedAmountVoucher;
+import team.marco.vouchermanagementsystem.model.PercentDiscountVoucher;
+import team.marco.vouchermanagementsystem.model.Voucher;
 
 @Service
 public class VoucherService {

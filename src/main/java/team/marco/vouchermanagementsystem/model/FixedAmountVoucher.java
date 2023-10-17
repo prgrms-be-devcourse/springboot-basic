@@ -1,4 +1,6 @@
-package team.marco.vouchermanagementsystem;
+package team.marco.vouchermanagementsystem.model;
+
+import team.marco.vouchermanagementsystem.model.Voucher;
 
 import java.util.UUID;
 

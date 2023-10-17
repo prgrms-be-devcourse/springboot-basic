@@ -1,6 +1,8 @@
 package team.marco.vouchermanagementsystem;
 
 import org.springframework.stereotype.Component;
+import team.marco.vouchermanagementsystem.service.VoucherService;
+import team.marco.vouchermanagementsystem.util.Console;
 
 @Component
 public class VoucherApplication {

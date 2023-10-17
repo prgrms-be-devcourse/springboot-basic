@@ -1,6 +1,7 @@
-package team.marco.vouchermanagementsystem;
+package team.marco.vouchermanagementsystem.repository;
 
 import org.springframework.stereotype.Repository;
+import team.marco.vouchermanagementsystem.model.Voucher;
 
 import java.util.List;
 

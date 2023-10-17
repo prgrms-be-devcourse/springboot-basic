@@ -1,4 +1,4 @@
-package team.marco.vouchermanagementsystem;
+package team.marco.vouchermanagementsystem.util;
 
 import org.springframework.stereotype.Component;
 
