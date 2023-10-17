@@ -5,25 +5,23 @@ import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.controller.customer.CustomerController;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
-import com.zerozae.voucher.mock.MockCustomerRepository;
-import com.zerozae.voucher.mock.MockMessageSource;
+import com.zerozae.voucher.dto.customer.CustomerResponse;
+import com.zerozae.voucher.exception.ExceptionHandler;
 import com.zerozae.voucher.service.customer.CustomerService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.context.MessageSource;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class CustomerControllerTest {
-    CustomerController customerController;
-    MessageConverter messageConverter;
-
-    @BeforeEach
-    void setUp(){
-        customerController = new CustomerController(new CustomerService(new MockCustomerRepository()));
-        messageConverter = new MessageConverter(new MockMessageSource());
-    }
+    CustomerService customerService = mock(CustomerService.class);
+    CustomerController customerController = new CustomerController(customerService);
+    MessageConverter messageConverter = new MessageConverter(mock(MessageSource.class));
 
     @Test
     @DisplayName("회원 컨트롤러 : 회원 생성 성공 반환 테스트")
@@ -37,8 +35,9 @@ class CustomerControllerTest {
         // Then
         assertTrue(response.isSuccess());
     }
+
     @Test
-    @DisplayName("회원 컨트롤러 : 회원 생성 성공 실패 테스트(빈 문자열 입력)")
+    @DisplayName("회원 컨트롤러 : 회원 생성 실패 테스트(빈 문자열 입력)")
     void createCustomerFailedTest(){
         // Given
         CustomerRequest customerRequest = new CustomerRequest("", CustomerType.BLACKLIST);
@@ -48,5 +47,57 @@ class CustomerControllerTest {
 
         // Then
         assertFalse(response.isSuccess());
+    }
+
+    @Test
+    @DisplayName("회원 컨트롤러 : 회원 생성 실패 테스트(CustomerService 예외)")
+    void createCustomerFailureServiceExceptionTest() {
+        // Given: 유효한 고객 정보, CustomerService에서 발생하는 예외
+        CustomerRequest customerRequest = new CustomerRequest("Alice", CustomerType.NORMAL);
+        doThrow(ExceptionHandler.class).when(customerService).createCustomer(customerRequest);
+
+        // When: createCustomer 메서드 호출
+        Response response = customerController.createCustomer(customerRequest);
+
+        // Then: Response 객체는 실패해야 합니다.
+        assertFalse(response.isSuccess());
+    }
+
+    @Test
+    @DisplayName("모든 고객 조회 테스트")
+    void findAllCustomersSuccessTest() {
+        // Given
+        List<CustomerResponse> customerResponses = List.of(
+                new CustomerResponse(UUID.randomUUID().toString(), "고객1", CustomerType.NORMAL),
+                new CustomerResponse(UUID.randomUUID().toString(), "고객2", CustomerType.BLACKLIST)
+        );
+
+        when(customerService.findAllCustomers()).thenReturn(customerResponses);
+
+        // When
+        Response response = customerController.findAllCustomers();
+
+        // Then
+        assertTrue(response.isSuccess());
+        assertEquals(2, response.getData().size());
+    }
+
+    @Test
+    @DisplayName("블랙리스트 고객 조회 테스트")
+    void findBlacklistCustomersSuccessTest() {
+        // Given
+        List<CustomerResponse> customerResponses = List.of(
+                new CustomerResponse(UUID.randomUUID().toString(), "고객1", CustomerType.NORMAL),
+                new CustomerResponse(UUID.randomUUID().toString(), "고객2", CustomerType.BLACKLIST)
+        );
+
+        when(customerService.findAllBlacklistCustomer()).thenReturn(List.of(new CustomerResponse(UUID.randomUUID().toString(), "고객2", CustomerType.BLACKLIST)));
+
+        // When
+        Response response = customerController.findAllBlacklistCustomers();
+
+        // Then
+        assertTrue(response.isSuccess());
+        assertEquals(1, response.getData().size());
     }
 }
