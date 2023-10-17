@@ -19,7 +19,7 @@ import static org.prgms.springbootbasic.common.Util.CSV_PATTERN;
 @Profile({"dev", "prod"})
 @Slf4j
 public class CsvCustomerFileManager {
-    private static final String BLACK_PATH = "src/resources/customer_blacklist.csv";
+    private static final String BLACK_PATH = "./src/main/resources/customer_blacklist.csv";
     private static final int UUID_IDX = 0;
     private static final int NAME_IDX = 1;
     private static final int EMAIL_IDX = 2;
@@ -28,12 +28,16 @@ public class CsvCustomerFileManager {
 
 
     public List<Customer> readBlack(){
+        log.info("readBlack started");
         List<Customer> blacks = new ArrayList<>();
 
         File file = new File(BLACK_PATH);
-        if (!file.exists())
+        if (!file.exists()) {
+            log.warn("file not exists.");
             throw new RuntimeException("The file does not exist.");
+        }
 
+        log.info("file exists.");
         try(BufferedReader br = new BufferedReader(
                 new InputStreamReader(
                         new FileInputStream(BLACK_PATH), StandardCharsets.UTF_8))){
