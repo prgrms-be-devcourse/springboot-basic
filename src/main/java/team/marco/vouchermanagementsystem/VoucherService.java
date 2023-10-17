@@ -4,7 +4,19 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class VoucherService {
+    private final VoucherRepository voucherRepository;
 
-    public void createFixedAmountVoucher(int amount) {}
-    public void createPercentDiscountVoucher(int percent) {}
+    public VoucherService(VoucherRepository voucherRepository) {
+        this.voucherRepository = voucherRepository;
+    }
+
+    public void createFixedAmountVoucher(int amount) {
+        Voucher voucher = new FixedAmountVoucher(amount);
+        voucherRepository.save(voucher);
+    }
+
+    public void createPercentDiscountVoucher(int percent) {
+        Voucher voucher = new PercentDiscountVoucher(percent);
+        voucherRepository.save(voucher);
+    }
 }
