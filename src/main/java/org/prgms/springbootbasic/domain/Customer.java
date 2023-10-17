@@ -19,4 +19,16 @@ public class Customer {
         this.lastLoginAt = lastLoginAt;
         this.isBlacked = isBlacked;
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", createdAt=" + createdAt +
+                ", lastLoginAt=" + lastLoginAt +
+                ", isBlacked=" + isBlacked +
+                '}';
+    }
 }
