@@ -1,6 +1,6 @@
-package com.weeklyMission.dto;
+package com.weeklyMission.Voucher.dto;
 
-import com.weeklyMission.domain.Voucher;
+import com.weeklyMission.Voucher.domain.Voucher;
 import java.util.UUID;
 
 public record VoucherResponse(

@@ -1,6 +1,6 @@
-package com.weeklyMission.repository;
+package com.weeklyMission.Voucher.repository;
 
-import com.weeklyMission.domain.Voucher;
+import com.weeklyMission.Voucher.domain.Voucher;
 import java.util.List;
 
 public interface VoucherRepository {

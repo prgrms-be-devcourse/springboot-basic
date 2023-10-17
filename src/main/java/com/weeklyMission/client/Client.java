@@ -1,9 +1,9 @@
 package com.weeklyMission.client;
 
 import com.weeklyMission.console.ConsoleIO;
-import com.weeklyMission.controller.VoucherController;
-import com.weeklyMission.domain.Voucher;
-import com.weeklyMission.dto.VoucherResponse;
+import com.weeklyMission.Voucher.controller.VoucherController;
+import com.weeklyMission.Voucher.domain.Voucher;
+import com.weeklyMission.Voucher.dto.VoucherResponse;
 import com.weeklyMission.exception.IncorrectInputException;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -59,6 +59,14 @@ public class Client {
 
     private void memberMode() {
         String function = consoleIOHandler.printSelectMemberFunction();
+        switch (function){
+            case("list") ->{
+
+            }
+            default ->{
+                throw new IncorrectInputException("function", function, "목록에 있는 것들 중 선택하세요.");
+            }
+        }
     }
 
 }

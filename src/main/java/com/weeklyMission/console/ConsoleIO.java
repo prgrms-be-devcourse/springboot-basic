@@ -1,6 +1,6 @@
 package com.weeklyMission.console;
 
-import com.weeklyMission.dto.VoucherResponse;
+import com.weeklyMission.Voucher.dto.VoucherResponse;
 import java.util.List;
 import java.util.Scanner;
 import org.springframework.stereotype.Component;

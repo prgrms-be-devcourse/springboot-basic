@@ -1,8 +1,8 @@
-package com.weeklyMission.repository;
+package com.weeklyMission.Voucher.repository;
 
-import com.weeklyMission.domain.FixedAmountVoucher;
-import com.weeklyMission.domain.PercentDiscountVoucher;
-import com.weeklyMission.domain.Voucher;
+import com.weeklyMission.Voucher.domain.FixedAmountVoucher;
+import com.weeklyMission.Voucher.domain.PercentDiscountVoucher;
+import com.weeklyMission.Voucher.domain.Voucher;
 import com.weeklyMission.exception.IncorrectInputException;
 import java.util.Arrays;
 import java.util.UUID;

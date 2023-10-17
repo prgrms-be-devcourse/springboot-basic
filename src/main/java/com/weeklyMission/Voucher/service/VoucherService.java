@@ -1,7 +1,7 @@
-package com.weeklyMission.service;
+package com.weeklyMission.Voucher.service;
 
-import com.weeklyMission.domain.Voucher;
-import com.weeklyMission.repository.VoucherRepository;
+import com.weeklyMission.Voucher.domain.Voucher;
+import com.weeklyMission.Voucher.repository.VoucherRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
