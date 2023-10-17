@@ -3,9 +3,9 @@ package com.programmers.springbasic.command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.VoucherController;
-import com.programmers.springbasic.controller.dto.CreateFixedAmountVoucherRequest;
-import com.programmers.springbasic.controller.dto.CreatePercentDiscountVoucherRequest;
-import com.programmers.springbasic.entity.VoucherType;
+import com.programmers.springbasic.dto.CreateFixedAmountVoucherRequest;
+import com.programmers.springbasic.dto.CreatePercentDiscountVoucherRequest;
+import com.programmers.springbasic.entity.voucher.VoucherType;
 
 public class CreateVoucherCommand implements Command {
 	private final VoucherController voucherController;

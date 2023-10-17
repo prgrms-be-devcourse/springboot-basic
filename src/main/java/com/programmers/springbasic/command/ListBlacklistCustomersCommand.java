@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
-import com.programmers.springbasic.controller.dto.ListBlacklistCustomerResponse;
+import com.programmers.springbasic.dto.ListBlacklistCustomerResponse;
 
 public class ListBlacklistCustomersCommand implements Command {
 	private final CustomerController customerController;
