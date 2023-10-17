@@ -1,6 +1,8 @@
 package com.prgrms.voucher_manage.util;
 
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,13 +16,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CustomerFileManager {
 
     private String path = System.getProperty("user.dir");
-
     private final Map<UUID, Customer> customerStorage = new ConcurrentHashMap<>();
 
     public CustomerFileManager(@Value("${file-path.customer}") String path) {
         this.path += path;
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(CustomerFileManager.class);
     public Map<UUID, Customer> loadCustomerData() {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
@@ -30,7 +32,7 @@ public class CustomerFileManager {
                 customerStorage.put(UUID.fromString(data[0]), customer);
             }
         } catch (Exception e) {
-
+            logger.error(e.getMessage());
         }
         return customerStorage;
     }

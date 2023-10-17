@@ -3,6 +3,8 @@ package com.prgrms.voucher_manage.util;
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +20,8 @@ public class VoucherFileManager {
     public VoucherFileManager(@Value("${file-path.voucher:0}")String path) {
         this.path += path;
     }
-
     private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
+    private static final Logger logger = LoggerFactory.getLogger(CustomerFileManager.class);
     public Map<UUID, Voucher> loadVoucherData(){
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
@@ -37,7 +39,7 @@ public class VoucherFileManager {
                 }
             }
         }  catch (Exception e){
-            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
         }
         return voucherStorage;
     }
@@ -51,7 +53,7 @@ public class VoucherFileManager {
             }
 
         } catch (IOException e) {
-            throw new RuntimeException();
+            logger.error(e.getMessage());
         }
     }
 }
