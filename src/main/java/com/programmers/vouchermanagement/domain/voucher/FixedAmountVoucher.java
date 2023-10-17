@@ -8,12 +8,6 @@ public class FixedAmountVoucher implements Voucher {
     private final String voucherName;
     private final float discountAmount;
 
-    public FixedAmountVoucher(String voucherName, float discountAmount) {
-        this.voucherId = UUID.randomUUID();
-        this.voucherName = voucherName;
-        this.discountAmount = discountAmount;
-    }
-
     public FixedAmountVoucher(UUID voucherId, String voucherName, float discountAmount) {
         this.voucherId = voucherId;
         this.voucherName = voucherName;
@@ -39,7 +33,7 @@ public class FixedAmountVoucher implements Voucher {
     @Override
     public String toString() {
         return System.lineSeparator() +
-                "=======================" + System.lineSeparator() +
+                "+++++++++++++++++++++++" + System.lineSeparator() +
                 "Voucher Id:    " + voucherId + System.lineSeparator() +
                 "Voucher Name:  " + voucherName + System.lineSeparator() +
                 "Voucher Type:  Fixed amount voucher" + System.lineSeparator() +

@@ -6,9 +6,9 @@ public class VoucherFactory {
     public static Voucher createVoucher(String voucherName, float discountAmount, VoucherType voucherType) {
         switch (voucherType) {
             case FIXED:
-                return new FixedAmountVoucher(voucherName, discountAmount);
+                return new FixedAmountVoucher(UUID.randomUUID(), voucherName, discountAmount);
             case PERCENTAGE:
-                return new PercentDiscountVoucher(voucherName, discountAmount);
+                return new PercentDiscountVoucher(UUID.randomUUID(), voucherName, discountAmount);
             default:
                 throw new IllegalArgumentException("Unknown VoucherType: " + voucherType);
         }
