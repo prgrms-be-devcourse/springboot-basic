@@ -1,21 +1,10 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 public enum VoucherType {
-    FIXED_AMOUNT(1, "Fixed amount Voucher") {
-        @Override
-        public Voucher createVoucher(UUID id, Long amount) {
-            return new FixedAmountVoucher(id, amount);
-        }
-    },
-    PERCENT_DISCOUNT(2, "Percent discount Voucher") {
-        @Override
-        public Voucher createVoucher(UUID id, Long amount) {
-            return new PercentDiscountVoucher(id, amount);
-        }
-    };
+    FIXED_AMOUNT(1, "Fixed amount Voucher"),
+    PERCENT_DISCOUNT(2, "Percent discount Voucher");
 
     private final int id;
     private final String description;
@@ -24,8 +13,6 @@ public enum VoucherType {
         this.id = id;
         this.description = description;
     }
-
-    public abstract Voucher createVoucher(UUID id, Long amount);
 
     public static void printAllDescriptionsToConsole() {
         for (VoucherType vt : VoucherType.values()) {
