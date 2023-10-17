@@ -1,10 +1,13 @@
 package org.programmers.springorder.console;
 
 import org.programmers.springorder.dto.VoucherRequestDto;
+import org.programmers.springorder.dto.VoucherResponseDto;
 import org.programmers.springorder.model.VoucherType;
 import org.programmers.springorder.utils.MenuType;
 import org.programmers.springorder.utils.Validation;
 
+import java.text.MessageFormat;
+import java.util.List;
 import java.util.Scanner;
 
 public class Console {
@@ -67,5 +70,13 @@ public class Console {
         long discountValue = inputVoucherValue();
 
         return new VoucherRequestDto(discountValue, voucherType);
+    }
+
+    public void showList(List<VoucherResponseDto> allVoucher) {
+        if(allVoucher.size() == 0) {
+            printMessage("[SYSTEM] 등록된 바우처가 존재하지 않습니다.");
+        } else {
+            allVoucher.forEach(System.out::println);
+        }
     }
 }
