@@ -1,6 +1,6 @@
 package com.weeklyMission.client;
 
-import com.weeklyMission.ConsoleIO;
+import com.weeklyMission.console.ConsoleIO;
 import com.weeklyMission.controller.VoucherController;
 import com.weeklyMission.domain.Voucher;
 import com.weeklyMission.dto.VoucherResponse;

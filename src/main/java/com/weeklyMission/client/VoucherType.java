@@ -1,6 +1,6 @@
 package com.weeklyMission.client;
 
-import com.weeklyMission.ConsoleIO;
+import com.weeklyMission.console.ConsoleIO;
 import com.weeklyMission.domain.FixedAmountVoucher;
 import com.weeklyMission.domain.PercentDiscountVoucher;
 import com.weeklyMission.domain.Voucher;
