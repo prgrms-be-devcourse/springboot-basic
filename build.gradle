@@ -23,6 +23,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     // SpringBoot Test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // SpringBoot JDBC
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    // MySQL
+    runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {
