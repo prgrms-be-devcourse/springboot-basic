@@ -26,9 +26,6 @@ public class CommandExecutor {
 			try {
 				consoleOutputHandler.printMainMenu();
 				MenuType menu = MenuType.from(consoleInputHandler.readString());
-				if (menu == MenuType.EXIT) {
-					System.exit(0);
-				}
 				Command command = commandFactory.getCommand(menu);
 				command.execute();
 			} catch (IllegalArgumentException e) {

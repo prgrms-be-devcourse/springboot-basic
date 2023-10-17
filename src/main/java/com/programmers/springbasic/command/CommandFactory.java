@@ -17,6 +17,7 @@ public class CommandFactory {
 
 	public CommandFactory(VoucherController voucherController, CustomerController customerController,
 		ConsoleInputHandler consoleInputHandler, ConsoleOutputHandler consoleOutputHandler) {
+		commandMap.put(MenuType.EXIT, new ExitCommand());
 		commandMap.put(MenuType.LIST_VOUCHERS, new ListVouchersCommand(voucherController, consoleOutputHandler));
 		commandMap.put(MenuType.CREATE_VOUCHER, new CreateVoucherCommand(voucherController, consoleInputHandler,
 			consoleOutputHandler));
