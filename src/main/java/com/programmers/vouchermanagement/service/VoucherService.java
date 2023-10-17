@@ -1,8 +1,8 @@
 package com.programmers.vouchermanagement.service;
 
-import com.programmers.vouchermanagement.domain.Voucher;
-import com.programmers.vouchermanagement.domain.VoucherFactory;
-import com.programmers.vouchermanagement.domain.VoucherType;
+import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
+import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
