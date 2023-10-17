@@ -55,7 +55,12 @@ public class ConsoleIOManager {
         String programMenu = """
                 === Customer Program ===
                 Type exit to exit the program.
-                Type blacklist to show all blacklist Consumers.
+                Type create to create customer.
+                Type list to list all customers.
+                Type blacklist to show all blacklist customers.
+                Type addBlacklist to add customer in blacklist.
+                Type removeBlacklist to remove customer from blacklist.
+                Type deleteAll to delete all customers.
                 """;
         println(programMenu);
     }

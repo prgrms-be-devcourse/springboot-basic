@@ -3,3 +3,16 @@ repository:
     fileName: VoucherRepository
   blacklist:
     fileName: customer_blacklist.csv
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/SpringBasic
+    username: root
+    password: root!
+  sql:
+    init:
+      mode: always
+  batch:
+    jdbc:
+      schema: classpath:schema.sql

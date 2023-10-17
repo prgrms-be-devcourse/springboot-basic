@@ -5,17 +5,28 @@ import lombok.Getter;
 
 import java.util.UUID;
 
+@Getter
 @Builder
 public class Customer {
-    @Getter
+
     private final UUID customerId;
-    private final String name;
+    private final String email;
+    private String name;
+    private boolean isBlacklist;
+
+    public void addBlacklist() {
+        this.isBlacklist = true;
+    }
+
+    public void removeBlacklist() {
+        this.isBlacklist = false;
+    }
 
     public String getInformation() {
         return String.format("""
                 === Customer ===
-                ID: %s
+                Email: %s
                 Name: %s
-                """, customerId.toString(), name);
+                """, email, name);
     }
 }

@@ -9,6 +9,9 @@ public enum CommandType {
     create("create"),
     list("list"),
     blacklist("blacklist"),
+    addBlacklist("addBlacklist"),
+    removeBlacklist("removeBlacklist"),
+    deleteAll("deleteAll"),
     exit("exit"),
     error("error");
 
