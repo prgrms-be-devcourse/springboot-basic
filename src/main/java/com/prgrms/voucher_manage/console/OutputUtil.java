@@ -1,4 +1,4 @@
-package com.prgrms.voucher_manage.util;
+package com.prgrms.voucher_manage.console;
 
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;

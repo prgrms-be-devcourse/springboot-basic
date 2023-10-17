@@ -1,4 +1,4 @@
-package com.prgrms.voucher_manage.util;
+package com.prgrms.voucher_manage.console;
 
 import com.prgrms.voucher_manage.exception.EmptyInputException;
 import org.springframework.stereotype.Component;

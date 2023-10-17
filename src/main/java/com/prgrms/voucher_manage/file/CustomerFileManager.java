@@ -1,4 +1,4 @@
-package com.prgrms.voucher_manage.util;
+package com.prgrms.voucher_manage.file;
 
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import org.slf4j.Logger;

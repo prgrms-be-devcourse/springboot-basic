@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.customer.repository;
 
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
-import com.prgrms.voucher_manage.util.CustomerFileManager;
+import com.prgrms.voucher_manage.file.CustomerFileManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

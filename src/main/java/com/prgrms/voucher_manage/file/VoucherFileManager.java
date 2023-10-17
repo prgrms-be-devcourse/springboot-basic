@@ -1,8 +1,9 @@
-package com.prgrms.voucher_manage.util;
+package com.prgrms.voucher_manage.file;
 
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
+import com.prgrms.voucher_manage.file.CustomerFileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

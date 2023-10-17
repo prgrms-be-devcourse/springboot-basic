@@ -7,7 +7,7 @@ import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.repository.VoucherRepository;
 import com.prgrms.voucher_manage.exception.InvalidDiscountRange;
-import com.prgrms.voucher_manage.util.OutputUtil;
+import com.prgrms.voucher_manage.console.OutputUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
