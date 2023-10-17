@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.view;
 
-import com.programmers.vouchermanagement.VoucherManagementApplication;
 import com.programmers.vouchermanagement.common.ConsoleMessage;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
@@ -25,7 +24,7 @@ public class Console implements CommandLineRunner {
     private final CustomerRepository costumerRepository;
     private final Map<String, Runnable> commandMap = new HashMap<>();
     private final TextIO textIO = TextIoFactory.getTextIO();
-    private final Logger logger = LoggerFactory.getLogger(VoucherManagementApplication.class);
+    private final Logger logger = LoggerFactory.getLogger(Console.class);
     private final int VOUCHER_NAME_MIN_LENGTH = 1;
     private final float DISCOUNT_AMOUNT_MIN_VALUE = 0f;
 
