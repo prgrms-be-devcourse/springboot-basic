@@ -27,14 +27,19 @@ public class VoucherApplication implements CommandLineRunner {
 
             switch (menu) {
                 case EXIT -> isRunning = false;
-                case CREATE -> createVoucher(voucherService);
+                case CREATE -> createVoucher();
+                case LIST -> getVoucherList();
             }
         }
     }
 
-    private void createVoucher(VoucherService service) {
+    private void getVoucherList() {
+        console.showList(voucherService.getAllVoucher());
+    }
+
+    private void createVoucher() {
         VoucherRequestDto request = console.inputVoucherInfo();
-        service.save(request);
+        voucherService.save(request);
         console.printMessage("바우처가 등록되었습니다.");
     }
 }
