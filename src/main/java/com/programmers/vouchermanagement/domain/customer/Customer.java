@@ -22,6 +22,6 @@ public class Customer {
 
     public static Customer parseCsvLine(String line) {
         String[] parts = line.split(",");
-        return new Customer(UUID.fromString(parts[0]), parts[1], parts[2].equals("1"));
+        return new Customer(UUID.fromString(parts[0]), parts[1], Boolean.parseBoolean(parts[2]));
     }
 }
