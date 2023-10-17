@@ -21,9 +21,8 @@ public class VoucherApplication {
             runCommand(commandType);
         } catch (Exception e) {
             console.printError(e);
+            run();
         }
-
-        run();
     }
 
     public void runCommand(CommandType commandType) {
@@ -47,7 +46,7 @@ public class VoucherApplication {
         switch (selected) {
             case 0 -> createFixedAmountVoucher();
             case 1 -> createPercentDiscountVoucher();
-            default -> { throw new RuntimeException("올바르지 않은 입력입니다."); }
+            default -> throw new RuntimeException("올바르지 않은 입력입니다.");
         }
     }
 
