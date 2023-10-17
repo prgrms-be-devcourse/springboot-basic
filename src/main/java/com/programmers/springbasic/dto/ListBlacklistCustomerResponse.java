@@ -1,5 +1,7 @@
 package com.programmers.springbasic.dto;
 
+import java.text.MessageFormat;
+
 import com.programmers.springbasic.entity.customer.Customer;
 
 public class ListBlacklistCustomerResponse {
@@ -13,9 +15,6 @@ public class ListBlacklistCustomerResponse {
 
 	@Override
 	public String toString() {
-		return "ListBlacklistCustomerResponse{" +
-			"id=" + id +
-			", name='" + name + '\'' +
-			'}';
+		return MessageFormat.format("고객 아이디 = {0}, 고객 이름 = {1}", id, name);
 	}
 }

@@ -21,17 +21,15 @@ public class ListVouchersResponse {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("ListVouchersResponse { ");
-		sb.append("voucherId=").append(voucherId);
-		sb.append(", voucherType=").append(voucherType);
+		sb.append("[ 바우처 아이디 = ").append(voucherId);
+		sb.append(", 바우처 타입 = ").append(voucherType);
 
 		if (voucherType == VoucherType.FIXED_AMOUNT) {
-			sb.append(", amount=").append(amount);
+			sb.append(", 할인 금액 = ").append(amount);
 		} else if (voucherType == VoucherType.PERCENT_DISCOUNT) {
-			sb.append(", percent=").append(percent);
+			sb.append(", 할인율 = ").append(percent);
 		}
-
-		sb.append(" }");
+		sb.append(" ]");
 		return sb.toString();
 	}
 }
