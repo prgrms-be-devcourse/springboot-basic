@@ -7,7 +7,7 @@ public enum VoucherType {
     FIXED("fixed"),
     PERCENT("precent");
 
-    private String type;
+    private final String type = null;
 
     VoucherType(String type) {
     }
