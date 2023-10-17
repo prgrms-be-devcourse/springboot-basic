@@ -14,15 +14,19 @@ public enum VoucherType {
         this.description = description;
     }
 
+    private boolean isSameId(int id) {
+        return this.id == id;
+    }
+
     public static void printAllDescriptionsToConsole() {
         for (VoucherType vt : VoucherType.values()) {
-            System.out.println((vt.ordinal() + 1) + ". " + vt.description + (vt.id == 1 ? " (default)" : ""));
+            System.out.println((vt.ordinal() + 1) + ". " + vt.description + (vt.isSameId(1) ? " (default)" : ""));
         }
     }
 
     public static VoucherType select(int id) {
         return Arrays.stream(values())
-                .filter(vt -> vt.id == id)
+                .filter(vt -> vt.isSameId(id))
                 .findFirst()
                 .orElse(FIXED_AMOUNT);
     }
