@@ -4,23 +4,18 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-@Getter
-public class FixedAmountVoucher implements Voucher {
-
-    private final UUID id;
-    private final long amount;
-
-    public FixedAmountVoucher(long amount) {
-        this.id = UUID.randomUUID();
-        this.amount = amount;
+public class FixedAmountVoucher extends Voucher {
+    public FixedAmountVoucher(long discount) {
+        super(discount);
     }
-    public FixedAmountVoucher(UUID id, long amount) {
-        this.id = id;
-        this.amount = amount;
+
+    public FixedAmountVoucher(UUID id, long discount) {
+        super(id, discount);
     }
+
     @Override
     public long discount(long beforeDiscount) {
-        long afterDiscount = beforeDiscount - amount;
+        long afterDiscount = beforeDiscount - discount;
         return afterDiscount < 0 ? 0 : afterDiscount;
     }
     public String toString() {
@@ -28,6 +23,6 @@ public class FixedAmountVoucher implements Voucher {
                 Id : %s
                 Discount Type : %s
                 Discount amount : %d
-                """.formatted(id, "fixed discount", amount);
+                """.formatted(id, "fixed discount", discount);
     }
 }

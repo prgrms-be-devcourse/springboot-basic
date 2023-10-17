@@ -31,7 +31,7 @@ public class FileIO {
                 UUID id = voucher.getId();
                 String type = voucher instanceof FixedAmountVoucher ? "fixed" : "percent";
                 long discount = voucher instanceof FixedAmountVoucher ?
-                        ((FixedAmountVoucher) voucher).getAmount() : ((PercentAmountVoucher) voucher).getPercent();
+                        ((FixedAmountVoucher) voucher).getDiscount() : ((PercentAmountVoucher) voucher).getDiscount();
 
                 try {
                     bw.write(id + "," + type + "," + discount + "\n");

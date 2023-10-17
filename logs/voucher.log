@@ -28,3 +28,9 @@ Discount percent : 40
 02:41:41.449 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
 02:41:42.090 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 2.086 seconds (process running for 2.786)
 02:41:48.681 [main] ERROR c.p.v.controller.VoucherController -- 적절하지 않은 명령어 입력 오류
+02:59:29.596 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 2168 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+02:59:29.598 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+02:59:30.823 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+02:59:30.824 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
+02:59:31.488 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 2.374 seconds (process running for 3.082)
+02:59:42.851 [main] INFO  c.p.vouchermanager.io.ConsolePrint -- list 기능 선택

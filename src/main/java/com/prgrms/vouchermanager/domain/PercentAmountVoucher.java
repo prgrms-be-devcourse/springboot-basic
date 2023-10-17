@@ -4,26 +4,18 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-@Getter
-public class PercentAmountVoucher implements Voucher {
-
-    private final UUID id;
-    private final long percent;
-
-    public PercentAmountVoucher(long percent) {
-        this.id = UUID.randomUUID();
-        this.percent = percent;
+public class PercentAmountVoucher extends Voucher {
+    public PercentAmountVoucher(long discount) {
+        super(discount);
     }
 
-    public PercentAmountVoucher(UUID id, long percent) {
-        this.id = id;
-        this.percent = percent;
+    public PercentAmountVoucher(UUID id, long discount) {
+        super(id, discount);
     }
 
     @Override
     public long discount(long beforeDiscount) {
-
-        long afterDiscount = beforeDiscount - beforeDiscount * (percent / 100);
+        long afterDiscount = beforeDiscount - beforeDiscount * (discount / 100);
         return afterDiscount < 0 ? 0 : afterDiscount;
     }
 
@@ -32,6 +24,6 @@ public class PercentAmountVoucher implements Voucher {
                 Id : %s
                 Discount Type : %s
                 Discount percent : %d
-                """.formatted(id, "percent discount", percent);
+                """.formatted(id, "percent discount", discount);
     }
 }
