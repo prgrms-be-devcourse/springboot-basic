@@ -30,6 +30,8 @@ public class CommandExecutor {
 				}
 				Command command = commandFactory.getCommand(menu);
 				command.execute();
+			} catch (IllegalArgumentException e) {
+				logger.warn(e.getMessage());
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}

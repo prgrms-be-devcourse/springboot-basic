@@ -17,7 +17,7 @@
         </rollingPolicy>
     </appender>
 
-    <logger name="com.programmers.springbasic" level="error">
+    <logger name="com.programmers.springbasic" level="warn">
         <appender-ref ref="FILE"/>
     </logger>
 
