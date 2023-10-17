@@ -2,10 +2,12 @@ package com.programmers.vouchermanagement.domain.customer;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @Getter
+@ToString
 @RequiredArgsConstructor
 public class Customer {
     private UUID id;
@@ -16,15 +18,6 @@ public class Customer {
         this.id = id;
         this.name = name;
         this.blacklisted = blacklisted;
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", blacklisted=" + blacklisted +
-                '}';
     }
 
     public static Customer parseCsvLine(String line) {
