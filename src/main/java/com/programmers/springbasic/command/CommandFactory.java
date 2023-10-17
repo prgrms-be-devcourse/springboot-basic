@@ -15,11 +15,13 @@ import com.programmers.springbasic.enums.MenuType;
 public class CommandFactory {
 	private final Map<MenuType, Command> commandMap = new ConcurrentHashMap<>();
 
-	public CommandFactory(VoucherController voucherController, CustomerController customerController, ConsoleInputHandler consoleInputHandler, ConsoleOutputHandler consoleOutputHandler) {
+	public CommandFactory(VoucherController voucherController, CustomerController customerController,
+		ConsoleInputHandler consoleInputHandler, ConsoleOutputHandler consoleOutputHandler) {
 		commandMap.put(MenuType.LIST_VOUCHERS, new ListVouchersCommand(voucherController, consoleOutputHandler));
 		commandMap.put(MenuType.CREATE_VOUCHER, new CreateVoucherCommand(voucherController, consoleInputHandler,
 			consoleOutputHandler));
-		commandMap.put(MenuType.LIST_BLACKLIST_CUSTOMERS, new ListBlacklistCustomersCommand(customerController, consoleOutputHandler));
+		commandMap.put(MenuType.LIST_BLACKLIST_CUSTOMERS,
+			new ListBlacklistCustomersCommand(customerController, consoleOutputHandler));
 	}
 
 	public Command getCommand(MenuType menu) {

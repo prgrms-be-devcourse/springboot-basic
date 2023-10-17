@@ -45,5 +45,4 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
 		return list;
 	}
 
-
 }

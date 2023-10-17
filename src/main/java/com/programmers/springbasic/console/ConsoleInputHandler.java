@@ -12,7 +12,7 @@ public class ConsoleInputHandler {
 
 	public String readString() {
 		String value = scanner.nextLine().trim();
-		if(value.isEmpty())
+		if (value.isEmpty())
 			throw new IllegalArgumentException(ErrorCode.EMPTY_STRING.getMessage());
 		return value;
 	}

@@ -14,7 +14,8 @@ public class CommandExecutor {
 	private final ConsoleInputHandler consoleInputHandler;
 	private final CommandFactory commandFactory;
 
-	public CommandExecutor(ConsoleOutputHandler consoleOutputHandler, ConsoleInputHandler consoleInputHandler, CommandFactory commandFactory) {
+	public CommandExecutor(ConsoleOutputHandler consoleOutputHandler, ConsoleInputHandler consoleInputHandler,
+		CommandFactory commandFactory) {
 		this.consoleOutputHandler = consoleOutputHandler;
 		this.consoleInputHandler = consoleInputHandler;
 		this.commandFactory = commandFactory;

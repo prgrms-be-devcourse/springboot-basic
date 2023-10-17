@@ -10,7 +10,8 @@ public class ListBlacklistCustomersCommand implements Command {
 	private final CustomerController customerController;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public ListBlacklistCustomersCommand(CustomerController customerController, ConsoleOutputHandler consoleOutputHandler) {
+	public ListBlacklistCustomersCommand(CustomerController customerController,
+		ConsoleOutputHandler consoleOutputHandler) {
 		this.customerController = customerController;
 		this.consoleOutputHandler = consoleOutputHandler;
 	}
