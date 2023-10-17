@@ -1,1 +1,8 @@
-
+spring:
+  profiles:
+    active: default
+  file:
+    voucher:
+      path: src/main/resources/voucher.csv
+    black-customer:
+      path: src/main/resources/customer_blacklist.csv
