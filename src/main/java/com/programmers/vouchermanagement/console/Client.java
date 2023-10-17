@@ -42,6 +42,9 @@ public class Client {
                 Voucher voucher = consoleManager.instructCreate();
                 voucherController.create(voucher);
             }
+            case "list" -> {
+                voucherController.readAllVouchers();
+            }
         }
     }
 }
