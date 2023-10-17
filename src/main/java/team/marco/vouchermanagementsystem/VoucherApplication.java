@@ -19,8 +19,8 @@ public class VoucherApplication {
         try {
             CommandType commandType = CommandType.getCommandType(input);
             runCommand(commandType);
-        } catch (IllegalArgumentException e) {
-            System.out.printf("'%s' is invalid command%n%n", input);
+        } catch (Exception e) {
+            console.printError(e);
         }
 
         run();

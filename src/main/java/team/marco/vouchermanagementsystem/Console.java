@@ -27,6 +27,19 @@ public class Console {
         return input;
     }
 
+    public int readInt() {
+        try {
+            return Integer.parseInt(readString());
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("숫자만 입력하실 수 있습니다.");
+        }
+    }
+
+    public int readInt(String prompt) {
+        System.out.println(prompt + "\n");
+        return readInt();
+    }
+
     private String readLine() {
         try {
             return reader.readLine();
@@ -35,4 +48,18 @@ public class Console {
         }
     }
 
+    public void printVoucherTypes() {
+        System.out.println("""
+                Type 0 to create fixed amount voucher.
+                Type 1 to create percent discount voucher.
+                """);
+    }
+
+    public void printError(Exception e) {
+        if(e instanceof NumberFormatException) {
+            System.out.println("숫자를 입력해 주세요.");
+        } else {
+            System.out.println(e.getMessage());
+        }
+    }
 }
