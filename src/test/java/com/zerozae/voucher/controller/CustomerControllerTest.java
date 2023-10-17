@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.MessageSource;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,6 +73,10 @@ class CustomerControllerTest {
                 new CustomerResponse(UUID.randomUUID().toString(), "고객2", CustomerType.BLACKLIST)
         );
 
+        List<String> result = customerResponses.stream()
+                .map(CustomerResponse::getInfo)
+                .toList();
+
         when(customerService.findAllCustomers()).thenReturn(customerResponses);
 
         // When
@@ -80,18 +85,26 @@ class CustomerControllerTest {
         // Then
         assertTrue(response.isSuccess());
         assertEquals(2, response.getData().size());
+        assertEquals(response.getData(), result);
     }
 
     @Test
     @DisplayName("블랙리스트 고객 조회 테스트")
     void findBlacklistCustomersSuccessTest() {
         // Given
-        List<CustomerResponse> customerResponses = List.of(
-                new CustomerResponse(UUID.randomUUID().toString(), "고객1", CustomerType.NORMAL),
-                new CustomerResponse(UUID.randomUUID().toString(), "고객2", CustomerType.BLACKLIST)
-        );
+        CustomerResponse customer1 = new CustomerResponse(UUID.randomUUID().toString(), "고객1", CustomerType.NORMAL);
+        CustomerResponse customer2 = new CustomerResponse(UUID.randomUUID().toString(), "고객2", CustomerType.BLACKLIST);
+        List<CustomerResponse> customerResponses = new ArrayList<>();
 
-        when(customerService.findAllBlacklistCustomer()).thenReturn(List.of(new CustomerResponse(UUID.randomUUID().toString(), "고객2", CustomerType.BLACKLIST)));
+        customerResponses.add(customer1);
+        customerResponses.add(customer2);
+
+        List<String> result = customerResponses.stream()
+                .filter(r -> r.getCustomerType().equals(CustomerType.BLACKLIST))
+                .map(CustomerResponse::getInfo)
+                .toList();
+
+        when(customerService.findAllBlacklistCustomer()).thenReturn(List.of(customer2));
 
         // When
         Response response = customerController.findAllBlacklistCustomers();
@@ -99,5 +112,6 @@ class CustomerControllerTest {
         // Then
         assertTrue(response.isSuccess());
         assertEquals(1, response.getData().size());
+        assertEquals(response.getData(), result);
     }
 }

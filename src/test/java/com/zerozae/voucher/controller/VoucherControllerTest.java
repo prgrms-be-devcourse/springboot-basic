@@ -3,19 +3,25 @@ package com.zerozae.voucher.controller;
 import com.zerozae.voucher.common.message.MessageConverter;
 import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.controller.voucher.VoucherController;
+import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherRequest;
+import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.service.voucher.VoucherService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.MessageSource;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
+import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class VoucherControllerTest {
-    VoucherController voucherController = new VoucherController(mock(VoucherService.class));
+    VoucherService voucherService = mock(VoucherService.class);
+    VoucherController voucherController = new VoucherController(voucherService);
     MessageConverter messageConverter = new MessageConverter(mock(MessageSource.class));
 
     @Test
@@ -42,5 +48,29 @@ class VoucherControllerTest {
 
         // Then
         assertFalse(response.isSuccess());
+    }
+
+    @Test
+    @DisplayName("모든 바우처 조회 테스트")
+    void findAllCustomersSuccessTest() {
+        // Given
+        List<VoucherResponse> voucherList = List.of(
+                new VoucherResponse(UUID.randomUUID().toString(), 10L , VoucherType.FIXED, UseStatusType.AVAILABLE),
+                new VoucherResponse(UUID.randomUUID().toString(), 20L, VoucherType.PERCENT, UseStatusType.AVAILABLE)
+        );
+
+        List<String> result = voucherList.stream()
+                .map(VoucherResponse::getInfo)
+                .toList();
+
+        when(voucherService.findAllVouchers()).thenReturn(voucherList);
+
+        // When
+        Response response = voucherController.findAllVouchers();
+
+        // Then
+        assertTrue(response.isSuccess());
+        assertEquals(2, response.getData().size());
+        assertEquals(response.getData(), result);
     }
 }
