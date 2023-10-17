@@ -12,10 +12,10 @@ public class Console {
 
     public void printCommandManual() {
         System.out.println("""
-                === Voucher Program ===
-                Type exit to exit the program.
-                Type create to create a new voucher.
-                Type list to list all vouchers.
+                === 쿠폰 관리 프로그램 ===
+                exit: 프로그램 종료
+                create: 쿠폰 생성
+                list: 쿠폰 목록 조회
                 """);
     }
 
@@ -28,11 +28,7 @@ public class Console {
     }
 
     public int readInt() {
-        try {
-            return Integer.parseInt(readString());
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("숫자만 입력하실 수 있습니다.");
-        }
+        return Integer.parseInt(readString());
     }
 
     public int readInt(String prompt) {
@@ -50,20 +46,22 @@ public class Console {
 
     public void printVoucherTypes() {
         System.out.println("""
-                Type 0 to create fixed amount voucher.
-                Type 1 to create percent discount voucher.
+                0: 고정 금액 할인 쿠폰
+                1: % 할인 쿠폰
                 """);
     }
 
     public void printError(Exception e) {
         if(e instanceof NumberFormatException) {
-            System.out.println("숫자를 입력해 주세요.");
+            print("숫자를 입력해 주세요.");
         } else {
-            System.out.println(e.getMessage());
+            print(e.getMessage());
         }
+
     }
 
     public void print(Object object) {
         System.out.println(object);
+        System.out.println();
     }
 }

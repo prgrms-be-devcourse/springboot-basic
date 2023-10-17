@@ -10,7 +10,7 @@ public enum CommandType {
         return Arrays.stream(CommandType.values())
                 .filter(commandType -> commandType.isMatch(input))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("{0} is invalid command", input)));
+                .orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("{0}: 사용할 수 없는 명령어입니다.", input)));
     }
 
     private boolean isMatch(String input) {
