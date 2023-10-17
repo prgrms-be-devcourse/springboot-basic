@@ -1,6 +1,10 @@
 <configuration>
 
-  <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n" />
+  <conversionRule
+    conversionWord="clr"
+    converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+  <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %clr(%-5level) %logger{36} -%kvp- %msg%n" />
 
 <!--  <timestamp key="bySecond" dataPattern="yyyyMMdd'T'HHmmss" />-->
 
