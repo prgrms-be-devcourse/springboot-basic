@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 public enum VoucherType {
     FIXED,
     PERCENT;
+
     private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
+
     public static VoucherType of(String voucherType){
         try{
             return VoucherType.valueOf(voucherType.toUpperCase());

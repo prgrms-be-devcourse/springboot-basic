@@ -16,6 +16,7 @@ import static java.lang.System.out;
 public class ConsoleView implements Input, Output{
 
     private final BufferedReader bufferedReader;
+
     public ConsoleView() {
         this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
@@ -30,10 +31,12 @@ public class ConsoleView implements Input, Output{
             throw ExceptionHandler.err(e.getMessage());
         }
     }
+
     @Override
     public String inputCommand(){
         return checkInputStringAndGet();
     }
+
     @Override
     public String inputVoucherType(){
         return checkInputStringAndGet();

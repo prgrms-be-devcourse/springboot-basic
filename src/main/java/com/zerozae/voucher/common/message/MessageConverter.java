@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MessageConverter {
     private static MessageSource messageSource;
+
     public MessageConverter(MessageSource messageSource) {
         this.messageSource = messageSource;
     }

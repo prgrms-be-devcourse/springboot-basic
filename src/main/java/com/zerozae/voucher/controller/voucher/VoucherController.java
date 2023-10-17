@@ -11,6 +11,9 @@ import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 
 @Controller
 public class VoucherController {
+
+    private static final long ZERO = 0;
+
     private final VoucherService voucherService;
 
     public VoucherController(VoucherService voucherService) {
@@ -32,7 +35,7 @@ public class VoucherController {
     }
 
     private void validateVoucherInfo(VoucherRequest voucherRequest){
-        if(voucherRequest.getDiscount() < 0) {
+        if(voucherRequest.getDiscount() < ZERO) {
             throw ExceptionHandler.err(getMessage("NEGATIVE_VOUCHER_DISCOUNT.MSG"));
         }
     }

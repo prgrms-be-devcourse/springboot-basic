@@ -14,6 +14,7 @@ public enum MenuType {
     VOUCHER,
     CUSTOMER,
     BACK;
+
     private static final Logger logger = LoggerFactory.getLogger(MenuType.class);
 
     public static MenuType of(String menuType){

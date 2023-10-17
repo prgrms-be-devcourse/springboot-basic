@@ -9,6 +9,7 @@ import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 public enum CustomerType {
     NORMAL,
     BLACKLIST;
+
     private static final Logger logger = LoggerFactory.getLogger(CustomerType.class);
 
     public static CustomerType of(String customerType){

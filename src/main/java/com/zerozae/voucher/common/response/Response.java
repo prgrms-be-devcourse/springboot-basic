@@ -15,6 +15,7 @@ public class Response<T> {
         this.isSuccess = isSuccess;
         this.message = message;
     }
+
     public Response(boolean isSuccess, List<T> data){
         this.isSuccess = isSuccess;
         this.data = data;

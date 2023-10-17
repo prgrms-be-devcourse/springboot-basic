@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProgramRunner implements CommandLineRunner {
     private final MenuHandler menuHandler;
+
     public ProgramRunner(MenuHandler menuHandler) {
         this.menuHandler = menuHandler;
     }

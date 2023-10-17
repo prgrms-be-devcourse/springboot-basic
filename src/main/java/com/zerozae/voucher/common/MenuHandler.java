@@ -56,6 +56,7 @@ public class MenuHandler {
     public void exit(){
         consoleView.printSystemMessage(getMessage("EXIT_PROGRAM.MSG"));
     }
+
     public void createVoucher() {
         try {
             consoleView.printSystemMessage(getMessage("INPUT_VOUCHER_TYPE.MSG"));
