@@ -84,14 +84,11 @@ public class VoucherFileUtils {
 
 	private String voucherToLine(Map.Entry<UUID, Voucher> entry) {
 		Voucher voucher = entry.getValue();
-		StringBuilder lineBuilder = new StringBuilder(entry.getKey() + "," + voucher.getVoucherType());
-
-		if (voucher.getVoucherType() == VoucherType.FIXED_AMOUNT) {
-			lineBuilder.append(",").append(voucher.getAmount());
-		} else if (voucher.getVoucherType() == VoucherType.PERCENT_DISCOUNT) {
-			lineBuilder.append(",").append(voucher.getPercent());
-		}
-		return lineBuilder.toString();
+		return String.join(",",
+			entry.getKey().toString(),
+			voucher.getVoucherType().toString(),
+			String.valueOf(voucher.getDiscountValue()));
 	}
+
 
 }

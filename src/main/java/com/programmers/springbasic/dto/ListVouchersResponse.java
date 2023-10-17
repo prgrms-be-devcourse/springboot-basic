@@ -8,14 +8,12 @@ import com.programmers.springbasic.entity.voucher.VoucherType;
 public class ListVouchersResponse {
 	private final UUID voucherId;
 	private final VoucherType voucherType;
-	private final long amount;
-	private final long percent;
+	private final long discountValue;
 
 	public ListVouchersResponse(Voucher voucher) {
 		this.voucherId = voucher.getVoucherId();
 		this.voucherType = voucher.getVoucherType();
-		this.amount = voucher.getAmount();
-		this.percent = voucher.getPercent();
+		this.discountValue = voucher.getDiscountValue();
 	}
 
 	@Override
@@ -25,9 +23,9 @@ public class ListVouchersResponse {
 		sb.append(", 바우처 타입 = ").append(voucherType);
 
 		if (voucherType == VoucherType.FIXED_AMOUNT) {
-			sb.append(", 할인 금액 = ").append(amount);
+			sb.append(", 할인 금액 = ").append(discountValue);
 		} else if (voucherType == VoucherType.PERCENT_DISCOUNT) {
-			sb.append(", 할인율 = ").append(percent);
+			sb.append(", 할인율 = ").append(discountValue);
 		}
 		sb.append(" ]");
 		return sb.toString();
