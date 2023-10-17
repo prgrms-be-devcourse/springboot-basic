@@ -1,0 +1,23 @@
+#dev ?? ??
+Spring:
+  profiles:
+    active: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+filePath:
+  repository:
+    voucher: /src/main/resources/csv/voucherRepository.csv
+    member: /src/main/resources/csv/blackListMember.csv
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+filePath:
+  repository:
+    member: /src/main/resources/csv/voucherRepository.csv
