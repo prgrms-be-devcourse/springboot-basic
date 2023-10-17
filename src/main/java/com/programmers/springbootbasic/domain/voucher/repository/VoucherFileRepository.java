@@ -19,14 +19,14 @@ import java.util.UUID;
 public class VoucherFileRepository implements VoucherRepository {
 
     private final String FOLDER_PATH = System.getProperty("user.dir") + File.separator + "data";
-    private String filePath;
+    private final String FILE_PATH;
 
-    @Value("${repository.voucher.fileName}")
-    private String fileName;
+    public VoucherFileRepository(@Value("${repository.voucher.fileName}") String fileName) {
+        this.FILE_PATH = FOLDER_PATH + File.separator + fileName + ".ser";
+    }
 
     @PostConstruct
     private void init() {
-        this.filePath = FOLDER_PATH + File.separator + fileName + ".ser";
         File file = new File(FOLDER_PATH);
         if (!file.exists()) {
             file.mkdir();
@@ -35,7 +35,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     private void writeVoucherToFile(Voucher voucher) {
         Map<UUID, Voucher> voucherMemory = readVouchersFromFile();
-        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(filePath))) {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
             voucherMemory.put(voucher.getVoucherId(), voucher);
             outputStream.writeObject(voucherMemory);
         } catch (IOException e) {
@@ -44,11 +44,14 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     private Map<UUID, Voucher> readVouchersFromFile() {
+        File repositoryFile = new File(FILE_PATH);
         Map<UUID, Voucher> voucherMemory = new HashMap<>();
-        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(filePath))) {
-            voucherMemory = (Map<UUID, Voucher>) inputStream.readObject();
-        } catch (Exception e) {
-            log.error(e.toString());
+        if (repositoryFile.exists()) {
+            try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(repositoryFile))) {
+                voucherMemory = (Map<UUID, Voucher>) inputStream.readObject();
+            } catch (Exception e) {
+                log.error(e.toString());
+            }
         }
         return voucherMemory;
     }
@@ -65,5 +68,14 @@ public class VoucherFileRepository implements VoucherRepository {
                 .values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public void deleteAll() {
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            outputStream.writeObject(new HashMap<UUID, Voucher>());
+        } catch (IOException e) {
+            log.error(e.toString());
+        }
     }
 }

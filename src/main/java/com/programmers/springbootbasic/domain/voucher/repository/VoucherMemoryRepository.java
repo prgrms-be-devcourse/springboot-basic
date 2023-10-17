@@ -14,7 +14,7 @@ import java.util.UUID;
 @Profile("dev")
 @NoArgsConstructor
 public class VoucherMemoryRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> voucherMemory = new HashMap<>();
+    private Map<UUID, Voucher> voucherMemory = new HashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -27,5 +27,10 @@ public class VoucherMemoryRepository implements VoucherRepository {
         return voucherMemory.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public void deleteAll() {
+        voucherMemory = new HashMap<>();
     }
 }
