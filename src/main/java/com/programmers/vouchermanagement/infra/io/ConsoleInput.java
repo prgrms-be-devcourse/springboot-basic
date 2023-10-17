@@ -1,13 +1,13 @@
-package com.programmers.vouchermanagement.infra;
+package com.programmers.vouchermanagement.infra.io;
 
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 
 import java.util.Scanner;
 
-public class InputReader {
+public class ConsoleInput {
     private final Scanner scanner;
 
-    public InputReader() {
+    public ConsoleInput() {
         this.scanner = new Scanner(System.in);
     }
 

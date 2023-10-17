@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.controller;
 
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
-import com.programmers.vouchermanagement.infra.InputReader;
+import com.programmers.vouchermanagement.infra.io.ConsoleInput;
 import com.programmers.vouchermanagement.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
@@ -17,10 +17,10 @@ public class VoucherShellController {
 
     @ShellMethod(key = "create")
     public void create() {
-        InputReader inputReader = new InputReader();
+        ConsoleInput consoleInput = new ConsoleInput();
 
-        VoucherType voucherType = VoucherType.select(inputReader.readVoucherTypeId());
-        Long amount = inputReader.readAmount();
+        VoucherType voucherType = VoucherType.select(consoleInput.readVoucherTypeId());
+        Long amount = consoleInput.readAmount();
 
         voucherService.createVoucher(voucherType, amount);
     }
