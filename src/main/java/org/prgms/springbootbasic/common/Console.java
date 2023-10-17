@@ -1,7 +1,9 @@
 package org.prgms.springbootbasic.common;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.domain.Customer;
 import org.prgms.springbootbasic.domain.Voucher;
+import org.prgms.springbootbasic.repository.CustomerRepository;
 import org.prgms.springbootbasic.repository.VoucherRepository;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +19,15 @@ public class Console {
     private static final String EXIT = "exit";
     private static final String LIST = "list";
     private static final String CREATE = "create";
+    private static final String BLACK = "black";
     private static final Scanner CONSOLE_INPUT = new Scanner(System.in);
 
     private final VoucherRepository voucherRepository;
+    private final CustomerRepository customerRepository;
 
-    public Console(VoucherRepository voucherRepository) {
+    public Console(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
         this.voucherRepository = voucherRepository;
+        this.customerRepository = customerRepository;
     }
 
     public void run(){
@@ -34,6 +39,7 @@ public class Console {
             System.out.println("Type 'exit' to exit the program.");
             System.out.println("Type 'create' to create a new voucher.");
             System.out.println("Type 'list' to list all vouchers.");
+            System.out.println("Type 'black' to list customers blacked.");
 
             try {
                 cmd = CONSOLE_INPUT.next();
@@ -56,6 +62,7 @@ public class Console {
         switch (cmd) {
             case CREATE -> create();
             case LIST -> list();
+            case BLACK -> black();
             case EXIT -> {}
             default -> {
                 log.warn("invalid cmd. now cmd = {}", cmd);
@@ -94,6 +101,13 @@ public class Console {
         List<Voucher> vouchers = voucherRepository.findAll();
         System.out.println();
         vouchers.forEach(v -> System.out.println(MessageFormat.format("id: {0}, type: {1}", v.getVoucherId(), v.getClass().getSimpleName())));
+        System.out.println();
+    }
+
+    public void black(){
+        System.out.println();
+        List<Customer> blacklist = customerRepository.findBlackAll();
+        blacklist.forEach(System.out::println);
         System.out.println();
     }
 
