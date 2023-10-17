@@ -11,11 +11,12 @@ public class PercentAmountVoucher implements Voucher {
     private final long percent;
 
     public PercentAmountVoucher(long percent) {
+        this.id = UUID.randomUUID();
         this.percent = percent;
     }
 
     public PercentAmountVoucher(UUID id, long percent) {
-        this.id = UUID.randomUUID();
+        this.id = id;
         this.percent = percent;
     }
 
