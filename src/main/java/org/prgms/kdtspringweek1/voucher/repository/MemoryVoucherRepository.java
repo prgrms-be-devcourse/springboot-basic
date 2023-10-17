@@ -1,11 +1,14 @@
 package org.prgms.kdtspringweek1.voucher.repository;
 
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
+@Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
 

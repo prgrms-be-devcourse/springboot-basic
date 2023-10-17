@@ -6,12 +6,15 @@ import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Repository
+@Profile("default")
 public class FileVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> vouchers;
     private File voucherInfoCsv;
