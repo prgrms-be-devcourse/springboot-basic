@@ -1,5 +1,6 @@
 package com.weeklyMission.console;
 
+import com.weeklyMission.member.domain.Member;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import java.util.List;
 import java.util.Scanner;
@@ -71,8 +72,11 @@ public class ConsoleIO {
         return getCommand();
     }
 
+    public void printSuccessGetBlackList(List<Member> blackList) {
+        blackList.forEach(member -> System.out.println(member.toString() + System.lineSeparator()));
+    }
+
     public void printExitMessage(){
         System.out.println("프로그램을 종료합니다.");
     }
-
 }

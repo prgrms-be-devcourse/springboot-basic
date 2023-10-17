@@ -1,6 +1,8 @@
 package com.weeklyMission.client;
 
 import com.weeklyMission.console.ConsoleIO;
+import com.weeklyMission.member.controller.MemberController;
+import com.weeklyMission.member.domain.Member;
 import com.weeklyMission.voucher.controller.VoucherController;
 import com.weeklyMission.voucher.domain.Voucher;
 import com.weeklyMission.voucher.dto.VoucherResponse;
@@ -12,10 +14,12 @@ import org.springframework.stereotype.Component;
 public class Client {
 
     private final ConsoleIO consoleIOHandler;
+    private final MemberController memberController;
     private final VoucherController voucherController;
 
-    public Client(ConsoleIO consoleIOHandler, VoucherController voucherController) {
+    public Client(ConsoleIO consoleIOHandler, MemberController memberController, VoucherController voucherController) {
         this.consoleIOHandler = consoleIOHandler;
+        this.memberController = memberController;
         this.voucherController = voucherController;
     }
 
@@ -61,7 +65,8 @@ public class Client {
         String function = consoleIOHandler.printSelectMemberFunction();
         switch (function){
             case("list") ->{
-
+                List<Member> blackList = memberController.getBlackList();
+                consoleIOHandler.printSuccessGetBlackList(blackList);
             }
             default ->{
                 throw new IncorrectInputException("function", function, "목록에 있는 것들 중 선택하세요.");
