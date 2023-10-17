@@ -12,7 +12,6 @@ import java.util.UUID;
 @Repository
 @RequiredArgsConstructor
 public class CustomerRepository {
-    private final String PATH = System.getProperty("user.dir") + "/src/main/resources/customer_blacklist.csv";
     private final CustomerFileManager customerFileManager;
 
     public List<Customer> findAll() {

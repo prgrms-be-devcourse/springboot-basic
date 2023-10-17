@@ -50,6 +50,6 @@ public class OutputUtil {
     }
 
     public void printMessage(String message){
-        System.out.println(message+"\n");
+        System.out.println(MessageFormat.format("\n[System] {0}\n",message));
     }
 }
