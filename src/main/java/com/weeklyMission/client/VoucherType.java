@@ -4,6 +4,7 @@ import com.weeklyMission.console.ConsoleIO;
 import com.weeklyMission.domain.FixedAmountVoucher;
 import com.weeklyMission.domain.PercentDiscountVoucher;
 import com.weeklyMission.domain.Voucher;
+import com.weeklyMission.exception.IncorrectInputException;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ public enum VoucherType {
         return Arrays.stream(values())
             .filter(type -> type.isEquals(input))
             .findFirst()
-            .orElseThrow(() -> new RuntimeException("잘못된 입력입니다."));
+            .orElseThrow(() -> new IncorrectInputException("type", input, "지원하지 않는 voucher."));
     }
 
     private boolean isEquals(String input){

@@ -4,8 +4,8 @@ import com.weeklyMission.console.ConsoleIO;
 import com.weeklyMission.controller.VoucherController;
 import com.weeklyMission.domain.Voucher;
 import com.weeklyMission.dto.VoucherResponse;
+import com.weeklyMission.exception.IncorrectInputException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,30 +19,28 @@ public class Client {
         this.voucherController = voucherController;
     }
 
-    public void run(){
-        while(true) {
-            String mode = consoleIOHandler.printSelectMode();
-            switch (mode) {
-                case "voucher" -> {
-                    voucherMode();
-                }
-                case "member" -> {
-                    memberMode();
-                }
-                case "exit" -> {
-                    consoleIOHandler.printExitMessage();
-                    return;
-                }
-                default -> {
-                    throw new NoSuchElementException();
-                }
+    public void run() {
+        String mode = consoleIOHandler.printSelectMode();
+        switch (mode) {
+            case "voucher" -> {
+                voucherMode();
+            }
+            case "member" -> {
+                memberMode();
+            }
+            case "exit" -> {
+                consoleIOHandler.printExitMessage();
+                System.exit(0);
+            }
+            default -> {
+                throw new IncorrectInputException("mode", mode, "목록에 있는 것들 중 선택하세요.");
             }
         }
     }
 
-    private void voucherMode(){
+    private void voucherMode() {
         String function = consoleIOHandler.printSelectVoucherFunction();
-        switch(function){
+        switch (function) {
             case "create" -> {
                 VoucherType voucherType = VoucherType.of(consoleIOHandler.printSelectVoucherType());
                 Voucher voucher = voucherType.giveVoucher(consoleIOHandler);
@@ -54,12 +52,12 @@ public class Client {
                 consoleIOHandler.printSuccessGetAllList(voucherListDto);
             }
             default -> {
-                throw new NoSuchElementException();
+                throw new IncorrectInputException("function", function, "목록에 있는 것들 중 선택하세요.");
             }
         }
     }
 
-    private void memberMode(){
+    private void memberMode() {
         String function = consoleIOHandler.printSelectMemberFunction();
     }
 

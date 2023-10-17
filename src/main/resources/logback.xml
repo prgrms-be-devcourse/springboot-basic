@@ -23,7 +23,7 @@
     </encoder>
   </appender>
 
-  <logger name="com.weeklyMission" level="error">
+  <logger name="com.weeklyMission.exception.ExceptionHandler" level="error">
     <appender-ref ref="FILE" />
   </logger>
 
