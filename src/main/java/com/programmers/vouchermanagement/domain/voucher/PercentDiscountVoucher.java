@@ -43,6 +43,6 @@ public class PercentDiscountVoucher implements Voucher {
                 "Voucher Id:    " + voucherId + System.lineSeparator() +
                 "Voucher Name:  " + voucherName + System.lineSeparator() +
                 "Voucher Type:  Percentage Discount voucher" + System.lineSeparator() +
-                "Discount percentage: " + discountAmount + System.lineSeparator();
+                "Discount percentage: " + discountAmount + "%" + System.lineSeparator();
     }
 }
