@@ -21,10 +21,10 @@ public class ProgramRunner implements CommandLineRunner {
                 boolean continueRun = true;
                 switch (command){
                     case VOUCHER -> {
-                        continueRun = executeVoucherCommand();
+                        continueRun = isVoucherMenuSelected();
                     }
                     case CUSTOMER -> {
-                        continueRun = executeCustomerCommand();
+                        continueRun = isCustomerMenuSelected();
                     }
                     case EXIT -> {
                         menuHandler.exit();
@@ -38,7 +38,7 @@ public class ProgramRunner implements CommandLineRunner {
         }
     }
 
-    private boolean executeVoucherCommand() {
+    private boolean isVoucherMenuSelected() {
         while(true){
             try{
                 MenuType command = menuHandler.selectedVoucherProgram();
@@ -59,7 +59,7 @@ public class ProgramRunner implements CommandLineRunner {
         }
     }
 
-    private boolean executeCustomerCommand() {
+    private boolean isCustomerMenuSelected() {
         while(true){
             try{
                 MenuType command = menuHandler.selectedCustomerProgram();
