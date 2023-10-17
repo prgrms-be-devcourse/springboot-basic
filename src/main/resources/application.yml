@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: memory
+---
+spring:
+  config:
+    activate:
+      on-profile: file
+csv:
+  file:
+    path: "src/main/resources/vouchers.csv"
+  separator: ","
