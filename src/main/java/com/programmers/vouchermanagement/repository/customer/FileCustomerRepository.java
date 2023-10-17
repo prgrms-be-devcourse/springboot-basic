@@ -2,14 +2,19 @@ package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.customer.Customer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Repository
@@ -17,6 +22,7 @@ public class FileCustomerRepository implements CustomerRepository {
 
     private final String csvSeparator;
     private final String blacklistFilePath;
+    private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
     public FileCustomerRepository(@Value("${csv.file.customer.blacklist_path}") String blacklistFilePath, @Value("${csv.separator}") String csvSeparator) {
         this.blacklistFilePath = blacklistFilePath;
@@ -25,10 +31,10 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBannedCustomers() {
-        return readCustomerFile();
+        return readBlackListFile();
     }
 
-    private List<Customer> readCustomerFile() {
+    private List<Customer> readBlackListFile() {
         String line;
         List<Customer> bannedCustomers = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(blacklistFilePath))) {
@@ -43,11 +49,10 @@ public class FileCustomerRepository implements CustomerRepository {
                 bannedCustomers.add(customer);
             }
         } catch (FileNotFoundException e) {
-            throw new NoSuchElementException(ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage());
+            logger.warn(MessageFormat.format("{0} : {1}", ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage(), blacklistFilePath));
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            logger.error("Error occurred at FileReader: ", e);
         }
         return bannedCustomers;
     }
-
 }

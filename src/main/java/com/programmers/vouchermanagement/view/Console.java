@@ -1,15 +1,20 @@
 package com.programmers.vouchermanagement.view;
 
+import com.programmers.vouchermanagement.VoucherManagementApplication;
 import com.programmers.vouchermanagement.common.ConsoleMessage;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import com.programmers.vouchermanagement.service.VoucherService;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +25,7 @@ public class Console implements CommandLineRunner {
     private final CustomerRepository costumerRepository;
     private final Map<String, Runnable> commandMap = new HashMap<>();
     private final TextIO textIO = TextIoFactory.getTextIO();
-
+    private final Logger logger = LoggerFactory.getLogger(VoucherManagementApplication.class);
     private final int VOUCHER_NAME_MIN_LENGTH = 1;
     private final float DISCOUNT_AMOUNT_MIN_VALUE = 0f;
 
@@ -39,6 +44,7 @@ public class Console implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        logger.info("VoucherManagementApplication started");
         while (true) {
             commandMap.get(getCommand()).run();
         }
@@ -49,6 +55,7 @@ public class Console implements CommandLineRunner {
         Command command = textIO.newEnumInputReader(Command.class)
                 .withPossibleValues()
                 .read(">");
+        logger.info(MessageFormat.format("Input Command: {0}", command));
         return command.toString();
     }
 
@@ -67,6 +74,7 @@ public class Console implements CommandLineRunner {
                 .read("Discount Amount: ");
 
         voucherService.createVoucher(voucherName, discountAmount, voucherType);
+        displayMessage(ConsoleMessage.VOUCHER_CREATED_MESSAGE.getMessage());
     }
 
     private void displayVoucherList() {
@@ -86,5 +94,10 @@ public class Console implements CommandLineRunner {
 
     private void displayMessage(String message) {
         textIO.getTextTerminal().println(message);
+    }
+
+    @PreDestroy
+    private void destroy() {
+        logger.info("VoucherManagementApplication stopped");
     }
 }

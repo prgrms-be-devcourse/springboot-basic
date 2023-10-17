@@ -20,7 +20,7 @@ public class Customer {
     @Override
     public String toString() {
         return System.lineSeparator() +
-                "=======================" + System.lineSeparator() +
+                "#######################" + System.lineSeparator() +
                 "Customer Id:   " + customerId + System.lineSeparator() +
                 "Customer Name: " + customerName + System.lineSeparator() +
                 "Created At:    " + createdAt + System.lineSeparator() +

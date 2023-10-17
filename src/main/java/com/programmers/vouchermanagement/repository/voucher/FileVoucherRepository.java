@@ -5,23 +5,26 @@ import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
     private final String csvFilePath;
     private final String csvSeparator;
+    private final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
+    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
     public FileVoucherRepository(@Value("${csv.file.voucher.path}") String csvFilePath, @Value("${csv.separator}") String csvSeparator) {
         this.csvFilePath = csvFilePath;
@@ -30,11 +33,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @PostConstruct
     public void init() {
-        try {
-            readFile();
-        } catch (NoSuchElementException e) {
-            System.out.println(e.getMessage());
-        }
+        readFile();
     }
 
     @Override
@@ -62,9 +61,9 @@ public class FileVoucherRepository implements VoucherRepository {
                 vouchers.put(voucher.getId(), voucher);
             }
         } catch (FileNotFoundException e) {
-            throw new NoSuchElementException(ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage());
+            logger.warn(MessageFormat.format("{0} : {1}", ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage(), csvFilePath));
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            logger.error("Error occurred at FileReader: ", e);
         }
     }
 
@@ -77,13 +76,14 @@ public class FileVoucherRepository implements VoucherRepository {
                             bw.write(line);
                             bw.newLine();
                         } catch (IOException e) {
-                            throw new UncheckedIOException(e);
+                            logger.error("Error occurred at FileWriter: ", e);
                         }
                     });
         } catch (FileNotFoundException e) {
-            throw new NoSuchElementException(ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage());
+            logger.warn(ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage());
+            logger.warn(MessageFormat.format("Csv File Path: {0}", csvFilePath));
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            logger.error("Error occurred af FileWriter: ", e);
         }
     }
 }

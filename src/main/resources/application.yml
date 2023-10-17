@@ -14,7 +14,7 @@ spring:
 csv:
   file:
     voucher:
-      path: "src/main/resources/files/vouchers.csv"
+      path: "src/main/resources/files/vouch1ers.csv"
     customer:
       blacklist_path: "src/main/resources/files/customer_blacklist.csv"
   separator: ","
