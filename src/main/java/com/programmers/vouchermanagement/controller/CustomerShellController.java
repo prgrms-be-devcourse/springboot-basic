@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.controller;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.infra.io.ConsoleOutput;
 import com.programmers.vouchermanagement.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
@@ -22,7 +23,7 @@ public class CustomerShellController {
         List<Customer> customers = customerService.getCustomers(request);
 
         for (Customer customer : customers) {
-            System.out.println(customer.toString());
+            ConsoleOutput.println(customer.toString());
         }
     }
 }

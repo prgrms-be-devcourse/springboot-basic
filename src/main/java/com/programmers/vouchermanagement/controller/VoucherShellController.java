@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.controller;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.infra.io.ConsoleInput;
+import com.programmers.vouchermanagement.infra.io.ConsoleOutput;
 import com.programmers.vouchermanagement.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.standard.ShellComponent;
@@ -29,7 +30,7 @@ public class VoucherShellController {
     public void list() {
         List<Voucher> vouchers = voucherService.getVouchers();
         for (Voucher voucher : vouchers) {
-            System.out.println(voucher.toString());
+            ConsoleOutput.println(voucher.toString());
         }
     }
 }

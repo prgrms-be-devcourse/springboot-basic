@@ -1,5 +1,7 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
+import com.programmers.vouchermanagement.infra.io.ConsoleOutput;
+
 import java.util.Arrays;
 
 public enum VoucherType {
@@ -20,7 +22,7 @@ public enum VoucherType {
 
     public static void printAllDescriptionsToConsole() {
         for (VoucherType vt : VoucherType.values()) {
-            System.out.println((vt.ordinal() + 1) + ". " + vt.description + (vt.isSameId(1) ? " (default)" : ""));
+            ConsoleOutput.println((vt.ordinal() + 1) + ". " + vt.description + (vt.isSameId(1) ? " (default)" : ""));
         }
     }
 
