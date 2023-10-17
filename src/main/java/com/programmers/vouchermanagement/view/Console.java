@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.view;
 
 import com.programmers.vouchermanagement.common.ConsoleMessage;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import com.programmers.vouchermanagement.service.VoucherService;
 import jakarta.annotation.PostConstruct;
 import org.beryx.textio.TextIO;
@@ -16,18 +17,24 @@ import java.util.Map;
 public class Console implements CommandLineRunner {
 
     private final VoucherService voucherService;
+    private final CustomerRepository costumerRepository;
     private final Map<String, Runnable> commandMap = new HashMap<>();
     private final TextIO textIO = TextIoFactory.getTextIO();
 
-    Console(VoucherService voucherService) {
+    private final int VOUCHER_NAME_MIN_LENGTH = 1;
+    private final float DISCOUNT_AMOUNT_MIN_VALUE = 0f;
+
+    public Console(VoucherService voucherService, CustomerRepository costumerRepository) {
         this.voucherService = voucherService;
+        this.costumerRepository = costumerRepository;
     }
 
     @PostConstruct
     private void init() {
-        commandMap.put("exit", this::exit);
         commandMap.put("create", this::createVoucher);
         commandMap.put("list", this::displayVoucherList);
+        commandMap.put("blacklist", this::displayCustomerBlackList);
+        commandMap.put("exit", this::exit);
     }
 
     @Override
@@ -41,19 +48,22 @@ public class Console implements CommandLineRunner {
         displayMessage(ConsoleMessage.COMMAND_LIST_MESSAGE.getMessage());
         Command command = textIO.newEnumInputReader(Command.class)
                 .withPossibleValues()
-                .read();
+                .read(">");
         return command.toString();
     }
 
     private void createVoucher() {
+        displayMessage(ConsoleMessage.CHOICE_VOUCHER_TYPE_MESSAGE.getMessage());
         VoucherType voucherType = textIO.newEnumInputReader(VoucherType.class)
                 .withAllValues()
                 .read();
+
+        displayMessage(voucherType.getGuideMessage());
         String voucherName = textIO.newStringInputReader()
-                .withMinLength(1)
+                .withMinLength(VOUCHER_NAME_MIN_LENGTH)
                 .read("Voucher Name: ");
         float discountAmount = textIO.newFloatInputReader()
-                .withMinVal(0f)
+                .withMinVal(DISCOUNT_AMOUNT_MIN_VALUE)
                 .read("Discount Amount: ");
 
         voucherService.createVoucher(voucherName, discountAmount, voucherType);
@@ -62,6 +72,11 @@ public class Console implements CommandLineRunner {
     private void displayVoucherList() {
         voucherService.voucherList()
                 .forEach(voucher -> displayMessage(voucher.toString()));
+    }
+
+    private void displayCustomerBlackList() {
+        costumerRepository.findAllBannedCustomers()
+                .forEach(customer -> displayMessage(customer.toString()));
     }
 
     private void exit() {

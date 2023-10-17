@@ -13,5 +13,8 @@ spring:
       on-profile: file
 csv:
   file:
-    path: "src/main/resources/vouchers.csv"
+    voucher:
+      path: "src/main/resources/vouchers.csv"
+    customer:
+      blacklist_path: "src/main/resources/customer_blacklist.csv"
   separator: ","

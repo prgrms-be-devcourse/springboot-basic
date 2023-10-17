@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.repository;
+package com.programmers.vouchermanagement.repository.voucher;
 
 import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
@@ -23,7 +23,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final String csvFilePath;
     private final String csvSeparator;
 
-    public FileVoucherRepository(@Value("${csv.file.path}") String csvFilePath, @Value("${csv.separator}") String csvSeparator) {
+    public FileVoucherRepository(@Value("${csv.file.voucher.path}") String csvFilePath, @Value("${csv.separator}") String csvSeparator) {
         this.csvFilePath = csvFilePath;
         this.csvSeparator = csvSeparator;
     }

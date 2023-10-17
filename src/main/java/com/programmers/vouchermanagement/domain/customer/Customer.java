@@ -5,34 +5,25 @@ import java.util.UUID;
 
 public class Customer {
 
-    private final UUID id;
-    private final String name;
-
+    private final UUID customerId;
+    private final String customerName;
     private final LocalDateTime createdAt;
+    private boolean isBanned;
 
-    public Customer(String name) {
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.createdAt = LocalDateTime.now();
+    public Customer(UUID customerId, String customerName, LocalDateTime createdAt, boolean isBanned) {
+        this.customerId = customerId;
+        this.customerName = customerName;
+        this.createdAt = createdAt;
+        this.isBanned = isBanned;
     }
 
-    public Customer(UUID id, String name, String createdAt) {
-
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.createdAt = LocalDateTime.parse(createdAt);
+    @Override
+    public String toString() {
+        return System.lineSeparator() +
+                "=======================" + System.lineSeparator() +
+                "Customer Id:   " + customerId + System.lineSeparator() +
+                "Customer Name: " + customerName + System.lineSeparator() +
+                "Created At:    " + createdAt + System.lineSeparator() +
+                "isBanned:      " + isBanned + System.lineSeparator();
     }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getCreatedAt() {
-        return createdAt.toString();
-    }
-
 }

@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.view;
 
 public enum Command {
-    EXIT, CREATE, LIST;
+    EXIT, CREATE, LIST, BLACKLIST;
 
     @Override
     public String toString() {
