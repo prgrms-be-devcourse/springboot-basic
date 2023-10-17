@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.entity.MenuType;
+import com.programmers.springbasic.enums.MenuType;
 
 @Component
 public class CommandExecutor {

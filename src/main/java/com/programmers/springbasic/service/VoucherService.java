@@ -1,17 +1,16 @@
 package com.programmers.springbasic.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.programmers.springbasic.controller.dto.CreateFixedAmountVoucherRequest;
-import com.programmers.springbasic.controller.dto.CreatePercentDiscountVoucherRequest;
-import com.programmers.springbasic.controller.dto.ListVouchersResponse;
-import com.programmers.springbasic.entity.Voucher;
-import com.programmers.springbasic.repository.VoucherRepository;
+import com.programmers.springbasic.dto.CreateFixedAmountVoucherRequest;
+import com.programmers.springbasic.dto.CreatePercentDiscountVoucherRequest;
+import com.programmers.springbasic.dto.ListVouchersResponse;
+import com.programmers.springbasic.entity.voucher.Voucher;
+import com.programmers.springbasic.repository.voucher.VoucherRepository;
 
 @Service
 public class VoucherService {

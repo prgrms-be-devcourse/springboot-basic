@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 import org.springframework.stereotype.Component;
 
-import com.programmers.springbasic.ErrorCode;
+import com.programmers.springbasic.enums.ErrorCode;
 
 @Component
 public class ConsoleInputHandler {

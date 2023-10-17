@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.programmers.springbasic.controller.dto.ListBlacklistCustomerResponse;
-import com.programmers.springbasic.entity.Customer;
-import com.programmers.springbasic.repository.CustomerRepository;
+import com.programmers.springbasic.dto.ListBlacklistCustomerResponse;
+import com.programmers.springbasic.entity.customer.Customer;
+import com.programmers.springbasic.repository.customer.CustomerRepository;
 
 @Service
 public class CustomerService {
