@@ -1,7 +1,7 @@
 package org.prgms.springbootbasic.repository;
 
-import org.prgms.springbootbasic.common.VoucherType;
-import org.prgms.springbootbasic.domain.Voucher;
+import org.prgms.springbootbasic.domain.VoucherType;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,14 +1,13 @@
-package org.prgms.springbootbasic.common;
+package org.prgms.springbootbasic.domain;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.prgms.springbootbasic.domain.FixedAmountVoucher;
-import org.prgms.springbootbasic.domain.PercentDiscountVoucher;
-import org.prgms.springbootbasic.domain.Voucher;
+import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
+import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 
 import java.util.UUID;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 @Slf4j
 public enum VoucherType {

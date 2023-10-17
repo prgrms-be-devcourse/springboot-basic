@@ -1,6 +1,6 @@
 package org.prgms.springbootbasic.repository;
 
-import org.prgms.springbootbasic.domain.Customer;
+import org.prgms.springbootbasic.domain.customer.Customer;
 
 import java.util.List;
 

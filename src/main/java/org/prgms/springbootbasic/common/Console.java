@@ -1,8 +1,9 @@
 package org.prgms.springbootbasic.common;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgms.springbootbasic.domain.Customer;
-import org.prgms.springbootbasic.domain.Voucher;
+import org.prgms.springbootbasic.domain.VoucherType;
+import org.prgms.springbootbasic.domain.customer.Customer;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.repository.CustomerRepository;
 import org.prgms.springbootbasic.repository.VoucherRepository;
 import org.springframework.stereotype.Component;

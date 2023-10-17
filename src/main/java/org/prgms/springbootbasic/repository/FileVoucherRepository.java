@@ -1,9 +1,9 @@
 package org.prgms.springbootbasic.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgms.springbootbasic.common.CsvVoucherFileManager;
-import org.prgms.springbootbasic.common.VoucherType;
-import org.prgms.springbootbasic.domain.Voucher;
+import org.prgms.springbootbasic.domain.voucher.CsvVoucherFileManager;
+import org.prgms.springbootbasic.domain.VoucherType;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
 package org.prgms.springbootbasic.repository;
 
-import org.prgms.springbootbasic.common.CsvCustomerFileManager;
-import org.prgms.springbootbasic.domain.Customer;
+import org.prgms.springbootbasic.domain.customer.CsvCustomerFileManager;
+import org.prgms.springbootbasic.domain.customer.Customer;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

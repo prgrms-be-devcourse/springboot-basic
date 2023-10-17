@@ -1,7 +1,7 @@
-package org.prgms.springbootbasic.common;
+package org.prgms.springbootbasic.domain.voucher;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgms.springbootbasic.domain.Voucher;
+import org.prgms.springbootbasic.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

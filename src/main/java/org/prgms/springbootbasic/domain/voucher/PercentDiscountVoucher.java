@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.domain;
+package org.prgms.springbootbasic.domain.voucher;
 
 import lombok.extern.slf4j.Slf4j;
 

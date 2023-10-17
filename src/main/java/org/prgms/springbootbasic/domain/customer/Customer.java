@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.domain;
+package org.prgms.springbootbasic.domain.customer;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
