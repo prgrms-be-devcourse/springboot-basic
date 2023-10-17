@@ -1,7 +1,7 @@
 spring:
   config:
     activate:
-      on-profile: default
+      on-profile: dev
 file-path:
   customer: /src/main/resources/customer_blacklist.csv
 

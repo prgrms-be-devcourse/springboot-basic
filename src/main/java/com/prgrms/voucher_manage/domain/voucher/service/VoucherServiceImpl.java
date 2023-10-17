@@ -30,7 +30,7 @@ public class VoucherServiceImpl implements VoucherService {
                 voucherRepository.insert(new FixedAmountVoucher(dto.discountAmount()));
             }
             case PERCENT -> {
-                if (!dto.isInvalidPercent()) throw new InvalidDiscountRange();
+                if (dto.isInvalidPercent()) throw new InvalidDiscountRange();
                 voucherRepository.insert(new PercentAmountVoucher(dto.discountAmount()));
             }
         }

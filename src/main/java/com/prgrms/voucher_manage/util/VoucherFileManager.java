@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class VoucherFileManager {
     private String path = System.getProperty("user.dir");
 
-    public VoucherFileManager(@Value("${file-path.voucher}")String path) {
+    public VoucherFileManager(@Value("${file-path.voucher:0}")String path) {
         this.path += path;
     }
 
