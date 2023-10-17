@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.vouchermanagement.console.Client;
 
+import java.util.logging.Logger;
+
 @Component
 public class ConsoleAppRunner implements ApplicationRunner {
     private final Client client;

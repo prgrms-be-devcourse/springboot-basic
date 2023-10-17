@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher;
 
+import com.programmers.vouchermanagement.console.ConsoleManager;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collections;
@@ -7,9 +8,11 @@ import java.util.List;
 
 @Controller
 public class VoucherController {
+    private final ConsoleManager consoleManager;
     private final VoucherService voucherService;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(ConsoleManager consoleManager, VoucherService voucherService) {
+        this.consoleManager = consoleManager;
         this.voucherService = voucherService;
     }
 
@@ -23,7 +26,7 @@ public class VoucherController {
             return voucherService.readAllVouchers();
         } catch (RuntimeException e) {
             //TODO: add exception handling method externally
-            System.out.println(e.getMessage());
+            consoleManager.printException(e);
 
             //TODO: reconsider return empty list from service
             return Collections.emptyList();

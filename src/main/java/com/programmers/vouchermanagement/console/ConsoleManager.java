@@ -1,14 +1,14 @@
 package com.programmers.vouchermanagement.console;
 
-import java.util.List;
-import java.util.UUID;
-
-import org.beryx.textio.TextIO;
-import org.springframework.stereotype.Component;
-
 import com.programmers.vouchermanagement.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.voucher.PercentVoucher;
 import com.programmers.vouchermanagement.voucher.Voucher;
+import org.beryx.textio.TextIO;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.UUID;
 
 @Component
 public class ConsoleManager {
@@ -28,11 +28,14 @@ public class ConsoleManager {
     private static final String voucherDiscountAmountDecision = "Please type the amount/percent of discount of the voucher.";
 
     private final TextIO textIO;
+    private final Logger logger;
 
-    public ConsoleManager(TextIO textIO) {
+    public ConsoleManager(TextIO textIO, Logger logger) {
         this.textIO = textIO;
+        this.logger = logger;
     }
 
+    //TODO: validate input type is correct
     public String selectMenu() {
         return textIO.newStringInputReader()
                 .read(menuSelectionInstruction);
@@ -67,5 +70,10 @@ public class ConsoleManager {
 
     public void printExit() {
         textIO.getTextTerminal().println("System exits.");
+    }
+
+    public void printException(RuntimeException e) {
+        logger.error(e.getMessage());
+        System.out.println(e.getMessage());
     }
 }
