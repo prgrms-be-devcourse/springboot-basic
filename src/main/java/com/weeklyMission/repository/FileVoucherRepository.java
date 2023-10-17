@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile({"dev", "prod"})
+@Profile("dev")
 @Primary
 public class FileVoucherRepository implements VoucherRepository{
     private final String path;
