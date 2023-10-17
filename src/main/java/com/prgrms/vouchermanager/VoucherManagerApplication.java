@@ -12,14 +12,13 @@ public class VoucherManagerApplication implements CommandLineRunner {
 
     private final VoucherController controller;
 
+    @Autowired
     public VoucherManagerApplication(VoucherController controller) {
         this.controller = controller;
     }
 
-    @Autowired
-
     public static void main(String[] args) {
-        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
+//        AnsiOutput.setEnabled(AnsiOutput.Enabled.ALWAYS);
         SpringApplication.run(VoucherManagerApplication.class, args);
     }
 

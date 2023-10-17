@@ -23,7 +23,7 @@ import java.util.UUID;
 @Profile("prod")
 public class VoucherFileRepository implements VoucherRepository {
 
-    Map<UUID, Voucher> vouchers = new HashMap<>();
+    private final Map<UUID, Voucher> vouchers = new HashMap<>();
     private final BufferedReader vf;
 
     @Value("${csv.voucher}")

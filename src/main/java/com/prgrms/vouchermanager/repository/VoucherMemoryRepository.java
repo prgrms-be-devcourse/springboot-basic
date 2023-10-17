@@ -13,7 +13,7 @@ import java.util.UUID;
 @Profile("dev")
 public class VoucherMemoryRepository implements VoucherRepository {
 
-    Map<UUID, Voucher> vouchers = new HashMap<>();
+    private final Map<UUID, Voucher> vouchers = new HashMap<>();
 
     public void create(Voucher voucher) {
         vouchers.put(voucher.getId(), voucher);

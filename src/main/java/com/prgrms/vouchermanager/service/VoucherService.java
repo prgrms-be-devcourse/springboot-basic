@@ -19,8 +19,8 @@ import java.util.List;
 @Slf4j
 public class VoucherService {
 
-    VoucherRepository voucherRepository;
-    CustomerRepository customerRepository;
+    private final VoucherRepository voucherRepository;
+    private final CustomerRepository customerRepository;
     @Autowired
     public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
         this.voucherRepository = voucherRepository;

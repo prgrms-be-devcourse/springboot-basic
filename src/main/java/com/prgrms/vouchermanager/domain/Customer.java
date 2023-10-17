@@ -1,9 +1,9 @@
 package com.prgrms.vouchermanager.domain;
 
 public class Customer {
-    int id;
-    String name;
-    int yearOfBirth;
+    private final int id;
+    private final String name;
+    private final int yearOfBirth;
 
     public Customer(int id, String name, int yearOfBirth) {
         this.id = id;
