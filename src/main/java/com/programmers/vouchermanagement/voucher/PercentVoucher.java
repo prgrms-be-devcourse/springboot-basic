@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.voucher;
 
-import java.lang.System;
 import java.util.UUID;
 
 public class PercentVoucher implements Voucher {
