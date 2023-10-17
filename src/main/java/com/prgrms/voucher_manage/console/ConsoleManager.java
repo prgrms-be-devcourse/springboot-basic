@@ -2,6 +2,7 @@ package com.prgrms.voucher_manage.console;
 
 import com.prgrms.voucher_manage.domain.customer.controller.CustomerController;
 import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
+import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import com.prgrms.voucher_manage.exception.InvalidCmdInputException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

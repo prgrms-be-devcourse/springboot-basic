@@ -1,6 +1,6 @@
 package com.prgrms.voucher_manage.domain.voucher.controller;
 
-import com.prgrms.voucher_manage.console.VoucherType;
+import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import com.prgrms.voucher_manage.domain.voucher.dto.CreateVoucherDto;
 import com.prgrms.voucher_manage.domain.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;

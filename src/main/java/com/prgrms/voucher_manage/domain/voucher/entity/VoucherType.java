@@ -1,4 +1,4 @@
-package com.prgrms.voucher_manage.console;
+package com.prgrms.voucher_manage.domain.voucher.entity;
 
 import lombok.Getter;
 

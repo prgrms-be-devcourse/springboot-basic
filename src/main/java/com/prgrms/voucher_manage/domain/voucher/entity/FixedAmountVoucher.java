@@ -1,10 +1,8 @@
 package com.prgrms.voucher_manage.domain.voucher.entity;
 
-import com.prgrms.voucher_manage.console.VoucherType;
-
 import java.util.UUID;
 
-import static com.prgrms.voucher_manage.console.VoucherType.FIXED;
+import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
