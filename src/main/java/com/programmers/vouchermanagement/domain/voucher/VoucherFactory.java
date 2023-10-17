@@ -3,25 +3,13 @@ package com.programmers.vouchermanagement.domain.voucher;
 import java.util.UUID;
 
 public class VoucherFactory {
-    public static Voucher createVoucher(String voucherName, float discountAmount, VoucherType voucherType) {
-        switch (voucherType) {
-            case FIXED:
-                return new FixedAmountVoucher(UUID.randomUUID(), voucherName, discountAmount);
-            case PERCENTAGE:
-                return new PercentDiscountVoucher(UUID.randomUUID(), voucherName, discountAmount);
-            default:
-                throw new IllegalArgumentException("Unknown VoucherType: " + voucherType);
-        }
+    private VoucherFactory() {
     }
 
     public static Voucher createVoucher(UUID voucherId, String voucherName, float discountAmount, VoucherType voucherType) {
-        switch (voucherType) {
-            case FIXED:
-                return new FixedAmountVoucher(voucherId, voucherName, discountAmount);
-            case PERCENTAGE:
-                return new PercentDiscountVoucher(voucherId, voucherName, discountAmount);
-            default:
-                throw new IllegalArgumentException("Unknown VoucherType: " + voucherType);
-        }
+        return switch (voucherType) {
+            case FIXED -> new FixedAmountVoucher(voucherId, voucherName, discountAmount);
+            case PERCENTAGE -> new PercentDiscountVoucher(voucherId, voucherName, discountAmount);
+        };
     }
 }
