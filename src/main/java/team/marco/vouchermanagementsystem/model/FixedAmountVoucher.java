@@ -1,15 +1,18 @@
 package team.marco.vouchermanagementsystem.model;
 
-import team.marco.vouchermanagementsystem.model.Voucher;
-
-import java.text.MessageFormat;
 import java.util.UUID;
+
+import static java.text.MessageFormat.format;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID id;
     private final int amount;
 
     public FixedAmountVoucher(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException(format("{0}: 할인 금액은 0 보다 커야 합니다.", amount));
+        }
+
         this.id = UUID.randomUUID();
         this.amount = amount;
     }
@@ -21,6 +24,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public String getInfo() {
-        return MessageFormat.format("{0}원 할인 쿠폰", amount);
+        return format("{0}원 할인 쿠폰", amount);
     }
 }
