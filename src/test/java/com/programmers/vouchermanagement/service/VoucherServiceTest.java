@@ -42,7 +42,7 @@ class VoucherServiceTest {
         // given
         Long amount = 3000L;
         // when
-        voucherService.create(VoucherType.FIXED_AMOUNT, amount);
+        voucherService.createVoucher(VoucherType.FIXED_AMOUNT, amount);
         // then
         List<Voucher> vouchers = voucherRepository.findAll();
         Voucher createdVoucher = vouchers.get(2);
@@ -57,7 +57,7 @@ class VoucherServiceTest {
     void list() {
         // given
         // when
-        List<Voucher> vouchers = voucherService.getAll();
+        List<Voucher> vouchers = voucherService.getVouchers();
         // then
         assertThat(vouchers).hasSize(2);
         assertThat(vouchers.get(0).getId()).isEqualTo((voucherFixtures.get(0).getId()));

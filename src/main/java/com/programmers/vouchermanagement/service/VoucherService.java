@@ -17,12 +17,12 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
     private final IdProvider<UUID> idProvider;
 
-    public void create(VoucherType voucherType, Long amount) {
+    public void createVoucher(VoucherType voucherType, Long amount) {
         Voucher voucher = VoucherFactory.create(voucherType, idProvider.generateId(), amount);
         voucherRepository.save(voucher);
     }
 
-    public List<Voucher> getAll() {
+    public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
     }
 }

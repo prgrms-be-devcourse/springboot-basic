@@ -22,12 +22,12 @@ public class VoucherShellController {
         VoucherType voucherType = VoucherType.select(inputReader.readVoucherTypeId());
         Long amount = inputReader.readAmount();
 
-        voucherService.create(voucherType, amount);
+        voucherService.createVoucher(voucherType, amount);
     }
 
     @ShellMethod(key = "list")
     public void list() {
-        List<Voucher> vouchers = voucherService.getAll();
+        List<Voucher> vouchers = voucherService.getVouchers();
         for (Voucher voucher : vouchers) {
             System.out.println(voucher.toString());
         }
