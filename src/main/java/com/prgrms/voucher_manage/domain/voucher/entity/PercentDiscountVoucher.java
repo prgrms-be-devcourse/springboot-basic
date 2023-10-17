@@ -6,12 +6,12 @@ import java.util.UUID;
 
 import static com.prgrms.voucher_manage.console.VoucherType.*;
 
-public class PercentAmountVoucher implements Voucher {
+public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final Long discountPercent;
     private final VoucherType voucherType = PERCENT;
 
-    public PercentAmountVoucher(Long discountPercent) {
+    public PercentDiscountVoucher(Long discountPercent) {
         this.voucherId = UUID.randomUUID();
         this.discountPercent = discountPercent;
     }

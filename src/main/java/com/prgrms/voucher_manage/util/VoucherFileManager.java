@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.util;
 
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
-import com.prgrms.voucher_manage.domain.voucher.entity.PercentAmountVoucher;
+import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ public class VoucherFileManager {
                         voucherStorage.put(UUID.fromString(data[0]), voucher);
                     }
                     case "PERCENT" -> {
-                        PercentAmountVoucher voucher = new PercentAmountVoucher(Long.valueOf(data[1]));
+                        PercentDiscountVoucher voucher = new PercentDiscountVoucher(Long.valueOf(data[1]));
                         voucherStorage.put(UUID.fromString(data[0]), voucher);
                     }
                 }

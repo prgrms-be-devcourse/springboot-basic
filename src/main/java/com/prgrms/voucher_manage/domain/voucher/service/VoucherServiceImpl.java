@@ -3,7 +3,7 @@ package com.prgrms.voucher_manage.domain.voucher.service;
 import com.prgrms.voucher_manage.console.VoucherType;
 import com.prgrms.voucher_manage.domain.voucher.dto.CreateVoucherDto;
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
-import com.prgrms.voucher_manage.domain.voucher.entity.PercentAmountVoucher;
+import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.repository.VoucherRepository;
 import com.prgrms.voucher_manage.exception.InvalidDiscountRange;
@@ -31,7 +31,7 @@ public class VoucherServiceImpl implements VoucherService {
             }
             case PERCENT -> {
                 if (dto.isInvalidPercent()) throw new InvalidDiscountRange();
-                voucherRepository.insert(new PercentAmountVoucher(dto.discountAmount()));
+                voucherRepository.insert(new PercentDiscountVoucher(dto.discountAmount()));
             }
         }
     }

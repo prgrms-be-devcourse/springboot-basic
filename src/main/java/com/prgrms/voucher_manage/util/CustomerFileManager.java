@@ -30,7 +30,7 @@ public class CustomerFileManager {
                 customerStorage.put(UUID.fromString(data[0]), customer);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+
         }
         return customerStorage;
     }
