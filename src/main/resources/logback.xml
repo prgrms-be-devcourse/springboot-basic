@@ -2,6 +2,12 @@
 
     <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n"/>
 
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/access.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
