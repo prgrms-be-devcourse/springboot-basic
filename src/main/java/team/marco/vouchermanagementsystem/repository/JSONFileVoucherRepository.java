@@ -1,15 +1,14 @@
 package team.marco.vouchermanagementsystem.repository;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
-import team.marco.vouchermanagementsystem.dto.JSONVoucherDTO;
-import team.marco.vouchermanagementsystem.model.FixedAmountVoucher;
-import team.marco.vouchermanagementsystem.model.PercentDiscountVoucher;
 import team.marco.vouchermanagementsystem.model.Voucher;
-import team.marco.vouchermanagementsystem.util.FileManager;
-import team.marco.vouchermanagementsystem.util.JSONFileManager;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,26 +17,37 @@ import java.util.UUID;
 @Repository
 @Primary
 public class JSONFileVoucherRepository implements VoucherRepository, DisposableBean {
-    FileManager<JSONVoucherDTO> fileManager = new JSONFileManager<>(JSONVoucherDTO.class);
-    Map<UUID, Voucher> voucherMap = new HashMap<>();
+    private String path = "./src/main/resources/data.json";
+    private final Map<UUID, Voucher> voucherMap;
+    private final ObjectMapper objectMapper;
+    private final File file;
 
     public JSONFileVoucherRepository() {
-        List<JSONVoucherDTO> loadedDTO = fileManager.load();
+        objectMapper = new ObjectMapper();
+        file = new File(path);
+        voucherMap = load();
+    }
 
-        loadedDTO.forEach(dto -> {
-            Voucher voucher = switch (dto.getType()) {
-                case FIXED -> new FixedAmountVoucher(dto.getId(), dto.getData());
-                case PERCENT -> new PercentDiscountVoucher(dto.getId(), dto.getData());
-            };
+    private Map<UUID, Voucher> load() {
+        ObjectReader objectReader = objectMapper.readerForListOf(LoadedJSONVoucher.class);
+        List<LoadedJSONVoucher> loadedList;
 
-            voucherMap.put(voucher.getId(), voucher);
-        });
+        try {
+            loadedList = objectReader.readValue(file);
+        } catch (IOException e) {
+            throw new RuntimeException("파일을 불러오는 과정에서 오류가 발생했습니다.");
+        }
+
+        Map<UUID, Voucher> convertedMap = new HashMap<>();
+
+        loadedList.forEach(data -> convertedMap.put(data.getId(), data.convertToVoucher()));
+
+        return convertedMap;
     }
 
     @Override
     public void save(Voucher voucher) {
         voucherMap.put(voucher.getId(), voucher);
-        fileManager.save(JSONVoucherDTO.convert(voucher));
     }
 
     @Override
@@ -47,6 +57,10 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
 
     @Override
     public void destroy() {
-        fileManager.close();
+        try {
+            objectMapper.writeValue(file, voucherMap.values());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
