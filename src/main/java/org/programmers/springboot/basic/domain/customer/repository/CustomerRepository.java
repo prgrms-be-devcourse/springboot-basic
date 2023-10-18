@@ -31,7 +31,9 @@ public class CustomerRepository {
         this.csvFileManager = csvFileManager;
         this.customerMapper = customerMapper;
         this.fileProperties = fileProperties;
-        FILE = new File(getFilePath());
+        String filePath = getFilePath();
+        System.out.println("filePath: " + filePath);
+        FILE = new File(filePath);
     }
 
     public List<Customer> findBlackList() {
@@ -68,7 +70,7 @@ public class CustomerRepository {
     private String getFilePath() {
 
         String folderPath = this.fileProperties.getUserDir();
-        String fileName = this.fileProperties.getNames().get("voucher").getFileName();
+        String fileName = this.fileProperties.getNames().get("customer").getFileName();
         String resourcePath = this.fileProperties.getResources().getPath();
         String filePath = folderPath + resourcePath + fileName;
 
@@ -76,6 +78,7 @@ public class CustomerRepository {
             folderPath = this.fileProperties.getProjDir();
             resourcePath = this.fileProperties.getResources().getJar();
             filePath =  folderPath + resourcePath + fileName;
+            System.out.println("filePath: " + filePath);
         }
 
         return filePath;
