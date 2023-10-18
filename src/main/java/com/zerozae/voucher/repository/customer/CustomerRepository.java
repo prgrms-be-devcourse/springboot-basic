@@ -2,7 +2,7 @@ package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -18,10 +18,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 
 @Repository
 public class CustomerRepository {
+
     private static final String FILE_PATH = System.getProperty("user.home") + "/customer_blacklist.csv";
     private static final String DELIMITER = ",";
     private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
@@ -39,8 +39,8 @@ public class CustomerRepository {
                 String voucherInfo = getCustomerInfo(customer) + System.lineSeparator();
                 Files.writeString(Path.of(FILE_PATH), voucherInfo, StandardOpenOption.APPEND);
             }catch (IOException e) {
-                logger.error("Error Message = {}", e.getMessage());
-                throw ExceptionHandler.err(getMessage("WRITE_FILE_ERROR.MSG"));
+                logger.warn("Error Message = {}", e.getMessage());
+                throw ErrorMessage.error("파일에 쓰기 중 문제가 발생했습니다.");
             }
         }
         customers.put(customer.getCustomerId(), customer);
@@ -67,8 +67,8 @@ public class CustomerRepository {
                 loadedBlacklist.put(customerId, customer);
             }
         } catch (IOException e) {
-            logger.error("Error Message = {}", e.getMessage());
-            throw ExceptionHandler.err(getMessage("READ_FILE_ERROR.MSG"));
+            logger.warn("Error Message = {}", e.getMessage());
+            throw ErrorMessage.error("파일을 읽어오던 중 문제가 발생했습니다.");
         }
         return loadedBlacklist;
     }
@@ -87,8 +87,8 @@ public class CustomerRepository {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                logger.error("Error Message = {}", e.getMessage());
-                throw ExceptionHandler.err(getMessage("CREATE_FILE_ERROR.MSG"));
+                logger.warn("Error Message = {}", e.getMessage());
+                throw ErrorMessage.error("파일 생성 중 문제가 발생했습니다.");
             }
         }
     }

@@ -5,7 +5,7 @@ import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 
 @Profile("prod")
 @Repository
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
+
     private static final String FILE_PATH = System.getProperty("user.home") + "/voucher.csv";
     private static final String DELIMITER = ",";
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
@@ -45,8 +45,8 @@ public class FileVoucherRepository implements VoucherRepository{
             String voucherInfo = getVoucherInfo(voucher) + System.lineSeparator();
             Files.writeString(Path.of(FILE_PATH), voucherInfo, StandardOpenOption.APPEND);
         } catch (IOException e) {
-            logger.error("Error Message ={}", e.getMessage());
-            throw ExceptionHandler.err(getMessage("WRITE_FILE_ERROR.MSG"));
+            logger.warn("Error Message ={}", e.getMessage());
+            throw ErrorMessage.error("파일에 쓰기 중 문제가 발생했습니다.");
         }
         return voucher;
     }
@@ -75,8 +75,8 @@ public class FileVoucherRepository implements VoucherRepository{
                 loadedVouchers.put(voucherId, voucher);
             }
         } catch (IOException e) {
-            logger.error("Error Message ={}", e.getMessage());
-            throw ExceptionHandler.err(getMessage("READ_FILE_ERROR.MSG"));
+            logger.warn("Error Message ={}", e.getMessage());
+            throw ErrorMessage.error("파일을 읽어오던 중 문제가 발생했습니다.");
         }
         return loadedVouchers;
     }
@@ -96,8 +96,8 @@ public class FileVoucherRepository implements VoucherRepository{
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                logger.error("Error Message ={}", e.getMessage());
-                throw ExceptionHandler.err(getMessage("CREATE_FILE_ERROR.MSG"));
+                logger.warn("Error Message ={}", e.getMessage());
+                throw ErrorMessage.error("파일 생성 중 문제가 발생했습니다.");
             }
         }
     }

@@ -1,13 +1,11 @@
 ---
+# dev 프로파일 설정
 spring:
   profiles:
     active: dev
-  messages:
-    basename: message/messages
 
 ---
+# prod 프로파일 설정
 spring:
   profiles:
     active: prod
-  messages:
-    basename: message/messages

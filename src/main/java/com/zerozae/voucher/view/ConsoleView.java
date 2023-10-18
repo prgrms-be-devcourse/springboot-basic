@@ -1,6 +1,6 @@
 package com.zerozae.voucher.view;
 
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.validator.InputValidator;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +9,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 import static java.lang.System.out;
 
 @Component
 public class ConsoleView implements Input, Output{
 
     private final BufferedReader bufferedReader;
+
     public ConsoleView() {
         this.bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     }
@@ -25,15 +25,17 @@ public class ConsoleView implements Input, Output{
         try {
             return InputValidator.validateInputDiscount(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ExceptionHandler.err("입력을 읽을 때 오류가 발생했습니다");
-        } catch (ExceptionHandler e){
-            throw ExceptionHandler.err(e.getMessage());
+            throw ErrorMessage.error("입력을 읽을 때 오류가 발생했습니다");
+        } catch (ErrorMessage e){
+            throw ErrorMessage.error(e.getMessage());
         }
     }
+
     @Override
     public String inputCommand(){
         return checkInputStringAndGet();
     }
+
     @Override
     public String inputVoucherType(){
         return checkInputStringAndGet();
@@ -114,9 +116,9 @@ public class ConsoleView implements Input, Output{
         try {
             return InputValidator.validateInputString(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ExceptionHandler.err(getMessage("READ_INPUT_ERROR.MSG"));
-        } catch (ExceptionHandler e){
-            throw ExceptionHandler.err(e.getMessage());
+            throw ErrorMessage.error("입력을 읽을 때 오류가 발생했습니다");
+        } catch (ErrorMessage e){
+            throw ErrorMessage.error(e.getMessage());
         }
     }
 }

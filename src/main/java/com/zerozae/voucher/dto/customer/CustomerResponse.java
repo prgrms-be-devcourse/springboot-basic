@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode
 public class CustomerResponse {
+
     private String customerId;
     private String customerName;
     private CustomerType customerType;

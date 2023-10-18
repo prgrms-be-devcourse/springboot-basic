@@ -11,8 +11,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Profile("dev")
 @Repository
-public class MemoryVoucherRepository implements VoucherRepository{
+public class MemoryVoucherRepository implements VoucherRepository {
+
     private final Map<UUID, Voucher> vouchers;
+
     public MemoryVoucherRepository() {
         this.vouchers = new ConcurrentHashMap<>();
     }

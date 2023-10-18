@@ -1,7 +1,6 @@
 package com.zerozae.voucher.validator;
 
-import com.zerozae.voucher.common.message.MessageConverter;
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.context.MessageSource;
@@ -11,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class InputValidatorTest {
-
-    MessageConverter messageConverter = new MessageConverter(mock(MessageSource.class));
 
     @Test
     @DisplayName("숫자 입력 검증 시 숫자 입력 성공 테스트")
@@ -36,7 +33,7 @@ class InputValidatorTest {
         // When
 
         // Then
-        assertThrows(ExceptionHandler.class, () -> {
+        assertThrows(ErrorMessage.class, () -> {
             InputValidator.validateInputDiscount(validInput);
         });
     }
@@ -63,7 +60,7 @@ class InputValidatorTest {
         // When
 
         // Then
-        assertThrows(ExceptionHandler.class, () -> {
+        assertThrows(ErrorMessage.class, () -> {
             InputValidator.validateInputString(validInput);
         });
     }

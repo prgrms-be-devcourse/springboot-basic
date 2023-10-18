@@ -7,8 +7,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode
 public class VoucherResponse {
+
     private String voucherId;
     private long discount;
     private VoucherType voucherType;

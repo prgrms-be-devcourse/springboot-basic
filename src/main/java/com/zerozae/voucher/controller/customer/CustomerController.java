@@ -3,11 +3,12 @@ package com.zerozae.voucher.controller.customer;
 import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
-import com.zerozae.voucher.exception.ExceptionHandler;
+import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.springframework.stereotype.Controller;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
+import java.util.List;
+
 
 @Controller
 public class CustomerController {
@@ -19,25 +20,20 @@ public class CustomerController {
 
     public Response createCustomer(CustomerRequest customerRequest){
         try{
-            validateCustomerInfo(customerRequest);
             customerService.createCustomer(customerRequest);
-        }catch (ExceptionHandler e){
+        }catch (ErrorMessage e){
             return Response.failure(e.getMessage());
         }
         return Response.success();
     }
 
     public Response findAllCustomers(){
-        return Response.success(customerService.findAllCustomers().stream().map(CustomerResponse::getInfo).toList());
+        List<CustomerResponse> customers = customerService.findAllCustomers();
+        return Response.success(customers);
     }
 
     public Response findAllBlacklistCustomers(){
-        return Response.success(customerService.findAllBlacklistCustomer().stream().map(CustomerResponse::getInfo).toList());
-    }
-
-    private void validateCustomerInfo(CustomerRequest customerRequest) {
-        if(customerRequest.getCustomerName().isBlank()){
-            throw ExceptionHandler.err(getMessage("EMPTY_CUSTOMER_NAME.MSG"));
-        }
+        List<CustomerResponse> blacklistCustomer = customerService.findAllBlacklistCustomer();
+        return Response.success(blacklistCustomer);
     }
 }
