@@ -34,7 +34,7 @@ public class MenuHandler {
 
     private boolean validateMenu(Menu menu) {
         if (!menu.isExecutable()) {
-            throw new RuntimeException("Recursive..");
+            throw new RuntimeException("This menu is not executable.");
         }
 
         return true;
