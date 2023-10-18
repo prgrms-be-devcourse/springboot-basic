@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.voucher;
 
-import com.programmers.vouchermanagement.console.ConsoleManager;
+import com.programmers.vouchermanagement.consolecomponent.ConsoleManager;
 import org.springframework.stereotype.Controller;
 
 import java.util.Collections;
