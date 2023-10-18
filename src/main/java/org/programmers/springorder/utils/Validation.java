@@ -1,9 +1,11 @@
 package org.programmers.springorder.utils;
 
+import org.programmers.springorder.consts.ErrorMessage;
+
 public class Validation {
     public static String validateString(String input) {
         if(input == null || input.trim().isEmpty()) {
-            throw new VoucherException("값을 입력해주세요.");
+            throw new VoucherException(ErrorMessage.EMPTY_VALUE_MESSAGE);
         }
         return input;
     }
@@ -12,7 +14,7 @@ public class Validation {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new VoucherException("유효하지 않은 값입니다. 다시 입력해주세요.");
+            throw new VoucherException(ErrorMessage.INVALID_VALUE_MESSAGE);
         }
     }
 
@@ -20,7 +22,7 @@ public class Validation {
         try {
             return Long.parseLong(input);
         } catch (NumberFormatException e) {
-            throw new VoucherException("유효하지 않은 값입니다. 다시 입력해주세요.");
+            throw new VoucherException(ErrorMessage.INVALID_VALUE_MESSAGE);
         }
     }
 
