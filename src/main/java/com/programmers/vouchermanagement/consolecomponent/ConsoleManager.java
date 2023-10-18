@@ -1,4 +1,6 @@
-package com.programmers.vouchermanagement.console;
+package com.programmers.vouchermanagement.consolecomponent;
+
+import static com.programmers.vouchermanagement.consolecomponent.Menu.findSelectedMenu;
 
 import com.programmers.vouchermanagement.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.voucher.PercentVoucher;
@@ -36,9 +38,11 @@ public class ConsoleManager {
     }
 
     //TODO: validate input type is correct
-    public String selectMenu() {
-        return textIO.newStringInputReader()
+    public Menu selectMenu() {
+        String input = textIO.newStringInputReader()
                 .read(menuSelectionInstruction);
+
+        return findSelectedMenu(input);
     }
 
     public Voucher instructCreate() {
@@ -70,6 +74,11 @@ public class ConsoleManager {
 
     public void printExit() {
         textIO.getTextTerminal().println("System exits.");
+    }
+
+    public void printIncorrectMenu() {
+        textIO.getTextTerminal().println("Such input is incorrect.");
+        printExit();
     }
 
     public void printException(RuntimeException e) {
