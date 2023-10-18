@@ -22,7 +22,7 @@
         <appender-ref ref="CONSOLE"/>
     </root>
 
-    <logger name="com.zerozae" level="ERROR">
+    <logger name="com.zerozae" level="DEBUG">
         <appender-ref ref="ERROR_LOG_FILE_ROLLING"/>
     </logger>
 </configuration>

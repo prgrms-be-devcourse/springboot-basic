@@ -13,8 +13,6 @@ import java.util.List;
 @Controller
 public class VoucherController {
 
-    private static final long ZERO = 0;
-
     private final VoucherService voucherService;
 
     public VoucherController(VoucherService voucherService) {

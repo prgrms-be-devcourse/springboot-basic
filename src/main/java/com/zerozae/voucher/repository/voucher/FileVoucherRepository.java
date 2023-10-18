@@ -29,7 +29,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private static final String FILE_PATH = System.getProperty("user.home") + "/voucher.csv";
     private static final String DELIMITER = ",";
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final Map<UUID, Voucher> vouchers;
 
     public FileVoucherRepository() {
@@ -45,7 +44,6 @@ public class FileVoucherRepository implements VoucherRepository {
             String voucherInfo = getVoucherInfo(voucher) + System.lineSeparator();
             Files.writeString(Path.of(FILE_PATH), voucherInfo, StandardOpenOption.APPEND);
         } catch (IOException e) {
-            logger.warn("Error Message ={}", e.getMessage());
             throw ErrorMessage.error("파일에 쓰기 중 문제가 발생했습니다.");
         }
         return voucher;
@@ -75,7 +73,6 @@ public class FileVoucherRepository implements VoucherRepository {
                 loadedVouchers.put(voucherId, voucher);
             }
         } catch (IOException e) {
-            logger.warn("Error Message ={}", e.getMessage());
             throw ErrorMessage.error("파일을 읽어오던 중 문제가 발생했습니다.");
         }
         return loadedVouchers;
@@ -96,7 +93,6 @@ public class FileVoucherRepository implements VoucherRepository {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                logger.warn("Error Message ={}", e.getMessage());
                 throw ErrorMessage.error("파일 생성 중 문제가 발생했습니다.");
             }
         }

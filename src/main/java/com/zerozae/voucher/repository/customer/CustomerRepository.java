@@ -24,7 +24,6 @@ public class CustomerRepository {
 
     private static final String FILE_PATH = System.getProperty("user.home") + "/customer_blacklist.csv";
     private static final String DELIMITER = ",";
-    private static final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final Map<UUID, Customer> customers;
 
     public CustomerRepository() {
@@ -39,7 +38,6 @@ public class CustomerRepository {
                 String voucherInfo = getCustomerInfo(customer) + System.lineSeparator();
                 Files.writeString(Path.of(FILE_PATH), voucherInfo, StandardOpenOption.APPEND);
             }catch (IOException e) {
-                logger.warn("Error Message = {}", e.getMessage());
                 throw ErrorMessage.error("파일에 쓰기 중 문제가 발생했습니다.");
             }
         }
@@ -67,7 +65,6 @@ public class CustomerRepository {
                 loadedBlacklist.put(customerId, customer);
             }
         } catch (IOException e) {
-            logger.warn("Error Message = {}", e.getMessage());
             throw ErrorMessage.error("파일을 읽어오던 중 문제가 발생했습니다.");
         }
         return loadedBlacklist;
@@ -87,7 +84,6 @@ public class CustomerRepository {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                logger.warn("Error Message = {}", e.getMessage());
                 throw ErrorMessage.error("파일 생성 중 문제가 발생했습니다.");
             }
         }
