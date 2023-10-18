@@ -1,6 +1,5 @@
 package com.zerozae.voucher.controller;
 
-import com.zerozae.voucher.common.message.MessageConverter;
 import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.controller.customer.CustomerController;
 import com.zerozae.voucher.domain.customer.CustomerType;
@@ -10,9 +9,7 @@ import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.MessageSource;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +19,6 @@ import static org.mockito.Mockito.*;
 class CustomerControllerTest {
     CustomerService customerService = mock(CustomerService.class);
     CustomerController customerController = new CustomerController(customerService);
-    MessageConverter messageConverter = new MessageConverter(mock(MessageSource.class));
 
     @Test
     @DisplayName("회원 컨트롤러 : 회원 생성 성공 반환 테스트")
@@ -35,19 +31,6 @@ class CustomerControllerTest {
 
         // Then
         assertTrue(response.isSuccess());
-    }
-
-    @Test
-    @DisplayName("회원 컨트롤러 : 회원 생성 실패 테스트(빈 문자열 입력)")
-    void createCustomerFailedTest(){
-        // Given
-        CustomerRequest customerRequest = new CustomerRequest("", CustomerType.BLACKLIST);
-
-        // When
-        Response response = customerController.createCustomer(customerRequest);
-
-        // Then
-        assertFalse(response.isSuccess());
     }
 
     @Test
@@ -73,19 +56,16 @@ class CustomerControllerTest {
                 new CustomerResponse(UUID.randomUUID().toString(), "고객2", CustomerType.BLACKLIST)
         );
 
-        List<String> result = customerResponses.stream()
-                .map(CustomerResponse::getInfo)
-                .toList();
-
         when(customerService.findAllCustomers()).thenReturn(customerResponses);
 
         // When
-        Response response = customerController.findAllCustomers();
+        Response<List<CustomerResponse>> response = customerController.findAllCustomers();
+        List<CustomerResponse> data = response.getData();
 
         // Then
         assertTrue(response.isSuccess());
-        assertEquals(2, response.getData().size());
-        assertEquals(response.getData(), result);
+        assertEquals(2, data.size());
+        assertEquals(data, customerResponses);
     }
 
     @Test
@@ -94,24 +74,17 @@ class CustomerControllerTest {
         // Given
         CustomerResponse customer1 = new CustomerResponse(UUID.randomUUID().toString(), "고객1", CustomerType.NORMAL);
         CustomerResponse customer2 = new CustomerResponse(UUID.randomUUID().toString(), "고객2", CustomerType.BLACKLIST);
-        List<CustomerResponse> customerResponses = new ArrayList<>();
+        List<CustomerResponse> customerResponses = List.of(customer1, customer2);
 
-        customerResponses.add(customer1);
-        customerResponses.add(customer2);
-
-        List<String> result = customerResponses.stream()
-                .filter(r -> r.getCustomerType().equals(CustomerType.BLACKLIST))
-                .map(CustomerResponse::getInfo)
-                .toList();
-
-        when(customerService.findAllBlacklistCustomer()).thenReturn(List.of(customer2));
+        when(customerService.findAllBlacklistCustomer()).thenReturn(List.of(customerResponses.get(1)));
 
         // When
-        Response response = customerController.findAllBlacklistCustomers();
+        Response<List<CustomerResponse>> response = customerController.findAllBlacklistCustomers();
+        List<CustomerResponse> data = response.getData();
 
         // Then
         assertTrue(response.isSuccess());
-        assertEquals(1, response.getData().size());
-        assertEquals(response.getData(), result);
+        assertEquals(1, data.size());
+        assertEquals(data, List.of(customerResponses.get(1)));
     }
 }

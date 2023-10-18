@@ -1,6 +1,5 @@
 package com.zerozae.voucher.service;
 
-import com.zerozae.voucher.common.message.MessageConverter;
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
@@ -10,7 +9,6 @@ import com.zerozae.voucher.repository.customer.CustomerRepository;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.MessageSource;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +19,6 @@ import static org.mockito.Mockito.*;
 class CustomerServiceTest {
     CustomerRepository customerRepository = mock(CustomerRepository.class);
     CustomerService customerService = new CustomerService(customerRepository);
-    MessageConverter messageConverter = new MessageConverter(mock(MessageSource.class));
 
     @Test
     @DisplayName("회원 등록 메서드 호출 테스트")
