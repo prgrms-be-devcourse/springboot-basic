@@ -1,0 +1,16 @@
+file:
+  path:
+    blacklist: "src/main/resources/blacklist.csv"
+    voucher_data: "src/main/resources/voucher_data.json"
+---
+spring:
+  profiles:
+    active: "dev"
+---
+spring:
+  profiles:
+    active: "local"
+---
+spring:
+  profiles:
+    active: "debug"

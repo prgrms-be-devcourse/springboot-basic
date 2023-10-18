@@ -47,7 +47,6 @@ public class VoucherApplication {
             }
         } catch (IllegalArgumentException e) {
             console.printError(e);
-            e.printStackTrace();
         }
 
         runCommand();

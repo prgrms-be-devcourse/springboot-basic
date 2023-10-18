@@ -12,7 +12,7 @@ public class VoucherManagementSystemApplication {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(VoucherManagementSystemApplication.class, args);
 
-		logger.info("Program start");
+		logger.info("Program start " + context.getEnvironment().getActiveProfiles()[0]);
 
 		VoucherApplication application = context.getBean(VoucherApplication.class);
 		application.run();
