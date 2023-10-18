@@ -21,15 +21,21 @@ public class VoucherApplication {
 
     public void run() {
         console.printCommandManual();
-        String input = console.readString();
 
         try {
+            String input = console.readString();
             CommandType commandType = CommandType.getCommandType(input);
             runCommand(commandType);
-        } catch (Exception e) {
-            console.printError(e);
+        } catch (IllegalArgumentException iae) {
+            console.printError(iae);
             run();
+        } catch (Exception e) {
+            logger.error(e.toString());
+            console.print("프로그램에 에러가 발생했습니다.");
+            close();
         }
+
+
     }
 
     public void runCommand(CommandType commandType) {

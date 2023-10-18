@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 @Component
 public class Console {
@@ -23,6 +24,10 @@ public class Console {
         System.out.print("> ");
         String input = readLine();
         System.out.println();
+
+        if (Objects.isNull(input)) {
+            throw new RuntimeException("입력 과정에서 오류가 발생했습니다.");
+        }
 
         return input;
     }
