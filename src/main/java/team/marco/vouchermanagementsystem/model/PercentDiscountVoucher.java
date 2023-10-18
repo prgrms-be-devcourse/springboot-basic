@@ -1,11 +1,15 @@
 package team.marco.vouchermanagementsystem.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.MessageFormat;
 import java.util.UUID;
 
 import static java.text.MessageFormat.*;
 
 public class PercentDiscountVoucher implements Voucher {
+    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private final UUID id;
     private final int percent;
 
@@ -14,6 +18,8 @@ public class PercentDiscountVoucher implements Voucher {
 
         this.id = UUID.randomUUID();
         this.percent = percent;
+
+        logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", id, percent);
     }
 
     private void checkValidation(int percent) {

@@ -1,10 +1,15 @@
 package team.marco.vouchermanagementsystem.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import team.marco.vouchermanagementsystem.service.VoucherService;
+
 import java.util.UUID;
 
 import static java.text.MessageFormat.format;
 
 public class FixedAmountVoucher implements Voucher {
+    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private final UUID id;
     private final int amount;
 
@@ -15,6 +20,8 @@ public class FixedAmountVoucher implements Voucher {
 
         this.id = UUID.randomUUID();
         this.amount = amount;
+
+        logger.debug("Create FixedAmountVoucher {id: {}, amount: {}}", id, amount);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package team.marco.vouchermanagementsystem.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import team.marco.vouchermanagementsystem.repository.VoucherRepository;
 import team.marco.vouchermanagementsystem.model.FixedAmountVoucher;
