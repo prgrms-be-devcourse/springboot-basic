@@ -15,8 +15,9 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher createVoucher(Voucher voucher){
-        return voucherRepository.createVoucher(voucher);
+    public VoucherResponse createVoucher(Voucher voucher){
+        Voucher createVoucher = voucherRepository.createVoucher(voucher);
+        return new VoucherResponse(createVoucher);
     }
 
     public List<VoucherResponse> getVoucherList(){
