@@ -20,4 +20,8 @@ public abstract class Voucher {
     public PercentDiscountVoucher getPercentDiscountVoucher(UUID id, Integer discount){
         return new PercentDiscountVoucher(id, discount);
     }
+
+    public UUID getId() {
+        return id;
+    }
 }
