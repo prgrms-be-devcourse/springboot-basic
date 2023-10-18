@@ -81,8 +81,9 @@ public class ConsoleManager {
         printExit();
     }
 
+    //TODO: add exception handling method externally
     public void printException(RuntimeException e) {
         logger.error(e.getMessage());
-        System.out.println(e.getMessage());
+        textIO.getTextTerminal().println(e.getMessage());
     }
 }
