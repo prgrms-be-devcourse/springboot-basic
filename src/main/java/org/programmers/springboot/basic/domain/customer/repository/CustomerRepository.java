@@ -32,7 +32,6 @@ public class CustomerRepository {
         this.customerMapper = customerMapper;
         this.fileProperties = fileProperties;
         String filePath = getFilePath();
-        System.out.println("filePath: " + filePath);
         FILE = new File(filePath);
     }
 
@@ -78,7 +77,6 @@ public class CustomerRepository {
             folderPath = this.fileProperties.getProjDir();
             resourcePath = this.fileProperties.getResources().getJar();
             filePath =  folderPath + resourcePath + fileName;
-            System.out.println("filePath: " + filePath);
         }
 
         return filePath;
