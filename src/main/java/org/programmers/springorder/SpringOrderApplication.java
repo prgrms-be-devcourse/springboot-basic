@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.logging.logback.LogbackLoggingSystem;
 
 @SpringBootApplication
 public class SpringOrderApplication {
@@ -12,8 +11,7 @@ public class SpringOrderApplication {
 
 	public static void main(String[] args) {
 		log.info("Voucher 관리 애플리케이션 구동");
-		SpringApplication.run(SpringOrderApplication.class, args);
-		// TODO: EXIT 버튼 누를 시 종료될 수 있게 만들기
+		SpringApplication.run(SpringOrderApplication.class, args).close();
 	}
 
 }
