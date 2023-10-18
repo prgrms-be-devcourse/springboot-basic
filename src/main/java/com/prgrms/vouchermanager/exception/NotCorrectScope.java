@@ -1,7 +1,10 @@
 package com.prgrms.vouchermanager.exception;
 
+import com.prgrms.vouchermanager.message.ConsoleMessage;
+
 public class NotCorrectScope extends Exception {
     public NotCorrectScope() {
-        super("Percent range is incorrect.\n");
+        super(ConsoleMessage.NOT_CORRECT_SCOPE.getMessage());
     }
+
 }

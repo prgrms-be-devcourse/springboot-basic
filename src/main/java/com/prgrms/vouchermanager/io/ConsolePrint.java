@@ -22,8 +22,8 @@ public class ConsolePrint {
 
     public Command run() {
         System.out.println(ConsoleMessage.SELECT_FUNCTION.getMessage());
-
-            switch (sc.nextLine()) {
+        String command = sc.nextLine();
+            switch (command) {
                 case "create" -> {
                     log.info(LogMessage.SELECT_CREATE.getMessage());
 

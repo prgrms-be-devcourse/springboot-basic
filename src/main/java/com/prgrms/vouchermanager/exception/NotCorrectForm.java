@@ -1,7 +1,10 @@
 package com.prgrms.vouchermanager.exception;
 
+import com.prgrms.vouchermanager.message.ConsoleMessage;
+
 public class NotCorrectForm extends Exception {
     public NotCorrectForm() {
-        super("The input format is correctly.");
+        super(ConsoleMessage.NOT_CORRECT_FORM.getMessage());
     }
+
 }
