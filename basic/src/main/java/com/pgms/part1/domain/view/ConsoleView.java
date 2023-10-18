@@ -3,9 +3,12 @@ package com.pgms.part1.domain.view;
 
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherMenuRequestDto;
+import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class ConsoleView {
@@ -37,5 +40,13 @@ public class ConsoleView {
                         """);
 
         return new VoucherCreateRequestDto(command, discount);
+    }
+
+    public void listVoucher(List<VoucherResponseDto> voucherResponseDtos){
+        System.out.println(" === Voucher List ===");
+        voucherResponseDtos.stream().forEach(v ->
+            System.out.println("ID. " + v.id() + "  Voucher Type. "
+                    + v.voucherDiscountType().getDiscountType() + "  " + v.voucherDiscountType().getCalculateType() + ". " + v.discount())
+        );
     }
 }

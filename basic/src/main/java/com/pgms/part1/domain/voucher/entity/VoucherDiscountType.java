@@ -11,4 +11,12 @@ public enum VoucherDiscountType {
         this.discountType = discountType;
         this.calculateType = calculateType;
     }
+
+    public String getDiscountType() {
+        return discountType;
+    }
+
+    public String getCalculateType() {
+        return calculateType;
+    }
 }

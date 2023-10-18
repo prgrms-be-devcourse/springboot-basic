@@ -24,4 +24,12 @@ public abstract class Voucher {
     public UUID getId() {
         return id;
     }
+
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public VoucherDiscountType getVoucherDiscountType() {
+        return voucherDiscountType;
+    }
 }

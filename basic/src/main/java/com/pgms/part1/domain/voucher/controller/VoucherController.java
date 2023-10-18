@@ -3,8 +3,13 @@ package com.pgms.part1.domain.voucher.controller;
 import com.pgms.part1.domain.view.ConsoleView;
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherMenuRequestDto;
+import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
+import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class VoucherController {
@@ -37,7 +42,13 @@ public class VoucherController {
     }
 
     public void listVoucher(){
-        voucherService.listVoucher();
+        List<Voucher> vouchers = voucherService.listVoucher();
+        List<VoucherResponseDto> voucherResponseDtos =
+                vouchers.stream().map(v -> new VoucherResponseDto(v.getId(), v.getDiscount(), v.getVoucherDiscountType()))
+                        .collect(Collectors.toList());
+
+        consoleView.listVoucher(voucherResponseDtos);
+        init();
     }
 
     public void exitVoucher(){
