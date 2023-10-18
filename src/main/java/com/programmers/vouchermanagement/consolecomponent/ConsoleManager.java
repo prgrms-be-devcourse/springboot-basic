@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.consolecomponent;
 import com.programmers.vouchermanagement.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.voucher.PercentVoucher;
 import com.programmers.vouchermanagement.voucher.Voucher;
+
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
@@ -25,7 +26,6 @@ public class ConsoleManager {
         this.logger = logger;
     }
 
-    //TODO: validate input type is correct
     public Menu selectMenu() {
         String input = textIO.newStringInputReader()
                 .read(MENU_SELECTION_INSTRUCTION);
@@ -37,7 +37,7 @@ public class ConsoleManager {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
 
-        //TODO: refactor order of inputs obtaining
+        //TODO: refactor order of inputs obtaining + error handling
         long discountAmount = textIO.newLongInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
 
@@ -69,7 +69,6 @@ public class ConsoleManager {
 
     public void printIncorrectMenu() {
         textIO.getTextTerminal().println(INCORRECT_INPUT_MESSAGE);
-        printExit();
     }
 
     //TODO: add exception handling method externally

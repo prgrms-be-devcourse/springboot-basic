@@ -34,7 +34,7 @@ public class MenuHandler {
     }
 
     private boolean validateMenu(Menu menu) {
-        if (!menu.isExecutable()) {
+        if (menu.isExit()) {
             throw new RuntimeException(INEXECUTABLE_MESSAGE);
         }
 
