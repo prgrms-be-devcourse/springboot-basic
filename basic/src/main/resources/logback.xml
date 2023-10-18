@@ -8,9 +8,8 @@
     </appender>
 
     <appender name = "FILE" class = "ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/basic.log</file>
         <rollingPolicy class = "ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/basic-%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>logs/basic-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
