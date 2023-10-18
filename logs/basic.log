@@ -1,0 +1,10 @@
+18:48:03.443 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Menu Command Input
+18:48:37.128 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Create Input
+18:49:24.645 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Create Input
+18:49:27.778 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Create Input
+18:58:19.445 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 10199 (/Users/kyunghunkim/devcourse/springboot-basic/basic/out/production/classes started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+18:58:19.447 [main] INFO  com.pgms.part1.DemoApplication - No active profile set, falling back to 1 default profile: "default"
+18:58:19.649 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.364 seconds (process running for 0.834)
+18:58:35.268 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Create Input
+18:58:41.120 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Create Input
+18:58:43.377 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher fd78d7ed-bf96-4bed-8642-87b264e4a98a added
