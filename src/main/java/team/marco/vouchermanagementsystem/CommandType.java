@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 
 public enum CommandType {
-    CREATE, LIST, EXIT;
+    CREATE, LIST, EXIT, BLACKLIST;
 
     public static CommandType getCommandType(String input) {
         return Arrays.stream(CommandType.values())

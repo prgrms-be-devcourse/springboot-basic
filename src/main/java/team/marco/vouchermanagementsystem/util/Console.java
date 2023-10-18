@@ -17,6 +17,7 @@ public class Console {
                 exit: 프로그램 종료
                 create: 쿠폰 생성
                 list: 쿠폰 목록 조회
+                blacklist: 블랙 리스트 유저 조회
                 """);
     }
 

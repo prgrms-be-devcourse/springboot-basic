@@ -40,15 +40,24 @@ public class VoucherApplication {
             switch (commandType) {
                 case CREATE -> createVoucher();
                 case LIST -> getVoucherList();
+                case BLACKLIST -> getBlacklistUsers();
                 case EXIT -> {
                     return;
                 }
             }
         } catch (IllegalArgumentException e) {
             console.printError(e);
+            e.printStackTrace();
         }
 
         runCommand();
+    }
+
+    private void getBlacklistUsers() {
+        logger.info("Call getBlackListUsers()");
+
+        String blacklistUsers = String.join(INFO_DELIMINATOR, voucherService.getBlacklistUsers());
+        console.print(blacklistUsers);
     }
 
     private void createVoucher() {
