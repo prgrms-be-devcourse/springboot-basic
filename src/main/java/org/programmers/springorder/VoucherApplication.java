@@ -1,8 +1,7 @@
 package org.programmers.springorder;
 
 import org.programmers.springorder.console.Console;
-import org.programmers.springorder.dto.VoucherRequestDto;
-import org.programmers.springorder.service.VoucherService;
+import org.programmers.springorder.controller.VoucherController;
 import org.programmers.springorder.utils.MenuType;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -11,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class VoucherApplication implements CommandLineRunner {
 
     private final Console console;
-    private final VoucherService voucherService;
+    private final VoucherController voucherController;
 
-    public VoucherApplication(VoucherService voucherService) {
-        this.voucherService = voucherService;
-        this.console = new Console();
+    public VoucherApplication(Console console, VoucherController voucherController) {
+        this.console = console;
+        this.voucherController = voucherController;
     }
 
     @Override
@@ -26,20 +25,14 @@ public class VoucherApplication implements CommandLineRunner {
             MenuType menu = console.inputMenu();
 
             switch (menu) {
-                case EXIT -> isRunning = false;
-                case CREATE -> createVoucher();
-                case LIST -> getVoucherList();
+                case EXIT -> {
+                    isRunning = false;
+                    console.printMessage("프로그램이 종료되었습니다.");
+                }
+                case CREATE -> voucherController.createVoucher();
+                case LIST -> voucherController.getVoucherList();
             }
         }
     }
 
-    private void getVoucherList() {
-        console.showList(voucherService.getAllVoucher());
-    }
-
-    private void createVoucher() {
-        VoucherRequestDto request = console.inputVoucherInfo();
-        voucherService.save(request);
-        console.printMessage("바우처가 등록되었습니다.");
-    }
 }
