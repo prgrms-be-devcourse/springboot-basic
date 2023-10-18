@@ -5,11 +5,13 @@ import org.programmers.springorder.dto.VoucherResponseDto;
 import org.programmers.springorder.model.VoucherType;
 import org.programmers.springorder.utils.MenuType;
 import org.programmers.springorder.utils.Validation;
+import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Scanner;
 
+@Component
 public class Console {
 
     private final Scanner scanner = new Scanner(System.in);
