@@ -3,10 +3,9 @@ package team.marco.vouchermanagementsystem.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.MessageFormat;
 import java.util.UUID;
 
-import static java.text.MessageFormat.*;
+import static java.text.MessageFormat.format;
 
 public class PercentDiscountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
@@ -20,6 +19,11 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
 
         logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", id, percent);
+    }
+
+    public PercentDiscountVoucher(UUID id, int percent) {
+        this.id = id;
+        this.percent = percent;
     }
 
     private void checkValidation(int percent) {
@@ -40,5 +44,15 @@ public class PercentDiscountVoucher implements Voucher {
     @Override
     public String getInfo() {
         return format("{0}% 할인 쿠폰", percent);
+    }
+
+    @Override
+    public int getData() {
+        return percent;
+    }
+
+    @Override
+    public VoucherType getType() {
+        return VoucherType.PERCENT;
     }
 }

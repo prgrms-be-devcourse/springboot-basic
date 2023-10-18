@@ -4,5 +4,10 @@ import java.util.UUID;
 
 public interface Voucher {
     UUID getId();
+
     String getInfo();
+
+    int getData();
+
+    VoucherType getType();
 }
