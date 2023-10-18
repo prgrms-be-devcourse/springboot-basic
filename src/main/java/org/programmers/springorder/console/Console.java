@@ -16,9 +16,9 @@ public class Console {
 
     private static final String MENU_SELECT_MESSAGE = """
             === Voucher Program ===
-            Type exit to exit the program.
-            Type create to create a new voucher.
-            Type list to list all vouchers.
+            1. Exit the program.
+            2. Create a new voucher.
+            3. List all vouchers.
             """;
 
     private static final String VOUCHER_SELECT_MESSAGE = """
@@ -45,8 +45,8 @@ public class Console {
         printMessage(MENU_SELECT_MESSAGE);
         printPrompt();
 
-        String menuName = scanner.nextLine();
-        return MenuType.selectMenu(menuName); // TODO: Console Validation
+        String menuNum = Validation.validateString(scanner.nextLine());
+        return MenuType.selectMenu(menuNum); // TODO: Console Validation
     }
 
     private VoucherType inputVoucherType() {
