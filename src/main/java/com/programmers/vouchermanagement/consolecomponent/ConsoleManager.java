@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.programmers.vouchermanagement.consolecomponent.Menu.findSelectedMenu;
-import static com.programmers.vouchermanagement.constant.message.ResultMessage.*;
 import static com.programmers.vouchermanagement.constant.message.ExceptionMessage.INVALID_VOUCHER_TYPE_MESSAGE;
 import static com.programmers.vouchermanagement.constant.message.Instruction.*;
+import static com.programmers.vouchermanagement.constant.message.ResultMessage.*;
 
 @Component
 public class ConsoleManager {
@@ -53,6 +53,10 @@ public class ConsoleManager {
 
             default -> throw new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE);
         }
+    }
+
+    public void printCreateResult(Voucher voucher) {
+        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucher.getVoucherId()));
     }
 
     public void printReadAll(List<Voucher> vouchers) {

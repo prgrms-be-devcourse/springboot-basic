@@ -47,7 +47,8 @@ public class MenuHandler {
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
                 Voucher voucher = consoleManager.instructCreate();
-                voucherController.create(voucher);
+                voucher = voucherController.create(voucher);
+                consoleManager.printCreateResult(voucher);
             }
             case LIST -> {
                 List<Voucher> vouchers = voucherController.readAllVouchers();
