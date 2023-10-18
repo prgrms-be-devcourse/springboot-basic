@@ -12,7 +12,9 @@ public class Instruction {
             Type **fixed** to create a fixed amount voucher.
             Type **percent** to create a percent discount voucher.
             """;
+
+    //TODO: consider line separator as new line command may differ for every OS
     public static final String VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION =
-            "Please type the amount/percent of discount of the voucher.";
+            "Please type the amount/percent of discount of the voucher.\n";
 
 }
