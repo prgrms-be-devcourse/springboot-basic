@@ -1,0 +1,4 @@
+id, discount value, voucher type
+96d02c0a-1a58-4191-93d4-2cee987886f1, 6, PERCENT_DISCOUNT
+df5dbaa0-d748-4d04-9138-89a9fa911450, 10000, FIXED_AMOUNT
+63feab9e-36ed-474a-92f8-1ade4ffb7788, 30, PERCENT_DISCOUNT
