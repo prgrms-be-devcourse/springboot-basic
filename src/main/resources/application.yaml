@@ -11,4 +11,4 @@ file:
   resources:
     path: /src/main/resources/
     test-path: /src/test/resources/
-    jar: build/resources/main/
+    jar: /build/resources/main/
