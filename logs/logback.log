@@ -1,1 +1,38 @@
-
+[2023-10-17 13:12:14:454][main] INFO  o.p.v.JdbcCustomerRepository - select * from customers
+[2023-10-17 13:12:14:473][main] ERROR o.p.v.JdbcCustomerRepository - Error
+[2023-10-17 13:12:59:341][main] INFO  o.p.v.JdbcCustomerRepository - select * from customers
+[2023-10-17 13:12:59:345][main] ERROR o.p.v.JdbcCustomerRepository - Error : No suitable driver found for jdbc:mysql//localhost/order_mgmt
+[2023-10-17 13:13:21:374][main] INFO  o.p.v.JdbcCustomerRepository - select * from customers
+[2023-10-17 13:13:21:378][main] ERROR o.p.v.JdbcCustomerRepository - Error : No suitable driver found for jdbc:mysql://localhost/order_mgmt
+[2023-10-17 13:13:35:337][main] INFO  o.p.v.JdbcCustomerRepository - select * from customers
+[2023-10-17 13:13:35:343][main] ERROR o.p.v.JdbcCustomerRepository - Error : No suitable driver found for jdbc:mysql://localhost/order_mgmt
+[2023-10-17 13:16:54:538][main] INFO  o.p.v.JdbcCustomerRepository - select * from customers
+[2023-10-17 13:16:55:1380][main] INFO  o.p.v.JdbcCustomerRepository - customer's name = tester00, ID = 052ccf31-2333-3067-9e91-8e49a1d5c9cb, createdAt = 2023-10-17T11:27:46
+[2023-10-17 13:16:55:1382][main] INFO  o.p.v.JdbcCustomerRepository - customer's name = tester01, ID = b8b6c28a-ee56-3c10-b368-7647ae0ec1b8, createdAt = 2023-10-17T11:27:46
+[2023-10-17 13:16:55:1382][main] INFO  o.p.v.JdbcCustomerRepository - customer's name = tester02, ID = 7f23b121-9294-3596-a99c-80c7dbc2c355, createdAt = 2023-10-17T11:27:46
+[2023-10-17 13:16:55:1382][main] INFO  o.p.v.JdbcCustomerRepository - name : tester01
+[2023-10-17 21:37:03:850][main] ERROR o.p.v.JdbcCustomerRepository - Got error while closing connection
+java.sql.SQLException: Access denied for user 'root'@'localhost' (using password: YES)
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ConnectionImpl.createNewIO(ConnectionImpl.java:825)
+	at com.mysql.cj.jdbc.ConnectionImpl.<init>(ConnectionImpl.java:446)
+	at com.mysql.cj.jdbc.ConnectionImpl.getInstance(ConnectionImpl.java:239)
+	at com.mysql.cj.jdbc.NonRegisteringDriver.connect(NonRegisteringDriver.java:188)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at org.prgrms.vouchermanager.JdbcCustomerRepository.findNames(JdbcCustomerRepository.java:17)
+	at org.prgrms.vouchermanager.JdbcCustomerRepository.main(JdbcCustomerRepository.java:37)
+[2023-10-17 21:37:19:749][main] INFO  o.p.v.JdbcCustomerRepository - statement -> com.mysql.cj.jdbc.ClientPreparedStatement: select * from customers WHERE name = 'tester01'
+[2023-10-17 21:37:19:771][main] INFO  o.p.v.JdbcCustomerRepository - name : tester01
+[2023-10-17 21:38:04:738][main] INFO  o.p.v.JdbcCustomerRepository - statement -> com.mysql.cj.jdbc.ClientPreparedStatement: select * from customers WHERE name = 'tester01' OR name = ** NOT SPECIFIED **
+[2023-10-17 21:38:04:747][main] ERROR o.p.v.JdbcCustomerRepository - Got error while closing connection
+java.sql.SQLException: No value specified for parameter 2
+	at com.mysql.cj.jdbc.exceptions.SQLError.createSQLException(SQLError.java:130)
+	at com.mysql.cj.jdbc.exceptions.SQLExceptionsMapping.translateException(SQLExceptionsMapping.java:122)
+	at com.mysql.cj.jdbc.ClientPreparedStatement.executeQuery(ClientPreparedStatement.java:989)
+	at org.prgrms.vouchermanager.JdbcCustomerRepository.findNames(JdbcCustomerRepository.java:22)
+	at org.prgrms.vouchermanager.JdbcCustomerRepository.main(JdbcCustomerRepository.java:37)
+[2023-10-17 21:39:39:879][main] INFO  o.p.v.JdbcCustomerRepository - statement -> com.mysql.cj.jdbc.ClientPreparedStatement: select * from customers WHERE name = 'tester01' OR name = 'tester02'
+[2023-10-17 21:39:39:905][main] INFO  o.p.v.JdbcCustomerRepository - name : tester01
+[2023-10-17 21:39:39:905][main] INFO  o.p.v.JdbcCustomerRepository - name : tester02

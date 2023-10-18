@@ -30,7 +30,7 @@
     </appender>
 
 
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="DAILY_ROLLING_FILE_APPENDER" />
     </root>
