@@ -38,6 +38,7 @@ public class VoucherController {
             case "1" : voucherService.createFixedAmountVoucher(voucherCreateRequestDto);
             case "2" : voucherService.createPercentDiscountVoucher(voucherCreateRequestDto);
         }
+
         init();
     }
 
@@ -52,6 +53,6 @@ public class VoucherController {
     }
 
     public void exitVoucher(){
-
+        System.exit(0);
     }
 }
