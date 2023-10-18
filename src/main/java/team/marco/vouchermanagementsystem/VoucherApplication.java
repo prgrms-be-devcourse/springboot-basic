@@ -20,36 +20,35 @@ public class VoucherApplication {
     }
 
     public void run() {
-        console.printCommandManual();
-
         try {
-            String input = console.readString();
-            CommandType commandType = CommandType.getCommandType(input);
-            runCommand(commandType);
-        } catch (IllegalArgumentException iae) {
-            console.printError(iae);
-            run();
+            runCommand();
         } catch (Exception e) {
             logger.error(e.toString());
             console.print("프로그램에 에러가 발생했습니다.");
-            close();
         }
 
-
+        close();
     }
 
-    public void runCommand(CommandType commandType) {
-        switch (commandType) {
-            case CREATE -> createVoucher();
-            case LIST -> getVoucherList();
-            case EXIT -> {
-                close();
+    public void runCommand() {
+        console.printCommandManual();
+        String input = console.readString();
 
-                return;
+        try {
+            CommandType commandType = CommandType.getCommandType(input);
+
+            switch (commandType) {
+                case CREATE -> createVoucher();
+                case LIST -> getVoucherList();
+                case EXIT -> {
+                    return;
+                }
             }
+        } catch (IllegalArgumentException e) {
+            console.printError(e);
         }
 
-        run();
+        runCommand();
     }
 
     private void createVoucher() {
