@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 import static java.lang.System.out;
 
 @Component
@@ -117,7 +116,7 @@ public class ConsoleView implements Input, Output{
         try {
             return InputValidator.validateInputString(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ErrorMessage.error(getMessage("READ_INPUT_ERROR.MSG"));
+            throw ErrorMessage.error("입력을 읽을 때 오류가 발생했습니다");
         } catch (ErrorMessage e){
             throw ErrorMessage.error(e.getMessage());
         }

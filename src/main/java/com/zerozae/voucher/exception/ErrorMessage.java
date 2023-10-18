@@ -1,6 +1,7 @@
 package com.zerozae.voucher.exception;
 
 public class ErrorMessage extends RuntimeException{
+
     public ErrorMessage(String message) {
         super(message);
     }

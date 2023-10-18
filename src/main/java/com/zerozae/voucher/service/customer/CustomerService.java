@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class CustomerService {
     public CustomerResponse createCustomer(CustomerRequest customerRequest){
         try{
             validateDuplicateCustomer(customerRequest);
-            Customer customer = new Customer(UUID.randomUUID(), customerRequest.getCustomerName(), customerRequest.getCustomerType());
+            Customer customer = customerRequest.of(UUID.randomUUID());
             customerRepository.save(customer);
             return CustomerResponse.toDto(customer);
         }catch (ErrorMessage e){
@@ -54,7 +53,7 @@ public class CustomerService {
                 .findAny();
 
         if(findCustomer.isPresent()){
-            throw ErrorMessage.error(getMessage("DUPLICATE_CUSTOMER_ERROR.MSG"));
+            throw ErrorMessage.error("이미 존재하는 회원입니다.");
         }
     }
 }

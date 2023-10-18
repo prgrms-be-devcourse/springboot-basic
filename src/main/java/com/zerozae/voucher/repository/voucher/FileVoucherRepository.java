@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 
 @Profile("prod")
 @Repository
@@ -46,8 +45,8 @@ public class FileVoucherRepository implements VoucherRepository {
             String voucherInfo = getVoucherInfo(voucher) + System.lineSeparator();
             Files.writeString(Path.of(FILE_PATH), voucherInfo, StandardOpenOption.APPEND);
         } catch (IOException e) {
-            logger.error("Error Message ={}", e.getMessage());
-            throw ErrorMessage.error(getMessage("WRITE_FILE_ERROR.MSG"));
+            logger.warn("Error Message ={}", e.getMessage());
+            throw ErrorMessage.error("파일에 쓰기 중 문제가 발생했습니다.");
         }
         return voucher;
     }
@@ -76,8 +75,8 @@ public class FileVoucherRepository implements VoucherRepository {
                 loadedVouchers.put(voucherId, voucher);
             }
         } catch (IOException e) {
-            logger.error("Error Message ={}", e.getMessage());
-            throw ErrorMessage.error(getMessage("READ_FILE_ERROR.MSG"));
+            logger.warn("Error Message ={}", e.getMessage());
+            throw ErrorMessage.error("파일을 읽어오던 중 문제가 발생했습니다.");
         }
         return loadedVouchers;
     }
@@ -97,8 +96,8 @@ public class FileVoucherRepository implements VoucherRepository {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                logger.error("Error Message ={}", e.getMessage());
-                throw ErrorMessage.error(getMessage("CREATE_FILE_ERROR.MSG"));
+                logger.warn("Error Message ={}", e.getMessage());
+                throw ErrorMessage.error("파일 생성 중 문제가 발생했습니다.");
             }
         }
     }

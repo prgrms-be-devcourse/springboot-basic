@@ -1,9 +1,4 @@
 ---
-spring:
-  messages:
-    basename: message/messages
-
----
 # dev 프로파일 설정
 spring:
   profiles:
