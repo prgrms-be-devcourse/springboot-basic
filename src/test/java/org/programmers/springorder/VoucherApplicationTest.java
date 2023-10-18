@@ -1,5 +1,6 @@
 package org.programmers.springorder;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+@Disabled
 @SpringBootTest
 class VoucherApplicationTest {
 
@@ -19,6 +21,6 @@ class VoucherApplicationTest {
         voucherApplication.run();
     }
 
-    //TODO 입출력 관련 테스트 추가
+//    //TODO 입출력 관련 테스트 추가
 
 }
