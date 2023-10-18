@@ -1,14 +1,11 @@
 package com.prgrms.vouchermanager.repository;
 
 import com.prgrms.vouchermanager.domain.Customer;
-import com.prgrms.vouchermanager.exception.FileIOException;
 import com.prgrms.vouchermanager.io.FileIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

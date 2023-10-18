@@ -1,7 +1,5 @@
 package com.prgrms.vouchermanager.domain;
 
-import lombok.Getter;
-
 import java.util.UUID;
 
 public class PercentAmountVoucher extends Voucher {
