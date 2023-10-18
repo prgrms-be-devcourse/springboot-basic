@@ -1,0 +1,14 @@
+file:
+  proj-dir: /Users/hongjiin/Documents/Programmers/Dev.course/Mission#1/Fork/springboot-basic/
+  names:
+    voucher:
+      file-name: voucherRecord.csv
+      test-file-name: testVoucherRecord.csv
+    customer:
+      file-name: customer_blacklist.csv
+      test-file-name: test_customer_blacklist.csv
+  user-dir: ${user.dir}
+  resources:
+    path: /src/main/resources/
+    test-path: /src/test/resources/
+    jar: /build/resources/main/
