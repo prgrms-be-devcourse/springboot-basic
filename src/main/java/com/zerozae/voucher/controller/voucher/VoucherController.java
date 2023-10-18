@@ -7,7 +7,8 @@ import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
+import java.util.List;
+
 
 @Controller
 public class VoucherController {
@@ -21,22 +22,16 @@ public class VoucherController {
     }
 
     public Response createVoucher(VoucherRequest voucherRequest){
-        try{
-            validateVoucherInfo(voucherRequest);
+        try {
+            voucherService.createVoucher(voucherRequest);
+            return Response.success();
         }catch (ErrorMessage e){
             return Response.failure(e.getMessage());
         }
-        voucherService.createVoucher(voucherRequest);
-        return Response.success();
     }
 
     public Response findAllVouchers(){
-        return Response.success(voucherService.findAllVouchers().stream().map(VoucherResponse::getInfo).toList());
-    }
-
-    private void validateVoucherInfo(VoucherRequest voucherRequest){
-        if(voucherRequest.getDiscount() < ZERO) {
-            throw ErrorMessage.error(getMessage("NEGATIVE_VOUCHER_DISCOUNT.MSG"));
-        }
+        List<VoucherResponse> vouchers = voucherService.findAllVouchers();
+        return Response.success(vouchers);
     }
 }

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ProgramRunner implements CommandLineRunner {
+    private static final String MAIN_PROGRAM = "mainProgram";
+    private static final String CUSTOMER_PROGRAM = "customerProgram";
+    private static final String VOUCHER_PROGRAM = "voucherProgram";
     private final MenuHandler menuHandler;
 
     public ProgramRunner(MenuHandler menuHandler) {
@@ -13,11 +16,11 @@ public class ProgramRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        while(true){
+        boolean continueRun = true;
+        while(continueRun){
             try{
-                MenuType command = menuHandler.showAndSelectCommand();
+                MenuType command = menuHandler.selectCommand(MAIN_PROGRAM);
 
-                boolean continueRun = true;
                 switch (command){
                     case VOUCHER -> {
                         continueRun = isVoucherMenuSelected();
@@ -30,7 +33,6 @@ public class ProgramRunner implements CommandLineRunner {
                         continueRun = false;
                     }
                 }
-                if(!continueRun) break;
             }catch (Exception e){
                 System.out.println(e.getMessage());
             }
@@ -40,7 +42,7 @@ public class ProgramRunner implements CommandLineRunner {
     private boolean isVoucherMenuSelected() {
         while(true){
             try{
-                MenuType command = menuHandler.selectedVoucherProgram();
+                MenuType command = menuHandler.selectCommand(VOUCHER_PROGRAM);
                 switch (command) {
                     case CREATE -> {
                         menuHandler.createVoucher();
@@ -61,7 +63,7 @@ public class ProgramRunner implements CommandLineRunner {
     private boolean isCustomerMenuSelected() {
         while(true){
             try{
-                MenuType command = menuHandler.selectedCustomerProgram();
+                MenuType command = menuHandler.selectCommand(CUSTOMER_PROGRAM);
                 switch (command) {
                     case CREATE -> {
                         menuHandler.createCustomer();

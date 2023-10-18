@@ -7,7 +7,8 @@ import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.springframework.stereotype.Controller;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
+import java.util.List;
+
 
 @Controller
 public class CustomerController {
@@ -19,7 +20,6 @@ public class CustomerController {
 
     public Response createCustomer(CustomerRequest customerRequest){
         try{
-            validateCustomerInfo(customerRequest);
             customerService.createCustomer(customerRequest);
         }catch (ErrorMessage e){
             return Response.failure(e.getMessage());
@@ -28,16 +28,12 @@ public class CustomerController {
     }
 
     public Response findAllCustomers(){
-        return Response.success(customerService.findAllCustomers().stream().map(CustomerResponse::getInfo).toList());
+        List<CustomerResponse> customers = customerService.findAllCustomers();
+        return Response.success(customers);
     }
 
     public Response findAllBlacklistCustomers(){
-        return Response.success(customerService.findAllBlacklistCustomer().stream().map(CustomerResponse::getInfo).toList());
-    }
-
-    private void validateCustomerInfo(CustomerRequest customerRequest) {
-        if(customerRequest.getCustomerName().isBlank()){
-            throw ErrorMessage.error(getMessage("EMPTY_CUSTOMER_NAME.MSG"));
-        }
+        List<CustomerResponse> blacklistCustomer = customerService.findAllBlacklistCustomer();
+        return Response.success(blacklistCustomer);
     }
 }

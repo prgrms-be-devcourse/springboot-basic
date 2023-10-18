@@ -1,21 +1,31 @@
 package com.zerozae.voucher.common;
 
+import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.controller.customer.CustomerController;
 import com.zerozae.voucher.controller.voucher.VoucherController;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
+import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.voucher.VoucherRequest;
+import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.view.ConsoleView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.zerozae.voucher.common.message.MessageConverter.getMessage;
 
 @Component
 public class MenuHandler {
+
+    private static final String MAIN_PROGRAM = "mainProgram";
+    private static final String CUSTOMER_PROGRAM = "customerProgram";
+    private static final String VOUCHER_PROGRAM = "voucherProgram";
+    private static final Logger logger = LoggerFactory.getLogger(MenuHandler.class);
+
     private final ConsoleView consoleView;
     private final VoucherController voucherController;
     private final CustomerController customerController;
@@ -26,27 +36,13 @@ public class MenuHandler {
         this.customerController = customerController;
     }
 
-    public MenuType showAndSelectCommand(){
-        consoleView.printCommand();
+    public MenuType selectCommand(String program){
         try {
-            return MenuType.of(consoleView.inputCommand());
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
-        }
-    }
-
-    public MenuType selectedCustomerProgram(){
-        consoleView.printCustomerCommand();
-        try {
-            return MenuType.of(consoleView.inputCommand());
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
-        }
-    }
-
-    public MenuType selectedVoucherProgram(){
-        consoleView.printVoucherCommand();
-        try {
+            switch (program){
+                case MAIN_PROGRAM -> consoleView.printCommand();
+                case CUSTOMER_PROGRAM -> consoleView.printCustomerCommand();
+                case VOUCHER_PROGRAM -> consoleView.printVoucherCommand();
+            }
             return MenuType.of(consoleView.inputCommand());
         }catch (ErrorMessage e){
             throw ErrorMessage.error(e.getMessage());
@@ -54,16 +50,16 @@ public class MenuHandler {
     }
 
     public void exit(){
-        consoleView.printSystemMessage(getMessage("EXIT_PROGRAM.MSG"));
+        consoleView.printSystemMessage("프로그램을 종료합니다.");
     }
 
     public void createVoucher() {
         try {
-            consoleView.printSystemMessage(getMessage("INPUT_VOUCHER_TYPE.MSG"));
+            consoleView.printSystemMessage("바우처의 종류(Fixed / Percent)를 입력해주세요.");
             consoleView.printPrompt();
             VoucherType voucherType = VoucherType.of(consoleView.inputVoucherType());
 
-            consoleView.printSystemMessage(getMessage("INPUT_VOUCHER_DISCOUNT.MSG"));
+            consoleView.printSystemMessage("바우처의 할인 정보를 입력해주세요.");
             consoleView.printPrompt();
             Long discount = consoleView.inputVoucherDiscount();
 
@@ -71,16 +67,17 @@ public class MenuHandler {
             consoleView.printSystemMessage(voucherController.createVoucher(voucherRequest).getMessage());
         }catch (ErrorMessage e){
             consoleView.printErrorMessage(e.getMessage());
+            logger.warn("Error Message = {}", e.getMessage());
         }
     }
 
     public void createCustomer(){
         try {
-            consoleView.printSystemMessage(getMessage("INPUT_CUSTOMER_NAME.MSG"));
+            consoleView.printSystemMessage("회원의 이름을 입력해주세요.");
             consoleView.printPrompt();
             String customerName = consoleView.inputCustomerName();
 
-            consoleView.printSystemMessage(getMessage("INPUT_CUSTOMER_TYPE.MSG"));
+            consoleView.printSystemMessage("회원 타입(NORMAL,BLACKLIST)을 입력해주세요.");
             consoleView.printPrompt();
             CustomerType customerType = CustomerType.of(consoleView.inputCustomerType());
 
@@ -88,21 +85,29 @@ public class MenuHandler {
             consoleView.printSystemMessage(customerController.createCustomer(customerRequest).getMessage());
         }catch (ErrorMessage e){
             consoleView.printErrorMessage(e.getMessage());
+            logger.warn("Error Message = {}", e.getMessage());
         }
     }
 
     public void voucherList(){
-        List<String> vouchers = voucherController.findAllVouchers().getData();
-        vouchers.forEach(consoleView::printInfo);
+        Response<List<VoucherResponse>> vouchers = voucherController.findAllVouchers();
+
+        List<VoucherResponse> data = vouchers.getData();
+        data.forEach(voucher -> consoleView.printInfo(voucher.getInfo()));
     }
 
     public void customerBlacklist() {
-        List<String> blackCustomers = customerController.findAllBlacklistCustomers().getData();
-        blackCustomers.forEach(consoleView::printInfo);
+        Response<List<CustomerResponse>> blacklistCustomers = customerController.findAllBlacklistCustomers();
+
+        List<CustomerResponse> data = blacklistCustomers.getData();
+        data.forEach(customer -> consoleView.printInfo(customer.getInfo()));
     }
 
+
     public void customerList() {
-        List<String> customers = customerController.findAllCustomers().getData();
-        customers.forEach(consoleView::printInfo);
+        Response<List<CustomerResponse>> customers = customerController.findAllCustomers();
+
+        List<CustomerResponse> data = customers.getData();
+        data.forEach(customer -> consoleView.printInfo(customer.getInfo()));
     }
 }
