@@ -1,10 +1,11 @@
 package com.pgms.part1.domain.voucher.repository;
 
 import com.pgms.part1.domain.voucher.entity.Voucher;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
+@Repository
 public class VoucherMemoryRepository implements VoucherRepository{
 
     private final static Map<UUID, Voucher> voucherMap = new HashMap<>();

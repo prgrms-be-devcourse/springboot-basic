@@ -7,18 +7,18 @@ public abstract class Voucher {
     private Integer discount;
     private VoucherDiscountType voucherDiscountType;
 
-    public Voucher(UUID id, Integer discount, VoucherDiscountType voucherDiscountType) {
-        this.id = id;
+    protected Voucher(Integer discount, VoucherDiscountType voucherDiscountType) {
+        this.id = UUID.randomUUID();
         this.discount = discount;
         this.voucherDiscountType = voucherDiscountType;
     }
 
-    public FixedAmountDiscountVoucher getFixedAmountDiscountVoucher(UUID id, Integer discount){
-        return new FixedAmountDiscountVoucher(id, discount);
+    public static FixedAmountDiscountVoucher newFixedAmountDiscountVoucher(Integer discount){
+        return new FixedAmountDiscountVoucher(discount);
     }
 
-    public PercentDiscountVoucher getPercentDiscountVoucher(UUID id, Integer discount){
-        return new PercentDiscountVoucher(id, discount);
+    public static PercentDiscountVoucher newPercentDiscountVoucher(Integer discount){
+        return new PercentDiscountVoucher(discount);
     }
 
     public UUID getId() {

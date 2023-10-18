@@ -37,7 +37,7 @@ public class VoucherController {
     }
 
     public void listVoucher(){
-
+        voucherService.listVoucher();
     }
 
     public void exitVoucher(){
