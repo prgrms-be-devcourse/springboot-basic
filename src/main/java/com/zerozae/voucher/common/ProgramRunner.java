@@ -1,10 +1,16 @@
 package com.zerozae.voucher.common;
 
+import com.zerozae.voucher.exception.ErrorMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.xml.sax.ErrorHandler;
 
 @Component
 public class ProgramRunner implements CommandLineRunner {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProgramRunner.class);
     private static final String MAIN_PROGRAM = "mainProgram";
     private static final String CUSTOMER_PROGRAM = "customerProgram";
     private static final String VOUCHER_PROGRAM = "voucherProgram";
@@ -33,8 +39,8 @@ public class ProgramRunner implements CommandLineRunner {
                         continueRun = false;
                     }
                 }
-            }catch (Exception e){
-                System.out.println(e.getMessage());
+            }catch (ErrorMessage e){
+                logger.warn("Error Message = {}", e.getMessage());
             }
         }
     }
@@ -54,8 +60,8 @@ public class ProgramRunner implements CommandLineRunner {
                         return true;
                     }
                 }
-            }catch (Exception e){
-                System.out.println(e.getMessage());
+            }catch (ErrorMessage e){
+                logger.warn("Error Message = {}", e.getMessage());
             }
         }
     }
@@ -78,8 +84,8 @@ public class ProgramRunner implements CommandLineRunner {
                         return true;
                     }
                 }
-            }catch (Exception e){
-                System.out.println(e.getMessage());
+            }catch (ErrorMessage e){
+                logger.warn("Error Message = {}", e.getMessage());
             }
         }
     }

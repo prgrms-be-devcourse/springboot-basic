@@ -24,8 +24,6 @@ public class MenuHandler {
     private static final String MAIN_PROGRAM = "mainProgram";
     private static final String CUSTOMER_PROGRAM = "customerProgram";
     private static final String VOUCHER_PROGRAM = "voucherProgram";
-    private static final Logger logger = LoggerFactory.getLogger(MenuHandler.class);
-
     private final ConsoleView consoleView;
     private final VoucherController voucherController;
     private final CustomerController customerController;
@@ -66,8 +64,7 @@ public class MenuHandler {
             VoucherRequest voucherRequest = new VoucherRequest(discount, voucherType);
             consoleView.printSystemMessage(voucherController.createVoucher(voucherRequest).getMessage());
         }catch (ErrorMessage e){
-            consoleView.printErrorMessage(e.getMessage());
-            logger.warn("Error Message = {}", e.getMessage());
+            throw ErrorMessage.error(e.getMessage());
         }
     }
 
@@ -84,8 +81,7 @@ public class MenuHandler {
             CustomerRequest customerRequest = new CustomerRequest(customerName, customerType);
             consoleView.printSystemMessage(customerController.createCustomer(customerRequest).getMessage());
         }catch (ErrorMessage e){
-            consoleView.printErrorMessage(e.getMessage());
-            logger.warn("Error Message = {}", e.getMessage());
+            throw ErrorMessage.error(e.getMessage());
         }
     }
 
