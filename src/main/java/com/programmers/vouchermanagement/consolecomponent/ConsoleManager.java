@@ -1,7 +1,5 @@
 package com.programmers.vouchermanagement.consolecomponent;
 
-import static com.programmers.vouchermanagement.consolecomponent.Menu.findSelectedMenu;
-
 import com.programmers.vouchermanagement.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.voucher.PercentVoucher;
 import com.programmers.vouchermanagement.voucher.Voucher;
@@ -12,23 +10,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.UUID;
 
+import static com.programmers.vouchermanagement.consolecomponent.Menu.findSelectedMenu;
+import static com.programmers.vouchermanagement.constant.message.ResultMessage.*;
+import static com.programmers.vouchermanagement.constant.message.ExceptionMessage.INVALID_VOUCHER_TYPE_MESSAGE;
+import static com.programmers.vouchermanagement.constant.message.Instruction.*;
+
 @Component
 public class ConsoleManager {
-    //TODO: consider responsibility of console manager regarding to messages
-    private static final String menuSelectionInstruction = """
-            === Voucher Program ===
-            Type **exit** to exit the program.
-            Type **create** to create a new voucher.
-            Type **list** to list all vouchers.
-            """;
-    private static final String createSelectionInstruction = """
-            Please select the type of voucher to create.
-            Type **fixed** to create a fixed amount voucher.
-            Type **percent** to create a percent discount voucher.
-            """;
-
-    private static final String voucherDiscountAmountDecision = "Please type the amount/percent of discount of the voucher.";
-
     private final TextIO textIO;
     private final Logger logger;
 
@@ -40,18 +28,18 @@ public class ConsoleManager {
     //TODO: validate input type is correct
     public Menu selectMenu() {
         String input = textIO.newStringInputReader()
-                .read(menuSelectionInstruction);
+                .read(MENU_SELECTION_INSTRUCTION);
 
         return findSelectedMenu(input);
     }
 
     public Voucher instructCreate() {
         String createMenu = textIO.newStringInputReader()
-                .read(createSelectionInstruction);
+                .read(CREATE_SELECTION_INSTRUCTION);
 
         //TODO: refactor order of inputs obtaining
         long discountAmount = textIO.newLongInputReader()
-                .read(voucherDiscountAmountDecision);
+                .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
 
         // TODO: reconsider constructing models (Bean, factory method in DTO)
         switch (createMenu) {
@@ -63,8 +51,7 @@ public class ConsoleManager {
                 return new PercentVoucher(UUID.randomUUID(), discountAmount);
             }
 
-            default ->
-                    throw new IllegalArgumentException("Voucher type should be either fixed amount or percent discount voucher");
+            default -> throw new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE);
         }
     }
 
@@ -73,11 +60,11 @@ public class ConsoleManager {
     }
 
     public void printExit() {
-        textIO.getTextTerminal().println("System exits.");
+        textIO.getTextTerminal().println(EXIT_MESSAGE);
     }
 
     public void printIncorrectMenu() {
-        textIO.getTextTerminal().println("Such input is incorrect.");
+        textIO.getTextTerminal().println(INCORRECT_INPUT_MESSAGE);
         printExit();
     }
 

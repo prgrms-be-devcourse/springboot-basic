@@ -1,9 +1,12 @@
 package com.programmers.vouchermanagement.voucher;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.springframework.stereotype.Service;
+import static com.programmers.vouchermanagement.constant.message.ExceptionMessage.INVALID_DISCOUNT_INPUT_MESSAGE;
+import static com.programmers.vouchermanagement.constant.message.ExceptionMessage.VOUCHER_NOT_FOUND_MESSAGE;
 
 @Service
 public class VoucherService {
@@ -23,7 +26,7 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAll();
 
         if (vouchers.isEmpty()) {
-            throw new NoSuchElementException("There is no voucher registered.");
+            throw new NoSuchElementException(VOUCHER_NOT_FOUND_MESSAGE);
         }
 
         return vouchers;
@@ -31,7 +34,7 @@ public class VoucherService {
 
     public void validateDiscount(Voucher voucher) {
         if (!voucher.validatePositiveDiscount()) {
-            throw new IllegalArgumentException("Input should be a number greater than 0");
+            throw new IllegalArgumentException(INVALID_DISCOUNT_INPUT_MESSAGE);
         }
     }
 }

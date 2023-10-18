@@ -1,11 +1,12 @@
 package com.programmers.vouchermanagement.consolecomponent;
 
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
 import com.programmers.vouchermanagement.voucher.Voucher;
 import com.programmers.vouchermanagement.voucher.VoucherController;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+import static com.programmers.vouchermanagement.constant.message.ExceptionMessage.INEXECUTABLE_MESSAGE;
 
 @Component
 public class MenuHandler {
@@ -34,7 +35,7 @@ public class MenuHandler {
 
     private boolean validateMenu(Menu menu) {
         if (!menu.isExecutable()) {
-            throw new RuntimeException("This menu is not executable.");
+            throw new RuntimeException(INEXECUTABLE_MESSAGE);
         }
 
         return true;
