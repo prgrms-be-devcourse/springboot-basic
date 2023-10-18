@@ -87,7 +87,6 @@ public class VoucherApplication {
 
     private void close() {
         logger.info("Call close()");
-        // TODO: 데이터 저장 기능
         console.print("프로그램이 종료되었습니다.");
     }
 }
