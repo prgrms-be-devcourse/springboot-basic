@@ -1,8 +1,8 @@
 package com.pgms.part1.domain.voucher.entity;
 
 public enum VoucherDiscountType {
-    FIXEDAMOUNTDISCOUNT("Fixed Amount Discount","Amount"),
-    PERCENTDISCOUNT("Percent Discount","Percent");
+    FIXED_AMOUNT_DISCOUNT("Fixed Amount Discount","Amount"),
+    PERCENT_DISCOUNT("Percent Discount","Percent");
 
     private final String discountType;
     private final String calculateType;

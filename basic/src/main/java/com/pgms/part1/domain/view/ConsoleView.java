@@ -17,6 +17,7 @@ public class ConsoleView {
     public VoucherMenuRequestDto init(){
         String command = textIO.newStringInputReader()
                 .read("""
+                         
                          === Voucher Program ===
                         Type **exit** to exit the program.
                         Type **create** to create a new voucher.
@@ -27,8 +28,9 @@ public class ConsoleView {
     }
 
     public VoucherCreateRequestDto createVoucher(){
-        String command = textIO.newStringInputReader()
+        Integer command = textIO.newIntInputReader()
                 .read("""
+                         
                          === Select Voucher ===
                         1. FixedAmountVoucher
                         2. PercentDiscountVoucher
@@ -36,6 +38,7 @@ public class ConsoleView {
 
         Integer discount = textIO.newIntInputReader()
                 .read("""
+                        
                         Enter Discount Amount
                         """);
 
@@ -43,10 +46,14 @@ public class ConsoleView {
     }
 
     public void listVoucher(List<VoucherResponseDto> voucherResponseDtos){
-        System.out.println(" === Voucher List ===");
+        System.out.println("\n === Voucher List ===");
         voucherResponseDtos.stream().forEach(v ->
-            System.out.println("ID. " + v.id() + "  Voucher Type. "
-                    + v.voucherDiscountType().getDiscountType() + "  " + v.voucherDiscountType().getCalculateType() + ". " + v.discount())
+            System.out.println("ID: " + v.id() + " | Voucher Type: "
+                    + v.voucherDiscountType().getDiscountType() + " | " + "Discount " + v.voucherDiscountType().getCalculateType() + ": " + v.discount())
         );
+    }
+
+    public void error(RuntimeException e){
+        System.out.println("\n" + e.getMessage());
     }
 }
