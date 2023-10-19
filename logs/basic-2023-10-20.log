@@ -1485,3 +1485,10 @@ Caused by: java.lang.IllegalArgumentException: No enum constant com.pgms.part1.d
 01:20:39.741 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.321 seconds (process running for 0.625)
 01:20:46.276 [main] INFO  c.p.p.d.v.r.VoucherFileRepository - file saved
 01:20:46.277 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher 72af1e19-7576-4b89-ac60-79f241f8af42 added
+01:27:44.988 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 12485 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+01:27:44.989 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+01:27:45.185 [main] INFO  c.p.p.d.v.r.VoucherFileRepository - file loaded
+01:27:45.187 [main] INFO  c.p.p.d.c.r.CustomerFileRepository - file loaded
+01:27:45.219 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.374 seconds (process running for 0.739)
+01:27:53.217 [main] INFO  c.p.p.d.v.r.VoucherFileRepository - file saved
+01:27:53.218 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher 78108ab2-5f88-4091-bf66-0519616ea384 added
