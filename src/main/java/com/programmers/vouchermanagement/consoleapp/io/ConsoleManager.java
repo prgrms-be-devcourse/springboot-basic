@@ -1,9 +1,10 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
-import com.programmers.vouchermanagement.consoleapp.menu.CreateVoucherMenu;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDTO;
+
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
@@ -59,20 +60,31 @@ public class ConsoleManager {
     public CreateVoucherRequestDTO instructCreate() {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
-        CreateVoucherMenu createVoucherMenu = CreateVoucherMenu.findCreateMenu(createMenu)
+        VoucherType voucherType = VoucherType.findCreateMenu(createMenu)
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE));
 
         long discountValue = textIO.newLongInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
-        return new CreateVoucherRequestDTO(createVoucherMenu, discountValue);
+        return new CreateVoucherRequestDTO(voucherType, discountValue);
     }
 
-    public void printCreateResult(Voucher voucher) {
-        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucher.getVoucherId()));
+    public void printCreateResult(VoucherResponseDTO voucherResponse) {
+        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.getVoucherId()));
     }
 
-    public void printReadAll(List<Voucher> vouchers) {
-        vouchers.forEach(voucher -> textIO.getTextTerminal().println(voucher.toConsoleFormat()));
+    public void printReadAll(List<VoucherResponseDTO> voucherResponses) {
+        voucherResponses.forEach(voucherResponse -> textIO.getTextTerminal().println(formatVoucherDTO(voucherResponse)));
+    }
+
+    private String formatVoucherDTO(VoucherResponseDTO voucherResponseDTO) {
+        return """
+                Voucher ID : %s
+                Voucher Type : %s Discount Voucher
+                Discount Amount : %s
+                -------------------------"""
+                .formatted(voucherResponseDTO.getVoucherId(),
+                        voucherResponseDTO.getVoucherType(),
+                        voucherResponseDTO.getDiscountValue());
     }
 
     public void printExit() {
