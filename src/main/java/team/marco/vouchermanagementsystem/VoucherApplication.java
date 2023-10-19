@@ -3,6 +3,7 @@ package team.marco.vouchermanagementsystem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import team.marco.vouchermanagementsystem.service.BlacklistService;
 import team.marco.vouchermanagementsystem.service.VoucherService;
 import team.marco.vouchermanagementsystem.util.Console;
 
@@ -14,9 +15,11 @@ public class VoucherApplication {
     private static final String INFO_DELIMINATOR = "\n";
 
     private final VoucherService voucherService;
+    private final BlacklistService blacklistService;
 
-    public VoucherApplication(VoucherService service) {
+    public VoucherApplication(VoucherService service, BlacklistService blacklistService) {
         this.voucherService = service;
+        this.blacklistService = blacklistService;
     }
 
     public void run() {
@@ -46,7 +49,7 @@ public class VoucherApplication {
             switch (commandType) {
                 case CREATE -> createVoucher();
                 case LIST -> getVoucherList();
-                case BLACKLIST -> getBlacklistUsers();
+                case BLACKLIST -> getBlacklist();
                 case EXIT -> {
                     return;
                 }
@@ -96,10 +99,10 @@ public class VoucherApplication {
         printList(voucherService.getVouchersInfo());
     }
 
-    private void getBlacklistUsers() {
+    private void getBlacklist() {
         logger.info("Call getBlackListUsers()");
 
-        printList(voucherService.getBlacklistUsers());
+        printList(blacklistService.getBlacklist());
     }
 
     private void printList(List<String> list) {

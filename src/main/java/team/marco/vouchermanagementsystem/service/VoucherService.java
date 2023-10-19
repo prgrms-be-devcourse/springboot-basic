@@ -3,9 +3,7 @@ package team.marco.vouchermanagementsystem.service;
 import org.springframework.stereotype.Service;
 import team.marco.vouchermanagementsystem.model.FixedAmountVoucher;
 import team.marco.vouchermanagementsystem.model.PercentDiscountVoucher;
-import team.marco.vouchermanagementsystem.model.User;
 import team.marco.vouchermanagementsystem.model.Voucher;
-import team.marco.vouchermanagementsystem.repository.BlacklistRepository;
 import team.marco.vouchermanagementsystem.repository.VoucherRepository;
 
 import java.util.List;
@@ -13,11 +11,9 @@ import java.util.List;
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    private final BlacklistRepository blacklistRepository;
 
-    public VoucherService(VoucherRepository voucherRepository, BlacklistRepository blacklistRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
-        this.blacklistRepository = blacklistRepository;
     }
 
     public void createFixedAmountVoucher(int amount) {
@@ -33,12 +29,6 @@ public class VoucherService {
     public List<String> getVouchersInfo() {
         return voucherRepository.findAll().stream()
                 .map(Voucher::getInfo)
-                .toList();
-    }
-
-    public List<String> getBlacklistUsers() {
-        return blacklistRepository.findAll().stream()
-                .map(User::getInfo)
                 .toList();
     }
 }
