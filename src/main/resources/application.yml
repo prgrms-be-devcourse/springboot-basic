@@ -11,12 +11,10 @@ spring:
   profiles:
     active: dev
 
-customerListFilePath: "src/main/resources/csv/customerList.csv"
+voucherFilePath: "src/main/resources/csv/voucher.csv"
 ---
 
 #현재 프로파일이 local인 경우
 spring:
   profiles:
     active: local
-
-voucherFilePath: "src/main/resources/csv/voucher.csv"
