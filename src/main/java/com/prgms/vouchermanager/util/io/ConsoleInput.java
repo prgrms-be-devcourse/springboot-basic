@@ -122,6 +122,10 @@ public class ConsoleInput {
 
                 long percent = Integer.parseInt(scanner.next());
 
+                if (!inputValidation.validPercent(percent)) {
+                    throw new RuntimeException();
+                }
+
                 voucher = new PercentDiscountVoucher(UUID.randomUUID(), percent);
             }
         } catch (RuntimeException e) {
