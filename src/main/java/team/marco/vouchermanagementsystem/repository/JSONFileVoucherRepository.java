@@ -25,11 +25,12 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
     public JSONFileVoucherRepository(@Value("${file.path.voucher_data}") String path) {
         objectMapper = new ObjectMapper();
         file = new File(path);
+
         voucherMap = load();
     }
 
     private Map<UUID, Voucher> load() {
-        if(!file.exists()) {
+        if (!file.exists()) {
             return new HashMap<>();
         }
 

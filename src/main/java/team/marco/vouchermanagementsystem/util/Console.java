@@ -30,7 +30,7 @@ public final class Console {
     }
 
     public static int readInt(String prompt) {
-        System.out.println(prompt + "\n");
+        System.out.println(prompt + System.lineSeparator());
         return readInt();
     }
 
@@ -43,7 +43,6 @@ public final class Console {
     }
 
     public static void print(Object object) {
-        System.out.println(object);
-        System.out.println();
+        System.out.println(object + System.lineSeparator()); // thanks to SH, IJ
     }
 }

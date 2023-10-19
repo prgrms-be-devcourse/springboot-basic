@@ -12,7 +12,7 @@ import java.util.UUID;
 @Profile({"local", "debug"})
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
-    Map<UUID, Voucher> voucherMap = new HashMap<>();
+    private final Map<UUID, Voucher> voucherMap = new HashMap<>();
 
     @Override
     public void save(Voucher voucher) {

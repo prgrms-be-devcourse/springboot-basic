@@ -1,6 +1,6 @@
 <configuration>
-
     <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n"/>
+    <property name="PACKAGE_NAME" value="team.marco.vouchermanagementsystem"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -28,24 +28,24 @@
         </encoder>
     </appender>
 
-    <logger level="error" name="team.marco.vouchermanagementsystem" >
+    <logger level="error" name="${PACKAGE_NAME}">
         <appender-ref ref="ERROR_ROLLING_FILE"/>
     </logger>
 
     <springProfile name="dev">
-        <logger level="warn" name="team.marco.vouchermanagementsystem">
+        <logger level="warn" name="${PACKAGE_NAME}">
             <appender-ref ref="ROLLING_FILE"/>
         </logger>
     </springProfile>
 
     <springProfile name="local">
-        <logger level="info" name="team.marco.vouchermanagementsystem">
+        <logger level="info" name="${PACKAGE_NAME}">
             <appender-ref ref="CONSOLE"/>
         </logger>
     </springProfile>
 
     <springProfile name="debug">
-        <logger level="debug" name="team.marco.vouchermanagementsystem">
+        <logger level="debug" name="${PACKAGE_NAME}">
             <appender-ref ref="CONSOLE"/>
         </logger>
     </springProfile>

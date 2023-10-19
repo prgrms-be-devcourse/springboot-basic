@@ -9,6 +9,7 @@ import static java.text.MessageFormat.format;
 
 public class FixedAmountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+
     private final UUID id;
     private final int amount;
 

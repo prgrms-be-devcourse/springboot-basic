@@ -8,8 +8,8 @@ import team.marco.vouchermanagementsystem.model.VoucherType;
 import java.util.UUID;
 
 public class LoadedJSONVoucher {
-    private VoucherType type;
     private UUID id;
+    private VoucherType type;
     private String info;
     private int amount;
     private int percent;
@@ -25,12 +25,12 @@ public class LoadedJSONVoucher {
         };
     }
 
-    public VoucherType getType() {
-        return type;
-    }
-
     public UUID getId() {
         return id;
+    }
+
+    public VoucherType getType() {
+        return type;
     }
 
     public String getInfo() {

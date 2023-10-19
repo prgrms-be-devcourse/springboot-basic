@@ -9,11 +9,12 @@ import static java.text.MessageFormat.format;
 
 public class PercentDiscountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+
     private final UUID id;
     private final int percent;
 
     public PercentDiscountVoucher(int percent) {
-        checkValidation(percent);
+        validate(percent);
 
         this.id = UUID.randomUUID();
         this.percent = percent;
@@ -26,7 +27,7 @@ public class PercentDiscountVoucher implements Voucher {
         this.percent = percent;
     }
 
-    private void checkValidation(int percent) {
+    private void validate(int percent) {
         if (percent <= 0) {
             throw new IllegalArgumentException(format("{0}: 할인율은 0% 이하일 수 없습니다.", percent));
         }

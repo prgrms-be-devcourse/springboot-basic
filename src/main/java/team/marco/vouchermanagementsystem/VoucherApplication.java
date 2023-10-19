@@ -6,11 +6,11 @@ import org.springframework.stereotype.Component;
 import team.marco.vouchermanagementsystem.service.VoucherService;
 import team.marco.vouchermanagementsystem.util.Console;
 
-import java.io.BufferedReader;
+import java.util.List;
 
 @Component
 public class VoucherApplication {
-    private static final Logger logger  = LoggerFactory.getLogger(VoucherApplication.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
     private static final String INFO_DELIMINATOR = "\n";
 
     private final VoucherService voucherService;
@@ -21,7 +21,7 @@ public class VoucherApplication {
 
     public void run() {
         try {
-            runCommand();
+            selectCommand();
         } catch (Exception e) {
             logger.error(e.toString());
             Console.print("프로그램에 에러가 발생했습니다.");
@@ -30,7 +30,7 @@ public class VoucherApplication {
         close();
     }
 
-    public void runCommand() {
+    public void selectCommand() {
         Console.print("""
                 === 쿠폰 관리 프로그램 ===
                 exit: 프로그램 종료
@@ -57,14 +57,7 @@ public class VoucherApplication {
             Console.print(e.getMessage());
         }
 
-        runCommand();
-    }
-
-    private void getBlacklistUsers() {
-        logger.info("Call getBlackListUsers()");
-
-        String blacklistUsers = String.join(INFO_DELIMINATOR, voucherService.getBlacklistUsers());
-        Console.print(blacklistUsers);
+        selectCommand();
     }
 
     private void createVoucher() {
@@ -73,6 +66,7 @@ public class VoucherApplication {
         Console.print("""
                 0: 고정 금액 할인 쿠폰
                 1: % 할인 쿠폰""");
+
         int selected = Console.readInt();
 
         switch (selected) {
@@ -99,10 +93,20 @@ public class VoucherApplication {
     private void getVoucherList() {
         logger.info("Call getVoucherList()");
 
-        String vouchersInfo = String.join(INFO_DELIMINATOR, voucherService.getVouchersInfo());
+        printList(voucherService.getVouchersInfo());
+    }
 
-        if (!vouchersInfo.isBlank()) {
-            Console.print(vouchersInfo);
+    private void getBlacklistUsers() {
+        logger.info("Call getBlackListUsers()");
+
+        printList(voucherService.getBlacklistUsers());
+    }
+
+    private void printList(List<String> list) {
+        String joinedString = String.join(INFO_DELIMINATOR, list);
+
+        if (!joinedString.isBlank()) {
+            Console.print(joinedString);
         }
 
         Console.print("조회가 완료되었습니다.");
@@ -110,6 +114,7 @@ public class VoucherApplication {
 
     private void close() {
         logger.info("Call close()");
+
         Console.print("프로그램이 종료되었습니다.");
     }
 }
