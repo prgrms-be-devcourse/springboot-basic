@@ -9,16 +9,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.properties.AppProperties;
 
 @Repository
+@Profile({"dev", "prod"})
 public class FileCustomerRepository implements CustomerRepository {
     private static final String BLACKLIST_FILE_PATH = "src/main/resources/blacklist.csv";
+    private final String filePath;
     private final Map<UUID, Customer> customers;
 
-    public FileCustomerRepository() {
+    public FileCustomerRepository(AppProperties appProperties) {
+        this.filePath = appProperties.getResources().getPath() + appProperties.getDomains().get("customer.file-name");
         this.customers = new HashMap<>();
         loadBlacklist();
     }

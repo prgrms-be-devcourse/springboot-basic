@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.programmers.vouchermanagement.properties.AppProperties;
 import com.programmers.vouchermanagement.voucher.domain.FixedAmountVoucher;
 import com.programmers.vouchermanagement.voucher.domain.PercentVoucher;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
@@ -17,13 +18,16 @@ import java.util.*;
 @Repository
 @Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
-    private static final String FILE_PATH = "src/main/resources/voucher.json";
+//    private static final String FILE_PATH="src/main/resources/voucher.json";
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
 
+    private final String filePath;
     private Map<UUID, Voucher> vouchers;
 
-    public FileVoucherRepository() {
+    public FileVoucherRepository(AppProperties appProperties) {
+        this.filePath = appProperties.getResources().getPath() + appProperties.getDomains().get("voucher.file-name");
+        System.out.println(filePath);
         this.vouchers = new HashMap<>();
         loadVouchers();
     }
@@ -41,7 +45,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private void loadVouchers() {
         try {
-            File file = new File(FILE_PATH);
+            File file = new File(filePath);
             Map[] voucherObjects = objectMapper.readValue(file, Map[].class);
             vouchers = objectsToVouchers(voucherObjects);
         } catch (IOException e) {
@@ -71,7 +75,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public void saveFile() {
-        try (FileWriter fileWriter = new FileWriter(FILE_PATH)) {
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
             List<HashMap<String, Object>> voucherObjects = new ArrayList<>();
             if (!vouchers.isEmpty()) {
                 vouchers.values().forEach(voucher -> {

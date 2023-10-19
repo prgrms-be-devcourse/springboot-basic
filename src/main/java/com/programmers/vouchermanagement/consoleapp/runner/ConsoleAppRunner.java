@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import com.programmers.vouchermanagement.consoleapp.menu.MenuHandler;
+import com.programmers.vouchermanagement.properties.AppProperties;
 
 @Component
 public class ConsoleAppRunner implements ApplicationRunner {

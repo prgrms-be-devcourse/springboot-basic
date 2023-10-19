@@ -8,7 +8,7 @@ public class VoucherManagementApplication {
 
 	public static void main(String[] args) {
 		var application = new SpringApplication(VoucherManagementApplication.class);
-		application.setAdditionalProfiles("dev");
+		application.setAdditionalProfiles("prod");
 		application.run(args);
 	}
 
