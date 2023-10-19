@@ -2,6 +2,8 @@ package com.programmers.vouchermanagement.voucher.domain;
 
 import java.util.UUID;
 
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDTO;
+
 public class PercentVoucher implements Voucher {
     private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
             "Input should be a number greater than 0 and smaller than 100";
@@ -25,13 +27,8 @@ public class PercentVoucher implements Voucher {
     }
 
     @Override
-    public String toConsoleFormat() {
-        return """
-                Voucher ID : %s
-                Voucher Type : Percent Discount Voucher
-                Discount Percentage : %s%%
-                -------------------------"""
-                .formatted(voucherID, discountPercent);
+    public VoucherResponseDTO toResponseDTO() {
+        return new VoucherResponseDTO(voucherID, discountPercent, VoucherType.PERCENT);
     }
 
     private void validateDiscountPercent(long discountPercent) {
