@@ -32,7 +32,21 @@
         <appender-ref ref="ERROR_ROLLING_FILE"/>
     </logger>
 
-    <root level="info">
-        <appender-ref ref="ROLLING_FILE"/>
-    </root>
+    <springProfile name="dev">
+        <logger level="warn" name="team.marco.vouchermanagementsystem">
+            <appender-ref ref="ROLLING_FILE"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="local">
+        <logger level="info" name="team.marco.vouchermanagementsystem">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+    </springProfile>
+
+    <springProfile name="debug">
+        <logger level="debug" name="team.marco.vouchermanagementsystem">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+    </springProfile>
 </configuration>
