@@ -17,11 +17,13 @@ public class ConsoleAppRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        try {
-            menuHandler.handleMenu();
-            run(args);
-        } catch (RuntimeException e) {
-            logger.error(e.getMessage());
+        boolean isRunning = true;
+        while (isRunning) {
+            try {
+                isRunning = menuHandler.handleMenu();
+            } catch (RuntimeException e) {
+                logger.error(e.getMessage());
+            }
         }
     }
 }

@@ -30,4 +30,8 @@ public enum Menu {
     public boolean isExit() {
         return this == Menu.EXIT;
     }
+
+    public boolean isIncorrect() {
+        return this == INCORRECT_MENU;
+    }
 }
