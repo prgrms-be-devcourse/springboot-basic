@@ -3,7 +3,7 @@ spring:
   profiles:
     active: default
 
-blacklistFilePath: "src/main/resources/csv/blacklist.csv"
+customerListFilePath: "src/main/resources/csv/customerList.csv"
 
 ---
 # 현재 프로파일이 dev인 경우
@@ -11,7 +11,7 @@ spring:
   profiles:
     active: dev
 
-blacklistFilePath: "src/main/resources/csv/blacklist.csv"
+customerListFilePath: "src/main/resources/csv/customerList.csv"
 ---
 
 #현재 프로파일이 local인 경우
