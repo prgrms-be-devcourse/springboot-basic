@@ -2,9 +2,10 @@ package org.programmers.springorder.console;
 
 import org.programmers.springorder.consts.ErrorMessage;
 import org.programmers.springorder.consts.Message;
-import org.programmers.springorder.dto.VoucherRequestDto;
-import org.programmers.springorder.dto.VoucherResponseDto;
-import org.programmers.springorder.model.VoucherType;
+import org.programmers.springorder.customer.dto.CustomerResponseDto;
+import org.programmers.springorder.voucher.dto.VoucherRequestDto;
+import org.programmers.springorder.voucher.dto.VoucherResponseDto;
+import org.programmers.springorder.voucher.model.VoucherType;
 import org.programmers.springorder.utils.MenuType;
 import org.programmers.springorder.utils.Validation;
 import org.slf4j.Logger;
@@ -88,6 +89,14 @@ public class Console {
             printMessage(ErrorMessage.VOUCHER_NOT_EXIST_MESSAGE);
         } else {
             allVoucher.forEach(System.out::println);
+        }
+    }
+
+    public void showBlackList(List<CustomerResponseDto> blackList) {
+        if (blackList.size() == 0) {
+            printMessage(ErrorMessage.BLACK_CONSUMER_NOT_EXIST_MESSAGE);
+        } else {
+            blackList.forEach(System.out::println);
         }
     }
 }
