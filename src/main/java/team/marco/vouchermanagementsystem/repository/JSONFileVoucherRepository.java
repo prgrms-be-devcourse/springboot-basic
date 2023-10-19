@@ -29,6 +29,10 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
     }
 
     private Map<UUID, Voucher> load() {
+        if(!file.exists()) {
+            return new HashMap<>();
+        }
+
         ObjectReader objectReader = objectMapper.readerForListOf(LoadedJSONVoucher.class);
         List<LoadedJSONVoucher> loadedList;
 
@@ -60,7 +64,7 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
         try {
             objectMapper.writeValue(file, voucherMap.values());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("파일을 저장하는 과정에서 오류가 발생했습니다.");
         }
     }
 }
