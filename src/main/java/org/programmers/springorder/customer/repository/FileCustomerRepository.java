@@ -23,7 +23,7 @@ import java.util.UUID;
 @Repository
 public class FileCustomerRepository implements CustomerRepository{
 
-    @Value(("${blacklistFilePath}"))
+    @Value(("${customerListFilePath}"))
     private String filePath;
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     private final Console console;
