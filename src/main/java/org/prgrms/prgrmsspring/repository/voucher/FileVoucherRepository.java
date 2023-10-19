@@ -20,6 +20,8 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> store = new ConcurrentHashMap<>();
     private final String filePath;
 
+    private static final String CSV_SEPARATOR = ",";
+
 
     public FileVoucherRepository(@Value("${file.path.voucher}") String filePath) {
         this.filePath = filePath;
@@ -56,7 +58,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     public List<Voucher> convertFileStringsToObjectLists(List<String> fileStrings) {
         List<Voucher> voucherList = new ArrayList<>();
-        fileStrings.stream().map(s -> s.split(",")).forEach(split -> {
+        fileStrings.stream().map(s -> s.split(CSV_SEPARATOR)).forEach(split -> {
             String type = split[0];
             UUID uuid = UUID.fromString(split[1]);
             long value = Long.parseLong(split[2]);
@@ -82,7 +84,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public List<String> convertObjectListsToFileStrings(Collection<Voucher> voucherList) {
-        return voucherList.stream().map(voucher -> VoucherType.of(voucher).getTitle() + "," + voucher.getVoucherId() + "," + voucher.getAmount())
+        return voucherList.stream().map(voucher -> VoucherType.of(voucher).getTitle() + CSV_SEPARATOR + voucher.getVoucherId() + CSV_SEPARATOR + voucher.getAmount())
                 .toList();
     }
 
