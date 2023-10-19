@@ -16,7 +16,7 @@ class VoucherTypeTest {
     @DisplayName("유효하지 않은 바우처 타입을 입력하면 에러 메시지를 띄운다.")
     void invalidMenuNumber(){
         //given
-        int menuNum = 4;
+        String menuNum = "4";
 
         //when
         //then
@@ -31,8 +31,8 @@ class VoucherTypeTest {
     @DisplayName("유효한 바우처 타입을 입력하면 바우처 타입을 반환한다.")
     void validMenuNumber(){
         //given
-        int menuNum = 1;
-        int menuNum2 = 2;
+        String menuNum = "1";
+        String menuNum2 = "2";
 
         //when
         VoucherType voucherType = VoucherType.selectVoucherType(menuNum);
