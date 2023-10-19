@@ -1,7 +1,6 @@
 package org.programmers.springorder.service;
 
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 
 import org.programmers.springorder.dto.VoucherRequestDto;
@@ -18,8 +17,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class VoucherServiceTest {
 
     private static final VoucherRepository voucherRepository = new MemoryVoucherRepository();
@@ -27,47 +26,41 @@ class VoucherServiceTest {
 
     private static final Logger log = LoggerFactory.getLogger(VoucherServiceTest.class);
 
-    private final List<UUID> uuids = Arrays.asList(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
-    @BeforeEach
-    void init(){
+
+    @Test
+    @Order(2)
+    @DisplayName("모든 Voucher 리스트를 가져오는 Service 로직")
+    void getAllVoucher() {
+        List<UUID> uuids = Arrays.asList(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
         voucherRepository.save(new Voucher(uuids.get(0),10, VoucherType.PERCENT));
         voucherRepository.save(new Voucher(uuids.get(1),5, VoucherType.PERCENT));
         voucherRepository.save(new Voucher(uuids.get(2),1000, VoucherType.FIXED));
         voucherRepository.save(new Voucher(uuids.get(3), 2000, VoucherType.FIXED));
-    }
 
-    @AfterEach
-    void clear(){
-        voucherRepository.clear();
-    }
-
-    @Test
-    @DisplayName("모든 Voucher 리스트를 가져오는 Service 로직")
-    void getAllVoucher() {
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
         allVoucher.forEach(voucher -> log.info("voucher.toString = {}",voucher));
+        List<UUID> rs = allVoucher.stream().map(VoucherResponseDto::getVoucherId).toList();
 
-        assertThat(allVoucher).hasSize(4);
-        assertThat(allVoucher.stream()
-                .map(VoucherResponseDto::getVoucherId)
-                .allMatch(uuids::contains))
+        assertThat(allVoucher).hasSize(5);
+        assertThat(uuids.stream()
+                .allMatch(rs::contains))
                 .isTrue();
-
     }
 
     @Test
+    @Order(1)
     @DisplayName("Voucher를 저장하는 Service 로직")
     void saveNewVoucher() {
         //given
         VoucherRequestDto requestDto = new VoucherRequestDto(100, VoucherType.FIXED);
         List<VoucherResponseDto> beforeSaveVoucher = voucherService.getAllVoucher();
-        assertThat(beforeSaveVoucher).hasSize(4);
+        assertThat(beforeSaveVoucher).hasSize(0);
 
         //when
         voucherService.save(requestDto);
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
 
         //then
-        assertThat(allVoucher).hasSize(5);
+        assertThat(allVoucher).hasSize(1);
     }
 }
