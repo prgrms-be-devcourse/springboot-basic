@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.consolecomponent;
 
+import com.programmers.vouchermanagement.voucher.CreateVoucherRequestDTO;
 import com.programmers.vouchermanagement.voucher.Voucher;
 import com.programmers.vouchermanagement.voucher.VoucherController;
 import org.springframework.stereotype.Component;
@@ -53,8 +54,8 @@ public class MenuHandler {
             case EXIT -> consoleManager.printExit();
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
-                Voucher voucher = consoleManager.instructCreate();
-                voucher = voucherController.create(voucher);
+                CreateVoucherRequestDTO createVoucherRequestDTO = consoleManager.instructCreate();
+                Voucher voucher = voucherController.create(createVoucherRequestDTO);
                 consoleManager.printCreateResult(voucher);
             }
             case LIST -> {

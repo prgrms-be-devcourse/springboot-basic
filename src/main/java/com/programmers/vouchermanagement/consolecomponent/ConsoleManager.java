@@ -1,15 +1,12 @@
 package com.programmers.vouchermanagement.consolecomponent;
 
-import com.programmers.vouchermanagement.voucher.FixedAmountVoucher;
-import com.programmers.vouchermanagement.voucher.PercentVoucher;
+import com.programmers.vouchermanagement.voucher.CreateVoucherRequestDTO;
 import com.programmers.vouchermanagement.voucher.Voucher;
-
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 
 import static com.programmers.vouchermanagement.consolecomponent.Menu.findSelectedMenu;
 import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
@@ -28,8 +25,6 @@ public class ConsoleManager {
             Type **fixed** to create a fixed amount voucher.
             Type **percent** to create a percent discount voucher.
             """;
-
-    //TODO: consider line separator as new line command may differ for every OS
     private static final String VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION =
             "Please type the amount/percent of discount of the voucher.%s".formatted(LINE_SEPARATOR);
     private static final String INVALID_VOUCHER_TYPE_MESSAGE =
@@ -40,9 +35,9 @@ public class ConsoleManager {
             "The voucher(ID: %s) is successfully created.";
     private static final String INCORRECT_INPUT_MESSAGE =
             """
-            Such input is incorrect.
-            Please input a correct command carefully.
-            """;
+                    Such input is incorrect.
+                    Please input a correct command carefully.
+                    """;
     //---
 
     private final TextIO textIO;
@@ -60,26 +55,15 @@ public class ConsoleManager {
         return findSelectedMenu(input);
     }
 
-    public Voucher instructCreate() {
+    public CreateVoucherRequestDTO instructCreate() {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
+        CreateVoucherMenu createVoucherMenu = CreateVoucherMenu.findCreateMenu(createMenu)
+                .orElseThrow(() -> new IllegalArgumentException(INCORRECT_INPUT_MESSAGE));
 
-        //TODO: refactor order of inputs obtaining + error handling
-        long discountAmount = textIO.newLongInputReader()
+        long discountValue = textIO.newLongInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
-
-        // TODO: reconsider constructing models (Bean, factory method in DTO)
-        switch (createMenu) {
-            case "fixed" -> {
-                return new FixedAmountVoucher(UUID.randomUUID(), discountAmount);
-            }
-
-            case "percent" -> {
-                return new PercentVoucher(UUID.randomUUID(), discountAmount);
-            }
-
-            default -> throw new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE);
-        }
+        return new CreateVoucherRequestDTO(createVoucherMenu, discountValue);
     }
 
     public void printCreateResult(Voucher voucher) {

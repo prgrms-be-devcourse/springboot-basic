@@ -17,8 +17,8 @@ public class VoucherController {
     }
 
     //TODO: add DTO
-    public Voucher create(Voucher voucher) {
-        return voucherService.create(voucher);
+    public Voucher create(CreateVoucherRequestDTO createVoucherRequestDTO) {
+        return voucherService.create(createVoucherRequestDTO);
     }
 
     public List<Voucher> readAllVouchers() {
