@@ -1,8 +1,8 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-import java.util.UUID;
+import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
 
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDTO;
+import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
@@ -22,13 +22,18 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
+    public long getDiscountValue() {
+        return discountAmount;
+    }
+
+    @Override
     public long discount(long priceBeforeDiscount) {
         return priceBeforeDiscount - discountAmount;
     }
 
     @Override
-    public VoucherResponseDTO toResponseDTO() {
-        return new VoucherResponseDTO(voucherID, discountAmount, VoucherType.FIXED);
+    public GeneralVoucherDTO toVoucherDTO() {
+        return new GeneralVoucherDTO(voucherID, discountAmount, VoucherType.FIXED);
     }
 
     private void validateDiscountAmount(long discountAmount) {

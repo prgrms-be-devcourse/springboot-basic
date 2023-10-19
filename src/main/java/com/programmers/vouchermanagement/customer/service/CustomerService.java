@@ -18,11 +18,9 @@ public class CustomerService {
 
     public List<Customer> readBlacklist() {
         List<Customer> blacklist = customerRepository.findBlackCustomers();
-        //TODO: logger to inform no black customers exists
         if (blacklist.isEmpty()) {
             throw new NoSuchElementException("no blacklist");
         }
-
         return blacklist;
     }
 }

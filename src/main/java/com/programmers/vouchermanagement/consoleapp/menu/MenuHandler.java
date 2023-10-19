@@ -3,7 +3,7 @@ package com.programmers.vouchermanagement.consoleapp.menu;
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDTO;
+import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
 
 import org.springframework.stereotype.Component;
 
@@ -63,11 +63,11 @@ public class MenuHandler {
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
                 CreateVoucherRequestDTO createVoucherRequestDTO = consoleManager.instructCreate();
-                VoucherResponseDTO voucherResponse = voucherController.create(createVoucherRequestDTO);
+                GeneralVoucherDTO voucherResponse = voucherController.create(createVoucherRequestDTO);
                 consoleManager.printCreateResult(voucherResponse);
             }
             case LIST -> {
-                List<VoucherResponseDTO> voucherResponses = voucherController.readAllVouchers();
+                List<GeneralVoucherDTO> voucherResponses = voucherController.readAllVouchers();
                 consoleManager.printReadAll(voucherResponses);
             }
         }
