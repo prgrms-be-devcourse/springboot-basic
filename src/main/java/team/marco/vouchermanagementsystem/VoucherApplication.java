@@ -100,7 +100,12 @@ public class VoucherApplication {
         logger.info("Call getVoucherList()");
 
         String vouchersInfo = String.join(INFO_DELIMINATOR, voucherService.getVouchersInfo());
-        Console.print(vouchersInfo);
+
+        if (!vouchersInfo.isBlank()) {
+            Console.print(vouchersInfo);
+        }
+
+        Console.print("조회가 완료되었습니다.");
     }
 
     private void close() {
