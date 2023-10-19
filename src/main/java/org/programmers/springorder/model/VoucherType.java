@@ -5,25 +5,37 @@ import java.util.InputMismatchException;
 import java.util.function.BiFunction;
 
 public enum VoucherType {
-    FIXED(1, ((beforeDiscount, discount) -> beforeDiscount - discount)),
-    PERCENT(2, ((beforeDiscount, discount) -> beforeDiscount * (100 - discount) / 100));
+    FIXED("1", ((beforeDiscount, discount) -> beforeDiscount - discount), 100, 10000),
+    PERCENT("2", ((beforeDiscount, discount) -> beforeDiscount * (100 - discount) / 100), 3, 50);
 
-    private final int voucherNum;
+    private final String voucherNum;
     private final BiFunction<Long, Long, Long> expression;
+    private final long minimumValue;
+    private final long maximumValue;
 
-    VoucherType(int voucherNum, BiFunction<Long, Long, Long> expression) {
+    VoucherType(String voucherNum, BiFunction<Long, Long, Long> expression, long minimumValue, long maximumValue) {
         this.voucherNum = voucherNum;
         this.expression = expression;
+        this.minimumValue = minimumValue;
+        this.maximumValue = maximumValue;
     }
 
-    public static VoucherType selectVoucherType(int voucherNum) {
+    public static VoucherType selectVoucherType(String voucherNum) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucher -> voucher.voucherNum == voucherNum)
+                .filter(voucher -> voucher.voucherNum.equals(voucherNum))
                 .findAny()
                 .orElseThrow(() -> new InputMismatchException("유효하지 않은 값입니다. 다시 입력해주세요."));
     }
 
     public long calculate(long beforeDiscount, long discount) {
         return this.expression.apply(beforeDiscount, discount);
+    }
+
+    public long getMinimumValue() {
+        return minimumValue;
+    }
+
+    public long getMaximumValue() {
+        return maximumValue;
     }
 }
