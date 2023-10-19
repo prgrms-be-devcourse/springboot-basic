@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.programmers.springboot.basic.AppConstants;
-import org.programmers.springboot.basic.VoucherManagementApplication;
+import org.programmers.springboot.basic.config.AppConfig;
 import org.programmers.springboot.basic.config.VoucherConfig;
 import org.programmers.springboot.basic.domain.voucher.dto.CsvVoucherDto;
 import org.programmers.springboot.basic.domain.voucher.dto.VoucherRequestDto;
@@ -80,10 +80,6 @@ public class FileVoucherRepositoryTest {
         this.validateHandlers = validateHandlers;
     }
 
-    private static boolean isRunningFromJar() {
-        return VoucherManagementApplication.class.getResource("VoucherManagementApplication.class").toString().startsWith("jar:");
-    }
-
     private String getTestFilePath() {
 
         String folderPath = this.fileProperties.getUserDir();
@@ -91,7 +87,7 @@ public class FileVoucherRepositoryTest {
         String resourcePath = this.fileProperties.getResources().getPath();
         String filePath = folderPath + resourcePath + fileName;
 
-        if (isRunningFromJar()) {
+        if (AppConfig.isRunningFromJar()) {
             folderPath = this.fileProperties.getProjDir();
             resourcePath = this.fileProperties.getResources().getJar();
             filePath =  folderPath + resourcePath + fileName;
@@ -167,7 +163,7 @@ public class FileVoucherRepositoryTest {
             String resourcePath = this.fileProperties.getResources().getPath();
             String filePath = folderPath + resourcePath + fileName;
 
-            if (isRunningFromJar()) {
+            if (AppConfig.isRunningFromJar()) {
                 folderPath = this.fileProperties.getProjDir();
                 resourcePath = this.fileProperties.getResources().getJar();
                 filePath =  folderPath + resourcePath + fileName;

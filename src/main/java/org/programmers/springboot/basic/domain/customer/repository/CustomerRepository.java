@@ -1,8 +1,8 @@
 package org.programmers.springboot.basic.domain.customer.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.programmers.springboot.basic.config.AppConfig;
 import org.programmers.springboot.basic.AppConstants;
-import org.programmers.springboot.basic.VoucherManagementApplication;
 import org.programmers.springboot.basic.domain.customer.dto.CsvCustomerDto;
 import org.programmers.springboot.basic.domain.customer.entity.Customer;
 import org.programmers.springboot.basic.domain.customer.mapper.CustomerMapper;
@@ -62,10 +62,6 @@ public class CustomerRepository {
         return blackList;
     }
 
-    private boolean isRunningFromJar() {
-        return VoucherManagementApplication.class.getResource("VoucherManagementApplication.class").toString().startsWith("jar:");
-    }
-
     private String getFilePath() {
 
         String folderPath = this.fileProperties.getUserDir();
@@ -73,7 +69,7 @@ public class CustomerRepository {
         String resourcePath = this.fileProperties.getResources().getPath();
         String filePath = folderPath + resourcePath + fileName;
 
-        if (isRunningFromJar()) {
+        if (AppConfig.isRunningFromJar()) {
             folderPath = this.fileProperties.getProjDir();
             resourcePath = this.fileProperties.getResources().getJar();
             filePath =  folderPath + resourcePath + fileName;
