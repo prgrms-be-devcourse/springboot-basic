@@ -65,7 +65,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
             while ((line = reader.readLine()) != null) {
                 String[] token = line.split(AppConstants.CSV_SEPARATOR);
-                //if (token.length < 3) return voucherList;
                 CsvVoucherDto voucherDto = voucherMapper.deserialize(token);
                 Voucher voucher = voucherMapper.mapToVoucher(voucherDto);
                 voucherList.add(voucher);

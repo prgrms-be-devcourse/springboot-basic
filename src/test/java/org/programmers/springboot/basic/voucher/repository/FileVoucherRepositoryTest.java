@@ -28,6 +28,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -67,39 +69,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class FileVoucherRepositoryTest {
 
-    private final CSVFileManager csvFileManager;
-    private final VoucherMapper voucherMapper;
-    private final FileProperties fileProperties;
-    private final Map<VoucherType, ValidateHandler> validateHandlers;
+    private final TestFileVoucherRepository testFileVoucherRepository;
+    private final TestVoucherService testVoucherService;
 
     @Autowired
-    public FileVoucherRepositoryTest(CSVFileManager csvFileManager, VoucherMapper voucherMapper, FileProperties fileProperties, Map<VoucherType, ValidateHandler> validateHandlers) {
-        this.csvFileManager = csvFileManager;
-        this.voucherMapper = voucherMapper;
-        this.fileProperties = fileProperties;
-        this.validateHandlers = validateHandlers;
-    }
-
-    private String getTestFilePath() {
-
-        String folderPath = this.fileProperties.getUserDir();
-        String fileName = this.fileProperties.getNames().get("voucher").getFileName();
-        String resourcePath = this.fileProperties.getResources().getPath();
-        String filePath = folderPath + resourcePath + fileName;
-
-        if (AppConfig.isRunningFromJar()) {
-            folderPath = this.fileProperties.getProjDir();
-            resourcePath = this.fileProperties.getResources().getJar();
-            filePath =  folderPath + resourcePath + fileName;
-        }
-
-        return filePath;
+    public FileVoucherRepositoryTest(TestFileVoucherRepository testFileVoucherRepository, TestVoucherService testVoucherService) {
+        this.testFileVoucherRepository = testFileVoucherRepository;
+        this.testVoucherService = testVoucherService;
     }
 
     @AfterEach
     public void after() {
         try {
-            String filePath = getTestFilePath();
+            String filePath = testFileVoucherRepository.getTestFilePath();
             Path path = Path.of(filePath);
             if (Files.exists(path)) Files.write(path, new byte[0], StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
@@ -108,17 +90,18 @@ public class FileVoucherRepositoryTest {
 
     }
 
+    @Component
     static class TestVoucherService extends VoucherService {
 
         private final VoucherRepository voucherRepository;
         private final VoucherMapper voucherMapper;
         private final Map<VoucherType, ValidateHandler> validateHandlers;
 
-        public TestVoucherService(Map<VoucherType, ValidateHandler> validateHandlers, VoucherMapper voucherMapper, CSVFileManager csvFileManager, VoucherRepository voucherRepository, FileProperties fileProperties) {
+        public TestVoucherService(Map<VoucherType, ValidateHandler> validateHandlers, VoucherMapper voucherMapper, VoucherRepository voucherRepository) {
             super(validateHandlers, voucherMapper, voucherRepository);
             this.validateHandlers = validateHandlers;
             this.voucherMapper = voucherMapper;
-            this.voucherRepository = new TestFileVoucherRepository(csvFileManager, voucherMapper, fileProperties);
+            this.voucherRepository = voucherRepository;
         }
 
         @Override
@@ -138,6 +121,8 @@ public class FileVoucherRepositoryTest {
         }
     }
 
+    @Component
+    @Primary
     static class TestFileVoucherRepository extends FileVoucherRepository {
 
         private final File FILE;
@@ -237,10 +222,6 @@ public class FileVoucherRepositoryTest {
     @DisplayName("파일 쓰기에 대한 동시성 제어 성공 테스트")
     public void successConcurrencyControlAboutFileWrite() throws InterruptedException {
 
-        final TestFileVoucherRepository testFileVoucherRepository = new TestFileVoucherRepository(
-                this.csvFileManager, this.voucherMapper, this.fileProperties
-        );
-
         Voucher voucher1 = new PercentDiscountVoucher(UUID.randomUUID(), 10L, VoucherType.PERCENT);
         Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 50L, VoucherType.PERCENT);
         Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 60L, VoucherType.PERCENT);
@@ -275,14 +256,6 @@ public class FileVoucherRepositoryTest {
 
         int threadCount = 20;
         int iterations = 100;
-
-        final TestFileVoucherRepository testFileVoucherRepository = new TestFileVoucherRepository(
-                this.csvFileManager, this.voucherMapper, this.fileProperties
-        );
-
-        final TestVoucherService testVoucherService = new TestVoucherService(
-                this.validateHandlers, this.voucherMapper, this.csvFileManager, testFileVoucherRepository, this.fileProperties
-        );
 
         CountDownLatch latch = new CountDownLatch(threadCount);
 
