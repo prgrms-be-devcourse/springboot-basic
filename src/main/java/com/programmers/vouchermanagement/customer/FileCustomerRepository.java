@@ -20,7 +20,9 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return null;
+        return customers.values()
+                .stream()
+                .toList();
     }
 
     private void loadBlacklist() {
