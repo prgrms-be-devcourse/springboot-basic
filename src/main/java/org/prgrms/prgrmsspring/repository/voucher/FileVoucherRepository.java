@@ -1,7 +1,6 @@
 package org.prgrms.prgrmsspring.repository.voucher;
 
 import jakarta.annotation.PreDestroy;
-import lombok.extern.slf4j.Slf4j;
 import org.prgrms.prgrmsspring.domain.VoucherType;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
@@ -14,7 +13,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Slf4j
+
 @Profile("prod")
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
