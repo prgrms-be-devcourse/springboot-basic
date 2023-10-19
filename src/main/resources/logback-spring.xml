@@ -4,7 +4,12 @@
 
     <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n"/>
 
-    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
@@ -13,12 +18,8 @@
         </encoder>
     </appender>
 
-    <logger name="com.programmers.vouchermanagement.*" level="error">
-        <appender-ref ref="ROLLING_FILE"/>
-    </logger>
-
     <root level="info">
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ERROR_FILE"/>
     </root>
-
 </configuration>
