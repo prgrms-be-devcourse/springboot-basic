@@ -10,6 +10,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
+    // Conversation:
+    // Injecting logger to where it would be used
+    //                  VS
+    // Static logger to be used in wherever willing to use
     @Bean
     public Logger logger() {
         return LoggerFactory.getLogger(VoucherManagementApplication.class);
