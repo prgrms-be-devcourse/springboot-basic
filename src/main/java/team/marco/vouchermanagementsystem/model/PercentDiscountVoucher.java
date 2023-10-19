@@ -47,12 +47,11 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public int getData() {
-        return percent;
-    }
-
-    @Override
     public VoucherType getType() {
         return VoucherType.PERCENT;
+    }
+
+    public int getPercent() {
+        return percent;
     }
 }

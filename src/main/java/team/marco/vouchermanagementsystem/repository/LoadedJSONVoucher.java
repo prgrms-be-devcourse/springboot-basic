@@ -10,8 +10,9 @@ import java.util.UUID;
 public class LoadedJSONVoucher {
     private VoucherType type;
     private UUID id;
-    private int data;
     private String info;
+    private int amount;
+    private int percent;
 
     private LoadedJSONVoucher() {
         // for object mapper deserializing
@@ -19,8 +20,8 @@ public class LoadedJSONVoucher {
 
     public Voucher convertToVoucher() {
         return switch (getType()) {
-            case FIXED -> new FixedAmountVoucher(getId(), getData());
-            case PERCENT -> new PercentDiscountVoucher(getId(), getData());
+            case FIXED -> new FixedAmountVoucher(getId(), getAmount());
+            case PERCENT -> new PercentDiscountVoucher(getId(), getPercent());
         };
     }
 
@@ -32,11 +33,15 @@ public class LoadedJSONVoucher {
         return id;
     }
 
-    public int getData() {
-        return data;
-    }
-
     public String getInfo() {
         return info;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public int getPercent() {
+        return percent;
     }
 }

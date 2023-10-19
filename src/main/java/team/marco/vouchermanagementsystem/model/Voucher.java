@@ -7,7 +7,5 @@ public interface Voucher {
 
     String getInfo();
 
-    int getData();
-
     VoucherType getType();
 }

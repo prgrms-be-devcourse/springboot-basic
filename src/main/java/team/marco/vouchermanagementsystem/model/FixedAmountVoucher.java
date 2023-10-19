@@ -39,12 +39,11 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public int getData() {
-        return amount;
-    }
-
-    @Override
     public VoucherType getType() {
         return VoucherType.FIXED;
+    }
+
+    public int getAmount() {
+        return amount;
     }
 }
