@@ -36,7 +36,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
                 UUID id = UUID.fromString(data[0]);
                 int discount = Integer.parseInt(data[1]);
-                VoucherDiscountType discountType = Enum.valueOf(VoucherDiscountType.class, data[1]);
+                VoucherDiscountType discountType = Enum.valueOf(VoucherDiscountType.class, data[2]);
 
                 if(discountType == VoucherDiscountType.PERCENT_DISCOUNT)
                     voucherMap.put(id, Voucher.newPercentDiscountVoucher(id, discount));

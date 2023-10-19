@@ -36,7 +36,7 @@ public class VoucherController {
         switch (voucherMenuRequestDto.command()) {
             case "create" -> createVoucher();
             case "list" -> listVoucher();
-            case "customer_blacklist" -> {
+            case "blacklist" -> {
                 customerController.blackList();
                 init();
             }

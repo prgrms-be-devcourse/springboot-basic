@@ -23,6 +23,7 @@ public class ConsoleView {
                         Type **exit** to exit the program.
                         Type **create** to create a new voucher.
                         Type **list** to list all vouchers.
+                        Type **blacklist** to list blocked customers.
                         """);
 
         return new VoucherMenuRequestDto(command);
