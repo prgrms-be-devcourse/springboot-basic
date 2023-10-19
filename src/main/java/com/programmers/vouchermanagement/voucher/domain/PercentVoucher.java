@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.voucher.domain;
 
 import java.util.UUID;
 
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDTO;
+import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
 
 public class PercentVoucher implements Voucher {
     private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
@@ -22,13 +22,18 @@ public class PercentVoucher implements Voucher {
     }
 
     @Override
+    public long getDiscountValue() {
+        return discountPercent;
+    }
+
+    @Override
     public long discount(long priceBeforeDiscount) {
         return (long) (priceBeforeDiscount * (1 - discountPercent / 100D));
     }
 
     @Override
-    public VoucherResponseDTO toResponseDTO() {
-        return new VoucherResponseDTO(voucherID, discountPercent, VoucherType.PERCENT);
+    public GeneralVoucherDTO toVoucherDTO() {
+        return new GeneralVoucherDTO(voucherID, discountPercent, VoucherType.PERCENT);
     }
 
     private void validateDiscountPercent(long discountPercent) {
