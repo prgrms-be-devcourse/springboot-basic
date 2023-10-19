@@ -2,10 +2,22 @@ package org.prgrms.prgrmsspring.entity.voucher;
 
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getVoucherId();
+public abstract class Voucher {
+    protected final UUID voucherId;
+    protected final long amount;
 
-    long getAmount();
+    protected Voucher(UUID voucherId, long amount) {
+        this.voucherId = voucherId;
+        this.amount = amount;
+    }
 
-    long discount(long beforeDiscount);
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
+    public abstract long discount(long beforeDiscount);
 }
