@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a10440c-03f8-4273-8489-7655cb168499" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/basic/src/main/java/com/pgms/part1/domain/view/ConsoleView.java" beforeDir="false" afterPath="$PROJECT_DIR$/basic/src/main/java/com/pgms/part1/view/ConsoleView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/basic/src/main/java/com/pgms/part1/domain/voucher/controller/VoucherController.java" beforeDir="false" afterPath="$PROJECT_DIR$/basic/src/main/java/com/pgms/part1/domain/voucher/controller/VoucherController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/basic/src/main/java/com/pgms/part1/domain/voucher/repository/VoucherMemoryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/basic/src/main/java/com/pgms/part1/domain/voucher/repository/VoucherMemoryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/basic/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/basic/src/main/resources/application.yml" afterDir="false" />
-    </list>
+    <list default="true" id="8a10440c-03f8-4273-8489-7655cb168499" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -178,7 +172,7 @@
       <workItem from="1697625802530" duration="1086000" />
       <workItem from="1697719465514" duration="5709000" />
       <workItem from="1697728587611" duration="1824000" />
-      <workItem from="1697730424168" duration="627000" />
+      <workItem from="1697730424168" duration="809000" />
     </task>
     <servers />
   </component>
