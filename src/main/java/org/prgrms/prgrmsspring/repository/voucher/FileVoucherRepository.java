@@ -86,7 +86,7 @@ public class FileVoucherRepository implements VoucherRepository {
         voucherList.forEach(voucher -> {
             String fileString = "," + voucher.getVoucherId() + "," + voucher.getAmount();
             VoucherType voucherType = VoucherType.of(voucher);
-            fileString = voucherType.getName() + fileString;
+            fileString = voucherType.getTitle() + fileString;
             fileStrings.add(fileString);
         });
         return fileStrings;

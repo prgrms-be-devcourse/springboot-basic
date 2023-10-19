@@ -12,26 +12,26 @@ import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 public enum VoucherType {
-    FIXEDAMOUNT("FixedAmount", FixedAmountVoucher::new, FixedAmountVoucher.class::isInstance),
-    PERCENTDISCOUNT("PercentDiscount", PercentDiscountVoucher::new, PercentDiscountVoucher.class::isInstance);
+    FIXED_AMOUNT("FixedAmount", FixedAmountVoucher::new, FixedAmountVoucher.class::isInstance),
+    PERCENT_DISCOUNT("PercentDiscount", PercentDiscountVoucher::new, PercentDiscountVoucher.class::isInstance);
 
-    private final String name;
+    private final String title;
     private final BiFunction<UUID, Long, Voucher> constructVoucherFunc;
     private final Predicate<Voucher> checkInstanceOf;
 
-    VoucherType(String name, BiFunction<UUID, Long, Voucher> constructVoucherFunc, Predicate<Voucher> checkInstanceOf) {
-        this.name = name;
+    VoucherType(String title, BiFunction<UUID, Long, Voucher> constructVoucherFunc, Predicate<Voucher> checkInstanceOf) {
+        this.title = title;
         this.constructVoucherFunc = constructVoucherFunc;
         this.checkInstanceOf = checkInstanceOf;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public static VoucherType of(String typeValue) {
         return Arrays.stream(VoucherType.values())
-                .filter(v -> v.name.equals(typeValue))
+                .filter(v -> v.title.equals(typeValue))
                 .findAny()
                 .orElseThrow(() -> new NotFoundException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage()));
     }
