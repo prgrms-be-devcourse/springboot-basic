@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class FileCustomerRepository implements CustomerRepository {
     private static final String BLACKLIST_FILE_PATH = "src/main/resources/blacklist.csv";
     private final Map<UUID, Customer> customers;

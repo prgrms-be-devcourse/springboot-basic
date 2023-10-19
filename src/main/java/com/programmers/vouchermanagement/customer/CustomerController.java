@@ -2,6 +2,9 @@ package com.programmers.vouchermanagement.customer;
 
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
+
+@Controller
 public class CustomerController {
     private final CustomerService customerService;
 
