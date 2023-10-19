@@ -5,11 +5,15 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import static com.programmers.vouchermanagement.constant.message.ExceptionMessage.INVALID_DISCOUNT_INPUT_MESSAGE;
-import static com.programmers.vouchermanagement.constant.message.ExceptionMessage.VOUCHER_NOT_FOUND_MESSAGE;
-
 @Service
 public class VoucherService {
+    //messages
+    private static final String VOUCHER_NOT_FOUND_MESSAGE =
+            "There is no voucher registered.";
+    private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
+            "Input should be a number greater than 0";
+    //---
+
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {

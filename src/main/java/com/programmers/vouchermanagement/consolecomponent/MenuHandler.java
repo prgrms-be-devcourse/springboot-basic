@@ -1,7 +1,5 @@
 package com.programmers.vouchermanagement.consolecomponent;
 
-import static com.programmers.vouchermanagement.constant.message.ExceptionMessage.INEXECUTABLE_MESSAGE;
-
 import com.programmers.vouchermanagement.voucher.Voucher;
 import com.programmers.vouchermanagement.voucher.VoucherController;
 import org.springframework.stereotype.Component;
@@ -10,6 +8,11 @@ import java.util.List;
 
 @Component
 public class MenuHandler {
+    //messages
+    private static final String INCORRECT_MESSAGE =
+            "This menu is not executable.";
+    //---
+
     private final ConsoleManager consoleManager;
     private final VoucherController voucherController;
 
@@ -39,7 +42,7 @@ public class MenuHandler {
         }
 
         if (menu.isIncorrect()) {
-            throw new IllegalArgumentException(INEXECUTABLE_MESSAGE);
+            throw new IllegalArgumentException(INCORRECT_MESSAGE);
         }
 
         return true;
