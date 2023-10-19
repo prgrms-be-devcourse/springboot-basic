@@ -1,6 +1,8 @@
-package com.programmers.vouchermanagement.voucher;
+package com.programmers.vouchermanagement.voucher.domain;
 
 import java.util.UUID;
+
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDTO;
 
 public class FixedAmountVoucher implements Voucher {
     private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
@@ -25,13 +27,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public String toConsoleFormat() {
-        return """
-                Voucher ID : %s
-                Voucher Type : Fixed Amount Voucher
-                Discount Amount : %s
-                -------------------------"""
-                .formatted(voucherID, discountAmount);
+    public VoucherResponseDTO toResponseDTO() {
+        return new VoucherResponseDTO(voucherID, discountAmount, VoucherType.FIXED);
     }
 
     private void validateDiscountAmount(long discountAmount) {

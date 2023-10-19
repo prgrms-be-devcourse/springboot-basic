@@ -1,9 +1,12 @@
-package com.programmers.vouchermanagement.customer;
+package com.programmers.vouchermanagement.customer.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
+
+import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 
 @Service
 public class CustomerService {

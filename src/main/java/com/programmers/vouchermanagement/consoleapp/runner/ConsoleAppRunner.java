@@ -1,9 +1,11 @@
-package com.programmers.vouchermanagement.consolecomponent;
+package com.programmers.vouchermanagement.consoleapp.runner;
 
 import org.slf4j.Logger;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+
+import com.programmers.vouchermanagement.consoleapp.menu.MenuHandler;
 
 @Component
 public class ConsoleAppRunner implements ApplicationRunner {

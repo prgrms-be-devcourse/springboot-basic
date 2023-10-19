@@ -1,8 +1,10 @@
-package com.programmers.vouchermanagement.voucher;
+package com.programmers.vouchermanagement.voucher.repository;
 
 import java.util.*;
 
 import org.springframework.stereotype.Repository;
+
+import com.programmers.vouchermanagement.voucher.domain.Voucher;
 
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {

@@ -1,8 +1,10 @@
-package com.programmers.vouchermanagement.consolecomponent;
+package com.programmers.vouchermanagement.consoleapp.menu;
 
-import com.programmers.vouchermanagement.voucher.CreateVoucherRequestDTO;
-import com.programmers.vouchermanagement.voucher.Voucher;
-import com.programmers.vouchermanagement.voucher.VoucherController;
+import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
+import com.programmers.vouchermanagement.voucher.controller.VoucherController;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDTO;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -61,12 +63,12 @@ public class MenuHandler {
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
                 CreateVoucherRequestDTO createVoucherRequestDTO = consoleManager.instructCreate();
-                Voucher voucher = voucherController.create(createVoucherRequestDTO);
-                consoleManager.printCreateResult(voucher);
+                VoucherResponseDTO voucherResponse = voucherController.create(createVoucherRequestDTO);
+                consoleManager.printCreateResult(voucherResponse);
             }
             case LIST -> {
-                List<Voucher> vouchers = voucherController.readAllVouchers();
-                consoleManager.printReadAll(vouchers);
+                List<VoucherResponseDTO> voucherResponses = voucherController.readAllVouchers();
+                consoleManager.printReadAll(voucherResponses);
             }
         }
     }
