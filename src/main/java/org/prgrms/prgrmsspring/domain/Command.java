@@ -23,10 +23,7 @@ public enum Command {
     }
 
     public static Command of(String name) throws IllegalArgumentException {
-        if (name.toLowerCase().equals(name)) {
-            return valueOf(name.toUpperCase());
-        }
-        return valueOf(name);
+        return valueOf(name.toUpperCase());
     }
 
     public void run(ApplicationController controller) {
