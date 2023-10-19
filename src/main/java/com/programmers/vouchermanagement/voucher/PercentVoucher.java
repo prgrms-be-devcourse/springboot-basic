@@ -3,10 +3,13 @@ package com.programmers.vouchermanagement.voucher;
 import java.util.UUID;
 
 public class PercentVoucher implements Voucher {
+    private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
+            "Input should be a number greater than 0 and smaller than 100";
     private final UUID voucherID;
     private final long discountPercent;
 
     public PercentVoucher(UUID voucherID, long discountPercent) {
+        validateDiscountPercent(discountPercent);
         this.voucherID = voucherID;
         this.discountPercent = discountPercent;
     }
@@ -22,11 +25,6 @@ public class PercentVoucher implements Voucher {
     }
 
     @Override
-    public boolean validatePositiveDiscount() {
-        return discountPercent > 0;
-    }
-
-    @Override
     public String toConsoleFormat() {
         return """
                 Voucher ID : %s
@@ -34,5 +32,11 @@ public class PercentVoucher implements Voucher {
                 Discount Percentage : %s%%
                 -------------------------"""
                 .formatted(voucherID, discountPercent);
+    }
+
+    private void validateDiscountPercent(long discountPercent) {
+        if (discountPercent <= 0 || discountPercent > 100) {
+            throw new IllegalArgumentException(INVALID_DISCOUNT_INPUT_MESSAGE);
+        }
     }
 }

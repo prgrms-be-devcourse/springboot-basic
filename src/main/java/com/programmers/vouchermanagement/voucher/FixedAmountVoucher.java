@@ -3,10 +3,13 @@ package com.programmers.vouchermanagement.voucher;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
+    private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
+            "Input should be a number greater than 0";
     private final UUID voucherID;
     private final long discountAmount;
 
     public FixedAmountVoucher(UUID voucherID, long discountAmount) {
+        validateDiscountAmount(discountAmount);
         this.voucherID = voucherID;
         this.discountAmount = discountAmount;
     }
@@ -22,11 +25,6 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public boolean validatePositiveDiscount() {
-        return discountAmount > 0;
-    }
-
-    @Override
     public String toConsoleFormat() {
         return """
                 Voucher ID : %s
@@ -34,5 +32,11 @@ public class FixedAmountVoucher implements Voucher {
                 Discount Amount : %s
                 -------------------------"""
                 .formatted(voucherID, discountAmount);
+    }
+
+    private void validateDiscountAmount(long discountAmount) {
+        if (discountAmount <= 0) {
+            throw new IllegalArgumentException(INVALID_DISCOUNT_INPUT_MESSAGE);
+        }
     }
 }
