@@ -1,6 +1,6 @@
-package org.programmers.springorder.repository;
+package org.programmers.springorder.voucher.repository;
 
-import org.programmers.springorder.model.Voucher;
+import org.programmers.springorder.voucher.model.Voucher;
 
 import java.util.List;
 import java.util.Optional;

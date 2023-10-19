@@ -1,9 +1,9 @@
-package org.programmers.springorder.controller;
+package org.programmers.springorder.voucher.controller;
 
 import org.programmers.springorder.console.Console;
 import org.programmers.springorder.consts.Message;
-import org.programmers.springorder.dto.VoucherRequestDto;
-import org.programmers.springorder.service.VoucherService;
+import org.programmers.springorder.voucher.dto.VoucherRequestDto;
+import org.programmers.springorder.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 @Controller

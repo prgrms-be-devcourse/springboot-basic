@@ -1,14 +1,13 @@
-package org.programmers.springorder.repository;
+package org.programmers.springorder.voucher.repository;
 
 import org.programmers.springorder.console.Console;
 import org.programmers.springorder.consts.ErrorMessage;
-import org.programmers.springorder.model.Voucher;
-import org.programmers.springorder.model.VoucherType;
+import org.programmers.springorder.voucher.model.Voucher;
+import org.programmers.springorder.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;

@@ -1,6 +1,6 @@
-package org.programmers.springorder.model;
+package org.programmers.springorder.voucher.model;
 
-import org.programmers.springorder.dto.VoucherRequestDto;
+import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 
 import java.util.Objects;
 import java.util.UUID;

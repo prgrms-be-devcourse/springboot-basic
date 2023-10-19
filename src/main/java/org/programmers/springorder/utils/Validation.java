@@ -1,7 +1,7 @@
 package org.programmers.springorder.utils;
 
 import org.programmers.springorder.consts.ErrorMessage;
-import org.programmers.springorder.model.VoucherType;
+import org.programmers.springorder.voucher.model.VoucherType;
 
 import java.util.InputMismatchException;
 

@@ -3,12 +3,13 @@ package org.programmers.springorder.service;
 
 import org.junit.jupiter.api.*;
 
-import org.programmers.springorder.dto.VoucherRequestDto;
-import org.programmers.springorder.dto.VoucherResponseDto;
-import org.programmers.springorder.model.Voucher;
-import org.programmers.springorder.model.VoucherType;
-import org.programmers.springorder.repository.MemoryVoucherRepository;
-import org.programmers.springorder.repository.VoucherRepository;
+import org.programmers.springorder.voucher.dto.VoucherRequestDto;
+import org.programmers.springorder.voucher.dto.VoucherResponseDto;
+import org.programmers.springorder.voucher.model.Voucher;
+import org.programmers.springorder.voucher.model.VoucherType;
+import org.programmers.springorder.voucher.repository.MemoryVoucherRepository;
+import org.programmers.springorder.voucher.repository.VoucherRepository;
+import org.programmers.springorder.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,7 +1,6 @@
-package org.programmers.springorder.repository;
+package org.programmers.springorder.voucher.repository;
 
-import org.programmers.springorder.model.Voucher;
-import org.springframework.context.annotation.Profile;
+import org.programmers.springorder.voucher.model.Voucher;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

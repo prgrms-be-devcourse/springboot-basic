@@ -1,4 +1,4 @@
-package org.programmers.springorder.model;
+package org.programmers.springorder.voucher.model;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;

@@ -1,8 +1,6 @@
-package org.programmers.springorder.dto;
+package org.programmers.springorder.voucher.dto;
 
-import org.programmers.springorder.model.VoucherType;
-
-import java.util.UUID;
+import org.programmers.springorder.voucher.model.VoucherType;
 
 public class VoucherRequestDto {
     private final long discountValue;
