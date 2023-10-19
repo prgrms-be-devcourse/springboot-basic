@@ -1,5 +1,5 @@
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n"/>
@@ -13,7 +13,12 @@
         </encoder>
     </appender>
 
-    <logger name="com.programmers.vouchermanagement" level="error">
+    <logger name="com.programmers.vouchermanagement.*" level="error">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
 </configuration>
