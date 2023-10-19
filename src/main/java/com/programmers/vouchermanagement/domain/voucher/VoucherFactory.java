@@ -1,7 +1,5 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
-import java.util.UUID;
-
 public class VoucherFactory {
     public static Voucher create(VoucherType type, Long amount) {
         return switch (type) {

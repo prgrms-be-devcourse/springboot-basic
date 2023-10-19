@@ -1,17 +1,8 @@
 package com.programmers.vouchermanagement.service;
 
-import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
-import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
-import com.programmers.vouchermanagement.domain.voucher.Voucher;
-import com.programmers.vouchermanagement.domain.voucher.VoucherType;
-import com.programmers.vouchermanagement.stub.repository.StubVoucherRepository;
-import com.programmers.vouchermanagement.stub.util.StubUuidProvider;
+import com.programmers.vouchermanagement.domain.voucher.tmp.Voucher;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 

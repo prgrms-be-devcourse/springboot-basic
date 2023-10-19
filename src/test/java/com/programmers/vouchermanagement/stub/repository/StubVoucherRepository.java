@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.stub.repository;
 
-import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.domain.voucher.tmp.Voucher;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import com.programmers.vouchermanagement.stub.util.StubUuidProvider;
 import com.programmers.vouchermanagement.util.IdProvider;
