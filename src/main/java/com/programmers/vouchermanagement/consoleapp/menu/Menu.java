@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.consolecomponent;
+package com.programmers.vouchermanagement.consoleapp.menu;
 
 import java.util.Arrays;
 import java.util.Objects;

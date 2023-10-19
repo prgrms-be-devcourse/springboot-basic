@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.customer;
+package com.programmers.vouchermanagement.customer.repository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
+
+import com.programmers.vouchermanagement.customer.domain.Customer;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {

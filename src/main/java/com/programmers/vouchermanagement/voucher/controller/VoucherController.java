@@ -1,8 +1,12 @@
-package com.programmers.vouchermanagement.voucher;
+package com.programmers.vouchermanagement.voucher.controller;
 
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+
+import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
+import com.programmers.vouchermanagement.voucher.service.VoucherService;
 
 @Controller
 public class VoucherController {

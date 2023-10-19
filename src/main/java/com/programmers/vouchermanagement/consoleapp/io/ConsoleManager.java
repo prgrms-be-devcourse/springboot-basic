@@ -1,7 +1,9 @@
-package com.programmers.vouchermanagement.consolecomponent;
+package com.programmers.vouchermanagement.consoleapp.io;
 
-import com.programmers.vouchermanagement.voucher.CreateVoucherRequestDTO;
-import com.programmers.vouchermanagement.voucher.Voucher;
+import com.programmers.vouchermanagement.consoleapp.menu.CreateVoucherMenu;
+import com.programmers.vouchermanagement.consoleapp.menu.Menu;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
+import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;

@@ -1,6 +1,11 @@
-package com.programmers.vouchermanagement.voucher;
+package com.programmers.vouchermanagement.voucher.service;
 
-import com.programmers.vouchermanagement.consolecomponent.CreateVoucherMenu;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
+import com.programmers.vouchermanagement.voucher.domain.FixedAmountVoucher;
+import com.programmers.vouchermanagement.voucher.domain.PercentVoucher;
+import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;

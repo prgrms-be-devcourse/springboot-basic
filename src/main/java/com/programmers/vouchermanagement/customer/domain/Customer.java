@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.customer;
+package com.programmers.vouchermanagement.customer.domain;
 
 import java.util.UUID;
 
