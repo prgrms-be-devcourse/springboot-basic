@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.voucher.dto;
 
-import com.programmers.vouchermanagement.consoleapp.menu.CreateVoucherMenu;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
-public record CreateVoucherRequestDTO(CreateVoucherMenu createVoucherMenu, long discountAmount) {
+public record CreateVoucherRequestDTO(VoucherType voucherType, long discountValue) {
 }
