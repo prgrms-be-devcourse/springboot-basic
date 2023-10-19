@@ -1,7 +1,9 @@
 package org.programmers.springorder;
 
 import org.programmers.springorder.console.Console;
-import org.programmers.springorder.controller.VoucherController;
+import org.programmers.springorder.consts.Message;
+import org.programmers.springorder.customer.controller.CustomerController;
+import org.programmers.springorder.voucher.controller.VoucherController;
 import org.programmers.springorder.utils.MenuType;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -11,10 +13,11 @@ public class VoucherApplication implements CommandLineRunner {
 
     private final Console console;
     private final VoucherController voucherController;
-
-    public VoucherApplication(Console console, VoucherController voucherController) {
+    private final CustomerController customerController;
+    public VoucherApplication(Console console, VoucherController voucherController, CustomerController customerController) {
         this.console = console;
         this.voucherController = voucherController;
+        this.customerController = customerController;
     }
 
     @Override
@@ -27,10 +30,11 @@ public class VoucherApplication implements CommandLineRunner {
             switch (menu) {
                 case EXIT -> {
                     isRunning = false;
-                    console.printMessage("프로그램이 종료되었습니다.");
+                    console.printMessage(Message.EXIT_PROGRAM_MESSAGE);
                 }
                 case CREATE -> voucherController.createVoucher();
                 case LIST -> voucherController.getVoucherList();
+                case BLACK -> customerController.printBlackList();
             }
         }
     }

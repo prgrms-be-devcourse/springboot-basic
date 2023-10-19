@@ -8,9 +8,10 @@ import java.util.InputMismatchException;
 public enum MenuType {
     EXIT("1"),
     CREATE("2"),
-    LIST("3");
+    LIST("3"),
+    BLACK("4");
 
-    private String menuNum;
+    private final String menuNum;
 
     MenuType(String menuNum) {
         this.menuNum = menuNum;
