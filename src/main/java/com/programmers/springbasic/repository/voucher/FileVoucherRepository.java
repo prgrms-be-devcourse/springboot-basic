@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -15,7 +14,7 @@ import com.programmers.springbasic.utils.FileUtils;
 
 @Repository
 @Profile("dev")
-public class FileVoucherRepository implements VoucherRepository, InitializingBean {
+public class FileVoucherRepository implements VoucherRepository {
 
 	private final FileUtils fileUtils;
 	private final Map<UUID, Voucher> storage;
@@ -23,10 +22,6 @@ public class FileVoucherRepository implements VoucherRepository, InitializingBea
 	public FileVoucherRepository(FileUtils fileUtils) {
 		this.fileUtils = fileUtils;
 		storage = new ConcurrentHashMap<>();
-	}
-
-	@Override
-	public void afterPropertiesSet() {
 		Map<UUID, Voucher> voucherMap = fileUtils.readVoucherFile();
 		storage.putAll(voucherMap);
 	}
