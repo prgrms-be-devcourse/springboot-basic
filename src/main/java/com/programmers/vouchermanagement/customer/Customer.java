@@ -20,5 +20,9 @@ public class Customer {
     public UUID getCustomerId() {
         return customerId;
     }
+
+    public boolean isBlack() {
+        return isBlack;
+    }
 }
 
