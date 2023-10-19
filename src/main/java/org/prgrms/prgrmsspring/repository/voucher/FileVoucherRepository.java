@@ -82,15 +82,10 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public List<String> convertObjectListsToFileStrings(Collection<Voucher> voucherList) {
-        List<String> fileStrings = new ArrayList<>();
-        voucherList.forEach(voucher -> {
-            String fileString = "," + voucher.getVoucherId() + "," + voucher.getAmount();
-            VoucherType voucherType = VoucherType.of(voucher);
-            fileString = voucherType.getTitle() + fileString;
-            fileStrings.add(fileString);
-        });
-        return fileStrings;
+        return voucherList.stream().map(voucher -> VoucherType.of(voucher).getTitle() + "," + voucher.getVoucherId() + "," + voucher.getAmount())
+                .toList();
     }
+
 
     @Override
     public Voucher insert(Voucher voucher) {
