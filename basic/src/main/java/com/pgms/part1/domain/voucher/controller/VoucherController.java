@@ -1,5 +1,7 @@
 package com.pgms.part1.domain.voucher.controller;
 
+import com.pgms.part1.domain.customer.controller.CustomerController;
+import com.pgms.part1.domain.customer.service.CustomerService;
 import com.pgms.part1.view.ConsoleView;
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherMenuRequestDto;
@@ -18,13 +20,14 @@ public class VoucherController {
     private final Logger log = LoggerFactory.getLogger(VoucherController.class);
     private final ConsoleView consoleView;
     private final VoucherService voucherService;
-
+    private final CustomerController customerController;
     private final int FIXED_VOUCHER_CREATE = 1;
     private final int PERCENT_VOUCHER_CREATE = 2;
 
-    public VoucherController(ConsoleView consoleView, VoucherService voucherService) {
+    public VoucherController(ConsoleView consoleView, VoucherService voucherService, CustomerService customerService, CustomerController customerController) {
         this.consoleView = consoleView;
         this.voucherService = voucherService;
+        this.customerController = customerController;
     }
 
     public void init() {
@@ -33,6 +36,10 @@ public class VoucherController {
         switch (voucherMenuRequestDto.command()) {
             case "create" -> createVoucher();
             case "list" -> listVoucher();
+            case "customer_blacklist" -> {
+                customerController.blackList();
+                init();
+            }
             case "exit" -> exitVoucher();
             default -> {
                 consoleView.error(new RuntimeException("Please Enter Again!!"));

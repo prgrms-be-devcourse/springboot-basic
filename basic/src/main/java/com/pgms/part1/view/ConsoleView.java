@@ -1,6 +1,7 @@
 
 package com.pgms.part1.view;
 
+import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherMenuRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
@@ -50,6 +51,13 @@ public class ConsoleView {
         voucherResponseDtos.stream().forEach(v ->
             System.out.println("ID: " + v.id() + " | Voucher Type: "
                     + v.voucherDiscountType().getDiscountType() + " | " + "Discount " + v.voucherDiscountType().getCalculateType() + ": " + v.discount())
+        );
+    }
+
+    public void listBlockedCustomers(List<CustomerResponseDto> customerResponseDtos){
+        System.out.println("\n === Customer Black List ===");
+        customerResponseDtos.stream().forEach(c ->
+                System.out.println("ID: " + c.id() + " | isBlocked: " + c.isBlocked())
         );
     }
 
