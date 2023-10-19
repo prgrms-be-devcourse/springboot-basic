@@ -11,6 +11,8 @@ public class VoucherService {
     //messages
     private static final String VOUCHER_NOT_FOUND_MESSAGE =
             "There is no voucher registered.";
+
+    //TODO: move this message to factory method
     private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
             "Input should be a number greater than 0";
     //---
