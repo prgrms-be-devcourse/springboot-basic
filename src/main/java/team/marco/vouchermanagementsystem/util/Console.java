@@ -1,27 +1,19 @@
 package team.marco.vouchermanagementsystem.util;
 
-import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
 import java.util.Objects;
 
-@Component
-public class Console {
-    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+public final class Console {
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public void printCommandManual() {
-        System.out.println("""
-                === 쿠폰 관리 프로그램 ===
-                exit: 프로그램 종료
-                create: 쿠폰 생성
-                list: 쿠폰 목록 조회
-                blacklist: 블랙 리스트 유저 조회
-                """);
+    private Console() {
+        // Don't let anyone instantiate this class.
     }
 
-    public String readString() {
+    public static String readString() {
         System.out.print("> ");
         String input = readLine();
         System.out.println();
@@ -33,40 +25,24 @@ public class Console {
         return input;
     }
 
-    public int readInt() {
+    public static int readInt() {
         return Integer.parseInt(readString());
     }
 
-    public int readInt(String prompt) {
+    public static int readInt(String prompt) {
         System.out.println(prompt + "\n");
         return readInt();
     }
 
-    private String readLine() {
+    private static String readLine() {
         try {
             return reader.readLine();
         } catch (IOException e) {
-            throw new RuntimeException("unreadable input");
+            throw new UncheckedIOException(e);
         }
     }
 
-    public void printVoucherTypes() {
-        System.out.println("""
-                0: 고정 금액 할인 쿠폰
-                1: % 할인 쿠폰
-                """);
-    }
-
-    public void printError(Exception e) {
-        if(e instanceof NumberFormatException) {
-            print("숫자를 입력해 주세요.");
-        } else {
-            print(e.getMessage());
-        }
-
-    }
-
-    public void print(Object object) {
+    public static void print(Object object) {
         System.out.println(object);
         System.out.println();
     }
