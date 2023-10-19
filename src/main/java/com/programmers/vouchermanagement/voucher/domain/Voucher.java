@@ -1,13 +1,15 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-import java.util.UUID;
+import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
 
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDTO;
+import java.util.UUID;
 
 public interface Voucher {
     UUID getVoucherId();
 
+    long getDiscountValue();
+
     long discount(long priceBeforeDiscount);
 
-    VoucherResponseDTO toResponseDTO();
+    GeneralVoucherDTO toVoucherDTO();
 }

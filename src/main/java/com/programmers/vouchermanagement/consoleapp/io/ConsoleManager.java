@@ -3,7 +3,7 @@ package com.programmers.vouchermanagement.consoleapp.io;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDTO;
+import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
 
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
@@ -68,23 +68,23 @@ public class ConsoleManager {
         return new CreateVoucherRequestDTO(voucherType, discountValue);
     }
 
-    public void printCreateResult(VoucherResponseDTO voucherResponse) {
+    public void printCreateResult(GeneralVoucherDTO voucherResponse) {
         textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.getVoucherId()));
     }
 
-    public void printReadAll(List<VoucherResponseDTO> voucherResponses) {
+    public void printReadAll(List<GeneralVoucherDTO> voucherResponses) {
         voucherResponses.forEach(voucherResponse -> textIO.getTextTerminal().println(formatVoucherDTO(voucherResponse)));
     }
 
-    private String formatVoucherDTO(VoucherResponseDTO voucherResponseDTO) {
+    private String formatVoucherDTO(GeneralVoucherDTO generalVoucherDTO) {
         return """
                 Voucher ID : %s
                 Voucher Type : %s Discount Voucher
                 Discount Amount : %s
                 -------------------------"""
-                .formatted(voucherResponseDTO.getVoucherId(),
-                        voucherResponseDTO.getVoucherType(),
-                        voucherResponseDTO.getDiscountValue());
+                .formatted(generalVoucherDTO.getVoucherId(),
+                        generalVoucherDTO.getVoucherTypeName(),
+                        generalVoucherDTO.getDiscountValue());
     }
 
     public void printExit() {
