@@ -1,5 +1,9 @@
 <configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
     <property name="FILE_LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n"/>
+
     <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -8,15 +12,13 @@
             <pattern>${FILE_LOG_PATTERN}</pattern>
         </encoder>
     </appender>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>${FILE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
-    <logger name="com.programmers.vouchermanagement" level="error">
+
+    <logger name="com.programmers.vouchermanagement.*" level="error">
         <appender-ref ref="ROLLING_FILE"/>
     </logger>
-    <root level="debug">
-        <appender-ref ref="STDOUT"/>
+
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
     </root>
+
 </configuration>

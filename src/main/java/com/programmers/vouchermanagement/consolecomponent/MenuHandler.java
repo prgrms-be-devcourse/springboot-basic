@@ -1,15 +1,19 @@
 package com.programmers.vouchermanagement.consolecomponent;
 
+import com.programmers.vouchermanagement.voucher.CreateVoucherRequestDTO;
 import com.programmers.vouchermanagement.voucher.Voucher;
 import com.programmers.vouchermanagement.voucher.VoucherController;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.programmers.vouchermanagement.constant.message.ExceptionMessage.INEXECUTABLE_MESSAGE;
-
 @Component
 public class MenuHandler {
+    //messages
+    private static final String INCORRECT_MESSAGE =
+            "This menu is not executable.";
+    //---
+
     private final ConsoleManager consoleManager;
     private final VoucherController voucherController;
 
@@ -23,19 +27,29 @@ public class MenuHandler {
     // ConsoleAppRunner --> Menu <-- MenuHandler
     // ConsoleAppRunner --> Menu
 
-    public void handleMenu() {
+    public boolean handleMenu() {
         Menu menu = selectMenu();
-        executeMenu(menu);
-        validateMenu(menu);
+
+        try {
+            executeMenu(menu);
+        } catch (RuntimeException e) {
+            consoleManager.printException(e);
+        }
+
+        return isValidMenu(menu);
     }
 
     private Menu selectMenu() {
         return consoleManager.selectMenu();
     }
 
-    private boolean validateMenu(Menu menu) {
-        if (!menu.isExecutable()) {
-            throw new RuntimeException(INEXECUTABLE_MESSAGE);
+    private boolean isValidMenu(Menu menu) {
+        if (menu.isExit()) {
+            return false;
+        }
+
+        if (menu.isIncorrect()) {
+            throw new IllegalArgumentException(INCORRECT_MESSAGE);
         }
 
         return true;
@@ -46,8 +60,8 @@ public class MenuHandler {
             case EXIT -> consoleManager.printExit();
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
-                Voucher voucher = consoleManager.instructCreate();
-                voucher = voucherController.create(voucher);
+                CreateVoucherRequestDTO createVoucherRequestDTO = consoleManager.instructCreate();
+                Voucher voucher = voucherController.create(createVoucherRequestDTO);
                 consoleManager.printCreateResult(voucher);
             }
             case LIST -> {
