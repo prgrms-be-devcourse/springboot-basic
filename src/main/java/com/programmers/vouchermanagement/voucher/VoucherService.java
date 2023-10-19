@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -20,8 +21,12 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher create(Voucher voucher) {
-        validateDiscount(voucher);
+    public Voucher create(CreateVoucherRequestDTO createVoucherRequestDTO) {
+        //TODO: static factory method + validation of discountValue
+        Voucher voucher = switch (createVoucherRequestDTO.createVoucherMenu()) {
+            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), createVoucherRequestDTO.discountAmount());
+            case PERCENT -> new PercentVoucher(UUID.randomUUID(), createVoucherRequestDTO.discountAmount());
+        };
         voucherRepository.save(voucher);
         return voucher;
     }
@@ -32,13 +37,6 @@ public class VoucherService {
         if (vouchers.isEmpty()) {
             throw new NoSuchElementException(VOUCHER_NOT_FOUND_MESSAGE);
         }
-
         return vouchers;
-    }
-
-    public void validateDiscount(Voucher voucher) {
-        if (!voucher.validatePositiveDiscount()) {
-            throw new IllegalArgumentException(INVALID_DISCOUNT_INPUT_MESSAGE);
-        }
     }
 }
