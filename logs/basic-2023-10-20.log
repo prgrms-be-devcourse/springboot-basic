@@ -1,0 +1,909 @@
+00:01:00.015 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9206 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:01:00.016 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:01:00.215 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.343 seconds (process running for 0.69)
+00:01:03.497 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Menu Command Input
+00:01:04.294 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Menu Command Input
+00:01:09.921 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:01:09.939 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:777)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: java.lang.RuntimeException: java.io.IOException: No such file or directory
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:44)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.saveFile(VoucherFileRepository.java:53)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.add(VoucherFileRepository.java:75)
+	at com.pgms.part1.domain.voucher.service.VoucherService.createFixedAmountVoucher(VoucherService.java:26)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.createVoucher(VoucherController.java:55)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.init(VoucherController.java:34)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.init(VoucherController.java:40)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.init(VoucherController.java:40)
+	at com.pgms.part1.ProgramRunner.run(ProgramRunner.java:17)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	... 5 common frames omitted
+Caused by: java.io.IOException: No such file or directory
+	at java.base/java.io.UnixFileSystem.createFileExclusively(Native Method)
+	at java.base/java.io.File.createNewFile(File.java:1043)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:42)
+	... 14 common frames omitted
+00:06:01.235 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9506 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:06:01.236 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:06:01.400 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+00:06:01.404 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:06:01.411 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:942)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 18 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 32 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 46 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:110)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318)
+	... 60 common frames omitted
+Caused by: java.lang.RuntimeException: java.io.IOException: No such file or directory
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:50)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.<init>(VoucherFileRepository.java:22)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 62 common frames omitted
+Caused by: java.io.IOException: No such file or directory
+	at java.base/java.io.UnixFileSystem.createFileExclusively(Native Method)
+	at java.base/java.io.File.createNewFile(File.java:1043)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:48)
+	... 69 common frames omitted
+00:09:17.870 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9672 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:09:17.871 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:09:18.034 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+00:09:18.037 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:09:18.045 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:942)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 18 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 32 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 46 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:110)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318)
+	... 60 common frames omitted
+Caused by: java.lang.RuntimeException: can not load file!!
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.loadfile(VoucherFileRepository.java:45)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.<init>(VoucherFileRepository.java:26)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 62 common frames omitted
+00:10:52.445 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9776 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:10:52.446 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:10:52.602 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+00:10:52.606 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:10:52.614 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:942)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 18 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 32 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 46 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:110)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318)
+	... 60 common frames omitted
+Caused by: java.lang.RuntimeException: can not load file!!
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.loadfile(VoucherFileRepository.java:45)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.<init>(VoucherFileRepository.java:26)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 62 common frames omitted
+00:11:17.262 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9788 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:11:17.262 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:11:17.439 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.314 seconds (process running for 0.571)
+00:11:22.732 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:11:22.750 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:777)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: java.lang.RuntimeException: can not save file!!
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.saveFile(VoucherFileRepository.java:66)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.add(VoucherFileRepository.java:78)
+	at com.pgms.part1.domain.voucher.service.VoucherService.createFixedAmountVoucher(VoucherService.java:26)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.createVoucher(VoucherController.java:55)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.init(VoucherController.java:34)
+	at com.pgms.part1.ProgramRunner.run(ProgramRunner.java:17)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	... 5 common frames omitted
+00:11:43.280 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9801 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:11:43.281 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:11:43.458 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.309 seconds (process running for 0.578)
+00:11:50.127 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:11:50.145 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:777)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: java.lang.RuntimeException: can not save file!!
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.saveFile(VoucherFileRepository.java:66)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.add(VoucherFileRepository.java:78)
+	at com.pgms.part1.domain.voucher.service.VoucherService.createFixedAmountVoucher(VoucherService.java:26)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.createVoucher(VoucherController.java:55)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.init(VoucherController.java:34)
+	at com.pgms.part1.ProgramRunner.run(ProgramRunner.java:17)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	... 5 common frames omitted
+00:12:07.554 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9810 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:12:07.555 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:12:38.769 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 31.361 seconds (process running for 32.029)
+00:14:29.783 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:14:29.799 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:777)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: java.lang.RuntimeException: can not save file!!
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.saveFile(VoucherFileRepository.java:65)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.add(VoucherFileRepository.java:77)
+	at com.pgms.part1.domain.voucher.service.VoucherService.createFixedAmountVoucher(VoucherService.java:26)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.createVoucher(VoucherController.java:55)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.init(VoucherController.java:34)
+	at com.pgms.part1.ProgramRunner.run(ProgramRunner.java:17)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	... 5 common frames omitted
+00:14:35.949 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9851 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:14:35.950 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:14:40.712 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 4.903 seconds (process running for 5.238)
+00:15:58.585 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:15:58.602 [main] ERROR o.s.boot.SpringApplication - Application run failed
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:777)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: java.lang.RuntimeException: can not save file!!
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.saveFile(VoucherFileRepository.java:65)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.add(VoucherFileRepository.java:77)
+	at com.pgms.part1.domain.voucher.service.VoucherService.createFixedAmountVoucher(VoucherService.java:26)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.createVoucher(VoucherController.java:55)
+	at com.pgms.part1.domain.voucher.controller.VoucherController.init(VoucherController.java:34)
+	at com.pgms.part1.ProgramRunner.run(ProgramRunner.java:17)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	... 5 common frames omitted
+00:16:44.485 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9956 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:16:44.486 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:16:44.639 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+00:16:44.642 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:16:44.650 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:942)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 18 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 32 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 46 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:110)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318)
+	... 60 common frames omitted
+Caused by: java.lang.RuntimeException: can not load file!!
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.loadfile(VoucherFileRepository.java:44)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.<init>(VoucherFileRepository.java:25)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 62 common frames omitted
+00:17:36.028 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9972 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:17:36.029 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:17:36.216 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.334 seconds (process running for 0.656)
+00:17:46.111 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher 444f5f90-298b-4402-b045-c371ca6141c2 added
+00:18:44.272 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 9994 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:18:44.273 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:18:44.453 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.317 seconds (process running for 0.592)
+00:18:49.408 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher 0dad3e0f-2450-4692-b4de-1d9abadf9d1c added
+00:19:15.663 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 10005 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:19:15.664 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:19:15.847 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.318 seconds (process running for 0.587)
+00:19:20.323 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher 64a8ab17-e406-4edd-87de-7a7211b585fd added
+00:20:04.016 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 10016 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:20:04.017 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:20:04.179 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+00:20:04.182 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:20:04.190 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:942)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 18 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 32 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 46 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:110)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318)
+	... 60 common frames omitted
+Caused by: java.lang.RuntimeException: can not load file!!
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.loadfile(VoucherFileRepository.java:44)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.<init>(VoucherFileRepository.java:25)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 62 common frames omitted
+00:20:25.974 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 10059 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:20:25.974 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:20:26.159 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.318 seconds (process running for 0.588)
+00:20:32.773 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher 743de65f-e185-4e51-9beb-97c42a1d7c53 added
+00:20:45.544 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 10063 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:20:45.545 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:20:45.712 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+00:20:45.716 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:20:45.725 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:942)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 18 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 32 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 46 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:110)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318)
+	... 60 common frames omitted
+Caused by: java.lang.RuntimeException: java.io.IOException: No such file or directory
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:52)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.<init>(VoucherFileRepository.java:23)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 62 common frames omitted
+Caused by: java.io.IOException: No such file or directory
+	at java.base/java.io.UnixFileSystem.createFileExclusively(Native Method)
+	at java.base/java.io.File.createNewFile(File.java:1043)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:50)
+	... 69 common frames omitted
+00:21:00.616 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 10068 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:21:00.617 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:21:00.768 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+00:21:00.771 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:21:00.779 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:942)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 18 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 32 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 46 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:110)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318)
+	... 60 common frames omitted
+Caused by: java.lang.RuntimeException: java.io.IOException: No such file or directory
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:52)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.<init>(VoucherFileRepository.java:23)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 62 common frames omitted
+Caused by: java.io.IOException: No such file or directory
+	at java.base/java.io.UnixFileSystem.createFileExclusively(Native Method)
+	at java.base/java.io.File.createNewFile(File.java:1043)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:50)
+	... 69 common frames omitted
+00:21:11.367 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 10073 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:21:11.367 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:21:11.513 [main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+00:21:11.516 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+00:21:11.524 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'programRunner' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/ProgramRunner.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:942)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:737)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at com.pgms.part1.DemoApplication.main(DemoApplication.java:10)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherController' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/controller/VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 18 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'voucherService' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/service/VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:801)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:240)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 32 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'voucherFileRepository' defined in file [/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main/com/pgms/part1/domain/voucher/repository/VoucherFileRepository.class]: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:321)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:309)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1189)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:560)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1417)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:910)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:788)
+	... 46 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.pgms.part1.domain.voucher.repository.VoucherFileRepository]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:110)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318)
+	... 60 common frames omitted
+Caused by: java.lang.RuntimeException: java.io.IOException: No such file or directory
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:52)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.<init>(VoucherFileRepository.java:23)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
+	... 62 common frames omitted
+Caused by: java.io.IOException: No such file or directory
+	at java.base/java.io.UnixFileSystem.createFileExclusively(Native Method)
+	at java.base/java.io.File.createNewFile(File.java:1043)
+	at com.pgms.part1.domain.voucher.repository.VoucherFileRepository.createFile(VoucherFileRepository.java:50)
+	... 69 common frames omitted
+00:21:35.091 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 10082 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+00:21:35.092 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+00:21:35.274 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.319 seconds (process running for 0.574)
+00:21:42.015 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher 70172abe-0311-4930-93c3-100691aa80af added

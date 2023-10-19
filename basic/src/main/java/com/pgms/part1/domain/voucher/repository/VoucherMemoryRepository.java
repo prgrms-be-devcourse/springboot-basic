@@ -1,10 +1,12 @@
 package com.pgms.part1.domain.voucher.repository;
 
 import com.pgms.part1.domain.voucher.entity.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+@Profile("memory")
 @Repository
 public class VoucherMemoryRepository implements VoucherRepository{
 
