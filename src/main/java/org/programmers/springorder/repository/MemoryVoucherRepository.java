@@ -1,6 +1,7 @@
 package org.programmers.springorder.repository;
 
 import org.programmers.springorder.model.Voucher;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -29,8 +30,4 @@ public class MemoryVoucherRepository implements VoucherRepository{
         return Optional.ofNullable(storage.get(voucherId));
     }
 
-    @Override
-    public void clear() {
-        storage.clear();
-    }
 }
