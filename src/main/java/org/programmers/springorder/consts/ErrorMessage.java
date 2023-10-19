@@ -9,4 +9,5 @@ public class ErrorMessage {
     public static final String FILE_SAVE_ERROR_MESSAGE = "파일 저장 중에 문제가 발생했습니다.";
     public static final String FILE_NOT_EXIST_MESSAGE = "파일이 존재하지 않습니다.";
     public static final String FILE_FAIL_LOADING_MESSAGE = "파일에서 데이터를 가져오는 중에 문제가 발생했습니다.";
+    public static final String BLACK_CONSUMER_NOT_EXIST_MESSAGE = "블랙리스트 손님이 존재하지 않습니다.";
 }
