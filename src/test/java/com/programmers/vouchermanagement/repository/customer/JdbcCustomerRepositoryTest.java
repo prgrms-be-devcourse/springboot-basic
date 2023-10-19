@@ -8,6 +8,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
@@ -18,6 +19,7 @@ class JdbcCustomerRepositoryTest {
     @Configuration
     @ComponentScan(basePackages = {"com.programmers.vouchermanagement.repository.customer"})
     static class Config {
+
         @Bean
         public DataSource dataSource() {
             return DataSourceBuilder.create()
@@ -26,6 +28,11 @@ class JdbcCustomerRepositoryTest {
                     .password("1234")
                     .type(HikariDataSource.class)
                     .build();
+        }
+
+        @Bean
+        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new JdbcTemplate(dataSource);
         }
     }
 
@@ -37,11 +44,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     public void testHikariConnection() {
-        try {
-            Assertions.assertEquals(dataSource.getClass().getName(), "com.zaxxer.hikari.HikariDataSource");
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        Assertions.assertEquals(dataSource.getClass().getName(), "com.zaxxer.hikari.HikariDataSource");
     }
 
     @Test
