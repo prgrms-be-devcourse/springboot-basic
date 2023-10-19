@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -17,8 +18,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Primary
-//@Profile("local")
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository{
 
     @Value(("${voucherFilePath}"))
