@@ -10,5 +10,4 @@ public interface VoucherRepository {
     UUID save(Voucher voucher);
     List<Voucher> findAll();
     Optional<Voucher> findById(UUID voucherId);
-    void clear();
 }
