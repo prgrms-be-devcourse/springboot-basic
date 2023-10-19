@@ -1,18 +1,18 @@
 package com.programmers.vouchermanagement.voucher.dto;
 
-import java.util.UUID;
-
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
-public class VoucherResponseDTO {
+import java.util.UUID;
+
+public class GeneralVoucherDTO {
     private final UUID voucherId;
     private final long discountValue;
-    private final String voucherType;
+    private final VoucherType voucherType;
 
-    public VoucherResponseDTO(UUID voucherId, long discountValue, VoucherType voucherType) {
+    public GeneralVoucherDTO(UUID voucherId, long discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.discountValue = discountValue;
-        this.voucherType = voucherType.displayTypeName();
+        this.voucherType = voucherType;
     }
 
     public UUID getVoucherId() {
@@ -24,6 +24,10 @@ public class VoucherResponseDTO {
     }
 
     public String getVoucherType() {
-        return voucherType;
+        return voucherType.name().toLowerCase();
+    }
+
+    public String getVoucherTypeName() {
+        return voucherType.displayTypeName();
     }
 }
