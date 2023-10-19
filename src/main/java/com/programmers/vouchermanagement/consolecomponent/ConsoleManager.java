@@ -26,6 +26,8 @@ public class ConsoleManager {
             """;
     private static final String VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION =
             "Please type the amount/percent of discount of the voucher.%s".formatted(LINE_SEPARATOR);
+
+    //TODO: move this message to factory method
     private static final String INVALID_VOUCHER_TYPE_MESSAGE =
             "Voucher type should be either fixed amount or percent discount voucher.";
     private static final String EXIT_MESSAGE =
@@ -81,9 +83,8 @@ public class ConsoleManager {
         textIO.getTextTerminal().println(INCORRECT_INPUT_MESSAGE);
     }
 
-    //TODO: add exception handling method externally
     public void printException(RuntimeException e) {
-        logger.error(e.getMessage());
         textIO.getTextTerminal().println(e.getMessage());
+        logger.error(e.getMessage());
     }
 }

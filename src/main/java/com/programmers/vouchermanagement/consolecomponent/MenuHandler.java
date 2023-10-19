@@ -29,7 +29,13 @@ public class MenuHandler {
 
     public boolean handleMenu() {
         Menu menu = selectMenu();
-        executeMenu(menu);
+
+        try {
+            executeMenu(menu);
+        } catch (RuntimeException e) {
+            consoleManager.printException(e);
+        }
+
         return isValidMenu(menu);
     }
 
