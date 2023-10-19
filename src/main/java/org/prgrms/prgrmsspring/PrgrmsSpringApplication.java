@@ -2,6 +2,7 @@ package org.prgrms.prgrmsspring;
 
 
 import org.prgrms.prgrmsspring.controller.ApplicationController;
+import org.prgrms.prgrmsspring.domain.Command;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -15,7 +16,11 @@ public class PrgrmsSpringApplication {
         ApplicationController applicationController = applicationContext.getBean(
                 ApplicationController.class);
         while (true) {
-            applicationController.start();
+            Command command = applicationController.getCommand();
+            if (Command.isExit(command)) {
+                break;
+            }
+            applicationController.start(command);
         }
     }
 

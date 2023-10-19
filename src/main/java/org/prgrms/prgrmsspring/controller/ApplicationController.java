@@ -23,8 +23,7 @@ public class ApplicationController {
         this.userService = userService;
     }
 
-    public void start() {
-        Command command = getCommand();
+    public void start(Command command) {
         command.run(this);
     }
 

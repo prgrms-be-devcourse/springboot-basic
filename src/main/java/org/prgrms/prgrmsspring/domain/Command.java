@@ -29,4 +29,8 @@ public enum Command {
     public void run(ApplicationController controller) {
         this.consumer.accept(controller);
     }
+
+    public static boolean isExit(Command command) {
+        return command.equals(Command.EXIT);
+    }
 }
