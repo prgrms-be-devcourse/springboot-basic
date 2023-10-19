@@ -7,7 +7,5 @@ public interface Voucher {
 
     long discount(long priceBeforeDiscount);
 
-    boolean validatePositiveDiscount();
-
     String toConsoleFormat();
 }
