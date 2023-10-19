@@ -20,7 +20,7 @@ public enum Menu {
     }
 
     //set static to tell that this method does not depend on a particular Menu value
-    public static Menu findSelectedMenu(String input) {
+    public static Menu findMenu(String input) {
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.isMatching(input))
                 .findFirst()

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.programmers.vouchermanagement.consolecomponent.Menu.findSelectedMenu;
 import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
 
 @Component
@@ -52,7 +51,7 @@ public class ConsoleManager {
         String input = textIO.newStringInputReader()
                 .read(MENU_SELECTION_INSTRUCTION);
 
-        return findSelectedMenu(input);
+        return Menu.findMenu(input);
     }
 
     public CreateVoucherRequestDTO instructCreate() {
