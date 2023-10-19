@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher;
 
+import com.programmers.vouchermanagement.consolecomponent.CreateVoucherMenu;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +12,6 @@ public class VoucherService {
     //messages
     private static final String VOUCHER_NOT_FOUND_MESSAGE =
             "There is no voucher registered.";
-
-    //TODO: move this message to factory method
-    private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
-            "Input should be a number greater than 0";
     //---
 
     private final VoucherRepository voucherRepository;
@@ -24,7 +21,6 @@ public class VoucherService {
     }
 
     public Voucher create(CreateVoucherRequestDTO createVoucherRequestDTO) {
-        //TODO: static factory method + validation of discountValue
         Voucher voucher = switch (createVoucherRequestDTO.createVoucherMenu()) {
             case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), createVoucherRequestDTO.discountAmount());
             case PERCENT -> new PercentVoucher(UUID.randomUUID(), createVoucherRequestDTO.discountAmount());

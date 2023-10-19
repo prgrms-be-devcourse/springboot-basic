@@ -26,10 +26,6 @@ public class ConsoleManager {
             """;
     private static final String VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION =
             "Please type the amount/percent of discount of the voucher.%s".formatted(LINE_SEPARATOR);
-
-    //TODO: move this message to factory method
-    private static final String INVALID_VOUCHER_TYPE_MESSAGE =
-            "Voucher type should be either fixed amount or percent discount voucher.";
     private static final String EXIT_MESSAGE =
             "System exits.";
     private static final String CREATE_SUCCESS_MESSAGE =
@@ -39,6 +35,8 @@ public class ConsoleManager {
                     Such input is incorrect.
                     Please input a correct command carefully.
                     """;
+    private static final String INVALID_VOUCHER_TYPE_MESSAGE =
+            "Voucher type should be either fixed amount or percent discount voucher.";
     //---
 
     private final TextIO textIO;
@@ -60,7 +58,7 @@ public class ConsoleManager {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
         CreateVoucherMenu createVoucherMenu = CreateVoucherMenu.findCreateMenu(createMenu)
-                .orElseThrow(() -> new IllegalArgumentException(INCORRECT_INPUT_MESSAGE));
+                .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE));
 
         long discountValue = textIO.newLongInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
