@@ -1,9 +1,8 @@
 package org.programmers.springboot.basic.domain.voucher.entity;
 
-import java.io.Serializable;
 import java.util.UUID;
 
-public interface Voucher extends Serializable {
+public interface Voucher {
 
     UUID getVoucherId();
     VoucherType getVoucherType();
