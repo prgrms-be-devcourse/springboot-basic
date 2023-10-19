@@ -9,7 +9,6 @@ import java.util.*;
 @Profile("memory")
 @Repository
 public class VoucherMemoryRepository implements VoucherRepository{
-
     private final static Map<UUID, Voucher> voucherMap = new HashMap<>();
 
     @Override

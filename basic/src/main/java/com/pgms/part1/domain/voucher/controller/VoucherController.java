@@ -1,6 +1,6 @@
 package com.pgms.part1.domain.voucher.controller;
 
-import com.pgms.part1.domain.view.ConsoleView;
+import com.pgms.part1.view.ConsoleView;
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherMenuRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;

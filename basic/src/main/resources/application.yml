@@ -1,3 +1,4 @@
 file:
   path:
     voucher: voucher.csv
+    customer: customer.csv

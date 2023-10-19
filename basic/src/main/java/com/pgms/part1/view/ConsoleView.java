@@ -1,5 +1,5 @@
 
-package com.pgms.part1.domain.view;
+package com.pgms.part1.view;
 
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherMenuRequestDto;
