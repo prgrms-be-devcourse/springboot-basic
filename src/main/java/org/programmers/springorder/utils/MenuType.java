@@ -1,5 +1,7 @@
 package org.programmers.springorder.utils;
 
+import org.programmers.springorder.consts.ErrorMessage;
+
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
@@ -22,6 +24,6 @@ public enum MenuType {
         return Arrays.stream(MenuType.values())
                 .filter(menu -> menu.getMenuNum().equals(menuNum))
                 .findAny()
-                .orElseThrow(() -> new InputMismatchException("유효하지 않은 값입니다. 다시 입력해주세요."));
+                .orElseThrow(() -> new InputMismatchException(ErrorMessage.INVALID_VALUE_MESSAGE));
     }
 }
