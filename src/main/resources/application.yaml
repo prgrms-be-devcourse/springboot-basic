@@ -4,5 +4,5 @@ spring:
 
 file:
   path:
-    blacklist: customer_blacklist.csv
+    blacklist: src/main/resources/customer_blacklist.csv
     voucher: src/main/resources/voucher-repo.csv
