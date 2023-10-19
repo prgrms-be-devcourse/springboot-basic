@@ -7,8 +7,11 @@ import org.programmers.springorder.dto.VoucherResponseDto;
 import org.programmers.springorder.model.VoucherType;
 import org.programmers.springorder.utils.MenuType;
 import org.programmers.springorder.utils.Validation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.InputMismatchException;
 import java.util.List;
 
 @Component
@@ -16,6 +19,8 @@ public class Console {
 
     private final Input input;
     private final Output output;
+
+    private final Logger logger = LoggerFactory.getLogger(Console.class);
 
     public Console() {
         this.input = new Input();
@@ -29,25 +34,45 @@ public class Console {
     public MenuType inputMenu() {
         printMessage(Message.MENU_SELECT_MESSAGE);
         output.printPrompt();
-
-        String menuNum = Validation.validateString(input.getInput());
-        return MenuType.selectMenu(menuNum); // TODO: Console Validation
+        try {
+            String menuNum = Validation.validateString(input.getInput());
+            return MenuType.selectMenu(menuNum);
+        } catch (InputMismatchException e) {
+            logger.error("errorMessage = {}", e.getMessage());
+            printMessage(e.getMessage());
+            return inputMenu(); // TODO: 재귀로 호출하는 게 괜찮은 건지 확인 필요
+        }
     }
 
     private VoucherType inputVoucherType() {
         printMessage(Message.VOUCHER_SELECT_MESSAGE);
         output.printPrompt();
-
-        int voucherNum = Validation.validateInt(input.getInput());
-        return VoucherType.selectVoucherType(voucherNum);
+        try {
+            String voucherNum = Validation.validateString(input.getInput());
+            return VoucherType.selectVoucherType(voucherNum);
+        } catch (InputMismatchException e) {
+            logger.error("errorMessage = {}", e.getMessage());
+            printMessage(e.getMessage());
+            return inputVoucherType();
+        }
     }
 
     private long inputVoucherValue(VoucherType voucherType) {
-        String discountValueMessage = voucherType == VoucherType.FIXED ? Message.INPUT_FIXED_DISCOUNT_VALUE_MESSAGE : Message.INPUT_PERCENT_DISCOUNT_VALUE_MESSAGE;
+        String discountValueMessage = voucherType == VoucherType.FIXED ? Message.INPUT_FIXED_DISCOUNT_VALUE_MESSAGE
+                : Message.INPUT_PERCENT_DISCOUNT_VALUE_MESSAGE;
         printMessage(discountValueMessage);
         output.printPrompt();
-
-        return Validation.validateLong(input.getInput());
+        try {
+            return Validation.validateDiscountValue(input.getInput(), voucherType);
+        } catch (InputMismatchException | NumberFormatException e) {
+            //TODO: Message Const 로 넣을 수 있는 방법 있는지 확인
+            String message = String.format("잘못된 입력 값입니다. %d ~ %d 사이의 값을 입력해주세요.",
+                    voucherType.getMinimumValue(),
+                    voucherType.getMaximumValue());
+            logger.error("errorMessage = {}", message);
+            printMessage(message);
+            return inputVoucherValue(voucherType);
+        }
     }
 
 
@@ -59,7 +84,7 @@ public class Console {
     }
 
     public void showList(List<VoucherResponseDto> allVoucher) {
-        if(allVoucher.size() == 0) {
+        if (allVoucher.size() == 0) {
             printMessage(ErrorMessage.VOUCHER_NOT_EXIST_MESSAGE);
         } else {
             allVoucher.forEach(System.out::println);
