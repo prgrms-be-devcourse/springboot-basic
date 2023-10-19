@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,9 +41,7 @@ class MemoryVoucherRepositoryTest {
         Voucher insertVoucher = memoryVoucherRepository.insert(voucher);
 
         //then
-        assertThat(voucher.getVoucherId(), is(insertVoucher.getVoucherId()));
-        assertThat(voucher.getAmount(), is(insertVoucher.getAmount()));
-        assertThat(voucher.getVoucherType(), is(insertVoucher.getVoucherType()));
+        assertThat(voucher, samePropertyValuesAs(insertVoucher));
     }
 
     @Test
@@ -58,9 +55,7 @@ class MemoryVoucherRepositoryTest {
         Voucher findVoucher = memoryVoucherRepository.findById(voucher.getVoucherId()).get();
 
         //then
-        assertThat(voucher.getVoucherId(), is(findVoucher.getVoucherId()));
-        assertThat(voucher.getAmount(), is(findVoucher.getAmount()));
-        assertThat(voucher.getVoucherType(), is(findVoucher.getVoucherType()));
+        assertThat(voucher, samePropertyValuesAs(findVoucher));
     }
 
     @Test
