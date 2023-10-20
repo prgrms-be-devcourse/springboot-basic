@@ -32,8 +32,8 @@ public class ConsoleOutputHandler {
 		print(chooseVoucherType);
 	}
 
-	public <T> void printList(List<T> list) {
-		list.forEach(System.out::println);
+	public <T> void printList(List<T> printableList) {
+		printableList.forEach(System.out::println);
 	}
 
 	private void print(String menuPrompt) {
