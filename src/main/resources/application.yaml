@@ -16,3 +16,7 @@ file:
     path: /src/main/resources/
     test-path: /src/test/resources/
     jar: /build/resources/main/
+
+external:
+  proj-dir: ""
+  resource-dir: ""
