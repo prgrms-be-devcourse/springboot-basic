@@ -1,6 +1,7 @@
 package com.programmers.springbasic.command;
 
 import org.slf4j.Logger;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.console.ConsoleInputHandler;
@@ -8,7 +9,7 @@ import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.enums.MenuType;
 
 @Component
-public class CommandExecutor {
+public class CommandExecutor implements CommandLineRunner {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(CommandExecutor.class);
 	private final ConsoleOutputHandler consoleOutputHandler;
 	private final ConsoleInputHandler consoleInputHandler;
@@ -21,7 +22,8 @@ public class CommandExecutor {
 		this.commandFactory = commandFactory;
 	}
 
-	public void executeCommands() {
+	@Override
+	public void run(String... args) {
 		while (true) {
 			try {
 				consoleOutputHandler.printMainMenu();
