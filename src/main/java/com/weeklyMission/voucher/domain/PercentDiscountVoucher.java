@@ -5,7 +5,6 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher{
 
     private static final long MAX_PERCENT_VOUCHER_AMOUNT = 99;
-
     private final UUID voucherId;
     private final long amount;
 
@@ -29,6 +28,6 @@ public class PercentDiscountVoucher implements Voucher{
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount-(beforeDiscount*(amount/100));
+        return (beforeDiscount-(beforeDiscount*amount/100));
     }
 }
