@@ -9,10 +9,7 @@ import java.util.UUID;
 @Getter
 public class FixedDiscountVoucher extends Voucher {
 
-    private final UUID voucherId;
-    private final long discount;
-    private final VoucherType voucherType;
-    private UseStatusType useStatusType;
+    private static final long ZERO = 0L;
 
     public FixedDiscountVoucher(Long discount) {
         try {
@@ -36,5 +33,12 @@ public class FixedDiscountVoucher extends Voucher {
         this.discount = discount;
         this.voucherType = VoucherType.FIXED;
         this.useStatusType = useStatusType;
+    }
+
+    @Override
+    public void validateVoucherInfo(long discount) {
+        if(discount < ZERO) {
+            throw ErrorMessage.error("고정할인 바우처의 할인 정보는 음수값을 입력할 수 없습니다.");
+        }
     }
 }
