@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -35,7 +36,7 @@ class CustomerServiceTest {
         when(repository.save(any())).thenReturn(customer);
 
         Customer newCustomer = service.createCustomer("Injun");
-
+        assertThat(customer).isEqualTo(newCustomer);
         verify(repository).save(any());
     }
 }
