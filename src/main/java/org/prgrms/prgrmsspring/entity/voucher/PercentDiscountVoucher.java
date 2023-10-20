@@ -1,12 +1,14 @@
 package org.prgrms.prgrmsspring.entity.voucher;
 
+import org.prgrms.prgrmsspring.domain.VoucherType;
+
 import java.util.UUID;
 
 
 public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long amount) {
-        super(voucherId, amount);
+        super(voucherId, amount, VoucherType.PERCENT_DISCOUNT.getTitle());
     }
 
     @Override

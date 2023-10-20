@@ -1,9 +1,11 @@
 package org.prgrms.prgrmsspring.repository.voucher;
 
 
+import org.prgrms.prgrmsspring.domain.VoucherType;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.prgrms.prgrmsspring.exception.DataAccessException;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
+import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -26,8 +28,8 @@ public class DBVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        String sql = "INSERT INTO VOUCHERS VALUES(UUID_TO_BIN(?), ?)";
-        int update = jdbcTemplate.update(sql, voucher.getVoucherId().toString(), voucher.getAmount());
+        String sql = "INSERT INTO VOUCHERS VALUES(UUID_TO_BIN(?), ?, ?)";
+        int update = jdbcTemplate.update(sql, voucher.getVoucherId().toString(), voucher.getAmount(), voucher.getType());
         if (update != 1) {
             throw new DataAccessException(this.getClass() + " " + ExceptionMessage.INSERT_QUERY_FAILED.getMessage());
         }
@@ -36,7 +38,11 @@ public class DBVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        String sql = "SELECT * FROM VOUCHERS";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            VoucherType voucherType = VoucherType.of(rs.getString("TYPE"));
+            return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), rs.getLong("AMOUNT"));
+        });
     }
 
     @Override
