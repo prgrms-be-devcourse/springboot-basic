@@ -18,17 +18,19 @@ import java.util.concurrent.ConcurrentHashMap;
 public class VoucherFileManager {
     private String path = System.getProperty("user.dir");
 
-    public VoucherFileManager(@Value("${file-path.voucher:0}")String path) {
+    public VoucherFileManager(@Value("${file-path.voucher:0}") String path) {
         this.path += path;
     }
+
     private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(CustomerFileManager.class);
-    public Map<UUID, Voucher> loadVoucherData(){
+
+    public Map<UUID, Voucher> loadVoucherData() {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                switch(data[2]){
+                switch (data[2]) {
                     case "FIXED" -> {
                         FixedAmountVoucher voucher = new FixedAmountVoucher(Long.valueOf(data[1]));
                         voucherStorage.put(UUID.fromString(data[0]), voucher);
@@ -39,15 +41,15 @@ public class VoucherFileManager {
                     }
                 }
             }
-        }  catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
         }
         return voucherStorage;
     }
 
-    public void updateFile(Map<UUID, Voucher> storage){
+    public void updateFile(Map<UUID, Voucher> storage) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-            for( UUID key : storage.keySet() ){
+            for (UUID key : storage.keySet()) {
                 Voucher voucher = storage.get(key);
                 bw.write(voucher.getVoucherId() + "," + voucher.getDiscountAmount() + "," + voucher.getVoucherType());
                 bw.newLine();

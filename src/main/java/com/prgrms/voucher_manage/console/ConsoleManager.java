@@ -44,13 +44,13 @@ public class ConsoleManager implements ApplicationRunner {
         if (menuType == null) throw new InvalidCmdInputException();
 
         switch (menuType) {
-            case CREATE -> setVoucherInfo();
-            case LIST -> voucherController.showVoucherList();
+            case CREATE -> createVoucher();
+            case LIST -> voucherController.findVouchers();
             case CUSTOMER -> customerController.showBlackListCustomers();
         }
     }
 
-    public void setVoucherInfo() throws Exception {
+    public void createVoucher() throws Exception {
         outputUtil.printVoucherSelect();
         VoucherType voucherType = VoucherType.matchVoucherType(inputUtil.getStringInput());
         if (voucherType == null) throw new InvalidCmdInputException();

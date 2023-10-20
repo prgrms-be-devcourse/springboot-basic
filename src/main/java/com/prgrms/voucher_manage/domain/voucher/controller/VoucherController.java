@@ -15,7 +15,7 @@ public class VoucherController {
         voucherService.createVoucher(new CreateVoucherDto(voucherType, discountAmount));
     }
 
-    public void showVoucherList() {
-        voucherService.showVoucherList();
+    public void findVouchers() {
+        voucherService.findVouchers();
     }
 }
