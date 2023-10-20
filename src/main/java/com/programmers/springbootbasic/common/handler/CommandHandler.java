@@ -4,6 +4,7 @@ import com.programmers.springbootbasic.common.response.model.CommonResult;
 import com.programmers.springbootbasic.common.utils.ConsoleIOManager;
 import com.programmers.springbootbasic.domain.customer.controller.CustomerController;
 import com.programmers.springbootbasic.domain.voucher.controller.VoucherController;
+import com.programmers.springbootbasic.domain.wallet.controller.WalletController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ public class CommandHandler {
     private final ConsoleIOManager consoleIOManager;
     private final VoucherController voucherController;
     private final CustomerController customerController;
+    private final WalletController walletController;
 
     public void run() {
         CommandType command;
@@ -47,6 +49,7 @@ public class CommandHandler {
                     case update -> updateVoucher();
                     case delete -> deleteVoucher();
                     case deleteAll -> deleteAllVouchers();
+                    case customer -> showWalletsByVoucher();
                     case exit -> consoleIOManager.printSystemMsg("종료합니다.");
                     default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
                 }
@@ -69,6 +72,9 @@ public class CommandHandler {
                     case addBlacklist -> addBlacklist();
                     case removeBlacklist -> removeBlacklist();
                     case deleteAll -> deleteAllCustomers();
+                    case addVoucher -> addVoucherInWallet();
+                    case removeVoucher -> removeVoucherFromWallet();
+                    case wallet -> showWalletByCustomer();
                     case exit -> consoleIOManager.printSystemMsg("종료합니다.");
                     default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
                 }
@@ -81,7 +87,7 @@ public class CommandHandler {
     private void createVoucher() throws IOException {
         consoleIOManager.printVoucherSelectMenu();
         String voucherType = consoleIOManager.getInput();
-        consoleIOManager.println("Type Value of Voucher");
+        consoleIOManager.println("Enter Value of Voucher ");
         String value = consoleIOManager.getInput();
         CommonResult commonResult = voucherController.createVoucher(voucherType, value);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
@@ -94,7 +100,7 @@ public class CommandHandler {
     }
 
     private void findVoucher() throws IOException {
-        consoleIOManager.print("Type Voucher ID");
+        consoleIOManager.print("Enter Voucher ID ");
         String voucherId = consoleIOManager.getInput();
         CommonResult commonResult = voucherController.findVoucherById(voucherId);
         if (commonResult.isSuccess()) {
@@ -105,16 +111,16 @@ public class CommandHandler {
     }
 
     private void updateVoucher() throws IOException {
-        consoleIOManager.print("Type Voucher ID");
+        consoleIOManager.print("Enter Voucher ID ");
         String voucherId = consoleIOManager.getInput();
-        consoleIOManager.print("Type Value of Voucher");
+        consoleIOManager.print("Enter Value of Voucher ");
         String value = consoleIOManager.getInput();
         CommonResult commonResult = voucherController.updateVoucher(voucherId, value);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
     }
 
     private void deleteVoucher() throws IOException {
-        consoleIOManager.print("Type Voucher ID");
+        consoleIOManager.print("Enter Voucher ID ");
         String voucherId = consoleIOManager.getInput();
         CommonResult commonResult = voucherController.deleteVoucher(voucherId);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
@@ -123,6 +129,17 @@ public class CommandHandler {
     private void deleteAllVouchers() {
         CommonResult commonResult = voucherController.deleteAllVouchers();
         consoleIOManager.printSystemMsg(commonResult.getMessage());
+    }
+
+    private void showWalletsByVoucher() throws IOException {
+        consoleIOManager.print("Enter Voucher ID ");
+        String voucherId = consoleIOManager.getInput();
+        CommonResult commonResult = walletController.findWalletsByVoucherId(voucherId);
+        if (commonResult.isSuccess()) {
+            consoleIOManager.println(commonResult.getMessage());
+        } else {
+            consoleIOManager.printSystemMsg(commonResult.getMessage());
+        }
     }
 
     private void createCustomer() throws IOException {
@@ -165,4 +182,33 @@ public class CommandHandler {
         consoleIOManager.printSystemMsg(commonResult.getMessage());
     }
 
+    private void addVoucherInWallet() throws IOException {
+        consoleIOManager.print("Enter Email ");
+        String email = consoleIOManager.getInput();
+        listVoucher();
+        consoleIOManager.print("Enter Voucher ID ");
+        String voucherId = consoleIOManager.getInput();
+        CommonResult commonResult = walletController.addWallet(email, voucherId);
+        consoleIOManager.printSystemMsg(commonResult.getMessage());
+    }
+
+    private void removeVoucherFromWallet() throws IOException {
+        String email = showWalletByCustomer();
+        consoleIOManager.print("Enter Voucher ID ");
+        String voucherId = consoleIOManager.getInput();
+        CommonResult commonResult = walletController.deleteWallet(email, voucherId);
+        consoleIOManager.printSystemMsg(commonResult.getMessage());
+    }
+
+    private String showWalletByCustomer() throws IOException {
+        consoleIOManager.print("Enter Email ");
+        String email = consoleIOManager.getInput();
+        CommonResult commonResult = walletController.findWalletsByCustomerEmail(email);
+        if (commonResult.isSuccess()) {
+            consoleIOManager.println(commonResult.getMessage());
+        } else {
+            consoleIOManager.printSystemMsg(commonResult.getMessage());
+        }
+        return email;
+    }
 }

@@ -15,6 +15,9 @@ public enum CommandType {
     addBlacklist("addBlacklist"),
     removeBlacklist("removeBlacklist"),
     deleteAll("deleteAll"),
+    addVoucher("addVoucher"),
+    removeVoucher("removeVoucher"),
+    wallet("wallet"),
     exit("exit"),
     error("error");
 

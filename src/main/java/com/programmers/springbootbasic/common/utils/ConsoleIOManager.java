@@ -42,6 +42,7 @@ public class ConsoleIOManager {
                 Type update to update voucher value.
                 Type delete to delete voucher.
                 Type deleteAll to delete all vouchers.
+                Type customer to show customers list which voucher have.
                 """;
         println(programMenu);
     }
@@ -65,6 +66,9 @@ public class ConsoleIOManager {
                 Type addBlacklist to add customer in blacklist.
                 Type removeBlacklist to remove customer from blacklist.
                 Type deleteAll to delete all customers.
+                Type addVoucher to add voucher into customer's wallet.
+                Type removeVoucher to remove voucher from customer's wallet.
+                Type wallet to show customer's wallet.
                 """;
         println(programMenu);
     }
