@@ -23,11 +23,9 @@ import java.util.stream.Stream;
 public class CsvFileUtil {
     private static final Logger log = LoggerFactory.getLogger(CsvFileUtil.class);
 
-    public static void addVoucherToFile(String filePath, Voucher voucher) {
+    public static void addObjectToFile(String filePath, String fieldToCsvString) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
-            String csvLine = String.format("%s,%s,%s",
-                    voucher.getVoucherId(), voucher.getDiscountType(), voucher.getDiscountValue());
-            writer.write(csvLine);
+            writer.write(fieldToCsvString);
             writer.newLine();
         } catch (IOException e) {
             e.printStackTrace();

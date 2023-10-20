@@ -28,7 +28,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher saveVoucher(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
-        CsvFileUtil.addVoucherToFile(filePath, voucher);
+        CsvFileUtil.addObjectToFile(filePath, voucher.toString());
         return voucher;
     }
 

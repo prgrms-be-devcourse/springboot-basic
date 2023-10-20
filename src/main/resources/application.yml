@@ -6,4 +6,4 @@ repository:
 
 spring:
   profiles:
-    active: default
+    active: prod
