@@ -12,6 +12,7 @@ import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
@@ -30,7 +31,7 @@ class CustomerServiceTest {
 
     @Test
     @DisplayName("save함수가 성공적으로 호출되어야 한다")
-    void createOrder(){
+    void createOrder() {
         Customer customer = new Customer(String.valueOf(UUID.randomUUID()), "Injun");
 
         when(repository.save(any())).thenReturn(customer);
@@ -38,5 +39,12 @@ class CustomerServiceTest {
         Customer newCustomer = service.createCustomer("Injun");
         assertThat(customer).isEqualTo(newCustomer);
         verify(repository).save(any());
+    }
+
+    @Test
+    @DisplayName("findall함수가 성공적으로 호출되어야 한다")
+    void findAll(){
+        List<Customer> all = service.findAll();
+        verify(repository).findAll();
     }
 }
