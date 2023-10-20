@@ -8,6 +8,7 @@ import org.programmers.springboot.basic.domain.customer.entity.Customer;
 import org.programmers.springboot.basic.domain.customer.mapper.CustomerMapper;
 import org.programmers.springboot.basic.util.exception.CSVFileIOFailureException;
 import org.programmers.springboot.basic.util.manager.CSVFileManager;
+import org.programmers.springboot.basic.util.properties.ExternalProperties;
 import org.programmers.springboot.basic.util.properties.FileProperties;
 import org.springframework.stereotype.Repository;
 
@@ -22,17 +23,21 @@ import java.util.List;
 @Repository
 public class CustomerRepository {
 
-    private final File FILE;
     private final CSVFileManager csvFileManager;
     private final CustomerMapper customerMapper;
     private final FileProperties fileProperties;
+    private final ExternalProperties externalProperties;
 
-    public CustomerRepository(CSVFileManager csvFileManager, CustomerMapper customerMapper, FileProperties fileProperties) {
+    public CustomerRepository(CSVFileManager csvFileManager, CustomerMapper customerMapper, FileProperties fileProperties, ExternalProperties externalProperties) {
         this.csvFileManager = csvFileManager;
         this.customerMapper = customerMapper;
         this.fileProperties = fileProperties;
+        this.externalProperties = externalProperties;
+    }
+
+    public File getFILE() {
         String filePath = getFilePath();
-        FILE = new File(filePath);
+        return new File(filePath);
     }
 
     public List<Customer> findBlackList() {
@@ -45,7 +50,7 @@ public class CustomerRepository {
         String line;
 
         try {
-            BufferedReader reader = this.csvFileManager.getBufferedReader(FILE);
+            BufferedReader reader = this.csvFileManager.getBufferedReader(getFILE());
 
             while ((line = reader.readLine()) != null) {
                 String[] token = line.split(AppConstants.CSV_SEPARATOR);
@@ -70,8 +75,8 @@ public class CustomerRepository {
         String filePath = folderPath + resourcePath + fileName;
 
         if (AppConfig.isRunningFromJar()) {
-            folderPath = this.fileProperties.getProjDir();
-            resourcePath = this.fileProperties.getResources().getJar();
+            folderPath = externalProperties.getProjDir();
+            resourcePath = externalProperties.getResourceDir();
             filePath =  folderPath + resourcePath + fileName;
         }
 

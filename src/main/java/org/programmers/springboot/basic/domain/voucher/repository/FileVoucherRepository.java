@@ -8,6 +8,7 @@ import org.programmers.springboot.basic.domain.voucher.entity.Voucher;
 import org.programmers.springboot.basic.domain.voucher.mapper.VoucherMapper;
 import org.programmers.springboot.basic.util.exception.CSVFileIOFailureException;
 import org.programmers.springboot.basic.util.manager.CSVFileManager;
+import org.programmers.springboot.basic.util.properties.ExternalProperties;
 import org.programmers.springboot.basic.util.properties.FileProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -21,18 +22,17 @@ import java.util.concurrent.locks.ReentrantLock;
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
 
-    private final File FILE;
     private final CSVFileManager csvFileManager;
     private final VoucherMapper voucherMapper;
     private final FileProperties fileProperties;
+    private final ExternalProperties externalProperties;
     private final ReentrantLock lock = new ReentrantLock();
 
-    public FileVoucherRepository(CSVFileManager csvFileManager, VoucherMapper voucherMapper, FileProperties fileProperties) {
+    public FileVoucherRepository(CSVFileManager csvFileManager, VoucherMapper voucherMapper, FileProperties fileProperties, ExternalProperties externalProperties) {
         this.csvFileManager = csvFileManager;
         this.voucherMapper = voucherMapper;
         this.fileProperties = fileProperties;
-        String filePath = getFilePath();
-        FILE = new File(filePath);
+        this.externalProperties = externalProperties;
     }
 
     @Override
@@ -55,13 +55,18 @@ public class FileVoucherRepository implements VoucherRepository {
         }
     }
 
+    public File getFILE() {
+        String filePath = getFilePath();
+        return new File(filePath);
+    }
+
     private List<Voucher> read() {
 
         List<Voucher> voucherList = new ArrayList<>();
         String line;
 
         try {
-            BufferedReader reader = this.csvFileManager.getBufferedReader(FILE);
+            BufferedReader reader = this.csvFileManager.getBufferedReader(getFILE());
 
             while ((line = reader.readLine()) != null) {
                 String[] token = line.split(AppConstants.CSV_SEPARATOR);
@@ -83,7 +88,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private void write(Voucher voucher) {
 
         try {
-            BufferedWriter writer = this.csvFileManager.getBufferedWriter(FILE);
+            BufferedWriter writer = this.csvFileManager.getBufferedWriter(getFILE());
 
             String serializer = this.voucherMapper.serialize(voucher);
             writer.write(serializer);
@@ -105,8 +110,8 @@ public class FileVoucherRepository implements VoucherRepository {
         String filePath = folderPath + resourcePath + fileName;
 
         if (AppConfig.isRunningFromJar()) {
-            folderPath = this.fileProperties.getProjDir();
-            resourcePath = this.fileProperties.getResources().getJar();
+            folderPath = this.externalProperties.getProjDir();
+            resourcePath = this.externalProperties.getResourceDir();
             filePath =  folderPath + resourcePath + fileName;
         }
 
