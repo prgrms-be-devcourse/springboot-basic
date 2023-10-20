@@ -39,7 +39,7 @@ public class CommandLineView {
     public Voucher createVoucher() {
         Arrays.stream(VoucherType.values()).forEach(v -> textTerminal.println("%d. %s".formatted((v.ordinal() + 1), v.getTitle())));
         Integer voucherModeNum = textIO.newIntInputReader().read("Input number");
-        VoucherType voucherType = VoucherType.of(voucherModeNum);
+        VoucherType voucherType = VoucherType.from(voucherModeNum);
         Long value = textIO.newLongInputReader().read("Input Value");
         return voucherType.constructVoucher(UUID.randomUUID(), value);
     }

@@ -62,7 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
             String type = split[0];
             UUID uuid = UUID.fromString(split[1]);
             long value = Long.parseLong(split[2]);
-            VoucherType voucherType = VoucherType.of(type);
+            VoucherType voucherType = VoucherType.from(type);
             Voucher voucher = voucherType.constructVoucher(uuid, value);
             voucherList.add(voucher);
         });
@@ -84,7 +84,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public List<String> convertObjectListsToFileStrings(Collection<Voucher> voucherList) {
-        return voucherList.stream().map(voucher -> VoucherType.of(voucher).getTitle() + CSV_SEPARATOR + voucher.getVoucherId() + CSV_SEPARATOR + voucher.getAmount())
+        return voucherList.stream().map(voucher -> VoucherType.from(voucher).getTitle() + CSV_SEPARATOR + voucher.getVoucherId() + CSV_SEPARATOR + voucher.getAmount())
                 .toList();
     }
 

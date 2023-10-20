@@ -41,7 +41,7 @@ public class DBVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         String sql = "SELECT * FROM VOUCHERS";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            VoucherType voucherType = VoucherType.of(rs.getString("TYPE"));
+            VoucherType voucherType = VoucherType.from(rs.getString("TYPE"));
             return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), rs.getLong("AMOUNT"));
         });
     }
@@ -51,7 +51,7 @@ public class DBVoucherRepository implements VoucherRepository {
         String sql = "SELECT * FROM VOUCHERS WHERE VOUCHER_ID = UUID_TO_BIN(?)";
         try {
             Voucher voucher = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
-                VoucherType voucherType = VoucherType.of(rs.getString("TYPE"));
+                VoucherType voucherType = VoucherType.from(rs.getString("TYPE"));
                 return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), rs.getLong("AMOUNT"));
             }, voucherId);
             return Optional.ofNullable(voucher);
