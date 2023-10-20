@@ -35,7 +35,7 @@ class VoucherTypeTest {
         long expectedValue = -10L;
         // Act & Assert
         Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(1, expectedUUID, expectedValue));
-        assertEquals(ErrorMsg.WrongFixedAmountValueInput.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.wrongFixedAmountValueInput.getMessage(), actualResult.getMessage());
     }
 
     @DisplayName("of. PercentDiscountVoucher 생성 성공")
@@ -60,9 +60,9 @@ class VoucherTypeTest {
         long expectedValue2 = 101L;
         // Act & Assert
         Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(2, expectedUUID, expectedValue1));
-        assertEquals(ErrorMsg.WrongPercentDiscountValueInput.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.wrongPercentDiscountValueInput.getMessage(), actualResult.getMessage());
         actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(2, expectedUUID, expectedValue2));
-        assertEquals(ErrorMsg.WrongPercentDiscountValueInput.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.wrongPercentDiscountValueInput.getMessage(), actualResult.getMessage());
     }
 
     @DisplayName("of. number로 1,2가 아닌 숫자가 주어졌을때")
@@ -73,6 +73,6 @@ class VoucherTypeTest {
         long expectedValue = 10L;
         // Act & Assert
         Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(-100, expectedUUID, expectedValue));
-        assertEquals(ErrorMsg.WrongVoucherTypeNumber.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.wrongVoucherTypeNumber.getMessage(), actualResult.getMessage());
     }
 }

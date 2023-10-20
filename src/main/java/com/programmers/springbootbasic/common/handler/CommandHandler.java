@@ -41,8 +41,12 @@ public class CommandHandler {
             try {
                 command = CommandType.from(consoleIOManager.getInput());
                 switch (command) {
-                    case create -> voucherCreate();
-                    case list -> voucherList();
+                    case create -> createVoucher();
+                    case list -> listVoucher();
+                    case find -> findVoucher();
+                    case update -> updateVoucher();
+                    case delete -> deleteVoucher();
+                    case deleteAll -> deleteAllVouchers();
                     case exit -> consoleIOManager.printSystemMsg("종료합니다.");
                     default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
                 }
@@ -59,12 +63,12 @@ public class CommandHandler {
             try {
                 command = CommandType.from(consoleIOManager.getInput());
                 switch (command) {
-                    case create -> customerCreate();
-                    case list -> customerList();
+                    case create -> createCustomer();
+                    case list -> listCustomers();
                     case blacklist -> blacklist();
                     case addBlacklist -> addBlacklist();
                     case removeBlacklist -> removeBlacklist();
-                    case deleteAll -> deleteAllCustomer();
+                    case deleteAll -> deleteAllCustomers();
                     case exit -> consoleIOManager.printSystemMsg("종료합니다.");
                     default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
                 }
@@ -74,7 +78,7 @@ public class CommandHandler {
         } while (!command.equals(CommandType.exit));
     }
 
-    private void voucherCreate() throws IOException {
+    private void createVoucher() throws IOException {
         consoleIOManager.printVoucherSelectMenu();
         String voucherType = consoleIOManager.getInput();
         consoleIOManager.println("Type Value of Voucher");
@@ -83,13 +87,45 @@ public class CommandHandler {
         consoleIOManager.printSystemMsg(commonResult.getMessage());
     }
 
-    private void voucherList() {
-        voucherController.findAllVoucher()
+    private void listVoucher() {
+        voucherController.findAllVouchers()
                 .getData()
                 .forEach(consoleIOManager::println);
     }
 
-    private void customerCreate() throws IOException {
+    private void findVoucher() throws IOException {
+        consoleIOManager.print("Type Voucher ID");
+        String voucherId = consoleIOManager.getInput();
+        CommonResult commonResult = voucherController.findVoucherById(voucherId);
+        if (commonResult.isSuccess()) {
+            consoleIOManager.println(commonResult.getMessage());
+        } else {
+            consoleIOManager.printSystemMsg(commonResult.getMessage());
+        }
+    }
+
+    private void updateVoucher() throws IOException {
+        consoleIOManager.print("Type Voucher ID");
+        String voucherId = consoleIOManager.getInput();
+        consoleIOManager.print("Type Value of Voucher");
+        String value = consoleIOManager.getInput();
+        CommonResult commonResult = voucherController.updateVoucher(voucherId, value);
+        consoleIOManager.printSystemMsg(commonResult.getMessage());
+    }
+
+    private void deleteVoucher() throws IOException {
+        consoleIOManager.print("Type Voucher ID");
+        String voucherId = consoleIOManager.getInput();
+        CommonResult commonResult = voucherController.deleteVoucher(voucherId);
+        consoleIOManager.printSystemMsg(commonResult.getMessage());
+    }
+
+    private void deleteAllVouchers() {
+        CommonResult commonResult = voucherController.deleteAllVouchers();
+        consoleIOManager.printSystemMsg(commonResult.getMessage());
+    }
+
+    private void createCustomer() throws IOException {
         consoleIOManager.print("Enter Email ");
         String email = consoleIOManager.getInput();
         consoleIOManager.print("Enter name ");
@@ -98,7 +134,7 @@ public class CommandHandler {
         consoleIOManager.printSystemMsg(commonResult.getMessage());
     }
 
-    private void customerList() {
+    private void listCustomers() {
         customerController.findAllCustomer()
                 .getData()
                 .forEach(consoleIOManager::println);
@@ -124,7 +160,7 @@ public class CommandHandler {
         consoleIOManager.printSystemMsg(commonResult.getMessage());
     }
 
-    private void deleteAllCustomer() {
+    private void deleteAllCustomers() {
         CommonResult commonResult = customerController.deleteAllCustomer();
         consoleIOManager.printSystemMsg(commonResult.getMessage());
     }

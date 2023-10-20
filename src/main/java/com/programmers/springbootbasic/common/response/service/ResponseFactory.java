@@ -14,6 +14,10 @@ public class ResponseFactory {
         return new CommonResult(true, "완료");
     }
 
+    public static CommonResult getSuccessResult(String data) {
+        return new CommonResult(true, data);
+    }
+
     public static CommonResult getFailResult(String message) {
         return new CommonResult(false, message);
     }

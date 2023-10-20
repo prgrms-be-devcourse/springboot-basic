@@ -5,10 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile("dev")
@@ -32,5 +29,20 @@ public class VoucherMemoryRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         voucherMemory = new HashMap<>();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.of(voucherMemory.get(voucherId));
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        voucherMemory.put(voucher.getVoucherId(), voucher);
+    }
+
+    @Override
+    public void delete(Voucher voucher) {
+        voucherMemory.remove(voucher.getVoucherId());
     }
 }

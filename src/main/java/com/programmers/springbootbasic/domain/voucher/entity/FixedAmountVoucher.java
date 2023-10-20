@@ -5,9 +5,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
+@Getter
 @RequiredArgsConstructor
 public class FixedAmountVoucher implements Voucher {
-    @Getter
     private final UUID voucherId;
     private final long value;
 

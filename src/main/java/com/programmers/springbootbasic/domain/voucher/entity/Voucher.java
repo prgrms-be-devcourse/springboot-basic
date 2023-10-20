@@ -8,6 +8,8 @@ public interface Voucher extends Serializable {
 
     UUID getVoucherId();
 
+    long getValue();
+
     long discount(long beforeDiscount);
 
     String getInformation();

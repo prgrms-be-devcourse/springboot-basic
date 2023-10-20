@@ -38,6 +38,10 @@ public class ConsoleIOManager {
                 Type exit to exit the program.
                 Type create to create a new voucher.
                 Type list to list all vouchers.
+                Type find to find voucher by voucher ID.
+                Type update to update voucher value.
+                Type delete to delete voucher.
+                Type deleteAll to delete all vouchers.
                 """;
         println(programMenu);
     }

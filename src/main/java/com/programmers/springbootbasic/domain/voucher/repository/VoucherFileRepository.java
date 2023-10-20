@@ -8,13 +8,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
-@Profile("default")
+@Profile("ignore")
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
 
@@ -33,10 +30,8 @@ public class VoucherFileRepository implements VoucherRepository {
         }
     }
 
-    private void writeVoucherToFile(Voucher voucher) {
-        Map<UUID, Voucher> voucherMemory = readVouchersFromFile();
+    private void writeVouchersToFile(Map<UUID, Voucher> voucherMemory) {
         try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
-            voucherMemory.put(voucher.getVoucherId(), voucher);
             outputStream.writeObject(voucherMemory);
         } catch (IOException e) {
             log.error(e.toString());
@@ -58,7 +53,9 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        writeVoucherToFile(voucher);
+        Map<UUID, Voucher> voucherMemory = readVouchersFromFile();
+        voucherMemory.put(voucher.getVoucherId(), voucher);
+        writeVouchersToFile(voucherMemory);
         return voucher;
     }
 
@@ -77,5 +74,23 @@ public class VoucherFileRepository implements VoucherRepository {
         } catch (IOException e) {
             log.error(e.toString());
         }
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        Map<UUID, Voucher> voucherMemory = readVouchersFromFile();
+        return Optional.ofNullable(voucherMemory.get(voucherId));
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        save(voucher);
+    }
+
+    @Override
+    public void delete(Voucher voucher) {
+        Map<UUID, Voucher> voucherMemory = readVouchersFromFile();
+        voucherMemory.remove(voucher.getVoucherId());
+        writeVouchersToFile(voucherMemory);
     }
 }
