@@ -6,11 +6,6 @@ public class Customer {
     private UUID customerId;
     private String name;
 
-    public Customer(String name) {
-        this.customerId = UUID.randomUUID();
-        this.name = name;
-    }
-
     public Customer(UUID customerId, String name) {
         this.customerId = customerId;
         this.name = name;

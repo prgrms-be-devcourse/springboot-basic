@@ -7,6 +7,8 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
+    private static final long MIN_PERCENT = 0L;
+    private static final long MAX_PERCENT = 100L;
 
     private PercentDiscountVoucher(String discountType, long discountValue) {
         this.voucherId = UUID.randomUUID();
@@ -15,7 +17,7 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     public static PercentDiscountVoucher create(String discountType, long discountValue) {
-        if(discountValue < 0 || discountValue > 100) {
+        if(discountValue < MIN_PERCENT || discountValue > MAX_PERCENT) {
             logger.error("The percentage should be between 1 and 100. Inserted discount value : {}", discountValue);
             throw new IllegalArgumentException("The percentage should be between 1 and 100.");
         }

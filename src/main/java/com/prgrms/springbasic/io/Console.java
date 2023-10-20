@@ -1,6 +1,6 @@
 package com.prgrms.springbasic.io;
 
-import com.prgrms.springbasic.common.MenuType;
+import com.prgrms.springbasic.common.CommandType;
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Component
 public class Console implements Output, Input {
-    TextIO textIO = TextIoFactory.getTextIO();
+    private static final TextIO textIO = TextIoFactory.getTextIO();
 
     @Override
     public void printConsoleMessage(ConsoleMessage consoleMessage) {
@@ -23,8 +23,8 @@ public class Console implements Output, Input {
     public String inputMenuType() {
         return textIO.newStringInputReader()
                 .withIgnoreCase()
-                .withPossibleValues(MenuType.allowedMenuTypes())
-                .read(ConsoleMessage.CHOOSE_MENU_TYPE.getMessage());
+                .withPossibleValues(CommandType.allowedMenuTypes())
+                .read(ConsoleMessage.CHOOSE_MENU_TYPE.getMessage()).toUpperCase();
     }
 
     @Override

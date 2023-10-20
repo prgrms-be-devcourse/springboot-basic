@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 public class VoucherService {
-    private final Logger logger = LoggerFactory.getLogger(VoucherService.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {

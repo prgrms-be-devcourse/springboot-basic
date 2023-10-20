@@ -16,7 +16,7 @@ public class CustomerRepository {
     private String filePath;
 
     public List<Customer> findAllBlackList() {
-        Map<UUID, Customer> blackListCustomers = CsvFileUtil.loadCustomerFromFile(filePath);
+        Map<UUID, Customer> blackListCustomers = CsvFileUtil.readCustomerFromFile(filePath);
         return blackListCustomers.values()
                 .stream()
                 .toList();

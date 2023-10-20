@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,20 +34,9 @@ public class CsvFileUtil {
         }
     }
 
-    public static Map<UUID, Voucher> loadVoucherFromFile(String filePath) {
+    public static Map<UUID, Voucher> readVoucherFromFile(String filePath) {
         Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
-        File file = new File(filePath);
-        if (file.exists()) {
-            return readVoucherFromFile(filePath);
-        }
-        return vouchers;
-    }
-
-    private static Map<UUID, Voucher> readVoucherFromFile(String filePath) {
-        Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
-        try {
-            String fileContent = Files.readString(Paths.get(filePath));
-            Stream<String> lines = fileContent.lines();
+        try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
             lines.forEach(line -> {
                 String[] parts = line.split(",");
                 UUID voucherId = UUID.fromString(parts[0]);
@@ -62,25 +50,13 @@ public class CsvFileUtil {
             });
         } catch (IOException e) {
             log.error("The file does not exist. fileName : {}", filePath);
-            throw new RuntimeException(e);
         }
         return vouchers;
     }
 
-    public static Map<UUID, Customer> loadCustomerFromFile(String filePath) {
+    public static Map<UUID, Customer> readCustomerFromFile(String filePath) {
         Map<UUID, Customer> customers = new ConcurrentHashMap<>();
-        File file = new File(filePath);
-        if (file.exists()) {
-            return readCustomerFromFile(filePath);
-        }
-        return customers;
-    }
-
-    private static Map<UUID, Customer> readCustomerFromFile(String filePath) {
-        Map<UUID, Customer> customers = new ConcurrentHashMap<>();
-        try {
-            String fileContent = Files.readString(Paths.get(filePath));
-            Stream<String> lines = fileContent.lines();
+        try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
             lines.forEach(line -> {
                 String[] parts = line.split(",");
                 UUID customerId = UUID.fromString(parts[0]);
@@ -89,7 +65,6 @@ public class CsvFileUtil {
             });
         } catch (IOException e) {
             log.error("The file does not exist. fileName : {}", filePath);
-            throw new RuntimeException(e);
         }
         return customers;
     }

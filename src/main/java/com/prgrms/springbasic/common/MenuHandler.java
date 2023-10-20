@@ -37,7 +37,6 @@ public class MenuHandler {
     public void createVoucher() {
         console.printConsoleMessage(ConsoleMessage.CREATE_VOUCHER);
         voucherController.saveVoucher(makeCreateVoucherRequest());
-
     }
 
     public void showAllVouchers() {

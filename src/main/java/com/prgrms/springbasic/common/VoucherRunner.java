@@ -6,11 +6,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 
-
 @Component
 public class VoucherRunner implements CommandLineRunner {
     private final MenuHandler menuHandler;
-    private final Logger logger = LoggerFactory.getLogger(VoucherRunner.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherRunner.class);
 
     public VoucherRunner(MenuHandler menuHandler) {
         this.menuHandler = menuHandler;
@@ -18,19 +17,20 @@ public class VoucherRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+
         boolean isRunning = true;
-        MenuType menuType;
         while (isRunning) {
+            CommandType commandType;
             try {
-                menuType = MenuType.find(menuHandler.chooseMode());
-                switch (menuType) {
+                commandType = CommandType.find(menuHandler.chooseMode());
+                switch (commandType) {
                     case EXIT -> isRunning = menuHandler.exit();
                     case CREATE -> menuHandler.createVoucher();
                     case LIST -> menuHandler.showAllVouchers();
                     case BLACK_LIST -> menuHandler.showAllBlackLists();
                 }
             } catch (Exception e) {
-                logger.error(e.getMessage());
+                logger.warn(e.getMessage());
             }
         }
     }
