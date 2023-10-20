@@ -1,5 +1,8 @@
 package com.prgms.vouchermanager.util.io;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ConsoleOutput {
 
 
@@ -56,9 +59,6 @@ public class ConsoleOutput {
 
 
     public void printVoucherAmount() {
-        System.out.println("쿠폰의 할인 금액을 입력해주세요");
-    }
-    public void printVoucherPercent() {
-        System.out.println("쿠폰의 할인률을 입력해주세요");
+        System.out.println("쿠폰의 할인값을 입력해주세요");
     }
 }
