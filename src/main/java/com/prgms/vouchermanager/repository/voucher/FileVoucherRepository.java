@@ -17,7 +17,7 @@ import java.util.UUID;
 public class FileVoucherRepository implements VoucherRepository{
     private final FileManager fileManager;
 
-    private Map<UUID,Voucher>vouchers ;
+    private final Map<UUID,Voucher>vouchers ;
 
     public FileVoucherRepository(FileManager fileManager) {
         this.fileManager = fileManager;
