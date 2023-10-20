@@ -8,18 +8,26 @@ import java.util.UUID;
 public abstract class Voucher {
 
     private final static long ZERO = 0;
+    protected UUID voucherId;
+    protected long discount;
+    protected VoucherType voucherType;
+    protected UseStatusType useStatusType;
 
-    public abstract UUID getVoucherId();
-
-    public abstract long getDiscount();
-
-    public abstract VoucherType getVoucherType();
-
-    public abstract UseStatusType getUseStatusType();
-
-    public void validateVoucherInfo(long discount) {
-        if(discount < ZERO) {
-            throw ErrorMessage.error("바우처 할인 정보는 음수값을 입력할 수 없습니다.");
-        }
+    public UUID getVoucherId(){
+        return voucherId;
     }
+
+    public long getDiscount(){
+        return discount;
+    }
+
+    public VoucherType getVoucherType(){
+        return voucherType;
+    }
+
+    public UseStatusType getUseStatusType(){
+        return useStatusType;
+    }
+
+    public abstract void validateVoucherInfo(long discount);
 }

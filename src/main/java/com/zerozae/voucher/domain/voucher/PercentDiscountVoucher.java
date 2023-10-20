@@ -9,12 +9,8 @@ import java.util.UUID;
 @Getter
 public class PercentDiscountVoucher extends Voucher {
 
-    private static final long ZERO = 0;
-
-    private final UUID voucherId;
-    private final long discount;
-    private final VoucherType voucherType;
-    private UseStatusType useStatusType;
+    private static final long ZERO = 0L;
+    private static final long MAXIMUM = 100L;
 
     public PercentDiscountVoucher(Long discount) {
         try {
@@ -38,5 +34,12 @@ public class PercentDiscountVoucher extends Voucher {
         this.discount = discount;
         this.voucherType = VoucherType.PERCENT;
         this.useStatusType = useStatusType;
+    }
+
+    @Override
+    public void validateVoucherInfo(long discount) {
+        if(discount < ZERO || discount > MAXIMUM) {
+            throw ErrorMessage.error("비율할인 바우처의 할인 정보는 1 ~ 100 값만 입력해야 합니다.");
+        }
     }
 }
