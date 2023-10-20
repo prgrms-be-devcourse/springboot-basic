@@ -13,27 +13,14 @@ import static com.prgms.vouchermanager.contorller.customer.CustomerMenuType.*;
 public class CustomerController {
 
     private final CustomerService customerService;
-    private final ConsoleInput consoleInput;
 
-    public CustomerController(CustomerService customerService, ConsoleInput consoleInput) {
+    public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
-        this.consoleInput = consoleInput;
     }
+    public void getBlackList() {
+        List<Customer> blackList = customerService.getBlackList();
 
-    public void run() {
-        int menu = 0;
-        try {
-            menu = consoleInput.inputCustomerMenu();
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
-        if (menu == BLACK_LIST.getNumber()) {
-
-            List<Customer> blackList = customerService .getBlackList();
-
-            blackList.
-                    forEach(customer -> System.out.println(customer.toString()));
-        }
+        blackList.
+                forEach(customer -> System.out.println(customer.toString()));
     }
 }
