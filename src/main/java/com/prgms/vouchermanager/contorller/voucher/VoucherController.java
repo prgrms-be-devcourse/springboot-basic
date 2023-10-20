@@ -15,11 +15,12 @@ import static com.prgms.vouchermanager.contorller.voucher.VoucherMenuType.*;
 @Controller
 public class VoucherController {
 
+    private final static Logger logger = LoggerFactory.getLogger(FrontController.class);
+
     private final VoucherService voucherService;
 
     private final ConsoleInput consoleInput;
 
-    private final static Logger logger = LoggerFactory.getLogger(FrontController.class);
 
     public VoucherController(VoucherService voucherService, ConsoleInput consoleInput) {
         this.voucherService = voucherService;
@@ -42,7 +43,6 @@ public class VoucherController {
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());
                 logger.warn(e.getMessage());
-
             }
 
         } else if (menu == LIST.getNumber()) {

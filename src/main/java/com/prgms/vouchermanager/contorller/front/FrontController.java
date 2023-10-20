@@ -14,13 +14,14 @@ import static com.prgms.vouchermanager.contorller.front.FrontMenuType.*;
 @Controller
 public class FrontController {
 
+    private final static Logger logger = LoggerFactory.getLogger(FrontController.class);
+
     private final ConsoleInput consoleInput;
 
     private final VoucherController voucherController;
 
     private final CustomerController customerController;
 
-    private final static Logger logger = LoggerFactory.getLogger(FrontController.class);
 
     public FrontController(ConsoleInput consoleInput, VoucherController voucherController, CustomerController customerController) {
 
