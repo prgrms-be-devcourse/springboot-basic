@@ -7,6 +7,7 @@ import org.prgrms.prgrmsspring.exception.DataAccessException;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +20,7 @@ import java.util.UUID;
 @Repository
 public class DBVoucherRepository implements VoucherRepository {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public DBVoucherRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -47,6 +48,15 @@ public class DBVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        String sql = "SELECT * FROM VOUCHERS WHERE VOUCHER_ID = UUID_TO_BIN(?)";
+        try {
+            Voucher voucher = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+                VoucherType voucherType = VoucherType.of(rs.getString("TYPE"));
+                return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), rs.getLong("AMOUNT"));
+            }, voucherId);
+            return Optional.ofNullable(voucher);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }
