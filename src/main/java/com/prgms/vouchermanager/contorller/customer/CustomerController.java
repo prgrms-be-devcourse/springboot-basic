@@ -1,7 +1,6 @@
 package com.prgms.vouchermanager.contorller.customer;
 
 import com.prgms.vouchermanager.domain.customer.Customer;
-import com.prgms.vouchermanager.domain.voucher.Voucher;
 import com.prgms.vouchermanager.service.customer.CustomerService;
 import com.prgms.vouchermanager.util.io.ConsoleInput;
 import org.springframework.stereotype.Controller;
@@ -33,8 +32,8 @@ public class CustomerController {
 
             List<Customer> blackList = customerService .getBlackList();
 
-            blackList.stream()
-                    .forEach(customer -> System.out.println(customer.toString()));
+            blackList.
+                    forEach(customer -> System.out.println(customer.toString()));
         }
     }
 }
