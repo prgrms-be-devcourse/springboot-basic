@@ -59,7 +59,7 @@ public class Handler {
     }
 
     private void voucherList() {
-        List<Voucher> allVouchers = voucherController.list();
+        List<Voucher> allVouchers = voucherController.findAllVoucher();
         allVouchers.forEach(voucher -> output.print(voucher.toString()));
     }
 

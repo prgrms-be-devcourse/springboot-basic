@@ -22,7 +22,7 @@ public class VoucherController {
             voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10L));
     }
 
-    public List<Voucher> list() {
+    public List<Voucher> findAllVoucher() {
         return voucherService.getAllVoucher();
     }
 }
