@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanager.Repository;
+package org.prgrms.vouchermanager.repository;
 
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.springframework.context.annotation.Profile;

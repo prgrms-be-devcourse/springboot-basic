@@ -1,7 +1,6 @@
-package org.prgrms.vouchermanager.Repository;
+package org.prgrms.vouchermanager.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;

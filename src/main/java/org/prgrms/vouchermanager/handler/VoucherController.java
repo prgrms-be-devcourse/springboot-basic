@@ -1,6 +1,6 @@
 package org.prgrms.vouchermanager.handler;
 
-import org.prgrms.vouchermanager.Repository.MemoryVoucherRepository;
+import org.prgrms.vouchermanager.repository.MemoryVoucherRepository;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;

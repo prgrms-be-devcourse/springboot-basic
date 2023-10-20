@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanager.Repository;
+package org.prgrms.vouchermanager.repository;
 
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 
