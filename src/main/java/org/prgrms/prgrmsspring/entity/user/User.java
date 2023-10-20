@@ -5,10 +5,12 @@ import java.util.UUID;
 public class User {
     private final UUID userId;
     private final String name;
+    private final Boolean isBlack;
 
-    public User(UUID userId, String name) {
+    public User(UUID userId, String name, Boolean isBlack) {
         this.userId = userId;
         this.name = name;
+        this.isBlack = isBlack;
     }
 
     public UUID getUserId() {
@@ -19,8 +21,16 @@ public class User {
         return name;
     }
 
+    public Boolean checkIsBlack() {
+        return isBlack;
+    }
+
     @Override
     public String toString() {
-        return "userId=" + userId + ", name=" + name;
+        return "User{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", isBlack=" + isBlack +
+                '}';
     }
 }

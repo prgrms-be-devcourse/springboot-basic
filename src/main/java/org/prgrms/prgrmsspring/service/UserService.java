@@ -17,4 +17,8 @@ public class UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
+
+    public List<User> findBlackAll() {
+        return userRepository.findBlackAll();
+    }
 }

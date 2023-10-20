@@ -18,6 +18,7 @@ public class FileUserRepository implements UserRepository {
 
     private final Map<UUID, User> store = new ConcurrentHashMap<>();
     private final String filePath;
+    private static final String CSV_SEPARATOR = ",";
 
     public FileUserRepository(@Value("${file.path.blacklist}") String filePath) {
         this.filePath = filePath;
@@ -29,8 +30,12 @@ public class FileUserRepository implements UserRepository {
             FileInputStream inputStream = new FileInputStream(filePath);
             List<String> fileStrings = readFile(inputStream);
             fileStrings.stream().filter(s -> !s.equals(fileStrings.get(0)))
-                    .map(name -> new User(UUID.randomUUID(), name))
-                    .forEach(user -> store.put(user.getUserId(), user));
+                    .map(str -> str.split(CSV_SEPARATOR)).forEach(split -> {
+                        String name = split[0];
+                        Boolean isBlack = Boolean.valueOf(split[1]);
+                        User user = new User(UUID.randomUUID(), name, isBlack);
+                        store.put(user.getUserId(), user);
+                    });
         } catch (IOException e) {
             throw new NotFoundException(ExceptionMessage.NOT_FOUND_FILE.getMessage());
         }
@@ -50,5 +55,10 @@ public class FileUserRepository implements UserRepository {
     @Override
     public List<User> findAll() {
         return store.values().stream().toList();
+    }
+
+    @Override
+    public List<User> findBlackAll() {
+        return store.values().stream().filter(User::checkIsBlack).toList();
     }
 }

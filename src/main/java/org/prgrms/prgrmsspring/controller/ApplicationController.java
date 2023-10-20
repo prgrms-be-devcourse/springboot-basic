@@ -42,8 +42,8 @@ public class ApplicationController {
     }
 
     public void showBlackList() {
-        List<User> users = userService.findAll();
-        commandLineView.printAll(users);
+        List<User> blackUsers = userService.findBlackAll();
+        commandLineView.printAll(blackUsers);
     }
 
     public Command getCommand() {
