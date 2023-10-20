@@ -2,10 +2,6 @@ package org.prgrms.vouchermanager.domain.voucher;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
