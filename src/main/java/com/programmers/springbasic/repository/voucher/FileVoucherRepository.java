@@ -13,7 +13,7 @@ import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.utils.FileUtils;
 
 @Repository
-@Profile("dev")
+@Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
 
 	private final FileUtils fileUtils;
