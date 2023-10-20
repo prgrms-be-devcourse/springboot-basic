@@ -23,4 +23,6 @@ class CsvCustomerRepositoryTest {
         assertThat(name).isEqualTo("최인준");
     }
 
+
+
 }
