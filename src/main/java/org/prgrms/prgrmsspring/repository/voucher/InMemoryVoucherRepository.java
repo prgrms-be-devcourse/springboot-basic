@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@Profile("dev")
+@Profile("local")
 @Repository
 public class InMemoryVoucherRepository implements VoucherRepository {
     private static final Map<UUID, Voucher> store = new ConcurrentHashMap<>();

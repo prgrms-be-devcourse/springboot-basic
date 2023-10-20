@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@Profile("prod")
+@Profile("dev")
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> store = new ConcurrentHashMap<>();
