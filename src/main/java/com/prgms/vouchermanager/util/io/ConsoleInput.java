@@ -39,7 +39,7 @@ public class ConsoleInput {
         int menu ;
 
         try {
-            menu = Integer.parseInt(scanner.next());
+            menu = scanner.nextInt();
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             throw new RuntimeException(INVALID_FRONT_MENU.getMessage());
@@ -59,7 +59,7 @@ public class ConsoleInput {
         int menu ;
 
         try {
-            menu = Integer.parseInt(scanner.next());
+            menu = scanner.nextInt();
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             throw new RuntimeException(INVALID_VOUCHER_MENU.getMessage());
@@ -81,7 +81,7 @@ public class ConsoleInput {
         int menu ;
 
         try {
-            menu = Integer.parseInt(scanner.next());
+            menu = scanner.nextInt();
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             throw new RuntimeException(INVALID_CUSTOMER_MENU.getMessage());
@@ -112,7 +112,7 @@ public class ConsoleInput {
 
                 consoleOutput.printVoucherAmount();
 
-                long amount = Integer.parseInt(scanner.next());
+                long amount = scanner.nextLong();
 
                 voucher = new FixedAmountVoucher(UUID.randomUUID(), amount);
 
@@ -120,7 +120,7 @@ public class ConsoleInput {
 
                 consoleOutput.printVoucherPercent();
 
-                long percent = Integer.parseInt(scanner.next());
+                long percent =  scanner.nextLong();
 
                 if (!inputValidation.validPercent(percent)) {
                     throw new RuntimeException();
@@ -143,7 +143,7 @@ public class ConsoleInput {
         int type ;
 
         try {
-            type = Integer.parseInt(scanner.next());
+            type = scanner.nextInt();
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             throw new RuntimeException(INVALID_VOUCHER_TYPE.getMessage());
