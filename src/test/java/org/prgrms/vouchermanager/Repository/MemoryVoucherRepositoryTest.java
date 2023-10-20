@@ -39,4 +39,11 @@ class MemoryVoucherRepositoryTest {
         assertThat(all.size()).isEqualTo(2);
     }
 
+    @Test
+    @DisplayName("없는 ID 조회 시 null이 리턴되어야한다.")
+    void findByNullId(){
+        Optional<Voucher> voucher = repository.findByID(UUID.randomUUID());
+        assertThat(voucher).isEmpty();
+    }
+
 }
