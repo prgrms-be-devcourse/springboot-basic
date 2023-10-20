@@ -11,7 +11,7 @@ public class ConsoleInputHandler {
 	private final Scanner scanner = new Scanner(System.in);
 
 	public String readString() {
-		String value = scanner.nextLine().trim();
+		String value = scanner.nextLine().strip();
 		if (value.isEmpty())
 			throw new IllegalArgumentException(ErrorCode.EMPTY_STRING.getMessage());
 		return value;
@@ -20,7 +20,7 @@ public class ConsoleInputHandler {
 	public long readLong() {
 		long value;
 		try {
-			value = Long.parseLong(scanner.nextLine().trim());
+			value = Long.parseLong(scanner.nextLine().strip());
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(ErrorCode.INVALID_NUMBER.getMessage());
 		}
