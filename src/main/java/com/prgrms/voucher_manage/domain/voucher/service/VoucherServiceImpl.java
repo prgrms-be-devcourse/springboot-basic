@@ -23,21 +23,11 @@ public class VoucherServiceImpl implements VoucherService {
 
     @Override
     public void createVoucher(CreateVoucherDto dto) {
-        VoucherType voucherType = dto.voucherType();
-        switch (voucherType) {
-            case FIXED -> {
-                if (dto.isInValidPrice()) throw new InvalidDiscountRangeException();
-                voucherRepository.insert(new FixedAmountVoucher(dto.discountAmount()));
-            }
-            case PERCENT -> {
-                if (dto.isInvalidPercent()) throw new InvalidDiscountRangeException();
-                voucherRepository.insert(new PercentDiscountVoucher(dto.discountAmount()));
-            }
-        }
+        voucherRepository.insert(dto.of());
     }
 
     @Override
-    public void showVoucherList() {
+    public void findVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
         vouchers.forEach(voucher -> {
             switch (voucher.getVoucherType()) {
