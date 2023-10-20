@@ -9,6 +9,4 @@ public interface Voucher {
 
     VoucherType getVoucherType();
 
-
-    String toString();
 }
