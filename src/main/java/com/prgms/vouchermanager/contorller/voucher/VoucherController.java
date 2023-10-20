@@ -2,15 +2,16 @@ package com.prgms.vouchermanager.contorller.voucher;
 
 import com.prgms.vouchermanager.contorller.front.FrontController;
 import com.prgms.vouchermanager.domain.voucher.Voucher;
+import com.prgms.vouchermanager.dto.CreateVoucherDto;
 import com.prgms.vouchermanager.service.voucher.VoucherService;
 import com.prgms.vouchermanager.util.io.ConsoleInput;
+import com.prgms.vouchermanager.util.io.ConsoleOutput;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-import static com.prgms.vouchermanager.contorller.voucher.VoucherMenuType.*;
 
 @Controller
 public class VoucherController {
@@ -21,36 +22,32 @@ public class VoucherController {
 
     private final ConsoleInput consoleInput;
 
+    private final ConsoleOutput consoleOutput;
 
-    public VoucherController(VoucherService voucherService, ConsoleInput consoleInput) {
+    public VoucherController(VoucherService voucherService, ConsoleInput consoleInput, ConsoleOutput consoleOutput) {
         this.voucherService = voucherService;
         this.consoleInput = consoleInput;
+        this.consoleOutput = consoleOutput;
     }
 
-    public void run() {
-        int menu = 0;
-        try {
-            menu = consoleInput.inputVoucherMenu();
+    public void create() {
+        try{
+            consoleOutput.printVoucherType();
+            int voucherType = consoleInput.inputVoucherType();
+            consoleOutput.printVoucherAmount();
+            long value = consoleInput.inputVoucherValue();
+            voucherService.create(new CreateVoucherDto(value,voucherType));
+
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             logger.warn(e.getMessage());
-            return;
         }
-        if (menu == CREATE.getNumber()) {
-            try {
-                Voucher voucher = consoleInput.inputVoucher();
-                voucherService.create(voucher);
-            } catch (RuntimeException e) {
-                System.out.println(e.getMessage());
-                logger.warn(e.getMessage());
-            }
+    }
 
-        } else if (menu == LIST.getNumber()) {
-            List<Voucher> voucherList = voucherService.getVoucherList();
+    public void getList() {
+        List<Voucher> voucherList = voucherService.getVoucherList();
 
-            voucherList.stream()
-                    .forEach(voucher -> System.out.println(voucher.toString()));
-        }
+        voucherList.forEach(voucher -> System.out.println(voucher.toString()));
 
     }
 }
