@@ -1,9 +1,9 @@
 package org.prgrms.prgrmsspring.controller;
 
 import org.prgrms.prgrmsspring.domain.Command;
-import org.prgrms.prgrmsspring.entity.user.User;
+import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
-import org.prgrms.prgrmsspring.service.UserService;
+import org.prgrms.prgrmsspring.service.CustomerService;
 import org.prgrms.prgrmsspring.service.VoucherService;
 import org.prgrms.prgrmsspring.view.CommandLineView;
 import org.springframework.stereotype.Controller;
@@ -15,12 +15,12 @@ public class ApplicationController {
 
     private final VoucherService voucherService;
     private final CommandLineView commandLineView;
-    private final UserService userService;
+    private final CustomerService customerService;
 
-    public ApplicationController(VoucherService voucherService, CommandLineView commandLineView, UserService userService) {
+    public ApplicationController(VoucherService voucherService, CommandLineView commandLineView, CustomerService customerService) {
         this.voucherService = voucherService;
         this.commandLineView = commandLineView;
-        this.userService = userService;
+        this.customerService = customerService;
     }
 
     public void start(Command command) {
@@ -42,8 +42,8 @@ public class ApplicationController {
     }
 
     public void showBlackList() {
-        List<User> blackUsers = userService.findBlackAll();
-        commandLineView.printAll(blackUsers);
+        List<Customer> blackCustomers = customerService.findBlackAll();
+        commandLineView.printAll(blackCustomers);
     }
 
     public Command getCommand() {

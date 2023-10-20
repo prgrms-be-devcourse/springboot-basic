@@ -2,12 +2,12 @@ package org.prgrms.prgrmsspring.entity.user;
 
 import java.util.UUID;
 
-public class User {
+public class Customer {
     private final UUID userId;
     private final String name;
     private final Boolean isBlack;
 
-    public User(UUID userId, String name, Boolean isBlack) {
+    public Customer(UUID userId, String name, Boolean isBlack) {
         this.userId = userId;
         this.name = name;
         this.isBlack = isBlack;

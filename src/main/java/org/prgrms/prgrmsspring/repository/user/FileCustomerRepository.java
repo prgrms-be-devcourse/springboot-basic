@@ -1,6 +1,6 @@
 package org.prgrms.prgrmsspring.repository.user;
 
-import org.prgrms.prgrmsspring.entity.user.User;
+import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,13 +14,13 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class FileUserRepository implements UserRepository {
+public class FileCustomerRepository implements CustomerRepository {
 
-    private final Map<UUID, User> store = new ConcurrentHashMap<>();
+    private final Map<UUID, Customer> store = new ConcurrentHashMap<>();
     private final String filePath;
     private static final String CSV_SEPARATOR = ",";
 
-    public FileUserRepository(@Value("${file.path.blacklist}") String filePath) {
+    public FileCustomerRepository(@Value("${file.path.blacklist}") String filePath) {
         this.filePath = filePath;
         readAndStoreInMemory();
     }
@@ -33,8 +33,8 @@ public class FileUserRepository implements UserRepository {
                     .map(str -> str.split(CSV_SEPARATOR)).forEach(split -> {
                         String name = split[0];
                         Boolean isBlack = Boolean.valueOf(split[1]);
-                        User user = new User(UUID.randomUUID(), name, isBlack);
-                        store.put(user.getUserId(), user);
+                        Customer customer = new Customer(UUID.randomUUID(), name, isBlack);
+                        store.put(customer.getUserId(), customer);
                     });
         } catch (IOException e) {
             throw new NotFoundException(ExceptionMessage.NOT_FOUND_FILE.getMessage());
@@ -53,12 +53,12 @@ public class FileUserRepository implements UserRepository {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<Customer> findAll() {
         return store.values().stream().toList();
     }
 
     @Override
-    public List<User> findBlackAll() {
-        return store.values().stream().filter(User::checkIsBlack).toList();
+    public List<Customer> findBlackAll() {
+        return store.values().stream().filter(Customer::checkIsBlack).toList();
     }
 }
