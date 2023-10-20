@@ -1,5 +1,8 @@
 package com.prgms.vouchermanager.validation;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class InputValidation {
 
 
@@ -16,11 +19,7 @@ public class InputValidation {
         return menu == 1;
     }
 
-    public boolean validVoucherType(int number) {
-        return number==1||number==2;
-    }
-
-    public boolean validPercent(long discountValue) {
-        return discountValue <= 100;
+    public boolean validVoucherPercent(long percent) {
+        return percent<=100 ;
     }
 }
