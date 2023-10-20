@@ -2,6 +2,7 @@ package com.prgrms.springbasic.domain.voucher.repository;
 
 import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.util.CsvFileUtil;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -12,14 +13,16 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("default")
+@Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
-    private static Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
-    private final String filePath;
+    private Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
 
-    public FileVoucherRepository(@Value("${repository.voucher.filePath}") String filePath) {
-        this.filePath = filePath;
-        vouchers = CsvFileUtil.loadVoucherFromFile(filePath);
+    @Value("${repository.voucher.filePath}")
+    private String filePath;
+
+    @PostConstruct
+    public void init() {
+        vouchers = CsvFileUtil.readVoucherFromFile(filePath);
     }
 
     @Override
