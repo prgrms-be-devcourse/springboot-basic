@@ -25,11 +25,12 @@ public class CsvCustomerRepository implements CustomerRepositroy{
     private String csvFilePath;
 
 
-    BufferedReader br = null;
+
 
 
     @Override
     public List<Customer> findAll() {
+        BufferedReader br = null;
         List<Customer> result = new ArrayList<>();
         try{
             br = Files.newBufferedReader(Paths.get(csvFilePath));
