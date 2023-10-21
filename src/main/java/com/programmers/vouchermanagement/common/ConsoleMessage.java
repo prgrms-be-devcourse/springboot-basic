@@ -8,7 +8,6 @@ public enum ConsoleMessage {
             Type list to list all vouchers.
             Type blacklist to list customer blacklist.
             """),
-
     EXIT_MESSAGE("[System] Program exited."),
 
     // create voucher messages
@@ -22,11 +21,8 @@ public enum ConsoleMessage {
             [System] Enter "voucher name" and "percent value(%)" to discount.
             """),
     INPUT_VOUCHER_NAME_MESSAGE("Enter voucher name: "),
-
     INPUT_VOUCHER_AMOUNT_MESSAGE("Enter voucher amount: "),
-
     INPUT_VOUCHER_PERCENT_MESSAGE("Enter voucher percent: "),
-
     VOUCHER_CREATED_MESSAGE("[System] Voucher created.");
 
     private final String message;
