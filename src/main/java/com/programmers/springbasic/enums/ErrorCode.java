@@ -9,7 +9,8 @@ public enum ErrorCode {
 	EMPTY_STRING("문자열은 비어있으면 안됩니다"),
 	FILE_CANNOT_READ("파일 읽기에 실패했습니다"),
 	FILE_CANNOT_WRITE("파일 쓰기에 실패했습니다"),
-	FILE_CANNOT_CREATE("파일 생성에 실패했습니다");
+	FILE_CANNOT_CREATE("파일 생성에 실패했습니다"),
+	FILE_NOT_FOUND("파일이 존재하지 않습니다");
 
 	private final String message;
 
