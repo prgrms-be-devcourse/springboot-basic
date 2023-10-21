@@ -21,7 +21,6 @@ public class ConsoleManager implements ApplicationRunner {
     private final InputUtil inputUtil;
     private final VoucherController voucherController;
     private final CustomerController customerController;
-
     private static final Logger logger = LoggerFactory.getLogger(ConsoleManager.class);
 
     @Override
@@ -41,7 +40,9 @@ public class ConsoleManager implements ApplicationRunner {
     }
 
     public void selectMenu(MenuType menuType) throws Exception {
-        if (menuType == null) throw new InvalidCmdInputException();
+        if (menuType == null) {
+            throw new InvalidCmdInputException();
+        }
 
         switch (menuType) {
             case CREATE -> createVoucher();
