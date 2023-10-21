@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
 
@@ -10,6 +9,11 @@
 
     <appender name="ERROR_LOG_FILE_ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/errors.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/errors-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
@@ -18,11 +22,9 @@
         </encoder>
     </appender>
 
-    <root level="INFO">
+    <root level="info">
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ERROR_LOG_FILE_ROLLING"/>
     </root>
 
-    <logger name="com.zerozae" level="DEBUG">
-        <appender-ref ref="ERROR_LOG_FILE_ROLLING"/>
-    </logger>
 </configuration>
