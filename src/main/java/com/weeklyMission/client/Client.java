@@ -13,6 +13,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class Client {
 
+    private static final String VOUCHER = "voucher";
+    private static final String MEMBER = "member";
+    private static final String EXIT = "exit";
+    private static final String CREATE = "create";
+    private static final String LIST = "list";
+
     private final ConsoleIO consoleIOHandler;
     private final MemberController memberController;
     private final VoucherController voucherController;
@@ -26,13 +32,13 @@ public class Client {
     public void run() {
         String mode = consoleIOHandler.printSelectMode();
         switch (mode) {
-            case "voucher" -> {
+            case VOUCHER -> {
                 voucherMode();
             }
-            case "member" -> {
+            case MEMBER -> {
                 memberMode();
             }
-            case "exit" -> {
+            case EXIT -> {
                 consoleIOHandler.printExitMessage();
                 System.exit(0);
             }
@@ -45,13 +51,13 @@ public class Client {
     private void voucherMode() {
         String function = consoleIOHandler.printSelectVoucherFunction();
         switch (function) {
-            case "create" -> {
+            case CREATE -> {
                 VoucherType voucherType = VoucherType.of(consoleIOHandler.printSelectVoucherType());
                 Voucher voucher = voucherType.giveVoucher(consoleIOHandler);
                 VoucherResponse voucherDto = voucherController.create(voucher);
                 consoleIOHandler.printSuccessCreate(voucherDto);
             }
-            case "list" -> {
+            case LIST -> {
                 List<VoucherResponse> voucherListDto = voucherController.getVoucherList();
                 consoleIOHandler.printSuccessGetAllList(voucherListDto);
             }
@@ -64,7 +70,7 @@ public class Client {
     private void memberMode() {
         String function = consoleIOHandler.printSelectMemberFunction();
         switch (function){
-            case("list") ->{
+            case LIST ->{
                 List<Member> blackList = memberController.getBlackList();
                 consoleIOHandler.printSuccessGetBlackList(blackList);
             }
