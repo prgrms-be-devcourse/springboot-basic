@@ -17,4 +17,3 @@ csv:
       path: "src/main/resources/files/vouchers.csv"
     customer:
       blacklist_path: "src/main/resources/files/customer_blacklist.csv"
-  separator: ","
