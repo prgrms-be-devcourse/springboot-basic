@@ -2,24 +2,13 @@ package com.programmers.springbasic.entity.voucher;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher extends Voucher {
 
-	private final UUID voucherId;
 	private final long percent;
 
 	public PercentDiscountVoucher(UUID voucherId, long percent) {
-		this.voucherId = voucherId;
+		super(voucherId, VoucherType.PERCENT_DISCOUNT);
 		this.percent = percent;
-	}
-
-	@Override
-	public UUID getVoucherId() {
-		return voucherId;
-	}
-
-	@Override
-	public VoucherType getVoucherType() {
-		return VoucherType.PERCENT_DISCOUNT;
 	}
 
 	@Override

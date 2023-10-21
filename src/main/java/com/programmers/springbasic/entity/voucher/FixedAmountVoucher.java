@@ -2,24 +2,13 @@ package com.programmers.springbasic.entity.voucher;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
 
-	private final UUID voucherId;
 	private final long amount;
 
 	public FixedAmountVoucher(UUID voucherId, long amount) {
-		this.voucherId = voucherId;
+		super(voucherId, VoucherType.FIXED_AMOUNT);
 		this.amount = amount;
-	}
-
-	@Override
-	public UUID getVoucherId() {
-		return voucherId;
-	}
-
-	@Override
-	public VoucherType getVoucherType() {
-		return VoucherType.FIXED_AMOUNT;
 	}
 
 	@Override

@@ -2,10 +2,22 @@ package com.programmers.springbasic.entity.voucher;
 
 import java.util.UUID;
 
-public interface Voucher {
-	UUID getVoucherId();
+public abstract class Voucher {
+	protected final UUID voucherId;
+	protected final VoucherType voucherType;
 
-	VoucherType getVoucherType();
+	public Voucher(UUID voucherId, VoucherType voucherType) {
+		this.voucherId = voucherId;
+		this.voucherType = voucherType;
+	}
 
-	long getDiscountValue();
+	public UUID getVoucherId() {
+		return voucherId;
+	}
+
+	public VoucherType getVoucherType() {
+		return voucherType;
+	}
+
+	public abstract long getDiscountValue();
 }
