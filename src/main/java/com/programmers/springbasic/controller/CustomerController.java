@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 
-import com.programmers.springbasic.dto.ListBlacklistCustomerResponse;
+import com.programmers.springbasic.dto.GetBlacklistCustomersResponse;
 import com.programmers.springbasic.service.CustomerService;
 
 @Controller
@@ -15,7 +15,7 @@ public class CustomerController {
 		this.customerService = customerService;
 	}
 
-	public List<ListBlacklistCustomerResponse> listBlacklistCustomer() {
-		return customerService.listBlacklistCustomer();
+	public List<GetBlacklistCustomersResponse> getBlacklistCustomers() {
+		return customerService.getBlacklistCustomers();
 	}
 }

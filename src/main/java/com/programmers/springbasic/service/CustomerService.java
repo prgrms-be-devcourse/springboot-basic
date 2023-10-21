@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.programmers.springbasic.dto.ListBlacklistCustomerResponse;
+import com.programmers.springbasic.dto.GetBlacklistCustomersResponse;
 import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.repository.customer.CustomerRepository;
 
@@ -17,10 +17,10 @@ public class CustomerService {
 		this.customerRepository = customerRepository;
 	}
 
-	public List<ListBlacklistCustomerResponse> listBlacklistCustomer() {
+	public List<GetBlacklistCustomersResponse> getBlacklistCustomers() {
 		List<Customer> blacklistCustomers = customerRepository.findAllByIsBlackListedTrue();
 		return blacklistCustomers.stream()
-			.map(ListBlacklistCustomerResponse::new)
+			.map(GetBlacklistCustomersResponse::new)
 			.collect(Collectors.toList());
 	}
 }

@@ -5,12 +5,12 @@ import java.util.UUID;
 import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.entity.voucher.VoucherType;
 
-public class ListVouchersResponse {
+public class GetVouchersResponse {
 	private final UUID voucherId;
 	private final VoucherType voucherType;
 	private final long discountValue;
 
-	public ListVouchersResponse(Voucher voucher) {
+	public GetVouchersResponse(Voucher voucher) {
 		this.voucherId = voucher.getVoucherId();
 		this.voucherType = voucher.getVoucherType();
 		this.discountValue = voucher.getDiscountValue();

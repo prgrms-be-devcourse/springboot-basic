@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
-import com.programmers.springbasic.dto.ListBlacklistCustomerResponse;
+import com.programmers.springbasic.dto.GetBlacklistCustomersResponse;
 
-public class ListBlacklistCustomersCommand implements Command {
+public class GetBlacklistCustomersCommand implements Command {
 	private final CustomerController customerController;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public ListBlacklistCustomersCommand(CustomerController customerController,
+	public GetBlacklistCustomersCommand(CustomerController customerController,
 		ConsoleOutputHandler consoleOutputHandler) {
 		this.customerController = customerController;
 		this.consoleOutputHandler = consoleOutputHandler;
@@ -18,7 +18,7 @@ public class ListBlacklistCustomersCommand implements Command {
 
 	@Override
 	public void execute() {
-		List<ListBlacklistCustomerResponse> blacklistCustomers = customerController.listBlacklistCustomer();
+		List<GetBlacklistCustomersResponse> blacklistCustomers = customerController.getBlacklistCustomers();
 		consoleOutputHandler.printList(blacklistCustomers);
 	}
 }

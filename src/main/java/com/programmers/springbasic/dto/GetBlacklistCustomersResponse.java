@@ -4,11 +4,11 @@ import java.text.MessageFormat;
 
 import com.programmers.springbasic.entity.customer.Customer;
 
-public class ListBlacklistCustomerResponse {
+public class GetBlacklistCustomersResponse {
 	private long id;
 	private String name;
 
-	public ListBlacklistCustomerResponse(Customer customer) {
+	public GetBlacklistCustomersResponse(Customer customer) {
 		this.id = customer.getId();
 		this.name = customer.getName();
 	}

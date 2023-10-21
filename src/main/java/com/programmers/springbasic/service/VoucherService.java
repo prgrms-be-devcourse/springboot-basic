@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.programmers.springbasic.dto.CreateFixedAmountVoucherRequest;
 import com.programmers.springbasic.dto.CreatePercentDiscountVoucherRequest;
-import com.programmers.springbasic.dto.ListVouchersResponse;
+import com.programmers.springbasic.dto.GetVouchersResponse;
 import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.repository.voucher.VoucherRepository;
 
@@ -20,9 +20,9 @@ public class VoucherService {
 		this.voucherRepository = voucherRepository;
 	}
 
-	public List<ListVouchersResponse> listVoucher() {
+	public List<GetVouchersResponse> getVouchers() {
 		List<Voucher> vouchers = voucherRepository.findAll();
-		return vouchers.stream().map(ListVouchersResponse::new).collect(Collectors.toList());
+		return vouchers.stream().map(GetVouchersResponse::new).collect(Collectors.toList());
 	}
 
 	public UUID createPercentDiscountVoucher(CreatePercentDiscountVoucherRequest request) {
