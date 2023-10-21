@@ -13,12 +13,12 @@ public class FileProperties {
     private final Map<String, PathProperties> names = new HashMap<>();
     private Resources resources;
     private String userDir;
-    private String projDir;
 
 
     public Map<String, PathProperties> getNames() {
         return names;
     }
+
     public Resources getResources() {
         return resources;
     }
@@ -33,14 +33,6 @@ public class FileProperties {
 
     public void setUserDir(String userDir) {
         this.userDir = userDir;
-    }
-
-    public String getProjDir() {
-        return projDir;
-    }
-
-    public void setProjDir(String projDir) {
-        this.projDir = projDir;
     }
 
     public static class PathProperties {
@@ -68,7 +60,6 @@ public class FileProperties {
     public static class Resources {
         private String path;
         private String testPath;
-        private String jar;
 
         public String getPath() {
             return path;
@@ -84,14 +75,6 @@ public class FileProperties {
 
         public void setTestPath(String testPath) {
             this.testPath = testPath;
-        }
-
-        public String getJar() {
-            return jar;
-        }
-
-        public void setJar(String jar) {
-            this.jar = jar;
         }
     }
 }

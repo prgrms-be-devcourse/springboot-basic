@@ -3,7 +3,6 @@ spring:
     active: default
 
 file:
-  proj-dir: /Users/hongjiin/Documents/Programmers/Dev.course/Mission#1/Fork/springboot-basic/
   names:
     voucher:
       file-name: voucherRecord.csv
@@ -15,7 +14,6 @@ file:
   resources:
     path: /src/main/resources/
     test-path: /src/test/resources/
-    jar: /build/resources/main/
 
 external:
   proj-dir: ""

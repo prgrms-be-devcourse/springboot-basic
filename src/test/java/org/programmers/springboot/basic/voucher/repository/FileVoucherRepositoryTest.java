@@ -5,7 +5,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.programmers.springboot.basic.AppConstants;
-import org.programmers.springboot.basic.config.AppConfig;
 import org.programmers.springboot.basic.config.VoucherConfig;
 import org.programmers.springboot.basic.domain.voucher.dto.CsvVoucherDto;
 import org.programmers.springboot.basic.domain.voucher.dto.VoucherRequestDto;
@@ -23,6 +22,7 @@ import org.programmers.springboot.basic.domain.voucher.service.validate.PercentD
 import org.programmers.springboot.basic.domain.voucher.service.validate.ValidateHandler;
 import org.programmers.springboot.basic.util.exception.CSVFileIOFailureException;
 import org.programmers.springboot.basic.util.manager.CSVFileManager;
+import org.programmers.springboot.basic.util.properties.ExternalProperties;
 import org.programmers.springboot.basic.util.properties.FileProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -62,7 +62,8 @@ import static org.assertj.core.api.Assertions.assertThat;
         FileVoucherRepository.class,
         PercentDiscountVoucherValidator.class,
         FixedAmountVoucherValidator.class,
-        FileProperties.class
+        FileProperties.class,
+        FileVoucherRepositoryTest.class
 })
 @EnableConfigurationProperties(value = FileProperties.class)
 @TestPropertySource("classpath:application.yaml")
@@ -90,7 +91,7 @@ public class FileVoucherRepositoryTest {
 
     }
 
-    @Component
+    @Component("testVoucherService")
     static class TestVoucherService extends VoucherService {
 
         private final VoucherRepository voucherRepository;
@@ -117,11 +118,11 @@ public class FileVoucherRepositoryTest {
 
             handler.validate(discount);
             Voucher voucher = voucherMapper.mapToVoucher(voucherRequestDto);
-            this.voucherRepository.save(voucher);
+            voucherRepository.save(voucher);
         }
     }
 
-    @Component
+    @Component("testFileVoucherRepository")
     @Primary
     static class TestFileVoucherRepository extends FileVoucherRepository {
 
@@ -132,8 +133,8 @@ public class FileVoucherRepositoryTest {
 
         ReentrantLock lock = new ReentrantLock();
 
-        public TestFileVoucherRepository(CSVFileManager csvFileManager, VoucherMapper voucherMapper, FileProperties fileProperties) {
-            super(csvFileManager, voucherMapper, fileProperties);
+        public TestFileVoucherRepository(CSVFileManager csvFileManager, VoucherMapper voucherMapper, FileProperties fileProperties, ExternalProperties externalProperties) {
+            super(csvFileManager, voucherMapper, fileProperties, externalProperties);
             this.csvFileManager = csvFileManager;
             this.voucherMapper = voucherMapper;
             this.fileProperties = fileProperties;
@@ -143,18 +144,10 @@ public class FileVoucherRepositoryTest {
 
         private String getTestFilePath() {
 
-            String folderPath = this.fileProperties.getUserDir();
-            String fileName = this.fileProperties.getNames().get("voucher").getFileName();
-            String resourcePath = this.fileProperties.getResources().getPath();
-            String filePath = folderPath + resourcePath + fileName;
-
-            if (AppConfig.isRunningFromJar()) {
-                folderPath = this.fileProperties.getProjDir();
-                resourcePath = this.fileProperties.getResources().getJar();
-                filePath =  folderPath + resourcePath + fileName;
-            }
-
-            return filePath;
+            String folderPath = fileProperties.getUserDir();
+            String fileName = fileProperties.getNames().get("voucher").getFileName();
+            String resourcePath = fileProperties.getResources().getPath();
+            return folderPath + resourcePath + fileName;
         }
 
         @Override
@@ -170,7 +163,7 @@ public class FileVoucherRepositoryTest {
         private void writeVoucherToFile(Voucher voucher) {
 
             try {
-                BufferedWriter writer = this.csvFileManager.getBufferedWriter(FILE);
+                BufferedWriter writer = csvFileManager.getBufferedWriter(FILE);
 
                 String serializer = voucherMapper.serialize(voucher);
                 writer.write(serializer);
@@ -200,7 +193,7 @@ public class FileVoucherRepositoryTest {
             String line;
 
             try {
-                BufferedReader reader = this.csvFileManager.getBufferedReader(FILE);
+                BufferedReader reader = csvFileManager.getBufferedReader(FILE);
 
                 while ((line = reader.readLine()) != null) {
                     String[] token = line.split(AppConstants.CSV_SEPARATOR);
