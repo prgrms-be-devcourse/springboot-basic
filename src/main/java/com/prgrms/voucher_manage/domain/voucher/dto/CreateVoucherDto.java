@@ -7,9 +7,17 @@ import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.*;
 
-public record CreateVoucherDto(VoucherType voucherType, Long discountAmount) {
+public final class CreateVoucherDto {
+    private final VoucherType voucherType;
+    private final Long discountAmount;
+
+    public CreateVoucherDto(VoucherType voucherType, Long discountAmount) {
+        this.voucherType = voucherType;
+        this.discountAmount = discountAmount;
+    }
+
     public Voucher of() {
-        if (voucherType == FIXED){
+        if (voucherType == FIXED) {
             return new FixedAmountVoucher(discountAmount);
         }
         return new PercentDiscountVoucher(discountAmount);

@@ -1,10 +1,10 @@
 package com.prgrms.voucher_manage.domain.voucher.controller;
 
+import com.prgrms.voucher_manage.domain.voucher.dto.CreateVoucherDto;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
-import com.prgrms.voucher_manage.domain.voucher.dto.CreateVoucherDto;
 import com.prgrms.voucher_manage.domain.voucher.service.VoucherService;
-import com.prgrms.voucher_manage.exception.InvalidDiscountRangeException;
+import com.prgrms.voucher_manage.exception.InvalidInputException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -23,9 +23,9 @@ public class VoucherController {
 
     public void createVoucher(VoucherType voucherType, Long discountAmount) {
         if (voucherType == FIXED && isInvalidPrice(discountAmount)) {
-            throw new InvalidDiscountRangeException();
+            throw new InvalidInputException("Invalid discount range.");
         } else if (voucherType == PERCENT && isInvalidPercent(discountAmount)) {
-            throw new InvalidDiscountRangeException();
+            throw new InvalidInputException("Invalid discount range.");
         }
         voucherService.createVoucher(new CreateVoucherDto(voucherType, discountAmount));
     }
