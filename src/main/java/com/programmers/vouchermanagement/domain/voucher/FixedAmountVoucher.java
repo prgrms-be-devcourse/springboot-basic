@@ -2,21 +2,15 @@ package com.programmers.vouchermanagement.domain.voucher;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId;
-
-    private final String voucherName;
-    private final float discountAmount;
+public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID voucherId, String voucherName, float discountAmount) {
-        this.voucherId = voucherId;
-        this.voucherName = voucherName;
-        this.discountAmount = discountAmount;
+        super(voucherId, voucherName, discountAmount);
     }
 
     @Override
     public UUID getId() {
-        return this.voucherId;
+        return voucherId;
     }
 
     @Override
