@@ -9,6 +9,7 @@ import org.prgrms.prgrmsspring.view.CommandLineView;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class ApplicationController {
@@ -34,6 +35,16 @@ public class ApplicationController {
     public void create() {
         Voucher voucher = commandLineView.createVoucher();
         voucherService.create(voucher);
+    }
+
+    public void update() {
+        Voucher updateVoucher = commandLineView.updateVoucher();
+        voucherService.update(updateVoucher);
+    }
+
+    public void delete() {
+        UUID deleteVoucherId = commandLineView.deleteVoucher();
+        voucherService.delete(deleteVoucherId);
     }
 
     public void list() {

@@ -104,4 +104,23 @@ public class FileVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(store.get(voucherId));
     }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        findById(voucher.getVoucherId()).ifPresentOrElse(
+                existingVoucher -> {
+                    delete(existingVoucher.getVoucherId());
+                    insert(voucher);
+                },
+                () -> {
+                    throw new IllegalArgumentException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage());
+                }
+        );
+        return voucher;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+        store.remove(voucherId);
+    }
 }

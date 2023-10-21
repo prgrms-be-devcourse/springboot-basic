@@ -5,6 +5,7 @@ import org.prgrms.prgrmsspring.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -17,6 +18,14 @@ public class VoucherService {
 
     public void create(Voucher voucher) {
         voucherRepository.insert(voucher);
+    }
+
+    public void update(Voucher voucher) {
+        voucherRepository.update(voucher);
+    }
+
+    public void delete(UUID voucherId) {
+        voucherRepository.delete(voucherId);
     }
 
     public List<Voucher> list() {

@@ -4,6 +4,7 @@ import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Profile("dev")
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
 

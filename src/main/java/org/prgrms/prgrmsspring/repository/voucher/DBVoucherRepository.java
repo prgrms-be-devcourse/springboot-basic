@@ -59,4 +59,14 @@ public class DBVoucherRepository implements VoucherRepository {
             return Optional.empty();
         }
     }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        return null;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+
+    }
 }

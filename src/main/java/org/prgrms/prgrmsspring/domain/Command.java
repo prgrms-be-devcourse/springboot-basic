@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 public enum Command {
     EXIT("exit the program.", ApplicationController::exit),
     CREATE("create a new voucher.", ApplicationController::create),
+    UPDATE("update a voucher.", ApplicationController::update),
+    DELETE("delete a voucher", ApplicationController::delete),
     LIST("list all vouchers.", ApplicationController::list),
     BLACKLIST("list all blacklist people", ApplicationController::showBlackList);
 

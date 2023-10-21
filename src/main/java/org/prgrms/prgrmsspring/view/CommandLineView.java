@@ -36,12 +36,36 @@ public class CommandLineView {
         list.forEach(l -> textTerminal.println(l.toString()));
     }
 
-    public Voucher createVoucher() {
+
+    private VoucherType inputVoucherType() {
         Arrays.stream(VoucherType.values()).forEach(v -> textTerminal.println("%d. %s".formatted((v.ordinal() + 1), v.getTitle())));
-        Integer voucherModeNum = textIO.newIntInputReader().read("Input number");
-        VoucherType voucherType = VoucherType.from(voucherModeNum);
-        Long value = textIO.newLongInputReader().read("Input Value");
-        return voucherType.constructVoucher(UUID.randomUUID(), value);
+        Integer voucherModeNum = textIO.newIntInputReader().read("Input voucher mode number");
+        return VoucherType.from(voucherModeNum);
+    }
+
+    private Long inputVoucherAmount() {
+        return textIO.newLongInputReader().read("Input voucher amount");
+    }
+
+    private UUID inputVoucherId() {
+        return UUID.fromString(textIO.newStringInputReader().read("Input voucherId"));
+    }
+
+    public Voucher createVoucher() {
+        VoucherType voucherType = inputVoucherType();
+        Long amount = inputVoucherAmount();
+        return voucherType.constructVoucher(UUID.randomUUID(), amount);
+    }
+
+    public Voucher updateVoucher() {
+        UUID voucherId = inputVoucherId();
+        VoucherType voucherType = inputVoucherType();
+        Long amount = inputVoucherAmount();
+        return voucherType.constructVoucher(voucherId, amount);
+    }
+
+    public UUID deleteVoucher() {
+        return inputVoucherId();
     }
 
     private String inputCommand() {

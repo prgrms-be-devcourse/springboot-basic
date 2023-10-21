@@ -2,6 +2,7 @@ package org.prgrms.prgrmsspring.repository.voucher;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
+import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +32,24 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return store.values().stream().toList();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        findById(voucher.getVoucherId()).ifPresentOrElse(
+                existingVoucher -> {
+                    delete(existingVoucher.getVoucherId());
+                    insert(voucher);
+                },
+                () -> {
+                    throw new IllegalArgumentException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage());
+                }
+        );
+        return voucher;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+        store.remove(voucherId);
     }
 }
