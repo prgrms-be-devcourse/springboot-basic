@@ -19,7 +19,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("file")
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
     private final String csvFilePath;
     private final String csvSeparator;
