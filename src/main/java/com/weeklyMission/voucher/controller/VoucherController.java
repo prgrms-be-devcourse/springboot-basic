@@ -1,8 +1,8 @@
 package com.weeklyMission.voucher.controller;
 
+import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.service.VoucherService;
-import com.weeklyMission.voucher.domain.Voucher;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 
@@ -15,7 +15,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public VoucherResponse create(Voucher voucher){
+    public VoucherResponse create(VoucherRequest voucher){
         return voucherService.createVoucher(voucher);
     }
 

@@ -4,10 +4,11 @@ import com.weeklyMission.console.ConsoleIO;
 import com.weeklyMission.member.controller.MemberController;
 import com.weeklyMission.member.domain.Member;
 import com.weeklyMission.voucher.controller.VoucherController;
-import com.weeklyMission.voucher.domain.Voucher;
+import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.exception.IncorrectInputException;
 import java.util.List;
+import java.util.UUID;
 
 public class Client {
 
@@ -51,8 +52,9 @@ public class Client {
         switch (function) {
             case CREATE -> {
                 VoucherType voucherType = VoucherType.of(consoleIOHandler.printSelectVoucherType());
-                Voucher voucher = voucherType.giveVoucher(consoleIOHandler);
-                VoucherResponse voucherDto = voucherController.create(voucher);
+                VoucherRequest voucherRequest = new VoucherRequest(voucherType.getType(),
+                    UUID.randomUUID(), consoleIOHandler.printAmountCommand());
+                VoucherResponse voucherDto = voucherController.create(voucherRequest);
                 consoleIOHandler.printSuccessCreate(voucherDto);
             }
             case LIST -> {

@@ -1,6 +1,7 @@
 package com.weeklyMission.voucher.service;
 
 import com.weeklyMission.voucher.domain.Voucher;
+import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.repository.VoucherRepository;
 import java.util.List;
@@ -15,8 +16,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherResponse createVoucher(Voucher voucher){
-        Voucher createVoucher = voucherRepository.save(voucher);
+    public VoucherResponse createVoucher(VoucherRequest voucher){
+        Voucher createVoucher = voucherRepository.save(voucher.toEntity());
         return new VoucherResponse(createVoucher);
     }
 
