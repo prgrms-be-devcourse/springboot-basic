@@ -30,6 +30,10 @@ public class FixedAmountVoucher implements Voucher{
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount - amount;
+        long totalCount = beforeDiscount - amount;
+        if(totalCount < 0) {
+            throw new RuntimeException("할인 가격보다 비싼 가격에만 적용 가능합니다.");
+        }
+        return totalCount;
     }
 }

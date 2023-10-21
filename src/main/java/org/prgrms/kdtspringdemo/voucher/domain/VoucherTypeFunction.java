@@ -12,13 +12,25 @@ public enum VoucherTypeFunction {
     FIXED_AMOUNT_VOUCHER("fixedAmount", "고정 할인 바우처") {
         @Override
         public Voucher create(UUID voucherId, long amount) {
-            return new FixedAmountVoucher(voucherId, amount, "fixedAmount");
+            Voucher voucher = null;
+            try{
+                voucher = new FixedAmountVoucher(voucherId, amount, "fixedAmount");
+            } catch (RuntimeException e) {
+                logger.info("할인 가격은 할인 이전 값보다 작아야 합니다.");
+            }
+            return voucher;
         }
     },
     PERCENT_DISCOUNT_VOUCHER("percentDiscount", "비율 할인 바우처") {
         @Override
         public Voucher create(UUID voucherId, long amount) {
-            return new PercentDiscountVoucher(voucherId, amount, "percentDiscount");
+            Voucher voucher = null;
+            try {
+                voucher = new PercentDiscountVoucher(voucherId, amount, "percentDiscount");
+            } catch(RuntimeException e) {
+                logger.info("할인률은 1~100까지만 입력 가능합니다.");
+            }
+            return voucher;
         }
     };
 

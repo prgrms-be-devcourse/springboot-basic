@@ -8,6 +8,9 @@ public class PercentDiscountVoucher implements Voucher{
     private final String voucherType;
 
     public PercentDiscountVoucher(UUID voucherId, long percent, String voucherType) {
+        if(percent <= 0 || percent > 100) {
+            throw new RuntimeException();
+        }
         this.voucherId = voucherId;
         this.percent = percent;
         this.voucherType = voucherType;
