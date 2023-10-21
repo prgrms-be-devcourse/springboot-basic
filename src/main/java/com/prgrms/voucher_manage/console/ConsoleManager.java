@@ -1,7 +1,9 @@
 package com.prgrms.voucher_manage.console;
 
 import com.prgrms.voucher_manage.domain.customer.controller.CustomerController;
+import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
+import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import com.prgrms.voucher_manage.exception.InvalidCmdInputException;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 import static com.prgrms.voucher_manage.console.MenuType.EXIT;
 import static com.prgrms.voucher_manage.console.MenuType.matchMenuType;
@@ -46,22 +50,35 @@ public class ConsoleManager implements ApplicationRunner {
 
         switch (menuType) {
             case CREATE -> createVoucher();
-            case LIST -> voucherController.getVouchers();
-            case CUSTOMER -> customerController.getBlackList();
+            case LIST -> printVouchers(voucherController.getVouchers());
+            case CUSTOMER ->  printBlackList(customerController.getBlackList());
         }
     }
 
     public void createVoucher() throws Exception {
         outputUtil.printVoucherSelect();
         VoucherType voucherType = VoucherType.matchVoucherType(inputUtil.getStringInput());
-        if (voucherType == null) throw new InvalidCmdInputException();
-
+        if (voucherType == null) {
+            throw new InvalidCmdInputException();
+        }
         switch (voucherType) {
             case FIXED -> outputUtil.requestDiscountPriceInfo();
             case PERCENT -> outputUtil.requestDiscountPercentInfo();
         }
-
         Long discountAmount = inputUtil.getLongInput();
         voucherController.createVoucher(voucherType, discountAmount);
+    }
+
+    private void printVouchers(List<Voucher> vouchers) {
+        vouchers.forEach(voucher -> {
+            switch (voucher.getVoucherType()) {
+                case FIXED -> outputUtil.printFixedVoucherInfo(voucher);
+                case PERCENT -> outputUtil.printPercentVoucherInfo(voucher);
+            }
+        });
+    }
+
+    private void printBlackList(List<Customer> customers) {
+        customers.forEach(outputUtil::printCustomerInfo);
     }
 }
