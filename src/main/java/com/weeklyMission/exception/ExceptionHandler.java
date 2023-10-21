@@ -3,16 +3,15 @@ package com.weeklyMission.exception;
 import com.weeklyMission.client.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-@Component
-public class ExceptionHandler {
+public class ExceptionHandler extends Client{
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
 
     private final Client client;
 
     public ExceptionHandler(Client client) {
+        super(null,null,null);
         this.client = client;
     }
 

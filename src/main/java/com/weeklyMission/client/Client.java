@@ -8,16 +8,14 @@ import com.weeklyMission.voucher.domain.Voucher;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.exception.IncorrectInputException;
 import java.util.List;
-import org.springframework.stereotype.Component;
 
-@Component
 public class Client {
 
     private static final String VOUCHER = "voucher";
     private static final String MEMBER = "member";
-    private static final String EXIT = "exit";
     private static final String CREATE = "create";
     private static final String LIST = "list";
+    private static final String EXIT = "exit";
 
     private final ConsoleIO consoleIOHandler;
     private final MemberController memberController;

@@ -1,6 +1,6 @@
 package com.weeklyMission;
 
-import com.weeklyMission.exception.ExceptionHandler;
+import com.weeklyMission.client.Client;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -9,10 +9,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class DemoApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
-        ExceptionHandler handler = applicationContext.getBean(ExceptionHandler.class);
+        Client client = applicationContext.getBean(Client.class);
 
         while (true) {
-            handler.run();
+            client.run();
         }
     }
 }
