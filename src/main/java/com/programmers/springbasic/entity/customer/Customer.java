@@ -19,7 +19,7 @@ public class Customer {
 		return name;
 	}
 
-	public Boolean getBlacklisted() {
+	public Boolean isBlacklisted() {
 		return isBlacklisted;
 	}
 }
