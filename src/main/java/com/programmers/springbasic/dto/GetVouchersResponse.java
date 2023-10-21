@@ -6,6 +6,7 @@ import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.entity.voucher.VoucherType;
 
 public class GetVouchersResponse {
+
 	private final UUID voucherId;
 	private final VoucherType voucherType;
 	private final long discountValue;

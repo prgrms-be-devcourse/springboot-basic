@@ -7,6 +7,7 @@ import com.programmers.springbasic.controller.CustomerController;
 import com.programmers.springbasic.dto.GetBlacklistCustomersResponse;
 
 public class GetBlacklistCustomersCommand implements Command {
+
 	private final CustomerController customerController;
 	private final ConsoleOutputHandler consoleOutputHandler;
 

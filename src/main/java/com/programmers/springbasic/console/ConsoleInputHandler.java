@@ -8,6 +8,7 @@ import com.programmers.springbasic.enums.ErrorCode;
 
 @Component
 public class ConsoleInputHandler {
+
 	private final Scanner scanner = new Scanner(System.in);
 
 	public String readString() {

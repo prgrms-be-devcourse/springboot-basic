@@ -1,6 +1,7 @@
 package com.programmers.springbasic.entity.customer;
 
 public class Customer {
+
 	private Long id;
 	private String name;
 	private Boolean isBlacklisted;

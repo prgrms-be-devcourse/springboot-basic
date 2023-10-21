@@ -14,6 +14,7 @@ import com.programmers.springbasic.repository.voucher.VoucherRepository;
 
 @Service
 public class VoucherService {
+
 	private final VoucherRepository voucherRepository;
 
 	public VoucherService(VoucherRepository voucherRepository) {
