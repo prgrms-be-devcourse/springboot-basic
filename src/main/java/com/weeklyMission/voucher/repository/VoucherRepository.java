@@ -5,8 +5,8 @@ import java.util.List;
 
 public interface VoucherRepository {
 
-    Voucher createVoucher(Voucher voucher);
+    Voucher save(Voucher voucher);
 
-    List<Voucher> getVoucherList();
+    List<Voucher> findAll();
 
 }

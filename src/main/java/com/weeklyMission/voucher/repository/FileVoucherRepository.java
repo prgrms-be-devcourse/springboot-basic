@@ -73,13 +73,13 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Voucher createVoucher(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
     @Override
-    public List<Voucher> getVoucherList() {
+    public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
     }
 }
