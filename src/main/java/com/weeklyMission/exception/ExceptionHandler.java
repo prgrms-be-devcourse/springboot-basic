@@ -20,7 +20,10 @@ public class ExceptionHandler extends Client{
             client.run();
         } catch(IncorrectInputException ne){
             System.out.println(ne.getMessage());
-            logger.error("발생 지문 : " + ne.getQuest() + " 입력 받은 값 : " + ne.getInput());
+            logger.error("발생 지문 : {} , 입력 받은 값 : {}", ne.getQuest(), ne.getInput());
+        } catch (IllegalArgumentException ie){
+            System.out.println(ie.getMessage());
+            logger.error(ie.getMessage());
         } catch(Exception e){
             System.out.println("서버 내부 오류입니다." + System.lineSeparator());
             logger.error("서버 내부 오류");
