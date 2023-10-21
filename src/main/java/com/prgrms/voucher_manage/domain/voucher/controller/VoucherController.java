@@ -27,8 +27,8 @@ public class VoucherController {
         voucherService.createVoucher(new CreateVoucherDto(voucherType, discountAmount));
     }
 
-    public void findVouchers() {
-        voucherService.findVouchers();
+    public void getVouchers() {
+        voucherService.getVouchers();
     }
 
     public boolean isInvalidPercent(Long discountAmount) {

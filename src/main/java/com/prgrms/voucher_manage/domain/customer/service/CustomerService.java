@@ -14,7 +14,7 @@ public class CustomerService {
     private final OutputUtil outputUtil;
     private final CustomerRepository customerRepository;
 
-    public void showCustomerBlackList() {
+    public void getBlackList() {
         List<Customer> customers = customerRepository.findAll();
         customers.forEach(outputUtil::printCustomerInfo);
     }

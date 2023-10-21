@@ -5,5 +5,5 @@ import com.prgrms.voucher_manage.domain.voucher.dto.CreateVoucherDto;
 public interface VoucherService {
     void createVoucher(CreateVoucherDto dto);
 
-    void findVouchers();
+    void getVouchers();
 }

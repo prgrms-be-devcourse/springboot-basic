@@ -46,8 +46,8 @@ public class ConsoleManager implements ApplicationRunner {
 
         switch (menuType) {
             case CREATE -> createVoucher();
-            case LIST -> voucherController.findVouchers();
-            case CUSTOMER -> customerController.showBlackListCustomers();
+            case LIST -> voucherController.getVouchers();
+            case CUSTOMER -> customerController.getBlackList();
         }
     }
 

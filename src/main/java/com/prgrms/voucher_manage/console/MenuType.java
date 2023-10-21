@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
-@Getter @RequiredArgsConstructor
+@Getter
+@RequiredArgsConstructor
 public enum MenuType {
     CREATE("create"),
     LIST("list"),

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 public class CustomerController {
     private final CustomerService customerService;
 
-    public void showBlackListCustomers() {
-        customerService.showCustomerBlackList();
+    public void getBlackList() {
+        customerService.getBlackList();
     }
 }

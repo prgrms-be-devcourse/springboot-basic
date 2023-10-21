@@ -17,11 +17,11 @@ public class FileVoucherRepository implements VoucherRepository {
 
     public FileVoucherRepository(VoucherFileManager voucherFileManager) {
         this.voucherFileManager = voucherFileManager;
-        storage = voucherFileManager.loadVoucherData();
+        storage = voucherFileManager.loadData();
     }
 
     @Override
-    public void insert(Voucher voucher) {
+    public void save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
         voucherFileManager.updateFile(storage);
     }

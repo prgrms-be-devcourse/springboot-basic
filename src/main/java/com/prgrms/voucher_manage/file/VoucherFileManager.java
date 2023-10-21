@@ -3,7 +3,6 @@ package com.prgrms.voucher_manage.file;
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
-import com.prgrms.voucher_manage.file.CustomerFileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +24,7 @@ public class VoucherFileManager {
     private final Map<UUID, Voucher> voucherStorage = new ConcurrentHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(CustomerFileManager.class);
 
-    public Map<UUID, Voucher> loadVoucherData() {
+    public Map<UUID, Voucher> loadData() {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {

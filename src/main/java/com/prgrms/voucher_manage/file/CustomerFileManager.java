@@ -23,7 +23,8 @@ public class CustomerFileManager {
     }
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerFileManager.class);
-    public Map<UUID, Customer> loadCustomerData() {
+
+    public Map<UUID, Customer> loadData() {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
             while ((line = br.readLine()) != null) {
