@@ -35,13 +35,30 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 등록")
     void insert() {
         //given
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100, "fixedAmount");
+        Voucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, "fixedAmount");
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 25, "percentDiscount");
 
         //when
-        Voucher insertVoucher = memoryVoucherRepository.insert(voucher);
+        Voucher insertFixedAmountVoucher = memoryVoucherRepository.insert(fixedAmountVoucher);
+        Voucher insertPercentDiscountVoucher = memoryVoucherRepository.insert(percentDiscountVoucher);
 
         //then
-        assertThat(voucher, samePropertyValuesAs(insertVoucher));
+        assertThat(fixedAmountVoucher, samePropertyValuesAs(insertFixedAmountVoucher));
+        assertThat(percentDiscountVoucher, samePropertyValuesAs(insertPercentDiscountVoucher));
+    }
+
+    @Test
+    @DisplayName("바우처 등록 실패")
+    void insertError() {
+        try {
+            //given
+            Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 200, "percentDiscount");
+            //when
+            Voucher insertPercentDiscountVoucher = memoryVoucherRepository.insert(percentDiscountVoucher);
+        } catch (RuntimeException e) {
+            //then
+            assertThat(e, instanceOf(RuntimeException.class));
+        }
     }
 
     @Test

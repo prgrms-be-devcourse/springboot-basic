@@ -1,0 +1,22 @@
+14:54:43.371 [main] INFO  o.p.k.KdtSpringDemoApplication - Starting KdtSpringDemoApplication using Java 17.0.6 with PID 2505 (/Users/eugene/Documents/GitHub/springboot-basic/target/classes started by eugene in /Users/eugene/Documents/GitHub/springboot-basic)
+14:54:43.372 [main] INFO  o.p.k.KdtSpringDemoApplication - The following 1 profile is active: "dev"
+14:54:43.675 [main] INFO  o.p.k.KdtSpringDemoApplication - Started KdtSpringDemoApplication in 0.53 seconds (process running for 0.903)
+15:32:44.093 [main] INFO  o.p.k.KdtSpringDemoApplication - Starting KdtSpringDemoApplication using Java 17.0.6 with PID 5446 (/Users/eugene/Documents/GitHub/springboot-basic/target/classes started by eugene in /Users/eugene/Documents/GitHub/springboot-basic)
+15:32:44.094 [main] INFO  o.p.k.KdtSpringDemoApplication - The following 1 profile is active: "dev"
+15:32:44.392 [main] INFO  o.p.k.KdtSpringDemoApplication - Started KdtSpringDemoApplication in 0.52 seconds (process running for 0.866)
+15:32:58.211 [main] INFO  o.p.k.v.domain.VoucherTypeFunction - 할인률은 1~100까지만 입력 가능합니다.
+15:45:03.297 [main] INFO  o.p.k.KdtSpringDemoApplication - Starting KdtSpringDemoApplication using Java 17.0.6 with PID 6342 (/Users/eugene/Documents/GitHub/springboot-basic/target/classes started by eugene in /Users/eugene/Documents/GitHub/springboot-basic)
+15:45:03.298 [main] INFO  o.p.k.KdtSpringDemoApplication - The following 1 profile is active: "dev"
+15:45:03.597 [main] INFO  o.p.k.KdtSpringDemoApplication - Started KdtSpringDemoApplication in 0.51 seconds (process running for 0.826)
+15:48:32.763 [main] INFO  o.p.k.KdtSpringDemoApplication - Starting KdtSpringDemoApplication using Java 17.0.6 with PID 6584 (/Users/eugene/Documents/GitHub/springboot-basic/target/classes started by eugene in /Users/eugene/Documents/GitHub/springboot-basic)
+15:48:32.765 [main] INFO  o.p.k.KdtSpringDemoApplication - The following 1 profile is active: "dev"
+15:48:33.049 [main] INFO  o.p.k.KdtSpringDemoApplication - Started KdtSpringDemoApplication in 0.494 seconds (process running for 0.817)
+15:48:43.710 [main] INFO  o.p.k.v.domain.VoucherTypeFunction - 할인률은 1~100까지만 입력 가능합니다.
+15:56:41.750 [main] INFO  o.p.k.KdtSpringDemoApplication - Starting KdtSpringDemoApplication using Java 17.0.6 with PID 7277 (/Users/eugene/Documents/GitHub/springboot-basic/target/classes started by eugene in /Users/eugene/Documents/GitHub/springboot-basic)
+15:56:41.752 [main] INFO  o.p.k.KdtSpringDemoApplication - The following 1 profile is active: "dev"
+15:56:42.047 [main] INFO  o.p.k.KdtSpringDemoApplication - Started KdtSpringDemoApplication in 0.504 seconds (process running for 0.824)
+18:37:20.809 [main] ERROR o.p.k.v.r.FileVoucherRepository - No value present
+18:39:06.589 [main] ERROR o.p.k.v.r.FileVoucherRepository - No value present
+18:40:13.222 [main] ERROR o.p.k.v.r.FileVoucherRepository - No value present
+18:43:03.302 [main] ERROR o.p.k.v.r.FileVoucherRepository - No value present
+18:45:30.598 [main] ERROR o.p.k.v.r.FileVoucherRepository - No value present

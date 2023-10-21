@@ -17,11 +17,15 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile("dev")
 public class FileVoucherRepository implements VoucherRepository{
-    private final CsvFileHandler csvFileHandler;
+    private CsvFileHandler csvFileHandler;
     private final String filePath = "src/main/resources/csvFiles/voucherList.csv";
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     public FileVoucherRepository() {
         this.csvFileHandler = new CsvFileHandler(filePath);
+    }
+
+    public void initCsvFileHandler(CsvFileHandler csvFileHandler) {
+        this.csvFileHandler = csvFileHandler;
     }
 
     @Override
@@ -36,7 +40,6 @@ public class FileVoucherRepository implements VoucherRepository{
             csvFileHandler.writeCSV(newData);
         }catch (IOException e) {
             logger.error(e.getMessage());
-            e.printStackTrace();
         }
 
         return voucher;
@@ -46,8 +49,9 @@ public class FileVoucherRepository implements VoucherRepository{
     public Optional<Voucher> findById(UUID voucherId) {
         try{
             List<CSVRecord> data = csvFileHandler.readCSV();
+
             CSVRecord csvRecord = data.stream()
-                    .filter(line -> line.get("voucherId").equals(voucherId))
+                    .filter(line -> UUID.fromString(line.get("voucherId")).equals(voucherId))
                     .findFirst()
                     .orElseThrow();
 
@@ -56,10 +60,8 @@ public class FileVoucherRepository implements VoucherRepository{
                     .create(UUID.fromString(csvRecord.get("voucherId")), Long.parseLong(csvRecord.get("amount"))));
         } catch (IOException e) {
             logger.error(e.getMessage());
-            e.printStackTrace();
         } catch (NoSuchElementException e) {
             logger.error(e.getMessage());
-            e.printStackTrace();
         }
         return null;
     }

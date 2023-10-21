@@ -1,0 +1,4 @@
+voucherId,amount,voucherType
+3ce80fe4-e988-4f8f-857c-303e715207f7,100,fixedAmount
+f5c7e439-f4cf-48c7-a67b-79ee5b0bd419,20,percentDiscount
+399f0ffb-736e-4ba8-a836-f1ac49843877,30,percentDiscount
