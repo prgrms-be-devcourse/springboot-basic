@@ -2,6 +2,8 @@ package org.programmers.springboot.basic;
 
 public final class AppConstants {
 
+    private AppConstants() {}
+
     public static final Long MIN_FIXED_DISCOUNT = 0L;
     public static final Long MIN_PERCENT_DISCOUNT = 0L;
     public static final Long MAX_PERCENT_DISCOUNT = 100L;
