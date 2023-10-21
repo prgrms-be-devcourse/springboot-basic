@@ -8,6 +8,7 @@ import com.programmers.springbasic.dto.CreatePercentDiscountVoucherRequest;
 import com.programmers.springbasic.entity.voucher.VoucherType;
 
 public class CreateVoucherCommand implements Command {
+
 	private final VoucherController voucherController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;

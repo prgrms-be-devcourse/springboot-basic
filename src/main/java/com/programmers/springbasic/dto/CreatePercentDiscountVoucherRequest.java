@@ -6,8 +6,10 @@ import com.programmers.springbasic.entity.voucher.PercentDiscountVoucher;
 import com.programmers.springbasic.enums.ErrorCode;
 
 public class CreatePercentDiscountVoucherRequest {
+
 	private static final long MINIMUM_PERCENT = 0;
 	private static final long MAXIMUM_PERCENT = 100;
+
 	private final long percent;
 
 	public CreatePercentDiscountVoucherRequest(long percent) {

@@ -3,6 +3,7 @@ package com.programmers.springbasic.dto;
 import com.programmers.springbasic.entity.customer.Customer;
 
 public class GetBlacklistCustomersResponse {
+
 	private long id;
 	private String name;
 

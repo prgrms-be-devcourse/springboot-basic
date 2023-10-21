@@ -7,6 +7,7 @@ import com.programmers.springbasic.controller.VoucherController;
 import com.programmers.springbasic.dto.GetVouchersResponse;
 
 public class GetVouchersCommand implements Command {
+
 	private final VoucherController voucherController;
 	private final ConsoleOutputHandler consoleOutputHandler;
 

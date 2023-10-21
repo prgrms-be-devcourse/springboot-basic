@@ -10,7 +10,9 @@ import com.programmers.springbasic.enums.MenuType;
 
 @Component
 public class CommandExecutor implements CommandLineRunner {
+
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(CommandExecutor.class);
+
 	private final ConsoleOutputHandler consoleOutputHandler;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final CommandFactory commandFactory;

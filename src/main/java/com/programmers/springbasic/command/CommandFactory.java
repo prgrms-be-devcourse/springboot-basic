@@ -13,6 +13,7 @@ import com.programmers.springbasic.enums.MenuType;
 
 @Component
 public class CommandFactory {
+
 	private final Map<MenuType, Command> commandMap = new ConcurrentHashMap<>();
 
 	public CommandFactory(VoucherController voucherController, CustomerController customerController,
