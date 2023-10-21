@@ -19,14 +19,14 @@ import java.util.Map;
 
 @Component
 public class Console implements CommandLineRunner {
+    private static final int VOUCHER_NAME_MIN_LENGTH = 1;
+    private static final float DISCOUNT_AMOUNT_MIN_VALUE = 0f;
 
     private final VoucherService voucherService;
     private final CustomerRepository costumerRepository;
     private final Map<String, Runnable> commandMap = new HashMap<>();
     private final TextIO textIO = TextIoFactory.getTextIO();
     private final Logger logger = LoggerFactory.getLogger(Console.class);
-    private final int VOUCHER_NAME_MIN_LENGTH = 1;
-    private final float DISCOUNT_AMOUNT_MIN_VALUE = 0f;
 
     public Console(VoucherService voucherService, CustomerRepository costumerRepository) {
         this.voucherService = voucherService;
@@ -77,7 +77,7 @@ public class Console implements CommandLineRunner {
     }
 
     private void displayVoucherList() {
-        voucherService.voucherList()
+        voucherService.getAllVouchers()
                 .forEach(voucher -> displayMessage(voucher.toString()));
     }
 
