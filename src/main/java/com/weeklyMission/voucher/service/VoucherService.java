@@ -16,12 +16,12 @@ public class VoucherService {
     }
 
     public VoucherResponse createVoucher(Voucher voucher){
-        Voucher createVoucher = voucherRepository.createVoucher(voucher);
+        Voucher createVoucher = voucherRepository.save(voucher);
         return new VoucherResponse(createVoucher);
     }
 
     public List<VoucherResponse> getVoucherList(){
-        return voucherRepository.getVoucherList().stream()
+        return voucherRepository.findAll().stream()
             .map(VoucherResponse::new)
             .toList();
     }
