@@ -8,9 +8,15 @@ public class FixedAmountVoucher implements Voucher{
     private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
-        if(amount<0) throw new IllegalArgumentException("음수는 될 수 없음");
-        if(amount==0) throw new IllegalArgumentException("0이 될 수 없음");
-        if(amount>MAX_FIXED_VOUCHER_AMOUNT) throw new IllegalArgumentException("%d보다 작아야 함".formatted(MAX_FIXED_VOUCHER_AMOUNT));
+        if(amount<0) {
+            throw new IllegalArgumentException("음수는 될 수 없음");
+        }
+        if(amount==0) {
+            throw new IllegalArgumentException("0이 될 수 없음");
+        }
+        if(amount>MAX_FIXED_VOUCHER_AMOUNT) {
+            throw new IllegalArgumentException("%d보다 작아야 함".formatted(MAX_FIXED_VOUCHER_AMOUNT));
+        }
         this.voucherId = voucherId;
         this.amount = amount;
     }
