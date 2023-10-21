@@ -1,10 +1,11 @@
 package com.prgrms.voucher_manage.console;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
-@Getter
+@Getter @RequiredArgsConstructor
 public enum MenuType {
     CREATE("create"),
     LIST("list"),
@@ -12,10 +13,6 @@ public enum MenuType {
     EXIT("exit");
 
     private final String label;
-
-    MenuType(String label) {
-        this.label = label;
-    }
 
     public static MenuType matchMenuType(String menu) {
         return Arrays.stream(MenuType.values())
