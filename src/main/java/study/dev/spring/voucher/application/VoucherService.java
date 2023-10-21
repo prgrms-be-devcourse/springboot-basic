@@ -17,8 +17,9 @@ public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
 
+	//값을 하나하나빼는 로직을 따로 빼서 사용
 	public void createVoucher(final CreateVoucherRequest request) {
-		Voucher newVoucher = Voucher.createVoucher(
+		Voucher newVoucher = Voucher.of(
 			VoucherType.valueOf(request.voucherType()),
 			request.name(),
 			request.discountAmount()

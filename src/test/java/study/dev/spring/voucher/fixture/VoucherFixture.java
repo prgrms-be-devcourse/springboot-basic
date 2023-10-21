@@ -11,7 +11,7 @@ import study.dev.spring.voucher.domain.VoucherType;
 public final class VoucherFixture {
 
 	public static Voucher getFixedVoucher() {
-		return Voucher.createVoucher(VoucherType.FIXED, "voucher", 1000);
+		return Voucher.of(VoucherType.FIXED, "voucher", 1000);
 	}
 
 	public static CreateVoucherRequest getCreateRequest() {

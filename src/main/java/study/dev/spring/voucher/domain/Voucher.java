@@ -6,7 +6,7 @@ public class Voucher {
 
 	private final UUID uuid;
 
-	private String name;
+	private final String name;
 
 	private VoucherType type;
 
@@ -35,8 +35,7 @@ public class Voucher {
 		this.discountAmount = discountAmount;
 	}
 
-	//==Factory method==//
-	public static Voucher createVoucher(
+	public static Voucher of(
 		final VoucherType voucherType,
 		final String name,
 		final double discountAmount
