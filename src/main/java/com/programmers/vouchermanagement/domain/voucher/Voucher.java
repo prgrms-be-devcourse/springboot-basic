@@ -17,5 +17,7 @@ public abstract class Voucher {
 
     public abstract float discount(float beforeDiscount);
 
+    public abstract void validateDiscountAmount(float discountAmount);
+
     public abstract String joinInfo(String separator);
 }

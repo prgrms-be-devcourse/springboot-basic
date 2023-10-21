@@ -1,11 +1,14 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
+import com.programmers.vouchermanagement.common.ErrorMessage;
+
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID voucherId, String voucherName, float discountAmount) {
         super(voucherId, voucherName, discountAmount);
+        this.validateDiscountAmount(discountAmount);
     }
 
     @Override
@@ -16,7 +19,17 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     public float discount(float beforeDiscount) {
         float afterDiscount = beforeDiscount - discountAmount;
-        return afterDiscount < 0 ? 0 : afterDiscount;
+        if (afterDiscount < 0) {
+            throw new IllegalArgumentException(ErrorMessage.DISCOUNT_OVER_BEFORE_DISCOUNT.getMessage());
+        }
+        return afterDiscount;
+    }
+
+    @Override
+    public void validateDiscountAmount(float discountAmount) {
+        if (discountAmount <= 0) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_FIXED_DISCOUNT_AMOUNT.getMessage());
+        }
     }
 
     @Override

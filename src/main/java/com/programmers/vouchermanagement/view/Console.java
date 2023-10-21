@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.view;
 
 import com.programmers.vouchermanagement.common.ConsoleMessage;
+import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import com.programmers.vouchermanagement.service.VoucherService;
@@ -71,8 +72,13 @@ public class Console implements CommandLineRunner {
         float discountAmount = textIO.newFloatInputReader()
                 .withMinVal(DISCOUNT_AMOUNT_MIN_VALUE)
                 .read("Discount Amount: ");
-
-        voucherService.createVoucher(voucherName, discountAmount, voucherType);
+        try {
+            voucherService.createVoucher(voucherName, discountAmount, voucherType);
+        } catch (IllegalArgumentException e) {
+            displayMessage(ErrorMessage.VOUCHER_CREATE_FAILED.getMessage());
+            displayMessage(e.getMessage());
+            return;
+        }
         displayMessage(ConsoleMessage.VOUCHER_CREATED_MESSAGE.getMessage());
     }
 
