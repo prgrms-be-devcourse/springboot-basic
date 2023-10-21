@@ -31,6 +31,6 @@ public class FixedAmountVoucher extends Voucher{
 
     @Override
     public long discount(long beforeDiscount) {
-        return beforeDiscount-amount<0?0:beforeDiscount-amount;
+        return Math.max(0, beforeDiscount-amount);
     }
 }
