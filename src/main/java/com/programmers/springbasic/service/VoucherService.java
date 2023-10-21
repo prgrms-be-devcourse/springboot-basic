@@ -36,5 +36,4 @@ public class VoucherService {
 		voucherRepository.save(request.toEntity(voucherId));
 		return voucherId;
 	}
-
 }

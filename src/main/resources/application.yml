@@ -28,4 +28,3 @@ spring:
 file:
   voucher-path: ${user.home}/dev/data/vouchers.csv
   blacklist-path: ${user.home}/dev/data/customer_blacklist.csv
-
