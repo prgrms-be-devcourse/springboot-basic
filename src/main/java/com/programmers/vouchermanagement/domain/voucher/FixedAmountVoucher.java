@@ -1,28 +1,35 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
+import com.programmers.vouchermanagement.common.ErrorMessage;
+
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId;
-
-    private final String voucherName;
-    private final float discountAmount;
+public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID voucherId, String voucherName, float discountAmount) {
-        this.voucherId = voucherId;
-        this.voucherName = voucherName;
-        this.discountAmount = discountAmount;
+        super(voucherId, voucherName, discountAmount);
+        this.validateDiscountAmount(discountAmount);
     }
 
     @Override
     public UUID getId() {
-        return this.voucherId;
+        return voucherId;
     }
 
     @Override
     public float discount(float beforeDiscount) {
         float afterDiscount = beforeDiscount - discountAmount;
-        return afterDiscount < 0 ? 0 : afterDiscount;
+        if (afterDiscount < 0) {
+            throw new IllegalArgumentException(ErrorMessage.DISCOUNT_OVER_BEFORE_DISCOUNT.getMessage());
+        }
+        return afterDiscount;
+    }
+
+    @Override
+    public void validateDiscountAmount(float discountAmount) {
+        if (discountAmount <= 0) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_FIXED_DISCOUNT_AMOUNT.getMessage());
+        }
     }
 
     @Override

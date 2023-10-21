@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.view;
 
 import com.programmers.vouchermanagement.common.ConsoleMessage;
+import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import com.programmers.vouchermanagement.service.VoucherService;
@@ -19,14 +20,14 @@ import java.util.Map;
 
 @Component
 public class Console implements CommandLineRunner {
+    private static final int VOUCHER_NAME_MIN_LENGTH = 1;
+    private static final float DISCOUNT_AMOUNT_MIN_VALUE = 0f;
 
     private final VoucherService voucherService;
     private final CustomerRepository costumerRepository;
     private final Map<String, Runnable> commandMap = new HashMap<>();
     private final TextIO textIO = TextIoFactory.getTextIO();
     private final Logger logger = LoggerFactory.getLogger(Console.class);
-    private final int VOUCHER_NAME_MIN_LENGTH = 1;
-    private final float DISCOUNT_AMOUNT_MIN_VALUE = 0f;
 
     public Console(VoucherService voucherService, CustomerRepository costumerRepository) {
         this.voucherService = voucherService;
@@ -71,13 +72,18 @@ public class Console implements CommandLineRunner {
         float discountAmount = textIO.newFloatInputReader()
                 .withMinVal(DISCOUNT_AMOUNT_MIN_VALUE)
                 .read("Discount Amount: ");
-
-        voucherService.createVoucher(voucherName, discountAmount, voucherType);
+        try {
+            voucherService.createVoucher(voucherName, discountAmount, voucherType);
+        } catch (IllegalArgumentException e) {
+            displayMessage(ErrorMessage.VOUCHER_CREATE_FAILED.getMessage());
+            displayMessage(e.getMessage());
+            return;
+        }
         displayMessage(ConsoleMessage.VOUCHER_CREATED_MESSAGE.getMessage());
     }
 
     private void displayVoucherList() {
-        voucherService.voucherList()
+        voucherService.getAllVouchers()
                 .forEach(voucher -> displayMessage(voucher.toString()));
     }
 

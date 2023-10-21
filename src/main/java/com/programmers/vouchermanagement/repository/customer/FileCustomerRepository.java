@@ -19,14 +19,13 @@ import java.util.UUID;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
+    private static final String CSV_SEPARATOR = ",";
 
-    private final String csvSeparator;
     private final String blacklistFilePath;
     private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
-    public FileCustomerRepository(@Value("${csv.file.customer.blacklist_path}") String blacklistFilePath, @Value("${csv.separator}") String csvSeparator) {
+    public FileCustomerRepository(@Value("${csv.file.customer.blacklist_path}") String blacklistFilePath) {
         this.blacklistFilePath = blacklistFilePath;
-        this.csvSeparator = csvSeparator;
     }
 
     @Override
@@ -39,7 +38,7 @@ public class FileCustomerRepository implements CustomerRepository {
         List<Customer> bannedCustomers = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(blacklistFilePath))) {
             while ((line = br.readLine()) != null) {
-                String[] strings = line.split(csvSeparator);
+                String[] strings = line.split(CSV_SEPARATOR);
                 Customer customer = new Customer(
                         UUID.fromString(strings[0]),
                         strings[1],

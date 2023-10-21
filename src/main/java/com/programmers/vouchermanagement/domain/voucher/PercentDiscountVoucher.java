@@ -1,17 +1,14 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
+import com.programmers.vouchermanagement.common.ErrorMessage;
+
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher {
-    private final UUID voucherId;
-
-    private final String voucherName;
-    private final float discountAmount;
+public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, String voucherName, float discountAmount) {
-        this.voucherId = voucherId;
-        this.voucherName = voucherName;
-        this.discountAmount = discountAmount;
+        super(voucherId, voucherName, discountAmount);
+        validateDiscountAmount(discountAmount);
     }
 
     @Override
@@ -21,8 +18,14 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public float discount(float beforeDiscount) {
-        float afterDiscount = beforeDiscount - (beforeDiscount * discountAmount / 100);
-        return afterDiscount < 0 ? 0 : afterDiscount;
+        return beforeDiscount - (beforeDiscount * discountAmount / 100);
+    }
+
+    @Override
+    public void validateDiscountAmount(float discountAmount) {
+        if (discountAmount <= 0 || discountAmount > 100) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_PERCENTAGE_DISCOUNT_AMOUNT.getMessage());
+        }
     }
 
     @Override

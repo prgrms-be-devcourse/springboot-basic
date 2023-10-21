@@ -1,20 +1,19 @@
 spring:
   profiles:
-    default: file
+    default: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: local
 ---
 spring:
   config:
     activate:
       on-profile: dev
----
-spring:
-  config:
-    activate:
-      on-profile: file
 csv:
   file:
     voucher:
       path: "src/main/resources/files/vouchers.csv"
     customer:
       blacklist_path: "src/main/resources/files/customer_blacklist.csv"
-  separator: ","

@@ -19,16 +19,16 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("file")
+@Profile("dev")
 public class FileVoucherRepository implements VoucherRepository {
+    private static final String CSV_SEPARATOR = ",";
+
     private final String csvFilePath;
-    private final String csvSeparator;
     private final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
-    public FileVoucherRepository(@Value("${csv.file.voucher.path}") String csvFilePath, @Value("${csv.separator}") String csvSeparator) {
+    public FileVoucherRepository(@Value("${csv.file.voucher.path}") String csvFilePath) {
         this.csvFilePath = csvFilePath;
-        this.csvSeparator = csvSeparator;
     }
 
     @PostConstruct
@@ -52,7 +52,7 @@ public class FileVoucherRepository implements VoucherRepository {
         String line;
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
             while ((line = br.readLine()) != null) {
-                String[] strings = line.split(csvSeparator);
+                String[] strings = line.split(CSV_SEPARATOR);
                 Voucher voucher = VoucherFactory.createVoucher(
                         UUID.fromString(strings[0]),
                         strings[1],
@@ -70,7 +70,7 @@ public class FileVoucherRepository implements VoucherRepository {
     public void updateFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFilePath))) {
             vouchers.values().stream()
-                    .map(voucher -> voucher.joinInfo(csvSeparator))
+                    .map(voucher -> voucher.joinInfo(CSV_SEPARATOR))
                     .forEach(line -> {
                         try {
                             bw.write(line);

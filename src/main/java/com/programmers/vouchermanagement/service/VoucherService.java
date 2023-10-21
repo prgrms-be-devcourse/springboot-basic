@@ -11,9 +11,7 @@ import java.util.UUID;
 
 @Service
 public class VoucherService {
-
     private final VoucherRepository voucherRepository;
-
 
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -24,8 +22,7 @@ public class VoucherService {
         return voucherRepository.save(voucher);
     }
 
-    public List<Voucher> voucherList() {
+    public List<Voucher> getAllVouchers() {
         return voucherRepository.findAll();
-
     }
 }
