@@ -26,7 +26,7 @@ class VoucherTest {
 			final double discountAmount = 1000;
 
 			//when
-			Voucher actual = Voucher.createVoucher(VoucherType.FIXED, name, discountAmount);
+			Voucher actual = Voucher.of(VoucherType.FIXED, name, discountAmount);
 
 			//then
 			assertAll(
@@ -44,7 +44,7 @@ class VoucherTest {
 			final double discountAmount = -1000;
 
 			//when
-			ThrowingCallable when = () -> Voucher.createVoucher(VoucherType.FIXED, name, discountAmount);
+			ThrowingCallable when = () -> Voucher.of(VoucherType.FIXED, name, discountAmount);
 
 			//then
 			assertThatThrownBy(when)
@@ -65,7 +65,7 @@ class VoucherTest {
 			final double discountAmount = 10;
 
 			//when
-			Voucher actual = Voucher.createVoucher(VoucherType.PERCENT, name, discountAmount);
+			Voucher actual = Voucher.of(VoucherType.PERCENT, name, discountAmount);
 
 			//then
 			assertAll(
@@ -83,7 +83,7 @@ class VoucherTest {
 			final double discountAmount = -1000;
 
 			//when
-			ThrowingCallable when = () -> Voucher.createVoucher(VoucherType.PERCENT, name, discountAmount);
+			ThrowingCallable when = () -> Voucher.of(VoucherType.PERCENT, name, discountAmount);
 
 			//then
 			assertThatThrownBy(when)
