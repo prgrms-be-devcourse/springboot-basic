@@ -7,13 +7,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
 public class DemoApplication {
+    public static void main(String[] args) {
+        ConfigurableApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
+        ExceptionHandler handler = applicationContext.getBean(ExceptionHandler.class);
 
-	public static void main(String[] args) {
-		ConfigurableApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
-		ExceptionHandler handler = applicationContext.getBean(ExceptionHandler.class);
-
-		while(true){
-			handler.run();
-		}
-	}
+        while (true) {
+            handler.run();
+        }
+    }
 }
