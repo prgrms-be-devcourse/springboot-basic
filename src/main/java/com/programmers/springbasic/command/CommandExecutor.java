@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.enums.MenuType;
+import com.programmers.springbasic.enums.CommandType;
 
 @Component
 public class CommandExecutor implements CommandLineRunner {
@@ -28,9 +28,9 @@ public class CommandExecutor implements CommandLineRunner {
 	public void run(String... args) {
 		while (true) {
 			try {
-				consoleOutputHandler.printMainMenu();
-				MenuType menu = MenuType.from(consoleInputHandler.readString());
-				Command command = commandFactory.getCommand(menu);
+				consoleOutputHandler.printMainCommand();
+				CommandType commandType = CommandType.from(consoleInputHandler.readString());
+				Command command = commandFactory.getCommand(commandType);
 				command.execute();
 			} catch (IllegalArgumentException e) {
 				logger.warn(e.getMessage());

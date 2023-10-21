@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ConsoleOutputHandler {
-	public void printMainMenu() {
-		String menuPrompt = """
+	public void printMainCommand() {
+		String commandPrompt = """
 			=== Voucher Program ===
 			Type exit to exit the program.
 			Type create to create a new voucher.
 			Type list to list all vouchers.    
 			Type blacklist to list all blacklist customers.    
 			""";
-		print(menuPrompt);
+		print(commandPrompt);
 	}
 
 	public void printFixedAmount() {
@@ -36,8 +36,8 @@ public class ConsoleOutputHandler {
 		printableList.forEach(System.out::println);
 	}
 
-	private void print(String menuPrompt) {
-		System.out.print(menuPrompt);
+	private void print(String str) {
+		System.out.print(str);
 	}
 
 }

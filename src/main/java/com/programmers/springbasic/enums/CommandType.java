@@ -4,7 +4,7 @@ import static com.programmers.springbasic.enums.ErrorCode.*;
 
 import java.util.Arrays;
 
-public enum MenuType {
+public enum CommandType {
 	CREATE_VOUCHER("create"),
 	LIST_VOUCHERS("list"),
 	LIST_BLACKLIST_CUSTOMERS("blacklist"),
@@ -12,14 +12,14 @@ public enum MenuType {
 
 	private final String message;
 
-	MenuType(String message) {
+	CommandType(String message) {
 		this.message = message;
 	}
 
-	public static MenuType from(String readString) {
-		return Arrays.stream(MenuType.values())
+	public static CommandType from(String readString) {
+		return Arrays.stream(CommandType.values())
 			.filter(type -> type.message.equalsIgnoreCase(readString))
 			.findFirst()
-			.orElseThrow(() -> new IllegalArgumentException(INVALID_MENU.getMessage()));
+			.orElseThrow(() -> new IllegalArgumentException(INVALID_COMMAND_TYPE.getMessage()));
 	}
 }
