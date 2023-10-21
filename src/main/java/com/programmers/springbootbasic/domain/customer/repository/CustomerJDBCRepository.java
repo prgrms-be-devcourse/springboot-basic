@@ -20,7 +20,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
     private static final String SELECT_BLACKLIST_QUERY = "SELECT * FROM customers WHERE isBlacklist = TRUE";
     private static final String SELECT_BY_EMAIL_QUERY = "SELECT * FROM customers WHERE email = ?";
     private static final String UPDATE_QUERY = "UPDATE customers SET email = ?, name = ?, isBlacklist = ? WHERE customer_id = UUID_TO_BIN(?)";
-    private static final String TRUNCATE_TABLE = "TRUNCATE TABLE customers";
+    private static final String TRUNCATE_TABLE = "DELETE FROM customers";
 
     private static final RowMapper<Customer> ROW_MAPPER = (resultSet, rowNum) -> {
         UUID customerId = UUIDConverter.toUUID(resultSet.getBytes("customer_id"));
@@ -74,7 +74,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.execute(TRUNCATE_TABLE);
+        jdbcTemplate.update(TRUNCATE_TABLE);
     }
 
 

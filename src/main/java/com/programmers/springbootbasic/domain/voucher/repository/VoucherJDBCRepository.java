@@ -25,7 +25,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String UPDATE_QUERY = "UPDATE vouchers SET value = ?, voucher_type = ? WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
-    private static final String TRUNCATE_TABLE = "TRUNCATE TABLE vouchers";
+    private static final String TRUNCATE_TABLE = "DELETE FROM vouchers";
 
     private static final RowMapper<Voucher> ROW_MAPPER = (resultSet, rowNum) -> {
         UUID voucherId = UUIDConverter.toUUID(resultSet.getBytes("voucher_id"));
@@ -75,6 +75,6 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.execute(TRUNCATE_TABLE);
+        jdbcTemplate.update(TRUNCATE_TABLE);
     }
 }
