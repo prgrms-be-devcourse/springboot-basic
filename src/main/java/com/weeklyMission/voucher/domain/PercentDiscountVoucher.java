@@ -2,11 +2,9 @@ package com.weeklyMission.voucher.domain;
 
 import java.util.UUID;
 
-public class PercentDiscountVoucher implements Voucher{
+public class PercentDiscountVoucher extends Voucher{
 
     private static final long MAX_PERCENT_VOUCHER_AMOUNT = 99;
-    private final UUID voucherId;
-    private final long amount;
 
     public PercentDiscountVoucher(UUID voucherId, long amount) {
         if(amount<0) {

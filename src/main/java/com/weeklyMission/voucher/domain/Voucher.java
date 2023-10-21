@@ -2,11 +2,15 @@ package com.weeklyMission.voucher.domain;
 
 import java.util.UUID;
 
-public interface Voucher {
+public abstract class Voucher {
 
-    UUID getVoucherId();
+    UUID voucherId;
 
-    long getAmount();
+    long amount;
 
-    long discount(long beforeDiscount);
+    public abstract UUID getVoucherId();
+
+    public abstract long getAmount();
+
+    public abstract long discount(long beforeDiscount);
 }

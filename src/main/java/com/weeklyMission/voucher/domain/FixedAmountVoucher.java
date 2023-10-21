@@ -2,10 +2,8 @@ package com.weeklyMission.voucher.domain;
 
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher{
+public class FixedAmountVoucher extends Voucher{
     private static final long MAX_FIXED_VOUCHER_AMOUNT = 10000;
-    private final UUID voucherId;
-    private final long amount;
 
     public FixedAmountVoucher(UUID voucherId, long amount) {
         if(amount<0) {
