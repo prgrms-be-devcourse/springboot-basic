@@ -19,6 +19,7 @@ import study.dev.spring.common.utils.FileUtils;
 import study.dev.spring.voucher.domain.Voucher;
 import study.dev.spring.voucher.domain.VoucherRepository;
 import study.dev.spring.voucher.infrastructure.dto.VoucherData;
+import study.dev.spring.voucher.infrastructure.dto.VoucherMapper;
 
 @Repository
 @Profile("prod")
@@ -43,7 +44,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	public void saveData() {
 		List<VoucherData> voucherData = storage.values()
 			.stream()
-			.map(VoucherData::new)
+			.map(VoucherMapper::toVoucherData)
 			.toList();
 
 		fileUtils.writeFile(filePath, new ArrayList<>(voucherData));
@@ -78,7 +79,7 @@ public class FileVoucherRepository implements VoucherRepository {
 		List<Object> fileData = fileUtils.readFile(filePath, VoucherData.class);
 		fileData.forEach(data -> {
 			VoucherData voucherData = (VoucherData)data;
-			storage.put(voucherData.getUuid(), voucherData.toVoucher());
+			storage.put(voucherData.getUuid(), VoucherMapper.toVoucher(voucherData));
 		});
 	}
 }
