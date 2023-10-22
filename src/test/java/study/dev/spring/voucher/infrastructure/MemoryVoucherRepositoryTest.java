@@ -20,7 +20,7 @@ class MemoryVoucherRepositoryTest {
 	@DisplayName("[바우처를 메모리에 저장한다]")
 	void saveTest() {
 		//given
-		Voucher voucher = Voucher.createVoucher(VoucherType.FIXED, "voucher", 1000);
+		Voucher voucher = Voucher.of(VoucherType.FIXED, "voucher", 1000);
 
 		//when
 		memoryVoucherRepository.save(voucher);
@@ -34,7 +34,7 @@ class MemoryVoucherRepositoryTest {
 	@DisplayName("[바우처를 id 로 조회한다]")
 	void findByIdTest() {
 		//given
-		Voucher voucher = Voucher.createVoucher(VoucherType.FIXED, "voucher", 1000);
+		Voucher voucher = Voucher.of(VoucherType.FIXED, "voucher", 1000);
 		memoryVoucherRepository.save(voucher);
 
 		//when
