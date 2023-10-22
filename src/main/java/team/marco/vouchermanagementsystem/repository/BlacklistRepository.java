@@ -16,6 +16,7 @@ import java.util.UUID;
 
 @Repository
 public class BlacklistRepository {
+    private static final String DELIMITER_REGULAR_EXPRESSION = "[;,]";
     private final List<User> blacklist;
 
     public BlacklistRepository(@Value("${file.path.blacklist}") String path) {
@@ -28,7 +29,7 @@ public class BlacklistRepository {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
             reader.readLine(); // skip header
             reader.lines()
-                    .map(s -> s.split("[;,]"))
+                    .map(s -> s.split(DELIMITER_REGULAR_EXPRESSION))
                     .forEach(data -> loaded.add(new User(UUID.fromString(data[0]), data[1])));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
