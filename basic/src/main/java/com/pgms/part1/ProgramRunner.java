@@ -18,7 +18,7 @@ public class ProgramRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         try{
-            voucherController.init();
+            voucherController.getMenu();
         }
         catch (Exception e){
             log.warn(e.getMessage());

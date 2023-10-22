@@ -30,7 +30,7 @@ public class VoucherController {
         this.customerController = customerController;
     }
 
-    public void init() {
+    public void getMenu() {
         VoucherMenuRequestDto voucherMenuRequestDto = consoleView.init();
 
         switch (voucherMenuRequestDto.command()) {
@@ -38,13 +38,13 @@ public class VoucherController {
             case "list" -> listVoucher();
             case "blacklist" -> {
                 customerController.listBlockedCustomers();
-                init();
+                getMenu();
             }
             case "exit" -> exitVoucher();
             default -> {
                 consoleView.error(new RuntimeException("Please Enter Again!!"));
                 log.error("Invalid Menu Command Input");
-                init();
+                getMenu();
             }
         }
     }
@@ -63,7 +63,7 @@ public class VoucherController {
             case PERCENT_VOUCHER_CREATE -> voucherService.createPercentDiscountVoucher(voucherCreateRequestDto);
         }
 
-        init();
+        getMenu();
     }
 
     private boolean validateDiscountAmount(VoucherCreateRequestDto voucherCreateRequestDto) {
@@ -87,7 +87,7 @@ public class VoucherController {
                         .collect(Collectors.toList());
 
         consoleView.listVoucher(voucherResponseDtos);
-        init();
+        getMenu();
     }
 
     public void exitVoucher(){
