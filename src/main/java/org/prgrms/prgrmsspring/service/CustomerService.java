@@ -5,6 +5,7 @@ import org.prgrms.prgrmsspring.repository.user.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -20,5 +21,17 @@ public class CustomerService {
 
     public List<Customer> findBlackAll() {
         return customerRepository.findBlackAll();
+    }
+
+    public void create(Customer customer) {
+        customerRepository.insert(customer);
+    }
+
+    public void update(Customer customer) {
+        customerRepository.update(customer);
+    }
+
+    public void delete(UUID customerId) {
+        customerRepository.delete(customerId);
     }
 }

@@ -113,7 +113,7 @@ public class FileVoucherRepository implements VoucherRepository {
                     insert(voucher);
                 },
                 () -> {
-                    throw new IllegalArgumentException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage());
+                    throw new NotFoundException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage());
                 }
         );
         return voucher;

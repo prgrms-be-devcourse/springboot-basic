@@ -9,11 +9,11 @@ import java.util.UUID;
 
 @Repository
 public interface VoucherRepository {
-    Voucher insert(Voucher voucher);
-
     List<Voucher> findAll();
 
     Optional<Voucher> findById(UUID voucherId);
+
+    Voucher insert(Voucher voucher);
 
     Voucher update(Voucher voucher);
 

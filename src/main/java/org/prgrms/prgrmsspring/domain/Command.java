@@ -12,6 +12,7 @@ public enum Command {
     UPDATE_VOUCHER("update a voucher.", controller -> ((VoucherController) controller).update(), VoucherController.class),
     DELETE_VOUCHER("delete a voucher", controller -> ((VoucherController) controller).delete(), VoucherController.class),
     LIST_ALL_VOUCHERS("list all vouchers.", controller -> ((VoucherController) controller).list(), VoucherController.class),
+    CREATE_CUSTOMER("create a new customer.", controller -> ((CustomerController) controller).create(), CustomerController.class),
     LIST_ALL_BLACK("list all blacklist people", controller -> ((CustomerController) controller).showBlackList(), CustomerController.class);
 
     private final String document;

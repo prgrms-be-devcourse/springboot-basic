@@ -7,6 +7,7 @@ import org.prgrms.prgrmsspring.view.CommandLineView;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class CustomerController implements ApplicationController {
@@ -21,6 +22,21 @@ public class CustomerController implements ApplicationController {
     public void showBlackList() {
         List<Customer> blackCustomers = customerService.findBlackAll();
         commandLineView.printAll(blackCustomers);
+    }
+
+    public void create() {
+        Customer customer = commandLineView.createCustomer();
+        customerService.create(customer);
+    }
+
+    public void update() {
+        Customer updateCustomer = commandLineView.updateCustomer();
+        customerService.update(updateCustomer);
+    }
+
+    public void delete() {
+        UUID deleteCustomerId = commandLineView.deleteCustomer();
+        customerService.delete(deleteCustomerId);
     }
 
     @Override

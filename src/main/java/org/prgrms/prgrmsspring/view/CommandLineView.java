@@ -5,6 +5,7 @@ import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
 import org.prgrms.prgrmsspring.domain.Command;
 import org.prgrms.prgrmsspring.domain.VoucherType;
+import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.springframework.stereotype.Component;
 
@@ -68,8 +69,44 @@ public class CommandLineView {
         return inputVoucherId();
     }
 
+    private UUID inputCustomerId() {
+        return UUID.fromString(textIO.newStringInputReader().read("Input customerId"));
+    }
+
+    public String inputCustomerName() {
+        return textIO.newStringInputReader().read("Input Customer Name");
+    }
+
+    public Boolean inputCustomerIsBlack() {
+        String yn = textIO.newStringInputReader().read("Do you want to set BLACK ? ( Y / N )");
+        return switch (yn) {
+            case "Y", "y" -> true;
+            case "N", "n" -> false;
+            default -> throw new IllegalArgumentException("Y 또는 N를 입력해주세요.");
+        };
+    }
+
+    public Customer createCustomer() {
+        String customerName = inputCustomerName();
+        Boolean isBlack = inputCustomerIsBlack();
+        return new Customer(UUID.randomUUID(), customerName, isBlack);
+    }
+
+    public Customer updateCustomer() {
+        UUID customerId = inputCustomerId();
+        String customerName = inputCustomerName();
+        Boolean isBlack = inputCustomerIsBlack();
+        return new Customer(customerId, customerName, isBlack);
+    }
+
+    public UUID deleteCustomer() {
+        return inputCustomerId();
+    }
+
+
     private String inputCommand() {
         return textIO.newStringInputReader().read();
     }
+
 
 }

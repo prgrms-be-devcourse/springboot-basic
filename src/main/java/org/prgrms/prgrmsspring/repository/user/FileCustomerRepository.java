@@ -8,10 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Profile("dev")
@@ -36,7 +33,7 @@ public class FileCustomerRepository implements CustomerRepository {
                         String name = split[0];
                         Boolean isBlack = Boolean.valueOf(split[1]);
                         Customer customer = new Customer(UUID.randomUUID(), name, isBlack);
-                        store.put(customer.getUserId(), customer);
+                        store.put(customer.getCustomerId(), customer);
                     });
         } catch (IOException e) {
             throw new NotFoundException(ExceptionMessage.NOT_FOUND_FILE.getMessage());
@@ -61,6 +58,36 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findBlackAll() {
-        return store.values().stream().filter(Customer::checkIsBlack).toList();
+        return store.values().stream().filter(Customer::getIsBlack).toList();
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.ofNullable(store.get(customerId));
+    }
+
+    @Override
+    public Customer insert(Customer customer) {
+        store.put(customer.getCustomerId(), customer);
+        return customer;
+    }
+
+    @Override
+    public Customer update(Customer customer) {
+        findById(customer.getCustomerId()).ifPresentOrElse(
+                existingCustomer -> {
+                    delete(customer.getCustomerId());
+                    insert(customer);
+                },
+                () -> {
+                    throw new NotFoundException(ExceptionMessage.NOT_FOUND_CUSTOMER.getMessage());
+                }
+        );
+        return customer;
+    }
+
+    @Override
+    public void delete(UUID customerId) {
+        store.remove(customerId);
     }
 }
