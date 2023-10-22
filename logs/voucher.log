@@ -37,3 +37,11 @@ Discount amount : 1000
 18:42:48.572 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository
 18:42:48.658 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository
 18:42:48.658 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository
+18:53:37.585 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository
+18:53:37.587 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository
+18:53:37.793 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository
+18:53:37.793 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository
+18:55:01.280 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository
+18:55:01.283 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository
+18:55:02.540 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository
+18:55:02.541 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository
