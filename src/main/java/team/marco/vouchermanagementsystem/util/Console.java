@@ -13,6 +13,10 @@ public final class Console {
         // Don't let anyone instantiate this class.
     }
 
+    public static void print(Object object) {
+        System.out.println(object + System.lineSeparator()); // thanks to SH, IJ
+    }
+
     public static String readString() {
         System.out.print("> ");
         String input = readLine();
@@ -29,20 +33,11 @@ public final class Console {
         return Integer.parseInt(readString());
     }
 
-    public static int readInt(String prompt) {
-        System.out.println(prompt + System.lineSeparator());
-        return readInt();
-    }
-
     private static String readLine() {
         try {
             return reader.readLine();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-    }
-
-    public static void print(Object object) {
-        System.out.println(object + System.lineSeparator()); // thanks to SH, IJ
     }
 }

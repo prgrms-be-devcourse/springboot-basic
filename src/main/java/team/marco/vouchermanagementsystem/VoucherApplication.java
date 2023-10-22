@@ -82,14 +82,18 @@ public class VoucherApplication {
     private void createPercentDiscountVoucher() {
         logger.info("Call createPercentDiscountVoucher()");
 
-        int percent = Console.readInt("할인율을 입력해 주세요.");
+        Console.print("할인율을 입력해 주세요.");
+        int percent = Console.readInt();
+
         voucherService.createPercentDiscountVoucher(percent);
     }
 
     private void createFixedAmountVoucher() {
         logger.info("Call createFixedAmountVoucher()");
 
-        int amount = Console.readInt("할인 금액을 입력해 주세요.");
+        Console.print("할인 금액을 입력해 주세요.");
+        int amount = Console.readInt();
+
         voucherService.createFixedAmountVoucher(amount);
     }
 
