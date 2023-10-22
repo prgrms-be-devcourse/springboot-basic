@@ -38,7 +38,7 @@ public class CsvCustomerRepository implements CustomerRepositroy{
             while((line = br.readLine()) != null){
                 List<String> stringList = new ArrayList<>();
                 String arr[] = line.split(",");
-                Customer customer = new Customer(arr[0], arr[1]);
+                Customer customer = new Customer(arr[0], arr[1], arr[2], true);
                 result.add(customer);
             }
         }catch (IOException e){
