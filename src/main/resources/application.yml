@@ -1,0 +1,30 @@
+# 공통 설정
+spring:
+  main:
+    web-application-type: none
+  profiles:
+    active: prod
+
+---
+
+# prod 프로필 설정
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+file:
+  voucher-path: ${user.home}/prod/data/vouchers.csv
+  blacklist-path: ${user.home}/prod/data/customer_blacklist.csv
+
+---
+
+# dev 프로필 설정
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+file:
+  voucher-path: ${user.home}/dev/data/vouchers.csv
+  blacklist-path: ${user.home}/dev/data/customer_blacklist.csv
