@@ -233,6 +233,6 @@ class CommandHandlerTest {
 
         assertThrows(NotCorrectForm.class, () -> {
             handler.getVoucherType();
-        })
+        });
     }
 }
