@@ -23,6 +23,7 @@ public class VoucherController {
     private final CustomerController customerController;
     private static final int FIXED_VOUCHER_CREATE = 1;
     private static final int PERCENT_VOUCHER_CREATE = 2;
+    private static final int FIXED_VOUCHER_DISCOUNT_MAX = 100000;
 
     public VoucherController(ConsoleView consoleView, VoucherService voucherService, CustomerService customerService, CustomerController customerController) {
         this.consoleView = consoleView;
@@ -43,7 +44,7 @@ public class VoucherController {
             case "exit" -> exitVoucher();
             default -> {
                 consoleView.error(new RuntimeException("Please Enter Again!!"));
-                log.error("Invalid Menu Command Input");
+                log.warn("Invalid Menu Command Input");
                 getMenu();
             }
         }
@@ -52,9 +53,9 @@ public class VoucherController {
     public void createVoucher(){
         VoucherCreateRequestDto voucherCreateRequestDto = consoleView.createVoucher();
 
-        if(!validateDiscountAmount(voucherCreateRequestDto)){
+        if(!isDiscountAmount(voucherCreateRequestDto)){
             consoleView.error(new RuntimeException("Please Enter Again!!"));
-            log.error("Invalid Create Input");
+            log.warn("Invalid Create Input");
             createVoucher();
         }
 
@@ -66,10 +67,10 @@ public class VoucherController {
         getMenu();
     }
 
-    private boolean validateDiscountAmount(VoucherCreateRequestDto voucherCreateRequestDto) {
+    private boolean isDiscountAmount(VoucherCreateRequestDto voucherCreateRequestDto) {
         switch (voucherCreateRequestDto.command()) {
             case FIXED_VOUCHER_CREATE -> {
-                return voucherCreateRequestDto.discount() >= 0;
+                return voucherCreateRequestDto.discount() >= 0 && voucherCreateRequestDto.discount() <= FIXED_VOUCHER_DISCOUNT_MAX;
             }
             case PERCENT_VOUCHER_CREATE -> {
                 return voucherCreateRequestDto.discount() >= 0 && voucherCreateRequestDto.discount() <= 100;
