@@ -27,12 +27,9 @@ public class VoucherApplication {
             try {
                 selectCommand();
             } catch (Exception e) {
-                logger.error(e.toString());
-                Console.print("프로그램에 에러가 발생했습니다.");
+                handleException(e);
             }
         }
-
-        close();
     }
 
     public void selectCommand() {
@@ -45,19 +42,12 @@ public class VoucherApplication {
 
         String input = Console.readString();
 
-        try {
-            CommandType commandType = CommandType.getCommandType(input);
-
-            switch (commandType) {
-                case CREATE -> createVoucher();
-                case LIST -> getVoucherList();
-                case BLACKLIST -> getBlacklist();
-                case EXIT -> isRunning = false;
-            }
-        } catch (NumberFormatException e) {
-            Console.print("숫자를 입력해 주세요.");
-        } catch (IllegalArgumentException e) {
-            Console.print(e.getMessage());
+        CommandType commandType = CommandType.getCommandType(input);
+        switch (commandType) {
+            case CREATE -> createVoucher();
+            case LIST -> getVoucherList();
+            case BLACKLIST -> getBlacklist();
+            case EXIT -> isRunning = false;
         }
     }
 
@@ -111,5 +101,23 @@ public class VoucherApplication {
         logger.info("Call close()");
 
         Console.print("프로그램이 종료되었습니다.");
+    }
+
+    private void handleException(Exception e) {
+        if(e instanceof NumberFormatException) {
+            Console.print("숫자를 입력해 주세요.");
+            return;
+        }
+
+        if(e instanceof IllegalArgumentException) {
+            Console.print(e.getMessage());
+            return;
+        }
+
+        logger.error(e.toString());
+
+        Console.print("프로그램에 에러가 발생했습니다.");
+        isRunning = false;
+        close();
     }
 }
