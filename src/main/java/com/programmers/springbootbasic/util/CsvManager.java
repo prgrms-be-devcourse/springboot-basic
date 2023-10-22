@@ -3,18 +3,15 @@ package com.programmers.springbootbasic.util;
 
 import static com.programmers.springbootbasic.exception.ErrorCode.FILE_IO_ERROR;
 
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
 import com.programmers.springbootbasic.exception.exceptionClass.SystemException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -23,7 +20,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CsvManager implements FileManager{
+public class CsvManager implements FileManager {
 
     private static final Set<String> EXTENSION = Set.of("csv");
 
@@ -34,48 +31,95 @@ public class CsvManager implements FileManager{
     }
 
     @Override
-    public <T> List<T> read(String fileName, Class<T> type){
-        Resource resource = new PathResource(fileName);
+    public <T> List<T> read(String fileName, Class<T> type) {
+        File file = getFileResource(fileName);
+        List<T> resultList = new ArrayList<>();
 
-        if (!resource.exists()) {
-            return new ArrayList<>();  // 파일이 없으면 빈 리스트 반환
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+
+            // 헤더 스킵 (첫 줄 읽기)
+            reader.readLine();
+
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                T obj = parseToObject(values, type);
+                resultList.add(obj);
+            }
+        } catch (IOException | ReflectiveOperationException e) {
+            throw new CustomException(FILE_IO_ERROR);
         }
 
-        try (Reader reader = new FileReader(resource.getFile())) {
-            // CsvToBean 객체 생성 및 파싱
-            CsvToBean<T> csvToBean = new CsvToBeanBuilder<T>(reader)
-                .withType(type)
-                .withIgnoreLeadingWhiteSpace(true)
-                .build();
-
-            return csvToBean.parse();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            throw new SystemException(FILE_IO_ERROR);
-        }
+        return resultList;
     }
 
     @Override
     public <T> void write(T entity, String fileName) {
-        try {
-            Resource resource = new PathResource(fileName);
-            File file = null;
-            if (!resource.exists()) {
-                resource.getFile().createNewFile();
+        File file = getFileResource(fileName);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            if (file.length() == 0) {
+                writeHeaders(writer, entity);
             }
-            file = resource.getFile();
-            try (FileWriter writer = new FileWriter(file)) {
-                StatefulBeanToCsv<T> beanToCsv = new StatefulBeanToCsvBuilder<T>(writer)
-                    .withSeparator(',')
-                    .build();
-
-                beanToCsv.write(entity);
-            }
-        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
+            writeEntity(writer, entity);
+        } catch (IOException e) {
             throw new SystemException(FILE_IO_ERROR);
         }
     }
 
+    private <T> T parseToObject(String[] values, Class<T> type)
+        throws ReflectiveOperationException {
+        T instance = type.getDeclaredConstructor().newInstance();
+
+        Field[] fields = type.getDeclaredFields();
+        for (int i = 0; i < values.length; i++) {
+            if (i < fields.length) {
+                Field field = fields[i];
+                field.setAccessible(true);
+                field.set(instance, values[i]);
+            }
+        }
+        return instance;
+    }
+
+    private File getFileResource(String fileName) {
+        try {
+            Resource resource = new PathResource(fileName);
+            if (!resource.exists()) {
+                resource.getFile().createNewFile();
+            }
+            return resource.getFile();
+        } catch (IOException e) {
+            throw new SystemException(FILE_IO_ERROR);
+        }
+    }
+
+    private <T> void writeHeaders(BufferedWriter writer, T entity) throws IOException {
+        Field[] fields = entity.getClass().getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            writer.write(fields[i].getName());
+            if (i < fields.length - 1) {
+                writer.write(",");
+            }
+        }
+        writer.newLine();
+    }
+
+    private <T> void writeEntity(BufferedWriter writer, T entity) throws IOException {
+        Field[] fields = entity.getClass().getDeclaredFields();
+        for (int i = 0; i < fields.length; i++) {
+            fields[i].setAccessible(true);
+            try {
+                Object value = fields[i].get(entity);
+                writer.write(value != null ? value.toString() : "");
+            } catch (IllegalAccessException e) {
+                throw new SystemException(FILE_IO_ERROR);
+            }
+            if (i < fields.length - 1) {
+                writer.write(",");
+            }
+        }
+        writer.newLine();
+    }
 
 
 }

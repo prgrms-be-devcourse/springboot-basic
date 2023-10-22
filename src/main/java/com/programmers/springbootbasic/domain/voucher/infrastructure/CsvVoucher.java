@@ -6,30 +6,32 @@ import java.util.UUID;
 
 public class CsvVoucher {
 
-    private UUID id;
+    private String id;
     private String voucherType;
-    private Integer benefitValue;
+    private String benefitValue;
 
     public CsvVoucher() {
     }
 
-    public CsvVoucher(UUID id, String voucherType, Integer benefitValue) {
+    public CsvVoucher(String id, String voucherType, String benefitValue) {
         this.id = id;
         this.voucherType = voucherType;
         this.benefitValue = benefitValue;
     }
 
     public static CsvVoucher of(Voucher voucher) {
-        return new CsvVoucher(voucher.getId(), voucher.getVoucherType().getVoucherTypeName(),
-            voucher.getBenefitValue());
+        return new CsvVoucher(voucher.getId().toString(),
+            voucher.getVoucherType().getVoucherTypeName(),
+            voucher.getBenefitValue().toString());
     }
 
     public Voucher toEntity() {
-        return new Voucher(id, VoucherTypeEnum.of(voucherType).getVoucherType(benefitValue),
-            benefitValue);
+        return new Voucher(UUID.fromString(id),
+            VoucherTypeEnum.of(voucherType).getVoucherType(Integer.valueOf(benefitValue)),
+            Integer.valueOf(benefitValue));
     }
 
-    public UUID getId() {
+    public String getId() {
         return id;
     }
 
@@ -37,7 +39,7 @@ public class CsvVoucher {
         return voucherType;
     }
 
-    public Integer getBenefitValue() {
+    public String getBenefitValue() {
         return benefitValue;
     }
 }
