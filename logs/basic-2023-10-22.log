@@ -1,0 +1,8 @@
+17:37:40.727 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 1706 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+17:37:40.728 [main] INFO  com.pgms.part1.DemoApplication - The following 1 profile is active: "file"
+17:37:40.881 [main] INFO  c.pgms.part1.util.file.FileService - file loaded
+17:37:40.883 [main] INFO  c.pgms.part1.util.file.FileService - file loaded
+17:37:40.911 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.327 seconds (process running for 0.603)
+17:37:50.642 [main] INFO  c.pgms.part1.util.file.FileService - file saved
+17:37:50.644 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher 025c9623-9f80-4f67-8783-88fe95cf6b58 added
+17:37:52.871 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Menu Command Input
