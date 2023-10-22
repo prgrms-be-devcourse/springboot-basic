@@ -11,14 +11,14 @@ import static team.marco.vouchermanagementsystem.model.voucher.VoucherType.*;
 
 public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+    private static final int MIN_AMOUNT = 100;
+    private static final int MAX_AMOUNT = 100000;
 
     private final VoucherType type = FIXED;
     private final int amount;
 
     public FixedAmountVoucher(int amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException(format("{0}: 할인 금액은 0 보다 커야 합니다.", amount));
-        }
+        validate(amount);
 
         this.amount = amount;
 
@@ -29,6 +29,16 @@ public class FixedAmountVoucher extends Voucher {
         super(id);
 
         this.amount = amount;
+    }
+
+    private void validate(int percent) {
+        if (percent < MIN_AMOUNT) {
+            throw new IllegalArgumentException(format("{0}: 할인 금액은 {1}원 보다 작을 수 없습니다.", amount, MIN_AMOUNT));
+        }
+
+        if (percent > MAX_AMOUNT) {
+            throw new IllegalArgumentException(format("{0}: 할인 금액은 {1}원 보다 클 수 없습니다.", amount, MAX_AMOUNT));
+        }
     }
 
     @Override

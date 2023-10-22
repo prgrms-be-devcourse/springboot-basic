@@ -11,6 +11,8 @@ import static team.marco.vouchermanagementsystem.model.voucher.VoucherType.*;
 
 public class PercentDiscountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
+    private static final int MIN_PERCENT = 1;
+    private static final int MAX_PERCENT = 50;
 
     private final VoucherType type = PERCENT;
     private final int percent;
@@ -30,12 +32,12 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     private void validate(int percent) {
-        if (percent <= 0) {
-            throw new IllegalArgumentException(format("{0}: 할인율은 0% 이하일 수 없습니다.", percent));
+        if (percent < MIN_PERCENT) {
+            throw new IllegalArgumentException(format("{0}: 할인율은 {1}% 보다 작을 수 없습니다.", percent, MIN_PERCENT));
         }
 
-        if (percent > 100) {
-            throw new IllegalArgumentException(format("{0}: 할인율은 100%를 초과할 수 없습니다.", percent));
+        if (percent > MAX_PERCENT) {
+            throw new IllegalArgumentException(format("{0}: 할인율은 {1}% 보다 클 수 없습니다.", percent, MAX_PERCENT));
         }
     }
 
