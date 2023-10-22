@@ -58,7 +58,7 @@ public class DBVoucherRepository implements VoucherRepository {
             Voucher voucher = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
                 VoucherType voucherType = VoucherType.from(rs.getString(TYPE));
                 return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID)), rs.getLong(AMOUNT));
-            }, voucherId);
+            }, voucherId.toString());
             return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();

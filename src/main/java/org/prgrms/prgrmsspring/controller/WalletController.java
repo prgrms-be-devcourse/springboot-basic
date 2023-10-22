@@ -1,10 +1,12 @@
 package org.prgrms.prgrmsspring.controller;
 
 import org.prgrms.prgrmsspring.domain.Command;
+import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.prgrms.prgrmsspring.entity.wallet.Wallet;
 import org.prgrms.prgrmsspring.service.WalletService;
 import org.prgrms.prgrmsspring.view.CommandLineView;
 
+import java.util.List;
 import java.util.UUID;
 
 public class WalletController implements ApplicationController {
@@ -26,5 +28,11 @@ public class WalletController implements ApplicationController {
         UUID voucherId = commandLineView.inputVoucherId();
         Wallet wallet = walletService.allocateVoucherToCustomer(customerId, voucherId);
         commandLineView.print(wallet);
+    }
+
+    public void findVoucherByCustomerId() {
+        UUID customerId = commandLineView.inputCustomerId();
+        List<Voucher> voucherListByCustomerId = walletService.findVoucherListByCustomerId(customerId);
+        commandLineView.printAll(voucherListByCustomerId);
     }
 }

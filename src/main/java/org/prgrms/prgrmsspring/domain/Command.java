@@ -18,7 +18,8 @@ public enum Command {
     DELETE_CUSTOMER("delete a customer", controller -> ((CustomerController) controller).delete(), CustomerController.class),
     LIST_ALL_CUSTOMERS("list all customers.", controller -> ((CustomerController) controller).findAll(), CustomerController.class),
     LIST_ALL_BLACK("list all blacklist customers.", controller -> ((CustomerController) controller).findAllBlackList(), CustomerController.class),
-    CREATE_WALLET("allocate voucher to specific customer", controller -> ((WalletController) controller).create(), WalletController.class);
+    CREATE_WALLET("allocate voucher to specific customer", controller -> ((WalletController) controller).create(), WalletController.class),
+    FIND_VOUCHER("find voucher by customer", controller -> ((WalletController) controller).findVoucherByCustomerId(), WalletController.class);
     private final String document;
     private final Consumer<ApplicationController> consumer;
     private final Class<? extends ApplicationController> controllerClass;
