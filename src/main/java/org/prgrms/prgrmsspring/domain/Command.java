@@ -10,11 +10,11 @@ public enum Command {
     EXIT("exit the program.", controller -> ((VoucherController) controller).exit(), VoucherController.class),
     CREATE_VOUCHER("create a new voucher.", controller -> ((VoucherController) controller).create(), VoucherController.class),
     UPDATE_VOUCHER("update a voucher.", controller -> ((VoucherController) controller).update(), VoucherController.class),
-    DELETE_VOUCHER("delete a voucher", controller -> ((VoucherController) controller).delete(), VoucherController.class),
+    DELETE_VOUCHER("delete a voucher.", controller -> ((VoucherController) controller).delete(), VoucherController.class),
     LIST_ALL_VOUCHERS("list all vouchers.", controller -> ((VoucherController) controller).list(), VoucherController.class),
     CREATE_CUSTOMER("create a new customer.", controller -> ((CustomerController) controller).create(), CustomerController.class),
-    LIST_ALL_BLACK("list all blacklist people", controller -> ((CustomerController) controller).showBlackList(), CustomerController.class);
-
+    LIST_ALL_CUSTOMERS("list all customers.", controller -> ((CustomerController) controller).findAll(), CustomerController.class),
+    LIST_ALL_BLACK("list all blacklist customers.", controller -> ((CustomerController) controller).findAllBlackList(), CustomerController.class);
     private final String document;
     private final Consumer<ApplicationController> consumer;
     private final Class<? extends ApplicationController> controllerClass;

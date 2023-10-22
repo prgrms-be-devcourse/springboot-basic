@@ -3,6 +3,7 @@ package org.prgrms.prgrmsspring.repository.user;
 import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.exception.DataAccessException;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
+import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,8 @@ public class DBCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        return null;
+        String sql = "SELECT * FROM CUSTOMERS";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes("CUSTOMER_ID")), rs.getString("NAME"), rs.getBoolean("IS_BLACK")));
     }
 
     @Override

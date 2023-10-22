@@ -19,7 +19,12 @@ public class CustomerController implements ApplicationController {
         this.customerService = customerService;
     }
 
-    public void showBlackList() {
+    public void findAll() {
+        List<Customer> allCustomers = customerService.findAll();
+        commandLineView.printAll(allCustomers);
+    }
+
+    public void findAllBlackList() {
         List<Customer> blackCustomers = customerService.findBlackAll();
         commandLineView.printAll(blackCustomers);
     }
