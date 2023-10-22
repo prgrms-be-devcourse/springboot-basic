@@ -4,8 +4,6 @@ import static study.dev.spring.voucher.exception.VoucherErrorCode.*;
 
 import org.springframework.stereotype.Component;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import study.dev.spring.voucher.application.dto.CreateVoucherRequest;
 import study.dev.spring.voucher.exception.VoucherException;
 
@@ -13,6 +11,7 @@ import study.dev.spring.voucher.exception.VoucherException;
 public class VoucherConverter {
 
 	private static final String DELIMITER = "//";
+	private static final String[] TYPE_LIST = {"FIXED", "PERCENT"};
 
 	public CreateVoucherRequest convertToCreateRequest(final String data) {
 		String[] splitData = data.split(DELIMITER);
@@ -33,17 +32,9 @@ public class VoucherConverter {
 
 	private String getVoucherType(int typeNumber) {
 		try {
-			return VoucherTypeMather.values()[typeNumber - 1].getVoucherType();
+			return TYPE_LIST[typeNumber];
 		} catch (IndexOutOfBoundsException e) {
 			throw new VoucherException(UNSUPPORTED_TYPE_NUMBER);
 		}
-	}
-
-	@Getter
-	@RequiredArgsConstructor
-	private enum VoucherTypeMather {
-		ONE("FIXED"),
-		TWO("PERCENT");
-		private final String voucherType;
 	}
 }
