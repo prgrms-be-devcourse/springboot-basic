@@ -4,13 +4,12 @@ import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_VOUCHE
 
 import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public enum VoucherTypeEnum {
     FIXED(FixedAmountVoucher::new),
     PERCENT(PercentDiscountVoucher::new);
 
-    private Function<Integer,VoucherType> voucherType;
+    private final Function<Integer,VoucherType> voucherType;
 
     VoucherTypeEnum(Function<Integer,VoucherType> voucherType) {
         this.voucherType = voucherType;
