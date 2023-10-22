@@ -21,8 +21,8 @@ public class VoucherController {
     private final ConsoleView consoleView;
     private final VoucherService voucherService;
     private final CustomerController customerController;
-    private final int FIXED_VOUCHER_CREATE = 1;
-    private final int PERCENT_VOUCHER_CREATE = 2;
+    private static final int FIXED_VOUCHER_CREATE = 1;
+    private static final int PERCENT_VOUCHER_CREATE = 2;
 
     public VoucherController(ConsoleView consoleView, VoucherService voucherService, CustomerService customerService, CustomerController customerController) {
         this.consoleView = consoleView;
@@ -37,7 +37,7 @@ public class VoucherController {
             case "create" -> createVoucher();
             case "list" -> listVoucher();
             case "blacklist" -> {
-                customerController.blackList();
+                customerController.listBlockedCustomers();
                 init();
             }
             case "exit" -> exitVoucher();
