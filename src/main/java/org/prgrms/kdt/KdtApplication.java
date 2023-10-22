@@ -1,7 +1,8 @@
 package org.prgrms.kdt;
 
+import java.io.IOException;
 import org.prgrms.kdt.app.configuration.YamlPropertiesFactory;
-import org.prgrms.kdt.order.OrderProperties;
+import org.prgrms.kdt.voucher.controller.VoucherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -20,15 +21,21 @@ public class KdtApplication {
 
   private static final Logger logger = LoggerFactory.getLogger(KdtApplication.class);
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     var applicationContext = SpringApplication.run(KdtApplication.class, args);
-    var orderProperties = applicationContext.getBean(OrderProperties.class);
-    logger.error("logger name => {}", logger.getName());
-    logger.warn("version -> {}", orderProperties.getVersion());
-    logger.warn("minimumOrderAmount -> {}", orderProperties.getMinimumOrderAmount());
-    logger.warn("supportVendors -> {}", orderProperties.getSupportVendors());
-    logger.warn("description -> {}", orderProperties.getDescription());
+    var voucherController = applicationContext.getBean(VoucherController.class);
 
+    boolean isRepeat = true;
+
+    while(isRepeat){
+      isRepeat = voucherController.startVoucherMenu();
+    }
+
+//    var orderProperties = applicationContext.getBean(OrderProperties.class);
+//    logger.error("logger name => {}", logger.getName());
+//    logger.warn("version -> {}", orderProperties.getVersion());
+//    logger.warn("minimumOrderAmount -> {}", orderProperties.getMinimumOrderAmount());
+//    logger.warn("supportVendors -> {}", orderProperties.getSupportVendors());
+//    logger.warn("description -> {}", orderProperties.getDescription());
   }
-
 }

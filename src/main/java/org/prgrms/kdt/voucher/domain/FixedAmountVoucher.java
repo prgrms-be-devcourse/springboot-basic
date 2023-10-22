@@ -1,7 +1,5 @@
 package org.prgrms.kdt.voucher.domain;
 
-import org.prgrms.kdt.order.Voucher;
-
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
