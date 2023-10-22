@@ -20,3 +20,16 @@ Discount amount : 1000
 17:28:52.793 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
 17:29:02.518 [main] INFO  c.p.v.domain.CommandHandler -- 프로그램 종료
 17:29:20.587 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- Fail to file IO.
+17:54:59.714 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 13088 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+17:54:59.716 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+17:55:00.724 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+17:55:00.726 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
+17:55:01.309 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 2.013 seconds (process running for 2.737)
+17:55:03.280 [main] ERROR c.p.v.VoucherManagerApplication -- The command is incorrect.
+18:22:05.758 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 24340 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+18:22:05.760 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+18:22:06.776 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+18:22:06.778 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
+18:22:07.368 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 2.026 seconds (process running for 2.722)
+18:22:10.277 [main] ERROR c.p.v.VoucherManagerApplication -- hi는 올바른 명령어가 아닙니다.
+18:22:15.589 [main] INFO  c.p.v.domain.CommandHandler -- 프로그램 종료

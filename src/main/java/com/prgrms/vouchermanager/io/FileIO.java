@@ -23,7 +23,7 @@ public class FileIO {
         try {
             bf = new BufferedReader(new FileReader(filePath));
         } catch (FileNotFoundException e) {
-            FileIOException ex = new FileIOException();
+            FileIOException ex = new FileIOException(this);
             log.error(ex.getMessage());
             throw ex;
         }
@@ -40,14 +40,14 @@ public class FileIO {
                 try {
                     bw.write(id + "," + type + "," + discount + "\n");
                 } catch (IOException e) {
-                    RuntimeException ex = new FileIOException();
+                    RuntimeException ex = new FileIOException(bw);
                     log.error(ex.getMessage());
                     throw ex;
                 }
             });
             bw.close();
         } catch (IOException e) {
-            RuntimeException ex = new FileIOException();
+            RuntimeException ex = new FileIOException(this);
             log.error(ex.getMessage());
             throw ex;
         }
@@ -60,7 +60,7 @@ public class FileIO {
             try {
                 if ((line = bf.readLine()) == null) break;
             } catch (IOException e) {
-                RuntimeException ex = new FileIOException();
+                RuntimeException ex = new FileIOException(bf);
                 log.error(ex.getMessage());
                 throw ex;
             }
@@ -78,7 +78,7 @@ public class FileIO {
             try {
                 if ((line = bf.readLine()) == null) break;
             } catch (IOException e) {
-                RuntimeException ex = new FileIOException();
+                RuntimeException ex = new FileIOException(bf);
                 log.error(ex.getMessage());
                 throw ex;
             }

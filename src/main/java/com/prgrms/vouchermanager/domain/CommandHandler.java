@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 
 @Component
@@ -52,7 +53,7 @@ public class CommandHandler {
 
                 return Command.BLACKLIST;
             }
-            default -> throw new NotCorrectCommand();
+            default -> throw new NotCorrectCommand(command);
         }
     }
 
@@ -68,7 +69,7 @@ public class CommandHandler {
 
     public void listExecute() throws EmptyListException {
         List<Voucher> vouchers = controller.list();
-        if(vouchers.isEmpty()) throw new EmptyListException();
+        if(vouchers.isEmpty()) throw new EmptyListException(vouchers);
         else consolePrint.printList(controller.list());
     }
 
@@ -80,7 +81,7 @@ public class CommandHandler {
 
     public void blackListExecute() throws EmptyListException{
         List<Customer> customers = controller.blacklist();
-        if(customers.isEmpty()) throw new EmptyListException();
+        if(customers.isEmpty()) throw new EmptyListException(customers);
         else consolePrint.printBlacklist(controller.blacklist());
     }
 
@@ -94,10 +95,10 @@ public class CommandHandler {
             } else if (type.equals("percent")) {
                 return VoucherType.PERCENT;
             } else {
-                throw new NotCorrectForm();
+                throw new NotCorrectForm(type);
             }
         } catch (NotCorrectForm e) {
-            throw new NotCorrectForm();
+            throw new NotCorrectForm(type);
         }
     }
 
@@ -110,9 +111,9 @@ public class CommandHandler {
                 discount = getPercentDiscount();
             }
         } catch (NumberFormatException e) {
-            throw new NotCorrectForm();
+            throw new NotCorrectForm(String.valueOf(discount));
         } catch (NotCorrectScope e) {
-            throw new NotCorrectScope();
+            throw new NotCorrectScope(discount);
         }
 
         return discount;
@@ -122,7 +123,7 @@ public class CommandHandler {
         long discount;
         consolePrint.printGetDiscountPercent();
         discount = Long.parseLong(sc.nextLine());
-        if(discount < 0 || discount > 100) throw new NotCorrectScope();
+        if(discount < 0 || discount > 100) throw new NotCorrectScope(discount);
         return discount;
     }
 
@@ -130,7 +131,7 @@ public class CommandHandler {
         long discount;
         consolePrint.printGetDiscountAmount();
         discount = Long.parseLong(sc.nextLine());
-        if(discount < 0) throw new NotCorrectScope();
+        if(discount < 0) throw new NotCorrectScope(discount);
         return discount;
     }
 }

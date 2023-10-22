@@ -43,7 +43,7 @@ public class VoucherManagerApplication implements CommandLineRunner {
             }
         } catch (NotCorrectForm | NotCorrectScope | NotCorrectCommand | EmptyListException e) {
             log.error(e.getMessage());
-            System.out.println(e.getMessage());
+            System.out.println(e.consoleMessage());
         }
         this.run();
     }
