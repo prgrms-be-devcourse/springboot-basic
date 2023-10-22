@@ -18,18 +18,17 @@ import java.util.*;
 @Repository
 @Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
-//    private static final String FILE_PATH="src/main/resources/voucher.json";
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
 
     private final String filePath;
-    private Map<UUID, Voucher> vouchers;
+    private final Map<UUID, Voucher> vouchers;
 
     public FileVoucherRepository(AppProperties appProperties) {
         this.filePath = appProperties.getResources().getPath() + appProperties.getDomains().get("voucher.file-name");
         System.out.println(filePath);
         this.vouchers = new HashMap<>();
-        loadVouchers();
+        loadFile();
     }
 
     @Override
@@ -43,23 +42,21 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers.values().stream().toList();
     }
 
-    private void loadVouchers() {
+    private void loadFile() {
         try {
             File file = new File(filePath);
             Map[] voucherObjects = objectMapper.readValue(file, Map[].class);
-            vouchers = objectsToVouchers(voucherObjects);
+            loadVouchers(voucherObjects);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private Map<UUID, Voucher> objectsToVouchers(Map[] voucherObjects) {
-        Map<UUID, Voucher> vouchersFromJSON = new HashMap<>();
+    private void loadVouchers(Map[] voucherObjects) {
         Arrays.stream(voucherObjects).forEach(voucherObject -> {
             Voucher voucher = objectToVoucher(voucherObject);
             vouchers.put(voucher.getVoucherId(), voucher);
         });
-        return vouchersFromJSON;
     }
 
     private Voucher objectToVoucher(Map voucherObject) {
