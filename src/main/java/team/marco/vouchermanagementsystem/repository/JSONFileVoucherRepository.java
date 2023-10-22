@@ -10,6 +10,7 @@ import team.marco.vouchermanagementsystem.model.voucher.Voucher;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +41,7 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
         try {
             loadedList = objectReader.readValue(file);
         } catch (IOException e) {
-            throw new RuntimeException("파일을 불러오는 과정에서 오류가 발생했습니다.");
+            throw new UncheckedIOException(e);
         }
 
         Map<UUID, Voucher> convertedMap = new HashMap<>();
@@ -65,7 +66,7 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
         try {
             objectMapper.writeValue(file, voucherMap.values());
         } catch (IOException e) {
-            throw new RuntimeException("파일을 저장하는 과정에서 오류가 발생했습니다.");
+            throw new UncheckedIOException(e);
         }
     }
 }

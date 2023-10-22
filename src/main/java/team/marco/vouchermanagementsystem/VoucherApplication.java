@@ -7,6 +7,8 @@ import team.marco.vouchermanagementsystem.service.BlacklistService;
 import team.marco.vouchermanagementsystem.service.VoucherService;
 import team.marco.vouchermanagementsystem.util.Console;
 
+import java.io.UncheckedIOException;
+
 @Component
 public class VoucherApplication {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
@@ -116,8 +118,11 @@ public class VoucherApplication {
 
         logger.error(e.toString());
 
-        Console.print("프로그램에 에러가 발생했습니다.");
+        String errorMessage = (e instanceof UncheckedIOException)? "파일을 처리하는 과정에서 에러가 발생했습니다." : "프로그램에 에러가 발생했습니다.";
+        Console.print(errorMessage);
+
         isRunning = false;
+
         close();
     }
 }
