@@ -8,19 +8,19 @@ public enum MenuType {
     CREATE("create"),
     LIST("list");
 
-    private String menuValue;
+    private String value;
 
-    MenuType(String menuValue) {
-        this.menuValue = menuValue;
+    MenuType(String value) {
+        this.value = value;
     }
 
-    public String getMenuValue() {
-        return menuValue;
+    public String getValue() {
+        return value;
     }
 
-    public static MenuType getMenuType(String menuValue) {
+    public static MenuType getType(String value) {
         return Arrays.stream(MenuType.values())
-                .filter(type -> type.menuValue.equalsIgnoreCase(menuValue))
+                .filter(type -> type.value.equalsIgnoreCase(value))
                 .findFirst()
                 .orElse(null);
     }
