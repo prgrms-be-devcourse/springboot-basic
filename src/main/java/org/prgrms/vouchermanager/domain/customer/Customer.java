@@ -10,6 +10,8 @@ import lombok.ToString;
 public class Customer {
     private final String customerId;
     private final String name;
+    private final String email;
+    private final Boolean isBlack;
 
 
 }
