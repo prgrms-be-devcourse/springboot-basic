@@ -1,9 +1,11 @@
 HELP.md
 .gradle
+.DS_Store
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+.DS_
 
 ### STS ###
 .apt_generated
@@ -18,7 +20,7 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-!**/.idea/
+!**/.idea
 .idea/
 *.iws
 *.iml
