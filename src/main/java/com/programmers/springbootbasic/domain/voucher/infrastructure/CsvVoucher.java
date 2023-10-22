@@ -5,10 +5,10 @@ import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
 import java.util.UUID;
 
 public class CsvVoucher {
+
     private UUID id;
     private String voucherType;
     private Integer benefitValue;
-
 
     public CsvVoucher() {
     }
@@ -17,6 +17,16 @@ public class CsvVoucher {
         this.id = id;
         this.voucherType = voucherType;
         this.benefitValue = benefitValue;
+    }
+
+    public static CsvVoucher of(Voucher voucher) {
+        return new CsvVoucher(voucher.getId(), voucher.getVoucherType().getVoucherTypeName(),
+            voucher.getBenefitValue());
+    }
+
+    public Voucher toEntity() {
+        return new Voucher(id, VoucherTypeEnum.of(voucherType).getVoucherType(benefitValue),
+            benefitValue);
     }
 
     public UUID getId() {
@@ -29,13 +39,5 @@ public class CsvVoucher {
 
     public Integer getBenefitValue() {
         return benefitValue;
-    }
-
-    public static CsvVoucher of (Voucher voucher) {
-        return new CsvVoucher(voucher.getId(), voucher.getVoucherType().getVoucherTypeName(), voucher.getBenefitValue());
-    }
-
-    public Voucher toEntity() {
-        return new Voucher(id, VoucherTypeEnum.of(voucherType).getVoucherType(benefitValue), benefitValue);
     }
 }

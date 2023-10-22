@@ -15,6 +15,11 @@ public class VoucherResponse {
         this.benefitValue = benefitValue;
     }
 
+    public static VoucherResponse of(Voucher voucher) {
+        return new VoucherResponse(voucher.getId(), voucher.getVoucherType().getVoucherTypeName(),
+            voucher.getBenefitValue());
+    }
+
     @Override
     public String toString() {
         return """
@@ -23,11 +28,6 @@ public class VoucherResponse {
             benefitValue = %s
             ===============================
             """.formatted(id, voucherType, benefitValue);
-    }
-
-    public static VoucherResponse of(Voucher voucher) {
-        return new VoucherResponse(voucher.getId(), voucher.getVoucherType().getVoucherTypeName(),
-            voucher.getBenefitValue());
     }
 
 }

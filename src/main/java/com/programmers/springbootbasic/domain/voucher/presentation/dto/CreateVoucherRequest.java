@@ -12,14 +12,6 @@ public class CreateVoucherRequest {
         this.benefitValue = benefitValue;
     }
 
-    public VoucherTypeEnum getVoucherType() {
-        return voucherTypeEnum;
-    }
-
-    public Integer getBenefitValue() {
-        return benefitValue;
-    }
-
     public static CreateVoucherRequest from(String voucherType, Integer benefitValue) {
         VoucherTypeEnum voucherEnum = VoucherTypeEnum.of(voucherType);
         return new CreateVoucherRequest(voucherEnum, benefitValue);
@@ -27,5 +19,13 @@ public class CreateVoucherRequest {
 
     public Voucher toEntity() {
         return new Voucher(voucherTypeEnum.getVoucherType(benefitValue), benefitValue);
+    }
+
+    public VoucherTypeEnum getVoucherType() {
+        return voucherTypeEnum;
+    }
+
+    public Integer getBenefitValue() {
+        return benefitValue;
     }
 }
