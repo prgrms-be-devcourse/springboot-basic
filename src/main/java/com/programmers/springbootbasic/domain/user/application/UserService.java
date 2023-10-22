@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final FileManager fileManager;
-    private String fileName;
+    private final String fileName;
 
     public UserService(FileManager fileManager, @Value("${file.user.path}") String fileName) {
         this.fileName = fileName;
