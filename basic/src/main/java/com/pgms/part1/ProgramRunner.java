@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class ProgramRunner implements CommandLineRunner {
     private final Logger log = LoggerFactory.getLogger(ProgramRunner.class);
     private final VoucherController voucherController;
+    private Boolean isRunning = true;
 
     public ProgramRunner(VoucherController voucherController) {
         this.voucherController = voucherController;
@@ -17,11 +18,13 @@ public class ProgramRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        try{
-            voucherController.getMenu();
-        }
-        catch (Exception e){
-            log.warn(e.getMessage());
+        while(isRunning){
+            try{
+                voucherController.getMenu();
+            }
+            catch (Exception e){
+                log.warn(e.getMessage());
+            }
         }
     }
 }

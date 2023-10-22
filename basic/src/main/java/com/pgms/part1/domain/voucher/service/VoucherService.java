@@ -23,14 +23,24 @@ public class VoucherService {
 
     public void createFixedAmountVoucher(VoucherCreateRequestDto voucherCreateRequestDto) {
         FixedAmountDiscountVoucher fixedAmountDiscountVoucher = Voucher.newFixedAmountDiscountVoucher(voucherCreateRequestDto.discount());
-        voucherRepository.add(fixedAmountDiscountVoucher);
-        log.info("Voucher {} added", fixedAmountDiscountVoucher.getId());
+        try{
+            voucherRepository.add(fixedAmountDiscountVoucher);
+            log.info("Voucher {} added", fixedAmountDiscountVoucher.getId());
+        }
+        catch(Exception e){
+            log.info(e.getMessage());
+        }
     }
 
     public void createPercentDiscountVoucher(VoucherCreateRequestDto voucherCreateRequestDto) {
         PercentDiscountVoucher percentDiscountVoucher = Voucher.newPercentDiscountVoucher(voucherCreateRequestDto.discount());
-        voucherRepository.add(percentDiscountVoucher);
-        log.info("Voucher {} added", percentDiscountVoucher.getId());
+        try {
+            voucherRepository.add(percentDiscountVoucher);
+            log.info("Voucher {} added", percentDiscountVoucher.getId());
+        }
+        catch(Exception e){
+            log.info(e.getMessage());
+        }
     }
 
     public List<Voucher> listVoucher() {
