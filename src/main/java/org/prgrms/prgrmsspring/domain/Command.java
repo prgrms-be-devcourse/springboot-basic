@@ -13,6 +13,8 @@ public enum Command {
     DELETE_VOUCHER("delete a voucher.", controller -> ((VoucherController) controller).delete(), VoucherController.class),
     LIST_ALL_VOUCHERS("list all vouchers.", controller -> ((VoucherController) controller).list(), VoucherController.class),
     CREATE_CUSTOMER("create a new customer.", controller -> ((CustomerController) controller).create(), CustomerController.class),
+    UPDATE_CUSTOMER("update a customer", controller -> ((CustomerController) controller).update(), CustomerController.class),
+    DELETE_CUSTOMER("delete a customer", controller -> ((CustomerController) controller).delete(), CustomerController.class),
     LIST_ALL_CUSTOMERS("list all customers.", controller -> ((CustomerController) controller).findAll(), CustomerController.class),
     LIST_ALL_BLACK("list all blacklist customers.", controller -> ((CustomerController) controller).findAllBlackList(), CustomerController.class);
     private final String document;

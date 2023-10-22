@@ -5,6 +5,7 @@ import org.prgrms.prgrmsspring.exception.DataAccessException;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,10 @@ public class DBCustomerRepository implements CustomerRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    private static final String CUSTOMER_ID = "CUSTOMER_ID";
+    private static final String NAME = "NAME";
+    private static final String IS_BLACK = "IS_BLACK";
+
     public DBCustomerRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
@@ -26,19 +31,26 @@ public class DBCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         String sql = "SELECT * FROM CUSTOMERS";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes("CUSTOMER_ID")), rs.getString("NAME"), rs.getBoolean("IS_BLACK")));
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getBoolean(IS_BLACK)));
     }
 
     @Override
     public List<Customer> findBlackAll() {
         String sql = "SELECT * FROM CUSTOMERS WHERE IS_BLACK = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes("CUSTOMER_ID")), rs.getString("NAME"), rs.getBoolean("IS_BLACK")),
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getBoolean(IS_BLACK)),
                 true);
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.empty();
+        String sql = "SELECT * FROM CUSTOMERS WHERE CUSTOMER_ID = UUID_TO_BIN(?)";
+        try {
+            Customer customer = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getBoolean(IS_BLACK)),
+                    true);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -53,11 +65,23 @@ public class DBCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        return null;
+        String customerId = customer.getCustomerId().toString();
+        String name = customer.getName();
+        Boolean isBlack = customer.getIsBlack();
+        String sql = "UPDATE CUSTOMERS SET NAME = ?, IS_BLACK = ? WHERE CUSTOMER_ID = UUID_TO_BIN(?)";
+        int update = jdbcTemplate.update(sql, name, isBlack, customerId);
+        if (update != 1) {
+            throw new DataAccessException(this.getClass() + " " + ExceptionMessage.UPDATE_QUERY_FAILED.getMessage());
+        }
+        return customer;
     }
 
     @Override
     public void delete(UUID customerId) {
-
+        String sql = "DELETE FROM CUSTOMERS WHERE CUSTOMER_ID = UUID_TO_BIN(?)";
+        int delete = jdbcTemplate.update(sql, customerId.toString());
+        if (delete != 1) {
+            throw new DataAccessException(this.getClass() + " " + ExceptionMessage.DELETE_QUERY_FAILED.getMessage());
+        }
     }
 }
