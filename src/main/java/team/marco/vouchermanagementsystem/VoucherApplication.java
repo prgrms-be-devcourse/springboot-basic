@@ -7,8 +7,6 @@ import team.marco.vouchermanagementsystem.service.BlacklistService;
 import team.marco.vouchermanagementsystem.service.VoucherService;
 import team.marco.vouchermanagementsystem.util.Console;
 
-import java.util.List;
-
 @Component
 public class VoucherApplication {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
@@ -16,17 +14,22 @@ public class VoucherApplication {
     private final VoucherService voucherService;
     private final BlacklistService blacklistService;
 
+    private Boolean isRunning;
+
     public VoucherApplication(VoucherService service, BlacklistService blacklistService) {
         this.voucherService = service;
         this.blacklistService = blacklistService;
+        this.isRunning = true;
     }
 
     public void run() {
-        try {
-            selectCommand();
-        } catch (Exception e) {
-            logger.error(e.toString());
-            Console.print("프로그램에 에러가 발생했습니다.");
+        while (isRunning) {
+            try {
+                selectCommand();
+            } catch (Exception e) {
+                logger.error(e.toString());
+                Console.print("프로그램에 에러가 발생했습니다.");
+            }
         }
 
         close();
@@ -49,17 +52,13 @@ public class VoucherApplication {
                 case CREATE -> createVoucher();
                 case LIST -> getVoucherList();
                 case BLACKLIST -> getBlacklist();
-                case EXIT -> {
-                    return;
-                }
+                case EXIT -> isRunning = false;
             }
         } catch (NumberFormatException e) {
             Console.print("숫자를 입력해 주세요.");
         } catch (IllegalArgumentException e) {
             Console.print(e.getMessage());
         }
-
-        selectCommand();
     }
 
     private void createVoucher() {
