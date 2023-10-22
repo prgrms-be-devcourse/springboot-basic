@@ -5,23 +5,19 @@ import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.Voucher
 import java.util.UUID;
 
 public class Voucher {
-    private UUID id;
-    private VoucherType voucherType;
-    private Integer benefitValue;
+
+    private final UUID id;
+    private final VoucherType voucherType;
+    private final Integer benefitValue;
+
+    public Voucher(VoucherType voucherType, Integer benefitValue) {
+        this(UUID.randomUUID(), voucherType, benefitValue);
+    }
 
     public Voucher(UUID id, VoucherType voucherType, Integer benefitValue) {
         this.id = id;
         this.voucherType = voucherType;
         this.benefitValue = benefitValue;
-    }
-
-    public Voucher(VoucherType voucherType, Integer benefitValue) {
-        this.id = UUID.randomUUID();
-        this.voucherType = voucherType;
-        this.benefitValue = benefitValue;
-    }
-
-    public Voucher() {
     }
 
     public UUID getId() {
