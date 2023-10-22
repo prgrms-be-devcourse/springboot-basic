@@ -3,7 +3,6 @@ package com.programmers.springbootbasic.domain.voucher.infrastructure;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
-    ConcurrentHashMap<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
