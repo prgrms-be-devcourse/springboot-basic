@@ -9,6 +9,10 @@ file:
 ---
 spring:
   profiles:
+    active: "prod"
+---
+spring:
+  profiles:
     active: "dev"
 ---
 spring:

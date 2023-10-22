@@ -28,9 +28,11 @@
         </encoder>
     </appender>
 
-    <logger level="error" name="${PACKAGE_NAME}">
-        <appender-ref ref="ERROR_ROLLING_FILE"/>
-    </logger>
+    <springProfile name="prod">
+        <logger level="error" name="${PACKAGE_NAME}">
+            <appender-ref ref="ERROR_ROLLING_FILE"/>
+        </logger>
+    </springProfile>
 
     <springProfile name="dev">
         <logger level="warn" name="${PACKAGE_NAME}">

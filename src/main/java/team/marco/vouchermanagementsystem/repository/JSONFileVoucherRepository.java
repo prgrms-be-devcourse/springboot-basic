@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Profile("dev")
+@Profile({"prod", "dev"})
 @Repository
 public class JSONFileVoucherRepository implements VoucherRepository, DisposableBean {
     private final Map<UUID, Voucher> voucherMap;
