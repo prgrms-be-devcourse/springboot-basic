@@ -30,8 +30,8 @@ public class DBVoucherRepository implements VoucherRepository {
     @Override
     public Voucher insert(Voucher voucher) {
         String sql = "INSERT INTO VOUCHERS VALUES(UUID_TO_BIN(?), ?, ?)";
-        int update = jdbcTemplate.update(sql, voucher.getVoucherId().toString(), voucher.getAmount(), voucher.getType());
-        if (update != 1) {
+        int insert = jdbcTemplate.update(sql, voucher.getVoucherId().toString(), voucher.getAmount(), voucher.getType());
+        if (insert != 1) {
             throw new DataAccessException(this.getClass() + " " + ExceptionMessage.INSERT_QUERY_FAILED.getMessage());
         }
         return voucher;
@@ -62,11 +62,23 @@ public class DBVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher update(Voucher voucher) {
-        return null;
+        String voucherId = voucher.getVoucherId().toString();
+        long voucherAmount = voucher.getAmount();
+        String voucherType = voucher.getType();
+        String sql = "UPDATE VOUCHERS SET AMOUNT = ?, TYPE = ? WHERE VOUCHER_ID = UUID_TO_BIN(?)";
+        int update = jdbcTemplate.update(sql, voucherAmount, voucherType, voucherId);
+        if (update != 1) {
+            throw new DataAccessException(this.getClass() + " " + ExceptionMessage.UPDATE_QUERY_FAILED.getMessage());
+        }
+        return voucher;
     }
 
     @Override
     public void delete(UUID voucherId) {
-
+        String sql = "DELETE FROM VOUCHERS WHERE VOUCHER_ID = UUID_TO_BIN(?)";
+        int delete = jdbcTemplate.update(sql, voucherId.toString());
+        if (delete != 1) {
+            throw new DataAccessException(this.getClass() + " " + ExceptionMessage.DELETE_QUERY_FAILED.getMessage());
+        }
     }
 }
