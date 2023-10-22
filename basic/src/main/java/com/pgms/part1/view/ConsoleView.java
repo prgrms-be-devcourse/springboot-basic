@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 public class ConsoleView {
-    private TextIO textIO = TextIoFactory.getTextIO();
+    private final TextIO textIO = TextIoFactory.getTextIO();
 
     public VoucherMenuRequestDto init(){
         String command = textIO.newStringInputReader()
@@ -62,7 +62,7 @@ public class ConsoleView {
         );
     }
 
-    public void error(RuntimeException e){
+    public void error(Exception e){
         System.out.println("\n" + e.getMessage());
     }
 }
