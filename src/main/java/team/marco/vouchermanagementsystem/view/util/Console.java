@@ -1,4 +1,4 @@
-package team.marco.vouchermanagementsystem.util;
+package team.marco.vouchermanagementsystem.view.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

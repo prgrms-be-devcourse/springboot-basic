@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import team.marco.vouchermanagementsystem.view.ConsoleVoucherApplication;
 
 @SpringBootApplication
 public class VoucherManagementSystemApplication {
@@ -15,7 +16,7 @@ public class VoucherManagementSystemApplication {
 
         logger.info("Program start {}", context.getEnvironment().getActiveProfiles());
 
-        VoucherApplication application = context.getBean(VoucherApplication.class);
+        ConsoleVoucherApplication application = context.getBean(ConsoleVoucherApplication.class);
         application.run();
 
         logger.info("Program exit");

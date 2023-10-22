@@ -14,9 +14,7 @@ public class BlacklistService {
         this.blacklistRepository = blacklistRepository;
     }
 
-    public List<String> getBlacklist() {
-        return blacklistRepository.findAll().stream()
-                .map(User::getInfo)
-                .toList();
+    public List<User> getBlacklist() {
+        return blacklistRepository.findAll();
     }
 }

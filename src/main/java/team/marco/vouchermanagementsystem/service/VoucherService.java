@@ -26,9 +26,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
-    public List<String> getVouchersInfo() {
-        return voucherRepository.findAll().stream()
-                .map(Object::toString)
-                .toList();
+    public List<Voucher> getVouchers() {
+        return voucherRepository.findAll();
     }
 }

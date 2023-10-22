@@ -1,26 +1,26 @@
-package team.marco.vouchermanagementsystem;
+package team.marco.vouchermanagementsystem.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import team.marco.vouchermanagementsystem.service.BlacklistService;
-import team.marco.vouchermanagementsystem.service.VoucherService;
-import team.marco.vouchermanagementsystem.util.Console;
+import team.marco.vouchermanagementsystem.controller.UserController;
+import team.marco.vouchermanagementsystem.controller.VoucherController;
+import team.marco.vouchermanagementsystem.view.util.Console;
 
 import java.io.UncheckedIOException;
 
 @Component
-public class VoucherApplication {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
+public class ConsoleVoucherApplication {
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleVoucherApplication.class);
 
-    private final VoucherService voucherService;
-    private final BlacklistService blacklistService;
+    private final VoucherController voucherController;
+    private final UserController userController;
 
     private Boolean isRunning;
 
-    public VoucherApplication(VoucherService service, BlacklistService blacklistService) {
-        this.voucherService = service;
-        this.blacklistService = blacklistService;
+    public ConsoleVoucherApplication(VoucherController voucherController, UserController userController) {
+        this.voucherController = voucherController;
+        this.userController = userController;
         this.isRunning = true;
     }
 
@@ -75,7 +75,7 @@ public class VoucherApplication {
         Console.print("할인율을 입력해 주세요.");
         int percent = Console.readInt();
 
-        voucherService.createPercentDiscountVoucher(percent);
+        voucherController.createPercentDiscountVoucher(percent);
     }
 
     private void createFixedAmountVoucher() {
@@ -84,19 +84,19 @@ public class VoucherApplication {
         Console.print("할인 금액을 입력해 주세요.");
         int amount = Console.readInt();
 
-        voucherService.createFixedAmountVoucher(amount);
+        voucherController.createFixedAmountVoucher(amount);
     }
 
     private void getVoucherList() {
         logger.info("Call getVoucherList()");
 
-        Console.printList(voucherService.getVouchersInfo());
+        Console.printList(voucherController.getVouchersInfo());
     }
 
     private void getBlacklist() {
         logger.info("Call getBlackListUsers()");
 
-        Console.printList(blacklistService.getBlacklist());
+        Console.printList(userController.getBlacklistInfo());
     }
 
     private void close() {
