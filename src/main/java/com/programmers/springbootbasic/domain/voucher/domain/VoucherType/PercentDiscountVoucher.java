@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher.domain.VoucherType;
 
+import static com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherTypeEnum.PERCENT;
 import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_PERCENT_VOUCHER_BENEFIT;
 
 import com.programmers.springbootbasic.exception.exceptionClass.VoucherException;
@@ -14,7 +15,7 @@ public class PercentDiscountVoucher implements VoucherType{
 
     @Override
     public String getVoucherTypeName() {
-        return "PERCENT";
+        return PERCENT.name();
     }
 
     @Override
