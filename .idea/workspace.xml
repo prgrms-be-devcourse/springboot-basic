@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a10440c-03f8-4273-8489-7655cb168499" name="Changes" comment="" />
+    <list default="true" id="8a10440c-03f8-4273-8489-7655cb168499" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,7 +107,7 @@
       <recent name="$PROJECT_DIR$/basic" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.DemoApplication">
+  <component name="RunManager" selected="Spring Boot.VoucherApplication">
     <configuration name="basic [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -150,10 +152,10 @@
       <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
-    <configuration name="DemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <configuration name="VoucherApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ACTIVE_PROFILES" value="file" />
       <module name="demo.main" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pgms.part1.DemoApplication" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.pgms.part1.VoucherApplication" />
       <extension name="software.aws.toolkits.jetbrains.core.execution.JavaAwsConnectionExtension">
         <option name="credential" />
         <option name="region" />
@@ -166,7 +168,7 @@
     <list>
       <item itemvalue="Gradle.basic [build]" />
       <item itemvalue="Gradle.basic [test]" />
-      <item itemvalue="Spring Boot.DemoApplication" />
+      <item itemvalue="Spring Boot.VoucherApplication" />
     </list>
     <recent_temporary>
       <list>
@@ -190,7 +192,7 @@
       <workItem from="1697728587611" duration="1824000" />
       <workItem from="1697730424168" duration="2999000" />
       <workItem from="1697761465613" duration="2826000" />
-      <workItem from="1697961782259" duration="2003000" />
+      <workItem from="1697961782259" duration="2587000" />
     </task>
     <servers />
   </component>
