@@ -13,6 +13,12 @@ public class Customer {
         this.isBlack = isBlack;
     }
 
+    public Customer(UUID userId, String name) {
+        this.userId = userId;
+        this.name = name;
+        this.isBlack = false;
+    }
+
     public UUID getUserId() {
         return userId;
     }

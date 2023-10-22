@@ -1,27 +1,36 @@
 package org.prgrms.prgrmsspring.domain;
 
 import org.prgrms.prgrmsspring.controller.ApplicationController;
+import org.prgrms.prgrmsspring.controller.CustomerController;
+import org.prgrms.prgrmsspring.controller.VoucherController;
 
 import java.util.function.Consumer;
 
 public enum Command {
-    EXIT("exit the program.", ApplicationController::exit),
-    CREATE("create a new voucher.", ApplicationController::create),
-    UPDATE("update a voucher.", ApplicationController::update),
-    DELETE("delete a voucher", ApplicationController::delete),
-    LIST("list all vouchers.", ApplicationController::list),
-    BLACKLIST("list all blacklist people", ApplicationController::showBlackList);
+    EXIT("exit the program.", controller -> ((VoucherController) controller).exit(), VoucherController.class),
+    CREATE_VOUCHER("create a new voucher.", controller -> ((VoucherController) controller).create(), VoucherController.class),
+    UPDATE_VOUCHER("update a voucher.", controller -> ((VoucherController) controller).update(), VoucherController.class),
+    DELETE_VOUCHER("delete a voucher", controller -> ((VoucherController) controller).delete(), VoucherController.class),
+    LIST_ALL_VOUCHERS("list all vouchers.", controller -> ((VoucherController) controller).list(), VoucherController.class),
+    LIST_ALL_BLACK("list all blacklist people", controller -> ((CustomerController) controller).showBlackList(), CustomerController.class);
 
     private final String document;
     private final Consumer<ApplicationController> consumer;
+    private final Class<? extends ApplicationController> controllerClass;
 
-    Command(String document, Consumer<ApplicationController> consumer) {
+
+    Command(String document, Consumer<ApplicationController> consumer, Class<? extends ApplicationController> controllerClass) {
         this.document = document;
         this.consumer = consumer;
+        this.controllerClass = controllerClass;
     }
 
     public String getDocument() {
         return document;
+    }
+
+    public Class<? extends ApplicationController> getControllerClass() {
+        return controllerClass;
     }
 
     public static Command of(String name) throws IllegalArgumentException {
