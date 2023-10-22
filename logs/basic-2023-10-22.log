@@ -189,3 +189,8 @@ Caused by: java.lang.RuntimeException: can not load file!!
 	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
 	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
 	... 62 common frames omitted
+19:03:00.306 [main] INFO  com.pgms.part1.VoucherApplication - Starting VoucherApplication using Java 17.0.6 with PID 4331 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
+19:03:00.306 [main] INFO  com.pgms.part1.VoucherApplication - The following 1 profile is active: "dev"
+19:03:00.461 [main] INFO  c.pgms.part1.util.file.FileService - file loaded
+19:03:00.463 [main] INFO  c.pgms.part1.util.file.FileService - file loaded
+19:03:00.490 [main] INFO  com.pgms.part1.VoucherApplication - Started VoucherApplication in 0.322 seconds (process running for 0.664)
