@@ -1,4 +1,4 @@
-package java.com.pgms.part1.domain.voucher.controller;
+package com.pgms.part1.domain.voucher.controller;
 
 import com.pgms.part1.domain.customer.controller.CustomerController;
 import com.pgms.part1.domain.customer.service.CustomerService;

@@ -1,4 +1,4 @@
-package java.com.pgms.part1.domain.voucher.entity;
+package com.pgms.part1.domain.voucher.entity;
 
 public enum VoucherDiscountType {
     FIXED_AMOUNT_DISCOUNT("Fixed Amount Discount","Amount"),

@@ -1,4 +1,4 @@
-package java.com.pgms.part1.domain.voucher.service;
+package com.pgms.part1.domain.voucher.service;
 
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.entity.FixedAmountDiscountVoucher;

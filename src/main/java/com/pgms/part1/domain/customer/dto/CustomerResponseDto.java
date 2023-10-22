@@ -1,4 +1,4 @@
-package java.com.pgms.part1.domain.customer.dto;
+package com.pgms.part1.domain.customer.dto;
 
 import java.util.UUID;
 

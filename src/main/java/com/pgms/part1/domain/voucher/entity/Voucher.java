@@ -1,4 +1,4 @@
-package java.com.pgms.part1.domain.voucher.entity;
+package com.pgms.part1.domain.voucher.entity;
 
 import java.util.UUID;
 

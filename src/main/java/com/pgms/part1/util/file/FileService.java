@@ -1,4 +1,4 @@
-package java.com.pgms.part1.util.file;
+package com.pgms.part1.util.file;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import java.util.List;
 
 @Service
 public class FileService {
-
     private final Logger log = LoggerFactory.getLogger(FileService.class);
 
     public List<String[]> loadFile(String file_path) {

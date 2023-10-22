@@ -4,5 +4,5 @@ spring:
 
 file:
   path:
-    voucher: basic/csv/voucher.csv
-    customer: basic/csv/customer.csv
+    voucher: csv/voucher.csv
+    customer: csv/customer.csv

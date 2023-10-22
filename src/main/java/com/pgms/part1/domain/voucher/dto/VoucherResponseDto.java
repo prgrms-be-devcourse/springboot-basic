@@ -1,4 +1,4 @@
-package java.com.pgms.part1.domain.voucher.dto;
+package com.pgms.part1.domain.voucher.dto;
 
 import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 

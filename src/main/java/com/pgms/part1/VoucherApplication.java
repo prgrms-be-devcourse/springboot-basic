@@ -1,4 +1,4 @@
-package java.com.pgms.part1;
+package com.pgms.part1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

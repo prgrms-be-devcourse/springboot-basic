@@ -1,4 +1,4 @@
-package java.com.pgms.part1.domain.voucher.repository;
+package com.pgms.part1.domain.voucher.repository;
 
 import com.pgms.part1.domain.voucher.entity.Voucher;
 

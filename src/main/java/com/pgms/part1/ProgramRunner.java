@@ -1,6 +1,7 @@
-package java.com.pgms.part1;
+package com.pgms.part1;
 
 import com.pgms.part1.domain.voucher.controller.VoucherController;
+import com.pgms.part1.util.file.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

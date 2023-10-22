@@ -1,4 +1,4 @@
-package java.com.pgms.part1.domain.customer.service;
+package com.pgms.part1.domain.customer.service;
 
 import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
 import com.pgms.part1.domain.customer.repository.CustomerRepository;
