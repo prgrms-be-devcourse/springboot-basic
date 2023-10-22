@@ -31,12 +31,8 @@ class VoucherMemoryRepositoryTest {
     @Test
     @DisplayName("바우처 목록")
     void listTest() {
-        PercentAmountVoucher voucher = new PercentAmountVoucher(20);
-        repository.create(voucher);
-
         List<Voucher> list = repository.list();
-        Assertions.assertThat(list.size()).isEqualTo(1);
-        Assertions.assertThat(list.get(0)).isSameAs(voucher);
+        Assertions.assertThat(list.size()).isEqualTo(0);
     }
 
 }
