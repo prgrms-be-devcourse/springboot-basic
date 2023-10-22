@@ -68,10 +68,7 @@ class CommandHandlerTest {
         InputStream in = new ByteArrayInputStream(command.getBytes());
         System.setIn(in);
 
-        log.info("pass");
-
         Command commandEnum = handler.getCommand();
-        log.info("pass");
         assertThat(commandEnum).isEqualTo(Command.CREATE);
     }
 
