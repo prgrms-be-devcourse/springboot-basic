@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.*;
 
-@Profile("file")
+@Profile("dev")
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
     private final Logger log = LoggerFactory.getLogger(VoucherFileRepository.class);
