@@ -12,7 +12,6 @@ import java.util.List;
 @Component
 public class VoucherApplication {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
-    private static final String INFO_DELIMINATOR = "\n";
 
     private final VoucherService voucherService;
     private final BlacklistService blacklistService;
@@ -100,23 +99,13 @@ public class VoucherApplication {
     private void getVoucherList() {
         logger.info("Call getVoucherList()");
 
-        printList(voucherService.getVouchersInfo());
+        Console.printList(voucherService.getVouchersInfo());
     }
 
     private void getBlacklist() {
         logger.info("Call getBlackListUsers()");
 
-        printList(blacklistService.getBlacklist());
-    }
-
-    private void printList(List<String> list) {
-        String joinedString = String.join(INFO_DELIMINATOR, list);
-
-        if (!joinedString.isBlank()) {
-            Console.print(joinedString);
-        }
-
-        Console.print("조회가 완료되었습니다.");
+        Console.printList(blacklistService.getBlacklist());
     }
 
     private void close() {
