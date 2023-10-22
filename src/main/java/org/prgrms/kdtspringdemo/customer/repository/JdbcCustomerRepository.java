@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,7 +46,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Map<UUID, Customer>> getAllBlackList() throws IOException {
-        return Optional.empty();
+    public Optional<List<Customer>> getAllBlackList() throws IOException {
+        return Optional.of(jdbcTemplate.query("select * from customers where is_black = ?", customerRowMapper,true));
     }
 }

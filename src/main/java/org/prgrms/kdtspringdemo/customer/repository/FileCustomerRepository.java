@@ -6,11 +6,8 @@ import org.prgrms.kdtspringdemo.file.CsvFileHandler;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository{
@@ -23,8 +20,8 @@ public class FileCustomerRepository implements CustomerRepository{
 
     public void initCsvFileHandler(String filePath) { this.csvFileHandler = new CsvFileHandler(filePath);}
     @Override
-    public Optional<Map<UUID, Customer>> getAllBlackList() throws IOException {
-        Map<UUID, Customer> customerMap = new ConcurrentHashMap<>();
+    public Optional<List<Customer>> getAllBlackList() throws IOException {
+        List<Customer> customerList = new ArrayList<>();
 
         List<CSVRecord> data = csvFileHandler.readCSV();
         data.stream()
@@ -35,8 +32,8 @@ public class FileCustomerRepository implements CustomerRepository{
                     boolean isBlack = true;
 
                     Customer customer = new Customer(customerId, name, isBlack);
-                    customerMap.put(customerId, customer);
+                    customerList.add(customer);
                 });
-        return Optional.of(customerMap);
+        return Optional.of(customerList);
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,7 +54,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("블랙리스트 고객 리스트를 확인합니다.")
     void getAllBlackList() throws IOException {
         //when
-        Map<UUID, Customer> customerMap = fileCustomerRepository.getAllBlackList().get();
+        List customerMap = fileCustomerRepository.getAllBlackList().get();
 
         //then
         assertThat(customerMap.size(), is(2));

@@ -6,7 +6,7 @@ import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -19,7 +19,7 @@ public class CustomerController {
     }
 
     public void printAllBlackListCustomer() throws IOException {
-        Map<UUID, Customer> customerMap = customerService.getBlackListCustomers();
-        customerMap.values().stream().forEach(customer -> outputConsole.printCustomer(customer));
+        List<Customer> customerList = customerService.getBlackListCustomers();
+        customerList.stream().forEach(customer -> outputConsole.printCustomer(customer));
     }
 }
