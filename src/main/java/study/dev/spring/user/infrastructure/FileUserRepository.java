@@ -13,6 +13,7 @@ import study.dev.spring.common.utils.FileUtils;
 import study.dev.spring.user.domain.User;
 import study.dev.spring.user.domain.UserRepository;
 import study.dev.spring.user.infrastructure.dto.UserData;
+import study.dev.spring.user.infrastructure.dto.UserMapper;
 
 @Repository
 public class FileUserRepository implements UserRepository {
@@ -48,7 +49,7 @@ public class FileUserRepository implements UserRepository {
 		List<Object> fileData = fileUtils.readFile(filePath, UserData.class);
 		fileData.forEach(data -> {
 			UserData userData = (UserData)data;
-			storage.add(userData.toUser());
+			storage.add(UserMapper.toUser(userData));
 		});
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import study.dev.spring.voucher.application.dto.CreateVoucherRequest;
+import study.dev.spring.voucher.application.dto.VoucherMapper;
 import study.dev.spring.voucher.application.dto.VoucherInfo;
 import study.dev.spring.voucher.domain.Voucher;
 import study.dev.spring.voucher.domain.VoucherRepository;
@@ -17,7 +18,6 @@ public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
 
-	//값을 하나하나빼는 로직을 따로 빼서 사용
 	public void createVoucher(final CreateVoucherRequest request) {
 		Voucher newVoucher = Voucher.of(
 			VoucherType.valueOf(request.voucherType()),
@@ -31,12 +31,7 @@ public class VoucherService {
 	public List<VoucherInfo> findAllVouchers() {
 		return voucherRepository.findAll()
 			.stream()
-			.map(voucher ->
-				new VoucherInfo(
-					voucher.getName(),
-					voucher.getTypeDescription(),
-					voucher.getDiscountAmount()
-				)
-			).toList();
+			.map(VoucherMapper::toVoucherInfo)
+			.toList();
 	}
 }
