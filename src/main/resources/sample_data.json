@@ -1,26 +1,12 @@
 [
   {
-    "id": "369b3d5c-2e5d-48e4-9641-b146cb880030",
-    "amount": 10000,
-    "type": "FIXED",
-    "info": "10,000원 할인 쿠폰"
+    "id": "bf095f82-7c2e-446d-9dd4-81a752bc7f8e",
+    "percent": 50,
+    "type": "PERCENT"
   },
   {
-    "id": "707787f7-7d16-45fc-82e4-b1c8880e3aaa",
-    "percent": 20,
-    "type": "PERCENT",
-    "info": "20% 할인 쿠폰"
-  },
-  {
-    "id": "c35fa9d5-953f-4f32-8dbd-3a84ddbd362a",
-    "amount": 100,
-    "type": "FIXED",
-    "info": "100원 할인 쿠폰"
-  },
-  {
-    "id": "2d0e57b0-f500-4449-9d8c-ed2df6b93074",
-    "amount": 5000,
-    "type": "FIXED",
-    "info": "5,000원 할인 쿠폰"
+    "amount": 1000,
+    "id": "b3f3d7c7-44b5-4d32-a442-d77c29ebac99",
+    "type": "FIXED"
   }
 ]

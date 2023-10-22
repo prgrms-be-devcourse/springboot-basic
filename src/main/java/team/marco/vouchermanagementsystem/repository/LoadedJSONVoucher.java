@@ -1,16 +1,15 @@
 package team.marco.vouchermanagementsystem.repository;
 
-import team.marco.vouchermanagementsystem.model.FixedAmountVoucher;
-import team.marco.vouchermanagementsystem.model.PercentDiscountVoucher;
-import team.marco.vouchermanagementsystem.model.Voucher;
-import team.marco.vouchermanagementsystem.model.VoucherType;
+import team.marco.vouchermanagementsystem.model.voucher.FixedAmountVoucher;
+import team.marco.vouchermanagementsystem.model.voucher.PercentDiscountVoucher;
+import team.marco.vouchermanagementsystem.model.voucher.Voucher;
+import team.marco.vouchermanagementsystem.model.voucher.VoucherType;
 
 import java.util.UUID;
 
 public class LoadedJSONVoucher {
     private UUID id;
     private VoucherType type;
-    private String info;
     private int amount;
     private int percent;
 
@@ -31,10 +30,6 @@ public class LoadedJSONVoucher {
 
     public VoucherType getType() {
         return type;
-    }
-
-    public String getInfo() {
-        return info;
     }
 
     public int getAmount() {

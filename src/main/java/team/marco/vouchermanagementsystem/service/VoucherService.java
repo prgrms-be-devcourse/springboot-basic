@@ -1,9 +1,9 @@
 package team.marco.vouchermanagementsystem.service;
 
 import org.springframework.stereotype.Service;
-import team.marco.vouchermanagementsystem.model.FixedAmountVoucher;
-import team.marco.vouchermanagementsystem.model.PercentDiscountVoucher;
-import team.marco.vouchermanagementsystem.model.Voucher;
+import team.marco.vouchermanagementsystem.model.voucher.FixedAmountVoucher;
+import team.marco.vouchermanagementsystem.model.voucher.PercentDiscountVoucher;
+import team.marco.vouchermanagementsystem.model.voucher.Voucher;
 import team.marco.vouchermanagementsystem.repository.VoucherRepository;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class VoucherService {
 
     public List<String> getVouchersInfo() {
         return voucherRepository.findAll().stream()
-                .map(Voucher::getInfo)
+                .map(Object::toString)
                 .toList();
     }
 }

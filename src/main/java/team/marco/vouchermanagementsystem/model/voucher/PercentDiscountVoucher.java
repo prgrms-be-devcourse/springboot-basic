@@ -1,29 +1,31 @@
-package team.marco.vouchermanagementsystem.model;
+package team.marco.vouchermanagementsystem.model.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 
 import static java.text.MessageFormat.format;
+import static team.marco.vouchermanagementsystem.model.voucher.VoucherType.*;
 
-public class PercentDiscountVoucher implements Voucher {
-    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+public class PercentDiscountVoucher extends Voucher {
+    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
-    private final UUID id;
+    private final VoucherType type = PERCENT;
     private final int percent;
 
     public PercentDiscountVoucher(int percent) {
         validate(percent);
 
-        this.id = UUID.randomUUID();
         this.percent = percent;
 
-        logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", id, percent);
+        logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", getId(), percent);
     }
 
     public PercentDiscountVoucher(UUID id, int percent) {
-        this.id = id;
+       super(id);
+
         this.percent = percent;
     }
 
@@ -38,21 +40,16 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public UUID getId() {
-        return id;
-    }
-
-    @Override
-    public String getInfo() {
-        return format("{0}% 할인 쿠폰", percent);
-    }
-
-    @Override
     public VoucherType getType() {
-        return VoucherType.PERCENT;
+        return type;
     }
 
     public int getPercent() {
         return percent;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat.format("PercentDiscountVoucher'{'type={0}, percent={1}'}'", type, percent);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
-import team.marco.vouchermanagementsystem.model.Voucher;
+import team.marco.vouchermanagementsystem.model.voucher.Voucher;
 
 import java.io.File;
 import java.io.IOException;
