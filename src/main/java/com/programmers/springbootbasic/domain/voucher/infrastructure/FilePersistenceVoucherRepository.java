@@ -17,16 +17,15 @@ import org.springframework.stereotype.Repository;
 @Primary
 public class FilePersistenceVoucherRepository implements VoucherRepository {
 
-    private final List<FileManager> fileManagerList;
     private FileManager fileManager;
-    private String fileName;
+    private final String fileName;
 
-    public FilePersistenceVoucherRepository(List<FileManager> fileManagerList, @Value("${file.voucher.path}") String fileName) {
-        this.fileManagerList = fileManagerList;
+    public FilePersistenceVoucherRepository(List<FileManager> fileManagerList,
+        @Value("${file.voucher.path}") String fileName) {
         this.fileName = fileName;
-        fileManagerList.stream().filter((fm) -> fm.supports(fileName))
+        fileManagerList.stream().filter(fm -> fm.supports(fileName))
             .findFirst()
-            .ifPresentOrElse((fm) -> this.fileManager = fm, () -> {
+            .ifPresentOrElse(fm -> this.fileManager = fm, () -> {
                 throw new VoucherException(INVALID_FILE_PATH);
             });
     }
