@@ -4,8 +4,8 @@ import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.Voucher
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
 
 public class CreateVoucherRequest {
-    private VoucherTypeEnum voucherTypeEnum;
-    private Integer benefitValue;
+    private final VoucherTypeEnum voucherTypeEnum;
+    private final Integer benefitValue;
 
     private CreateVoucherRequest(VoucherTypeEnum voucherTypeEnum, Integer benefitValue) {
         this.voucherTypeEnum = voucherTypeEnum;
