@@ -3,10 +3,12 @@ package org.prgrms.prgrmsspring.domain;
 import org.prgrms.prgrmsspring.controller.ApplicationController;
 import org.prgrms.prgrmsspring.controller.CustomerController;
 import org.prgrms.prgrmsspring.controller.VoucherController;
+import org.prgrms.prgrmsspring.controller.WalletController;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.exception.NotFoundException;
 import org.prgrms.prgrmsspring.service.CustomerService;
 import org.prgrms.prgrmsspring.service.VoucherService;
+import org.prgrms.prgrmsspring.service.WalletService;
 import org.prgrms.prgrmsspring.view.CommandLineView;
 import org.springframework.context.ApplicationContext;
 
@@ -23,6 +25,11 @@ public enum ControllerType {
         VoucherService voucherService = applicationContext.getBean(VoucherService.class);
         CommandLineView commandLineView = applicationContext.getBean(CommandLineView.class);
         return new VoucherController(commandLineView, voucherService);
+    }),
+    WALLET(3, WalletController.class, applicationContext -> {
+        WalletService walletService = applicationContext.getBean(WalletService.class);
+        CommandLineView commandLineView = applicationContext.getBean(CommandLineView.class);
+        return new WalletController(commandLineView, walletService);
     });
 
     private final int modeNumber;

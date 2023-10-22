@@ -3,6 +3,7 @@ package org.prgrms.prgrmsspring.domain;
 import org.prgrms.prgrmsspring.controller.ApplicationController;
 import org.prgrms.prgrmsspring.controller.CustomerController;
 import org.prgrms.prgrmsspring.controller.VoucherController;
+import org.prgrms.prgrmsspring.controller.WalletController;
 
 import java.util.function.Consumer;
 
@@ -16,7 +17,8 @@ public enum Command {
     UPDATE_CUSTOMER("update a customer", controller -> ((CustomerController) controller).update(), CustomerController.class),
     DELETE_CUSTOMER("delete a customer", controller -> ((CustomerController) controller).delete(), CustomerController.class),
     LIST_ALL_CUSTOMERS("list all customers.", controller -> ((CustomerController) controller).findAll(), CustomerController.class),
-    LIST_ALL_BLACK("list all blacklist customers.", controller -> ((CustomerController) controller).findAllBlackList(), CustomerController.class);
+    LIST_ALL_BLACK("list all blacklist customers.", controller -> ((CustomerController) controller).findAllBlackList(), CustomerController.class),
+    CREATE_WALLET("allocate voucher to specific customer", controller -> ((WalletController) controller).create(), WalletController.class);
     private final String document;
     private final Consumer<ApplicationController> consumer;
     private final Class<? extends ApplicationController> controllerClass;

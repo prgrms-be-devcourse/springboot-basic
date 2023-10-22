@@ -44,11 +44,11 @@ public class CommandLineView {
         return VoucherType.from(voucherModeNum);
     }
 
-    private Long inputVoucherAmount() {
+    public Long inputVoucherAmount() {
         return textIO.newLongInputReader().read("Input voucher amount");
     }
 
-    private UUID inputVoucherId() {
+    public UUID inputVoucherId() {
         return UUID.fromString(textIO.newStringInputReader().read("Input voucherId"));
     }
 
@@ -69,7 +69,7 @@ public class CommandLineView {
         return inputVoucherId();
     }
 
-    private UUID inputCustomerId() {
+    public UUID inputCustomerId() {
         return UUID.fromString(textIO.newStringInputReader().read("Input customerId"));
     }
 
@@ -108,5 +108,8 @@ public class CommandLineView {
         return textIO.newStringInputReader().read();
     }
 
+    public <T> void print(T obj) {
+        textTerminal.println(obj.toString());
+    }
 
 }
