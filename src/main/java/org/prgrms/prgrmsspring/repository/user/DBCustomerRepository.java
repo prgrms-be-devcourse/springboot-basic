@@ -31,7 +31,9 @@ public class DBCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findBlackAll() {
-        return null;
+        String sql = "SELECT * FROM CUSTOMERS WHERE IS_BLACK = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes("CUSTOMER_ID")), rs.getString("NAME"), rs.getBoolean("IS_BLACK")),
+                true);
     }
 
     @Override
