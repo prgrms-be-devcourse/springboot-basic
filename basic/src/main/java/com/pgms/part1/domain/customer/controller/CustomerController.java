@@ -17,7 +17,7 @@ public class CustomerController {
         this.consoleView = consoleView;
     }
 
-    public void blackList(){
+    public void listBlockedCustomers(){
         List<CustomerResponseDto> customerResponseDtos = customerService.listBlockedCustomers();
         consoleView.listBlockedCustomers(customerResponseDtos);
     }
