@@ -3,15 +3,16 @@ package com.programmers.springbootbasic.mediator;
 import java.util.Optional;
 
 public class ConsoleResponse<T> {
-    private T body;
-    private String message;
+
+    private final String message;
+    private final T body;
+
+    public ConsoleResponse(String message) {
+        this(null, message);
+    }
 
     public ConsoleResponse(T body, String message) {
         this.body = body;
-        this.message = message;
-    }
-
-    public ConsoleResponse(String message) {
         this.message = message;
     }
 
