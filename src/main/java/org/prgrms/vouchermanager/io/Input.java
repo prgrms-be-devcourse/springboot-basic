@@ -34,4 +34,19 @@ public class Input {
         String name = br.readLine();
         return name;
     }
+
+    public String inputCustomerEmail() throws IOException{
+        String email = br.readLine();
+        return email;
+    }
+    public String inputCustomerisBlack() throws IOException{
+        String isBlack = br.readLine();
+        return isBlack;
+    }
+
+    // ---------Wallet 메뉴 관련
+
+
+
+
 }
