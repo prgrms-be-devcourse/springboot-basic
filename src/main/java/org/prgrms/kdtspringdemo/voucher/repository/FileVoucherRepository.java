@@ -24,8 +24,8 @@ public class FileVoucherRepository implements VoucherRepository{
         this.csvFileHandler = new CsvFileHandler(filePath);
     }
 
-    public void initCsvFileHandler(CsvFileHandler csvFileHandler) {
-        this.csvFileHandler = csvFileHandler;
+    public void initCsvFileHandler(String filePath) {
+        this.csvFileHandler = new CsvFileHandler(filePath);
     }
 
     @Override

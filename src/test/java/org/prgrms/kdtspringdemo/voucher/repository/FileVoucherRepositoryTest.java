@@ -35,13 +35,14 @@ class FileVoucherRepositoryTest {
     }
     @Autowired
     private FileVoucherRepository fileVoucherRepository;
+    private final String filePath = "src/test/resources/test_voucherList";
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepositoryTest.class);
 
 
     @BeforeAll
     void init() throws IOException {
-        fileVoucherRepository.initCsvFileHandler(new CsvFileHandler("src/test/resources/test_voucherList"));
-        try(FileWriter fileWriter = new FileWriter("src/test/resources/test_voucherList");
+        fileVoucherRepository.initCsvFileHandler(filePath);
+        try(FileWriter fileWriter = new FileWriter(filePath);
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader("voucherId", "amount", "voucherType"));) {
             csvPrinter.printRecord(UUID.randomUUID().toString(), 100, "fixedAmount");
         } catch (IOException e) {
