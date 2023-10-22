@@ -49,7 +49,7 @@ public enum VoucherTypeFunction {
                 .findFirst()
                 .orElseThrow(() -> {
                     logger.error("해당 타입의 바우처가 존재하지 않습니다.");
-                    return new NoSuchElementException("해당 타입의 바우처가 존재하지 않습니다.");
+                    return new NoSuchElementException();
                 });
     }
 

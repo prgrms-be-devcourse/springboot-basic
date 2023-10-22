@@ -38,8 +38,8 @@ public class VoucherService {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> {
-                    logger.error(MessageFormat.format("Can not fnd a voucher for {0}", voucherId));
-                    return new RuntimeException(MessageFormat.format("Can not fnd a voucher for {0}", voucherId));
+                    logger.error(MessageFormat.format("Can not find a voucher for {0}", voucherId));
+                    return new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId));
                 });
     }
 
