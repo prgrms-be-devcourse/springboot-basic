@@ -13,7 +13,7 @@ public class FileService {
 
     private final Logger log = LoggerFactory.getLogger(FileService.class);
 
-    public List<String[]> loadfile(String file_path) {
+    public List<String[]> loadFile(String file_path) {
         List<String[]> infoList = new ArrayList<>();
         try(BufferedReader br = new BufferedReader(new FileReader(file_path))) {
             String line;

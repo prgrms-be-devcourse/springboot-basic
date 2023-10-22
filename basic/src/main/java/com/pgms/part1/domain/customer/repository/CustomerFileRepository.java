@@ -25,7 +25,7 @@ public class CustomerFileRepository implements CustomerRepository{
         file = new File(filePath);
         this.fileService = fileService;
         if(file.exists()) {
-            customerMapper(fileService.loadfile(filePath));
+            customerMapper(fileService.loadFile(filePath));
         }
     }
 

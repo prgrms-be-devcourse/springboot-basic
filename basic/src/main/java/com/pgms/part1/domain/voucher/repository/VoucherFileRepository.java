@@ -28,7 +28,7 @@ public class VoucherFileRepository implements VoucherRepository {
         if(!file.exists()) {
             fileService.createFile(file);
         }
-        voucherMapper(fileService.loadfile(filePath));
+        voucherMapper(fileService.loadFile(filePath));
     }
 
     private void voucherMapper(List<String[]> voucherInfoList){
