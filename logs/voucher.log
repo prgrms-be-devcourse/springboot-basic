@@ -1,8 +1,22 @@
-04:03:39.247 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 9752 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
-04:03:39.250 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
-04:03:40.476 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
-04:03:40.478 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
-04:03:41.196 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 2.357 seconds (process running for 3.193)
-04:03:44.782 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
-04:03:52.750 [main] INFO  c.p.v.domain.CommandHandler -- blacklist 기능 선택
-04:04:06.829 [main] ERROR c.p.v.VoucherManagerApplication -- The command is incorrect.
+17:18:30.945 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 26500 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+17:18:30.948 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+17:18:32.147 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+17:18:32.149 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
+17:18:32.776 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 2.315 seconds (process running for 3.206)
+17:18:35.413 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
+17:19:35.547 [main] INFO  c.p.v.domain.CommandHandler -- create 기능 선택
+17:19:40.755 [main] INFO  c.p.v.domain.CommandHandler -- voucher 타입: null, 할인 정보: 1000
+17:19:40.756 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 790f0d6e-7b51-49c8-90e7-247e8d55f9d7
+Discount Type : fixed discount
+Discount amount : 1000
+
+17:19:42.874 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
+17:28:48.229 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 24616 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+17:28:48.232 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+17:28:49.207 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+17:28:49.208 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository$$SpringCGLIB$$0
+17:28:49.780 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.934 seconds (process running for 2.626)
+17:28:52.793 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
+17:29:02.518 [main] INFO  c.p.v.domain.CommandHandler -- 프로그램 종료
+17:29:20.587 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- Fail to file IO.

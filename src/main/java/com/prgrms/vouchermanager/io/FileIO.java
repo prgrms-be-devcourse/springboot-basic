@@ -20,12 +20,18 @@ public class FileIO {
 
     public FileIO(String fileName) {
         this.fileName = fileName;
-        bf = new BufferedReader(getFileReader(fileName));
+        try {
+            bf = new BufferedReader(new FileReader(fileName));
+        } catch (FileNotFoundException e) {
+            FileIOException ex = new FileIOException();
+            log.error(ex.getMessage());
+            throw ex;
+        }
     }
 
     public void updateFile(Map<UUID, Voucher> vouchers) {
         try {
-            BufferedWriter bw = new BufferedWriter(getFileWriter(fileName));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(fileName));
             vouchers.forEach((key, voucher) -> {
                 UUID id = voucher.getId();
                 String type = voucher instanceof FixedAmountVoucher ? "fixed" : "percent";
@@ -88,27 +94,27 @@ public class FileIO {
         }
     }
 
-    private FileReader getFileReader(String fileName) {
-        URL resourceURL = getClass().getClassLoader().getResource(fileName);
-        try {
-            assert resourceURL != null;
-            return new FileReader(new File(resourceURL.toURI()));
-        } catch (FileNotFoundException | URISyntaxException e) {
-            RuntimeException ex = new FileIOException();
-            log.error(ex.getMessage());
-            throw ex;
-        }
-    }
+//    private FileReader getFileReader(String fileName) {
+//        URL resourceURL = getClass().getClassLoader().getResource(fileName);
+//        try {
+//            assert resourceURL != null;
+//            return new FileReader(new File(resourceURL.toURI()));
+//        } catch (FileNotFoundException | URISyntaxException e) {
+//            RuntimeException ex = new FileIOException();
+//            log.error(ex.getMessage());
+//            throw ex;
+//        }
+//    }
 
-    private FileWriter getFileWriter(String fileName) {
-        URL resourceURL = getClass().getClassLoader().getResource(fileName);
-        try {
-            assert resourceURL != null;
-            return new FileWriter(new File(resourceURL.toURI()));
-        } catch (URISyntaxException | IOException e) {
-            RuntimeException ex = new FileIOException();
-            log.error(ex.getMessage());
-            throw ex;
-        }
-    }
+//    private FileWriter getFileWriter(String fileName) {
+//        URL resourceURL = getClass().getClassLoader().getResource(fileName);
+//        try {
+//            assert resourceURL != null;
+//            return new FileWriter(new File(resourceURL.toURI()));
+//        } catch (URISyntaxException | IOException e) {
+//            RuntimeException ex = new FileIOException();
+//            log.error(ex.getMessage());
+//            throw ex;
+//        }
+//    }
 }

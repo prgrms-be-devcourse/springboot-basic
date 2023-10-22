@@ -1,6 +1,6 @@
 csv:
-  blacklist: customer_blacklist.csv
-  voucher: voucher_list.csv
+  blacklist: src/main/resources/customer_blacklist.csv
+  voucher: src/main/resources/voucher_list.csv
 
 spring:
   profiles:
