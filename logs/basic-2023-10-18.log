@@ -1,8 +1,0 @@
-19:04:34.340 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 10382 (/Users/kyunghunkim/devcourse/springboot-basic/basic/out/production/classes started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
-19:04:34.341 [main] INFO  com.pgms.part1.DemoApplication - No active profile set, falling back to 1 default profile: "default"
-19:04:34.533 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.343 seconds (process running for 0.668)
-19:04:40.135 [main] ERROR c.p.p.d.v.c.VoucherController - Invalid Create Input
-19:04:44.604 [main] INFO  c.p.p.d.v.service.VoucherService - Voucher 69de1127-8ebc-4a4e-b044-0e481b732214 added
-19:43:06.762 [main] INFO  com.pgms.part1.DemoApplication - Starting DemoApplication using Java 17.0.6 with PID 11103 (/Users/kyunghunkim/devcourse/springboot-basic/basic/build/classes/java/main started by kyunghunkim in /Users/kyunghunkim/devcourse/springboot-basic)
-19:43:06.763 [main] INFO  com.pgms.part1.DemoApplication - No active profile set, falling back to 1 default profile: "default"
-19:43:06.953 [main] INFO  com.pgms.part1.DemoApplication - Started DemoApplication in 0.324 seconds (process running for 0.686)
