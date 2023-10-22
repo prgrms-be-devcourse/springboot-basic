@@ -3,6 +3,7 @@ package org.prgrms.vouchermanager.handler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.customer.Customer;
+import org.prgrms.vouchermanager.domain.customer.CustomerRequestDto;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.prgrms.vouchermanager.exception.InputValueException;
@@ -102,9 +103,16 @@ public class Handler {
         output.outputCustomerName();
         try{
             String name = input.inputCustomerName();
-            customerController.create(name);
+            output.outputCustomerEmail();
+            String email = input.inputCustomerEmail();
+            output.outputCustomerisBlack();
+            String isBlack = input.inputCustomerisBlack();
+            CustomerRequestDto requestDto = new CustomerRequestDto(name, email, toBooleanType(isBlack));
+            customerController.create(requestDto);
         }catch (IOException e){
-            e.printStackTrace();
+            log.error(e.getMessage());
+        }catch (InputValueException e){
+            log.error(e.getMessage() + "true or false");
         }
 
     }
@@ -112,5 +120,17 @@ public class Handler {
     private void customerList() {
         List<Customer> all = customerController.list();
         all.forEach(customer -> output.print(customer.toString()));
+    }
+
+    private boolean toBooleanType(String isBlack){
+        if(isBlack.equals("true")){
+            return true;
+        }
+        else if(isBlack.equals("false")){
+            return false;
+        }
+        else{
+            throw new InputValueException();
+        }
     }
 }

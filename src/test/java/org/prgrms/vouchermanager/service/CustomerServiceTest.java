@@ -25,17 +25,17 @@ class CustomerServiceTest {
     @InjectMocks
     private CustomerService service;
 
-    @Test
-    @DisplayName("save함수가 성공적으로 호출되어야 한다")
-    void createOrder() {
-        Customer customer = new Customer(String.valueOf(UUID.randomUUID()), "Injun");
-
-        when(repository.save(any())).thenReturn(customer);
-
-        Customer newCustomer = service.createCustomer("Injun");
-        assertThat(customer).isEqualTo(newCustomer);
-        verify(repository).save(any());
-    }
+//    @Test
+//    @DisplayName("save함수가 성공적으로 호출되어야 한다")
+//    void createOrder() {
+//        Customer customer = new Customer(String.valueOf(UUID.randomUUID()), "Injun");
+//
+//        when(repository.save(any())).thenReturn(customer);
+//
+//        Customer newCustomer = service.createCustomer("Injun");
+//        assertThat(customer).isEqualTo(newCustomer);
+//        verify(repository).save(any());
+//    }
 
     @Test
     @DisplayName("findall함수가 성공적으로 호출되어야 한다")

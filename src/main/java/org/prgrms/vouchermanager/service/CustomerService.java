@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.service;
 
 import lombok.RequiredArgsConstructor;
+import org.prgrms.vouchermanager.domain.customer.CustomerRequestDto;
 import org.prgrms.vouchermanager.repository.customer.CustomerRepositroy;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,8 @@ public class CustomerService {
         return customerRepositroy.findAll();
     }
 
-    public Customer createCustomer(String name){
+    public Customer createCustomer(CustomerRequestDto requestDto){
         String customerId = String.valueOf(UUID.randomUUID());
-        return customerRepositroy.save(new Customer(customerId, name));
+        return customerRepositroy.save(new Customer(customerId, requestDto.getName(), requestDto.getEmail(), requestDto.getIsBlack()));
     }
 }

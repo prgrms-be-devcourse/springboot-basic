@@ -2,6 +2,7 @@ package org.prgrms.vouchermanager.handler;
 
 import lombok.RequiredArgsConstructor;
 import org.prgrms.vouchermanager.domain.customer.Customer;
+import org.prgrms.vouchermanager.domain.customer.CustomerRequestDto;
 import org.prgrms.vouchermanager.service.CustomerService;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class CustomerController {
         return service.findAll();
     }
 
-    public Customer create(String customerName){
-        return service.createCustomer(customerName);
+    public Customer create(CustomerRequestDto requestDto){
+        return service.createCustomer(requestDto);
     }
 }
