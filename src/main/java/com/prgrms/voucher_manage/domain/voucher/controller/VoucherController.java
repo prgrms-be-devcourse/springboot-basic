@@ -10,15 +10,14 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+import static com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher.isInvalidPrice;
+import static com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher.isInvalidPercent;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.PERCENT;
 
 @Controller
 @RequiredArgsConstructor
 public class VoucherController {
-    private static final Long MIN_DISCOUNT_PRICE = 0L;
-    private static final Long MIN_DISCOUNT_PERCENT = 0L;
-    private static final Long MAX_DISCOUNT_PERCENT = 100L;
     private final VoucherService voucherService;
 
     public void createVoucher(VoucherType voucherType, Long discountAmount) {
@@ -32,13 +31,5 @@ public class VoucherController {
 
     public List<Voucher> getVouchers() {
         return voucherService.getVouchers();
-    }
-
-    public boolean isInvalidPercent(Long discountAmount) {
-        return (discountAmount < MIN_DISCOUNT_PERCENT) || (discountAmount > MAX_DISCOUNT_PERCENT);
-    }
-
-    public boolean isInvalidPrice(Long discountAmount) {
-        return discountAmount < MIN_DISCOUNT_PRICE;
     }
 }
