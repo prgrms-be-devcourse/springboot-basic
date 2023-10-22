@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8a10440c-03f8-4273-8489-7655cb168499" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/basic/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/basic/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,12 +37,6 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="demo" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="demo" type="f1a62948:ProjectNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="build" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -99,15 +93,15 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/basic" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/basic" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/basic/csv" />
       <recent name="$PROJECT_DIR$/basic" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.VoucherApplication">
+  <component name="RunManager" selected="Gradle.basic [build]">
     <configuration name="basic [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -193,6 +187,7 @@
       <workItem from="1697730424168" duration="2999000" />
       <workItem from="1697761465613" duration="2826000" />
       <workItem from="1697961782259" duration="4826000" />
+      <workItem from="1697966635842" duration="179000" />
     </task>
     <servers />
   </component>
