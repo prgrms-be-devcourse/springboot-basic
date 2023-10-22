@@ -46,10 +46,6 @@ public class PercentDiscountVoucher extends Voucher {
         return type;
     }
 
-    public int getPercent() {
-        return percent;
-    }
-
     @Override
     public String toString() {
         return MessageFormat.format("PercentDiscountVoucher'{'type={0}, percent={1}'}'", type, percent);

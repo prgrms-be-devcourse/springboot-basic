@@ -46,10 +46,6 @@ public class FixedAmountVoucher extends Voucher {
         return type;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
     @Override
     public String toString() {
         return MessageFormat.format("FixedAmountVoucher'{'type={0}, amount={1}'}'", type, amount);
