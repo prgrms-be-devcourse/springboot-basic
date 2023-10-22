@@ -1,0 +1,34 @@
+package com.prgrms.vouchermanager.service;
+
+import com.prgrms.vouchermanager.domain.Customer;
+import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.repository.CustomerFileRepository;
+import com.prgrms.vouchermanager.repository.VoucherFileRepository;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class VoucherServiceTest {
+
+    private final String filePathV = "src/main/resources/voucher_list.csv";
+    private final String filePathC = "src/main/resources/customer_blacklist.csv";
+    private final VoucherService service = new VoucherService(new VoucherFileRepository(filePathV), new CustomerFileRepository(filePathC));
+
+    @Test
+    @DisplayName("list")
+    void listTest() {
+        List<Voucher> list = service.list();
+        Assertions.assertThat(list.size()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("blacklist")
+    void blackList() {
+        List<Customer> blacklist = service.blacklist();
+        Assertions.assertThat(blacklist.size()).isEqualTo(3);
+    }
+}

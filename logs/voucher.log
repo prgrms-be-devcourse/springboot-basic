@@ -33,3 +33,7 @@ Discount amount : 1000
 18:22:07.368 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 2.026 seconds (process running for 2.722)
 18:22:10.277 [main] ERROR c.p.v.VoucherManagerApplication -- hi는 올바른 명령어가 아닙니다.
 18:22:15.589 [main] INFO  c.p.v.domain.CommandHandler -- 프로그램 종료
+18:42:48.567 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository
+18:42:48.572 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository
+18:42:48.658 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository
+18:42:48.658 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository
