@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
+import org.prgrms.vouchermanager.repository.voucher.MemoryVoucherRepository;
+import org.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 
 import java.util.List;
 import java.util.Optional;

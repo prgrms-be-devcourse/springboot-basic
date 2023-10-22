@@ -1,7 +1,7 @@
 package org.prgrms.vouchermanager.service;
 
 import lombok.RequiredArgsConstructor;
-import org.prgrms.vouchermanager.repository.VoucherRepository;
+import org.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.springframework.stereotype.Service;
 

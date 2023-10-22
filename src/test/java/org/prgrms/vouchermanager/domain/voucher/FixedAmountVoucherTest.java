@@ -3,12 +3,8 @@ package org.prgrms.vouchermanager.domain.voucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.vouchermanager.repository.VoucherRepository;
-import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class FixedAmountVoucherTest {
     @Test

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.prgrms.vouchermanager.repository.MemoryCustomerRepository;
+import org.prgrms.vouchermanager.repository.customer.MemoryCustomerRepository;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 

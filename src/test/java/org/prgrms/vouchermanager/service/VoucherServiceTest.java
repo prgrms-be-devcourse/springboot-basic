@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
-import org.prgrms.vouchermanager.repository.MemoryVoucherRepository;
+import org.prgrms.vouchermanager.repository.voucher.MemoryVoucherRepository;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;

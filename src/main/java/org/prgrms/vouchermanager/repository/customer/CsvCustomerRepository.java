@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanager.repository;
+package org.prgrms.vouchermanager.repository.customer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
