@@ -22,6 +22,11 @@ public class DBVoucherRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    private static final String VOUCHER_ID = "VOUCHER_ID";
+    private static final String TYPE = "TYPE";
+    private static final String AMOUNT = "AMOUNT";
+
+
     public DBVoucherRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
@@ -41,8 +46,8 @@ public class DBVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         String sql = "SELECT * FROM VOUCHERS";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            VoucherType voucherType = VoucherType.from(rs.getString("TYPE"));
-            return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), rs.getLong("AMOUNT"));
+            VoucherType voucherType = VoucherType.from(rs.getString(TYPE));
+            return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID)), rs.getLong(AMOUNT));
         });
     }
 
@@ -51,8 +56,8 @@ public class DBVoucherRepository implements VoucherRepository {
         String sql = "SELECT * FROM VOUCHERS WHERE VOUCHER_ID = UUID_TO_BIN(?)";
         try {
             Voucher voucher = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
-                VoucherType voucherType = VoucherType.from(rs.getString("TYPE"));
-                return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), rs.getLong("AMOUNT"));
+                VoucherType voucherType = VoucherType.from(rs.getString(TYPE));
+                return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID)), rs.getLong(AMOUNT));
             }, voucherId);
             return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
