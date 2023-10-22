@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: dev
+
+file:
+  path:
+    voucher: csv/voucher.csv
+    customer: csv/customer.csv
