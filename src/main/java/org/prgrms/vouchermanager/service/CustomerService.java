@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepositroy customerRepositroy; //yaml 파일에서 Repository 지정
 
@@ -23,7 +22,7 @@ public class CustomerService {
     }
 
     public Customer createCustomer(CustomerRequestDto requestDto){
-        String customerId = String.valueOf(UUID.randomUUID());
+        UUID customerId = UUID.randomUUID();
         return customerRepositroy.save(new Customer(customerId, requestDto.getName(), requestDto.getEmail(), requestDto.getIsBlack()));
     }
 }

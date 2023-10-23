@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile("dev")
 public class MemoryCustomerRepository implements CustomerRepositroy{
-    Map<String, Customer> blackList = new ConcurrentHashMap<>();
+    Map<UUID, Customer> blackList = new ConcurrentHashMap<>();
 
     @Override
     public List<Customer> findAll() {

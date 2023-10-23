@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @Profile("production")
@@ -23,11 +24,6 @@ public class CsvCustomerRepository implements CustomerRepositroy{
 
     @Value("${csv.file-path}")
     private String csvFilePath;
-
-
-
-
-
     @Override
     public List<Customer> findAll() {
         BufferedReader br = null;
@@ -38,7 +34,7 @@ public class CsvCustomerRepository implements CustomerRepositroy{
             while((line = br.readLine()) != null){
                 List<String> stringList = new ArrayList<>();
                 String arr[] = line.split(",");
-                Customer customer = new Customer(arr[0], arr[1], arr[2], true);
+                Customer customer = new Customer(stringToUUID(arr[0]), arr[1], arr[2], true);
                 result.add(customer);
             }
         }catch (IOException e){
@@ -51,5 +47,14 @@ public class CsvCustomerRepository implements CustomerRepositroy{
     @Override
     public Customer save(Customer customer) {
         return null;
+    }
+
+    private static UUID stringToUUID(String uuidString) {
+        try {
+            return UUID.fromString(uuidString);
+        } catch (IllegalArgumentException e) {
+            log.error(e.getMessage());
+            return null;
+        }
     }
 }
