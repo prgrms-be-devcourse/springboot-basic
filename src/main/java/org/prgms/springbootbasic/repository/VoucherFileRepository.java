@@ -1,7 +1,7 @@
 package org.prgms.springbootbasic.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgms.springbootbasic.domain.voucher.CsvVoucherFileManager;
+import org.prgms.springbootbasic.domain.voucher.VoucherCsvFileManager;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.springframework.context.annotation.Primary;
@@ -18,13 +18,13 @@ import java.util.UUID;
 @Primary
 @Slf4j
 public class VoucherFileRepository implements VoucherRepository {
-    private final CsvVoucherFileManager csvVoucherFileManager;
+    private final VoucherCsvFileManager voucherCsvFileManager;
     private final VoucherRepository voucherRepository;
 
-    public VoucherFileRepository(CsvVoucherFileManager csvVoucherFileManager, VoucherMemoryRepository voucherRepository) {
+    public VoucherFileRepository(VoucherCsvFileManager voucherCsvFileManager, VoucherMemoryRepository voucherRepository) {
         log.debug("FileVoucherRepository started.");
 
-        this.csvVoucherFileManager = csvVoucherFileManager;
+        this.voucherCsvFileManager = voucherCsvFileManager;
         this.voucherRepository = voucherRepository;
     }
 
@@ -50,12 +50,12 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @PostConstruct
     private void fileRead(){
-        List<Voucher> vouchers = csvVoucherFileManager.read();
+        List<Voucher> vouchers = voucherCsvFileManager.read();
         vouchers.forEach(voucherRepository::create);
     }
 
     @PreDestroy
     private void fileWrite(){
-        csvVoucherFileManager.write(voucherRepository.findAll());
+        voucherCsvFileManager.write(voucherRepository.findAll());
     }
 }

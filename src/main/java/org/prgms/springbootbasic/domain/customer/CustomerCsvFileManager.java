@@ -15,7 +15,7 @@ import static org.prgms.springbootbasic.common.Util.CSV_PATTERN;
 @Component
 @Profile({"dev", "prod"})
 @Slf4j
-public class CsvCustomerFileManager {
+public class CustomerCsvFileManager {
     private static final String BLACK_PATH = "./src/main/resources/customer_blacklist.csv";
     private static final int UUID_IDX = 0;
     private static final int NAME_IDX = 1;
@@ -25,7 +25,7 @@ public class CsvCustomerFileManager {
 
     private final CsvFileTemplate<Customer> csvFileTemplate;
 
-    public CsvCustomerFileManager(CsvFileTemplate<Customer> csvFileTemplate) {
+    public CustomerCsvFileManager(CsvFileTemplate<Customer> csvFileTemplate) {
         this.csvFileTemplate = csvFileTemplate;
     }
 

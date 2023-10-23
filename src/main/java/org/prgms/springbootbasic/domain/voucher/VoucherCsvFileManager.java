@@ -15,7 +15,7 @@ import static org.prgms.springbootbasic.common.Util.CSV_PATTERN;
 @Component
 @Slf4j
 @Profile({"dev", "prod"})
-public class CsvVoucherFileManager {
+public class VoucherCsvFileManager {
     private static final String FILE_PATH = "./src/main/resources/voucher.csv";
     private static final String CSV_FIRST_LINE = "UUID,Type,DiscountValue";
     private static final int UUID_IDX = 0;
@@ -24,7 +24,7 @@ public class CsvVoucherFileManager {
 
     private final CsvFileTemplate<Voucher> csvFileTemplate;
 
-    public CsvVoucherFileManager(CsvFileTemplate<Voucher> csvFileTemplate) {
+    public VoucherCsvFileManager(CsvFileTemplate<Voucher> csvFileTemplate) {
         this.csvFileTemplate = csvFileTemplate;
     }
 
