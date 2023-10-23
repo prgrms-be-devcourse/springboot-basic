@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,6 +60,6 @@ public class FileCustomerRepository implements CustomerRepository{
             console.printMessage(ErrorMessage.FILE_FAIL_LOADING_MESSAGE);
         }
 
-        return customerList;
+        return Collections.unmodifiableList(customerList);
     }
 }

@@ -11,10 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile("dev")
@@ -67,7 +64,7 @@ public class FileVoucherRepository implements VoucherRepository{
             console.printMessage(ErrorMessage.FILE_FAIL_LOADING_MESSAGE);
         }
 
-        return voucherList;
+        return Collections.unmodifiableList(voucherList);
     }
 
     @Override
