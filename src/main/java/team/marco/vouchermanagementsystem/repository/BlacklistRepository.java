@@ -11,31 +11,28 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 @Repository
 public class BlacklistRepository {
     private static final String DELIMITER_REGULAR_EXPRESSION = "[;,]";
-    private final List<User> blacklist;
+    private static final List<User> blacklist = Collections.synchronizedList(new ArrayList<>());
 
     public BlacklistRepository(@Value("${file.path.blacklist}") String path) {
-        blacklist = load(path);
+        load(path);
     }
 
-    private List<User> load(String path) {
-        List<User> loaded = new ArrayList<>();
-
+    private void load(String path) {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
             reader.readLine(); // skip header
             reader.lines()
                     .map(s -> s.split(DELIMITER_REGULAR_EXPRESSION))
-                    .forEach(data -> loaded.add(new User(UUID.fromString(data[0]), data[1])));
+                    .forEach(data -> blacklist.add(new User(UUID.fromString(data[0]), data[1])));
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-
-        return loaded;
     }
 
     public List<User> findAll() {
