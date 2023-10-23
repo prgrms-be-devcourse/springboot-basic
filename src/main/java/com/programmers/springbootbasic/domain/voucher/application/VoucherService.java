@@ -15,12 +15,12 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(CreateVoucherRequest request) {
+    public void create(CreateVoucherRequest request) {
         // 중복 바우처 체크
         voucherRepository.save(request.toEntity());
     }
 
-    public List<VoucherResponse> findAllVouchers() {
+    public List<VoucherResponse> findAll() {
         return voucherRepository.findAll().stream()
             .map(VoucherResponse::of)
             .toList();

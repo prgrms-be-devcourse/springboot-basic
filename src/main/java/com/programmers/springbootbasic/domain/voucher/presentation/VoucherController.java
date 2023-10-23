@@ -17,11 +17,11 @@ public class VoucherController {
     }
 
     public void createVoucher(CreateVoucherRequest request) {
-        voucherService.createVoucher(request);
+        voucherService.create(request);
     }
 
     public List<VoucherResponse> getAllVouchers() {
-        return voucherService.findAllVouchers();
+        return voucherService.findAll();
     }
 
 }
