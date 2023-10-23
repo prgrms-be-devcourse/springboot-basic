@@ -17,6 +17,13 @@ public class Customer {
         this.email = email;
     }
 
+    public boolean isBlackList(){
+        if(this.customerType == CustomerType.BLACK) {
+            return true;
+        }
+        return false;
+    }
+
     public UUID getCustomerId() {
         return customerId;
     }
@@ -29,11 +36,4 @@ public class Customer {
         return customerType;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 }

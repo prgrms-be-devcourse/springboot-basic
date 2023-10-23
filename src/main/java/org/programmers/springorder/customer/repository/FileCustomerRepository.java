@@ -32,7 +32,7 @@ public class FileCustomerRepository implements CustomerRepository{
     @Override
     public List<Customer> findAllBlackList() {
         return findAll().stream()
-                .filter(customer -> customer.getCustomerType() == CustomerType.BLACK)
+                .filter(Customer::isBlackList)
                 .toList();
     }
 
