@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
-    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
+    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
     private FixedAmountVoucher(String discountType, long discountValue) {
         this.voucherId = UUID.randomUUID();
@@ -15,7 +15,7 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     public static FixedAmountVoucher create(String discountType, long discountValue) {
-        if(discountValue < 0) {
+        if (discountValue < 0) {
             logger.warn("discount value should be positive. Inserted discount value : {}", discountValue);
             throw new IllegalArgumentException("discount value should be positive");
         }
@@ -31,6 +31,10 @@ public class FixedAmountVoucher extends Voucher {
     @Override
     long discount(long beforeDiscount) {
         long discountAmount = beforeDiscount - discountValue;
-        return (discountAmount < 0) ? 0 : discountAmount;
+        if (discountAmount < 0) {
+            logger.warn("할인된 금액이 0보다 작습니다. discountAmount : {}", discountAmount);
+            return 0;
+        }
+        return discountAmount;
     }
 }

@@ -19,9 +19,4 @@ public abstract class Voucher {
     public long getDiscountValue() {
         return discountValue;
     }
-
-    @Override
-    public String toString() {
-        return String.format("%s,%s,%s", getVoucherId(), getDiscountType(), getDiscountValue());
-    }
 }

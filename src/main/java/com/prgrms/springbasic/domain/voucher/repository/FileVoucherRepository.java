@@ -28,7 +28,8 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Voucher saveVoucher(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
-        CsvFileUtil.addObjectToFile(filePath, voucher.toString());
+        String fieldToCsvString = String.format("%s,%s,%s", voucher.getVoucherId(), voucher.getDiscountType(), voucher.getDiscountValue());
+        CsvFileUtil.addObjectToFile(filePath, fieldToCsvString);
         return voucher;
     }
 
