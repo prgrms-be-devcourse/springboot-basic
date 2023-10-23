@@ -21,10 +21,10 @@ public class BlacklistRepository {
     private static final List<User> blacklist = Collections.synchronizedList(new ArrayList<>());
 
     public BlacklistRepository(@Value("${file.path.blacklist}") String path) {
-        load(path);
+        loadBlacklist(path);
     }
 
-    private void load(String path) {
+    private void loadBlacklist(String path) {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
             reader.readLine(); // skip header
             reader.lines()
