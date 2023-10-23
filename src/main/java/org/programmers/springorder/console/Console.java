@@ -18,10 +18,10 @@ import java.util.List;
 @Component
 public class Console {
 
+    private final Logger logger = LoggerFactory.getLogger(Console.class);
     private final Input input;
     private final Output output;
 
-    private final Logger logger = LoggerFactory.getLogger(Console.class);
 
     public Console() {
         this.input = new Input();

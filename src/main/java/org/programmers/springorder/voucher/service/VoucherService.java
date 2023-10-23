@@ -14,8 +14,8 @@ import java.util.UUID;
 @Service
 public class VoucherService {
 
-    private final VoucherRepository voucherRepository;
     private static final Logger log = LoggerFactory.getLogger(VoucherService.class);
+    private final VoucherRepository voucherRepository;
 
 
     public VoucherService(VoucherRepository voucherRepository) {

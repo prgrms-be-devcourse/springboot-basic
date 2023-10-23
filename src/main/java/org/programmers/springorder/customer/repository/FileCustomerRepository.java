@@ -4,9 +4,6 @@ import org.programmers.springorder.console.Console;
 import org.programmers.springorder.consts.ErrorMessage;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
-import org.programmers.springorder.voucher.model.Voucher;
-import org.programmers.springorder.voucher.model.VoucherType;
-import org.programmers.springorder.voucher.repository.FileVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,10 +20,10 @@ import java.util.UUID;
 @Repository
 public class FileCustomerRepository implements CustomerRepository{
 
+    private final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
+    private final Console console;
     @Value(("${customerListFilePath}"))
     private String filePath;
-    private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-    private final Console console;
 
     public FileCustomerRepository(Console console) {
         this.console = console;
