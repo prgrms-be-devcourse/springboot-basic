@@ -67,8 +67,8 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Map<UUID, Voucher>> getAllVouchers() {
-        Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
+    public Optional<List<Voucher>> findAll() {
+        List<Voucher> voucherMap = new ArrayList<>();
         try {
             List<CSVRecord> data = csvFileHandler.readCSV();
             data.stream().forEach(line -> {
@@ -78,7 +78,7 @@ public class FileVoucherRepository implements VoucherRepository{
 
                 VoucherTypeFunction voucherTypeFunction = VoucherTypeFunction.findByCode(voucherType);
                 Voucher voucher = voucherTypeFunction.create(voucherId, amount);
-                voucherMap.put(voucherId, voucher);
+                voucherMap.add(voucher);
             });
             return Optional.of(voucherMap);
         } catch (IOException e) {

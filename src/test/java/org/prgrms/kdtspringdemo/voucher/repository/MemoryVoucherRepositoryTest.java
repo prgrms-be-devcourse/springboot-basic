@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.voucher.repository;
 
-import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdtspringdemo.voucher.domain.FixedAmountVoucher;
@@ -15,10 +14,8 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
 
 @SpringJUnitConfig
 @ActiveProfiles("local")
@@ -84,7 +81,7 @@ class MemoryVoucherRepositoryTest {
         memoryVoucherRepository.insert(new PercentDiscountVoucher(UUID.randomUUID(), 5, "percentDiscount"));
 
         //when
-        Map<UUID, Voucher> allVouchers = memoryVoucherRepository.getAllVouchers().get();
+        Map<UUID, Voucher> allVouchers = memoryVoucherRepository.findAll().get();
 
         //then
         assertThat(allVouchers.size(), is(3));

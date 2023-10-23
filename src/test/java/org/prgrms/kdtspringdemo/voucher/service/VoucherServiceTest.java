@@ -3,15 +3,12 @@ package org.prgrms.kdtspringdemo.voucher.service;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.junit.jupiter.api.*;
-import org.prgrms.kdtspringdemo.file.CsvFileHandler;
 import org.prgrms.kdtspringdemo.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.repository.FileVoucherRepository;
-import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
@@ -102,7 +99,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 리스트를 반환합니다.")
     void getVoucherList() {
         //when
-        Map<UUID, Voucher> voucherMap = voucherService.getVoucherList();
+        Map<UUID, Voucher> voucherMap = voucherService.findAll();
 
         //then
         assertThat(voucherMap.size(), is(2));
@@ -116,7 +113,7 @@ class VoucherServiceTest {
         Voucher createdVoucher = voucherService.createVoucher(VoucherTypeFunction.FIXED_AMOUNT_VOUCHER, UUID.randomUUID(), 2000L);
 
         //when
-        Voucher voucher = voucherService.getVoucher(createdVoucher.getVoucherId());
+        Voucher voucher = voucherService.findById(createdVoucher.getVoucherId());
 
         //then
         assertThat(createdVoucher, samePropertyValuesAs(voucher));

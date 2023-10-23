@@ -3,7 +3,6 @@ package org.prgrms.kdtspringdemo.voucher.repository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.junit.jupiter.api.*;
-import org.prgrms.kdtspringdemo.file.CsvFileHandler;
 import org.prgrms.kdtspringdemo.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.slf4j.Logger;
@@ -19,7 +18,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
@@ -84,7 +82,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("모든 바우처 목록")
     void getAllVouchers() {
         //when
-        Map<UUID, Voucher> voucherMap = fileVoucherRepository.getAllVouchers().get();
+        Map<UUID, Voucher> voucherMap = fileVoucherRepository.findAll().get();
 
         //then
         assertThat(voucherMap.size(), is(3));

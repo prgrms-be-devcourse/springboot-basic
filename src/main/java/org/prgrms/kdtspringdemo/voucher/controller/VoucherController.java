@@ -7,11 +7,10 @@ import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -51,8 +50,8 @@ public class VoucherController {
     }
 
     public void showAllVouchers() {
-        Map<UUID, Voucher> voucherMap = voucherService.getVoucherList();
-        voucherMap.forEach((voucherId, voucher) -> outputConsole.printVoucher(voucher));
+        List<Voucher> voucherList = voucherService.findAll().get();
+        voucherList.forEach(voucher -> outputConsole.printVoucher(voucher));
     }
 
     public void endProgram() {

@@ -8,7 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,11 +31,11 @@ public class VoucherService {
         return voucher;
     }
 
-    public Map<UUID, Voucher> getVoucherList() {
-        return voucherRepository.getAllVouchers().get();
+    public Optional<List<Voucher>> findAll() {
+        return Optional.of(voucherRepository.findAll().get());
     }
 
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher findById(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> {
