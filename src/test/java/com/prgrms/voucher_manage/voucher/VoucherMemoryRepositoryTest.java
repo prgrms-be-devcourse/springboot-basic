@@ -2,13 +2,13 @@ package com.prgrms.voucher_manage.voucher;
 
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
-import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import com.prgrms.voucher_manage.domain.voucher.repository.MemoryVoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class VoucherMemoryRepositoryTest {
@@ -23,7 +23,7 @@ public class VoucherMemoryRepositoryTest {
         Voucher savedVoucher = repository.save(fixedAmountVoucher);
         //then
         assertThat(savedVoucher).isNotNull();
-        assertThat(savedVoucher.getVoucherType()).isEqualTo(VoucherType.FIXED);
+        assertThat(savedVoucher.getVoucherType()).isEqualTo(FIXED);
         assertThat(savedVoucher.getDiscountAmount()).isEqualTo(1000L);
     }
 
