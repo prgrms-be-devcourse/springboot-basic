@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -18,7 +19,7 @@ import com.programmers.vouchermanagement.properties.AppProperties;
 @Repository
 @Profile({"dev", "prod"})
 public class FileCustomerRepository implements CustomerRepository {
-    private static final String BLACKLIST_FILE_PATH = "src/main/resources/blacklist.csv";
+    private static final String COMMA_SEPARATOR = ", ";
     private final String filePath;
     private final Map<UUID, Customer> customers;
 
@@ -39,11 +40,11 @@ public class FileCustomerRepository implements CustomerRepository {
     private void loadBlacklist() {
         List<Customer> blacklist = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(BLACKLIST_FILE_PATH))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine(); // skip the first line
             String str;
             while ((str = br.readLine()) != null) {
-                String[] line = str.split(", ");
+                String[] line = str.split(COMMA_SEPARATOR);
 
                 UUID blackCustomerId = UUID.fromString(line[0]);
                 String name = line[1];
