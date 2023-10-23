@@ -6,10 +6,13 @@ import static com.programmers.springbootbasic.util.Messages.SUCCESS_VOUCHER_LIST
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_VOUCHER_REGISTER;
 
 import com.programmers.springbootbasic.domain.user.presentation.UserController;
+import com.programmers.springbootbasic.domain.user.presentation.dto.UserResponse;
 import com.programmers.springbootbasic.domain.voucher.presentation.VoucherController;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVoucherRequest;
+import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherResponse;
 import com.programmers.springbootbasic.exception.exceptionClass.SystemException;
 import com.programmers.springbootbasic.mediator.ConsoleResponse;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,24 +26,24 @@ public class ControllerAdapter {
         this.userController = userController;
     }
 
-    public ConsoleResponse handleExit(Object... params) {
+    public ConsoleResponse<Void> handleExit(Object... params) {
         throw new SystemException(EXIT);
     }
 
-    public ConsoleResponse createVoucher(Object... params) {
+    public ConsoleResponse<Void> createVoucher(Object... params) {
         CreateVoucherRequest request = (CreateVoucherRequest) params[0];
         voucherController.createVoucher(request);
         return new ConsoleResponse<>(SUCCESS_VOUCHER_REGISTER.getMessage());
     }
 
-    public ConsoleResponse getAllVouchers(Object... params) {
-        return new ConsoleResponse(voucherController.getAllVouchers(),
+    public ConsoleResponse<List<VoucherResponse>> getAllVouchers(Object... params) {
+        return new ConsoleResponse<>(voucherController.getAllVouchers(),
             SUCCESS_VOUCHER_LIST.getMessage()
         );
     }
 
-    public ConsoleResponse getBlackList(Object... params) {
-        return new ConsoleResponse(userController.getBlackList(),
+    public ConsoleResponse<List<UserResponse>> getBlackList(Object... params) {
+        return new ConsoleResponse<>(userController.getBlackList(),
             SUCCESS_BLACK_USER_LIST.getMessage());
     }
 }

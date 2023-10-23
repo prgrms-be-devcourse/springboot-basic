@@ -15,8 +15,8 @@ public enum MainMenu {
     LIST_BLACK_USER("list black user",ControllerAdapter::getBlackList),
     ;
 
-    private String command;
-    private BiFunction<ControllerAdapter, Object[], ConsoleResponse> function;
+    private final String command;
+    private final BiFunction<ControllerAdapter, Object[], ConsoleResponse> function;
 
     MainMenu(String command, BiFunction<ControllerAdapter, Object[], ConsoleResponse> function) {
         this.command = command;

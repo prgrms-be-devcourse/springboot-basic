@@ -3,7 +3,7 @@ package com.programmers.springbootbasic.mediator.requestGenerator;
 import com.programmers.springbootbasic.mediator.ConsoleRequest;
 import com.programmers.springbootbasic.presentation.MainMenu;
 
-public class ExitRequestGenerator implements MenuRequestGenerator{
+public class ExitRequestGenerator implements MenuRequestGenerator {
 
     @Override
     public String getMenuCommand() {
@@ -11,7 +11,7 @@ public class ExitRequestGenerator implements MenuRequestGenerator{
     }
 
     @Override
-    public ConsoleRequest generateRequest() {
-        return new ConsoleRequest(getMenuCommand());
+    public ConsoleRequest<Void> generateRequest() {
+        return new ConsoleRequest<>(getMenuCommand());
     }
 }

@@ -13,7 +13,7 @@ public class ViewAllVoucherGenerator implements MenuRequestGenerator{
     }
 
     @Override
-    public ConsoleRequest generateRequest() {
-        return new ConsoleRequest(getMenuCommand());
+    public ConsoleRequest<Void> generateRequest() {
+        return new ConsoleRequest<>(getMenuCommand());
     }
 }

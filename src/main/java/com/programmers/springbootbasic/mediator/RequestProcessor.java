@@ -42,9 +42,8 @@ public class RequestProcessor {
     }
 
     public void sendResponse(ConsoleResponse response) {
-        response.getBody().ifPresent((body) -> {
-            if (body instanceof List) {
-                List<?> listBody = (List<?>) body;
+        response.getBody().ifPresent(body -> {
+            if (body instanceof List<?> listBody) {
                 listBody.forEach(
                     item -> consoleInteractionAggregator.displayMessage(item.toString()));
             } else {
@@ -53,7 +52,7 @@ public class RequestProcessor {
         });
 
         response.getMessage().ifPresent(
-            (message) -> consoleInteractionAggregator.displayMessage(
+            message -> consoleInteractionAggregator.displayMessage(
                 (String) message)
         );
 
