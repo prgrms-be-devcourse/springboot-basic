@@ -4,6 +4,8 @@ import org.prgrms.kdt.app.configuration.io.InputHandler;
 import org.prgrms.kdt.app.configuration.io.OutputHandler;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
@@ -15,6 +17,7 @@ import static org.prgrms.kdt.app.configuration.io.SystemMessage.*;
 @Controller
 public class VoucherController {
 
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
     private final VoucherService voucherService;
@@ -99,4 +102,11 @@ public class VoucherController {
 
         return true;
     }
+
+    //    var orderProperties = applicationContext.getBean(OrderProperties.class);
+//    logger.error("logger name => {}", logger.getName());
+//    logger.warn("version -> {}", orderProperties.getVersion());
+//    logger.warn("minimumOrderAmount -> {}", orderProperties.getMinimumOrderAmount());
+//    logger.warn("supportVendors -> {}", orderProperties.getSupportVendors());
+//    logger.warn("description -> {}", orderProperties.getDescription());
 }
