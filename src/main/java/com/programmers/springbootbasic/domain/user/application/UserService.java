@@ -1,6 +1,6 @@
 package com.programmers.springbootbasic.domain.user.application;
 
-import com.programmers.springbootbasic.domain.user.domain.entity.User;
+import com.programmers.springbootbasic.domain.user.infrastructure.dto.CsvUser;
 import com.programmers.springbootbasic.domain.user.presentation.dto.UserResponse;
 import com.programmers.springbootbasic.util.FileManager;
 import java.util.List;
@@ -20,9 +20,9 @@ public class UserService {
 
     public List<UserResponse> findBlacklistedUsers() {
         return fileManager
-            .read(fileName, User.class)
+            .read(fileName, CsvUser.class)
             .stream()
-            .map(UserResponse::of)
+            .map(csvUser -> UserResponse.of(csvUser.toEntity()))
             .toList();
     }
 
