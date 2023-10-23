@@ -17,7 +17,6 @@ import static org.prgrms.kdt.app.configuration.io.SystemMessage.*;
 @Controller
 public class VoucherController {
 
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
     private final VoucherService voucherService;
@@ -26,6 +25,7 @@ public class VoucherController {
     private final String LIST = "list";
     private final String FIXED = "fixed";
     private final String PERCENT = "percent";
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     public VoucherController(InputHandler inputHandler, OutputHandler outputHandler, VoucherService voucherService) {
         this.inputHandler = inputHandler;
@@ -49,7 +49,9 @@ public class VoucherController {
                 outputHandler.outputVouchers(voucherList);
                 break;
             default:
-                outputHandler.outputSystemMessage(EXCEPTION_VOUCHER_TYPE.getMessage());
+                String errorMessage = EXCEPTION_VOUCHER_TYPE.getMessage();
+                logger.error(errorMessage);
+                outputHandler.outputSystemMessage(errorMessage);
                 break;
         }
 
@@ -73,7 +75,9 @@ public class VoucherController {
                 if(!isRepeat)
                     break;
             } else {
-                outputHandler.outputSystemMessage(EXCEPTION_VOUCHER_TYPE.getMessage());
+                String errorMessage = EXCEPTION_VOUCHER_TYPE.getMessage();
+                logger.error(errorMessage);
+                outputHandler.outputSystemMessage(errorMessage);
             }
         }
     }
@@ -86,11 +90,15 @@ public class VoucherController {
             amount = inputHandler.inputInt();
 
             if (amount <= 0) {
-                outputHandler.outputSystemMessage(EXCEPTION_FIXED_AMOUNT_MINUS.getMessage());
+                String errorMessage = EXCEPTION_FIXED_AMOUNT_MINUS.getMessage();
+                logger.error(errorMessage);
+                outputHandler.outputSystemMessage(errorMessage);
                 continue;
             }
             if (amount >= 100_000) {
-                outputHandler.outputSystemMessage(EXCEPTION_FIXED_AMOUNT_OVER.getMessage());
+                String errorMessage = EXCEPTION_FIXED_AMOUNT_OVER.getMessage();
+                logger.error(errorMessage);
+                outputHandler.outputSystemMessage(errorMessage);
                 continue;
             }
             break;
@@ -109,11 +117,15 @@ public class VoucherController {
             percent = inputHandler.inputInt();
 
             if (percent <= 0) {
-                outputHandler.outputSystemMessage(EXCEPTION_PERCENT_MINUS.getMessage());
+                String errorMessage = EXCEPTION_PERCENT_MINUS.getMessage();
+                logger.error(errorMessage);
+                outputHandler.outputSystemMessage(errorMessage);
                 continue;
             }
             if (percent >= 100) {
-                outputHandler.outputSystemMessage(EXCEPTION_PERCENT_OVER.getMessage());
+                String errorMessage = EXCEPTION_PERCENT_OVER.getMessage();
+                logger.error(errorMessage);
+                outputHandler.outputSystemMessage(errorMessage);
                 continue;
             }
             break;
@@ -123,11 +135,4 @@ public class VoucherController {
         voucherService.createVoucher(percentDiscountVoucherDto);
         return false;
     }
-
-    //    var orderProperties = applicationContext.getBean(OrderProperties.class);
-//    logger.error("logger name => {}", logger.getName());
-//    logger.warn("version -> {}", orderProperties.getVersion());
-//    logger.warn("minimumOrderAmount -> {}", orderProperties.getMinimumOrderAmount());
-//    logger.warn("supportVendors -> {}", orderProperties.getSupportVendors());
-//    logger.warn("description -> {}", orderProperties.getDescription());
 }

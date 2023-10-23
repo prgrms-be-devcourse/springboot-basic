@@ -6,6 +6,8 @@ import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.prgrms.kdt.app.configuration.io.SystemMessage.EXCEPTION_FIND_VOUCHER;
 import static org.prgrms.kdt.app.configuration.io.SystemMessage.FOUND_VOUCHER_IS_EMPTY;
 
 @Service
@@ -21,6 +24,7 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
     private List<Voucher> voucherList = new ArrayList<>();
+    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
     public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -29,7 +33,11 @@ public class VoucherService {
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
+                .orElseThrow(() -> {
+                    String errorMessage = MessageFormat.format( "{0}" + EXCEPTION_FIND_VOUCHER.getMessage(), voucherId);
+                    logger.error(errorMessage);
+                    return new RuntimeException(errorMessage);
+                });
     }
 
     public void createVoucher(FixedAmountVoucherDto fixedAmountVoucherDto) {

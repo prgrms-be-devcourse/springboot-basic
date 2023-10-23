@@ -15,14 +15,6 @@
     </encoder>
   </appender>
 
-<!--  <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
-<!--    <file>logs/kdt_${bySecond}.log</file>-->
-<!--    <append>false</append>-->
-<!--    <encoder>-->
-<!--      <pattern>${LOG_PATTERN}</pattern>-->
-<!--    </encoder>-->
-<!--  </appender>-->
-
   <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <file>logs/access.log</file> <!-- 2021-07-01 -->
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
