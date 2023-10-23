@@ -5,6 +5,7 @@ import com.programmers.springbootbasic.domain.customer.vo.Email;
 import com.programmers.springbootbasic.domain.wallet.dto.WalletRequestDto;
 import com.programmers.springbootbasic.domain.wallet.entity.Wallet;
 import com.programmers.springbootbasic.domain.wallet.service.WalletService;
+import com.programmers.springbootbasic.domain.wallet.view.WalletView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -40,32 +41,31 @@ public class WalletController {
     }
 
     public CommonResult<String> findWalletsByCustomerEmail(String email) {
-        StringBuilder sb = new StringBuilder();
         try {
-            List<Wallet> wallets = walletService.findWalletsByCustomerEmail(WalletRequestDto.builder()
-                    .email(Email.from(email).getValue())
-                    .build());
-            sb.append(String.format("--- %s user Vouchers ---\n", email));
-            for (Wallet wallet : wallets) {
-                sb.append(String.format("%s\n", wallet.getVoucherId().toString()));
-            }
+            List<String> vouchers = walletService.findWalletsByCustomerEmail(WalletRequestDto.builder()
+                            .email(Email.from(email).getValue())
+                            .build())
+                    .stream()
+                    .map(Wallet::getVoucherId)
+                    .map(UUID::toString)
+                    .toList();
+            return CommonResult.getSingleResult(WalletView.getCustomerWalletView(email, vouchers));
         } catch (Exception e) {
             log.warn(e.toString());
             return CommonResult.getFailResult(e.getMessage());
         }
-        return CommonResult.getSingleResult(sb.toString());
+
     }
 
     public CommonResult<String> findWalletsByVoucherId(String voucherId) {
-        StringBuilder sb = new StringBuilder();
         try {
-            List<Wallet> wallets = walletService.findWalletsByVoucherId(WalletRequestDto.builder()
-                    .voucherId(UUID.fromString(voucherId))
-                    .build());
-            sb.append(String.format("--- Contain %s Voucher User list ---\n", voucherId));
-            for (Wallet wallet : wallets) {
-                sb.append(String.format("%s\n", wallet.getEmail()));
-            }
+            List<String> customers = walletService.findWalletsByVoucherId(WalletRequestDto.builder()
+                            .voucherId(UUID.fromString(voucherId))
+                            .build())
+                    .stream()
+                    .map(Wallet::getEmail)
+                    .toList();
+            return CommonResult.getSingleResult(WalletView.getVoucherWalletView(voucherId, customers));
         } catch (IllegalArgumentException e) {
             log.warn(e.toString());
             return CommonResult.getFailResult(UUID_FORMAT_MISMATCH.getMessage());
@@ -73,7 +73,7 @@ public class WalletController {
             log.warn(e.toString());
             return CommonResult.getFailResult(e.getMessage());
         }
-        return CommonResult.getSingleResult(sb.toString());
+
     }
 
     public CommonResult<String> deleteWallet(String email, String voucherId) {

@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -44,8 +44,8 @@ class CustomerControllerTest {
         // Act
         CommonResult<String> actualResult = customerController.createCustomer(EMAIL, NAME);
         // Assert
-        assertTrue(actualResult.isSuccess());
-        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isTrue();
+        assertThat(actualResult.getData()).isEqualTo(CommonResult.getSuccessResult().getData());
     }
 
     @DisplayName("Test createCustomerFail: Email verify Fail")
@@ -54,8 +54,8 @@ class CustomerControllerTest {
         // Act
         CommonResult<String> actualResult = customerController.createCustomer(WRONG_EMAIL, NAME);
         // Assert
-        assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isFalse();
+        assertThat(actualResult.getData()).isEqualTo(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage());
     }
 
     @Test
@@ -65,8 +65,8 @@ class CustomerControllerTest {
         // Act
         CommonResult<String> actualResult = customerController.addCustomerInBlacklist(EMAIL);
         // Assert
-        assertTrue(actualResult.isSuccess());
-        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isTrue();
+        assertThat(actualResult.getData()).isEqualTo(CommonResult.getSuccessResult().getData());
     }
 
     @DisplayName("Test addCustomerInBlacklist: Email verify Fail")
@@ -75,8 +75,8 @@ class CustomerControllerTest {
         // Act
         CommonResult<String> actualResult = customerController.addCustomerInBlacklist(WRONG_EMAIL);
         // Assert
-        assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isFalse();
+        assertThat(actualResult.getData()).isEqualTo(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage());
     }
 
     @Test
@@ -86,8 +86,8 @@ class CustomerControllerTest {
         // Act
         CommonResult<String> actualResult = customerController.removeCustomerInBlacklist(EMAIL);
         // Assert
-        assertTrue(actualResult.isSuccess());
-        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isTrue();
+        assertThat(actualResult.getData()).isEqualTo(CommonResult.getSuccessResult().getData());
     }
 
     @DisplayName("Test removeCustomerInBlacklist: Email verify Fail")
@@ -96,8 +96,8 @@ class CustomerControllerTest {
         // Act
         CommonResult<String> actualResult = customerController.removeCustomerInBlacklist(WRONG_EMAIL);
         // Assert
-        assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isFalse();
+        assertThat(actualResult.getData()).isEqualTo(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage());
     }
 
 }

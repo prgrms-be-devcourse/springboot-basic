@@ -11,8 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("File Voucher Repository Test")
 class VoucherFileRepositoryTest {
@@ -37,10 +36,11 @@ class VoucherFileRepositoryTest {
         // Act
         Voucher actualResult = voucherRepository.save(expectedResult);
         // Assert
-        assertInstanceOf(FixedAmountVoucher.class, actualResult);
-        assertEquals(expectedResult, actualResult);
-        assertEquals(expectedUUID, actualResult.getVoucherId());
-        assertEquals(expectedResult.getInformation(), actualResult.getInformation());
+        assertThat(actualResult).isInstanceOf(FixedAmountVoucher.class);
+        assertThat(actualResult).isEqualTo(expectedResult);
+        assertThat(actualResult.getVoucherId()).isEqualTo(expectedUUID);
+        assertThat(actualResult.getValue()).isEqualTo(expectedValue);
+        assertThat(actualResult.getInformation()).isEqualTo(expectedResult.getInformation());
     }
 
     @Test
@@ -55,6 +55,6 @@ class VoucherFileRepositoryTest {
         // Act
         List<Voucher> actualResult = voucherRepository.findAll();
         // Assert
-        assertEquals(expectedResult.size(), actualResult.size());
+        assertThat(actualResult.size()).isEqualTo(expectedResult.size());
     }
 }

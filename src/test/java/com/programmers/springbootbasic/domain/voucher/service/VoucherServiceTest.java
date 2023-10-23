@@ -1,10 +1,12 @@
 package com.programmers.springbootbasic.domain.voucher.service;
 
+import com.programmers.springbootbasic.common.utils.UUIDValueStrategy;
 import com.programmers.springbootbasic.domain.voucher.dto.VoucherRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.FixedAmountVoucher;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.voucher.repository.VoucherRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +18,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -29,6 +32,12 @@ class VoucherServiceTest {
     private VoucherService voucherService;
     @Mock
     private VoucherRepository voucherRepository;
+    private final UUIDValueStrategy uuidValueStrategy = () -> VOUCHER_ID;
+
+    @BeforeEach
+    void init() {
+        voucherService = new VoucherService(voucherRepository, uuidValueStrategy);
+    }
 
     @Test
     void testCreateVoucherSuccess() {
@@ -38,12 +47,12 @@ class VoucherServiceTest {
                 .voucherType(1)
                 .value(VALUE)
                 .build();
-        when(voucherRepository.save(any(Voucher.class))).thenReturn(VoucherType.of(1, UUID.randomUUID(), VALUE));
+        when(voucherRepository.save(any(Voucher.class))).thenReturn(VoucherType.of(1, VOUCHER_ID, VALUE));
         // Act
         Voucher actualResult = voucherService.createVoucher(voucherRequestDto);
         // Assert
-        assertInstanceOf(FixedAmountVoucher.class, actualResult);
-        assertEquals(expectedBeforeDiscount - VALUE, actualResult.discount(expectedBeforeDiscount));
+        assertThat(actualResult).isInstanceOf(FixedAmountVoucher.class);
+        assertThat(actualResult.getVoucherId()).isEqualTo(VOUCHER_ID);
     }
 
     @Test
@@ -58,11 +67,11 @@ class VoucherServiceTest {
         // Act
         Voucher actualResult = voucherService.findVoucherById(voucherRequestDto);
         // Assert
-        assertEquals(expectedResult, actualResult);
+        assertThat(actualResult).isEqualTo(expectedResult);
     }
 
     @Test
-    void testFindVoucherByIdFail(){
+    void testFindVoucherByIdFail() {
         // Arrange
         UUID expectedVoucherId = UUID.randomUUID();
         when(voucherRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
@@ -70,12 +79,12 @@ class VoucherServiceTest {
                 .voucherId(expectedVoucherId)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, ()->voucherService.findVoucherById(voucherRequestDto));
-        assertEquals(ErrorMsg.VOUCHER_NOT_FOUND.getMessage(), actualResult.getMessage());
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> voucherService.findVoucherById(voucherRequestDto));
+        assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.VOUCHER_NOT_FOUND.getMessage());
     }
 
     @Test
-    void testUpdateVoucherSuccess(){
+    void testUpdateVoucherSuccess() {
         // Arrange
         int expectedVoucherType = 1;
         long expectedVoucherValue = 60L;
@@ -100,8 +109,8 @@ class VoucherServiceTest {
         // Act
         List<Voucher> actualResult = voucherService.findAllVouchers();
         // Assert
-        assertNotNull(actualResult);
-        assertEquals(expectedResult.size(), actualResult.size());
+        assertThat(actualResult).isNotNull();
+        assertThat(actualResult).isEqualTo(expectedResult);
     }
 
 }

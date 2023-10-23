@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -41,7 +41,7 @@ class VoucherControllerTest {
         // Act
         CommonResult<String> actualResult = voucherController.createVoucher(VOUCHER_TYPE_STR, VALUE_STR);
         // Assert
-        assertTrue(actualResult.isSuccess());
+        assertThat(actualResult.isSuccess()).isTrue();
     }
 
     @DisplayName("Test createVoucher Fail: when Number Format Mismatch")
@@ -54,10 +54,10 @@ class VoucherControllerTest {
         CommonResult<String> actualResult1 = voucherController.createVoucher(expectedVoucherType, VALUE_STR);
         CommonResult<String> actualResult2 = voucherController.createVoucher(VOUCHER_TYPE_STR, expectedVoucherValue);
         // Assert
-        assertFalse(actualResult1.isSuccess());
-        assertEquals(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage(), actualResult1.getData());
-        assertFalse(actualResult2.isSuccess());
-        assertEquals(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage(), actualResult2.getData());
+        assertThat(actualResult1.isSuccess()).isFalse();
+        assertThat(actualResult1.getData()).isEqualTo(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage());
+        assertThat(actualResult2.isSuccess()).isFalse();
+        assertThat(actualResult2.getData()).isEqualTo(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage());
     }
 
     @Test
@@ -69,8 +69,8 @@ class VoucherControllerTest {
         // Act
         CommonResult<String> actualResult = voucherController.findVoucherById(VOUCHER_ID.toString());
         // Assert
-        assertTrue(actualResult.isSuccess());
-        assertEquals(expectedVoucher.getInformation(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isTrue();
+        assertThat(actualResult.getData()).isEqualTo(expectedVoucher.getInformation());
     }
 
     @DisplayName("Test findVoucher Fail: When give voucherId not as UUID")
@@ -81,8 +81,8 @@ class VoucherControllerTest {
         // Act
         CommonResult<String> actualResult = voucherController.findVoucherById(expectedVoucherId);
         // Assert
-        assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isFalse();
+        assertThat(actualResult.getData()).isEqualTo(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
     }
 
     @Test
@@ -92,8 +92,8 @@ class VoucherControllerTest {
         // Act
         CommonResult<String> actualResult = voucherController.updateVoucher(VOUCHER_ID.toString(), VALUE_STR);
         // Assert
-        assertTrue(actualResult.isSuccess());
-        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isTrue();
+        assertThat(actualResult.getData()).isEqualTo(CommonResult.getSuccessResult().getData());
     }
 
     @DisplayName("Test updateVoucher Fail: When give voucherId not as UUID")
@@ -104,8 +104,8 @@ class VoucherControllerTest {
         // Act
         CommonResult<String> actualResult = voucherController.updateVoucher(expectedVoucherId, VALUE_STR);
         // Assert
-        assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isFalse();
+        assertThat(actualResult.getData()).isEqualTo(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
     }
 
     @DisplayName("Test updateVoucher Fail: When give value not as Number")
@@ -116,8 +116,8 @@ class VoucherControllerTest {
         // Act
         CommonResult<String> actualResult = voucherController.updateVoucher(VOUCHER_ID.toString(), expectedVoucherValue);
         // Assert
-        assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isFalse();
+        assertThat(actualResult.getData()).isEqualTo(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage());
     }
 
     @Test
@@ -127,8 +127,8 @@ class VoucherControllerTest {
         // Act
         CommonResult<String> actualResult = voucherController.deleteVoucher(VOUCHER_ID.toString());
         // Assert
-        assertTrue(actualResult.isSuccess());
-        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isTrue();
+        assertThat(actualResult.getData()).isEqualTo(CommonResult.getSuccessResult().getData());
     }
 
     @DisplayName("Test deleteVoucher Fail: When give voucherId not as UUID")
@@ -139,7 +139,7 @@ class VoucherControllerTest {
         // Act
         CommonResult<String> actualResult = voucherController.deleteVoucher(expectedVoucherId);
         // Assert
-        assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage(), actualResult.getData());
+        assertThat(actualResult.isSuccess()).isFalse();
+        assertThat(actualResult.getData()).isEqualTo(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
     }
 }

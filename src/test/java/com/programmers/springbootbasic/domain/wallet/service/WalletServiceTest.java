@@ -23,7 +23,7 @@ import static com.programmers.springbootbasic.domain.customer.exception.ErrorMsg
 import static com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg.VOUCHER_NOT_FOUND;
 import static com.programmers.springbootbasic.domain.wallet.exception.ErrorMsg.WALLET_ALREADY_EXIST;
 import static com.programmers.springbootbasic.domain.wallet.exception.ErrorMsg.WALLET_NOT_FOUND;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -72,7 +72,7 @@ class WalletServiceTest {
         // Act
         Wallet actualResult = walletService.createWallet(walletRequestDto);
         // Assert
-        assertEquals(expectedResult, actualResult);
+        assertThat(actualResult).isEqualTo(expectedResult);
     }
 
     @DisplayName("Test createWallet Fail: When customer Not Found")
@@ -87,7 +87,7 @@ class WalletServiceTest {
                 .build();
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.createWallet(walletRequestDto));
-        assertEquals(CUSTOMER_NOT_FOUND.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(CUSTOMER_NOT_FOUND.getMessage());
     }
 
     @DisplayName("Test createWallet Fail: When Voucher Not Found")
@@ -103,7 +103,7 @@ class WalletServiceTest {
                 .build();
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.createWallet(walletRequestDto));
-        assertEquals(VOUCHER_NOT_FOUND.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(VOUCHER_NOT_FOUND.getMessage());
     }
 
     @DisplayName("Test createWallet Fail: When Wallet Already Exist")
@@ -123,7 +123,7 @@ class WalletServiceTest {
                 .build();
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.createWallet(walletRequestDto));
-        assertEquals(WALLET_ALREADY_EXIST.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(WALLET_ALREADY_EXIST.getMessage());
     }
 
     @Test
@@ -142,8 +142,8 @@ class WalletServiceTest {
         // Act
         List<Wallet> actualResult = walletService.findWalletsByCustomerEmail(walletRequestDto);
         // Assert
-        assertEquals(expectedResult.size(), actualResult.size());
-        assertEquals(expectedResult, actualResult);
+        assertThat(actualResult.size()).isEqualTo(expectedResult.size());
+        assertThat(actualResult).contains(expectedWallet);
     }
 
     @DisplayName("Test findWalletsByCustomerEmail Fail: When Customer Not Found")
@@ -157,7 +157,7 @@ class WalletServiceTest {
                 .build();
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.findWalletsByCustomerEmail(walletRequestDto));
-        assertEquals(CUSTOMER_NOT_FOUND.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(CUSTOMER_NOT_FOUND.getMessage());
     }
 
     @Test
@@ -176,8 +176,8 @@ class WalletServiceTest {
         // Act
         List<Wallet> actualResult = walletService.findWalletsByVoucherId(walletRequestDto);
         // Assert
-        assertEquals(expectedResult.size(), actualResult.size());
-        assertEquals(expectedResult, actualResult);
+        assertThat(actualResult.size()).isEqualTo(expectedResult.size());
+        assertThat(actualResult).contains(expectedWallet);
     }
 
     @DisplayName("Test findWalletsByVoucherId Fail: When Voucher Not Found")
@@ -190,7 +190,7 @@ class WalletServiceTest {
                 .build();
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.findWalletsByVoucherId(walletRequestDto));
-        assertEquals(VOUCHER_NOT_FOUND.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(VOUCHER_NOT_FOUND.getMessage());
     }
 
     @Test
@@ -224,7 +224,7 @@ class WalletServiceTest {
                 .build();
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.deleteWallet(walletRequestDto));
-        assertEquals(CUSTOMER_NOT_FOUND.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(CUSTOMER_NOT_FOUND.getMessage());
     }
 
     @DisplayName("Test deleteWallet Fail: When Voucher Not Found")
@@ -240,7 +240,7 @@ class WalletServiceTest {
                 .build();
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.deleteWallet(walletRequestDto));
-        assertEquals(VOUCHER_NOT_FOUND.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(VOUCHER_NOT_FOUND.getMessage());
     }
 
     @DisplayName("Test deleteWallet Fail: When Wallet Not Found")
@@ -256,6 +256,6 @@ class WalletServiceTest {
                 .build();
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.deleteWallet(walletRequestDto));
-        assertEquals(WALLET_NOT_FOUND.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(WALLET_NOT_FOUND.getMessage());
     }
 }

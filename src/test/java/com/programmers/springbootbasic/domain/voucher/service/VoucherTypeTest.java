@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DisplayName("VoucherType Test")
 class VoucherTypeTest {
@@ -23,8 +24,9 @@ class VoucherTypeTest {
         // Act
         Voucher actualResult = VoucherType.of(1, expectedUUID, expectedValue);
         // Assert
-        assertTrue(actualResult instanceof FixedAmountVoucher);
-        assertEquals(expectedUUID, actualResult.getVoucherId());
+        assertThat(actualResult).isInstanceOf(FixedAmountVoucher.class);
+        assertThat(actualResult.getVoucherId()).isEqualTo(expectedUUID);
+        assertThat(actualResult.getValue()).isEqualTo(expectedValue);
     }
 
     @DisplayName("of. FixedAmountVoucher 생성 실패: value가 0 미만일때")
@@ -35,7 +37,7 @@ class VoucherTypeTest {
         long expectedValue = -10L;
         // Act & Assert
         Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(1, expectedUUID, expectedValue));
-        assertEquals(ErrorMsg.WRONG_FIXED_AMOUNT_VALUE_INPUT.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.WRONG_FIXED_AMOUNT_VALUE_INPUT.getMessage());
     }
 
     @DisplayName("of. PercentDiscountVoucher 생성 성공")
@@ -47,8 +49,9 @@ class VoucherTypeTest {
         // Act
         Voucher actualResult = VoucherType.of(2, expectedUUID, expectedValue);
         // Assert
-        assertTrue(actualResult instanceof PercentDiscountVoucher);
-        assertEquals(expectedUUID, actualResult.getVoucherId());
+        assertThat(actualResult).isInstanceOf(PercentDiscountVoucher.class);
+        assertThat(actualResult.getVoucherId()).isEqualTo(expectedUUID);
+        assertThat(actualResult.getValue()).isEqualTo(expectedValue);
     }
 
     @DisplayName("of. PercentDiscountVoucher 생성 실패: value가 0 미만 or 100 초과일때")
@@ -60,9 +63,9 @@ class VoucherTypeTest {
         long expectedValue2 = 101L;
         // Act & Assert
         Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(2, expectedUUID, expectedValue1));
-        assertEquals(ErrorMsg.WRONG_PERCENT_DISCOUNT_VALUE_INPUT.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.WRONG_PERCENT_DISCOUNT_VALUE_INPUT.getMessage());
         actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(2, expectedUUID, expectedValue2));
-        assertEquals(ErrorMsg.WRONG_PERCENT_DISCOUNT_VALUE_INPUT.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.WRONG_PERCENT_DISCOUNT_VALUE_INPUT.getMessage());
     }
 
     @DisplayName("of. number로 1,2가 아닌 숫자가 주어졌을때")
@@ -73,6 +76,6 @@ class VoucherTypeTest {
         long expectedValue = 10L;
         // Act & Assert
         Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(-100, expectedUUID, expectedValue));
-        assertEquals(ErrorMsg.WRONG_VOUCHER_TYPE_NUMBER.getMessage(), actualResult.getMessage());
+        assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.WRONG_VOUCHER_TYPE_NUMBER.getMessage());
     }
 }
