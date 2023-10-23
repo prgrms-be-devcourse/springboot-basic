@@ -90,13 +90,13 @@ public class ConsoleVoucherApplication {
     private void getVoucherList() {
         logger.info("Call getVoucherList()");
 
-        Console.printList(voucherController.getVouchersInfo());
+        Console.printStringList(voucherController.getVouchersInfo());
     }
 
     private void getBlacklist() {
         logger.info("Call getBlackListUsers()");
 
-        Console.printList(userController.getBlacklistInfo());
+        Console.printStringList(userController.getBlacklistInfo());
     }
 
     private void close() {

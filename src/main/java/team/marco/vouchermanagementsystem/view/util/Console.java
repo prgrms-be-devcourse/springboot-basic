@@ -19,7 +19,7 @@ public final class Console {
         System.out.println(object + System.lineSeparator()); // thanks to SH, IJ
     }
 
-    public static void printList(List<String> list) {
+    public static void printStringList(List<String> list) {
         String joinedString = String.join(INFO_DELIMINATOR, list);
 
         if (!joinedString.isBlank()) {
