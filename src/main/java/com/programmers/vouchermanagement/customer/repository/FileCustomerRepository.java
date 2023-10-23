@@ -3,13 +3,15 @@ package com.programmers.vouchermanagement.customer.repository;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -19,7 +21,10 @@ import com.programmers.vouchermanagement.properties.AppProperties;
 @Repository
 @Profile({"dev", "prod"})
 public class FileCustomerRepository implements CustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final String COMMA_SEPARATOR = ", ";
+    private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading blacklist";
+
     private final String filePath;
     private final Map<UUID, Customer> customers;
 
@@ -37,7 +42,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 .toList();
     }
 
-    private void loadBlacklist() {
+    private void loadBlacklist() throws UncheckedIOException {
         List<Customer> blacklist = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -54,8 +59,8 @@ public class FileCustomerRepository implements CustomerRepository {
                 blacklist.add(blackCustomer);
             }
         } catch (IOException e) {
-            e.printStackTrace();
-            //TODO: add logger
+            logger.error(IO_EXCEPTION_LOG_MESSAGE, e);
+            throw new UncheckedIOException(e);
         }
 
         blacklist.forEach(blackCustomer -> customers.put(blackCustomer.getCustomerId(), blackCustomer));
