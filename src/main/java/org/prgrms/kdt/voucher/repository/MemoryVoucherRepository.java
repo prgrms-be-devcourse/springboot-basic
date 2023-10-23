@@ -26,6 +26,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
   @Override
   public List<Voucher> findAll() {
-    return (List<Voucher>) storage.values();
+    return new ArrayList<>(storage.values());
   }
 }

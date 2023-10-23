@@ -30,9 +30,6 @@ public class VoucherService {
       .orElseThrow(() -> new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId)));
   }
 
-  public void useVoucher(Voucher voucher) {
-  }
-
   public void createVoucher(FixedAmountVoucherDto fixedAmountVoucherDto) {
     var voucher = new FixedAmountVoucher(fixedAmountVoucherDto.getVoucherId(), fixedAmountVoucherDto.getAmount());
     voucherRepository.insert(voucher);
@@ -45,5 +42,8 @@ public class VoucherService {
 
   public List<Voucher> getAllVouchers() {
     return (List<Voucher>) voucherRepository.findAll();
+  }
+
+  public void useVoucher(Voucher voucher) {
   }
 }

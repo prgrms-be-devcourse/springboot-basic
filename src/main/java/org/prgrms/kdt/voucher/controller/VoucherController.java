@@ -2,10 +2,12 @@ package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.app.configuration.io.InputHandler;
 import org.prgrms.kdt.app.configuration.io.OutputHandler;
+import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 import static org.prgrms.kdt.app.configuration.io.SystemMessage.*;
@@ -66,15 +68,13 @@ public class VoucherController {
 //            outputHandler.outputSystemMessage(CREATE_PERCENT_BOUCHER.getMessage());
 
             return true;
-        }
-        else if(menu.equals(LIST))
-        {
-            voucherService.getAllVouchers();
+        } else if(menu.equals(LIST)) {
+            List<Voucher> voucherList = voucherService.getAllVouchers();
+            outputHandler.outputVouchers(voucherList);
             return true;
-        }
-        else{
+        } else {
             outputHandler.outputSystemMessage(EXCEPTION_VOUCHER_TYPE.getMessage());
-            return false;
+            return true;
         }
     }
 }
