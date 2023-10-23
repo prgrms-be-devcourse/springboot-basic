@@ -6,6 +6,10 @@ csv:
 
 ---
 spring:
+  profiles:
+    active: local
+---
+spring:
   datasource:
     url: jdbc:mysql://localhost:3306/vouchermanager
     username: root

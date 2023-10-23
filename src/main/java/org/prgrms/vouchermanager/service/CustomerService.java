@@ -14,6 +14,10 @@ import java.util.UUID;
 public class CustomerService {
     private final CustomerRepositroy customerRepositroy; //yaml 파일에서 Repository 지정
 
+    public CustomerService(CustomerRepositroy customerRepositroy) {
+        this.customerRepositroy = customerRepositroy;
+    }
+
     public List<Customer> findAll(){
         return customerRepositroy.findAll();
     }
