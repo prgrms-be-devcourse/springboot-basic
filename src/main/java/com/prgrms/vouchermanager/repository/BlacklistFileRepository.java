@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public class CustomerFileRepository implements CustomerRepository {
+public class BlacklistFileRepository implements BlacklistRepository {
     private final Map<Integer, Customer> customerMap = new HashMap<>();
     @Autowired
-    public CustomerFileRepository(@Value("${csv.blacklist}") String fileName) {
+    public BlacklistFileRepository(@Value("${csv.blacklist}") String fileName) {
         FileIO fileIO = new FileIO(fileName);
         fileIO.fileToCustomerMap(customerMap);
     }

@@ -2,17 +2,11 @@ package com.prgrms.vouchermanager.domain;
 
 import com.prgrms.vouchermanager.controller.VoucherController;
 import com.prgrms.vouchermanager.exception.EmptyListException;
-import com.prgrms.vouchermanager.exception.NotCorrectCommand;
-import com.prgrms.vouchermanager.exception.NotCorrectForm;
-import com.prgrms.vouchermanager.exception.NotCorrectScope;
-import com.prgrms.vouchermanager.io.Command;
 import com.prgrms.vouchermanager.io.ConsolePrint;
-import com.prgrms.vouchermanager.io.VoucherType;
-import com.prgrms.vouchermanager.repository.CustomerFileRepository;
+import com.prgrms.vouchermanager.repository.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.VoucherFileRepository;
 import com.prgrms.vouchermanager.service.VoucherService;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
@@ -28,7 +21,7 @@ class CommandHandlerTest {
     private final String filePathV = "src/main/resources/voucher_list.csv";
     private final String filePathC = "src/main/resources/customer_blacklist.csv";
     VoucherFileRepository voucherRepository = new VoucherFileRepository(filePathV);
-    CustomerFileRepository customerRepository = new CustomerFileRepository(filePathC);
+    BlacklistFileRepository customerRepository = new BlacklistFileRepository(filePathC);
     VoucherService service = new VoucherService(voucherRepository, customerRepository);
     private VoucherController controller = new VoucherController(service);
     private CommandHandler handler = new CommandHandler(new ConsolePrint(), controller);
@@ -125,7 +118,7 @@ class CommandHandlerTest {
         bw.close();
 
         voucherRepository = new VoucherFileRepository(filePathV);
-        customerRepository = new CustomerFileRepository(filePathC);
+        customerRepository = new BlacklistFileRepository(filePathC);
         service = new VoucherService(voucherRepository, customerRepository);
         controller = new VoucherController(service);
         handler = new CommandHandler(new ConsolePrint(), controller);
@@ -147,7 +140,7 @@ class CommandHandlerTest {
         bw.close();
 
         voucherRepository = new VoucherFileRepository(filePathV);
-        customerRepository = new CustomerFileRepository(filePathC);
+        customerRepository = new BlacklistFileRepository(filePathC);
         service = new VoucherService(voucherRepository, customerRepository);
         controller = new VoucherController(service);
         handler = new CommandHandler(new ConsolePrint(), controller);

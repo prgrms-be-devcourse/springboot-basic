@@ -5,7 +5,7 @@ import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.domain.VoucherFactory;
 import com.prgrms.vouchermanager.io.VoucherType;
 import com.prgrms.vouchermanager.message.LogMessage;
-import com.prgrms.vouchermanager.repository.CustomerRepository;
+import com.prgrms.vouchermanager.repository.BlacklistRepository;
 import com.prgrms.vouchermanager.repository.VoucherRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,13 @@ import java.util.List;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
-    private final CustomerRepository customerRepository;
+    private final BlacklistRepository blacklistRepository;
     @Autowired
-    public VoucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
+    public VoucherService(VoucherRepository voucherRepository, BlacklistRepository blacklistRepository) {
         this.voucherRepository = voucherRepository;
-        this.customerRepository = customerRepository;
+        this.blacklistRepository = blacklistRepository;
         log.info(LogMessage.CHECK_VOUCHER_REPOSITORY.getMessage(), voucherRepository.getClass());
-        log.info(LogMessage.CHECK_CUSTOMER_REPOSITORY.getMessage(), customerRepository.getClass());
+        log.info(LogMessage.CHECK_CUSTOMER_REPOSITORY.getMessage(), blacklistRepository.getClass());
     }
 
     public Voucher create(VoucherType voucherType, long discount) {
@@ -40,6 +40,6 @@ public class VoucherService {
     }
 
     public List<Customer> blacklist() {
-        return customerRepository.blacklist();
+        return blacklistRepository.blacklist();
     }
 }

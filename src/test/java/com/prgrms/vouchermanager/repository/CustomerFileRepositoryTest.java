@@ -10,7 +10,7 @@ import java.util.List;
 
 class CustomerFileRepositoryTest {
 
-    private final CustomerFileRepository repository = new CustomerFileRepository("src/main/resources/customer_blacklist.csv");
+    private final BlacklistFileRepository repository = new BlacklistFileRepository("src/main/resources/customer_blacklist.csv");
 
     @Test
     @DisplayName("블랙리스트 조회")

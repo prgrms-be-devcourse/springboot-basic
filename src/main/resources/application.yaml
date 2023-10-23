@@ -5,3 +5,8 @@ csv:
 spring:
   profiles:
     active: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher?serverTimezone=UTC&characterEnc
+    username: root
+    password: 0000

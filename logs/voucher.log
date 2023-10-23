@@ -1,5 +1,5 @@
 13:54:34.432 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository
-13:54:34.441 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.CustomerFileRepository
+13:54:34.441 [main] INFO  c.p.v.service.VoucherService -- customer 리포지토리 모드: class com.prgrms.vouchermanager.repository.BlacklistFileRepository
 13:54:34.610 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
 Id : 289438f4-8856-423b-8373-ef1ecdbc23a2
 Discount Type : fixed discount
