@@ -25,7 +25,6 @@ class VoucherServiceTest {
     private static final VoucherRepository voucherRepository = new MemoryVoucherRepository();
     private static final VoucherService voucherService = new VoucherService(voucherRepository);
 
-    private static final Logger log = LoggerFactory.getLogger(VoucherServiceTest.class);
 
 
     @Test
@@ -39,7 +38,6 @@ class VoucherServiceTest {
         voucherRepository.save(new Voucher(uuids.get(3), 2000, VoucherType.FIXED));
 
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
-        allVoucher.forEach(voucher -> log.info("voucher.toString = {}",voucher));
         List<UUID> rs = allVoucher.stream().map(VoucherResponseDto::getVoucherId).toList();
 
         assertThat(allVoucher).hasSize(5);
