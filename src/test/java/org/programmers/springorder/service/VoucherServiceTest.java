@@ -2,7 +2,6 @@ package org.programmers.springorder.service;
 
 
 import org.junit.jupiter.api.*;
-
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.model.Voucher;
@@ -10,8 +9,6 @@ import org.programmers.springorder.voucher.model.VoucherType;
 import org.programmers.springorder.voucher.repository.MemoryVoucherRepository;
 import org.programmers.springorder.voucher.repository.VoucherRepository;
 import org.programmers.springorder.voucher.service.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,17 +29,16 @@ class VoucherServiceTest {
     @DisplayName("모든 Voucher 리스트를 가져오는 Service 로직")
     void getAllVoucher() {
         List<UUID> uuids = Arrays.asList(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
-        voucherRepository.save(new Voucher(uuids.get(0),10, VoucherType.PERCENT));
-        voucherRepository.save(new Voucher(uuids.get(1),5, VoucherType.PERCENT));
-        voucherRepository.save(new Voucher(uuids.get(2),1000, VoucherType.FIXED));
-        voucherRepository.save(new Voucher(uuids.get(3), 2000, VoucherType.FIXED));
+        voucherRepository.save(Voucher.toVoucher(uuids.get(0),10, VoucherType.PERCENT));
+        voucherRepository.save(Voucher.toVoucher(uuids.get(1),5, VoucherType.PERCENT));
+        voucherRepository.save(Voucher.toVoucher(uuids.get(2),1000, VoucherType.FIXED));
+        voucherRepository.save(Voucher.toVoucher(uuids.get(3), 2000, VoucherType.FIXED));
 
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
         List<UUID> rs = allVoucher.stream().map(VoucherResponseDto::getVoucherId).toList();
 
         assertThat(allVoucher).hasSize(5);
-        assertThat(uuids.stream()
-                .allMatch(rs::contains))
+        assertThat(rs.containsAll(uuids))
                 .isTrue();
     }
 

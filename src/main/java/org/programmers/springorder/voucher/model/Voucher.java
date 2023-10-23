@@ -10,10 +10,14 @@ public class Voucher {
     private final long discountValue;
     private final VoucherType voucherType;
 
-    public Voucher(UUID voucherId, long discountValue, VoucherType voucherType) {
+    private Voucher(UUID voucherId, long discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.discountValue = discountValue;
         this.voucherType = voucherType;
+    }
+
+    public static Voucher toVoucher(UUID voucherId, long discountValue, VoucherType voucherType){
+        return new Voucher(voucherId, discountValue, voucherType);
     }
 
     private Voucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {

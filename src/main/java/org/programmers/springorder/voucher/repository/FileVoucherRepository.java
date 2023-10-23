@@ -51,7 +51,7 @@ public class FileVoucherRepository implements VoucherRepository{
                 long discountValue = Long.parseLong(data[1]);
                 VoucherType voucherType = VoucherType.valueOf(data[2]);
 
-                Voucher voucher = new Voucher(voucherId, discountValue, voucherType);
+                Voucher voucher = Voucher.toVoucher(voucherId, discountValue, voucherType);
                 voucherList.add(voucher);
             }
         } catch (FileNotFoundException e) {

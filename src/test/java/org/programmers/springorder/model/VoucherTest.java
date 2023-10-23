@@ -7,7 +7,7 @@ import org.programmers.springorder.voucher.model.VoucherType;
 
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class VoucherTest {
 
@@ -25,8 +25,8 @@ class VoucherTest {
         VoucherType voucherType2 = VoucherType.PERCENT;
 
         //when
-        Voucher voucher1 = new Voucher(voucherId1, discountValue1, voucherType1);
-        Voucher voucher2 = new Voucher(voucherId2, discountValue2, voucherType2);
+        Voucher voucher1 = Voucher.toVoucher(voucherId1, discountValue1, voucherType1);
+        Voucher voucher2 = Voucher.toVoucher(voucherId2, discountValue2, voucherType2);
 
         //then
         assertThat(voucher1.getVoucherId()).isEqualTo(voucherId1);

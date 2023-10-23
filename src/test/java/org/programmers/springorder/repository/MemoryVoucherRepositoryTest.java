@@ -28,9 +28,9 @@ class MemoryVoucherRepositoryTest {
     void saveVoucher() {
         // given
         UUID voucherId1 = UUID.randomUUID();
-        Voucher voucher1 = new Voucher(voucherId1, 1000, VoucherType.FIXED);
+        Voucher voucher1 = Voucher.toVoucher(voucherId1, 1000, VoucherType.FIXED);
         UUID voucherId2 = UUID.randomUUID();
-        Voucher voucher2 = new Voucher(voucherId2, 10, VoucherType.PERCENT);
+        Voucher voucher2 = Voucher.toVoucher(voucherId2, 10, VoucherType.PERCENT);
 
         // when
         UUID saveVoucherId1 = voucherRepository.save(voucher1);
@@ -48,8 +48,8 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("바우처 목록 조회에 성공한다.")
     void viewAllVouchers() {
         // given
-        Voucher voucher1 = new Voucher(UUID.randomUUID(), 1000, VoucherType.FIXED);
-        Voucher voucher2 = new Voucher(UUID.randomUUID(), 10, VoucherType.PERCENT);
+        Voucher voucher1 = Voucher.toVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED);
+        Voucher voucher2 = Voucher.toVoucher(UUID.randomUUID(), 10, VoucherType.PERCENT);
 
         // when
         voucherRepository.save(voucher1);
@@ -68,7 +68,7 @@ class MemoryVoucherRepositoryTest {
     void findByVoucherId() {
         // given
         UUID voucherId1 = UUID.randomUUID();
-        Voucher voucher1 = new Voucher(voucherId1, 1000, VoucherType.FIXED);
+        Voucher voucher1 = Voucher.toVoucher(voucherId1, 1000, VoucherType.FIXED);
 
         // when
         UUID saveVoucherId = voucherRepository.save(voucher1);
@@ -83,7 +83,7 @@ class MemoryVoucherRepositoryTest {
     void findByVoucherIdFail() {
         // given
         UUID voucherId1 = UUID.randomUUID();
-        Voucher voucher1 = new Voucher(voucherId1, 1000, VoucherType.FIXED);
+        Voucher voucher1 = Voucher.toVoucher(voucherId1, 1000, VoucherType.FIXED);
 
         // when
         voucherRepository.save(voucher1);
