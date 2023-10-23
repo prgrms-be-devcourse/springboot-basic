@@ -1,5 +1,9 @@
 package org.prgrms.kdt.voucher.service;
 
+import org.prgrms.kdt.voucher.controller.FixedAmountVoucherDto;
+import org.prgrms.kdt.voucher.controller.PercentDiscountVoucherDto;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,7 +33,13 @@ public class VoucherService {
   public void useVoucher(Voucher voucher) {
   }
 
-  public void createVoucher(Voucher voucher) {
+  public void createVoucher(FixedAmountVoucherDto fixedAmountVoucherDto) {
+    var voucher = new FixedAmountVoucher(fixedAmountVoucherDto.getVoucherId(), fixedAmountVoucherDto.getAmount());
+    voucherRepository.insert(voucher);
+  }
+
+  public void createVoucher(PercentDiscountVoucherDto percentDiscountVoucherDto) {
+    var voucher = new PercentDiscountVoucher(percentDiscountVoucherDto.getVoucherId(), percentDiscountVoucherDto.getPercent());
     voucherRepository.insert(voucher);
   }
 

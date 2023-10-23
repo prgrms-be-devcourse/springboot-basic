@@ -28,5 +28,4 @@ public class MemoryVoucherRepository implements VoucherRepository {
   public List<Voucher> findAll() {
     return (List<Voucher>) storage.values();
   }
-
 }

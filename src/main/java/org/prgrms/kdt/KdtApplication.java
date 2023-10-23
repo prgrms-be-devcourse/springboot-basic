@@ -1,6 +1,5 @@
 package org.prgrms.kdt;
 
-import java.io.IOException;
 import org.prgrms.kdt.app.configuration.YamlPropertiesFactory;
 import org.prgrms.kdt.voucher.controller.VoucherController;
 import org.slf4j.Logger;
@@ -10,6 +9,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
+
+import java.io.IOException;
 
 @SpringBootApplication
 @ComponentScan(
@@ -25,7 +26,7 @@ public class KdtApplication {
     var applicationContext = SpringApplication.run(KdtApplication.class, args);
     var voucherController = applicationContext.getBean(VoucherController.class);
 
-    boolean isRepeat = true;
+    var isRepeat = true;
 
     while(isRepeat){
       isRepeat = voucherController.startVoucherMenu();

@@ -1,12 +1,14 @@
 package org.prgrms.kdt.voucher.repository;
 
+import org.prgrms.kdt.voucher.domain.Voucher;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Repository;
+
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import org.prgrms.kdt.voucher.domain.Voucher;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Repository;
 
 @Repository
 @Qualifier("jdbc")
@@ -23,5 +25,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
   public Voucher insert(Voucher voucher) {
     storage.put(voucher.getVoucherId(), voucher);
     return voucher;
+  }
+
+  @Override
+  public Collection<Voucher> findAll() {
+    return null;
   }
 }

@@ -6,7 +6,7 @@ public enum SystemMessage {
     CREATE_FIXED_BOUCHER("고정으로 할인되는 비용을 입력하세요."),
     CREATE_PERCENT_BOUCHER("할인되는 퍼센트를 정수로 입력하세요."),
     EXCEPTION_VOUCHER_TYPE("올바른 바우처 타입을 입력하세요."),
-    EXCEPTION_FIXED_AMOUNT_MINUS("할인되는 비용이 음수일 수 없습니다."),
+    EXCEPTION_FIXED_AMOUNT_MINUS("할인되는 비용이 0보다 커야합니다."),
     EXCEPTION_FIXED_AMOUNT_OVER("할인되는 비용이 너무 큽니다. 10만원 밑으로 설정해주세요."),
     EXCEPTION_PERCENT_MINUS("할인되는 퍼센트가 음수일 수 없습니다."),
     EXCEPTION_PERCENT_OVER("할인되는 퍼센트가 100을 넘을 수 없습니다.");
