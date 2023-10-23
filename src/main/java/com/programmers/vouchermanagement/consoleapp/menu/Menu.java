@@ -7,6 +7,7 @@ public enum Menu {
     EXIT("exit"),
     CREATE("create"),
     LIST("list"),
+    BLACKLIST("blacklist"),
     INCORRECT_MENU("incorrect menu");
 
     private final String menuName;
@@ -15,16 +16,16 @@ public enum Menu {
         this.menuName = menuName;
     }
 
-    private boolean isMatching(String input) {
-        return Objects.equals(menuName, input);
-    }
-
     //set static to tell that this method does not depend on a particular Menu value
     public static Menu findMenu(String input) {
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.isMatching(input))
                 .findFirst()
                 .orElse(INCORRECT_MENU);
+    }
+
+    private boolean isMatching(String input) {
+        return Objects.equals(menuName, input);
     }
 
     public boolean isExit() {
