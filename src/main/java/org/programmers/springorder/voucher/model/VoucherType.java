@@ -2,18 +2,18 @@ package org.programmers.springorder.voucher.model;
 
 import java.util.Arrays;
 import java.util.InputMismatchException;
-import java.util.function.BiFunction;
+import java.util.function.LongBinaryOperator;
 
 public enum VoucherType {
     FIXED("1", ((beforeDiscount, discount) -> beforeDiscount - discount), 100, 10000),
     PERCENT("2", ((beforeDiscount, discount) -> beforeDiscount * (100 - discount) / 100), 3, 50);
 
     private final String voucherNum;
-    private final BiFunction<Long, Long, Long> expression;
+    private final LongBinaryOperator expression;
     private final long minimumValue;
     private final long maximumValue;
 
-    VoucherType(String voucherNum, BiFunction<Long, Long, Long> expression, long minimumValue, long maximumValue) {
+    VoucherType(String voucherNum, LongBinaryOperator expression, long minimumValue, long maximumValue) {
         this.voucherNum = voucherNum;
         this.expression = expression;
         this.minimumValue = minimumValue;
@@ -28,7 +28,7 @@ public enum VoucherType {
     }
 
     public long calculate(long beforeDiscount, long discount) {
-        return this.expression.apply(beforeDiscount, discount);
+        return this.expression.applyAsLong(beforeDiscount, discount);
     }
 
     public long getMinimumValue() {
