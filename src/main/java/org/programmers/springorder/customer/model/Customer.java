@@ -18,10 +18,7 @@ public class Customer {
     }
 
     public boolean isBlackList(){
-        if(this.customerType == CustomerType.BLACK) {
-            return true;
-        }
-        return false;
+        return this.customerType == CustomerType.BLACK;
     }
 
     public UUID getCustomerId() {

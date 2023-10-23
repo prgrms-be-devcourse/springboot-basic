@@ -68,7 +68,7 @@ public class FileVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return findAll().stream()
-                .filter(voucher -> voucher.getVoucherId() == voucherId)
+                .filter(voucher -> voucher.isSameId(voucherId))
                 .findFirst();
     }
 

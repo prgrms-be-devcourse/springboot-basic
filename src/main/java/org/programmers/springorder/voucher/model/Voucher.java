@@ -34,6 +34,10 @@ public class Voucher {
         return data.toString();
     }
 
+    public boolean isSameId(UUID comparingId){
+        return this.voucherId.equals(comparingId);
+    }
+
     public long getCalculate(long beforeDiscount) {
         return this.voucherType.calculate(beforeDiscount, this.discountValue);
     }
