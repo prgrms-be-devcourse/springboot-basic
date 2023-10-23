@@ -1,10 +1,11 @@
 package com.programmers.vouchermanagement.consoleapp.menu;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
+import com.programmers.vouchermanagement.customer.controller.CustomerController;
+import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
 import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
-
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,10 +19,12 @@ public class MenuHandler {
 
     private final ConsoleManager consoleManager;
     private final VoucherController voucherController;
+    private final CustomerController customerController;
 
-    public MenuHandler(ConsoleManager consoleManager, VoucherController voucherController) {
+    public MenuHandler(ConsoleManager consoleManager, VoucherController voucherController, CustomerController customerController) {
         this.consoleManager = consoleManager;
         this.voucherController = voucherController;
+        this.customerController = customerController;
     }
 
     // Options..
@@ -68,7 +71,12 @@ public class MenuHandler {
             }
             case LIST -> {
                 List<GeneralVoucherDTO> voucherResponses = voucherController.readAllVouchers();
-                consoleManager.printReadAll(voucherResponses);
+                consoleManager.printReadAllVouchers(voucherResponses);
+            }
+            //TODO: customerDTO
+            case BLACKLIST -> {
+                List<Customer> customerResponses = customerController.readBlacklist();
+                consoleManager.printReadBlacklist(customerResponses);
             }
         }
     }

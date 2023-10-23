@@ -1,10 +1,10 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
+import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
 import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
-
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
@@ -21,6 +21,7 @@ public class ConsoleManager {
             Type **exit** to exit the program.
             Type **create** to create a new voucher.
             Type **list** to list all vouchers.
+            Type **blacklist** to list all customers in blacklist.
             """;
     private static final String CREATE_SELECTION_INSTRUCTION = """
             Please select the type of voucher to create.
@@ -72,8 +73,20 @@ public class ConsoleManager {
         textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.getVoucherId()));
     }
 
-    public void printReadAll(List<GeneralVoucherDTO> voucherResponses) {
+    public void printReadAllVouchers(List<GeneralVoucherDTO> voucherResponses) {
         voucherResponses.forEach(voucherResponse -> textIO.getTextTerminal().println(formatVoucherDTO(voucherResponse)));
+    }
+
+    public void printReadBlacklist(List<Customer> customerResponses) {
+        customerResponses.forEach(customerResponse -> textIO.getTextTerminal().println(formatCustomer(customerResponse)));
+    }
+
+    private String formatCustomer(Customer customer) {
+        return """
+                Customer ID : %s
+                Customer Name : %s
+                -------------------------"""
+                .formatted(customer.getCustomerId(), customer.getName());
     }
 
     private String formatVoucherDTO(GeneralVoucherDTO generalVoucherDTO) {
