@@ -2,6 +2,8 @@ package org.programmers.springorder.consts;
 
 public class Message {
 
+    private Message(){}
+
     public static final String MENU_SELECT_MESSAGE = """
             === Voucher Program ===
             1. Exit the program.
