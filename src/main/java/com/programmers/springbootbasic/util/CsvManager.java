@@ -4,7 +4,7 @@ package com.programmers.springbootbasic.util;
 import static com.programmers.springbootbasic.exception.ErrorCode.FILE_IO_ERROR;
 
 import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
-import com.programmers.springbootbasic.exception.exceptionClass.SystemException;
+import com.programmers.springbootbasic.exception.exceptionClass.FileIOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -62,7 +62,7 @@ public class CsvManager implements FileManager {
             }
             writeEntity(writer, entity);
         } catch (IOException e) {
-            throw new SystemException(FILE_IO_ERROR);
+            throw new FileIOException(FILE_IO_ERROR);
         }
     }
 
@@ -89,7 +89,7 @@ public class CsvManager implements FileManager {
             }
             return resource.getFile();
         } catch (IOException e) {
-            throw new SystemException(FILE_IO_ERROR);
+            throw new FileIOException(FILE_IO_ERROR);
         }
     }
 
@@ -112,7 +112,7 @@ public class CsvManager implements FileManager {
                 Object value = fields[i].get(entity);
                 writer.write(value != null ? value.toString() : "");
             } catch (IllegalAccessException e) {
-                throw new SystemException(FILE_IO_ERROR);
+                throw new FileIOException(FILE_IO_ERROR);
             }
             if (i < fields.length - 1) {
                 writer.write(",");
