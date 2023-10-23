@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.prgrms.kdt.app.configuration.io.SystemMessage.EXCEPTION_FIND_VOUCHER;
-import static org.prgrms.kdt.app.configuration.io.SystemMessage.FOUND_VOUCHER_IS_EMPTY;
+import static org.prgrms.kdt.app.io.SystemMessage.EXCEPTION_FIND_VOUCHER;
+import static org.prgrms.kdt.app.io.SystemMessage.FOUND_VOUCHER_IS_EMPTY;
 
 @Service
 public class VoucherService {

@@ -1,8 +1,8 @@
 package org.prgrms.kdt.voucher.controller;
 
-import org.prgrms.kdt.app.configuration.io.InputHandler;
-import org.prgrms.kdt.app.configuration.io.OutputHandler;
-import org.prgrms.kdt.app.configuration.io.StartMenu;
+import org.prgrms.kdt.app.io.InputHandler;
+import org.prgrms.kdt.app.io.OutputHandler;
+import org.prgrms.kdt.app.io.StartMenu;
 import org.prgrms.kdt.customer.controller.CustomerController;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import static org.prgrms.kdt.app.configuration.io.SystemMessage.*;
+import static org.prgrms.kdt.app.io.SystemMessage.*;
 
 @Controller
 public class VoucherController {

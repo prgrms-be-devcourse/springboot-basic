@@ -1,4 +1,4 @@
-package org.prgrms.kdt.app.configuration.io;
+package org.prgrms.kdt.app.io;
 
 import org.springframework.stereotype.Component;
 
@@ -20,13 +20,13 @@ public class StartMenu {
         StringBuilder sb = new StringBuilder();
         sb.append("=== Voucher Program ===");
         sb.append(lineSeparator);
-        sb.append("Type 'exit' to exit the program.");
+        sb.append("[1] Type 'exit' to exit the program.");
         sb.append(lineSeparator);
-        sb.append("Type 'create' to create a new voucher.");
+        sb.append("[2] Type 'create' to create a new voucher.");
         sb.append(lineSeparator);
-        sb.append("Type 'list' to list all vouchers.");
+        sb.append("[3] Type 'list' to list all vouchers.");
         sb.append(lineSeparator);
-        sb.append("Type 'black' to list the blacklisted list.");
+        sb.append("[4] Type 'black' to list the blacklisted list.");
         sb.append(lineSeparator);
 
         outputHandler.outputSystemMessage(sb.toString());

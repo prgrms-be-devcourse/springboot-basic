@@ -1,7 +1,7 @@
 package org.prgrms.kdt.customer.controller;
 
-import org.prgrms.kdt.app.configuration.io.InputHandler;
-import org.prgrms.kdt.app.configuration.io.OutputHandler;
+import org.prgrms.kdt.app.io.InputHandler;
+import org.prgrms.kdt.app.io.OutputHandler;
 import org.prgrms.kdt.customer.domain.Customer;
 import org.prgrms.kdt.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
