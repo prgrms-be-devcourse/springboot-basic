@@ -19,10 +19,10 @@ import java.util.function.Function;
 public class CsvVoucherRepository implements VoucherRepository {
 
     private static final String CSV_LINE_TEMPLATE = "%s,%s,%d";
-    private final CsvFileHandler<Voucher> csvFileHandler;
+    private final CsvFileHandler csvFileHandler;
     private final Map<UUID, Voucher> voucherDatabase = new ConcurrentHashMap<>();
 
-    public CsvVoucherRepository(CsvFileHandler<Voucher> voucherCsvFileHandler) {
+    public CsvVoucherRepository(CsvFileHandler voucherCsvFileHandler) {
         this.csvFileHandler = voucherCsvFileHandler;
     }
 

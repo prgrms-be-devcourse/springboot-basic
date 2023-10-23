@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
-public class CsvFileHandler<T> {
+public class CsvFileHandler {
 
     private static final String CSV_DELIMITER = ",";
     private final String filePath;
@@ -24,7 +24,7 @@ public class CsvFileHandler<T> {
         }
     }
 
-    public List<T> readListFromCsv(Function<String[], T> parser, String csvLineTemplate) {
+    public <T> List<T> readListFromCsv(Function<String[], T> parser, String csvLineTemplate) {
         List<T> itemList = new ArrayList<>();
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath))) {
@@ -45,7 +45,7 @@ public class CsvFileHandler<T> {
     }
 
 
-    public void writeListToCsv(List<T> itemList, Function<T, String> serializer) {
+    public <T> void writeListToCsv(List<T> itemList, Function<T, String> serializer) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath))) {
             for (T item : itemList) {
                 String csvLine = serializer.apply(item);

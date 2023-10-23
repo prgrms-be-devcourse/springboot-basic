@@ -18,10 +18,10 @@ import java.util.function.Function;
 public class CsvCustomerRepository implements CustomerRepository {
 
     private static final String CSV_LINE_TEMPLATE = "%s,%s,%s";
-    private final CsvFileHandler<Customer> csvFileHandler;
+    private final CsvFileHandler csvFileHandler;
     private final Map<UUID, Customer> customerDatabase = new ConcurrentHashMap<>();
 
-    public CsvCustomerRepository(CsvFileHandler<Customer> customerCsvFileHandler) {
+    public CsvCustomerRepository(CsvFileHandler customerCsvFileHandler) {
         this.csvFileHandler = customerCsvFileHandler;
     }
 
