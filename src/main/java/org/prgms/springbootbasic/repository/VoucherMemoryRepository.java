@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile({"dev", "prod", "local", "test"})
 @Slf4j
-public class MemoryVoucherRepository implements VoucherRepository{
+public class VoucherMemoryRepository implements VoucherRepository{
     ConcurrentHashMap<UUID, Voucher> mem = new ConcurrentHashMap<>();
 
     @Override
