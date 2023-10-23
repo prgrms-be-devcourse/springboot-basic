@@ -22,11 +22,19 @@ public class Voucher {
         this.voucherType = voucherRequestDto.getVoucherType();
     }
 
-    public static Voucher of(UUID voucherId, VoucherRequestDto requestDto){
+    public static Voucher of(UUID voucherId, VoucherRequestDto requestDto) {
         return new Voucher(voucherId, requestDto);
     }
 
-    public long getCalculate(long beforeDiscount){
+    public String insertVoucherDataInFile() {
+        StringBuilder data = new StringBuilder();
+        data.append(this.voucherId).append(",")
+                .append(this.discountValue).append(",")
+                .append(this.voucherType.name());
+        return data.toString();
+    }
+
+    public long getCalculate(long beforeDiscount) {
         return this.voucherType.calculate(beforeDiscount, this.discountValue);
     }
 

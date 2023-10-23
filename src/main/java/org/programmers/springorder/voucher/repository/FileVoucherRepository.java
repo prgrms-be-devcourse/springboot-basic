@@ -29,9 +29,7 @@ public class FileVoucherRepository implements VoucherRepository{
     @Override
     public UUID save(Voucher voucher) {
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
-            String data = String.valueOf(voucher.getVoucherId()) + "," +
-                    String.valueOf(voucher.getDiscountValue()) + "," +
-                    voucher.getVoucherType().name();
+            String data = voucher.insertVoucherDataInFile();
             bw.write(data);
             bw.newLine();
         } catch (IOException e) {
