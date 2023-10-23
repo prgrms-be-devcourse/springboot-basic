@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Voucher {
-    private static final String INVALID_DISCOUNT_INPUT_MESSAGE =
-            "Input should be a number greater than 0 and smaller than 100";
     private final UUID voucherId;
     private final BigDecimal discountValue;
     private final VoucherType voucherType;
@@ -32,6 +30,4 @@ public class Voucher {
     public BigDecimal discount(BigDecimal priceBeforeDiscount) {
         return voucherType.discount(discountValue, priceBeforeDiscount);
     }
-
-    ;
 }
