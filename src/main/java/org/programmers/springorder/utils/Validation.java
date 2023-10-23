@@ -7,7 +7,7 @@ import java.util.InputMismatchException;
 
 public class Validation {
     public static String validateString(String input) {
-        if (input == null || input.trim().isEmpty()) {
+        if (input == null || input.isBlank()) {
             throw new InputMismatchException(ErrorMessage.EMPTY_VALUE_MESSAGE);
         }
         return input;
