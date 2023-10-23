@@ -27,7 +27,7 @@ public class VoucherController {
         this.outputConsole = outputConsole;
     }
 
-    public VoucherTypeFunction findVoucherType() throws IOException {
+    private VoucherTypeFunction findVoucherType() throws IOException {
         outputConsole.getVoucherType();
         String voucherType = inputConsole.getString();
         return voucherService.getVoucherTypeFunction(voucherType);
