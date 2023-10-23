@@ -4,6 +4,8 @@ import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
 import lombok.RequiredArgsConstructor;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 public class VoucherCreateRequest {
 
@@ -12,12 +14,9 @@ public class VoucherCreateRequest {
 
     public Voucher toEntity() {
         return Voucher.builder()
+                .id(UUID.randomUUID())
                 .voucherType(voucherType)
                 .discountValue(discountValue)
                 .build();
-    }
-
-    public boolean validateDiscountValue() {
-        return voucherType.validateDiscountValue(discountValue);
     }
 }
