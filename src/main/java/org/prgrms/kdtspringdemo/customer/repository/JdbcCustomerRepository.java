@@ -1,10 +1,9 @@
 package org.prgrms.kdtspringdemo.customer.repository;
 
-import com.zaxxer.hikari.HikariDataSource;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,17 +16,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Profile("dev")
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
-    private final DataSource dataSource() {
-        return DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost/kdt")
-                .username("test")
-                .password("test1234!")
-                .type(HikariDataSource.class)
-                .build();
-    }
+    private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
@@ -41,8 +34,24 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
-    public JdbcCustomerRepository() {
-        this.jdbcTemplate = new JdbcTemplate(dataSource());
+    public JdbcCustomerRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
+        this.dataSource = dataSource;
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public Customer insert(Customer customer) {
+        var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, is_black) VALUES (UUID_TO_BIN(?), ?, ?)",
+                customer.getCustomerId().toString().getBytes(),
+                customer.getName(),
+                customer.isBlack());
+        if(update != 1) {
+            throw new RuntimeException("Nothing was inserted");
+        }
+        return customer;
+    }
+
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM customers");
     }
 
     @Override

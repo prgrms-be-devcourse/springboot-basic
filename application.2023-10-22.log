@@ -1,0 +1,5 @@
+01:07:44.482 [main] INFO  o.p.k.v.r.FileVoucherRepositoryTest - findVoucher : org.prgrms.kdtspringdemo.voucher.domain.PercentDiscountVoucher@513b52af
+13:51:48.665 [main] ERROR o.p.k.v.domain.VoucherTypeFunction - 해당 타입의 바우처가 존재하지 않습니다.
+15:18:09.385 [main] ERROR o.p.k.v.domain.VoucherTypeFunction - 해당 타입의 바우처가 존재하지 않습니다.
+15:18:44.933 [main] ERROR o.p.k.v.domain.VoucherTypeFunction - 해당 타입의 바우처가 존재하지 않습니다.
+15:39:14.053 [main] ERROR o.p.k.v.domain.VoucherTypeFunction - 해당 타입의 바우처가 존재하지 않습니다.
