@@ -3,6 +3,7 @@ package org.prgrms.kdtspringdemo.customer.repository;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,11 +17,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("dev")
+@Profile("test")
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
-    private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
@@ -34,9 +34,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
-    public JdbcCustomerRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
-        this.jdbcTemplate = jdbcTemplate;
+    @Autowired
+    public JdbcCustomerRepository(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public Customer insert(Customer customer) {

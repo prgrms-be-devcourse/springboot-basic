@@ -1,3 +1,9 @@
 spring:
   profiles:
     active: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/kdt   # 데이터베이스 URL
+    username: test                      # 데이터베이스 사용자 이름
+    password: test1234!                       # 데이터베이스 비밀번호
+    driver-class-name: com.mysql.cj.jdbc.Driver   # 데이터베이스 드라이버 클래스명

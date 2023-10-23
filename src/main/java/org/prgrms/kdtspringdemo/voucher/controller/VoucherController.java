@@ -43,10 +43,10 @@ public class VoucherController {
             voucherService.createVoucher(voucherType, voucherId, amount);
         } catch (NumberFormatException e) {
             logger.error("올바른 숫자 형식이 아닙니다.");
-            outputConsole.printNumberFormatException();
         } catch (IOException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException(e);
+        } catch (RuntimeException e) {
+            logger.error(e.getMessage());
         }
     }
 

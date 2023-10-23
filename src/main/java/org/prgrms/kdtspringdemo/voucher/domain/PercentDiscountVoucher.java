@@ -9,7 +9,7 @@ public class PercentDiscountVoucher implements Voucher{
 
     public PercentDiscountVoucher(UUID voucherId, long percent, String voucherType) {
         if(percent <= 0 || percent > 100) {
-            throw new RuntimeException();
+            throw new RuntimeException("할인률은 1~100까지만 적용 가능합니다.");
         }
         this.voucherId = voucherId;
         this.percent = percent;

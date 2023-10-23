@@ -26,7 +26,7 @@ public class VoucherService {
 
     public Voucher createVoucher(VoucherTypeFunction voucherType, UUID voucherId, long amount) {
         Voucher voucher = voucherType.create(voucherId, amount);
-        if(voucher != null) voucherRepository.insert(voucher);
+        voucherRepository.insert(voucher);
         return voucher;
     }
 

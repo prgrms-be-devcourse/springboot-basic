@@ -3,6 +3,7 @@ package org.prgrms.kdtspringdemo.customer.repository;
 import org.apache.commons.csv.CSVRecord;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.prgrms.kdtspringdemo.file.CsvFileHandler;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.*;
 import java.util.List;
 
 @Repository
+@Profile("dev")
 public class FileCustomerRepository implements CustomerRepository{
     private CsvFileHandler csvFileHandler;
     private final String blackListFilePath = "src/main/resources/csvFiles/customer_blacklist.csv";

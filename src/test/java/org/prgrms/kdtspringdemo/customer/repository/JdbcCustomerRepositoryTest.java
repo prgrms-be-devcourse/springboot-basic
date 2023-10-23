@@ -25,7 +25,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcCustomerRepositoryTest {
     @Configuration
