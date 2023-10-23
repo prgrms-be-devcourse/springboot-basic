@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class MemoryRepositoryTest {
+public class VoucherMemoryRepositoryTest {
     private final MemoryVoucherRepository repository = new MemoryVoucherRepository();
 
     @Test
