@@ -16,8 +16,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
