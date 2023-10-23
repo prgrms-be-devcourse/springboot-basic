@@ -3,11 +3,11 @@ package org.programmers.springorder.console;
 import org.programmers.springorder.consts.ErrorMessage;
 import org.programmers.springorder.consts.Message;
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
+import org.programmers.springorder.utils.MenuType;
+import org.programmers.springorder.utils.Validation;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.model.VoucherType;
-import org.programmers.springorder.utils.MenuType;
-import org.programmers.springorder.utils.Validation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -41,7 +41,7 @@ public class Console {
         } catch (InputMismatchException e) {
             logger.error("errorMessage = {}", e.getMessage());
             printMessage(e.getMessage());
-            return inputMenu(); // TODO: 재귀로 호출하는 게 괜찮은 건지 확인 필요
+            return inputMenu(); // TODO:재귀로 호출하는 게 괜찮은 건지 확인 필요
         }
     }
 
@@ -85,7 +85,7 @@ public class Console {
     }
 
     public void showList(List<VoucherResponseDto> allVoucher) {
-        if (allVoucher.size() == 0) {
+        if (allVoucher.isEmpty()) {
             printMessage(ErrorMessage.VOUCHER_NOT_EXIST_MESSAGE);
         } else {
             allVoucher.forEach(System.out::println);
@@ -93,7 +93,7 @@ public class Console {
     }
 
     public void showBlackList(List<CustomerResponseDto> blackList) {
-        if (blackList.size() == 0) {
+        if (blackList.isEmpty()) {
             printMessage(ErrorMessage.BLACK_CONSUMER_NOT_EXIST_MESSAGE);
         } else {
             blackList.forEach(System.out::println);
