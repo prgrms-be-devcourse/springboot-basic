@@ -1,31 +1,33 @@
 package com.programmers.vouchermanagement.repository.customer;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.testcontainers.containers.JdbcDatabaseContainer;
+import org.testcontainers.containers.MySQLContainer;
 
 import javax.sql.DataSource;
 
-@SpringJUnitConfig
+@SpringBootTest
 class JdbcCustomerRepositoryTest {
-
     @Configuration
     @ComponentScan(basePackages = {"com.programmers.vouchermanagement.repository.customer"})
     static class Config {
-
         @Bean
         public DataSource dataSource() {
             return DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:3306/order_mgmt")
+                    .url(mysql.getJdbcUrl())
                     .username("root")
-                    .password("1234")
+                    .password("test")
                     .type(HikariDataSource.class)
                     .build();
         }
@@ -34,21 +36,32 @@ class JdbcCustomerRepositoryTest {
         public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
         }
+
+        @Bean
+        public JdbcCustomerRepository jdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
+            return new JdbcCustomerRepository(jdbcTemplate);
+        }
     }
+
+    static JdbcDatabaseContainer mysql = new MySQLContainer("mysql:8.0.26")
+            .withDatabaseName("test_order_mgmt")
+            .withInitScript("schema.sql");
 
     @Autowired
     JdbcCustomerRepository jdbcCustomerRepository;
 
-    @Autowired
-    DataSource dataSource;
+    @BeforeAll
+    static void setUp() {
+        mysql.start();
+    }
 
-    @Test
-    public void testHikariConnection() {
-        Assertions.assertEquals(dataSource.getClass().getName(), "com.zaxxer.hikari.HikariDataSource");
+    @AfterAll
+    static void cleanUp() {
+        mysql.stop();
     }
 
     @Test
-    public void testFindByName() {
-        jdbcCustomerRepository.findByName("test").forEach(System.out::println);
+    void testFindAll() {
+        Assertions.assertEquals(3, jdbcCustomerRepository.findAll().size());
     }
 }

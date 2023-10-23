@@ -11,9 +11,15 @@ spring:
   config:
     activate:
       on-profile: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/order_mgmt
+    username: root
+    password: root1234
 csv:
   file:
     voucher:
       path: "src/main/resources/files/vouchers.csv"
     customer:
       blacklist_path: "src/main/resources/files/customer_blacklist.csv"
+

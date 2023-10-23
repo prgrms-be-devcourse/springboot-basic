@@ -1,28 +1,26 @@
 package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Profile("dev")
 public class JdbcCustomerRepository implements CustomerRepository {
-
-    private final DataSource dataSource;
-
     private final JdbcTemplate jdbcTemplate;
 
-    public JdbcCustomerRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
+    public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -48,7 +46,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private Customer mapToCustomer(ResultSet resultSet) throws SQLException {
-        UUID customerId = toUUID(resultSet.getBytes("id"));
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String customerName = resultSet.getString("name");
         final LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         final boolean isBanned = resultSet.getBoolean("is_banned");
@@ -63,8 +61,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBannedCustomers() {
-        return null;
+        return Collections.emptyList();
     }
-
-
 }
