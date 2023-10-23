@@ -1,7 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher.controller;
 
-import com.programmers.springbootbasic.common.response.model.CommonResult;
-import com.programmers.springbootbasic.common.response.service.ResponseFactory;
+import com.programmers.springbootbasic.common.response.CommonResult;
 import com.programmers.springbootbasic.domain.voucher.dto.VoucherRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
@@ -40,7 +39,7 @@ class VoucherControllerTest {
         Voucher expectedVoucher = VoucherType.of(1, VOUCHER_ID, 25L);
         when(voucherService.createVoucher(any(VoucherRequestDto.class))).thenReturn(expectedVoucher);
         // Act
-        CommonResult actualResult = voucherController.createVoucher(VOUCHER_TYPE_STR, VALUE_STR);
+        CommonResult<String> actualResult = voucherController.createVoucher(VOUCHER_TYPE_STR, VALUE_STR);
         // Assert
         assertTrue(actualResult.isSuccess());
     }
@@ -52,13 +51,13 @@ class VoucherControllerTest {
         String expectedVoucherType = "Test";
         String expectedVoucherValue = "Test";
         // Act
-        CommonResult actualResult1 = voucherController.createVoucher(expectedVoucherType, VALUE_STR);
-        CommonResult actualResult2 = voucherController.createVoucher(VOUCHER_TYPE_STR, expectedVoucherValue);
+        CommonResult<String> actualResult1 = voucherController.createVoucher(expectedVoucherType, VALUE_STR);
+        CommonResult<String> actualResult2 = voucherController.createVoucher(VOUCHER_TYPE_STR, expectedVoucherValue);
         // Assert
         assertFalse(actualResult1.isSuccess());
-        assertEquals(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage(), actualResult1.getMessage());
+        assertEquals(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage(), actualResult1.getData());
         assertFalse(actualResult2.isSuccess());
-        assertEquals(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage(), actualResult2.getMessage());
+        assertEquals(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage(), actualResult2.getData());
     }
 
     @Test
@@ -68,10 +67,10 @@ class VoucherControllerTest {
         Voucher expectedVoucher = VoucherType.of(1, VOUCHER_ID, expectedVoucherValue);
         when(voucherService.findVoucherById(any(VoucherRequestDto.class))).thenReturn(expectedVoucher);
         // Act
-        CommonResult actualResult = voucherController.findVoucherById(VOUCHER_ID.toString());
+        CommonResult<String> actualResult = voucherController.findVoucherById(VOUCHER_ID.toString());
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(expectedVoucher.getInformation(), actualResult.getMessage());
+        assertEquals(expectedVoucher.getInformation(), actualResult.getData());
     }
 
     @DisplayName("Test findVoucher Fail: When give voucherId not as UUID")
@@ -80,10 +79,10 @@ class VoucherControllerTest {
         // Arrange
         String expectedVoucherId = "AAAA-AAAA-AAAA-AAAA";
         // Act
-        CommonResult actualResult = voucherController.findVoucherById(expectedVoucherId);
+        CommonResult<String> actualResult = voucherController.findVoucherById(expectedVoucherId);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage(), actualResult.getData());
     }
 
     @Test
@@ -91,10 +90,10 @@ class VoucherControllerTest {
         // Arrange
         doNothing().when(voucherService).updateVoucher(any(VoucherRequestDto.class));
         // Act
-        CommonResult actualResult = voucherController.updateVoucher(VOUCHER_ID.toString(), VALUE_STR);
+        CommonResult<String> actualResult = voucherController.updateVoucher(VOUCHER_ID.toString(), VALUE_STR);
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(ResponseFactory.getSuccessResult().getMessage(), actualResult.getMessage());
+        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
     }
 
     @DisplayName("Test updateVoucher Fail: When give voucherId not as UUID")
@@ -103,10 +102,10 @@ class VoucherControllerTest {
         // Arrange
         String expectedVoucherId = "AAAA-AAAA-AAAA-AAAA";
         // Act
-        CommonResult actualResult = voucherController.updateVoucher(expectedVoucherId, VALUE_STR);
+        CommonResult<String> actualResult = voucherController.updateVoucher(expectedVoucherId, VALUE_STR);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage(), actualResult.getData());
     }
 
     @DisplayName("Test updateVoucher Fail: When give value not as Number")
@@ -115,10 +114,10 @@ class VoucherControllerTest {
         // Arrange
         String expectedVoucherValue = "A";
         // Act
-        CommonResult actualResult = voucherController.updateVoucher(VOUCHER_ID.toString(), expectedVoucherValue);
+        CommonResult<String> actualResult = voucherController.updateVoucher(VOUCHER_ID.toString(), expectedVoucherValue);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage(), actualResult.getData());
     }
 
     @Test
@@ -126,10 +125,10 @@ class VoucherControllerTest {
         // Arrange
         doNothing().when(voucherService).deleteVoucher(any(VoucherRequestDto.class));
         // Act
-        CommonResult actualResult = voucherController.deleteVoucher(VOUCHER_ID.toString());
+        CommonResult<String> actualResult = voucherController.deleteVoucher(VOUCHER_ID.toString());
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(ResponseFactory.getSuccessResult().getMessage(), actualResult.getMessage());
+        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
     }
 
     @DisplayName("Test deleteVoucher Fail: When give voucherId not as UUID")
@@ -138,9 +137,9 @@ class VoucherControllerTest {
         // Arrange
         String expectedVoucherId = "AAAA-AAAA-AAAA-AAAA";
         // Act
-        CommonResult actualResult = voucherController.deleteVoucher(expectedVoucherId);
+        CommonResult<String> actualResult = voucherController.deleteVoucher(expectedVoucherId);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage(), actualResult.getData());
     }
 }

@@ -1,6 +1,6 @@
 package com.programmers.springbootbasic.common.handler;
 
-import com.programmers.springbootbasic.common.response.model.CommonResult;
+import com.programmers.springbootbasic.common.response.CommonResult;
 import com.programmers.springbootbasic.common.utils.ConsoleIOManager;
 import com.programmers.springbootbasic.domain.customer.controller.CustomerController;
 import com.programmers.springbootbasic.domain.voucher.controller.VoucherController;
@@ -89,8 +89,8 @@ public class CommandHandler {
         String voucherType = consoleIOManager.getInput();
         consoleIOManager.println(CommandOutput.REQUEST_VOUCHER_VALUE.getValue());
         String value = consoleIOManager.getInput();
-        CommonResult commonResult = voucherController.createVoucher(voucherType, value);
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = voucherController.createVoucher(voucherType, value);
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private void listVoucher() {
@@ -102,11 +102,11 @@ public class CommandHandler {
     private void findVoucher() throws IOException {
         consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
-        CommonResult commonResult = voucherController.findVoucherById(voucherId);
+        CommonResult<String> commonResult = voucherController.findVoucherById(voucherId);
         if (commonResult.isSuccess()) {
-            consoleIOManager.println(commonResult.getMessage());
+            consoleIOManager.println(commonResult.getData());
         } else {
-            consoleIOManager.printSystemMsg(commonResult.getMessage());
+            consoleIOManager.printSystemMsg(commonResult.getData());
         }
     }
 
@@ -115,30 +115,30 @@ public class CommandHandler {
         String voucherId = consoleIOManager.getInput();
         consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_VALUE.getValue());
         String value = consoleIOManager.getInput();
-        CommonResult commonResult = voucherController.updateVoucher(voucherId, value);
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = voucherController.updateVoucher(voucherId, value);
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private void deleteVoucher() throws IOException {
         consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
-        CommonResult commonResult = voucherController.deleteVoucher(voucherId);
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = voucherController.deleteVoucher(voucherId);
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private void deleteAllVouchers() {
-        CommonResult commonResult = voucherController.deleteAllVouchers();
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = voucherController.deleteAllVouchers();
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private void showWalletsByVoucher() throws IOException {
         consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
-        CommonResult commonResult = walletController.findWalletsByVoucherId(voucherId);
+        CommonResult<String> commonResult = walletController.findWalletsByVoucherId(voucherId);
         if (commonResult.isSuccess()) {
-            consoleIOManager.println(commonResult.getMessage());
+            consoleIOManager.println(commonResult.getData());
         } else {
-            consoleIOManager.printSystemMsg(commonResult.getMessage());
+            consoleIOManager.printSystemMsg(commonResult.getData());
         }
     }
 
@@ -147,8 +147,8 @@ public class CommandHandler {
         String email = consoleIOManager.getInput();
         consoleIOManager.print(CommandOutput.REQUEST_NAME.getValue());
         String name = consoleIOManager.getInput();
-        CommonResult commonResult = customerController.createCustomer(email, name);
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = customerController.createCustomer(email, name);
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private void listCustomers() {
@@ -166,20 +166,20 @@ public class CommandHandler {
     private void addBlacklist() throws IOException {
         consoleIOManager.print(CommandOutput.REQUEST_EMAIL.getValue());
         String email = consoleIOManager.getInput();
-        CommonResult commonResult = customerController.addCustomerInBlacklist(email);
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = customerController.addCustomerInBlacklist(email);
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private void removeBlacklist() throws IOException {
         consoleIOManager.print(CommandOutput.REQUEST_EMAIL.getValue());
         String email = consoleIOManager.getInput();
-        CommonResult commonResult = customerController.removeCustomerInBlacklist(email);
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = customerController.removeCustomerInBlacklist(email);
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private void deleteAllCustomers() {
-        CommonResult commonResult = customerController.deleteAllCustomer();
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = customerController.deleteAllCustomer();
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private void addVoucherInWallet() throws IOException {
@@ -188,26 +188,26 @@ public class CommandHandler {
         listVoucher();
         consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
-        CommonResult commonResult = walletController.addWallet(email, voucherId);
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = walletController.addWallet(email, voucherId);
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private void removeVoucherFromWallet() throws IOException {
         String email = showWalletByCustomer();
         consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
-        CommonResult commonResult = walletController.deleteWallet(email, voucherId);
-        consoleIOManager.printSystemMsg(commonResult.getMessage());
+        CommonResult<String> commonResult = walletController.deleteWallet(email, voucherId);
+        consoleIOManager.printSystemMsg(commonResult.getData());
     }
 
     private String showWalletByCustomer() throws IOException {
         consoleIOManager.print(CommandOutput.REQUEST_EMAIL.getValue());
         String email = consoleIOManager.getInput();
-        CommonResult commonResult = walletController.findWalletsByCustomerEmail(email);
+        CommonResult<String> commonResult = walletController.findWalletsByCustomerEmail(email);
         if (commonResult.isSuccess()) {
-            consoleIOManager.println(commonResult.getMessage());
+            consoleIOManager.println(commonResult.getData());
         } else {
-            consoleIOManager.printSystemMsg(commonResult.getMessage());
+            consoleIOManager.printSystemMsg(commonResult.getData());
         }
         return email;
     }

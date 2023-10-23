@@ -1,73 +1,61 @@
 package com.programmers.springbootbasic.domain.customer.controller;
 
-import com.programmers.springbootbasic.common.response.model.CommonResult;
-import com.programmers.springbootbasic.common.response.model.ListResult;
-import com.programmers.springbootbasic.common.response.service.ResponseFactory;
+import com.programmers.springbootbasic.common.response.CommonResult;
 import com.programmers.springbootbasic.domain.customer.dto.CustomerRequestDto;
 import com.programmers.springbootbasic.domain.customer.entity.Customer;
-import com.programmers.springbootbasic.domain.customer.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.customer.service.CustomerService;
+import com.programmers.springbootbasic.domain.customer.vo.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
-import java.util.regex.Pattern;
+import java.util.List;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
-    private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
 
-    private static void verifyEmail(String email) throws IllegalArgumentException {
-        if (!Pattern.matches(EMAIL_REGEX, email)) {
-            throw new IllegalArgumentException(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage());
-        }
-    }
-
-    public CommonResult createCustomer(String email, String name) {
+    public CommonResult<String> createCustomer(String email, String name) {
         try {
-            verifyEmail(email);
             customerService.createCustomer(CustomerRequestDto.builder()
-                    .email(email)
+                    .email(Email.from(email).getValue())
                     .name(name)
                     .build());
         } catch (Exception e) {
             log.warn(e.toString());
-            return ResponseFactory.getFailResult(e.getMessage());
+            return CommonResult.getFailResult(e.getMessage());
         }
-        return ResponseFactory.getSuccessResult();
+        return CommonResult.getSuccessResult();
     }
 
-    public CommonResult addCustomerInBlacklist(String email) {
+    public CommonResult<String> addCustomerInBlacklist(String email) {
         try {
-            verifyEmail(email);
             customerService.addCustomerInBlacklist(CustomerRequestDto.builder()
-                    .email(email)
+                    .email(Email.from(email).getValue())
                     .build());
         } catch (Exception e) {
             log.warn(e.toString());
-            return ResponseFactory.getFailResult(e.getMessage());
+            return CommonResult.getFailResult(e.getMessage());
         }
-        return ResponseFactory.getSuccessResult();
+        return CommonResult.getSuccessResult();
     }
 
-    public CommonResult removeCustomerInBlacklist(String email) {
+    public CommonResult<String> removeCustomerInBlacklist(String email) {
         try {
-            verifyEmail(email);
             customerService.removeCustomerFromBlacklist(CustomerRequestDto.builder()
-                    .email(email)
+                    .email(Email.from(email).getValue())
                     .build());
         } catch (Exception e) {
             log.warn(e.toString());
-            return ResponseFactory.getFailResult(e.getMessage());
+            return CommonResult.getFailResult(e.getMessage());
         }
-        return ResponseFactory.getSuccessResult();
+        return CommonResult.getSuccessResult();
     }
 
-    public ListResult<String> findAllCustomer() {
-        return ResponseFactory.getListResult(
+    public CommonResult<List<String>> findAllCustomer() {
+        return CommonResult.getListResult(
                 customerService.findAllCustomer()
                         .stream()
                         .map(Customer::getInformation)
@@ -75,8 +63,8 @@ public class CustomerController {
         );
     }
 
-    public ListResult<String> findAllBlacklistCustomer() {
-        return ResponseFactory.getListResult(
+    public CommonResult<List<String>> findAllBlacklistCustomer() {
+        return CommonResult.getListResult(
                 customerService.findAllBlacklistCustomer()
                         .stream()
                         .map(Customer::getInformation)
@@ -84,8 +72,8 @@ public class CustomerController {
         );
     }
 
-    public CommonResult deleteAllCustomer() {
+    public CommonResult<String> deleteAllCustomer() {
         customerService.deleteAllCustomer();
-        return ResponseFactory.getSuccessResult();
+        return CommonResult.getSuccessResult();
     }
 }

@@ -1,7 +1,6 @@
 package com.programmers.springbootbasic.domain.customer.controller;
 
-import com.programmers.springbootbasic.common.response.model.CommonResult;
-import com.programmers.springbootbasic.common.response.service.ResponseFactory;
+import com.programmers.springbootbasic.common.response.CommonResult;
 import com.programmers.springbootbasic.domain.customer.dto.CustomerRequestDto;
 import com.programmers.springbootbasic.domain.customer.entity.Customer;
 import com.programmers.springbootbasic.domain.customer.exception.ErrorMsg;
@@ -43,20 +42,20 @@ class CustomerControllerTest {
                 .build();
         when(customerService.createCustomer(any(CustomerRequestDto.class))).thenReturn(expectedCustomer);
         // Act
-        CommonResult actualResult = customerController.createCustomer(EMAIL, NAME);
+        CommonResult<String> actualResult = customerController.createCustomer(EMAIL, NAME);
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(ResponseFactory.getSuccessResult().getMessage(), actualResult.getMessage());
+        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
     }
 
     @DisplayName("Test createCustomerFail: Email verify Fail")
     @Test
     void testCreateCustomerFailWhenEmailVerifyFail() {
         // Act
-        CommonResult actualResult = customerController.createCustomer(WRONG_EMAIL, NAME);
+        CommonResult<String> actualResult = customerController.createCustomer(WRONG_EMAIL, NAME);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getData());
     }
 
     @Test
@@ -64,20 +63,20 @@ class CustomerControllerTest {
         // Arrange
         doNothing().when(customerService).addCustomerInBlacklist(any(CustomerRequestDto.class));
         // Act
-        CommonResult actualResult = customerController.addCustomerInBlacklist(EMAIL);
+        CommonResult<String> actualResult = customerController.addCustomerInBlacklist(EMAIL);
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(ResponseFactory.getSuccessResult().getMessage(), actualResult.getMessage());
+        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
     }
 
     @DisplayName("Test addCustomerInBlacklist: Email verify Fail")
     @Test
     void testAddCustomerInBlacklistFailWhenEmailVerifyFail() {
         // Act
-        CommonResult actualResult = customerController.addCustomerInBlacklist(WRONG_EMAIL);
+        CommonResult<String> actualResult = customerController.addCustomerInBlacklist(WRONG_EMAIL);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getData());
     }
 
     @Test
@@ -85,20 +84,20 @@ class CustomerControllerTest {
         // Arrange
         doNothing().when(customerService).removeCustomerFromBlacklist(any(CustomerRequestDto.class));
         // Act
-        CommonResult actualResult = customerController.removeCustomerInBlacklist(EMAIL);
+        CommonResult<String> actualResult = customerController.removeCustomerInBlacklist(EMAIL);
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(ResponseFactory.getSuccessResult().getMessage(), actualResult.getMessage());
+        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
     }
 
     @DisplayName("Test removeCustomerInBlacklist: Email verify Fail")
     @Test
     void testRemoveCustomerInBlacklistFailWhenEmailVerifyFail() {
         // Act
-        CommonResult actualResult = customerController.removeCustomerInBlacklist(WRONG_EMAIL);
+        CommonResult<String> actualResult = customerController.removeCustomerInBlacklist(WRONG_EMAIL);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getData());
     }
 
 }

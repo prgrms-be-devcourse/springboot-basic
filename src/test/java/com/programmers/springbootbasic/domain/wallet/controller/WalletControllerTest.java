@@ -1,7 +1,6 @@
 package com.programmers.springbootbasic.domain.wallet.controller;
 
-import com.programmers.springbootbasic.common.response.model.CommonResult;
-import com.programmers.springbootbasic.common.response.service.ResponseFactory;
+import com.programmers.springbootbasic.common.response.CommonResult;
 import com.programmers.springbootbasic.domain.wallet.dto.WalletRequestDto;
 import com.programmers.springbootbasic.domain.wallet.entity.Wallet;
 import com.programmers.springbootbasic.domain.wallet.service.WalletService;
@@ -42,20 +41,20 @@ class WalletControllerTest {
                 .build();
         when(walletService.createWallet(any(WalletRequestDto.class))).thenReturn(expectedWallet);
         // Act
-        CommonResult actualResult = walletController.addWallet(EMAIL, VOUCHER_ID_STR);
+        CommonResult<String>  actualResult = walletController.addWallet(EMAIL, VOUCHER_ID_STR);
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(ResponseFactory.getSuccessResult().getMessage(), actualResult.getMessage());
+        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
     }
 
     @DisplayName("Test addWallet Fail: Email verify Fail")
     @Test
     void testAddWalletFailWhenEmailVerifyFail() {
         // Act
-        CommonResult actualResult = walletController.addWallet(WRONG_EMAIL, VOUCHER_ID_STR);
+        CommonResult<String>  actualResult = walletController.addWallet(WRONG_EMAIL, VOUCHER_ID_STR);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
+        assertEquals(EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getData());
     }
 
     @DisplayName("Test addWallet Fail: UUID Format Mismatch")
@@ -64,10 +63,10 @@ class WalletControllerTest {
         // Arrange
         String expectedVoucherId = "AAAA-AAAA-AAAA-AAAA";
         // Act
-        CommonResult actualResult = walletController.addWallet(EMAIL, expectedVoucherId);
+        CommonResult<String>  actualResult = walletController.addWallet(EMAIL, expectedVoucherId);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(UUID_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
+        assertEquals(UUID_FORMAT_MISMATCH.getMessage(), actualResult.getData());
     }
 
     @Test
@@ -84,20 +83,20 @@ class WalletControllerTest {
                 """, EMAIL, VOUCHER_ID_STR);
         when(walletService.findWalletsByCustomerEmail(any(WalletRequestDto.class))).thenReturn(expectedWallets);
         // Act
-        CommonResult actualResult = walletController.findWalletsByCustomerEmail(EMAIL);
+        CommonResult<String>  actualResult = walletController.findWalletsByCustomerEmail(EMAIL);
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(expectedMessage, actualResult.getMessage());
+        assertEquals(expectedMessage, actualResult.getData());
     }
 
     @DisplayName("Test findWalletsByCustomerEmail Fail: Email verify Fail")
     @Test
     void testFindWalletsByCustomerEmailWhenEmailVerifyFail() {
         // Act
-        CommonResult actualResult = walletController.findWalletsByCustomerEmail(WRONG_EMAIL);
+        CommonResult<String>  actualResult = walletController.findWalletsByCustomerEmail(WRONG_EMAIL);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
+        assertEquals(EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getData());
     }
 
     @Test
@@ -114,10 +113,10 @@ class WalletControllerTest {
                 """, VOUCHER_ID_STR, EMAIL);
         when(walletService.findWalletsByVoucherId(any(WalletRequestDto.class))).thenReturn(expectedWallets);
         // Act
-        CommonResult actualResult = walletController.findWalletsByVoucherId(VOUCHER_ID_STR);
+        CommonResult<String>  actualResult = walletController.findWalletsByVoucherId(VOUCHER_ID_STR);
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(expectedMessage, actualResult.getMessage());
+        assertEquals(expectedMessage, actualResult.getData());
     }
 
     @DisplayName("Test findWalletsByVoucherId Fail: UUID Format Mismatch")
@@ -126,10 +125,10 @@ class WalletControllerTest {
         // Arrange
         String expectedVoucherId = "AAAA-AAAA-AAAA-AAAA";
         // Act
-        CommonResult actualResult = walletController.findWalletsByVoucherId(expectedVoucherId);
+        CommonResult<String>  actualResult = walletController.findWalletsByVoucherId(expectedVoucherId);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(UUID_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
+        assertEquals(UUID_FORMAT_MISMATCH.getMessage(), actualResult.getData());
     }
 
     @Test
@@ -137,20 +136,20 @@ class WalletControllerTest {
         // Arrange
         doNothing().when(walletService).deleteWallet(any(WalletRequestDto.class));
         // Act
-        CommonResult actualResult = walletController.deleteWallet(EMAIL, VOUCHER_ID_STR);
+        CommonResult<String>  actualResult = walletController.deleteWallet(EMAIL, VOUCHER_ID_STR);
         // Assert
         assertTrue(actualResult.isSuccess());
-        assertEquals(ResponseFactory.getSuccessResult().getMessage(), actualResult.getMessage());
+        assertEquals(CommonResult.getSuccessResult().getData(), actualResult.getData());
     }
 
     @DisplayName("Test deleteWallet Fail: Email verify Fail")
     @Test
     void testDeleteWalletFailWhenEmailVerifyFail(){
         // Act
-        CommonResult actualResult = walletController.deleteWallet(WRONG_EMAIL, VOUCHER_ID_STR);
+        CommonResult<String>  actualResult = walletController.deleteWallet(WRONG_EMAIL, VOUCHER_ID_STR);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
+        assertEquals(EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getData());
     }
 
     @DisplayName("Test deleteWallet Fail: UUID Format Mismatch")
@@ -159,9 +158,9 @@ class WalletControllerTest {
         // Arrange
         String expectedVoucherId = "AAAA-AAAA-AAAA-AAAA";
         // Act
-        CommonResult actualResult = walletController.deleteWallet(EMAIL, expectedVoucherId);
+        CommonResult<String>  actualResult = walletController.deleteWallet(EMAIL, expectedVoucherId);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(UUID_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
+        assertEquals(UUID_FORMAT_MISMATCH.getMessage(), actualResult.getData());
     }
 }
