@@ -24,5 +24,9 @@ public class Customer {
     public boolean isBlack() {
         return isBlack;
     }
+
+    public String getName() {
+        return name;
+    }
 }
 
