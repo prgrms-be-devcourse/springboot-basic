@@ -1,0 +1,20 @@
+# 현재 default인 경우
+spring:
+  profiles:
+    active: default
+
+customerListFilePath: "src/main/resources/csv/customerList.csv"
+
+---
+# 현재 프로파일이 dev인 경우
+spring:
+  profiles:
+    active: dev
+
+voucherFilePath: "src/main/resources/csv/voucher.csv"
+---
+
+#현재 프로파일이 local인 경우
+spring:
+  profiles:
+    active: local
