@@ -27,7 +27,8 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public void deleteAll() {
-
+    public int deleteAll() {
+        storage.clear();
+        return storage.size();
     }
 }

@@ -47,6 +47,20 @@ class MemoryVoucherRepositoryTest {
         assertThat(voucher).isEmpty();
     }
 
+    @Test
+    @DisplayName("deleteAll : 맵 안의 모든 데이터가 삭제되어야한다.")
+    void deleteAll(){
+        Voucher voucher1 = repository.save(new FixedAmountVoucher(UUID.randomUUID(), 10L));
+        Voucher voucher2 = repository.save(new FixedAmountVoucher(UUID.randomUUID(), 20L));
+        int pastSize = repository.findAll().size();
+
+        int nowSize = repository.deleteAll();
+
+        assertThat(nowSize + 2).isEqualTo(pastSize);
+
+
+    }
+
 
 
 }
