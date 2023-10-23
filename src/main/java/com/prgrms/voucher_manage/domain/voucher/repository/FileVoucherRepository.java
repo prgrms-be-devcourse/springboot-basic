@@ -34,5 +34,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     public void clear(){
         storage.clear();
+        voucherFileManager.updateFile(storage);
     }
 }
