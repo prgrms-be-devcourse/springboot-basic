@@ -17,11 +17,9 @@ public class MemoryRepository implements VoucherRepository{
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
 
-    @Override
-    public void load() {
-
-    }
-
+    //의존관계를 직접 관리하면 생기는 유연하지 않는 부분? -> 스프링의 이점
+    //영속화하는 레포지토리
+    //service
     @Override
     public void create(UUID voucherId, long amountOrPercent, PolicyStatus policy) {
         DiscountPolicy discountPolicy = null;
@@ -47,6 +45,7 @@ public class MemoryRepository implements VoucherRepository{
                 .toList();
     }
 
+    //constructor
     private void validateAmountOrPercentRange(long amountOrPercent) {
         if (amountOrPercent < 0 || amountOrPercent > 100) {
             throw new InvalidRangeException("PercentDiscountPolicy는 0~100 사이의 값을 가져야 합니다.");

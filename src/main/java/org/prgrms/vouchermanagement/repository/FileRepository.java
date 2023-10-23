@@ -20,8 +20,7 @@ public class FileRepository implements VoucherRepository{
     private static final String path = "./voucherFile/voucherFile";
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
-    @Override
-    public void load() {
+    public FileRepository() {
         if(storage.isEmpty()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
                 String line;
