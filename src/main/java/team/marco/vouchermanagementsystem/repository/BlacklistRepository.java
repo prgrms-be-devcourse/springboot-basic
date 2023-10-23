@@ -36,6 +36,6 @@ public class BlacklistRepository {
     }
 
     public List<User> findAll() {
-        return blacklist;
+        return Collections.unmodifiableList(blacklist);
     }
 }

@@ -21,6 +21,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return voucherMap.values().stream().toList();
+        return voucherMap.values().stream()
+                .toList();
     }
 }
