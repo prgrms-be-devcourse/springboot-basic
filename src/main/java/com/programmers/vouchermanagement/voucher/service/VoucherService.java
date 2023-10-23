@@ -1,10 +1,8 @@
 package com.programmers.vouchermanagement.voucher.service;
 
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
-import com.programmers.vouchermanagement.voucher.domain.FixedAmountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.PercentVoucher;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
 import org.springframework.stereotype.Service;
@@ -26,23 +24,20 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public GeneralVoucherDTO create(CreateVoucherRequestDTO createVoucherRequestDTO) {
-        Voucher voucher = switch (createVoucherRequestDTO.voucherType()) {
-            case FIXED -> new FixedAmountVoucher(UUID.randomUUID(), createVoucherRequestDTO.discountValue());
-            case PERCENT -> new PercentVoucher(UUID.randomUUID(), createVoucherRequestDTO.discountValue());
-        };
+    public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
+        Voucher voucher = new Voucher(UUID.randomUUID(), createVoucherRequest.discountValue(), createVoucherRequest.voucherType());
         voucherRepository.save(voucher);
-        return voucher.toVoucherDTO();
+        return VoucherResponse.from(voucher);
     }
 
-    public List<GeneralVoucherDTO> readAllVouchers() {
+    public List<VoucherResponse> readAllVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
 
         if (vouchers.isEmpty()) {
             throw new NoSuchElementException(VOUCHER_NOT_FOUND_MESSAGE);
         }
         return vouchers.stream()
-                .map(Voucher::toVoucherDTO)
+                .map(VoucherResponse::from)
                 .toList();
     }
 }

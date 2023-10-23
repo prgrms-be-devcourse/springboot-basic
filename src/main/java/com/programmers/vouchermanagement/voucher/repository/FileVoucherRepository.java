@@ -2,17 +2,16 @@ package com.programmers.vouchermanagement.voucher.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programmers.vouchermanagement.properties.AppProperties;
-import com.programmers.vouchermanagement.voucher.domain.FixedAmountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.PercentVoucher;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 @Repository
@@ -58,15 +57,12 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Voucher objectToVoucher(Map voucherObject) {
-        UUID voucherId = UUID.fromString((String) voucherObject.get("voucher_id"));
-        long discountValue = Long.parseLong(String.valueOf(voucherObject.get("discount_value")));
-        String voucherTypeName = (String) voucherObject.get("voucher_type");
+        UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get("voucher_id")));
+        BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get("discount_value")));
+        String voucherTypeName = String.valueOf(voucherObject.get("voucher_type"));
         VoucherType voucherType = VoucherType.findCreateMenu(voucherTypeName)
                 .orElseThrow(() -> new NoSuchElementException(INVALID_VOUCHER_TYPE_MESSAGE));
-        return switch (voucherType) {
-            case FIXED -> new FixedAmountVoucher(voucherId, discountValue);
-            case PERCENT -> new PercentVoucher(voucherId, discountValue);
-        };
+        return new Voucher(voucherId, discountValue, voucherType);
     }
 
     public void saveFile() {
@@ -74,7 +70,7 @@ public class FileVoucherRepository implements VoucherRepository {
             List<HashMap<String, Object>> voucherObjects = new ArrayList<>();
             if (!vouchers.isEmpty()) {
                 vouchers.values().forEach(voucher -> {
-                    HashMap<String, Object> voucherObject = voucherToObject(voucher.toVoucherDTO());
+                    HashMap<String, Object> voucherObject = voucherToObject(VoucherResponse.from(voucher));
                     voucherObjects.add(voucherObject);
                 });
             }
@@ -86,11 +82,11 @@ public class FileVoucherRepository implements VoucherRepository {
         }
     }
 
-    private HashMap<String, Object> voucherToObject(GeneralVoucherDTO generalVoucherDTO) {
+    private HashMap<String, Object> voucherToObject(VoucherResponse voucherResponse) {
         HashMap<String, Object> voucherObject = new HashMap<>();
-        voucherObject.put("voucher_id", generalVoucherDTO.getVoucherId().toString());
-        voucherObject.put("discount_value", generalVoucherDTO.getDiscountValue());
-        voucherObject.put("voucher_type", generalVoucherDTO.getVoucherType());
+        voucherObject.put("voucher_id", voucherResponse.voucherId().toString());
+        voucherObject.put("discount_value", voucherResponse.discountValue().toString());
+        voucherObject.put("voucher_type", voucherResponse.voucherType().name());
         return voucherObject;
     }
 }

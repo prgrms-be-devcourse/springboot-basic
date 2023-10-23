@@ -4,8 +4,8 @@ import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.controller.CustomerController;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
-import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -65,12 +65,12 @@ public class MenuHandler {
             case EXIT -> consoleManager.printExit();
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
-                CreateVoucherRequestDTO createVoucherRequestDTO = consoleManager.instructCreate();
-                GeneralVoucherDTO voucherResponse = voucherController.create(createVoucherRequestDTO);
+                CreateVoucherRequest createVoucherRequest = consoleManager.instructCreate();
+                VoucherResponse voucherResponse = voucherController.create(createVoucherRequest);
                 consoleManager.printCreateResult(voucherResponse);
             }
             case LIST -> {
-                List<GeneralVoucherDTO> voucherResponses = voucherController.readAllVouchers();
+                List<VoucherResponse> voucherResponses = voucherController.readAllVouchers();
                 consoleManager.printReadAllVouchers(voucherResponses);
             }
             //TODO: customerDTO

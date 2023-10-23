@@ -4,8 +4,8 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
-import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
 
 @Controller
@@ -16,11 +16,11 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public GeneralVoucherDTO create(CreateVoucherRequestDTO createVoucherRequestDTO) {
-        return voucherService.create(createVoucherRequestDTO);
+    public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
+        return voucherService.create(createVoucherRequest);
     }
 
-    public List<GeneralVoucherDTO> readAllVouchers() {
+    public List<VoucherResponse> readAllVouchers() {
         return voucherService.readAllVouchers();
     }
 }
