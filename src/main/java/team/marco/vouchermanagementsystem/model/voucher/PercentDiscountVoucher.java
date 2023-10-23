@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 import java.util.UUID;
 
 import static java.text.MessageFormat.format;
-import static team.marco.vouchermanagementsystem.model.voucher.VoucherType.*;
+import static team.marco.vouchermanagementsystem.model.voucher.VoucherType.PERCENT;
 
 public class PercentDiscountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
@@ -32,12 +32,8 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     private void validate(int percent) {
-        if (percent < MIN_PERCENT) {
-            throw new IllegalArgumentException(format("{0}: 할인율은 {1}% 보다 작을 수 없습니다.", percent, MIN_PERCENT));
-        }
-
-        if (percent > MAX_PERCENT) {
-            throw new IllegalArgumentException(format("{0}: 할인율은 {1}% 보다 클 수 없습니다.", percent, MAX_PERCENT));
+        if (percent < MIN_PERCENT || percent > MAX_PERCENT) {
+            throw new IllegalArgumentException(format("{0}: 할인율은 {1}% 보다 작거나 {2}% 보다 클 수 없습니다.", percent, MIN_PERCENT, MAX_PERCENT));
         }
     }
 

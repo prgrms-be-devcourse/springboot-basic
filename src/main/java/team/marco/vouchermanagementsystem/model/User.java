@@ -19,7 +19,6 @@ public class User {
     }
 
     public String getInfo() {
-
         return format("id: {0}, 고객명: {1} ", id, name);
     }
 }

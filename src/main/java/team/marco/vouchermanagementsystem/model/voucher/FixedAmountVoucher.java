@@ -31,13 +31,9 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
-    private void validate(int percent) {
-        if (percent < MIN_AMOUNT) {
-            throw new IllegalArgumentException(format("{0}: 할인 금액은 {1}원 보다 작을 수 없습니다.", amount, MIN_AMOUNT));
-        }
-
-        if (percent > MAX_AMOUNT) {
-            throw new IllegalArgumentException(format("{0}: 할인 금액은 {1}원 보다 클 수 없습니다.", amount, MAX_AMOUNT));
+    private void validate(int amount) {
+        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT) {
+            throw new IllegalArgumentException(format("{0}: 할인 금액은 {1}원 보다 작거나 {1}원 보다 클 수 없습니다.", amount, MIN_AMOUNT, MAX_AMOUNT));
         }
     }
 
