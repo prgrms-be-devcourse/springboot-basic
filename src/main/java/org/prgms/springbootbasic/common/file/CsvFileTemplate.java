@@ -36,13 +36,13 @@ public class CsvFileTemplate<T> {
         return ret;
     }
 
-    public void write(String path, List<T> objs, Function<T, String> objToString){
+    public void write(String path, List<T> objs, Function<T, String> objToString, String firstLine){
         log.debug("write started");
 
         try (BufferedWriter bw = new BufferedWriter(
                 new OutputStreamWriter(
                         new FileOutputStream(path), StandardCharsets.UTF_8))){
-            bw.write("UUID,Type,DiscountValue");
+            bw.write(firstLine);
             bw.newLine();
 
             for (T obj : objs){

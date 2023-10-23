@@ -17,6 +17,7 @@ import static org.prgms.springbootbasic.common.Util.CSV_PATTERN;
 @Profile({"dev", "prod"})
 public class CsvVoucherFileManager {
     private static final String FILE_PATH = "./src/main/resources/voucher.csv";
+    private static final String CSV_FIRST_LINE = "UUID,Type,DiscountValue";
     private static final int UUID_IDX = 0;
     private static final int TYPE_IDX = 1;
     private static final int DISCOUNT_VALUE_IDX = 2;
@@ -32,7 +33,7 @@ public class CsvVoucherFileManager {
     }
 
     public void write(List<Voucher> vouchers){
-        csvFileTemplate.write(FILE_PATH, vouchers, this::voucherToString);
+        csvFileTemplate.write(FILE_PATH, vouchers, this::voucherToString, CSV_FIRST_LINE);
     }
 
     private Voucher lineToVoucher(String line){
