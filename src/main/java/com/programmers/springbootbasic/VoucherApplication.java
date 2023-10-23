@@ -1,11 +1,8 @@
 package com.programmers.springbootbasic;
 
 import com.programmers.springbootbasic.exception.AppExceptionHandler;
-import com.programmers.springbootbasic.infrastructure.IO.Console;
-import com.programmers.springbootbasic.mediator.RequestProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication
@@ -16,13 +13,14 @@ public class VoucherApplication {
             VoucherApplication.class,
             args);
 
+        startAppWithErrorHandler(applicationContext);
+    }
+
+    private static void startAppWithErrorHandler(ConfigurableApplicationContext applicationContext) {
         AppExceptionHandler exceptionHandler = applicationContext.getBean(
             AppExceptionHandler.class);
-
-        // 컨텍스트가 종료된 경우
         do {
             exceptionHandler.handle();
         } while (applicationContext.isActive());
     }
-
 }
