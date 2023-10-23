@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApplicationListenerImpl implements ApplicationListener<ApplicationStartedEvent> {
+public class VoucherManagementAppListener implements ApplicationListener<ApplicationStartedEvent> {
     @Override
     public void onApplicationEvent(ApplicationStartedEvent event) {
         ConsoleOutput.printHelp();
