@@ -4,11 +4,9 @@
 
 plugins {
     id 'java-library'
-    id 'maven-publish'
 }
 
 repositories {
-    mavenLocal()
     maven {
         url = uri('https://repo.maven.apache.org/maven2/')
     }
@@ -29,14 +27,6 @@ group = 'com.programmers'
 version = '0.0.1-SNAPSHOT'
 description = 'voucherManagement'
 java.sourceCompatibility = JavaVersion.VERSION_17
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
