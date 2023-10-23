@@ -17,8 +17,12 @@ import java.util.*;
 @Repository
 @Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
+    private static final String VOUCHER_ID_KEY = "voucher_id";
+    private static final String DISCOUNT_VALUE_KEY = "discount_value";
+    private static final String VOUCHER_TYPE_KEY = "voucher_type";
+    private static final String FILE_EXCEPTION = "Error raised while opening the file.";
+    private static final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
     private final String filePath;
     private final Map<UUID, Voucher> vouchers;
 
@@ -57,9 +61,9 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     private Voucher objectToVoucher(Map voucherObject) {
-        UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get("voucher_id")));
-        BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get("discount_value")));
-        String voucherTypeName = String.valueOf(voucherObject.get("voucher_type"));
+        UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get(VOUCHER_ID_KEY)));
+        BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
+        String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
         VoucherType voucherType = VoucherType.findCreateMenu(voucherTypeName)
                 .orElseThrow(() -> new NoSuchElementException(INVALID_VOUCHER_TYPE_MESSAGE));
         return new Voucher(voucherId, discountValue, voucherType);
@@ -78,15 +82,15 @@ public class FileVoucherRepository implements VoucherRepository {
             fileWriter.write(jsonStr);
             fileWriter.flush();
         } catch (Exception e) {
-            throw new RuntimeException("File Exception");
+            throw new RuntimeException(FILE_EXCEPTION);
         }
     }
 
     private HashMap<String, Object> voucherToObject(VoucherResponse voucherResponse) {
         HashMap<String, Object> voucherObject = new HashMap<>();
-        voucherObject.put("voucher_id", voucherResponse.voucherId().toString());
-        voucherObject.put("discount_value", voucherResponse.discountValue().toString());
-        voucherObject.put("voucher_type", voucherResponse.voucherType().name());
+        voucherObject.put(VOUCHER_ID_KEY, voucherResponse.voucherId().toString());
+        voucherObject.put(DISCOUNT_VALUE_KEY, voucherResponse.discountValue().toString());
+        voucherObject.put(VOUCHER_TYPE_KEY, voucherResponse.voucherType().name());
         return voucherObject;
     }
 }

@@ -10,6 +10,7 @@ import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 
 @Service
 public class CustomerService {
+    private static final String NO_BLACKLIST = "no blacklist";
     private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
@@ -19,7 +20,7 @@ public class CustomerService {
     public List<Customer> readBlacklist() {
         List<Customer> blacklist = customerRepository.findBlackCustomers();
         if (blacklist.isEmpty()) {
-            throw new NoSuchElementException("no blacklist");
+            throw new NoSuchElementException(NO_BLACKLIST);
         }
         return blacklist;
     }

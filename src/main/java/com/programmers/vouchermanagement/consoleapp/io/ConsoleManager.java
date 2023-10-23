@@ -1,19 +1,18 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
-import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import org.beryx.textio.TextIO;
-import org.slf4j.Logger;
-import org.springframework.stereotype.Component;
-
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import org.beryx.textio.TextIO;
+import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
 
 @Component
 public class ConsoleManager {
@@ -43,6 +42,8 @@ public class ConsoleManager {
                     """;
     private static final String INVALID_VOUCHER_TYPE_MESSAGE =
             "Voucher type should be either fixed amount or percent discount voucher.";
+    private static final String PERCENTAGE = " %";
+    private static final String EMPTY = "";
     //---
 
     private final TextIO textIO;
@@ -102,7 +103,7 @@ public class ConsoleManager {
                 .formatted(voucherResponse.voucherId(),
                         voucherResponse.voucherType().displayTypeName(),
                         voucherResponse.discountValue() +
-                        (voucherResponse.voucherType().isPercent() ? " %" : ""));
+                                (voucherResponse.voucherType().isPercent() ? PERCENTAGE : EMPTY));
     }
 
     public void printExit() {

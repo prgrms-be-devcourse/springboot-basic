@@ -16,7 +16,8 @@ public enum VoucherType {
             "Input should be a number greater than 0";
     private static final String INVALID_DISCOUNT_PERCENT_MESSAGE =
             "Input should be a number greater than 0 and smaller than 100";
-
+    private static final int COMPARATOR_FLAG = 0;
+    private static final BigDecimal MAX_PERCENT = BigDecimal.valueOf(100);
     private final String typeName;
     private final BiFunction<BigDecimal, BigDecimal, BigDecimal> discountCalculator;
     private final Consumer<BigDecimal> validator;
@@ -40,14 +41,14 @@ public enum VoucherType {
 
     private static BiFunction<BigDecimal, BigDecimal, BigDecimal> getPercentBiFunction() {
         return (discountValue, priceBeforeDiscount) -> {
-            BigDecimal discounted = BigDecimal.valueOf(100).subtract(discountValue);
-            return priceBeforeDiscount.multiply(discounted).divide(BigDecimal.valueOf(100), RoundingMode.FLOOR);
+            BigDecimal discounted = MAX_PERCENT.subtract(discountValue);
+            return priceBeforeDiscount.multiply(discounted).divide(MAX_PERCENT, RoundingMode.FLOOR);
         };
     }
 
     private static Consumer<BigDecimal> validateDiscountAmount() {
         return (discountValue) -> {
-            if (discountValue.compareTo(BigDecimal.ZERO) <= 0) {
+            if (discountValue.compareTo(BigDecimal.ZERO) <= COMPARATOR_FLAG) {
                 throw new IllegalArgumentException(INVALID_DISCOUNT_AMOUNT_MESSAGE);
             }
         };
@@ -55,7 +56,7 @@ public enum VoucherType {
 
     private static Consumer<BigDecimal> validateDiscountPercent() {
         return (discountValue) -> {
-            if (discountValue.compareTo(BigDecimal.ZERO) <= 0 || discountValue.compareTo(BigDecimal.valueOf(100)) > 0) {
+            if (discountValue.compareTo(BigDecimal.ZERO) <= COMPARATOR_FLAG || discountValue.compareTo(MAX_PERCENT) > COMPARATOR_FLAG) {
                 throw new IllegalArgumentException(INVALID_DISCOUNT_PERCENT_MESSAGE);
             }
         };
