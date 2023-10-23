@@ -19,7 +19,7 @@ import java.util.UUID;
 @Profile({"prod", "dev"})
 @Repository
 public class JsonFileVoucherRepository implements VoucherRepository, DisposableBean {
-    private final Map<UUID, Voucher> voucherMap;
+    private final Map<UUID, Voucher> voucherMap = new HashMap<>();
     private final ObjectMapper objectMapper;
     private final File file;
 
@@ -27,28 +27,24 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
         objectMapper = new ObjectMapper();
         file = new File(path);
 
-        voucherMap = load();
+        loadVoucherMap();
     }
 
-    private Map<UUID, Voucher> load() {
+    private void loadVoucherMap() {
         if (!file.exists()) {
-            return new HashMap<>();
+            return;
         }
 
         ObjectReader objectReader = objectMapper.readerForListOf(LoadedJsonVoucher.class);
-        List<LoadedJsonVoucher> loadedList;
+        List<LoadedJsonVoucher> jsonVouchers;
 
         try {
-            loadedList = objectReader.readValue(file);
+            jsonVouchers = objectReader.readValue(file);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
-        Map<UUID, Voucher> convertedMap = new HashMap<>();
-
-        loadedList.forEach(data -> convertedMap.put(data.getId(), data.convertToVoucher()));
-
-        return convertedMap;
+        jsonVouchers.forEach(data -> voucherMap.put(data.getId(), data.convertToVoucher()));
     }
 
     @Override
