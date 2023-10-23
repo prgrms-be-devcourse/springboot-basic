@@ -22,7 +22,7 @@ public enum Function {
 
     public static Optional<Function> fromString(String functionString) {
         return Arrays.stream(values())
-                .filter(function -> function.functionString.equals(functionString))
+                .filter(function -> function.functionString.equalsIgnoreCase(functionString.trim()))
                 .findFirst();
     }
 

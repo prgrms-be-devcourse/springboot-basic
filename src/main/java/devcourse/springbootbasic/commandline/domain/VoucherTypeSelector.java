@@ -19,7 +19,7 @@ public enum VoucherTypeSelector {
 
     public static Optional<VoucherTypeSelector> fromString(String code) {
         return Arrays.stream(values())
-                .filter(voucherTypeSelector -> voucherTypeSelector.code.equals(code))
+                .filter(voucherTypeSelector -> voucherTypeSelector.code.equalsIgnoreCase(code.trim()))
                 .findFirst();
     }
 
