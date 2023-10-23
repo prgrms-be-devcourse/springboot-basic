@@ -1,6 +1,6 @@
 package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.order.Voucher;
+import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -27,4 +27,9 @@ public class VoucherService {
 
   }
 
+  public void createVoucher() {
+  }
+
+  public void getAllVoucher() {
+  }
 }
