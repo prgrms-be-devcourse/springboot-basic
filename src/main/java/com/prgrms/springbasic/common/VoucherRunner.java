@@ -27,6 +27,7 @@ public class VoucherRunner implements CommandLineRunner {
                     case EXIT -> isRunning = menuHandler.exit();
                     case CREATE -> menuHandler.createVoucher();
                     case LIST -> menuHandler.showAllVouchers();
+                    case CREATE_CUSTOMER -> menuHandler.createCustomer();
                     case BLACK_LIST -> menuHandler.showAllBlackLists();
                 }
             } catch (Exception e) {

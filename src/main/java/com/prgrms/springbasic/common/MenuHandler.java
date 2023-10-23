@@ -1,6 +1,7 @@
 package com.prgrms.springbasic.common;
 
 import com.prgrms.springbasic.domain.customer.controller.CustomerController;
+import com.prgrms.springbasic.domain.customer.dto.CreateCustomerRequest;
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.voucher.controller.VoucherController;
 import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
@@ -42,6 +43,13 @@ public class MenuHandler {
     public void showAllVouchers() {
         List<VoucherResponse> vouchers = voucherController.findAll();
         console.printVouchers(vouchers);
+    }
+
+    public void createCustomer(){
+        console.printConsoleMessage(ConsoleMessage.CREATE_CUSTOMER);
+        String email = console.inputEmail();
+        String name = console.inputString(ConsoleMessage.GET_NAME);
+        customerController.createCustomer(new CreateCustomerRequest(email, name));
     }
 
     public void showAllBlackLists() {

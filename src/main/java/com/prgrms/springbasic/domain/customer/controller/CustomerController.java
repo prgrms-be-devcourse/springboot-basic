@@ -1,6 +1,8 @@
 package com.prgrms.springbasic.domain.customer.controller;
 
+import com.prgrms.springbasic.domain.customer.dto.CreateCustomerRequest;
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
+import com.prgrms.springbasic.domain.customer.entity.Customer;
 import com.prgrms.springbasic.domain.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
 
@@ -12,6 +14,10 @@ public class CustomerController {
 
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
+    }
+
+    public Customer createCustomer(CreateCustomerRequest request) {
+        return customerService.createCustomer(request);
     }
 
     public List<CustomerResponse> findAllBlackLists() {

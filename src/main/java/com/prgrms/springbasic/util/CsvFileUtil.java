@@ -59,7 +59,8 @@ public class CsvFileUtil {
                 String[] parts = line.split(",");
                 UUID customerId = UUID.fromString(parts[0]);
                 String customerName = parts[1];
-                customers.put(customerId, new Customer(customerId, customerName));
+                String customerEmail = parts[2];
+                customers.put(customerId, new Customer(customerId, customerName, customerEmail));
             });
         } catch (IOException e) {
             log.error("The file does not exist. fileName : {}", filePath);

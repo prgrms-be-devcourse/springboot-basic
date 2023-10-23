@@ -13,6 +13,8 @@ import java.util.List;
 @Component
 public class Console implements Output, Input {
     private static final TextIO textIO = TextIoFactory.getTextIO();
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
 
     @Override
     public void printConsoleMessage(ConsoleMessage consoleMessage) {
@@ -47,6 +49,19 @@ public class Console implements Output, Input {
                 .withMinVal(1L)
                 .withMaxVal(100L)
                 .read(ConsoleMessage.GET_PERCENT_DISCOUNT_VALUE.getMessage());
+    }
+
+    @Override
+    public String inputString(ConsoleMessage consoleMessage) {
+        return textIO.newStringInputReader()
+                .read(consoleMessage.getMessage());
+    }
+
+    @Override
+    public String inputEmail() {
+        return textIO.newStringInputReader()
+                .withPattern(EMAIL_PATTERN)
+                .read(ConsoleMessage.GET_EMAIL.getMessage());
     }
 
     @Override
