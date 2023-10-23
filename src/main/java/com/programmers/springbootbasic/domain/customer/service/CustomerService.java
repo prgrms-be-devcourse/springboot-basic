@@ -1,21 +1,25 @@
 package com.programmers.springbootbasic.domain.customer.service;
 
+import com.programmers.springbootbasic.common.utils.UUIDValueStrategy;
 import com.programmers.springbootbasic.domain.customer.dto.CustomerRequestDto;
 import com.programmers.springbootbasic.domain.customer.entity.Customer;
 import com.programmers.springbootbasic.domain.customer.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.customer.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = {DataAccessException.class, IllegalArgumentException.class, RuntimeException.class})
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final UUIDValueStrategy uuidValueStrategy;
 
     public List<Customer> findAllCustomer() {
         return customerRepository.findAll();
@@ -31,7 +35,7 @@ public class CustomerService {
             throw new IllegalArgumentException(ErrorMsg.CUSTOMER_ALREADY_EXIST.getMessage());
         }
         Customer customer = Customer.builder()
-                .customerId(UUID.randomUUID())
+                .customerId(uuidValueStrategy.generateUUID())
                 .name(customerRequestDto.getName())
                 .email(customerRequestDto.getEmail())
                 .build();

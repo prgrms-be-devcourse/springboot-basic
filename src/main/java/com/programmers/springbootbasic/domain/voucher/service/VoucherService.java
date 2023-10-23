@@ -1,28 +1,32 @@
 package com.programmers.springbootbasic.domain.voucher.service;
 
+import com.programmers.springbootbasic.common.utils.UUIDValueStrategy;
 import com.programmers.springbootbasic.domain.voucher.dto.VoucherRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.voucher.repository.VoucherRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(rollbackFor = {DataAccessException.class, IllegalArgumentException.class, RuntimeException.class})
 public class VoucherService {
     private final VoucherRepository voucherRepository;
+    private final UUIDValueStrategy uuidValueStrategy;
 
     public List<Voucher> findAllVouchers() {
         return voucherRepository.findAll();
     }
 
     public Voucher createVoucher(VoucherRequestDto voucherRequestDto) {
-        Voucher voucher = VoucherType.of(voucherRequestDto.getVoucherType(), UUID.randomUUID(), voucherRequestDto.getValue());
+        Voucher voucher = VoucherType.of(voucherRequestDto.getVoucherType(), uuidValueStrategy.generateUUID(), voucherRequestDto.getValue());
         return voucherRepository.save(voucher);
     }
 
