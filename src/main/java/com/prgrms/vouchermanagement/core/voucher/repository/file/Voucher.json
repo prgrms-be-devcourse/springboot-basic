@@ -1,0 +1,11 @@
+[ {
+  "voucherID" : 1,
+  "name" : "sujin",
+  "amount" : 2000,
+  "voucherType" : "FIXED"
+}, {
+  "voucherID" : 2,
+  "name" : "sujin2",
+  "amount" : 20,
+  "voucherType" : "PERCENT"
+} ]
