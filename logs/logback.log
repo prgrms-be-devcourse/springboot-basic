@@ -1,0 +1,54 @@
+[2023-10-20 15:59:37:414][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 16:00:37:356][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 16:04:01:336][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 16:09:36:344][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 16:32:17:341][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 16:53:05:688][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 8784 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-20 16:53:05:690][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
+[2023-10-20 16:53:05:1190][main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Failed to determine a suitable driver class
+[2023-10-20 16:53:05:1198][main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2023-10-20 16:53:05:1211][main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (the profiles dev are currently active).
+
+[2023-10-20 16:56:12:616][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 4528 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-20 16:56:12:618][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
+[2023-10-20 16:56:13:1033][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.765 seconds (process running for 1.39)
+[2023-10-20 16:57:30:698][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 6952 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-20 16:57:30:701][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
+[2023-10-20 16:57:31:1149][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.838 seconds (process running for 1.485)
+[2023-10-20 16:58:04:33973][main] ERROR o.p.v.domain.voucher.VoucherType - 입력값 : 1
+[2023-10-20 16:58:04:33975][main] ERROR o.p.vouchermanager.handler.Handler - 입력값이 잘못 되었습니다. 지정된 범위 내의 사항을 입력해주세요.(create or list or exit)
+[2023-10-20 16:58:27:584][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 17332 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-20 16:58:27:585][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "dev"
+[2023-10-20 16:58:28:987][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.728 seconds (process running for 1.363)
+[2023-10-20 16:58:40:629][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 12308 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-20 16:58:40:631][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "production"
+[2023-10-20 16:58:41:1064][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.781 seconds (process running for 1.435)
+[2023-10-20 17:06:45:408][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 17:07:02:352][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 17:09:43:332][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 17:11:46:341][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 17:12:14:360][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 17:14:21:335][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 17:16:03:367][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-20 17:16:21:614][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 7364 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-20 17:16:21:615][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "production"
+[2023-10-20 17:16:22:1020][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 0.752 seconds (process running for 1.385)
