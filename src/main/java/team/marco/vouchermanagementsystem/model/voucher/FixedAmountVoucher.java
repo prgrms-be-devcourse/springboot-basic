@@ -7,12 +7,12 @@ import java.text.MessageFormat;
 import java.util.UUID;
 
 import static java.text.MessageFormat.format;
-import static team.marco.vouchermanagementsystem.model.voucher.VoucherType.*;
+import static team.marco.vouchermanagementsystem.model.voucher.VoucherType.FIXED;
 
 public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private static final int MIN_AMOUNT = 100;
-    private static final int MAX_AMOUNT = 100000;
+    private static final int MAX_AMOUNT = 1_000_000;
 
     private final VoucherType type = FIXED;
     private final int amount;
