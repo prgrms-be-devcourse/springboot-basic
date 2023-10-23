@@ -7,10 +7,10 @@ import java.util.Optional;
 
 public class InputValidator<T> {
 
-    protected final List<validator<T>> validators = new ArrayList<>();
+    protected final List<Validator<T>> validators = new ArrayList<>();
 
     @FunctionalInterface
-    public interface validator<T> {
+    public interface Validator<T> {
 
         String getErrorMessage(T val);
     }
@@ -23,7 +23,7 @@ public class InputValidator<T> {
         return Optional.of(errs);
     }
 
-    public void addValidator(validator<T> validator) {
+    public void addValidator(Validator<T> validator) {
         this.validators.add(validator);
     }
 
