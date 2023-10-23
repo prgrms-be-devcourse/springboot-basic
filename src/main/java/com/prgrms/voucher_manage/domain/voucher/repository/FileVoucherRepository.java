@@ -31,4 +31,8 @@ public class FileVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return storage.values().stream().toList();
     }
+
+    public void clear(){
+        storage.clear();
+    }
 }
