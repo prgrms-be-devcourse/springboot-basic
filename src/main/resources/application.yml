@@ -1,9 +1,18 @@
 repository:
   voucher:
     filePath: voucher.csv
-  customer:
-    blacklist_filePath: customer_blacklist.csv
+  #customer:
+    #blacklist_filePath: customer_blacklist.csv
 
 spring:
   profiles:
     active: prod
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher_mgmt
+    username: root
+    password: root1234!
+  batch:
+    jdbc:
+      schema: classpath:schema.sql
