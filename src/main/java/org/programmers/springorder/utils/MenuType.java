@@ -24,7 +24,7 @@ public enum MenuType {
     public static MenuType selectMenu(String menuNum) {
         return Arrays.stream(MenuType.values())
                 .filter(menu -> menu.getMenuNum().equals(menuNum))
-                .findAny()
+                .findFirst()
                 .orElseThrow(() -> new InputMismatchException(ErrorMessage.INVALID_VALUE_MESSAGE));
     }
 }

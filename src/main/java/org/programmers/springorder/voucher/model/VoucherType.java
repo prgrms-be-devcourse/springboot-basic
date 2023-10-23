@@ -23,7 +23,7 @@ public enum VoucherType {
     public static VoucherType selectVoucherType(String voucherNum) {
         return Arrays.stream(VoucherType.values())
                 .filter(voucher -> voucher.voucherNum.equals(voucherNum))
-                .findAny()
+                .findFirst()
                 .orElseThrow(() -> new InputMismatchException("유효하지 않은 값입니다. 다시 입력해주세요."));
     }
 
