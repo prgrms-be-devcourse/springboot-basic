@@ -11,38 +11,38 @@ import java.util.*;
 @Profile("dev")
 @NoArgsConstructor
 public class VoucherMemoryRepository implements VoucherRepository {
-    private Map<UUID, Voucher> voucherMemory = new HashMap<>();
+    private Map<UUID, Voucher> voucherDB = new HashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
-        voucherMemory.put(voucher.getVoucherId(), voucher);
+        voucherDB.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        return voucherMemory.values()
+        return voucherDB.values()
                 .stream()
                 .toList();
     }
 
     @Override
     public void deleteAll() {
-        voucherMemory = new HashMap<>();
+        voucherDB = new HashMap<>();
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.of(voucherMemory.get(voucherId));
+        return Optional.of(voucherDB.get(voucherId));
     }
 
     @Override
     public void update(Voucher voucher) {
-        voucherMemory.put(voucher.getVoucherId(), voucher);
+        voucherDB.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
     public void delete(Voucher voucher) {
-        voucherMemory.remove(voucher.getVoucherId());
+        voucherDB.remove(voucher.getVoucherId());
     }
 }

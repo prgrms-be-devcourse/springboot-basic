@@ -1,7 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher.repository;
 
 import com.programmers.springbootbasic.common.utils.UUIDConverter;
-import com.programmers.springbootbasic.domain.voucher.entity.FixedAmountVoucher;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.service.VoucherType;
 import lombok.RequiredArgsConstructor;
@@ -36,13 +35,9 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private int verifyVoucher(Voucher voucher) {
-        return voucher instanceof FixedAmountVoucher ? 1 : 2;
-    }
-
     @Override
     public Voucher save(Voucher voucher) {
-        jdbcTemplate.update(INSERT_QUERY, voucher.getVoucherId().toString().getBytes(), voucher.getValue(), verifyVoucher(voucher));
+        jdbcTemplate.update(INSERT_QUERY, voucher.getVoucherId().toString().getBytes(), voucher.getValue(), VoucherType.predictVoucherType(voucher));
         return voucher;
     }
 
@@ -59,7 +54,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
     public void update(Voucher voucher) {
         jdbcTemplate.update(UPDATE_QUERY,
                 voucher.getValue(),
-                verifyVoucher(voucher),
+                VoucherType.predictVoucherType(voucher),
                 voucher.getVoucherId().toString().getBytes());
     }
 
