@@ -3,6 +3,7 @@ package com.programmers.springbasic.repository.voucher;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -52,6 +53,16 @@ public class FileVoucherRepository implements VoucherRepository {
 		List<Voucher> list = new ArrayList<>();
 		storage.forEach((uuid, voucher) -> list.add(voucher));
 		return list;
+	}
+
+	@Override
+	public Optional<Voucher> findById(UUID id) {
+		return Optional.empty();
+	}
+
+	@Override
+	public void deleteById(UUID id) {
+
 	}
 
 }
