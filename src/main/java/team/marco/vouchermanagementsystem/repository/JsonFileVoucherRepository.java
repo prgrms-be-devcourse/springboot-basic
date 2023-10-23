@@ -18,12 +18,12 @@ import java.util.UUID;
 
 @Profile({"prod", "dev"})
 @Repository
-public class JSONFileVoucherRepository implements VoucherRepository, DisposableBean {
+public class JsonFileVoucherRepository implements VoucherRepository, DisposableBean {
     private final Map<UUID, Voucher> voucherMap;
     private final ObjectMapper objectMapper;
     private final File file;
 
-    public JSONFileVoucherRepository(@Value("${file.path.voucher_data}") String path) {
+    public JsonFileVoucherRepository(@Value("${file.path.voucher_data}") String path) {
         objectMapper = new ObjectMapper();
         file = new File(path);
 
@@ -35,8 +35,8 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
             return new HashMap<>();
         }
 
-        ObjectReader objectReader = objectMapper.readerForListOf(LoadedJSONVoucher.class);
-        List<LoadedJSONVoucher> loadedList;
+        ObjectReader objectReader = objectMapper.readerForListOf(LoadedJsonVoucher.class);
+        List<LoadedJsonVoucher> loadedList;
 
         try {
             loadedList = objectReader.readValue(file);

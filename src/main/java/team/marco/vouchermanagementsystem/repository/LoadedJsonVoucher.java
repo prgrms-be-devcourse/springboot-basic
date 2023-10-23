@@ -7,13 +7,13 @@ import team.marco.vouchermanagementsystem.model.voucher.VoucherType;
 
 import java.util.UUID;
 
-public class LoadedJSONVoucher {
+public class LoadedJsonVoucher {
     private UUID id;
     private VoucherType type;
     private int amount;
     private int percent;
 
-    private LoadedJSONVoucher() {
+    private LoadedJsonVoucher() {
         // for object mapper deserializing
     }
 
