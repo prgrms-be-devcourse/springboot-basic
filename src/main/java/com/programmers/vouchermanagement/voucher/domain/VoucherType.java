@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-import javax.swing.plaf.PanelUI;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Arrays;
@@ -72,6 +71,10 @@ public enum VoucherType {
 
     private boolean isMatching(String input) {
         return Objects.equals(this.name().toLowerCase(), input);
+    }
+
+    public boolean isPercent() {
+        return this == PERCENT;
     }
 
     public String displayTypeName() {
