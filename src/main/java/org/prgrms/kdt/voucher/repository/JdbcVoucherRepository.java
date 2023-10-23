@@ -4,10 +4,7 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -28,7 +25,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
   }
 
   @Override
-  public Collection<Voucher> findAll() {
+  public List<Voucher> findAll() {
     return null;
   }
 }

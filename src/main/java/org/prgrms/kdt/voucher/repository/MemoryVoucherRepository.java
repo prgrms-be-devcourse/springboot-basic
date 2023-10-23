@@ -11,21 +11,21 @@ import java.util.concurrent.ConcurrentHashMap;
 @Qualifier("memory")
 public class MemoryVoucherRepository implements VoucherRepository {
 
-  private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
-  @Override
-  public Optional<Voucher> findById(UUID voucherId) {
-    return Optional.ofNullable(storage.get(voucherId));
-  }
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(storage.get(voucherId));
+    }
 
-  @Override
-  public Voucher insert(Voucher voucher) {
-    storage.put(voucher.getVoucherId(), voucher);
-    return voucher;
-  }
+    @Override
+    public Voucher insert(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
 
-  @Override
-  public List<Voucher> findAll() {
-    return new ArrayList<>(storage.values());
-  }
+    @Override
+    public List<Voucher> findAll() {
+        return new ArrayList<>(storage.values());
+    }
 }
