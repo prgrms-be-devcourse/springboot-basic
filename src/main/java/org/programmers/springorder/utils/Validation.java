@@ -13,13 +13,6 @@ public class Validation {
         return input;
     }
 
-    public static int validateInt(String input) {
-        try {
-            return Integer.parseInt(input);
-        } catch (NumberFormatException e) {
-            throw new InputMismatchException(ErrorMessage.INVALID_VALUE_MESSAGE);
-        }
-    }
 
     public static long validateDiscountValue(String input, VoucherType voucherType) throws InputMismatchException, NumberFormatException{
         long longValue = validateLong(input);
