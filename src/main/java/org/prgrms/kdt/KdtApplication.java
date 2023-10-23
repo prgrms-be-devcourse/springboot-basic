@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @SpringBootApplication
 @ComponentScan(
-        basePackages = {"org.prgrms.kdt.app", "org.prgrms.kdt.user", "org.prgrms.kdt.voucher"}
+        basePackages = {"org.prgrms.kdt.app", "org.prgrms.kdt.customer", "org.prgrms.kdt.voucher"}
 )
 public class KdtApplication {
 

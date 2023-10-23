@@ -2,6 +2,8 @@ package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.app.configuration.io.InputHandler;
 import org.prgrms.kdt.app.configuration.io.OutputHandler;
+import org.prgrms.kdt.app.configuration.io.StartMenu;
+import org.prgrms.kdt.customer.controller.CustomerController;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -19,23 +21,27 @@ public class VoucherController {
 
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
+    private final StartMenu startMenu;
     private final VoucherService voucherService;
+    private final CustomerController customerController;
     private final String EXIT = "exit";
     private final String CREATE = "create";
     private final String LIST = "list";
     private final String FIXED = "fixed";
     private final String PERCENT = "percent";
+    private final String BLACK = "black";
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
-    public VoucherController(InputHandler inputHandler, OutputHandler outputHandler, VoucherService voucherService) {
+    public VoucherController(InputHandler inputHandler, OutputHandler outputHandler, StartMenu startMenu, VoucherService voucherService, CustomerController customerController) {
         this.inputHandler = inputHandler;
         this.outputHandler = outputHandler;
+        this.startMenu = startMenu;
         this.voucherService = voucherService;
+        this.customerController = customerController;
     }
 
     public boolean startVoucherMenu() throws IOException {
-        outputHandler.outputStartMessage();
-        var menu = inputHandler.inputString();
+        var menu = startMenu.startMenu();
 
         switch (menu) {
             case EXIT:
@@ -47,6 +53,9 @@ public class VoucherController {
             case LIST:
                 List<Voucher> voucherList = voucherService.getAllVouchers();
                 outputHandler.outputVouchers(voucherList);
+                break;
+            case BLACK:
+                customerController.getBlackList();
                 break;
             default:
                 String errorMessage = EXCEPTION_VOUCHER_TYPE.getMessage();
