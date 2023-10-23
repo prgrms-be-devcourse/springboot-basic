@@ -14,6 +14,10 @@ public class PercentDiscountVoucher implements Voucher {
             log.warn("percent value is out of range.");
             throw new IllegalArgumentException("percent value is out of range.");
         }
+        if (percent == 0){
+            log.warn("percent value cannot be 0.");
+            throw new IllegalArgumentException("percent value is out of range.");
+        }
 
         this.voucherId = voucherId;
         this.percent = percent;
