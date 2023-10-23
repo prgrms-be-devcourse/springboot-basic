@@ -29,11 +29,11 @@ public class VoucherService {
   public void useVoucher(Voucher voucher) {
   }
 
-  public void createVoucher() {
-
+  public void createVoucher(Voucher voucher) {
+    voucherRepository.insert(voucher);
   }
 
-  public List<Voucher> getAllVoucher() {
-    return voucherRepository.findAll();
+  public List<Voucher> getAllVouchers() {
+    return (List<Voucher>) voucherRepository.findAll();
   }
 }

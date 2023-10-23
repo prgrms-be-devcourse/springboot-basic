@@ -1,6 +1,5 @@
 package org.prgrms.kdt.app.configuration.io;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,11 +20,11 @@ public class ConsoleOutputHandler implements OutputHandler{
         sb.append(lineSeparator);
         sb.append(lineSeparator);
 
-        System.out.println(sb.toString());
+        System.out.print(sb.toString());
     }
 
     @Override
     public void outputSystemMessage(String message) {
-        System.out.println(message);
+        System.out.print(message + lineSeparator);
     }
 }
