@@ -6,10 +6,10 @@ import devcourse.springbootbasic.commandline.constant.InputMessage;
 import devcourse.springbootbasic.commandline.domain.VoucherTypeSelector;
 import devcourse.springbootbasic.controller.CustomerController;
 import devcourse.springbootbasic.controller.VoucherController;
-import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.dto.CustomerFindResponse;
 import devcourse.springbootbasic.dto.VoucherCreateRequest;
+import devcourse.springbootbasic.dto.VoucherCreateResponse;
 import devcourse.springbootbasic.dto.VoucherFindResponse;
 import devcourse.springbootbasic.exception.InputErrorMessage;
 import devcourse.springbootbasic.exception.InputException;
@@ -43,7 +43,7 @@ public class FunctionHandler {
 
         long amount = consoleIOHandler.inputLongWithMessage(InputMessage.DISCOUNT_VALUE);
 
-        Voucher voucher = voucherController.createVoucher(new VoucherCreateRequest(voucherType, amount));
+        VoucherCreateResponse voucher = voucherController.createVoucher(new VoucherCreateRequest(voucherType, amount));
         log.info(String.format(ConsoleConstants.VOUCHER_CREATE_MESSAGE, voucher.getId()));
     }
 
