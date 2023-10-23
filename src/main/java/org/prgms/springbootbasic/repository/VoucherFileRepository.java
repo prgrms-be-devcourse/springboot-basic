@@ -17,11 +17,11 @@ import java.util.UUID;
 @Profile({"dev", "prod"})
 @Primary
 @Slf4j
-public class FileVoucherRepository implements VoucherRepository {
+public class VoucherFileRepository implements VoucherRepository {
     private final CsvVoucherFileManager csvVoucherFileManager;
     private final VoucherRepository voucherRepository;
 
-    public FileVoucherRepository(CsvVoucherFileManager csvVoucherFileManager, MemoryVoucherRepository voucherRepository) {
+    public VoucherFileRepository(CsvVoucherFileManager csvVoucherFileManager, MemoryVoucherRepository voucherRepository) {
         log.debug("FileVoucherRepository started.");
 
         this.csvVoucherFileManager = csvVoucherFileManager;

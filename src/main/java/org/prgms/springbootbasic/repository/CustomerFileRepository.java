@@ -7,10 +7,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class FileCustomerRepository implements CustomerRepository {
+public class CustomerFileRepository implements CustomerRepository {
     private final CsvCustomerFileManager csvCustomerFileManager;
 
-    public FileCustomerRepository(CsvCustomerFileManager csvCustomerFileManager) {
+    public CustomerFileRepository(CsvCustomerFileManager csvCustomerFileManager) {
         this.csvCustomerFileManager = csvCustomerFileManager;
     }
 
