@@ -15,8 +15,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.UUID;
 
-import static com.programmers.springbootbasic.domain.customer.exception.ErrorMsg.emailTypeNotMatch;
-import static com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg.UUIDFormatMismatch;
+import static com.programmers.springbootbasic.domain.customer.exception.ErrorMsg.EMAIL_TYPE_NOT_MATCH;
+import static com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg.UUID_FORMAT_MISMATCH;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -55,7 +55,7 @@ class WalletControllerTest {
         CommonResult actualResult = walletController.addWallet(WRONG_EMAIL, VOUCHER_ID_STR);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(emailTypeNotMatch.getMessage(), actualResult.getMessage());
+        assertEquals(EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
     }
 
     @DisplayName("Test addWallet Fail: UUID Format Mismatch")
@@ -67,7 +67,7 @@ class WalletControllerTest {
         CommonResult actualResult = walletController.addWallet(EMAIL, expectedVoucherId);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(UUIDFormatMismatch.getMessage(), actualResult.getMessage());
+        assertEquals(UUID_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
     }
 
     @Test
@@ -97,7 +97,7 @@ class WalletControllerTest {
         CommonResult actualResult = walletController.findWalletsByCustomerEmail(WRONG_EMAIL);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(emailTypeNotMatch.getMessage(), actualResult.getMessage());
+        assertEquals(EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
     }
 
     @Test
@@ -129,7 +129,7 @@ class WalletControllerTest {
         CommonResult actualResult = walletController.findWalletsByVoucherId(expectedVoucherId);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(UUIDFormatMismatch.getMessage(), actualResult.getMessage());
+        assertEquals(UUID_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
     }
 
     @Test
@@ -150,7 +150,7 @@ class WalletControllerTest {
         CommonResult actualResult = walletController.deleteWallet(WRONG_EMAIL, VOUCHER_ID_STR);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(emailTypeNotMatch.getMessage(), actualResult.getMessage());
+        assertEquals(EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
     }
 
     @DisplayName("Test deleteWallet Fail: UUID Format Mismatch")
@@ -162,6 +162,6 @@ class WalletControllerTest {
         CommonResult actualResult = walletController.deleteWallet(EMAIL, expectedVoucherId);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(UUIDFormatMismatch.getMessage(), actualResult.getMessage());
+        assertEquals(UUID_FORMAT_MISMATCH.getMessage(), actualResult.getMessage());
     }
 }

@@ -27,8 +27,8 @@ public class CustomerService {
 
     public Customer createCustomer(CustomerRequestDto customerRequestDto) {
         if (customerRepository.findByEmail(customerRequestDto.getEmail()).isPresent()) {
-            log.warn(ErrorMsg.customerAlreadyExist.getMessage() + String.format(" Email: %s", customerRequestDto.getEmail()));
-            throw new IllegalArgumentException(ErrorMsg.customerAlreadyExist.getMessage());
+            log.warn(ErrorMsg.CUSTOMER_ALREADY_EXIST.getMessage() + String.format(" Email: %s", customerRequestDto.getEmail()));
+            throw new IllegalArgumentException(ErrorMsg.CUSTOMER_ALREADY_EXIST.getMessage());
         }
         Customer customer = Customer.builder()
                 .customerId(UUID.randomUUID())
@@ -41,11 +41,11 @@ public class CustomerService {
     public void addCustomerInBlacklist(CustomerRequestDto customerRequestDto) {
         Customer customer = customerRepository.findByEmail(customerRequestDto.getEmail()).orElseThrow(
                 () -> {
-                    log.warn(ErrorMsg.customerNotFound.getMessage());
-                    return new IllegalArgumentException(ErrorMsg.customerNotFound.getMessage());
+                    log.warn(ErrorMsg.CUSTOMER_NOT_FOUND.getMessage());
+                    return new IllegalArgumentException(ErrorMsg.CUSTOMER_NOT_FOUND.getMessage());
                 });
         if (customer.isBlacklist()) {
-            throw new RuntimeException(ErrorMsg.alreadyInBlacklist.getMessage());
+            throw new RuntimeException(ErrorMsg.ALREADY_IN_BLACKLIST.getMessage());
         }
         customer.addBlacklist();
         customerRepository.update(customer);
@@ -54,11 +54,11 @@ public class CustomerService {
     public void removeCustomerFromBlacklist(CustomerRequestDto customerRequestDto) {
         Customer customer = customerRepository.findByEmail(customerRequestDto.getEmail()).orElseThrow(
                 () -> {
-                    log.warn(ErrorMsg.customerNotFound.getMessage());
-                    return new IllegalArgumentException(ErrorMsg.customerNotFound.getMessage());
+                    log.warn(ErrorMsg.CUSTOMER_NOT_FOUND.getMessage());
+                    return new IllegalArgumentException(ErrorMsg.CUSTOMER_NOT_FOUND.getMessage());
                 });
         if (!customer.isBlacklist()) {
-            throw new RuntimeException(ErrorMsg.notInBlacklist.getMessage());
+            throw new RuntimeException(ErrorMsg.NOT_IN_BLACKLIST.getMessage());
         }
         customer.removeBlacklist();
         customerRepository.update(customer);

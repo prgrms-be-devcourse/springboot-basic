@@ -22,7 +22,7 @@ public class CustomerController {
 
     private static void verifyEmail(String email) throws IllegalArgumentException {
         if (!Pattern.matches(EMAIL_REGEX, email)) {
-            throw new IllegalArgumentException(ErrorMsg.emailTypeNotMatch.getMessage());
+            throw new IllegalArgumentException(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage());
         }
     }
 

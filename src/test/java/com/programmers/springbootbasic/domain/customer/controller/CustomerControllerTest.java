@@ -56,7 +56,7 @@ class CustomerControllerTest {
         CommonResult actualResult = customerController.createCustomer(WRONG_EMAIL, NAME);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.emailTypeNotMatch.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
     }
 
     @Test
@@ -77,7 +77,7 @@ class CustomerControllerTest {
         CommonResult actualResult = customerController.addCustomerInBlacklist(WRONG_EMAIL);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.emailTypeNotMatch.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
     }
 
     @Test
@@ -98,7 +98,7 @@ class CustomerControllerTest {
         CommonResult actualResult = customerController.removeCustomerInBlacklist(WRONG_EMAIL);
         // Assert
         assertFalse(actualResult.isSuccess());
-        assertEquals(ErrorMsg.emailTypeNotMatch.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage(), actualResult.getMessage());
     }
 
 }

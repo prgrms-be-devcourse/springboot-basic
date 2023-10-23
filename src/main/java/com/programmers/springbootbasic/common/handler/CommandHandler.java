@@ -22,14 +22,14 @@ public class CommandHandler {
 
     public void run() {
         CommandType command;
-        consoleIOManager.printProgramSelectMenu();
+        consoleIOManager.println(CommandOutput.PROGRAM_SELECT.getValue());
         try {
             command = CommandType.from(consoleIOManager.getInput());
             switch (command) {
-                case voucher -> voucherProgram();
-                case customer -> customerProgram();
-                case exit -> consoleIOManager.printSystemMsg("종료합니다.");
-                default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
+                case VOUCHER -> voucherProgram();
+                case CUSTOMER -> customerProgram();
+                case EXIT -> consoleIOManager.printSystemMsg(CommandOutput.EXIT.getValue());
+                default -> consoleIOManager.printSystemMsg(CommandOutput.WRONG_CHOICE.getValue());
             }
         } catch (IOException e) {
             log.error(e.toString());
@@ -37,57 +37,57 @@ public class CommandHandler {
     }
 
     private void voucherProgram() {
-        CommandType command = CommandType.init;
+        CommandType command = CommandType.INIT;
         do {
-            consoleIOManager.printVoucherProgramMenu();
+            consoleIOManager.println(CommandOutput.VOUCHER_MENU.getValue());
             try {
                 command = CommandType.from(consoleIOManager.getInput());
                 switch (command) {
-                    case create -> createVoucher();
-                    case list -> listVoucher();
-                    case find -> findVoucher();
-                    case update -> updateVoucher();
-                    case delete -> deleteVoucher();
-                    case deleteAll -> deleteAllVouchers();
-                    case customer -> showWalletsByVoucher();
-                    case exit -> consoleIOManager.printSystemMsg("종료합니다.");
-                    default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
+                    case CREATE -> createVoucher();
+                    case LIST -> listVoucher();
+                    case FIND -> findVoucher();
+                    case UPDATE -> updateVoucher();
+                    case DELETE -> deleteVoucher();
+                    case DELETE_ALL -> deleteAllVouchers();
+                    case CUSTOMER -> showWalletsByVoucher();
+                    case EXIT -> consoleIOManager.printSystemMsg(CommandOutput.EXIT.getValue());
+                    default -> consoleIOManager.printSystemMsg(CommandOutput.WRONG_CHOICE.getValue());
                 }
             } catch (IOException e) {
                 log.error(e.toString());
             }
-        } while (!command.equals(CommandType.exit));
+        } while (!command.equals(CommandType.EXIT));
     }
 
     private void customerProgram() {
-        CommandType command = CommandType.init;
+        CommandType command = CommandType.INIT;
         do {
-            consoleIOManager.printCustomerProgramMenu();
+            consoleIOManager.println(CommandOutput.CUSTOMER_MENU.getValue());
             try {
                 command = CommandType.from(consoleIOManager.getInput());
                 switch (command) {
-                    case create -> createCustomer();
-                    case list -> listCustomers();
-                    case blacklist -> blacklist();
-                    case addBlacklist -> addBlacklist();
-                    case removeBlacklist -> removeBlacklist();
-                    case deleteAll -> deleteAllCustomers();
-                    case addVoucher -> addVoucherInWallet();
-                    case removeVoucher -> removeVoucherFromWallet();
-                    case wallet -> showWalletByCustomer();
-                    case exit -> consoleIOManager.printSystemMsg("종료합니다.");
-                    default -> consoleIOManager.printSystemMsg("잘못된 메뉴 선택입니다.");
+                    case CREATE -> createCustomer();
+                    case LIST -> listCustomers();
+                    case BLACKLIST -> blacklist();
+                    case ADD_BLACKLIST -> addBlacklist();
+                    case REMOVE_BLACKLIST -> removeBlacklist();
+                    case DELETE_ALL -> deleteAllCustomers();
+                    case ADD_VOUCHER -> addVoucherInWallet();
+                    case REMOVE_VOUCHER -> removeVoucherFromWallet();
+                    case WALLET -> showWalletByCustomer();
+                    case EXIT -> consoleIOManager.printSystemMsg(CommandOutput.EXIT.getValue());
+                    default -> consoleIOManager.printSystemMsg(CommandOutput.WRONG_CHOICE.getValue());
                 }
             } catch (IOException e) {
                 log.error(e.toString());
             }
-        } while (!command.equals(CommandType.exit));
+        } while (!command.equals(CommandType.EXIT));
     }
 
     private void createVoucher() throws IOException {
-        consoleIOManager.printVoucherSelectMenu();
+        consoleIOManager.println(CommandOutput.VOUCHER_SELECT.getValue());
         String voucherType = consoleIOManager.getInput();
-        consoleIOManager.println("Enter Value of Voucher ");
+        consoleIOManager.println(CommandOutput.REQUEST_VOUCHER_VALUE.getValue());
         String value = consoleIOManager.getInput();
         CommonResult commonResult = voucherController.createVoucher(voucherType, value);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
@@ -100,7 +100,7 @@ public class CommandHandler {
     }
 
     private void findVoucher() throws IOException {
-        consoleIOManager.print("Enter Voucher ID ");
+        consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
         CommonResult commonResult = voucherController.findVoucherById(voucherId);
         if (commonResult.isSuccess()) {
@@ -111,16 +111,16 @@ public class CommandHandler {
     }
 
     private void updateVoucher() throws IOException {
-        consoleIOManager.print("Enter Voucher ID ");
+        consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
-        consoleIOManager.print("Enter Value of Voucher ");
+        consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_VALUE.getValue());
         String value = consoleIOManager.getInput();
         CommonResult commonResult = voucherController.updateVoucher(voucherId, value);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
     }
 
     private void deleteVoucher() throws IOException {
-        consoleIOManager.print("Enter Voucher ID ");
+        consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
         CommonResult commonResult = voucherController.deleteVoucher(voucherId);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
@@ -132,7 +132,7 @@ public class CommandHandler {
     }
 
     private void showWalletsByVoucher() throws IOException {
-        consoleIOManager.print("Enter Voucher ID ");
+        consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
         CommonResult commonResult = walletController.findWalletsByVoucherId(voucherId);
         if (commonResult.isSuccess()) {
@@ -143,9 +143,9 @@ public class CommandHandler {
     }
 
     private void createCustomer() throws IOException {
-        consoleIOManager.print("Enter Email ");
+        consoleIOManager.print(CommandOutput.REQUEST_EMAIL.getValue());
         String email = consoleIOManager.getInput();
-        consoleIOManager.print("Enter name ");
+        consoleIOManager.print(CommandOutput.REQUEST_NAME.getValue());
         String name = consoleIOManager.getInput();
         CommonResult commonResult = customerController.createCustomer(email, name);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
@@ -164,14 +164,14 @@ public class CommandHandler {
     }
 
     private void addBlacklist() throws IOException {
-        consoleIOManager.print("Enter Email ");
+        consoleIOManager.print(CommandOutput.REQUEST_EMAIL.getValue());
         String email = consoleIOManager.getInput();
         CommonResult commonResult = customerController.addCustomerInBlacklist(email);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
     }
 
     private void removeBlacklist() throws IOException {
-        consoleIOManager.print("Enter Email ");
+        consoleIOManager.print(CommandOutput.REQUEST_EMAIL.getValue());
         String email = consoleIOManager.getInput();
         CommonResult commonResult = customerController.removeCustomerInBlacklist(email);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
@@ -183,10 +183,10 @@ public class CommandHandler {
     }
 
     private void addVoucherInWallet() throws IOException {
-        consoleIOManager.print("Enter Email ");
+        consoleIOManager.print(CommandOutput.REQUEST_EMAIL.getValue());
         String email = consoleIOManager.getInput();
         listVoucher();
-        consoleIOManager.print("Enter Voucher ID ");
+        consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
         CommonResult commonResult = walletController.addWallet(email, voucherId);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
@@ -194,14 +194,14 @@ public class CommandHandler {
 
     private void removeVoucherFromWallet() throws IOException {
         String email = showWalletByCustomer();
-        consoleIOManager.print("Enter Voucher ID ");
+        consoleIOManager.print(CommandOutput.REQUEST_VOUCHER_ID.getValue());
         String voucherId = consoleIOManager.getInput();
         CommonResult commonResult = walletController.deleteWallet(email, voucherId);
         consoleIOManager.printSystemMsg(commonResult.getMessage());
     }
 
     private String showWalletByCustomer() throws IOException {
-        consoleIOManager.print("Enter Email ");
+        consoleIOManager.print(CommandOutput.REQUEST_EMAIL.getValue());
         String email = consoleIOManager.getInput();
         CommonResult commonResult = walletController.findWalletsByCustomerEmail(email);
         if (commonResult.isSuccess()) {

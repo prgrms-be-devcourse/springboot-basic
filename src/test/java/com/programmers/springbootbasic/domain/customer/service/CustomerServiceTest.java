@@ -56,7 +56,7 @@ class CustomerServiceTest {
         when(customerRepository.findByEmail(any(String.class))).thenReturn(Optional.of(expectedCustomer));
         // Act & Assert
         Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> customerService.createCustomer(customerRequestDto));
-        assertEquals(ErrorMsg.customerAlreadyExist.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.CUSTOMER_ALREADY_EXIST.getMessage(), actualResult.getMessage());
     }
 
     @Test
@@ -89,7 +89,7 @@ class CustomerServiceTest {
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.empty());
         // Act & Assert
         Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> customerService.addCustomerInBlacklist(customerRequestDto));
-        assertEquals(ErrorMsg.customerNotFound.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.CUSTOMER_NOT_FOUND.getMessage(), actualResult.getMessage());
     }
 
     @DisplayName("Test addCustomerInBlacklist Fail: Customer already in Blacklist")
@@ -108,7 +108,7 @@ class CustomerServiceTest {
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(expectedCustomer));
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> customerService.addCustomerInBlacklist(customerRequestDto));
-        assertEquals(ErrorMsg.alreadyInBlacklist.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.ALREADY_IN_BLACKLIST.getMessage(), actualResult.getMessage());
     }
 
     @Test
@@ -141,7 +141,7 @@ class CustomerServiceTest {
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.empty());
         // Act & Assert
         Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> customerService.removeCustomerFromBlacklist(customerRequestDto));
-        assertEquals(ErrorMsg.customerNotFound.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.CUSTOMER_NOT_FOUND.getMessage(), actualResult.getMessage());
     }
 
     @DisplayName("Test removeCustomerFromBlacklist Fail: Customer not in Blacklist")
@@ -160,7 +160,7 @@ class CustomerServiceTest {
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(expectedCustomer));
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, () -> customerService.removeCustomerFromBlacklist(customerRequestDto));
-        assertEquals(ErrorMsg.notInBlacklist.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.NOT_IN_BLACKLIST.getMessage(), actualResult.getMessage());
     }
 
 }

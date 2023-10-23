@@ -3,23 +3,23 @@ package com.programmers.springbootbasic.common.handler;
 import java.util.Arrays;
 
 public enum CommandType {
-    init(""),
-    voucher("voucher"),
-    customer("customer"),
-    create("create"),
-    list("list"),
-    find("find"),
-    update("update"),
-    delete("delete"),
-    blacklist("blacklist"),
-    addBlacklist("addBlacklist"),
-    removeBlacklist("removeBlacklist"),
-    deleteAll("deleteAll"),
-    addVoucher("addVoucher"),
-    removeVoucher("removeVoucher"),
-    wallet("wallet"),
-    exit("exit"),
-    error("error");
+    INIT(""),
+    VOUCHER("voucher"),
+    CUSTOMER("customer"),
+    CREATE("create"),
+    LIST("list"),
+    FIND("find"),
+    UPDATE("update"),
+    DELETE("delete"),
+    BLACKLIST("blacklist"),
+    ADD_BLACKLIST("addBlacklist"),
+    REMOVE_BLACKLIST("removeBlacklist"),
+    DELETE_ALL("deleteAll"),
+    ADD_VOUCHER("addVoucher"),
+    REMOVE_VOUCHER("removeVoucher"),
+    WALLET("wallet"),
+    EXIT("exit"),
+    ERROR("error");
 
     private final String command;
 
@@ -31,7 +31,7 @@ public enum CommandType {
         return Arrays.stream(CommandType.values())
                 .filter(commandType -> commandType.command.equals(command))
                 .findAny()
-                .orElse(error);
+                .orElse(ERROR);
     }
 
 

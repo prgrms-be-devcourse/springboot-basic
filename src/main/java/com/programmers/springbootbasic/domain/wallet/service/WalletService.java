@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static com.programmers.springbootbasic.domain.customer.exception.ErrorMsg.customerNotFound;
-import static com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg.voucherNotFound;
-import static com.programmers.springbootbasic.domain.wallet.exception.ErrorMsg.walletAlreadyExist;
-import static com.programmers.springbootbasic.domain.wallet.exception.ErrorMsg.walletNotFound;
+import static com.programmers.springbootbasic.domain.customer.exception.ErrorMsg.CUSTOMER_NOT_FOUND;
+import static com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg.VOUCHER_NOT_FOUND;
+import static com.programmers.springbootbasic.domain.wallet.exception.ErrorMsg.WALLET_ALREADY_EXIST;
+import static com.programmers.springbootbasic.domain.wallet.exception.ErrorMsg.WALLET_NOT_FOUND;
 
 @Slf4j
 @Service
@@ -31,8 +31,8 @@ public class WalletService {
         Customer customer = findCustomer(walletRequestDto.getEmail());
         Voucher voucher = findVoucher(walletRequestDto.getVoucherId());
         if (walletRepository.findByValues(customer.getEmail(), voucher.getVoucherId()).isPresent()) {
-            log.warn(walletAlreadyExist.getMessage());
-            throw new RuntimeException(walletAlreadyExist.getMessage());
+            log.warn(WALLET_ALREADY_EXIST.getMessage());
+            throw new RuntimeException(WALLET_ALREADY_EXIST.getMessage());
         }
         Wallet wallet = Wallet.builder()
                 .email(customer.getEmail())
@@ -55,23 +55,23 @@ public class WalletService {
         Customer customer = findCustomer(walletRequestDto.getEmail());
         Voucher voucher = findVoucher(walletRequestDto.getVoucherId());
         Wallet wallet = walletRepository.findByValues(customer.getEmail(), voucher.getVoucherId()).orElseThrow(() -> {
-            log.warn(walletNotFound.getMessage());
-            return new RuntimeException(walletNotFound.getMessage());
+            log.warn(WALLET_NOT_FOUND.getMessage());
+            return new RuntimeException(WALLET_NOT_FOUND.getMessage());
         });
         walletRepository.delete(wallet);
     }
 
     private Customer findCustomer(String email) {
         return customerRepository.findByEmail(email).orElseThrow(() -> {
-            log.warn(customerNotFound.getMessage());
-            return new RuntimeException(customerNotFound.getMessage());
+            log.warn(CUSTOMER_NOT_FOUND.getMessage());
+            return new RuntimeException(CUSTOMER_NOT_FOUND.getMessage());
         });
     }
 
     private Voucher findVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId).orElseThrow(() -> {
-            log.warn(voucherNotFound.getMessage());
-            return new RuntimeException(voucherNotFound.getMessage());
+            log.warn(VOUCHER_NOT_FOUND.getMessage());
+            return new RuntimeException(VOUCHER_NOT_FOUND.getMessage());
         });
     }
 }

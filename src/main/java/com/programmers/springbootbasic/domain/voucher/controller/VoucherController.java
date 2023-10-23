@@ -27,7 +27,7 @@ public class VoucherController {
                     .build());
         } catch (NumberFormatException e) {
             log.warn(e.toString());
-            return ResponseFactory.getFailResult(ErrorMsg.numberFormatMismatch.getMessage());
+            return ResponseFactory.getFailResult(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage());
         } catch (Exception e) {
             log.warn(e.toString());
             return ResponseFactory.getFailResult(e.getMessage());
@@ -43,7 +43,7 @@ public class VoucherController {
             return ResponseFactory.getSuccessResult(voucher.getInformation());
         } catch (IllegalArgumentException e) {
             log.warn(e.toString());
-            return ResponseFactory.getFailResult(ErrorMsg.UUIDFormatMismatch.getMessage());
+            return ResponseFactory.getFailResult(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
         } catch (Exception e) {
             log.warn(e.toString());
             return ResponseFactory.getFailResult(e.getMessage());
@@ -58,10 +58,10 @@ public class VoucherController {
                     .build());
         } catch (NumberFormatException e) {
             log.warn(e.toString());
-            return ResponseFactory.getFailResult(ErrorMsg.numberFormatMismatch.getMessage());
+            return ResponseFactory.getFailResult(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage());
         } catch (IllegalArgumentException e) {
             log.warn(e.toString());
-            return ResponseFactory.getFailResult(ErrorMsg.UUIDFormatMismatch.getMessage());
+            return ResponseFactory.getFailResult(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
         } catch (Exception e) {
             log.warn(e.toString());
             return ResponseFactory.getFailResult(e.getMessage());
@@ -76,7 +76,7 @@ public class VoucherController {
                     .build());
         } catch (IllegalArgumentException e) {
             log.warn(e.toString());
-            return ResponseFactory.getFailResult(ErrorMsg.UUIDFormatMismatch.getMessage());
+            return ResponseFactory.getFailResult(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
         } catch (Exception e) {
             log.warn(e.toString());
             return ResponseFactory.getFailResult(e.getMessage());

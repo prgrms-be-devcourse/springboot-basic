@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import static com.programmers.springbootbasic.domain.customer.exception.ErrorMsg.emailTypeNotMatch;
-import static com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg.UUIDFormatMismatch;
+import static com.programmers.springbootbasic.domain.customer.exception.ErrorMsg.EMAIL_TYPE_NOT_MATCH;
+import static com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg.UUID_FORMAT_MISMATCH;
 
 @Slf4j
 @Controller
@@ -25,7 +25,7 @@ public class WalletController {
 
     private static void verifyEmail(String email) throws IllegalArgumentException {
         if (!Pattern.matches(EMAIL_REGEX, email)) {
-            throw new IllegalArgumentException(emailTypeNotMatch.getMessage());
+            throw new IllegalArgumentException(EMAIL_TYPE_NOT_MATCH.getMessage());
         }
     }
 
@@ -39,7 +39,7 @@ public class WalletController {
         } catch (IllegalArgumentException e) {
             log.warn(e.toString());
             if (e.getMessage().contains("UUID")) {
-                return ResponseFactory.getFailResult(UUIDFormatMismatch.getMessage());
+                return ResponseFactory.getFailResult(UUID_FORMAT_MISMATCH.getMessage());
             }
             return ResponseFactory.getFailResult(e.getMessage());
         } catch (Exception e) {
@@ -79,7 +79,7 @@ public class WalletController {
             }
         } catch (IllegalArgumentException e) {
             log.warn(e.toString());
-            return ResponseFactory.getFailResult(UUIDFormatMismatch.getMessage());
+            return ResponseFactory.getFailResult(UUID_FORMAT_MISMATCH.getMessage());
         } catch (Exception e) {
             log.warn(e.toString());
             return ResponseFactory.getFailResult(e.getMessage());
@@ -97,7 +97,7 @@ public class WalletController {
         } catch (IllegalArgumentException e) {
             log.warn(e.toString());
             if (e.getMessage().contains("UUID")) {
-                return ResponseFactory.getFailResult(UUIDFormatMismatch.getMessage());
+                return ResponseFactory.getFailResult(UUID_FORMAT_MISMATCH.getMessage());
             }
             return ResponseFactory.getFailResult(e.getMessage());
         } catch (Exception e) {

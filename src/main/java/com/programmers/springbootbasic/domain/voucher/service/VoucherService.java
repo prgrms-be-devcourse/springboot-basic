@@ -28,8 +28,8 @@ public class VoucherService {
 
     public Voucher findVoucherById(VoucherRequestDto voucherRequestDto) {
         return voucherRepository.findById(voucherRequestDto.getVoucherId()).orElseThrow(() -> {
-            log.warn(ErrorMsg.voucherNotFound.getMessage());
-            return new RuntimeException(ErrorMsg.voucherNotFound.getMessage());
+            log.warn(ErrorMsg.VOUCHER_NOT_FOUND.getMessage());
+            return new RuntimeException(ErrorMsg.VOUCHER_NOT_FOUND.getMessage());
         });
     }
 

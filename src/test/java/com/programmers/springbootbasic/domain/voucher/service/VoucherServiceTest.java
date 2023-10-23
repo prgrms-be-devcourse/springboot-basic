@@ -71,7 +71,7 @@ class VoucherServiceTest {
                 .build();
         // Act & Assert
         Throwable actualResult = assertThrows(RuntimeException.class, ()->voucherService.findVoucherById(voucherRequestDto));
-        assertEquals(ErrorMsg.voucherNotFound.getMessage(), actualResult.getMessage());
+        assertEquals(ErrorMsg.VOUCHER_NOT_FOUND.getMessage(), actualResult.getMessage());
     }
 
     @Test
