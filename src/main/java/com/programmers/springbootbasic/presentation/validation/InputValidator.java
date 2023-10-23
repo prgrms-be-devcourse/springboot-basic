@@ -24,7 +24,9 @@ public class InputValidator<T> {
     }
 
     public void addValidator(Validator<T> validator) {
-        this.validators.add(validator);
+        if (validator != null) {
+            this.validators.add(validator);
+        }
     }
 
     private List<String> getError(T input) {
