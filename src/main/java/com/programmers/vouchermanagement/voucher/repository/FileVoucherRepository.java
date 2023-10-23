@@ -20,13 +20,11 @@ import java.util.*;
 public class FileVoucherRepository implements VoucherRepository {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
-
     private final String filePath;
     private final Map<UUID, Voucher> vouchers;
 
     public FileVoucherRepository(AppProperties appProperties) {
         this.filePath = appProperties.getResources().getPath() + appProperties.getDomains().get("voucher.file-name");
-        System.out.println(filePath);
         this.vouchers = new HashMap<>();
         loadFile();
     }
