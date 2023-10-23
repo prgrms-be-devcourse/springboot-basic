@@ -9,6 +9,7 @@ import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 public enum MainMenu {
+    EXIT("exit",ControllerAdapter::handleExit),
     CREATE_VOUCHER("create voucher",ControllerAdapter::createVoucher),
     LIST_VOUCHER("list voucher",ControllerAdapter::getAllVouchers),
     LIST_BLACK_USER("list black user",ControllerAdapter::getBlackList),

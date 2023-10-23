@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.presentation;
 
+import static com.programmers.springbootbasic.exception.ErrorCode.EXIT;
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_BLACK_USER_LIST;
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_VOUCHER_LIST;
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_VOUCHER_REGISTER;
@@ -7,6 +8,7 @@ import static com.programmers.springbootbasic.util.Messages.SUCCESS_VOUCHER_REGI
 import com.programmers.springbootbasic.domain.user.presentation.UserController;
 import com.programmers.springbootbasic.domain.voucher.presentation.VoucherController;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVoucherRequest;
+import com.programmers.springbootbasic.exception.exceptionClass.SystemException;
 import com.programmers.springbootbasic.mediator.ConsoleResponse;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,10 @@ public class ControllerAdapter {
     public ControllerAdapter(VoucherController voucherController, UserController userController) {
         this.voucherController = voucherController;
         this.userController = userController;
+    }
+
+    public ConsoleResponse handleExit(Object... params) {
+        throw new SystemException(EXIT);
     }
 
     public ConsoleResponse createVoucher(Object... params) {
