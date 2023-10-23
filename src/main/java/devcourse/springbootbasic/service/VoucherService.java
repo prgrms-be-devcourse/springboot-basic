@@ -1,10 +1,10 @@
 package devcourse.springbootbasic.service;
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
-import devcourse.springbootbasic.exception.InputErrorMessage;
-import devcourse.springbootbasic.exception.InputException;
 import devcourse.springbootbasic.dto.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.VoucherFindResponse;
+import devcourse.springbootbasic.exception.VoucherErrorMessage;
+import devcourse.springbootbasic.exception.VoucherException;
 import devcourse.springbootbasic.repository.voucher.VoucherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class VoucherService {
 
     public Voucher create(VoucherCreateRequest voucherCreateRequest) {
         if (!voucherCreateRequest.validateDiscountValue()) {
-            throw InputException.of(InputErrorMessage.INVALID_DISCOUNT_VALUE);
+            throw VoucherException.of(VoucherErrorMessage.INVALID_DISCOUNT_VALUE);
         }
 
         return voucherRepository.save(voucherCreateRequest.toEntity());
