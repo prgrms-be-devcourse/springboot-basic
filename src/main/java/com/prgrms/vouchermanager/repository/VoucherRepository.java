@@ -5,6 +5,6 @@ import com.prgrms.vouchermanager.domain.Voucher;
 import java.util.List;
 
 public interface VoucherRepository {
-    void create(Voucher voucher);
+    Voucher create(Voucher voucher);
     List<Voucher> list();
 }

@@ -27,11 +27,12 @@ public class VoucherService {
         log.info(LogMessage.CHECK_CUSTOMER_REPOSITORY.getMessage(), customerRepository.getClass());
     }
 
-    public void create(VoucherType voucherType, long discount) {
+    public Voucher create(VoucherType voucherType, long discount) {
         Voucher voucher = VoucherFactory.createVoucher(voucherType, discount).get();
         log.info(LogMessage.VOUCHER_INFO.getMessage(), voucher);
 
         voucherRepository.create(voucher);
+        return voucher;
     }
 
     public List<Voucher> list() {

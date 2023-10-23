@@ -1,7 +1,9 @@
 package com.prgrms.vouchermanager.service;
 
 import com.prgrms.vouchermanager.domain.Customer;
+import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.io.VoucherType;
 import com.prgrms.vouchermanager.repository.CustomerFileRepository;
 import com.prgrms.vouchermanager.repository.VoucherFileRepository;
 import org.assertj.core.api.Assertions;
@@ -18,6 +20,14 @@ class VoucherServiceTest {
     private final String filePathC = "src/main/resources/customer_blacklist.csv";
     private final VoucherService service = new VoucherService(new VoucherFileRepository(filePathV), new CustomerFileRepository(filePathC));
 
+    @Test
+    @DisplayName("create")
+    void createTest() {
+        Voucher voucher = service.create(VoucherType.FIXED, 20000);
+
+        Assertions.assertThat(voucher.getDiscount()).isEqualTo(20000);
+        Assertions.assertThat(voucher instanceof FixedAmountVoucher).isTrue();
+    }
     @Test
     @DisplayName("list")
     void listTest() {

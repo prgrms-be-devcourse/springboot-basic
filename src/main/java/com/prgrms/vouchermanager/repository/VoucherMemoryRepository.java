@@ -15,8 +15,10 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> vouchers = new HashMap<>();
 
-    public void create(Voucher voucher) {
+    public Voucher create(Voucher voucher) {
+
         vouchers.put(voucher.getId(), voucher);
+        return voucher;
     }
 
     public List<Voucher> list() {

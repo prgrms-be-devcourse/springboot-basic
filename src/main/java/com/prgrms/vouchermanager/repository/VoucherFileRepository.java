@@ -24,10 +24,11 @@ public class VoucherFileRepository implements VoucherRepository {
         fileIO.fileToVoucherMap(vouchers);
     }
 
-    public void create(Voucher voucher) {
+    public Voucher create(Voucher voucher) {
         vouchers.put(voucher.getId(), voucher);
 
         fileIO.updateFile(vouchers);
+        return voucher;
     }
 
     public List<Voucher> list() {

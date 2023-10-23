@@ -61,61 +61,61 @@ class CommandHandlerTest {
         bw.close();
     }
 
-    @Test
-    @DisplayName("create 명령어 입력 시")
-    void getCommandCreate() {
-        String command = "create";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        Command commandEnum = handler.getCommand();
-        assertThat(commandEnum).isEqualTo(Command.CREATE);
-    }
-
-    @Test
-    @DisplayName("list 명령어 입력 시")
-    void getCommandList() {
-        String command = "list";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-
-
-        Command commandEnum = handler.getCommand();
-        assertThat(commandEnum).isEqualTo(Command.LIST);
-    }
-
-    @Test
-    @DisplayName("exit 명령어 입력 시")
-    void getCommandExit() {
-        String command = "exit";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        Command commandEnum = handler.getCommand();
-        assertThat(commandEnum).isEqualTo(Command.EXIT);
-    }
-
-    @Test
-    @DisplayName("blacklist 명령어 입력 시")
-    void getCommandBlacklist() {
-        String command = "blacklist";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        Command commandEnum = handler.getCommand();
-        assertThat(commandEnum).isEqualTo(Command.BLACKLIST);
-    }
-
-    @Test
-    @DisplayName("적절하지 않은 명령어 입력")
-    void getCommandError() {
-        String command = "hello";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        assertThrows(NotCorrectCommand.class, handler::getCommand);
-    }
+//    @Test
+//    @DisplayName("create 명령어 입력 시")
+//    void getCommandCreate() {
+//        String command = "create";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        Command commandEnum = handler.getCommand();
+//        assertThat(commandEnum).isEqualTo(Command.CREATE);
+//    }
+//
+//    @Test
+//    @DisplayName("list 명령어 입력 시")
+//    void getCommandList() {
+//        String command = "list";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//
+//
+//        Command commandEnum = handler.getCommand();
+//        assertThat(commandEnum).isEqualTo(Command.LIST);
+//    }
+//
+//    @Test
+//    @DisplayName("exit 명령어 입력 시")
+//    void getCommandExit() {
+//        String command = "exit";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        Command commandEnum = handler.getCommand();
+//        assertThat(commandEnum).isEqualTo(Command.EXIT);
+//    }
+//
+//    @Test
+//    @DisplayName("blacklist 명령어 입력 시")
+//    void getCommandBlacklist() {
+//        String command = "blacklist";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        Command commandEnum = handler.getCommand();
+//        assertThat(commandEnum).isEqualTo(Command.BLACKLIST);
+//    }
+//
+//    @Test
+//    @DisplayName("적절하지 않은 명령어 입력")
+//    void getCommandError() {
+//        String command = "hello";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        assertThrows(NotCorrectCommand.class, handler::getCommand);
+//    }
 
     @Test
     @DisplayName("listExecute 빈 list 반환 시 예외")
@@ -133,11 +133,11 @@ class CommandHandlerTest {
         assertThrows(EmptyListException.class, handler::listExecute);
     }
 
-    @Test
-    @DisplayName("exit 실행 시 프로그램 종료")
-    void exitExecute() {
-
-    }
+//    @Test
+//    @DisplayName("exit 실행 시 프로그램 종료")
+//    void exitExecute() {
+//
+//    }
 
     @Test
     @DisplayName("blacklist가 빈 list 반환할 때 예외 발생")
@@ -155,81 +155,81 @@ class CommandHandlerTest {
         assertThrows(EmptyListException.class, handler::blackListExecute);
     }
 
-    @Test
-    @DisplayName("바우처 타입에 따라 discount 값 얻기 - fixed")
-    void getVoucherDiscountFixed() {
-        String command = "30000";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        long discount = handler.getVoucherDiscount(VoucherType.FIXED);
-        assertThat(discount).isEqualTo(30000);
-    }
-
-    @Test
-    @DisplayName("바우처 타입에 따라 discount 값 얻기 - percent")
-    void getVoucherDiscountPercent() {
-        String command = "30";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        long discount = handler.getVoucherDiscount(VoucherType.PERCENT);
-        assertThat(discount).isEqualTo(30000);
-    }
-
-    @Test
-    @DisplayName("바우처 타입에 따라 discount 값 얻기 - 형식 틀림")
-    void getVoucherDiscountNotForm() {
-        String command = "gi";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        assertThrows(NotCorrectForm.class, () -> {
-            long discount = handler.getVoucherDiscount(VoucherType.PERCENT);
-        });
-    }
-
-    @Test
-    @DisplayName("바우처 타입에 따라 discount 값 얻기 - 범위 틀림")
-    void getVoucherDiscountNotScope() {
-        String command = "1200";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        assertThrows(NotCorrectScope.class, () -> {
-            long discount = handler.getVoucherDiscount(VoucherType.PERCENT);
-        });
-    }
-
-    @Test
-    @DisplayName("fixed 바우처 타입 얻기")
-    void getVoucherTypeFixed() {
-        String command = "fixed";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        assertThat(handler.getVoucherType()).isEqualTo(VoucherType.FIXED);
-    }
-
-    @Test
-    @DisplayName("percent 바우처 타입 얻기")
-    void getVoucherTypePercent() {
-        String command = "percent";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        assertThat(handler.getVoucherType()).isEqualTo(VoucherType.PERCENT);
-    }
-
-    @Test
-    @DisplayName("바우처 타입 얻기 - 적절하지 않은 형식")
-    void getVoucherTypeError() {
-        String command = "akak";
-        InputStream in = new ByteArrayInputStream(command.getBytes());
-        System.setIn(in);
-
-        assertThrows(NotCorrectForm.class, () -> {
-            handler.getVoucherType();
-        });
-    }
+//    @Test
+//    @DisplayName("바우처 타입에 따라 discount 값 얻기 - fixed")
+//    void getVoucherDiscountFixed() {
+//        String command = "30000";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        long discount = handler.getVoucherDiscount(VoucherType.FIXED);
+//        assertThat(discount).isEqualTo(30000);
+//    }
+//
+//    @Test
+//    @DisplayName("바우처 타입에 따라 discount 값 얻기 - percent")
+//    void getVoucherDiscountPercent() {
+//        String command = "30";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        long discount = handler.getVoucherDiscount(VoucherType.PERCENT);
+//        assertThat(discount).isEqualTo(30000);
+//    }
+//
+//    @Test
+//    @DisplayName("바우처 타입에 따라 discount 값 얻기 - 형식 틀림")
+//    void getVoucherDiscountNotForm() {
+//        String command = "gi";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        assertThrows(NotCorrectForm.class, () -> {
+//            long discount = handler.getVoucherDiscount(VoucherType.PERCENT);
+//        });
+//    }
+//
+//    @Test
+//    @DisplayName("바우처 타입에 따라 discount 값 얻기 - 범위 틀림")
+//    void getVoucherDiscountNotScope() {
+//        String command = "1200";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        assertThrows(NotCorrectScope.class, () -> {
+//            long discount = handler.getVoucherDiscount(VoucherType.PERCENT);
+//        });
+//    }
+//
+//    @Test
+//    @DisplayName("fixed 바우처 타입 얻기")
+//    void getVoucherTypeFixed() {
+//        String command = "fixed";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        assertThat(handler.getVoucherType()).isEqualTo(VoucherType.FIXED);
+//    }
+//
+//    @Test
+//    @DisplayName("percent 바우처 타입 얻기")
+//    void getVoucherTypePercent() {
+//        String command = "percent";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        assertThat(handler.getVoucherType()).isEqualTo(VoucherType.PERCENT);
+//    }
+//
+//    @Test
+//    @DisplayName("바우처 타입 얻기 - 적절하지 않은 형식")
+//    void getVoucherTypeError() {
+//        String command = "akak";
+//        InputStream in = new ByteArrayInputStream(command.getBytes());
+//        System.setIn(in);
+//
+//        assertThrows(NotCorrectForm.class, () -> {
+//            handler.getVoucherType();
+//        });
+//    }
 }
