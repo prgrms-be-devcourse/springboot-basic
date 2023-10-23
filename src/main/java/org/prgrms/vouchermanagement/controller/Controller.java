@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement;
+package org.prgrms.vouchermanagement.controller;
 
 import org.prgrms.vouchermanagement.dto.VoucherInfo;
 import org.prgrms.vouchermanagement.customer.Customer;
@@ -28,7 +28,7 @@ public class Controller implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         boolean notExitCommand = true;
 
         while (notExitCommand) {
