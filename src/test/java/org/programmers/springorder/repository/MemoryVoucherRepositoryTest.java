@@ -86,11 +86,11 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher1 = new Voucher(voucherId1, 1000, VoucherType.FIXED);
 
         // when
-        UUID saveVoucherId = voucherRepository.save(voucher1);
+        voucherRepository.save(voucher1);
         Optional<Voucher> findVoucher = voucherRepository.findById(UUID.randomUUID());
 
         // then
-        assertThat(findVoucher.isEmpty()).isTrue();
+        assertThat(findVoucher).isEmpty();
     }
 
 }
