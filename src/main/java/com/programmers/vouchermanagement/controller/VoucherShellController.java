@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.controller;
 
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import com.programmers.vouchermanagement.dto.voucher.CreateVoucherRequestDto;
 import com.programmers.vouchermanagement.infra.io.ConsoleInput;
 import com.programmers.vouchermanagement.infra.io.ConsoleOutput;
 import com.programmers.vouchermanagement.service.VoucherService;
@@ -20,10 +21,11 @@ public class VoucherShellController {
     public void create() {
         ConsoleInput consoleInput = new ConsoleInput();
 
-        VoucherType voucherType = VoucherType.select(consoleInput.readVoucherTypeId());
-        Long amount = consoleInput.readAmount();
+        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
+        request.setVoucherType(VoucherType.select(consoleInput.readVoucherTypeId()));
+        request.setAmount(consoleInput.readAmount());
 
-        voucherService.createVoucher(voucherType, amount);
+        voucherService.createVoucher(request);
     }
 
     @ShellMethod(key = "list")
