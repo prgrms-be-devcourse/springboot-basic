@@ -1,17 +1,19 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
-import com.programmers.vouchermanagement.consoleapp.menu.Menu;
-import com.programmers.vouchermanagement.customer.domain.Customer;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequestDTO;
-import com.programmers.vouchermanagement.voucher.dto.GeneralVoucherDTO;
+import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
+
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
-import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
+import com.programmers.vouchermanagement.consoleapp.menu.Menu;
+import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 @Component
 public class ConsoleManager {
@@ -58,22 +60,24 @@ public class ConsoleManager {
         return Menu.findMenu(input);
     }
 
-    public CreateVoucherRequestDTO instructCreate() {
+    public CreateVoucherRequest instructCreate() {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
         VoucherType voucherType = VoucherType.findCreateMenu(createMenu)
                 .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE));
 
-        long discountValue = textIO.newLongInputReader()
+        String discountValueInput = textIO.newStringInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
-        return new CreateVoucherRequestDTO(voucherType, discountValue);
+
+        BigDecimal discountValue = new BigDecimal(discountValueInput);
+        return new CreateVoucherRequest(discountValue, voucherType);
     }
 
-    public void printCreateResult(GeneralVoucherDTO voucherResponse) {
-        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.getVoucherId()));
+    public void printCreateResult(VoucherResponse voucherResponse) {
+        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.voucherId()));
     }
 
-    public void printReadAllVouchers(List<GeneralVoucherDTO> voucherResponses) {
+    public void printReadAllVouchers(List<VoucherResponse> voucherResponses) {
         voucherResponses.forEach(voucherResponse -> textIO.getTextTerminal().println(formatVoucherDTO(voucherResponse)));
     }
 
@@ -89,15 +93,16 @@ public class ConsoleManager {
                 .formatted(customer.getCustomerId(), customer.getName());
     }
 
-    private String formatVoucherDTO(GeneralVoucherDTO generalVoucherDTO) {
+    private String formatVoucherDTO(VoucherResponse voucherResponse) {
         return """
                 Voucher ID : %s
                 Voucher Type : %s Discount Voucher
                 Discount Amount : %s
                 -------------------------"""
-                .formatted(generalVoucherDTO.getVoucherId(),
-                        generalVoucherDTO.getVoucherTypeName(),
-                        generalVoucherDTO.getDiscountValue());
+                .formatted(voucherResponse.voucherId(),
+                        voucherResponse.voucherType().displayTypeName(),
+                        voucherResponse.discountValue() +
+                        (voucherResponse.voucherType().isPercent() ? " %" : ""));
     }
 
     public void printExit() {
