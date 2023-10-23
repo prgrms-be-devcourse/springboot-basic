@@ -10,24 +10,18 @@ public class PercentDiscountVoucher extends Voucher {
     private static final long MIN_PERCENT = 0L;
     private static final long MAX_PERCENT = 100L;
 
-    private PercentDiscountVoucher(String discountType, long discountValue) {
-        this.voucherId = UUID.randomUUID();
+    private PercentDiscountVoucher(UUID voucherId, String discountType, long discountValue) {
+        this.voucherId = voucherId;
         this.discountType = DiscountType.find(discountType);
         this.discountValue = discountValue;
     }
 
-    public static PercentDiscountVoucher create(String discountType, long discountValue) {
+    public static PercentDiscountVoucher create(UUID voucherId, String discountType, long discountValue) {
         if(discountValue < MIN_PERCENT || discountValue > MAX_PERCENT) {
             logger.error("The percentage should be between 1 and 100. Inserted discount value : {}", discountValue);
             throw new IllegalArgumentException("The percentage should be between 1 and 100.");
         }
-        return new PercentDiscountVoucher(discountType, discountValue);
-    }
-
-    public PercentDiscountVoucher(UUID voucherId, String discountType, long discountValue) {
-        this.voucherId = voucherId;
-        this.discountType = DiscountType.find(discountType);
-        this.discountValue = discountValue;
+        return new PercentDiscountVoucher(voucherId, discountType, discountValue);
     }
 
     @Override

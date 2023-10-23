@@ -41,8 +41,8 @@ public class CsvFileUtil {
                 String discountType = parts[1];
                 long discountValue = Long.parseLong(parts[2]);
                 Voucher voucher = switch (DiscountType.find(discountType)) {
-                    case FIXED -> new FixedAmountVoucher(voucherId, discountType, discountValue);
-                    case PERCENT -> new PercentDiscountVoucher(voucherId, discountType, discountValue);
+                    case FIXED -> FixedAmountVoucher.create(voucherId, discountType, discountValue);
+                    case PERCENT -> PercentDiscountVoucher.create(voucherId, discountType, discountValue);
                 };
                 vouchers.put(voucherId, voucher);
             });

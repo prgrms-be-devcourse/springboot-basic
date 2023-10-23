@@ -1,17 +1,18 @@
 package com.prgrms.springbasic.domain.voucher.service;
 
-import com.prgrms.springbasic.domain.voucher.entity.FixedAmountVoucher;
-import com.prgrms.springbasic.domain.voucher.entity.Voucher;
-import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
-import com.prgrms.springbasic.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
+import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
+import com.prgrms.springbasic.domain.voucher.entity.FixedAmountVoucher;
+import com.prgrms.springbasic.domain.voucher.entity.PercentDiscountVoucher;
+import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.domain.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -39,8 +40,8 @@ public class VoucherService {
 
     private Voucher createVoucher(CreateVoucherRequest request) {
         return switch (DiscountType.find(request.getDiscountType())) {
-            case FIXED -> FixedAmountVoucher.create(request.getDiscountType(), request.getDiscountValue());
-            case PERCENT -> PercentDiscountVoucher.create(request.getDiscountType(), request.getDiscountValue());
+            case FIXED -> FixedAmountVoucher.create(UUID.randomUUID(), request.getDiscountType(), request.getDiscountValue());
+            case PERCENT -> PercentDiscountVoucher.create(UUID.randomUUID(), request.getDiscountType(), request.getDiscountValue());
         };
     }
 }
