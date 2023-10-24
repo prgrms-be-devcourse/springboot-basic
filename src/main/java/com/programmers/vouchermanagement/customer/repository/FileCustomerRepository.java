@@ -29,7 +29,7 @@ public class FileCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> customers;
 
     public FileCustomerRepository(AppProperties appProperties) {
-        this.filePath = appProperties.getResources().getPath() + appProperties.getDomains().get("customer.file-name");
+        this.filePath = appProperties.getResources().path() + appProperties.getDomains().get("customer.file-name");
         this.customers = new HashMap<>();
         loadBlacklist();
     }

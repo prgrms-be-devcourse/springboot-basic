@@ -1,18 +1,20 @@
 package com.programmers.vouchermanagement.configuration.properties;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
-@Configuration
 @ConfigurationProperties(prefix = "file")
-@EnableConfigurationProperties
 public class AppProperties {
-    private Resources resources;
-    private Map<String, String> domains = new HashMap<>();
+    private final Resources resources;
+    private final Map<String, String> domains;
+
+    @ConstructorBinding
+    public AppProperties(Resources resources, Map<String, String> domains) {
+        this.resources = resources;
+        this.domains = domains;
+    }
 
     public Resources getResources() {
         return resources;
@@ -20,13 +22,5 @@ public class AppProperties {
 
     public Map<String, String> getDomains() {
         return domains;
-    }
-
-    public void setResources(Resources resources) {
-        this.resources = resources;
-    }
-
-    public void setDomains(Map<String, String> domains) {
-        this.domains = domains;
     }
 }

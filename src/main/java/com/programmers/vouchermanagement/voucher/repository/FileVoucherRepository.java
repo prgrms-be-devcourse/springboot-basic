@@ -43,7 +43,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> vouchers;
 
     public FileVoucherRepository(AppProperties appProperties) {
-        this.filePath = appProperties.getResources().getPath() + appProperties.getDomains().get("voucher.file-name");
+        this.filePath = appProperties.getResources().path() + appProperties.getDomains().get("voucher.file-name");
         this.vouchers = new HashMap<>();
         loadFile();
     }
