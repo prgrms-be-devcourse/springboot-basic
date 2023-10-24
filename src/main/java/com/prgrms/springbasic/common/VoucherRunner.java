@@ -20,21 +20,44 @@ public class VoucherRunner implements CommandLineRunner {
 
         boolean isRunning = true;
         while (isRunning) {
-            CommandType commandType;
+            MenuType menuType;
             try {
-                commandType = CommandType.find(menuHandler.chooseMode());
-                switch (commandType) {
+                menuType = MenuType.find(menuHandler.chooseMenu());
+
+                switch (menuType) {
+                    case VOUCHER -> runVoucher(menuType);
+                    case CUSTOMER -> runCustomer(menuType);
                     case EXIT -> isRunning = menuHandler.exit();
-                    case CREATE -> menuHandler.createVoucher();
-                    case LIST -> menuHandler.showAllVouchers();
-                    case CREATE_CUSTOMER -> menuHandler.createCustomer();
-                    case BLACK_LIST -> menuHandler.showAllBlackLists();
-                    case UPDATE_VOUCHER -> menuHandler.updateVoucher();
-                    case DELETE_ALL -> menuHandler.deleteAllVoucher();
                 }
             } catch (Exception e) {
                 logger.warn(e.getMessage());
             }
+        }
+    }
+
+    private void runVoucher(MenuType menuType) {
+        try {
+            CommandType commandType = CommandType.find(menuHandler.chooseMode(menuType));
+            switch (commandType) {
+                case CREATE -> menuHandler.createVoucher();
+                case LIST -> menuHandler.showAllVouchers();
+                case UPDATE -> menuHandler.updateVoucher();
+                case DELETE_ALL -> menuHandler.deleteAllVoucher();
+            }
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+        }
+    }
+
+    private void runCustomer(MenuType menuType) {
+        try {
+            CommandType commandType = CommandType.find(menuHandler.chooseMode(menuType));
+            switch (commandType) {
+                case CREATE -> menuHandler.createCustomer();
+                case BLACK_LIST -> menuHandler.showAllBlackLists();
+            }
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
         }
     }
 }

@@ -27,9 +27,14 @@ public class MenuHandler {
         this.customerController = customerController;
     }
 
-    public String chooseMode() {
-        console.printConsoleMessage(ConsoleMessage.START_VOUCHER_PROGRAM);
+    public String chooseMenu() {
+        console.printConsoleMessage(ConsoleMessage.START_PROGRAM);
         return console.inputMenuType();
+    }
+
+    public String chooseMode(MenuType menuType) {
+        console.printConsoleMessage(ConsoleMessage.START_CHOOSING_ACTION);
+        return console.inputCommandType(menuType);
     }
 
     public boolean exit() {

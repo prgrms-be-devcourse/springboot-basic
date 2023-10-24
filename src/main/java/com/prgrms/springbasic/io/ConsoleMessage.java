@@ -1,16 +1,17 @@
 package com.prgrms.springbasic.io;
 
 public enum ConsoleMessage {
-    START_VOUCHER_PROGRAM("""
-             === Voucher Program ===
-            Type exit to exit the program.
-            Type create to create a new voucher.
-            Type list to list all vouchers.
-            Type create_customer to create new customer.
-            Type black_list to list all black lists.
+
+    START_PROGRAM("""
+             === Start Program ===
+            """),
+
+    CHOOSE_MENU_TYPE("Please choose one of the menu displayed below and enter it."),
+    START_CHOOSING_ACTION("""
+             === Choose Action ===
             """),
     EXIT_PROGRAM("=== The program ends ===" + System.lineSeparator()),
-    CHOOSE_MENU_TYPE("Please choose one of the menu displayed below and enter it."),
+    CHOOSE_COMMAND_TYPE("Please choose one of the selection displayed below and enter it."),
     CREATE_VOUCHER("=== Create Voucher ===" + System.lineSeparator()),
     GET_DISCOUNT_TYPE("Choose voucher type displayed below and enter it."),
     GET_FIXED_DISCOUNT_VALUE("Type discount value : "),
