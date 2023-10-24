@@ -6,12 +6,17 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class MenuHandler {
+    private static final Logger logger = LoggerFactory.getLogger(MenuHandler.class);
+
     //messages
     private static final String INCORRECT_MESSAGE =
             "This menu is not executable.";
@@ -26,11 +31,6 @@ public class MenuHandler {
         this.voucherController = voucherController;
         this.customerController = customerController;
     }
-
-    // Options..
-    // ConsoleAppRunner (recursive run) --> MenuHandler --> Menu
-    // ConsoleAppRunner --> Menu <-- MenuHandler
-    // ConsoleAppRunner --> Menu
 
     public boolean handleMenu() {
         Menu menu = selectMenu();
@@ -54,6 +54,7 @@ public class MenuHandler {
         }
 
         if (menu.isIncorrect()) {
+            logger.error(INCORRECT_MESSAGE);
             throw new IllegalArgumentException(INCORRECT_MESSAGE);
         }
 
