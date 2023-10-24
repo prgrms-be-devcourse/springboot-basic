@@ -16,7 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Repository
+//@Repository
 @Slf4j
 public class FileCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> storage;

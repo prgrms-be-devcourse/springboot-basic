@@ -21,7 +21,7 @@ public class Customer {
         this.blacklisted = blacklisted;
     }
 
-    private Customer(UUID id, String name, boolean blacklisted) {
+    public Customer(UUID id, String name, boolean blacklisted) {
         this.id = id;
         this.name = name;
         this.blacklisted = blacklisted;
