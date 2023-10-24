@@ -1,5 +1,7 @@
 package com.zerozae.voucher.domain.voucher;
 
+import com.zerozae.voucher.exception.ErrorMessage;
+
 public enum UseStatusType {
 
     AVAILABLE("사용 가능"),
@@ -13,5 +15,13 @@ public enum UseStatusType {
 
     public String getDescription(){
         return description;
+    }
+
+    public static UseStatusType of(String input){
+        try {
+            return UseStatusType.valueOf(input.toUpperCase());
+        }catch (RuntimeException e){
+            throw ErrorMessage.error("존재하지 않는 메뉴입니다. 다시 입력해주세요.");
+        }
     }
 }

@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.zerozae.voucher.domain.voucher.VoucherType.FIXED;
-import static com.zerozae.voucher.util.UuidConverter.*;
 import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
 @Profile("prod")

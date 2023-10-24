@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.zerozae.voucher.util.UuidConverter.*;
 import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
 
