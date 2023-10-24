@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 @Slf4j
 @Controller
@@ -18,40 +19,22 @@ public class CustomerController {
     private final CustomerService customerService;
 
     public CommonResult<String> createCustomer(String email, String name) {
-        try {
-            customerService.createCustomer(CustomerRequestDto.builder()
-                    .email(Email.from(email).getValue())
-                    .name(name)
-                    .build());
-        } catch (Exception e) {
-            log.warn(e.toString());
-            return CommonResult.getFailResult(e.getMessage());
-        }
-        return CommonResult.getSuccessResult();
+        return execute(customerService::createCustomer, CustomerRequestDto.builder()
+                .email(Email.from(email).getValue())
+                .name(name)
+                .build());
     }
 
     public CommonResult<String> addCustomerInBlacklist(String email) {
-        try {
-            customerService.addCustomerInBlacklist(CustomerRequestDto.builder()
-                    .email(Email.from(email).getValue())
-                    .build());
-        } catch (Exception e) {
-            log.warn(e.toString());
-            return CommonResult.getFailResult(e.getMessage());
-        }
-        return CommonResult.getSuccessResult();
+        return execute(customerService::addCustomerInBlacklist, CustomerRequestDto.builder()
+                .email(Email.from(email).getValue())
+                .build());
     }
 
     public CommonResult<String> removeCustomerInBlacklist(String email) {
-        try {
-            customerService.removeCustomerFromBlacklist(CustomerRequestDto.builder()
-                    .email(Email.from(email).getValue())
-                    .build());
-        } catch (Exception e) {
-            log.warn(e.toString());
-            return CommonResult.getFailResult(e.getMessage());
-        }
-        return CommonResult.getSuccessResult();
+        return execute(customerService::removeCustomerFromBlacklist, CustomerRequestDto.builder()
+                .email(Email.from(email).getValue())
+                .build());
     }
 
     public CommonResult<List<String>> findAllCustomer() {
@@ -76,4 +59,15 @@ public class CustomerController {
         customerService.deleteAllCustomer();
         return CommonResult.getSuccessResult();
     }
+
+    private CommonResult<String> execute(Consumer<CustomerRequestDto> consumer, CustomerRequestDto customerRequestDto) {
+        try {
+            consumer.accept(customerRequestDto);
+        } catch (Exception e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(e.getMessage());
+        }
+        return CommonResult.getSuccessResult();
+    }
+
 }
