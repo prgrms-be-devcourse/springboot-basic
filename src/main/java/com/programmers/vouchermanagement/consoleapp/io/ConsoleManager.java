@@ -1,7 +1,5 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
-import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
-
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -23,6 +21,7 @@ public class ConsoleManager {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleManager.class);
 
     //messages
+    private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String MENU_SELECTION_INSTRUCTION = """
             === Voucher Program ===
             Type **exit** to exit the program.
