@@ -1,6 +1,6 @@
-package com.prgrms.vouchermanager.repository;
+package com.prgrms.vouchermanager.repository.wallet;
 
-import com.prgrms.vouchermanager.domain.Wallet;
+import com.prgrms.vouchermanager.domain.wallet.Wallet;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

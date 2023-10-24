@@ -1,8 +1,8 @@
 package com.prgrms.vouchermanager.repository;
 
-import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
-import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
-import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,8 +13,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class VoucherFileRepositoryTest {
 

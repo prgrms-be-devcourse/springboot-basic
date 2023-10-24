@@ -1,9 +1,7 @@
 package com.prgrms.vouchermanager.controller;
 
-import com.prgrms.vouchermanager.domain.Customer;
-import com.prgrms.vouchermanager.domain.Voucher;
-import com.prgrms.vouchermanager.repository.BlacklistFileRepository;
-import com.prgrms.vouchermanager.repository.VoucherFileRepository;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository;
 import com.prgrms.vouchermanager.service.VoucherService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

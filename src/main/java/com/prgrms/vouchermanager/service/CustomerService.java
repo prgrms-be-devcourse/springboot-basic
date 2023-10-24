@@ -1,9 +1,9 @@
 package com.prgrms.vouchermanager.service;
 
-import com.prgrms.vouchermanager.domain.Customer;
+import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.exception.NotCorrectId;
-import com.prgrms.vouchermanager.repository.BlacklistRepository;
-import com.prgrms.vouchermanager.repository.CustomerRepository;
+import com.prgrms.vouchermanager.repository.customer.BlacklistRepository;
+import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 

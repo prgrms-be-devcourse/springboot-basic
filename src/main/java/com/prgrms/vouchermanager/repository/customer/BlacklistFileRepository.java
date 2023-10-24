@@ -1,6 +1,6 @@
-package com.prgrms.vouchermanager.repository;
+package com.prgrms.vouchermanager.repository.customer;
 
-import com.prgrms.vouchermanager.domain.Customer;
+import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.io.FileIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

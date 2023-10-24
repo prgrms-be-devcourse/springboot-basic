@@ -1,11 +1,10 @@
-package com.prgrms.vouchermanager.repository;
+package com.prgrms.vouchermanager.repository.voucher;
 
-import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.io.FileIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

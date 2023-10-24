@@ -1,8 +1,8 @@
-package com.prgrms.vouchermanager.repository;
+package com.prgrms.vouchermanager.repository.voucher;
 
-import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
-import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
-import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.io.FileIO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;

@@ -1,8 +1,7 @@
 package com.prgrms.vouchermanager.controller;
 
-import com.prgrms.vouchermanager.domain.Customer;
-import com.prgrms.vouchermanager.domain.Voucher;
-import com.prgrms.vouchermanager.io.VoucherType;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.service.VoucherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

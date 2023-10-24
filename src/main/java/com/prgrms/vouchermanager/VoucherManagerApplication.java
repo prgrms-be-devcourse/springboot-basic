@@ -1,9 +1,7 @@
 package com.prgrms.vouchermanager;
 
-import com.prgrms.vouchermanager.domain.CommandHandler;
-import com.prgrms.vouchermanager.exception.*;
-import com.prgrms.vouchermanager.io.Command;
-import com.prgrms.vouchermanager.io.Program;
+import com.prgrms.vouchermanager.handler.CommandHandler;
+import com.prgrms.vouchermanager.exception.MyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

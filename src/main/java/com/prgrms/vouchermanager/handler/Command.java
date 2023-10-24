@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanager.io;
+package com.prgrms.vouchermanager.handler;
 
 public enum Command {
     EXIT,

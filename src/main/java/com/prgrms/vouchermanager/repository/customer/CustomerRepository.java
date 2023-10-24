@@ -1,6 +1,6 @@
-package com.prgrms.vouchermanager.repository;
+package com.prgrms.vouchermanager.repository.customer;
 
-import com.prgrms.vouchermanager.domain.Customer;
+import com.prgrms.vouchermanager.domain.customer.Customer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

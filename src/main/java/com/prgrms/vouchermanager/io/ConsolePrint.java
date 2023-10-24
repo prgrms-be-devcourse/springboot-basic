@@ -1,15 +1,13 @@
 package com.prgrms.vouchermanager.io;
 
-import com.prgrms.vouchermanager.domain.Customer;
-import com.prgrms.vouchermanager.domain.Voucher;
-import com.prgrms.vouchermanager.message.ConsoleMessage;
+import com.prgrms.vouchermanager.domain.customer.Customer;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static com.prgrms.vouchermanager.message.ConsoleMessage.*;
-import static com.prgrms.vouchermanager.message.ConsoleMessage.SELECT_FUNCTION_WALLET;
 
 @Component
 @Slf4j

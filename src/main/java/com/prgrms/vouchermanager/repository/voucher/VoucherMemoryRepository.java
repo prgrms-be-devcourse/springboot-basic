@@ -1,6 +1,6 @@
-package com.prgrms.vouchermanager.repository;
+package com.prgrms.vouchermanager.repository.voucher;
 
-import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

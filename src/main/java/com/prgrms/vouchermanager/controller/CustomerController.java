@@ -1,8 +1,7 @@
 package com.prgrms.vouchermanager.controller;
 
-import com.prgrms.vouchermanager.domain.Customer;
+import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.service.CustomerService;
-import com.prgrms.vouchermanager.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;

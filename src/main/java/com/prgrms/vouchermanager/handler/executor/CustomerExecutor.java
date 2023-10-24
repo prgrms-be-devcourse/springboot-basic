@@ -1,6 +1,7 @@
-package com.prgrms.vouchermanager.domain;
+package com.prgrms.vouchermanager.handler.executor;
 
 import com.prgrms.vouchermanager.controller.CustomerController;
+import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.exception.EmptyListException;
 import com.prgrms.vouchermanager.exception.NotCorrectCommand;
 import com.prgrms.vouchermanager.exception.NotCorrectForm;

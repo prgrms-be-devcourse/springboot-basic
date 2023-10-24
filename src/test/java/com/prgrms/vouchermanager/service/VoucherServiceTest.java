@@ -1,11 +1,9 @@
 package com.prgrms.vouchermanager.service;
 
-import com.prgrms.vouchermanager.domain.Customer;
-import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
-import com.prgrms.vouchermanager.domain.Voucher;
-import com.prgrms.vouchermanager.io.VoucherType;
-import com.prgrms.vouchermanager.repository.BlacklistFileRepository;
-import com.prgrms.vouchermanager.repository.VoucherFileRepository;
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.VoucherType;
+import com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

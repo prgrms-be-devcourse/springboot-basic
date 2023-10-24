@@ -1,21 +1,16 @@
-package com.prgrms.vouchermanager.domain;
+package com.prgrms.vouchermanager.handler;
 
-import com.prgrms.vouchermanager.controller.CustomerController;
-import com.prgrms.vouchermanager.controller.VoucherController;
-import com.prgrms.vouchermanager.exception.*;
-import com.prgrms.vouchermanager.io.Command;
+import com.prgrms.vouchermanager.exception.NotCorrectCommand;
+import com.prgrms.vouchermanager.handler.executor.CustomerExecutor;
+import com.prgrms.vouchermanager.handler.executor.VoucherExecutor;
+import com.prgrms.vouchermanager.handler.executor.WalletExecutor;
 import com.prgrms.vouchermanager.io.ConsolePrint;
-import com.prgrms.vouchermanager.io.Program;
-import com.prgrms.vouchermanager.io.VoucherType;
 import com.prgrms.vouchermanager.message.ConsoleMessage;
 import com.prgrms.vouchermanager.message.LogMessage;
-import com.prgrms.vouchermanager.service.WalletService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 @Component
 @Slf4j

@@ -1,6 +1,4 @@
-package com.prgrms.vouchermanager.domain;
-
-import com.prgrms.vouchermanager.io.VoucherType;
+package com.prgrms.vouchermanager.domain.voucher;
 
 import java.util.Optional;
 

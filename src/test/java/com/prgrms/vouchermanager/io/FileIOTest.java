@@ -1,9 +1,9 @@
 package com.prgrms.vouchermanager.io;
 
-import com.prgrms.vouchermanager.domain.Customer;
-import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
-import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
-import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.domain.customer.Customer;
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,8 +14,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class FileIOTest {
 

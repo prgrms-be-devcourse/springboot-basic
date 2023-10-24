@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanager.domain;
+package com.prgrms.vouchermanager.domain.wallet;
 
 import lombok.Getter;
 

@@ -1,7 +1,8 @@
 package com.prgrms.vouchermanager.repository;
 
-import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
-import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.repository.voucher.VoucherMemoryRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

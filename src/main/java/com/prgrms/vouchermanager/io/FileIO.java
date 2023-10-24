@@ -1,15 +1,13 @@
 package com.prgrms.vouchermanager.io;
 
-import com.prgrms.vouchermanager.domain.Customer;
-import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
-import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
-import com.prgrms.vouchermanager.domain.Voucher;
+import com.prgrms.vouchermanager.domain.customer.Customer;
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.exception.FileIOException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Map;
 import java.util.UUID;
 
