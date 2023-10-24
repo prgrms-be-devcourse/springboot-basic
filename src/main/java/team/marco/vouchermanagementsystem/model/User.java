@@ -13,13 +13,7 @@ public class User {
         this.name = name;
     }
 
-    public User(String name) {
-        this.id = UUID.randomUUID();
-        this.name = name;
-    }
-
     public String getInfo() {
-
         return format("id: {0}, 고객명: {1} ", id, name);
     }
 }
