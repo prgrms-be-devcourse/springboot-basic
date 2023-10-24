@@ -73,7 +73,6 @@ public class MenuHandler {
                 List<VoucherResponse> voucherResponses = voucherController.readAllVouchers();
                 consoleManager.printReadAllVouchers(voucherResponses);
             }
-            //TODO: customerDTO
             case BLACKLIST -> {
                 List<Customer> customerResponses = customerController.readBlacklist();
                 consoleManager.printReadBlacklist(customerResponses);
