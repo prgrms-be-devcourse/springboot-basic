@@ -19,7 +19,7 @@ public enum FunctionType {
 
     public static FunctionType getValueByName(String name) {
         for (FunctionType functionType : FunctionType.values()) {
-            if (functionType.name.equals(name)) {
+            if (functionType.name.equalsIgnoreCase(name)) { // 사용자가 선택한 기능이라면 대소문자와 상관없이 해당 기능을 제공
                 return functionType;
             }
         }
