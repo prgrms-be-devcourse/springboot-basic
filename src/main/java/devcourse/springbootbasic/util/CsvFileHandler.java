@@ -2,12 +2,14 @@ package devcourse.springbootbasic.util;
 
 import devcourse.springbootbasic.exception.FileErrorMessage;
 import devcourse.springbootbasic.exception.FileException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+@Slf4j
 public class CsvFileHandler {
 
     private static final String CSV_DELIMITER = ",";
@@ -38,6 +40,7 @@ public class CsvFileHandler {
                 itemList.add(parser.apply(parts));
             }
         } catch (IOException e) {
+            log.error(e.getMessage());
             throw FileException.of(FileErrorMessage.IO_EXCEPTION);
         }
 
@@ -53,6 +56,7 @@ public class CsvFileHandler {
                 bufferedWriter.newLine();
             }
         } catch (IOException e) {
+            log.error(e.getMessage());
             throw FileException.of(FileErrorMessage.IO_EXCEPTION);
         }
     }
