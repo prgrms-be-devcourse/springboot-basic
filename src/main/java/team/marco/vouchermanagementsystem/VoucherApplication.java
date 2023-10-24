@@ -17,12 +17,16 @@ public class VoucherApplication {
     private final VoucherService voucherService;
     private final BlacklistService blacklistService;
 
+    private boolean runningFlag;
+
     public VoucherApplication(VoucherService service, BlacklistService blacklistService) {
         this.voucherService = service;
         this.blacklistService = blacklistService;
     }
 
     public void run() {
+        runningFlag = true;
+
         try {
             selectCommand();
         } catch (Exception e) {
@@ -34,33 +38,38 @@ public class VoucherApplication {
     }
 
     public void selectCommand() {
-        Console.print("""
-                === 쿠폰 관리 프로그램 ===
-                exit: 프로그램 종료
-                create: 쿠폰 생성
-                list: 쿠폰 목록 조회
-                blacklist: 블랙 리스트 유저 조회""");
+        while (runningFlag) {
+            Console.print("""
+                    === 쿠폰 관리 프로그램 ===
+                    exit: 프로그램 종료
+                    create: 쿠폰 생성
+                    list: 쿠폰 목록 조회
+                    blacklist: 블랙 리스트 유저 조회""");
 
-        String input = Console.readString();
-
-        try {
+            String input = Console.readString();
             CommandType commandType = CommandType.getCommandType(input);
 
-            switch (commandType) {
-                case CREATE -> selectVoucher();
-                case LIST -> getVoucherList();
-                case BLACKLIST -> getBlacklist();
-                case EXIT -> {
-                    return;
-                }
-            }
+            executeCommand(commandType);
+        }
+    }
+
+    private void executeCommand(CommandType commandType) {
+        try {
+            switchCommand(commandType);
         } catch (NumberFormatException e) {
             Console.print("숫자를 입력해 주세요.");
         } catch (IllegalArgumentException e) {
             Console.print(e.getMessage());
         }
+    }
 
-        selectCommand();
+    private void switchCommand(CommandType commandType) {
+        switch (commandType) {
+            case CREATE -> selectVoucher();
+            case LIST -> getVoucherList();
+            case BLACKLIST -> getBlacklist();
+            case EXIT -> runningFlag = false;
+        }
     }
 
     private void selectVoucher() {
