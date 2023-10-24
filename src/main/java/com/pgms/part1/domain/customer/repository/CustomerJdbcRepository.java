@@ -2,6 +2,7 @@ package com.pgms.part1.domain.customer.repository;
 
 import com.pgms.part1.domain.customer.entity.Customer;
 import com.pgms.part1.domain.customer.entity.CustomerBuilder;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+@Primary
 @Repository
 public class CustomerJdbcRepository implements CustomerRepository{
 
@@ -41,8 +43,8 @@ public class CustomerJdbcRepository implements CustomerRepository{
 
     @Override
     public void addCustomer(Customer customer) {
-        String addCustomerSql = "INSERT INTO CUSTOMERS(name, email, is_blocked) values (?, ?, ?)";
-        jdbcTemplate.update(addCustomerSql, customer.getName(), customer.getEmail(), customer.getBlocked());
+        String addCustomerSql = "INSERT INTO CUSTOMERS(id, name, email, is_blocked) values (?, ?, ?, ?)";
+        jdbcTemplate.update(addCustomerSql, customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked());
     }
 
     @Override
