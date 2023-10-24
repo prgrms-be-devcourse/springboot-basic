@@ -6,6 +6,7 @@ import com.prgrms.vouchermanager.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class CustomerController {
@@ -23,5 +24,17 @@ public class CustomerController {
 
     public List<Customer> list() {
         return service.list();
+    }
+
+    public Customer updateYearOfBirth(UUID id, int year) {
+        return service.updateYearOfBirth(id, year);
+    }
+
+    public Customer updateName(UUID id, String name) {
+        return service.updateName(id, name);
+    }
+
+    public UUID delete(UUID id) {
+        return service.delete(id);
     }
 }

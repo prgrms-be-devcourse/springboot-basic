@@ -56,7 +56,7 @@ public class CustomerRepository {
     }
 
     public UUID delete(UUID id) {
-        jdbcTemplate.update(DELETE_QUERY, id);
+        jdbcTemplate.update(DELETE_QUERY, id.toString().getBytes());
         return id;
     }
 

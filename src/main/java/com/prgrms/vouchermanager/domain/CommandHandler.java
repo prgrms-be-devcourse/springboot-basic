@@ -2,10 +2,7 @@ package com.prgrms.vouchermanager.domain;
 
 import com.prgrms.vouchermanager.controller.CustomerController;
 import com.prgrms.vouchermanager.controller.VoucherController;
-import com.prgrms.vouchermanager.exception.EmptyListException;
-import com.prgrms.vouchermanager.exception.NotCorrectCommand;
-import com.prgrms.vouchermanager.exception.NotCorrectForm;
-import com.prgrms.vouchermanager.exception.NotCorrectScope;
+import com.prgrms.vouchermanager.exception.*;
 import com.prgrms.vouchermanager.io.Command;
 import com.prgrms.vouchermanager.io.ConsolePrint;
 import com.prgrms.vouchermanager.io.Program;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -83,12 +81,68 @@ public class CommandHandler {
                 listExecuteCustomer();
                 return Command.LIST;
             }
+            case "update" -> {
+                updateExecuteCustomer();
+                return Command.UPDATE;
+            }
+            case "delete" -> {
+                deleteExecuteCustomer();
+                return Command.DELETE;
+            }
+            case "blacklist" -> {
+                blackListExecute();
+                return Command.BLACKLIST;
+            }
             case "exit" -> {
                 System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
                 return Command.EXIT;
             }
             default -> throw new NotCorrectCommand(command);
         }
+    }
+
+    private void deleteExecuteCustomer() {
+        consolePrint.printGetID();
+        try {
+            UUID id = UUID.fromString(sc.nextLine());
+            customerController.delete(id);
+        } catch (IllegalArgumentException e) {
+            throw new NotCorrectId();
+        }
+        consolePrint.printCompleteDelete();
+    }
+
+    private void updateExecuteCustomer() {
+        consolePrint.printUpdateSelect();
+        String command = sc.nextLine();
+        try {
+            switch (command) {
+                case "name" -> {
+                    consolePrint.printGetID();
+                    UUID id = UUID.fromString(sc.nextLine());
+                    consolePrint.printGetCustomerName();
+                    String name = sc.nextLine();
+                    customerController.updateName(id, name);
+                }
+                case "year" -> {
+                    consolePrint.printGetID();
+                    UUID id = UUID.fromString(sc.nextLine());
+                    consolePrint.printGetCustomerYear();
+                    int year = 0;
+                    try {
+                        year = sc.nextInt();
+                        sc.nextLine();
+                        customerController.updateYearOfBirth(id, year);
+                    } catch (NumberFormatException e) {
+                        throw new NotCorrectForm(String.valueOf(year));
+                    }
+                }
+                default -> throw new NotCorrectCommand(command);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new NotCorrectId();
+        }
+        consolePrint.printCompleteUpdate();
     }
 
     public void createExecuteVoucher() throws NotCorrectForm, NotCorrectScope {
@@ -122,11 +176,6 @@ public class CommandHandler {
         List<Customer> customers = customerController.list();
         if(customers.isEmpty()) throw new EmptyListException(customers);
         else consolePrint.printCustomerList(customers);
-    }
-    public void exitExecute() {
-        log.info(LogMessage.FINISH_PROGRAM.getMessage());
-
-        System.exit(0);
     }
 
     public void blackListExecute() throws EmptyListException{

@@ -27,11 +27,18 @@ public enum ConsoleMessage {
     NOT_CORRECT_COMMAND("The command is incorrect."),
     NOT_CORRECT_FORM("The input format is correctly."),
     NOT_CORRECT_SCOPE("Percent range is incorrect."),
+    NOT_CORRECT_ID("ID is not correct."),
     SELECT_PROGRAM("""
     Select the program. voucher or customer?
     If you want to exit, type exit."""),
     GET_CUSTOMER_NAME("Type the name."),
-    GET_CUSTOMER_YEAR("Type the year of birth.");
+    GET_CUSTOMER_YEAR("Type the year of birth."),
+    SELECT_UPDATE_TARGET("""
+            Type name if you want to update name.
+            Type year if you want to update year of birth."""),
+    COMPLETE_UPDATE_CUSTOMER("Update completed."),
+    GET_CUSTOMER_ID("Type the ID."),
+    COMPLETE_DELETE_CUSTOMER("Delete completed.");
 
 
     private final String message;

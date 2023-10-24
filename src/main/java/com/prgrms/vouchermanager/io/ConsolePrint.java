@@ -71,4 +71,20 @@ public class ConsolePrint {
     public void printCustomerFunctionSelect() {
         System.out.println(ConsoleMessage.SELECT_FUNCTION_CUSTOMER.getMessage());
     }
+
+    public void printUpdateSelect() {
+        System.out.println(ConsoleMessage.SELECT_UPDATE_TARGET.getMessage());
+    }
+
+    public void printCompleteUpdate() {
+        System.out.println(ConsoleMessage.COMPLETE_UPDATE_CUSTOMER.getMessage());
+    }
+
+    public void printGetID() {
+        System.out.println(ConsoleMessage.GET_CUSTOMER_ID.getMessage());
+    }
+
+    public void printCompleteDelete() {
+        System.out.println(ConsoleMessage.COMPLETE_DELETE_CUSTOMER.getMessage());
+    }
 }

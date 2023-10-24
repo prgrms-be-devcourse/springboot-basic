@@ -1,8 +1,10 @@
 package com.prgrms.vouchermanager.service;
 
 import com.prgrms.vouchermanager.domain.Customer;
+import com.prgrms.vouchermanager.exception.NotCorrectId;
 import com.prgrms.vouchermanager.repository.BlacklistRepository;
 import com.prgrms.vouchermanager.repository.CustomerRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,14 +37,26 @@ public class CustomerService {
     }
 
     public Customer updateYearOfBirth(UUID id, int year) {
-        return customerRepository.updateYearOfBirth(id, year);
+        try {
+            return customerRepository.updateYearOfBirth(id, year);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotCorrectId();
+        }
     }
 
     public Customer updateName(UUID id, String name) {
-        return customerRepository.updateName(id, name);
+        try {
+            return customerRepository.updateName(id, name);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotCorrectId();
+        }
     }
 
     public UUID delete(UUID id) {
-        return customerRepository.delete(id);
+        try {
+            return customerRepository.delete(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotCorrectId();
+        }
     }
 }

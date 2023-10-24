@@ -1,10 +1,7 @@
 package com.prgrms.vouchermanager;
 
 import com.prgrms.vouchermanager.domain.CommandHandler;
-import com.prgrms.vouchermanager.exception.EmptyListException;
-import com.prgrms.vouchermanager.exception.NotCorrectCommand;
-import com.prgrms.vouchermanager.exception.NotCorrectForm;
-import com.prgrms.vouchermanager.exception.NotCorrectScope;
+import com.prgrms.vouchermanager.exception.*;
 import com.prgrms.vouchermanager.io.Command;
 import com.prgrms.vouchermanager.io.Program;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +33,13 @@ public class VoucherManagerApplication implements CommandLineRunner {
             Command command = null;
             if(program == Program.VOUCHER) command = commandHandler.runVoucherProgram();
             else if(program == Program.CUSTOMER) command = commandHandler.runCustomerProgram();
-            else if(program == Program.EXIT) return;
+            else if(program == Program.EXIT) System.exit(0);
 
-            if(command != null && command != Command.EXIT) this.run();
-        } catch (NotCorrectForm | NotCorrectScope | NotCorrectCommand | EmptyListException e) {
+            if(command == Command.EXIT) System.exit(0);
+        } catch (MyException e) {
             log.error(e.getMessage());
             System.out.println(e.consoleMessage());
         }
+        this.run();
     }
 }
