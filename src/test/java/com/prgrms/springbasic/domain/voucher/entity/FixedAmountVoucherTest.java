@@ -13,20 +13,20 @@ class FixedAmountVoucherTest {
     @Test
     @DisplayName("주어진 금액만큼 할인")
     void testDiscount() {
-        Voucher sut = FixedAmountVoucher.create(UUID.randomUUID(), "fixed", 100);
+        Voucher sut = Voucher.createVoucher(UUID.randomUUID(), "fixed", 100);
         assertEquals(900, sut.discount(1000));
     }
 
     @Test
     @DisplayName("할인된 금액은 마이너스가 될 수 없다")
     void testMinusDiscountedValue() {
-        Voucher sut = FixedAmountVoucher.create(UUID.randomUUID(), "fixed", 100);
+        Voucher sut = Voucher.createVoucher(UUID.randomUUID(), "fixed", 100);
         assertEquals(0, sut.discount(90));
     }
 
     @Test
     @DisplayName("할인 금액은 마이너스가 될 수 없다")
     void testDiscountWithMinus() {
-        assertThrows(IllegalArgumentException.class, () -> FixedAmountVoucher.create(UUID.randomUUID(), "fixed", -100));
+        assertThrows(IllegalArgumentException.class, () -> Voucher.createVoucher(UUID.randomUUID(), "fixed", -100));
     }
 }

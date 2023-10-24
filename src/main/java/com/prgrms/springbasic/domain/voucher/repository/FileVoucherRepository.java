@@ -1,18 +1,12 @@
 package com.prgrms.springbasic.domain.voucher.repository;
 
-import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
-import com.prgrms.springbasic.domain.voucher.entity.FixedAmountVoucher;
-import com.prgrms.springbasic.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.util.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -43,6 +37,12 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void updateVoucher(Voucher voucher) {
+        vouchers.put(voucher.getVoucherId(), voucher);
+        List<String> itemList = new ArrayList<>();
+        for (Voucher v : vouchers.values()) {
+            itemList.add(String.format("%s,%s,%s", v.getVoucherId(), v.getDiscountType(), v.getDiscountValue()));
+        }
+        CsvFileUtil.writeItemsToFile(filePath, itemList);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findVoucherById(UUID voucher_id) {
-        return Optional.empty();
+        return Optional.ofNullable(vouchers.get(voucher_id));
     }
 
     private static Map<UUID, Voucher> readVoucherFromFile(String filePath) {
@@ -60,10 +60,7 @@ public class FileVoucherRepository implements VoucherRepository {
             UUID voucherId = UUID.fromString(parts[0]);
             String discountType = parts[1];
             long discountValue = Long.parseLong(parts[2]);
-            return switch (DiscountType.find(discountType)) {
-                case FIXED -> FixedAmountVoucher.create(voucherId, discountType, discountValue);
-                case PERCENT -> PercentDiscountVoucher.create(voucherId, discountType, discountValue);
-            };
+            return Voucher.createVoucher(voucherId, discountType, discountValue);
         });
     }
 }

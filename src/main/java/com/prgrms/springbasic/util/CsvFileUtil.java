@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -41,5 +42,16 @@ public class CsvFileUtil {
             log.error("The file does not exist. fileName : {}", filePath);
         }
         return items;
+    }
+
+    public static void writeItemsToFile(String filePath, List<String> fieldToCsvStrings) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (String s: fieldToCsvStrings) {
+                writer.write(s);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            log.error("Error writing items to file: {}", e.getMessage());
+        }
     }
 }
