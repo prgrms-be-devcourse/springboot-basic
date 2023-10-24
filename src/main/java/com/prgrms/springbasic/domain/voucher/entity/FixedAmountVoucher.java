@@ -9,10 +9,7 @@ public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
     public static FixedAmountVoucher create(UUID voucherId, String discountType, long discountValue) {
-        if (discountValue < 0) {
-            logger.warn("discount value should be positive. Inserted discount value : {}", discountValue);
-            throw new IllegalArgumentException("discount value should be positive");
-        }
+        checkValidation(discountValue);
         return new FixedAmountVoucher(voucherId, discountType, discountValue);
     }
 
@@ -20,6 +17,19 @@ public class FixedAmountVoucher extends Voucher {
         this.voucherId = voucherId;
         this.discountType = DiscountType.find(discountType);
         this.discountValue = discountValue;
+    }
+
+    @Override
+    public void update(long updateDiscountValue) {
+        checkValidation(updateDiscountValue);
+        this.discountValue = updateDiscountValue;
+    }
+
+    private static void checkValidation(long discountValue) {
+        if (discountValue < 0) {
+            logger.warn("discount value should be positive. Inserted discount value : {}", discountValue);
+            throw new IllegalArgumentException("discount value should be positive");
+        }
     }
 
     @Override

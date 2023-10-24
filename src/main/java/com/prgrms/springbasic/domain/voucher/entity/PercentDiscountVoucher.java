@@ -17,16 +17,21 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     public static PercentDiscountVoucher create(UUID voucherId, String discountType, long discountValue) {
-        if(discountValue < MIN_PERCENT || discountValue > MAX_PERCENT) {
-            logger.error("The percentage should be between 1 and 100. Inserted discount value : {}", discountValue);
-            throw new IllegalArgumentException("The percentage should be between 1 and 100.");
-        }
+        checkValidation(discountValue);
         return new PercentDiscountVoucher(voucherId, discountType, discountValue);
     }
 
     @Override
-    public UUID getVoucherId() {
-        return voucherId;
+    public void update(long updateDiscountValue) {
+        checkValidation(updateDiscountValue);
+        this.discountValue = updateDiscountValue;
+    }
+
+    private static void checkValidation(long discountValue) {
+        if (discountValue < MIN_PERCENT || discountValue > MAX_PERCENT) {
+            logger.error("The percentage should be between 1 and 100. Inserted discount value : {}", discountValue);
+            throw new IllegalArgumentException("The percentage should be between 1 and 100.");
+        }
     }
 
     @Override
