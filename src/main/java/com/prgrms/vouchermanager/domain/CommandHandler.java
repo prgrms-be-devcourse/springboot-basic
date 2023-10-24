@@ -68,7 +68,7 @@ public class CommandHandler {
     }
 
     public Command runCustomerProgram() throws NotCorrectCommand {
-        consolePrint.printVoucherFunctionSelect();
+        consolePrint.printCustomerFunctionSelect();
         String command = sc.nextLine();
         switch (command) {
             case "create" -> {

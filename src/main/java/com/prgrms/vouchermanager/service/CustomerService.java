@@ -6,6 +6,7 @@ import com.prgrms.vouchermanager.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -31,5 +32,17 @@ public class CustomerService {
 
     public List<Customer> list() {
         return customerRepository.list();
+    }
+
+    public Customer updateYearOfBirth(UUID id, int year) {
+        return customerRepository.updateYearOfBirth(id, year);
+    }
+
+    public Customer updateName(UUID id, String name) {
+        return customerRepository.updateName(id, name);
+    }
+
+    public UUID delete(UUID id) {
+        return customerRepository.delete(id);
     }
 }

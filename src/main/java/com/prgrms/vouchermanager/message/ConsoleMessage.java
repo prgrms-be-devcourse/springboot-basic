@@ -4,11 +4,16 @@ import lombok.Getter;
 
 @Getter
 public enum ConsoleMessage {
-    SELECT_FUNCTION("""
+    SELECT_FUNCTION_VOUCHER("""
             === Voucher Program ===
             Type exit to exit the program.
             Type create to create a new voucher.
             Type list to list all vouchers."""),
+    SELECT_FUNCTION_CUSTOMER("""
+            === Customer Program ===
+            Type exit to exit the program.
+            Type create to create a new customer.
+            Type list to list all customers."""),
     FINISH_PROGRAM("Exit the program."),
     GET_VOUCHER_TYPE("""
             Type fixed if you want a fixed discount voucher.

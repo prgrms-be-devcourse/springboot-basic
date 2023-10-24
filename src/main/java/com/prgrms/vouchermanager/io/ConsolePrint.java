@@ -13,7 +13,7 @@ import java.util.List;
 public class ConsolePrint {
 
     public void printVoucherFunctionSelect() {
-        System.out.println(ConsoleMessage.SELECT_FUNCTION.getMessage());
+        System.out.println(ConsoleMessage.SELECT_FUNCTION_VOUCHER.getMessage());
     }
 
     public void printGetVoucherType() {
@@ -66,5 +66,9 @@ public class ConsolePrint {
 
     public void printGetCustomerYear() {
         System.out.println(ConsoleMessage.GET_CUSTOMER_YEAR.getMessage());
+    }
+
+    public void printCustomerFunctionSelect() {
+        System.out.println(ConsoleMessage.SELECT_FUNCTION_CUSTOMER.getMessage());
     }
 }
