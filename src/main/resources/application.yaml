@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: default
+
+file:
+  names:
+    voucher:
+      file-name: voucherRecord.csv
+      test-file-name: testVoucherRecord.csv
+    customer:
+      file-name: customer_blacklist.csv
+      test-file-name: test_customer_blacklist.csv
+  user-dir: ${user.dir}
+  resources:
+    path: /src/main/resources/
+    test-path: /src/test/resources/
+
+external:
+  proj-dir: ""
+  resource-dir: ""
