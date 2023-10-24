@@ -55,7 +55,6 @@ public class MenuHandler {
 
         if (menu.isIncorrect()) {
             logger.error(INCORRECT_MESSAGE);
-            throw new IllegalArgumentException(INCORRECT_MESSAGE);
         }
 
         return true;
