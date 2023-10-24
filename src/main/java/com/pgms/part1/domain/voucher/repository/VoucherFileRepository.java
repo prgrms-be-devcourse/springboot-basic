@@ -2,6 +2,7 @@ package com.pgms.part1.domain.voucher.repository;
 
 import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
+import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.util.file.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.*;
 
-@Profile("dev")
+@Profile("local")
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
     private final Logger log = LoggerFactory.getLogger(VoucherFileRepository.class);
@@ -70,5 +71,20 @@ public class VoucherFileRepository implements VoucherRepository {
     public void add(Voucher voucher) {
         voucherMap.put(voucher.getId(), voucher);
         fileService.saveFile(voucherToString(),filePath);
+    }
+
+    @Override
+    public void delete(Voucher voucher) {
+
+    }
+
+    @Override
+    public List<Voucher> listVouchers() {
+        return null;
+    }
+
+    @Override
+    public void findVoucherByWallet(Wallet wallet) {
+
     }
 }

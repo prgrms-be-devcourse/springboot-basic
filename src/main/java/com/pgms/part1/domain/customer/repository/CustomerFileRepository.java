@@ -2,6 +2,7 @@ package com.pgms.part1.domain.customer.repository;
 
 import com.pgms.part1.domain.customer.entity.Customer;
 import com.pgms.part1.domain.customer.entity.CustomerBuilder;
+import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.util.file.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +71,11 @@ public class CustomerFileRepository implements CustomerRepository{
 
     @Override
     public void deleteCustomer(Customer customer) {
+
+    }
+
+    @Override
+    public void findCustomerByWallet(Wallet wallet) {
 
     }
 }

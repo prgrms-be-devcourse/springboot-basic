@@ -2,6 +2,7 @@ package com.pgms.part1.domain.customer.repository;
 
 import com.pgms.part1.domain.customer.entity.Customer;
 import com.pgms.part1.domain.customer.entity.CustomerBuilder;
+import com.pgms.part1.domain.wallet.entity.Wallet;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -57,5 +58,10 @@ public class CustomerJdbcRepository implements CustomerRepository{
     public void deleteCustomer(Customer customer) {
         String deleteCustomerSql = "DELETE FROM CUSTOMERS WHERE id = ?";
         jdbcTemplate.update(deleteCustomerSql, customer.getId());
+    }
+
+    @Override
+    public void findCustomerByWallet(Wallet wallet) {
+
     }
 }
