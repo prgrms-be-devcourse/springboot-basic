@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: prod
+
+file:
+  path:
+    blacklist: src/main/resources/customer_blacklist.csv
+    voucher: src/main/resources/voucher-repo.csv
