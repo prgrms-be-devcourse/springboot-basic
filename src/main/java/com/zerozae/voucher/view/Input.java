@@ -3,8 +3,9 @@ package com.zerozae.voucher.view;
 
 public interface Input {
     String inputCommand();
-    Long inputVoucherDiscount();
+    Long inputNumber();
     String inputVoucherType();
     String inputCustomerName();
     String inputCustomerType();
+    String inputUUID();
 }

@@ -12,7 +12,9 @@ import java.text.MessageFormat;
 import static java.lang.System.out;
 
 @Component
-public class ConsoleView implements Input, Output{
+public class ConsoleView implements Input, Output {
+
+    private static final String INPUT_READ_EXCEPTION_MESSAGE = "입력을 읽을 때 오류가 발생했습니다.";
 
     private final BufferedReader bufferedReader;
 
@@ -21,13 +23,22 @@ public class ConsoleView implements Input, Output{
     }
 
     @Override
-    public Long inputVoucherDiscount(){
+    public Long inputNumber(){
         try {
-            return InputValidator.validateInputDiscount(bufferedReader.readLine());
+            return InputValidator.validateInputNumber(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ErrorMessage.error("입력을 읽을 때 오류가 발생했습니다");
+            throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
         } catch (ErrorMessage e){
             throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    @Override
+    public String inputUUID() {
+        try {
+            return bufferedReader.readLine();
+        }catch (IOException e){
+            throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
         }
     }
 
@@ -56,9 +67,9 @@ public class ConsoleView implements Input, Output{
         String command = """
         
         === Select Program ===
-        Type exit to exit the program.
-        Type customer to run customer program.
-        Type voucher to run voucher program
+        Type exit to Exit The Program.
+        Type customer to Run Customer Program.
+        Type voucher to Run Voucher Program
         """;
         out.println(command);
         printPrompt();
@@ -76,19 +87,18 @@ public class ConsoleView implements Input, Output{
     }
 
     @Override
-    public void printErrorMessage(String message) {
-        String systemMessage = MessageFormat.format("\n[System] {0}", message);
-        out.println(systemMessage);
-    }
-
-    @Override
     public void printVoucherCommand() {
         String command = """
         
         === Voucher Program ===
         Type back to main menu.
-        Type create to create a new voucher.
-        Type list to list all vouchers.
+        Type create to Create a New Voucher.
+        Type List to List All Vouchers.
+        Type Owner to Show VoucherOwner.
+        Type search to Search Voucher By Id From Voucher List.
+        Type update to Update Voucher Information.
+        Type delete to Remove Voucher By Id From Voucher List.
+        Type delete_all to Remove All Vouchers From Voucher List.
         """;
         out.println(command);
         printPrompt();
@@ -99,10 +109,17 @@ public class ConsoleView implements Input, Output{
         String command = """
         
         === Customer Program ===
-        Type back to main menu.
-        Type create to create a new customer.
-        Type list to show all customer.
-        Type blacklist to show all blacklist customer.
+        Type back to Main Menu.
+        Type create to Create a New Customer.
+        Type list to Show All Customer.
+        Type blacklist to Show All Blacklist Customer.
+        Type search to Search Customer By Id From Customer List.
+        Type register to Register Voucher to Customer.
+        Type voucher_list to List of Vouchers Owned By Customer
+        Type update to Update Customer Information.
+        Type remove to Remove Voucher Owned by Customer
+        Type delete to Delete Customer By Id From Customer List.
+        Type delete_all to Remove All Customers From Customer List.
         """;
         out.println(command);
         printPrompt();
@@ -116,7 +133,7 @@ public class ConsoleView implements Input, Output{
         try {
             return InputValidator.validateInputString(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ErrorMessage.error("입력을 읽을 때 오류가 발생했습니다");
+            throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
         } catch (ErrorMessage e){
             throw ErrorMessage.error(e.getMessage());
         }
