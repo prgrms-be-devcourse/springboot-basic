@@ -2,10 +2,22 @@ package team.marco.vouchermanagementsystem.model;
 
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getId();
+public abstract class Voucher {
+    protected final UUID id;
 
-    String getInfo();
+    protected Voucher() {
+        this.id = UUID.randomUUID();
+    }
 
-    VoucherType getType();
+    protected Voucher(UUID id) {
+        this.id = id;
+    }
+
+    public abstract String getInfo();
+
+    public abstract VoucherType getType();
+
+    public UUID getId() {
+        return id;
+    }
 }

@@ -7,17 +7,15 @@ import java.util.UUID;
 
 import static java.text.MessageFormat.format;
 
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private static final int MINIMUM_AMOUNT = 1;
 
-    private final UUID id;
     private final int amount;
 
     public FixedAmountVoucher(int amount) {
         validate(amount);
 
-        this.id = UUID.randomUUID();
         this.amount = amount;
 
         logger.debug("Create FixedAmountVoucher {id: {}, amount: {}}", id, amount);
@@ -32,13 +30,8 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     public FixedAmountVoucher(UUID id, int amount) {
-        this.id = id;
+        super(id);
         this.amount = amount;
-    }
-
-    @Override
-    public UUID getId() {
-        return id;
     }
 
     @Override
