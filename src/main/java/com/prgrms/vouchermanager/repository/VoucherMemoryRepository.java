@@ -29,6 +29,11 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
+    public Voucher findById(UUID id) {
+        return null;
+    }
+
+    @Override
     public void updateDiscount(UUID id, int discount) {
 
     }
