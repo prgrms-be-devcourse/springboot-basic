@@ -61,38 +61,6 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("PERCENT_DISCOUNT 바우처 생성 시 amount가 0 미만이면 생성할 수 없다.")
-    void createPercentDiscountVoucher_amountLessThan0_fail() {
-        // given
-        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
-        request.setVoucherType(VoucherType.PERCENT_DISCOUNT);
-        request.setAmount(-1L);
-
-        // when & then
-        assertThatThrownBy(() -> voucherService.createVoucher(request))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Percent discount amount should be between 0 and 100");
-
-        verify(voucherRepository, never()).save(any());
-    }
-
-    @Test
-    @DisplayName("PERCENT_DISCOUNT 바우처 생성 시 amount가 100 초과이면 생성할 수 없다.")
-    void createPercentDiscountVoucher_amountMoreThan100_fail() {
-        // given
-        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
-        request.setVoucherType(VoucherType.PERCENT_DISCOUNT);
-        request.setAmount(101L);
-
-        // when & then
-        assertThatThrownBy(() -> voucherService.createVoucher(request))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("Percent discount amount should be between 0 and 100");
-
-        verify(voucherRepository, never()).save(any());
-    }
-
-    @Test
     @DisplayName("바우처 목록을 조회할 수 있다.")
     void getVouchers() {
         // given

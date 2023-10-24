@@ -6,10 +6,7 @@ import com.programmers.vouchermanagement.util.UuidProvider;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 //@Repository
@@ -30,8 +27,37 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void saveAll(List<Voucher> vouchers) {
+        unsupport();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.empty();
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return storage.values().stream()
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateById(UUID id, Voucher voucher) {
+        unsupport();
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        unsupport();
+    }
+
+    @Override
+    public void deleteAll() {
+        unsupport();
+    }
+
+    private void unsupport() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }
