@@ -39,19 +39,27 @@ public class CsvFileUtil {
                 items.put(itemId, item);
             });
         } catch (IOException e) {
-            log.error("The file does not exist. fileName : {}", filePath);
+            log.warn("The file does not exist. fileName : {}", filePath);
         }
         return items;
     }
 
     public static void writeItemsToFile(String filePath, List<String> fieldToCsvStrings) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (String s: fieldToCsvStrings) {
+            for (String s : fieldToCsvStrings) {
                 writer.write(s);
                 writer.newLine();
             }
         } catch (IOException e) {
-            log.error("Error writing items to file: {}", e.getMessage());
+            log.warn("Error writing items to file: {}", e.getMessage());
+        }
+    }
+
+    public static void deleteAllFileContent(String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, false))) {
+            writer.write("");
+        } catch (IOException e) {
+            log.warn("Error writing items to file: {}", e.getMessage());
         }
     }
 }

@@ -4,12 +4,14 @@ import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.util.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
+@Primary
 public class FileVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
 
@@ -47,7 +49,8 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-
+        vouchers.clear();
+        CsvFileUtil.deleteAllFileContent(filePath);
     }
 
     @Override
