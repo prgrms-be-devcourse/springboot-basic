@@ -2,17 +2,18 @@ package com.zerozae.voucher.dto.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import java.util.UUID;
 
 @Getter
 public class CustomerResponse {
 
-    private String customerId;
+    private UUID customerId;
     private String customerName;
     private CustomerType customerType;
 
-    public CustomerResponse(String customerId, String customerName, CustomerType customerType) {
+    public CustomerResponse(UUID customerId, String customerName, CustomerType customerType) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerType = customerType;
@@ -20,7 +21,7 @@ public class CustomerResponse {
 
     public static CustomerResponse toDto(Customer customer) {
         return new CustomerResponse(
-                customer.getCustomerId().toString(),
+                customer.getCustomerId(),
                 customer.getCustomerName(),
                 customer.getCustomerType()
         );
@@ -35,6 +36,4 @@ public class CustomerResponse {
                 --------------------------------------
                 """.formatted(customerId, customerName, customerType);
     }
-
 }
-

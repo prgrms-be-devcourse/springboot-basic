@@ -8,6 +8,7 @@ import com.zerozae.voucher.service.customer.CustomerService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Controller
@@ -21,10 +22,10 @@ public class CustomerController {
     public Response createCustomer(CustomerRequest customerRequest){
         try{
             customerService.createCustomer(customerRequest);
+            return Response.success();
         }catch (ErrorMessage e){
-            return Response.failure(e.getMessage());
+            throw ErrorMessage.error(e.getMessage());
         }
-        return Response.success();
     }
 
     public Response findAllCustomers(){
@@ -33,7 +34,38 @@ public class CustomerController {
     }
 
     public Response findAllBlacklistCustomers(){
-        List<CustomerResponse> blacklistCustomer = customerService.findAllBlacklistCustomer();
+        List<CustomerResponse> blacklistCustomer = customerService.findAllBlacklistCustomers();
         return Response.success(blacklistCustomer);
+    }
+
+    public Response findCustomerById(UUID customerId){
+        try {
+            CustomerResponse customerReponse = customerService.findById(customerId);
+            return Response.success(customerReponse);
+        }catch (Exception e){
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public Response deleteCustomerById(UUID customerId){
+        try {
+            customerService.deleteById(customerId);
+            return Response.success();
+        }catch (Exception e){
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+    public Response deleteAllCustomers(){
+        customerService.deleteAll();
+        return Response.success();
+    }
+
+    public Response updateCustomer(UUID customerId, CustomerRequest customerRequest) {
+        try {
+            customerService.update(customerId, customerRequest);
+            return Response.success();
+        }catch (Exception e){
+            throw ErrorMessage.error(e.getMessage());
+        }
     }
 }
