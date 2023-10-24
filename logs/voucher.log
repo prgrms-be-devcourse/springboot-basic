@@ -364,3 +364,25 @@ Discount amount : 20000
 16:40:00.614 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
 16:40:01.007 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.408 seconds (process running for 2.093)
 16:40:04.360 [main] INFO  c.p.v.VoucherManagerApplication -- program command : EXIT
+18:45:30.258 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 28592 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+18:45:30.261 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+18:45:30.775 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherJdbcRepository$$SpringCGLIB$$0
+18:45:30.853 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 0.945 seconds (process running for 1.585)
+18:45:38.195 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
+18:45:38.356 [main] ERROR c.p.v.VoucherManagerApplication -- java.util.ArrayList는 빈 리스트입니다.
+18:45:52.619 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 26704 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+18:45:52.621 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+18:45:53.132 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherJdbcRepository$$SpringCGLIB$$0
+18:45:53.210 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 0.943 seconds (process running for 1.628)
+18:45:55.338 [main] ERROR c.p.v.VoucherManagerApplication -- create는 올바른 명령어가 아닙니다.
+18:46:01.648 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 26800 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+18:46:01.650 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+18:46:02.175 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherJdbcRepository$$SpringCGLIB$$0
+18:46:02.260 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 0.956 seconds (process running for 1.619)
+18:46:09.878 [main] INFO  c.p.v.domain.CommandHandler -- create 기능 선택
+18:46:15.809 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 6b058fb3-dbf2-4b9e-9597-8230ce41f770
+Discount Type : fixed discount
+Discount amount : 20000
+
+18:46:23.892 [main] ERROR c.p.v.VoucherManagerApplication -- lsit는 올바른 명령어가 아닙니다.

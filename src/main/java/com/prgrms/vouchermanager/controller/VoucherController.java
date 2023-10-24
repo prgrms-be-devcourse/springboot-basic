@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @Slf4j
@@ -24,5 +25,14 @@ public class VoucherController {
 
     public List<Voucher> list() {
         return service.list();
+    }
+
+    public void updateDiscount(UUID id, int discount) {
+        service.updateDiscount(id, discount);
+    }
+
+    public UUID delete(UUID id) {
+        service.delete(id);
+        return id;
     }
 }

@@ -20,23 +20,27 @@ import java.util.UUID;
 @Slf4j
 public class CommandHandler {
     private final ConsolePrint consolePrint;
-    private final VoucherController voucherController;
-    private final CustomerController customerController;
+    private final CustomerExecutor customerExecutor;
+    private final VoucherExecutor voucherExecutor;
     private final Scanner sc = new Scanner(System.in);
 
-    public CommandHandler(ConsolePrint consolePrint, VoucherController voucherController, CustomerController customerController) {
+    public CommandHandler(ConsolePrint consolePrint, CustomerExecutor customerExecutor, VoucherExecutor voucherExecutor) {
         this.consolePrint = consolePrint;
-        this.voucherController = voucherController;
-        this.customerController = customerController;
+        this.customerExecutor = customerExecutor;
+        this.voucherExecutor = voucherExecutor;
     }
 
-    public Program selectProgram() {
+    public boolean selectProgram() {
         consolePrint.printProgramSelect();
         String input = sc.nextLine();
         switch (input) {
-            case "voucher" -> { return Program.VOUCHER; }
-            case "customer" -> { return Program.CUSTOMER; }
-            case "exit" -> { return Program.EXIT; }
+            case "voucher" -> {
+                return runVoucherProgram() != Command.EXIT;
+            }
+            case "customer" -> {
+                return runCustomerProgram() != Command.EXIT;
+            }
+            case "exit" -> { return false; }
             default -> throw new NotCorrectCommand(input);
         }
     }
@@ -48,13 +52,13 @@ public class CommandHandler {
             case "create" -> {
                 log.info(LogMessage.SELECT_CREATE.getMessage());
 
-                createExecuteVoucher();
+                voucherExecutor.create();
                 return Command.CREATE;
             }
             case "list" -> {
                 log.info(LogMessage.SELECT_LIST.getMessage());
 
-                listExecuteVoucher();
+                voucherExecutor.list();
                 return Command.LIST;
             }
             case "exit" -> {
@@ -72,25 +76,25 @@ public class CommandHandler {
             case "create" -> {
                 log.info(LogMessage.SELECT_CREATE.getMessage());
 
-                createExecuteCustomer();
+                customerExecutor.create();
                 return Command.CREATE;
             }
             case "list" -> {
                 log.info(LogMessage.SELECT_LIST.getMessage());
 
-                listExecuteCustomer();
+                customerExecutor.list();
                 return Command.LIST;
             }
             case "update" -> {
-                updateExecuteCustomer();
+                customerExecutor.update();
                 return Command.UPDATE;
             }
             case "delete" -> {
-                deleteExecuteCustomer();
+                customerExecutor.delete();
                 return Command.DELETE;
             }
             case "blacklist" -> {
-                blackListExecute();
+                customerExecutor.blackList();
                 return Command.BLACKLIST;
             }
             case "exit" -> {
@@ -99,138 +103,5 @@ public class CommandHandler {
             }
             default -> throw new NotCorrectCommand(command);
         }
-    }
-
-    private void deleteExecuteCustomer() {
-        consolePrint.printGetID();
-        try {
-            UUID id = UUID.fromString(sc.nextLine());
-            customerController.delete(id);
-        } catch (IllegalArgumentException e) {
-            throw new NotCorrectId();
-        }
-        consolePrint.printCompleteDelete();
-    }
-
-    private void updateExecuteCustomer() {
-        consolePrint.printUpdateSelect();
-        String command = sc.nextLine();
-        try {
-            switch (command) {
-                case "name" -> {
-                    consolePrint.printGetID();
-                    UUID id = UUID.fromString(sc.nextLine());
-                    consolePrint.printGetCustomerName();
-                    String name = sc.nextLine();
-                    customerController.updateName(id, name);
-                }
-                case "year" -> {
-                    consolePrint.printGetID();
-                    UUID id = UUID.fromString(sc.nextLine());
-                    consolePrint.printGetCustomerYear();
-                    int year = 0;
-                    try {
-                        year = sc.nextInt();
-                        sc.nextLine();
-                        customerController.updateYearOfBirth(id, year);
-                    } catch (NumberFormatException e) {
-                        throw new NotCorrectForm(String.valueOf(year));
-                    }
-                }
-                default -> throw new NotCorrectCommand(command);
-            }
-        } catch (IllegalArgumentException e) {
-            throw new NotCorrectId();
-        }
-        consolePrint.printCompleteUpdate();
-    }
-
-    public void createExecuteVoucher() throws NotCorrectForm, NotCorrectScope {
-        VoucherType voucherType = getVoucherType();
-        long discount = getVoucherDiscount(voucherType);
-
-        log.info(LogMessage.VOUCHER_TYPE_AND_DISCOUNT.getMessage(), voucherType.getType(), discount);
-
-        voucherController.create(voucherType, discount);
-        consolePrint.printCompleteCreate();
-    }
-
-    public void listExecuteVoucher() throws EmptyListException {
-        List<Voucher> vouchers = voucherController.list();
-        if(vouchers.isEmpty()) throw new EmptyListException(vouchers);
-        else consolePrint.printVoucherList(voucherController.list());
-    }
-
-    public void createExecuteCustomer() {
-        consolePrint.printGetCustomerName();
-        String name = sc.nextLine();
-        consolePrint.printGetCustomerYear();
-        int year = sc.nextInt();
-        sc.nextLine();
-
-        customerController.create(name, year);
-        consolePrint.printCompleteCreate();
-    }
-
-    public void listExecuteCustomer() throws EmptyListException {
-        List<Customer> customers = customerController.list();
-        if(customers.isEmpty()) throw new EmptyListException(customers);
-        else consolePrint.printCustomerList(customers);
-    }
-
-    public void blackListExecute() throws EmptyListException{
-        List<Customer> customers = customerController.blacklist();
-        if(customers.isEmpty()) throw new EmptyListException(customers);
-        else consolePrint.printBlacklist(customerController.blacklist());
-    }
-
-    public VoucherType getVoucherType() throws NotCorrectForm {
-        consolePrint.printGetVoucherType();
-        String type = sc.nextLine();
-
-        try {
-            if (type.equals("fixed")) {
-                return VoucherType.FIXED;
-            } else if (type.equals("percent")) {
-                return VoucherType.PERCENT;
-            } else {
-                throw new NotCorrectForm(type);
-            }
-        } catch (NotCorrectForm e) {
-            throw new NotCorrectForm(type);
-        }
-    }
-
-    public long getVoucherDiscount(VoucherType type) throws NotCorrectScope, NotCorrectForm {
-        long discount = 0;
-        try {
-            if (type == VoucherType.FIXED) {
-                discount = getFixedDiscount();
-            } else if (type == VoucherType.PERCENT) {
-                discount = getPercentDiscount();
-            }
-        } catch (NumberFormatException e) {
-            throw new NotCorrectForm(String.valueOf(discount));
-        } catch (NotCorrectScope e) {
-            throw new NotCorrectScope(discount);
-        }
-
-        return discount;
-    }
-
-    private long getPercentDiscount() throws NotCorrectScope {
-        long discount;
-        consolePrint.printGetDiscountPercent();
-        discount = Long.parseLong(sc.nextLine());
-        if(discount < 0 || discount > 100) throw new NotCorrectScope(discount);
-        return discount;
-    }
-
-    private long getFixedDiscount() throws NotCorrectScope {
-        long discount;
-        consolePrint.printGetDiscountAmount();
-        discount = Long.parseLong(sc.nextLine());
-        if(discount < 0) throw new NotCorrectScope(discount);
-        return discount;
     }
 }
