@@ -449,3 +449,26 @@ Discount amount : 20000
 19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 8213dfa7-d577-4bb5-86d6-0159b3383f0e
 19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- name : 라이덴 쇼군
 19:45:11.850 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1994
+19:50:58.301 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 12784 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:50:58.303 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:51:37.843 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 6344 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:51:37.845 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:52:42.923 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 29100 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:52:42.925 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:53:07.942 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 24660 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:53:07.945 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:53:47.751 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 8348 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:53:47.753 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:56:44.329 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 29256 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:56:44.332 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+20:00:40.407 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 26396 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+20:00:40.410 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+20:00:59.063 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 11960 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+20:00:59.065 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+20:11:04.269 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 27032 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+20:11:04.272 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+20:11:25.496 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 29192 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+20:11:25.498 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+20:11:26.209 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherJdbcRepository$$SpringCGLIB$$0
+20:11:26.291 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.137 seconds (process running for 1.764)
+20:11:34.030 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
