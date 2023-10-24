@@ -1,5 +1,8 @@
 package com.prgrms.springbasic.domain.voucher.repository;
 
+import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
+import com.prgrms.springbasic.domain.voucher.entity.FixedAmountVoucher;
+import com.prgrms.springbasic.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.util.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
@@ -21,7 +24,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @PostConstruct
     public void init() {
-        vouchers = CsvFileUtil.readVoucherFromFile(filePath);
+        vouchers = readVoucherFromFile(filePath);
     }
 
     @Override
@@ -50,5 +53,17 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findVoucherById(UUID voucher_id) {
         return Optional.empty();
+    }
+
+    private static Map<UUID, Voucher> readVoucherFromFile(String filePath) {
+        return CsvFileUtil.readItemsFromFile(filePath, parts -> {
+            UUID voucherId = UUID.fromString(parts[0]);
+            String discountType = parts[1];
+            long discountValue = Long.parseLong(parts[2]);
+            return switch (DiscountType.find(discountType)) {
+                case FIXED -> FixedAmountVoucher.create(voucherId, discountType, discountValue);
+                case PERCENT -> PercentDiscountVoucher.create(voucherId, discountType, discountValue);
+            };
+        });
     }
 }

@@ -1,10 +1,5 @@
 package com.prgrms.springbasic.util;
 
-import com.prgrms.springbasic.domain.customer.entity.Customer;
-import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
-import com.prgrms.springbasic.domain.voucher.entity.FixedAmountVoucher;
-import com.prgrms.springbasic.domain.voucher.entity.PercentDiscountVoucher;
-import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,6 +12,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 @Component
@@ -32,39 +28,18 @@ public class CsvFileUtil {
         }
     }
 
-    public static Map<UUID, Voucher> readVoucherFromFile(String filePath) {
-        Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
+    public static <T> Map<UUID, T> readItemsFromFile(String filePath, Function<String[], T> mapper) {
+        Map<UUID, T> items = new ConcurrentHashMap<>();
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
             lines.forEach(line -> {
                 String[] parts = line.split(",");
-                UUID voucherId = UUID.fromString(parts[0]);
-                String discountType = parts[1];
-                long discountValue = Long.parseLong(parts[2]);
-                Voucher voucher = switch (DiscountType.find(discountType)) {
-                    case FIXED -> FixedAmountVoucher.create(voucherId, discountType, discountValue);
-                    case PERCENT -> PercentDiscountVoucher.create(voucherId, discountType, discountValue);
-                };
-                vouchers.put(voucherId, voucher);
+                UUID itemId = UUID.fromString(parts[0]);
+                T item = mapper.apply(parts);
+                items.put(itemId, item);
             });
         } catch (IOException e) {
             log.error("The file does not exist. fileName : {}", filePath);
         }
-        return vouchers;
-    }
-
-    public static Map<UUID, Customer> readCustomerFromFile(String filePath) {
-        Map<UUID, Customer> customers = new ConcurrentHashMap<>();
-        try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
-            lines.forEach(line -> {
-                String[] parts = line.split(",");
-                UUID customerId = UUID.fromString(parts[0]);
-                String customerName = parts[1];
-                String customerEmail = parts[2];
-                customers.put(customerId, new Customer(customerId, customerName, customerEmail));
-            });
-        } catch (IOException e) {
-            log.error("The file does not exist. fileName : {}", filePath);
-        }
-        return customers;
+        return items;
     }
 }
