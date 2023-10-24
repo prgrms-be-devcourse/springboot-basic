@@ -21,12 +21,16 @@ public class Customer {
         return customerId;
     }
 
-    public boolean isBlack() {
-        return customerType == CustomerType.BLACK;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public CustomerType getCustomerType() {
+        return customerType;
+    }
+
+    public boolean isBlack() {
+        return customerType == CustomerType.BLACK;
     }
 }
 
