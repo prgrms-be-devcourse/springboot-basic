@@ -44,4 +44,14 @@ class VoucherServiceTest {
         //then
         assertThat(voucherResponse.isPercentVoucher(), is(false));
     }
+
+    @Test
+    @DisplayName("유효하지 않은 할인 값의 고정 금액 바우처 생성에 실패한다.")
+    void testFixedVoucherCreationFailed_InvalidAmount() {
+        //given
+        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("0"), VoucherType.FIXED);
+
+        //when & then
+        assertThatThrownBy(() -> voucherService.create(request)).isInstanceOf(IllegalArgumentException.class);
+    }
 }
