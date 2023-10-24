@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
+import team.marco.vouchermanagementsystem.model.LoadedVoucher;
 import team.marco.vouchermanagementsystem.model.Voucher;
+import team.marco.vouchermanagementsystem.model.VoucherType;
 import team.marco.vouchermanagementsystem.properties.FilePathProperties;
 
 import java.io.File;
@@ -35,8 +37,8 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
             return new HashMap<>();
         }
 
-        ObjectReader objectReader = objectMapper.readerForListOf(LoadedJSONVoucher.class);
-        List<LoadedJSONVoucher> loadedList;
+        ObjectReader objectReader = objectMapper.readerForListOf(LoadedVoucher.class);
+        List<LoadedVoucher> loadedList;
 
         try {
             loadedList = objectReader.readValue(file);
@@ -46,7 +48,7 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
 
         Map<UUID, Voucher> convertedMap = new HashMap<>();
 
-        loadedList.forEach(data -> convertedMap.put(data.getId(), data.convertToVoucher()));
+        loadedList.forEach(data -> convertedMap.put(data.getId(), VoucherType.convertVoucher(data)));
 
         return convertedMap;
     }
