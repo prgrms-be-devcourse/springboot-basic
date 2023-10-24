@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.xml.sax.ErrorHandler;
 
 @Component
 public class ProgramRunner implements CommandLineRunner {
@@ -38,6 +37,9 @@ public class ProgramRunner implements CommandLineRunner {
                         menuHandler.exit();
                         continueRun = false;
                     }
+                    default -> {
+                        logger.warn("존재하지 않는 메뉴입니다.");
+                    }
                 }
             }catch (ErrorMessage e){
                 logger.warn("Error Message = {}", e.getMessage());
@@ -56,8 +58,26 @@ public class ProgramRunner implements CommandLineRunner {
                     case LIST -> {
                         menuHandler.voucherList();
                     }
+                    case OWNER -> {
+                        menuHandler.findVoucherOwner();
+                    }
+                    case DELETE -> {
+                        menuHandler.removeVoucherById();
+                    }
+                    case DELETE_ALL -> {
+                        menuHandler.removeAllVouchers();
+                    }
+                    case SEARCH -> {
+                        menuHandler.findVoucherById();
+                    }
+                    case UPDATE -> {
+                        menuHandler.updateVoucher();
+                    }
                     case BACK -> {
                         return true;
+                    }
+                    default -> {
+                        logger.warn("존재하지 않는 메뉴입니다.");
                     }
                 }
             }catch (ErrorMessage e){
@@ -80,8 +100,32 @@ public class ProgramRunner implements CommandLineRunner {
                     case BLACKLIST -> {
                         menuHandler.customerBlacklist();
                     }
+                    case REGISTER -> {
+                        menuHandler.registerVoucher();
+                    }
+                    case REMOVE -> {
+                        menuHandler.removeVoucherFromCustomer();
+                    }
+                    case VOUCHER_LIST ->  {
+                        menuHandler.customerVoucherList();
+                    }
+                    case DELETE -> {
+                        menuHandler.removeCustomerById();
+                    }
+                    case DELETE_ALL -> {
+                        menuHandler.removeAllCustomers();
+                    }
+                    case SEARCH -> {
+                        menuHandler.findCustomerById();
+                    }
+                    case UPDATE -> {
+                        menuHandler.updateCustomer();
+                    }
                     case BACK -> {
                         return true;
+                    }
+                    default -> {
+                        logger.error("존재하지 않는 메뉴입니다.");
                     }
                 }
             }catch (ErrorMessage e){
