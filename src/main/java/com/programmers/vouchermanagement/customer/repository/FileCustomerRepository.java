@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.configuration.properties.AppProperties;
+import com.programmers.vouchermanagement.customer.domain.CustomerType;
 
 @Repository
 @Profile({"dev", "prod"})
@@ -54,7 +55,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 UUID blackCustomerId = UUID.fromString(line[0]);
                 String name = line[1];
 
-                Customer blackCustomer = new Customer(blackCustomerId, name, true);
+                Customer blackCustomer = new Customer(blackCustomerId, name, CustomerType.BLACK);
 
                 blacklist.add(blackCustomer);
             }

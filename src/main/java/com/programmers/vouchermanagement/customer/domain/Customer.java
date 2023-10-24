@@ -5,16 +5,16 @@ import java.util.UUID;
 public class Customer {
     private final UUID customerId;
     private final String name;
-    private final boolean isBlack;
+    private final CustomerType customerType;
 
     public Customer(UUID customerId, String name) {
-        this(customerId, name, false);
+        this(customerId, name, CustomerType.NORMAL);
     }
 
-    public Customer(UUID customerId, String name, boolean isBlack) {
+    public Customer(UUID customerId, String name, CustomerType customerType) {
         this.customerId = customerId;
         this.name = name;
-        this.isBlack = isBlack;
+        this.customerType = customerType;
     }
 
     public UUID getCustomerId() {
@@ -22,7 +22,7 @@ public class Customer {
     }
 
     public boolean isBlack() {
-        return isBlack;
+        return customerType == CustomerType.BLACK;
     }
 
     public String getName() {
