@@ -1,5 +1,6 @@
-package org.prgms.kdtspringweek1.console;
+package org.prgms.kdtspringweek1;
 
+import org.prgms.kdtspringweek1.controller.AppController;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
