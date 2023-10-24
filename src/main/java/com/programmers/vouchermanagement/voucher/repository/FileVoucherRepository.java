@@ -19,12 +19,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.programmers.vouchermanagement.configuration.properties.AppProperties;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
 @Repository
-@Profile("prod")
+@Profile({"prod", "test"})
 public class FileVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
 
@@ -37,6 +38,7 @@ public class FileVoucherRepository implements VoucherRepository {
     //messages
     private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading vouchers";
     private static final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
+    private static final String NO_VOUCHER_STORED = "No Voucher is stored yet!";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String filePath;
@@ -64,6 +66,8 @@ public class FileVoucherRepository implements VoucherRepository {
             File file = new File(filePath);
             Map[] voucherObjects = objectMapper.readValue(file, Map[].class);
             loadVouchers(voucherObjects);
+        } catch(MismatchedInputException e) {
+            logger.debug(NO_VOUCHER_STORED);
         } catch (IOException e) {
             logger.error(IO_EXCEPTION_LOG_MESSAGE);
             throw new UncheckedIOException(e);
