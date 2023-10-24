@@ -47,14 +47,15 @@ public class ConsoleApplication {
                     blacklist: 블랙 리스트 유저 조회""");
 
             String input = Console.readString();
-            CommandType commandType = CommandType.getCommandType(input);
 
-            executeCommand(commandType);
+            executeCommand(input);
         }
     }
 
-    private void executeCommand(CommandType commandType) {
+    private void executeCommand(String input) {
         try {
+            CommandType commandType = CommandType.getCommandType(input);
+
             switchCommand(commandType);
         } catch (NumberFormatException e) {
             Console.print("숫자를 입력해 주세요.");
