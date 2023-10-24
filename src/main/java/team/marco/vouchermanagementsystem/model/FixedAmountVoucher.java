@@ -9,19 +9,26 @@ import static java.text.MessageFormat.format;
 
 public class FixedAmountVoucher implements Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+    private static final int MINIMUM_AMOUNT = 1;
 
     private final UUID id;
     private final int amount;
 
     public FixedAmountVoucher(int amount) {
-        if (amount <= 0) {
-            throw new IllegalArgumentException(format("{0}: 할인 금액은 0 보다 커야 합니다.", amount));
-        }
+        validate(amount);
 
         this.id = UUID.randomUUID();
         this.amount = amount;
 
         logger.debug("Create FixedAmountVoucher {id: {}, amount: {}}", id, amount);
+    }
+
+    private static void validate(int amount) {
+        if (amount < MINIMUM_AMOUNT) {
+            throw new IllegalArgumentException(
+                    format("{0}: 할인 금액은 {1} 보다 작을 수 없습니다.", amount, MINIMUM_AMOUNT)
+            );
+        }
     }
 
     public FixedAmountVoucher(UUID id, int amount) {
