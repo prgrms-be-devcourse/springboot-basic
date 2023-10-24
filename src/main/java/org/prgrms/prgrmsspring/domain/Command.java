@@ -19,8 +19,9 @@ public enum Command {
     LIST_ALL_CUSTOMERS("list all customers.", controller -> ((CustomerController) controller).findAll(), CustomerController.class),
     LIST_ALL_BLACK("list all blacklist customers.", controller -> ((CustomerController) controller).findAllBlackList(), CustomerController.class),
     CREATE_WALLET("allocate voucher to specific customer", controller -> ((WalletController) controller).create(), WalletController.class),
-    FIND_CUSTOMER_VOUCHER("find voucher by customer", controller -> ((WalletController) controller).findCustomerVouchers(), WalletController.class),
-    DELETE_CUSTOMER_VOUCHER("delete all vouchers by customer", controller -> ((WalletController) controller).deleteCustomerVouchers(), WalletController.class);
+    FIND_VOUCHER_BY_CUSTOMER("find voucher by customer", controller -> ((WalletController) controller).findCustomerVouchers(), WalletController.class),
+    DELETE_VOUCHER_BY_CUSTOMER("delete all vouchers by customer", controller -> ((WalletController) controller).deleteCustomerVouchers(), WalletController.class),
+    FIND_CUSTOMER_HAVING_VOUCHER("find customer who having voucher.", controller -> ((WalletController) controller).findCustomerHasVoucher(), WalletController.class);
     private final String document;
     private final Consumer<ApplicationController> consumer;
     private final Class<? extends ApplicationController> controllerClass;

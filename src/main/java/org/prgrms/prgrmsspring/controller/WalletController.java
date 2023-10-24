@@ -1,6 +1,7 @@
 package org.prgrms.prgrmsspring.controller;
 
 import org.prgrms.prgrmsspring.domain.Command;
+import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.prgrms.prgrmsspring.entity.wallet.Wallet;
 import org.prgrms.prgrmsspring.service.WalletService;
@@ -39,5 +40,11 @@ public class WalletController implements ApplicationController {
     public void deleteCustomerVouchers() {
         UUID customerId = commandLineView.inputCustomerId();
         walletService.deleteVouchersByCustomerId(customerId);
+    }
+
+    public void findCustomerHasVoucher() {
+        UUID voucherId = commandLineView.inputVoucherId();
+        Customer findCustomer = walletService.findCustomerByVoucherId(voucherId);
+        commandLineView.print(findCustomer);
     }
 }
