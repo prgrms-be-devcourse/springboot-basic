@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Profile({"local", "debug"})
+@Profile("debug")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMap = new HashMap<>();
