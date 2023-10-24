@@ -15,8 +15,8 @@ import java.util.List;
 class VoucherServiceTest {
 
     private final String filePathV = "src/main/resources/voucher_list.csv";
-    private final String filePathC = "src/main/resources/customer_blacklist.csv";
-    private final VoucherService service = new VoucherService(new VoucherFileRepository(filePathV), new BlacklistFileRepository(filePathC));
+//    private final String filePathC = "src/main/resources/customer_blacklist.csv";
+    private final VoucherService service = new VoucherService(new VoucherFileRepository(filePathV));
 
     @Test
     @DisplayName("create")
@@ -33,10 +33,10 @@ class VoucherServiceTest {
         Assertions.assertThat(list.size()).isEqualTo(3);
     }
 
-    @Test
-    @DisplayName("blacklist")
-    void blackList() {
-        List<Customer> blacklist = service.blacklist();
-        Assertions.assertThat(blacklist.size()).isEqualTo(3);
-    }
+//    @Test
+//    @DisplayName("blacklist")
+//    void blackList() {
+//        List<Customer> blacklist = service.blacklist();
+//        Assertions.assertThat(blacklist.size()).isEqualTo(3);
+//    }
 }

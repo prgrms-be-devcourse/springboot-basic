@@ -16,10 +16,9 @@ import java.util.List;
 class VoucherControllerTest {
 
     private final String filePathV = "src/main/resources/voucher_list.csv";
-    private final String filePathC = "src/main/resources/customer_blacklist.csv";
+//    private final String filePathC = "src/main/resources/customer_blacklist.csv";
     VoucherFileRepository voucherRepository = new VoucherFileRepository(filePathV);
-    BlacklistFileRepository customerRepository = new BlacklistFileRepository(filePathC);
-    VoucherService service = new VoucherService(voucherRepository, customerRepository);
+    VoucherService service = new VoucherService(voucherRepository);
     private final VoucherController controller = new VoucherController(service);
 
     @Test
@@ -29,11 +28,11 @@ class VoucherControllerTest {
         Assertions.assertThat(list.size()).isEqualTo(3);
     }
 
-    @Test
-    @DisplayName("blacklist")
-    void blackList() {
-        List<Customer> blacklist = controller.blacklist();
-        Assertions.assertThat(blacklist.size()).isEqualTo(3);
-    }
+//    @Test
+//    @DisplayName("blacklist")
+//    void blackList() {
+//        List<Customer> blacklist = controller.blacklist();
+//        Assertions.assertThat(blacklist.size()).isEqualTo(3);
+//    }
 
 }

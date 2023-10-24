@@ -53,7 +53,7 @@ public class FileIO {
         }
     }
 
-    public void fileToCustomerMap(Map<Integer, Customer> customerMap) {
+    public void fileToCustomerMap(Map<UUID, Customer> customerMap) {
         String line = "";
 
         while(true) {
@@ -66,8 +66,8 @@ public class FileIO {
             }
             String[] split = line.split(",");
             Customer customer
-                    = new Customer(Integer.parseInt(split[0]), split[1], Integer.parseInt(split[2]));
-            customerMap.put(Integer.parseInt(split[0]), customer);
+                    = new Customer(UUID.fromString(split[0]), split[1], Integer.parseInt(split[2]));
+            customerMap.put(UUID.fromString(split[0]), customer);
         }
     }
 

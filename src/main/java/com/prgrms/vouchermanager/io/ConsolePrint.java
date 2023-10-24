@@ -12,7 +12,7 @@ import java.util.List;
 @Slf4j
 public class ConsolePrint {
 
-    public void printFunctionSelect() {
+    public void printVoucherFunctionSelect() {
         System.out.println(ConsoleMessage.SELECT_FUNCTION.getMessage());
     }
 
@@ -32,11 +32,19 @@ public class ConsolePrint {
         System.out.println(ConsoleMessage.GET_DISCOUNT_PERCENT.getMessage());
     }
 
-    public void printList(List<Voucher> vouchers) {
+    public void printVoucherList(List<Voucher> vouchers) {
         vouchers.forEach(voucher -> {
                     System.out.println(voucher);
                     System.out.println("---------------");
                 });
+        System.out.println();
+    }
+
+    public void printCustomerList(List<Customer> customers) {
+         customers.forEach(customer -> {
+            System.out.println(customer);
+            System.out.println("---------------");
+        });
         System.out.println();
     }
 
@@ -46,5 +54,17 @@ public class ConsolePrint {
             System.out.println("---------------");
         });
         System.out.println();
+    }
+
+    public void printProgramSelect() {
+        System.out.println(ConsoleMessage.SELECT_PROGRAM.getMessage());
+    }
+
+    public void printGetCustomerName() {
+        System.out.println(ConsoleMessage.GET_CUSTOMER_NAME.getMessage());
+    }
+
+    public void printGetCustomerYear() {
+        System.out.println(ConsoleMessage.GET_CUSTOMER_YEAR.getMessage());
     }
 }

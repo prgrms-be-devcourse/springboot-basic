@@ -6,6 +6,7 @@ import com.prgrms.vouchermanager.exception.NotCorrectCommand;
 import com.prgrms.vouchermanager.exception.NotCorrectForm;
 import com.prgrms.vouchermanager.exception.NotCorrectScope;
 import com.prgrms.vouchermanager.io.Command;
+import com.prgrms.vouchermanager.io.Program;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -30,21 +31,17 @@ public class VoucherManagerApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         try {
-            Command command = commandHandler.getCommand();
+            Program program = commandHandler.selectProgram();
+            log.info("program command : " + program);
+            Command command = null;
+            if(program == Program.VOUCHER) command = commandHandler.runVoucherProgram();
+            else if(program == Program.CUSTOMER) command = commandHandler.runCustomerProgram();
+            else if(program == Program.EXIT) return;
 
-            if(command == Command.CREATE) {
-                commandHandler.createExecute();
-            } else if(command == Command.LIST) {
-                commandHandler.listExecute();
-            } else if(command == Command.EXIT) {
-                commandHandler.exitExecute();
-            } else if(command == Command.BLACKLIST) {
-                commandHandler.blackListExecute();
-            }
+            if(command != null && command != Command.EXIT) this.run();
         } catch (NotCorrectForm | NotCorrectScope | NotCorrectCommand | EmptyListException e) {
             log.error(e.getMessage());
             System.out.println(e.consoleMessage());
         }
-        this.run();
     }
 }

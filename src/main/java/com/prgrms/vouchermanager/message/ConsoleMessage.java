@@ -8,8 +8,7 @@ public enum ConsoleMessage {
             === Voucher Program ===
             Type exit to exit the program.
             Type create to create a new voucher.
-            Type list to list all vouchers.
-            Type blacklist to list blacklist customers."""),
+            Type list to list all vouchers."""),
     FINISH_PROGRAM("Exit the program."),
     GET_VOUCHER_TYPE("""
             Type fixed if you want a fixed discount voucher.
@@ -22,7 +21,12 @@ public enum ConsoleMessage {
     FILE_IO_EXCEPTION("Fail to file IO."),
     NOT_CORRECT_COMMAND("The command is incorrect."),
     NOT_CORRECT_FORM("The input format is correctly."),
-    NOT_CORRECT_SCOPE("Percent range is incorrect.");
+    NOT_CORRECT_SCOPE("Percent range is incorrect."),
+    SELECT_PROGRAM("""
+    Select the program. voucher or customer?
+    If you want to exit, type exit."""),
+    GET_CUSTOMER_NAME("Type the name."),
+    GET_CUSTOMER_YEAR("Type the year of birth.");
 
 
     private final String message;

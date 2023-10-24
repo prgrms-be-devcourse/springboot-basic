@@ -25,8 +25,4 @@ public class VoucherController {
     public List<Voucher> list() {
         return service.list();
     }
-
-    public List<Customer> blacklist() {
-        return service.blacklist();
-    }
 }

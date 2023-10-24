@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class BlacklistFileRepository implements BlacklistRepository {
-    private final Map<Integer, Customer> customerMap = new HashMap<>();
+    private final Map<UUID, Customer> customerMap = new HashMap<>();
     @Autowired
     public BlacklistFileRepository(@Value("${csv.blacklist}") String fileName) {
         FileIO fileIO = new FileIO(fileName);

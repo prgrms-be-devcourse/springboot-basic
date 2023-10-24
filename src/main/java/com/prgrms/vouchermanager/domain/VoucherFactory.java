@@ -5,7 +5,7 @@ import com.prgrms.vouchermanager.io.VoucherType;
 import java.util.Optional;
 
 public class VoucherFactory {
-    public static Optional<Voucher> createVoucher(VoucherType voucherType, long discount) {
+    public static Optional<Voucher> create(VoucherType voucherType, long discount) {
         if(voucherType == VoucherType.FIXED) {
             return Optional.of(new FixedAmountVoucher(discount));
         } else if(voucherType == VoucherType.PERCENT) {

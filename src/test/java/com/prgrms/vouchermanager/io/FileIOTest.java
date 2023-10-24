@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileIOTest {
 
     private final Map<UUID, Voucher> voucherMap = new HashMap<>();
-    private final Map<Integer, Customer> customerMap = new HashMap<>();
+    private final Map<UUID, Customer> customerMap = new HashMap<>();
     private final String filePathV = "src/main/resources/voucher_list.csv";
     private final FileIO fileIoV = new FileIO(filePathV);
     private final String filePathC = "src/main/resources/customer_blacklist.csv";

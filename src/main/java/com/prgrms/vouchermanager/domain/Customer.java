@@ -24,9 +24,9 @@ public class Customer {
 
     public String toString() {
         return """
-                Id : %d
+                Id : %s
                 Name : %s
                 YearOfBirth: %d
-                """.formatted(id, name, yearOfBirth);
+                """.formatted(id.toString(), name, yearOfBirth);
     }
 }
