@@ -86,17 +86,23 @@ public class CommandLineView {
         };
     }
 
+    public String inputCustomerEmail() {
+        return textIO.newStringInputReader().read("Input Customer Email");
+    }
+
     public Customer createCustomer() {
         String customerName = inputCustomerName();
         Boolean isBlack = inputCustomerIsBlack();
-        return new Customer(UUID.randomUUID(), customerName, isBlack);
+        String email = inputCustomerEmail();
+        return new Customer(UUID.randomUUID(), customerName, isBlack, email);
     }
 
     public Customer updateCustomer() {
         UUID customerId = inputCustomerId();
+        String email = inputCustomerEmail();
         String customerName = inputCustomerName();
         Boolean isBlack = inputCustomerIsBlack();
-        return new Customer(customerId, customerName, isBlack);
+        return new Customer(customerId, customerName, isBlack, email);
     }
 
     public UUID deleteCustomer() {

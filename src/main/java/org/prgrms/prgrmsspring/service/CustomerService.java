@@ -5,6 +5,7 @@ import org.prgrms.prgrmsspring.repository.user.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,7 +29,10 @@ public class CustomerService {
     }
 
     public void update(Customer customer) {
-        customerRepository.update(customer);
+        Optional<Customer> optionalCustomer = customerRepository.findById(customer.getCustomerId());
+        if (optionalCustomer.isPresent()) {
+            customerRepository.update(customer);
+        }
     }
 
     public void delete(UUID customerId) {

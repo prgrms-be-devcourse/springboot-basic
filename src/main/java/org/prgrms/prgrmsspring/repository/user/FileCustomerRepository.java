@@ -32,7 +32,7 @@ public class FileCustomerRepository implements CustomerRepository {
                     .map(str -> str.split(CSV_SEPARATOR)).forEach(split -> {
                         String name = split[0];
                         Boolean isBlack = Boolean.valueOf(split[1]);
-                        Customer customer = new Customer(UUID.randomUUID(), name, isBlack);
+                        Customer customer = new Customer(UUID.randomUUID(), name, isBlack, null);
                         store.put(customer.getCustomerId(), customer);
                     });
         } catch (IOException e) {
@@ -67,6 +67,11 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
     public Customer insert(Customer customer) {
         store.put(customer.getCustomerId(), customer);
         return customer;
@@ -74,16 +79,7 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        findById(customer.getCustomerId()).ifPresentOrElse(
-                existingCustomer -> {
-                    delete(customer.getCustomerId());
-                    insert(customer);
-                },
-                () -> {
-                    throw new NotFoundException(ExceptionMessage.NOT_FOUND_CUSTOMER.getMessage());
-                }
-        );
-        return customer;
+        return null;
     }
 
     @Override
