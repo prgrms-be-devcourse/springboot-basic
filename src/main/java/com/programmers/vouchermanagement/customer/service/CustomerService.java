@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.customer.service;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class CustomerService {
     public List<Customer> readBlacklist() {
         List<Customer> blacklist = customerRepository.findBlackCustomers();
         if (blacklist.isEmpty()) {
-            throw new NoSuchElementException(NO_BLACKLIST);
+            return Collections.emptyList();
         }
         return blacklist;
     }

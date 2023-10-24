@@ -7,17 +7,13 @@ import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
 public class VoucherService {
-    //messages
-    private static final String VOUCHER_NOT_FOUND_MESSAGE =
-            "There is no voucher registered.";
-    //---
-
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
@@ -34,8 +30,9 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAll();
 
         if (vouchers.isEmpty()) {
-            throw new NoSuchElementException(VOUCHER_NOT_FOUND_MESSAGE);
+            return Collections.emptyList();
         }
+
         return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
