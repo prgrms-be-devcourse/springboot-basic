@@ -8,7 +8,7 @@ import java.util.UUID;
 import static java.text.MessageFormat.format;
 
 public class PercentDiscountVoucher extends Voucher {
-    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
     private static final int MINIMUM_PERCENT = 1;
     private static final int MAXIMUM_PERCENT = 100;
 
