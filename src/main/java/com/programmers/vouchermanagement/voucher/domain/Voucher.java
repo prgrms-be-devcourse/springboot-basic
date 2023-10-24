@@ -26,8 +26,4 @@ public class Voucher {
     public VoucherType getVoucherType() {
         return voucherType;
     }
-
-    public BigDecimal discount(BigDecimal priceBeforeDiscount) {
-        return voucherType.discount(discountValue, priceBeforeDiscount);
-    }
 }
