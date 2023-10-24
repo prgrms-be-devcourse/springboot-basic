@@ -9,6 +9,22 @@ java.lang.IllegalStateException: Failed to execute CommandLineRunner
 Caused by: org.prgrms.vouchermanagement.exception.InvalidInputException: 잘못된 command 입력입니다.
 	at org.prgrms.vouchermanagement.view.ConsoleInput.validateAndConvertToCommand(ConsoleInput.java:35)
 	at org.prgrms.vouchermanagement.view.ConsoleInput.commandInput(ConsoleInput.java:17)
-	at org.prgrms.vouchermanagement.Controller.run(Controller.java:32)
+	at org.prgrms.vouchermanagement.controller.Controller.run(Controller.java:32)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
+	... 5 common frames omitted
+20231024 13:43:37.391 [main] ERROR [SpringApplication:827] - Application run failed 
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:777)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:322)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1309)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1298)
+	at org.prgrms.vouchermanagement.VoucherManagementApplication.main(VoucherManagementApplication.java:9)
+Caused by: org.prgrms.vouchermanagement.exception.InvalidRangeException: PercentDiscountPolicy는 0~100 사이의 값을 가져야 합니다.
+	at org.prgrms.vouchermanagement.voucher.PercentDiscountVoucher.<init>(PercentDiscountVoucher.java:14)
+	at org.prgrms.vouchermanagement.service.VoucherService.getDiscountPolicy(VoucherService.java:36)
+	at org.prgrms.vouchermanagement.service.VoucherService.createVoucher(VoucherService.java:22)
+	at org.prgrms.vouchermanagement.controller.Controller.createVoucher(Controller.java:50)
+	at org.prgrms.vouchermanagement.controller.Controller.run(Controller.java:39)
 	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:774)
 	... 5 common frames omitted
