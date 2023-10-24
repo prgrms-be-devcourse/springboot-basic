@@ -1,11 +1,28 @@
 ---
-# dev 프로파일 설정
+
 spring:
   profiles:
     active: dev
 
 ---
-# prod 프로파일 설정
+
 spring:
   profiles:
     active: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/VoucherProgram
+    username: root
+    password: 1234
+  sql:
+    init:
+      mode: always
+    batch:
+      jdbc:
+        schema: classpath:schema.sql
+
+---
+
+spring:
+  profiles:
+    active: file
