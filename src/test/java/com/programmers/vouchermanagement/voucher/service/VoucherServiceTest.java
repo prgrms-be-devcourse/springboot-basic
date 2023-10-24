@@ -54,4 +54,17 @@ class VoucherServiceTest {
         //when & then
         assertThatThrownBy(() -> voucherService.create(request)).isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("퍼센트 할인 바우처 생성에 성공한다.")
+    void textPercentVoucherCreationSuccessful() {
+        //given
+        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("50"), VoucherType.PERCENT);
+
+        //when
+        VoucherResponse voucherResponse = voucherService.create(request);
+
+        //then
+        assertThat(voucherResponse.isPercentVoucher(), is(true));
+    }
 }
