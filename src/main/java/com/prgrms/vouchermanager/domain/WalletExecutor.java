@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanager.domain;
 
 import com.prgrms.vouchermanager.controller.WalletController;
+import com.prgrms.vouchermanager.exception.EmptyListException;
 import com.prgrms.vouchermanager.exception.NotCorrectId;
 import com.prgrms.vouchermanager.io.ConsolePrint;
 import org.springframework.stereotype.Component;
@@ -30,13 +31,18 @@ public class WalletExecutor {
         } catch (IllegalArgumentException e) {
             throw new NotCorrectId();
         }
+
+        consolePrint.printCompleteCreate();
     }
 
     public void findByCustomerId() {
         try {
             consolePrint.printGetCustomerId();
             UUID customerId = UUID.fromString(sc.nextLine());
-            controller.findByCustomerId(customerId);
+
+            List<Voucher> vouchers = controller.findByCustomerId(customerId);
+            if(vouchers.isEmpty()) throw new EmptyListException(vouchers);
+            else consolePrint.printVoucherList(vouchers);
         } catch (IllegalArgumentException e) {
             throw new NotCorrectId();
         }
@@ -46,7 +52,11 @@ public class WalletExecutor {
         try {
             consolePrint.printGetVoucherId();
             UUID customerId = UUID.fromString(sc.nextLine());
+
             controller.findByVoucherId(customerId);
+            List<Customer> customers = controller.findByVoucherId(customerId);
+            if(customers.isEmpty()) throw new EmptyListException(customers);
+            else consolePrint.printCustomerList(customers);
         } catch (IllegalArgumentException e) {
             throw new NotCorrectId();
         }
@@ -62,5 +72,7 @@ public class WalletExecutor {
         } catch (IllegalArgumentException e) {
             throw new NotCorrectId();
         }
+
+        consolePrint.printCompleteDelete();
     }
 }

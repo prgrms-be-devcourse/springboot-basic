@@ -49,7 +49,7 @@ public enum ConsoleMessage {
             Type create to assign the voucher to customer.
             Type voucher to check which voucher a customer holds.
             Type customer to check customers holding a specific voucher.
-            Type delete to delete a voucher held by a customer""");
+            Type delete to delete a voucher held by a customer.""");
 
 
     private final String message;

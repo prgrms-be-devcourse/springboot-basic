@@ -27,7 +27,7 @@ public class CustomerRepository {
     }
 
     public Customer create(Customer customer) {
-        jdbcTemplate.update(INSERT_QUERY_CUSTOMER.getMessage(),
+        jdbcTemplate.update(INSERT_CUSTOMER.getMessage(),
                 customer.getId().toString().getBytes(),
                 customer.getName(),
                 customer.getYearOfBirth(),
@@ -36,33 +36,33 @@ public class CustomerRepository {
     }
 
     public Customer findById(UUID id) {
-        return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY_CUSTOMER.getMessage(), customerRowMapper(), id.toString().getBytes());
+        return jdbcTemplate.queryForObject(FIND_BY_ID_CUSTOMER.getMessage(), customerRowMapper(), id.toString().getBytes());
     }
 
     public List<Customer> list() {
         log.info("list 시작");
-        return jdbcTemplate.query(LIST_QUERY_CUSTOMER.getMessage(), customerRowMapper());
+        return jdbcTemplate.query(LIST_CUSTOMER.getMessage(), customerRowMapper());
     }
 
     public Customer updateYearOfBirth(UUID id, int year) {
-        jdbcTemplate.update(UPDATE_YEAR_OF_BIRTH_QUERY.getMessage(), year, id.toString().getBytes());
+        jdbcTemplate.update(UPDATE_YEAR_OF_BIRTH_CUSTOMER.getMessage(), year, id.toString().getBytes());
         return this.findById(id);
     }
 
     public Customer updateName(UUID id, String name) {
-        jdbcTemplate.update(UPDATE_NAME_QUERY.getMessage(), name, id.toString().getBytes());
+        jdbcTemplate.update(UPDATE_NAME_CUSTOMER.getMessage(), name, id.toString().getBytes());
         return this.findById(id);
     }
 
     public UUID delete(UUID id) {
-        jdbcTemplate.update(DELETE_QUERY_CUSTOMER.getMessage(), id.toString().getBytes());
+        jdbcTemplate.update(DELETE_CUSTOMER.getMessage(), id.toString().getBytes());
         return id;
     }
 
     private void fileToDb() {
         List<Customer> blacklist = blacklistRepository.blacklist();
         blacklist.forEach(customer -> {
-            jdbcTemplate.update(INSERT_QUERY_CUSTOMER.getMessage(),
+            jdbcTemplate.update(INSERT_CUSTOMER.getMessage(),
                     customer.getId().toString().getBytes(),
                     customer.getName(),
                     customer.getYearOfBirth(),

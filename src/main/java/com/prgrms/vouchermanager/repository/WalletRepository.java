@@ -1,8 +1,5 @@
 package com.prgrms.vouchermanager.repository;
 
-import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
-import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
-import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.domain.Wallet;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,6 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.UUID;
+
+import static com.prgrms.vouchermanager.message.QueryMessage.*;
 
 @Repository
 public class WalletRepository {
@@ -21,7 +20,7 @@ public class WalletRepository {
     }
 
     public Wallet create(Wallet wallet) {
-        template.update("insert into wallets(wallet_id, voucher_id, customer_id) values(UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))",
+        template.update(INSERT_WALLET.getMessage(),
                 wallet.getWalletId().toString().getBytes(),
                 wallet.getVoucherId().toString().getBytes(),
                 wallet.getCustomerId().toString().getBytes());
@@ -29,19 +28,15 @@ public class WalletRepository {
     }
 
     public List<Wallet> findByCustomerId(UUID id) {
-        return template.query("select * from wallets where customer_id = UUID_TO_BIN(?)", walletRowMapper());
-//        walletList.forEach(wallet -> {
-//            UUID voucherId = wallet.getVoucherId();
-//            template.queryForObject("select * from vouchers where voucher id = UUID_TO_BIN(?)", )
-//        });
+        return template.query(FIND_BY_CUSTOMER_ID_WALLET.getMessage(), walletRowMapper(), id.toString().getBytes());
     }
 
     public List<Wallet> findByVoucherId(UUID id) {
-        return template.query("select * from wallets where voucher_id = UUID_TO_BIN(?)", walletRowMapper());
+        return template.query(FIND_BY_VOUCHER_ID_WALLET.getMessage(), walletRowMapper(), id.toString().getBytes());
     }
 
     public void delete(UUID customerId, UUID voucherId) {
-        template.update("delete from wallets where customer_id = UUID_TO_BIN(?) and voucher_id = UUID_TO_BIN(?)",
+        template.update(DELETE_WALLET.getMessage(),
                 customerId.toString().getBytes(),
                 voucherId.toString().getBytes());
     }

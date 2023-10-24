@@ -1,11 +1,9 @@
 package com.prgrms.vouchermanager.repository;
 
-import com.prgrms.vouchermanager.domain.Customer;
 import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.io.FileIO;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,7 +11,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.swing.*;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.List;
@@ -35,7 +32,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     public Voucher create(Voucher voucher) {
-        jdbcTemplate.update(INSERT_QUERY_VOUCHER.getMessage(),
+        jdbcTemplate.update(INSERT_VOUCHER.getMessage(),
                 voucher.getId().toString().getBytes(),
                 voucher instanceof FixedAmountVoucher ? "fixed" : "percent",
                 voucher.getDiscount());
@@ -43,19 +40,19 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     public List<Voucher> list() {
-        return jdbcTemplate.query(LIST_QUERY_VOUCHER.getMessage(), voucherRowMapper());
+        return jdbcTemplate.query(LIST_VOUCHER.getMessage(), voucherRowMapper());
     }
 
     public Voucher findById(UUID id) {
-        return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY_VOUCHER.getMessage(), voucherRowMapper(), id.toString().getBytes());
+        return jdbcTemplate.queryForObject(FIND_BY_ID_VOUCHER.getMessage(), voucherRowMapper(), id.toString().getBytes());
     }
 
     public void updateDiscount(UUID id, int discount) {
-        jdbcTemplate.update(UPDATE_DISCOUNT_QUERY_VOUCHER.getMessage(), discount, id.toString().getBytes());
+        jdbcTemplate.update(UPDATE_DISCOUNT_VOUCHER.getMessage(), discount, id.toString().getBytes());
     }
 
     public UUID delete(UUID id) {
-        jdbcTemplate.update(DELETE_QUERY_VOUCHER.getMessage(), id.toString().getBytes());
+        jdbcTemplate.update(DELETE_VOUCHER.getMessage(), id.toString().getBytes());
         return id;
     }
 

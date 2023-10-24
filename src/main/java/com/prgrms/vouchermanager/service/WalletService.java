@@ -3,11 +3,13 @@ package com.prgrms.vouchermanager.service;
 import com.prgrms.vouchermanager.domain.Customer;
 import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.domain.Wallet;
+import com.prgrms.vouchermanager.exception.NotCorrectId;
 import com.prgrms.vouchermanager.repository.CustomerRepository;
 import com.prgrms.vouchermanager.repository.VoucherRepository;
 import com.prgrms.vouchermanager.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;

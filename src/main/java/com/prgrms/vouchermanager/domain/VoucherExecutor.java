@@ -39,7 +39,7 @@ public class VoucherExecutor {
     }
 
     public void delete() {
-        consolePrint.printGetID();
+        consolePrint.printGetVoucherId();
         try {
             UUID id = UUID.fromString(sc.nextLine());
             controller.delete(id);
@@ -50,7 +50,7 @@ public class VoucherExecutor {
     }
 
     public void update() {
-        consolePrint.printGetID();
+        consolePrint.printGetVoucherId();
         UUID id = UUID.fromString(sc.nextLine());
         consolePrint.printGetCustomerYear();
         int discount = 0;
