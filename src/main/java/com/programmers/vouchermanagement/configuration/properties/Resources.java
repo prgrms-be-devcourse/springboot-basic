@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.properties;
+package com.programmers.vouchermanagement.configuration.properties;
 
 public class Resources {
     private String path;

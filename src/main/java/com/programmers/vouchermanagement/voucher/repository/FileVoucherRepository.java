@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.programmers.vouchermanagement.properties.AppProperties;
+import com.programmers.vouchermanagement.configuration.properties.AppProperties;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 

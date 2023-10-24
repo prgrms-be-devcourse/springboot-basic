@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.properties;
+package com.programmers.vouchermanagement.configuration.properties;
 
 import java.util.HashMap;
 import java.util.Map;

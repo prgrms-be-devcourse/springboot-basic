@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
-import com.programmers.vouchermanagement.properties.AppProperties;
+import com.programmers.vouchermanagement.configuration.properties.AppProperties;
 
 @Repository
 @Profile({"dev", "prod"})
