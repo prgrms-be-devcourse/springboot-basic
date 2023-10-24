@@ -38,6 +38,32 @@ public class VoucherExecutor implements Executor {
         else consolePrint.printVoucherList(controller.list());
     }
 
+    public void delete() {
+        consolePrint.printGetID();
+        try {
+            UUID id = UUID.fromString(sc.nextLine());
+            controller.delete(id);
+        } catch (IllegalArgumentException e) {
+            throw new NotCorrectId();
+        }
+        consolePrint.printCompleteDelete();
+    }
+
+    public void update() {
+        consolePrint.printGetID();
+        UUID id = UUID.fromString(sc.nextLine());
+        consolePrint.printGetCustomerYear();
+        int discount = 0;
+        try {
+            discount = sc.nextInt();
+            sc.nextLine();
+            controller.updateDiscount(id, discount);
+        } catch (NumberFormatException e) {
+            throw new NotCorrectForm(String.valueOf(discount));
+        }
+        consolePrint.printCompleteUpdate();
+    }
+
     public VoucherType getVoucherType() throws NotCorrectForm {
         consolePrint.printGetVoucherType();
         String type = sc.nextLine();

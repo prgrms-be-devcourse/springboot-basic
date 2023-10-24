@@ -11,25 +11,23 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.vouchermanager.message.QueryMessage.*;
+
 @Slf4j
 @Repository
 public class CustomerRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final BlacklistRepository blacklistRepository;
 
-    private static final String INSERT_QUERY = "insert into customers(customer_id, name, year_of_birth) values(UUID_TO_BIN(?), ?, ?)";
-    private static final String FIND_BY_ID_QUERY = "select * from customers where customer_id = UUID_TO_BIN(?)";
-    private static final String LIST_QUERY = "select * from customers";
-    private static final String UPDATE_YEAR_OF_BIRTH_QUERY = "update customers set year_of_birth=? where customer_id=UUID_TO_BIN(?)";
-    private static final String UPDATE_NAME_QUERY = "update customers set name=? where customer_id=UUID_TO_BIN(?)";
-    private static final String DELETE_QUERY = "delete from customers where customer_id = UUID_TO_BIN(?)";
-
-    public CustomerRepository(DataSource dataSource) {
+    public CustomerRepository(DataSource dataSource, BlacklistRepository blacklistRepository) {
         jdbcTemplate = new JdbcTemplate(dataSource);
+        this.blacklistRepository = blacklistRepository;
+        fileToDb();
     }
 
     public Customer create(Customer customer) {
-        jdbcTemplate.update(INSERT_QUERY,
+        jdbcTemplate.update(INSERT_QUERY_CUSTOMER.getMessage(),
                 customer.getId().toString().getBytes(),
                 customer.getName(),
                 customer.getYearOfBirth());
@@ -37,27 +35,32 @@ public class CustomerRepository {
     }
 
     public Customer findById(UUID id) {
-        return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY, customerRowMapper(), id.toString().getBytes());
+        return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY_VOUCHER.getMessage(), customerRowMapper(), id.toString().getBytes());
     }
 
     public List<Customer> list() {
         log.info("list 시작");
-        return jdbcTemplate.query(LIST_QUERY, customerRowMapper());
+        return jdbcTemplate.query(LIST_QUERY_CUSTOMER.getMessage(), customerRowMapper());
     }
 
     public Customer updateYearOfBirth(UUID id, int year) {
-        jdbcTemplate.update(UPDATE_YEAR_OF_BIRTH_QUERY, year, id.toString().getBytes());
+        jdbcTemplate.update(UPDATE_YEAR_OF_BIRTH_QUERY.getMessage(), year, id.toString().getBytes());
         return this.findById(id);
     }
 
     public Customer updateName(UUID id, String name) {
-        jdbcTemplate.update(UPDATE_NAME_QUERY, name, id.toString().getBytes());
+        jdbcTemplate.update(UPDATE_NAME_QUERY.getMessage(), name, id.toString().getBytes());
         return this.findById(id);
     }
 
     public UUID delete(UUID id) {
-        jdbcTemplate.update(DELETE_QUERY, id.toString().getBytes());
+        jdbcTemplate.update(DELETE_QUERY_CUSTOMER.getMessage(), id.toString().getBytes());
         return id;
+    }
+
+    private void fileToDb() {
+        List<Customer> blacklist = blacklistRepository.blacklist();
+        blacklist.forEach(this::create);
     }
 
     private RowMapper<Customer> customerRowMapper() {

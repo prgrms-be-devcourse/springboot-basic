@@ -61,6 +61,14 @@ public class CommandHandler {
                 voucherExecutor.list();
                 return Command.LIST;
             }
+            case "update" -> {
+                voucherExecutor.update();
+                return Command.UPDATE;
+            }
+            case "delete" -> {
+                voucherExecutor.delete();
+                return Command.DELETE;
+            }
             case "exit" -> {
                 System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
                 return Command.EXIT;

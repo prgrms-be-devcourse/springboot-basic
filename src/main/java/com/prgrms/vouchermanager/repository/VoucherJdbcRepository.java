@@ -15,6 +15,8 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.vouchermanager.message.QueryMessage.*;
+
 @Slf4j
 @Repository
 @Profile("jdbc")
@@ -22,17 +24,12 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private static final String INSERT_QUERY = "insert into vouchers(voucher_id, voucher_type, discount) values(UUID_TO_BIN(?), ?, ?)";
-    private static final String LIST_QUERY = "select * from vouchers";
-    private static final String UPDATE_DISCOUNT_QUERY = "update vouchers set discount=? where voucher_id=UUID_TO_BIN(?)";
-    private static final String DELETE_QUERY = "delete from vouchers where voucher_id = UUID_TO_BIN(?)";
-
     public VoucherJdbcRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     public Voucher create(Voucher voucher) {
-        jdbcTemplate.update(INSERT_QUERY,
+        jdbcTemplate.update(INSERT_QUERY_VOUCHER.getMessage(),
                 voucher.getId().toString().getBytes(),
                 voucher instanceof FixedAmountVoucher ? "fixed" : "percent",
                 voucher.getDiscount());
@@ -40,15 +37,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     public List<Voucher> list() {
-        return jdbcTemplate.query(LIST_QUERY, customerRowMapper());
+        return jdbcTemplate.query(LIST_QUERY_VOUCHER.getMessage(), customerRowMapper());
     }
 
     public void updateDiscount(UUID id, int discount) {
-        jdbcTemplate.update(UPDATE_DISCOUNT_QUERY, discount, id.toString().getBytes());
+        jdbcTemplate.update(UPDATE_DISCOUNT_QUERY_VOUCHER.getMessage(), discount, id.toString().getBytes());
     }
 
     public UUID delete(UUID id) {
-        jdbcTemplate.update(DELETE_QUERY, id.toString().getBytes());
+        jdbcTemplate.update(DELETE_QUERY_VOUCHER.getMessage(), id.toString().getBytes());
         return id;
     }
 
