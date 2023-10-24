@@ -58,7 +58,9 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
 
     @Override
     public List<Voucher> findAll() {
-        return voucherMap.values().stream().toList();
+        return voucherMap.values()
+                .stream()
+                .toList();
     }
 
     @Override

@@ -27,7 +27,8 @@ public class VoucherService {
     }
 
     public List<String> getVouchersInfo() {
-        return voucherRepository.findAll().stream()
+        return voucherRepository.findAll()
+                .stream()
                 .map(Voucher::getInfo)
                 .toList();
     }
