@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 
-import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.service.CustomerService;
 
 @Controller
@@ -15,7 +15,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public List<Customer> readBlacklist() {
+    public List<CustomerResponse> readBlacklist() {
         return customerService.readBlacklist();
     }
 }

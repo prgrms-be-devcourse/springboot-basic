@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 
 @Service
@@ -16,11 +17,15 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> readBlacklist() {
+    public List<CustomerResponse> readBlacklist() {
         List<Customer> blacklist = customerRepository.findBlackCustomers();
+
         if (blacklist.isEmpty()) {
             return Collections.emptyList();
         }
-        return blacklist;
+
+        return blacklist.stream()
+                .map(CustomerResponse::from)
+                .toList();
     }
 }

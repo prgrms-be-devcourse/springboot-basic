@@ -1,17 +1,17 @@
 package com.programmers.vouchermanagement.consoleapp.menu;
 
-import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
-import com.programmers.vouchermanagement.customer.controller.CustomerController;
-import com.programmers.vouchermanagement.customer.domain.Customer;
-import com.programmers.vouchermanagement.voucher.controller.VoucherController;
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
+import com.programmers.vouchermanagement.customer.controller.CustomerController;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
+import com.programmers.vouchermanagement.voucher.controller.VoucherController;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 @Component
 public class MenuHandler {
@@ -74,7 +74,7 @@ public class MenuHandler {
                 consoleManager.printReadAllVouchers(voucherResponses);
             }
             case BLACKLIST -> {
-                List<Customer> customerResponses = customerController.readBlacklist();
+                List<CustomerResponse> customerResponses = customerController.readBlacklist();
                 consoleManager.printReadBlacklist(customerResponses);
             }
         }

@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
-import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.util.Formatter;
 import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
@@ -94,7 +94,7 @@ public class ConsoleManager {
                 .println(Formatter.formatVoucher(voucherResponse)));
     }
 
-    public void printReadBlacklist(List<Customer> customerResponses) {
+    public void printReadBlacklist(List<CustomerResponse> customerResponses) {
         if (customerResponses.isEmpty()) {
             textIO.getTextTerminal()
                     .println(Formatter.formatNoContent(CONTENT_BLACKLIST));

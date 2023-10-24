@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.util;
 
-import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 public class Formatter {
@@ -13,12 +13,12 @@ public class Formatter {
         return NO_CONTENT.formatted(contentType);
     }
 
-    public static String formatCustomer(Customer customer) {
+    public static String formatCustomer(CustomerResponse customerResponse) {
         return """
                 Customer ID : %s
                 Customer Name : %s
                 -------------------------"""
-                .formatted(customer.getCustomerId(), customer.getName());
+                .formatted(customerResponse.customerId(), customerResponse.name());
     }
 
     public static String formatVoucher(VoucherResponse voucherResponse) {
