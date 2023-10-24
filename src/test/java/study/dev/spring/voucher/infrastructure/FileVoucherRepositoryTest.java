@@ -70,4 +70,19 @@ class FileVoucherRepositoryTest {
 			.hasSameSizeAs(vouchers)
 			.containsAll(vouchers);
 	}
+
+	@Test
+	@DisplayName("[아이디로 바우처를 삭제한다]")
+	void deleteById() {
+		//given
+		Voucher voucher = VoucherFixture.getFixedVoucher();
+		fileVoucherRepository.save(voucher);
+
+		//when
+		fileVoucherRepository.deleteById(voucher.getUuid());
+
+		//then
+		Optional<Voucher> actual = fileVoucherRepository.findById(voucher.getUuid());
+		assertThat(actual).isNotPresent();
+	}
 }

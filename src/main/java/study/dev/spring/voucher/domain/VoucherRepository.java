@@ -10,4 +10,6 @@ public interface VoucherRepository {
 	Optional<Voucher> findById(String uuid);
 
 	List<Voucher> findAll();
+
+	void deleteById(String uuid);
 }

@@ -63,6 +63,11 @@ public class FileVoucherRepository implements VoucherRepository {
 		return new ArrayList<>(storage.values());
 	}
 
+	@Override
+	public void deleteById(String uuid) {
+		storage.remove(uuid);
+	}
+
 	private FileUtils getFileUtils(
 		final List<FileUtils> fileUtilsList,
 		final String filePath

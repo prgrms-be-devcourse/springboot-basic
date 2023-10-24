@@ -24,4 +24,9 @@ public class VoucherRepositoryStub implements VoucherRepository {
 	public List<Voucher> findAll() {
 		return List.of(getFixedVoucher(), getFixedVoucher());
 	}
+
+	@Override
+	public void deleteById(String uuid) {
+
+	}
 }

@@ -3,6 +3,7 @@ package study.dev.spring.voucher.infrastructure;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,5 +63,20 @@ class MemoryVoucherRepositoryTest {
 		assertThat(actual)
 			.hasSameSizeAs(vouchers)
 			.containsAll(vouchers);
+	}
+
+	@Test
+	@DisplayName("[아이디로 바우처를 삭제한다]")
+	void deleteById() {
+		//given
+		Voucher voucher = VoucherFixture.getFixedVoucher();
+		memoryVoucherRepository.save(voucher);
+
+		//when
+		memoryVoucherRepository.deleteById(voucher.getUuid());
+
+		//then
+		Optional<Voucher> actual = memoryVoucherRepository.findById(voucher.getUuid());
+		assertThat(actual).isNotPresent();
 	}
 }
