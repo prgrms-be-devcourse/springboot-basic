@@ -102,17 +102,17 @@ public class VoucherApplication {
     private void getVoucherList() {
         logger.info("Call getVoucherList()");
 
-        printList(voucherService.getVouchersInfo());
+        printInquireResult(voucherService.getVouchersInfo());
     }
 
     private void getBlacklist() {
         logger.info("Call getBlackListUsers()");
 
-        printList(blacklistService.getBlacklist());
+        printInquireResult(blacklistService.getBlacklist());
     }
 
-    private void printList(List<String> list) {
-        String joinedString = String.join(INFO_DELIMINATOR, list);
+    private void printInquireResult(List<String> inquiredList) {
+        String joinedString = String.join(INFO_DELIMINATOR, inquiredList);
 
         if (!joinedString.isBlank()) {
             Console.print(joinedString);
