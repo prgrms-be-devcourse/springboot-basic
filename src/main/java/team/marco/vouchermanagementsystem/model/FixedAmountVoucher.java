@@ -9,6 +9,7 @@ import static java.text.MessageFormat.format;
 
 public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+    private static final int MAXIMUM_AMOUNT = (int) 1e9;
     private static final int MINIMUM_AMOUNT = 1;
 
     private final int amount;
@@ -25,6 +26,12 @@ public class FixedAmountVoucher extends Voucher {
         if (amount < MINIMUM_AMOUNT) {
             throw new IllegalArgumentException(
                     format("{0}: 할인 금액은 {1} 보다 작을 수 없습니다.", amount, MINIMUM_AMOUNT)
+            );
+        }
+
+        if (amount > MAXIMUM_AMOUNT) {
+            throw new IllegalArgumentException(
+                    format("{0}: 할인 금액은 {1} 보다 클 수 없습니다.", amount, MAXIMUM_AMOUNT)
             );
         }
     }
