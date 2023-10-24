@@ -80,11 +80,19 @@ public class ConsolePrint {
         System.out.println(ConsoleMessage.COMPLETE_UPDATE_CUSTOMER.getMessage());
     }
 
-    public void printGetID() {
+    public void printGetCustomerId() {
         System.out.println(ConsoleMessage.GET_CUSTOMER_ID.getMessage());
     }
 
     public void printCompleteDelete() {
         System.out.println(ConsoleMessage.COMPLETE_DELETE_CUSTOMER.getMessage());
+    }
+
+    public void printWalletFunctionSelect() {
+        System.out.println(ConsoleMessage.SELECT_FUNCTION_WALLET);
+    }
+
+    public void printGetVoucherId() {
+        System.out.println(ConsoleMessage.GET_VOUCHER_ID.getMessage());
     }
 }

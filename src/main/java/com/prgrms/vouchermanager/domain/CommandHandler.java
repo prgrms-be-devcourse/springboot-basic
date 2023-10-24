@@ -9,6 +9,7 @@ import com.prgrms.vouchermanager.io.Program;
 import com.prgrms.vouchermanager.io.VoucherType;
 import com.prgrms.vouchermanager.message.ConsoleMessage;
 import com.prgrms.vouchermanager.message.LogMessage;
+import com.prgrms.vouchermanager.service.WalletService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -22,12 +23,14 @@ public class CommandHandler {
     private final ConsolePrint consolePrint;
     private final CustomerExecutor customerExecutor;
     private final VoucherExecutor voucherExecutor;
+    private final WalletExecutor walletExecutor;
     private final Scanner sc = new Scanner(System.in);
 
-    public CommandHandler(ConsolePrint consolePrint, CustomerExecutor customerExecutor, VoucherExecutor voucherExecutor) {
+    public CommandHandler(ConsolePrint consolePrint, CustomerExecutor customerExecutor, VoucherExecutor voucherExecutor, WalletExecutor walletExecutor) {
         this.consolePrint = consolePrint;
         this.customerExecutor = customerExecutor;
         this.voucherExecutor = voucherExecutor;
+        this.walletExecutor = walletExecutor;
     }
 
     public boolean selectProgram() {
@@ -39,6 +42,9 @@ public class CommandHandler {
             }
             case "customer" -> {
                 return runCustomerProgram() != Command.EXIT;
+            }
+            case "wallet" -> {
+                return runWalletProgram() != Command.EXIT;
             }
             case "exit" -> { return false; }
             default -> throw new NotCorrectCommand(input);
@@ -104,6 +110,36 @@ public class CommandHandler {
             case "blacklist" -> {
                 customerExecutor.blackList();
                 return Command.BLACKLIST;
+            }
+            case "exit" -> {
+                System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
+                return Command.EXIT;
+            }
+            default -> throw new NotCorrectCommand(command);
+        }
+    }
+
+    public Command runWalletProgram() throws NotCorrectCommand {
+        consolePrint.printWalletFunctionSelect();
+        String command = sc.nextLine();
+        switch (command) {
+            case "create" -> {
+                walletExecutor.create();
+                return Command.CREATE;
+            }
+            case "voucher" -> {
+                log.info(LogMessage.SELECT_LIST.getMessage());
+
+                walletExecutor.findByCustomerId();
+                return Command.LIST;
+            }
+            case "customer" -> {
+                walletExecutor.findByVoucherId();
+                return Command.UPDATE;
+            }
+            case "delete" -> {
+                walletExecutor.delete();
+                return Command.DELETE;
             }
             case "exit" -> {
                 System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());

@@ -32,7 +32,7 @@ public enum ConsoleMessage {
     NOT_CORRECT_SCOPE("Percent range is incorrect."),
     NOT_CORRECT_ID("ID is not correct."),
     SELECT_PROGRAM("""
-    Select the program. voucher or customer?
+    Select the program. voucher or customer or wallet?
     If you want to exit, type exit."""),
     GET_CUSTOMER_NAME("Type the name."),
     GET_CUSTOMER_YEAR("Type the year of birth."),
@@ -40,8 +40,16 @@ public enum ConsoleMessage {
             Type name if you want to update name.
             Type year if you want to update year of birth."""),
     COMPLETE_UPDATE_CUSTOMER("Update completed."),
-    GET_CUSTOMER_ID("Type the ID."),
-    COMPLETE_DELETE_CUSTOMER("Delete completed.");
+    GET_CUSTOMER_ID("Type the customer ID."),
+    GET_VOUCHER_ID("Type the voucher ID."),
+    COMPLETE_DELETE_CUSTOMER("Delete completed."),
+    SELECT_FUNCTION_WALLET("""
+            === Wallet Program ===
+            Type exit to exit the program.
+            Type create to assign the voucher to customer.
+            Type voucher to check which voucher a customer holds.
+            Type customer to check customers holding a specific voucher.
+            Type delete to delete a voucher held by a customer""");
 
 
     private final String message;

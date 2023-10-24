@@ -13,7 +13,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 @Component
-public class CustomerExecutor implements Executor {
+public class CustomerExecutor {
 
     private final ConsolePrint consolePrint;
     private final CustomerController controller;
@@ -42,7 +42,7 @@ public class CustomerExecutor implements Executor {
     }
 
     public void delete() {
-        consolePrint.printGetID();
+        consolePrint.printGetCustomerId();
         try {
             UUID id = UUID.fromString(sc.nextLine());
             controller.delete(id);
@@ -58,14 +58,14 @@ public class CustomerExecutor implements Executor {
         try {
             switch (command) {
                 case "name" -> {
-                    consolePrint.printGetID();
+                    consolePrint.printGetCustomerId();
                     UUID id = UUID.fromString(sc.nextLine());
                     consolePrint.printGetCustomerName();
                     String name = sc.nextLine();
                     controller.updateName(id, name);
                 }
                 case "year" -> {
-                    consolePrint.printGetID();
+                    consolePrint.printGetCustomerId();
                     UUID id = UUID.fromString(sc.nextLine());
                     consolePrint.printGetCustomerYear();
                     int year = 0;

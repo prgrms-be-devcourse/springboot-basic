@@ -4,11 +4,13 @@ import com.prgrms.vouchermanager.domain.Customer;
 import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.domain.Wallet;
 import com.prgrms.vouchermanager.service.WalletService;
+import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Controller
 public class WalletController {
 
     private final WalletService service;

@@ -13,7 +13,7 @@ import java.util.Scanner;
 import java.util.UUID;
 
 @Component
-public class VoucherExecutor implements Executor {
+public class VoucherExecutor {
 
     private final ConsolePrint consolePrint;
     private final VoucherController controller;
