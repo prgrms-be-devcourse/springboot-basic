@@ -42,7 +42,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 .toList();
     }
 
-    private void loadBlacklist() throws UncheckedIOException {
+    private void loadBlacklist() {
         List<Customer> blacklist = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -59,7 +59,7 @@ public class FileCustomerRepository implements CustomerRepository {
                 blacklist.add(blackCustomer);
             }
         } catch (IOException e) {
-            logger.error(IO_EXCEPTION_LOG_MESSAGE, e);
+            logger.error(IO_EXCEPTION_LOG_MESSAGE);
             throw new UncheckedIOException(e);
         }
 
