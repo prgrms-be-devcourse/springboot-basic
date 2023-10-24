@@ -3,6 +3,7 @@ package com.zerozae.voucher.repository.customer;
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.exception.ErrorMessage;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.File;
@@ -17,6 +18,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 
+@Profile("dev")
 @Repository
 public class FileCustomerRepository {
 
