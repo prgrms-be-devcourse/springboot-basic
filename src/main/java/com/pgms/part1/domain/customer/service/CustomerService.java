@@ -1,6 +1,6 @@
 package com.pgms.part1.domain.customer.service;
 
-import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
+import com.pgms.part1.domain.customer.dto.CustomerFileResponseDto;
 import com.pgms.part1.domain.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<CustomerResponseDto> listBlockedCustomers(){
+    public List<CustomerFileResponseDto> listBlockedCustomers(){
         return customerRepository.listBlockedCustomers();
     }
 }

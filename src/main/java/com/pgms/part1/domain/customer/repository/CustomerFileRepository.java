@@ -1,6 +1,6 @@
 package com.pgms.part1.domain.customer.repository;
 
-import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
+import com.pgms.part1.domain.customer.dto.CustomerFileResponseDto;
 import com.pgms.part1.domain.customer.entity.Customer;
 import com.pgms.part1.domain.customer.entity.CustomerBuilder;
 import com.pgms.part1.util.file.FileService;
@@ -45,9 +45,9 @@ public class CustomerFileRepository implements CustomerRepository{
     }
 
     @Override
-    public List<CustomerResponseDto> listBlockedCustomers() {
+    public List<CustomerFileResponseDto> listBlockedCustomers() {
         return customerMap.values().stream().filter(Customer::getBlocked)
-                .map(customer -> new CustomerResponseDto(customer.getId(), customer.getBlocked()))
+                .map(customer -> new CustomerFileResponseDto(customer.getId(), customer.getBlocked()))
                 .collect(Collectors.toList());
     }
 }
