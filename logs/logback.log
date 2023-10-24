@@ -1501,3 +1501,14 @@ Consider defining a bean of type 'org.prgrms.vouchermanager.repository.voucher.V
 [2023-10-24 22:57:11:3540][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
 [2023-10-24 22:57:11:3554][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 [2023-10-24 22:57:11:3564][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-24 23:21:16:815][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest]: JdbcVoucherRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-24 23:21:17:985][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest
+[2023-10-24 23:21:17:1453][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 13836 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-24 23:21:17:1454][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-10-24 23:21:18:2401][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.238 seconds (process running for 2.719)
+[2023-10-24 23:21:18:2434][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-10-24 23:21:19:2893][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4f2d014a
+[2023-10-24 23:21:19:2895][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-10-24 23:21:19:3857][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
+[2023-10-24 23:21:20:3969][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-10-24 23:21:20:3982][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

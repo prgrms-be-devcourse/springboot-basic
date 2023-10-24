@@ -13,5 +13,5 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    boolean deleteById(UUID voucherId);
+    Optional<Voucher> deleteById(UUID voucherId);
 }

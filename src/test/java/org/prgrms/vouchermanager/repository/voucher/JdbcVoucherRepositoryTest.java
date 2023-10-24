@@ -61,10 +61,8 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = repository.save(fixedAmountVoucher1);
         List<Voucher> before = repository.findAll();
 
-        repository.deleteById(voucher.getVoucherId());
+        Optional<Voucher> resultVoucher = repository.deleteById(voucher.getVoucherId());
 
-        Optional<Voucher> voucher1 = repository.findByID(voucher.getVoucherId());
-
-        assertThat(voucher1).isEmpty();
+        assertThat(resultVoucher).isEmpty();
     }
 }

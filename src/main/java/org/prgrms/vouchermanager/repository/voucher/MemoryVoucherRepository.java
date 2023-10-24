@@ -31,8 +31,8 @@ public class MemoryVoucherRepository implements VoucherRepository{
 
 
     @Override
-    public boolean deleteById(UUID voucherId) {
-        storage.remove(voucherId);
-        return true;
+    public Optional<Voucher> deleteById(UUID voucherId) {
+        Voucher voucher = storage.remove(voucherId);
+        return Optional.ofNullable(voucher);
     }
 }

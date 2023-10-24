@@ -81,9 +81,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public boolean deleteById(UUID voucherId) {
+    public Optional<Voucher> deleteById(UUID voucherId) {
         jdbcTemplate.update(DELETE_BY_ID, voucherId.toString());
-        return true;
+        Optional<Voucher> voucher = findByID(voucherId);
+        return voucher;
     }
 
     static UUID toUUID(byte[] bytes) {
