@@ -38,17 +38,17 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
         }
 
         ObjectReader objectReader = objectMapper.readerForListOf(LoadedVoucher.class);
-        List<LoadedVoucher> loadedList;
+        List<LoadedVoucher> loadedVouchers;
 
         try {
-            loadedList = objectReader.readValue(file);
+            loadedVouchers = objectReader.readValue(file);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
         Map<UUID, Voucher> convertedMap = new HashMap<>();
 
-        loadedList.forEach(data -> convertedMap.put(data.getId(), VoucherType.convertVoucher(data)));
+        loadedVouchers.forEach(data -> convertedMap.put(data.getId(), VoucherType.convertVoucher(data)));
 
         return convertedMap;
     }
