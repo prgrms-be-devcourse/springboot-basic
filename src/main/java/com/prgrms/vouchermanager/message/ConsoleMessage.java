@@ -13,7 +13,9 @@ public enum ConsoleMessage {
             === Customer Program ===
             Type exit to exit the program.
             Type create to create a new customer.
-            Type list to list all customers."""),
+            Type list to list all customers.
+            Type update to update customer.
+            Type delete to delete customer."""),
     FINISH_PROGRAM("Exit the program."),
     GET_VOUCHER_TYPE("""
             Type fixed if you want a fixed discount voucher.
