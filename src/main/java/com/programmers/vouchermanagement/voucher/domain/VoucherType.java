@@ -1,12 +1,8 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
 public enum VoucherType {
     FIXED("Fixed Amount"),
