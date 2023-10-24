@@ -43,7 +43,11 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     public List<Voucher> list() {
-        return jdbcTemplate.query(LIST_QUERY_VOUCHER.getMessage(), customerRowMapper());
+        return jdbcTemplate.query(LIST_QUERY_VOUCHER.getMessage(), voucherRowMapper());
+    }
+
+    public Voucher findById(UUID id) {
+        return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY_VOUCHER.getMessage(), voucherRowMapper(), id.toString().getBytes());
     }
 
     public void updateDiscount(UUID id, int discount) {
@@ -67,7 +71,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 .forEach(this::create);
     }
 
-    private RowMapper<Voucher> customerRowMapper() {
+    private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> {
             if(rs.getString("voucher_type").equals("fixed")) {
                 return new FixedAmountVoucher(convertBytesToUUID(rs.getBytes("voucher_id")),

@@ -36,7 +36,7 @@ public class CustomerRepository {
     }
 
     public Customer findById(UUID id) {
-        return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY_VOUCHER.getMessage(), customerRowMapper(), id.toString().getBytes());
+        return jdbcTemplate.queryForObject(FIND_BY_ID_QUERY_CUSTOMER.getMessage(), customerRowMapper(), id.toString().getBytes());
     }
 
     public List<Customer> list() {
