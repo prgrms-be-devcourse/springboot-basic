@@ -5,7 +5,7 @@ import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
-import com.zerozae.voucher.repository.customer.CustomerRepository;
+import com.zerozae.voucher.repository.customer.FileCustomerRepository;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CustomerServiceTest {
-    CustomerRepository customerRepository = mock(CustomerRepository.class);
-    CustomerService customerService = new CustomerService(customerRepository);
+    FileCustomerRepository fileCustomerRepository = mock(FileCustomerRepository.class);
+    CustomerService customerService = new CustomerService(fileCustomerRepository);
 
     @Test
     @DisplayName("회원 등록 메서드 호출 테스트")
@@ -27,14 +27,14 @@ class CustomerServiceTest {
         CustomerRequest customerRequest = new CustomerRequest("영재", CustomerType.BLACKLIST);
         Customer savedCustomer = new Customer(UUID.randomUUID(), "영재", CustomerType.BLACKLIST);
 
-        when(customerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
+        when(fileCustomerRepository.save(any(Customer.class))).thenReturn(savedCustomer);
 
         // When
         CustomerResponse customerResponse = customerService.createCustomer(customerRequest);
 
         // Then
         assertEquals("영재", customerResponse.getCustomerName());
-        verify(customerRepository, times(1)).save(any(Customer.class));
+        verify(fileCustomerRepository, times(1)).save(any(Customer.class));
     }
 
     @Test
@@ -46,7 +46,7 @@ class CustomerServiceTest {
                 new Customer(UUID.randomUUID(),"고객2", CustomerType.BLACKLIST)
         );
 
-        when(customerRepository.findAll()).thenReturn(customerList);
+        when(fileCustomerRepository.findAll()).thenReturn(customerList);
 
         // When
         List<CustomerResponse> customers = customerService.findAllCustomers();
@@ -56,7 +56,7 @@ class CustomerServiceTest {
         assertTrue(customers.stream().anyMatch(c -> c.getCustomerName().equals("고객1")));
         assertTrue(customers.stream().anyMatch(c -> c.getCustomerName().equals("고객2")));
 
-        verify(customerRepository, times(1)).findAll();
+        verify(fileCustomerRepository, times(1)).findAll();
     }
 
     @Test
@@ -65,7 +65,7 @@ class CustomerServiceTest {
         // Given
         CustomerRequest customerRequest = new CustomerRequest("고객1", CustomerType.NORMAL);
 
-        when(customerRepository.findAll()).thenReturn(List.of(new Customer(UUID.randomUUID(),"고객1", CustomerType.NORMAL)));
+        when(fileCustomerRepository.findAll()).thenReturn(List.of(new Customer(UUID.randomUUID(),"고객1", CustomerType.NORMAL)));
 
         // When
 

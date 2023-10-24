@@ -1,8 +1,6 @@
 package com.zerozae.voucher.domain.customer;
 
 import com.zerozae.voucher.exception.ErrorMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public enum CustomerType {
