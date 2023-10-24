@@ -17,7 +17,7 @@ import java.util.*;
 @Repository
 public class VoucherFileRepository implements VoucherRepository {
     private final Logger log = LoggerFactory.getLogger(VoucherFileRepository.class);
-    private final static Map<UUID, Voucher> voucherMap = new HashMap<>();
+    private final static Map<Long, Voucher> voucherMap = new HashMap<Long, Voucher>();
     private final String filePath;
     private File file;
     private final FileService fileService;
@@ -35,7 +35,7 @@ public class VoucherFileRepository implements VoucherRepository {
     private void voucherMapper(List<String[]> voucherInfoList){
         try {
             voucherInfoList.stream().forEach(data -> {
-                UUID id = UUID.fromString(data[0]);
+                Long id = Long.parseLong(data[0]);
                 int discount = Integer.parseInt(data[1]);
                 VoucherDiscountType discountType = Enum.valueOf(VoucherDiscountType.class, data[2]);
 

@@ -5,6 +5,7 @@ import com.pgms.part1.domain.voucher.entity.FixedAmountDiscountVoucher;
 import com.pgms.part1.domain.voucher.entity.PercentDiscountVoucher;
 import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.repository.VoucherRepository;
+import com.pgms.part1.util.keygen.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,15 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    private final KeyGenerator keyGenerator;
+
+    public VoucherService(VoucherRepository voucherRepository, KeyGenerator keyGenerator) {
         this.voucherRepository = voucherRepository;
+        this.keyGenerator = keyGenerator;
     }
 
     public void createFixedAmountVoucher(VoucherCreateRequestDto voucherCreateRequestDto) {
-        FixedAmountDiscountVoucher fixedAmountDiscountVoucher = Voucher.newFixedAmountDiscountVoucher(voucherCreateRequestDto.discount());
+        FixedAmountDiscountVoucher fixedAmountDiscountVoucher = Voucher.newFixedAmountDiscountVoucher(keyGenerator.getKey(), voucherCreateRequestDto.discount());
         try{
             voucherRepository.add(fixedAmountDiscountVoucher);
             log.info("Voucher {} added", fixedAmountDiscountVoucher.getId());
@@ -33,7 +37,7 @@ public class VoucherService {
     }
 
     public void createPercentDiscountVoucher(VoucherCreateRequestDto voucherCreateRequestDto) {
-        PercentDiscountVoucher percentDiscountVoucher = Voucher.newPercentDiscountVoucher(voucherCreateRequestDto.discount());
+        PercentDiscountVoucher percentDiscountVoucher = Voucher.newPercentDiscountVoucher(keyGenerator.getKey(), voucherCreateRequestDto.discount());
         try {
             voucherRepository.add(percentDiscountVoucher);
             log.info("Voucher {} added", percentDiscountVoucher.getId());
