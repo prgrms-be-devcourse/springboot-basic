@@ -1,14 +1,14 @@
-package study.dev.spring.user.domain;
+package study.dev.spring.customer.domain;
 
 import java.util.UUID;
 
-public class User {
+public class Customer {
 
 	private final UUID uuid;
 
 	private String name;
 
-	public User(
+	public Customer(
 		final UUID uuid,
 		final String name
 	) {

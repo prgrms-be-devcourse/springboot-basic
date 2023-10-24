@@ -14,7 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import study.dev.spring.app.exception.ExitException;
 import study.dev.spring.common.io.InputHandler;
 import study.dev.spring.common.io.OutputHandler;
-import study.dev.spring.user.presentation.UserController;
+import study.dev.spring.customer.presentation.CustomerController;
 import study.dev.spring.voucher.presentation.ConsoleVoucherController;
 
 @DisplayName("[ConsoleVoucherApplicationRunner Test] - App")
@@ -24,16 +24,16 @@ class ConsoleVoucherApplicationRunnerTest {
 	private final ConsoleVoucherApplicationRunner runner;
 	private final InputHandler mockInputHandler;
 	private final ConsoleVoucherController mockController;
-	private final UserController mockUserController;
+	private final CustomerController mockCustomerController;
 
 	public ConsoleVoucherApplicationRunnerTest() {
 		mockController = Mockito.mock(ConsoleVoucherController.class);
-		mockUserController = Mockito.mock(UserController.class);
+		mockCustomerController = Mockito.mock(CustomerController.class);
 		mockInputHandler = Mockito.mock(InputHandler.class);
 		OutputHandler mockOutputHandler = Mockito.mock(OutputHandler.class);
 
 		this.runner = new ConsoleVoucherApplicationRunner(
-			mockController, mockUserController, mockInputHandler, mockOutputHandler
+			mockController, mockCustomerController, mockInputHandler, mockOutputHandler
 		);
 	}
 
@@ -93,7 +93,7 @@ class ConsoleVoucherApplicationRunnerTest {
 			//when
 			runner.run();
 
-			verify(mockUserController, times(1)).findAllBlackListUsers();
+			verify(mockCustomerController, times(1)).findAllBlackListCustomers();
 		}
 	}
 }

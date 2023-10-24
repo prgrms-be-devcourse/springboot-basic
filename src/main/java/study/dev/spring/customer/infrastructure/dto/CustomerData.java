@@ -1,4 +1,4 @@
-package study.dev.spring.user.infrastructure.dto;
+package study.dev.spring.customer.infrastructure.dto;
 
 import java.util.UUID;
 
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserData {
+public class CustomerData {
 
 	@CsvBindByName
 	private UUID uuid;

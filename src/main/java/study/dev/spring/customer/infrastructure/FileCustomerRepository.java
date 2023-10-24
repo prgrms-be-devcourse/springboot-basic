@@ -1,4 +1,4 @@
-package study.dev.spring.user.infrastructure;
+package study.dev.spring.customer.infrastructure;
 
 import static study.dev.spring.common.exception.GlobalErrorCode.*;
 
@@ -10,20 +10,20 @@ import org.springframework.stereotype.Repository;
 
 import study.dev.spring.common.exception.GlobalException;
 import study.dev.spring.common.utils.FileUtils;
-import study.dev.spring.user.domain.User;
-import study.dev.spring.user.domain.UserRepository;
-import study.dev.spring.user.infrastructure.dto.UserData;
-import study.dev.spring.user.infrastructure.dto.UserMapper;
+import study.dev.spring.customer.domain.Customer;
+import study.dev.spring.customer.domain.CustomerRepository;
+import study.dev.spring.customer.infrastructure.dto.CustomerData;
+import study.dev.spring.customer.infrastructure.dto.CustomerMapper;
 
 @Repository
-public class FileUserRepository implements UserRepository {
+public class FileCustomerRepository implements CustomerRepository {
 
 	private final FileUtils fileUtils;
-	private final List<User> storage;
+	private final List<Customer> storage;
 
-	public FileUserRepository(
+	public FileCustomerRepository(
 		final List<FileUtils> fileUtilsList,
-		@Value("${user.file.path}") final String filePath
+		@Value("${customer.file.path}") final String filePath
 	) {
 		this.storage = new ArrayList<>();
 		this.fileUtils = getFileUtils(fileUtilsList, filePath);
@@ -31,7 +31,7 @@ public class FileUserRepository implements UserRepository {
 	}
 
 	@Override
-	public List<User> findAll() {
+	public List<Customer> findAll() {
 		return storage.stream().toList();
 	}
 
@@ -46,10 +46,10 @@ public class FileUserRepository implements UserRepository {
 	}
 
 	private void copyFileData(final String filePath) {
-		List<Object> fileData = fileUtils.readFile(filePath, UserData.class);
+		List<Object> fileData = fileUtils.readFile(filePath, CustomerData.class);
 		fileData.forEach(data -> {
-			UserData userData = (UserData)data;
-			storage.add(UserMapper.toUser(userData));
+			CustomerData customerData = (CustomerData)data;
+			storage.add(CustomerMapper.toCustomer(customerData));
 		});
 	}
 }

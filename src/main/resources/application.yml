@@ -2,6 +2,6 @@ spring:
   profiles:
     default: dev
 
-user:
+customer:
   file:
-    path: user.csv
+    path: blacklist.csv
