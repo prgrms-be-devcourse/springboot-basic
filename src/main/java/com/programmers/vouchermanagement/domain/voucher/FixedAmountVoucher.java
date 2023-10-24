@@ -12,4 +12,8 @@ public class FixedAmountVoucher extends Voucher {
     public VoucherType getType() {
         return VoucherType.FIXED_AMOUNT;
     }
+
+    public static FixedAmountVoucher fixture() {
+        return new FixedAmountVoucher(1000L);
+    }
 }

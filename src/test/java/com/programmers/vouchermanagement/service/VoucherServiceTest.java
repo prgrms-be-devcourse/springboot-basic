@@ -1,59 +1,114 @@
 package com.programmers.vouchermanagement.service;
 
-import com.programmers.vouchermanagement.domain.voucher.tmp.Voucher;
+import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
+import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
+import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import com.programmers.vouchermanagement.dto.voucher.CreateVoucherRequestDto;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.*;
 
+@SpringBootTest
 class VoucherServiceTest {
-    private VoucherService voucherService;
+
+    @MockBean
     private VoucherRepository voucherRepository;
-    private List<Voucher> voucherFixtures;
-    private UUID uuidFixture;
 
+    @Autowired
+    private VoucherService voucherService;
 
-/*    @BeforeEach
-    void setUp() {
-        voucherFixtures = Arrays.asList(
-                new FixedAmountVoucher(UUID.fromString("00000000-0000-0000-0000-000000000000"), 1000L),
-                new PercentDiscountVoucher(UUID.fromString("11111111-1111-1111-1111-111111111111"), 2000L)
-        );
-        voucherRepository = new StubVoucherRepository(voucherFixtures);
+    @Test
+    @DisplayName("FIXED_AMOUNT 바우처를 생성할 수 있다.")
+    void createFixedAmountVoucher() {
+        // given
+        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
+        request.setVoucherType(VoucherType.FIXED_AMOUNT);
+        request.setAmount(1000L);
 
-        uuidFixture = UUID.fromString("22222222-2222-2222-2222-222222222222");
-        voucherService = new VoucherService(voucherRepository, new StubUuidProvider(uuidFixture));
+        // when
+        voucherService.createVoucher(request);
+
+        // then
+        verify(voucherRepository).save(any(FixedAmountVoucher.class));
+
     }
 
     @Test
-    @DisplayName("바우처를 생성할 수 있다.")
-    void create() {
+    @DisplayName("PERCENT_DISCOUNT 바우처를 생성할 수 있다.")
+    void createPercentDiscountVoucher() {
         // given
-        Long amount = 3000L;
+        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
+        request.setVoucherType(VoucherType.PERCENT_DISCOUNT);
+        request.setAmount(10L);
+
         // when
-        voucherService.createVoucher(VoucherType.FIXED_AMOUNT, amount);
+        voucherService.createVoucher(request);
+
         // then
-        List<Voucher> vouchers = voucherRepository.findAll();
-        Voucher createdVoucher = vouchers.get(2);
-        assertThat(vouchers).hasSize(3);
-        assertThat(createdVoucher.getId()).isEqualTo(uuidFixture);
-        assertThat(createdVoucher.getAmount()).isEqualTo(amount);
-        assertThat(createdVoucher.getType()).isEqualTo(VoucherType.FIXED_AMOUNT);
+        verify(voucherRepository).save(any(PercentDiscountVoucher.class));
+    }
+
+    @Test
+    @DisplayName("PERCENT_DISCOUNT 바우처 생성 시 amount가 0 미만이면 생성할 수 없다.")
+    void createPercentDiscountVoucher_amountLessThan0_fail() {
+        // given
+        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
+        request.setVoucherType(VoucherType.PERCENT_DISCOUNT);
+        request.setAmount(-1L);
+
+        // when & then
+        assertThatThrownBy(() -> voucherService.createVoucher(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Percent discount amount should be between 0 and 100");
+
+        verify(voucherRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("PERCENT_DISCOUNT 바우처 생성 시 amount가 100 초과이면 생성할 수 없다.")
+    void createPercentDiscountVoucher_amountMoreThan100_fail() {
+        // given
+        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
+        request.setVoucherType(VoucherType.PERCENT_DISCOUNT);
+        request.setAmount(101L);
+
+        // when & then
+        assertThatThrownBy(() -> voucherService.createVoucher(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Percent discount amount should be between 0 and 100");
+
+        verify(voucherRepository, never()).save(any());
     }
 
     @Test
     @DisplayName("바우처 목록을 조회할 수 있다.")
-    void list() {
+    void getVouchers() {
         // given
+        List<Voucher> mockVouchers = Arrays.asList(
+                FixedAmountVoucher.fixture(),
+                PercentDiscountVoucher.fixture());
+        given(voucherRepository.findAll()).willReturn(mockVouchers);
+
         // when
-        List<Voucher> vouchers = voucherService.getVouchers();
+        List<Voucher> resultVouchers = voucherService.getVouchers();
+
         // then
-        assertThat(vouchers).hasSize(2);
-        assertThat(vouchers.get(0).getId()).isEqualTo((voucherFixtures.get(0).getId()));
-        assertThat(vouchers.get(1).getId()).isEqualTo((voucherFixtures.get(1).getId()));
-        assertThat(vouchers.get(0).getAmount()).isEqualTo(voucherFixtures.get(0).getAmount());
-        assertThat(vouchers.get(1).getAmount()).isEqualTo(voucherFixtures.get(1).getAmount());
-    }*/
+        assertThat(resultVouchers).hasSize(2);
+        assertThat(resultVouchers).extracting(Voucher::getType)
+                .containsExactlyInAnyOrder(VoucherType.FIXED_AMOUNT, VoucherType.PERCENT_DISCOUNT);
+        assertThat(resultVouchers).extracting(Voucher::getAmount)
+                .containsExactlyInAnyOrder(1000L, 10L);
+    }
 }

@@ -15,4 +15,8 @@ public class PercentDiscountVoucher extends Voucher {
     public VoucherType getType() {
         return VoucherType.PERCENT_DISCOUNT;
     }
+
+    public static PercentDiscountVoucher fixture() {
+        return new PercentDiscountVoucher(10L);
+    }
 }

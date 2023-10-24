@@ -23,11 +23,20 @@ public class MemoryVoucherRepository implements VoucherRepository {
         this.idProvider = new UuidProvider();
     }
 
+    @Override
     public void save(Voucher voucher) {
         voucher.setId(idProvider.generateId());
         storage.put(voucher.getId(), voucher);
     }
 
+    @Override
+    public void saveAll(List<Voucher> vouchers) {
+        for (Voucher voucher : vouchers) {
+            save(voucher);
+        }
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return storage.values().stream()
                 .collect(Collectors.toList());
