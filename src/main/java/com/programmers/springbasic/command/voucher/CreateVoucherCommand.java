@@ -1,5 +1,6 @@
-package com.programmers.springbasic.command;
+package com.programmers.springbasic.command.voucher;
 
+import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.VoucherController;
