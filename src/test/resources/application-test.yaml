@@ -1,0 +1,10 @@
+file:
+  resources:
+    path: src/test/resources/
+
+  domains:
+    customer:
+      file-name: blacklist-test.csv
+
+    voucher:
+      file-name: voucher-test.json
