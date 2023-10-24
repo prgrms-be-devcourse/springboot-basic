@@ -1,21 +1,21 @@
 package com.programmers.vouchermanagement.consoleapp.runner;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import com.programmers.vouchermanagement.consoleapp.menu.MenuHandler;
-import com.programmers.vouchermanagement.properties.AppProperties;
 
 @Component
 public class ConsoleAppRunner implements ApplicationRunner {
-    private final MenuHandler menuHandler;
-    private final Logger logger;
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleAppRunner.class);
 
-    public ConsoleAppRunner(MenuHandler menuHandler, Logger logger) {
+    private final MenuHandler menuHandler;
+
+    public ConsoleAppRunner(MenuHandler menuHandler) {
         this.menuHandler = menuHandler;
-        this.logger = logger;
     }
 
     @Override

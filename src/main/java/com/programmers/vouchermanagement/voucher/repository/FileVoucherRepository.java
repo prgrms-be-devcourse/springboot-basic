@@ -1,27 +1,44 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.UUID;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programmers.vouchermanagement.properties.AppProperties;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.*;
 
 @Repository
 @Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
+    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+
+    //constants
     private static final String VOUCHER_ID_KEY = "voucher_id";
     private static final String DISCOUNT_VALUE_KEY = "discount_value";
     private static final String VOUCHER_TYPE_KEY = "voucher_type";
     private static final String FILE_EXCEPTION = "Error raised while opening the file.";
+
+    //messages
+    private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading vouchers";
     private static final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
+
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String filePath;
     private final Map<UUID, Voucher> vouchers;
@@ -49,7 +66,8 @@ public class FileVoucherRepository implements VoucherRepository {
             Map[] voucherObjects = objectMapper.readValue(file, Map[].class);
             loadVouchers(voucherObjects);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error(IO_EXCEPTION_LOG_MESSAGE);
+            throw new UncheckedIOException(e);
         }
     }
 

@@ -7,6 +7,7 @@ import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR
 
 @Component
 public class ConsoleManager {
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleManager.class);
     //messages
     private static final String MENU_SELECTION_INSTRUCTION = """
             === Voucher Program ===
@@ -47,11 +49,9 @@ public class ConsoleManager {
     //---
 
     private final TextIO textIO;
-    private final Logger logger;
 
-    public ConsoleManager(TextIO textIO, Logger logger) {
+    public ConsoleManager(TextIO textIO) {
         this.textIO = textIO;
-        this.logger = logger;
     }
 
     public Menu selectMenu() {
@@ -65,7 +65,10 @@ public class ConsoleManager {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
         VoucherType voucherType = VoucherType.findCreateMenu(createMenu)
-                .orElseThrow(() -> new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE));
+                .orElseThrow(() -> {
+                    logger.error(INVALID_VOUCHER_TYPE_MESSAGE);
+                    return new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE);
+                });
 
         String discountValueInput = textIO.newStringInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
@@ -116,6 +119,5 @@ public class ConsoleManager {
 
     public void printException(RuntimeException e) {
         textIO.getTextTerminal().println(e.getMessage());
-        logger.error(e.getMessage());
     }
 }
