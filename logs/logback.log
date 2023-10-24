@@ -1425,3 +1425,79 @@ Consider defining a bean of type 'org.prgrms.vouchermanager.repository.voucher.V
 [2023-10-24 22:31:50:3665][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
 [2023-10-24 22:31:50:3760][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 [2023-10-24 22:31:50:3773][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-24 22:56:43:485][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest]: JdbcVoucherRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-24 22:56:43:679][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest
+[2023-10-24 22:56:43:1165][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 29068 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-24 22:56:43:1166][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - No active profile set, falling back to 1 default profile: "default"
+[2023-10-24 22:56:44:1781][main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'handler' defined in file [D:\Users\programmers\vouchermanager\target\classes\org\prgrms\vouchermanager\handler\Handler.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'voucherController' defined in file [D:\Users\programmers\vouchermanager\target\classes\org\prgrms\vouchermanager\handler\VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherService' defined in file [D:\Users\programmers\vouchermanager\target\classes\org\prgrms\vouchermanager\service\VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.prgrms.vouchermanager.repository.voucher.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+[2023-10-24 22:56:44:1790][main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2023-10-24 22:56:44:1817][main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.prgrms.vouchermanager.service.VoucherService required a bean of type 'org.prgrms.vouchermanager.repository.voucher.VoucherRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.prgrms.vouchermanager.repository.voucher.VoucherRepository' in your configuration.
+
+[2023-10-24 22:56:44:1890][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 29068 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-24 22:56:44:1890][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - No active profile set, falling back to 1 default profile: "default"
+[2023-10-24 22:56:44:2055][main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'handler' defined in file [D:\Users\programmers\vouchermanager\target\classes\org\prgrms\vouchermanager\handler\Handler.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'voucherController' defined in file [D:\Users\programmers\vouchermanager\target\classes\org\prgrms\vouchermanager\handler\VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherService' defined in file [D:\Users\programmers\vouchermanager\target\classes\org\prgrms\vouchermanager\service\VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.prgrms.vouchermanager.repository.voucher.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+[2023-10-24 22:56:44:2057][main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2023-10-24 22:56:44:2061][main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.prgrms.vouchermanager.service.VoucherService required a bean of type 'org.prgrms.vouchermanager.repository.voucher.VoucherRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.prgrms.vouchermanager.repository.voucher.VoucherRepository' in your configuration.
+
+[2023-10-24 22:56:44:2130][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 29068 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-24 22:56:44:2130][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - No active profile set, falling back to 1 default profile: "default"
+[2023-10-24 22:56:45:2291][main] WARN  o.s.c.a.AnnotationConfigApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'handler' defined in file [D:\Users\programmers\vouchermanager\target\classes\org\prgrms\vouchermanager\handler\Handler.class]: Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'voucherController' defined in file [D:\Users\programmers\vouchermanager\target\classes\org\prgrms\vouchermanager\handler\VoucherController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'voucherService' defined in file [D:\Users\programmers\vouchermanager\target\classes\org\prgrms\vouchermanager\service\VoucherService.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'org.prgrms.vouchermanager.repository.voucher.VoucherRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+[2023-10-24 22:56:45:2293][main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[2023-10-24 22:56:45:2297][main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in org.prgrms.vouchermanager.service.VoucherService required a bean of type 'org.prgrms.vouchermanager.repository.voucher.VoucherRepository' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.prgrms.vouchermanager.repository.voucher.VoucherRepository' in your configuration.
+
+[2023-10-24 22:57:08:457][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest]: JdbcVoucherRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-24 22:57:08:635][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest
+[2023-10-24 22:57:09:1107][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 9036 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-24 22:57:09:1109][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-10-24 22:57:10:1975][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.148 seconds (process running for 2.681)
+[2023-10-24 22:57:10:2010][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-10-24 22:57:10:2493][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@d611f1c
+[2023-10-24 22:57:10:2496][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-10-24 22:57:11:3540][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
+[2023-10-24 22:57:11:3554][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-10-24 22:57:11:3564][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

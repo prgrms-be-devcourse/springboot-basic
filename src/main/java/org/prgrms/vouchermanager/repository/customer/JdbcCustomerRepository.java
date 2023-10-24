@@ -6,16 +6,22 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile("jdbc")
 public class JdbcCustomerRepository implements CustomerRepositroy{
-    private JdbcTemplate jdbcTemplate;
+    private final String INSERT_VOUCHER = "INSERT INTO customer(id, name, email, isBlack) VALUES(UUID_TO_BIN(?), ?, ?, ?)";
+    private final String SELECT_BY_ID = "select * from voucher where id = UUID_TO_BIN(?)";
+    private final String SELECT_ALL = "select * from voucher";
+    private final String DELETE_ALL = "delete from voucher";
+    private final String DELETE_BY_ID = "delete from voucher where id = UUID_TO_BIN(?)";
+    private final JdbcTemplate jdbcTemplate;
+    public JdbcCustomerRepository(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         var customerName = resultSet.getString("name");
         var email = resultSet.getString("email");
@@ -39,6 +45,16 @@ public class JdbcCustomerRepository implements CustomerRepositroy{
 
     @Override
     public Customer save(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> deleteById(UUID customerId) {
         return null;
     }
 

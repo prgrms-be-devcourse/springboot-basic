@@ -22,4 +22,16 @@ public class MemoryCustomerRepository implements CustomerRepositroy{
         blackList.put(customer.getCustomerId(), customer);
         return customer;
     }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        Customer customer = blackList.get(customerId);
+        return Optional.ofNullable(customer);
+    }
+
+    @Override
+    public Optional<Customer> deleteById(UUID customerId) {
+        Customer customer = blackList.remove(customerId);
+        return Optional.ofNullable(customer);
+    }
 }

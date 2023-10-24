@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -45,6 +46,16 @@ public class CsvCustomerRepository implements CustomerRepositroy{
 
     @Override
     public Customer save(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> deleteById(UUID customerId) {
         return null;
     }
 
