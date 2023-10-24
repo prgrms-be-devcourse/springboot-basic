@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class CustomerController {
-    private final CustomerService service = new CustomerService(new MemoryCustomerRepository());
+    private final CustomerService service;
 
     public List<Customer> list() {
         return service.findAll();

@@ -19,16 +19,15 @@ public class JdbcCustomerRepository implements CustomerRepositroy{
     private final String INSERT_CUSTOMER = "INSERT INTO customer(id, name, email, isBlack) VALUES(UUID_TO_BIN(?), ?, ?, ?)";
     private final String SELECT_BY_ID = "select * from customer where id = UUID_TO_BIN(?)";
     private final String SELECT_ALL = "select * from customer";
-    private final String DELETE_ALL = "delete from customer";
     private final String DELETE_BY_ID = "delete from customer where id = UUID_TO_BIN(?)";
     private final JdbcTemplate jdbcTemplate;
     public JdbcCustomerRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        var customerName = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        UUID customerId = toUUID(resultSet.getBytes("id"));
+        String customerName = resultSet.getString("name");
+        String email = resultSet.getString("email");
         boolean isBlack = resultSet.getBoolean("isBlack");
         return new Customer(customerId, customerName, email, isBlack);
     };
