@@ -23,10 +23,10 @@ public class FixedDiscountVoucher extends Voucher {
         this.useStatusType = UseStatusType.AVAILABLE;
     }
 
-    public FixedDiscountVoucher(UUID voucherId, long discount, UseStatusType useStatusType){
+    public FixedDiscountVoucher(UUID voucherId, long discount, UseStatusType useStatusType) {
         try {
             validateVoucherInfo(discount);
-        }catch (ErrorMessage e){
+        }catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
         }
         this.voucherId = voucherId;

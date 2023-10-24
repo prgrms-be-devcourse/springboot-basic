@@ -21,10 +21,10 @@ public enum MenuType {
     UPDATE,
     BACK;
 
-    public static MenuType of(String input){
+    public static MenuType of(String input) {
         try {
             return MenuType.valueOf(input.toUpperCase());
-        }catch (RuntimeException e){
+        }catch (RuntimeException e) {
             throw ErrorMessage.error("존재하지 않는 메뉴입니다. 다시 입력해주세요.");
         }
     }

@@ -56,8 +56,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Transactional
     @Override
     public Voucher save(Voucher voucher) {
+        String sql = "insert into vouchers(voucher_id ,discount,voucher_type, use_status_type) values (UUID_TO_BIN(:voucherId), :discount, :voucherType, :useStatusType)";
         int result = jdbcTemplate.update(
-                "insert into vouchers(voucher_id ,discount,voucher_type, use_status_type) values (UUID_TO_BIN(:voucherId), :discount, :voucherType, :useStatusType)",
+                sql,
                 toParamMap(voucher));
 
         if(result != 1){
@@ -69,16 +70,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
+        String sql = "select * from vouchers";
         return jdbcTemplate.query(
-                "select * from vouchers",
+                sql,
                 voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
+        String sql = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
         try {
             Voucher voucher = jdbcTemplate.queryForObject(
-                    "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
+                    sql,
                     Map.of(VOUCHER_ID, voucherId.toString().getBytes()),
                     voucherRowMapper);
             return Optional.ofNullable(voucher);
@@ -90,22 +93,24 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Transactional
     @Override
     public void registerVoucher(UUID customerId, UUID voucherId) {
+        String sql = "update vouchers set customer_id = UUID_TO_BIN(:customerId) where voucher_id = UUID_TO_BIN(:voucherId)";
         int result = jdbcTemplate.update(
-                "update vouchers set customer_id = UUID_TO_BIN(:customerId) where voucher_id = UUID_TO_BIN(:voucherId)",
+                sql,
                 Map.of(
                     CUSTOMER_ID, customerId.toString().getBytes(),
                     VOUCHER_ID, voucherId.toString().getBytes()
                 ));
 
-        if(result != 1){
+        if(result != 1) {
             throw ErrorMessage.error("바우처 등록에 실패했습니다.");
         }
     }
 
     @Override
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
+        String sql = "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)";
         return jdbcTemplate.query(
-                "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)",
+                sql,
                 Map.of(CUSTOMER_ID, customerId.toString().getBytes()),
                 voucherRowMapper);
     }
@@ -113,19 +118,21 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Transactional
     @Override
     public void removeVoucher(UUID voucherId) {
+        String sql = "update vouchers set customer_id = null where voucher_id = UUID_TO_BIN(:voucherId)";
         int result = jdbcTemplate.update(
-                "update vouchers set customer_id = null where voucher_id = UUID_TO_BIN(:voucherId)",
+                sql,
                 Map.of(VOUCHER_ID, voucherId.toString().getBytes()));
 
-        if(result != 1){
+        if(result != 1) {
             throw ErrorMessage.error("바우처 제거에 실패했습니다.");
         }
     }
 
     @Override
     public Optional<UUID> findVoucherOwner(UUID voucherId) {
+        String sql = "SELECT customer_id FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)";
         return Optional.ofNullable(jdbcTemplate.queryForObject(
-                        "SELECT customer_id FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                        sql,
                         Map.of("voucherId", voucherId.toString().getBytes()),
                         byte[].class))
                 .map(UuidConverter::toUUID);
@@ -134,28 +141,31 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Transactional
     @Override
     public void deleteById(UUID voucherId) {
+        String sql = "delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
         jdbcTemplate.update(
-                "delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
+                sql,
                 Map.of(VOUCHER_ID, voucherId.toString().getBytes()));
     }
 
     @Transactional
     @Override
     public void deleteAll() {
-        jdbcTemplate.getJdbcOperations().update("delete from vouchers");
+        String sql = "delete from vouchers";
+        jdbcTemplate.getJdbcOperations().update(sql);
     }
 
     @Transactional
     @Override
     public void update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
+        String sql = "update vouchers set discount = :discount, use_status_type = :useStatusType where voucher_id = UUID_TO_BIN(:voucherId)";
         int result = jdbcTemplate.update(
-                "update vouchers set discount = :discount, use_status_type = :useStatusType where voucher_id = UUID_TO_BIN(:voucherId)",
+                sql,
                 Map.of(
                         DISCOUNT, voucherUpdateRequest.getDiscount(),
                         USE_STATUS_TYPE, voucherUpdateRequest.getUseStatusType().toString(),
                         VOUCHER_ID, voucherId.toString().getBytes()));
 
-        if(result != 1){
+        if(result != 1) {
             throw ErrorMessage.error("바우처 업데이트에 실패했습니다.");
         }
     }

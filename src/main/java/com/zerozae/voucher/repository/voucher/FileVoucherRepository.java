@@ -49,7 +49,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return vouchers.values().stream().toList();
+        return vouchers.values()
+                .stream()
+                .toList();
     }
 
     @Override
@@ -62,6 +64,7 @@ public class FileVoucherRepository implements VoucherRepository {
         Voucher voucher = findById(voucherId).get();
         customerVouchers.computeIfAbsent((customerId), k -> new ArrayList<>())
                 .add(voucherId);
+
         fileUtil.updateFile(getVoucherInfo(voucher, customerId.toString()), voucherId, FILE_PATH);
     }
 
@@ -93,7 +96,9 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         vouchers.remove(voucherId);
-        customerVouchers.values().forEach(customerVoucherList -> customerVoucherList.remove(voucherId));
+        customerVouchers.values()
+                .forEach(customerVoucherList -> customerVoucherList.remove(voucherId));
+
         fileUtil.deleteFileDataById(voucherId,FILE_PATH);
     }
 
@@ -130,7 +135,7 @@ public class FileVoucherRepository implements VoucherRepository {
         return String.join(DELIMITER, voucherId, discount, voucherType, useStatusType, customerId);
     }
 
-    private Map<UUID, Voucher> initData(){
+    private Map<UUID, Voucher> initData() {
         fileUtil.createFile(FILE_PATH);
         Map<UUID, Voucher> loadedVouchers = new ConcurrentHashMap<>();
         List<String> loadedData = fileUtil.loadFromCsvFile(FILE_PATH);
@@ -149,7 +154,7 @@ public class FileVoucherRepository implements VoucherRepository {
             };
             loadedVouchers.put(voucherId, voucher);
 
-            if(!customerId.equals(EMPTY)){
+            if(!customerId.equals(EMPTY)) {
                 customerVouchers.computeIfAbsent(UUID.fromString(customerId), k -> new ArrayList<>())
                         .add(voucherId);
             }

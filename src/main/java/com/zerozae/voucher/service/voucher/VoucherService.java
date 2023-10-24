@@ -25,7 +25,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherResponse createVoucher(VoucherRequest voucherRequest){
+    public VoucherResponse createVoucher(VoucherRequest voucherRequest) {
         VoucherType voucherType = voucherRequest.getVoucherType();
         try {
             Voucher voucher = switch (voucherType) {
@@ -66,7 +66,7 @@ public class VoucherService {
 
     public void registerVoucher(UUID customerId, UUID voucherId) {
         voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
-        if(isAlreadyRegisterVoucher(voucherId)){
+        if(isAlreadyRegisterVoucher(voucherId)) {
             throw ErrorMessage.error("이미 다른 회원에게 등록된 바우처입니다.");
         };
         voucherRepository.registerVoucher(customerId, voucherId);
@@ -82,7 +82,7 @@ public class VoucherService {
         voucherRepository.update(voucherId, voucherUpdateRequest);
     }
 
-    public void deleteById(UUID voucherId){
+    public void deleteById(UUID voucherId) {
         voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.deleteById(voucherId);
     }
@@ -96,4 +96,3 @@ public class VoucherService {
         return owner.isPresent();
     }
 }
-

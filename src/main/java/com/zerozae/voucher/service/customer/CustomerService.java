@@ -22,18 +22,18 @@ public class CustomerService {
     private static final String ALREADY_EXIST_CUSTOMER_MESSAGE = "이미 존재하는 회원입니다.";
     private final CustomerRepository customerRepository;
 
-    public CustomerResponse createCustomer(CustomerRequest customerRequest){
+    public CustomerResponse createCustomer(CustomerRequest customerRequest) {
         try{
             validateDuplicateCustomer(customerRequest);
             Customer customer = customerRequest.of(UUID.randomUUID());
             customerRepository.save(customer);
             return CustomerResponse.toDto(customer);
-        }catch (ErrorMessage e){
+        }catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public List<CustomerResponse> findAllCustomers(){
+    public List<CustomerResponse> findAllCustomers() {
         return customerRepository.findAll()
                 .stream()
                 .map(CustomerResponse::toDto)
@@ -53,16 +53,16 @@ public class CustomerService {
         return CustomerResponse.toDto(customer);
     }
 
-    public void deleteById(UUID customerId){
+    public void deleteById(UUID customerId) {
         customerRepository.findById(customerId).orElseThrow(() -> ErrorMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         customerRepository.deleteById(customerId);
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         customerRepository.deleteAll();
     }
 
-    public void update(UUID customerId, CustomerRequest customerRequest){
+    public void update(UUID customerId, CustomerRequest customerRequest) {
         customerRepository.findById(customerId).orElseThrow(() -> ErrorMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         customerRepository.update(customerId, customerRequest);
     }

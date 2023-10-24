@@ -23,7 +23,7 @@ import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
 @Profile("prod")
 @Repository
-public class JdbcCustomerRepository implements CustomerRepository{
+public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final String CUSTOMER_ID = "customerId";
     private static final String CUSTOMER_NAME = "customerName";
@@ -44,11 +44,12 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Override
     @Transactional
     public Customer save(Customer customer) {
+        String sql = "insert into customers(customer_id,customer_name , customer_type) values (UUID_TO_BIN(:customerId), :customerName, :customerType)";
         int updated = jdbcTemplate.update(
-                "insert into customers(customer_id,customer_name , customer_type) values (UUID_TO_BIN(:customerId), :customerName, :customerType)",
+                sql,
                 toParamMap(customer));
 
-        if(updated != 1){
+        if(updated != 1) {
             String SAVE_FAILED_MESSAGE = "저장에 실패했습니다.";
             throw ErrorMessage.error(SAVE_FAILED_MESSAGE);
         }
@@ -57,18 +58,20 @@ public class JdbcCustomerRepository implements CustomerRepository{
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query("select * from customers", customerRowMapper);
+        String sql = "select * from customers";
+        return jdbcTemplate.query(sql, customerRowMapper);
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
+        String sql = "select * from customers where customer_id = UUID_TO_BIN(:customerId)";
         try {
             Customer customer = jdbcTemplate.queryForObject(
-                    "select * from customers where customer_id = UUID_TO_BIN(:customerId)",
+                    sql,
                     Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
                     customerRowMapper);
             return Optional.of(customer);
-        }catch (EmptyResultDataAccessException e){
+        }catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }
@@ -76,28 +79,31 @@ public class JdbcCustomerRepository implements CustomerRepository{
     @Transactional
     @Override
     public void deleteById(UUID customerId) {
+        String sql = "delete from customers where customer_id = UUID_TO_BIN(:customerId)";
         jdbcTemplate.update(
-                "delete from customers where customer_id = UUID_TO_BIN(:customerId)",
+                sql,
                 Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()));
     }
 
     @Transactional
     @Override
     public void deleteAll() {
-        jdbcTemplate.getJdbcOperations().update("delete from customers");
+        String sql = "delete from customers";
+        jdbcTemplate.getJdbcOperations().update(sql);
     }
 
     @Transactional
     @Override
     public void update(UUID customerId, CustomerRequest customerRequest) {
+        String sql = "update customers set customer_name = :customerName, customer_type = :customerType where customer_id = UUID_TO_BIN(:customerId)";
         int update = jdbcTemplate.update(
-                "update customers set customer_name = :customerName, customer_type = :customerType where customer_id = UUID_TO_BIN(:customerId)",
+                sql,
                 Map.of(
                         CUSTOMER_NAME, customerRequest.getCustomerName(),
                         CUSTOMER_TYPE, customerRequest.getCustomerType().toString(),
                         CUSTOMER_ID, customerId.toString().getBytes()));
 
-        if(update != 1){
+        if(update != 1) {
             String UPDATE_FAILED_MESSAGE = "업데이트에 실패했습니다.";
             throw ErrorMessage.error(UPDATE_FAILED_MESSAGE);
         }

@@ -35,7 +35,7 @@ class MemoryCustomerRepositoryTest {
 
     @Test
     @DisplayName("회원 저장 테스트")
-    void saveCustomer_Success_Test(){
+    void saveCustomer_Success_Test() {
         // Given
 
         // When
@@ -48,7 +48,7 @@ class MemoryCustomerRepositoryTest {
 
     @Test
     @DisplayName("회원 전체 조회 테스트")
-    void findAllCustomers_Success_Test(){
+    void findAllCustomers_Success_Test() {
         // Given
         customerRepository.save(normalCustomer);
         customerRepository.save(blacklistCustomer);
@@ -63,7 +63,7 @@ class MemoryCustomerRepositoryTest {
 
     @Test
     @DisplayName("회원 아이디 조회 테스트")
-    void findCustomerById_Success_Test(){
+    void findCustomerById_Success_Test() {
         // Given
         customerRepository.save(normalCustomer);
         customerRepository.save(blacklistCustomer);
@@ -78,7 +78,7 @@ class MemoryCustomerRepositoryTest {
 
     @Test
     @DisplayName("존재하지 않는 회원 아이디 조회 테스트")
-    void findCustomerBy_NotExist_Failed_Test(){
+    void findCustomerBy_NotExist_Failed_Test() {
         // Given
         customerRepository.save(normalCustomer);
         customerRepository.save(blacklistCustomer);
@@ -107,7 +107,7 @@ class MemoryCustomerRepositoryTest {
 
     @Test
     @DisplayName("전체 회원 삭제 테스트")
-    void deleteAllCustomers_Success_Test(){
+    void deleteAllCustomers_Success_Test() {
         // Given
         customerRepository.save(normalCustomer);
         customerRepository.save(blacklistCustomer);
@@ -123,7 +123,7 @@ class MemoryCustomerRepositoryTest {
 
     @Test
     @DisplayName("회원 정보 수정 테스트")
-    void updateCustomer_Success_Test(){
+    void updateCustomer_Success_Test() {
         // Given
         customerRepository.save(normalCustomer);
         CustomerRequest customerRequest = new CustomerRequest("진상 고객", CustomerType.BLACKLIST);
@@ -136,4 +136,3 @@ class MemoryCustomerRepositoryTest {
         assertEquals(normalCustomer.getCustomerType(), customerRequest.getCustomerType());
     }
 }
-

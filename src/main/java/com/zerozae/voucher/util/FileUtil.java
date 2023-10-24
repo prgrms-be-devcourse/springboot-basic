@@ -21,7 +21,7 @@ public class FileUtil {
 
     private static final String TEMP = ".temp";
 
-    public void createFile(String filePath){
+    public void createFile(String filePath) {
         File file = new File(filePath);
         if(!file.exists()){
             try {
@@ -32,7 +32,7 @@ public class FileUtil {
         }
     }
 
-    public void saveToCsvFile(String saveData, String filePath){
+    public void saveToCsvFile(String saveData, String filePath) {
         try {
             Files.writeString(Path.of(filePath), saveData, StandardOpenOption.APPEND);
         }catch (Exception e){
@@ -40,10 +40,10 @@ public class FileUtil {
         }
     }
 
-    public List<String> loadFromCsvFile(String filePath){
+    public List<String> loadFromCsvFile(String filePath) {
         try {
             return Files.readAllLines(Path.of(filePath), StandardCharsets.UTF_8);
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error("파일로부터 데이터를 읽어오던 중 문제가 발생했습니다.");
         }
     }

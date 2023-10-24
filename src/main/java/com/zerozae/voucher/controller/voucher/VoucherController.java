@@ -21,16 +21,16 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Response createVoucher(VoucherRequest voucherRequest){
+    public Response createVoucher(VoucherRequest voucherRequest) {
         try {
             voucherService.createVoucher(voucherRequest);
             return Response.success();
-        }catch (ErrorMessage e){
+        }catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public Response findAllVouchers(){
+    public Response findAllVouchers() {
         List<VoucherResponse> vouchers = voucherService.findAllVouchers();
         return Response.success(vouchers);
     }
@@ -39,7 +39,7 @@ public class VoucherController {
         try {
             voucherService.registerVoucher(customerId, voucherId);
             return Response.success();
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
@@ -48,16 +48,16 @@ public class VoucherController {
         try {
             List<VoucherResponse> vouchers = voucherService.findHaveVouchers(customerId);
             return Response.success(vouchers);
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public Response findVoucherById(UUID voucherId){
+    public Response findVoucherById(UUID voucherId) {
         try{
             VoucherResponse findVoucher = voucherService.findById(voucherId);
             return Response.success(findVoucher);
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
@@ -66,7 +66,7 @@ public class VoucherController {
         try {
             voucherService.removeVoucherFromCustomer(voucherId);
             return Response.success();
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
@@ -75,34 +75,34 @@ public class VoucherController {
         try {
             UUID voucherOwnerId = voucherService.findVoucherOwnerId(voucherId);
             return Response.success(voucherOwnerId);
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public Response deleteById(UUID voucherId){
+    public Response deleteById(UUID voucherId) {
         try {
             voucherService.deleteById(voucherId);
             return Response.success();
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public Response deleteAll(){
+    public Response deleteAll() {
         try {
             voucherService.deleteAll();
             return Response.success();
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public Response updateVoucher(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest){
+    public Response updateVoucher(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         try {
             voucherService.update(voucherId, voucherUpdateRequest);
             return Response.success();
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }

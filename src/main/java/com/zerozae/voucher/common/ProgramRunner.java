@@ -26,7 +26,7 @@ public class ProgramRunner implements CommandLineRunner {
             try{
                 MenuType command = menuHandler.selectCommand(MAIN_PROGRAM);
 
-                switch (command){
+                switch (command) {
                     case VOUCHER -> {
                         continueRun = isVoucherMenuSelected();
                     }
@@ -41,7 +41,7 @@ public class ProgramRunner implements CommandLineRunner {
                         logger.warn("존재하지 않는 메뉴입니다.");
                     }
                 }
-            }catch (ErrorMessage e){
+            }catch (ErrorMessage e) {
                 logger.warn("Error Message = {}", e.getMessage());
             }
         }
@@ -80,7 +80,7 @@ public class ProgramRunner implements CommandLineRunner {
                         logger.warn("존재하지 않는 메뉴입니다.");
                     }
                 }
-            }catch (ErrorMessage e){
+            }catch (ErrorMessage e) {
                 logger.warn("Error Message = {}", e.getMessage());
             }
         }
@@ -128,7 +128,7 @@ public class ProgramRunner implements CommandLineRunner {
                         logger.error("존재하지 않는 메뉴입니다.");
                     }
                 }
-            }catch (ErrorMessage e){
+            }catch (ErrorMessage e) {
                 logger.warn("Error Message = {}", e.getMessage());
             }
         }

@@ -37,7 +37,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 저장 테스트")
-    void saveVoucher_Success_Test(){
+    void saveVoucher_Success_Test() {
         // Given
 
         // When
@@ -50,7 +50,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 전체 조회 테스트")
-    void findAllVouchers_Success_Test(){
+    void findAllVouchers_Success_Test() {
         // Given
         voucherRepository.save(fixedDiscountVoucher);
         voucherRepository.save(percentDiscountVoucher);
@@ -64,7 +64,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("아이디로 바우처 조회 테스트")
-    void findVoucherById_Success_Test(){
+    void findVoucherById_Success_Test() {
         // Given
         voucherRepository.save(fixedDiscountVoucher);
 
@@ -78,7 +78,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("존재하지 않는 바우처 아이디 Optional Empty 반환 테스트")
-    void findVoucherById_NotExistId_Failed_Test(){
+    void findVoucherById_NotExistId_Failed_Test() {
         // Given
         UUID notExistId = UUID.randomUUID();
 
@@ -91,7 +91,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("회원에게 할당한 바우처 조회 테스트")
-    void findVouchersByCustomerId_Success_Test(){
+    void findVouchersByCustomerId_Success_Test() {
         // Given
         voucherRepository.save(fixedDiscountVoucher);
         UUID customerId = UUID.randomUUID();
@@ -106,7 +106,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("회원에게 할당한 바우처 회수 테스트")
-    void removeVoucherFromCustomer_Success_Test(){
+    void removeVoucherFromCustomer_Success_Test() {
         // Given
         voucherRepository.save(fixedDiscountVoucher);
         UUID customerId = UUID.randomUUID();
@@ -122,7 +122,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("아이디로 바우처 삭제 테스트")
-    void deleteById_Success_Test(){
+    void deleteById_Success_Test() {
         // Given
         voucherRepository.save(fixedDiscountVoucher);
 
@@ -136,7 +136,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 전체 삭제 테스트")
-    void deleteAllVouchers_Success_Test(){
+    void deleteAllVouchers_Success_Test() {
         // Given
         voucherRepository.save(fixedDiscountVoucher);
         voucherRepository.save(percentDiscountVoucher);
@@ -166,7 +166,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("회원에게 할당된 바우처 제거 시 소유한 바우처 리스트에서 제거 확인 테스트")
-    void removeVoucherFromCustomer_Cascade_Success_Test(){
+    void removeVoucherFromCustomer_Cascade_Success_Test() {
         // Given
         voucherRepository.save(fixedDiscountVoucher);
         UUID customerId = UUID.randomUUID();

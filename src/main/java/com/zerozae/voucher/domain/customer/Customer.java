@@ -21,7 +21,7 @@ public class Customer {
         this.customerType = customerType;
     }
 
-    public void updateCustomerInfo(CustomerRequest customerRequest){
+    public void updateCustomerInfo(CustomerRequest customerRequest) {
         isValidCustomerName(customerRequest.getCustomerName());
         this.customerName = customerRequest.getCustomerName();
         this.customerType = customerRequest.getCustomerType();

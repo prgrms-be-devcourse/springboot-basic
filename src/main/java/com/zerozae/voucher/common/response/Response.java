@@ -10,22 +10,18 @@ public class Response<T> {
     private String message;
     private T data;
 
-    public Response(boolean isSuccess, String message){
+    public Response(boolean isSuccess, String message) {
         this.isSuccess = isSuccess;
         this.message = message;
     }
 
-    public Response(boolean isSuccess, T data){
+    public Response(boolean isSuccess, T data) {
         this.isSuccess = isSuccess;
         this.data = data;
     }
 
-    public static Response success(){
+    public static Response success() {
         return new Response(true, "완료 되었습니다.");
-    }
-
-    public static Response failure(String message){
-        return new Response(false, message);
     }
 
     public static <T> Response success(T data) {

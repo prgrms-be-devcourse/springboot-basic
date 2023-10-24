@@ -23,7 +23,7 @@ public class ConsoleView implements Input, Output {
     }
 
     @Override
-    public Long inputNumber(){
+    public Long inputNumber() {
         try {
             return InputValidator.validateInputNumber(bufferedReader.readLine());
         } catch (IOException e) {
@@ -43,12 +43,12 @@ public class ConsoleView implements Input, Output {
     }
 
     @Override
-    public String inputCommand(){
+    public String inputCommand() {
         return checkInputStringAndGet();
     }
 
     @Override
-    public String inputVoucherType(){
+    public String inputVoucherType() {
         return checkInputStringAndGet();
     }
 
@@ -125,7 +125,7 @@ public class ConsoleView implements Input, Output {
         printPrompt();
     }
 
-    public void printPrompt(){
+    public void printPrompt() {
         out.print("> ");
     }
 

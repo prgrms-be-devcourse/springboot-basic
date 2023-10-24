@@ -15,7 +15,7 @@ class VoucherTest {
 
     @Test
     @DisplayName("바우처 생성 성공 테스트")
-    void createVoucher_Success_Test(){
+    void createVoucher_Success_Test() {
         // Given
         long discount = 10L;
 
@@ -28,7 +28,7 @@ class VoucherTest {
 
     @Test
     @DisplayName("바우처 생성 실패 테스트 (음수 값 입력)")
-    void createVoucher_negativeInput_Failed_Test(){
+    void createVoucher_negativeInput_Failed_Test() {
         // Given
         long discount = -10L;
 
@@ -40,7 +40,7 @@ class VoucherTest {
 
     @Test
     @DisplayName("바우처 수정 성공 테스트")
-    void updateVoucher_Success_Test(){
+    void updateVoucher_Success_Test() {
         // Given
         long discount = 10L;
         Voucher voucher = new FixedDiscountVoucher(discount);
@@ -61,7 +61,7 @@ class VoucherTest {
 
     @Test
     @DisplayName("바우처 수정 실패 테스트 (음수 값 입력)")
-    void updateVoucher_Failed_Test(){
+    void updateVoucher_Failed_Test() {
         // Given
         long discount = 10L;
         Voucher voucher = new FixedDiscountVoucher(discount);

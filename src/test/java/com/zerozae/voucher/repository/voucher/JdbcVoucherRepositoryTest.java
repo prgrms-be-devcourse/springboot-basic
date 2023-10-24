@@ -75,17 +75,17 @@ public class JdbcVoucherRepositoryTest {
     PercentDiscountVoucher percentDiscountVoucher;
 
     @BeforeAll
-    static void setUp(){
+    static void setUp() {
         mysql.start();
     }
 
     @AfterAll
-    static void cleanUp(){
+    static void cleanUp() {
         mysql.stop();
     }
 
     @BeforeEach
-    void setVoucher(){
+    void setVoucher() {
         fixedDiscountVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 10L, UseStatusType.AVAILABLE);
         percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10L, UseStatusType.AVAILABLE);
     }
@@ -97,7 +97,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 저장 테스트")
-    void saveVoucher_success_Test(){
+    void saveVoucher_success_Test() {
         // Given
 
         // When
@@ -110,7 +110,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 전체 조회 테스트")
-    void findAllVouchers_Success_Test(){
+    void findAllVouchers_Success_Test() {
         // Given
         jdbcVoucherRepository.save(fixedDiscountVoucher);
         jdbcVoucherRepository.save(percentDiscountVoucher);
@@ -127,7 +127,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("아이디로 바우처 조회 테스트")
-    void findVoucherById_Success_Test(){
+    void findVoucherById_Success_Test() {
         // Given
         UUID voucherId = fixedDiscountVoucher.getVoucherId();
         jdbcVoucherRepository.save(fixedDiscountVoucher);
@@ -142,7 +142,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("존재하지 않는 바우처 아이디 Optional Emtpy 반환 테스트")
-    void findVoucher_NotExist_Failed_Test(){
+    void findVoucher_NotExist_Failed_Test() {
         // Given
         UUID notExistId = UUID.randomUUID();
 
@@ -155,7 +155,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("아이디로 바우처 삭제 테스트")
-    void deleteById_Success_Test(){
+    void deleteById_Success_Test() {
         // Given
         jdbcVoucherRepository.save(fixedDiscountVoucher);
 
@@ -169,7 +169,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 전체 삭제 테스트")
-    void deleteAllVouchers_Success_Test(){
+    void deleteAllVouchers_Success_Test() {
         // Given
         jdbcVoucherRepository.save(fixedDiscountVoucher);
         jdbcVoucherRepository.save(percentDiscountVoucher);

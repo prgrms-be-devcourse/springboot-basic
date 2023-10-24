@@ -17,10 +17,10 @@ public enum UseStatusType {
         return description;
     }
 
-    public static UseStatusType of(String input){
+    public static UseStatusType of(String input) {
         try {
             return UseStatusType.valueOf(input.toUpperCase());
-        }catch (RuntimeException e){
+        }catch (RuntimeException e) {
             throw ErrorMessage.error("존재하지 않는 메뉴입니다. 다시 입력해주세요.");
         }
     }

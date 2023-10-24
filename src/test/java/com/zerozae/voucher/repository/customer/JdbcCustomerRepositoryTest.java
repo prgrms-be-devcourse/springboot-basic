@@ -96,7 +96,7 @@ public class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("회원 저장 테스트")
-    void saveCustomer_Success_Test(){
+    void saveCustomer_Success_Test() {
         // Given
 
         // When
@@ -110,7 +110,7 @@ public class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("회원 전체 조회 테스트")
-    void findAllCustomers_Success_Test(){
+    void findAllCustomers_Success_Test() {
         // Given
         jdbcCustomerRepository.save(normalCustomer);
         jdbcCustomerRepository.save(blacklistCustomer);
@@ -127,7 +127,7 @@ public class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("회원 아이디 조회 테스트")
-    void findCustomerById_Success_Test(){
+    void findCustomerById_Success_Test() {
         // Given
         jdbcCustomerRepository.save(normalCustomer);
         jdbcCustomerRepository.save(blacklistCustomer);
@@ -144,7 +144,7 @@ public class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("존재하지 않는 회원 아이디 조회 테스트")
-    void findCustomerById_NotExist_Failed(){
+    void findCustomerById_NotExist_Failed() {
         // Given
         UUID notExistId = UUID.randomUUID();
 
@@ -173,7 +173,7 @@ public class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("전체 회원 삭제 테스트")
-    void deleteAllCustomers_Success_Test(){
+    void deleteAllCustomers_Success_Test() {
         // Given
         jdbcCustomerRepository.save(normalCustomer);
         jdbcCustomerRepository.save(blacklistCustomer);
@@ -192,7 +192,7 @@ public class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("회원 정보 수정 테스트")
-    void updateCustomer_Success_Test(){
+    void updateCustomer_Success_Test() {
         // Given
         jdbcCustomerRepository.save(normalCustomer);
         CustomerRequest customerRequest = new CustomerRequest("진상 고객", CustomerType.BLACKLIST);

@@ -19,43 +19,43 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public Response createCustomer(CustomerRequest customerRequest){
+    public Response createCustomer(CustomerRequest customerRequest) {
         try{
             customerService.createCustomer(customerRequest);
             return Response.success();
-        }catch (ErrorMessage e){
+        }catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public Response findAllCustomers(){
+    public Response findAllCustomers() {
         List<CustomerResponse> customers = customerService.findAllCustomers();
         return Response.success(customers);
     }
 
-    public Response findAllBlacklistCustomers(){
+    public Response findAllBlacklistCustomers() {
         List<CustomerResponse> blacklistCustomer = customerService.findAllBlacklistCustomers();
         return Response.success(blacklistCustomer);
     }
 
-    public Response findCustomerById(UUID customerId){
+    public Response findCustomerById(UUID customerId) {
         try {
             CustomerResponse customerReponse = customerService.findById(customerId);
             return Response.success(customerReponse);
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public Response deleteCustomerById(UUID customerId){
+    public Response deleteCustomerById(UUID customerId) {
         try {
             customerService.deleteById(customerId);
             return Response.success();
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
-    public Response deleteAllCustomers(){
+    public Response deleteAllCustomers() {
         customerService.deleteAll();
         return Response.success();
     }
@@ -64,7 +64,7 @@ public class CustomerController {
         try {
             customerService.update(customerId, customerRequest);
             return Response.success();
-        }catch (Exception e){
+        }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }

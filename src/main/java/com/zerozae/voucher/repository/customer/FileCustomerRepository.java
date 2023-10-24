@@ -2,72 +2,66 @@ package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.dto.customer.CustomerRequest;
+import com.zerozae.voucher.util.FileUtil;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-
-@Profile("dev")
+@Profile("file")
 @Repository
-public class FileCustomerRepository {
+public class FileCustomerRepository implements CustomerRepository {
 
-    private static final String FILE_PATH = System.getProperty("user.home") + "/customer_blacklist.csv";
+    private static final String FILE_PATH = System.getProperty("user.home") + "/customer.csv";
     private static final String DELIMITER = ",";
     private final Map<UUID, Customer> customers;
+    private final FileUtil fileUtil;
 
-    public FileCustomerRepository() {
-        createFile();
-        this.customers = loadBlacklistFromCsvFile();
+    public FileCustomerRepository(FileUtil fileUtil) {
+        this.fileUtil = fileUtil;
+        this.customers = initData();
     }
 
     public Customer save(Customer customer) {
-        CustomerType customerType = customer.getCustomerType();
-        if (customerType.equals(CustomerType.BLACKLIST)) {
-            try {
-                String voucherInfo = getCustomerInfo(customer) + System.lineSeparator();
-                Files.writeString(Path.of(FILE_PATH), voucherInfo, StandardOpenOption.APPEND);
-            }catch (IOException e) {
-                throw ErrorMessage.error("파일에 쓰기 중 문제가 발생했습니다.");
-            }
-        }
+        String voucherInfo = getCustomerInfo(customer) + System.lineSeparator();
+        fileUtil.saveToCsvFile(voucherInfo,FILE_PATH);
         customers.put(customer.getCustomerId(), customer);
         return customer;
     }
 
     public List<Customer> findAll() {
-        return customers.values().stream().toList();
+        return customers.values()
+                .stream()
+                .toList();
     }
 
-    private Map<UUID, Customer> loadBlacklistFromCsvFile() {
-        Map<UUID, Customer> loadedBlacklist = new ConcurrentHashMap<>();
-        try {
-            List<String> lines = Files.readAllLines(Path.of(FILE_PATH), StandardCharsets.UTF_8);
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.ofNullable(customers.get(customerId));
+    }
 
-            for (String line : lines) {
-                String[] customerInfo = line.split(DELIMITER);
-                UUID customerId = UUID.fromString(customerInfo[0]);
-                String customerName = customerInfo[1];
-                CustomerType customerType = CustomerType.valueOf(customerInfo[2]);
+    @Override
+    public void deleteById(UUID customerId) {
+        customers.remove(customerId);
+        fileUtil.deleteFileDataById(customerId, FILE_PATH);
+    }
 
-                Customer customer = new Customer(customerId, customerName, customerType);
+    @Override
+    public void deleteAll() {
+        customers.clear();
+        fileUtil.clearDataFile(FILE_PATH);
+    }
 
-                loadedBlacklist.put(customerId, customer);
-            }
-        } catch (IOException e) {
-            throw ErrorMessage.error("파일을 읽어오던 중 문제가 발생했습니다.");
-        }
-        return loadedBlacklist;
+    @Override
+    public void update(UUID customerId, CustomerRequest customerRequest) {
+        Customer customer = customers.get(customerId);
+        customer.updateCustomerInfo(customerRequest);
+        fileUtil.updateFile(getCustomerInfo(customer), customerId, FILE_PATH);
     }
 
     private String getCustomerInfo(Customer customer) {
@@ -78,14 +72,21 @@ public class FileCustomerRepository {
         return String.join(DELIMITER, customerId,customerName, customerType);
     }
 
-    private void createFile(){
-        File file = new File(FILE_PATH);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                throw ErrorMessage.error("파일 생성 중 문제가 발생했습니다.");
-            }
+    private Map<UUID, Customer> initData() {
+        fileUtil.createFile(FILE_PATH);
+        Map<UUID,Customer> loadedCustomer = new ConcurrentHashMap<>();
+        List<String> loadedData = fileUtil.loadFromCsvFile(FILE_PATH);
+
+        for (String data : loadedData) {
+            String[] customerInfo = data.split(DELIMITER);
+            UUID customerId = UUID.fromString(customerInfo[0]);
+            String customerName = customerInfo[1];
+            CustomerType customerType = CustomerType.valueOf(customerInfo[2]);
+
+            Customer customer = new Customer(customerId, customerName, customerType);
+
+            loadedCustomer.put(customerId, customer);
         }
+        return loadedCustomer;
     }
 }

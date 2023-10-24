@@ -6,7 +6,7 @@ public class ErrorMessage extends RuntimeException{
         super(message);
     }
 
-    public static ErrorMessage error(String message){
+    public static ErrorMessage error(String message) {
         return new ErrorMessage(message);
     }
 }
