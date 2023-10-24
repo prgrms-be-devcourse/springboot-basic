@@ -1,13 +1,13 @@
-package org.prgrms.vouchermanagement.customer;
+package org.prgrms.vouchermanagement.blackCustomer;
 
 import java.util.UUID;
 
-public class Customer {
+public class BlackCustomer {
     private final UUID customerId;
     private final String name;
     private final int age;
 
-    public Customer(UUID customerId, String name, int age) {
+    public BlackCustomer(UUID customerId, String name, int age) {
         this.customerId = customerId;
         this.name = name;
         this.age = age;

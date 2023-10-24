@@ -1,8 +1,8 @@
 package org.prgrms.vouchermanagement.controller;
 
 import org.prgrms.vouchermanagement.dto.VoucherInfo;
-import org.prgrms.vouchermanagement.customer.Customer;
-import org.prgrms.vouchermanagement.customer.CustomerService;
+import org.prgrms.vouchermanagement.blackCustomer.BlackCustomer;
+import org.prgrms.vouchermanagement.blackCustomer.BlackCustomerService;
 import org.prgrms.vouchermanagement.service.VoucherService;
 import org.prgrms.vouchermanagement.view.Command;
 import org.prgrms.vouchermanagement.view.ConsoleInput;
@@ -20,11 +20,11 @@ public class Controller implements CommandLineRunner {
     private final ConsoleOutput consoleOutput = new ConsoleOutput();
 
     private final VoucherService voucherService;
-    private final CustomerService customerService;
+    private final BlackCustomerService blackCustomerService;
 
-    public Controller(VoucherService voucherService, CustomerService customerService) {
+    public Controller(VoucherService voucherService, BlackCustomerService blackCustomerService) {
         this.voucherService = voucherService;
-        this.customerService = customerService;
+        this.blackCustomerService = blackCustomerService;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class Controller implements CommandLineRunner {
     }
 
     private void showBlackList() {
-        List<Customer> blackList = customerService.getBlackList();
+        List<BlackCustomer> blackList = blackCustomerService.getBlackList();
         consoleOutput.printBlackList(blackList);
     }
 

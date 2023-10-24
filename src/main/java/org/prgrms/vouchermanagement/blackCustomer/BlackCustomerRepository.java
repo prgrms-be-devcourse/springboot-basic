@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement.customer;
+package org.prgrms.vouchermanagement.blackCustomer;
 
 import org.prgrms.vouchermanagement.exception.LoadFailException;
 import org.springframework.stereotype.Repository;
@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class CustomerRepository {
+public class BlackCustomerRepository {
 
-    private final List<Customer> blackList = new ArrayList<>();
+    private final List<BlackCustomer> blackList = new ArrayList<>();
     private final String filePath = "./blacklist/blackList.csv";
 
-    public List<Customer> load() {
+    public List<BlackCustomer> load() {
         if(blackList.isEmpty()) {
             getFromFile();
         }
@@ -32,9 +32,9 @@ public class CustomerRepository {
                 UUID uuid = UUID.fromString(parts[0]);
                 String name = parts[1];
                 int age = Integer.parseInt(parts[2]);
-                Customer customer = new Customer(uuid, name, age);
+                BlackCustomer blackCustomer = new BlackCustomer(uuid, name, age);
 
-                blackList.add(customer);
+                blackList.add(blackCustomer);
             }
         } catch (IOException e) {
             throw new LoadFailException("CSV 파일을 찾을 수 없습니다.");

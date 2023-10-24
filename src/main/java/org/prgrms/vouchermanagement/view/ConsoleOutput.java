@@ -1,6 +1,6 @@
 package org.prgrms.vouchermanagement.view;
 
-import org.prgrms.vouchermanagement.customer.Customer;
+import org.prgrms.vouchermanagement.blackCustomer.BlackCustomer;
 import org.prgrms.vouchermanagement.voucher.Voucher;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public class ConsoleOutput {
             === Voucher Program ===
             Type create to create a new voucher.
             Type list to list all vouchers.
-            Type blacklist to list customer in blacklist
+            Type blacklist to list blackCustomer in blacklist
             Type exit to exit the program.
             """;
 
@@ -67,10 +67,10 @@ public class ConsoleOutput {
         printMessage(createVoucherComplete);
     }
 
-    public void printBlackList(List<Customer> blackList) {
+    public void printBlackList(List<BlackCustomer> blackList) {
         printMessage(showBlackList);
-        for(Customer customer : blackList) {
-            printlnMessage("customerId : " + customer.getCustomerId() + ", name : " + customer.getName() + ", age : " + customer.getAge());
+        for(BlackCustomer blackCustomer : blackList) {
+            printlnMessage("customerId : " + blackCustomer.getCustomerId() + ", name : " + blackCustomer.getName() + ", age : " + blackCustomer.getAge());
         }
     }
 
