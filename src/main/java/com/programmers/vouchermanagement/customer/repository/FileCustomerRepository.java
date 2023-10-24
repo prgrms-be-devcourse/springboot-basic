@@ -20,7 +20,7 @@ import com.programmers.vouchermanagement.configuration.properties.AppProperties;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 
 @Repository
-@Profile({"dev", "prod"})
+@Profile({"dev", "prod", "test"})
 public class FileCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final String COMMA_SEPARATOR = ", ";
