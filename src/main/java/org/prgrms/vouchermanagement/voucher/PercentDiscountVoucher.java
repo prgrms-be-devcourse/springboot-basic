@@ -1,22 +1,18 @@
 package org.prgrms.vouchermanagement.voucher;
 
-import java.util.UUID;
+import org.prgrms.vouchermanagement.exception.InvalidRangeException;
 
 public class PercentDiscountVoucher implements DiscountPolicy {
 
-    private final UUID voucherId;
     private final long percent;
-    private final PolicyStatus policyStatus;
+    private final PolicyStatus policyStatus = PolicyStatus.PERCENT;
 
-    public PercentDiscountVoucher(UUID voucherId, long percent, PolicyStatus policyStatus) {
-        this.voucherId = voucherId;
+    public PercentDiscountVoucher(long percent) {
         this.percent = percent;
-        this.policyStatus = policyStatus;
-    }
 
-    @Override
-    public UUID getVoucherId() {
-        return voucherId;
+        if (percent < 0 || percent > 100) {
+            throw new InvalidRangeException("PercentDiscountPolicy는 0~100 사이의 값을 가져야 합니다.");
+        }
     }
 
     @Override
@@ -27,5 +23,10 @@ public class PercentDiscountVoucher implements DiscountPolicy {
     @Override
     public PolicyStatus getPolicyStatus() {
         return policyStatus;
+    }
+
+    @Override
+    public long discount(long price) {
+        return (price - (price/percent));
     }
 }
