@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.view;
 
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,8 +21,8 @@ public class OutputConsole {
     public void printVoucher(Voucher voucher) {
         System.out.println("=====================================");
         System.out.println("voucherId : " + voucher.getVoucherId());
-        System.out.println("voucherAmount : " + voucher.getAmount());
-        System.out.println("voucherType : " + voucher.getVoucherType());
+        System.out.println("voucherAmount : " + voucher.getVoucherPolicy().getAmount());
+        System.out.println("voucherType : " + voucher.getVoucherPolicy().getVoucherType());
         System.out.println();
     }
 
@@ -35,7 +36,7 @@ public class OutputConsole {
 
     public void getVoucherType() {
         System.out.println("==============================================");
-        System.out.println("Enter Voucher Type (fixedAmount / percentDiscount)");
+        System.out.println("Enter Voucher Policy (fixedDiscount / percentDiscount)");
         System.out.print(start_string);
     }
 

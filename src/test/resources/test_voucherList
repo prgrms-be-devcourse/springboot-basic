@@ -1,4 +1,3 @@
 voucherId,amount,voucherType
-4b896b1c-6b61-4112-8baf-357146761b0e,100,fixedAmount
-f40c7d3f-cfe2-4654-a991-e11d53b42563,20,percentDiscount
-4da75e0a-1178-4556-ad24-ce5cdc12aea3,2000,fixedAmount
+6eb504d0-616a-43d1-92a9-34030a95cc21,100,fixeddiscount
+e05e3f0a-0c94-437e-b6ac-a15dad55ee3b,30,percentdiscount

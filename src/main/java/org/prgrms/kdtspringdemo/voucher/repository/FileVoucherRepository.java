@@ -3,6 +3,7 @@ package org.prgrms.kdtspringdemo.voucher.repository;
 import org.apache.commons.csv.CSVRecord;
 import org.prgrms.kdtspringdemo.file.CsvFileHandler;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.slf4j.Logger;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("dev")
@@ -32,9 +32,10 @@ public class FileVoucherRepository implements VoucherRepository{
     public Voucher insert(Voucher voucher) {
         List<String[]> newData = new ArrayList<>();
         String voucherId = voucher.getVoucherId().toString();
-        String voucherAmount = voucher.getAmount().toString();
-        String voucherType = voucher.getVoucherType();
-        newData.add(new String[]{voucherId, voucherAmount, voucherType});
+        VoucherPolicy voucherPolicy = voucher.getVoucherPolicy();
+        String discountAmount = String.valueOf(voucherPolicy.getAmount());
+        String voucherType = voucherPolicy.getVoucherType();
+        newData.add(new String[]{voucherId, discountAmount, voucherType});
 
         try {
             csvFileHandler.writeCSV(newData);
@@ -57,7 +58,7 @@ public class FileVoucherRepository implements VoucherRepository{
 
             VoucherTypeFunction voucherTypeFunction = VoucherTypeFunction.findByCode(csvRecord.get("voucherType"));
             return Optional.ofNullable(voucherTypeFunction
-                    .create(UUID.fromString(csvRecord.get("voucherId")), Long.parseLong(csvRecord.get("amount"))));
+                    .create(UUID.fromString(csvRecord.get("voucherId")),Long.parseLong(csvRecord.get("amount"))));
         } catch (IOException e) {
             logger.error(e.getMessage());
         } catch (NoSuchElementException e) {
@@ -68,7 +69,7 @@ public class FileVoucherRepository implements VoucherRepository{
 
     @Override
     public Optional<List<Voucher>> findAll() {
-        List<Voucher> voucherMap = new ArrayList<>();
+        List<Voucher> voucherList = new ArrayList<>();
         try {
             List<CSVRecord> data = csvFileHandler.readCSV();
             data.stream().forEach(line -> {
@@ -78,12 +79,12 @@ public class FileVoucherRepository implements VoucherRepository{
 
                 VoucherTypeFunction voucherTypeFunction = VoucherTypeFunction.findByCode(voucherType);
                 Voucher voucher = voucherTypeFunction.create(voucherId, amount);
-                voucherMap.add(voucher);
+                voucherList.add(voucher);
             });
-            return Optional.of(voucherMap);
+            return Optional.of(voucherList);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        return Optional.of(voucherMap);
+        return Optional.of(voucherList);
     }
 }

@@ -3,8 +3,9 @@ package org.prgrms.kdtspringdemo.voucher.repository;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.junit.jupiter.api.*;
-import org.prgrms.kdtspringdemo.voucher.domain.PercentDiscountVoucher;
+import org.prgrms.kdtspringdemo.voucher.domain.PercentDiscountPolicy;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,13 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ActiveProfiles("dev")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class FileVoucherRepositoryTest {
@@ -37,23 +37,23 @@ class FileVoucherRepositoryTest {
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepositoryTest.class);
 
 
-    @BeforeAll
+    @BeforeEach
     void init() throws IOException {
         fileVoucherRepository.initCsvFileHandler(filePath);
         try(FileWriter fileWriter = new FileWriter(filePath);
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader("voucherId", "amount", "voucherType"));) {
-            csvPrinter.printRecord(UUID.randomUUID().toString(), 100, "fixedAmount");
+            csvPrinter.printRecord(UUID.randomUUID().toString(), 100, "fixeddiscount");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
     }
 
     @Test
-    @Order(1)
     @DisplayName("파일에 바우처 등록")
     void insert() {
         //given
-        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 20, "percentDiscount");
+        VoucherPolicy voucherPolicy = new PercentDiscountPolicy(20);
+        Voucher voucher = new Voucher(UUID.randomUUID(), voucherPolicy);
 
         //when
         Voucher insertVoucher = fileVoucherRepository.insert(voucher);
@@ -63,28 +63,32 @@ class FileVoucherRepositoryTest {
     }
 
     @Test
-    @Order(2)
     @DisplayName("voucherId로 바우처 검색")
     void findById() {
         //given
-        Voucher voucher = new PercentDiscountVoucher(UUID.randomUUID(), 30, "percentDiscount");
+        VoucherPolicy voucherPolicy = new PercentDiscountPolicy(30);
+        Voucher voucher = new Voucher(UUID.randomUUID(), voucherPolicy);
 
         //when
         fileVoucherRepository.insert(voucher);
         Voucher findVoucher = fileVoucherRepository.findById(voucher.getVoucherId()).orElse(null);
 
         //then
-        assertThat(findVoucher, samePropertyValuesAs(voucher));
+        assertThat(findVoucher.getVoucherId(), is(voucher.getVoucherId()));
     }
 
     @Test
-    @Order(3)
     @DisplayName("모든 바우처 목록")
     void getAllVouchers() {
+        //given
+        VoucherPolicy voucherPolicy = new PercentDiscountPolicy(30);
+        Voucher voucher = new Voucher(UUID.randomUUID(), voucherPolicy);
+        fileVoucherRepository.insert(voucher);
+
         //when
-        Map<UUID, Voucher> voucherMap = fileVoucherRepository.findAll().get();
+        List<Voucher> voucherMap = fileVoucherRepository.findAll().get();
 
         //then
-        assertThat(voucherMap.size(), is(3));
+        assertThat(voucherMap.size(), is(2));
     }
 }

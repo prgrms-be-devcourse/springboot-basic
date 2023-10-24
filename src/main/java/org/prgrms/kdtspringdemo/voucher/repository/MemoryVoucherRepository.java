@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringdemo.voucher.repository;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

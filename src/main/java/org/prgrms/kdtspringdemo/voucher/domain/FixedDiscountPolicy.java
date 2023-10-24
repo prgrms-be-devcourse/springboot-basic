@@ -1,31 +1,19 @@
 package org.prgrms.kdtspringdemo.voucher.domain;
 
-import java.util.UUID;
-
-public class FixedAmountVoucher implements Voucher{
-    private final UUID voucherId;
+public class FixedDiscountPolicy implements VoucherPolicy {
     private final long amount;
-    private final String voucherType;
 
-    public FixedAmountVoucher(UUID voucherId, long amount, String voucherType) {
-        this.voucherId = voucherId;
+    public FixedDiscountPolicy(long amount) {
         this.amount = amount;
-        this.voucherType = voucherType;
     }
 
-    @Override
-    public UUID getVoucherId() {
-        return this.voucherId;
-    }
-
-    @Override
-    public Long getAmount() {
+    public long getAmount() {
         return this.amount;
     }
 
     @Override
     public String getVoucherType() {
-        return this.voucherType;
+        return "fixeddiscount";
     }
 
     @Override

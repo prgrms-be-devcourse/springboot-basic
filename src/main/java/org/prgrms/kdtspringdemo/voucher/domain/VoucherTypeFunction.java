@@ -2,25 +2,24 @@ package org.prgrms.kdtspringdemo.voucher.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 public enum VoucherTypeFunction {
-    FIXED_AMOUNT_VOUCHER("fixedamount", "고정 할인 바우처") {
+    FIXED_DISCOUNT_POLICY("fixeddiscount", "고정 할인 바우처") {
         @Override
         public Voucher create(UUID voucherId, long amount) {
-            Voucher voucher = new FixedAmountVoucher(voucherId, amount, "fixedAmount");
-            return voucher;
+            VoucherPolicy voucherPolicy = new FixedDiscountPolicy(amount);
+            return new Voucher(voucherId, voucherPolicy);
         }
     },
-    PERCENT_DISCOUNT_VOUCHER("percentdiscount", "비율 할인 바우처") {
+    PERCENT_DISCOUNT_POLICY("percentdiscount", "비율 할인 바우처") {
         @Override
         public Voucher create(UUID voucherId, long amount) {
-            Voucher voucher = new PercentDiscountVoucher(voucherId, amount, "percentDiscount");
-            return voucher;
+            VoucherPolicy voucherPolicy = new PercentDiscountPolicy(amount);
+            return new Voucher(voucherId, voucherPolicy);
         }
     };
 
