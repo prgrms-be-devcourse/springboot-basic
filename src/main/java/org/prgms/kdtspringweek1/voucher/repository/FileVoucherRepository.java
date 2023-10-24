@@ -1,6 +1,8 @@
 package org.prgms.kdtspringweek1.voucher.repository;
 
 import jakarta.annotation.PostConstruct;
+import org.prgms.kdtspringweek1.exception.FileException;
+import org.prgms.kdtspringweek1.exception.FileExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
@@ -28,7 +30,12 @@ public class FileVoucherRepository implements VoucherRepository {
     private void init() {
         voucherInfoCsv = new File(vouchInfoCsvPath);
         prepareCsv();
-        vouchers = getAllVouchersFromCSV();
+        try {
+            vouchers = getAllVouchersFromCSV();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            logger.error(e.getMessage());
+        }
     }
 
     @Override
@@ -80,8 +87,8 @@ public class FileVoucherRepository implements VoucherRepository {
                 }
             }
         } catch (IOException e) {
-            System.out.println("파일 읽기 에러가 발생했습니다.");
             logger.error("Fail to read file when getAllVouchersFromCSV");
+            throw new FileException(FileExceptionCode.FAIL_TO_READ_DATA_FROM_CSV);
         }
 
         return vouchers;
@@ -96,8 +103,8 @@ public class FileVoucherRepository implements VoucherRepository {
                 bw.newLine();
             }
         } catch (IOException e) {
-            System.out.println("파일 쓰기 에러가 발생했습니다.");
             logger.error("Fail to write file when updateVouchersInfoOnCsv");
+            throw new FileException(FileExceptionCode.FAIL_TO_UPDATE_DATA_ON_CSV);
         }
     }
 }

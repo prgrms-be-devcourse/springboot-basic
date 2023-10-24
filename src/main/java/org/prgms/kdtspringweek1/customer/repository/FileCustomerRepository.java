@@ -2,19 +2,15 @@ package org.prgms.kdtspringweek1.customer.repository;
 
 import jakarta.annotation.PostConstruct;
 import org.prgms.kdtspringweek1.customer.entity.Customer;
+import org.prgms.kdtspringweek1.exception.FileException;
+import org.prgms.kdtspringweek1.exception.FileExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -51,8 +47,8 @@ public class FileCustomerRepository implements CustomerRepository {
                 blackCustomers.put(blackCustomerId, new Customer(blackCustomerId, name, true));
             }
         } catch (IOException e) {
-            System.out.println("파일 읽기 에러가 발생했습니다.");
             logger.error("Fail to read file when getAllVouchersFromCSV");
+            throw new FileException(FileExceptionCode.FAIL_TO_READ_DATA_FROM_CSV);
         }
 
         return blackCustomers;
