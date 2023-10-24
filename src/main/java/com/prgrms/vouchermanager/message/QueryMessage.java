@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum QueryMessage {
 
-    INSERT_QUERY_CUSTOMER("insert into customers(customer_id, name, year_of_birth) values(UUID_TO_BIN(?), ?, ?)"),
+    INSERT_QUERY_CUSTOMER("insert into customers(customer_id, name, year_of_birth, is_blacklist) values(UUID_TO_BIN(?), ?, ?, ?)"),
     FIND_BY_ID_QUERY_VOUCHER("select * from customers where customer_id = UUID_TO_BIN(?)"),
     LIST_QUERY_CUSTOMER("select * from customers"),
     UPDATE_YEAR_OF_BIRTH_QUERY("update customers set year_of_birth=? where customer_id=UUID_TO_BIN(?)"),

@@ -30,7 +30,8 @@ public class CustomerRepository {
         jdbcTemplate.update(INSERT_QUERY_CUSTOMER.getMessage(),
                 customer.getId().toString().getBytes(),
                 customer.getName(),
-                customer.getYearOfBirth());
+                customer.getYearOfBirth(),
+                false);
         return customer;
     }
 
@@ -60,7 +61,13 @@ public class CustomerRepository {
 
     private void fileToDb() {
         List<Customer> blacklist = blacklistRepository.blacklist();
-        blacklist.forEach(this::create);
+        blacklist.forEach(customer -> {
+            jdbcTemplate.update(INSERT_QUERY_CUSTOMER.getMessage(),
+                    customer.getId().toString().getBytes(),
+                    customer.getName(),
+                    customer.getYearOfBirth(),
+                    true);
+        });
     }
 
     private RowMapper<Customer> customerRowMapper() {
@@ -71,7 +78,8 @@ public class CustomerRepository {
 
             return new Customer(convertBytesToUUID(rs.getBytes("customer_id")),
                     rs.getString("name"),
-                    rs.getInt("year_of_birth"));
+                    rs.getInt("year_of_birth"),
+                    rs.getBoolean("is_blacklist"));
         };
     }
 

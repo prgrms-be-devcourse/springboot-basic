@@ -66,7 +66,7 @@ public class FileIO {
             }
             String[] split = line.split(",");
             Customer customer
-                    = new Customer(UUID.fromString(split[0]), split[1], Integer.parseInt(split[2]));
+                    = new Customer(UUID.fromString(split[0]), split[1], Integer.parseInt(split[2]), true);
             customerMap.put(UUID.fromString(split[0]), customer);
         }
     }

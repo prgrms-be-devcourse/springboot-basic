@@ -386,3 +386,66 @@ Discount Type : fixed discount
 Discount amount : 20000
 
 18:46:23.892 [main] ERROR c.p.v.VoucherManagerApplication -- lsit는 올바른 명령어가 아닙니다.
+19:24:31.170 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 15824 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:24:31.172 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:24:31.908 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherJdbcRepository$$SpringCGLIB$$0
+19:24:31.994 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.165 seconds (process running for 1.814)
+19:24:44.593 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
+19:24:44.593 [main] INFO  c.p.v.repository.CustomerRepository -- list 시작
+19:24:44.606 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 094ce9ad-fe95-46a6-b307-dd0394874755
+19:24:44.606 [main] INFO  c.p.v.repository.CustomerRepository -- name : kazuha
+19:24:44.606 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1999
+19:24:44.606 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0
+19:24:44.606 [main] INFO  c.p.v.repository.CustomerRepository -- name : 야에 미코
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1994
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 70754a2f-d87d-4f69-af71-1d4bfe855e28
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- name : 카에데하라 카즈하
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1999
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 8213dfa7-d577-4bb5-86d6-0159b3383f0e
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- name : 라이덴 쇼군
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1994
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: c85d7c70-ef7c-4a3d-bf8a-d4e5477780e9
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- name : raiden
+19:24:44.607 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1999
+19:37:00.274 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 29384 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:37:00.277 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:40:16.689 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 9712 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:40:16.691 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:41:17.270 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 28024 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:41:17.273 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:41:46.775 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 25436 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:41:46.777 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:41:47.456 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherJdbcRepository$$SpringCGLIB$$0
+19:41:47.535 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.102 seconds (process running for 1.75)
+19:41:56.285 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
+19:41:56.286 [main] INFO  c.p.v.repository.CustomerRepository -- list 시작
+19:41:56.300 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0
+19:41:56.300 [main] INFO  c.p.v.repository.CustomerRepository -- name : 야에 미코
+19:41:56.300 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1994
+19:41:56.300 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 70754a2f-d87d-4f69-af71-1d4bfe855e28
+19:41:56.300 [main] INFO  c.p.v.repository.CustomerRepository -- name : 카에데하라 카즈하
+19:41:56.300 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1999
+19:41:56.300 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 8213dfa7-d577-4bb5-86d6-0159b3383f0e
+19:41:56.300 [main] INFO  c.p.v.repository.CustomerRepository -- name : 라이덴 쇼군
+19:41:56.300 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1994
+19:42:09.935 [main] INFO  c.p.v.domain.CommandHandler -- create 기능 선택
+19:42:30.907 [main] ERROR c.p.v.VoucherManagerApplication -- ㅣㅑㄴㅅ는 올바른 명령어가 아닙니다.
+19:43:24.769 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 10672 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:43:24.771 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:44:19.376 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 25812 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:44:19.378 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:45:06.435 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 26448 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+19:45:06.438 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "jdbc"
+19:45:07.131 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherJdbcRepository$$SpringCGLIB$$0
+19:45:07.210 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.169 seconds (process running for 1.803)
+19:45:11.836 [main] INFO  c.p.v.domain.CommandHandler -- list 기능 선택
+19:45:11.836 [main] INFO  c.p.v.repository.CustomerRepository -- list 시작
+19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0
+19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- name : 야에 미코
+19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1994
+19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 70754a2f-d87d-4f69-af71-1d4bfe855e28
+19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- name : 카에데하라 카즈하
+19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1999
+19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 8213dfa7-d577-4bb5-86d6-0159b3383f0e
+19:45:11.849 [main] INFO  c.p.v.repository.CustomerRepository -- name : 라이덴 쇼군
+19:45:11.850 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1994
