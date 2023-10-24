@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.Environment;
 
 @SpringBootApplication
 public class VoucherManagementSystemApplication {
@@ -12,8 +13,9 @@ public class VoucherManagementSystemApplication {
 
     public static void main(String[] args) {
         ApplicationContext context = SpringApplication.run(VoucherManagementSystemApplication.class, args);
+        Environment environment = context.getEnvironment();
 
-        logger.info("Program start " + context.getEnvironment().getActiveProfiles()[0]);
+        logger.info("Program start (profile: {})", environment.getActiveProfiles()[0]);
 
         VoucherApplication application = context.getBean(VoucherApplication.class);
         application.run();
