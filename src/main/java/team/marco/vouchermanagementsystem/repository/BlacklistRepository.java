@@ -10,14 +10,13 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Repository
 public class BlacklistRepository {
     private static final String CSV_REGEX = "[;,]";
-    
+
     private final List<User> blacklist;
 
     public BlacklistRepository(@Value("${file.path.blacklist}") String path) {
@@ -25,18 +24,16 @@ public class BlacklistRepository {
     }
 
     private List<User> load(String path) {
-        List<User> loaded = new ArrayList<>();
-
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
             reader.readLine(); // skip header
-            reader.lines()
+
+            return reader.lines()
                     .map(s -> s.split(CSV_REGEX))
-                    .forEach(data -> loaded.add(new User(UUID.fromString(data[0]), data[1])));
+                    .map(data -> new User(UUID.fromString(data[0]), data[1]))
+                    .toList();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
-
-        return loaded;
     }
 
     public List<User> findAll() {
