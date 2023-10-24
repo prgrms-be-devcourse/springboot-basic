@@ -6,6 +6,7 @@ import team.marco.vouchermanagementsystem.model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,7 +31,7 @@ public class BlacklistRepository {
                     .map(s -> s.split("[;,]"))
                     .forEach(data -> loaded.add(new User(UUID.fromString(data[0]), data[1])));
         } catch (IOException e) {
-            throw new RuntimeException("데이터를 가져올 수 없습니다.");
+            throw new UncheckedIOException(e);
         }
 
         return loaded;
