@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 @Slf4j
 @Controller
@@ -20,29 +19,68 @@ public class VoucherController {
     private final VoucherService voucherService;
 
     public CommonResult<String> createVoucher(String voucherType, String value) {
-        return execute(voucherService::createVoucher, VoucherRequestDto.builder()
-                .voucherType(Integer.parseInt(voucherType))
-                .value(Long.parseLong(value))
-                .build());
+        try {
+            voucherService.createVoucher(VoucherRequestDto.builder()
+                    .voucherType(Integer.parseInt(voucherType))
+                    .value(Long.parseLong(value))
+                    .build());
+        } catch (NumberFormatException e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage());
+        } catch (Exception e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(e.getMessage());
+        }
+        return CommonResult.getSuccessResult();
     }
 
     public CommonResult<String> findVoucherById(String voucherId) {
-        return execute(voucherService::findVoucherById, VoucherRequestDto.builder()
-                .voucherId(UUID.fromString(voucherId))
-                .build());
+        try {
+            Voucher voucher = voucherService.findVoucherById(VoucherRequestDto.builder()
+                    .voucherId(UUID.fromString(voucherId))
+                    .build());
+            return CommonResult.getSingleResult(voucher.getInformation());
+        } catch (IllegalArgumentException e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
+        } catch (Exception e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(e.getMessage());
+        }
     }
 
     public CommonResult<String> updateVoucher(String voucherId, String value) {
-        return execute(voucherService::updateVoucher, VoucherRequestDto.builder()
-                .voucherId(UUID.fromString(voucherId))
-                .value(Long.parseLong(value))
-                .build());
+        try {
+            voucherService.updateVoucher(VoucherRequestDto.builder()
+                    .voucherId(UUID.fromString(voucherId))
+                    .value(Long.parseLong(value))
+                    .build());
+        } catch (NumberFormatException e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage());
+        } catch (IllegalArgumentException e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
+        } catch (Exception e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(e.getMessage());
+        }
+        return CommonResult.getSuccessResult();
     }
 
     public CommonResult<String> deleteVoucher(String voucherId) {
-        return execute(voucherService::deleteVoucher, VoucherRequestDto.builder()
-                .voucherId(UUID.fromString(voucherId))
-                .build());
+        try {
+            voucherService.deleteVoucher(VoucherRequestDto.builder()
+                    .voucherId(UUID.fromString(voucherId))
+                    .build());
+        } catch (IllegalArgumentException e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
+        } catch (Exception e) {
+            log.warn(e.toString());
+            return CommonResult.getFailResult(e.getMessage());
+        }
+        return CommonResult.getSuccessResult();
     }
 
     public CommonResult<List<String>> findAllVouchers() {
@@ -56,22 +94,6 @@ public class VoucherController {
 
     public CommonResult<String> deleteAllVouchers() {
         voucherService.deleteAllVouchers();
-        return CommonResult.getSuccessResult();
-    }
-
-    private CommonResult<String> execute(Consumer<VoucherRequestDto> consumer, VoucherRequestDto voucherRequestDto) {
-        try {
-            consumer.accept(voucherRequestDto);
-        } catch (NumberFormatException e) {
-            log.warn(e.toString());
-            return CommonResult.getFailResult(ErrorMsg.NUMBER_FORMAT_MISMATCH.getMessage());
-        } catch (IllegalArgumentException e) {
-            log.warn(e.toString());
-            return CommonResult.getFailResult(ErrorMsg.UUID_FORMAT_MISMATCH.getMessage());
-        } catch (Exception e) {
-            log.warn(e.toString());
-            return CommonResult.getFailResult(e.getMessage());
-        }
         return CommonResult.getSuccessResult();
     }
 

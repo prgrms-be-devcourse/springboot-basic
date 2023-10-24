@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 @Getter
 public class Email {
-    private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final Pattern PATTERN = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
     private final String value;
 
     private Email(String value) {
@@ -15,7 +15,7 @@ public class Email {
     }
 
     public static Email from(String value) {
-        if (!Pattern.matches(EMAIL_REGEX, value)) {
+        if (!PATTERN.matcher(value).matches()) {
             throw new IllegalArgumentException(ErrorMsg.EMAIL_TYPE_NOT_MATCH.getMessage());
         }
         return new Email(value);

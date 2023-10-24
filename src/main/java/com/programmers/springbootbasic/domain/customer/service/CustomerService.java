@@ -7,7 +7,6 @@ import com.programmers.springbootbasic.domain.customer.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.customer.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +15,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@Transactional(rollbackFor = {DataAccessException.class, IllegalArgumentException.class, RuntimeException.class})
+@Transactional(rollbackFor = RuntimeException.class)
 public class CustomerService {
     private final CustomerRepository customerRepository;
     private final UUIDValueStrategy uuidValueStrategy;
