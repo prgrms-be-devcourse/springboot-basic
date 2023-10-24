@@ -1,0 +1,17 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+file-path:
+  customer: /src/main/resources/customer_blacklist.csv
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+file-path:
+  customer: /src/main/resources/customer_blacklist.csv
+  voucher: /src/main/resources/voucher.csv
+
+
