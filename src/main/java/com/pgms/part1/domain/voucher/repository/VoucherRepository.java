@@ -13,7 +13,5 @@ public interface VoucherRepository {
 
     public void delete(Voucher voucher);
 
-    public List<Voucher> listVouchers();
-
     public void findVoucherByWallet(Wallet wallet);
 }
