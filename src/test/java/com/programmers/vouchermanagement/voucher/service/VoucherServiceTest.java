@@ -67,4 +67,16 @@ class VoucherServiceTest {
         //then
         assertThat(voucherResponse.isPercentVoucher(), is(true));
     }
+
+    @Test
+    @DisplayName("유효하지 않은 할인율의 퍼센트 할인 바우처 생성에 실패한다.")
+    void testPercentVoucherCreationFailed_InvalidPercent() {
+        //given
+        CreateVoucherRequest firstRequest = new CreateVoucherRequest(new BigDecimal("0"), VoucherType.PERCENT);
+        CreateVoucherRequest secondRequest = new CreateVoucherRequest(new BigDecimal("100.1"), VoucherType.PERCENT);
+
+        //when & then
+        assertThatThrownBy(() -> voucherService.create(firstRequest)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> voucherService.create(secondRequest)).isInstanceOf(IllegalArgumentException.class);
+    }
 }
