@@ -41,4 +41,12 @@ public class Customer {
 
         return new Customer(UUID.fromString(info.get("id")), info.get("name"), Boolean.parseBoolean(info.get("blacklisted")));
     }
+
+    public static Customer fixture() {
+        return new Customer("customer", false);
+    }
+
+    public static Customer fixture(String name, boolean blacklisted) {
+        return new Customer(name, blacklisted);
+    }
 }
