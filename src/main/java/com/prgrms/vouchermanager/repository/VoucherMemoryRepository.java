@@ -27,4 +27,14 @@ public class VoucherMemoryRepository implements VoucherRepository {
                 .stream()
                 .toList();
     }
+
+    @Override
+    public void updateDiscount(UUID id, int discount) {
+
+    }
+
+    @Override
+    public UUID delete(UUID id) {
+        return null;
+    }
 }

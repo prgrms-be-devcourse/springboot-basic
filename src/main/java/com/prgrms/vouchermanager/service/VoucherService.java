@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -34,5 +35,14 @@ public class VoucherService {
 
     public List<Voucher> list() {
         return voucherRepository.list();
+    }
+
+    public void updateDiscount(UUID id, int discount) {
+        voucherRepository.updateDiscount(id, discount);
+    }
+
+    public UUID delete(UUID id) {
+        voucherRepository.delete(id);
+        return id;
     }
 }

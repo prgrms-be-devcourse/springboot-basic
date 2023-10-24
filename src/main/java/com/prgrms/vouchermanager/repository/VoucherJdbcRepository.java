@@ -5,6 +5,7 @@ import com.prgrms.vouchermanager.domain.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.Voucher;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @Slf4j
 @Repository
+@Profile("jdbc")
 public class VoucherJdbcRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
