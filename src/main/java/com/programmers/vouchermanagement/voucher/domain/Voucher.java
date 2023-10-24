@@ -11,7 +11,6 @@ public class Voucher {
     public Voucher(UUID voucherId, BigDecimal discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
-        this.voucherType.validateDiscountValue(discountValue);
         this.discountValue = discountValue;
     }
 
