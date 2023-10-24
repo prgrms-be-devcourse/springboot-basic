@@ -17,6 +17,14 @@ public class Customer {
         return id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public Boolean getBlocked() {
         return isBlocked;
     }
