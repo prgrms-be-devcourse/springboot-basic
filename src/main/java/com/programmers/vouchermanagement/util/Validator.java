@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 
 public class Validator {
     private static final Logger logger = LoggerFactory.getLogger(Validator.class);
@@ -20,10 +20,10 @@ public class Validator {
     private static final String INVALID_DISCOUNT_PERCENT_MESSAGE =
             "Input should be a number greater than 0 and smaller than 100";
 
-    public static void validateDiscountValue(VoucherType voucherType, BigDecimal discountValue) {
-        switch (voucherType) {
-            case FIXED -> validateDiscountAmount(discountValue);
-            case PERCENT -> validateDiscountPercent(discountValue);
+    public static void validateDiscountValue(CreateVoucherRequest request) {
+        switch (request.voucherType()) {
+            case FIXED -> validateDiscountAmount(request.discountValue());
+            case PERCENT -> validateDiscountPercent(request.discountValue());
         }
     }
 
