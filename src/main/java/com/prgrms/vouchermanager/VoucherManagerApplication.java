@@ -33,13 +33,12 @@ public class VoucherManagerApplication implements CommandLineRunner {
             Command command = null;
             if(program == Program.VOUCHER) command = commandHandler.runVoucherProgram();
             else if(program == Program.CUSTOMER) command = commandHandler.runCustomerProgram();
-            else if(program == Program.EXIT) System.exit(0);
+            else if(program == Program.EXIT) return;
 
-            if(command == Command.EXIT) System.exit(0);
+            if(command != null && command != Command.EXIT) this.run();
         } catch (MyException e) {
             log.error(e.getMessage());
             System.out.println(e.consoleMessage());
         }
-        this.run();
     }
 }

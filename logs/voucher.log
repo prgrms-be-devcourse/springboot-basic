@@ -344,3 +344,23 @@ Discount amount : 20000
 13:17:25.031 [main] ERROR c.p.v.VoucherManagerApplication -- id는 올바른 명령어가 아닙니다.
 13:17:30.202 [main] INFO  c.p.v.VoucherManagerApplication -- program command : CUSTOMER
 13:18:15.337 [main] ERROR c.p.v.VoucherManagerApplication -- ID is not correct.
+13:51:38.453 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 23172 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+13:51:38.455 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+13:51:40.085 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+13:51:40.881 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 3.017 seconds (process running for 4.105)
+13:51:53.436 [main] INFO  c.p.v.VoucherManagerApplication -- program command : EXIT
+13:53:41.335 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 26452 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+13:53:41.337 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+13:53:42.996 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+13:53:43.841 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 3.078 seconds (process running for 4.201)
+13:53:45.465 [main] INFO  c.p.v.VoucherManagerApplication -- program command : EXIT
+13:54:59.297 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 26068 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+13:54:59.300 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+13:55:01.278 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+13:55:02.274 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 3.615 seconds (process running for 5.971)
+13:55:06.536 [main] INFO  c.p.v.VoucherManagerApplication -- program command : EXIT
+16:39:59.966 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 17396 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+16:39:59.967 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+16:40:00.614 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.VoucherFileRepository$$SpringCGLIB$$0
+16:40:01.007 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.408 seconds (process running for 2.093)
+16:40:04.360 [main] INFO  c.p.v.VoucherManagerApplication -- program command : EXIT
