@@ -92,4 +92,20 @@ class VoucherServiceTest {
         //then
         assertThat(vouchers.isEmpty(), is(true));
     }
+
+    @Test
+    @DisplayName("저장된 바우처의 리스트를 읽는데 성공한다.")
+    void testListVouchersSuccessful_ReturnList() {
+        //given
+        Voucher firstVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        Voucher secondVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
+        doReturn(List.of(firstVoucher, secondVoucher)).when(voucherRepository).findAll();
+
+        //when
+        List<VoucherResponse> vouchers = voucherService.readAllVouchers();
+
+        //then
+        assertThat(vouchers.isEmpty(), is(false));
+        assertThat(vouchers, hasSize(2));
+    }
 }
