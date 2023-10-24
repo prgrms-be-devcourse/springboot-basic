@@ -1,17 +1,19 @@
 package com.pgms.part1.domain.customer.entity;
 
-import java.util.UUID;
-
 public class Customer {
-    private UUID id;
+    private Long id;
+    private String name;
+    private String email;
     private Boolean isBlocked = false;
 
-    public Customer(UUID id, Boolean isBlocked) {
+    public Customer(Long id, String name, String email, Boolean isBlocked) {
         this.id = id;
+        this.name = name;
+        this.email = email;
         this.isBlocked = isBlocked;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
