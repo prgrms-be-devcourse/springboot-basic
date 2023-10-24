@@ -3,10 +3,10 @@ package team.marco.vouchermanagementsystem.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import team.marco.vouchermanagementsystem.model.Voucher;
+import team.marco.vouchermanagementsystem.properties.FilePathProperties;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +23,9 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
     private final ObjectMapper objectMapper;
     private final File file;
 
-    public JSONFileVoucherRepository(@Value("${file.path.voucher_data}") String path) {
+    public JSONFileVoucherRepository(FilePathProperties filePathProperties) {
         objectMapper = new ObjectMapper();
-        file = new File(path);
+        file = new File(filePathProperties.voucherData());
 
         voucherMap = load();
     }

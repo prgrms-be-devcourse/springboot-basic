@@ -1,8 +1,8 @@
 package team.marco.vouchermanagementsystem.repository;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import team.marco.vouchermanagementsystem.model.User;
+import team.marco.vouchermanagementsystem.properties.FilePathProperties;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,8 +20,8 @@ public class BlacklistRepository {
 
     private final List<User> blacklist;
 
-    public BlacklistRepository(@Value("${file.path.blacklist}") String path) {
-        blacklist = load(path);
+    public BlacklistRepository(FilePathProperties filePathProperties) {
+        blacklist = load(filePathProperties.blacklist());
     }
 
     private List<User> load(String path) {
