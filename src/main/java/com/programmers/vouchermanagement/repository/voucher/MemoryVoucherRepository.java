@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Repository
-@Profile("local")
+//@Repository
+//@Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage;
     private final IdProvider<UUID> idProvider;
@@ -27,13 +27,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void save(Voucher voucher) {
         voucher.setId(idProvider.generateId());
         storage.put(voucher.getId(), voucher);
-    }
-
-    @Override
-    public void saveAll(List<Voucher> vouchers) {
-        for (Voucher voucher : vouchers) {
-            save(voucher);
-        }
     }
 
     @Override

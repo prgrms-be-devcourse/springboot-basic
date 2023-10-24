@@ -1,6 +1,11 @@
 spring:
   profiles:
     active: local
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test
+    username: user
+    password: password
 
 app:
   file:

@@ -7,9 +7,17 @@ import java.util.UUID;
 @Getter
 public abstract class Voucher {
     private UUID id;
-    protected final long amount;
+    protected VoucherType type;
+    protected long amount;
 
-    public Voucher(long amount) {
+    public Voucher(UUID id, VoucherType type, long amount) {
+        this.id = id;
+        this.type = type;
+        this.amount = amount;
+    }
+
+    public Voucher(VoucherType type, long amount) {
+        this.type = type;
         this.amount = amount;
     }
 
@@ -17,10 +25,8 @@ public abstract class Voucher {
         this.id = id;
     }
 
-    public abstract VoucherType getType();
-
     @Override
     public String toString() {
-        return "Voucher{id=" + id + ", amount=" + amount + ", type=" + getType() + '}';
+        return "Voucher{id=" + id + ", amount=" + amount + ", type=" + type + '}';
     }
 }
