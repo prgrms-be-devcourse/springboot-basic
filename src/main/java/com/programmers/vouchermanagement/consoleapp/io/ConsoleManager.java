@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.util.Formatter;
 import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
@@ -20,6 +21,7 @@ import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 @Component
 public class ConsoleManager {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleManager.class);
+
     //messages
     private static final String MENU_SELECTION_INSTRUCTION = """
             === Voucher Program ===
@@ -46,10 +48,8 @@ public class ConsoleManager {
                     """;
     private static final String INVALID_VOUCHER_TYPE_MESSAGE =
             "Voucher type should be either fixed amount or percent discount voucher.";
-    private static final String PERCENTAGE = " %";
-    private static final String EMPTY = "";
-    private static final String NO_CONTENT = "There is no %s stored yet!";
-    //---
+    private static final String CONTENT_VOUCHER = "voucher";
+    private static final String CONTENT_BLACKLIST = "black customer";
 
     private final TextIO textIO;
 
@@ -81,41 +81,28 @@ public class ConsoleManager {
     }
 
     public void printCreateResult(VoucherResponse voucherResponse) {
-        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.getVoucherId()));
+        textIO.getTextTerminal()
+                .println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.getVoucherId()));
     }
 
     public void printReadAllVouchers(List<VoucherResponse> voucherResponses) {
         if (voucherResponses.isEmpty()) {
-            textIO.getTextTerminal().println(NO_CONTENT.formatted("voucher"));
+            textIO.getTextTerminal()
+                    .println(Formatter.formatNoContent(CONTENT_VOUCHER));
         }
-        voucherResponses.forEach(voucherResponse -> textIO.getTextTerminal().println(formatVoucherDTO(voucherResponse)));
+
+        voucherResponses.forEach(voucherResponse -> textIO.getTextTerminal()
+                .println(Formatter.formatVoucher(voucherResponse)));
     }
 
     public void printReadBlacklist(List<Customer> customerResponses) {
         if (customerResponses.isEmpty()) {
-            textIO.getTextTerminal().println(NO_CONTENT.formatted("black customer"));
+            textIO.getTextTerminal()
+                    .println(Formatter.formatNoContent(CONTENT_BLACKLIST));
         }
-        customerResponses.forEach(customerResponse -> textIO.getTextTerminal().println(formatCustomer(customerResponse)));
-    }
 
-    private String formatCustomer(Customer customer) {
-        return """
-                Customer ID : %s
-                Customer Name : %s
-                -------------------------"""
-                .formatted(customer.getCustomerId(), customer.getName());
-    }
-
-    private String formatVoucherDTO(VoucherResponse voucherResponse) {
-        return """
-                Voucher ID : %s
-                Voucher Type : %s Discount Voucher
-                Discount Amount : %s
-                -------------------------"""
-                .formatted(voucherResponse.getVoucherId(),
-                        voucherResponse.getVoucherTypeName(),
-                        voucherResponse.getDiscountValue() +
-                        (voucherResponse.isPercentVoucher() ? PERCENTAGE : EMPTY));
+        customerResponses.forEach(customerResponse -> textIO.getTextTerminal()
+                .println(Formatter.formatCustomer(customerResponse)));
     }
 
     public void printExit() {
