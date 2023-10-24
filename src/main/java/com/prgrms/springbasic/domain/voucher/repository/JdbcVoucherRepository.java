@@ -1,8 +1,5 @@
 package com.prgrms.springbasic.domain.voucher.repository;
 
-import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
-import com.prgrms.springbasic.domain.voucher.entity.FixedAmountVoucher;
-import com.prgrms.springbasic.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.util.UUIDUtils;
 import org.slf4j.Logger;
@@ -37,10 +34,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucherId = UUIDUtils.toUUID(resultSet.getBytes("voucher_id"));
         String discountType = resultSet.getString("discount_type");
         long discountValue = resultSet.getLong("discount_value");
-        return switch (DiscountType.find(discountType)) {
-            case FIXED -> FixedAmountVoucher.create(voucherId, discountType, discountValue);
-            case PERCENT -> PercentDiscountVoucher.create(voucherId, discountType, discountValue);
-        };
+        return Voucher.createVoucher(voucherId, discountType, discountValue);
     };
 
     @Override

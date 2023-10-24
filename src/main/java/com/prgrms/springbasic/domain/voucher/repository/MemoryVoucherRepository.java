@@ -29,15 +29,16 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void updateVoucher(Voucher voucher) {
+        storage.put(voucher.getVoucherId(), voucher);
     }
 
     @Override
     public void deleteAll() {
-
+        storage.clear();
     }
 
     @Override
     public Optional<Voucher> findVoucherById(UUID voucher_id) {
-        return Optional.empty();
+        return Optional.ofNullable(storage.get(voucher_id));
     }
 }

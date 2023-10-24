@@ -8,14 +8,10 @@ import java.util.UUID;
 public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
-    public static FixedAmountVoucher create(UUID voucherId, String discountType, long discountValue) {
+    public FixedAmountVoucher(UUID voucherId, DiscountType discountType, long discountValue) {
         checkValidation(discountValue);
-        return new FixedAmountVoucher(voucherId, discountType, discountValue);
-    }
-
-    private FixedAmountVoucher(UUID voucherId, String discountType, long discountValue) {
         this.voucherId = voucherId;
-        this.discountType = DiscountType.find(discountType);
+        this.discountType = discountType;
         this.discountValue = discountValue;
     }
 

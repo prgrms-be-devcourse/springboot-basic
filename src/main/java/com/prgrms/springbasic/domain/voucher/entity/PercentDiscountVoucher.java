@@ -10,15 +10,11 @@ public class PercentDiscountVoucher extends Voucher {
     private static final long MIN_PERCENT = 0L;
     private static final long MAX_PERCENT = 100L;
 
-    private PercentDiscountVoucher(UUID voucherId, String discountType, long discountValue) {
-        this.voucherId = voucherId;
-        this.discountType = DiscountType.find(discountType);
-        this.discountValue = discountValue;
-    }
-
-    public static PercentDiscountVoucher create(UUID voucherId, String discountType, long discountValue) {
+    public PercentDiscountVoucher(UUID voucherId, DiscountType discountType, long discountValue) {
         checkValidation(discountValue);
-        return new PercentDiscountVoucher(voucherId, discountType, discountValue);
+        this.voucherId = voucherId;
+        this.discountType = discountType;
+        this.discountValue = discountValue;
     }
 
     @Override

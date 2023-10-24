@@ -3,9 +3,6 @@ package com.prgrms.springbasic.domain.voucher.service;
 import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.UpdateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
-import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
-import com.prgrms.springbasic.domain.voucher.entity.FixedAmountVoucher;
-import com.prgrms.springbasic.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +19,7 @@ public class VoucherService {
     }
 
     public VoucherResponse saveVoucher(CreateVoucherRequest request) {
-        Voucher voucher = voucherRepository.saveVoucher(createVoucher(request));
+        Voucher voucher = voucherRepository.saveVoucher(Voucher.createVoucher(UUID.randomUUID(), request.discountType(), request.discountValue()));
         return VoucherResponse.from(voucher);
     }
 
@@ -47,12 +44,5 @@ public class VoucherService {
 
     public void deleteAll() {
         voucherRepository.deleteAll();
-    }
-
-    private Voucher createVoucher(CreateVoucherRequest request) {
-        return switch (DiscountType.find(request.discountType())) {
-            case FIXED -> FixedAmountVoucher.create(UUID.randomUUID(), request.discountType(), request.discountValue());
-            case PERCENT -> PercentDiscountVoucher.create(UUID.randomUUID(), request.discountType(), request.discountValue());
-        };
     }
 }
