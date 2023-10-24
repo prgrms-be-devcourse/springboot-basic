@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programmers.vouchermanagement.properties.AppProperties;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 @Repository
 @Profile("prod")
@@ -83,7 +82,10 @@ public class FileVoucherRepository implements VoucherRepository {
         BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
         String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
         VoucherType voucherType = VoucherType.findCreateMenu(voucherTypeName)
-                .orElseThrow(() -> new NoSuchElementException(INVALID_VOUCHER_TYPE_MESSAGE));
+                .orElseThrow(() -> {
+                    logger.error(INVALID_VOUCHER_TYPE_MESSAGE);
+                    return new NoSuchElementException(INVALID_VOUCHER_TYPE_MESSAGE);
+                });
         return new Voucher(voucherId, discountValue, voucherType);
     }
 
@@ -92,7 +94,7 @@ public class FileVoucherRepository implements VoucherRepository {
             List<HashMap<String, Object>> voucherObjects = new ArrayList<>();
             if (!vouchers.isEmpty()) {
                 vouchers.values().forEach(voucher -> {
-                    HashMap<String, Object> voucherObject = voucherToObject(VoucherResponse.from(voucher));
+                    HashMap<String, Object> voucherObject = voucherToObject(voucher);
                     voucherObjects.add(voucherObject);
                 });
             }
@@ -104,11 +106,11 @@ public class FileVoucherRepository implements VoucherRepository {
         }
     }
 
-    private HashMap<String, Object> voucherToObject(VoucherResponse voucherResponse) {
+    private HashMap<String, Object> voucherToObject(Voucher voucher) {
         HashMap<String, Object> voucherObject = new HashMap<>();
-        voucherObject.put(VOUCHER_ID_KEY, voucherResponse.voucherId().toString());
-        voucherObject.put(DISCOUNT_VALUE_KEY, voucherResponse.discountValue().toString());
-        voucherObject.put(VOUCHER_TYPE_KEY, voucherResponse.voucherType().name());
+        voucherObject.put(VOUCHER_ID_KEY, voucher.getVoucherId().toString());
+        voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue().toString());
+        voucherObject.put(VOUCHER_TYPE_KEY, voucher.getVoucherType().name());
         return voucherObject;
     }
 }
