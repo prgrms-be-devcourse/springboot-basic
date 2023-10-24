@@ -47,7 +47,7 @@ public class VoucherApplication {
             CommandType commandType = CommandType.getCommandType(input);
 
             switch (commandType) {
-                case CREATE -> createVoucher();
+                case CREATE -> selectVoucher();
                 case LIST -> getVoucherList();
                 case BLACKLIST -> getBlacklist();
                 case EXIT -> {
@@ -63,7 +63,7 @@ public class VoucherApplication {
         selectCommand();
     }
 
-    private void createVoucher() {
+    private void selectVoucher() {
         logger.info("Call createVoucher()");
 
         Console.print("""
@@ -82,14 +82,20 @@ public class VoucherApplication {
     private void createPercentDiscountVoucher() {
         logger.info("Call createPercentDiscountVoucher()");
 
-        int percent = Console.readInt("할인율을 입력해 주세요.");
+        Console.print("할인율을 입력해 주세요.");
+
+        int percent = Console.readInt();
+
         voucherService.createPercentDiscountVoucher(percent);
     }
 
     private void createFixedAmountVoucher() {
         logger.info("Call createFixedAmountVoucher()");
 
-        int amount = Console.readInt("할인 금액을 입력해 주세요.");
+        Console.print("할인 금액을 입력해 주세요.");
+
+        int amount = Console.readInt();
+
         voucherService.createFixedAmountVoucher(amount);
     }
 

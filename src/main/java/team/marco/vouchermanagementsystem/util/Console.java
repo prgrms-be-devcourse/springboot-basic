@@ -29,11 +29,6 @@ public final class Console {
         return Integer.parseInt(readString());
     }
 
-    public static int readInt(String prompt) {
-        System.out.println(prompt + System.lineSeparator());
-        return readInt();
-    }
-
     private static String readLine() {
         try {
             return reader.readLine();
