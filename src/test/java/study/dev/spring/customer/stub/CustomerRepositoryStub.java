@@ -10,6 +10,6 @@ public class CustomerRepositoryStub implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAll() {
-		return List.of(new Customer(UUID.randomUUID(), "customer"));
+		return List.of(new Customer(UUID.randomUUID().toString(), "customer"));
 	}
 }

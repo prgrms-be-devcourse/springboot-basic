@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Voucher {
 
-	private final UUID uuid;
+	private final String uuid;
 
 	private final String name;
 
@@ -17,14 +17,14 @@ public class Voucher {
 		final VoucherType type,
 		final double discountAmount
 	) {
-		this.uuid = UUID.randomUUID();
+		this.uuid = UUID.randomUUID().toString();
 		this.name = name;
 		this.type = type;
 		this.discountAmount = discountAmount;
 	}
 
 	public Voucher(
-		final UUID uuid,
+		final String uuid,
 		final String name,
 		final VoucherType type,
 		final double discountAmount
@@ -45,7 +45,7 @@ public class Voucher {
 	}
 
 	//==Utility method==//
-	public UUID getUuid() {
+	public String getUuid() {
 		return uuid;
 	}
 

@@ -1,15 +1,13 @@
 package study.dev.spring.customer.domain;
 
-import java.util.UUID;
-
 public class Customer {
 
-	private final UUID uuid;
+	private final String uuid;
 
 	private String name;
 
 	public Customer(
-		final UUID uuid,
+		final String uuid,
 		final String name
 	) {
 		this.uuid = uuid;
@@ -17,7 +15,7 @@ public class Customer {
 	}
 
 	//==Utility method==//
-	public UUID getUuid() {
+	public String getUuid() {
 		return uuid;
 	}
 

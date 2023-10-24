@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import jakarta.annotation.PreDestroy;
@@ -22,12 +20,12 @@ import study.dev.spring.voucher.infrastructure.dto.VoucherData;
 import study.dev.spring.voucher.infrastructure.dto.VoucherMapper;
 
 @Repository
-@Profile("prod")
+// @Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
 
 	private final FileUtils fileUtils;
 	private final String filePath;
-	private final Map<UUID, Voucher> storage;
+	private final Map<String, Voucher> storage;
 
 	public FileVoucherRepository(
 		final List<FileUtils> fileUtilsList,
@@ -56,7 +54,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<Voucher> findById(final UUID uuid) {
+	public Optional<Voucher> findById(final String uuid) {
 		return Optional.ofNullable(storage.get(uuid));
 	}
 

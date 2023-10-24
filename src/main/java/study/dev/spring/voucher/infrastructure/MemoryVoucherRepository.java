@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.context.annotation.Profile;
@@ -17,7 +16,7 @@ import study.dev.spring.voucher.domain.VoucherRepository;
 @Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
 
-	private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+	private final Map<String, Voucher> storage = new ConcurrentHashMap<>();
 
 	@Override
 	public void save(final Voucher voucher) {
@@ -25,7 +24,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Optional<Voucher> findById(final UUID uuid) {
+	public Optional<Voucher> findById(final String uuid) {
 		return Optional.ofNullable(storage.get(uuid));
 	}
 

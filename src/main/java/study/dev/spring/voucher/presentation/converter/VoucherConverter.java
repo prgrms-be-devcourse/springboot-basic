@@ -32,7 +32,7 @@ public class VoucherConverter {
 
 	private String getVoucherType(int typeNumber) {
 		try {
-			return TYPE_LIST[typeNumber];
+			return TYPE_LIST[typeNumber - 1];
 		} catch (IndexOutOfBoundsException e) {
 			throw new VoucherException(UNSUPPORTED_TYPE_NUMBER);
 		}

@@ -1,7 +1,5 @@
 package study.dev.spring.voucher.infrastructure.dto;
 
-import java.util.UUID;
-
 import com.opencsv.bean.CsvBindByName;
 
 import lombok.AllArgsConstructor;
@@ -14,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class VoucherData {
 
 	@CsvBindByName
-	private UUID uuid;
+	private String uuid;
 	@CsvBindByName
 	private String name;
 	@CsvBindByName
