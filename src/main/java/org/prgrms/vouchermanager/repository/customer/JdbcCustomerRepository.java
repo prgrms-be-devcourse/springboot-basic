@@ -1,7 +1,9 @@
 package org.prgrms.vouchermanager.repository.customer;
 
+import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,12 +14,13 @@ import java.util.*;
 
 @Repository
 @Profile("jdbc")
+@Slf4j
 public class JdbcCustomerRepository implements CustomerRepositroy{
-    private final String INSERT_VOUCHER = "INSERT INTO customer(id, name, email, isBlack) VALUES(UUID_TO_BIN(?), ?, ?, ?)";
-    private final String SELECT_BY_ID = "select * from voucher where id = UUID_TO_BIN(?)";
-    private final String SELECT_ALL = "select * from voucher";
-    private final String DELETE_ALL = "delete from voucher";
-    private final String DELETE_BY_ID = "delete from voucher where id = UUID_TO_BIN(?)";
+    private final String INSERT_CUSTOMER = "INSERT INTO customer(id, name, email, isBlack) VALUES(UUID_TO_BIN(?), ?, ?, ?)";
+    private final String SELECT_BY_ID = "select * from customer where id = UUID_TO_BIN(?)";
+    private final String SELECT_ALL = "select * from customer";
+    private final String DELETE_ALL = "delete from customer";
+    private final String DELETE_BY_ID = "delete from customer where id = UUID_TO_BIN(?)";
     private final JdbcTemplate jdbcTemplate;
     public JdbcCustomerRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -30,32 +33,35 @@ public class JdbcCustomerRepository implements CustomerRepositroy{
         return new Customer(customerId, customerName, email, isBlack);
     };
 
-    private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("name", customer.getName());
-            put("email", customer.getEmail());
-            put("isBlack", customer.getIsBlack());
-        }};
-    }
     @Override
     public List<Customer> findAll() {
-        return null;
+        return jdbcTemplate.query(SELECT_ALL, customerRowMapper);
     }
 
     @Override
     public Customer save(Customer customer) {
-        return null;
+        jdbcTemplate.update(INSERT_CUSTOMER, customer.getCustomerId().toString(),
+                                            customer.getName(),
+                                            customer.getEmail(),
+                                            customer.getIsBlack());
+        return customer;
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.empty();
+        try{
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID, customerRowMapper, customerId.toString()));
+        }catch (EmptyResultDataAccessException e){
+            log.error("Not exists");
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Customer> deleteById(UUID customerId) {
-        return null;
+        jdbcTemplate.update(DELETE_BY_ID, customerId.toString());
+        Optional<Customer> customer = findById(customerId);
+        return customer;
     }
 
 

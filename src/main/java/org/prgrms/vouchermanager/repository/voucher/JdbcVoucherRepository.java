@@ -49,18 +49,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
         return null;
     };
-
-    private Map<String, Object> toParamMap(Voucher mapvoucher) {
-        return new HashMap<>() {{
-            put("voucherId", mapvoucher.getVoucherId());
-            put("amount", mapvoucher.getAmount());
-            put("voucherType", mapvoucher.getType().toString());
-        }};
-    }
-
     @Override
     public Voucher save(Voucher voucher) {
-        System.out.println(voucher.getType().toString());
         int update = jdbcTemplate.update(INSERT_VOUCHER, voucher.getVoucherId().toString(), voucher.getAmount(), voucher.getType().toString());
         return voucher;
     }
