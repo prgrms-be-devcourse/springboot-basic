@@ -25,7 +25,7 @@ public enum VoucherType {
     }
 
     private boolean isMatching(String input) {
-        return Objects.equals(this.name().toLowerCase(), input);
+        return Objects.equals(this.name().toLowerCase(), input.toLowerCase());
     }
 
     public boolean isPercent() {
