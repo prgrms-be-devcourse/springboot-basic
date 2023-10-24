@@ -79,4 +79,17 @@ class VoucherServiceTest {
         assertThatThrownBy(() -> voucherService.create(firstRequest)).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> voucherService.create(secondRequest)).isInstanceOf(IllegalArgumentException.class);
     }
+
+    @Test
+    @DisplayName("저장된 바우처가 없을 때 바우처 조회 시 빈 리스트를 반환한다.")
+    void testListVouchersSuccessful_ReturnEmptyList() {
+        //given
+        doReturn(Collections.emptyList()).when(voucherRepository).findAll();
+
+        //when
+        List<VoucherResponse> vouchers = voucherService.readAllVouchers();
+
+        //then
+        assertThat(vouchers.isEmpty(), is(true));
+    }
 }
