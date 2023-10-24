@@ -1,6 +1,6 @@
 package org.prgms.kdtspringweek1.voucher.entity;
 
-import org.prgms.kdtspringweek1.exception.ExceptionCode;
+import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public class PercentDiscountVoucher implements Voucher {
             this.percent = percent;
         } else {
             logger.debug("Fail to create {} -> {} percent", VoucherType.PERCENT_DISCOUNT.getName(), percent);
-            throw new IllegalArgumentException(ExceptionCode.INVALID_PERCENT_DISCOUNT.getMessage());
+            throw new IllegalArgumentException(InputExceptionCode.INVALID_PERCENT_DISCOUNT.getMessage());
         }
     }
 

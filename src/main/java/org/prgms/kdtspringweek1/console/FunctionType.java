@@ -1,6 +1,6 @@
 package org.prgms.kdtspringweek1.console;
 
-import org.prgms.kdtspringweek1.exception.ExceptionCode;
+import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +24,6 @@ public enum FunctionType {
             }
         }
         logger.debug("Invalid Function Type -> {}", name);
-        throw new IllegalArgumentException(ExceptionCode.INVALID_VOUCHER_FUNCTION_TYPE.getMessage());
+        throw new IllegalArgumentException(InputExceptionCode.INVALID_VOUCHER_FUNCTION_TYPE.getMessage());
     }
 }

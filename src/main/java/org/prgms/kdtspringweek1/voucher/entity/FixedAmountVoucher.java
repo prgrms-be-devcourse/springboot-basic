@@ -1,6 +1,6 @@
 package org.prgms.kdtspringweek1.voucher.entity;
 
-import org.prgms.kdtspringweek1.exception.ExceptionCode;
+import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ public class FixedAmountVoucher implements Voucher {
             this.amount = amount;
         } else {
             logger.debug("Fail to create {} -> {} amount", VoucherType.FIXED_AMOUNT.getName(), amount);
-            throw new IllegalArgumentException(ExceptionCode.INVALID_FIXED_AMOUNT.getMessage());
+            throw new IllegalArgumentException(InputExceptionCode.INVALID_FIXED_AMOUNT.getMessage());
         }
     }
 

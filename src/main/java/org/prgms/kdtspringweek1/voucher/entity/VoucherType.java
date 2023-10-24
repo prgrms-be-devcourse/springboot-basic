@@ -1,6 +1,6 @@
 package org.prgms.kdtspringweek1.voucher.entity;
 
-import org.prgms.kdtspringweek1.exception.ExceptionCode;
+import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +34,6 @@ public enum VoucherType {
             }
         }
         logger.debug("Invalid Voucher Type -> {}", num);
-        throw new IllegalArgumentException(ExceptionCode.INVALID_VOUCHER_TYPE.getMessage());
+        throw new IllegalArgumentException(InputExceptionCode.INVALID_VOUCHER_TYPE.getMessage());
     }
 }
