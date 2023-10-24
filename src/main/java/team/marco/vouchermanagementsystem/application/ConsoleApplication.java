@@ -1,4 +1,4 @@
-package team.marco.vouchermanagementsystem;
+package team.marco.vouchermanagementsystem.application;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,8 +10,8 @@ import team.marco.vouchermanagementsystem.util.Console;
 import java.util.List;
 
 @Component
-public class VoucherApplication {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
+public class ConsoleApplication {
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleApplication.class);
     private static final String INFO_DELIMINATOR = "\n";
 
     private final VoucherService voucherService;
@@ -19,7 +19,7 @@ public class VoucherApplication {
 
     private boolean runningFlag;
 
-    public VoucherApplication(VoucherService service, BlacklistService blacklistService) {
+    public ConsoleApplication(VoucherService service, BlacklistService blacklistService) {
         this.voucherService = service;
         this.blacklistService = blacklistService;
     }

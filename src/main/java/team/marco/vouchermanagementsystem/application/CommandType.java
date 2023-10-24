@@ -1,4 +1,4 @@
-package team.marco.vouchermanagementsystem;
+package team.marco.vouchermanagementsystem.application;
 
 import static java.text.MessageFormat.format;
 
