@@ -3,13 +3,16 @@ package org.prgrms.vouchermanager.domain.voucher;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@ToString
 public class FixedAmountVoucher implements Voucher{
     private final UUID voucherId;
-    private final long amount;
+    private final int amount;
+    private final VoucherType voucherType;
 
     @Override
     public UUID getVoucherId() {
@@ -22,10 +25,14 @@ public class FixedAmountVoucher implements Voucher{
     }
 
     @Override
-    public String toString() {
-        return "FixedAmountVoucher{" +
-                "voucherId=" + voucherId +
-                ", amount=" + amount +
-                '}';
+    public VoucherType getType() {
+        return voucherType;
     }
+
+    @Override
+    public int getAmount() {
+        return amount;
+    }
+
+
 }

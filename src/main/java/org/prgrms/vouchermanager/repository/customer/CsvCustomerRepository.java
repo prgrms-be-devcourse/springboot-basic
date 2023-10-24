@@ -39,7 +39,6 @@ public class CsvCustomerRepository implements CustomerRepositroy{
             }
         }catch (IOException e){
             log.error("Fail to read file");
-            e.printStackTrace();
         }
         return result;
     }

@@ -3,13 +3,16 @@ package org.prgrms.vouchermanager.domain.voucher;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@ToString
 public class PercentDiscountVoucher implements Voucher{
     private final UUID voucherId;
-    private final long percent;
+    private final int percent;
+    private final VoucherType voucherType;
 
     @Override
     public UUID getVoucherId() {
@@ -23,10 +26,16 @@ public class PercentDiscountVoucher implements Voucher{
     }
 
     @Override
-    public String toString() {
-        return "PercentDiscountVoucher{" +
-                "voucherId=" + voucherId +
-                ", percent=" + percent +
-                '}';
+    public VoucherType getType() {
+        return voucherType;
+    }
+
+    @Override
+    public int getAmount() {
+        return percent;
+    }
+
+    public Voucher getVoucher(){
+        return this;
     }
 }

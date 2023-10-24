@@ -12,8 +12,8 @@ spring:
 spring:
   profiles:
     active: jdbc
-datasource:
-  url: jdbc:mysql://localhost:3306/vouchermanager
-  username: root
-  password: root
-  driver-class-name: com.mysql.cj.jdbc.Driver
+  datasource:
+    url: jdbc:mysql://localhost/vouchermanager
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver

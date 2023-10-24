@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
-        this.voucherRepository = voucherRepository;
-    }
+//    public VoucherService(VoucherRepository voucherRepository) {
+//        this.voucherRepository = voucherRepository;
+//    }
 
     public List<Voucher> getAllVoucher(){
         return voucherRepository.findAll();

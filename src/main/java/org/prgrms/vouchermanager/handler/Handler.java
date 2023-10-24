@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanager.handler;
 
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.customer.Customer;
@@ -9,17 +10,26 @@ import org.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.prgrms.vouchermanager.exception.InputValueException;
 import org.prgrms.vouchermanager.io.Input;
 import org.prgrms.vouchermanager.io.Output;
+import org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepository;
+import org.prgrms.vouchermanager.repository.voucher.MemoryVoucherRepository;
+import org.prgrms.vouchermanager.repository.voucher.VoucherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationContextFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Component
 @Slf4j
+@Component
 public class Handler {
     private final Input input;
     private final Output output;
+
     private final VoucherController voucherController;
     private final CustomerController customerController;
     private boolean continueOrNot = true;

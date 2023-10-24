@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
+import org.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.prgrms.vouchermanager.repository.voucher.MemoryVoucherRepository;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -29,7 +30,7 @@ class VoucherServiceTest {
     void createVoucher(){
         //given
         UUID generatedId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(generatedId, 10L);
+        Voucher voucher = new FixedAmountVoucher(generatedId, 10, VoucherType.FIXED);
         //when
         Voucher voucher1 = service.createVoucher(voucher);
         List<Voucher> allVoucher = service.getAllVoucher();

@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.repository.customer;
 
 import org.prgrms.vouchermanager.domain.customer.Customer;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @Repository
+@Profile("jdbc")
 public class JdbcCustomerRepository implements CustomerRepositroy{
     private JdbcTemplate jdbcTemplate;
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {

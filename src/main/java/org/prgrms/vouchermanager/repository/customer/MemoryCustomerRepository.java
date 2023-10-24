@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("dev")
+@Profile("local")
 public class MemoryCustomerRepository implements CustomerRepositroy{
     Map<UUID, Customer> blackList = new ConcurrentHashMap<>();
 
