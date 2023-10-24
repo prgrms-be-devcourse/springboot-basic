@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
 import study.dev.spring.common.io.ConsoleOutputHandler;
-import study.dev.spring.customer.stub.CustomerRepositoryStub;
+import study.dev.spring.customer.stub.BlackListRepositoryStub;
 
 @DisplayName("[CustomerController Test] - Presentation Layer")
 class CustomerControllerTest {
 
 	private final CustomerController customerController = new CustomerController(
-		new CustomerRepositoryStub(), new ConsoleOutputHandler()
+		new BlackListRepositoryStub(), new ConsoleOutputHandler()
 	);
 
 	@Test

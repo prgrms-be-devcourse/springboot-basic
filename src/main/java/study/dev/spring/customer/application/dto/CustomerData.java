@@ -1,4 +1,4 @@
-package study.dev.spring.customer.infrastructure.dto;
+package study.dev.spring.customer.application.dto;
 
 import com.opencsv.bean.CsvBindByName;
 

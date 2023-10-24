@@ -6,8 +6,8 @@ import org.springframework.stereotype.Controller;
 
 import lombok.RequiredArgsConstructor;
 import study.dev.spring.common.io.OutputHandler;
-import study.dev.spring.customer.domain.Customer;
-import study.dev.spring.customer.domain.CustomerRepository;
+import study.dev.spring.customer.application.BlackListRepository;
+import study.dev.spring.customer.application.dto.CustomerData;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,11 +15,11 @@ public class CustomerController {
 
 	private static final String NEW_LINE = System.lineSeparator();
 
-	private final CustomerRepository customerRepository;
+	private final BlackListRepository blackListRepository;
 	private final OutputHandler outputHandler;
 
 	public void findAllBlackListCustomers() {
-		List<Customer> customers = customerRepository.findAll();
+		List<CustomerData> customers = blackListRepository.findAll();
 
 		StringBuilder sb = new StringBuilder();
 		customers.forEach(customer -> sb.append("이름 : ").append(customer.getName()).append(NEW_LINE));

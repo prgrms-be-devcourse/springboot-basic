@@ -10,18 +10,16 @@ import org.springframework.stereotype.Repository;
 
 import study.dev.spring.common.exception.GlobalException;
 import study.dev.spring.common.utils.FileUtils;
-import study.dev.spring.customer.domain.Customer;
-import study.dev.spring.customer.domain.CustomerRepository;
-import study.dev.spring.customer.infrastructure.dto.CustomerData;
-import study.dev.spring.customer.infrastructure.dto.CustomerMapper;
+import study.dev.spring.customer.application.BlackListRepository;
+import study.dev.spring.customer.application.dto.CustomerData;
 
 @Repository
-public class FileCustomerRepository implements CustomerRepository {
+public class FileBlackListRepository implements BlackListRepository {
 
 	private final FileUtils fileUtils;
-	private final List<Customer> storage;
+	private final List<CustomerData> storage;
 
-	public FileCustomerRepository(
+	public FileBlackListRepository(
 		final List<FileUtils> fileUtilsList,
 		@Value("${customer.file.path}") final String filePath
 	) {
@@ -31,7 +29,7 @@ public class FileCustomerRepository implements CustomerRepository {
 	}
 
 	@Override
-	public List<Customer> findAll() {
+	public List<CustomerData> findAll() {
 		return storage.stream().toList();
 	}
 
@@ -49,7 +47,7 @@ public class FileCustomerRepository implements CustomerRepository {
 		List<Object> fileData = fileUtils.readFile(filePath, CustomerData.class);
 		fileData.forEach(data -> {
 			CustomerData customerData = (CustomerData)data;
-			storage.add(CustomerMapper.toCustomer(customerData));
+			storage.add(customerData);
 		});
 	}
 }

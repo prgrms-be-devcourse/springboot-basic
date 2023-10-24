@@ -41,8 +41,8 @@ class VoucherServiceTest {
 
 		//then
 		List<VoucherInfo> expected = List.of(
-			new VoucherInfo("voucher", VoucherType.FIXED.getDescription(), 1000),
-			new VoucherInfo("voucher", VoucherType.FIXED.getDescription(), 1000)
+			new VoucherInfo("Fixed_Voucher", VoucherType.FIXED.getDescription(), 1000),
+			new VoucherInfo("Fixed_Voucher", VoucherType.FIXED.getDescription(), 1000)
 		);
 
 		assertThat(actual)
