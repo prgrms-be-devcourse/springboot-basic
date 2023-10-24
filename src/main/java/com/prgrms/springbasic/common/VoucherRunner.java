@@ -29,6 +29,8 @@ public class VoucherRunner implements CommandLineRunner {
                     case LIST -> menuHandler.showAllVouchers();
                     case CREATE_CUSTOMER -> menuHandler.createCustomer();
                     case BLACK_LIST -> menuHandler.showAllBlackLists();
+                    case UPDATE_VOUCHER -> menuHandler.updateVoucher();
+                    case DELETE_ALL -> menuHandler.deleteAllVoucher();
                 }
             } catch (Exception e) {
                 logger.warn(e.getMessage());

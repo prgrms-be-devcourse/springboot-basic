@@ -9,6 +9,7 @@ import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class Console implements Output, Input {
@@ -62,6 +63,13 @@ public class Console implements Output, Input {
         return textIO.newStringInputReader()
                 .withPattern(EMAIL_PATTERN)
                 .read(ConsoleMessage.GET_EMAIL.getMessage());
+    }
+
+    @Override
+    public UUID inputUUID(ConsoleMessage consoleMessage) {
+        String id = textIO.newStringInputReader()
+                .read(consoleMessage.getMessage());
+        return UUID.fromString(id);
     }
 
     @Override

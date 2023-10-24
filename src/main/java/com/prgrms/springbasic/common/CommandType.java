@@ -8,7 +8,9 @@ public enum CommandType {
     CREATE,
     LIST,
     BLACK_LIST,
-    CREATE_CUSTOMER
+    CREATE_CUSTOMER,
+    UPDATE_VOUCHER,
+    DELETE_ALL
     ;
 
     public static CommandType find(String menu) {

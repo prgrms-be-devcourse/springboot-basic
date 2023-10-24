@@ -1,6 +1,7 @@
 package com.prgrms.springbasic.domain.voucher.controller;
 
 import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
+import com.prgrms.springbasic.domain.voucher.dto.UpdateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
@@ -21,5 +22,13 @@ public class VoucherController {
 
     public List<VoucherResponse> findAll() {
         return voucherService.findAll();
+    }
+
+    public void updateVoucher(UpdateVoucherRequest request) {
+        voucherService.updateVoucher(request);
+    }
+
+    public void deleteAll() {
+        voucherService.deleteAll();
     }
 }

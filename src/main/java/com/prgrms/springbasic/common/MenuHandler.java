@@ -5,6 +5,7 @@ import com.prgrms.springbasic.domain.customer.dto.CreateCustomerRequest;
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.voucher.controller.VoucherController;
 import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
+import com.prgrms.springbasic.domain.voucher.dto.UpdateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import com.prgrms.springbasic.io.Console;
@@ -12,6 +13,7 @@ import com.prgrms.springbasic.io.ConsoleMessage;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class MenuHandler {
@@ -43,6 +45,17 @@ public class MenuHandler {
     public void showAllVouchers() {
         List<VoucherResponse> vouchers = voucherController.findAll();
         console.printVouchers(vouchers);
+    }
+
+    public void updateVoucher() {
+        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_ID);
+        long discountValue = console.inputLong(ConsoleMessage.GET_FIXED_DISCOUNT_VALUE);
+        voucherController.updateVoucher(new UpdateVoucherRequest(voucher_id, discountValue));
+    }
+
+    public void deleteAllVoucher() {
+        console.printConsoleMessage(ConsoleMessage.DELETE_ALL_VOUCHER);
+        voucherController.deleteAll();
     }
 
     public void createCustomer(){

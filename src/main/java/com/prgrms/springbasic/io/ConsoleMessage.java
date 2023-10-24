@@ -16,10 +16,13 @@ public enum ConsoleMessage {
     GET_FIXED_DISCOUNT_VALUE("Type discount value : "),
     GET_PERCENT_DISCOUNT_VALUE("Type discount percent : "),
     FIND_ALL_VOUCHERS("=== Show all vouchers ==="),
+    UPDATE_VOUCHER("=== Update voucher ===" + System.lineSeparator()),
+    DELETE_ALL_VOUCHER("=== Delete all vouchers" + System.lineSeparator()),
     NO_VOUCHER_EXIST("<warn> Couldn't find voucher information."),
     NO_CUSTOMER_EXIST("<warn> Couldn't find customer information."),
     CREATE_CUSTOMER("=== Create Customer ===" + System.lineSeparator()),
     GET_NAME("Type name"),
+    GET_ID("Type id"),
     GET_EMAIL("Type email");
 
     private final String message;
