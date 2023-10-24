@@ -38,4 +38,10 @@ public class DBWalletRepository implements WalletRepository {
         String sql = "SELECT VOUCHER_ID FROM WALLET WHERE CUSTOMER_ID = UUID_TO_BIN(?)";
         return jdbcTemplate.query(sql, (rs, rowNum) -> new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), customerId.toString());
     }
+
+    @Override
+    public void deleteVouchersByCustomerId(UUID customerId) {
+        String sql = "DELETE FROM WALLET WHERE CUSTOMER_ID = UUID_TO_BIN(?)";
+        jdbcTemplate.update(sql, customerId.toString());
+    }
 }

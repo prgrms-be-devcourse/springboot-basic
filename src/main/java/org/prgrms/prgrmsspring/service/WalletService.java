@@ -31,4 +31,8 @@ public class WalletService {
         voucherIdList.forEach(voucherId -> voucherRepository.findById(voucherId).ifPresent(result::add));
         return result;
     }
+
+    public void deleteVouchersByCustomerId(UUID customerId) {
+        walletRepository.deleteVouchersByCustomerId(customerId);
+    }
 }

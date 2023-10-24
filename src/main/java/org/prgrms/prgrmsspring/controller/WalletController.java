@@ -30,9 +30,14 @@ public class WalletController implements ApplicationController {
         commandLineView.print(wallet);
     }
 
-    public void findVoucherByCustomerId() {
+    public void findCustomerVouchers() {
         UUID customerId = commandLineView.inputCustomerId();
         List<Voucher> voucherListByCustomerId = walletService.findVoucherListByCustomerId(customerId);
         commandLineView.printAll(voucherListByCustomerId);
+    }
+
+    public void deleteCustomerVouchers() {
+        UUID customerId = commandLineView.inputCustomerId();
+        walletService.deleteVouchersByCustomerId(customerId);
     }
 }

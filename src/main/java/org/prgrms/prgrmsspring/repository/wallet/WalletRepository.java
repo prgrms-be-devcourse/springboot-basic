@@ -9,4 +9,6 @@ public interface WalletRepository {
     Wallet allocateVoucherToCustomer(UUID customerId, UUID voucherId);
 
     List<UUID> findVoucherIdListByCustomerId(UUID customerId);
+
+    void deleteVouchersByCustomerId(UUID customerId);
 }
