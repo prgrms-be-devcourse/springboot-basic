@@ -9,6 +9,8 @@ public interface VoucherRepository {
     Voucher create(Voucher voucher);
     List<Voucher> list();
 
+    public Voucher findById(UUID id);
+
     void updateDiscount(UUID id, int discount);
 
     UUID delete(UUID id);

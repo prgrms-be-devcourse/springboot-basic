@@ -6,11 +6,13 @@ import com.prgrms.vouchermanager.domain.Voucher;
 import com.prgrms.vouchermanager.domain.Wallet;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public class WalletRepository {
     private final JdbcTemplate template;
 
@@ -46,7 +48,7 @@ public class WalletRepository {
 
     private RowMapper<Wallet> walletRowMapper() {
         return (rs, rowNum) -> {
-            new Wallet(convertBytesToUUID(rs.getBytes("wallet_id")),
+            return new Wallet(convertBytesToUUID(rs.getBytes("wallet_id")),
                     convertBytesToUUID(rs.getBytes("voucher_id")),
                     convertBytesToUUID(rs.getBytes("customer_id")));
         };
