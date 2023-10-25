@@ -55,7 +55,7 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.empty();
+        return Optional.ofNullable(customers.get(customerId));
     }
 
     @Override
