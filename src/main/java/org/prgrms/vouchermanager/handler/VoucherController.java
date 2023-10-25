@@ -9,6 +9,7 @@ import org.prgrms.vouchermanager.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -27,8 +28,10 @@ public class VoucherController {
         else
             voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10, MenuType.PERCENT));
     }
-
     public List<Voucher> findAllVoucher() {
         return voucherService.getAllVoucher();
+    }
+    public Optional<Voucher> findById(Voucher voucher){
+        return voucherService.findById(voucher);
     }
 }
