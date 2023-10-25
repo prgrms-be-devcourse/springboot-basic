@@ -40,7 +40,7 @@ Type **list** to list all vouchers.
 - [x]  customers 테이블 정의 및 추가
 - [x]  CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
 - [x]  voucher 테이블 정의 및 추가
-- [ ]  VoucherRepository 추가 및 JdbcTemplate을 사용해서 구현
+- [x]  VoucherRepository 추가 및 JdbcTemplate을 사용해서 구현
 - [ ]  기존 서비스 로직 테이블을 통해 동작하도록 수정
 
 **(심화)** **바우처 지갑 생성**
