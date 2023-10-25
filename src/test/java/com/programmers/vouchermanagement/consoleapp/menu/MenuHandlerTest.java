@@ -1,11 +1,13 @@
 package com.programmers.vouchermanagement.consoleapp.menu;
 
-import static com.programmers.vouchermanagement.consoleapp.menu.Menu.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +40,7 @@ class MenuHandlerTest {
     @DisplayName("exit을 입력할 시 해당 뷰를 출력하고 시스템을 종료한다.")
     void testHandleMenuFalse_Exit() {
         //given
-        doReturn(EXIT).when(consoleManager).selectMenu();
+        doReturn(Menu.EXIT).when(consoleManager).selectMenu();
 
         //when
         final boolean isRunning = menuHandler.handleMenu();
@@ -54,7 +56,7 @@ class MenuHandlerTest {
     @DisplayName("잘못된 메뉴를 입력하면 해당 뷰를 출력하지만 시스템은 계속 된다.")
     void testHandleMenuTrue_IncorrectMenu() {
         //given
-        doReturn(INCORRECT_MENU).when(consoleManager).selectMenu();
+        doReturn(Menu.INCORRECT_MENU).when(consoleManager).selectMenu();
 
         //when
         final boolean isRunning = menuHandler.handleMenu();
@@ -71,7 +73,7 @@ class MenuHandlerTest {
     void testHandleMenuFailed_IncorrectVoucherType() {
         //given
         final IllegalArgumentException exception = new IllegalArgumentException();
-        doReturn(CREATE).when(consoleManager).selectMenu();
+        doReturn(Menu.CREATE).when(consoleManager).selectMenu();
         doThrow(exception).when(consoleManager).instructCreate();
 
         //when
@@ -90,7 +92,7 @@ class MenuHandlerTest {
         //given
         final IllegalArgumentException exception = new IllegalArgumentException();
         final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(0), VoucherType.FIXED);
-        doReturn(CREATE).when(consoleManager).selectMenu();
+        doReturn(Menu.CREATE).when(consoleManager).selectMenu();
         doReturn(request).when(consoleManager).instructCreate();
         doThrow(exception).when(voucherController).create(request);
 
@@ -111,7 +113,7 @@ class MenuHandlerTest {
         final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
         final Voucher voucher = new Voucher(UUID.randomUUID(), request.discountValue(), request.voucherType());
         final VoucherResponse response = VoucherResponse.from(voucher);
-        doReturn(CREATE).when(consoleManager).selectMenu();
+        doReturn(Menu.CREATE).when(consoleManager).selectMenu();
         doReturn(request).when(consoleManager).instructCreate();
         doReturn(response).when(voucherController).create(request);
 
@@ -123,5 +125,23 @@ class MenuHandlerTest {
 
         //verify
         verify(consoleManager).printCreateResult(response);
+    }
+
+    @Test
+    @DisplayName("바우처 전체 조회 시 저장된 바우처가 없어도 실패하지 않는다.")
+    void testHandleMenuSuccessful_EmptyVoucherList() {
+        //given
+        List<VoucherResponse> vouchers = Collections.emptyList();
+        doReturn(Menu.LIST).when(consoleManager).selectMenu();
+        doReturn(vouchers).when(voucherController).readAllVouchers();
+
+        //when
+        boolean isRunning = menuHandler.handleMenu();
+
+        //then
+        assertThat(isRunning, is(true));
+
+        //verify
+        verify(consoleManager).printReadAllVouchers(vouchers);
     }
 }
