@@ -2,6 +2,7 @@ package com.programmers.springbootbasic.domain.voucher.presentation.dto;
 
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherTypeEnum;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
+import java.util.UUID;
 
 public class CreateVoucherRequest {
     private final VoucherTypeEnum voucherTypeEnum;
@@ -17,8 +18,8 @@ public class CreateVoucherRequest {
         return new CreateVoucherRequest(voucherEnum, benefitValue);
     }
 
-    public Voucher toEntity() {
-        return new Voucher(voucherTypeEnum.getVoucherType(benefitValue), benefitValue);
+    public Voucher toEntity(UUID id) {
+        return new Voucher(id,voucherTypeEnum.getVoucherType(benefitValue), benefitValue);
     }
 
     public VoucherTypeEnum getVoucherType() {

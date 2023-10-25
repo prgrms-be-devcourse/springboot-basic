@@ -10,10 +10,6 @@ public class Voucher {
     private final VoucherType voucherType;
     private final Integer benefitValue;
 
-    public Voucher(VoucherType voucherType, Integer benefitValue) {
-        this(UUID.randomUUID(), voucherType, benefitValue);
-    }
-
     public Voucher(UUID id, VoucherType voucherType, Integer benefitValue) {
         this.id = id;
         this.voucherType = voucherType;
