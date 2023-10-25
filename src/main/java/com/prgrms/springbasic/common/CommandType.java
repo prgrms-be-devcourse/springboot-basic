@@ -8,6 +8,7 @@ public enum CommandType {
     LIST,
     BLACK_LIST,
     UPDATE,
+    DELETE,
     DELETE_ALL,
     FIND_VOUCHERS,
     FIND_CUSTOMERS;
@@ -24,7 +25,7 @@ public enum CommandType {
         } else if (menuType == MenuType.CUSTOMER) {
             allowedTypes.addAll(EnumSet.of(CREATE, BLACK_LIST));
         } else if (menuType == MenuType.WALLET) {
-            allowedTypes.addAll(EnumSet.of(CREATE, FIND_VOUCHERS, FIND_CUSTOMERS));
+            allowedTypes.addAll(EnumSet.of(CREATE, FIND_VOUCHERS, FIND_CUSTOMERS, DELETE));
         }
 
         return allowedTypes.stream()

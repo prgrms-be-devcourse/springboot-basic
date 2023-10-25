@@ -2,7 +2,7 @@ package com.prgrms.springbasic.domain.wallet.controller;
 
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
-import com.prgrms.springbasic.domain.wallet.dto.CreateWalletRequest;
+import com.prgrms.springbasic.domain.wallet.dto.WalletRequest;
 import com.prgrms.springbasic.domain.wallet.dto.WalletResponse;
 import com.prgrms.springbasic.domain.wallet.service.WalletService;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    public WalletResponse createWallet(CreateWalletRequest request) {
+    public WalletResponse createWallet(WalletRequest request) {
         return walletService.saveWallet(request);
     }
 
@@ -29,5 +29,9 @@ public class WalletController {
 
     public List<CustomerResponse> findCustomersByVoucherId(UUID voucherId) {
         return walletService.getCustomersByVoucherId(voucherId);
+    }
+
+    public void deleteWallet(WalletRequest request) {
+        walletService.deleteVoucher(request);
     }
 }

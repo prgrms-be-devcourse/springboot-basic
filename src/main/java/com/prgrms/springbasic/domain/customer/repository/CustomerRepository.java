@@ -14,4 +14,6 @@ public interface CustomerRepository {
     List<Customer> findAllBlackList();
 
     Optional<Customer> findCustomerById(UUID customer_id);
+
+    Optional<Customer> findCustomerByEmail(String email);
 }

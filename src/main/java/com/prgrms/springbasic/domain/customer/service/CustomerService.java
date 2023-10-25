@@ -7,6 +7,7 @@ import com.prgrms.springbasic.domain.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -17,8 +18,11 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(CreateCustomerRequest customerRequest) {
-        Customer customer = new Customer(UUID.randomUUID(), customerRequest.name(), customerRequest.email());
+    public Customer createCustomer(CreateCustomerRequest request) {
+        if (isEmailAlreadyExists(request.email())) {
+            throw new IllegalArgumentException("Email already exists: " + request.email());
+        }
+        Customer customer = new Customer(UUID.randomUUID(), request.name(), request.email());
         return customerRepository.save(customer);
     }
 
@@ -26,5 +30,10 @@ public class CustomerService {
         return customerRepository.findAllBlackList().stream()
                 .map(CustomerResponse::from)
                 .toList();
+    }
+
+    private boolean isEmailAlreadyExists(String email) {
+        Optional<Customer> existingCustomer = customerRepository.findCustomerByEmail(email);
+        return existingCustomer.isPresent();
     }
 }

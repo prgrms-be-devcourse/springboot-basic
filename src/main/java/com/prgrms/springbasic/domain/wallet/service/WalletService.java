@@ -6,7 +6,7 @@ import com.prgrms.springbasic.domain.customer.repository.CustomerRepository;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.domain.voucher.repository.VoucherRepository;
-import com.prgrms.springbasic.domain.wallet.dto.CreateWalletRequest;
+import com.prgrms.springbasic.domain.wallet.dto.WalletRequest;
 import com.prgrms.springbasic.domain.wallet.dto.WalletResponse;
 import com.prgrms.springbasic.domain.wallet.entity.Wallet;
 import com.prgrms.springbasic.domain.wallet.repository.JdbcWalletRepository;
@@ -27,7 +27,7 @@ public class WalletService {
         this.jdbcWalletRepository = jdbcWalletRepository;
     }
 
-    public WalletResponse saveWallet(CreateWalletRequest request) {
+    public WalletResponse saveWallet(WalletRequest request) {
         Customer customer = findCustomer(request.customer_id());
         Voucher voucher = findVoucher(request.voucher_id());
         Wallet wallet = jdbcWalletRepository.saveWallet(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
@@ -50,6 +50,12 @@ public class WalletService {
                 .map(wallet -> findCustomer(wallet.getCustomer_id()))
                 .map(CustomerResponse::from)
                 .toList();
+    }
+
+    public void deleteVoucher(WalletRequest request) {
+        Wallet wallet = jdbcWalletRepository.findWalletByCustomerAndVoucher(request.customer_id(), request.voucher_id())
+                .orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
+        jdbcWalletRepository.deleteWallet(wallet);
     }
 
     private Customer findCustomer(UUID customerId) {

@@ -9,7 +9,7 @@ import com.prgrms.springbasic.domain.voucher.dto.UpdateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import com.prgrms.springbasic.domain.wallet.controller.WalletController;
-import com.prgrms.springbasic.domain.wallet.dto.CreateWalletRequest;
+import com.prgrms.springbasic.domain.wallet.dto.WalletRequest;
 import com.prgrms.springbasic.io.Console;
 import com.prgrms.springbasic.io.ConsoleMessage;
 import org.springframework.stereotype.Component;
@@ -84,7 +84,7 @@ public class MenuHandler {
         console.printConsoleMessage(ConsoleMessage.CREATE_WALLET);
         UUID customer_id = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
         UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
-        walletController.createWallet(new CreateWalletRequest(customer_id, voucher_id));
+        walletController.createWallet(new WalletRequest(customer_id, voucher_id));
     }
 
     public void showAllCustomerVouchers() {
@@ -97,6 +97,12 @@ public class MenuHandler {
         UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
         List<CustomerResponse> customers = walletController.findCustomersByVoucherId(voucher_id);
         console.printCustomers(customers);
+    }
+
+    public void deleteWallet() {
+        UUID customer_id = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
+        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
+        walletController.deleteWallet(new WalletRequest(customer_id, voucher_id));
     }
 
     private CreateVoucherRequest makeCreateVoucherRequest() {

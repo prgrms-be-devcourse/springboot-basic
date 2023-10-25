@@ -69,6 +69,7 @@ public class VoucherRunner implements CommandLineRunner {
                 case CREATE -> menuHandler.createWallet();
                 case FIND_VOUCHERS -> menuHandler.showAllCustomerVouchers();
                 case FIND_CUSTOMERS -> menuHandler.showAllVoucherCustomers();
+                case DELETE -> menuHandler.deleteWallet();
             }
         } catch (Exception e) {
             logger.warn(e.getMessage());

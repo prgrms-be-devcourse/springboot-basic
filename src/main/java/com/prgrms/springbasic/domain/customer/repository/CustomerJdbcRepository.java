@@ -18,6 +18,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final String INSERT_QUERY = "INSERT INTO customers(customer_id, name, email) VALUES(UUID_TO_BIN(?), ?, ?)";
     private static final String FIND_BY_ID = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)";
+    private static final String FIND_BY_EMAIL = "SELECT * FROM customers WHERE email = ?";
     private static final String FIND_BLACKLISTS = "SELECT * FROM customers WHERE isBlackList = 1";
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
@@ -53,6 +54,17 @@ public class CustomerJdbcRepository implements CustomerRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID,
                     customerRowMapper, customer_id.toString().getBytes()));
+        } catch (EmptyResultDataAccessException e) {
+            logger.warn("Customer not found, e");
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Customer> findCustomerByEmail(String email) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_EMAIL,
+                    customerRowMapper, email));
         } catch (EmptyResultDataAccessException e) {
             logger.warn("Customer not found, e");
             return Optional.empty();
