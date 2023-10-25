@@ -32,33 +32,33 @@ public class AppExceptionHandler {
         } catch (SystemException e) {
             logger.error(String.format("System Error : %s", e.getMessage()));
             requestProcessor.sendResponse(
-                new ConsoleResponse<String>(e.getMessage())
+                ConsoleResponse.createNoBodyResponse(e.getMessage())
             );
             handleExit(e);
         } catch (FileIOException e) {
             logger.error(String.format("FileIO Error : %s", e.getMessage()));
             requestProcessor.sendResponse(
-                new ConsoleResponse<String>(e.getMessage())
+                ConsoleResponse.createNoBodyResponse(e.getMessage())
             );
         } catch (CustomException e) {
             logger.error(String.format("Custom Error : %s", e.getMessage()));
             requestProcessor.sendResponse(
-                new ConsoleResponse<String>(e.getMessage())
+                ConsoleResponse.createNoBodyResponse(e.getMessage())
             );
         } catch (VoucherException e) {
             logger.error(String.format("Voucher Error : %s", e.getMessage()));
             requestProcessor.sendResponse(
-                new ConsoleResponse<String>(e.getMessage())
+                ConsoleResponse.createNoBodyResponse(e.getMessage())
             );
         } catch (UserException e) {
             logger.error(String.format("User Error : %s", e.getMessage()));
             requestProcessor.sendResponse(
-                new ConsoleResponse<String>(e.getMessage())
+                ConsoleResponse.createNoBodyResponse(e.getMessage())
             );
         } catch (Exception e) {
             logger.error(String.format("Unknown Error : %s", e.getMessage()));
             requestProcessor.sendResponse(
-                new ConsoleResponse<String>(e.getMessage())
+                ConsoleResponse.createNoBodyResponse(e.getMessage())
             );
         }
     }

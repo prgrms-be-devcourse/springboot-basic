@@ -7,11 +7,11 @@ public class ConsoleResponse<T> {
     private final String message;
     private final T body;
 
-    public ConsoleResponse(String message) {
+    private ConsoleResponse(String message) {
         this(null, message);
     }
 
-    public ConsoleResponse(T body, String message) {
+    private ConsoleResponse(T body, String message) {
         this.body = body;
         this.message = message;
     }
@@ -22,5 +22,13 @@ public class ConsoleResponse<T> {
 
     public Optional<T> getBody() {
         return Optional.ofNullable(this.body);
+    }
+
+    public static ConsoleResponse<Void> createNoBodyResponse(String message) {
+        return new ConsoleResponse<>(message);
+    }
+
+    public static <T> ConsoleResponse<T> createWithBodyResponse(T body, String message) {
+        return new ConsoleResponse<>(body, message);
     }
 }

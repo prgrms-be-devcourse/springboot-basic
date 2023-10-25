@@ -33,17 +33,16 @@ public class ControllerAdapter {
     public ConsoleResponse<Void> createVoucher(Object... params) {
         CreateVoucherRequest request = (CreateVoucherRequest) params[0];
         voucherController.createVoucher(request);
-        return new ConsoleResponse<>(SUCCESS_VOUCHER_REGISTER.getMessage());
+        return ConsoleResponse.createNoBodyResponse(SUCCESS_VOUCHER_REGISTER.getMessage());
     }
 
     public ConsoleResponse<List<VoucherResponse>> getAllVouchers(Object... params) {
-        return new ConsoleResponse<>(voucherController.getAllVouchers(),
-            SUCCESS_VOUCHER_LIST.getMessage()
-        );
+        return ConsoleResponse.createWithBodyResponse(voucherController.getAllVouchers(),
+            SUCCESS_VOUCHER_LIST.getMessage());
     }
 
     public ConsoleResponse<List<UserResponse>> getBlackList(Object... params) {
-        return new ConsoleResponse<>(userController.getBlackList(),
+        return ConsoleResponse.createWithBodyResponse(userController.getBlackList(),
             SUCCESS_BLACK_USER_LIST.getMessage());
     }
 }
