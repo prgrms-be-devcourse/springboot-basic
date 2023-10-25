@@ -40,6 +40,9 @@ public class WalletService {
     @Transactional
     public VoucherAssignResponse unassignVoucherFromCustomer(UUID voucherId) {
         Voucher voucher = voucherService.findById(voucherId);
+        if (!voucher.isAssigned()) {
+            throw VoucherException.of(VoucherErrorMessage.NOT_ASSIGNED);
+        }
         Customer customer = customerService.findById(voucher.getCustomerId());
         Voucher updatedVoucher = voucherService.unassignVoucherToCustomer(voucher);
 
