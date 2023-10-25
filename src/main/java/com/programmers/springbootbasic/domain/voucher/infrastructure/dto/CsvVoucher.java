@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic.domain.voucher.infrastructure;
+package com.programmers.springbootbasic.domain.voucher.infrastructure.dto;
 
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherTypeEnum;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;

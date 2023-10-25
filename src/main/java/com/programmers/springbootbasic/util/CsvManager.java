@@ -54,9 +54,9 @@ public class CsvManager implements FileManager {
     }
 
     @Override
-    public <T> void write(T entity, String fileName) {
+    public <T> void write(T entity, String fileName, boolean append) {
         File file = getFileResource(fileName);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, append))) {
             if (file.length() == 0) {
                 writeHeaders(writer, entity);
             }

@@ -8,5 +8,5 @@ public interface FileManager {
 
     <T> List<T> read(String fileName, Class<T> type);
 
-    <T> void write(T entity, String fileName);
+    <T> void write(T entity, String fileName, boolean append);
 }

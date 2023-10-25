@@ -3,6 +3,7 @@ package com.programmers.springbootbasic.domain.voucher.infrastructure;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Repository;
@@ -21,5 +22,20 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return vouchers.values().stream().toList();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.ofNullable(vouchers.get(id));
+    }
+
+    @Override
+    public int deleteById(UUID id) {
+        return vouchers.remove(id) == null ? 0 : 1;
+    }
+
+    @Override
+    public int update(Voucher voucher) {
+        return vouchers.put(voucher.getId(), voucher) == null ? 0 : 1;
     }
 }
