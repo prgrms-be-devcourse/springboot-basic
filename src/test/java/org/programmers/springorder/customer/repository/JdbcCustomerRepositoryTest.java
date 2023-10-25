@@ -1,47 +1,56 @@
 package org.programmers.springorder.customer.repository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Rollback
+@Transactional
 @SpringBootTest
 class JdbcCustomerRepositoryTest {
 
     @Autowired
     CustomerRepository customerRepository;
 
-    @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
-
-
-    private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("customerName", customer.getName());
-            put("customerType", customer.getCustomerType().name());
-        }};
+    @BeforeEach
+    void setUp(){
+        customerRepository.insert(Customer.toCustomer(UUID.randomUUID(), "dummy", CustomerType.NORMAL));
     }
+
 
     @Test
     @DisplayName("회원 저장에 성공한다.")
     void save() {
-        UUID customerId = UUID.randomUUID();
-        String customerName = "홍길동";
-        CustomerType customerType = CustomerType.NORMAL;
+        // given
+        int currentSize = customerRepository.findAll().size();
+        Customer customer1 = Customer.toCustomer(UUID.randomUUID(), "test1", CustomerType.NORMAL);
+        Customer customer2 = Customer.toCustomer(UUID.randomUUID(), "test2", CustomerType.NORMAL);
+        Customer customer3 = Customer.toCustomer(UUID.randomUUID(), "test3", CustomerType.BLACK);
 
-        Customer customer = Customer.toCustomer(customerId, customerName, customerType);
-        jdbcTemplate.update("INSERT INTO customers(customer_id, customer_name, customer_type) VALUES(:customerId, :customerName, :customerType)", toParamMap(customer));
+        // when
+        Customer insertedCustomer1 = customerRepository.insert(customer1);
+        Customer insertedCustomer2 = customerRepository.insert(customer2);
+        Customer insertedCustomer3 = customerRepository.insert(customer3);
+
+        // then
+        List<Customer> insertedCustomers = Arrays.asList(insertedCustomer1, insertedCustomer2, insertedCustomer3);
+        List<Customer> all = customerRepository.findAll();
+
+        assertThat(all).hasSize(currentSize + 3);
+        assertThat(all).containsAll(insertedCustomers);
+
     }
 
     @Test
