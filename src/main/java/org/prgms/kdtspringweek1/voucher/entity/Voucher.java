@@ -6,8 +6,6 @@ public interface Voucher {
 
     UUID getVoucherId();
 
-    void printVoucherInfo();
-
     VoucherType getVoucherType();
 
     long getDiscountValue();

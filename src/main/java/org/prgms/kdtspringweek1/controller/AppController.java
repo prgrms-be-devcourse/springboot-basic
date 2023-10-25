@@ -3,9 +3,9 @@ package org.prgms.kdtspringweek1.controller;
 import org.prgms.kdtspringweek1.console.ConsoleInput;
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
 import org.prgms.kdtspringweek1.customer.CustomerService;
-import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
-import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
 import org.prgms.kdtspringweek1.console.FindCustomerResponseDto;
+import org.prgms.kdtspringweek1.console.CreateVoucherRequestDto;
+import org.prgms.kdtspringweek1.console.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,11 +59,11 @@ public class AppController {
             switch (consoleInput.getVoucherType()) {
                 case FIXED_AMOUNT -> {
                     consoleOutput.printRequestMessageToDecideFixedAmount();
-                    voucherService.registerVoucher(FixedAmountVoucher.createWithAmount(consoleInput.getDiscountValue()));
+                    voucherService.registerVoucher(new CreateVoucherRequestDto(consoleInput.getDiscountValue()).toFixedAmountVoucher());
                 }
                 case PERCENT_DISCOUNT -> {
                     consoleOutput.printRequestMessageToDecidePercentDiscount();
-                    voucherService.registerVoucher(PercentDiscountVoucher.createWithPercent(consoleInput.getDiscountValue()));
+                    voucherService.registerVoucher(new CreateVoucherRequestDto(consoleInput.getDiscountValue()).toPercentDiscountVoucher());
                 }
             }
             consoleOutput.printSuccessToCreateVoucher();
@@ -78,10 +78,7 @@ public class AppController {
     private void getAllVouchers() {
         try {
             voucherService.searchAllVouchers()
-                    .stream()
-                    .forEach(voucher -> {
-                        voucher.printVoucherInfo();
-                    });
+                    .forEach(FindVoucherResponseDto::printVoucherInfo);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             logger.error(e.getMessage());

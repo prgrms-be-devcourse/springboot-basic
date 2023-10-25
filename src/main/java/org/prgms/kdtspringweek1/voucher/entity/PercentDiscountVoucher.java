@@ -4,7 +4,6 @@ import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.MessageFormat;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -47,13 +46,6 @@ public class PercentDiscountVoucher implements Voucher {
                 "voucherId=" + voucherId +
                 ", percent=" + percent +
                 '}';
-    }
-
-    @Override
-    public void printVoucherInfo() {
-        System.out.println(MessageFormat.format("Voucher Type: {0}", voucherType.getName()));
-        System.out.println(MessageFormat.format("Voucher Id: {0}", voucherId));
-        System.out.println(MessageFormat.format("Percent Discount: {0}", percent));
     }
 
     @Override

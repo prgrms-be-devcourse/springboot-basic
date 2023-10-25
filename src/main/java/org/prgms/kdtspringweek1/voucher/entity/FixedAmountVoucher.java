@@ -4,7 +4,6 @@ import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.MessageFormat;
 import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
@@ -47,13 +46,6 @@ public class FixedAmountVoucher implements Voucher {
                 "voucherId=" + voucherId +
                 ", amount=" + amount +
                 '}';
-    }
-
-    @Override
-    public void printVoucherInfo() {
-        System.out.println(MessageFormat.format("Voucher Type: {0}", voucherType.getName()));
-        System.out.println(MessageFormat.format("Voucher Id: {0}", voucherId));
-        System.out.println(MessageFormat.format("Fixed Discount Amount: {0}", amount));
     }
 
     @Override
