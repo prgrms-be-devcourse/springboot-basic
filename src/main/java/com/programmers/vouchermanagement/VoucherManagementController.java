@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VoucherManagementController implements CommandLineRunner {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VoucherManagementController.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherManagementController.class);
 
     private final ConsoleInputManager consoleInputManager;
     private final ConsoleOutputManager consoleOutputManager;
@@ -31,7 +31,7 @@ public class VoucherManagementController implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        LOGGER.info("Start Voucher Program.");
+        logger.info("Start Voucher Program.");
 
         boolean chooseExit = false;
 
@@ -46,7 +46,7 @@ public class VoucherManagementController implements CommandLineRunner {
                 command = Command.getCommandByName(input);
 
             } catch (CommandNotFoundException e) {
-                LOGGER.error(e.getMessage() + "Console Input : " + input);
+                logger.error(e.getMessage() + "Console Input : " + input);
 
                 consoleOutputManager.printEnterAgain(e.getMessage());
                 continue;
@@ -67,6 +67,6 @@ public class VoucherManagementController implements CommandLineRunner {
             }
         }
 
-        LOGGER.info("Exit Voucher Program.");
+        logger.info("Exit Voucher Program.");
     }
 }

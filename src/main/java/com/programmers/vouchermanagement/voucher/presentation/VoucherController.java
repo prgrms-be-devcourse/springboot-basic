@@ -19,7 +19,7 @@ import java.util.List;
 @Controller
 public class VoucherController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VoucherController.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     private final ConsoleInputManager consoleInputManager;
     private final ConsoleOutputManager consoleOutputManager;
@@ -42,7 +42,7 @@ public class VoucherController {
             voucherType = VoucherType.getVoucherTypeByName(input);
 
         } catch (VoucherTypeNotFoundException e) {
-            LOGGER.error(e.getMessage() + "Console Input : " + input);
+            logger.error(e.getMessage() + "Console Input : " + input);
 
             consoleOutputManager.printReturnMain(e.getMessage());
             return;
@@ -55,13 +55,13 @@ public class VoucherController {
             voucherService.createVoucher(new VoucherRequestDto(voucherType, discount));
 
         } catch (IllegalDiscountException e) {
-            LOGGER.error(e.getMessage() + "Console Input : " + discount);
+            logger.error(e.getMessage() + "Console Input : " + discount);
 
             consoleOutputManager.printReturnMain(e.getMessage());
             return;
 
         } catch (FileIOException e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
 
             consoleOutputManager.printReturnMain(e.getMessage());
             return;
@@ -79,7 +79,7 @@ public class VoucherController {
             consoleOutputManager.printVoucherInfo(voucherResponseDtos);
 
         } catch (VoucherNotFoundException | FileIOException | VoucherTypeNotFoundException e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
 
             consoleOutputManager.printReturnMain(e.getMessage());
         }

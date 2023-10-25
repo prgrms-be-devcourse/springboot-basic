@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 public class MemberController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     private final ConsoleOutputManager consoleOutputManager;
     private final MemberService memberService;
@@ -33,7 +33,7 @@ public class MemberController {
             consoleOutputManager.printMemberInfo(memberResponseDtos);
 
         } catch (MemberNotFoundException | FileIOException e) {
-            LOGGER.error(e.getMessage());
+            logger.error(e.getMessage());
 
             consoleOutputManager.printReturnMain(e.getMessage());
         }

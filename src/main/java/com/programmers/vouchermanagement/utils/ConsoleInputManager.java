@@ -9,7 +9,7 @@ import java.util.Scanner;
 @Component
 public class ConsoleInputManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConsoleInputManager.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConsoleInputManager.class);
 
     private final Scanner scanner = new Scanner(System.in);
     private final ConsoleOutputManager consoleOutputManager;
@@ -28,7 +28,7 @@ public class ConsoleInputManager {
 
         while (!input.matches("^[0-9]+$")) {
 
-            LOGGER.warn("Invalid input discount. Console Input : " + input);
+            logger.warn("Invalid input discount. Console Input : " + input);
 
             consoleOutputManager.printWrongInputLong();
             input = scanner.nextLine();
