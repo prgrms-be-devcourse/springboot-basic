@@ -27,7 +27,6 @@ import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
 @ActiveProfiles("dev")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class VoucherServiceTest {
 
     @Configuration
@@ -56,13 +55,13 @@ class VoucherServiceTest {
     @DisplayName("바우처 타입 이넘을 반환한다.")
     void getVoucherTypeFunction() {
         //given
-        String voucherType = "fixedAmount";
+        String voucherType = "fixeddiscount";
 
         //when
         VoucherTypeFunction voucherTypeFunction = voucherService.getVoucherTypeFunction(voucherType);
 
         //then
-        assertThat(voucherTypeFunction.name(), is("FIXED_AMOUNT_VOUCHER"));
+        assertThat(voucherTypeFunction.name(), is("FIXED_DISCOUNT_POLICY"));
     }
 
     @Test

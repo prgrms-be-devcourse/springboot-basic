@@ -1,10 +1,7 @@
 package org.prgrms.kdtspringdemo.customer.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -26,10 +23,9 @@ import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcCustomerRepositoryTest {
     @Configuration
-    @ComponentScan(basePackages = {"org.prgrms.kdtspringdemo.customer"})
+    @ComponentScan()
     static class Config {
         @Bean
         public DataSource dataSource() {
@@ -50,15 +46,13 @@ class JdbcCustomerRepositoryTest {
     @Autowired
     private JdbcCustomerRepository jdbcCustomerRepository;
 
-    @Autowired
-    DataSource dataSource;
-
-    @BeforeAll
+    @BeforeEach
     void init() {
         jdbcCustomerRepository.deleteAll();
     }
 
     @Test
+    @DisplayName("데이터베이스에 고객을 추가합니다.")
     void insert() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "tester01", true);
@@ -71,13 +65,29 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("모든 블랙리스트 목록을 반환합니다.")
     void getAllBlackList() throws IOException {
         //given
+        jdbcCustomerRepository.insert(new Customer(UUID.randomUUID(), "tester01", true));
+        jdbcCustomerRepository.insert(new Customer(UUID.randomUUID(), "tester02", true));
 
         //when
         List<Customer> customerList = jdbcCustomerRepository.getAllBlackList().get();
 
         //then
-        assertThat(customerList.size(), is(1));
+        assertThat(customerList.size(), is(2));
+    }
+
+    @Test
+    @DisplayName("고객이 없는 경우 NPE 발생 X")
+    void getAllCustomersNull() throws IOException {
+        //given
+        //none
+
+        //when
+        List<Customer> customerList = jdbcCustomerRepository.getAllBlackList().get();
+
+        //then
+        assertThat(customerList.size(), is(0));
     }
 }
