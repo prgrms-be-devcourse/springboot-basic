@@ -70,7 +70,8 @@ public class ConsoleView implements Input, Output{
         === Select Program ===
         Type exit to exit the program.
         Type customer to run customer program.
-        Type voucher to run voucher program
+        Type voucher to run voucher program.
+        Type Wallet to Run Wallet Program.
         """;
         out.println(command);
         printPrompt();
@@ -123,6 +124,22 @@ public class ConsoleView implements Input, Output{
         Type update to Update Customer Information.
         Type delete to Delete Customer By Id From Customer List.
         Type delete_all to Remove All Customers From Customer List.
+        """;
+        out.println(command);
+        printPrompt();
+    }
+
+    @Override
+    public void printWalletCommand(){
+        String command = """
+                
+        === Wallet Program ===
+        Type back to Main Menu.
+        Type register to Register Voucher to Customer.
+        Type voucher_list to List of Vouchers Owned By Customer.
+        Type Owner to Show VoucherOwner.
+        Type remove to Remove Voucher Owned by Customer.
+        Type delete_all to Delete All Wallets.
         """;
         out.println(command);
         printPrompt();

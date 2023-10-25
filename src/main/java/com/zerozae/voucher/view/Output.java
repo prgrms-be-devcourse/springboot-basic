@@ -8,5 +8,5 @@ public interface Output {
     void printErrorMessage(String message);
     void printVoucherCommand();
     void printCustomerCommand();
-
+    void printWalletCommand();
 }
