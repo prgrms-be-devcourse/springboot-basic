@@ -39,8 +39,7 @@ public class VoucherService {
         voucherRepository.updateDiscount(id, discount);
     }
 
-    public UUID delete(UUID id) {
-        voucherRepository.delete(id);
-        return id;
+    public int delete(UUID id) {
+        return voucherRepository.delete(id);
     }
 }

@@ -42,3 +42,12 @@
 00:22:04.167 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: b7daa7b8-739c-4f3f-acae-a86fa59100f6
 00:22:04.167 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
 00:22:04.167 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+00:25:50.736 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+00:25:50.742 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 37b48208-975c-4a79-82b4-367385a82fdf
+Discount Type : fixed discount
+Discount amount : 20000
+
+00:25:50.824 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+00:25:50.840 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+00:25:50.875 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository

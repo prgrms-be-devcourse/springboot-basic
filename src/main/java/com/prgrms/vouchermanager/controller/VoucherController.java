@@ -30,8 +30,7 @@ public class VoucherController {
         service.updateDiscount(id, discount);
     }
 
-    public UUID delete(UUID id) {
-        service.delete(id);
-        return id;
+    public int delete(UUID id) {
+        return service.delete(id);
     }
 }
