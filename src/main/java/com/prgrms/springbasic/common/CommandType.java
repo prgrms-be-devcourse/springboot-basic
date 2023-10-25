@@ -8,7 +8,8 @@ public enum CommandType {
     LIST,
     BLACK_LIST,
     UPDATE,
-    DELETE_ALL;
+    DELETE_ALL,
+    FIND_BY_CUSTOMER;
 
     public static CommandType find(String command) {
         return CommandType.valueOf(command);
@@ -21,6 +22,8 @@ public enum CommandType {
             allowedTypes.addAll(EnumSet.of(CREATE, LIST, UPDATE, DELETE_ALL));
         } else if (menuType == MenuType.CUSTOMER) {
             allowedTypes.addAll(EnumSet.of(CREATE, BLACK_LIST));
+        } else if (menuType == MenuType.WALLET) {
+            allowedTypes.addAll(EnumSet.of(CREATE, FIND_BY_CUSTOMER));
         }
 
         return allowedTypes.stream()

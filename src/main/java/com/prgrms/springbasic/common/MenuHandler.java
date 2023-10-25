@@ -8,6 +8,8 @@ import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.UpdateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
+import com.prgrms.springbasic.domain.wallet.controller.WalletController;
+import com.prgrms.springbasic.domain.wallet.dto.CreateWalletRequest;
 import com.prgrms.springbasic.io.Console;
 import com.prgrms.springbasic.io.ConsoleMessage;
 import org.springframework.stereotype.Component;
@@ -20,12 +22,15 @@ public class MenuHandler {
     private final Console console;
     private final VoucherController voucherController;
     private final CustomerController customerController;
+    private final WalletController walletController;
 
-    public MenuHandler(Console console, VoucherController voucherController, CustomerController customerController) {
+    public MenuHandler(Console console, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
         this.console = console;
         this.voucherController = voucherController;
         this.customerController = customerController;
+        this.walletController = walletController;
     }
+
 
     public String chooseMenu() {
         console.printConsoleMessage(ConsoleMessage.START_PROGRAM);
@@ -53,7 +58,7 @@ public class MenuHandler {
     }
 
     public void updateVoucher() {
-        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_ID);
+        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
         long discountValue = console.inputLong(ConsoleMessage.GET_FIXED_DISCOUNT_VALUE);
         voucherController.updateVoucher(new UpdateVoucherRequest(voucher_id, discountValue));
     }
@@ -73,6 +78,19 @@ public class MenuHandler {
     public void showAllBlackLists() {
         List<CustomerResponse> customers = customerController.findAllBlackLists();
         console.printCustomers(customers);
+    }
+
+    public void createWallet() {
+        console.printConsoleMessage(ConsoleMessage.CREATE_WALLET);
+        UUID customer_id = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
+        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
+        walletController.createWallet(new CreateWalletRequest(customer_id, voucher_id));
+    }
+
+    public void showAllCustomerVouchers() {
+        UUID customer_id = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
+        List<VoucherResponse> vouchers = walletController.findVouchersByCustomerId(customer_id);
+        console.printVouchers(vouchers);
     }
 
     private CreateVoucherRequest makeCreateVoucherRequest() {

@@ -69,7 +69,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID,
                     voucherRowMapper, voucher_id.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.warn("Voucher not found", e);
             return Optional.empty();
         }
     }

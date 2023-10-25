@@ -6,7 +6,8 @@ import java.util.List;
 public enum MenuType {
     EXIT,
     VOUCHER,
-    CUSTOMER
+    CUSTOMER,
+    WALLET
     ;
 
     public static MenuType find(String menu) {

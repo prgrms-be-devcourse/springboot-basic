@@ -22,8 +22,10 @@ public enum ConsoleMessage {
     NO_VOUCHER_EXIST("<warn> Couldn't find voucher information."),
     NO_CUSTOMER_EXIST("<warn> Couldn't find customer information."),
     CREATE_CUSTOMER("=== Create Customer ===" + System.lineSeparator()),
+    CREATE_WALLET("=== Create Wallet ===" + System.lineSeparator()),
     GET_NAME("Type name"),
-    GET_ID("Type id"),
+    GET_VOUCHER_ID("Type voucher id"),
+    GET_CUSTOMER_ID("Type customer id"),
     GET_EMAIL("Type email");
 
     private final String message;

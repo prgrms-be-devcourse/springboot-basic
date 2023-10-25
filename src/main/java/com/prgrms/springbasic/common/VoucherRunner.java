@@ -27,6 +27,7 @@ public class VoucherRunner implements CommandLineRunner {
                 switch (menuType) {
                     case VOUCHER -> runVoucher(menuType);
                     case CUSTOMER -> runCustomer(menuType);
+                    case WALLET -> runWallet(menuType);
                     case EXIT -> isRunning = menuHandler.exit();
                 }
             } catch (Exception e) {
@@ -55,6 +56,18 @@ public class VoucherRunner implements CommandLineRunner {
             switch (commandType) {
                 case CREATE -> menuHandler.createCustomer();
                 case BLACK_LIST -> menuHandler.showAllBlackLists();
+            }
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+        }
+    }
+
+    private void runWallet(MenuType menuType) {
+        try {
+            CommandType commandType = CommandType.find(menuHandler.chooseMode(menuType));
+            switch (commandType) {
+                case CREATE -> menuHandler.createWallet();
+                case FIND_BY_CUSTOMER -> menuHandler.showAllCustomerVouchers();
             }
         } catch (Exception e) {
             logger.warn(e.getMessage());
