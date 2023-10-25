@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanager.service;
+package com.prgrms.vouchermanager.controller;
 
 import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.exception.NotCorrectId;
@@ -15,24 +15,24 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringJUnitConfig
-class CustomerServiceTest {
+class CustomerControllerTest {
 
     private CustomerRepository customerRepository;
     private BlacklistFileRepository blacklistFileRepository;
     private CustomerService service;
+    private CustomerController controller;
     @Autowired
     private JdbcTemplate template;
     @Autowired private DataSource dataSource;
-    private final Customer customer1 = new Customer("스카라무슈", 1995);
     private final Customer customer2 = new Customer("종려", 1990);
 
     @Configuration
@@ -58,6 +58,7 @@ class CustomerServiceTest {
         blacklistFileRepository = new BlacklistFileRepository("src/main/resources/customer_blacklist.csv");
         customerRepository = new CustomerRepository(dataSource, new BlacklistFileRepository("src/main/resources/customer_blacklist.csv"));
         service = new CustomerService(blacklistFileRepository, customerRepository);
+        controller = new CustomerController(service);
 
         customerRepository.create(customer2);
     }
@@ -70,7 +71,7 @@ class CustomerServiceTest {
     @Test
     @DisplayName("blacklist")
     void blacklist() {
-        List<Customer> blacklist = service.blacklist();
+        List<Customer> blacklist = controller.blacklist();
 
         Assertions.assertThat(blacklist.size()).isEqualTo(3);
     }
@@ -78,7 +79,7 @@ class CustomerServiceTest {
     @Test
     @DisplayName("create")
     void create() {
-        Customer customer = service.create("스카라무슈", 1999);
+        Customer customer = controller.create("스카라무슈", 1999);
 
         Assertions.assertThat(customer.getName()).isEqualTo("스카라무슈");
         Assertions.assertThat(customer.getYearOfBirth()).isEqualTo(1999);
@@ -87,7 +88,7 @@ class CustomerServiceTest {
     @Test
     @DisplayName("list")
     void list() {
-        List<Customer> list = service.list();
+        List<Customer> list = controller.list();
 
         Assertions.assertThat(list.size()).isEqualTo(4);
     }
@@ -95,7 +96,7 @@ class CustomerServiceTest {
     @Test
     @DisplayName("updateYearOfBirth - success")
     void updateYearOfBirth() {
-        Customer customer = service.updateYearOfBirth(customer2.getId(), 2000);
+        Customer customer = controller.updateYearOfBirth(customer2.getId(), 2000);
         Assertions.assertThat(customer.getYearOfBirth()).isEqualTo(2000);
     }
 
@@ -103,14 +104,14 @@ class CustomerServiceTest {
     @DisplayName("updateYearOfBirth - 존재하지 않는 아이디")
     void updateYearOfBirthFail() {
         org.junit.jupiter.api.Assertions.assertThrows(NotCorrectId.class, () -> {
-            Customer customer = service.updateYearOfBirth(UUID.randomUUID(), 2000);
+            Customer customer = controller.updateYearOfBirth(UUID.randomUUID(), 2000);
         });
     }
 
     @Test
     @DisplayName("updateName - success")
     void updateName() {
-        Customer customer = service.updateName(customer2.getId(), "벤티");
+        Customer customer = controller.updateName(customer2.getId(), "벤티");
         Assertions.assertThat(customer.getName()).isEqualTo("벤티");
     }
 
@@ -118,21 +119,22 @@ class CustomerServiceTest {
     @DisplayName("updateName - 존재하지 않는 아이디")
     void updateNameFail() {
         org.junit.jupiter.api.Assertions.assertThrows(NotCorrectId.class, () -> {
-            Customer customer = service.updateName(UUID.randomUUID(), "벤티");
+            Customer customer = controller.updateName(UUID.randomUUID(), "벤티");
         });
     }
 
     @Test
     @DisplayName("delete - success")
     void delete() {
-        Assertions.assertThat(service.delete(customer2.getId())).isEqualTo(1);
+        Assertions.assertThat(controller.delete(customer2.getId())).isEqualTo(1);
     }
 
     @Test
     @DisplayName("delete - 존재하지 않는 아이디")
     void deleteFail() {
         org.junit.jupiter.api.Assertions.assertThrows(NotCorrectId.class, () -> {
-            int delete = service.delete(UUID.randomUUID());
+            int delete = controller.delete(UUID.randomUUID());
         });
     }
+
 }
