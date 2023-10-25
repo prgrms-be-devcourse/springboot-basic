@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import study.dev.spring.global.config.DataSourceTestSupport;
+import study.dev.spring.global.support.DataSourceTestSupport;
 import study.dev.spring.voucher.fixture.VoucherFixture;
 import study.dev.spring.voucher.infrastructure.JdbcVoucherRepository;
 

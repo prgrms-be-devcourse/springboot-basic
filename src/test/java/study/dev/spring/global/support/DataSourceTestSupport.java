@@ -1,4 +1,4 @@
-package study.dev.spring.global.config;
+package study.dev.spring.global.support;
 
 import javax.sql.DataSource;
 
@@ -17,13 +17,23 @@ import com.zaxxer.hikari.HikariDataSource;
 @Transactional
 public abstract class DataSourceTestSupport {
 
-	private static final String DDL = """
+	private static final String VOUCHER_DDL = """
 		CREATE TABLE Voucher(
-		    uuid           VARCHAR(36)  NOT NULL,
+		    uuid           VARCHAR(36)  PRIMARY KEY ,
 		    name           VARCHAR(255) NOT NULL UNIQUE,
-		    voucherType           VARCHAR(255) NOT NULL,
+		    voucherType    VARCHAR(255) NOT NULL,
 		    discountAmount DOUBLE       NOT NULL
 		);
+		""";
+
+	private static final String CUSTOMER_DDL = """
+		CREATE TABLE Customer
+		(
+		    uuid           VARCHAR(36)  PRIMARY KEY,
+		    name           VARCHAR(255) NOT NULL
+		);
+		  
+		INSERT INTO Customer VALUES ('uuid', 'name');
 		""";
 
 	@TestConfiguration
@@ -40,7 +50,8 @@ public abstract class DataSourceTestSupport {
 				.build();
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			jdbcTemplate.execute(DDL);
+			jdbcTemplate.execute(VOUCHER_DDL);
+			jdbcTemplate.execute(CUSTOMER_DDL);
 
 			return dataSource;
 		}
