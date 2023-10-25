@@ -19,12 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile("default")
-public class FileVoucherRepository implements VoucherRepository {
+public class CsvFileVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> vouchers;
     private File voucherInfoCsv;
     @Value("${spring.file.voucher.path}")
     private String vouchInfoCsvPath;
-    private final static Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+    private final static Logger logger = LoggerFactory.getLogger(CsvFileVoucherRepository.class);
 
     @PostConstruct
     private void init() {

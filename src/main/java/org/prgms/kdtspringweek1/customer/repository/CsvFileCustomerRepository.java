@@ -13,14 +13,13 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
-// TODO: SRP를 위해 파일 유틸 클래스를 따로 구현하려고 했으나, 이 부분은 2차 과제 때 반영해두도록 하겠습니다!
 @Repository
-public class FileCustomerRepository implements CustomerRepository {
+public class CsvFileCustomerRepository implements CustomerRepository {
     private Map<UUID, Customer> blackCustomers;
     private File blackCustomerInfoCsv;
     @Value("${spring.file.black-customer.path}")
     private String blackCustomerInfoCsvPath;
-    private final static Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
+    private final static Logger logger = LoggerFactory.getLogger(CsvFileCustomerRepository.class);
 
     @PostConstruct
     private void init() {
