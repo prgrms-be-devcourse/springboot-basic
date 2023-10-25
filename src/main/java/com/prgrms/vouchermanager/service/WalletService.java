@@ -52,7 +52,7 @@ public class WalletService {
         return customerList;
     }
 
-    public void delete(UUID customerId, UUID voucherId) {
-        walletRepository.delete(customerId, voucherId);
+    public int delete(UUID customerId, UUID voucherId) {
+        return walletRepository.delete(customerId, voucherId);
     }
 }

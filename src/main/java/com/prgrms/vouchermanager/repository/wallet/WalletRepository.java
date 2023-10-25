@@ -35,8 +35,8 @@ public class WalletRepository {
         return template.query(FIND_BY_VOUCHER_ID_WALLET.getMessage(), walletRowMapper(), id.toString().getBytes());
     }
 
-    public void delete(UUID customerId, UUID voucherId) {
-        template.update(DELETE_WALLET.getMessage(),
+    public int delete(UUID customerId, UUID voucherId) {
+        return template.update(DELETE_WALLET.getMessage(),
                 customerId.toString().getBytes(),
                 voucherId.toString().getBytes());
     }

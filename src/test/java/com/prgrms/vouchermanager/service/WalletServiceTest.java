@@ -1,10 +1,12 @@
-package com.prgrms.vouchermanager.repository.wallet;
+package com.prgrms.vouchermanager.service;
 
 import com.prgrms.vouchermanager.domain.customer.Customer;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
 import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository;
+import com.prgrms.vouchermanager.repository.wallet.WalletRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,15 +26,16 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
-class WalletRepositoryTest {
-
+class WalletServiceTest {
     private WalletRepository repository;
+    private WalletService service;
     private VoucherJdbcRepository voucherJdbcRepository;
     private CustomerRepository customerRepository;
     @Autowired
     private JdbcTemplate template;
     Wallet wallet1 = new Wallet(UUID.randomUUID(), UUID.fromString("c80f7d69-5033-423c-b7d2-a11e7ee936dd"), UUID.fromString("70754a2f-d87d-4f69-af71-1d4bfe855e28"));
     Wallet wallet2 = new Wallet(UUID.randomUUID(), UUID.fromString("a2fe49e3-900d-4632-b3c1-0b6b25dd555e"), UUID.fromString("70754a2f-d87d-4f69-af71-1d4bfe855e28"));
+
     @Configuration
     static class TestConfig {
         @Bean
@@ -56,8 +59,11 @@ class WalletRepositoryTest {
         repository = new WalletRepository(template);
         voucherJdbcRepository = new VoucherJdbcRepository(template.getDataSource());
         customerRepository = new CustomerRepository(template.getDataSource(), new BlacklistFileRepository("src/main/resources/customer_blacklist.csv"));
+        service = new WalletService(repository, customerRepository, voucherJdbcRepository);
+
         repository.create(wallet2);
     }
+
     @AfterEach
     void afterEach() {
         template.execute("delete from wallets;");
@@ -68,32 +74,33 @@ class WalletRepositoryTest {
     @Test
     @DisplayName("create")
     void create() {
-        Wallet createWallet = repository.create(wallet1);
-        Assertions.assertThat(createWallet).isSameAs(wallet1);
+        Wallet createWallet = service.create(wallet1.getCustomerId(), wallet1.getVoucherId());
+        Assertions.assertThat(createWallet.getVoucherId()).isEqualTo(UUID.fromString("c80f7d69-5033-423c-b7d2-a11e7ee936dd"));
+        Assertions.assertThat(createWallet.getCustomerId()).isEqualTo(UUID.fromString("70754a2f-d87d-4f69-af71-1d4bfe855e28"));
     }
 
     @Test
     @DisplayName("findByCustomerId")
     void findByCustomerId() {
         Wallet wallet = repository.create(wallet1);
-        List<Wallet> walletList = repository.findByCustomerId(wallet.getCustomerId());
+        List<Voucher> voucherList = service.findByCustomerId(wallet.getCustomerId());
 
-        Assertions.assertThat(walletList.size()).isEqualTo(2);
+        Assertions.assertThat(voucherList.size()).isEqualTo(2);
     }
 
     @Test
     @DisplayName("findByVoucherId")
     void findByVoucherId() {
         Wallet wallet = repository.create(wallet1);
-        List<Wallet> walletList = repository.findByVoucherId(wallet.getVoucherId());
+        List<Customer> customerList = service.findByVoucherId(wallet.getVoucherId());
 
-        Assertions.assertThat(walletList.size()).isEqualTo(1);
+        Assertions.assertThat(customerList.size()).isEqualTo(1);
     }
 
     @Test
     @DisplayName("delete")
     void delete() {
-        int delete = repository.delete(wallet2.getCustomerId(), wallet2.getVoucherId());
+        int delete = service.delete(wallet2.getCustomerId(), wallet2.getVoucherId());
         Assertions.assertThat(delete).isEqualTo(1);
     }
 }
