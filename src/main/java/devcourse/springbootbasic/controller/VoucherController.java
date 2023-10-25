@@ -3,6 +3,7 @@ package devcourse.springbootbasic.controller;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
+import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
 import devcourse.springbootbasic.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,8 +25,8 @@ public class VoucherController {
         return this.voucherService.findAll();
     }
 
-    public VoucherResponse updateDiscountValue(UUID voucherId, long discountValue) {
-        return new VoucherResponse(this.voucherService.updateDiscountValue(voucherId, discountValue));
+    public VoucherResponse updateDiscountValue(VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
+        return new VoucherResponse(this.voucherService.updateDiscountValue(voucherUpdateDiscountValueRequest));
     }
 
     public VoucherResponse deleteVoucher(UUID voucherId) {

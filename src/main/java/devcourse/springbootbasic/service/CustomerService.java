@@ -3,6 +3,7 @@ package devcourse.springbootbasic.service;
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.dto.customer.CustomerCreateRequest;
 import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
+import devcourse.springbootbasic.dto.customer.CustomerUpdateBlacklistRequest;
 import devcourse.springbootbasic.exception.CustomerErrorMessage;
 import devcourse.springbootbasic.exception.CustomerException;
 import devcourse.springbootbasic.repository.customer.CustomerRepository;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -32,10 +32,10 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer updateBlacklistStatus(UUID customerId, boolean isBlacklisted) {
-        Customer customer = customerRepository.findById(customerId)
+    public Customer updateBlacklistStatus(CustomerUpdateBlacklistRequest customerUpdateBlacklistRequest) {
+        Customer customer = customerRepository.findById(customerUpdateBlacklistRequest.getId())
                 .orElseThrow(() -> CustomerException.of(CustomerErrorMessage.NOT_FOUND))
-                .updateBlacklistStatus(isBlacklisted);
+                .updateBlacklistStatus(customerUpdateBlacklistRequest.isBlacklisted());
 
         if (customerRepository.update(customer) == 0) {
             throw CustomerException.of(CustomerErrorMessage.NOT_FOUND);

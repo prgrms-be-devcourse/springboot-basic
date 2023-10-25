@@ -3,6 +3,7 @@ package devcourse.springbootbasic.service;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
+import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
 import devcourse.springbootbasic.exception.VoucherErrorMessage;
 import devcourse.springbootbasic.exception.VoucherException;
 import devcourse.springbootbasic.repository.voucher.VoucherRepository;
@@ -32,12 +33,10 @@ public class VoucherService {
     }
 
     @Transactional
-    public Voucher updateDiscountValue(UUID voucherId, long discountValue) {
-        Voucher voucher = voucherRepository.findById(voucherId)
+    public Voucher updateDiscountValue(VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
+        Voucher voucher = voucherRepository.findById(voucherUpdateDiscountValueRequest.getId())
                 .orElseThrow(() -> VoucherException.of(VoucherErrorMessage.NOT_FOUND))
-                .updateDiscountValue(discountValue);
-
-        voucher.updateDiscountValue(discountValue);
+                .updateDiscountValue(voucherUpdateDiscountValueRequest.getDiscountValue());
 
         if (voucherRepository.update(voucher) == 0) {
             throw VoucherException.of(VoucherErrorMessage.NOT_FOUND);

@@ -10,9 +10,11 @@ import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.dto.customer.CustomerCreateRequest;
 import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
 import devcourse.springbootbasic.dto.customer.CustomerResponse;
+import devcourse.springbootbasic.dto.customer.CustomerUpdateBlacklistRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherResponse;
+import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
 import devcourse.springbootbasic.exception.InputErrorMessage;
 import devcourse.springbootbasic.exception.InputException;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +75,7 @@ public class FunctionHandler {
         UUID customerId = consoleIOHandler.inputUUIDWithMessage(InputMessage.CUSTOMER_ID);
         boolean isBlacklisted = consoleIOHandler.inputBooleanWithMessage(InputMessage.BLACKLIST_STATUS);
 
-        CustomerResponse customer = customerController.updateBlacklistStatus(customerId, isBlacklisted);
+        CustomerResponse customer = customerController.updateBlacklistStatus(new CustomerUpdateBlacklistRequest(customerId, isBlacklisted));
         log.info(String.format(ConsoleConstants.CUSTOMER_UPDATE_MESSAGE, customer.getId()));
     }
 
@@ -81,7 +83,7 @@ public class FunctionHandler {
         UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
         long discountValue = consoleIOHandler.inputLongWithMessage(InputMessage.DISCOUNT_VALUE);
 
-        VoucherResponse voucher = voucherController.updateDiscountValue(voucherId, discountValue);
+        VoucherResponse voucher = voucherController.updateDiscountValue(new VoucherUpdateDiscountValueRequest(voucherId, discountValue));
         log.info(String.format(ConsoleConstants.VOUCHER_UPDATE_MESSAGE, voucher.getId()));
     }
 
