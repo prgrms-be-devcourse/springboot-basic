@@ -10,8 +10,8 @@ public class ScannerInput implements ConsoleInput {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public FunctionType getFunctionType() {
-        return FunctionType.getValueByName(scanner.nextLine());
+    public SelectFunctionTypeDto getFunctionType() {
+        return SelectFunctionTypeDto.getValueByName(scanner.nextLine());
     }
 
     @Override
