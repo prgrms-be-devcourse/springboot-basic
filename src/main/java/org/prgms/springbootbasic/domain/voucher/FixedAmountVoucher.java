@@ -1,6 +1,7 @@
 package org.prgms.springbootbasic.domain.voucher;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.exception.OutOfRangeException;
 
 import java.util.UUID;
 
@@ -28,6 +29,10 @@ public class FixedAmountVoucher implements VoucherPolicy {
 
     @Override
     public long discount(long beforeDiscount) {
+        if (beforeDiscount < 0) {
+            throw new OutOfRangeException("beforeDiscount is less than 0.");
+        }
+
         return max(0, beforeDiscount - this.amount);
     }
 }
