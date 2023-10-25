@@ -29,19 +29,9 @@ public class VoucherService {
 
         switch (voucherType) {
 
-            case FIXED -> {
+            case FIXED -> voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), discount, voucherType));
 
-                FixedAmountVoucher.validateDiscount(discount);
-
-                voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), discount, voucherType));
-            }
-
-            case PERCENT -> {
-
-                PercentDiscountVoucher.validateDiscount(discount);
-
-                voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), discount, voucherType));
-            }
+            case PERCENT -> voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), discount, voucherType));
         }
     }
 

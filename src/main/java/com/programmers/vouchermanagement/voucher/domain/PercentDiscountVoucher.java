@@ -14,6 +14,9 @@ public class PercentDiscountVoucher implements Voucher {
     private final VoucherType voucherType;
 
     public PercentDiscountVoucher(UUID voucherId, Long discount, VoucherType voucherType) {
+
+        validateDiscount(discount);
+
         this.voucherId = voucherId;
         this.discount = discount;
         this.voucherType = voucherType;
@@ -34,7 +37,7 @@ public class PercentDiscountVoucher implements Voucher {
         return discount;
     }
 
-    public static void validateDiscount(Long discount) {
+    private void validateDiscount(Long discount) {
 
         if (discount > MAX_PERCENT_DISCOUNT || discount < MIN_PERCENT_DISCOUNT) {
             throw new IllegalDiscountException("Percent discounts are available between 0 and 100. ");

@@ -13,6 +13,9 @@ public class FixedAmountVoucher implements Voucher {
     private final VoucherType voucherType;
 
     public FixedAmountVoucher(UUID voucherId, Long discount, VoucherType voucherType) {
+
+        validateDiscount(discount);
+
         this.voucherId = voucherId;
         this.discount = discount;
         this.voucherType = voucherType;
@@ -33,7 +36,7 @@ public class FixedAmountVoucher implements Voucher {
         return discount;
     }
 
-    public static void validateDiscount(Long discount) {
+    private void validateDiscount(Long discount) {
 
         if (discount < MIN_FIXED_DISCOUNT) {
             throw new IllegalDiscountException("Fixed discounts are available from 0. ");
