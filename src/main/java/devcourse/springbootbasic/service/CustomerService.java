@@ -34,9 +34,13 @@ public class CustomerService {
 
     @Transactional
     public Customer updateBlacklistStatus(CustomerUpdateBlacklistRequest customerUpdateBlacklistRequest) {
-        Customer customer = this.findById(customerUpdateBlacklistRequest.getId())
+        Customer updatedCustomer = this.findById(customerUpdateBlacklistRequest.getId())
                 .updateBlacklistStatus(customerUpdateBlacklistRequest.isBlacklisted());
 
+        return persist(updatedCustomer);
+    }
+
+    private Customer persist(Customer customer) {
         if (customerRepository.update(customer) == 0) {
             throw CustomerException.of(CustomerErrorMessage.NOT_FOUND);
         }
