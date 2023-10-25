@@ -9,48 +9,49 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 @Profile({"dev", "prod"})
 @Primary
 @Slf4j
 public class VoucherFileRepository implements VoucherRepository { // csv를 다루니 이름은 Csv를 붙여 더 명확히 해야 하지 않나 싶다.
+    private final ConcurrentHashMap<UUID, VoucherPolicy> vouchers = new ConcurrentHashMap<>();
     private final VoucherCsvFileManager voucherCsvFileManager;
-    private final VoucherRepository voucherRepository;
 
-    public VoucherFileRepository(VoucherCsvFileManager voucherCsvFileManager, VoucherMemoryRepository voucherRepository) {
+    public VoucherFileRepository(VoucherCsvFileManager voucherCsvFileManager) {
         log.debug("FileVoucherRepository started.");
 
         this.voucherCsvFileManager = voucherCsvFileManager;
-        this.voucherRepository = voucherRepository;
     }
 
     @Override
     public VoucherPolicy findById(UUID voucherId) {
-        return voucherRepository.findById(voucherId);
+        return Optional.ofNullable(vouchers.get(voucherId))
+                .orElseThrow(NoSuchElementException::new);
     }
 
     @Override
     public List<VoucherPolicy> findAll() {
-        return voucherRepository.findAll();
+        return new ArrayList<>(vouchers.values());
     }
 
     @Override
     public VoucherPolicy create(VoucherPolicy voucherPolicy) {
-        return voucherRepository.create(voucherPolicy);
+        vouchers.putIfAbsent(voucherPolicy.getVoucherId(), voucherPolicy);
+        return voucherPolicy;
     }
 
     @PostConstruct
     private void fileRead(){
         List<VoucherPolicy> voucherPolicies = voucherCsvFileManager.read();
-        voucherPolicies.forEach(voucherRepository::create);
+        voucherPolicies.forEach(this::create);
     }
 
     @PreDestroy
     private void fileWrite(){
-        voucherCsvFileManager.write(voucherRepository.findAll());
+        voucherCsvFileManager.write(this.findAll());
     }
 }
 
