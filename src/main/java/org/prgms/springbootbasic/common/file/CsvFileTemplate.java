@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.function.Function;
 
 @Component
-public class CsvFileTemplate<T> {
+public class CsvFileTemplate {
     private static final Logger log = LoggerFactory.getLogger(CsvFileTemplate.class);
 
-    public List<T> read(String path, Function<String, T> mapToObj){
+    public <T> List<T> read(String path, Function<String, T> mapToObj){ // 제네릭 장점 1: 컴파일 단계에서 타입 체킹 굿. 제네릭에 대해 공부하자
         log.info("read started");
         List<T> ret = new ArrayList<>();
 
@@ -22,9 +22,9 @@ public class CsvFileTemplate<T> {
         if(filePathNotExist(file)) return ret;
 
         log.info("file exists.");
-        try(BufferedReader br = new BufferedReader(
+        try(BufferedReader br = new BufferedReader( // try - resource 다시 알아보기. 코드를 쓰는 이유를 본인이 잘 알아야 함.
                 new InputStreamReader(
-                        new FileInputStream(path), StandardCharsets.UTF_8))){
+                        new FileInputStream(path), StandardCharsets.UTF_8))){ // google java style guide 참고
             String line = br.readLine(); // 한 줄 생략
 
             while((line = br.readLine()) != null)
@@ -36,7 +36,7 @@ public class CsvFileTemplate<T> {
         return ret;
     }
 
-    public void write(String path, List<T> objs, Function<T, String> objToString, String firstLine){
+    public <T> void write(String path, List<T> objs, Function<T, String> objToString, String firstLine){
         log.debug("write started");
 
         try (BufferedWriter bw = new BufferedWriter(

@@ -23,9 +23,9 @@ public class CustomerCsvFileManager {
     private static final int CREATED_IDX = 3;
     private static final int LAST_LOGIN_IDX = 4;
 
-    private final CsvFileTemplate<Customer> csvFileTemplate;
+    private final CsvFileTemplate csvFileTemplate;
 
-    public CustomerCsvFileManager(CsvFileTemplate<Customer> csvFileTemplate) {
+    public CustomerCsvFileManager(CsvFileTemplate csvFileTemplate) {
         this.csvFileTemplate = csvFileTemplate;
     }
 
