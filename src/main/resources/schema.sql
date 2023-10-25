@@ -11,3 +11,12 @@ CREATE TABLE IF NOT EXISTS customers
     name        VARCHAR(255) NOT NULL,
     blacklisted BOOLEAN      NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS wallets
+(
+    id          INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id CHAR(36) NOT NULL,
+    voucher_id  BIGINT   NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES customers (id),
+    FOREIGN KEY (voucher_id) REFERENCES vouchers (id)
+);
