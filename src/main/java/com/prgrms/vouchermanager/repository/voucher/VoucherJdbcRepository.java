@@ -47,8 +47,9 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return jdbcTemplate.queryForObject(FIND_BY_ID_VOUCHER.getMessage(), voucherRowMapper(), id.toString().getBytes());
     }
 
-    public void updateDiscount(UUID id, int discount) {
+    public Voucher updateDiscount(UUID id, int discount) {
         jdbcTemplate.update(UPDATE_DISCOUNT_VOUCHER.getMessage(), discount, id.toString().getBytes());
+        return findById(id);
     }
 
     public int delete(UUID id) {

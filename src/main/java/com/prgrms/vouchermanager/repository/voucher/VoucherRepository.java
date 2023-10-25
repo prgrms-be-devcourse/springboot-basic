@@ -11,7 +11,7 @@ public interface VoucherRepository {
 
     public Voucher findById(UUID id);
 
-    void updateDiscount(UUID id, int discount);
+    Voucher updateDiscount(UUID id, int discount);
 
     int delete(UUID id);
 }

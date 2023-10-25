@@ -26,8 +26,8 @@ public class VoucherController {
         return service.list();
     }
 
-    public void updateDiscount(UUID id, int discount) {
-        service.updateDiscount(id, discount);
+    public Voucher updateDiscount(UUID id, int discount) {
+        return service.updateDiscount(id, discount);
     }
 
     public int delete(UUID id) {
