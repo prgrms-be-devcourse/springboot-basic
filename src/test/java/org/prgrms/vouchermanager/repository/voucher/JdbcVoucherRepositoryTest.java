@@ -1,12 +1,11 @@
 package org.prgrms.vouchermanager.repository.voucher;
 
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
-import org.prgrms.vouchermanager.domain.voucher.VoucherType;
+import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +32,7 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("바우처 저장에 성공해야한다.")
     void save() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 20, VoucherType.FIXED);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 20, MenuType.FIXED);
         Voucher voucher = repository.save(fixedAmountVoucher);
 
         Optional<Voucher> voucher1 = repository.findByID(voucher.getVoucherId());
@@ -44,9 +43,9 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("두 바우처 저장 시, 전체 사이즈가 2여야 한다.")
     void findAll() {
-        FixedAmountVoucher fixedAmountVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 20, VoucherType.FIXED);
+        FixedAmountVoucher fixedAmountVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 20, MenuType.FIXED);
         repository.save(fixedAmountVoucher1);
-        FixedAmountVoucher fixedAmountVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, VoucherType.FIXED);
+        FixedAmountVoucher fixedAmountVoucher2 = new FixedAmountVoucher(UUID.randomUUID(), 20, MenuType.FIXED);
         repository.save(fixedAmountVoucher2);
 
         List<Voucher> all = repository.findAll();
@@ -57,7 +56,7 @@ class JdbcVoucherRepositoryTest {
     @Test
     @DisplayName("id로 데이터를 삭제할 수 있어야한다")
     void deleteById(){
-        FixedAmountVoucher fixedAmountVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 20, VoucherType.FIXED);
+        FixedAmountVoucher fixedAmountVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 20, MenuType.FIXED);
         Voucher voucher = repository.save(fixedAmountVoucher1);
         List<Voucher> before = repository.findAll();
 

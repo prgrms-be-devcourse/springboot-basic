@@ -45,6 +45,9 @@ public class Input {
     }
 
     // ---------Wallet 메뉴 관련
+    public int inputWalletVoucher() throws IOException{
+        return Integer.parseInt(br.readLine());
+    }
 
 
 

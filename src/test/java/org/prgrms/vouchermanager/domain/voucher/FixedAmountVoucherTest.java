@@ -10,7 +10,7 @@ class FixedAmountVoucherTest {
     @Test
     @DisplayName("할인금액이 잘 적용되는지 테스트")
     void discount(){
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10, VoucherType.FIXED);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10, MenuType.FIXED);
         long discountPrice = fixedAmountVoucher.discount(100);
         Assertions.assertThat(discountPrice).isEqualTo(90L);
     }

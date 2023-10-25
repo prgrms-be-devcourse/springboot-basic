@@ -1,11 +1,8 @@
 package org.prgrms.vouchermanager.repository.wallet;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
-import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
+import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
-import org.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
 import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
 import org.prgrms.vouchermanager.util.UuidUtil;
@@ -62,7 +59,7 @@ public class JdbcWalletRepository implements WalletRepository {
     }
     @Override
     public Optional<Wallet> findByVoucher(Voucher voucher) {
-        VoucherType type = voucher.getType();
+        MenuType type = voucher.getType();
         try{
             return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_VOUCHER, walletRowMapper, type.toString()));
         }catch (EmptyResultDataAccessException e){

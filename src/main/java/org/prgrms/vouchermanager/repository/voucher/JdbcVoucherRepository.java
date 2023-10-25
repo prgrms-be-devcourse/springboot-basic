@@ -1,23 +1,18 @@
 package org.prgrms.vouchermanager.repository.voucher;
 
-import jakarta.annotation.PostConstruct;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
-import org.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.prgrms.vouchermanager.util.UuidUtil;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.nio.ByteBuffer;
 import java.util.*;
 
 @Slf4j
@@ -41,12 +36,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucherId = UuidUtil.toUUID(resultSet.getBytes("id"));
         int amount = resultSet.getInt("amount");
         String type = resultSet.getString("voucher_type");
-        VoucherType voucherType = VoucherType.fromValue(type);
-        if(voucherType == VoucherType.FIXED){
-            return new FixedAmountVoucher(voucherId, amount, voucherType);
+        MenuType menuType = MenuType.fromValue(type);
+        if(menuType == MenuType.FIXED){
+            return new FixedAmountVoucher(voucherId, amount, menuType);
         }
-        else if(voucherType == VoucherType.PERCENT){
-            return new PercentDiscountVoucher(voucherId, amount, voucherType);
+        else if(menuType == MenuType.PERCENT){
+            return new PercentDiscountVoucher(voucherId, amount, menuType);
         }
         return null;
     };
