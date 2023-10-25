@@ -8,4 +8,6 @@ import java.util.List;
 public interface CustomerRepository {
     List<Customer> findAllBlackList();
     List<Customer> findAll();
+
+    Customer insert(Customer customer);
 }

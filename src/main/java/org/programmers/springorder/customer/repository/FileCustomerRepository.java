@@ -60,4 +60,9 @@ public class FileCustomerRepository implements CustomerRepository {
 
         return Collections.unmodifiableList(customerList);
     }
+
+    @Override
+    public Customer insert(Customer customer) {
+        return null;
+    }
 }
