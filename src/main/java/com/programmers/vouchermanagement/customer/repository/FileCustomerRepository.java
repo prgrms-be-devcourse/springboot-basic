@@ -11,35 +11,61 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.vouchermanagement.configuration.properties.AppProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
+import com.programmers.vouchermanagement.util.JSONFileManager;
 
 @Repository
-@Profile({"dev", "prod", "test"})
+@Profile({"prod", "test"})
 public class FileCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final String COMMA_SEPARATOR = ", ";
     private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading blacklist";
 
-    private final String filePath;
+    private final Function<Map, Customer> objectToCustomer = (customerObject) -> {
+        UUID customerId = UUID.fromString((String) customerObject.get("customerId"));
+        String name = (String) customerObject.get("name");
+        String customerTypeName = (String) customerObject.get("customerType");
+        CustomerType customerType = CustomerType.findCustomerType(customerTypeName);
+
+        return new Customer(customerId, name, customerType);
+    };
+
+    private final Function<Customer, HashMap<String, Object>> customerToObject = (customer) -> {
+        HashMap<String, Object> customerObject = new HashMap<>();
+        customerObject.put("customerId", customer.getCustomerId().toString());
+        customerObject.put("name", customer.getName());
+        customerObject.put("customerType", customer.getCustomerType().name());
+        return customerObject;
+    };
+
+    private final String blacklistFilePath;
+    private final String customerFilePath;
+    private final JSONFileManager<UUID, Customer> jsonFileManager;
     private final Map<UUID, Customer> customers;
 
-    public FileCustomerRepository(AppProperties appProperties) {
-        this.filePath = appProperties.getCustomerFilePath();
+    public FileCustomerRepository(AppProperties appProperties, @Qualifier("customer") JSONFileManager<UUID, Customer> jsonFileManager) {
+        this.customerFilePath = appProperties.getJSONCustomerFilePath();
+        this.blacklistFilePath = appProperties.getCSVCustomerFilePath();
+        this.jsonFileManager = jsonFileManager;
         this.customers = new HashMap<>();
         loadBlacklist();
+        loadCustomersFromJSON();
     }
 
     @Override
     public Customer save(Customer customer) {
         customers.put(customer.getCustomerId(), customer);
+        saveFile();
         return customer;
     }
 
@@ -69,18 +95,20 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public void deleteById(UUID customerId) {
         customers.remove(customerId);
+        saveFile();
     }
 
     @Override
     @Profile("test")
     public void deleteAll() {
         customers.clear();
+        saveFile();
     }
 
     private void loadBlacklist() {
         List<Customer> blacklist = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(blacklistFilePath))) {
             br.readLine(); // skip the first line
             String str;
             while ((str = br.readLine()) != null) {
@@ -99,5 +127,14 @@ public class FileCustomerRepository implements CustomerRepository {
         }
 
         blacklist.forEach(blackCustomer -> customers.put(blackCustomer.getCustomerId(), blackCustomer));
+    }
+
+    private void loadCustomersFromJSON() {
+        List<Customer> loadedCustomer = jsonFileManager.loadFile(customerFilePath, objectToCustomer);
+        loadedCustomer.forEach(customer -> customers.put(customer.getCustomerId(), customer));
+    }
+
+    private void saveFile() {
+        jsonFileManager.saveFile(customerFilePath, customers, customerToObject);
     }
 }
