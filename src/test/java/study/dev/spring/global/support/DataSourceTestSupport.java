@@ -17,25 +17,6 @@ import com.zaxxer.hikari.HikariDataSource;
 @Transactional
 public abstract class DataSourceTestSupport {
 
-	private static final String VOUCHER_DDL = """
-		CREATE TABLE Voucher(
-		    uuid           VARCHAR(36)  PRIMARY KEY ,
-		    name           VARCHAR(255) NOT NULL UNIQUE,
-		    voucherType    VARCHAR(255) NOT NULL,
-		    discountAmount DOUBLE       NOT NULL
-		);
-		""";
-
-	private static final String CUSTOMER_DDL = """
-		CREATE TABLE Customer
-		(
-		    uuid           VARCHAR(36)  PRIMARY KEY,
-		    name           VARCHAR(255) NOT NULL
-		);
-		  
-		INSERT INTO Customer VALUES ('uuid', 'name');
-		""";
-
 	@TestConfiguration
 	static class DataSourceConfig {
 
@@ -50,8 +31,7 @@ public abstract class DataSourceTestSupport {
 				.build();
 
 			JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-			jdbcTemplate.execute(VOUCHER_DDL);
-			jdbcTemplate.execute(CUSTOMER_DDL);
+			jdbcTemplate.execute(SqlFixture.DDL);
 
 			return dataSource;
 		}

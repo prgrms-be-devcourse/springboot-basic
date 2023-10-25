@@ -19,6 +19,16 @@ public class Wallet {
 		this.voucherId = voucherId;
 	}
 
+	public Wallet(
+		String uuid,
+		String customerId,
+		String voucherId
+	) {
+		this.uuid = uuid;
+		this.customerId = customerId;
+		this.voucherId = voucherId;
+	}
+
 	//==Factory method==//
 	public static Wallet of(
 		String customerId,
