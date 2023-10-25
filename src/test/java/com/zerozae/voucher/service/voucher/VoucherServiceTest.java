@@ -1,4 +1,4 @@
-package com.zerozae.voucher.service;
+package com.zerozae.voucher.service.voucher;
 
 import com.zerozae.voucher.domain.voucher.FixedDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
