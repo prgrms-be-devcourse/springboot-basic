@@ -10,13 +10,13 @@ public class ScannerInput implements ConsoleInput {
     private final Scanner scanner = new Scanner(System.in);
 
     @Override
-    public FunctionType getFunctionNameInput() {
+    public FunctionType getFunctionType() {
         return FunctionType.getValueByName(scanner.nextLine());
     }
 
     @Override
-    public VoucherType getVoucherTypeNumInput() {
         return VoucherType.getValueByNum(Long.parseLong(scanner.nextLine()));
+    public VoucherType getVoucherType() {
     }
 
     @Override

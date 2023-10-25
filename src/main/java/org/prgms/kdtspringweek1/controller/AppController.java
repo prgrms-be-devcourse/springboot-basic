@@ -31,11 +31,10 @@ public class AppController {
         selectFunction();
     }
 
-    // io 프로세스 같은 클래스.. 분리 고려해보기!
     private void selectFunction() {
         consoleOutput.printFunctionsToSelect();
         try {
-            switch (consoleInput.getFunctionNameInput()) {
+            switch (consoleInput.getFunctionType()) {
                 case EXIT -> exitVoucherProgram();
                 case CREATE -> createVoucher();
                 case LIST -> getAllVouchers();
@@ -56,7 +55,7 @@ public class AppController {
     private void createVoucher() {
         consoleOutput.printVouchersToSelect();
         try {
-            switch (consoleInput.getVoucherTypeNumInput()) {
+            switch (consoleInput.getVoucherType()) {
                 case FIXED_AMOUNT -> {
                     consoleOutput.printRequestMessageToDecideFixedAmount();
                     voucherService.registerVoucher(FixedAmountVoucher.createWithAmount(consoleInput.getDiscountValue()));
