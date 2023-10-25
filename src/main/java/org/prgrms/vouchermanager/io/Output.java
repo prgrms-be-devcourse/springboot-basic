@@ -65,6 +65,9 @@ public class Output {
     public void outputFindWithMenu(){
         System.out.println("지갑 조회를 이메일을 통해 할 지, 바우처를 통해 할 지 선택해주세요.");
     }
+    public void outputVoucherId(){
+        System.out.println("지갑에 등록할 바우처 아이디를 기입해주세요");
+    }
 
 
 

@@ -1,6 +1,8 @@
 package org.prgrms.vouchermanager.service;
 
 import lombok.RequiredArgsConstructor;
+import org.prgrms.vouchermanager.exception.NotExistEmailException;
+import org.prgrms.vouchermanager.exception.NotExistVoucherException;
 import org.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,6 @@ public class VoucherService {
         return voucherRepository.save(voucher);
     }
     public Optional<Voucher> findById(UUID voucherId){
-        return voucherRepository.findByID(voucherId);
+        return Optional.ofNullable(voucherRepository.findByID(voucherId).orElseThrow(NotExistVoucherException::new));
     }
 }

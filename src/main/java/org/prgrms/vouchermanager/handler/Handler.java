@@ -6,14 +6,19 @@ import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.customer.CustomerRequestDto;
 import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
+import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
 import org.prgrms.vouchermanager.exception.InputValueException;
 import org.prgrms.vouchermanager.exception.NotExistEmailException;
+import org.prgrms.vouchermanager.exception.NotExistVoucherException;
 import org.prgrms.vouchermanager.io.Input;
 import org.prgrms.vouchermanager.io.Output;
+import org.prgrms.vouchermanager.util.UuidUtil;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -187,6 +192,17 @@ public class Handler {
         }
     }
     private void walletCreate() {
+        try{
+            output.outputWalletEmail();
+            String email = input.inputCustomerEmail();
+            output.outputVoucherId();
+            int voucherId = input.inputWalletVoucher();
+            Optional<Voucher> voucher = voucherController.findById(UuidUtil.intToUUID(voucherId));
+            WalletRequestDto dto = WalletRequestDto.builder().customerEmail(email).voucher(voucher.get()).build();
+            walletController.createWallet(dto);
+        }catch (IOException | NotExistEmailException e){
+            log.error(e.getMessage());
+        }
 
     }
 
@@ -201,5 +217,12 @@ public class Handler {
     }
     private void walletFindByVoucher() {
         output.outputWalletVoucher();
+        try{
+            UUID voucherId = UuidUtil.intToUUID(input.inputWalletVoucher());
+            Optional<Voucher> voucher = voucherController.findById(voucherId);
+            walletController.findByVoucher(voucher.get());
+        }catch (IOException | NotExistVoucherException e){
+            log.error(e.getMessage());
+        }
     }
 }
