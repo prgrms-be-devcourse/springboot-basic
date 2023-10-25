@@ -8,16 +8,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
@@ -27,12 +24,21 @@ import java.util.UUID;
 
 @SpringJUnitConfig
 class VoucherJdbcRepositoryTest {
-    VoucherJdbcRepository repository;
-    @Autowired JdbcTemplate template;
-    @Autowired DataSource dataSource;
+    private VoucherJdbcRepository repository;
+    @Autowired
+    private JdbcTemplate template;
+    @Autowired
+    private DataSource dataSource;
     private final Voucher voucher1 = new FixedAmountVoucher(20000);
     private final Voucher voucher2 = new PercentAmountVoucher(10);
-    @Configuration
+
+//    @Autowired
+//    public VoucherJdbcRepositoryTest(JdbcTemplate template, DataSource dataSource) {
+//        this.template = template;
+//        this.dataSource = dataSource;
+//    }
+
+        @Configuration
     static class TestConfig {
         @Bean
         public DataSource dataSource() {
@@ -52,14 +58,14 @@ class VoucherJdbcRepositoryTest {
 
     @BeforeEach
     void beforeEach() {
-        repository = new VoucherJdbcRepository(dataSource);
+        this.repository = new VoucherJdbcRepository(dataSource);
         repository.create(voucher2);
     }
     @AfterEach
     void afterEach() {
-        repository.delete(UUID.fromString("626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0"));
-        repository.delete(UUID.fromString("70754a2f-d87d-4f69-af71-1d4bfe855e28"));
-        repository.delete(UUID.fromString("8213dfa7-d577-4bb5-86d6-0159b3383f0e"));
+        repository.delete(UUID.fromString("c80f7d69-5033-423c-b7d2-a11e7ee936dd"));
+        repository.delete(UUID.fromString("a2fe49e3-900d-4632-b3c1-0b6b25dd555e"));
+        repository.delete(UUID.fromString("c3ce5fc7-5673-4c80-81e2-1dac1a409489"));
         repository.delete(voucher1.getId());
         repository.delete(voucher2.getId());
     }

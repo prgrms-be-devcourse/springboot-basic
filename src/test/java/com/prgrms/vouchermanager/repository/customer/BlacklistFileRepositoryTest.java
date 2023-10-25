@@ -1,16 +1,15 @@
-package com.prgrms.vouchermanager.repository;
+package com.prgrms.vouchermanager.repository.customer;
 
 import com.prgrms.vouchermanager.domain.customer.Customer;
-import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.*;
 
-class CustomerFileRepositoryTest {
-
+class BlacklistFileRepositoryTest {
     private final BlacklistFileRepository repository = new BlacklistFileRepository("src/main/resources/customer_blacklist.csv");
 
     @Test
@@ -19,5 +18,4 @@ class CustomerFileRepositoryTest {
         List<Customer> blacklist = repository.blacklist();
         Assertions.assertThat(blacklist.size()).isEqualTo(3);
     }
-
 }

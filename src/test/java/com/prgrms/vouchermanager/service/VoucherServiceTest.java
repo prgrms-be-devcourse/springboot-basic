@@ -3,7 +3,6 @@ package com.prgrms.vouchermanager.service;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
-import com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

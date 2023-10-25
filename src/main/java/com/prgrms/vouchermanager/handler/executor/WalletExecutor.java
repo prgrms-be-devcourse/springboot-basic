@@ -1,7 +1,6 @@
 package com.prgrms.vouchermanager.handler.executor;
 
 import com.prgrms.vouchermanager.controller.WalletController;
-import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.exception.EmptyListException;
 import com.prgrms.vouchermanager.exception.NotCorrectId;
@@ -56,7 +55,7 @@ public class WalletExecutor {
             UUID customerId = UUID.fromString(sc.nextLine());
 
             controller.findByVoucherId(customerId);
-            List<Customer> customers = controller.findByVoucherId(customerId);
+            List<com.prgrms.vouchermanager.domain.customer.Customer> customers = controller.findByVoucherId(customerId);
             if(customers.isEmpty()) throw new EmptyListException(customers);
             else consolePrint.printCustomerList(customers);
         } catch (IllegalArgumentException e) {

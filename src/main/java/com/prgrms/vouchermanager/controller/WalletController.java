@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanager.controller;
 
-import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
 import com.prgrms.vouchermanager.service.WalletService;
@@ -26,7 +25,7 @@ public class WalletController {
         return service.findByCustomerId(id);
     }
 
-    public List<Customer> findByVoucherId(UUID id) {
+    public List<com.prgrms.vouchermanager.domain.customer.Customer> findByVoucherId(UUID id) {
         return service.findByVoucherId(id);
     }
 

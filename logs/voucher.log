@@ -135,3 +135,62 @@ Id : 1e62984e-e1eb-4613-8104-a0e1ab357808
 Discount Type : percent discount
 Discount percent : 10
 
+17:29:58.418 [main] INFO  c.p.v.r.customer.CustomerRepository -- list 시작
+17:29:58.437 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 11bae341-2a49-4c10-9515-549e92d00c30
+17:29:58.438 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
+17:29:58.438 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+17:29:58.438 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0
+17:29:58.438 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 야에 미코
+17:29:58.438 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1994
+17:29:58.439 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 70754a2f-d87d-4f69-af71-1d4bfe855e28
+17:29:58.439 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 카에데하라 카즈하
+17:29:58.439 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1999
+17:29:58.439 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 8213dfa7-d577-4bb5-86d6-0159b3383f0e
+17:29:58.439 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 라이덴 쇼군
+17:29:58.439 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1994
+17:30:04.627 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 6698dd18-dbe6-4929-8a12-1413c25b39f4
+17:30:04.627 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 스카라무슈
+17:30:04.628 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1995
+17:30:10.295 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 8d8cf7ca-44bb-4d75-b9dc-eb4bcefbbf78
+17:30:10.295 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
+17:30:10.296 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 2000
+17:30:16.602 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 23217b63-35c6-43ed-8d5a-ac6e9c5b7655
+17:30:16.602 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 벤티
+17:30:16.602 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+17:38:21.091 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 8872 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+17:38:21.095 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+17:39:17.924 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 26260 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+17:39:17.927 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+17:40:26.507 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 28536 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+17:40:26.510 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+17:40:27.214 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository$$SpringCGLIB$$0
+17:40:27.299 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.131 seconds (process running for 1.783)
+17:40:32.519 [main] INFO  c.p.v.handler.CommandHandler -- create 기능 선택
+17:40:40.910 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : c3ce5fc7-5673-4c80-81e2-1dac1a409489
+Discount Type : fixed discount
+Discount amount : 20000
+
+17:40:45.255 [main] ERROR c.p.v.VoucherManagerApplication -- vouhcer는 올바른 명령어가 아닙니다.
+17:44:51.040 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 22796 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+17:44:51.042 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+17:45:20.778 [main] INFO  c.p.v.VoucherManagerApplication -- Starting VoucherManagerApplication using Java 17.0.8 with PID 28984 (C:\programmers\voucher-manager\out\production\classes started by skylim in C:\programmers\voucher-manager)
+17:45:20.780 [main] INFO  c.p.v.VoucherManagerApplication -- The following 1 profile is active: "prod"
+17:45:21.451 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository$$SpringCGLIB$$0
+17:45:21.534 [main] INFO  c.p.v.VoucherManagerApplication -- Started VoucherManagerApplication in 1.088 seconds (process running for 1.748)
+17:45:24.675 [main] ERROR c.p.v.VoucherManagerApplication -- voucjs는 올바른 명령어가 아닙니다.
+17:45:30.904 [main] INFO  c.p.v.handler.CommandHandler -- create 기능 선택
+17:45:33.335 [main] ERROR c.p.v.VoucherManagerApplication -- percetn 의 형식이 올바르지 않습니다.
+17:45:40.335 [main] ERROR c.p.v.VoucherManagerApplication -- crate는 올바른 명령어가 아닙니다.
+17:45:43.526 [main] INFO  c.p.v.handler.CommandHandler -- create 기능 선택
+17:45:49.884 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : c80f7d69-5033-423c-b7d2-a11e7ee936dd
+Discount Type : percent discount
+Discount percent : 10
+
+17:45:55.800 [main] INFO  c.p.v.handler.CommandHandler -- create 기능 선택
+17:46:01.566 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : a2fe49e3-900d-4632-b3c1-0b6b25dd555e
+Discount Type : fixed discount
+Discount amount : 30000
+

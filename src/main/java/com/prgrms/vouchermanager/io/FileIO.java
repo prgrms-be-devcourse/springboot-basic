@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanager.io;
 
-import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
@@ -51,7 +50,7 @@ public class FileIO {
         }
     }
 
-    public void fileToCustomerMap(Map<UUID, Customer> customerMap) {
+    public void fileToCustomerMap(Map<UUID, com.prgrms.vouchermanager.domain.customer.Customer> customerMap) {
         String line = "";
 
         while(true) {
@@ -63,8 +62,8 @@ public class FileIO {
                 throw ex;
             }
             String[] split = line.split(",");
-            Customer customer
-                    = new Customer(UUID.fromString(split[0]), split[1], Integer.parseInt(split[2]), true);
+            com.prgrms.vouchermanager.domain.customer.Customer customer
+                    = new com.prgrms.vouchermanager.domain.customer.Customer(UUID.fromString(split[0]), split[1], Integer.parseInt(split[2]), true);
             customerMap.put(UUID.fromString(split[0]), customer);
         }
     }

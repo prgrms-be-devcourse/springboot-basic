@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanager.service;
 
-import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
@@ -42,9 +41,9 @@ public class WalletService {
         return voucherList;
     }
 
-    public List<Customer> findByVoucherId(UUID id) {
+    public List<com.prgrms.vouchermanager.domain.customer.Customer> findByVoucherId(UUID id) {
         List<Wallet> walletList = walletRepository.findByVoucherId(id);
-        List<Customer> customerList = new ArrayList<>();
+        List<com.prgrms.vouchermanager.domain.customer.Customer> customerList = new ArrayList<>();
 
         walletList.forEach(wallet -> {
             UUID customerId = wallet.getCustomerId();

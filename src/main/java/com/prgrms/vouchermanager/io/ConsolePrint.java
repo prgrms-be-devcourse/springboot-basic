@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanager.io;
 
-import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -41,7 +40,7 @@ public class ConsolePrint {
         System.out.println();
     }
 
-    public void printCustomerList(List<Customer> customers) {
+    public void printCustomerList(List<com.prgrms.vouchermanager.domain.customer.Customer> customers) {
          customers.forEach(customer -> {
             System.out.println(customer);
             System.out.println("---------------");
@@ -49,7 +48,7 @@ public class ConsolePrint {
         System.out.println();
     }
 
-    public void printBlacklist(List<Customer> blacklist) {
+    public void printBlacklist(List<com.prgrms.vouchermanager.domain.customer.Customer> blacklist) {
         blacklist.forEach(customer -> {
             System.out.println(customer);
             System.out.println("---------------");

@@ -1,8 +1,11 @@
 package com.prgrms.vouchermanager.domain.voucher;
 
+import lombok.Getter;
+
 import java.util.UUID;
 
 
+@Getter
 public abstract class Voucher {
     protected final UUID id;
     protected final long discount;
@@ -18,9 +21,7 @@ public abstract class Voucher {
 
     public abstract long discount(long beforeDiscount);
     public abstract String toString();
-    public UUID getId() {
-        return id;
-    };
 
-    public long getDiscount() { return discount; }
+    ;
+
 }

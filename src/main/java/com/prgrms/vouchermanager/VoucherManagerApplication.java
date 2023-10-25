@@ -25,11 +25,15 @@ public class VoucherManagerApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        try {
-            while(commandHandler.selectProgram()){}
-        } catch (MyException e) {
-            log.error(e.getMessage());
-            System.out.println(e.consoleMessage());
-        }
+            while(true){
+                boolean flag = true;
+                try {
+                    flag = commandHandler.selectProgram();
+                } catch (MyException e) {
+                    log.error(e.getMessage());
+                    System.out.println(e.consoleMessage());
+                }
+                if(!flag) break;
+            }
     }
 }
