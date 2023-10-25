@@ -1,6 +1,7 @@
 file:
   resources:
     path: src/main/resources/
+    build-path: build/resources/main/
 
   domains:
     customer:
