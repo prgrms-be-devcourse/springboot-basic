@@ -3,13 +3,13 @@ package com.programmers.vouchermanagement.domain.voucher;
 import java.util.UUID;
 
 public abstract class Voucher {
-    protected final UUID voucherId;
-    protected final String voucherName;
+    protected final UUID id;
+    protected final String name;
     protected final float discountAmount;
 
-    protected Voucher(UUID voucherId, String voucherName, float discountAmount) {
-        this.voucherId = voucherId;
-        this.voucherName = voucherName;
+    protected Voucher(UUID id, String name, float discountAmount) {
+        this.id = id;
+        this.name = name;
         this.discountAmount = discountAmount;
     }
 
