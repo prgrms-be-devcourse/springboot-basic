@@ -30,6 +30,9 @@ class CustomerServiceTest {
     void setUp() {
         customerRepository = mock(MemoryCustomerRepository.class);
         customerService = new CustomerService(customerRepository);
+
+        normalCustomer = new Customer(UUID.randomUUID(), "고객1", CustomerType.NORMAL);
+        blackCustomer = new Customer(UUID.randomUUID(), "고객2", CustomerType.BLACKLIST);
     }
 
     @Test
