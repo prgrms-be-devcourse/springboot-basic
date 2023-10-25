@@ -1,27 +1,20 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.UUID;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.programmers.vouchermanagement.properties.AppProperties;
+import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.programmers.vouchermanagement.properties.AppProperties;
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.math.BigDecimal;
+import java.util.*;
 
 @Repository
 @Profile("prod")
@@ -43,7 +36,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> vouchers;
 
     public FileVoucherRepository(AppProperties appProperties) {
-        this.filePath = appProperties.getResources().getPath() + appProperties.getDomains().get("voucher.file-name");
+        this.filePath = appProperties.resources().path() + appProperties.domains().get("voucher").fileName();
         this.vouchers = new HashMap<>();
         loadFile();
     }

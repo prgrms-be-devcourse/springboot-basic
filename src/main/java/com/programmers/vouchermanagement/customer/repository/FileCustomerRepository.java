@@ -1,22 +1,17 @@
 package com.programmers.vouchermanagement.customer.repository;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
+import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.properties.AppProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.programmers.vouchermanagement.customer.domain.Customer;
-import com.programmers.vouchermanagement.properties.AppProperties;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.*;
 
 @Repository
 @Profile({"dev", "prod"})
@@ -29,7 +24,7 @@ public class FileCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> customers;
 
     public FileCustomerRepository(AppProperties appProperties) {
-        this.filePath = appProperties.getResources().getPath() + appProperties.getDomains().get("customer.file-name");
+        this.filePath = appProperties.resources().path() + appProperties.domains().get("customer").fileName();
         this.customers = new HashMap<>();
         loadBlacklist();
     }

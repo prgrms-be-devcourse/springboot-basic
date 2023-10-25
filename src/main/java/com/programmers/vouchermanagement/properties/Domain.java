@@ -1,4 +1,4 @@
 package com.programmers.vouchermanagement.properties;
 
-public record Resources(String path, String buildPath) {
+public record Domain(String fileName) {
 }
