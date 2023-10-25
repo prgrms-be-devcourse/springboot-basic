@@ -1,22 +1,19 @@
 package devcourse.springbootbasic.domain.customer;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Builder
 @EqualsAndHashCode
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class Customer {
 
     @Builder.Default
     private final UUID id = UUID.randomUUID();
     private final String name;
-    private final boolean isBlacklisted;
+    private boolean isBlacklisted;
 
     public static Customer createCustomer(UUID uuid, String name, boolean isBlacklisted) {
         return Customer.builder()
@@ -24,5 +21,10 @@ public class Customer {
                 .name(name)
                 .isBlacklisted(isBlacklisted)
                 .build();
+    }
+
+    public Customer updateBlacklistStatus(boolean isBlacklisted) {
+        this.isBlacklisted = isBlacklisted;
+        return this;
     }
 }

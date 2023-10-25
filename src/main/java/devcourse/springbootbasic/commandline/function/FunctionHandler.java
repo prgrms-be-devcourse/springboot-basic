@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Component
@@ -60,5 +61,20 @@ public class FunctionHandler {
         List<CustomerFindResponse> customerList = customerController.findAllBlacklistedCustomers();
 
         consoleIOHandler.printListString(customerList);
+    }
+
+    public void createCustomer() {
+        String name = consoleIOHandler.inputStringWithMessage(InputMessage.CUSTOMER_NAME);
+
+        CustomerCreateResponse customer = customerController.save(new CustomerCreateRequest(name));
+        log.info(String.format(ConsoleConstants.CUSTOMER_CREATE_MESSAGE, customer.getId()));
+    }
+
+    public void updateBlacklistStatus() {
+        UUID customerId = consoleIOHandler.inputUUIDWithMessage(InputMessage.CUSTOMER_ID);
+        boolean isBlacklisted = consoleIOHandler.inputBooleanWithMessage(InputMessage.BLACKLIST_STATUS);
+
+        CustomerUpdateResponse customer = customerController.updateBlacklistStatus(customerId, isBlacklisted);
+        log.info(String.format(ConsoleConstants.CUSTOMER_UPDATE_MESSAGE, customer.getId()));
     }
 }

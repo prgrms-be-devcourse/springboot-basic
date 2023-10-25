@@ -7,6 +7,7 @@ import devcourse.springbootbasic.exception.InputException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 
 import static devcourse.springbootbasic.exception.InputErrorMessage.NOT_NUMBER;
@@ -46,6 +47,21 @@ public class ConsoleIOHandler {
         this.printQuestionMessage(inputMessage.getMessage());
 
         return getParseInputWithPrint(Long::parseLong);
+    }
+
+
+    public boolean inputBooleanWithMessage(InputMessage inputMessage) {
+        this.printQuestionMessage(inputMessage.getMessage());
+
+        String input = getInputWithPrint();
+        return input.equalsIgnoreCase("y");
+    }
+
+    public UUID inputUUIDWithMessage(InputMessage inputMessage) {
+        this.printQuestionMessage(inputMessage.getMessage());
+
+        String input = getInputWithPrint();
+        return UUID.fromString(input);
     }
 
     private <T> T getParseInputWithPrint(Function<String, T> parseFunction) {
