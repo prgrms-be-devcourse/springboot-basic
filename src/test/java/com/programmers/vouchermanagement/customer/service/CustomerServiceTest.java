@@ -37,7 +37,7 @@ class CustomerServiceTest {
         doReturn(Collections.emptyList()).when(customerRepository).findBlackCustomers();
 
         //when
-        List<CustomerResponse> blacklist = customerService.readBlacklist();
+        final List<CustomerResponse> blacklist = customerService.readBlacklist();
 
         //then
         assertThat(blacklist.isEmpty(), is(true));
@@ -50,12 +50,12 @@ class CustomerServiceTest {
     @DisplayName("저장된 블랙리스트 조회에 성공한다.")
     void testReadBlacklistSuccessful_ReturnList() {
         //given
-        Customer firstCustomer = new Customer(UUID.randomUUID(), "black 1", CustomerType.BLACK);
-        Customer secondCustomer = new Customer(UUID.randomUUID(), "black 2", CustomerType.BLACK);
+        final Customer firstCustomer = new Customer(UUID.randomUUID(), "black 1", CustomerType.BLACK);
+        final Customer secondCustomer = new Customer(UUID.randomUUID(), "black 2", CustomerType.BLACK);
         doReturn(List.of(firstCustomer, secondCustomer)).when(customerRepository).findBlackCustomers();
 
         //when
-        List<CustomerResponse> blacklist = customerService.readBlacklist();
+        final List<CustomerResponse> blacklist = customerService.readBlacklist();
 
         //then
         assertThat(blacklist, hasSize(2));

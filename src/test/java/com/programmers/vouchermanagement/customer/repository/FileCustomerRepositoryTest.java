@@ -41,7 +41,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("저장된 블랙리스트에 있는 고객들의 리스트를 반환한다")
     void testFindBlackCustomersSuccessful_ReturnList() {
         //when
-        List<Customer> blacklist = customerRepository.findBlackCustomers();
+        final List<Customer> blacklist = customerRepository.findBlackCustomers();
 
         //then
         assertThat(blacklist.isEmpty(), is(false));
@@ -55,7 +55,7 @@ class FileCustomerRepositoryTest {
         customerRepository.deleteAll();
 
         //when
-        List<Customer> blacklist = customerRepository.findBlackCustomers();
+        final List<Customer> blacklist = customerRepository.findBlackCustomers();
 
         //then
         assertThat(blacklist.isEmpty(), is(true));

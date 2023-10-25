@@ -38,11 +38,10 @@ class VoucherServiceTest {
     @DisplayName("고정 금액 바우처 생성에 성공한다.")
     void testFixedVoucherCreationSuccessful() {
         //given
-        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("100"), VoucherType.FIXED);
-        Voucher voucher = new Voucher(UUID.randomUUID(), request.discountValue(), request.voucherType());
+        final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("100"), VoucherType.FIXED);
 
         //when
-        VoucherResponse voucherResponse = voucherService.create(request);
+        final VoucherResponse voucherResponse = voucherService.create(request);
 
         //then
         assertThat(voucherResponse.isPercentVoucher(), is(false));
@@ -55,7 +54,7 @@ class VoucherServiceTest {
     @DisplayName("유효하지 않은 할인 값의 고정 금액 바우처 생성에 실패한다.")
     void testFixedVoucherCreationFailed_InvalidAmount() {
         //given
-        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("0"), VoucherType.FIXED);
+        final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("0"), VoucherType.FIXED);
 
         //when & then
         assertThatThrownBy(() -> voucherService.create(request)).isInstanceOf(IllegalArgumentException.class);
@@ -65,10 +64,10 @@ class VoucherServiceTest {
     @DisplayName("퍼센트 할인 바우처 생성에 성공한다.")
     void textPercentVoucherCreationSuccessful() {
         //given
-        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("50"), VoucherType.PERCENT);
+        final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("50"), VoucherType.PERCENT);
 
         //when
-        VoucherResponse voucherResponse = voucherService.create(request);
+        final VoucherResponse voucherResponse = voucherService.create(request);
 
         //then
         assertThat(voucherResponse.isPercentVoucher(), is(true));
@@ -81,10 +80,10 @@ class VoucherServiceTest {
     @DisplayName("유효하지 않은 할인율의 퍼센트 할인 바우처 생성에 실패한다.")
     void testPercentVoucherCreationFailed_InvalidPercent() {
         //given
-        CreateVoucherRequest firstRequest = new CreateVoucherRequest(new BigDecimal("0"), VoucherType.PERCENT);
-        CreateVoucherRequest secondRequest = new CreateVoucherRequest(new BigDecimal("100.1"), VoucherType.PERCENT);
+        final CreateVoucherRequest firstRequest = new CreateVoucherRequest(new BigDecimal("0"), VoucherType.PERCENT);
+        final CreateVoucherRequest secondRequest = new CreateVoucherRequest(new BigDecimal("100.1"), VoucherType.PERCENT);
 
-        //when
+        //when & then
         assertThatThrownBy(() -> voucherService.create(firstRequest)).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> voucherService.create(secondRequest)).isInstanceOf(IllegalArgumentException.class);
     }
@@ -96,7 +95,7 @@ class VoucherServiceTest {
         doReturn(Collections.emptyList()).when(voucherRepository).findAll();
 
         //when
-        List<VoucherResponse> vouchers = voucherService.readAllVouchers();
+        final List<VoucherResponse> vouchers = voucherService.readAllVouchers();
 
         //then
         assertThat(vouchers.isEmpty(), is(true));
@@ -109,12 +108,12 @@ class VoucherServiceTest {
     @DisplayName("저장된 바우처의 리스트를 읽는데 성공한다.")
     void testListVouchersSuccessful_ReturnList() {
         //given
-        Voucher firstVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
-        Voucher secondVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
+        final Voucher firstVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        final Voucher secondVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
         doReturn(List.of(firstVoucher, secondVoucher)).when(voucherRepository).findAll();
 
         //when
-        List<VoucherResponse> vouchers = voucherService.readAllVouchers();
+        final List<VoucherResponse> vouchers = voucherService.readAllVouchers();
 
         //then
         assertThat(vouchers.isEmpty(), is(false));

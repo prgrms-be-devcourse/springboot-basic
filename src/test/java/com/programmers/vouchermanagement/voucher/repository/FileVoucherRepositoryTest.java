@@ -51,7 +51,7 @@ class FileVoucherRepositoryTest {
     @Order(2)
     void testListVoucherSuccessful_ReturnEmptyList() {
         //when
-        List<Voucher> vouchers = voucherRepository.findAll();
+        final List<Voucher> vouchers = voucherRepository.findAll();
 
         //then
         assertThat(vouchers.isEmpty(), is(true));
@@ -62,10 +62,10 @@ class FileVoucherRepositoryTest {
     @Order(3)
     void testVoucherCreationSuccessful() {
         //given
-        Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
 
         //when
-        Voucher createdVoucher = voucherRepository.save(voucher);
+        final Voucher createdVoucher = voucherRepository.save(voucher);
 
         //then
         assertThat(createdVoucher, samePropertyValuesAs(voucher));
@@ -76,11 +76,11 @@ class FileVoucherRepositoryTest {
     @Order(4)
     void testListVoucherSuccessful_ReturnList() {
         //given
-        Voucher additionalVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
+        final Voucher additionalVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
         voucherRepository.save(additionalVoucher);
 
         //when
-        List<Voucher> vouchers = voucherRepository.findAll();
+        final List<Voucher> vouchers = voucherRepository.findAll();
 
         //then
         assertThat(vouchers, hasSize(2));
