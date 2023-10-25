@@ -7,12 +7,12 @@ import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.VoucherController;
 import com.programmers.springbasic.dto.GetVouchersResponse;
 
-public class GetVouchersCommand implements Command {
+public class GetAllVouchersCommand implements Command {
 
 	private final VoucherController voucherController;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public GetVouchersCommand(VoucherController voucherController, ConsoleOutputHandler consoleOutputHandler) {
+	public GetAllVouchersCommand(VoucherController voucherController, ConsoleOutputHandler consoleOutputHandler) {
 		this.voucherController = voucherController;
 		this.consoleOutputHandler = consoleOutputHandler;
 	}
