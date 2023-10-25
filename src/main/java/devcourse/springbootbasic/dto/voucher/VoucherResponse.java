@@ -4,15 +4,13 @@ package devcourse.springbootbasic.dto.voucher;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import lombok.Getter;
 
-import java.util.UUID;
-
 @Getter
 public class VoucherResponse {
 
-    private final UUID id;
+    private final String id;
 
     public VoucherResponse(Voucher voucher) {
-        this.id = voucher.getId();
+        this.id = voucher.getId().toString();
     }
 
     @Override

@@ -4,15 +4,13 @@ package devcourse.springbootbasic.dto.customer;
 import devcourse.springbootbasic.domain.customer.Customer;
 import lombok.Getter;
 
-import java.util.UUID;
-
 @Getter
 public class CustomerResponse {
 
-    private final UUID id;
+    private final String id;
 
     public CustomerResponse(Customer customer) {
-        this.id = customer.getId();
+        this.id = customer.getId().toString();
     }
 
     @Override

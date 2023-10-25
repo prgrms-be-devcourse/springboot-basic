@@ -7,11 +7,11 @@ import java.util.UUID;
 @Getter
 public class VoucherAssignResponse {
 
-    private final UUID voucherId;
-    private final UUID customerId;
+    private final String voucherId;
+    private final String customerId;
 
     public VoucherAssignResponse(UUID voucherId, UUID customerId) {
-        this.voucherId = voucherId;
-        this.customerId = customerId;
+        this.voucherId = voucherId.toString();
+        this.customerId = customerId.toString();
     }
 }
