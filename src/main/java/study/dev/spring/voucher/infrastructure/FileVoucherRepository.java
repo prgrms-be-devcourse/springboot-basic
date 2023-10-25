@@ -49,8 +49,9 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void save(final Voucher voucher) {
+	public Voucher save(final Voucher voucher) {
 		storage.put(voucher.getUuid(), voucher);
+		return voucher;
 	}
 
 	@Override

@@ -40,7 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public void save(Voucher voucher) {
+	public Voucher save(Voucher voucher) {
 		MapSqlParameterSource paramSource = new MapSqlParameterSource()
 			.addValue("uuid", voucher.getUuid())
 			.addValue("name", voucher.getName())
@@ -48,6 +48,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			.addValue("discountAmount", voucher.getDiscountAmount());
 
 		jdbcTemplate.update(INSERT, paramSource);
+		return voucher;
 	}
 
 	@Override

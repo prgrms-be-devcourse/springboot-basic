@@ -11,8 +11,8 @@ import study.dev.spring.voucher.domain.VoucherRepository;
 public class VoucherRepositoryStub implements VoucherRepository {
 
 	@Override
-	public void save(Voucher voucher) {
-
+	public Voucher save(Voucher voucher) {
+		return voucher;
 	}
 
 	@Override
