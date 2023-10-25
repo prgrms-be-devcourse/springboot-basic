@@ -9,6 +9,17 @@ spring:
 spring:
   profiles:
     active: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/VoucherProgram
+    username: root
+    password: 1234
+  sql:
+    init:
+      mode: always
+    batch:
+      jdbc:
+        schema: classpath:schema.sql
 
 ---
 
