@@ -1,10 +1,12 @@
 package com.programmers.springbasic.dto;
 
+import java.util.UUID;
+
 import com.programmers.springbasic.entity.customer.Customer;
 
 public class GetBlacklistCustomersResponse {
 
-	private long id;
+	private UUID id;
 	private String name;
 
 	public GetBlacklistCustomersResponse(Customer customer) {
