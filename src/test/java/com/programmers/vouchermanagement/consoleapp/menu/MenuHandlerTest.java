@@ -65,4 +65,22 @@ class MenuHandlerTest {
         //verify
         verify(consoleManager).printIncorrectMenu();
     }
+
+    @Test
+    @DisplayName("바우처 생성 시 잘못된 타입을 입력하면 메뉴 실행을 실패하고, 시스템은 계속 된다.")
+    void testHandleMenuFailed_IncorrectVoucherType() {
+        //given
+        final IllegalArgumentException exception = new IllegalArgumentException();
+        doReturn(CREATE).when(consoleManager).selectMenu();
+        doThrow(exception).when(consoleManager).instructCreate();
+
+        //when
+        final boolean isRunning = menuHandler.handleMenu();
+
+        //then
+        assertThat(isRunning, is(true));
+
+        //verify
+        verify(consoleManager).printException(exception);
+    }
 }
