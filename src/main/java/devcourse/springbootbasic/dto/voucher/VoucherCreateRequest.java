@@ -2,9 +2,8 @@ package devcourse.springbootbasic.dto.voucher;
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
+import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
-
-import java.util.UUID;
 
 @RequiredArgsConstructor
 public class VoucherCreateRequest {
@@ -14,7 +13,7 @@ public class VoucherCreateRequest {
 
     public Voucher toEntity() {
         return Voucher.builder()
-                .id(UUID.randomUUID())
+                .id(UUIDUtil.generateRandomUUID())
                 .voucherType(voucherType)
                 .discountValue(discountValue)
                 .build();

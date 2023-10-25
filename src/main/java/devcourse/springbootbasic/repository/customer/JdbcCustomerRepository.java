@@ -1,12 +1,12 @@
 package devcourse.springbootbasic.repository.customer;
 
 import devcourse.springbootbasic.domain.customer.Customer;
+import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,13 +20,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static UUID parseUUIDFromBytes(byte[] uuidBytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(uuidBytes);
-        long mostSignificantBits = byteBuffer.getLong();
-        long leastSignificantBits = byteBuffer.getLong();
-        return new UUID(mostSignificantBits, leastSignificantBits);
-    }
-
     @Override
     public List<Customer> findAllBlacklistedCustomers() {
         String sql = """
@@ -37,7 +30,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             byte[] uuidBytes = rs.getBytes("id");
-            UUID id = parseUUIDFromBytes(uuidBytes);
+            UUID id = UUIDUtil.byteToUUID(uuidBytes);
             String name = rs.getString("name");
             boolean isBlacklisted = rs.getBoolean("is_blacklisted");
 
@@ -72,7 +65,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         return jdbcTemplate.query(sql, Map.of("id", customerId.toString()), (rs, rowNum) -> {
             byte[] uuidBytes = rs.getBytes("id");
-            UUID id = parseUUIDFromBytes(uuidBytes);
+            UUID id = UUIDUtil.byteToUUID(uuidBytes);
             String name = rs.getString("name");
             boolean isBlacklisted = rs.getBoolean("is_blacklisted");
 

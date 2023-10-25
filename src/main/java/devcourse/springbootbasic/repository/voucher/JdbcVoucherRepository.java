@@ -2,12 +2,12 @@ package devcourse.springbootbasic.repository.voucher;
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
+import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -44,18 +44,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             byte[] uuidBytes = rs.getBytes("id");
-            UUID id = parseUUIDFromBytes(uuidBytes);
+            UUID id = UUIDUtil.byteToUUID(uuidBytes);
             VoucherType voucherType = VoucherType.valueOf(rs.getString("voucher_type"));
             long discountValue = rs.getLong("discount_value");
 
             return Voucher.createVoucher(id, voucherType, discountValue);
         });
-    }
-
-    private static UUID parseUUIDFromBytes(byte[] uuidBytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(uuidBytes);
-        long mostSignificantBits = byteBuffer.getLong();
-        long leastSignificantBits = byteBuffer.getLong();
-        return new UUID(mostSignificantBits, leastSignificantBits);
     }
 }

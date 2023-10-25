@@ -4,6 +4,7 @@ import devcourse.springbootbasic.commandline.constant.InputMessage;
 import devcourse.springbootbasic.commandline.console.input.ConsoleInput;
 import devcourse.springbootbasic.commandline.console.output.ConsoleOutput;
 import devcourse.springbootbasic.exception.InputException;
+import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -61,7 +62,7 @@ public class ConsoleIOHandler {
         this.printQuestionMessage(inputMessage.getMessage());
 
         String input = getInputWithPrint();
-        return UUID.fromString(input);
+        return UUIDUtil.stringToUUID(input);
     }
 
     private <T> T getParseInputWithPrint(Function<String, T> parseFunction) {

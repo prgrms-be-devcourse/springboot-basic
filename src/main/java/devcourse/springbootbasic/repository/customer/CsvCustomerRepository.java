@@ -2,6 +2,7 @@ package devcourse.springbootbasic.repository.customer;
 
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.util.CsvFileHandler;
+import devcourse.springbootbasic.util.UUIDUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Profile;
@@ -55,7 +56,7 @@ public class CsvCustomerRepository implements CustomerRepository {
     @PostConstruct
     public void init() {
         Function<String[], Customer> parser = line -> {
-            UUID customerId = UUID.fromString(line[0]);
+            UUID customerId = UUIDUtil.stringToUUID(line[0]);
             String name = line[1];
             boolean isBlacklisted = Boolean.parseBoolean(line[2]);
 

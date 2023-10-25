@@ -3,6 +3,7 @@ package devcourse.springbootbasic.repository.voucher;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.util.CsvFileHandler;
+import devcourse.springbootbasic.util.UUIDUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Profile;
@@ -42,7 +43,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     @PostConstruct
     public void init() {
         Function<String[], Voucher> parser = line -> {
-            UUID voucherId = UUID.fromString(line[0]);
+            UUID voucherId = UUIDUtil.stringToUUID(line[0]);
             VoucherType voucherType = VoucherType.valueOf(line[1]);
             long discountValue = Long.parseLong(line[2]);
 

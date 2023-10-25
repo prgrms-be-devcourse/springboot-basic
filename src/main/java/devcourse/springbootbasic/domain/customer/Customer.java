@@ -1,6 +1,10 @@
 package devcourse.springbootbasic.domain.customer;
 
-import lombok.*;
+import devcourse.springbootbasic.util.UUIDUtil;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 import java.util.UUID;
 
@@ -11,7 +15,7 @@ import java.util.UUID;
 public class Customer {
 
     @Builder.Default
-    private final UUID id = UUID.randomUUID();
+    private final UUID id = UUIDUtil.generateRandomUUID();
     private final String name;
     private boolean isBlacklisted;
 
