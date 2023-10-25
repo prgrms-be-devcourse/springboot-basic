@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -31,6 +32,24 @@ public class CsvCustomerRepository implements CustomerRepository {
                 .stream()
                 .filter(Customer::isBlacklisted)
                 .toList();
+    }
+
+    @Override
+    public Customer save(Customer customer) {
+        customerDatabase.put(customer.getId(), customer);
+        return customer;
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.ofNullable(customerDatabase.get(customerId));
+    }
+
+    @Override
+    public int update(Customer customer) {
+        int updatedRow = customerDatabase.containsKey(customer.getId()) ? 1 : 0;
+        customerDatabase.put(customer.getId(), customer);
+        return updatedRow;
     }
 
     @PostConstruct
