@@ -9,7 +9,7 @@ public class PercentDiscountVoucher extends Voucher {
 	private static final long MINIMUM_PERCENT = 0;
 	private static final long MAXIMUM_PERCENT = 100;
 
-	private final long percent;
+	private long percent;
 
 	public PercentDiscountVoucher(UUID voucherId, long percent) {
 		super(voucherId, VoucherType.PERCENT_DISCOUNT);
@@ -22,6 +22,11 @@ public class PercentDiscountVoucher extends Voucher {
 	@Override
 	public long getDiscountValue() {
 		return percent;
+	}
+
+	@Override
+	public void changeDiscountValue(long newDiscountValue) {
+		this.percent = newDiscountValue; // todo = validation
 	}
 
 }

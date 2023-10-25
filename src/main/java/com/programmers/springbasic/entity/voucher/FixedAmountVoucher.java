@@ -6,7 +6,7 @@ import com.programmers.springbasic.enums.ErrorCode;
 
 public class FixedAmountVoucher extends Voucher {
 
-	private final long amount;
+	private long amount;
 
 	public FixedAmountVoucher(UUID voucherId, long amount) {
 		super(voucherId, VoucherType.FIXED_AMOUNT);
@@ -19,6 +19,12 @@ public class FixedAmountVoucher extends Voucher {
 	@Override
 	public long getDiscountValue() {
 		return amount;
+	}
+
+	@Override
+	public void changeDiscountValue(long newDiscountValue) {
+		//todo : validation
+		this.amount = newDiscountValue;
 	}
 
 }
