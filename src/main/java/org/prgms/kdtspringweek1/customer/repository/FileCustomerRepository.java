@@ -13,6 +13,7 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+// TODO: SRP를 위해 파일 유틸 클래스를 따로 구현하려고 했으나, 이 부분은 2차 과제 때 반영해두도록 하겠습니다!
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
     private Map<UUID, Customer> blackCustomers;
