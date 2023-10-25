@@ -27,3 +27,111 @@
 02:31:39.323 [main] INFO  c.p.v.repository.CustomerRepository -- customer_id: 626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0
 02:31:39.323 [main] INFO  c.p.v.repository.CustomerRepository -- name : 야에 미코
 02:31:39.323 [main] INFO  c.p.v.repository.CustomerRepository -- year_of_birth: 1994
+10:26:38.850 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository
+10:26:40.400 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 7ec5f7ff-ff7c-4d6e-9589-9cd87eaa3c5d
+Discount Type : fixed discount
+Discount amount : 20000
+
+10:55:04.655 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- com.prgrms.vouchermanager.io.FileIO 객체에서 파일 입출력에 실패했습니다.
+10:55:04.674 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- com.prgrms.vouchermanager.io.FileIO 객체에서 파일 입출력에 실패했습니다.
+10:55:04.683 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- com.prgrms.vouchermanager.io.FileIO 객체에서 파일 입출력에 실패했습니다.
+10:57:21.496 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- com.prgrms.vouchermanager.io.FileIO 객체에서 파일 입출력에 실패했습니다.
+10:57:21.518 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- com.prgrms.vouchermanager.io.FileIO 객체에서 파일 입출력에 실패했습니다.
+10:57:21.528 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- com.prgrms.vouchermanager.io.FileIO 객체에서 파일 입출력에 실패했습니다.
+10:57:58.042 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- com.prgrms.vouchermanager.io.FileIO 객체에서 파일 입출력에 실패했습니다.
+10:57:58.061 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- com.prgrms.vouchermanager.io.FileIO 객체에서 파일 입출력에 실패했습니다.
+10:57:58.069 [main] ERROR com.prgrms.vouchermanager.io.FileIO -- com.prgrms.vouchermanager.io.FileIO 객체에서 파일 입출력에 실패했습니다.
+10:59:16.092 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository
+10:59:16.097 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : acb11b96-1034-4793-b2a8-aa09a31e5d75
+Discount Type : percent discount
+Discount percent : 20
+
+10:59:16.174 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository
+10:59:16.175 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : cd4eebf3-3b13-4d18-892a-b961944379e5
+Discount Type : fixed discount
+Discount amount : 20000
+
+10:59:16.184 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository
+11:01:56.809 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository
+11:01:56.815 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 4ea5d828-6c60-4c52-9f39-544f247e2fea
+Discount Type : percent discount
+Discount percent : 20
+
+11:01:56.903 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository
+11:01:56.904 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : f946234b-91c9-4826-a503-435fe16f4b42
+Discount Type : fixed discount
+Discount amount : 20000
+
+11:01:56.909 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherFileRepository
+11:23:55.336 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 1748 (started by skylim in C:\programmers\voucher-manager)
+11:23:55.337 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+11:23:57.443 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 1748 (started by skylim in C:\programmers\voucher-manager)
+11:23:57.444 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+11:23:58.738 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 1748 (started by skylim in C:\programmers\voucher-manager)
+11:23:58.739 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+11:25:21.637 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 24184 (started by skylim in C:\programmers\voucher-manager)
+11:25:21.638 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+11:25:23.671 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 24184 (started by skylim in C:\programmers\voucher-manager)
+11:25:23.671 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+11:25:24.929 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 24184 (started by skylim in C:\programmers\voucher-manager)
+11:25:24.929 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+11:38:03.522 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 16544 (started by skylim in C:\programmers\voucher-manager)
+11:38:03.522 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+11:38:04.751 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 16544 (started by skylim in C:\programmers\voucher-manager)
+11:38:04.751 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+11:38:05.098 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 16544 (started by skylim in C:\programmers\voucher-manager)
+11:38:05.098 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+11:38:18.432 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 23076 (started by skylim in C:\programmers\voucher-manager)
+11:38:18.434 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+12:01:29.195 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 25416 (started by skylim in C:\programmers\voucher-manager)
+12:01:29.196 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+12:01:48.181 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 24972 (started by skylim in C:\programmers\voucher-manager)
+12:01:48.182 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+12:03:15.858 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 24144 (started by skylim in C:\programmers\voucher-manager)
+12:03:15.859 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+12:03:22.841 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 16620 (started by skylim in C:\programmers\voucher-manager)
+12:03:22.842 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+12:04:38.468 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 24976 (started by skylim in C:\programmers\voucher-manager)
+12:04:38.469 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+12:05:31.147 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 24696 (started by skylim in C:\programmers\voucher-manager)
+12:05:31.148 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+12:34:29.504 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 6120 (started by skylim in C:\programmers\voucher-manager)
+12:34:29.505 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+12:34:30.516 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 6120 (started by skylim in C:\programmers\voucher-manager)
+12:34:30.517 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+12:34:30.814 [main] INFO  c.p.v.c.VoucherControllerTest -- Starting VoucherControllerTest using Java 17.0.8 with PID 6120 (started by skylim in C:\programmers\voucher-manager)
+12:34:30.815 [main] INFO  c.p.v.c.VoucherControllerTest -- The following 1 profile is active: "jdbc"
+13:12:55.548 [main] INFO  c.p.v.r.v.VoucherJdbcRepositoryTest -- Starting VoucherJdbcRepositoryTest using Java 17.0.8 with PID 24444 (started by skylim in C:\programmers\voucher-manager)
+13:12:55.550 [main] INFO  c.p.v.r.v.VoucherJdbcRepositoryTest -- The following 1 profile is active: "jdbc"
+13:15:32.929 [main] INFO  c.p.v.r.v.VoucherJdbcRepositoryTest -- Starting VoucherJdbcRepositoryTest using Java 17.0.8 with PID 25608 (started by skylim in C:\programmers\voucher-manager)
+13:15:32.931 [main] INFO  c.p.v.r.v.VoucherJdbcRepositoryTest -- The following 1 profile is active: "jdbc"
+13:15:34.254 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository$$SpringCGLIB$$0
+13:15:34.419 [main] INFO  c.p.v.r.v.VoucherJdbcRepositoryTest -- Started VoucherJdbcRepositoryTest in 1.89 seconds (process running for 3.829)
+13:31:26.224 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherRepository$MockitoMock$4R9gEs63
+13:31:26.249 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherRepository$MockitoMock$4R9gEs63
+13:31:26.256 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : c8b2e98e-eee2-44ba-a31b-cb59b0959b07
+Discount Type : fixed discount
+Discount amount : 20000
+
+13:31:59.329 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherRepository$MockitoMock$yIm95dVv
+13:31:59.353 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherRepository$MockitoMock$yIm95dVv
+13:34:19.314 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherRepository$MockitoMock$6NouDFsL
+13:34:19.336 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherRepository$MockitoMock$6NouDFsL
+13:35:48.724 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherRepository$MockitoMock$XQtP6VSk
+13:35:48.746 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherRepository$MockitoMock$XQtP6VSk
+13:35:48.754 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 5fc08061-a591-4765-bdfc-e1d234ebf052
+Discount Type : fixed discount
+Discount amount : 20000
+
+13:35:48.783 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 1e62984e-e1eb-4613-8104-a0e1ab357808
+Discount Type : percent discount
+Discount percent : 10
+

@@ -18,8 +18,8 @@ public class VoucherController {
         this.service = service;
     }
 
-    public void create(VoucherType voucherType, long discount) {
-        service.create(voucherType, discount);
+    public Voucher create(VoucherType voucherType, long discount) {
+        return service.create(voucherType, discount);
     }
 
     public List<Voucher> list() {

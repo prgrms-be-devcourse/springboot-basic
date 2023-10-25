@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanager.repository;
+package com.prgrms.vouchermanager.repository.voucher;
 
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
