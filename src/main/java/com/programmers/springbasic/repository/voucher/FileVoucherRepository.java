@@ -18,7 +18,7 @@ import com.programmers.springbasic.utils.FileUtils;
 import jakarta.annotation.PostConstruct;
 
 @Repository
-@Profile("prod")
+@Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
 
 	private final FileUtils fileUtils;
@@ -41,7 +41,15 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Voucher save(Voucher voucher) {
+	public Voucher insert(Voucher voucher) {
+		storage.put(voucher.getVoucherId(), voucher);
+		List<String> fileLines = voucherMapper.voucherMapToLines(storage);
+		fileUtils.writeFile(voucherFilePath, fileLines);
+		return voucher;
+	}
+
+	@Override
+	public Voucher update(Voucher voucher) {
 		storage.put(voucher.getVoucherId(), voucher);
 		List<String> fileLines = voucherMapper.voucherMapToLines(storage);
 		fileUtils.writeFile(voucherFilePath, fileLines);
@@ -57,12 +65,14 @@ public class FileVoucherRepository implements VoucherRepository {
 
 	@Override
 	public Optional<Voucher> findById(UUID id) {
-		return Optional.empty();
+		return Optional.ofNullable(storage.get(id));
 	}
 
 	@Override
 	public void deleteById(UUID id) {
-
+		storage.remove(id);
+		List<String> fileLines = voucherMapper.voucherMapToLines(storage);
+		fileUtils.writeFile(voucherFilePath, fileLines);
 	}
 
 }
