@@ -5,6 +5,7 @@ import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.repository.customer.CustomerRepository;
 import com.zerozae.voucher.repository.customer.FileCustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerService {
 
-    private final FileCustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerResponse createCustomer(CustomerRequest customerRequest){
         try{
