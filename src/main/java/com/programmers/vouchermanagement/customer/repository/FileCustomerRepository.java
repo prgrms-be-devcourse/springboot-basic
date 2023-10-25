@@ -48,7 +48,9 @@ public class FileCustomerRepository implements CustomerRepository {
             return Collections.emptyList();
         }
 
-        return null;
+        return customers.values()
+                .stream()
+                .toList();
     }
 
     @Override
