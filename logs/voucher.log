@@ -129,3 +129,9 @@ Discount amount : 20000
 00:54:58.206 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 8bc93da0-f31f-4cdc-8faa-022e8a93ac4c
 00:54:58.206 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
 00:54:58.206 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+01:31:37.391 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 6377c69a-3342-4090-9c0f-8eb5a0401af6
+01:31:37.391 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 푸리나
+01:31:37.392 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1993
+01:31:45.713 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 1c26d0cf-ac12-40ec-aac6-e8c90183cb7b
+01:31:45.714 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 푸리나
+01:31:45.714 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1993

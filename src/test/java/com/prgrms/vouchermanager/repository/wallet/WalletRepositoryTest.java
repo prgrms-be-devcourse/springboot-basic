@@ -88,6 +88,7 @@ class WalletRepositoryTest {
     void create() {
         Wallet wallet = new Wallet(voucher2.getId(), customer1.getId());
         Wallet createWallet = repository.create(wallet);
+
         Assertions.assertThat(createWallet.getVoucherId()).isSameAs(wallet.getVoucherId());
         Assertions.assertThat(createWallet.getCustomerId()).isSameAs(wallet.getCustomerId());
     }

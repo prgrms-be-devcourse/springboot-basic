@@ -1,6 +1,8 @@
 package com.prgrms.vouchermanager.service;
 
 import com.prgrms.vouchermanager.domain.customer.Customer;
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
 import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
@@ -33,13 +35,15 @@ class WalletServiceTest {
     private CustomerRepository customerRepository;
     @Autowired
     private JdbcTemplate template;
-    Wallet wallet1 = new Wallet(UUID.randomUUID(), UUID.fromString("c80f7d69-5033-423c-b7d2-a11e7ee936dd"), UUID.fromString("70754a2f-d87d-4f69-af71-1d4bfe855e28"));
-    Wallet wallet2 = new Wallet(UUID.randomUUID(), UUID.fromString("a2fe49e3-900d-4632-b3c1-0b6b25dd555e"), UUID.fromString("70754a2f-d87d-4f69-af71-1d4bfe855e28"));
+
+    Customer customer1 = new Customer("푸리나", 1993);
+    Voucher voucher1 = new FixedAmountVoucher(20000);
+    Voucher voucher2 = new PercentAmountVoucher(20);
+    Wallet wallet1 = new Wallet(voucher1.getId(), customer1.getId());
+
     private final static String DELETE_WALLETS_QUERY = "delete from wallets;";
     private final static String DELETE_CUSTOMERS_QUERY = "delete from customers;";
     private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
-
-    private final
 
     @Configuration
     static class TestConfig {
@@ -66,7 +70,11 @@ class WalletServiceTest {
         customerRepository = new CustomerRepository(template.getDataSource(), new BlacklistFileRepository("src/main/resources/customer_blacklist.csv"));
         service = new WalletService(repository, customerRepository, voucherJdbcRepository);
 
-        repository.create(wallet2);
+        voucherJdbcRepository.create(voucher1);
+        voucherJdbcRepository.create(voucher2);
+        customerRepository.create(customer1);
+
+        repository.create(wallet1);
     }
 
     @AfterEach
@@ -79,16 +87,17 @@ class WalletServiceTest {
     @Test
     @DisplayName("create")
     void create() {
-        Wallet createWallet = service.create(wallet1.getCustomerId(), wallet1.getVoucherId());
-        Assertions.assertThat(createWallet.getVoucherId()).isEqualTo(UUID.fromString("c80f7d69-5033-423c-b7d2-a11e7ee936dd"));
-        Assertions.assertThat(createWallet.getCustomerId()).isEqualTo(UUID.fromString("70754a2f-d87d-4f69-af71-1d4bfe855e28"));
+        Wallet createWallet = service.create(customer1.getId(), voucher2.getId());
+
+        Assertions.assertThat(createWallet.getVoucherId()).isEqualTo(voucher2.getId());
+        Assertions.assertThat(createWallet.getCustomerId()).isEqualTo(customer1.getId());
     }
 
     @Test
     @DisplayName("findByCustomerId")
     void findByCustomerId() {
-        Wallet wallet = repository.create(wallet1);
-        List<Voucher> voucherList = service.findByCustomerId(wallet.getCustomerId());
+        Wallet createWallet = service.create(customer1.getId(), voucher2.getId());
+        List<Voucher> voucherList = service.findByCustomerId(createWallet.getCustomerId());
 
         Assertions.assertThat(voucherList.size()).isEqualTo(2);
     }
@@ -96,8 +105,8 @@ class WalletServiceTest {
     @Test
     @DisplayName("findByVoucherId")
     void findByVoucherId() {
-        Wallet wallet = repository.create(wallet1);
-        List<Customer> customerList = service.findByVoucherId(wallet.getVoucherId());
+        Wallet createWallet = service.create(customer1.getId(), voucher2.getId());
+        List<Customer> customerList = service.findByVoucherId(createWallet.getVoucherId());
 
         Assertions.assertThat(customerList.size()).isEqualTo(1);
     }
@@ -105,7 +114,7 @@ class WalletServiceTest {
     @Test
     @DisplayName("delete")
     void delete() {
-        int delete = service.delete(wallet2.getCustomerId(), wallet2.getVoucherId());
+        int delete = service.delete(wallet1.getCustomerId(), wallet1.getVoucherId());
         Assertions.assertThat(delete).isEqualTo(1);
     }
 }
