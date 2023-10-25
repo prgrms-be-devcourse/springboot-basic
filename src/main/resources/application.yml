@@ -2,6 +2,13 @@
 spring:
   profiles:
     active: default
+  datasource:
+    hikari:
+      driver-class-name: org.h2.Driver
+      #      url: jdbc:h2:tcp://localhost/~/voucher
+      username: sa
+      password:
+      jdbc-url: jdbc:h2:tcp://localhost/~/voucher
 
 customerListFilePath: "src/main/resources/csv/customerList.csv"
 
