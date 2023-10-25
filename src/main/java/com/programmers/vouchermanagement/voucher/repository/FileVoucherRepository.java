@@ -45,7 +45,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> vouchers;
 
     public FileVoucherRepository(AppProperties appProperties) {
-        this.filePath = appProperties.getResources().path() + appProperties.getDomains().get("voucher.file-name");
+        this.filePath = appProperties.getVoucherFilePath();
         this.vouchers = new HashMap<>();
         loadFile();
     }
@@ -66,7 +66,7 @@ public class FileVoucherRepository implements VoucherRepository {
             File file = new File(filePath);
             Map[] voucherObjects = objectMapper.readValue(file, Map[].class);
             loadVouchers(voucherObjects);
-        } catch(MismatchedInputException e) {
+        } catch (MismatchedInputException e) {
             logger.debug(NO_VOUCHER_STORED);
         } catch (IOException e) {
             logger.error(IO_EXCEPTION_LOG_MESSAGE);
