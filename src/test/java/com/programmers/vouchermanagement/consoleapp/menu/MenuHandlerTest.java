@@ -49,4 +49,20 @@ class MenuHandlerTest {
         //verify
         verify(consoleManager).printExit();
     }
+
+    @Test
+    @DisplayName("잘못된 메뉴를 입력하면 해당 뷰를 출력하지만 시스템은 계속 된다.")
+    void testHandleMenuTrue_IncorrectMenu() {
+        //given
+        doReturn(INCORRECT_MENU).when(consoleManager).selectMenu();
+
+        //when
+        final boolean isRunning = menuHandler.handleMenu();
+
+        //then
+        assertThat(isRunning, is(true));
+
+        //verify
+        verify(consoleManager).printIncorrectMenu();
+    }
 }
