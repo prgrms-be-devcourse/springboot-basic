@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.customer.service;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
@@ -10,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -20,11 +21,11 @@ import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 
 class CustomerServiceTest {
-    static CustomerRepository customerRepository;
-    static CustomerService customerService;
+    CustomerRepository customerRepository;
+    CustomerService customerService;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         customerRepository = mock();
         customerService = new CustomerService(customerRepository);
     }
@@ -40,6 +41,9 @@ class CustomerServiceTest {
 
         //then
         assertThat(blacklist.isEmpty(), is(true));
+
+        //verify
+        verify(customerRepository).findBlackCustomers();
     }
 
     @Test
@@ -55,5 +59,8 @@ class CustomerServiceTest {
 
         //then
         assertThat(blacklist, hasSize(2));
+
+        //verify
+        verify(customerRepository).findBlackCustomers();
     }
 }

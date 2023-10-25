@@ -4,15 +4,17 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.ArgumentMatchers.any;
 
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,12 +25,12 @@ import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
 class VoucherServiceTest {
-    static VoucherRepository voucherRepository;
-    static VoucherService voucherService;
+    VoucherRepository voucherRepository;
+    VoucherService voucherService;
 
-    @BeforeAll
-    static void setUp() {
-        voucherRepository = mock();
+    @BeforeEach
+    void setUp() {
+        voucherRepository = mock(VoucherRepository.class);
         voucherService = new VoucherService(voucherRepository);
     }
     
@@ -37,12 +39,16 @@ class VoucherServiceTest {
     void testFixedVoucherCreationSuccessful() {
         //given
         CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal("100"), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), request.discountValue(), request.voucherType());
 
         //when
         VoucherResponse voucherResponse = voucherService.create(request);
 
         //then
         assertThat(voucherResponse.isPercentVoucher(), is(false));
+
+        //verify
+        verify(voucherRepository).save(any(Voucher.class));
     }
 
     @Test
@@ -66,6 +72,9 @@ class VoucherServiceTest {
 
         //then
         assertThat(voucherResponse.isPercentVoucher(), is(true));
+
+        //verify
+        verify(voucherRepository).save(any(Voucher.class));
     }
 
     @Test
@@ -75,7 +84,7 @@ class VoucherServiceTest {
         CreateVoucherRequest firstRequest = new CreateVoucherRequest(new BigDecimal("0"), VoucherType.PERCENT);
         CreateVoucherRequest secondRequest = new CreateVoucherRequest(new BigDecimal("100.1"), VoucherType.PERCENT);
 
-        //when & then
+        //when
         assertThatThrownBy(() -> voucherService.create(firstRequest)).isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> voucherService.create(secondRequest)).isInstanceOf(IllegalArgumentException.class);
     }
@@ -91,6 +100,9 @@ class VoucherServiceTest {
 
         //then
         assertThat(vouchers.isEmpty(), is(true));
+
+        //verify
+        verify(voucherRepository).findAll();
     }
 
     @Test
@@ -107,5 +119,8 @@ class VoucherServiceTest {
         //then
         assertThat(vouchers.isEmpty(), is(false));
         assertThat(vouchers, hasSize(2));
+
+        //verify
+        verify(voucherRepository).findAll();
     }
 }
