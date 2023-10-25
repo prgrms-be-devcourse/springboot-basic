@@ -14,7 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
-@Profile("default")
+@Profile("file")
 @Repository
 public class CsvVoucherRepository implements VoucherRepository {
 

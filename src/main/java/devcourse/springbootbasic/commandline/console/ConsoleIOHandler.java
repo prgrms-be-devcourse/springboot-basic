@@ -19,6 +19,7 @@ public class ConsoleIOHandler {
     private static final String INPUT_PREFIX = "> ";
     private static final String SEPARATOR = "------------------------------";
     private static final String MENU_TITLE = "=== %s ===";
+    private static final String EXECUTE_MODE = "Execute Mode : %s";
 
     private final ConsoleInput consoleInput;
     private final ConsoleOutput consoleOutput;
@@ -78,5 +79,9 @@ public class ConsoleIOHandler {
         for (Enum<?> enumConstant : e.getEnumConstants()) {
             consoleOutput.println(enumConstant.toString());
         }
+    }
+
+    public void printExecuteMode() {
+        consoleOutput.println(String.format(EXECUTE_MODE, System.getProperty("spring.profiles.active")));
     }
 }

@@ -25,6 +25,7 @@ public class CommandLineExecutor implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        consoleIOHandler.printExecuteMode();
         while (isRunning) {
             progress();
         }
