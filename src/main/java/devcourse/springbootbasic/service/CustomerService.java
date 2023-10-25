@@ -28,7 +28,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public Customer save(CustomerCreateRequest customerCreateRequest) {
+    public Customer createCustomer(CustomerCreateRequest customerCreateRequest) {
         return customerRepository.save(customerCreateRequest.toEntity());
     }
 
@@ -40,16 +40,16 @@ public class CustomerService {
         return persist(updatedCustomer);
     }
 
+    public Customer findById(UUID customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> CustomerException.of(CustomerErrorMessage.NOT_FOUND));
+    }
+
     private Customer persist(Customer customer) {
         if (customerRepository.update(customer) == 0) {
             throw CustomerException.of(CustomerErrorMessage.NOT_FOUND);
         }
 
         return customer;
-    }
-
-    public Customer findById(UUID customerId) {
-        return customerRepository.findById(customerId)
-                .orElseThrow(() -> CustomerException.of(CustomerErrorMessage.NOT_FOUND));
     }
 }

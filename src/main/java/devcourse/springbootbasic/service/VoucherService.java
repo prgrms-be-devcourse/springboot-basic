@@ -21,16 +21,16 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
-    @Transactional
-    public Voucher create(VoucherCreateRequest voucherCreateRequest) {
-        return voucherRepository.save(voucherCreateRequest.toEntity());
-    }
-
-    public List<VoucherFindResponse> findAll() {
+    public List<VoucherFindResponse> findAllVouchers() {
         return voucherRepository.findAll()
                 .stream()
                 .map(VoucherFindResponse::new)
                 .toList();
+    }
+
+    @Transactional
+    public Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
+        return voucherRepository.save(voucherCreateRequest.toEntity());
     }
 
     @Transactional
@@ -42,7 +42,7 @@ public class VoucherService {
     }
 
     @Transactional
-    public Voucher delete(UUID voucherId) {
+    public Voucher deleteVoucher(UUID voucherId) {
         Voucher voucher = this.findById(voucherId);
 
         if (voucherRepository.delete(voucher) == 0) {
@@ -52,23 +52,8 @@ public class VoucherService {
         return voucher;
     }
 
-    @Transactional
     public Voucher assignVoucherToCustomer(Voucher voucher, Customer customer) {
         return persist(voucher.assignToCustomer(customer.getId()));
-    }
-
-    private Voucher persist(Voucher voucher) {
-        if (voucherRepository.update(voucher) == 0) {
-            throw VoucherException.of(VoucherErrorMessage.NOT_FOUND);
-        }
-
-        return voucher;
-    }
-
-    public Voucher findById(UUID voucherId) {
-        return voucherRepository
-                .findById(voucherId)
-                .orElseThrow(() -> VoucherException.of(VoucherErrorMessage.NOT_FOUND));
     }
 
     public List<VoucherFindResponse> findVouchersByCustomer(Customer customer) {
@@ -80,5 +65,19 @@ public class VoucherService {
 
     public Voucher unassignVoucherToCustomer(Voucher voucher) {
         return persist(voucher.unassignToCustomer());
+    }
+
+    public Voucher findById(UUID voucherId) {
+        return voucherRepository
+                .findById(voucherId)
+                .orElseThrow(() -> VoucherException.of(VoucherErrorMessage.NOT_FOUND));
+    }
+
+    private Voucher persist(Voucher voucher) {
+        if (voucherRepository.update(voucher) == 0) {
+            throw VoucherException.of(VoucherErrorMessage.NOT_FOUND);
+        }
+
+        return voucher;
     }
 }

@@ -21,8 +21,8 @@ public class CustomerController {
         return this.customerService.findAllBlacklistedCustomers();
     }
 
-    public CustomerResponse save(CustomerCreateRequest customerCreateRequest) {
-        return new CustomerResponse(this.customerService.save(customerCreateRequest));
+    public CustomerResponse createCustomer(CustomerCreateRequest customerCreateRequest) {
+        return new CustomerResponse(this.customerService.createCustomer(customerCreateRequest));
     }
 
     public CustomerResponse updateBlacklistStatus(CustomerUpdateBlacklistRequest customerUpdateBlacklistRequest) {

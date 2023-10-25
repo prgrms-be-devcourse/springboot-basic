@@ -68,7 +68,7 @@ public class FunctionHandler {
     public void createCustomer() {
         String name = consoleIOHandler.inputStringWithMessage(InputMessage.CUSTOMER_NAME);
 
-        CustomerResponse customer = customerController.save(new CustomerCreateRequest(name));
+        CustomerResponse customer = customerController.createCustomer(new CustomerCreateRequest(name));
         log.info(String.format(ConsoleConstants.CUSTOMER_CREATE_MESSAGE, customer.getId()));
     }
 
