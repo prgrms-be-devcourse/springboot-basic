@@ -1,9 +1,6 @@
 package com.programmers.vouchermanagement.voucher.application;
 
-import com.programmers.vouchermanagement.voucher.domain.FixedAmountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.PercentDiscountVoucher;
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.domain.*;
 import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import com.programmers.vouchermanagement.voucher.exception.VoucherNotFoundException;
@@ -27,12 +24,7 @@ public class VoucherService {
         Long discount = voucherRequestDto.getDiscount();
         VoucherType voucherType = voucherRequestDto.getVoucherType();
 
-        switch (voucherType) {
-
-            case FIXED -> voucherRepository.save(new FixedAmountVoucher(UUID.randomUUID(), discount, voucherType));
-
-            case PERCENT -> voucherRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), discount, voucherType));
-        }
+        voucherRepository.save(new Voucher(UUID.randomUUID(), discount, voucherType, voucherType.getVoucherPolicy()));
     }
 
     public List<VoucherResponseDto> readAllVoucher() {
