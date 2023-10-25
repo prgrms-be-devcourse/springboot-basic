@@ -89,7 +89,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         template.update(sql, new MapSqlParameterSource());
     }
 
-    private static RowMapper<Voucher> getVoucherRowMapper() {
+    private RowMapper<Voucher> getVoucherRowMapper() {
         return (rs, rowNum) -> {
             UUID id = UUID.fromString(rs.getString("id"));
             VoucherType type = VoucherType.valueOf(rs.getString("type"));

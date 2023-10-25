@@ -63,7 +63,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
         template.update(sql, new MapSqlParameterSource("id", id));
     }
 
-    private static RowMapper<Wallet> getWalletRowMapper() {
+    private RowMapper<Wallet> getWalletRowMapper() {
         return (rs, rowNum) -> {
             int id = rs.getInt("id");
             UUID customerId = UUID.fromString(rs.getString("customer_id"));
