@@ -131,12 +131,34 @@ class MenuHandlerTest {
     @DisplayName("바우처 전체 조회 시 저장된 바우처가 없어도 실패하지 않는다.")
     void testHandleMenuSuccessful_EmptyVoucherList() {
         //given
-        List<VoucherResponse> vouchers = Collections.emptyList();
+        final List<VoucherResponse> vouchers = Collections.emptyList();
         doReturn(Menu.LIST).when(consoleManager).selectMenu();
         doReturn(vouchers).when(voucherController).readAllVouchers();
 
         //when
-        boolean isRunning = menuHandler.handleMenu();
+        final boolean isRunning = menuHandler.handleMenu();
+
+        //then
+        assertThat(isRunning, is(true));
+
+        //verify
+        verify(consoleManager).printReadAllVouchers(vouchers);
+    }
+
+    @Test
+    @DisplayName("저장된 바우처가 있을 때 바우처 전체 조회를 성공한다.")
+    void testHandleMenuSuccessful_ReadAllVouchers() {
+        //given
+        final Voucher firstVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        final Voucher secondVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(40), VoucherType.PERCENT);
+        final VoucherResponse firstResponse = VoucherResponse.from(firstVoucher);
+        final VoucherResponse secondResponse = VoucherResponse.from(secondVoucher);
+        final List<VoucherResponse> vouchers = List.of(firstResponse, secondResponse);
+        doReturn(Menu.LIST).when(consoleManager).selectMenu();
+        doReturn(vouchers).when(voucherController).readAllVouchers();
+
+        //when
+        final boolean isRunning = menuHandler.handleMenu();
 
         //then
         assertThat(isRunning, is(true));
