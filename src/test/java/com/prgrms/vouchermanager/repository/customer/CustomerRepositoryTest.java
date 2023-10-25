@@ -1,8 +1,6 @@
 package com.prgrms.vouchermanager.repository.customer;
 
 import com.prgrms.vouchermanager.domain.customer.Customer;
-import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
-import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,12 +22,13 @@ import java.util.UUID;
 @SpringJUnitConfig
 class CustomerRepositoryTest {
 
-    private CustomerRepository repository;
+    private CustomerRepository customerRepository;
     @Autowired
     private JdbcTemplate template;
     @Autowired private DataSource dataSource;
-    private final com.prgrms.vouchermanager.domain.customer.Customer customer1 = new com.prgrms.vouchermanager.domain.customer.Customer("스카라무슈", 1995);
-    private final com.prgrms.vouchermanager.domain.customer.Customer customer2 = new com.prgrms.vouchermanager.domain.customer.Customer("종려", 1990);
+    private final Customer customer1 = new Customer("스카라무슈", 1995);
+    private final Customer customer2 = new Customer("종려", 1990);
+
     @Configuration
     static class TestConfig {
         @Bean
@@ -50,37 +49,37 @@ class CustomerRepositoryTest {
 
     @BeforeEach
     void beforeEach() {
-        repository = new CustomerRepository(dataSource, new BlacklistFileRepository("src/main/resources/customer_blacklist.csv"));
-        repository.create(customer2);
+        customerRepository = new CustomerRepository(dataSource, new BlacklistFileRepository("src/main/resources/customer_blacklist.csv"));
+        customerRepository.create(customer2);
     }
+
     @AfterEach
     void afterEach() {
-        repository.delete(UUID.fromString("70754a2f-d87d-4f69-af71-1d4bfe855e28"));
-        repository.delete(UUID.fromString("626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0"));
-        repository.delete(UUID.fromString("8213dfa7-d577-4bb5-86d6-0159b3383f0e"));
-        repository.delete(customer1.getId());
-        repository.delete(customer2.getId());
+        template.execute(" delete from customers;");
     }
 
     @Test
     @DisplayName("create")
     void create() {
-        com.prgrms.vouchermanager.domain.customer.Customer createCustomer = repository.create(customer1);
-        Assertions.assertThat(createCustomer).isSameAs(customer1);
+        Customer customer = customerRepository.create(customer1);
+
+        Assertions.assertThat(customer.getName()).isEqualTo("스카라무슈");
+        Assertions.assertThat(customer.getYearOfBirth()).isEqualTo(1995);
     }
 
     @Test
     @DisplayName("list")
     void list() {
-        List<Customer> list = repository.list();
+        List<Customer> list = customerRepository.list();
+
         Assertions.assertThat(list.size()).isEqualTo(4);
     }
 
     @Test
     @DisplayName("findById")
     void findById() {
-        Customer customer = repository.create(customer1);
-        Customer findVoucher = repository.findById(customer.getId());
+        Customer customer = customerRepository.create(customer1);
+        Customer findVoucher = customerRepository.findById(customer.getId());
 
         Assertions.assertThat(findVoucher.getName()).isEqualTo(customer.getName());
         Assertions.assertThat(findVoucher.getYearOfBirth()).isEqualTo(customer.getYearOfBirth());
@@ -89,7 +88,7 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("updateYearOfBirth")
     void updateYearOfBirth() {
-        repository.updateYearOfBirth(customer2.getId(), 2000);
+        customerRepository.updateYearOfBirth(customer2.getId(), 2000);
         Customer updateVoucher = template.queryForObject("select * from customers where customer_id=UUID_TO_BIN(?)",
                 customerRowMapper(),
                 customer2.getId().toString().getBytes());
@@ -99,7 +98,7 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("updateName")
     void updateName() {
-        repository.updateName(customer2.getId(), "벤티");
+        customerRepository.updateName(customer2.getId(), "벤티");
         Customer updateVoucher = template.queryForObject("select * from customers where customer_id=UUID_TO_BIN(?)",
                 customerRowMapper(),
                 customer2.getId().toString().getBytes());
@@ -109,8 +108,7 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("delete")
     void delete() {
-        UUID deleteId = repository.delete(customer2.getId());
-        Assertions.assertThat(deleteId).isEqualTo(customer2.getId());
+        Assertions.assertThat(customerRepository.delete(customer2.getId())).isEqualTo(1);
     }
 
     private RowMapper<Customer> customerRowMapper() {

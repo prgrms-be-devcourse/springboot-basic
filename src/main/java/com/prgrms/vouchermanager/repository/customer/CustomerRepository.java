@@ -54,9 +54,9 @@ public class CustomerRepository {
         return this.findById(id);
     }
 
-    public UUID delete(UUID id) {
-        jdbcTemplate.update(DELETE_CUSTOMER.getMessage(), id.toString().getBytes());
-        return id;
+    public int delete(UUID id) {
+        int update = jdbcTemplate.update(DELETE_CUSTOMER.getMessage(), id.toString().getBytes());
+        return update;
     }
 
     private void fileToDb() {

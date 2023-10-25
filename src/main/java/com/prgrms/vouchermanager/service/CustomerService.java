@@ -52,11 +52,10 @@ public class CustomerService {
         }
     }
 
-    public UUID delete(UUID id) {
-        try {
-            return customerRepository.delete(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new NotCorrectId();
-        }
+    public int delete(UUID id) {
+        int update = customerRepository.delete(id);
+
+        if(update == 0) throw new NotCorrectId();
+        return update;
     }
 }

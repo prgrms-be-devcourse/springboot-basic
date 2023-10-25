@@ -33,7 +33,7 @@ public class CustomerController {
         return service.updateName(id, name);
     }
 
-    public UUID delete(UUID id) {
+    public int delete(UUID id) {
         return service.delete(id);
     }
 }
