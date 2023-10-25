@@ -135,3 +135,6 @@ Discount amount : 20000
 01:31:45.713 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 1c26d0cf-ac12-40ec-aac6-e8c90183cb7b
 01:31:45.714 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 푸리나
 01:31:45.714 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1993
+01:34:32.407 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 0e98ac56-12da-4577-883d-18a98e0bf4a5
+01:34:32.408 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 푸리나
+01:34:32.408 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1993

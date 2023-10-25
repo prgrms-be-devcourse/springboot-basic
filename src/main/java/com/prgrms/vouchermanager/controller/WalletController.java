@@ -29,7 +29,7 @@ public class WalletController {
         return service.findByVoucherId(id);
     }
 
-    public void delete(UUID customerId, UUID voucherId) {
-        service.delete(customerId, voucherId);
+    public int delete(UUID customerId, UUID voucherId) {
+        return service.delete(customerId, voucherId);
     }
 }
