@@ -1,8 +1,7 @@
 package org.prgms.springbootbasic.repository;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgms.springbootbasic.domain.VoucherType;
-import org.prgms.springbootbasic.domain.voucher.Voucher;
+import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -13,30 +12,22 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile({"dev", "prod", "local", "test"})
 @Slf4j
 public class VoucherMemoryRepository implements VoucherRepository{
-    ConcurrentHashMap<UUID, Voucher> mem = new ConcurrentHashMap<>();
+    ConcurrentHashMap<UUID, VoucherPolicy> mem = new ConcurrentHashMap<>();
 
     @Override
-    public Voucher findById(UUID voucherId) {
+    public VoucherPolicy findById(UUID voucherId) {
         return Optional.ofNullable(mem.get(voucherId))
                 .orElseThrow(NoSuchElementException::new);
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<VoucherPolicy> findAll() {
         return new ArrayList<>(mem.values());
     }
 
     @Override
-    public Voucher create(VoucherType type, int val) {
-        Voucher voucher = type.create(val);
-        log.info("voucher = {}", voucher);
-        mem.putIfAbsent(voucher.getVoucherId(), voucher);
-        return voucher;
-    }
-
-    @Override
-    public Voucher create(Voucher voucher) {
-        mem.putIfAbsent(voucher.getVoucherId(), voucher);
-        return voucher;
+    public VoucherPolicy create(VoucherPolicy voucherPolicy) {
+        mem.putIfAbsent(voucherPolicy.getVoucherId(), voucherPolicy);
+        return voucherPolicy;
     }
 }

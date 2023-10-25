@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
 import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
-import org.prgms.springbootbasic.domain.voucher.Voucher;
+import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 
 import java.util.UUID;
 import java.util.function.BiFunction;
@@ -15,11 +15,11 @@ public enum VoucherType {
     PERCENT_DISCOUNT(2, PercentDiscountVoucher::new, "PercentDiscountVoucher");
 
     private final int seq;
-    private final BiFunction<UUID, Long, Voucher> biFunction;
+    private final BiFunction<UUID, Long, VoucherPolicy> biFunction;
     @Getter
     private final String displayName;
 
-    VoucherType(int seq, BiFunction<UUID, Long, Voucher> biFunction, String displayName) {
+    VoucherType(int seq, BiFunction<UUID, Long, VoucherPolicy> biFunction, String displayName) {
         this.seq = seq;
         this.biFunction = biFunction;
         this.displayName = displayName;
@@ -34,11 +34,11 @@ public enum VoucherType {
         throw new IllegalArgumentException("Invalid seq");
     }
 
-    public Voucher create(long val){
-        return this.biFunction.apply(UUID.randomUUID(), val);
+    public VoucherPolicy create(long discountDegree){
+        return this.biFunction.apply(UUID.randomUUID(), discountDegree);
     }
 
-    public Voucher create(UUID uuid, long val){
-        return this.biFunction.apply(uuid, val);
+    public VoucherPolicy create(UUID uuid, long discountDegree){
+        return this.biFunction.apply(uuid, discountDegree);
     }
 }

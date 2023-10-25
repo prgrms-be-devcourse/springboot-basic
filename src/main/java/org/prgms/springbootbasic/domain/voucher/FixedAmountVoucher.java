@@ -7,7 +7,7 @@ import java.util.UUID;
 import static java.lang.Math.max;
 
 @Slf4j
-public class FixedAmountVoucher implements Voucher {
+public class FixedAmountVoucher implements VoucherPolicy {
     private final UUID voucherId;
     private final long amount;
 

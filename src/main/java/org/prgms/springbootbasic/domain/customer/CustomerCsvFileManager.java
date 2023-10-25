@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static org.prgms.springbootbasic.common.Util.CSV_PATTERN;
+import static org.prgms.springbootbasic.common.CommonConstant.CSV_PATTERN;
 
 @Component
 @Profile({"dev", "prod"})

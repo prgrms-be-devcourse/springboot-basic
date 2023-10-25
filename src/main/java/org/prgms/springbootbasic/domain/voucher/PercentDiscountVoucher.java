@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.UUID;
 
 @Slf4j
-public class PercentDiscountVoucher implements Voucher {
+public class PercentDiscountVoucher implements VoucherPolicy {
     private final UUID voucherId;
     private final long percent;
 
