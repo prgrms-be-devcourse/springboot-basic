@@ -2,6 +2,7 @@ package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
+import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.util.FileUtil;
 import org.springframework.context.annotation.Profile;
@@ -15,6 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -43,6 +45,30 @@ public class FileCustomerRepository implements CustomerRepository{
     @Override
     public List<Customer> findAll() {
         return customers.values().stream().toList();
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.ofNullable(customers.get(customerId));
+    }
+
+    @Override
+    public void delete(UUID customerId) {
+        customers.remove(customerId);
+        fileUtil.deleteFileDataById(customerId, FILE_PATH);
+    }
+
+    @Override
+    public void deleteAll() {
+        customers.clear();
+        fileUtil.clearDataFile(FILE_PATH);
+    }
+
+    @Override
+    public void update(UUID customerId, CustomerRequest customerRequest) {
+        Customer customer = customers.get(customerId);
+        customer.updateCustomerInfo(customerRequest);
+        fileUtil.updateFile(getCustomerInfo(customer), customerId, FILE_PATH);
     }
 
     private String getCustomerInfo(Customer customer) {
