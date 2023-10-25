@@ -63,6 +63,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public int delete(UUID id) {
-        return 0;
+        vouchers.remove(id);
+        return 1;
     }
 }

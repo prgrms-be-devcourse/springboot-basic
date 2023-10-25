@@ -89,43 +89,20 @@ class CustomerRepositoryTest {
     @Test
     @DisplayName("updateYearOfBirth")
     void updateYearOfBirth() {
-        customerRepository.updateYearOfBirth(customer2.getId(), 2000);
-        Customer updateVoucher = template.queryForObject("select * from customers where customer_id=UUID_TO_BIN(?)",
-                customerRowMapper(),
-                customer2.getId().toString().getBytes());
-        Assertions.assertThat(updateVoucher.getYearOfBirth()).isEqualTo(2000);
+        Customer updateCustomer = customerRepository.updateYearOfBirth(customer2.getId(), 2000);
+        Assertions.assertThat(updateCustomer.getYearOfBirth()).isEqualTo(2000);
     }
 
     @Test
     @DisplayName("updateName")
     void updateName() {
-        customerRepository.updateName(customer2.getId(), "벤티");
-        Customer updateVoucher = template.queryForObject("select * from customers where customer_id=UUID_TO_BIN(?)",
-                customerRowMapper(),
-                customer2.getId().toString().getBytes());
-        Assertions.assertThat(updateVoucher.getName()).isEqualTo("벤티");
+        Customer updateCustomer = customerRepository.updateName(customer2.getId(), "벤티");
+        Assertions.assertThat(updateCustomer.getName()).isEqualTo("벤티");
     }
 
     @Test
     @DisplayName("delete")
     void delete() {
         Assertions.assertThat(customerRepository.delete(customer2.getId())).isEqualTo(1);
-    }
-
-    private RowMapper<Customer> customerRowMapper() {
-        return (rs, rowNum) -> {
-
-            return new Customer(convertBytesToUUID(rs.getBytes("customer_id")),
-                    rs.getString("name"),
-                    rs.getInt("year_of_birth"),
-                    rs.getBoolean("is_blacklist"));
-        };
-    }
-
-    private UUID convertBytesToUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        long high = byteBuffer.getLong();
-        long low = byteBuffer.getLong();
-        return new UUID(high, low);
     }
 }

@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.repository.voucher;
 
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.assertj.core.api.Assertions;
@@ -13,24 +14,50 @@ class VoucherMemoryRepositoryTest {
 
     private VoucherMemoryRepository repository;
 
+    private final Voucher voucher1 = new FixedAmountVoucher(20000);
+    private final Voucher voucher2 = new PercentAmountVoucher(10);
+
     @BeforeEach
     void setup() {
         repository = new VoucherMemoryRepository();
+        repository.create(voucher2);
     }
     @Test
-    @DisplayName("바우처 생성")
-    void createTest() {
-        PercentAmountVoucher voucher = new PercentAmountVoucher(20);
-        Voucher createVoucher = repository.create(voucher);
-
-        Assertions.assertThat(createVoucher).isEqualTo(voucher);
+    @DisplayName("create")
+    void create() {
+        Voucher createVoucher = repository.create(voucher1);
+        Assertions.assertThat(createVoucher).isSameAs(voucher1);
     }
 
     @Test
-    @DisplayName("바우처 목록")
-    void listTest() {
+    @DisplayName("list")
+    void list() {
         List<Voucher> list = repository.list();
-        Assertions.assertThat(list.size()).isEqualTo(0);
+        Assertions.assertThat(list.size()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("findById")
+    void findById() {
+        Voucher voucher = repository.create(voucher1);
+        Voucher findVoucher = repository.findById(voucher.getId());
+
+        Assertions.assertThat(findVoucher.getDiscount()).isEqualTo(voucher.getDiscount());
+        Assertions.assertThat(findVoucher).isInstanceOf(FixedAmountVoucher.class);
+    }
+
+    @Test
+    @DisplayName("updateDiscount")
+    void updateDiscount() {
+        Voucher voucher = repository.updateDiscount(voucher2.getId(), 20);
+        Assertions.assertThat(voucher.getDiscount()).isEqualTo(20);
+    }
+
+    @Test
+    @DisplayName("delete")
+    void delete() {
+        repository.delete(voucher2.getId());
+        Assertions.assertThat(repository.list().size()).isEqualTo(0);
     }
 
 }

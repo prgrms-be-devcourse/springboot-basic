@@ -93,35 +93,13 @@ class VoucherJdbcRepositoryTest {
     @Test
     @DisplayName("updateDiscount")
     void updateDiscount() {
-        repository.updateDiscount(voucher2.getId(), 20);
-        Voucher updateVoucher = template.queryForObject("select * from vouchers where voucher_id=UUID_TO_BIN(?)",
-                voucherRowMapper(),
-                voucher2.getId().toString().getBytes());
-        Assertions.assertThat(updateVoucher.getDiscount()).isEqualTo(20);
+        Voucher voucher = repository.updateDiscount(voucher2.getId(), 20);
+        Assertions.assertThat(voucher.getDiscount()).isEqualTo(20);
     }
 
     @Test
     @DisplayName("delete")
     void delete() {
         Assertions.assertThat(repository.delete(voucher2.getId())).isEqualTo(1);
-    }
-
-    private RowMapper<Voucher> voucherRowMapper() {
-        return (rs, rowNum) -> {
-            if(rs.getString("voucher_type").equals("fixed")) {
-                return new FixedAmountVoucher(convertBytesToUUID(rs.getBytes("voucher_id")),
-                        rs.getInt("discount"));
-            } else {
-                return new PercentAmountVoucher(convertBytesToUUID(rs.getBytes("voucher_id")),
-                        rs.getInt("discount"));
-            }
-        };
-    }
-
-    private UUID convertBytesToUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        long high = byteBuffer.getLong();
-        long low = byteBuffer.getLong();
-        return new UUID(high, low);
     }
 }
