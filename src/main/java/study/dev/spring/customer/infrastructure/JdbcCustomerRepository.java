@@ -6,10 +6,12 @@ import javax.sql.DataSource;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import study.dev.spring.customer.domain.Customer;
 import study.dev.spring.customer.domain.CustomerRepository;
 
+@Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
 	private static final String FIND_ALL = "select * from Customer";
