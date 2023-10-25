@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Profile("test")
+@Profile("DB")
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
