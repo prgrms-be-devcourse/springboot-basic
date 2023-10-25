@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.prgrms.vouchermanager.domain.customer.CustomerRequestDto;
 import org.prgrms.vouchermanager.repository.customer.MemoryCustomerRepository;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,8 +20,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class CustomerServiceTest {
-    @Mock
-    private MemoryCustomerRepository repository;
+//    @Mock
+//    private MemoryCustomerRepository repository;
 
     @InjectMocks
     private CustomerService service;
@@ -40,7 +41,10 @@ class CustomerServiceTest {
     @Test
     @DisplayName("findall함수가 성공적으로 호출되어야 한다")
     void findAll(){
+        CustomerRequestDto requestDto = new CustomerRequestDto("asd", "asd", true);
+        service.createCustomer(requestDto);
         List<Customer> all = service.findAll();
-        verify(repository).findAll();
+        assertThat(all.size()).isEqualTo(1);
+
     }
 }

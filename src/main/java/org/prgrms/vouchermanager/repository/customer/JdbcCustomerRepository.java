@@ -2,6 +2,7 @@ package org.prgrms.vouchermanager.repository.customer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.customer.Customer;
+import org.prgrms.vouchermanager.util.UuidUtil;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,13 +26,12 @@ public class JdbcCustomerRepository implements CustomerRepositroy{
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        UUID customerId = toUUID(resultSet.getBytes("id"));
+        UUID customerId = UuidUtil.toUUID(resultSet.getBytes("id"));
         String customerName = resultSet.getString("name");
         String email = resultSet.getString("email");
         boolean isBlack = resultSet.getBoolean("isBlack");
         return new Customer(customerId, customerName, email, isBlack);
     };
-
     @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query(SELECT_ALL, customerRowMapper);
@@ -45,7 +45,6 @@ public class JdbcCustomerRepository implements CustomerRepositroy{
                                             customer.getIsBlack());
         return customer;
     }
-
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try{
@@ -55,17 +54,10 @@ public class JdbcCustomerRepository implements CustomerRepositroy{
             return Optional.empty();
         }
     }
-
     @Override
     public Optional<Customer> deleteById(UUID customerId) {
         jdbcTemplate.update(DELETE_BY_ID, customerId.toString());
         Optional<Customer> customer = findById(customerId);
         return customer;
-    }
-
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }

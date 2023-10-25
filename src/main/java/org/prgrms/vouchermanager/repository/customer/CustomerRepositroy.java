@@ -8,9 +8,7 @@ import java.util.UUID;
 
 public interface CustomerRepositroy {
     List<Customer> findAll();
-
     Customer save(Customer customer);
-
     Optional<Customer> findById(UUID customerId);
     Optional<Customer> deleteById(UUID customerId);
 }

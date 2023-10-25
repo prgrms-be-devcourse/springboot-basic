@@ -13,12 +13,9 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepositroy customerRepositroy; //yaml 파일에서 Repository 지정
-
-
     public List<Customer> findAll(){
         return customerRepositroy.findAll();
     }
-
     public Customer createCustomer(CustomerRequestDto requestDto){
         UUID customerId = UUID.randomUUID();
         return customerRepositroy.save(new Customer(customerId, requestDto.getName(), requestDto.getEmail(), requestDto.getIsBlack()));

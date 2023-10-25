@@ -7,6 +7,7 @@ import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.voucher.VoucherType;
+import org.prgrms.vouchermanager.util.UuidUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -37,7 +38,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("id"));
+        UUID voucherId = UuidUtil.toUUID(resultSet.getBytes("id"));
         int amount = resultSet.getInt("amount");
         String type = resultSet.getString("voucher_type");
         VoucherType voucherType = VoucherType.fromValue(type);
@@ -75,10 +76,5 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(DELETE_BY_ID, voucherId.toString());
         Optional<Voucher> voucher = findByID(voucherId);
         return voucher;
-    }
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }
