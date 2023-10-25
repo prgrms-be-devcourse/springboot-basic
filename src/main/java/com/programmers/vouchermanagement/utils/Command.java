@@ -15,7 +15,7 @@ public enum Command {
                 .findAny().orElseThrow(CommandNotFoundException::new);
     }
 
-    public String getLowerCaseName() {
+    private String getLowerCaseName() {
         return this.name().toLowerCase();
     }
 }
