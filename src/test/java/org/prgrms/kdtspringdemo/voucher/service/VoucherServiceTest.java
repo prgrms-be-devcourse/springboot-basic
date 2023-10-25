@@ -8,11 +8,14 @@ import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.repository.FileVoucherRepository;
+import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.io.FileWriter;
@@ -26,7 +29,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@ActiveProfiles("dev")
+@ActiveProfiles("local")
 class VoucherServiceTest {
 
     @Configuration
@@ -34,15 +37,13 @@ class VoucherServiceTest {
     static class Config {
     }
 
+    @Autowired
     private VoucherService voucherService;
-    private final FileVoucherRepository voucherRepository = new FileVoucherRepository();
     private final String filePath = "src/test/resources/test_voucherList";
     private final Logger logger = LoggerFactory.getLogger(VoucherServiceTest.class);
 
     @BeforeEach
     void init() {
-        voucherService = new VoucherService(voucherRepository);
-        voucherRepository.initCsvFileHandler(filePath);
         try(FileWriter fileWriter = new FileWriter(filePath);
             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader("voucherId", "amount", "voucherType"));) {
             csvPrinter.printRecord(UUID.randomUUID().toString(), 100, "fixeddiscount");
@@ -101,7 +102,7 @@ class VoucherServiceTest {
         List<Voucher> voucherList = voucherService.findAll().get();
 
         //then
-        assertThat(voucherList.size(), is(3));
+        assertThat(voucherList.size(), is(2));
     }
 
     @Test

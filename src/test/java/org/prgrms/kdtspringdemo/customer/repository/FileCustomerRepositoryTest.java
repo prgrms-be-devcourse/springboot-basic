@@ -36,12 +36,11 @@ class FileCustomerRepositoryTest {
     }
     @Autowired
     private FileCustomerRepository fileCustomerRepository;
-    private final String filePath = "src/test/resources/test_customerBlackList";
+    private String filePath = "src/main/resources/csvFiles/customer_blacklist.csv";
     private final Logger logger = LoggerFactory.getLogger(FileCustomerRepositoryTest.class);
 
     @BeforeAll
     void init() throws IOException {
-        fileCustomerRepository.initCsvFileHandler(filePath);
         try(FileWriter fileWriter = new FileWriter(filePath);
             CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader("customerId", "name", "isBlack"));) {
             csvPrinter.printRecord(UUID.randomUUID().toString(), "tester01", "true");

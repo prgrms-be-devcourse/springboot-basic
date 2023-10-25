@@ -8,7 +8,10 @@ import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -16,16 +19,14 @@ import java.util.*;
 
 @Repository
 @Profile("dev")
+@PropertySource(value = "classpath:application_prod.yml")
 public class FileVoucherRepository implements VoucherRepository{
     private CsvFileHandler csvFileHandler;
-    private final String filePath = "src/main/resources/csvFiles/voucherList.csv";
+    @Value("${voucher_file}")
+    private String filePath;
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     public FileVoucherRepository() {
-        this.csvFileHandler = new CsvFileHandler(filePath);
-    }
-
-    public void initCsvFileHandler(String filePath) {
-        this.csvFileHandler = new CsvFileHandler(filePath);
+        this.csvFileHandler = new CsvFileHandler();
     }
 
     @Override
@@ -38,7 +39,7 @@ public class FileVoucherRepository implements VoucherRepository{
         newData.add(new String[]{voucherId, discountAmount, voucherType});
 
         try {
-            csvFileHandler.writeCSV(newData);
+            csvFileHandler.writeCSV(filePath, newData);
         }catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -49,7 +50,7 @@ public class FileVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try{
-            List<CSVRecord> data = csvFileHandler.readCSV();
+            List<CSVRecord> data = csvFileHandler.readCSV(filePath);
 
             CSVRecord csvRecord = data.stream()
                     .filter(line -> UUID.fromString(line.get("voucherId")).equals(voucherId))
@@ -71,7 +72,7 @@ public class FileVoucherRepository implements VoucherRepository{
     public Optional<List<Voucher>> findAll() {
         List<Voucher> voucherList = new ArrayList<>();
         try {
-            List<CSVRecord> data = csvFileHandler.readCSV();
+            List<CSVRecord> data = csvFileHandler.readCSV(filePath);
             data.stream().forEach(line -> {
                 UUID voucherId = UUID.fromString(line.get("voucherId"));
                 Long amount = Long.parseLong(line.get("amount"));

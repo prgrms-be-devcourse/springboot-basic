@@ -12,14 +12,9 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
 public class CsvFileHandler {
-    private final String filePath;
     private final Logger logger = LoggerFactory.getLogger(CsvFileHandler.class);
 
-    public CsvFileHandler(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public List<CSVRecord> readCSV() throws IOException {
+    public List<CSVRecord> readCSV(String filePath) throws IOException {
         FileReader fileReader = new FileReader(filePath);
         CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT
                 .withFirstRecordAsHeader()
@@ -29,7 +24,7 @@ public class CsvFileHandler {
         return csvParser.getRecords();
     }
 
-    public void writeCSV(List<String[]> data) throws IOException {
+    public void writeCSV(String filePath, List<String[]> data) throws IOException {
         FileWriter fileWriter = new FileWriter(filePath, true);
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT
                 .withHeader(data.get(0)));

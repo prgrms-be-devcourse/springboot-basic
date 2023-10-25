@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
@@ -24,22 +25,20 @@ import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
 @ActiveProfiles("dev")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class FileVoucherRepositoryTest {
 
     @Configuration
-    @ComponentScan(basePackages = {"org.prgrms.kdtspringdemo"})
+    @ComponentScan()
     static class Config {
     }
     @Autowired
     private FileVoucherRepository fileVoucherRepository;
-    private final String filePath = "src/test/resources/test_voucherList";
+    private String filePath = "src/main/resources/csvFiles/voucherList.csv";
     private final Logger logger = LoggerFactory.getLogger(FileVoucherRepositoryTest.class);
 
 
     @BeforeEach
     void init() throws IOException {
-        fileVoucherRepository.initCsvFileHandler(filePath);
         try(FileWriter fileWriter = new FileWriter(filePath);
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader("voucherId", "amount", "voucherType"));) {
             csvPrinter.printRecord(UUID.randomUUID().toString(), 100, "fixeddiscount");
