@@ -94,7 +94,7 @@ public class FileVoucherRepository implements VoucherRepository {
         UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get(VOUCHER_ID_KEY)));
         BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
         String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
-        VoucherType voucherType = VoucherType.findCreateMenu(voucherTypeName)
+        VoucherType voucherType = VoucherType.findVoucherType(voucherTypeName)
                 .orElseThrow(() -> {
                     logger.error(INVALID_VOUCHER_TYPE_MESSAGE);
                     return new NoSuchElementException(INVALID_VOUCHER_TYPE_MESSAGE);

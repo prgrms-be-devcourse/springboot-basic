@@ -14,7 +14,7 @@ public enum VoucherType {
         this.typeName = typeName;
     }
 
-    public static Optional<VoucherType> findCreateMenu(String input) {
+    public static Optional<VoucherType> findVoucherType(String input) {
         return Arrays.stream(VoucherType.values())
                 .filter(menu -> menu.isMatching(input))
                 .findFirst();

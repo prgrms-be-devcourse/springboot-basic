@@ -65,7 +65,7 @@ public class ConsoleManager {
     public CreateVoucherRequest instructCreate() {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
-        VoucherType voucherType = VoucherType.findCreateMenu(createMenu)
+        VoucherType voucherType = VoucherType.findVoucherType(createMenu)
                 .orElseThrow(() -> {
                     logger.error(INVALID_VOUCHER_TYPE_MESSAGE);
                     return new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE);
