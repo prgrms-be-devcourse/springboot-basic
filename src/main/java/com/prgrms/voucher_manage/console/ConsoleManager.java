@@ -2,6 +2,7 @@ package com.prgrms.voucher_manage.console;
 
 import com.prgrms.voucher_manage.domain.customer.controller.CustomerController;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
+import com.prgrms.voucher_manage.domain.customer.entity.CustomerType;
 import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
@@ -13,6 +14,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.prgrms.voucher_manage.console.MenuType.EXIT;
@@ -49,9 +51,15 @@ public class ConsoleManager implements ApplicationRunner {
         }
 
         switch (menuType) {
-            case CREATE -> createVoucher();
-            case LIST -> printVouchers(voucherController.getVouchers());
-            case CUSTOMER ->  printBlackList(customerController.getBlackList());
+            case CREATE_VOUCHER -> createVoucher();
+            case VOUCHER_LIST -> printVouchers(voucherController.getVouchers());
+
+            case SAVE_CUSTOMER -> saveCustomer();
+            case BLACK_CUSTOMERS ->  printCustomers(customerController.getBlackCustomers());
+            case ALL_CUSTOMERS -> printCustomers(customerController.getAllCustomers());
+            case NORMAL_CUSTOMERS -> printCustomers(customerController.getNormalCustomers());
+            case UPDATE_CUSTOMER -> updateCustomer();
+            case FIND_CUSTOMER -> findCustomer();
         }
     }
 
@@ -78,7 +86,41 @@ public class ConsoleManager implements ApplicationRunner {
         });
     }
 
-    private void printBlackList(List<Customer> customers) {
+    public void saveCustomer() throws IOException {
+        outputUtil.printCustomerSelect();
+        CustomerType customerType = getCustomerType();
+        outputUtil.printMessage("Input customer name.");
+        String name = inputUtil.getStringInput();
+        customerController.save(new Customer(name, customerType));
+    }
+
+    public void findCustomer() throws IOException {
+        outputUtil.printMessage("Input customer name to find.");
+        String name = inputUtil.getStringInput();
+        Customer foundCustomer = customerController.findByName(name);
+        outputUtil.printCustomerInfo(foundCustomer);
+    }
+
+    public void updateCustomer() throws IOException {
+        outputUtil.printMessage("Input customer name to update.");
+        String name = inputUtil.getStringInput();
+        Customer customer = customerController.findByName(name);
+//        outputUtil.printMessage("Input customer new name to change.");
+//        String newName = inputUtil.getStringInput();
+
+        outputUtil.printMessage("Input customer type to change.");
+        customerController.update(new Customer(customer.getId(),customer.getName(), getCustomerType()));
+    }
+
+    private CustomerType getCustomerType() throws IOException {
+        CustomerType customerType = CustomerType.matchCustomerType(inputUtil.getStringInput());
+        if (customerType == null){
+            throw new InvalidInputException("Invalid command input");
+        }
+        return customerType;
+    }
+
+    private void printCustomers(List<Customer> customers) {
         customers.forEach(outputUtil::printCustomerInfo);
     }
 }
