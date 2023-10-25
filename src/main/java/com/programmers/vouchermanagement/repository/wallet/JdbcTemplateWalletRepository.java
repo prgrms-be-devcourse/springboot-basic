@@ -23,7 +23,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
     @Override
     public void save(Wallet wallet) {
-        String sql = "INSERT INTO vouchers (customer_id, voucher_id, used) VALUES (:customerId, :voucherId, :used)";
+        String sql = "INSERT INTO wallets (customer_id, voucher_id, used) VALUES (:customerId, :voucherId, :used)";
 
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("customerId", wallet.getCustomerId().toString())
@@ -31,6 +31,18 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
                 .addValue("used", wallet.isUsed());
 
         template.update(sql, params);
+    }
+
+    @Override
+    public void saveAll(List<Wallet> wallets) {
+        String sql = "INSERT INTO wallets (customer_id, voucher_id, used) VALUES (:customerId, :voucherId, :used)";
+
+        template.batchUpdate(sql, wallets.stream()
+                .map(wallet -> new MapSqlParameterSource()
+                        .addValue("customerId", wallet.getCustomerId().toString())
+                        .addValue("voucherId", wallet.getVoucherId().toString())
+                        .addValue("used", wallet.isUsed()))
+                .toArray(SqlParameterSource[]::new));
     }
 
     @Override
@@ -59,8 +71,14 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
     @Override
     public void deleteById(int id) {
-        String sql = "DELETE FROM vouchers WHERE id = :id";
+        String sql = "DELETE FROM wallets WHERE id = :id";
         template.update(sql, new MapSqlParameterSource("id", id));
+    }
+
+    @Override
+    public void deleteAll() {
+        String sql = "DELETE FROM wallets";
+        template.update(sql, new MapSqlParameterSource());
     }
 
     private RowMapper<Wallet> getWalletRowMapper() {
