@@ -10,3 +10,11 @@ CREATE TABLE IF NOT EXISTS vouchers (
       voucher_type ENUM('FIXED', 'PERCENT') NOT NULL,
       use_status_type VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS wallets (
+      wallet_id   INT PRIMARY KEY AUTO_INCREMENT,
+      customer_id BINARY(16) NOT NULL,
+      voucher_id  BINARY(16)  NOT NULL,
+      FOREIGN KEY (customer_id) REFERENCES customers (customer_id) ON DELETE CASCADE,
+      FOREIGN KEY (voucher_id) REFERENCES vouchers (voucher_id) ON DELETE CASCADE
+);
