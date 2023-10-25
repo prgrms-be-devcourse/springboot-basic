@@ -1,5 +1,7 @@
 package com.programmers.vouchermanagement.utils;
 
+import com.programmers.vouchermanagement.exception.CommandNotFoundException;
+
 import java.util.Arrays;
 
 public enum Command {

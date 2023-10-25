@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement;
 
 import com.programmers.vouchermanagement.member.presentation.MemberController;
 import com.programmers.vouchermanagement.utils.Command;
-import com.programmers.vouchermanagement.utils.CommandNotFoundException;
+import com.programmers.vouchermanagement.exception.CommandNotFoundException;
 import com.programmers.vouchermanagement.utils.ConsoleInputManager;
 import com.programmers.vouchermanagement.utils.ConsoleOutputManager;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
