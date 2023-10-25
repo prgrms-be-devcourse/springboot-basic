@@ -6,4 +6,6 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 
 public interface CustomerRepository {
     List<Customer> findBlackCustomers();
+
+    void deleteAll();
 }

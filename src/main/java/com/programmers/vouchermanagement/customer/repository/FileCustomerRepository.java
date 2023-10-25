@@ -43,6 +43,12 @@ public class FileCustomerRepository implements CustomerRepository {
                 .toList();
     }
 
+    @Override
+    @Profile("test")
+    public void deleteAll() {
+        customers.clear();
+    }
+
     private void loadBlacklist() {
         List<Customer> blacklist = new ArrayList<>();
 

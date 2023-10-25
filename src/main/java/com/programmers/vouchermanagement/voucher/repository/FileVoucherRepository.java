@@ -65,6 +65,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    @Profile("test")
     public void deleteAll() {
         vouchers.clear();
     }
