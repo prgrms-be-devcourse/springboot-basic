@@ -3,8 +3,10 @@ package com.programmers.vouchermanagement.customer.repository;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -34,6 +36,19 @@ class FileCustomerRepositoryTest {
     void testLoadingBlacklistFileOnInit() {
         assertThat(customerRepository, notNullValue());
         assertThat(appProperties.getCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
+    }
+
+    @Test
+    @DisplayName("고객 저장을 성공한다.")
+    void testCustomerCreationSuccessful() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "test-user");
+
+        //when
+        Customer createdCustomer = customerRepository.save(customer);
+
+        //then
+        assertThat(createdCustomer, samePropertyValuesAs(customer));
     }
 
     @Test
