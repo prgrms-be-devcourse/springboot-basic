@@ -1,6 +1,8 @@
 package com.programmers.vouchermanagement.customer.repository;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
@@ -62,6 +64,23 @@ class FileCustomerRepositoryTest {
 
         //then
         assertThat(customers.isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("저장된 고객이 있으면 고객들의 리스트를 반환한다.")
+    void testFindCustomersSuccessful_ReturnList() {
+        //given
+        Customer firstCustomer = new Customer(UUID.randomUUID(), "first-customer");
+        Customer secondCustomer = new Customer(UUID.randomUUID(), "second-customer");
+        customerRepository.save(firstCustomer);
+        customerRepository.save(secondCustomer);
+
+        //when
+        List<Customer> customers = customerRepository.findAll();
+
+        //then
+        assertThat(customers.isEmpty(), is(false));
+        assertThat(customers, hasSize(greaterThanOrEqualTo(1)));
     }
 
     @Test
