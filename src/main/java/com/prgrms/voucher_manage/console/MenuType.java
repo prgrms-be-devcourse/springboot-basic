@@ -10,7 +10,7 @@ import java.util.Arrays;
 public enum MenuType {
     CREATE("create"),
     LIST("list"),
-    CUSTOMER("customer"),
+    BLACKLIST("blackList"),
     EXIT("exit");
 
     private final String label;
