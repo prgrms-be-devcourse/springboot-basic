@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.swing.text.html.Option;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -114,6 +112,22 @@ class FileCustomerRepositoryTest {
         //then
         assertThat(foundCustomer.isEmpty(), is(false));
         assertThat(foundCustomer.get(), samePropertyValuesAs(customer));
+    }
+
+    @Test
+    @DisplayName("저장된 고객의 정보 수정을 성공한다.")
+    void testUpdateCustomerSuccessful() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
+
+        //when
+        Customer updatedCustomer = new Customer(customer.getCustomerId(), "updated-test-customer");
+        customerRepository.save(updatedCustomer);
+
+        //then
+        Customer founcCustomer = customerRepository.findById(customer.getCustomerId()).get();
+        assertThat(founcCustomer.getName(), is(updatedCustomer.getName()));
     }
 
     @Test
