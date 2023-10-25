@@ -5,7 +5,7 @@ import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
-import com.zerozae.voucher.repository.customer.CustomerRepository;
+import com.zerozae.voucher.repository.customer.FileCustomerRepository;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CustomerServiceTest {
-    CustomerRepository customerRepository = mock(CustomerRepository.class);
+    FileCustomerRepository customerRepository = mock(FileCustomerRepository.class);
     CustomerService customerService = new CustomerService(customerRepository);
 
     @Test
