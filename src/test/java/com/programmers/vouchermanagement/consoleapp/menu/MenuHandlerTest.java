@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.controller.CustomerController;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
@@ -166,4 +167,24 @@ class MenuHandlerTest {
         //verify
         verify(consoleManager).printReadAllVouchers(vouchers);
     }
+
+    @Test
+    @DisplayName("블랙리스트 조회 시 저장된 고객이 없어도 실패하지 않는다.")
+    void testHandleMenuSuccessful_EmptyBlacklist() {
+        //given
+        final List<CustomerResponse> blacklist = Collections.emptyList();
+        doReturn(Menu.BLACKLIST).when(consoleManager).selectMenu();
+        doReturn(blacklist).when(customerController).readBlacklist();
+
+        //when
+        final boolean isRunning = menuHandler.handleMenu();
+
+        //then
+        assertThat(isRunning, is(true));
+
+        //verify
+        verify(consoleManager).printReadBlacklist(blacklist);
+    }
+
+
 }
