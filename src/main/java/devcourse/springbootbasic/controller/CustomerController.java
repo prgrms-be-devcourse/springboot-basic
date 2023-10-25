@@ -1,9 +1,8 @@
 package devcourse.springbootbasic.controller;
 
 import devcourse.springbootbasic.dto.customer.CustomerCreateRequest;
-import devcourse.springbootbasic.dto.customer.CustomerCreateResponse;
 import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
-import devcourse.springbootbasic.dto.customer.CustomerUpdateResponse;
+import devcourse.springbootbasic.dto.customer.CustomerResponse;
 import devcourse.springbootbasic.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,11 +21,11 @@ public class CustomerController {
         return this.customerService.findAllBlacklistedCustomers();
     }
 
-    public CustomerCreateResponse save(CustomerCreateRequest customerCreateRequest) {
-        return new CustomerCreateResponse(this.customerService.save(customerCreateRequest));
+    public CustomerResponse save(CustomerCreateRequest customerCreateRequest) {
+        return new CustomerResponse(this.customerService.save(customerCreateRequest));
     }
 
-    public CustomerUpdateResponse updateBlacklistStatus(UUID customerId, boolean isBlacklisted) {
-        return new CustomerUpdateResponse(this.customerService.updateBlacklistStatus(customerId, isBlacklisted));
+    public CustomerResponse updateBlacklistStatus(UUID customerId, boolean isBlacklisted) {
+        return new CustomerResponse(this.customerService.updateBlacklistStatus(customerId, isBlacklisted));
     }
 }

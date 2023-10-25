@@ -7,11 +7,11 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class VoucherCreateResponse {
+public class VoucherResponse {
 
     private final UUID id;
 
-    public VoucherCreateResponse(Voucher voucher) {
+    public VoucherResponse(Voucher voucher) {
         this.id = voucher.getId();
     }
 
