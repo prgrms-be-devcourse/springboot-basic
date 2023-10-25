@@ -28,6 +28,7 @@ class CustomerRepositoryTest {
     @Autowired private DataSource dataSource;
     private final Customer customer1 = new Customer("스카라무슈", 1995);
     private final Customer customer2 = new Customer("종려", 1990);
+    private final static String DELETE_CUSTOMERS_QUERY = "delete from customers;";
 
     @Configuration
     static class TestConfig {
@@ -55,7 +56,7 @@ class CustomerRepositoryTest {
 
     @AfterEach
     void afterEach() {
-        template.execute(" delete from customers;");
+        template.execute(DELETE_CUSTOMERS_QUERY);
     }
 
     @Test

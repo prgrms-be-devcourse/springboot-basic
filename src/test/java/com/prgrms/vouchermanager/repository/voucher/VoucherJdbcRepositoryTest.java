@@ -31,6 +31,7 @@ class VoucherJdbcRepositoryTest {
     private DataSource dataSource;
     private final Voucher voucher1 = new FixedAmountVoucher(20000);
     private final Voucher voucher2 = new PercentAmountVoucher(10);
+    private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
 
 //    @Autowired
 //    public VoucherJdbcRepositoryTest(JdbcTemplate template, DataSource dataSource) {
@@ -63,7 +64,7 @@ class VoucherJdbcRepositoryTest {
     }
     @AfterEach
     void afterEach() {
-        template.execute("delete from vouchers;");
+        template.execute(DELETE_VOUCHERS_QUERY);
     }
     @Test
     @DisplayName("create")

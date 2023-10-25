@@ -29,8 +29,13 @@ public class CustomerExecutor {
         consolePrint.printGetCustomerName();
         String name = sc.nextLine();
         consolePrint.printGetCustomerYear();
-        int year = sc.nextInt();
-        sc.nextLine();
+        int year = 0;
+        try {
+            year = sc.nextInt();
+            sc.nextLine();
+        } catch (NumberFormatException e) {
+            throw new NotCorrectForm(String.valueOf(year));
+        }
 
         controller.create(name, year);
         consolePrint.printCompleteCreate();

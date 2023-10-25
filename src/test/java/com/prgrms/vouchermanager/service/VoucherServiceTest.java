@@ -23,6 +23,8 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.vouchermanager.message.QueryMessage.DELETE_VOUCHER;
+
 @SpringJUnitConfig
 class VoucherServiceTest {
 
@@ -33,6 +35,7 @@ class VoucherServiceTest {
     @Autowired
     private DataSource dataSource;
     private final Voucher voucher = new PercentAmountVoucher(10);
+    private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
 
     @Configuration
     static class TestConfig {
@@ -61,8 +64,9 @@ class VoucherServiceTest {
     }
     @AfterEach
     void afterEach() {
-        template.execute("delete from vouchers;");
+        template.execute(DELETE_VOUCHERS_QUERY);
     }
+
     @Test
     @DisplayName("create")
     void create() {
