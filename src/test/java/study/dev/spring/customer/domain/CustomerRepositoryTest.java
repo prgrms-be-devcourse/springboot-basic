@@ -4,11 +4,13 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.sql.DataSource;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -59,5 +61,43 @@ class CustomerRepositoryTest extends DataSourceTestSupport {
 			() -> assertThat(actualCustomer.getName()).isEqualTo(name),
 			() -> assertThat(actualCustomer.getUuid()).isEqualTo(uuid)
 		);
+	}
+
+	@Nested
+	@DisplayName("[아이디로 고객을 조회한다]")
+	class findById {
+
+		@Test
+		@DisplayName("[조회에 성공한다]")
+		void success() {
+			//given
+			Customer customer = new Customer("uuid", "name");
+			customerRepository.save(customer);
+
+			//when
+			Optional<Customer> actual = customerRepository.findById(customer.getUuid());
+
+			//then
+			assertThat(actual).isPresent();
+
+			Customer actualCustomer = actual.get();
+			assertAll(
+				() -> assertThat(actualCustomer.getName()).isEqualTo(customer.getName()),
+				() -> assertThat(actualCustomer.getUuid()).isEqualTo(customer.getUuid())
+			);
+		}
+
+		@Test
+		@DisplayName("[아이디가에 해당하는 고객이 존재하지 않아 빈 값을 반환한다]")
+		void emptyValue() {
+			//given
+			Customer customer = new Customer("uuid", "name");
+
+			//when
+			Optional<Customer> actual = customerRepository.findById(customer.getUuid());
+
+			//then
+			assertThat(actual).isNotPresent();
+		}
 	}
 }
