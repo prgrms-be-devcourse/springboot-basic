@@ -79,7 +79,7 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public void findVoucherByWallets(List<Wallet> wallet) {
-
+    public List<Voucher> findVoucherByWallets(List<Wallet> wallet) {
+        return null;
     }
 }

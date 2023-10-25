@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 @Primary
@@ -61,12 +62,13 @@ public class CustomerJdbcRepository implements CustomerRepository{
     }
 
     @Override
-    public void findCustomerByWallet(Wallet wallet) {
+    public List<Customer> listCustomersByWallets(List<Wallet> wallets) {
+        String inSql = String.join(",", Collections.nCopies(wallets.size(), "?"));
 
-    }
+        Object[] ids = wallets.stream().map(Wallet::customerId).toArray();
 
-    @Override
-    public void listCustomersByWallets(List<Wallet> wallets) {
-
+        return jdbcTemplate.query(
+                String.format("SELECT * FROM CUSTOMERS WHERE id IN (%s)", inSql), ids,
+                (resultSet, i) -> mapCustomer(resultSet));
     }
 }

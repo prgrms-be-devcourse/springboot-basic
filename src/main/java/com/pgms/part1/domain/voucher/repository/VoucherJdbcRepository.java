@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 @Profile("dev")
@@ -51,7 +52,13 @@ public class VoucherJdbcRepository implements VoucherRepository{
     }
 
     @Override
-    public void findVoucherByWallets(List<Wallet> wallet) {
+    public List<Voucher> findVoucherByWallets(List<Wallet> wallet) {
+        String inSql = String.join(",", Collections.nCopies(wallet.size(), "?"));
 
+        Object[] ids = wallet.stream().map(Wallet::voucherId).toArray();
+
+        return jdbcTemplate.query(
+                String.format("SELECT * FROM VOUCHERS WHERE id IN (%s)", inSql), ids,
+                (resultSet, i) -> mapVoucher(resultSet));
     }
 }

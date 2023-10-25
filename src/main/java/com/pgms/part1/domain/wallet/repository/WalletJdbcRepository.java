@@ -30,7 +30,7 @@ public class WalletJdbcRepository implements WalletRepository{
     @Override
     public List<Wallet> findWalletByVoucherId(Long id) {
         String listWalletsByVoucherSql = "SELECT * FROM WALLETS WHERE voucher_id = ?";
-        return jdbcTemplate.query(listWalletsByVoucherSql, (resultSet, i) -> mapWallet(resultSet), id);
+        return jdbcTemplate.query(listWalletsByVoucherSql, new Object[]{id}, (resultSet, i) -> mapWallet(resultSet));
     }
 
     @Override

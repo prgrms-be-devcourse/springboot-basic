@@ -11,6 +11,5 @@ public interface CustomerRepository {
     public void addCustomer(Customer customer);
     public void updateCustomerName(Long id, String name);
     public void deleteCustomer(Long id);
-    public void findCustomerByWallet(Wallet wallet);
-    public void listCustomersByWallets(List<Wallet> wallets);
+    public List<Customer> listCustomersByWallets(List<Wallet> wallets);
 }

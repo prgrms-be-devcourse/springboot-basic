@@ -75,12 +75,7 @@ public class CustomerFileRepository implements CustomerRepository{
     }
 
     @Override
-    public void findCustomerByWallet(Wallet wallet) {
-
-    }
-
-    @Override
-    public void listCustomersByWallets(List<Wallet> wallets) {
-
+    public List<Customer> listCustomersByWallets(List<Wallet> wallets) {
+        return null;
     }
 }

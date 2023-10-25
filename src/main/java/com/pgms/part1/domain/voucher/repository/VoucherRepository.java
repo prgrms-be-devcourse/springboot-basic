@@ -13,5 +13,5 @@ public interface VoucherRepository {
 
     public void delete(Long id);
 
-    public void findVoucherByWallets(List<Wallet> wallet);
+    public List<Voucher> findVoucherByWallets(List<Wallet> wallet);
 }
