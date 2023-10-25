@@ -5,6 +5,7 @@ import org.prgms.kdtspringweek1.console.ConsoleOutput;
 import org.prgms.kdtspringweek1.customer.CustomerService;
 import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
+import org.prgms.kdtspringweek1.console.FindCustomerResponseDto;
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,10 +93,7 @@ public class AppController {
     private void getAllBlackCustomers() {
         try {
             customerService.searchAllBlackCustomers()
-                    .stream()
-                    .forEach(customer -> {
-                        customer.printCustomerInfo();
-                    });
+                    .forEach(FindCustomerResponseDto::printCustomerInfo);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             logger.error(e.getMessage());

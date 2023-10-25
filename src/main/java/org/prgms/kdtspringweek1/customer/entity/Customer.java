@@ -1,6 +1,5 @@
 package org.prgms.kdtspringweek1.customer.entity;
 
-import java.text.MessageFormat;
 import java.util.UUID;
 
 public class Customer {
@@ -23,9 +22,15 @@ public class Customer {
                 '}';
     }
 
-    public void printCustomerInfo() {
-        System.out.println(MessageFormat.format("Customer Id: {0}", customerId));
-        System.out.println(MessageFormat.format("Name: {0}", name));
-        System.out.println(MessageFormat.format("IsBlackCustomer: {0}", isBlackCustomer));
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean getIsBlackCustomer() {
+        return isBlackCustomer;
     }
 }
