@@ -19,7 +19,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public Response createCustomer(CustomerRequest customerRequest){
+    public Response createCustomer(CustomerRequest customerRequest) {
         try{
             customerService.createCustomer(customerRequest);
             return Response.success();
@@ -28,12 +28,12 @@ public class CustomerController {
         }
     }
 
-    public Response findAllCustomers(){
+    public Response findAllCustomers() {
         List<CustomerResponse> customers = customerService.findAllCustomers();
         return Response.success(customers);
     }
 
-    public Response findAllBlacklistCustomers(){
+    public Response findAllBlacklistCustomers() {
         List<CustomerResponse> blacklistCustomer = customerService.findAllBlacklistCustomers();
         return Response.success(blacklistCustomer);
     }

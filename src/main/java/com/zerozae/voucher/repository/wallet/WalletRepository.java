@@ -34,7 +34,7 @@ public class WalletRepository {
     }
 
     @Transactional
-    public Wallet save(Wallet wallet){
+    public Wallet save(Wallet wallet) {
         int update = namedParameterJdbcTemplate.update(
                 "INSERT INTO wallets(customer_id, voucher_id) VALUES(UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId))",
                 toParamMap(wallet));
@@ -45,7 +45,7 @@ public class WalletRepository {
         return wallet;
     }
 
-    public Optional<Wallet> findWallet(UUID customerId, UUID voucherId){
+    public Optional<Wallet> findWallet(UUID customerId, UUID voucherId) {
         try {
             return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
                     "SELECT * FROM wallets WHERE customer_id = UUID_TO_BIN(:customerId) and voucher_id = UUID_TO_BIN(:voucherId)",
@@ -58,14 +58,14 @@ public class WalletRepository {
         }
     }
 
-    public List<Wallet> findByCustomerId(UUID customerId){
+    public List<Wallet> findByCustomerId(UUID customerId) {
         return namedParameterJdbcTemplate.query(
                 "SELECT * FROM wallets WHERE customer_id = UUID_TO_BIN(:customerId)",
                 Map.of(CUSTOMER_ID, customerId.toString().getBytes()),
                 walletRowMapper);
     }
 
-    public List<Wallet> findByVoucherId(UUID voucherId){
+    public List<Wallet> findByVoucherId(UUID voucherId) {
         return namedParameterJdbcTemplate.query(
                 "SELECT * FROM wallets WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 Map.of(VOUCHER_ID, voucherId.toString().getBytes()),
@@ -73,7 +73,7 @@ public class WalletRepository {
     }
 
     @Transactional
-    public void deleteByAllId(UUID customerId, UUID voucherId){
+    public void deleteByAllId(UUID customerId, UUID voucherId) {
         namedParameterJdbcTemplate.update(
                 "DELETE FROM wallets where customer_id = UUID_TO_BIN(:customerId) and voucher_id = UUID_TO_BIN(:voucherId)",
                 Map.of(
@@ -81,6 +81,7 @@ public class WalletRepository {
                         VOUCHER_ID, voucherId.toString().getBytes()));
     }
 
+    @Transactional
     public void deleteAll(){
         namedParameterJdbcTemplate.getJdbcOperations().update("DELETE FROM wallets");
     }

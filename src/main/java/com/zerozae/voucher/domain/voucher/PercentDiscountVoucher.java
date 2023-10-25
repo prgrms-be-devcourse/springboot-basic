@@ -24,7 +24,7 @@ public class PercentDiscountVoucher extends Voucher {
         this.useStatusType = UseStatusType.AVAILABLE;
     }
 
-    public PercentDiscountVoucher(UUID voucherId, Long discount, UseStatusType useStatusType){
+    public PercentDiscountVoucher(UUID voucherId, Long discount, UseStatusType useStatusType) {
         try {
             validateVoucherInfo(discount);
         }catch (ErrorMessage e){

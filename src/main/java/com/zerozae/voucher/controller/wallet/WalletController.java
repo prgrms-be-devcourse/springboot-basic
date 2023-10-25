@@ -40,8 +40,8 @@ public class WalletController {
         try {
             customerService.findById(customerId);
             List<WalletResponse> wallets = walletService.findWalletByCustomerId(customerId);
-            List<CustomerResponse> customers = wallets.stream()
-                    .map(wallet -> customerService.findById(wallet.getCustomerId()))
+            List<VoucherResponse> customers = wallets.stream()
+                    .map(wallet -> voucherService.findById(wallet.getVoucherId()))
                     .toList();
 
             return Response.success(customers);
@@ -54,8 +54,8 @@ public class WalletController {
         try {
             voucherService.findById(voucherId);
             List<WalletResponse> wallets = walletService.findWalletByVoucherId(voucherId);
-            List<VoucherResponse> vouchers = wallets.stream()
-                    .map(wallet -> voucherService.findById(wallet.getVoucherId()))
+            List<CustomerResponse> vouchers = wallets.stream()
+                    .map(wallet -> customerService.findById(wallet.getCustomerId()))
                     .toList();
 
             return Response.success(vouchers);
@@ -64,7 +64,7 @@ public class WalletController {
         }
     }
 
-    public Response deleteWalletsById(UUID customerId, UUID voucherId){
+    public Response deleteWalletsById(UUID customerId, UUID voucherId) {
         try {
             customerService.findById(customerId);
             voucherService.findById(voucherId);
@@ -75,7 +75,7 @@ public class WalletController {
         }
     }
 
-    public Response deleteAllWallets(){
+    public Response deleteAllWallets() {
         walletService.deleteAllWallets();
         return Response.success();
     }

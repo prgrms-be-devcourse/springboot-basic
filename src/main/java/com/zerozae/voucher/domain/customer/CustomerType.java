@@ -10,7 +10,7 @@ public enum CustomerType {
     NORMAL,
     BLACKLIST;
 
-    public static CustomerType of(String input){
+    public static CustomerType of(String input) {
         try {
             return CustomerType.valueOf(input.toUpperCase());
         }catch (RuntimeException e){

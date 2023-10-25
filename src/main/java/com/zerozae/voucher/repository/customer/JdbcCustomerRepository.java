@@ -23,6 +23,7 @@ import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
 @Profile("prod")
 @Repository
+@Transactional(readOnly = true)
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final String CUSTOMER_ID = "customerId";
@@ -41,8 +42,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
     @Transactional
+    @Override
     public Customer save(Customer customer) {
         String sql = "insert into customers(customer_id,customer_name , customer_type) values (UUID_TO_BIN(:customerId), :customerName, :customerType)";
         int updated = jdbcTemplate.update(

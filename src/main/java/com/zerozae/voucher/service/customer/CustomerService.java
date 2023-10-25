@@ -24,7 +24,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public CustomerResponse createCustomer(CustomerRequest customerRequest){
+    public CustomerResponse createCustomer(CustomerRequest customerRequest) {
         try{
             validateDuplicateCustomer(customerRequest);
             Customer customer = customerRequest.of(UUID.randomUUID());
@@ -35,7 +35,7 @@ public class CustomerService {
         }
     }
 
-    public List<CustomerResponse> findAllCustomers(){
+    public List<CustomerResponse> findAllCustomers() {
         return customerRepository.findAll()
                 .stream()
                 .map(CustomerResponse::toDto)
@@ -75,7 +75,7 @@ public class CustomerService {
                 .filter(customer -> customer.getCustomerName().equals(customerRequest.getCustomerName()))
                 .findAny();
 
-        if(findCustomer.isPresent()){
+        if(findCustomer.isPresent()) {
             throw ErrorMessage.error(ALREADY_EXIST_CUSTOMER_MESSAGE);
         }
     }

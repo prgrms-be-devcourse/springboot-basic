@@ -7,7 +7,7 @@ public enum VoucherType {
     FIXED,
     PERCENT;
 
-    public static VoucherType of(String input){
+    public static VoucherType of(String input) {
         try{
             return VoucherType.valueOf(input.toUpperCase());
         }catch (RuntimeException e){

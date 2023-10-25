@@ -16,7 +16,7 @@ public class WalletResponse {
         this.voucherId = voucherId;
     }
 
-    public static WalletResponse toDto(Wallet wallet){
+    public static WalletResponse toDto(Wallet wallet) {
         return new WalletResponse(
                 wallet.getCustomerId(),
                 wallet.getVoucherId()

@@ -27,12 +27,15 @@ public class MenuHandler {
     private static final String MAIN_PROGRAM = "mainProgram";
     private static final String CUSTOMER_PROGRAM = "customerProgram";
     private static final String VOUCHER_PROGRAM = "voucherProgram";
+    private static final String WALLET_PROGRAM = "walletProgram";
     private final ConsoleView consoleView;
     private final VoucherController voucherController;
     private final CustomerController customerController;
     private final WalletController walletController;
 
-    public MenuHandler(ConsoleView consoleView, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
+    public MenuHandler(ConsoleView consoleView, VoucherController voucherController,
+                       CustomerController customerController,
+                       WalletController walletController) {
         this.consoleView = consoleView;
         this.voucherController = voucherController;
         this.customerController = customerController;
@@ -45,6 +48,7 @@ public class MenuHandler {
                 case MAIN_PROGRAM -> consoleView.printCommand();
                 case CUSTOMER_PROGRAM -> consoleView.printCustomerCommand();
                 case VOUCHER_PROGRAM -> consoleView.printVoucherCommand();
+                case WALLET_PROGRAM -> consoleView.printWalletCommand();
             }
             return MenuType.of(consoleView.inputCommand());
         }catch (ErrorMessage e){
@@ -272,7 +276,6 @@ public class MenuHandler {
             consoleView.printSystemMessage("소유자를 찾고자 하는 바우처 번호를 입력해주세요.");
             consoleView.printPrompt();
             UUID voucherId = UUID.fromString(consoleView.inputUuid());
-            voucherController.findVoucherById(voucherId);
 
             Response<List<CustomerResponse>> result = walletController.findWalletByVoucherId(voucherId);
             result.getData()

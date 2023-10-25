@@ -15,12 +15,12 @@ public class Response<T> {
         this.message = message;
     }
 
-    public Response(boolean isSuccess, T data){
+    public Response(boolean isSuccess, T data) {
         this.isSuccess = isSuccess;
         this.data = data;
     }
 
-    public static Response success(){
+    public static Response success() {
         return new Response(true, "완료 되었습니다.");
     }
 

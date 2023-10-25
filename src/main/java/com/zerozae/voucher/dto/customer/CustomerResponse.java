@@ -26,7 +26,7 @@ public class CustomerResponse {
         );
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return """
                 회원 번호  : %s
                 회원 이름  : %s

@@ -16,7 +16,6 @@ public class ProgramRunner implements CommandLineRunner {
     private static final String CUSTOMER_PROGRAM = "customerProgram";
     private static final String VOUCHER_PROGRAM = "voucherProgram";
     private static final String WALLET_PROGRAM = "walletProgram";
-
     private final MenuHandler menuHandler;
 
     public ProgramRunner(MenuHandler menuHandler) {
@@ -45,7 +44,7 @@ public class ProgramRunner implements CommandLineRunner {
                         continueRun = false;
                     }
                 }
-            }catch (ErrorMessage e){
+            }catch (ErrorMessage e) {
                 logger.warn("Error Message = {}", e.getMessage());
             }
         }
@@ -81,7 +80,7 @@ public class ProgramRunner implements CommandLineRunner {
                         logger.warn(NOT_EXIST_MENU);
                     }
                 }
-            }catch (ErrorMessage e){
+            }catch (ErrorMessage e) {
                 logger.warn("Error Message = {}", e.getMessage());
             }
         }
@@ -120,7 +119,7 @@ public class ProgramRunner implements CommandLineRunner {
                         logger.warn(NOT_EXIST_MENU);
                     }
                 }
-            }catch (ErrorMessage e){
+            }catch (ErrorMessage e) {
                 logger.warn("Error Message = {}", e.getMessage());
             }
         }
@@ -153,7 +152,7 @@ public class ProgramRunner implements CommandLineRunner {
                         logger.warn(NOT_EXIST_MENU);
                     }
                 }
-            }catch (ErrorMessage e){
+            }catch (ErrorMessage e) {
                 logger.warn("Error Message ={}", e.getMessage());
             }
         }

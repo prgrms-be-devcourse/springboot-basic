@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Profile("file")
 @Repository
-public class FileCustomerRepository implements CustomerRepository{
+public class FileCustomerRepository implements CustomerRepository {
 
     private static final String FILE_PATH = System.getProperty("user.home") + "/customer_blacklist.csv";
     private static final String DELIMITER = ",";
@@ -44,7 +44,9 @@ public class FileCustomerRepository implements CustomerRepository{
 
     @Override
     public List<Customer> findAll() {
-        return customers.values().stream().toList();
+        return customers.values()
+                .stream()
+                .toList();
     }
 
     @Override

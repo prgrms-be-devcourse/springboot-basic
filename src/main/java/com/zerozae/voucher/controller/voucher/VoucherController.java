@@ -21,7 +21,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Response createVoucher(VoucherRequest voucherRequest){
+    public Response createVoucher(VoucherRequest voucherRequest) {
         try {
             voucherService.createVoucher(voucherRequest);
             return Response.success();
@@ -30,7 +30,7 @@ public class VoucherController {
         }
     }
 
-    public Response findAllVouchers(){
+    public Response findAllVouchers() {
         List<VoucherResponse> vouchers = voucherService.findAllVouchers();
         return Response.success(vouchers);
     }

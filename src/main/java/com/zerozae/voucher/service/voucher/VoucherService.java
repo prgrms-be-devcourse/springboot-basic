@@ -27,7 +27,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherResponse createVoucher(VoucherRequest voucherRequest){
+    public VoucherResponse createVoucher(VoucherRequest voucherRequest) {
         VoucherType voucherType = voucherRequest.getVoucherType();
         try {
             Voucher voucher = switch (voucherType) {
@@ -36,12 +36,12 @@ public class VoucherService {
             };
             voucherRepository.save(voucher);
             return VoucherResponse.toDto(voucher);
-        }catch (ErrorMessage e){
+        }catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public List<VoucherResponse> findAllVouchers(){
+    public List<VoucherResponse> findAllVouchers() {
         return voucherRepository.findAll()
                 .stream()
                 .map(VoucherResponse::toDto)

@@ -17,7 +17,7 @@ public class CustomerRequest {
         this.customerType = customerType;
     }
 
-    public Customer of(UUID customerId){
+    public Customer of(UUID customerId) {
         return new Customer(customerId, customerName, customerType);
     }
 }

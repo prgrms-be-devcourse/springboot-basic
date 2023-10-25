@@ -21,7 +21,7 @@ public class VoucherResponse {
         this.useStatusType = useStatusType;
     }
 
-    public static VoucherResponse toDto(Voucher voucher){
+    public static VoucherResponse toDto(Voucher voucher) {
         return new VoucherResponse(
                 voucher.getVoucherId().toString(),
                 voucher.getDiscount(),
@@ -29,7 +29,7 @@ public class VoucherResponse {
                 voucher.getUseStatusType());
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return """
                 바우처 번호  : %s
                 바우처 종류  : %s

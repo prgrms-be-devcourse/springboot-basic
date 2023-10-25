@@ -12,7 +12,7 @@ import java.text.MessageFormat;
 import static java.lang.System.out;
 
 @Component
-public class ConsoleView implements Input, Output{
+public class ConsoleView implements Input, Output {
 
     private static final String INPUT_READ_EXCEPTION_MESSAGE = "입력을 읽을 때 오류가 발생했습니다.";
     private final BufferedReader bufferedReader;
@@ -22,12 +22,12 @@ public class ConsoleView implements Input, Output{
     }
 
     @Override
-    public Long inputNumber(){
+    public Long inputNumber() {
         try {
             return InputValidator.validateInputNumber(bufferedReader.readLine());
         } catch (IOException e) {
             throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
-        } catch (ErrorMessage e){
+        } catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
@@ -38,18 +38,18 @@ public class ConsoleView implements Input, Output{
             return bufferedReader.readLine();
         }catch (IOException e){
             throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
-        }catch (IllegalArgumentException e){
+        }catch (IllegalArgumentException e) {
             throw ErrorMessage.error("유효하지 않은 UUID 형식입니다.");
         }
     }
 
     @Override
-    public String inputCommand(){
+    public String inputCommand() {
         return checkInputStringAndGet();
     }
 
     @Override
-    public String inputVoucherType(){
+    public String inputVoucherType() {
         return checkInputStringAndGet();
     }
 
@@ -130,12 +130,12 @@ public class ConsoleView implements Input, Output{
     }
 
     @Override
-    public void printWalletCommand(){
+    public void printWalletCommand() {
         String command = """
                 
         === Wallet Program ===
         Type back to Main Menu.
-        Type register to Register Voucher to Customer.
+        Type assign to Register Voucher to Customer.
         Type voucher_list to List of Vouchers Owned By Customer.
         Type Owner to Show VoucherOwner.
         Type remove to Remove Voucher Owned by Customer.
@@ -145,7 +145,7 @@ public class ConsoleView implements Input, Output{
         printPrompt();
     }
 
-    public void printPrompt(){
+    public void printPrompt() {
         out.print("> ");
     }
 
@@ -154,7 +154,7 @@ public class ConsoleView implements Input, Output{
             return InputValidator.validateInputString(bufferedReader.readLine());
         } catch (IOException e) {
             throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
-        } catch (ErrorMessage e){
+        } catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }

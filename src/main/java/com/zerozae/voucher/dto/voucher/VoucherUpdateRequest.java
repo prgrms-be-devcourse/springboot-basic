@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class VoucherUpdateRequest {
+
     private long discount;
     private UseStatusType useStatusType;
 

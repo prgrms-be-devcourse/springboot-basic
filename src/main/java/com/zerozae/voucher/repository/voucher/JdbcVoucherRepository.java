@@ -25,6 +25,7 @@ import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
 @Profile("prod")
 @Repository
+@Transactional(readOnly = true)
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final String VOUCHER_ID = "voucherId";
@@ -59,7 +60,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 sql,
                 toParamMap(voucher));
 
-        if(result != 1){
+        if(result != 1) {
             throw ErrorMessage.error("저장에 실패했습니다.");
         }
 

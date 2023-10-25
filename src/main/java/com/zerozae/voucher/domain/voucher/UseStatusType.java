@@ -13,7 +13,7 @@ public enum UseStatusType {
         this.description = status;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 

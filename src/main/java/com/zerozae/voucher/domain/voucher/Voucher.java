@@ -13,19 +13,19 @@ public abstract class Voucher {
     protected VoucherType voucherType;
     protected UseStatusType useStatusType;
 
-    public UUID getVoucherId(){
+    public UUID getVoucherId() {
         return voucherId;
     }
 
-    public long getDiscount(){
+    public long getDiscount() {
         return discount;
     }
 
-    public VoucherType getVoucherType(){
+    public VoucherType getVoucherType() {
         return voucherType;
     }
 
-    public UseStatusType getUseStatusType(){
+    public UseStatusType getUseStatusType() {
         return useStatusType;
     }
 
