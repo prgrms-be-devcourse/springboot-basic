@@ -11,6 +11,7 @@ import org.xml.sax.ErrorHandler;
 public class ProgramRunner implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ProgramRunner.class);
+    private static final String NOT_EXIST_MENU = "존재하지 않는 메뉴입니다.";
     private static final String MAIN_PROGRAM = "mainProgram";
     private static final String CUSTOMER_PROGRAM = "customerProgram";
     private static final String VOUCHER_PROGRAM = "voucherProgram";
@@ -56,8 +57,23 @@ public class ProgramRunner implements CommandLineRunner {
                     case LIST -> {
                         menuHandler.voucherList();
                     }
+                    case SEARCH -> {
+                        menuHandler.findVoucherById();
+                    }
+                    case UPDATE -> {
+                        menuHandler.updateVoucher();
+                    }
+                    case DELETE -> {
+                        menuHandler.deleteVoucherById();
+                    }
+                    case DELETE_ALL -> {
+                        menuHandler.deleteAllVouchers();
+                    }
                     case BACK -> {
                         return true;
+                    }
+                    default -> {
+                        logger.warn(NOT_EXIST_MENU);
                     }
                 }
             }catch (ErrorMessage e){
@@ -77,11 +93,26 @@ public class ProgramRunner implements CommandLineRunner {
                     case LIST -> {
                         menuHandler.customerList();
                     }
+                    case SEARCH -> {
+                        menuHandler.findCustomerById();
+                    }
+                    case UPDATE -> {
+                        menuHandler.updateCustomer();
+                    }
+                    case DELETE -> {
+                        menuHandler.deleteCustomerById();
+                    }
+                    case DELETE_ALL -> {
+                        menuHandler.deleteAllCustomers();
+                    }
                     case BLACKLIST -> {
                         menuHandler.customerBlacklist();
                     }
                     case BACK -> {
                         return true;
+                    }
+                    default -> {
+                        logger.warn("존재하지 않는 메뉴입니다.");
                     }
                 }
             }catch (ErrorMessage e){
