@@ -4,16 +4,19 @@ import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.controller.customer.CustomerController;
 import com.zerozae.voucher.controller.voucher.VoucherController;
 import com.zerozae.voucher.domain.customer.CustomerType;
+import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.voucher.VoucherRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
+import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.view.ConsoleView;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Component
@@ -32,7 +35,7 @@ public class MenuHandler {
         this.customerController = customerController;
     }
 
-    public MenuType selectCommand(String program){
+    public MenuType selectCommand(String program) {
         try {
             switch (program){
                 case MAIN_PROGRAM -> consoleView.printCommand();
@@ -45,7 +48,7 @@ public class MenuHandler {
         }
     }
 
-    public void exit(){
+    public void exit() {
         consoleView.printSystemMessage("프로그램을 종료합니다.");
     }
 
@@ -61,12 +64,74 @@ public class MenuHandler {
 
             VoucherRequest voucherRequest = new VoucherRequest(discount, voucherType);
             consoleView.printSystemMessage(voucherController.createVoucher(voucherRequest).getMessage());
-        }catch (ErrorMessage e){
+        }catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public void createCustomer(){
+    public void voucherList() {
+        Response<List<VoucherResponse>> vouchers = voucherController.findAllVouchers();
+
+        List<VoucherResponse> data = vouchers.getData();
+        data.forEach(voucher -> consoleView.printInfo(voucher.getInfo()));
+    }
+
+    public void findVoucherById() {
+        try {
+            consoleView.printSystemMessage("조회할 바우처의 아이디를 입력해주세요.");
+            consoleView.printPrompt();
+            UUID voucherId = UUID.fromString(consoleView.inputUuid());
+
+            Response<VoucherResponse> result = voucherController.findVoucherById(voucherId);
+            consoleView.printSystemMessage(result.getData().getInfo());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void deleteVoucherById() {
+        try{
+            consoleView.printSystemMessage("제거할 바우처의 번호를 입력해주세요.");
+            consoleView.printPrompt();
+            UUID voucherId = UUID.fromString(consoleView.inputUuid());
+
+            consoleView.printSystemMessage(voucherController.deleteById(voucherId).getMessage());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void deleteAllVouchers() {
+        try{
+            consoleView.printSystemMessage("전체 바우처를 제거하겠습니다.");
+            consoleView.printSystemMessage(voucherController.deleteAll().getMessage());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void updateVoucher() {
+        try {
+            consoleView.printSystemMessage("수정할 바우처의 번호를 입력해주세요.");
+            consoleView.printPrompt();
+            UUID voucherId  = UUID.fromString(consoleView.inputUuid());
+
+            consoleView.printSystemMessage("바우처 수정을 위해 할인율을 입력해주세요");
+            consoleView.printPrompt();
+            long newDiscount = consoleView.inputNumber();
+
+            consoleView.printSystemMessage("바우처 수정을 위해 수정할 사용 타입을 입력해주세요");
+            consoleView.printPrompt();
+            UseStatusType newUseStatusType = UseStatusType.of(consoleView.inputVoucherType());
+
+            VoucherUpdateRequest updateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType);
+            consoleView.printSystemMessage(voucherController.updateVoucher(voucherId, updateRequest).getMessage());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void createCustomer() {
         try {
             consoleView.printSystemMessage("회원의 이름을 입력해주세요.");
             consoleView.printPrompt();
@@ -78,16 +143,16 @@ public class MenuHandler {
 
             CustomerRequest customerRequest = new CustomerRequest(customerName, customerType);
             consoleView.printSystemMessage(customerController.createCustomer(customerRequest).getMessage());
-        }catch (ErrorMessage e){
+        }catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
         }
     }
 
-    public void voucherList(){
-        Response<List<VoucherResponse>> vouchers = voucherController.findAllVouchers();
+    public void customerList() {
+        Response<List<CustomerResponse>> customers = customerController.findAllCustomers();
 
-        List<VoucherResponse> data = vouchers.getData();
-        data.forEach(voucher -> consoleView.printInfo(voucher.getInfo()));
+        List<CustomerResponse> data = customers.getData();
+        data.forEach(customer -> consoleView.printInfo(customer.getInfo()));
     }
 
     public void customerBlacklist() {
@@ -97,11 +162,58 @@ public class MenuHandler {
         data.forEach(customer -> consoleView.printInfo(customer.getInfo()));
     }
 
+    public void findCustomerById() {
+        try {
+            consoleView.printSystemMessage("조회할 회원의 번호를 입력해주세요.");
+            consoleView.printPrompt();
+            UUID customerId = UUID.fromString(consoleView.inputUuid());
 
-    public void customerList() {
-        Response<List<CustomerResponse>> customers = customerController.findAllCustomers();
+            Response<CustomerResponse> data = customerController.findCustomerById(customerId);
+            consoleView.printSystemMessage(data.getData().getInfo());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
 
-        List<CustomerResponse> data = customers.getData();
-        data.forEach(customer -> consoleView.printInfo(customer.getInfo()));
+    public void updateCustomer() {
+        try {
+            consoleView.printSystemMessage("수정할 회원의 번호를 입력해주세요.");
+            consoleView.printPrompt();
+            UUID customerId  = UUID.fromString(consoleView.inputUuid());
+
+            consoleView.printSystemMessage("이름을 수정하기 위해 새로운 이름을 입력하세요.");
+            consoleView.printPrompt();
+            String newCustomerName = consoleView.inputCustomerName();
+
+            consoleView.printSystemMessage("회원 타입을 입력하세요.");
+            consoleView.printPrompt();
+            CustomerType newCustomerType = CustomerType.of(consoleView.inputCustomerType());
+            CustomerRequest customerRequest = new CustomerRequest(newCustomerName, newCustomerType);
+
+            consoleView.printSystemMessage(customerController.updateCustomer(customerId, customerRequest).getMessage());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void deleteCustomerById() {
+        try{
+            consoleView.printSystemMessage("제거할 회원의 번호를 입력해주세요.");
+            consoleView.printPrompt();
+            UUID customerId = UUID.fromString(consoleView.inputUuid());
+
+            consoleView.printSystemMessage(customerController.deleteCustomerById(customerId).getMessage());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void deleteAllCustomers() {
+        try{
+            consoleView.printSystemMessage("전체 회원을 제거하겠습니다.");
+            consoleView.printSystemMessage(customerController.deleteAllCustomers().getMessage());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
     }
 }
