@@ -15,7 +15,7 @@ import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.entity.voucher.VoucherType;
 
 @Repository
-@Profile("test")
+@Profile("jdbc")
 public class JdbcVoucherRepository implements VoucherRepository {
 
 	private final JdbcTemplate jdbcTemplate;
