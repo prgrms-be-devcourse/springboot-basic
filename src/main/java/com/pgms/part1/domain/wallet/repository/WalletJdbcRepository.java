@@ -4,6 +4,8 @@ import com.pgms.part1.domain.wallet.entity.Wallet;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -15,14 +17,20 @@ public class WalletJdbcRepository implements WalletRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private Wallet mapWallet(ResultSet resultSet) throws SQLException {
+        return new Wallet(resultSet.getLong("id"), resultSet.getLong("voucher_id"), resultSet.getLong("customer_id"));
+    }
+
     @Override
     public List<Wallet> findWalletByCustomerId(Long id) {
-        return null;
+        String listWalletsByCustomerSql = "SELECT * FROM WALLETS WHERE cutomer_id = ?";
+        return jdbcTemplate.query(listWalletsByCustomerSql, (resultSet, i) -> mapWallet(resultSet), id);
     }
 
     @Override
     public List<Wallet> findWalletByVoucherId(Long id) {
-        return null;
+        String listWalletsByVoucherSql = "SELECT * FROM WALLETS WHERE voucher_id = ?";
+        return jdbcTemplate.query(listWalletsByVoucherSql, (resultSet, i) -> mapWallet(resultSet), id);
     }
 
     @Override
