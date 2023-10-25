@@ -1,6 +1,5 @@
 package devcourse.springbootbasic.commandline.function;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
@@ -12,9 +11,11 @@ public enum Function {
 
     CREATE_VOUCHER("1", "Create a new voucher.", FunctionHandler::createVoucher),
     LIST_VOUCHERS("2", "List all vouchers.", FunctionHandler::listAllVouchers),
-    CREATE_CUSTOMER("3", "Create a new customer.", FunctionHandler::createCustomer),
-    LIST_BLACKLISTED_CUSTOMERS("4", "List all blacklisted customers.", FunctionHandler::findAllBlacklistedCustomers),
-    UPDATE_BLACKLIST_STATUS("5", "Update blacklist status of a customer.", FunctionHandler::updateBlacklistStatus),
+    UPDATE_VOUCHER_DISCOUNT_VALUE("3", "Update discount value of a voucher.", FunctionHandler::updateDiscountValue),
+    DELETE_VOUCHER("4", "Delete a voucher.", FunctionHandler::deleteVoucher),
+    CREATE_CUSTOMER("5", "Create a new customer.", FunctionHandler::createCustomer),
+    LIST_BLACKLISTED_CUSTOMERS("6", "List all blacklisted customers.", FunctionHandler::findAllBlacklistedCustomers),
+    UPDATE_BLACKLIST_STATUS("7", "Update blacklist status of a customer.", FunctionHandler::updateBlacklistStatus),
     EXIT("9", "Exit the program.", FunctionHandler::exit);
 
     private final String code;

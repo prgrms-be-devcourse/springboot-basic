@@ -10,7 +10,8 @@ public enum InputMessage {
     DISCOUNT_VALUE("Enter discount value: "),
     CUSTOMER_NAME("Enter customer name: "),
     CUSTOMER_ID("Enter customer id: "),
-    BLACKLIST_STATUS("Enter blacklist status (y/n): ");
+    BLACKLIST_STATUS("Enter blacklist status (y/n): "),
+    VOUCHER_ID("Enter voucher id: ");
 
     private final String message;
 

@@ -77,4 +77,19 @@ public class FunctionHandler {
         CustomerUpdateResponse customer = customerController.updateBlacklistStatus(customerId, isBlacklisted);
         log.info(String.format(ConsoleConstants.CUSTOMER_UPDATE_MESSAGE, customer.getId()));
     }
+
+    public void updateDiscountValue() {
+        UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
+        long discountValue = consoleIOHandler.inputLongWithMessage(InputMessage.DISCOUNT_VALUE);
+
+        VoucherCreateResponse voucher = voucherController.updateDiscountValue(voucherId, discountValue);
+        log.info(String.format(ConsoleConstants.VOUCHER_UPDATE_MESSAGE, voucher.getId()));
+    }
+
+    public void deleteVoucher() {
+        UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
+
+        VoucherCreateResponse voucher = voucherController.deleteVoucher(voucherId);
+        log.info(String.format(ConsoleConstants.VOUCHER_DELETE_MESSAGE, voucher.getId()));
+    }
 }

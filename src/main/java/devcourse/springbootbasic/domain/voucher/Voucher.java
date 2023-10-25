@@ -15,7 +15,7 @@ public class Voucher {
 
     private final UUID id;
     private final VoucherType voucherType;
-    private final long discountValue;
+    private long discountValue;
 
     public Voucher(UUID id, VoucherType voucherType, long discountValue) {
         this.validateDiscountValue(voucherType, discountValue);
@@ -36,5 +36,12 @@ public class Voucher {
         if (!voucherType.validateDiscountValue(discountValue)) {
             throw VoucherException.of(VoucherErrorMessage.INVALID_DISCOUNT_VALUE);
         }
+    }
+
+    public Voucher updateDiscountValue(long discountValue) {
+        this.validateDiscountValue(this.voucherType, discountValue);
+        this.discountValue = discountValue;
+
+        return this;
     }
 }

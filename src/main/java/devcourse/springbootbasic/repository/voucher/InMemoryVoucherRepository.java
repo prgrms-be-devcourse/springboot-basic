@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,5 +27,24 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         return voucherDatabase.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(voucherDatabase.get(voucherId));
+    }
+
+    @Override
+    public int update(Voucher voucher) {
+        int updatedRow = voucherDatabase.containsKey(voucher.getId()) ? 1 : 0;
+        voucherDatabase.put(voucher.getId(), voucher);
+        return updatedRow;
+    }
+
+    @Override
+    public int delete(Voucher voucher) {
+        int deletedRow = voucherDatabase.containsKey(voucher.getId()) ? 1 : 0;
+        voucherDatabase.remove(voucher.getId());
+        return deletedRow;
     }
 }

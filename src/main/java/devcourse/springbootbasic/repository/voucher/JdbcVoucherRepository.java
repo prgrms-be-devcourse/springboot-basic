@@ -10,10 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Profile("prod")
 @Repository
@@ -34,6 +31,44 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 """;
 
         return jdbcTemplate.query(query, (rs, rowNum) -> mapVoucherFromResultSet(rs));
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        String query = """
+                        SELECT *
+                        FROM voucher
+                        WHERE id = UUID_TO_BIN(:id)
+                """;
+
+        List<Voucher> vouchers = jdbcTemplate.query(
+                query,
+                Map.of(ID, voucherId.toString()),
+                (rs, rowNum) -> mapVoucherFromResultSet(rs));
+
+        return vouchers.stream().findFirst();
+    }
+
+    @Override
+    public int update(Voucher voucher) {
+        String query = """
+                        UPDATE voucher
+                        SET voucher_type = :voucher_type,
+                            discount_value = :discount_value
+                        WHERE id = UUID_TO_BIN(:id)
+                """;
+
+        return jdbcTemplate.update(query, mapVoucherParameters(voucher));
+    }
+
+    @Override
+    public int delete(Voucher voucher) {
+        String query = """
+                        DELETE FROM voucher
+                        WHERE id = UUID_TO_BIN(:id)
+                """;
+
+        return jdbcTemplate.update(query, mapVoucherParameters(voucher));
     }
 
     @Override
