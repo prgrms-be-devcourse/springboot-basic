@@ -24,13 +24,15 @@ public class Voucher {
         this.id = id;
         this.voucherType = voucherType;
         this.discountValue = discountValue;
+        this.customerId = customerId;
     }
 
-    public static Voucher createVoucher(UUID uuid, VoucherType voucherType, long discountValue) {
+    public static Voucher createVoucher(UUID uuid, VoucherType voucherType, long discountValue, UUID customerId) {
         return Voucher.builder()
                 .id(uuid)
                 .voucherType(voucherType)
                 .discountValue(discountValue)
+                .customerId(customerId)
                 .build();
     }
 
@@ -44,6 +46,11 @@ public class Voucher {
         this.validateDiscountValue(this.voucherType, discountValue);
         this.discountValue = discountValue;
 
+        return this;
+    }
+
+    public Voucher assignToCustomer(UUID customerId) {
+        this.customerId = customerId;
         return this;
     }
 }

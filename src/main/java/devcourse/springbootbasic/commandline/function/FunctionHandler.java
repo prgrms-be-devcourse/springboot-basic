@@ -11,10 +11,7 @@ import devcourse.springbootbasic.dto.customer.CustomerCreateRequest;
 import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
 import devcourse.springbootbasic.dto.customer.CustomerResponse;
 import devcourse.springbootbasic.dto.customer.CustomerUpdateBlacklistRequest;
-import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
-import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
-import devcourse.springbootbasic.dto.voucher.VoucherResponse;
-import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
+import devcourse.springbootbasic.dto.voucher.*;
 import devcourse.springbootbasic.exception.InputErrorMessage;
 import devcourse.springbootbasic.exception.InputException;
 import lombok.RequiredArgsConstructor;
@@ -92,5 +89,13 @@ public class FunctionHandler {
 
         VoucherResponse voucher = voucherController.deleteVoucher(voucherId);
         log.info(String.format(ConsoleConstants.VOUCHER_DELETE_MESSAGE, voucher.getId()));
+    }
+
+    public void assignVoucherToCustomer() {
+        UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
+        UUID customerId = consoleIOHandler.inputUUIDWithMessage(InputMessage.CUSTOMER_ID);
+
+        VoucherAssignResponse voucher = voucherController.assignVoucherToCustomer(new VoucherAssignRequest(voucherId, customerId));
+        log.info(String.format(ConsoleConstants.VOUCHER_ASSIGN_MESSAGE, voucher.getVoucherId(), voucher.getCustomerId()));
     }
 }

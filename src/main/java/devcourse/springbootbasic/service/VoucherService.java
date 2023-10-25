@@ -1,6 +1,8 @@
 package devcourse.springbootbasic.service;
 
+import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.domain.voucher.Voucher;
+import devcourse.springbootbasic.dto.voucher.VoucherAssignRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
@@ -19,6 +21,7 @@ import java.util.UUID;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+    private final CustomerService customerService;
 
     @Transactional
     public Voucher create(VoucherCreateRequest voucherCreateRequest) {
@@ -51,6 +54,21 @@ public class VoucherService {
                 .orElseThrow(() -> VoucherException.of(VoucherErrorMessage.NOT_FOUND));
 
         if (voucherRepository.delete(voucher) == 0) {
+            throw VoucherException.of(VoucherErrorMessage.NOT_FOUND);
+        }
+
+        return voucher;
+    }
+
+    @Transactional
+    public Voucher assignVoucherToCustomer(VoucherAssignRequest voucherAssignRequest) {
+        Customer customer = customerService.findById(voucherAssignRequest.getCustomerId());
+
+        Voucher voucher = voucherRepository.findById(voucherAssignRequest.getVoucherId())
+                .orElseThrow(() -> VoucherException.of(VoucherErrorMessage.NOT_FOUND))
+                .assignToCustomer(customer.getId());
+
+        if (voucherRepository.update(voucher) == 0) {
             throw VoucherException.of(VoucherErrorMessage.NOT_FOUND);
         }
 

@@ -8,6 +8,7 @@ public final class ConsoleConstants {
     public static final String CUSTOMER_UPDATE_MESSAGE = "Customer ID [%s] Updated.";
     public static final String VOUCHER_UPDATE_MESSAGE = "Voucher ID [%s] Updated.";
     public static final String VOUCHER_DELETE_MESSAGE = "Voucher ID [%s] Deleted.";
+    public static final String VOUCHER_ASSIGN_MESSAGE = "Voucher ID [%s] Assigned to Customer ID [%s].";
 
     private ConsoleConstants() {
         throw new AssertionError();
