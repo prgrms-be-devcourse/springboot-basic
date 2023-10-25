@@ -35,4 +35,29 @@ class FileCustomerRepositoryTest {
         assertThat(customerRepository, notNullValue());
         assertThat(appProperties.getCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
     }
+
+    @Test
+    @Order(2)
+    @DisplayName("저장된 블랙리스트에 있는 고객들의 리스트를 반환한다")
+    void testFindBlackCustomersSuccessful_ReturnList() {
+        //when
+        List<Customer> blacklist = customerRepository.findBlackCustomers();
+
+        //then
+        assertThat(blacklist.isEmpty(), is(false));
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("블랙리스트에 저장된 고객이 없을 시 빈 리스트를 반환한다.")
+    void testFindBlackCustomersSuccessful_ReturnEmptyList() {
+        //given
+        customerRepository.deleteAll();
+
+        //when
+        List<Customer> blacklist = customerRepository.findBlackCustomers();
+
+        //then
+        assertThat(blacklist.isEmpty(), is(true));
+    }
 }
