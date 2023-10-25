@@ -3,6 +3,7 @@ package com.pgms.part1.domain.customer.service;
 import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
 import com.pgms.part1.domain.customer.entity.Customer;
 import com.pgms.part1.domain.customer.repository.CustomerRepository;
+import com.pgms.part1.domain.wallet.entity.Wallet;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,5 +43,9 @@ public class CustomerService {
 
     public void deleteCustomer(Customer customer){
         customerRepository.deleteCustomer(customer);
+    }
+
+    public void listCustomersByWallets(List<Wallet> wallets) {
+
     }
 }

@@ -5,6 +5,7 @@ import com.pgms.part1.domain.voucher.entity.FixedAmountDiscountVoucher;
 import com.pgms.part1.domain.voucher.entity.PercentDiscountVoucher;
 import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.repository.VoucherRepository;
+import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.util.keygen.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,5 +50,8 @@ public class VoucherService {
 
     public List<Voucher> listVoucher() {
         return voucherRepository.list();
+    }
+
+    public void listVouchersByWallets(List<Wallet> wallets) {
     }
 }
