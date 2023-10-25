@@ -21,7 +21,7 @@ import java.util.UUID;
 @Profile("production")
 @RequiredArgsConstructor
 @Slf4j
-public class CsvCustomerRepository implements CustomerRepositroy{
+public class CsvCustomerRepository implements BlacklistCustomerRepository{
 
     @Value("${csv.file-path}")
     private String csvFilePath;
@@ -42,20 +42,6 @@ public class CsvCustomerRepository implements CustomerRepositroy{
             log.error("Fail to read file");
         }
         return result;
-    }
-    @Override
-    public Customer save(Customer customer) {
-        return null;
-    }
-
-    @Override
-    public Optional<Customer> findById(UUID customerId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<Customer> deleteById(UUID customerId) {
-        return null;
     }
 
     private static UUID stringToUUID(String uuidString) {
