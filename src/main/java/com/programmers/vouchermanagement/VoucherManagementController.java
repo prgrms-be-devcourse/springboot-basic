@@ -40,7 +40,7 @@ public class VoucherManagementController implements CommandLineRunner {
             consoleOutputManager.printCommandMenu();
 
             Command command;
-            String input = consoleInputManager.inputString().toLowerCase();
+            String input = consoleInputManager.inputString();
 
             try {
                 command = Command.getCommandByName(input);
