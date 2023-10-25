@@ -18,12 +18,12 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(CreateCustomerRequest request) {
+    public CustomerResponse createCustomer(CreateCustomerRequest request) {
         if (isEmailAlreadyExists(request.email())) {
             throw new IllegalArgumentException("Email already exists: " + request.email());
         }
         Customer customer = new Customer(UUID.randomUUID(), request.name(), request.email());
-        return customerRepository.save(customer);
+        return CustomerResponse.from(customerRepository.save(customer));
     }
 
     public List<CustomerResponse> findAllBlackList() {
