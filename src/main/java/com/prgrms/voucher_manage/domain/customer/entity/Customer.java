@@ -5,10 +5,15 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
-@RequiredArgsConstructor
-@Getter
+@Getter @RequiredArgsConstructor
 public class Customer {
-    private final UUID customerId;
+    private final UUID id;
     private final String name;
     private final CustomerType type;
+
+    public Customer(String name, CustomerType type) {
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.type = type;
+    }
 }
