@@ -87,7 +87,7 @@ class FileCustomerRepositoryTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 고객의 아이디 검색에 빈 Optional을 반환한다..")
+    @DisplayName("존재하지 않는 고객의 아이디 검색에 빈 Optional을 반환한다.")
     void testFindCustomerByIdFailed_ReturnEmptyOptional() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test-customer");
@@ -99,6 +99,21 @@ class FileCustomerRepositoryTest {
 
         //then
         assertThat(foundCustomer.isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("아이디 검색으로 고객 조회를 성공한다.")
+    void testFindCustomerByIdSuccessful() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
+
+        //when
+        Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
+
+        //then
+        assertThat(foundCustomer.isEmpty(), is(false));
+        assertThat(foundCustomer.get(), samePropertyValuesAs(customer));
     }
 
     @Test
