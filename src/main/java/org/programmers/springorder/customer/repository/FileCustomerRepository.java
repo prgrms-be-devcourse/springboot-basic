@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class FileCustomerRepository implements CustomerRepository{
+public class FileCustomerRepository implements CustomerRepository {
 
     private final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final Console console;
@@ -40,16 +40,14 @@ public class FileCustomerRepository implements CustomerRepository{
     @Override
     public List<Customer> findAll() {
         List<Customer> customerList = new ArrayList<>();
-        try(BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
-            while((line = br.readLine()) != null) {
+            while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 UUID customerId = UUID.fromString(data[0]);
                 String name = data[1];
                 CustomerType customerType = CustomerType.valueOf(data[2]);
-                int age = Integer.parseInt(data[3]);
-                String email = data[4];
-                Customer customer = new Customer(customerId, name, customerType, age, email);
+                Customer customer = Customer.toCustomer(customerId, name, customerType);
                 customerList.add(customer);
             }
         } catch (FileNotFoundException e) {

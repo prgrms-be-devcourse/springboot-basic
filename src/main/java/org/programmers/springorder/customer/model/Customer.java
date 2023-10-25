@@ -6,18 +6,18 @@ public class Customer {
     private final UUID customerId;
     private final String name;
     private final CustomerType customerType;
-    private final int age;
-    private final String email;
 
-    public Customer(UUID customerId, String name, CustomerType customerType, int age, String email) {
+    private Customer(UUID customerId, String name, CustomerType customerType) {
         this.customerId = customerId;
         this.name = name;
         this.customerType = customerType;
-        this.age = age;
-        this.email = email;
     }
 
-    public boolean isBlackList(){
+    public static Customer toCustomer(UUID customerId, String name, CustomerType customerType) {
+        return new Customer(customerId, name, customerType);
+    }
+
+    public boolean isBlackList() {
         return this.customerType == CustomerType.BLACK;
     }
 
