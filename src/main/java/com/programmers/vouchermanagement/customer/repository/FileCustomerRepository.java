@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.configuration.properties.AppProperties;
+import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 
 @Repository
@@ -39,6 +40,15 @@ public class FileCustomerRepository implements CustomerRepository {
     public Customer save(Customer customer) {
         customers.put(customer.getCustomerId(), customer);
         return customer;
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        if (customers.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return null;
     }
 
     @Override
