@@ -7,7 +7,7 @@ import java.util.UUID;
 @Getter
 public abstract class Voucher {
     private UUID id;
-    protected VoucherType type;
+    protected final VoucherType type;
     protected long amount;
 
     public Voucher(UUID id, VoucherType type, long amount) {
