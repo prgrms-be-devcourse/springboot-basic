@@ -53,7 +53,7 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
         try {
             Voucher voucher = template.queryForObject(sql, new MapSqlParameterSource("id", id.toString()), getVoucherRowMapper());
-            return Optional.of(voucher);
+            return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -95,14 +95,11 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             VoucherType type = VoucherType.valueOf(rs.getString("type"));
             long amount = rs.getLong("amount");
 
-            switch (type) {
-                case FIXED_AMOUNT:
-                    return new FixedAmountVoucher(id, amount);
-                case PERCENT_DISCOUNT:
-                    return new PercentDiscountVoucher(id, amount);
-                default:
-                    throw new IllegalArgumentException("Unknown VoucherType: " + type);
-            }
+            return switch (type) {
+                case FIXED_AMOUNT -> new FixedAmountVoucher(id, amount);
+                case PERCENT_DISCOUNT -> new PercentDiscountVoucher(id, amount);
+                default -> throw new IllegalArgumentException("Unknown VoucherType: " + type);
+            };
         };
     }
 }

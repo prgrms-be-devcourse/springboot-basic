@@ -6,12 +6,13 @@ import java.util.UUID;
 
 @Getter
 public class PercentDiscountVoucher extends Voucher {
-    public PercentDiscountVoucher(UUID id, long amount) {
-        super(id, VoucherType.PERCENT_DISCOUNT, amount);
-        validateAmount(amount);
-    }
     public PercentDiscountVoucher(long amount) {
         super(VoucherType.PERCENT_DISCOUNT, amount);
+        validateAmount(amount);
+    }
+
+    public PercentDiscountVoucher(UUID id, long amount) {
+        super(id, VoucherType.PERCENT_DISCOUNT, amount);
         validateAmount(amount);
     }
 

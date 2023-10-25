@@ -6,12 +6,12 @@ import java.util.UUID;
 
 @Getter
 public class FixedAmountVoucher extends Voucher {
-    public FixedAmountVoucher(UUID id, long amount) {
-        super(id, VoucherType.FIXED_AMOUNT, amount);
-    }
-
     public FixedAmountVoucher(long amount) {
         super(VoucherType.FIXED_AMOUNT, amount);
+    }
+
+    public FixedAmountVoucher(UUID id, long amount) {
+        super(id, VoucherType.FIXED_AMOUNT, amount);
     }
 
     public static FixedAmountVoucher fixture() {

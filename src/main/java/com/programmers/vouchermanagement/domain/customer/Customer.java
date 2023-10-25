@@ -1,7 +1,6 @@
 package com.programmers.vouchermanagement.domain.customer;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.Map;
@@ -43,10 +42,6 @@ public class Customer {
     }
 
     public static Customer fixture() {
-        return new Customer("customer", false);
-    }
-
-    public static Customer fixture(String name, boolean blacklisted) {
-        return new Customer(name, blacklisted);
+        return new Customer("customerName", false);
     }
 }

@@ -3,13 +3,12 @@ package com.programmers.vouchermanagement.repository.voucher;
 import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
-import com.programmers.vouchermanagement.dto.voucher.UpdateVoucherRequestDto;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,100 +20,103 @@ class JdbcTemplateVoucherRepositoryTest {
     @Autowired
     private JdbcTemplateVoucherRepository repository;
 
+    @BeforeEach
+    void setUp() {
+        repository.deleteAll();
+    }
+
     @Test
     @DisplayName("바우처를 저장할 수 있다.")
     void save() {
         // given
-        Voucher fixedAmountVoucher = FixedAmountVoucher.fixture();
+        Voucher newVoucher = FixedAmountVoucher.fixture();
 
         // when
-        repository.save(fixedAmountVoucher);
+        repository.save(newVoucher);
 
         // then
-        Optional<Voucher> voucher = repository.findById(fixedAmountVoucher.getId());
-        assertThat(voucher).isPresent();
-        assertThat(voucher.get().getId()).isEqualTo(fixedAmountVoucher.getId());
-        assertThat(voucher.get().getType()).isEqualTo(fixedAmountVoucher.getType());
-        assertThat(voucher.get().getAmount()).isEqualTo(fixedAmountVoucher.getAmount());
+        Voucher foundVoucher = repository.findAll().get(0);
+        assertThat(foundVoucher.getType()).isEqualTo(newVoucher.getType());
+        assertThat(foundVoucher.getAmount()).isEqualTo(newVoucher.getAmount());
     }
 
     @Test
     @DisplayName("바우처 목록을 저장할 수 있다.")
     void saveAll() {
         // given
-        Voucher fixedAmountVoucher = FixedAmountVoucher.fixture();
-        Voucher percentDiscountVoucher = PercentDiscountVoucher.fixture();
+        Voucher newVoucher1 = FixedAmountVoucher.fixture();
+        Voucher newVoucher2 = PercentDiscountVoucher.fixture();
 
         // when
-        repository.saveAll(List.of(fixedAmountVoucher, percentDiscountVoucher));
+        repository.saveAll(List.of(newVoucher1, newVoucher2));
 
         // then
-        List<Voucher> vouchers = repository.findAll();
+        List<Voucher> foundVouchers = repository.findAll();
 
-        assertThat(vouchers).hasSize(2);
-        assertThat(vouchers).extracting(Voucher::getId)
-                .containsExactlyInAnyOrder(fixedAmountVoucher.getId(), percentDiscountVoucher.getId());
-        assertThat(vouchers).extracting(Voucher::getType)
-                .containsExactlyInAnyOrder(fixedAmountVoucher.getType(), percentDiscountVoucher.getType());
-        assertThat(vouchers).extracting(Voucher::getAmount)
-                .containsExactlyInAnyOrder(fixedAmountVoucher.getAmount(), percentDiscountVoucher.getAmount());
+        assertThat(foundVouchers).hasSize(2);
+        assertThat(foundVouchers).extracting(Voucher::getType)
+                .containsExactlyInAnyOrder(newVoucher1.getType(), newVoucher2.getType());
+        assertThat(foundVouchers).extracting(Voucher::getAmount)
+                .containsExactlyInAnyOrder(newVoucher1.getAmount(), newVoucher2.getAmount());
     }
 
     @Test
     @DisplayName("바우처를 아이디로 조회할 수 있다.")
     void findById() {
         // given
-        Voucher fixedAmountVoucher = FixedAmountVoucher.fixture();
-        repository.save(fixedAmountVoucher);
+        Voucher newVoucher = FixedAmountVoucher.fixture();
+        repository.save(newVoucher);
+
+        Voucher createdVoucher = repository.findAll().get(0);
 
         // when
-        Optional<Voucher> voucher = repository.findById(fixedAmountVoucher.getId());
+        Optional<Voucher> foundVoucher = repository.findById(createdVoucher.getId());
 
         // then
-        assertThat(voucher).isPresent();
-        assertThat(voucher.get().getId()).isEqualTo(fixedAmountVoucher.getId());
-        assertThat(voucher.get().getType()).isEqualTo(fixedAmountVoucher.getType());
+        assertThat(foundVoucher).isPresent();
+        assertThat(foundVoucher.get().getId()).isEqualTo(createdVoucher.getId());
+        assertThat(foundVoucher.get().getType()).isEqualTo(createdVoucher.getType());
     }
 
     @Test
     @DisplayName("모든 바우처를 조회할 수 있다.")
     void findAll() {
         // given
-        Voucher fixedAmountVoucher = FixedAmountVoucher.fixture();
-        Voucher percentDiscountVoucher = PercentDiscountVoucher.fixture();
-        repository.save(fixedAmountVoucher);
-        repository.save(percentDiscountVoucher);
+        Voucher newVoucher1 = FixedAmountVoucher.fixture();
+        Voucher newVoucher2 = PercentDiscountVoucher.fixture();
+        repository.save(newVoucher1);
+        repository.save(newVoucher2);
 
         // when
-        List<Voucher> vouchers = repository.findAll();
+        List<Voucher> foundVouchers = repository.findAll();
 
         // then
-        assertThat(vouchers).hasSize(2);
-        assertThat(vouchers).extracting(Voucher::getId)
-                .containsExactlyInAnyOrder(fixedAmountVoucher.getId(), percentDiscountVoucher.getId());
-        assertThat(vouchers).extracting(Voucher::getType)
-                .containsExactlyInAnyOrder(fixedAmountVoucher.getType(), percentDiscountVoucher.getType());
-        assertThat(vouchers).extracting(Voucher::getAmount)
-                .containsExactlyInAnyOrder(fixedAmountVoucher.getAmount(), percentDiscountVoucher.getAmount());
+        assertThat(foundVouchers).hasSize(2);
+        assertThat(foundVouchers).extracting(Voucher::getType)
+                .containsExactlyInAnyOrder(newVoucher1.getType(), newVoucher2.getType());
+        assertThat(foundVouchers).extracting(Voucher::getAmount)
+                .containsExactlyInAnyOrder(newVoucher1.getAmount(), newVoucher2.getAmount());
     }
 
     @Test
-    @DisplayName("바우처를 아이디로 업데이트할 수 있다.")
+    @DisplayName("바우처를 수정할 수 있다.")
     void update() {
         // given
-        Voucher fixedAmountVoucher = FixedAmountVoucher.fixture();
-        repository.save(fixedAmountVoucher);
+        Voucher newVoucher = FixedAmountVoucher.fixture();
+        repository.save(newVoucher);
+
+        Voucher createdVoucher = repository.findAll().get(0);
 
         // when
         long newAmountValue = 2000L;
-        repository.updateById(fixedAmountVoucher.getId(), new FixedAmountVoucher(newAmountValue));
+        repository.updateById(createdVoucher.getId(), new FixedAmountVoucher(newAmountValue));
 
         // then
-        Optional<Voucher> voucher = repository.findById(fixedAmountVoucher.getId());
-        assertThat(voucher).isPresent();
-        assertThat(voucher.get().getId()).isEqualTo(fixedAmountVoucher.getId());
-        assertThat(voucher.get().getType()).isEqualTo(fixedAmountVoucher.getType());
-        assertThat(voucher.get().getAmount()).isEqualTo(newAmountValue);
+        Optional<Voucher> foundVoucher = repository.findById(createdVoucher.getId());
+        assertThat(foundVoucher).isPresent();
+        assertThat(foundVoucher.get().getId()).isEqualTo(createdVoucher.getId());
+        assertThat(foundVoucher.get().getType()).isEqualTo(createdVoucher.getType());
+        assertThat(foundVoucher.get().getAmount()).isEqualTo(newAmountValue);
     }
 
     @Test
@@ -124,11 +126,13 @@ class JdbcTemplateVoucherRepositoryTest {
         Voucher fixedAmountVoucher = FixedAmountVoucher.fixture();
         repository.save(fixedAmountVoucher);
 
+        Voucher foundFixedAmountVoucher = repository.findAll().get(0);
+
         // when
-        repository.deleteById(fixedAmountVoucher.getId());
+        repository.deleteById(foundFixedAmountVoucher.getId());
 
         // then
-        Optional<Voucher> voucher = repository.findById(fixedAmountVoucher.getId());
+        Optional<Voucher> voucher = repository.findById(foundFixedAmountVoucher.getId());
         assertThat(voucher).isEmpty();
     }
 
