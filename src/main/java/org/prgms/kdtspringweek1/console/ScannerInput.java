@@ -15,8 +15,8 @@ public class ScannerInput implements ConsoleInput {
     }
 
     @Override
-        return VoucherType.getValueByNum(Long.parseLong(scanner.nextLine()));
     public VoucherType getVoucherType() {
+        return SelectVoucherTypeDto.getVoucherTypeByNum(Long.parseLong(scanner.nextLine()));
     }
 
     @Override
