@@ -5,12 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchCustomerType;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,21 +28,20 @@ public class JdbcCustomerRepository {
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,name));
     }
 
-    public List<Customer>  findBlackList(){
+    public List<Customer> findByType(String type){
         String sql = "select * from customer where type = ?";
-        return jdbcTemplate.query(sql, rowMapper,"B");
+        return jdbcTemplate.query(sql, rowMapper,type);
     }
 
     public Customer save(Customer customer){
         String sql = "insert into customer(customer_id, name, type) values (UUID_TO_BIN(?), ?, ?)";
-        jdbcTemplate.update(sql,customer.getCustomerId().toString().getBytes(), customer.getName(), customer.getType());
+        jdbcTemplate.update(sql,customer.getId().toString().getBytes(), customer.getName(), customer.getType().getLabel());
         return customer;
     }
 
-    public void update(Customer customer){
-        String sql = "update customer set name = ?, type = ? where customer_id = ?";
-        int isUpdated = jdbcTemplate.update(sql, customer.getName(), customer.getType(),customer.getCustomerId().toString().getBytes());
-        if (isUpdated!=1) throw new RuntimeException("Nothing was updated");
+    public int update(Customer customer){
+        String sql = "update customer set type = ? where name = ?";
+        return jdbcTemplate.update(sql, customer.getType().getLabel(),customer.getName());
     }
 
     public void deleteAll(){
@@ -53,7 +53,7 @@ public class JdbcCustomerRepository {
         var customerId = toUUID(resultSet.getBytes("customer_id"));
         var name = resultSet.getString("name");
         var type = resultSet.getString("type");
-        return new Customer(customerId, name, type);
+        return new Customer(customerId, name, matchCustomerType(type));
     };
 
     static UUID toUUID(byte[] bytes) {
