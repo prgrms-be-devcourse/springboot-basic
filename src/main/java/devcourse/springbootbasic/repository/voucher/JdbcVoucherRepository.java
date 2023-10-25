@@ -117,7 +117,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID id = UUIDUtil.byteToUUID(rs.getBytes(ID));
         VoucherType voucherType = VoucherType.valueOf(rs.getString(VOUCHER_TYPE));
         long discountValue = rs.getLong(DISCOUNT_VALUE);
-        UUID customerId = UUIDUtil.byteToUUID(rs.getBytes(CUSTOMER_ID));
+        UUID customerId = rs.getBytes(CUSTOMER_ID) == null ? null : UUIDUtil.byteToUUID(rs.getBytes(CUSTOMER_ID));
 
         return Voucher.createVoucher(id, voucherType, discountValue, customerId);
     }
