@@ -36,6 +36,12 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Customer save(Customer customer) {
+        customers.put(customer.getCustomerId(), customer);
+        return customer;
+    }
+
+    @Override
     public List<Customer> findBlackCustomers() {
         return customers.values()
                 .stream()

@@ -5,6 +5,8 @@ import java.util.List;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 
 public interface CustomerRepository {
+    Customer save(Customer customer);
+
     List<Customer> findBlackCustomers();
 
     void deleteAll();
