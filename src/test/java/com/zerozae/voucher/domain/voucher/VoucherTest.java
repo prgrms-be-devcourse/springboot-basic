@@ -1,4 +1,4 @@
-package com.zerozae.voucher.domain;
+package com.zerozae.voucher.domain.voucher;
 
 import com.zerozae.voucher.domain.voucher.FixedDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;

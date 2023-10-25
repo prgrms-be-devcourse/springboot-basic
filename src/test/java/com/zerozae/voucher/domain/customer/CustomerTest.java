@@ -1,4 +1,4 @@
-package com.zerozae.voucher.domain;
+package com.zerozae.voucher.domain.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
