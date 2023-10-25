@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -33,12 +34,46 @@ class FileCustomerRepositoryTest {
     @Autowired
     AppProperties appProperties;
 
+    @AfterEach
+    void cleanup() {
+        customerRepository.deleteAll();
+    }
+
     @Test
     @Order(1)
     @DisplayName("저장된 블랙리스트 csv파일을 성공적으로 읽고 로드한다")
     void testLoadingBlacklistFileOnInit() {
         assertThat(customerRepository, notNullValue());
         assertThat(appProperties.getCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
+
+        //when
+        final List<Customer> blacklist = customerRepository.findBlackCustomers();
+
+        //then
+        assertThat(blacklist.isEmpty(), is(false));
+    }
+
+    @Test
+    @DisplayName("블랙리스트에 저장된 고객이 없을 시 빈 리스트를 반환한다.")
+    void testFindBlackCustomersSuccessful_ReturnEmptyList() {
+        //given
+        customerRepository.deleteAll();
+
+        //when
+        final List<Customer> blacklist = customerRepository.findBlackCustomers();
+
+        //then
+        assertThat(blacklist.isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("저장된 고객이 없으면 빈 리스트를 반환한다.")
+    void testFindCustomersSuccessful_ReturnEmptyList() {
+        //when
+        List<Customer> customers = customerRepository.findAll();
+
+        //then
+        assertThat(customers.isEmpty(), is(true));
     }
 
     @Test
@@ -52,19 +87,6 @@ class FileCustomerRepositoryTest {
 
         //then
         assertThat(createdCustomer, samePropertyValuesAs(customer));
-    }
-
-    @Test
-    @DisplayName("저장된 고객이 없으면 빈 리스트를 반환한다.")
-    void testFindCustomersSuccessful_ReturnEmptyList() {
-        //given
-        customerRepository.deleteAll();
-
-        //when
-        List<Customer> customers = customerRepository.findAll();
-
-        //then
-        assertThat(customers.isEmpty(), is(true));
     }
 
     @Test
@@ -88,11 +110,9 @@ class FileCustomerRepositoryTest {
     @DisplayName("존재하지 않는 고객의 아이디 검색에 빈 Optional을 반환한다.")
     void testFindCustomerByIdFailed_ReturnEmptyOptional() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
-        customerRepository.save(customer);
+        UUID randomId = UUID.randomUUID();
 
         //when
-        UUID randomId = UUID.randomUUID();
         Optional<Customer> foundCustomer = customerRepository.findById(randomId);
 
         //then
@@ -103,7 +123,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("아이디 검색으로 고객 조회를 성공한다.")
     void testFindCustomerByIdSuccessful() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer2");
         customerRepository.save(customer);
 
         //when
@@ -119,7 +139,6 @@ class FileCustomerRepositoryTest {
     void testUpdateCustomerSuccessful() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "test-customer");
-        customerRepository.save(customer);
 
         //when
         Customer updatedCustomer = new Customer(customer.getCustomerId(), "updated-test-customer");
@@ -143,30 +162,5 @@ class FileCustomerRepositoryTest {
         //then
         Optional<Customer> emptyIfDeleted = customerRepository.findById(customer.getCustomerId());
         assertThat(emptyIfDeleted.isEmpty(), is(true));
-    }
-
-    @Test
-    @Order(2)
-    @DisplayName("저장된 블랙리스트에 있는 고객들의 리스트를 반환한다")
-    void testFindBlackCustomersSuccessful_ReturnList() {
-        //when
-        final List<Customer> blacklist = customerRepository.findBlackCustomers();
-
-        //then
-        assertThat(blacklist.isEmpty(), is(false));
-    }
-
-    @Test
-    @Order(3)
-    @DisplayName("블랙리스트에 저장된 고객이 없을 시 빈 리스트를 반환한다.")
-    void testFindBlackCustomersSuccessful_ReturnEmptyList() {
-        //given
-        customerRepository.deleteAll();
-
-        //when
-        final List<Customer> blacklist = customerRepository.findBlackCustomers();
-
-        //then
-        assertThat(blacklist.isEmpty(), is(true));
     }
 }
