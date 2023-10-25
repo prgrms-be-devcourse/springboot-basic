@@ -22,4 +22,20 @@ class VoucherTypeTest {
         //then
         assertThat(voucherType.isEmpty(), is(true));
     }
+
+    @Test
+    @DisplayName("Parameter로 넘겨 받은 소문자 문자열과 비교해 맞는 바우처 종류를 반환한다.")
+    void testFindVoucherTypeSuccessful_LowerCase() {
+        //given
+        final String fixedType = "fixed";
+        final String percentType = "percent";
+
+        //when
+        final VoucherType fixedVoucherType = VoucherType.findVoucherType(fixedType).get();
+        final VoucherType percentVoucherType = VoucherType.findVoucherType(percentType).get();
+
+        //then
+        assertThat(fixedVoucherType, is(VoucherType.FIXED));
+        assertThat(percentVoucherType, is(VoucherType.PERCENT));
+    }
 }
