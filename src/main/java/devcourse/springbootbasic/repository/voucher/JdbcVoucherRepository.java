@@ -20,6 +20,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String ID = "id";
     private static final String VOUCHER_TYPE = "voucher_type";
     private static final String DISCOUNT_VALUE = "discount_value";
+    private static final String CUSTOMER_ID = "customer_id";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -54,7 +55,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String query = """
                         UPDATE voucher
                         SET voucher_type = :voucher_type,
-                            discount_value = :discount_value
+                            discount_value = :discount_value,
+                            customer_id = UUID_TO_BIN(:customer_id)
                         WHERE id = UUID_TO_BIN(:id)
                 """;
 
@@ -74,8 +76,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         String query = """
-                        INSERT INTO voucher (id, voucher_type, discount_value)
-                        VALUES (UUID_TO_BIN(:id), :voucher_type, :discount_value)
+                        INSERT INTO voucher (id, voucher_type, discount_value, customer_id)
+                        VALUES (UUID_TO_BIN(:id), :voucher_type, :discount_value, UUID_TO_BIN(:customer_id))
                 """;
 
         jdbcTemplate.update(query, mapVoucherParameters(voucher));
@@ -88,6 +90,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         params.put(ID, voucher.getId().toString());
         params.put(VOUCHER_TYPE, voucher.getVoucherType().toString());
         params.put(DISCOUNT_VALUE, voucher.getDiscountValue());
+        params.put(CUSTOMER_ID,
+                voucher.getCustomerId() == null
+                        ? null
+                        : voucher.getCustomerId().toString());
 
         return params;
     }
@@ -96,7 +102,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID id = UUIDUtil.byteToUUID(rs.getBytes(ID));
         VoucherType voucherType = VoucherType.valueOf(rs.getString(VOUCHER_TYPE));
         long discountValue = rs.getLong(DISCOUNT_VALUE);
+        UUID customerId = UUIDUtil.byteToUUID(rs.getBytes(CUSTOMER_ID));
 
-        return Voucher.createVoucher(id, voucherType, discountValue);
+        return Voucher.createVoucher(id, voucherType, discountValue, customerId);
     }
 }

@@ -16,8 +16,10 @@ public class Voucher {
     private final UUID id;
     private final VoucherType voucherType;
     private long discountValue;
+    @Builder.Default
+    private UUID customerId = null;
 
-    public Voucher(UUID id, VoucherType voucherType, long discountValue) {
+    public Voucher(UUID id, VoucherType voucherType, long discountValue, UUID customerId) {
         this.validateDiscountValue(voucherType, discountValue);
         this.id = id;
         this.voucherType = voucherType;

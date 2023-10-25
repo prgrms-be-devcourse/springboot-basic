@@ -20,7 +20,7 @@ import java.util.function.Function;
 @Repository
 public class CsvVoucherRepository implements VoucherRepository {
 
-    private static final String CSV_LINE_TEMPLATE = "%s,%s,%d";
+    private static final String CSV_LINE_TEMPLATE = "%s,%s,%s,%d";
     private final CsvFileHandler csvFileHandler;
     private final Map<UUID, Voucher> voucherDatabase = new ConcurrentHashMap<>();
 
@@ -65,9 +65,10 @@ public class CsvVoucherRepository implements VoucherRepository {
         Function<String[], Voucher> parser = line -> {
             UUID voucherId = UUIDUtil.stringToUUID(line[0]);
             VoucherType voucherType = VoucherType.valueOf(line[1]);
-            long discountValue = Long.parseLong(line[2]);
+            UUID customerId = line[2].equals("null") ? null : UUIDUtil.stringToUUID(line[2]);
+            long discountValue = Long.parseLong(line[3]);
 
-            return Voucher.createVoucher(voucherId, voucherType, discountValue);
+            return Voucher.createVoucher(voucherId, voucherType, discountValue, customerId);
         };
         List<Voucher> vouchers = csvFileHandler.readListFromCsv(parser, CSV_LINE_TEMPLATE);
 
@@ -81,7 +82,7 @@ public class CsvVoucherRepository implements VoucherRepository {
                 .toList();
         Function<Voucher, String> serializer = voucher
                 -> String.format(CSV_LINE_TEMPLATE,
-                voucher.getId(), voucher.getVoucherType(), voucher.getDiscountValue());
+                voucher.getId(), voucher.getVoucherType(), voucher.getCustomerId(), voucher.getDiscountValue());
 
         csvFileHandler.writeListToCsv(vouchers, serializer);
     }
