@@ -1,0 +1,9 @@
+[ {
+  "voucher_type" : "FIXED",
+  "voucher_id" : "c4480d81-0df3-413e-ad91-374246a9177d",
+  "discount_value" : "10000"
+}, {
+  "voucher_type" : "PERCENT",
+  "voucher_id" : "4ae1bde9-f559-4486-b86f-38e9f7a069cb",
+  "discount_value" : "50"
+} ]
