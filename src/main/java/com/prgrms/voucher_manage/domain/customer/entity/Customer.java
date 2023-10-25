@@ -10,4 +10,5 @@ import java.util.UUID;
 public class Customer {
     private final UUID customerId;
     private final String name;
+    private final String type; // N, B
 }
