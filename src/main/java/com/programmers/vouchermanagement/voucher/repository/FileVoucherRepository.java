@@ -38,8 +38,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
         List<Voucher> vouchers = new ArrayList<>();
 
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(FILE));
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
 
             String data;
 
