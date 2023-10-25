@@ -18,6 +18,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final String INSERT_QUERY = "INSERT INTO customers(customer_id, name, email) VALUES(UUID_TO_BIN(?), ?, ?)";
     private static final String FIND_BY_ID = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)";
+    private static final String FIND_BLACKLISTS = "SELECT * FROM customers WHERE isBlackList = 1";
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerJdbcRepository.class);
 
@@ -44,7 +45,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlackList() {
-        return null;
+        return jdbcTemplate.query(FIND_BLACKLISTS, customerRowMapper);
     }
 
     @Override
