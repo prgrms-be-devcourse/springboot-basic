@@ -58,4 +58,8 @@ public class Voucher {
         this.customerId = null;
         return this;
     }
+
+    public boolean isAssigned() {
+        return this.customerId != null;
+    }
 }
