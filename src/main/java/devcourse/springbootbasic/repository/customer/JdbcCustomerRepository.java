@@ -67,6 +67,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                         SELECT *
                         FROM customer
                         WHERE id = UUID_TO_BIN(:id)
+                        FOR UPDATE
                 """;
 
         return jdbcTemplate.query(sql, Map.of("id", customerId.toString()), (rs, rowNum) -> {
