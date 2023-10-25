@@ -38,10 +38,10 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     private RowMapper<Customer> getCustomerRowMapper() {
         return (rs, rowNum) -> {
             UUID id = UUID.fromString(rs.getString("id"));
-            String name = rs.getString("name");
+            String email = rs.getString("email");
             boolean blacklisted = rs.getBoolean("blacklisted");
 
-            return new Customer(id, name, blacklisted);
+            return new Customer(id, email, blacklisted);
         };
     }
 }

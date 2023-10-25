@@ -12,17 +12,17 @@ import java.util.stream.IntStream;
 @ToString
 public class Customer {
     private UUID id;
-    private final String name;
-    private final boolean blacklisted;
+    private String email;
+    private boolean blacklisted;
 
-    public Customer(String name, boolean blacklisted) {
-        this.name = name;
+    public Customer(String email, boolean blacklisted) {
+        this.email = email;
         this.blacklisted = blacklisted;
     }
 
-    public Customer(UUID id, String name, boolean blacklisted) {
+    public Customer(UUID id, String email, boolean blacklisted) {
         this.id = id;
-        this.name = name;
+        this.email = email;
         this.blacklisted = blacklisted;
     }
 
@@ -38,10 +38,10 @@ public class Customer {
                 .boxed()
                 .collect(Collectors.toMap(i -> headers[i], i -> values[i]));
 
-        return new Customer(UUID.fromString(info.get("id")), info.get("name"), Boolean.parseBoolean(info.get("blacklisted")));
+        return new Customer(UUID.fromString(info.get("id")), info.get("email"), Boolean.parseBoolean(info.get("blacklisted")));
     }
 
     public static Customer fixture() {
-        return new Customer("customerName", false);
+        return new Customer("test@email.com", false);
     }
 }

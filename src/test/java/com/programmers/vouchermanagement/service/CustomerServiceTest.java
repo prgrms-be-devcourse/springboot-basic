@@ -31,9 +31,12 @@ class CustomerServiceTest {
         // given
         GetCustomersRequestDto request = new GetCustomersRequestDto();
 
+        String email1 = "test1@email.com";
+        String email2 = "test2@email.com";
+
         List<Customer> mockCustomers = Arrays.asList(
-                new Customer("홍길동", true),
-                new Customer("김철수", false)
+                new Customer(email1, true),
+                new Customer(email2, false)
         );
         given(customerRepository.findAll(any())).willReturn(mockCustomers);
 
@@ -42,8 +45,8 @@ class CustomerServiceTest {
 
         // then
         assertThat(customers).hasSize(2);
-        assertThat(customers).extracting(Customer::getName)
-                .containsExactlyInAnyOrder("홍길동", "김철수");
+        assertThat(customers).extracting(Customer::getEmail)
+                .containsExactlyInAnyOrder(email1, email2);
         assertThat(customers).extracting(Customer::isBlacklisted)
                 .containsExactlyInAnyOrder(true, false);
     }
