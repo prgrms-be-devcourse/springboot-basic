@@ -24,7 +24,7 @@ public class ConsoleView implements Input, Output{
     @Override
     public Long inputNumber(){
         try {
-            return InputValidator.validateInputDiscount(bufferedReader.readLine());
+            return InputValidator.validateInputNumber(bufferedReader.readLine());
         } catch (IOException e) {
             throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
         } catch (ErrorMessage e){
