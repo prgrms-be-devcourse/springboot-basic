@@ -8,11 +8,15 @@ public class VoucherFindResponse {
     private final String id;
     private final String voucherType;
     private final long discountValue;
+    private final String customerId;
 
     public VoucherFindResponse(Voucher voucher) {
         this.id = voucher.getId().toString();
         this.voucherType = voucher.getVoucherType().name();
         this.discountValue = voucher.getDiscountValue();
+        this.customerId = voucher.getCustomerId() == null
+                ? "Not assigned"
+                : voucher.getCustomerId().toString();
     }
 
     @Override
@@ -21,6 +25,7 @@ public class VoucherFindResponse {
                 id = %s
                 voucherType = %s
                 discountValue = %d
-                """.formatted(id, voucherType, discountValue);
+                customerId = %s
+                """.formatted(id, voucherType, discountValue, customerId);
     }
 }
