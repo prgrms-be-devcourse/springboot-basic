@@ -1,7 +1,7 @@
-package org.prgms.springbootbasic.domain.customer;
+package org.prgms.springbootbasic.common.file;
 
 import lombok.extern.slf4j.Slf4j;
-import org.prgms.springbootbasic.common.file.CsvFileTemplate;
+import org.prgms.springbootbasic.domain.customer.Customer;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
