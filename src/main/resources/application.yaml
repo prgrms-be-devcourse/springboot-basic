@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: default
+  myapp:
+    file-path:
+      voucher: src/main/resources/voucher.csv
+      customer: src/main/resources/customer.csv
+
+logging:
+  level:
+    org.springframework.core.LocalVariableTableParameterNameDiscoverer: error
