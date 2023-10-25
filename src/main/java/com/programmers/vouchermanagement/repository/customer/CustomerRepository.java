@@ -16,9 +16,9 @@ public interface CustomerRepository {
 
     List<Customer> findBannedCustomers();
 
-    void save(Customer customer);
+    Customer save(Customer customer);
 
-    void update(Customer customer);
+    Customer update(Customer customer);
 
     void delete(UUID id);
 }

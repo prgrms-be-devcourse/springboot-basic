@@ -60,21 +60,23 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void save(Customer customer) {
+    public Customer save(Customer customer) {
         if (isCustomerPresent(customer.getId())) {
             throw new IllegalArgumentException("Customer already exists");
         }
         customers.put(customer.getId(), customer);
         updateFile();
+        return customer;
     }
 
     @Override
-    public void update(Customer customer) {
+    public Customer update(Customer customer) {
         if (!isCustomerPresent(customer.getId())) {
-            throw new NoSuchElementException();
+            throw new NoSuchElementException("Customer not found");
         }
         customers.put(customer.getId(), customer);
         updateFile();
+        return customer;
     }
 
     @Override

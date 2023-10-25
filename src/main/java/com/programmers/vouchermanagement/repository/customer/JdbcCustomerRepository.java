@@ -68,7 +68,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     @Transactional
-    public void save(Customer customer) {
+    public Customer save(Customer customer) {
         String sql = "INSERT INTO customers VALUES :id, :name, :createdAt, :isBanned";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", customer.getId())
@@ -77,11 +77,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .addValue("isBanned", customer.isBanned());
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
         logger.debug("Affected Row on save: {}", affectedRow);
+        return customer;
     }
 
     @Override
     @Transactional
-    public void update(Customer customer) {
+    public Customer update(Customer customer) {
         String sql = "UPDATE customers SET :id, :name, :createdAt, :isBanned WHERE id= :id";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", customer.getId())
@@ -90,6 +91,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .addValue("isBanned", customer.isBanned());
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
         logger.debug("Affected Row on update: {}", affectedRow);
+        return customer;
     }
 
     @Override
