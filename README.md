@@ -39,7 +39,7 @@ Type **list** to list all vouchers.
 - [ ]  애플리케이션 단위 테스트 작성
 - [x]  customers 테이블 정의 및 추가
 - [x]  CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
-- [ ]  voucher 테이블 정의 및 추가
+- [x]  voucher 테이블 정의 및 추가
 - [ ]  VoucherRepository 추가 및 JdbcTemplate을 사용해서 구현
 - [ ]  기존 서비스 로직 테이블을 통해 동작하도록 수정
 
