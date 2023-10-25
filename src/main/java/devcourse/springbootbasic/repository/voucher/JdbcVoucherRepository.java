@@ -40,6 +40,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                         SELECT *
                         FROM voucher
                         WHERE id = UUID_TO_BIN(:id)
+                        FOR UPDATE
                 """;
 
         List<Voucher> vouchers = jdbcTemplate.query(
