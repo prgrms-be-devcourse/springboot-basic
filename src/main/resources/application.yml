@@ -2,6 +2,11 @@
 spring:
   profiles:
     active: default
+  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/voucher
+      username: root
+      password:
 
 customerListFilePath: "src/main/resources/csv/customerList.csv"
 
