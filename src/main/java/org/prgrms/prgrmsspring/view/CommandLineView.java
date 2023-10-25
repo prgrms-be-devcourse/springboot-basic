@@ -7,6 +7,7 @@ import org.prgrms.prgrmsspring.domain.Command;
 import org.prgrms.prgrmsspring.domain.VoucherType;
 import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
+import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -27,9 +28,7 @@ public class CommandLineView {
         try {
             return Command.of(inputCommand());
         } catch (IllegalArgumentException e) {
-            textTerminal.print(e.getMessage());
-            textTerminal.abort();
-            return Command.EXIT;
+            throw new IllegalArgumentException(ExceptionMessage.INVALID_COMMAND_TYPE.getMessage());
         }
     }
 
