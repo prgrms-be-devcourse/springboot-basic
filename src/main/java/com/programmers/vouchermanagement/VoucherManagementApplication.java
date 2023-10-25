@@ -9,7 +9,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 public class VoucherManagementApplication {
 
 	public static void main(String[] args) {
-		var application = new SpringApplication(VoucherManagementApplication.class);
+		SpringApplication application = new SpringApplication(VoucherManagementApplication.class);
 		application.setAdditionalProfiles("prod");
 		application.run(args);
 	}
