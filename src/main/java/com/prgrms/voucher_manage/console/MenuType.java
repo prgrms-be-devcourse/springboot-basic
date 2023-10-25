@@ -8,9 +8,26 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 public enum MenuType {
-    CREATE("create"),
-    LIST("list"),
-    BLACKLIST("blackList"),
+    CREATE_VOUCHER("createVoucher"),
+    VOUCHER_LIST("voucherList"),
+
+    FIND_VOUCHER("findVoucher"),
+
+    UPDATE_VOUCHER("updateVoucher"),
+
+
+    SAVE_CUSTOMER("saveCustomer"),
+
+    ALL_CUSTOMERS("allCustomers"),
+
+    BLACK_CUSTOMERS("blackCustomers"),
+
+    NORMAL_CUSTOMERS("normalCustomers"),
+
+    FIND_CUSTOMER("findCustomer"),
+
+    UPDATE_CUSTOMER("updateCustomer"),
+
     EXIT("exit");
 
     private final String label;
