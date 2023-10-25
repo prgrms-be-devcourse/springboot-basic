@@ -1,5 +1,6 @@
 package org.programmers.springorder.customer.model;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Customer {
@@ -33,4 +34,15 @@ public class Customer {
         return customerType;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Customer customer)) return false;
+        return Objects.equals(customerId, customer.customerId) && Objects.equals(name, customer.name) && customerType == customer.customerType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(customerId, name, customerType);
+    }
 }
