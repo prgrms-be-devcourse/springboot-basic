@@ -27,8 +27,9 @@ import java.util.UUID;
 
 @SpringJUnitConfig
 class VoucherJdbcRepositoryTest {
-    @Autowired VoucherJdbcRepository repository;
+    VoucherJdbcRepository repository;
     @Autowired JdbcTemplate template;
+    @Autowired DataSource dataSource;
     private final Voucher voucher1 = new FixedAmountVoucher(20000);
     private final Voucher voucher2 = new PercentAmountVoucher(10);
     @Configuration
@@ -47,15 +48,11 @@ class VoucherJdbcRepositoryTest {
         public JdbcTemplate jdbcTemplate() {
             return new JdbcTemplate(dataSource());
         }
-
-        @Bean
-        public VoucherJdbcRepository voucherJdbcRepository() {
-            return new VoucherJdbcRepository(dataSource());
-        }
     }
 
     @BeforeEach
     void beforeEach() {
+        repository = new VoucherJdbcRepository(dataSource);
         repository.create(voucher2);
     }
     @AfterEach
