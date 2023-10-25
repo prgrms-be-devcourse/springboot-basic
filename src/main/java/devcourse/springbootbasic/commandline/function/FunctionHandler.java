@@ -102,4 +102,12 @@ public class FunctionHandler {
         VoucherAssignResponse voucher = walletController.assignVoucherToCustomer(new VoucherAssignRequest(voucherId, customerId));
         log.info(String.format(ConsoleConstants.VOUCHER_ASSIGN_MESSAGE, voucher.getVoucherId(), voucher.getCustomerId()));
     }
+
+    public void listVouchersByCustomerId() {
+        UUID customerId = consoleIOHandler.inputUUIDWithMessage(InputMessage.CUSTOMER_ID);
+
+        List<VoucherFindResponse> voucherList = walletController.findVouchersByCustomerId(customerId);
+
+        consoleIOHandler.printListString(voucherList);
+    }
 }

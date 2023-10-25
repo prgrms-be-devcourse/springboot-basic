@@ -70,4 +70,11 @@ public class VoucherService {
                 .findById(voucherId)
                 .orElseThrow(() -> VoucherException.of(VoucherErrorMessage.NOT_FOUND));
     }
+
+    public List<VoucherFindResponse> findVouchersByCustomer(Customer customer) {
+        return voucherRepository.findByCustomerId(customer.getId())
+                .stream()
+                .map(VoucherFindResponse::new)
+                .toList();
+    }
 }

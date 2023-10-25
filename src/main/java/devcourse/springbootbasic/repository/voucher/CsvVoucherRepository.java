@@ -60,6 +60,14 @@ public class CsvVoucherRepository implements VoucherRepository {
         return deletedRow;
     }
 
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return voucherDatabase.values()
+                .stream()
+                .filter(voucher -> voucher.getCustomerId().equals(customerId))
+                .toList();
+    }
+
     @PostConstruct
     public void init() {
         Function<String[], Voucher> parser = line -> {

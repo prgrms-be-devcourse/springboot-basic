@@ -17,7 +17,8 @@ public enum Function {
     LIST_BLACKLISTED_CUSTOMERS("6", "List all blacklisted customers.", FunctionHandler::findAllBlacklistedCustomers),
     UPDATE_BLACKLIST_STATUS("7", "Update blacklist status of a customer.", FunctionHandler::updateBlacklistStatus),
     ASSIGN_VOUCHER_TO_CUSTOMER("8", "Assign a voucher to a customer.", FunctionHandler::assignVoucherToCustomer),
-    EXIT("9", "Exit the program.", FunctionHandler::exit);
+    LIST_VOUCHERS_BY_CUSTOMER_ID("9", "List vouchers by customer id.", FunctionHandler::listVouchersByCustomerId),
+    EXIT("0", "Exit the program.", FunctionHandler::exit);
 
     private final String code;
     private final String description;

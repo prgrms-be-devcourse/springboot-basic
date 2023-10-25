@@ -75,6 +75,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        String query = """
+                        SELECT *
+                        FROM voucher
+                        WHERE customer_id = UUID_TO_BIN(:customer_id)
+                """;
+
+        return jdbcTemplate.query(
+                query,
+                Map.of(CUSTOMER_ID, customerId.toString()),
+                (rs, rowNum) -> mapVoucherFromResultSet(rs));
+    }
+
+    @Override
     public Voucher save(Voucher voucher) {
         String query = """
                         INSERT INTO voucher (id, voucher_type, discount_value, customer_id)
