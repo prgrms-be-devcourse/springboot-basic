@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import study.dev.spring.app.exception.ExitException;
 import study.dev.spring.common.io.InputHandler;
 import study.dev.spring.common.io.OutputHandler;
-import study.dev.spring.customer.presentation.CustomerController;
+import study.dev.spring.customer.presentation.ConsoleCustomerController;
 import study.dev.spring.voucher.presentation.ConsoleVoucherController;
 
 @RequiredArgsConstructor
@@ -14,7 +14,7 @@ public class ConsoleVoucherApplicationRunner {
 	private static final String BLACK_LIST = "BLACK_LIST";
 
 	private final ConsoleVoucherController consoleVoucherController;
-	private final CustomerController customerController;
+	private final ConsoleCustomerController consoleCustomerController;
 	private final InputHandler inputHandler;
 	private final OutputHandler outputHandler;
 
@@ -28,7 +28,7 @@ public class ConsoleVoucherApplicationRunner {
 		}
 
 		if (function.equalsIgnoreCase(BLACK_LIST)) {
-			customerController.findAllBlackListCustomers();
+			consoleCustomerController.findAllBlackListCustomers();
 			return;
 		}
 

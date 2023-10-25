@@ -9,10 +9,10 @@ import org.junit.jupiter.api.function.Executable;
 import study.dev.spring.common.io.ConsoleOutputHandler;
 import study.dev.spring.customer.stub.BlackListRepositoryStub;
 
-@DisplayName("[CustomerController Test] - Presentation Layer")
-class CustomerControllerTest {
+@DisplayName("[ConsoleCustomerController Test] - Presentation Layer")
+class ConsoleCustomerControllerTest {
 
-	private final CustomerController customerController = new CustomerController(
+	private final ConsoleCustomerController consoleCustomerController = new ConsoleCustomerController(
 		new BlackListRepositoryStub(), new ConsoleOutputHandler()
 	);
 
@@ -20,7 +20,7 @@ class CustomerControllerTest {
 	@DisplayName("[모든 블랙리스트 회원을 조회하는 프로세스를 실행한다]")
 	void findAllBlackListCustomersTest() {
 		//when
-		Executable when = customerController::findAllBlackListCustomers;
+		Executable when = consoleCustomerController::findAllBlackListCustomers;
 
 		//then
 		assertDoesNotThrow(when);
