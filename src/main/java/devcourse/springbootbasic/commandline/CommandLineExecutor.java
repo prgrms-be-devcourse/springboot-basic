@@ -35,9 +35,9 @@ public class CommandLineExecutor implements CommandLineRunner {
         try {
             consoleIOHandler.printMenuTitle(ConsoleConstants.VOUCHER_PROGRAM_START_MESSAGE);
             consoleIOHandler.printEnumString(Function.class);
-            String command = consoleIOHandler.getInputWithPrint();
+            String code = consoleIOHandler.getInputWithPrint();
 
-            Function.fromString(command)
+            Function.fromCode(code)
                     .ifPresentOrElse(
                             function -> function.execute(functionHandler),
                             () -> {

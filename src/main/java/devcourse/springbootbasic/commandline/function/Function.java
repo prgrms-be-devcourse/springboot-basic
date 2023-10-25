@@ -10,21 +10,20 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public enum Function {
 
-    EXIT("exit", "Type exit to exit the program.", FunctionHandler::exit),
-    CREATE_VOUCHER("create", "Type create to create a new voucher.", FunctionHandler::createVoucher),
-    LIST_VOUCHERS("list", "Type list to list all vouchers.", FunctionHandler::listAllVouchers),
-    LIST_BLACKLISTED_CUSTOMERS("blacklist", "Type blacklist to list all blacklisted customers.", FunctionHandler::findAllBlacklistedCustomers),
-    CREATE_CUSTOMER("create customer", "Type create customer to create a new customer.", FunctionHandler::createCustomer),
-    UPDATE_BLACKLIST_STATUS("update blacklist status", "Type update blacklist status to update blacklist status of a customer.", FunctionHandler::updateBlacklistStatus);
+    CREATE_VOUCHER("1", "Create a new voucher.", FunctionHandler::createVoucher),
+    LIST_VOUCHERS("2", "List all vouchers.", FunctionHandler::listAllVouchers),
+    CREATE_CUSTOMER("3", "Create a new customer.", FunctionHandler::createCustomer),
+    LIST_BLACKLISTED_CUSTOMERS("4", "List all blacklisted customers.", FunctionHandler::findAllBlacklistedCustomers),
+    UPDATE_BLACKLIST_STATUS("5", "Update blacklist status of a customer.", FunctionHandler::updateBlacklistStatus),
+    EXIT("9", "Exit the program.", FunctionHandler::exit);
 
-    private final String functionString;
-    @Getter
+    private final String code;
     private final String description;
     private final Consumer<FunctionHandler> functionConsumer;
 
-    public static Optional<Function> fromString(String functionString) {
+    public static Optional<Function> fromCode(String functionString) {
         return Arrays.stream(values())
-                .filter(function -> function.functionString.equalsIgnoreCase(functionString.trim()))
+                .filter(function -> function.code.equalsIgnoreCase(functionString.trim()))
                 .findFirst();
     }
 
@@ -34,6 +33,6 @@ public enum Function {
 
     @Override
     public String toString() {
-        return this.getDescription();
+        return this.code + ". " + this.description;
     }
 }
