@@ -10,7 +10,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -37,7 +36,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     //messages
     private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading vouchers";
-    private static final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
     private static final String NO_VOUCHER_STORED = "No Voucher is stored yet!";
 
     private final ObjectMapper objectMapper = new ObjectMapper();

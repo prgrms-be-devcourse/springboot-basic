@@ -17,8 +17,6 @@ import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 @Component
 public class ConsoleManager {
-    private static final Logger logger = LoggerFactory.getLogger(ConsoleManager.class);
-
     //messages
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String MENU_SELECTION_INSTRUCTION = """
