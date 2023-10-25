@@ -6,7 +6,6 @@ import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.repository.customer.CustomerRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +14,15 @@ import java.util.UUID;
 
 
 @Service
-@RequiredArgsConstructor
 public class CustomerService {
 
     private static final String CUSTOMER_NOT_FOUND_MESSAGE = "회원이 존재하지 않습니다.";
     private static final String ALREADY_EXIST_CUSTOMER_MESSAGE = "이미 존재하는 회원입니다.";
     private final CustomerRepository customerRepository;
+
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
 
     public CustomerResponse createCustomer(CustomerRequest customerRequest){
         try{
