@@ -12,7 +12,7 @@ public enum VoucherType {
             return discountValue > 0;
         }
     },
-    PERCENT((amount, discountValue) -> amount - (amount * discountValue)) {
+    PERCENT((amount, discountValue) -> amount - (amount * discountValue / 100)) {
         @Override
         public boolean validateDiscountValue(long discountValue) {
             return discountValue > 0 && discountValue <= 100;
