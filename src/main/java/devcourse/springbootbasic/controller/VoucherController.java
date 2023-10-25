@@ -29,8 +29,4 @@ public class VoucherController {
     public VoucherResponse deleteVoucher(UUID voucherId) {
         return new VoucherResponse(this.voucherService.delete(voucherId));
     }
-
-    public VoucherAssignResponse assignVoucherToCustomer(VoucherAssignRequest voucherAssignRequest) {
-        return new VoucherAssignResponse(this.voucherService.assignVoucherToCustomer(voucherAssignRequest));
-    }
 }

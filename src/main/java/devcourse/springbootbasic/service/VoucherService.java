@@ -2,7 +2,6 @@ package devcourse.springbootbasic.service;
 
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.domain.voucher.Voucher;
-import devcourse.springbootbasic.dto.voucher.VoucherAssignRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
@@ -21,7 +20,6 @@ import java.util.UUID;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
-    private final CustomerService customerService;
 
     @Transactional
     public Voucher create(VoucherCreateRequest voucherCreateRequest) {
@@ -55,13 +53,8 @@ public class VoucherService {
     }
 
     @Transactional
-    public Voucher assignVoucherToCustomer(VoucherAssignRequest voucherAssignRequest) {
-        Customer customer = customerService.findById(voucherAssignRequest.getCustomerId());
-
-        Voucher assignedVoucher = this.findById(voucherAssignRequest.getVoucherId())
-                .assignToCustomer(customer.getId());
-
-        return persist(assignedVoucher);
+    public Voucher assignVoucherToCustomer(Voucher voucher, Customer customer) {
+        return persist(voucher.assignToCustomer(customer.getId()));
     }
 
     private Voucher persist(Voucher voucher) {
@@ -72,7 +65,7 @@ public class VoucherService {
         return voucher;
     }
 
-    private Voucher findById(UUID voucherId) {
+    public Voucher findById(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> VoucherException.of(VoucherErrorMessage.NOT_FOUND));

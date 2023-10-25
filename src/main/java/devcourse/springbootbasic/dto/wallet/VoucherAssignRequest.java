@@ -1,4 +1,4 @@
-package devcourse.springbootbasic.dto.voucher;
+package devcourse.springbootbasic.dto.wallet;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
