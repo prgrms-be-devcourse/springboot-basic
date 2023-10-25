@@ -3,6 +3,7 @@ package study.dev.spring.voucher.application;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import study.dev.spring.voucher.application.dto.CreateVoucherRequest;
@@ -14,10 +15,12 @@ import study.dev.spring.voucher.domain.VoucherType;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
 
+	@Transactional
 	public void createVoucher(final CreateVoucherRequest request) {
 		Voucher newVoucher = Voucher.of(
 			VoucherType.valueOf(request.voucherType()),
