@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -17,10 +18,7 @@ class VoucherTypeTest {
         final String desiredVoucherType = "NoCount";
 
         //when
-        final Optional<VoucherType> voucherType = VoucherType.findVoucherType(desiredVoucherType);
-
-        //then
-        assertThat(voucherType.isEmpty(), is(true));
+        assertThatThrownBy(() -> VoucherType.findVoucherType(desiredVoucherType)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -31,8 +29,8 @@ class VoucherTypeTest {
         final String percentType = "percent";
 
         //when
-        final VoucherType fixedVoucherType = VoucherType.findVoucherType(fixedType).get();
-        final VoucherType percentVoucherType = VoucherType.findVoucherType(percentType).get();
+        final VoucherType fixedVoucherType = VoucherType.findVoucherType(fixedType);
+        final VoucherType percentVoucherType = VoucherType.findVoucherType(percentType);
 
         //then
         assertThat(fixedVoucherType, is(VoucherType.FIXED));
@@ -47,8 +45,8 @@ class VoucherTypeTest {
         final String percentType = "PERCENT";
 
         //when
-        final VoucherType fixedVoucherType = VoucherType.findVoucherType(fixedType).get();
-        final VoucherType percentVoucherType = VoucherType.findVoucherType(percentType).get();
+        final VoucherType fixedVoucherType = VoucherType.findVoucherType(fixedType);
+        final VoucherType percentVoucherType = VoucherType.findVoucherType(percentType);
 
         //then
         assertThat(fixedVoucherType, is(VoucherType.FIXED));

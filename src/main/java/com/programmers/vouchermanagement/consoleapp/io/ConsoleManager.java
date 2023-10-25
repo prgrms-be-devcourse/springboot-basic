@@ -44,8 +44,6 @@ public class ConsoleManager {
                     Such input is incorrect.
                     Please input a correct command carefully.
                     """;
-    private static final String INVALID_VOUCHER_TYPE_MESSAGE =
-            "Voucher type should be either fixed amount or percent discount voucher.";
     private static final String CONTENT_VOUCHER = "voucher";
     private static final String CONTENT_BLACKLIST = "black customer";
 
@@ -65,11 +63,7 @@ public class ConsoleManager {
     public CreateVoucherRequest instructCreate() {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
-        VoucherType voucherType = VoucherType.findVoucherType(createMenu)
-                .orElseThrow(() -> {
-                    logger.error(INVALID_VOUCHER_TYPE_MESSAGE);
-                    return new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE);
-                });
+        VoucherType voucherType = VoucherType.findVoucherType(createMenu);
 
         String discountValueInput = textIO.newStringInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
