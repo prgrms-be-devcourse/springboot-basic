@@ -103,4 +103,25 @@ class MenuHandlerTest {
         //verify
         verify(consoleManager).printException(exception);
     }
+
+    @Test
+    @DisplayName("바우처 생성 메뉴 실행을 성공하고, 시스템은 계속 된다.")
+    void testHandleMenuSuccessful_VoucherCreated() {
+        //given
+        final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
+        final Voucher voucher = new Voucher(UUID.randomUUID(), request.discountValue(), request.voucherType());
+        final VoucherResponse response = VoucherResponse.from(voucher);
+        doReturn(CREATE).when(consoleManager).selectMenu();
+        doReturn(request).when(consoleManager).instructCreate();
+        doReturn(response).when(voucherController).create(request);
+
+        //when
+        final boolean isRunning = menuHandler.handleMenu();
+
+        //then
+        assertThat(isRunning, is(true));
+
+        //verify
+        verify(consoleManager).printCreateResult(response);
+    }
 }
