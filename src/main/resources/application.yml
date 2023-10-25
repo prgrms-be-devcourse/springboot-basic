@@ -1,5 +1,9 @@
-db:
-  pw: root1234!
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3308/order_mgmt
+    username: root
+    password: root1234!
 ---
 spring:
   config:
