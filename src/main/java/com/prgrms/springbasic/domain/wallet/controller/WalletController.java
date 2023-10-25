@@ -1,5 +1,6 @@
 package com.prgrms.springbasic.domain.wallet.controller;
 
+import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.wallet.dto.CreateWalletRequest;
 import com.prgrms.springbasic.domain.wallet.dto.WalletResponse;
@@ -24,5 +25,9 @@ public class WalletController {
 
     public List<VoucherResponse> findVouchersByCustomerId(UUID customerId) {
         return walletService.getVouchersByCustomerId(customerId);
+    }
+
+    public List<CustomerResponse> findCustomersByVoucherId(UUID voucherId) {
+        return walletService.getCustomersByVoucherId(voucherId);
     }
 }

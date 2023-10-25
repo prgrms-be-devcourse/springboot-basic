@@ -14,6 +14,7 @@ public class JdbcWalletRepository {
 
     private static final String INSERT_QUERY = "INSERT INTO wallet(wallet_id, customer_id, voucher_id) VALUES(UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))";
     private static final String SELECT_WALLET_BY_CUSTOMER_ID = "SELECT * FROM wallet WHERE customer_id = UUID_TO_BIN(?)";
+    private static final String SELECT_WALLET_BY_VOUCHER_ID = "SELECT * FROM wallet WHERE voucher_id = UUID_TO_BIN(?)";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -38,5 +39,9 @@ public class JdbcWalletRepository {
 
     public List<Wallet> findWalletsByCustomerId(UUID customerId) {
         return jdbcTemplate.query(SELECT_WALLET_BY_CUSTOMER_ID, walletRowMapper, customerId.toString().getBytes());
+    }
+
+    public List<Wallet> findWalletsByVoucherId(UUID voucherId) {
+        return jdbcTemplate.query(SELECT_WALLET_BY_VOUCHER_ID, walletRowMapper, voucherId.toString().getBytes());
     }
 }

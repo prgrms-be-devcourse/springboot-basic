@@ -67,7 +67,8 @@ public class VoucherRunner implements CommandLineRunner {
             CommandType commandType = CommandType.find(menuHandler.chooseMode(menuType));
             switch (commandType) {
                 case CREATE -> menuHandler.createWallet();
-                case FIND_BY_CUSTOMER -> menuHandler.showAllCustomerVouchers();
+                case FIND_VOUCHERS -> menuHandler.showAllCustomerVouchers();
+                case FIND_CUSTOMERS -> menuHandler.showAllVoucherCustomers();
             }
         } catch (Exception e) {
             logger.warn(e.getMessage());

@@ -1,5 +1,6 @@
 package com.prgrms.springbasic.domain.wallet.service;
 
+import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.customer.entity.Customer;
 import com.prgrms.springbasic.domain.customer.repository.CustomerRepository;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
@@ -39,6 +40,15 @@ public class WalletService {
         return wallets.stream()
                 .map(wallet -> findVoucher(wallet.getVoucher_id()))
                 .map(VoucherResponse::from)
+                .toList();
+    }
+
+    public List<CustomerResponse> getCustomersByVoucherId(UUID voucherId) {
+        List<Wallet> wallets = jdbcWalletRepository.findWalletsByVoucherId(findVoucher(voucherId).getVoucherId());
+
+        return wallets.stream()
+                .map(wallet -> findCustomer(wallet.getCustomer_id()))
+                .map(CustomerResponse::from)
                 .toList();
     }
 

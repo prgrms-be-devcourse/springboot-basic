@@ -93,6 +93,12 @@ public class MenuHandler {
         console.printVouchers(vouchers);
     }
 
+    public void showAllVoucherCustomers() {
+        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
+        List<CustomerResponse> customers = walletController.findCustomersByVoucherId(voucher_id);
+        console.printCustomers(customers);
+    }
+
     private CreateVoucherRequest makeCreateVoucherRequest() {
         String discountType = console.inputDiscountType();
         long discountValue = switch (DiscountType.find(discountType)) {
