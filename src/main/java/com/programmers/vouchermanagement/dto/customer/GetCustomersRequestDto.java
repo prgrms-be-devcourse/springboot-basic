@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class GetCustomersRequestDto {
-    private boolean blacklisted;
+    private Boolean blacklisted;
 }
