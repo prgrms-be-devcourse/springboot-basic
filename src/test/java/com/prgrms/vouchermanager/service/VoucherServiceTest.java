@@ -23,8 +23,6 @@ import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.vouchermanager.message.QueryMessage.DELETE_VOUCHER;
-
 @SpringJUnitConfig
 class VoucherServiceTest {
 

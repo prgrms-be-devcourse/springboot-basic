@@ -1,14 +1,10 @@
 package com.prgrms.vouchermanager.domain;
 
-import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
-import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
-import com.prgrms.vouchermanager.domain.voucher.Voucher;
-import com.prgrms.vouchermanager.domain.voucher.VoucherFactory;
-import com.prgrms.vouchermanager.domain.voucher.VoucherType;
+import com.prgrms.vouchermanager.domain.voucher.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class VoucherFactoryTest {
 

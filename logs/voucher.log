@@ -138,3 +138,87 @@ Discount amount : 20000
 01:34:32.407 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 0e98ac56-12da-4577-883d-18a98e0bf4a5
 01:34:32.408 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 푸리나
 01:34:32.408 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1993
+01:35:03.184 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+01:35:03.189 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 38d261ee-6df3-4a59-9286-bbeead142635
+Discount Type : fixed discount
+Discount amount : 20000
+
+01:35:03.207 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+01:35:03.221 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+01:35:03.254 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+01:35:03.322 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+01:35:03.324 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 438f71ec-e665-4bfa-a175-343f3511e7df
+Discount Type : fixed discount
+Discount amount : 20000
+
+01:35:03.337 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+01:35:03.350 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+01:35:03.363 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+01:35:03.594 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 722bd473-7211-4349-b55f-feffb9f51ac0
+01:35:03.595 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 벤티
+01:35:03.595 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+01:35:03.608 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 1068fc6f-b2cc-4100-8377-7a6dfe8cd3da
+01:35:03.608 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
+01:35:03.608 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 2000
+01:35:03.619 [main] INFO  c.p.v.r.customer.CustomerRepository -- list 시작
+01:35:03.620 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0
+01:35:03.620 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 야에 미코
+01:35:03.620 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1994
+01:35:03.620 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 70754a2f-d87d-4f69-af71-1d4bfe855e28
+01:35:03.621 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 카에데하라 카즈하
+01:35:03.621 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1999
+01:35:03.621 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 8213dfa7-d577-4bb5-86d6-0159b3383f0e
+01:35:03.621 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 라이덴 쇼군
+01:35:03.621 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1994
+01:35:03.621 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: f794fc3a-c20a-4adc-b4fc-d779b71bb4b6
+01:35:03.621 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
+01:35:03.621 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+01:35:03.736 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: b1dbf11d-bf8b-44a3-9e51-d8f202b9cae1
+01:35:03.736 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 벤티
+01:35:03.736 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+01:35:03.749 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: ac980794-0424-4468-bfc8-e32d5818cd9c
+01:35:03.750 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
+01:35:03.750 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 2000
+01:35:03.760 [main] INFO  c.p.v.r.customer.CustomerRepository -- list 시작
+01:35:03.761 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 21b49857-e30c-4bed-9907-a73ceb76f91e
+01:35:03.761 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
+01:35:03.761 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+01:35:03.761 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0
+01:35:03.761 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 야에 미코
+01:35:03.761 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1994
+01:35:03.761 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 70754a2f-d87d-4f69-af71-1d4bfe855e28
+01:35:03.761 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 카에데하라 카즈하
+01:35:03.762 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1999
+01:35:03.762 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 8213dfa7-d577-4bb5-86d6-0159b3383f0e
+01:35:03.762 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 라이덴 쇼군
+01:35:03.762 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1994
+01:35:03.927 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: e9b4fcb1-750e-479c-a148-d4bcc324d3e4
+01:35:03.927 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 푸리나
+01:35:03.927 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1993
+01:35:04.072 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 479e5c7a-6400-41ef-9f99-69bcb04c80cd
+01:35:04.072 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 푸리나
+01:35:04.072 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1993
+01:35:04.143 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 23590791-746f-4c7d-81f1-f0624a36e5cf
+01:35:04.144 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 스카라무슈
+01:35:04.144 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1995
+01:35:04.157 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 05da0533-9edb-4668-842f-7d33d9a4cb5f
+01:35:04.157 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 벤티
+01:35:04.157 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+01:35:04.173 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 49819c26-4b16-4c1c-8ed9-e36b64280a32
+01:35:04.173 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
+01:35:04.173 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 2000
+01:35:04.185 [main] INFO  c.p.v.r.customer.CustomerRepository -- list 시작
+01:35:04.186 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0
+01:35:04.186 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 야에 미코
+01:35:04.186 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1994
+01:35:04.186 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 70754a2f-d87d-4f69-af71-1d4bfe855e28
+01:35:04.186 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 카에데하라 카즈하
+01:35:04.186 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1999
+01:35:04.186 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 8213dfa7-d577-4bb5-86d6-0159b3383f0e
+01:35:04.186 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 라이덴 쇼군
+01:35:04.186 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1994
+01:35:04.187 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: a10e74c4-293c-4a70-a6c2-ea49911d4ff1
+01:35:04.187 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 종려
+01:35:04.187 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990

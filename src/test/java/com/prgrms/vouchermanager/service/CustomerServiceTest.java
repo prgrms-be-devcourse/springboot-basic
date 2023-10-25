@@ -4,7 +4,6 @@ import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.exception.NotCorrectId;
 import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
-import com.prgrms.vouchermanager.service.CustomerService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,11 +14,9 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.UUID;
 

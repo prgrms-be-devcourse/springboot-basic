@@ -5,7 +5,6 @@ import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
-import com.prgrms.vouchermanager.handler.executor.CustomerExecutor;
 import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository;
@@ -23,9 +22,6 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringJUnitConfig
 class WalletRepositoryTest {

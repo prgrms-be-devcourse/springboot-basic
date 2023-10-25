@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class BlacklistFileRepositoryTest {
     private final BlacklistFileRepository repository = new BlacklistFileRepository("src/main/resources/customer_blacklist.csv");
 
