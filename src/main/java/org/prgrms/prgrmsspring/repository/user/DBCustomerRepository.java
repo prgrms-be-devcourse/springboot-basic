@@ -56,19 +56,6 @@ public class DBCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findByEmail(String email) {
-        String sql = "SELECT * FROM CUSTOMERS WHERE EMAIL = ?";
-        try {
-            Customer customer = jdbcTemplate.queryForObject(sql,
-                    (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getBoolean(IS_BLACK), rs.getString(EMAIL)),
-                    email);
-            return Optional.ofNullable(customer);
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
-    }
-
-    @Override
     public Customer insert(Customer customer) {
         String sql = "INSERT INTO CUSTOMERS VALUES(UUID_TO_BIN(?), ?, ?, ?)";
         int insert = jdbcTemplate.update(sql, customer.getCustomerId().toString(), customer.getName(), customer.getIsBlack(), customer.getEmail());

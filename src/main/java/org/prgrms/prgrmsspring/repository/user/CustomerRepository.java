@@ -13,8 +13,6 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID customerId);
 
-    Optional<Customer> findByEmail(String email);
-
     Customer insert(Customer customer);
 
     Customer update(Customer customer);

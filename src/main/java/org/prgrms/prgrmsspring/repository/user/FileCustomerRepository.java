@@ -67,11 +67,6 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findByEmail(String email) {
-        return Optional.empty();
-    }
-
-    @Override
     public Customer insert(Customer customer) {
         store.put(customer.getCustomerId(), customer);
         return customer;
