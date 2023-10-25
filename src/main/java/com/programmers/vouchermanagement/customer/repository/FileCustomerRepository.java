@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -47,10 +48,14 @@ public class FileCustomerRepository implements CustomerRepository {
         if (customers.isEmpty()) {
             return Collections.emptyList();
         }
-
         return customers.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.empty();
     }
 
     @Override
