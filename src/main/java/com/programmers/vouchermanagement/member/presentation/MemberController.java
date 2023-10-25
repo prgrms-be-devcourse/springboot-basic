@@ -33,7 +33,7 @@ public class MemberController {
             consoleOutputManager.printMemberInfo(memberResponseDtos);
 
         } catch (MemberNotFoundException | FileIOException e) {
-            logger.error(e.getMessage());
+            logger.error(e.getMessage(), e);
 
             consoleOutputManager.printReturnMain(e.getMessage());
         }

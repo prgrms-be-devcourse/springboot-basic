@@ -46,7 +46,7 @@ public class VoucherManagementController implements CommandLineRunner {
                 command = Command.getCommandByName(input);
 
             } catch (CommandNotFoundException e) {
-                logger.error(e.getMessage() + "Console Input : " + input);
+                logger.error(e.getMessage() + "Console Input : " + input, e);
 
                 consoleOutputManager.printEnterAgain(e.getMessage());
                 continue;
