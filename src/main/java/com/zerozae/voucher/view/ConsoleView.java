@@ -14,6 +14,7 @@ import static java.lang.System.out;
 @Component
 public class ConsoleView implements Input, Output{
 
+    private static final String INPUT_READ_EXCEPTION_MESSAGE = "입력을 읽을 때 오류가 발생했습니다.";
     private final BufferedReader bufferedReader;
 
     public ConsoleView() {
@@ -21,13 +22,24 @@ public class ConsoleView implements Input, Output{
     }
 
     @Override
-    public Long inputVoucherDiscount(){
+    public Long inputNumber(){
         try {
             return InputValidator.validateInputDiscount(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ErrorMessage.error("입력을 읽을 때 오류가 발생했습니다");
+            throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
         } catch (ErrorMessage e){
             throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    @Override
+    public String inputUuid() {
+        try {
+            return bufferedReader.readLine();
+        }catch (IOException e){
+            throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
+        }catch (IllegalArgumentException e){
+            throw ErrorMessage.error("유효하지 않은 UUID 형식입니다.");
         }
     }
 
@@ -86,9 +98,13 @@ public class ConsoleView implements Input, Output{
         String command = """
         
         === Voucher Program ===
-        Type back to main menu.
-        Type create to create a new voucher.
-        Type list to list all vouchers.
+        Type back to Main Menu.
+        Type create to Create a New Voucher.
+        Type list to List All Vouchers.
+        Type search to Search Voucher By Id From Voucher List.
+        Type update to Update Voucher Information.
+        Type delete to Remove Voucher By Id From Voucher List.
+        Type delete_all to Remove All Vouchers From Voucher List.
         """;
         out.println(command);
         printPrompt();
@@ -99,10 +115,14 @@ public class ConsoleView implements Input, Output{
         String command = """
         
         === Customer Program ===
-        Type back to main menu.
-        Type create to create a new customer.
-        Type list to show all customer.
-        Type blacklist to show all blacklist customer.
+        Type back to Main Menu.
+        Type create to Create a New Customer.
+        Type list to Show All Customer.
+        Type blacklist to Show All Blacklist Customer.
+        Type search to Search Customer By Id From Customer List.
+        Type update to Update Customer Information.
+        Type delete to Delete Customer By Id From Customer List.
+        Type delete_all to Remove All Customers From Customer List.
         """;
         out.println(command);
         printPrompt();
@@ -116,7 +136,7 @@ public class ConsoleView implements Input, Output{
         try {
             return InputValidator.validateInputString(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ErrorMessage.error("입력을 읽을 때 오류가 발생했습니다");
+            throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
         } catch (ErrorMessage e){
             throw ErrorMessage.error(e.getMessage());
         }

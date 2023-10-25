@@ -11,8 +11,6 @@ import com.zerozae.voucher.dto.voucher.VoucherRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.view.ConsoleView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -59,7 +57,7 @@ public class MenuHandler {
 
             consoleView.printSystemMessage("바우처의 할인 정보를 입력해주세요.");
             consoleView.printPrompt();
-            Long discount = consoleView.inputVoucherDiscount();
+            Long discount = consoleView.inputNumber();
 
             VoucherRequest voucherRequest = new VoucherRequest(discount, voucherType);
             consoleView.printSystemMessage(voucherController.createVoucher(voucherRequest).getMessage());
