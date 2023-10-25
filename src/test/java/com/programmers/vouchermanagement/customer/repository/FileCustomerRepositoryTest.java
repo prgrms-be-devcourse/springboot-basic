@@ -131,6 +131,21 @@ class FileCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("저장된 고객의 정보를 삭제한다.")
+    void testDeleteCustomerSuccessful() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
+
+        //when
+        customerRepository.deleteById(customer.getCustomerId());
+
+        //then
+        Optional<Customer> emptyIfDeleted = customerRepository.findById(customer.getCustomerId());
+        assertThat(emptyIfDeleted.isEmpty(), is(true));
+    }
+
+    @Test
     @Order(2)
     @DisplayName("저장된 블랙리스트에 있는 고객들의 리스트를 반환한다")
     void testFindBlackCustomersSuccessful_ReturnList() {
