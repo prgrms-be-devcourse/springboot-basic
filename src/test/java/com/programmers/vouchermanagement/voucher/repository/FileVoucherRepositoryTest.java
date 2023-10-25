@@ -27,7 +27,7 @@ import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
-class VoucherRepositoryTest {
+class FileVoucherRepositoryTest {
     @Autowired
     VoucherRepository voucherRepository;
     @Autowired
@@ -41,7 +41,7 @@ class VoucherRepositoryTest {
     @Test
     @DisplayName("저장된 json파일을 성공적으로 읽고 로드한다.")
     @Order(1)
-    void testLoadingJSONonInit() {
+    void testLoadingVoucherFileOnInit() {
         assertThat(appProperties.getVoucherFilePath(), is("src/test/resources/voucher-test.json"));
         assertThat(voucherRepository, notNullValue());
     }
