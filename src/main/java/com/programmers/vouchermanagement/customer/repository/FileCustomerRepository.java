@@ -67,6 +67,11 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public void deleteById(UUID customerId) {
+        customers.remove(customerId);
+    }
+
+    @Override
     @Profile("test")
     public void deleteAll() {
         customers.clear();

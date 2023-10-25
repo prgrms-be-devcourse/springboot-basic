@@ -15,5 +15,7 @@ public interface CustomerRepository {
 
     List<Customer> findBlackCustomers();
 
+    void deleteById(UUID customerId);
+
     void deleteAll();
 }
