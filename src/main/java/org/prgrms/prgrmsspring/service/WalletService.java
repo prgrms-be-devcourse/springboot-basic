@@ -43,11 +43,10 @@ public class WalletService {
     }
 
     public Customer findCustomerByVoucherId(UUID voucherId) {
-        Optional<UUID> optionalCustomerId = walletRepository.findCustomerIdByVoucherId(voucherId);
-        if (optionalCustomerId.isEmpty()) {
-            throw new IllegalArgumentException(ExceptionMessage.NOT_FOUND_CUSTOMER.getMessage());
-        } else {
-            return customerRepository.findById(optionalCustomerId.get()).get();
-        }
+        UUID customerId = walletRepository.findCustomerIdByVoucherId(voucherId)
+                .orElseThrow(() -> new IllegalArgumentException(ExceptionMessage.NOT_FOUND_CUSTOMER.getMessage()));
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new IllegalArgumentException(ExceptionMessage.NOT_FOUND_CUSTOMER.getMessage()));
     }
+
 }
