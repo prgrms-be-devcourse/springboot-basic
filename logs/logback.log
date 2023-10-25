@@ -121,3 +121,22 @@
 [2023-10-25 00:49:40:2525][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
 [2023-10-25 00:49:41:3551][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 [2023-10-25 00:49:41:3562][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-25 10:19:05:1032][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 7892 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-25 10:19:05:1035][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-25 10:19:06:2140][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 1.739 seconds (process running for 2.706)
+[2023-10-25 10:19:57:52538][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-10-25 10:19:58:53504][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@493ac8d3
+[2023-10-25 10:19:58:53509][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-10-25 10:20:09:64833][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-10-25 10:20:09:64844][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-25 10:25:01:506][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 10:25:01:715][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
+[2023-10-25 10:25:02:1380][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 8780 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-25 10:25:02:1381][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-10-25 10:25:03:2547][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.55 seconds (process running for 3.28)
+[2023-10-25 10:25:03:2591][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-10-25 10:25:04:3078][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5ccb85d6
+[2023-10-25 10:25:04:3081][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-10-25 10:25:05:4234][main] ERROR o.p.v.r.c.JdbcCustomerRepository - Not exists
+[2023-10-25 10:25:05:4344][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-10-25 10:25:05:4356][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

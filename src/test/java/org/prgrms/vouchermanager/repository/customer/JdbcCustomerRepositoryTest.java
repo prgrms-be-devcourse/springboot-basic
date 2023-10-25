@@ -50,7 +50,7 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @DisplayName("id를 통해 고객을 조회할 수 있다")
-    void findById(){
+    void findById() {
         Customer customer = new Customer(UUID.randomUUID(), "jun", "123@", true);
         repository.save(customer);
 
@@ -64,6 +64,10 @@ class JdbcCustomerRepositoryTest {
         );
     }
 
-
-
+    @Test
+    @DisplayName("없는 고객 조회 시 null이 반환된다")
+    void findByNotExistId(){
+        Optional<Customer> customer = repository.findById(UUID.randomUUID());
+        assertThat(customer).isNotPresent();
+    }
 }
