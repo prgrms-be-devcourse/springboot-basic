@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface WalletRepository {
     Wallet allocateVoucherToCustomer(UUID customerId, UUID voucherId);
 
-    Optional<List<UUID>> findVoucherIdListByCustomerId(UUID customerId);
+    List<UUID> findVoucherIdListByCustomerId(UUID customerId);
 
     void deleteVouchersByCustomerId(UUID customerId);
 

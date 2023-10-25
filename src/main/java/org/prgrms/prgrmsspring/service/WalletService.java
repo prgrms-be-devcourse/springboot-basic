@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -33,8 +32,8 @@ public class WalletService {
 
     public List<Voucher> findVoucherListByCustomerId(UUID customerId) {
         List<Voucher> result = new ArrayList<>();
-        Optional<List<UUID>> optionalVoucherIdList = walletRepository.findVoucherIdListByCustomerId(customerId);
-        optionalVoucherIdList.ifPresent(voucherIdList -> voucherIdList.forEach(voucherId -> voucherRepository.findById(voucherId).ifPresent(result::add)));
+        List<UUID> voucherIdList = walletRepository.findVoucherIdListByCustomerId(customerId);
+        voucherIdList.forEach(voucherId -> voucherRepository.findById(voucherId).ifPresent(result::add));
         return result;
     }
 

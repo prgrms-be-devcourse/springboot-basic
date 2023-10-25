@@ -35,10 +35,9 @@ public class DBWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Optional<List<UUID>> findVoucherIdListByCustomerId(UUID customerId) {
+    public List<UUID> findVoucherIdListByCustomerId(UUID customerId) {
         String sql = "SELECT VOUCHER_ID FROM WALLET WHERE CUSTOMER_ID = UUID_TO_BIN(?)";
-        List<UUID> voucherIdList = jdbcTemplate.query(sql, (rs, rowNum) -> new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), customerId.toString());
-        return Optional.ofNullable(voucherIdList);
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), customerId.toString());
     }
 
     @Override
