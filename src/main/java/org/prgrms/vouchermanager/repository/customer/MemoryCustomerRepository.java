@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 @Repository
 @Profile("local")
@@ -29,5 +30,16 @@ public class MemoryCustomerRepository implements CustomerRepositroy{
     public Optional<Customer> deleteById(UUID customerId) {
         Customer customer = blackList.remove(customerId);
         return Optional.ofNullable(customer);
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        List<Customer> all = findAll();
+        for(Customer customer : all){
+            if(customer.getEmail().equals(email)){
+                return Optional.ofNullable(customer);
+            }
+        }
+        return Optional.empty();
     }
 }

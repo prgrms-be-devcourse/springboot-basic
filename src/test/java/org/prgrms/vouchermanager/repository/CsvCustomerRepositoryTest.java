@@ -2,6 +2,7 @@ package org.prgrms.vouchermanager.repository;
 
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanager.domain.customer.Customer;
+import org.prgrms.vouchermanager.repository.customer.BlacklistCustomerRepository;
 import org.prgrms.vouchermanager.repository.customer.CsvCustomerRepository;
 import org.prgrms.vouchermanager.repository.customer.CustomerRepositroy;
 
@@ -11,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
 
 class CsvCustomerRepositoryTest {
 
-    CustomerRepositroy repository = new CsvCustomerRepository();
+    BlacklistCustomerRepository repository = new CsvCustomerRepository();
 
 
     @Test

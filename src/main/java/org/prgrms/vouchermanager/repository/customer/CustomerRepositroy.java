@@ -11,4 +11,5 @@ public interface CustomerRepositroy {
     Customer save(Customer customer);
     Optional<Customer> findById(UUID customerId);
     Optional<Customer> deleteById(UUID customerId);
+    Optional<Customer> findByEmail(String email);
 }
