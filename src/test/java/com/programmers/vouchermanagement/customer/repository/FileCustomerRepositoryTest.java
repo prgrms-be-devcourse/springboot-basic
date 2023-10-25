@@ -8,7 +8,10 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+
+import javax.swing.text.html.Option;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
@@ -81,6 +84,21 @@ class FileCustomerRepositoryTest {
         //then
         assertThat(customers.isEmpty(), is(false));
         assertThat(customers, hasSize(greaterThanOrEqualTo(1)));
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 고객의 아이디 검색에 빈 Optional을 반환한다..")
+    void testFindCustomerByIdFailed_ReturnEmptyOptional() {
+        //given
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
+
+        //when
+        UUID randomId = UUID.randomUUID();
+        Optional<Customer> foundCustomer = customerRepository.findById(randomId);
+
+        //then
+        assertThat(foundCustomer.isEmpty(), is(true));
     }
 
     @Test
