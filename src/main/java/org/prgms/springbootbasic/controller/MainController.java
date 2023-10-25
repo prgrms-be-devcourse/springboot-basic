@@ -34,9 +34,11 @@ public class MainController {
             while (!command.equals(EXIT)) {
                 try {
                     command = Console.readCommand();
+
                     executeCommand(command);
                 } catch (InputMismatchException e) {
                     String invalidVal = Console.ignoreLine();
+
                     log.warn("User input = {}", invalidVal);
                     throw new IllegalArgumentException("Not integer.");
                 } catch (NoSuchElementException e) {
@@ -51,7 +53,6 @@ public class MainController {
                     Console.printRuntimeException();
                 }
             }
-
     }
 
     public void create(){

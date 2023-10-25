@@ -40,12 +40,14 @@ public class VoucherCsvFileManager { // CsvFileManager 하나로 합쳐서. doma
         log.debug("line = {}", line);
 
         List<String> splitLine = Arrays.stream(line.split(CSV_PATTERN))
-                .map(s -> s.replaceAll("\"", "")).toList();
-
+                .map(s -> s.replaceAll("\"", ""))
+                .toList();
         VoucherType[] voucherTypes = VoucherType.values();
+
         for (VoucherType type : voucherTypes) {
             String voucherType = type.getDisplayName();
             String curStringType = splitLine.get(TYPE_IDX);
+
             if (curStringType.equals(voucherType)) {
                 log.info("This voucher type is {}", voucherType);
 

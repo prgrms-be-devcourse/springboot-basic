@@ -10,6 +10,7 @@ public class BasicApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(BasicApplication.class, args);
 		var mainController = applicationContext.getBean(MainController.class);
+
 		mainController.run();
 	}
 

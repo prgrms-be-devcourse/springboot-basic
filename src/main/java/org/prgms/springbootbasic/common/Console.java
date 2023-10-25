@@ -11,7 +11,7 @@ import java.util.*;
 public class Console { // view - domain 분리 필. Controller를 따로 만들고, 거기서 View, Service 호출.
     private static final Scanner CONSOLE_INPUT = new Scanner(System.in);
 
-    public static String readCommand(){
+    public static String readCommand() {
         System.out.println("=== Voucher Program ===");
         System.out.println("Type 'exit' to exit the program.");
         System.out.println("Type 'create' to create a new voucher.");
@@ -21,7 +21,7 @@ public class Console { // view - domain 분리 필. Controller를 따로 만들�
         return CONSOLE_INPUT.next();
     }
 
-    public static int selectCreateType(){
+    public static int selectCreateType() {
         System.out.println();
         System.out.println("Which voucher would you like to create? Just type number.");
         System.out.println("1. FixedAmountVoucher");
@@ -30,7 +30,7 @@ public class Console { // view - domain 분리 필. Controller를 따로 만들�
         return CONSOLE_INPUT.nextInt();
     }
 
-    public static int putDiscountDegree(VoucherType type){
+    public static int putDiscountDegree(VoucherType type) {
         switch (type){
             case FIXED_AMOUNT -> System.out.println("Enter the fixed discount amount.");
             case PERCENT_DISCOUNT -> System.out.println("Enter the discount percentage.");
@@ -39,11 +39,11 @@ public class Console { // view - domain 분리 필. Controller를 따로 만들�
     }
 
 
-    public static String ignoreLine(){
+    public static String ignoreLine() {
         return CONSOLE_INPUT.nextLine();
     }
 
-    public static <T> void printList(Collection<T> collection){
+    public static <T> void printList(Collection<T> collection) {
         System.out.println();
         collection.forEach(System.out::println);
         System.out.println();

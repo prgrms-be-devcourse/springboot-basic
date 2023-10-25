@@ -27,9 +27,11 @@ public enum VoucherType {
 
     public static VoucherType getTypeFromSeq(int seq){
         for (VoucherType type : values()){
-            if (type.seq == seq)
+            if (type.seq == seq) {
                 return type;
+            }
         }
+
         log.warn("user input = {}", seq);
         throw new IllegalArgumentException("Invalid seq");
     }

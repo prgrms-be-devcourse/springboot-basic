@@ -37,14 +37,16 @@ public class CustomerCsvFileManager {
     private Customer lineToBlack(String line){
         log.debug("line = {}", line);
 
-        List<String> splitLine = Arrays.stream(line.split(CSV_PATTERN))
-                .map(s -> s.replaceAll("\"", "")).toList();
+        List<String> csvFields =
+                Arrays.stream(line.split(CSV_PATTERN))
+                        .map(s -> s.replaceAll("\"", ""))
+                        .toList();
 
-        UUID uuid = UUID.fromString(splitLine.get(UUID_IDX));
-        String name = splitLine.get(NAME_IDX);
-        String email = splitLine.get(EMAIL_IDX);
-        LocalDateTime createdAt = LocalDateTime.parse(splitLine.get(CREATED_IDX));
-        LocalDateTime lastLoginAt = LocalDateTime.parse(splitLine.get(LAST_LOGIN_IDX));
+        UUID uuid = UUID.fromString(csvFields.get(UUID_IDX));
+        String name = csvFields.get(NAME_IDX);
+        String email = csvFields.get(EMAIL_IDX);
+        LocalDateTime createdAt = LocalDateTime.parse(csvFields.get(CREATED_IDX));
+        LocalDateTime lastLoginAt = LocalDateTime.parse(csvFields.get(LAST_LOGIN_IDX));
 
         return new Customer(uuid, name, email, createdAt, lastLoginAt, false);
     }
