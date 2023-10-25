@@ -14,9 +14,11 @@ public class RequestProcessor {
     private final MenuRequestProvider menuRequestProvider;
     private final ConsoleInteractionAggregator consoleInteractionAggregator;
 
-    public RequestProcessor(ControllerAdapter controllerAdapter,
+    public RequestProcessor(
+        ControllerAdapter controllerAdapter,
         MenuRequestProvider menuRequestProvider,
-        ConsoleInteractionAggregator consoleInteractionAggregator) {
+        ConsoleInteractionAggregator consoleInteractionAggregator
+    ) {
         this.controllerAdapter = controllerAdapter;
         this.menuRequestProvider = menuRequestProvider;
         this.consoleInteractionAggregator = consoleInteractionAggregator;

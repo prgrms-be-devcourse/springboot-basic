@@ -5,7 +5,7 @@ import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_FIXED_
 
 import com.programmers.springbootbasic.exception.exceptionClass.VoucherException;
 
-public class FixedAmountVoucher implements VoucherType{
+public class FixedAmountVoucher implements VoucherType {
 
     public FixedAmountVoucher(Integer benefit) {
         if (benefit < 0) {

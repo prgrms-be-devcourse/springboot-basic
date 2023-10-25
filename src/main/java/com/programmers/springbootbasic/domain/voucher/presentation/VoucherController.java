@@ -1,7 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher.presentation;
 
 import com.programmers.springbootbasic.domain.voucher.application.VoucherService;
-import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVoucherRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherResponse;
 import java.util.List;

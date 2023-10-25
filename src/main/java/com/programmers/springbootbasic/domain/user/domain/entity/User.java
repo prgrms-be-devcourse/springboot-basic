@@ -1,6 +1,7 @@
 package com.programmers.springbootbasic.domain.user.domain.entity;
 
 public class User {
+
     private final Long id;
     private final String name;
 

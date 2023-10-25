@@ -9,9 +9,9 @@ public enum VoucherTypeEnum {
     FIXED(FixedAmountVoucher::new),
     PERCENT(PercentDiscountVoucher::new);
 
-    private final Function<Integer,VoucherType> voucherType;
+    private final Function<Integer, VoucherType> voucherType;
 
-    VoucherTypeEnum(Function<Integer,VoucherType> voucherType) {
+    VoucherTypeEnum(Function<Integer, VoucherType> voucherType) {
         this.voucherType = voucherType;
     }
 

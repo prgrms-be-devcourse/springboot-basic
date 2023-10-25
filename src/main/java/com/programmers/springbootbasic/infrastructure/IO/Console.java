@@ -13,8 +13,10 @@ public class Console implements IOManager {
     private final InputValidator<String> stringValidator;
     private final InputValidator<String> integerValidator;
 
-    public Console(@Qualifier("getStringValidator") InputValidator<String> stringValidator,
-        @Qualifier("getIntegerValidator") InputValidator<String> integerValidator) {
+    public Console(
+        @Qualifier("getStringValidator") InputValidator<String> stringValidator,
+        @Qualifier("getIntegerValidator") InputValidator<String> integerValidator
+    ) {
         this.scanner = new Scanner(System.in);
         this.stringValidator = stringValidator;
         this.integerValidator = integerValidator;

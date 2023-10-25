@@ -3,6 +3,7 @@ package com.programmers.springbootbasic.domain.user.presentation.dto;
 import com.programmers.springbootbasic.domain.user.domain.entity.User;
 
 public class UserResponse {
+
     private final String name;
 
     public UserResponse(String name) {

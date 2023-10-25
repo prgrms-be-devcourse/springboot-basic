@@ -5,7 +5,7 @@ import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_PERCEN
 
 import com.programmers.springbootbasic.exception.exceptionClass.VoucherException;
 
-public class PercentDiscountVoucher implements VoucherType{
+public class PercentDiscountVoucher implements VoucherType {
 
     public PercentDiscountVoucher(Integer benefit) {
         if (benefit < 0 || benefit > 100) {

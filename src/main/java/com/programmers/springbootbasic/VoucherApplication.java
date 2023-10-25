@@ -16,7 +16,9 @@ public class VoucherApplication {
         startAppWithErrorHandler(applicationContext);
     }
 
-    private static void startAppWithErrorHandler(ConfigurableApplicationContext applicationContext) {
+    private static void startAppWithErrorHandler(
+        ConfigurableApplicationContext applicationContext
+    ) {
         AppExceptionHandler exceptionHandler = applicationContext.getBean(
             AppExceptionHandler.class);
         do {

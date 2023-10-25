@@ -20,8 +20,10 @@ public class FilePersistenceVoucherRepository implements VoucherRepository {
     private FileManager fileManager;
     private final String fileName;
 
-    public FilePersistenceVoucherRepository(List<FileManager> fileManagerList,
-        @Value("${file.voucher.path}") String fileName) {
+    public FilePersistenceVoucherRepository(
+        List<FileManager> fileManagerList,
+        @Value("${file.voucher.path}") String fileName
+    ) {
         this.fileName = fileName;
         fileManagerList.stream().filter(fm -> fm.supports(fileName))
             .findFirst()

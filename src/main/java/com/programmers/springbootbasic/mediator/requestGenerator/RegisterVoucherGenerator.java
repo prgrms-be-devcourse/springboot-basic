@@ -7,7 +7,7 @@ import com.programmers.springbootbasic.presentation.MainMenu;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegisterVoucherGenerator implements MenuRequestGenerator{
+public class RegisterVoucherGenerator implements MenuRequestGenerator {
 
     private final ConsoleInteractionAggregator consoleInteractionAggregator;
 
@@ -22,6 +22,7 @@ public class RegisterVoucherGenerator implements MenuRequestGenerator{
 
     @Override
     public ConsoleRequest<CreateVoucherRequest> generateRequest() {
-        return new ConsoleRequest<>(getMenuCommand(),consoleInteractionAggregator.collectVoucherInput());
+        return new ConsoleRequest<>(getMenuCommand(),
+            consoleInteractionAggregator.collectVoucherInput());
     }
 }

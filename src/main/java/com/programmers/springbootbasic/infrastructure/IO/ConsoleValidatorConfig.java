@@ -6,12 +6,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ConsoleValidatorConfig {
+
     @Bean
     public InputValidator<String> getStringValidator() {
         InputValidator<String> stringValidator = new InputValidator<>();
         stringValidator.addValidator(this::validateString);
         return stringValidator;
     }
+
     @Bean
     public InputValidator<String> getIntegerValidator() {
         InputValidator<String> integerValidator = new InputValidator<>();
@@ -21,11 +23,12 @@ public class ConsoleValidatorConfig {
     }
 
     private String validateString(String input) {
-        if(input == null || input.isEmpty()) {
+        if (input == null || input.isEmpty()) {
             return "입력 값이 없습니다.";
         }
         return null;
     }
+
     private String validateInteger(String input) {
         try {
             Integer.parseInt(input);

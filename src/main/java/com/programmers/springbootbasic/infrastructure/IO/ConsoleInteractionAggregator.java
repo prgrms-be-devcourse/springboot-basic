@@ -5,7 +5,8 @@ import com.programmers.springbootbasic.util.Messages;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ConsoleInteractionAggregator{
+public class ConsoleInteractionAggregator {
+
     private final Console console;
 
     public ConsoleInteractionAggregator(Console console) {
