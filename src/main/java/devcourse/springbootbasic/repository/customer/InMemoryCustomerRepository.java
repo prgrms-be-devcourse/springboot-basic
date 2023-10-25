@@ -40,7 +40,7 @@ public class InMemoryCustomerRepository implements CustomerRepository {
     @Override
     public int update(Customer customer) {
         int updatedRow = customerDatabase.containsKey(customer.getId()) ? 1 : 0;
-        customerDatabase.put(customer.getId(), customer);
+        if (updatedRow == 1) customerDatabase.put(customer.getId(), customer);
         return updatedRow;
     }
 

@@ -49,7 +49,7 @@ public class CsvVoucherRepository implements VoucherRepository {
     @Override
     public int update(Voucher voucher) {
         int updatedRow = voucherDatabase.containsKey(voucher.getId()) ? 1 : 0;
-        voucherDatabase.put(voucher.getId(), voucher);
+        if (updatedRow == 1) voucherDatabase.put(voucher.getId(), voucher);
         return updatedRow;
     }
 
