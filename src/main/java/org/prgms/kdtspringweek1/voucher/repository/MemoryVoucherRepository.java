@@ -12,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>(); // 동시성을 막기 위한 자료구조
     private final static Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
 
     @Override

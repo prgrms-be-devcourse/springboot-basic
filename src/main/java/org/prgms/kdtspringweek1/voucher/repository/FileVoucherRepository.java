@@ -71,6 +71,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> getAllVouchersFromCSV() {
         Map<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
 
+        // try 코드 블록이 끝나면 자동으로 자원을 종료해주도록 하기 위해 try-with-resources 사용
         try (BufferedReader br = new BufferedReader(new FileReader(voucherInfoCsv))) {
             String line;
             br.readLine();
