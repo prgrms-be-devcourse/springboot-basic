@@ -52,6 +52,19 @@ class FileCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("저장된 고객이 없으면 빈 리스트를 반환한다.")
+    void testFindCustomersSuccessful_ReturnEmptyList() {
+        //given
+        customerRepository.deleteAll();
+
+        //when
+        List<Customer> customers = customerRepository.findAll();
+
+        //then
+        assertThat(customers.isEmpty(), is(true));
+    }
+
+    @Test
     @Order(2)
     @DisplayName("저장된 블랙리스트에 있는 고객들의 리스트를 반환한다")
     void testFindBlackCustomersSuccessful_ReturnList() {
