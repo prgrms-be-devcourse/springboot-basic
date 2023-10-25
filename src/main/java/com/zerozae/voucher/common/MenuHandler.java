@@ -3,6 +3,7 @@ package com.zerozae.voucher.common;
 import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.controller.customer.CustomerController;
 import com.zerozae.voucher.controller.voucher.VoucherController;
+import com.zerozae.voucher.controller.wallet.WalletController;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.VoucherType;
@@ -11,6 +12,7 @@ import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.voucher.VoucherRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
+import com.zerozae.voucher.dto.wallet.WalletRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.view.ConsoleView;
 import org.springframework.stereotype.Component;
@@ -28,11 +30,13 @@ public class MenuHandler {
     private final ConsoleView consoleView;
     private final VoucherController voucherController;
     private final CustomerController customerController;
+    private final WalletController walletController;
 
-    public MenuHandler(ConsoleView consoleView, VoucherController voucherController, CustomerController customerController) {
+    public MenuHandler(ConsoleView consoleView, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
         this.consoleView = consoleView;
         this.voucherController = voucherController;
         this.customerController = customerController;
+        this.walletController = walletController;
     }
 
     public MenuType selectCommand(String program) {
@@ -212,6 +216,76 @@ public class MenuHandler {
         try{
             consoleView.printSystemMessage("전체 회원을 제거하겠습니다.");
             consoleView.printSystemMessage(customerController.deleteAllCustomers().getMessage());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void assignVoucherToCustomer() {
+        try {
+            consoleView.printSystemMessage("바우처를 부여할 회원 번호를 입력하세요.");
+            consoleView.printPrompt();
+            UUID customerId = UUID.fromString(consoleView.inputUuid());
+
+            consoleView.printSystemMessage("등록할 바우처의 번호를 입력하세요.");
+            consoleView.printPrompt();
+            UUID voucherId = UUID.fromString(consoleView.inputUuid());
+
+            WalletRequest walletRequest = new WalletRequest(customerId, voucherId);
+            consoleView.printSystemMessage(walletController.createWallet(walletRequest).getMessage());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void removeVoucherFromCustomer() {
+        try {
+            consoleView.printSystemMessage("바우처를 제거할 회원 번호를 입력해주세요.");
+            consoleView.printPrompt();
+            UUID customerId = UUID.fromString(consoleView.inputUuid());
+
+            consoleView.printSystemMessage("제거할 바우처의 번호를 입력하세요.");
+            consoleView.printPrompt();
+            UUID voucherId = UUID.fromString(consoleView.inputUuid());
+            consoleView.printSystemMessage(walletController.deleteWalletsById(customerId, voucherId).getMessage());
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void voucherListOwnedByCustomer() {
+        try {
+            consoleView.printSystemMessage("소유하고 있는 바우처 목록을 조회할 회원 번호를 입력해주세요.");
+            consoleView.printPrompt();
+            UUID customerId = UUID.fromString(consoleView.inputUuid());
+
+            Response<List<VoucherResponse>> result = walletController.findWalletByCustomerId(customerId);
+            result.getData()
+                    .forEach(voucher -> consoleView.printInfo(voucher.getInfo()));
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void findVoucherOwnerList() {
+        try {
+            consoleView.printSystemMessage("소유자를 찾고자 하는 바우처 번호를 입력해주세요.");
+            consoleView.printPrompt();
+            UUID voucherId = UUID.fromString(consoleView.inputUuid());
+            voucherController.findVoucherById(voucherId);
+
+            Response<List<CustomerResponse>> result = walletController.findWalletByVoucherId(voucherId);
+            result.getData()
+                    .forEach(customer -> consoleView.printInfo(customer.getInfo()));
+        }catch (Exception e) {
+            throw ErrorMessage.error(e.getMessage());
+        }
+    }
+
+    public void deleteAllWallets() {
+        try{
+            consoleView.printSystemMessage("지갑 전체를 초기화합니다.");
+            consoleView.printSystemMessage(walletController.deleteAllWallets().getMessage());
         }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());
         }

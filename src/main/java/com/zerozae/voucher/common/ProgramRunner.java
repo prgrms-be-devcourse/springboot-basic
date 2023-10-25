@@ -15,6 +15,8 @@ public class ProgramRunner implements CommandLineRunner {
     private static final String MAIN_PROGRAM = "mainProgram";
     private static final String CUSTOMER_PROGRAM = "customerProgram";
     private static final String VOUCHER_PROGRAM = "voucherProgram";
+    private static final String WALLET_PROGRAM = "walletProgram";
+
     private final MenuHandler menuHandler;
 
     public ProgramRunner(MenuHandler menuHandler) {
@@ -34,6 +36,9 @@ public class ProgramRunner implements CommandLineRunner {
                     }
                     case CUSTOMER -> {
                         continueRun = isCustomerMenuSelected();
+                    }
+                    case WALLET -> {
+                        continueRun = isWalletMenuSelected();
                     }
                     case EXIT -> {
                         menuHandler.exit();
@@ -112,11 +117,44 @@ public class ProgramRunner implements CommandLineRunner {
                         return true;
                     }
                     default -> {
-                        logger.warn("존재하지 않는 메뉴입니다.");
+                        logger.warn(NOT_EXIST_MENU);
                     }
                 }
             }catch (ErrorMessage e){
                 logger.warn("Error Message = {}", e.getMessage());
+            }
+        }
+    }
+
+    private boolean isWalletMenuSelected() {
+        while(true){
+            try {
+                MenuType command = menuHandler.selectCommand(WALLET_PROGRAM);
+                switch (command) {
+                    case ASSIGN -> {
+                        menuHandler.assignVoucherToCustomer();
+                    }
+                    case REMOVE -> {
+                        menuHandler.removeVoucherFromCustomer();
+                    }
+                    case VOUCHER_LIST -> {
+                        menuHandler.voucherListOwnedByCustomer();
+                    }
+                    case OWNER -> {
+                        menuHandler.findVoucherOwnerList();
+                    }
+                    case DELETE_ALL -> {
+                        menuHandler.deleteAllWallets();
+                    }
+                    case BACK -> {
+                        return true;
+                    }
+                    default -> {
+                        logger.warn(NOT_EXIST_MENU);
+                    }
+                }
+            }catch (ErrorMessage e){
+                logger.warn("Error Message ={}", e.getMessage());
             }
         }
     }

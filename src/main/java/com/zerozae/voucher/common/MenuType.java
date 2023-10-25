@@ -13,10 +13,15 @@ public enum MenuType {
     BLACKLIST,
     VOUCHER,
     CUSTOMER,
+    WALLET,
     SEARCH,
     DELETE,
     DELETE_ALL,
     UPDATE,
+    ASSIGN,
+    REMOVE,
+    VOUCHER_LIST,
+    OWNER,
     BACK;
 
     public static MenuType of(String input){
