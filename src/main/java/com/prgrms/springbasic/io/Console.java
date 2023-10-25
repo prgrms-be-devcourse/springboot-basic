@@ -88,7 +88,7 @@ public class Console implements Output, Input {
         }
         textIO.getTextTerminal().println(ConsoleMessage.FIND_ALL_VOUCHERS.getMessage());
         for (VoucherResponse voucher : vouchers) {
-            textIO.getTextTerminal().println(voucher.toString());
+            textIO.getTextTerminal().println(voucherShowFormat(voucher));
         }
     }
 
@@ -99,7 +99,25 @@ public class Console implements Output, Input {
             return;
         }
         for (CustomerResponse customer : customers) {
-            textIO.getTextTerminal().println(customer.toString());
+            textIO.getTextTerminal().println(customerShowFormat(customer));
         }
+    }
+
+    private static String voucherShowFormat(VoucherResponse voucher) {
+        return """
+                Voucher Id : %s
+                Discount Type : %s
+                Discount Value : %d
+                ------------------------------
+                """.formatted(voucher.voucherId(), voucher.discountType(), voucher.discountValue());
+    }
+
+    private static String customerShowFormat(CustomerResponse customer) {
+        return """
+                Customer Id : %s
+                Customer Name : %s
+                Customer Email : %s
+                ------------------------------
+                """.formatted(customer.customerId(), customer.name(), customer.email());
     }
 }
