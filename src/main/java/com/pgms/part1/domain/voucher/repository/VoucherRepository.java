@@ -11,7 +11,7 @@ public interface VoucherRepository {
 
     public void add(Voucher voucher);
 
-    public void delete(Voucher voucher);
+    public void delete(Long id);
 
-    public void findVoucherByWallet(Wallet wallet);
+    public void findVoucherByWallets(List<Wallet> wallet);
 }

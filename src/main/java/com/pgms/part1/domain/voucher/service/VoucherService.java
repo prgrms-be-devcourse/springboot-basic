@@ -53,5 +53,6 @@ public class VoucherService {
     }
 
     public void listVouchersByWallets(List<Wallet> wallets) {
+        voucherRepository.findVoucherByWallets(wallets);
     }
 }

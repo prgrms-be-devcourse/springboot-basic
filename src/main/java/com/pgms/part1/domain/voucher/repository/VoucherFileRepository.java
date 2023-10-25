@@ -74,12 +74,12 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public void delete(Voucher voucher) {
+    public void delete(Long id) {
 
     }
 
     @Override
-    public void findVoucherByWallet(Wallet wallet) {
+    public void findVoucherByWallets(List<Wallet> wallet) {
 
     }
 }

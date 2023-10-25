@@ -9,7 +9,8 @@ public interface CustomerRepository {
     public List<Customer> listBlockedCustomers();
     public List<Customer> listCustomers();
     public void addCustomer(Customer customer);
-    public void updateCustomerName(Customer customer, String name);
-    public void deleteCustomer(Customer customer);
+    public void updateCustomerName(Long id, String name);
+    public void deleteCustomer(Long id);
     public void findCustomerByWallet(Wallet wallet);
+    public void listCustomersByWallets(List<Wallet> wallets);
 }

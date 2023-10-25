@@ -45,13 +45,13 @@ public class VoucherJdbcRepository implements VoucherRepository{
     }
 
     @Override
-    public void delete(Voucher voucher) {
+    public void delete(Long id) {
         String deleteCustomerSql = "DELETE FROM VOUCHERS WHERE id = ?";
-        jdbcTemplate.update(deleteCustomerSql, voucher.getId());
+        jdbcTemplate.update(deleteCustomerSql, id);
     }
 
     @Override
-    public void findVoucherByWallet(Wallet wallet) {
+    public void findVoucherByWallets(List<Wallet> wallet) {
 
     }
 }

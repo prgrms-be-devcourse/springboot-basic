@@ -65,17 +65,22 @@ public class CustomerFileRepository implements CustomerRepository{
     }
 
     @Override
-    public void updateCustomerName(Customer customer, String name) {
+    public void updateCustomerName(Long id, String name) {
 
     }
 
     @Override
-    public void deleteCustomer(Customer customer) {
+    public void deleteCustomer(Long id) {
 
     }
 
     @Override
     public void findCustomerByWallet(Wallet wallet) {
+
+    }
+
+    @Override
+    public void listCustomersByWallets(List<Wallet> wallets) {
 
     }
 }

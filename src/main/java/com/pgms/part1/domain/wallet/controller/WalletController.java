@@ -39,5 +39,4 @@ public class WalletController {
         List<Wallet> wallets = walletService.listWalletsByVoucher(voucherId);
         customerService.listCustomersByWallets(wallets);
     }
-
 }

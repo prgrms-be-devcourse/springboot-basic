@@ -49,19 +49,24 @@ public class CustomerJdbcRepository implements CustomerRepository{
     }
 
     @Override
-    public void updateCustomerName(Customer customer, String name) {
-        String updateCustomerNameSql = "UPDATE CUSTOMERS SET name = ? where name = ?";
-        jdbcTemplate.update(updateCustomerNameSql, name, customer.getName());
+    public void updateCustomerName(Long id, String name) {
+        String updateCustomerNameSql = "UPDATE CUSTOMERS SET name = ? where id = ?";
+        jdbcTemplate.update(updateCustomerNameSql, name, id);
     }
 
     @Override
-    public void deleteCustomer(Customer customer) {
+    public void deleteCustomer(Long id) {
         String deleteCustomerSql = "DELETE FROM CUSTOMERS WHERE id = ?";
-        jdbcTemplate.update(deleteCustomerSql, customer.getId());
+        jdbcTemplate.update(deleteCustomerSql, id);
     }
 
     @Override
     public void findCustomerByWallet(Wallet wallet) {
+
+    }
+
+    @Override
+    public void listCustomersByWallets(List<Wallet> wallets) {
 
     }
 }

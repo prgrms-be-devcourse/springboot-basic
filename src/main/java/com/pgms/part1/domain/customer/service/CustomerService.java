@@ -37,15 +37,15 @@ public class CustomerService {
         customerRepository.addCustomer(customer);
     }
 
-    public void updateCustomerName(Customer customer, String name){
-        customerRepository.updateCustomerName(customer, name);
+    public void updateCustomerName(Long id, String name){
+        customerRepository.updateCustomerName(id, name);
     }
 
-    public void deleteCustomer(Customer customer){
-        customerRepository.deleteCustomer(customer);
+    public void deleteCustomer(Long id){
+        customerRepository.deleteCustomer(id);
     }
 
     public void listCustomersByWallets(List<Wallet> wallets) {
-
+        customerRepository.listCustomersByWallets(wallets);
     }
 }
