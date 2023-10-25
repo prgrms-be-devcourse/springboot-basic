@@ -305,3 +305,188 @@
 [2023-10-25 17:38:52:3576][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
 [2023-10-25 17:38:52:3661][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 [2023-10-25 17:38:52:3673][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-25 20:44:12:391][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:44:12:477][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:45:09:305][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:45:09:377][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:49:11:307][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:49:11:380][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:50:21:342][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:50:21:422][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:50:23:1700][main] INFO  o.p.v.service.WalletServiceTest - customer -> null
+[2023-10-25 20:51:28:333][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:51:29:413][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:54:17:350][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:54:17:442][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:54:38:323][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:54:38:399][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:54:39:1680][main] INFO  o.p.v.service.WalletServiceTest - customer -> Customer(customerId=6fdd6408-c245-4b27-94ac-841e56dac66b, name=jun, email=123@gmail.com, isBlack=true)
+[2023-10-25 20:56:25:346][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:56:25:410][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 20:56:26:1611][main] INFO  o.p.v.service.WalletServiceTest - customer -> Customer(customerId=2905f680-b33f-4f05-9164-b98af8be40f6, name=jun, email=123@gmail.com, isBlack=true)
+[2023-10-25 22:49:27:534][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 22:49:27:619][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 22:49:38:382][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 22:49:38:472][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:12:22:389][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:12:22:496][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:16:37:354][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:16:38:445][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:16:51:421][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:16:51:517][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:21:09:356][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:21:09:439][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:25:22:345][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:25:22:426][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:26:16:418][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:26:16:511][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:27:16:348][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:27:16:431][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:28:35:357][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:28:35:434][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:54:52:338][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:54:52:412][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$read]: read does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:55:13:412][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:55:13:502][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:55:14:1957][main] WARN  o.s.test.context.TestContextManager - Caught exception while invoking 'beforeTestMethod' callback on TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener] for test method [void org.prgrms.vouchermanager.service.WalletServiceTest$create.createWallet()] and test instance [org.prgrms.vouchermanager.service.WalletServiceTest$create@743e66f7]
+java.lang.IllegalStateException: Failed to retrieve PlatformTransactionManager for @Transactional test: [DefaultTestContext@15383681 testClass = org.prgrms.vouchermanager.service.WalletServiceTest.create, testInstance = org.prgrms.vouchermanager.service.WalletServiceTest$create@743e66f7, testMethod = createWallet(), testException = null, mergedContextConfiguration = [MergedContextConfiguration@2241f05b testClass = org.prgrms.vouchermanager.service.WalletServiceTest.create, locations = [], classes = [], contextInitializerClasses = [], activeProfiles = [], propertySourceLocations = [], propertySourceProperties = [], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@488d1cd7, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3081f72c, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@46b61c56], contextLoader = org.springframework.test.context.support.DelegatingSmartContextLoader, parent = null], attributes = {"org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents" -> false}]
+	at org.springframework.util.Assert.state(Assert.java:97)
+	at org.springframework.test.context.transaction.TransactionalTestExecutionListener.beforeTestMethod(TransactionalTestExecutionListener.java:228)
+	at org.springframework.test.context.TestContextManager.beforeTestMethod(TestContextManager.java:288)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.beforeEach(SpringExtension.java:174)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeEachCallbacks$2(TestMethodTestDescriptor.java:166)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeMethodsOrCallbacksUntilExceptionOccurs$6(TestMethodTestDescriptor.java:202)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeMethodsOrCallbacksUntilExceptionOccurs(TestMethodTestDescriptor.java:202)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeEachCallbacks(TestMethodTestDescriptor.java:165)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:132)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
+	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:57)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
+	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
+[2023-10-25 23:55:22:397][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:55:22:478][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$read]: read does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-25 23:55:23:1816][main] WARN  o.s.test.context.TestContextManager - Caught exception while invoking 'beforeTestMethod' callback on TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener] for test method [void org.prgrms.vouchermanager.service.WalletServiceTest$read.findByEmail()] and test instance [org.prgrms.vouchermanager.service.WalletServiceTest$read@743e66f7]
+java.lang.IllegalStateException: Failed to retrieve PlatformTransactionManager for @Transactional test: [DefaultTestContext@15383681 testClass = org.prgrms.vouchermanager.service.WalletServiceTest.read, testInstance = org.prgrms.vouchermanager.service.WalletServiceTest$read@743e66f7, testMethod = findByEmail(), testException = null, mergedContextConfiguration = [MergedContextConfiguration@2241f05b testClass = org.prgrms.vouchermanager.service.WalletServiceTest.read, locations = [], classes = [], contextInitializerClasses = [], activeProfiles = [], propertySourceLocations = [], propertySourceProperties = [], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@488d1cd7, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3081f72c, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@46b61c56], contextLoader = org.springframework.test.context.support.DelegatingSmartContextLoader, parent = null], attributes = {"org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents" -> false}]
+	at org.springframework.util.Assert.state(Assert.java:97)
+	at org.springframework.test.context.transaction.TransactionalTestExecutionListener.beforeTestMethod(TransactionalTestExecutionListener.java:228)
+	at org.springframework.test.context.TestContextManager.beforeTestMethod(TestContextManager.java:288)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.beforeEach(SpringExtension.java:174)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeEachCallbacks$2(TestMethodTestDescriptor.java:166)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeMethodsOrCallbacksUntilExceptionOccurs$6(TestMethodTestDescriptor.java:202)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeMethodsOrCallbacksUntilExceptionOccurs(TestMethodTestDescriptor.java:202)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeEachCallbacks(TestMethodTestDescriptor.java:165)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:132)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
+	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
+	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:57)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
+	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
+	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
+	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
+	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)

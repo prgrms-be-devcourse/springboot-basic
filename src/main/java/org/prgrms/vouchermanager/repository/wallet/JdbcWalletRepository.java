@@ -64,8 +64,7 @@ public class JdbcWalletRepository implements WalletRepository {
     public Optional<Wallet> findByVoucher(Voucher voucher) {
         VoucherType type = voucher.getType();
         try{
-            Wallet wallet = jdbcTemplate.queryForObject(SELECT_BY_VOUCHER, walletRowMapper, type.toString());
-            return Optional.ofNullable(wallet);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_VOUCHER, walletRowMapper, type.toString()));
         }catch (EmptyResultDataAccessException e){
             log.error("Not exists");
             return Optional.empty();
