@@ -117,4 +117,12 @@ public class FunctionHandler {
         VoucherAssignResponse voucher = walletController.unassignVoucherFromCustomer(voucherId);
         log.info(String.format(ConsoleConstants.VOUCHER_UNASSIGN_MESSAGE, voucher.getVoucherId(), voucher.getCustomerId()));
     }
+
+    public void findCustomerByVoucherId() {
+        UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
+
+        CustomerFindResponse customer = walletController.findCustomerByVoucherId(voucherId);
+
+        consoleIOHandler.printListString(List.of(customer));
+    }
 }

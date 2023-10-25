@@ -2,9 +2,12 @@ package devcourse.springbootbasic.service;
 
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.domain.voucher.Voucher;
+import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.dto.wallet.VoucherAssignRequest;
 import devcourse.springbootbasic.dto.wallet.VoucherAssignResponse;
+import devcourse.springbootbasic.exception.VoucherErrorMessage;
+import devcourse.springbootbasic.exception.VoucherException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,5 +44,15 @@ public class WalletService {
         Voucher updatedVoucher = voucherService.unassignVoucherToCustomer(voucher);
 
         return new VoucherAssignResponse(updatedVoucher.getId(), customer.getId());
+    }
+
+    public CustomerFindResponse findCustomerByVoucherId(UUID voucherId) {
+        Voucher voucher = voucherService.findById(voucherId);
+        if (voucher.getCustomerId() == null) {
+            throw VoucherException.of(VoucherErrorMessage.NOT_ASSIGNED);
+        }
+        Customer customer = customerService.findById(voucher.getCustomerId());
+
+        return new CustomerFindResponse(customer);
     }
 }

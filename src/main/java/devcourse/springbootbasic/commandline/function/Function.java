@@ -19,6 +19,7 @@ public enum Function {
     ASSIGN_VOUCHER_TO_CUSTOMER("8", "Assign a voucher to a customer.", FunctionHandler::assignVoucherToCustomer),
     LIST_VOUCHERS_BY_CUSTOMER_ID("9", "List vouchers by customer id.", FunctionHandler::listVouchersByCustomerId),
     UNASSIGN_VOUCHER_FROM_CUSTOMER("10", "Unassign a voucher from a customer.", FunctionHandler::unassignVoucherFromCustomer),
+    FIND_CUSTOMER_BY_VOUCHER_ID("11", "Find customer by voucher id.", FunctionHandler::findCustomerByVoucherId),
     EXIT("0", "Exit the program.", FunctionHandler::exit);
 
     private final String code;

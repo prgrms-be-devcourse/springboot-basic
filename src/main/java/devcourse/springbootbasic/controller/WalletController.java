@@ -1,5 +1,6 @@
 package devcourse.springbootbasic.controller;
 
+import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.dto.wallet.VoucherAssignRequest;
 import devcourse.springbootbasic.dto.wallet.VoucherAssignResponse;
@@ -26,5 +27,9 @@ public class WalletController {
 
     public VoucherAssignResponse unassignVoucherFromCustomer(UUID voucherId) {
         return this.walletService.unassignVoucherFromCustomer(voucherId);
+    }
+
+    public CustomerFindResponse findCustomerByVoucherId(UUID voucherId) {
+        return this.walletService.findCustomerByVoucherId(voucherId);
     }
 }
