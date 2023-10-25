@@ -22,6 +22,26 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public void save(Customer customer) {
+        String sql = "INSERT INTO customers (email) VALUES (:email)";
+
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("email", customer.getEmail());
+
+        template.update(sql, params);
+    }
+
+    @Override
+    public void saveAll(List<Customer> customers) {
+        String sql = "INSERT INTO customers (email) VALUES (:email)";
+
+        template.batchUpdate(sql, customers.stream()
+                .map(customer -> new MapSqlParameterSource()
+                        .addValue("email", customer.getEmail()))
+                .toArray(SqlParameterSource[]::new));
+    }
+
+    @Override
     public List<Customer> findAll(GetCustomersRequestDto request) {
         String sql = "SELECT * FROM customers";
 
@@ -33,6 +53,12 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
                 .addValue("blacklisted", request.getBlacklisted());
 
         return template.query(sql, getCustomerRowMapper());
+    }
+
+    @Override
+    public void deleteAll() {
+        String sql = "DELETE FROM customers";
+        template.update(sql, new MapSqlParameterSource());
     }
 
     private RowMapper<Customer> getCustomerRowMapper() {
