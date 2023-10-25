@@ -83,4 +83,24 @@ class MenuHandlerTest {
         //verify
         verify(consoleManager).printException(exception);
     }
+
+    @Test
+    @DisplayName("바우처 생성 시 유효하지 않은 할인 값을 입력하면 메뉴 실행을 실패하고, 시스템은 계속 된다.")
+    void testHandleMenuFailed_InvalidDiscountValue() {
+        //given
+        final IllegalArgumentException exception = new IllegalArgumentException();
+        final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(0), VoucherType.FIXED);
+        doReturn(CREATE).when(consoleManager).selectMenu();
+        doReturn(request).when(consoleManager).instructCreate();
+        doThrow(exception).when(voucherController).create(request);
+
+        //when
+        final boolean isRunning = menuHandler.handleMenu();
+
+        //then
+        assertThat(isRunning, is(true));
+
+        //verify
+        verify(consoleManager).printException(exception);
+    }
 }
