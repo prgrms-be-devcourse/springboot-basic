@@ -31,7 +31,6 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    @Profile("test")
     public void deleteAll() {
         vouchers.clear();
     }
