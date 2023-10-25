@@ -29,12 +29,6 @@ public class VoucherService {
                 .toList();
     }
 
-    public VoucherResponse findVoucherById(UUID voucherId) {
-        Voucher voucher = voucherRepository.findVoucherById(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException("Voucher not found"));
-        return VoucherResponse.from(voucher);
-    }
-
     public void updateVoucher(UpdateVoucherRequest request) {
         Voucher voucher = voucherRepository.findVoucherById(request.voucher_id())
                 .orElseThrow(() -> new IllegalArgumentException("Voucher not found"));

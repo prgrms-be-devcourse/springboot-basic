@@ -67,6 +67,5 @@ public class JdbcWalletRepository {
     public void deleteWallet(Wallet wallet) {
         jdbcTemplate.update(DELETE_WALLET,
                 wallet.getWallet_id().toString().getBytes());
-        logger.warn("dlelee");
     }
 }
