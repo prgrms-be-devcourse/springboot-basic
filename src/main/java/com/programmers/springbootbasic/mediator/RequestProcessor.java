@@ -30,10 +30,7 @@ public class RequestProcessor {
 
     public ConsoleRequest getRequest() {
         var menuInput = consoleInteractionAggregator.collectMenuInput();
-        // 종료 처리는 어디서?
-        if (menuInput.equalsIgnoreCase("EXIT")) {
-            System.exit(0);
-        }
+
         return menuRequestProvider.getMenuRequest(menuInput);
     }
 
