@@ -31,7 +31,7 @@ public class VoucherController {
     public List<Voucher> findAllVoucher() {
         return voucherService.getAllVoucher();
     }
-    public Optional<Voucher> findById(Voucher voucher){
-        return voucherService.findById(voucher);
+    public Optional<Voucher> findById(UUID voucherId){
+        return voucherService.findById(voucherId);
     }
 }

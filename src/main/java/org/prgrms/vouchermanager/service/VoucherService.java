@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +19,7 @@ public class VoucherService {
     public Voucher createVoucher(Voucher voucher){
         return voucherRepository.save(voucher);
     }
-    public Optional<Voucher> findById(Voucher voucher){
-        return voucherRepository.findByID(voucher.getVoucherId());
+    public Optional<Voucher> findById(UUID voucherId){
+        return voucherRepository.findByID(voucherId);
     }
 }
