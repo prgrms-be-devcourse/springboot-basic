@@ -77,4 +77,8 @@ public class VoucherService {
                 .map(VoucherFindResponse::new)
                 .toList();
     }
+
+    public Voucher unassignVoucherToCustomer(Voucher voucher) {
+        return persist(voucher.unassignToCustomer());
+    }
 }

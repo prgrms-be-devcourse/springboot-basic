@@ -33,4 +33,13 @@ public class WalletService {
         Customer customer = customerService.findById(customerId);
         return voucherService.findVouchersByCustomer(customer);
     }
+
+    @Transactional
+    public VoucherAssignResponse unassignVoucherFromCustomer(UUID voucherId) {
+        Voucher voucher = voucherService.findById(voucherId);
+        Customer customer = customerService.findById(voucher.getCustomerId());
+        Voucher updatedVoucher = voucherService.unassignVoucherToCustomer(voucher);
+
+        return new VoucherAssignResponse(updatedVoucher.getId(), customer.getId());
+    }
 }

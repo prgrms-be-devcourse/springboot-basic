@@ -23,4 +23,8 @@ public class WalletController {
     public List<VoucherFindResponse> findVouchersByCustomerId(UUID customerId) {
         return this.walletService.findVouchersByCustomerId(customerId);
     }
+
+    public VoucherAssignResponse unassignVoucherFromCustomer(UUID voucherId) {
+        return this.walletService.unassignVoucherFromCustomer(voucherId);
+    }
 }

@@ -53,4 +53,9 @@ public class Voucher {
         this.customerId = customerId;
         return this;
     }
+
+    public Voucher unassignToCustomer() {
+        this.customerId = null;
+        return this;
+    }
 }
