@@ -1,6 +1,6 @@
 package org.prgms.kdtspringweek1.customer;
 
-import org.prgms.kdtspringweek1.console.FindCustomerResponseDto;
+import org.prgms.kdtspringweek1.console.dto.FindCustomerResponseDto;
 import org.prgms.kdtspringweek1.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 

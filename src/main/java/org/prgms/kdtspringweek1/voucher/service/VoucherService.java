@@ -1,6 +1,6 @@
 package org.prgms.kdtspringweek1.voucher.service;
 
-import org.prgms.kdtspringweek1.console.FindVoucherResponseDto;
+import org.prgms.kdtspringweek1.console.dto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
 import org.prgms.kdtspringweek1.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
