@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.programmers.springbasic.entity.customer.Customer;
 
 @Repository
-@Profile("test")
 public class JdbcCustomerRepository implements CustomerRepository {
 
 	private final JdbcTemplate jdbcTemplate;
