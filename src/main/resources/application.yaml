@@ -6,6 +6,11 @@ logging:
 spring:
   profiles:
     active: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/default_db?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&useSSL=true
+    username: root
+    password: local59!
 
 ---
 spring:
