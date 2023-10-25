@@ -1,8 +1,8 @@
 package devcourse.springbootbasic.controller;
 
-import devcourse.springbootbasic.dto.VoucherCreateRequest;
-import devcourse.springbootbasic.dto.VoucherCreateResponse;
-import devcourse.springbootbasic.dto.VoucherFindResponse;
+import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
+import devcourse.springbootbasic.dto.voucher.VoucherCreateResponse;
+import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

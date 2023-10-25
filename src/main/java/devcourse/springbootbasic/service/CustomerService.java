@@ -1,6 +1,8 @@
 package devcourse.springbootbasic.service;
 
-import devcourse.springbootbasic.dto.CustomerFindResponse;
+import devcourse.springbootbasic.domain.customer.Customer;
+import devcourse.springbootbasic.dto.customer.CustomerCreateRequest;
+import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
 import devcourse.springbootbasic.repository.customer.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

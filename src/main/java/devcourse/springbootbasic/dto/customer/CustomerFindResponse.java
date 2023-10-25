@@ -1,4 +1,4 @@
-package devcourse.springbootbasic.dto;
+package devcourse.springbootbasic.dto.customer;
 
 
 import devcourse.springbootbasic.domain.customer.Customer;
