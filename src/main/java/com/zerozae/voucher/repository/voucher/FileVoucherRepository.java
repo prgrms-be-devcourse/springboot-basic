@@ -5,6 +5,7 @@ import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
+import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.util.FileUtil;
 import org.springframework.context.annotation.Profile;
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -50,6 +52,30 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        vouchers.remove(voucherId);
+        fileUtil.deleteFileDataById(voucherId,FILE_PATH);
+    }
+
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
+        fileUtil.clearDataFile(FILE_PATH);
+    }
+
+    @Override
+    public void update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
+        Voucher voucher = vouchers.get(voucherId);
+        voucher.updateVoucherInfo(voucherUpdateRequest);
+        fileUtil.updateFile(getVoucherInfo(voucher), voucherId, FILE_PATH);
     }
 
     private String getVoucherInfo(Voucher voucher) {
