@@ -7,9 +7,9 @@ CREATE TABLE IF NOT EXISTS vouchers
 
 CREATE TABLE IF NOT EXISTS customers
 (
-    id          CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-    name        VARCHAR(255) NOT NULL,
-    blacklisted BOOLEAN      NOT NULL
+    id          CHAR(36) PRIMARY KEY  DEFAULT (UUID()),
+    email       VARCHAR(255) NOT NULL UNIQUE,
+    blacklisted BOOLEAN      NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE IF NOT EXISTS wallets
@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS wallets
     id          INT PRIMARY KEY AUTO_INCREMENT,
     customer_id CHAR(36) NOT NULL,
     voucher_id  CHAR(36) NOT NULL,
+    used        BOOLEAN  NOT NULL DEFAULT FALSE,
     FOREIGN KEY (customer_id) REFERENCES customers (id),
     FOREIGN KEY (voucher_id) REFERENCES vouchers (id)
 );
