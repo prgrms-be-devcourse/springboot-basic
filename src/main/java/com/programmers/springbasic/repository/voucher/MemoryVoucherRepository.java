@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.programmers.springbasic.entity.voucher.Voucher;
 
 @Repository
-@Profile("dev")
+@Profile("memory")
 public class MemoryVoucherRepository implements VoucherRepository {
 
 	private final Map<UUID, Voucher> storage;
@@ -23,7 +23,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public Voucher save(Voucher voucher) {
+	public Voucher insert(Voucher voucher) {
+		storage.put(voucher.getVoucherId(), voucher);
+		return voucher;
+	}
+
+	@Override
+	public Voucher update(Voucher voucher) {
 		storage.put(voucher.getVoucherId(), voucher);
 		return voucher;
 	}
@@ -37,11 +43,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
 	@Override
 	public Optional<Voucher> findById(UUID id) {
-		return Optional.empty();
+		return Optional.ofNullable(storage.get(id));
 	}
 
 	@Override
 	public void deleteById(UUID id) {
-
+		storage.remove(id);
 	}
 }
