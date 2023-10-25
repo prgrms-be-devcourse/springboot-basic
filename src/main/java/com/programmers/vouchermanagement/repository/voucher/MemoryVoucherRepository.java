@@ -26,7 +26,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void saveAll(List<Voucher> vouchers) {
-        unsupport();
+        unsupported();
     }
 
     @Override
@@ -42,20 +42,20 @@ public class MemoryVoucherRepository implements VoucherRepository {
 
     @Override
     public void updateById(UUID id, Voucher voucher) {
-        unsupport();
+        unsupported();
     }
 
     @Override
     public void deleteById(UUID id) {
-        unsupport();
+        unsupported();
     }
 
     @Override
     public void deleteAll() {
-        unsupport();
+        unsupported();
     }
 
-    private void unsupport() {
+    private void unsupported() {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }
