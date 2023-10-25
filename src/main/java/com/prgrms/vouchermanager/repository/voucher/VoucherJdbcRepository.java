@@ -51,9 +51,8 @@ public class VoucherJdbcRepository implements VoucherRepository {
         jdbcTemplate.update(UPDATE_DISCOUNT_VOUCHER.getMessage(), discount, id.toString().getBytes());
     }
 
-    public UUID delete(UUID id) {
-        jdbcTemplate.update(DELETE_VOUCHER.getMessage(), id.toString().getBytes());
-        return id;
+    public int delete(UUID id) {
+        return jdbcTemplate.update(DELETE_VOUCHER.getMessage(), id.toString().getBytes());
     }
 
     private void fileToDb() {

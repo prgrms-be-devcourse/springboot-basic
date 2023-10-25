@@ -273,3 +273,33 @@ Discount amount : 30000
 23:35:04.377 [main] INFO  c.p.v.r.customer.CustomerRepository -- customer_id: 0d143e52-9030-43bc-b8d0-24bbf46eace7
 23:35:04.378 [main] INFO  c.p.v.r.customer.CustomerRepository -- name : 벤티
 23:35:04.379 [main] INFO  c.p.v.r.customer.CustomerRepository -- year_of_birth: 1990
+23:55:27.246 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+23:58:28.739 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+23:58:28.745 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 6afcd1f4-9961-4467-9f9c-2795890bb00f
+Discount Type : fixed discount
+Discount amount : 20000
+
+23:58:28.837 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+23:58:28.852 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+23:58:28.854 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : e254bf83-77f2-40c3-a47e-60ed742006de
+Discount Type : fixed discount
+Discount amount : 20000
+
+23:58:28.856 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 0a5bdee9-fa3f-4e6a-ac5d-3c555a14d23c
+Discount Type : percent discount
+Discount percent : 10
+
+23:58:28.902 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+23:59:34.524 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+23:59:44.690 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+23:59:44.696 [main] INFO  c.p.v.service.VoucherService -- Voucher 정보 :
+Id : 905012b2-1bda-4420-a867-89b70b5c6ee5
+Discount Type : fixed discount
+Discount amount : 20000
+
+23:59:44.787 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+23:59:44.803 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository
+23:59:44.837 [main] INFO  c.p.v.service.VoucherService -- voucher 리포지토리 모드: class com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository

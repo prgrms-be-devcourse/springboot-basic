@@ -63,11 +63,7 @@ class VoucherJdbcRepositoryTest {
     }
     @AfterEach
     void afterEach() {
-        repository.delete(UUID.fromString("c80f7d69-5033-423c-b7d2-a11e7ee936dd"));
-        repository.delete(UUID.fromString("a2fe49e3-900d-4632-b3c1-0b6b25dd555e"));
-        repository.delete(UUID.fromString("c3ce5fc7-5673-4c80-81e2-1dac1a409489"));
-        repository.delete(voucher1.getId());
-        repository.delete(voucher2.getId());
+        template.execute("delete from vouchers;");
     }
     @Test
     @DisplayName("create")
@@ -106,8 +102,7 @@ class VoucherJdbcRepositoryTest {
     @Test
     @DisplayName("delete")
     void delete() {
-        UUID deleteId = repository.delete(voucher2.getId());
-        Assertions.assertThat(deleteId).isEqualTo(voucher2.getId());
+        Assertions.assertThat(repository.delete(voucher2.getId())).isEqualTo(1);
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

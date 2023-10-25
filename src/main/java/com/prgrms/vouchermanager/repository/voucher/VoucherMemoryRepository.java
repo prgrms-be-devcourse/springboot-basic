@@ -39,7 +39,7 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
-    public UUID delete(UUID id) {
-        return null;
+    public int delete(UUID id) {
+        return 0;
     }
 }

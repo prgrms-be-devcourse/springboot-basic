@@ -60,16 +60,9 @@ class WalletRepositoryTest {
     }
     @AfterEach
     void afterEach() {
-        repository.delete(wallet1.getCustomerId(), wallet1.getVoucherId());
-        repository.delete(wallet2.getCustomerId(), wallet2.getVoucherId());
-
-        voucherJdbcRepository.delete(UUID.fromString("c80f7d69-5033-423c-b7d2-a11e7ee936dd"));
-        voucherJdbcRepository.delete(UUID.fromString("a2fe49e3-900d-4632-b3c1-0b6b25dd555e"));
-        voucherJdbcRepository.delete(UUID.fromString("c3ce5fc7-5673-4c80-81e2-1dac1a409489"));
-
-        customerRepository.delete(UUID.fromString("70754a2f-d87d-4f69-af71-1d4bfe855e28"));
-        customerRepository.delete(UUID.fromString("626b8d5d-3940-4a0d-a3e4-fe6b297e8ad0"));
-        customerRepository.delete(UUID.fromString("8213dfa7-d577-4bb5-86d6-0159b3383f0e"));
+        template.execute("delete from wallets;");
+        template.execute("delete from customers;");
+        template.execute("delete from vouchers;");
     }
 
     @Test

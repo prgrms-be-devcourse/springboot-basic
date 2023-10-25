@@ -13,5 +13,5 @@ public interface VoucherRepository {
 
     void updateDiscount(UUID id, int discount);
 
-    UUID delete(UUID id);
+    int delete(UUID id);
 }
