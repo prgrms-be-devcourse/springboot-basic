@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -33,8 +34,7 @@ public class CustomerService {
 
     @Transactional
     public Customer updateBlacklistStatus(CustomerUpdateBlacklistRequest customerUpdateBlacklistRequest) {
-        Customer customer = customerRepository.findById(customerUpdateBlacklistRequest.getId())
-                .orElseThrow(() -> CustomerException.of(CustomerErrorMessage.NOT_FOUND))
+        Customer customer = this.findById(customerUpdateBlacklistRequest.getId())
                 .updateBlacklistStatus(customerUpdateBlacklistRequest.isBlacklisted());
 
         if (customerRepository.update(customer) == 0) {
@@ -42,5 +42,10 @@ public class CustomerService {
         }
 
         return customer;
+    }
+
+    public Customer findById(UUID customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> CustomerException.of(CustomerErrorMessage.NOT_FOUND));
     }
 }
