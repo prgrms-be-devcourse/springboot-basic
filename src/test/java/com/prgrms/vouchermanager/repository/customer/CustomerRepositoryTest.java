@@ -11,13 +11,10 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.UUID;
 
 @SpringJUnitConfig
 class CustomerRepositoryTest {

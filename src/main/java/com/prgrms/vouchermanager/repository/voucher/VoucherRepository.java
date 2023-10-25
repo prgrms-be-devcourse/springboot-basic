@@ -9,7 +9,7 @@ public interface VoucherRepository {
     Voucher create(Voucher voucher);
     List<Voucher> list();
 
-    public Voucher findById(UUID id);
+    Voucher findById(UUID id);
 
     Voucher updateDiscount(UUID id, int discount);
 
