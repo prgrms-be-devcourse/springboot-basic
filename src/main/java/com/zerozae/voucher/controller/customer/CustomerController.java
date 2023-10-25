@@ -34,7 +34,7 @@ public class CustomerController {
     }
 
     public Response findAllBlacklistCustomers(){
-        List<CustomerResponse> blacklistCustomer = customerService.findAllBlacklistCustomer();
+        List<CustomerResponse> blacklistCustomer = customerService.findAllBlacklistCustomers();
         return Response.success(blacklistCustomer);
     }
 

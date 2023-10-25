@@ -8,7 +8,7 @@ public class InputValidator {
     private static final String KOREAN_ALPHABET_PATTERN = "^[a-z|A-Z|ㄱ-ㅎ|ㅏ-ㅣ|가-힣|_]*$";
     private static final String NUMBER_PATTERN = "-?\\d+";
 
-    public static Long validateInputDiscount(String input) {
+    public static Long validateInputNumber(String input) {
         if (input != null && input.matches(NUMBER_PATTERN)) {
             return Long.valueOf(input);
         } else {

@@ -6,7 +6,6 @@ import com.zerozae.voucher.dto.customer.CustomerRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.repository.customer.CustomerRepository;
-import com.zerozae.voucher.repository.customer.FileCustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +40,7 @@ public class CustomerService {
                 .toList();
     }
 
-    public List<CustomerResponse> findAllBlacklistCustomer() {
+    public List<CustomerResponse> findAllBlacklistCustomers() {
         return customerRepository.findAll()
                 .stream()
                 .filter(customer -> customer.getCustomerType().equals(CustomerType.BLACKLIST))
