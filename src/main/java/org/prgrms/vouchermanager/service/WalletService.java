@@ -41,4 +41,6 @@ public class WalletService {
         voucherRepository.findByID(voucher.getVoucherId()).orElseThrow(NotExistEmailException::new);
         return walletRepository.findByVoucher(voucher);
     }
+
+
 }
