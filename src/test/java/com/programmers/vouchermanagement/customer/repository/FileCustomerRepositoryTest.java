@@ -44,7 +44,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("저장된 블랙리스트 csv파일을 성공적으로 읽고 로드한다")
     void testLoadingBlacklistFileOnInit() {
         assertThat(customerRepository, notNullValue());
-        assertThat(appProperties.getCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
+        assertThat(appProperties.getCSVCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
 
         //when
         final List<Customer> blacklist = customerRepository.findBlackCustomers();

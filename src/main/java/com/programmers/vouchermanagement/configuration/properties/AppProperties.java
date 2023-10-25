@@ -19,11 +19,18 @@ public class AppProperties {
         this.domains = domains;
     }
 
-    public String getCustomerFilePath() {
+    public String getCSVCustomerFilePath() {
         if (isInBuild()) {
-            return getCustomerBuildFilePath();
+            return getCustomerCSVBuildFilePath();
         }
-        return resources.path() + domains.customer().fileName();
+        return resources.path() + domains.customer().csvFileName();
+    }
+
+    public String getJSONCustomerFilePath() {
+        if (isInBuild()) {
+            return getCustomerJSONBuildFilePath();
+        }
+        return resources.path() + domains.customer().jsonFileName();
     }
 
     public String getVoucherFilePath() {
@@ -33,8 +40,12 @@ public class AppProperties {
         return resources.path() + domains.voucher().fileName();
     }
 
-    private String getCustomerBuildFilePath() {
-        return getBuildDirectory() + resources.buildPath() + domains.customer().fileName();
+    private String getCustomerCSVBuildFilePath() {
+        return getBuildDirectory() + resources.buildPath() + domains.customer().csvFileName();
+    }
+
+    private String getCustomerJSONBuildFilePath() {
+        return getBuildDirectory() + resources.buildPath() + domains.customer().jsonFileName();
     }
 
     private String getVoucherBuildFilePath() {
