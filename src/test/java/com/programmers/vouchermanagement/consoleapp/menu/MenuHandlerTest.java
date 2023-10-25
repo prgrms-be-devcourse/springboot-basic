@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.controller.CustomerController;
+import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
@@ -186,5 +187,25 @@ class MenuHandlerTest {
         verify(consoleManager).printReadBlacklist(blacklist);
     }
 
+    @Test
+    @DisplayName("저장된 고객이 있을 때 블랙리스트 조회를 성공한다.")
+    void testHandleMenuSuccessful_ReadBlacklist() {
+        //given
+        final Customer firstCustomer = new Customer(UUID.randomUUID(), "test-user1");
+        final Customer secondCustomer = new Customer(UUID.randomUUID(), "test-user2");
+        final CustomerResponse firstResponse = CustomerResponse.from(firstCustomer);
+        final CustomerResponse secondResponse = CustomerResponse.from(secondCustomer);
+        final List<CustomerResponse> blacklist = List.of(firstResponse, secondResponse);
+        doReturn(Menu.BLACKLIST).when(consoleManager).selectMenu();
+        doReturn(blacklist).when(customerController).readBlacklist();
 
+        //when
+        final boolean isRunning = menuHandler.handleMenu();
+
+        //then
+        assertThat(isRunning, is(true));
+
+        //verify
+        verify(consoleManager).printReadBlacklist(blacklist);
+    }
 }
