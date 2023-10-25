@@ -1,6 +1,9 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -17,12 +20,18 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
+        return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
         return vouchers.values().stream().toList();
+    }
+
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
     }
 }

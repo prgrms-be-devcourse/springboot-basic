@@ -51,14 +51,22 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
         saveFile();
+        return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        return vouchers.values().stream().toList();
+        return vouchers.values()
+                .stream()
+                .toList();
+    }
+
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
     }
 
     private void loadFile() {
