@@ -4,6 +4,7 @@ import com.weeklyMission.member.domain.Member;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -25,6 +26,11 @@ public class ConsoleIO {
         return sc.nextInt();
     }
 
+    private UUID getId(){
+        System.out.print(">");
+        return UUID.fromString(sc.next());
+    }
+
     public String printSelectMode(){
         System.out.println("=== Select Program ===" + System.lineSeparator()
             + "Type voucher to Voucher Mode." + System.lineSeparator()
@@ -37,7 +43,9 @@ public class ConsoleIO {
     public String printSelectVoucherFunction(){
         System.out.println("=== Voucher Mode ===" + System.lineSeparator()
             + "Type create to create a new voucher." + System.lineSeparator()
-            + "Type list to list all vouchers."  + System.lineSeparator());
+            + "Type list to list all vouchers."  + System.lineSeparator()
+            + "Type find to list find voucher by id."  + System.lineSeparator()
+            + "Type delete to list delete voucher by id."  + System.lineSeparator());
 
         return getCommand();
     }
@@ -50,6 +58,12 @@ public class ConsoleIO {
         return getCommand();
     }
 
+    public Integer printAmountCommand(){
+        System.out.println("=== Voucher Amount ===" + System.lineSeparator());
+
+        return getAmount();
+    }
+
     public void printSuccessCreate(VoucherResponse voucherResponse){
         System.out.println(voucherResponse.toString() + "create Success");
     }
@@ -59,10 +73,19 @@ public class ConsoleIO {
         voucherList.forEach(v-> System.out.println(v.toString() + System.lineSeparator()));
     }
 
-    public Integer printAmountCommand(){
-        System.out.println("=== Voucher Amount ===" + System.lineSeparator());
+    public UUID printCommandId(){
+        System.out.println("=== Command Id ===" + System.lineSeparator());
 
-        return getAmount();
+        return getId();
+    }
+
+    public void printSuccessGet(VoucherResponse voucherResponse){
+        System.out.println("=== Voucher ===");
+        System.out.println(voucherResponse.toString());
+    }
+
+    public void printSuccessDelete(){
+        System.out.println("=== Complete DeleteVoucher ===");
     }
 
     public String printSelectMemberFunction(){

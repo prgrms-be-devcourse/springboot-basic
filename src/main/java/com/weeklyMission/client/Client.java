@@ -16,6 +16,8 @@ public class Client {
     private static final String MEMBER = "member";
     private static final String CREATE = "create";
     private static final String LIST = "list";
+    private static final String FIND = "find";
+    private static final String DELETE = "delete";
     private static final String EXIT = "exit";
 
     private final ConsoleIO consoleIOHandler;
@@ -58,8 +60,18 @@ public class Client {
                 consoleIOHandler.printSuccessCreate(voucherDto);
             }
             case LIST -> {
-                List<VoucherResponse> voucherListDto = voucherController.getVoucherList();
+                List<VoucherResponse> voucherListDto = voucherController.findAll();
                 consoleIOHandler.printSuccessGetAllList(voucherListDto);
+            }
+            case FIND -> {
+                UUID id = consoleIOHandler.printCommandId();
+                VoucherResponse voucherResponse = voucherController.findById(id);
+                consoleIOHandler.printSuccessGet(voucherResponse);
+            }
+            case DELETE -> {
+                UUID id = consoleIOHandler.printCommandId();
+                voucherController.deleteById(id);
+                consoleIOHandler.printSuccessDelete();
             }
             default -> {
                 throw new IncorrectInputException("function", function, "목록에 있는 것들 중 선택하세요.");
