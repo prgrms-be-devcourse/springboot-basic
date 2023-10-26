@@ -139,4 +139,22 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThat(vouchers, hasSize(greaterThanOrEqualTo(1)));
     }
+
+    @Test
+    @Order(8)
+    @DisplayName("바우처 정보 수정을 성공한다.")
+    void testVoucherUpdateSuccessful() {
+        //given
+        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        voucherRepository.save(voucher);
+        final Voucher foundVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
+
+        //when
+        final Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), new BigDecimal(5000), voucher.getVoucherType());
+        voucherRepository.save(updatedVoucher);
+        final Voucher newlyFoundVoucher = voucherRepository.findById(foundVoucher.getVoucherId()).get();
+
+        //then
+        assertThat(newlyFoundVoucher, samePropertyValuesAs(updatedVoucher));
+    }
 }
