@@ -1,6 +1,6 @@
 package com.programmers.springbasic.command.wallet;
 
-import static com.programmers.springbasic.enums.MessageConstants.*;
+import static com.programmers.springbasic.constants.MessageConstants.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,10 +10,8 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.controller.CustomerController;
 import com.programmers.springbasic.controller.VoucherController;
 import com.programmers.springbasic.dto.CustomerDto;
-import com.programmers.springbasic.entity.customer.Customer;
 
 @Component
 public class GetCustomersByVoucher implements Command {

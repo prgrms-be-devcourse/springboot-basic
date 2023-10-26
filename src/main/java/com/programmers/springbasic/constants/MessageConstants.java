@@ -1,4 +1,4 @@
-package com.programmers.springbasic.enums;
+package com.programmers.springbasic.constants;
 
 public final class MessageConstants {
 	public static final String PERCENT_PROMPT = "Percent : ";

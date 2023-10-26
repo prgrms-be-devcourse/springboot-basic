@@ -1,6 +1,6 @@
 package com.programmers.springbasic.command.wallet;
 
-import static com.programmers.springbasic.enums.MessageConstants.*;
+import static com.programmers.springbasic.constants.MessageConstants.*;
 
 import java.util.UUID;
 

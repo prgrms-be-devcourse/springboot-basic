@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.programmers.springbasic.enums.ErrorCode;
+import com.programmers.springbasic.constants.ErrorCode;
 
 @Component
 public class FileUtils {

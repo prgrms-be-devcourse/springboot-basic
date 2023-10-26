@@ -2,7 +2,7 @@ package com.programmers.springbasic.entity.voucher;
 
 import java.util.UUID;
 
-import com.programmers.springbasic.enums.ErrorCode;
+import com.programmers.springbasic.constants.ErrorCode;
 
 public class FixedAmountVoucher extends Voucher {
 

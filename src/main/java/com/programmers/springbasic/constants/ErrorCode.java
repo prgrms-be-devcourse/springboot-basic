@@ -1,4 +1,4 @@
-package com.programmers.springbasic.enums;
+package com.programmers.springbasic.constants;
 
 public enum ErrorCode {
 	INVALID_COMMAND_TYPE("메뉴 선택이 잘못되었습니다"),

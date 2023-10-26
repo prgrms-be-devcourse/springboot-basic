@@ -2,7 +2,7 @@ package com.programmers.springbasic.entity.voucher;
 
 import java.util.Arrays;
 
-import com.programmers.springbasic.enums.ErrorCode;
+import com.programmers.springbasic.constants.ErrorCode;
 
 public enum VoucherType {
 	FIXED_AMOUNT("fixed"), PERCENT_DISCOUNT("percent");

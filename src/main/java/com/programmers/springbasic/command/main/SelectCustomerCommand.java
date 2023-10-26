@@ -1,6 +1,6 @@
 package com.programmers.springbasic.command.main;
 
-import static com.programmers.springbasic.enums.MessageConstants.*;
+import static com.programmers.springbasic.constants.MessageConstants.*;
 
 import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.enums.CustomerCommandType;
+import com.programmers.springbasic.constants.CustomerCommandType;
 
 @Component
 public class SelectCustomerCommand implements Command {

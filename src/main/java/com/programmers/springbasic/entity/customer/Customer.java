@@ -1,6 +1,6 @@
 package com.programmers.springbasic.entity.customer;
 
-import static com.programmers.springbasic.enums.ErrorCode.*;
+import static com.programmers.springbasic.constants.ErrorCode.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

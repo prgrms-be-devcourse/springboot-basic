@@ -1,6 +1,6 @@
-package com.programmers.springbasic.enums;
+package com.programmers.springbasic.constants;
 
-import static com.programmers.springbasic.enums.ErrorCode.*;
+import static com.programmers.springbasic.constants.ErrorCode.*;
 
 import java.util.Arrays;
 

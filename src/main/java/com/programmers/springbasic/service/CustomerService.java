@@ -1,6 +1,6 @@
 package com.programmers.springbasic.service;
 
-import static com.programmers.springbasic.enums.ErrorCode.*;
+import static com.programmers.springbasic.constants.ErrorCode.*;
 
 import java.time.LocalDateTime;
 import java.util.List;

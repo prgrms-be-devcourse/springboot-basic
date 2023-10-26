@@ -1,6 +1,6 @@
 package com.programmers.springbasic.repository.wallet;
 
-import static com.programmers.springbasic.enums.ErrorCode.*;
+import static com.programmers.springbasic.constants.ErrorCode.*;
 
 import java.util.List;
 import java.util.UUID;
