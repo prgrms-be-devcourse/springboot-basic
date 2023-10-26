@@ -1,6 +1,7 @@
 package com.programmers.springbasic.service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,18 +37,20 @@ public class VoucherService {
 		return voucherRepository.insert(request.toEntity(UUID.randomUUID()));
 	}
 
-	public Voucher getVoucherDetail(String voucherId) {
-		return voucherRepository.findById(UUID.fromString(voucherId)).orElseThrow();
+	public Voucher getVoucherDetail(UUID voucherId) {
+		return voucherRepository.findById(voucherId).orElseThrow();
 	}
 
 	public Voucher updateVoucher(UUID uuid, long newDiscountValue) {
-		Voucher voucher = voucherRepository.findById(uuid).orElseThrow(); //todo throw Exception
+		Voucher voucher = voucherRepository.findById(uuid).orElseThrow(() ->
+			new NoSuchElementException("Voucher not found")
+		);
 		voucher.changeDiscountValue(newDiscountValue);
 		return voucherRepository.update(voucher);
 	}
 
-	public void deleteVoucher(String voucherId) {
-		Voucher voucher = voucherRepository.findById(UUID.fromString(voucherId)).orElseThrow();
+	public void deleteVoucher(UUID voucherId) {
+		Voucher voucher = voucherRepository.findById(voucherId).orElseThrow();
 		voucherRepository.deleteById(voucher.getVoucherId());
 	}
 }

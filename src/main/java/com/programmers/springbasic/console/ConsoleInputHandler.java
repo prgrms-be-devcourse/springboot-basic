@@ -1,6 +1,7 @@
 package com.programmers.springbasic.console;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -19,12 +20,19 @@ public class ConsoleInputHandler {
 	}
 
 	public long readLong() {
-		long value;
 		try {
-			value = Long.parseLong(scanner.nextLine().strip());
+			return Long.parseLong(scanner.nextLine().strip());
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(ErrorCode.INVALID_NUMBER.getMessage());
 		}
-		return value;
 	}
+
+	public UUID readUUID() {
+		try {
+			return UUID.fromString(scanner.nextLine().strip());
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(ErrorCode.INVALID_UUID.getMessage());
+		}
+	}
+
 }

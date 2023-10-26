@@ -1,7 +1,6 @@
 package com.programmers.springbasic.controller;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
@@ -31,15 +30,31 @@ public class CustomerController {
 		return customerService.getAllCustomers();
 	}
 
-	public Customer getCustomerById(String customerId) {
-		return customerService.getCustomerById(UUID.fromString(customerId));
+	public Customer getCustomerById(UUID customerId) {
+		return customerService.getCustomerById(customerId);
 	}
 
-	public Customer updateCustomer(String customerId, String nameToUpdate) {
-		return customerService.updateCustomer(customerId,nameToUpdate);
+	public Customer updateCustomer(UUID customerId, String nameToUpdate) {
+		return customerService.updateCustomer(customerId, nameToUpdate);
 	}
 
-	public Customer deleteCustomer(String customerId) {
+	public Customer deleteCustomer(UUID customerId) {
 		return customerService.deleteCustomer(customerId);
+	}
+
+	public void assignVoucherToCustomer(UUID customerId, UUID voucherId) {
+		customerService.assignVoucherToCustomer(customerId, voucherId);
+	}
+
+	public Customer getVouchersByCustomer(UUID customerId) {
+		return customerService.getVouchersByCustomer(customerId);
+	}
+
+	public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
+		customerService.removeVoucherFromCustomer(customerId, voucherId);
+	}
+
+	public List<Customer> getCustomersByVoucher(UUID voucherId) {
+		return customerService.getCustomersByVoucher(voucherId);
 	}
 }

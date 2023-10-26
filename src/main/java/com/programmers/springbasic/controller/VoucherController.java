@@ -33,15 +33,15 @@ public class VoucherController {
 		return voucherService.getVouchers();
 	}
 
-	public Voucher getVoucherDetail(String voucherId) {
+	public Voucher getVoucherDetail(UUID voucherId) {
 		return voucherService.getVoucherDetail(voucherId);
 	}
 
-	public Voucher updateVoucher(UUID uuid, long newDiscountValue) {
-		return voucherService.updateVoucher(uuid, newDiscountValue);
+	public Voucher updateVoucher(UUID voucherId, long newDiscountValue) {
+		return voucherService.updateVoucher(voucherId, newDiscountValue);
 	}
 
-	public void deleteVoucher(String voucherId) {
+	public void deleteVoucher(UUID voucherId) {
 		voucherService.deleteVoucher(voucherId);
 	}
 }

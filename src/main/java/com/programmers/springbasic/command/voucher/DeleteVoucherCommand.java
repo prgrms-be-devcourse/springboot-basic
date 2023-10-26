@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.voucher;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.command.Command;
@@ -24,7 +26,7 @@ public class DeleteVoucherCommand implements Command {
 	@Override
 	public void execute() {
 		consoleOutputHandler.printIdPrompt();
-		String UuidInput = consoleInputHandler.readString();
-		voucherController.deleteVoucher(UuidInput);
+		UUID uuidInput = consoleInputHandler.readUUID();
+		voucherController.deleteVoucher(uuidInput);
 	}
 }

@@ -1,6 +1,7 @@
 package com.programmers.springbasic.command.wallet;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -26,8 +27,8 @@ public class GetCustomersByVoucher implements Command {
 	@Override
 	public void execute() {
 		consoleOutputHandler.printObject("바우처 아이디 : ");
-		String voucherId = consoleInputHandler.readString();
-		List<Customer> customerList = customerController.getCustomersByVoucher(voucherId);
+		UUID uuidInput = consoleInputHandler.readUUID();
+		List<Customer> customerList = customerController.getCustomersByVoucher(uuidInput);
 		consoleOutputHandler.printList(customerList);
 	}
 }

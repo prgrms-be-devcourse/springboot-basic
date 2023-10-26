@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.voucher;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.command.Command;
@@ -25,8 +27,8 @@ public class GetVoucherDetailCommand implements Command {
 	@Override
 	public void execute() {
 		consoleOutputHandler.printIdPrompt();
-		String UuidInput = consoleInputHandler.readString();
-		Voucher voucher = voucherController.getVoucherDetail(UuidInput);
+		UUID uuidInput = consoleInputHandler.readUUID();
+		Voucher voucher = voucherController.getVoucherDetail(uuidInput);
 		consoleOutputHandler.printObject(voucher);
 	}
 }

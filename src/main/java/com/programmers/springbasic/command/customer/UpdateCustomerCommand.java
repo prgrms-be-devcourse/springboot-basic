@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.customer;
 
+import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.command.Command;
@@ -25,7 +27,7 @@ public class UpdateCustomerCommand implements Command {
 	@Override
 	public void execute() {
 		consoleOutputHandler.printIdPrompt();
-		String uuidInput = consoleInputHandler.readString();
+		UUID uuidInput = consoleInputHandler.readUUID();
 		consoleOutputHandler.printObject("name : ");
 		String nameInput = consoleInputHandler.readString();
 		customerController.updateCustomer(uuidInput, nameInput);

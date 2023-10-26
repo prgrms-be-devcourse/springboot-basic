@@ -1,6 +1,7 @@
 package com.programmers.springbasic.command.voucher;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -29,7 +30,7 @@ public class UpdateVoucherCommand implements Command {
 	@Override
 	public void execute() {
 		consoleOutputHandler.printIdPrompt();
-		String uuidInput = consoleInputHandler.readString();
+		UUID uuidInput = consoleInputHandler.readUUID();
 
 		// Voucher 조회 로직 (voucherController 혹은 적절한 서비스를 사용)
 		Voucher voucher = voucherController.getVoucherDetail(uuidInput);
