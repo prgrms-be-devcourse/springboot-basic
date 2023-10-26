@@ -134,7 +134,7 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         //when
-        List<Voucher> vouchers = voucherRepository.findAll();
+        final List<Voucher> vouchers = voucherRepository.findAll();
 
         //then
         assertThat(vouchers, hasSize(greaterThanOrEqualTo(1)));

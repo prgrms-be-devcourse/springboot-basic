@@ -25,6 +25,7 @@ import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 @Profile("jdbc")
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> mapToVoucher(resultSet);
+
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -42,13 +43,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        final String findAllSQL = "SELECT * FROM vouchers";
+        String findAllSQL = "SELECT * FROM vouchers";
         return namedParameterJdbcTemplate.query(findAllSQL, voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        final String findByIdSQL = "SELECT * FROM vouchers WHERE voucher_id=UUID_TO_BIN(:voucherId)";
+        String findByIdSQL = "SELECT * FROM vouchers WHERE voucher_id=UUID_TO_BIN(:voucherId)";
         Map<String, Object> parameterMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
         try {
             return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(findByIdSQL, parameterMap, voucherRowMapper));
@@ -59,7 +60,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        final String deleteSQL = "DELETE FROM vouchers WHERE voucher_id=UUID_TO_BIN(:voucherId)";
+        String deleteSQL = "DELETE FROM vouchers WHERE voucher_id=UUID_TO_BIN(:voucherId)";
         Map<String, Object> parameteMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
         namedParameterJdbcTemplate.update(deleteSQL, parameteMap);
     }
@@ -70,13 +71,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private int insert(Voucher voucher) {
-        final String saveSQL = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
+        String saveSQL = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
         Map<String, Object> parameterMap = toParameterMap(voucher);
         return namedParameterJdbcTemplate.update(saveSQL, parameterMap);
     }
 
     private int update(Voucher voucher) {
-        final String updateSQL = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+        String updateSQL = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)";
         Map<String, Object> parameterMap = toParameterMap(voucher);
         return namedParameterJdbcTemplate.update(updateSQL, parameterMap);
     }
