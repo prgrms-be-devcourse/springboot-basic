@@ -19,10 +19,10 @@ public class WalletConsoleView extends CommonConsoleView{
                 .read("""
                          
                          === Wallet Menu ===
-                        Type **add** to create a new voucher.
+                        Type **add** to add voucher to customer.
                         Type **customer list** to list customers own some voucher.
                         Type **voucher list** to list vouchers owned by some customer.
-                        Type **delete** to delete voucher.
+                        Type **delete** to delete voucher from customer.
                         Type **exit** to exit the menu.
                         """);
 

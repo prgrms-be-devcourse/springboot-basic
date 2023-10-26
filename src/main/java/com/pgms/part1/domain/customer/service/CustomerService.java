@@ -46,7 +46,7 @@ public class CustomerService {
             Customer customer = new CustomerBuilder().id(keyGenerator.getKey()).name(dto.name())
                     .email(dto.email()).build();
             customerRepository.addCustomer(customer);
-            log.info("customer created -> {}", customer);
+            log.info("customer created -> {}", customer.getId());
         }
         catch (Exception e){
             log.error(e.getMessage());
