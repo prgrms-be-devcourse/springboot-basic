@@ -4,10 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.weeklyMission.voucher.domain.FixedAmountVoucher;
 import com.weeklyMission.voucher.domain.Voucher;
-import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -15,8 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 @TestInstance(Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class FileVoucherRepositoryTest {
@@ -25,7 +21,7 @@ class FileVoucherRepositoryTest {
 
     @BeforeAll
     void init(){
-        fileVoucherRepository = new FileVoucherRepository("/src/main/resources/csv/voucherRepository.csv");
+        fileVoucherRepository = new FileVoucherRepository("/src/test/resources/csv/voucherRepository.csv");
         fileVoucherRepository.init();
     }
 
