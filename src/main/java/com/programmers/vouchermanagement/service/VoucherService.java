@@ -6,11 +6,13 @@ import com.programmers.vouchermanagement.dto.voucher.CreateVoucherRequestDto;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 

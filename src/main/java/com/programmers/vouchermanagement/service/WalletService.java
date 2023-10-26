@@ -10,11 +10,13 @@ import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class WalletService {
     private final WalletRepository walletRepository;
     private final CustomerRepository customerRepository;
