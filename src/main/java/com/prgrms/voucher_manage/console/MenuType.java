@@ -15,6 +15,8 @@ public enum MenuType {
 
     UPDATE_VOUCHER("updateVoucher"),
 
+    DELETE_VOUCHER("deleteVoucher"),
+
 
     SAVE_CUSTOMER("saveCustomer"),
 
