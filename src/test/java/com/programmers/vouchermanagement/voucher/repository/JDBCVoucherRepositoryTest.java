@@ -84,6 +84,22 @@ class JDBCVoucherRepositoryTest {
         assertThat(jdbcVoucherRepository.findById(voucher.getVoucherId()).isEmpty()).isTrue();
     }
 
+    @Test
+    @Order(6)
+    @DisplayName("바우처를 업데이트 할 수 있다.")
+    void updateVoucherSucceed() {
+        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
+        jdbcVoucherRepository.save(voucher);
+
+        Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), BigDecimal.valueOf(100), VoucherType.PERCENT);
+        jdbcVoucherRepository.update(updatedVoucher);
+
+        Optional<Voucher> retrievedVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
+        assertThat(retrievedVoucher.isEmpty()).isFalse();
+        assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(updatedVoucher.getDiscountValue());
+        assertThat(retrievedVoucher.get().getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());
+    }
+
     @Configuration
     @ComponentScan(
             basePackages = {"com.programmers.vouchermanagement.voucher.repository"}
