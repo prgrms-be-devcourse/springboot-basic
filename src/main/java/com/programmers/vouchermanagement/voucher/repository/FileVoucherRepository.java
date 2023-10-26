@@ -59,12 +59,13 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void delete(UUID id) {
-        vouchers.remove(id);
+        Optional.ofNullable(vouchers.remove(id)).orElseThrow(() -> new RuntimeException("Noting was deleted"));
         saveFile();
     }
 
     @Override
     public void update(Voucher voucher) {
+        Optional.ofNullable(vouchers.get(voucher.getVoucherId())).orElseThrow(() -> new RuntimeException("Noting was updated"));
         vouchers.put(voucher.getVoucherId(), voucher);
         saveFile();
     }
