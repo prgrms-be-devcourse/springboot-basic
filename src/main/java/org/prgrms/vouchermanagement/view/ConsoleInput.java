@@ -1,10 +1,13 @@
 package org.prgrms.vouchermanagement.view;
 
-import org.prgrms.vouchermanagement.dto.VoucherInfo;
+import org.prgrms.vouchermanagement.dto.VoucherCreateInfo;
+import org.prgrms.vouchermanagement.dto.VoucherUpdateInfo;
+import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
 import org.prgrms.vouchermanagement.exception.InvalidInputException;
 import org.prgrms.vouchermanagement.voucher.PolicyStatus;
 
 import java.util.Scanner;
+import java.util.UUID;
 
 public class ConsoleInput {
 
@@ -17,7 +20,7 @@ public class ConsoleInput {
         return validateAndConvertToCommand(inputCommand);
     }
 
-    public VoucherInfo createVoucherInput() {
+    public VoucherCreateInfo createVoucherInput() {
         consoleOutput.getInput();
         String inputPolicy = scanner.nextLine();
         PolicyStatus policy = validateAndConvertPolicy(inputPolicy);
@@ -25,7 +28,41 @@ public class ConsoleInput {
         consoleOutput.getInput();
         String inputAmountOrPercent = scanner.nextLine();
         long amountOrPercent = validateAndConvertAmountOrPercent(inputAmountOrPercent);
-        return new VoucherInfo(policy, amountOrPercent);
+        return new VoucherCreateInfo(policy, amountOrPercent);
+    }
+
+    public VoucherUpdateInfo updateVoucherInput() {
+        consoleOutput.getInput();
+        UUID voucherId = UUID.fromString(scanner.nextLine());
+
+        consoleOutput.getInput();
+        String inputAmountOrPercent = scanner.nextLine();
+        long amountOrPercent = validateAndConvertAmountOrPercent(inputAmountOrPercent);
+        return new VoucherUpdateInfo(voucherId, amountOrPercent);
+    }
+
+    public WalletCreateInfo createWalletInput() {
+        consoleOutput.getInput();
+        UUID customerId = UUID.fromString(scanner.nextLine());
+
+        consoleOutput.getInput();
+        UUID voucherId = UUID.fromString(scanner.nextLine());
+        return new WalletCreateInfo(customerId, voucherId);
+    }
+
+    public UUID findAllVouchersByCustomerId() {
+        consoleOutput.getInput();
+        return UUID.fromString(scanner.nextLine());
+    }
+
+    public UUID deleteVoucherByCustomerId() {
+        consoleOutput.getInput();
+        return UUID.fromString(scanner.nextLine());
+    }
+
+    public UUID findCustomerByVoucherId() {
+        consoleOutput.getInput();
+        return UUID.fromString(scanner.nextLine());
     }
 
     private Command validateAndConvertToCommand(String inputCommand) {
