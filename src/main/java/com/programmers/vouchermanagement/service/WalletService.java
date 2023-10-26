@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class WalletService {
@@ -26,7 +27,13 @@ public class WalletService {
         return walletRepository.findAll(request);
     }
 
-    public void deleteWallet(int id) {
+    public void deleteWallet(int id, UUID customerId) {
+        Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found wallet"));
+
+        if(!wallet.getCustomerId().equals(customerId)) {
+            throw new SecurityException("Forbidden");
+        }
+
         walletRepository.deleteById(id);
     }
 }
