@@ -1,13 +1,12 @@
 package team.marco.vouchermanagementsystem.application;
 
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import team.marco.vouchermanagementsystem.service.BlacklistService;
 import team.marco.vouchermanagementsystem.service.VoucherService;
 import team.marco.vouchermanagementsystem.util.Console;
-
-import java.util.List;
 
 @Component
 public class ConsoleApplication {

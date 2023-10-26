@@ -1,8 +1,8 @@
 package team.marco.vouchermanagementsystem.model;
 
-import java.util.UUID;
-
 import static java.text.MessageFormat.format;
+
+import java.util.UUID;
 
 public class User {
     private final UUID id;

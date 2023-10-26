@@ -1,10 +1,9 @@
 package team.marco.vouchermanagementsystem.service;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 import team.marco.vouchermanagementsystem.model.User;
 import team.marco.vouchermanagementsystem.repository.BlacklistRepository;
-
-import java.util.List;
 
 @Service
 public class BlacklistService {

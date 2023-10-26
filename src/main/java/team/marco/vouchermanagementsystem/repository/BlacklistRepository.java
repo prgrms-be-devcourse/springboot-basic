@@ -1,9 +1,5 @@
 package team.marco.vouchermanagementsystem.repository;
 
-import org.springframework.stereotype.Repository;
-import team.marco.vouchermanagementsystem.model.User;
-import team.marco.vouchermanagementsystem.properties.FilePathProperties;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -13,6 +9,9 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.stereotype.Repository;
+import team.marco.vouchermanagementsystem.model.User;
+import team.marco.vouchermanagementsystem.properties.FilePathProperties;
 
 @Repository
 public class BlacklistRepository {
