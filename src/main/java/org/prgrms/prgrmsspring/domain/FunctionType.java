@@ -7,10 +7,6 @@ import org.prgrms.prgrmsspring.controller.VoucherController;
 import org.prgrms.prgrmsspring.controller.WalletController;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.exception.NotFoundException;
-import org.prgrms.prgrmsspring.service.CustomerService;
-import org.prgrms.prgrmsspring.service.VoucherService;
-import org.prgrms.prgrmsspring.service.WalletService;
-import org.prgrms.prgrmsspring.view.CommandLineView;
 import org.springframework.context.ApplicationContext;
 
 import java.util.Arrays;
@@ -18,21 +14,9 @@ import java.util.function.Function;
 
 public enum FunctionType {
     EXIT(0, null),
-    CUSTOMER(1, applicationContext -> {
-        CustomerService customerService = applicationContext.getBean(CustomerService.class);
-        CommandLineView commandLineView = applicationContext.getBean(CommandLineView.class);
-        return new CustomerController(commandLineView, customerService);
-    }),
-    VOUCHER(2, applicationContext -> {
-        VoucherService voucherService = applicationContext.getBean(VoucherService.class);
-        CommandLineView commandLineView = applicationContext.getBean(CommandLineView.class);
-        return new VoucherController(commandLineView, voucherService);
-    }),
-    WALLET(3, applicationContext -> {
-        WalletService walletService = applicationContext.getBean(WalletService.class);
-        CommandLineView commandLineView = applicationContext.getBean(CommandLineView.class);
-        return new WalletController(commandLineView, walletService);
-    });
+    CUSTOMER(1, applicationContext -> applicationContext.getBean(CustomerController.class)),
+    VOUCHER(2, applicationContext -> applicationContext.getBean(VoucherController.class)),
+    WALLET(3, applicationContext -> applicationContext.getBean(WalletController.class));
 
     @Getter
     private final int modeNumber;
