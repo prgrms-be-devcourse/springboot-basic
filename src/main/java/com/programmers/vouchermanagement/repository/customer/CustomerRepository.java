@@ -22,5 +22,5 @@ public interface CustomerRepository {
 
     Customer update(Customer customer);
 
-    void delete(UUID id);
+    int delete(UUID id);
 }

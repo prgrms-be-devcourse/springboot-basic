@@ -43,7 +43,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID id) {
         String sql = "SELECT * FROM customer WHERE id = UUID_TO_BIN(:id)";
-        SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
+        SqlParameterSource namedParameters = new MapSqlParameterSource("id", id.toString());
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, namedParameters, (resultSet, i) -> mapToCustomer(resultSet)));
     }
 
@@ -69,7 +69,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer save(Customer customer) {
         String sql = "INSERT INTO customer (id, name, created_at, is_banned) VALUES (UUID_TO_BIN(:id), :name, :createdAt, :isBanned)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("id", customer.getId())
+                .addValue("id", customer.getId().toString())
                 .addValue("name", customer.getName())
                 .addValue("createdAt", customer.getCreatedAt())
                 .addValue("isBanned", customer.isBanned());
@@ -83,7 +83,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer update(Customer customer) {
         String sql = "UPDATE customer SET name = :name, created_at = :createdAt, is_banned = :isBanned WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("id", customer.getId())
+                .addValue("id", customer.getId().toString())
                 .addValue("name", customer.getName())
                 .addValue("createdAt", customer.getCreatedAt())
                 .addValue("isBanned", customer.isBanned());
@@ -94,12 +94,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     @Transactional
-    public void delete(UUID id) {
+    public int delete(UUID id) {
         String sql = "DELETE FROM customer WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("id", id);
+                .addValue("id", id.toString());
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
         logger.debug("Affected Row on delete: {}", affectedRow);
+        return affectedRow;
     }
 
     private Customer mapToCustomer(ResultSet resultSet) throws SQLException {

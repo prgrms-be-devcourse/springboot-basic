@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -67,9 +66,6 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        if (isCustomerPresent(customer.getId())) {
-            throw new IllegalArgumentException("Customer already exists");
-        }
         customers.put(customer.getId(), customer);
         updateFile();
         return customer;
@@ -77,21 +73,14 @@ public class FileCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        if (!isCustomerPresent(customer.getId())) {
-            throw new NoSuchElementException("Customer not found");
-        }
-        customers.put(customer.getId(), customer);
-        updateFile();
-        return customer;
+        return save(customer);
     }
 
     @Override
-    public void delete(UUID id) {
-        if (!isCustomerPresent(id)) {
-            throw new NoSuchElementException();
-        }
-        customers.remove(id);
+    public int delete(UUID id) {
+        Customer customer = customers.remove(id);
         updateFile();
+        return customer != null ? 1 : 0;
     }
 
     private void readCustomerFile() {
@@ -129,9 +118,5 @@ public class FileCustomerRepository implements CustomerRepository {
         } catch (IOException e) {
             logger.error("Error occurred af FileWriter: ", e);
         }
-    }
-
-    private boolean isCustomerPresent(UUID id) {
-        return customers.containsKey(id);
     }
 }
