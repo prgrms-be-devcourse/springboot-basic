@@ -21,6 +21,8 @@ public class JDBCVoucherRepository implements VoucherRepository {
     private static final String INSERT_QUERY = "INSERT INTO test.vouchers(id, type, discount_value) VALUES (UUID_TO_BIN(:id), :type, :discountValue)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
     private static final String FIND_ALL_QUERY = "SELECT * FROM test.vouchers";
+    private static final String DELETE_VOUCHER_QUERY = "DELETE FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
+    private static final String UPDATE_VOUCHER_QUERY = "UPDATE test.vouchers SET type = :type, discount_value = :discountValue WHERE id = UUID_TO_BIN(:id)";
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID id = toUUID(resultSet.getBytes("id"));
         BigDecimal discountValue = resultSet.getBigDecimal("discount_value");
@@ -28,7 +30,6 @@ public class JDBCVoucherRepository implements VoucherRepository {
 
         return new Voucher(id, discountValue, VoucherType.valueOf(voucherTypeStr));
     };
-    private static final String DELETE_VOUCHER_QUERY = "DELETE FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JDBCVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -76,6 +77,13 @@ public class JDBCVoucherRepository implements VoucherRepository {
         int update = jdbcTemplate.update(DELETE_VOUCHER_QUERY, Collections.singletonMap("id", id.toString().getBytes()));
         if (update != 1) {
             throw new RuntimeException("Noting was deleted");
+        }
+    }
+
+    public void update(Voucher voucher) {
+        int update = jdbcTemplate.update(UPDATE_VOUCHER_QUERY, toParamMap(voucher));
+        if (update != 1) {
+            throw new RuntimeException("Noting was updated");
         }
     }
 }
