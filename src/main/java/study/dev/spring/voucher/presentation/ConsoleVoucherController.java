@@ -22,8 +22,15 @@ public class ConsoleVoucherController {
 		ioProcessor.outputSuccessCreateMessage();
 	}
 
-	public void findAllVouchers() {
+	public void getAllVouchers() {
 		List<VoucherInfo> vouchersInfos = voucherService.getAllVouchers();
 		ioProcessor.outputVoucherInfo(vouchersInfos);
+	}
+
+	public void getVouchersByCustomer() {
+		String customerId = ioProcessor.inputCustomerId();
+
+		List<VoucherInfo> result = voucherService.getVouchersByCustomer(customerId);
+		ioProcessor.outputVoucherInfo(result);
 	}
 }

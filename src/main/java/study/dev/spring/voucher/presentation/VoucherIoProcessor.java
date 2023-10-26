@@ -42,6 +42,11 @@ public class VoucherIoProcessor {
 		return converter.convertToCreateRequest(sb.toString());
 	}
 
+	public String inputCustomerId() {
+		outputHandler.showSystemMessage(INPUT_CUSTOMER_ID.getValue());
+		return inputHandler.inputString();
+	}
+
 	public void outputSuccessCreateMessage() {
 		outputHandler.showSystemMessage("바우처를 성공적으로 생성되었습니다!");
 	}
