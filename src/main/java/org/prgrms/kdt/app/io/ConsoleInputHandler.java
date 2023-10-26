@@ -1,9 +1,10 @@
-package org.prgrms.kdt.app.configuration.io;
+package org.prgrms.kdt.app.io;
+
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ConsoleInputHandler implements InputHandler{
@@ -14,4 +15,10 @@ public class ConsoleInputHandler implements InputHandler{
     public String inputString() throws IOException {
         return br.readLine();
     }
+
+    @Override
+    public int inputInt() throws IOException {
+        return Integer.parseInt(br.readLine());
+    }
+
 }
