@@ -25,7 +25,7 @@ import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.util.JSONFileManager;
 
 @Repository
-@Profile({"prod", "test"})
+@Profile({"file", "test"})
 public class FileCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final String COMMA_SEPARATOR = ", ";

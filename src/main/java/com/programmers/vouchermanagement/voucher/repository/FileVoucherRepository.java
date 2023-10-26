@@ -18,7 +18,7 @@ import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
 @Repository
-@Profile({"prod", "test"})
+@Profile({"file", "test"})
 public class FileVoucherRepository implements VoucherRepository {
     //constants
     private static final String VOUCHER_ID_KEY = "voucher_id";
