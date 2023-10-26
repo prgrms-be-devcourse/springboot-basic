@@ -52,6 +52,23 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers.values().stream().toList();
     }
 
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.ofNullable(vouchers.get(id));
+    }
+
+    @Override
+    public void delete(UUID id) {
+        vouchers.remove(id);
+        saveFile();
+    }
+
+    @Override
+    public void update(Voucher voucher) {
+        vouchers.put(voucher.getVoucherId(), voucher);
+        saveFile();
+    }
+
     private void loadFile() {
         try {
             File file = new File(filePath);
