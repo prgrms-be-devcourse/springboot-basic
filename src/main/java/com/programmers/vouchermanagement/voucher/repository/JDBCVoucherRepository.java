@@ -28,6 +28,7 @@ public class JDBCVoucherRepository implements VoucherRepository {
 
         return new Voucher(id, discountValue, VoucherType.valueOf(voucherTypeStr));
     };
+    private static final String DELETE_VOUCHER_QUERY = "DELETE FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JDBCVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -68,6 +69,13 @@ public class JDBCVoucherRepository implements VoucherRepository {
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
+        }
+    }
+
+    public void delete(UUID id) {
+        int update = jdbcTemplate.update(DELETE_VOUCHER_QUERY, Collections.singletonMap("id", id.toString().getBytes()));
+        if (update != 1) {
+            throw new RuntimeException("Noting was deleted");
         }
     }
 }
