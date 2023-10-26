@@ -3,7 +3,6 @@ package com.programmers.springbasic.service;
 import static com.programmers.springbasic.enums.ErrorCode.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -11,7 +10,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.programmers.springbasic.dto.GetBlacklistCustomersResponse;
+import com.programmers.springbasic.dto.CustomerDto;
+import com.programmers.springbasic.dto.VoucherDto;
 import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.repository.customer.BlacklistCustomerRepository;
@@ -36,39 +36,45 @@ public class CustomerService {
 		this.blacklistCustomerRepository = blacklistCustomerRepository;
 	}
 
-	public List<GetBlacklistCustomersResponse> getBlacklistCustomers() {
+	public List<CustomerDto> getBlacklistCustomers() {
 		List<Customer> blacklistCustomers = blacklistCustomerRepository.getBlacklistCustomers();
 		return blacklistCustomers.stream()
-			.map(GetBlacklistCustomersResponse::new)
+			.map(CustomerDto::from)
 			.collect(Collectors.toList());
 	}
 
-	public Customer createCustomer(String name, String email) {
-		return customerRepository.insert(new Customer(UUID.randomUUID(), name, email, LocalDateTime.now()));
+	public CustomerDto createCustomer(String name, String email) {
+		Customer customer = customerRepository.insert(
+			new Customer(UUID.randomUUID(), name, email, LocalDateTime.now()));
+		return CustomerDto.from(customer);
 	}
 
-	public List<Customer> getAllCustomers() {
-		return customerRepository.findAll();
+	public List<CustomerDto> getAllCustomers() {
+		List<Customer> customers = customerRepository.findAll();
+		return customers.stream()
+			.map(CustomerDto::from)
+			.collect(Collectors.toList());
 	}
 
-	public Customer getCustomerById(UUID customerId) {
-		return customerRepository.findById(customerId)
+	public CustomerDto getCustomerById(UUID customerId) {
+		Customer customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new NoSuchElementException(CUSTOMER_NOT_FOUND.getMessage()));
+		return CustomerDto.from(customer);
 	}
 
-	public Customer updateCustomer(UUID customerId, String nameToUpdate) {
+	public CustomerDto updateCustomer(UUID customerId, String nameToUpdate) {
 		Customer customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new NoSuchElementException(CUSTOMER_NOT_FOUND.getMessage()));
 		customer.changeName(nameToUpdate);
 		customerRepository.update(customer);
-		return customer;
+		return CustomerDto.from(customer);
 	}
 
-	public Customer deleteCustomer(UUID customerId) {
+	public CustomerDto deleteCustomer(UUID customerId) {
 		Customer customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new NoSuchElementException(CUSTOMER_NOT_FOUND.getMessage()));
 		customerRepository.deleteById(customer.getId());
-		return customer;
+		return CustomerDto.from(customer);
 	}
 
 	public void assignVoucherToCustomer(UUID customerId, UUID voucherId) {
@@ -80,13 +86,16 @@ public class CustomerService {
 		walletRepository.insertVoucherForCustomer(customer.getId(), voucher.getVoucherId());
 	}
 
-	public List<Voucher> getVouchersByCustomer(UUID customerId) {
+	public List<VoucherDto> getVouchersByCustomer(UUID customerId) {
 		Customer customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new NoSuchElementException(CUSTOMER_NOT_FOUND.getMessage()));
 
 		List<UUID> voucherIds = walletRepository.findVoucherIdsByCustomerId(customer.getId());
 
-		return voucherRepository.findAllById(voucherIds);
+		List<Voucher> vouchers = voucherRepository.findAllById(voucherIds);
+		return vouchers.stream()
+			.map(VoucherDto::from)
+			.collect(Collectors.toList());
 	}
 
 	public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {

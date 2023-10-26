@@ -9,11 +9,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.programmers.springbasic.dto.CreateFixedAmountVoucherRequest;
-import com.programmers.springbasic.dto.CreatePercentDiscountVoucherRequest;
-import com.programmers.springbasic.dto.GetVouchersResponse;
+import com.programmers.springbasic.dto.CustomerDto;
+import com.programmers.springbasic.dto.VoucherDto;
 import com.programmers.springbasic.entity.customer.Customer;
+import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
+import com.programmers.springbasic.entity.voucher.PercentDiscountVoucher;
 import com.programmers.springbasic.entity.voucher.Voucher;
+import com.programmers.springbasic.entity.voucher.VoucherType;
 import com.programmers.springbasic.repository.customer.CustomerRepository;
 import com.programmers.springbasic.repository.voucher.VoucherRepository;
 import com.programmers.springbasic.repository.wallet.WalletRepository;
@@ -32,29 +34,32 @@ public class VoucherService {
 		this.walletRepository = walletRepository;
 	}
 
-	public List<GetVouchersResponse> getVouchers() {
+	public List<VoucherDto> getVouchers() {
 		List<Voucher> vouchers = voucherRepository.findAll();
-		return vouchers.stream().map(GetVouchersResponse::new).collect(Collectors.toList());
+		return vouchers.stream().map(VoucherDto::from).collect(Collectors.toList());
 	}
 
-	public Voucher createPercentDiscountVoucher(CreatePercentDiscountVoucherRequest request) {
-		return voucherRepository.insert(request.toEntity(UUID.randomUUID()));
+	public VoucherDto createVoucher(VoucherType voucherType, long discountValue) {
+		Voucher voucher = switch (voucherType) {
+			case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), discountValue);
+			case PERCENT_DISCOUNT -> new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
+		};
+		voucherRepository.insert(voucher);
+		return VoucherDto.from(voucher);
 	}
 
-	public Voucher createFixedAmountVoucher(CreateFixedAmountVoucherRequest request) {
-		return voucherRepository.insert(request.toEntity(UUID.randomUUID()));
-	}
-
-	public Voucher getVoucherDetail(UUID voucherId) {
-		return voucherRepository.findById(voucherId)
+	public VoucherDto getVoucherDetail(UUID voucherId) {
+		Voucher voucher = voucherRepository.findById(voucherId)
 			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
+		return VoucherDto.from(voucher);
 	}
 
-	public Voucher updateVoucher(UUID uuid, long newDiscountValue) {
+	public VoucherDto updateVoucher(UUID uuid, long newDiscountValue) {
 		Voucher voucher = voucherRepository.findById(uuid)
 			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
 		voucher.changeDiscountValue(newDiscountValue);
-		return voucherRepository.update(voucher);
+		voucherRepository.update(voucher);
+		return VoucherDto.from(voucher);
 	}
 
 	public void deleteVoucher(UUID voucherId) {
@@ -63,12 +68,16 @@ public class VoucherService {
 		voucherRepository.deleteById(voucher.getVoucherId());
 	}
 
-	public List<Customer> getCustomersByVoucher(UUID voucherId) {
+	public List<CustomerDto> getCustomersByVoucher(UUID voucherId) {
 		Voucher voucher = voucherRepository.findById(voucherId)
 			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
 
 		List<UUID> customerIds = walletRepository.findCustomerIdsByVoucherId(voucher.getVoucherId());
 
-		return customerRepository.findAllById(customerIds);
+		List<Customer> customers = customerRepository.findAllById(customerIds);
+		return customers.stream()
+			.map(CustomerDto::from)
+			.collect(Collectors.toList());
 	}
+
 }

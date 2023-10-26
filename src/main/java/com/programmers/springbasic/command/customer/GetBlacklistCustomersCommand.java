@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
-import com.programmers.springbasic.dto.GetBlacklistCustomersResponse;
+import com.programmers.springbasic.dto.CustomerDto;
 
 @Component
 public class GetBlacklistCustomersCommand implements Command {
@@ -23,7 +23,7 @@ public class GetBlacklistCustomersCommand implements Command {
 
 	@Override
 	public void execute() {
-		List<GetBlacklistCustomersResponse> blacklistCustomers = customerController.getBlacklistCustomers();
+		List<CustomerDto> blacklistCustomers = customerController.getBlacklistCustomers();
 		consoleOutputHandler.printList(blacklistCustomers);
 	}
 }

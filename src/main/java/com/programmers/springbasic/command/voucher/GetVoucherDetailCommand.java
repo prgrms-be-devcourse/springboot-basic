@@ -10,6 +10,7 @@ import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.VoucherController;
+import com.programmers.springbasic.dto.VoucherDto;
 import com.programmers.springbasic.entity.voucher.Voucher;
 
 @Component
@@ -30,7 +31,7 @@ public class GetVoucherDetailCommand implements Command {
 	public void execute() {
 		consoleOutputHandler.print(VOUCHER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
-		Voucher voucher = voucherController.getVoucherDetail(uuidInput);
+		VoucherDto voucher = voucherController.getVoucherDetail(uuidInput);
 		consoleOutputHandler.print(voucher);
 	}
 }

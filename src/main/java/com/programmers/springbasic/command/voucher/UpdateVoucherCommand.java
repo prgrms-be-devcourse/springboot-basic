@@ -10,9 +10,8 @@ import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.VoucherController;
-import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
-import com.programmers.springbasic.entity.voucher.PercentDiscountVoucher;
-import com.programmers.springbasic.entity.voucher.Voucher;
+import com.programmers.springbasic.dto.VoucherDto;
+import com.programmers.springbasic.entity.voucher.VoucherType;
 
 @Component
 public class UpdateVoucherCommand implements Command {
@@ -31,19 +30,19 @@ public class UpdateVoucherCommand implements Command {
 	@Override
 	public void execute() {
 		consoleOutputHandler.print(VOUCHER_ID_PROMPT);
-		UUID uuidInput = consoleInputHandler.readUUID();
+		UUID voucherId = consoleInputHandler.readUUID();
 
-		Voucher voucher = voucherController.getVoucherDetail(uuidInput);
+		VoucherDto voucher = voucherController.getVoucherDetail(voucherId);
 		consoleOutputHandler.print(voucher);
 
-		if (voucher instanceof FixedAmountVoucher) {
+		if (voucher.voucherType() == VoucherType.FIXED_AMOUNT) {
 			consoleOutputHandler.print(NEW_AMOUNT_PROMPT);
 			long newAmount = consoleInputHandler.readLong();
-			voucherController.updateVoucher(voucher.getVoucherId(), newAmount);
-		} else if (voucher instanceof PercentDiscountVoucher) {
+			voucherController.updateVoucher(voucherId, newAmount);
+		} else if (voucher.voucherType() == VoucherType.PERCENT_DISCOUNT) {
 			consoleOutputHandler.print(NEW_PERCENT_PROMPT);
 			long newPercent = consoleInputHandler.readLong();
-			voucherController.updateVoucher(voucher.getVoucherId(), newPercent);
+			voucherController.updateVoucher(voucherId, newPercent);
 		}
 	}
 

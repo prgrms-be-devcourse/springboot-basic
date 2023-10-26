@@ -12,6 +12,7 @@ import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
 import com.programmers.springbasic.controller.VoucherController;
+import com.programmers.springbasic.dto.CustomerDto;
 import com.programmers.springbasic.entity.customer.Customer;
 
 @Component
@@ -31,7 +32,7 @@ public class GetCustomersByVoucher implements Command {
 	public void execute() {
 		consoleOutputHandler.print(VOUCHER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
-		List<Customer> customerList = voucherController.getCustomersByVoucher(uuidInput);
+		List<CustomerDto> customerList = voucherController.getCustomersByVoucher(uuidInput);
 		consoleOutputHandler.printList(customerList);
 	}
 }

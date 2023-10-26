@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.VoucherController;
-import com.programmers.springbasic.dto.GetVouchersResponse;
+import com.programmers.springbasic.dto.VoucherDto;
 
 @Component
 public class GetAllVouchersCommand implements Command {
@@ -22,7 +22,7 @@ public class GetAllVouchersCommand implements Command {
 
 	@Override
 	public void execute() {
-		List<GetVouchersResponse> vouchers = voucherController.getVouchers();
+		List<VoucherDto> vouchers = voucherController.getVouchers();
 		consoleOutputHandler.printList(vouchers);
 	}
 }

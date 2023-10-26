@@ -5,10 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.command.Command;
-import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
-import com.programmers.springbasic.entity.customer.Customer;
+import com.programmers.springbasic.dto.CustomerDto;
 
 @Component
 public class GetAllCustomersCommand implements Command {
@@ -23,7 +22,7 @@ public class GetAllCustomersCommand implements Command {
 
 	@Override
 	public void execute() {
-		List<Customer> customers = customerController.getAllCustomers();
+		List<CustomerDto> customers = customerController.getAllCustomers();
 		consoleOutputHandler.printList(customers);
 	}
 }

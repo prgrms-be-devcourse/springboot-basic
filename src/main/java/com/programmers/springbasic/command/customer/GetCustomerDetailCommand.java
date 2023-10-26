@@ -10,7 +10,7 @@ import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
-import com.programmers.springbasic.entity.customer.Customer;
+import com.programmers.springbasic.dto.CustomerDto;
 
 @Component
 public class GetCustomerDetailCommand implements Command {
@@ -30,7 +30,7 @@ public class GetCustomerDetailCommand implements Command {
 	public void execute() {
 		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
-		Customer customer = customerController.getCustomerById(uuidInput);
+		CustomerDto customer = customerController.getCustomerById(uuidInput);
 		consoleOutputHandler.print(customer);
 	}
 }
