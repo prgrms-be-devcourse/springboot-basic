@@ -67,6 +67,18 @@ class JDBCVoucherRepositoryTest {
         assertThat(vouchers.isEmpty()).isFalse();
     }
 
+    @Test
+    @Order(5)
+    @DisplayName("바우처를 아이디로 삭제할 수 있다.")
+    void deleteVoucherSucceed() {
+        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
+        jdbcVoucherRepository.save(voucher);
+
+        jdbcVoucherRepository.delete(voucher.getVoucherId());
+
+        assertThat(jdbcVoucherRepository.findById(voucher.getVoucherId()).isEmpty()).isTrue();
+    }
+
     @Configuration
     @ComponentScan(
             basePackages = {"com.programmers.vouchermanagement.voucher.repository"}
