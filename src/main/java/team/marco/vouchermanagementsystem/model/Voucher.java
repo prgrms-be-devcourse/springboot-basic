@@ -24,4 +24,13 @@ public abstract class Voucher {
 
     @JsonIgnore
     public abstract String getInfo();
+
+    @Override
+    public String toString() {
+        return "Voucher{" +
+                "id=" + id +
+                ", type=" + getType() +
+                ", data=" + getData() +
+                '}';
+    }
 }

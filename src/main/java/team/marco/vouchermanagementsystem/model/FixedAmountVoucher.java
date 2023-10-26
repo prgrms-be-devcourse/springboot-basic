@@ -3,11 +3,8 @@ package team.marco.vouchermanagementsystem.model;
 import static java.text.MessageFormat.format;
 
 import java.util.UUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class FixedAmountVoucher extends Voucher {
-    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
     private static final int MAXIMUM_AMOUNT = (int) 1e9;
     private static final int MINIMUM_AMOUNT = 1;
 
@@ -17,8 +14,6 @@ public class FixedAmountVoucher extends Voucher {
         validate(amount);
 
         this.amount = amount;
-
-        logger.debug("Create FixedAmountVoucher {id: {}, amount: {}}", id, amount);
     }
 
     public FixedAmountVoucher(UUID id, int amount) {
