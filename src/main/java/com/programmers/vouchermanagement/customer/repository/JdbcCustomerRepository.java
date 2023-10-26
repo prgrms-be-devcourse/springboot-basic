@@ -35,6 +35,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
         loadBlacklistToStorage();
     }
 
+    private static Customer mapToCustomer(ResultSet resultSet) throws SQLException {
+        final UUID customer_id = UUIDConverter.toUUID(resultSet.getBytes("customer_id"));
+        final String name = resultSet.getString("name");
+        final String customerTypeName = resultSet.getString("customer_type");
+        final CustomerType customerType = CustomerType.findCustomerType(customerTypeName);
+        return new Customer(customer_id, name, customerType);
+    }
+
     @Override
     public Customer save(Customer customer) {
         int savedVoucher = findById(customer.getCustomerId()).isEmpty() ? insert(customer) : update(customer);
@@ -89,7 +97,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private int update(Customer customer) {
-        return 0;
+        String updateSQL = "UPDATE customers SET name = :name, customer_type = :customerType WHERE customer_id = UUID_TO_BIN(:customerId)";
+        Map<String, Object> parameterMap = toParameterMap(customer);
+        return namedParameterJdbcTemplate.update(updateSQL, parameterMap);
     }
 
     private Map<String, Object> toParameterMap(Customer customer) {
@@ -99,13 +109,5 @@ public class JdbcCustomerRepository implements CustomerRepository {
         parameterMap.put("customerType", customer.getCustomerType().name());
 
         return Collections.unmodifiableMap(parameterMap);
-    }
-
-    private static Customer mapToCustomer(ResultSet resultSet) throws SQLException {
-        final UUID customer_id = UUIDConverter.toUUID(resultSet.getBytes("customer_id"));
-        final String name = resultSet.getString("name");
-        final String customerTypeName = resultSet.getString("customer_type");
-        final CustomerType customerType = CustomerType.findCustomerType(customerTypeName);
-        return new Customer(customer_id, name, customerType);
     }
 }
