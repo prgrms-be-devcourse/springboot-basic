@@ -8,6 +8,7 @@ import devcourse.springbootbasic.commandline.function.Function;
 import devcourse.springbootbasic.commandline.function.FunctionHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +22,8 @@ public class CommandLineExecutor implements CommandLineRunner {
     private final ConsoleIOHandler consoleIOHandler;
     private final FunctionHandler functionHandler;
 
-    private boolean isRunning = true;
+    @Value("${spring.myapp.execute-command-line-runner}")
+    private boolean isRunning;
 
     @Override
     public void run(String... args) {

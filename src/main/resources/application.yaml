@@ -10,6 +10,7 @@ spring:
     init:
       mode: always
   myapp:
+    execute-command-line-runner: true
     file-path:
       voucher: src/main/resources/voucher.csv
       customer: src/main/resources/customer.csv
