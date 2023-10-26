@@ -22,7 +22,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JdbcVoucherRepositoryTest {
     @Container
-    private static final MySQLContainer<?> mySQLContainer = new MySQLContainer<>()
+    private static final MySQLContainer<?> mySQLContainer = new MySQLContainer<>("mysql:latest")
             .withUsername("test")
             .withPassword("1234")
             .withInitScript("init.sql");
