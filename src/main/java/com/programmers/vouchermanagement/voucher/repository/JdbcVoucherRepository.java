@@ -33,13 +33,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        final String saveSQL = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
-        Map<String, Object> parameterMap = toParameterMap(voucher);
-        int savedVoucher = namedParameterJdbcTemplate.update(saveSQL, parameterMap);
+        int savedVoucher = findById(voucher.getVoucherId()).isEmpty() ? insert(voucher) : update(voucher);
         if (savedVoucher != 1) {
             throw new NoSuchElementException("Exception is raised while saving the voucher %s".formatted(voucher.getVoucherId()));
         }
-
         return voucher;
     }
 
@@ -68,6 +65,18 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
 
+    }
+
+    private int insert(Voucher voucher) {
+        final String saveSQL = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
+        Map<String, Object> parameterMap = toParameterMap(voucher);
+        return namedParameterJdbcTemplate.update(saveSQL, parameterMap);
+    }
+
+    private int update(Voucher voucher) {
+        final String updateSQL = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+        Map<String, Object> parameterMap = toParameterMap(voucher);
+        return namedParameterJdbcTemplate.update(updateSQL, parameterMap);
     }
 
     private Map<String, Object> toParameterMap(Voucher voucher) {
