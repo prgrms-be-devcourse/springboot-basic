@@ -1,0 +1,6 @@
+2023-10-23 05:58:38.327 ERROR 92065 --- [main] c.p.v.infra.input.BufferedReaderImpl     : input type은 [list, create, exit] 중 하나이어야 합니다.
+
+2023-10-23 05:58:39.160 ERROR 92065 --- [main] c.p.v.infra.input.BufferedReaderImpl     : input type은 [list, create, exit] 중 하나이어야 합니다.
+
+2023-10-23 05:58:43.664 ERROR 92065 --- [main] c.p.v.infra.input.BufferedReaderImpl     : input type은 [fixed, rate] 중 하나이어야 합니다.
+2023-10-23 05:58:44.469 ERROR 92065 --- [main] c.p.v.infra.input.BufferedReaderImpl     : input type은 [fixed, rate] 중 하나이어야 합니다.
