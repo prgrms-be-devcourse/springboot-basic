@@ -4,7 +4,7 @@ import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.util.UUIDUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Primary
+@Profile("prod")
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final String INSERT_QUERY = "INSERT INTO vouchers(voucher_id, discount_type, discount_value) VALUES(UUID_TO_BIN(?), ?, ?)";
     private static final String SELECT_ALL = "SELECT * FROM vouchers";
