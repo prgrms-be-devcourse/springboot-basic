@@ -7,6 +7,8 @@ import com.pgms.part1.domain.customer.entity.CustomerBuilder;
 import com.pgms.part1.domain.customer.repository.CustomerRepository;
 import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.util.keygen.KeyGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class CustomerService {
+    private final Logger log = LoggerFactory.getLogger(CustomerService.class);
     private final CustomerRepository customerRepository;
     private final KeyGenerator keyGenerator;
 
@@ -39,27 +42,58 @@ public class CustomerService {
     }
 
     public void addCustomer(CustomerCreateRequestDto dto){
-        Customer customer = new CustomerBuilder().id(keyGenerator.getKey()).name(dto.name())
-                .email(dto.email()).build();
-        customerRepository.addCustomer(customer);
+        try{
+            Customer customer = new CustomerBuilder().id(keyGenerator.getKey()).name(dto.name())
+                    .email(dto.email()).build();
+            customerRepository.addCustomer(customer);
+            log.info("customer created -> {}", customer);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+        }
     }
 
     public void updateCustomerName(Long id, String name){
-        customerRepository.updateCustomerName(id, name);
+        try{
+            customerRepository.updateCustomerName(id, name);
+            log.info("{} customer name updated");
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+        }
     }
 
     public void updateCustomerBlocked(Long id){
-        customerRepository.updateCustomerBlocked(id);
+        try{
+            customerRepository.updateCustomerBlocked(id);
+            log.info("{} customer blocked updated", id);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+        }
     }
 
     public void deleteCustomer(Long id){
-        customerRepository.deleteCustomer(id);
+        try{
+            customerRepository.deleteCustomer(id);
+            log.info("{} customer deleted", id);
+        }
+        catch (Exception e){
+            log.error(e.getMessage());
+        }
     }
 
     public List<CustomerResponseDto> listCustomersByWallets(List<Wallet> wallets) {
+        isCustomerOwnWallet(wallets);
+
         return customerRepository.listCustomersByWallets(wallets).stream().map(customer ->
                         new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked()))
                 .collect(Collectors.toList());
+    }
+
+    private static void isCustomerOwnWallet(List<Wallet> wallets) {
+        if(wallets.size() == 0)
+            throw new RuntimeException("해당 바우처를 소유한 고객이 없습니다.");
     }
 
     // todo 있는지 체크
