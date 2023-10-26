@@ -109,6 +109,27 @@ class VoucherRepositoryTest extends DataSourceTestSupport {
 		assertThat(actual).isEmpty();
 	}
 
+	@Test
+	@DisplayName("[아이디 리스트에 포함된 모든 바우처를 조회한다]")
+	void findByIds() {
+		//given
+		List<Voucher> vouchers = List.of(
+			voucherRepository.save(VoucherFixture.getFixedVoucher()),
+			voucherRepository.save(VoucherFixture.getPercentVoucher())
+		);
+
+		List<String> ids = vouchers.stream().map(Voucher::getUuid).toList();
+
+		//when
+		List<Voucher> actual = voucherRepository.findByIds(ids);
+
+		//then
+		assertThat(actual).hasSameSizeAs(vouchers);
+		for (int i = 0; i < actual.size(); i++) {
+			assertVoucher(actual.get(i), vouchers.get(i));
+		}
+	}
+
 	private void assertVoucher(Voucher actual, Voucher expected) {
 		assertAll(
 			() -> assertThat(actual.getUuid()).isEqualTo(expected.getUuid()),

@@ -9,6 +9,8 @@ public interface VoucherRepository {
 
 	Optional<Voucher> findById(String uuid);
 
+	List<Voucher> findByIds(List<String> ids);
+
 	List<Voucher> findAll();
 
 	void deleteById(String uuid);

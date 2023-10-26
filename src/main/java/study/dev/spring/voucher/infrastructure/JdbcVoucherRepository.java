@@ -25,6 +25,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	private static final String DELETE_BY_ID = "delete from Voucher v where v.uuid = :uuid";
 	private static final String FIND_ALL = "select * from Voucher";
 	private static final String FIND_BY_ID = "select * from Voucher v where v.uuid = :uuid";
+	private static final String FIND_BY_IDS = "select * from Voucher v where v.uuid in (:ids)";
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 	private final RowMapper<Voucher> rowMapper;
@@ -63,6 +64,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		} catch (EmptyResultDataAccessException e) {
 			return Optional.empty();
 		}
+	}
+
+	@Override
+	public List<Voucher> findByIds(List<String> ids) {
+		return jdbcTemplate.query(
+			FIND_BY_IDS,
+			Collections.singletonMap("ids", ids),
+			rowMapper
+		);
 	}
 
 	@Override

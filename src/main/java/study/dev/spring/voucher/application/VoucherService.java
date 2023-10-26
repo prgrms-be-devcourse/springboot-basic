@@ -7,11 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import study.dev.spring.voucher.application.dto.CreateVoucherRequest;
-import study.dev.spring.voucher.application.dto.VoucherMapper;
 import study.dev.spring.voucher.application.dto.VoucherInfo;
+import study.dev.spring.voucher.application.dto.VoucherMapper;
 import study.dev.spring.voucher.domain.Voucher;
 import study.dev.spring.voucher.domain.VoucherRepository;
 import study.dev.spring.voucher.domain.VoucherType;
+import study.dev.spring.wallet.domain.Wallet;
+import study.dev.spring.wallet.domain.WalletRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ import study.dev.spring.voucher.domain.VoucherType;
 public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
+	private final WalletRepository walletRepository;
 
 	@Transactional
 	public void createVoucher(final CreateVoucherRequest request) {
@@ -31,8 +34,20 @@ public class VoucherService {
 		voucherRepository.save(newVoucher);
 	}
 
-	public List<VoucherInfo> findAllVouchers() {
+	public List<VoucherInfo> getAllVouchers() {
 		return voucherRepository.findAll()
+			.stream()
+			.map(VoucherMapper::toVoucherInfo)
+			.toList();
+	}
+
+	public List<VoucherInfo> getVouchersByCustomer(String customerId) {
+		List<String> voucherIds = walletRepository.findByCustomerId(customerId)
+			.stream()
+			.map(Wallet::getVoucherId)
+			.toList();
+
+		return voucherRepository.findByIds(voucherIds)
 			.stream()
 			.map(VoucherMapper::toVoucherInfo)
 			.toList();

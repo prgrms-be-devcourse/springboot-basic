@@ -10,7 +10,7 @@ import study.dev.spring.voucher.fixture.VoucherFixture;
 public class VoucherServiceStub extends VoucherService {
 
 	public VoucherServiceStub() {
-		super(null);
+		super(null, null);
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class VoucherServiceStub extends VoucherService {
 	}
 
 	@Override
-	public List<VoucherInfo> findAllVouchers() {
+	public List<VoucherInfo> getAllVouchers() {
 		return List.of(VoucherFixture.getVoucherInfo(), VoucherFixture.getVoucherInfo());
 	}
 }

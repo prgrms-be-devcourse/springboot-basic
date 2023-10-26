@@ -23,7 +23,7 @@ public class ConsoleVoucherController {
 	}
 
 	public void findAllVouchers() {
-		List<VoucherInfo> vouchersInfos = voucherService.findAllVouchers();
+		List<VoucherInfo> vouchersInfos = voucherService.getAllVouchers();
 		ioProcessor.outputVoucherInfo(vouchersInfos);
 	}
 }

@@ -1,5 +1,7 @@
 package study.dev.spring.voucher.fixture;
 
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import study.dev.spring.voucher.application.dto.CreateVoucherRequest;
@@ -16,6 +18,10 @@ public final class VoucherFixture {
 
 	public static Voucher getFixedVoucher(String voucherId) {
 		return new Voucher(voucherId, "Fixed_Voucher", VoucherType.FIXED, 1000);
+	}
+
+	public static List<Voucher> getVouchers() {
+		return List.of(VoucherFixture.getFixedVoucher(), VoucherFixture.getFixedVoucher());
 	}
 
 	public static Voucher getPercentVoucher() {

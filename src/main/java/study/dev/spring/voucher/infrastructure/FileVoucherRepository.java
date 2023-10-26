@@ -60,6 +60,12 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
+	public List<Voucher> findByIds(List<String> ids) {
+		//구현 미룸
+		return null;
+	}
+
+	@Override
 	public List<Voucher> findAll() {
 		return new ArrayList<>(storage.values());
 	}
