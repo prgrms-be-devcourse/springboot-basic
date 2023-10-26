@@ -1,10 +1,11 @@
-package org.prgrms.kdtspringdemo.customer.repository;
+package org.prgrms.kdtspringdemo.wallet.repository;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
+import org.prgrms.kdtspringdemo.customer.repository.JdbcCustomerRepository;
+import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,7 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.List;
 
@@ -23,10 +24,10 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@ActiveProfiles("DB")
-class JdbcCustomerRepositoryTest {
+@ActiveProfiles({"DB"})
+class JdbcWalletRepositoryTest {
     @Configuration
-    @ComponentScan()
+    @ComponentScan(basePackages = {"org.prgrms.kdtspringdemo.wallet","org.prgrms.kdtspringdemo.customer"})
     static class Config {
         @Bean
         public DataSource dataSource() {
@@ -43,52 +44,37 @@ class JdbcCustomerRepositoryTest {
             return new JdbcTemplate(dataSource);
         }
     }
+    @Autowired
+    JdbcWalletRepository jdbcWalletRepository;
 
     @Autowired
-    private JdbcCustomerRepository jdbcCustomerRepository;
-
-    @BeforeEach
-    void init() {
-        jdbcCustomerRepository.deleteAll();
-    }
+    JdbcCustomerRepository jdbcCustomerRepository;
 
     @Test
-    @DisplayName("데이터베이스에 고객을 추가합니다.")
     void insert() {
         //given
         Customer customer = new Customer(UUID.randomUUID(), "tester01", true);
+        jdbcCustomerRepository.insert(customer);
+        List<UUID> vouchers = new ArrayList<>();
+        vouchers.add(UUID.randomUUID());
+        Wallet wallet = new Wallet(UUID.randomUUID(), customer.getCustomerId(), vouchers);
 
         //when
-        Customer insertCustomer = jdbcCustomerRepository.insert(customer);
+        Wallet insertWallet = jdbcWalletRepository.insert(wallet);
 
         //then
-        assertThat(customer, samePropertyValuesAs(insertCustomer));
+        assertThat(wallet.getWalletId(), is(insertWallet.getWalletId()));
     }
 
     @Test
-    @DisplayName("모든 블랙리스트 목록을 반환합니다.")
-    void getAllBlackList() throws IOException {
-        //given
-        jdbcCustomerRepository.insert(new Customer(UUID.randomUUID(), "tester01", true));
-        jdbcCustomerRepository.insert(new Customer(UUID.randomUUID(), "tester02", true));
-
-        //when
-        List<Customer> customerList = jdbcCustomerRepository.getAllBlackList().get();
-
-        //then
-        assertThat(customerList.size(), is(2));
+    void findAllVoucherByCustomerId() {
     }
 
     @Test
-    @DisplayName("고객이 없는 경우 NPE 발생 X")
-    void getAllCustomersNull() throws IOException {
-        //given
-        //none
+    void deleteVoucherByVoucherId() {
+    }
 
-        //when
-        List<Customer> customerList = jdbcCustomerRepository.getAllBlackList().get();
-
-        //then
-        assertThat(customerList.size(), is(0));
+    @Test
+    void findCustomerByVoucherId() {
     }
 }
