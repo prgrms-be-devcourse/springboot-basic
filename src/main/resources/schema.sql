@@ -1,7 +1,8 @@
 CREATE TABLE customers
 (
-    id   BINARY(16) PRIMARY KEY,
-    name varchar(20) NOT NULL,
+    id    BINARY(16) PRIMARY KEY,
+    name  varchar(20) NOT NULL,
+    black boolean     not null,
     CONSTRAINT name UNIQUE (name)
 );
 
