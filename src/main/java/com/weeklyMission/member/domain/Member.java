@@ -1,9 +1,8 @@
 package com.weeklyMission.member.domain;
 
-import java.util.UUID;
 
 public record Member(
-    Long voucherId,
+    Long memberId,
     String name,
     Integer age,
     String reason
