@@ -4,14 +4,3 @@ spring:
     url: jdbc:mysql://localhost:3308/order_mgmt
     username: root
     password: root1234!
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-
----
-spring:
-  config:
-    activate:
-      on-profile: prod

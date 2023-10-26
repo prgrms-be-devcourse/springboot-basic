@@ -10,7 +10,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,8 +22,8 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "insert into voucher(voucher_id, amount, type) values (UUID_TO_BIN(?),?,?)";
-        jdbcTemplate.update(sql,voucher.getId().toString().getBytes(), voucher.getDiscountAmount(), voucher.getType().getLabel());
+        String sql = "insert into voucher(voucher_id, amount, type) values (?,?,?)";
+        jdbcTemplate.update(sql,voucher.getId().toString(), voucher.getDiscountAmount(), voucher.getType().getLabel());
         return voucher;
     }
 
@@ -36,24 +35,24 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     @Override
     public Optional<Voucher> findById(UUID voucherId){
-        String sql = "select * from voucher where voucher_id = UUID_TO_BIN(?)";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,toBytes(voucherId)));
+        String sql = "select * from voucher where voucher_id = ?";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,voucherId.toString()));
     }
 
     @Override
     public int update(Voucher voucher){
-        String sql = "update voucher set amount = ? where voucher_id = UUID_TO_BIN(?)";
-        return jdbcTemplate.update(sql, voucher.getDiscountAmount(), toBytes(voucher.getId()));
+        String sql = "update voucher set amount = ? where voucher_id = ?";
+        return jdbcTemplate.update(sql, voucher.getDiscountAmount(), voucher.getId().toString());
     }
 
     @Override
     public int deleteById(UUID voucherId){
-        String sql = "delete from voucher where voucher_id = UUID_TO_BIN(?)";
-        return jdbcTemplate.update(sql, toBytes(voucherId));
+        String sql = "delete from voucher where voucher_id = ?";
+        return jdbcTemplate.update(sql, voucherId.toString());
     }
 
     private static final RowMapper<Voucher> rowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        UUID voucherId = UUID.fromString(resultSet.getString("voucher_id"));
         Long amount = resultSet.getLong("amount");
         String type = resultSet.getString("type");
 
@@ -67,14 +66,5 @@ public class JdbcVoucherRepository implements VoucherRepository{
         } else {
             return new PercentDiscountVoucher(voucherId, amount);
         }
-    }
-
-    static byte[] toBytes(UUID voucherId){
-        return voucherId.toString().getBytes();
-    }
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }
