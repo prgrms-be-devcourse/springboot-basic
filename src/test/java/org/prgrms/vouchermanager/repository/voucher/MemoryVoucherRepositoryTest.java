@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanager.repository;
+package org.prgrms.vouchermanager.repository.voucher;
 
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.DisplayName;

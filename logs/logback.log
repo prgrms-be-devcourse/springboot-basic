@@ -1,492 +1,109 @@
-[2023-10-25 00:00:12:754][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 17336 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:00:12:759][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
-[2023-10-25 00:00:12:1434][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 1.103 seconds (process running for 1.865)
-[2023-10-25 00:01:46:726][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 17196 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:01:46:730][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
-[2023-10-25 00:01:47:1475][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 1.177 seconds (process running for 1.893)
-[2023-10-25 00:01:54:9158][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:01:55:9414][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@561953e3
-[2023-10-25 00:01:55:9415][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:02:03:17604][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:02:03:17615][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:04:41:424][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:04:41:605][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:06:03:441][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:06:03:626][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:06:04:1130][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 14920 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:06:04:1131][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:06:05:2074][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.233 seconds (process running for 2.699)
-[2023-10-25 00:06:05:2107][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:06:05:2511][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@8bd076a
-[2023-10-25 00:06:05:2513][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:06:06:3475][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:06:06:3483][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:07:21:477][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:07:21:658][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:07:21:1129][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 28592 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:07:21:1130][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:07:22:2006][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.158 seconds (process running for 2.691)
-[2023-10-25 00:07:22:2041][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:07:23:2448][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@f25f48a
-[2023-10-25 00:07:23:2450][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:07:24:3572][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:07:24:3583][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:09:00:454][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:09:01:634][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:09:01:1155][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 28180 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:09:01:1156][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:09:02:2070][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.195 seconds (process running for 2.676)
-[2023-10-25 00:09:02:2103][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:09:03:2501][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@8bd076a
-[2023-10-25 00:09:03:2503][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:09:03:3479][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:09:03:3494][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:13:47:416][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:13:48:596][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:13:48:1070][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 26324 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:13:48:1071][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:13:49:1889][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.112 seconds (process running for 2.523)
-[2023-10-25 00:13:49:1918][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:13:49:2388][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@8bd076a
-[2023-10-25 00:13:49:2390][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:13:50:3349][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:13:50:3359][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:19:18:434][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:19:18:612][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:19:19:1087][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 23292 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:19:19:1088][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:19:20:2082][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.219 seconds (process running for 2.702)
-[2023-10-25 00:19:20:2127][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:19:20:2582][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1de4285e
-[2023-10-25 00:19:20:2583][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:19:21:3571][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:19:21:3583][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:20:52:393][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:20:53:566][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:20:53:1033][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 11984 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:20:53:1034][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:20:54:1948][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.19 seconds (process running for 2.515)
-[2023-10-25 00:20:54:1980][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:20:54:2343][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@8bd076a
-[2023-10-25 00:20:54:2345][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:20:55:3266][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:20:55:3275][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:22:00:409][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:22:00:620][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:22:01:1095][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 2256 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:22:01:1096][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:22:02:1953][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.134 seconds (process running for 2.545)
-[2023-10-25 00:22:02:1987][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:22:02:2363][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@8bd076a
-[2023-10-25 00:22:02:2365][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:22:03:3323][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:22:03:3334][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:24:08:451][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:24:08:662][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:24:08:1250][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 11948 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:24:08:1251][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:24:09:2138][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.217 seconds (process running for 2.727)
-[2023-10-25 00:24:09:2171][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:24:10:2562][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1de4285e
-[2023-10-25 00:24:10:2564][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:24:11:3531][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:24:11:3542][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:25:21:444][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:25:21:660][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:25:22:1198][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 27964 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:25:22:1199][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:25:23:2075][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.182 seconds (process running for 2.63)
-[2023-10-25 00:25:23:2104][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:25:23:2474][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1de4285e
-[2023-10-25 00:25:23:2476][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:25:24:3426][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:25:24:3437][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:49:08:381][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:49:08:544][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:49:09:1160][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 18448 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:49:09:1161][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:49:10:2047][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.285 seconds (process running for 2.676)
-[2023-10-25 00:49:10:2081][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:49:10:2476][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@f25f48a
-[2023-10-25 00:49:10:2478][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:49:11:3420][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:49:11:3430][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 00:49:38:446][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 00:49:38:651][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 00:49:39:1180][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 10148 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 00:49:39:1181][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 00:49:39:2058][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.203 seconds (process running for 2.727)
-[2023-10-25 00:49:39:2093][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 00:49:40:2522][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1de4285e
-[2023-10-25 00:49:40:2525][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 00:49:41:3551][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 00:49:41:3562][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 10:19:05:1032][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 7892 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 10:19:05:1035][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
-[2023-10-25 10:19:06:2140][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 1.739 seconds (process running for 2.706)
-[2023-10-25 10:19:57:52538][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 10:19:58:53504][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@493ac8d3
-[2023-10-25 10:19:58:53509][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 10:20:09:64833][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 10:20:09:64844][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 10:25:01:506][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 10:25:01:715][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-25 10:25:02:1380][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Starting JdbcCustomerRepositoryTest using Java 17.0.6 with PID 8780 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 10:25:02:1381][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 10:25:03:2547][main] INFO  o.p.v.r.c.JdbcCustomerRepositoryTest - Started JdbcCustomerRepositoryTest in 1.55 seconds (process running for 3.28)
-[2023-10-25 10:25:03:2591][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 10:25:04:3078][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5ccb85d6
-[2023-10-25 10:25:04:3081][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 10:25:05:4234][main] ERROR o.p.v.r.c.JdbcCustomerRepository - Not exists
-[2023-10-25 10:25:05:4344][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 10:25:05:4356][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 11:23:58:515][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 11:23:58:746][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 11:23:59:1434][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 27876 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 11:23:59:1435][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 11:24:00:2594][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.575 seconds (process running for 3.36)
-[2023-10-25 11:24:00:2637][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 11:24:00:3217][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@54336976
-[2023-10-25 11:24:00:3219][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 11:24:02:4569][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 11:24:02:4580][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 11:24:25:546][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 11:24:25:776][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 11:24:25:1387][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 22548 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 11:24:25:1388][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 11:24:27:2461][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.439 seconds (process running for 3.164)
-[2023-10-25 11:24:27:2504][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 11:24:27:2987][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@58ae402b
-[2023-10-25 11:24:27:2990][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 11:24:28:4179][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 11:24:28:4191][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 11:25:31:461][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 11:25:31:684][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 11:25:31:1308][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 23072 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 11:25:31:1310][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 11:25:32:2302][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.399 seconds (process running for 3.116)
-[2023-10-25 11:25:32:2348][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 11:25:33:2853][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6b4fc2d1
-[2023-10-25 11:25:33:2856][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 11:25:34:4027][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 11:25:34:4038][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 11:41:44:1365][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 11:41:45:2046][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 11:41:47:3839][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 21432 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 11:41:47:3850][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 11:41:50:6617][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 3.9 seconds (process running for 9.199)
-[2023-10-25 11:41:50:6737][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 11:41:51:7938][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@79eeff87
-[2023-10-25 11:41:51:7944][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 11:41:54:10786][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 11:41:54:10820][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 11:44:47:1069][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 11:44:47:1570][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 11:44:49:2928][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 1824 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 11:44:49:2930][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 11:44:51:5056][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.959 seconds (process running for 6.694)
-[2023-10-25 11:44:51:5157][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 11:44:52:6083][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1de4285e
-[2023-10-25 11:44:52:6090][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 11:44:54:8433][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 11:44:54:8449][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 11:46:49:660][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 11:46:49:1049][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 11:46:50:1867][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 14140 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 11:46:50:1869][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 11:46:51:3189][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.774 seconds (process running for 4.116)
-[2023-10-25 11:46:51:3258][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 11:46:52:3904][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@54336976
-[2023-10-25 11:46:52:3909][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 11:46:53:5483][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 11:46:53:5509][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 11:49:51:647][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 11:49:51:928][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 11:49:52:1801][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 26844 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 11:49:52:1802][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 11:49:53:3069][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.792 seconds (process running for 3.965)
-[2023-10-25 11:49:54:3130][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 11:49:54:3797][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@79eeff87
-[2023-10-25 11:49:54:3799][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 11:49:56:5304][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 11:49:56:5323][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 11:50:30:970][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 11:50:31:1432][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 11:50:32:2752][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 20892 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 11:50:32:2756][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 11:50:34:4826][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.88 seconds (process running for 6.271)
-[2023-10-25 11:50:34:4910][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 11:50:35:5766][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@429aeac1
-[2023-10-25 11:50:35:5771][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 11:50:37:7770][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 11:50:37:7790][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 12:05:48:405][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 12:05:48:599][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 12:05:48:1076][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 7372 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 12:05:48:1077][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 12:05:49:1892][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.09 seconds (process running for 2.473)
-[2023-10-25 12:05:49:1925][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 12:05:49:2343][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4099209b
-[2023-10-25 12:05:49:2345][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 12:05:50:3301][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-25 12:05:50:3386][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 12:05:51:3397][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 13:17:55:1471][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 13:17:55:1834][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 13:17:56:2991][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 12144 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 13:17:56:2994][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 13:17:59:5227][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 3.014 seconds (process running for 6.725)
-[2023-10-25 13:17:59:5297][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 13:18:00:6117][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@70a898b0
-[2023-10-25 13:18:00:6121][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 13:18:01:7715][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 13:18:01:7731][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 13:19:26:583][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 13:19:27:846][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 13:19:28:1639][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 10224 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 13:19:28:1641][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 13:19:29:2857][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.65 seconds (process running for 3.826)
-[2023-10-25 13:19:29:2902][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 13:19:29:3534][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@54336976
-[2023-10-25 13:19:29:3536][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 13:19:31:4972][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 13:19:31:4988][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 13:23:58:581][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 13:23:59:814][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 13:23:59:980][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher]: findByVoucher does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 13:23:59:988][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher
-[2023-10-25 13:23:59:1432][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 3412 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 13:23:59:1433][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 13:24:00:2583][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.519 seconds (process running for 3.415)
-[2023-10-25 13:24:01:2634][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 13:24:01:3127][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@474179fa
-[2023-10-25 13:24:01:3129][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 13:24:02:4289][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-25 13:24:02:4388][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 13:24:02:4403][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 13:40:14:462][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 13:40:14:638][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 13:40:15:788][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save]: save does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 13:40:15:794][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save
-[2023-10-25 13:40:15:1167][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 11620 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 13:40:15:1168][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 13:40:16:2126][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.279 seconds (process running for 2.787)
-[2023-10-25 13:40:16:2171][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 13:40:17:2702][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@29fe4840
-[2023-10-25 13:40:17:2705][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 13:40:18:3767][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-25 13:40:18:3910][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 13:40:18:3930][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 13:59:13:615][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 13:59:13:855][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 13:59:13:1042][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 13:59:13:1052][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
-[2023-10-25 13:59:14:1551][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 9308 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 13:59:14:1553][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 13:59:15:2715][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.565 seconds (process running for 3.732)
-[2023-10-25 13:59:15:2773][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 13:59:16:3332][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5e230fc6
-[2023-10-25 13:59:16:3334][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 13:59:17:4894][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 13:59:17:4928][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 14:27:56:686][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 14:28:30:828][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 17:38:49:497][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 17:38:49:679][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-25 17:38:49:810][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 17:38:49:816][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
-[2023-10-25 17:38:49:1168][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 18232 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-25 17:38:49:1169][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-25 17:38:50:2001][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.119 seconds (process running for 2.71)
-[2023-10-25 17:38:50:2043][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-25 17:38:51:2574][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6975fb1c
-[2023-10-25 17:38:51:2577][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-25 17:38:52:3575][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-25 17:38:52:3576][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-25 17:38:52:3661][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-25 17:38:52:3673][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-25 20:44:12:391][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:44:12:477][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:45:09:305][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:45:09:377][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:49:11:307][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:49:11:380][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:50:21:342][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:50:21:422][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:50:23:1700][main] INFO  o.p.v.service.WalletServiceTest - customer -> null
-[2023-10-25 20:51:28:333][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:51:29:413][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:54:17:350][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:54:17:442][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:54:38:323][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:54:38:399][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:54:39:1680][main] INFO  o.p.v.service.WalletServiceTest - customer -> Customer(customerId=6fdd6408-c245-4b27-94ac-841e56dac66b, name=jun, email=123@gmail.com, isBlack=true)
-[2023-10-25 20:56:25:346][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:56:25:410][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 20:56:26:1611][main] INFO  o.p.v.service.WalletServiceTest - customer -> Customer(customerId=2905f680-b33f-4f05-9164-b98af8be40f6, name=jun, email=123@gmail.com, isBlack=true)
-[2023-10-25 22:49:27:534][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 22:49:27:619][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 22:49:38:382][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 22:49:38:472][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:12:22:389][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:12:22:496][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:16:37:354][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:16:38:445][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:16:51:421][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:16:51:517][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:21:09:356][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:21:09:439][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:25:22:345][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:25:22:426][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:26:16:418][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:26:16:511][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:27:16:348][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:27:16:431][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:28:35:357][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:28:35:434][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:54:52:338][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:54:52:412][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$read]: read does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:55:13:412][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:55:13:502][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:55:14:1957][main] WARN  o.s.test.context.TestContextManager - Caught exception while invoking 'beforeTestMethod' callback on TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener] for test method [void org.prgrms.vouchermanager.service.WalletServiceTest$create.createWallet()] and test instance [org.prgrms.vouchermanager.service.WalletServiceTest$create@743e66f7]
-java.lang.IllegalStateException: Failed to retrieve PlatformTransactionManager for @Transactional test: [DefaultTestContext@15383681 testClass = org.prgrms.vouchermanager.service.WalletServiceTest.create, testInstance = org.prgrms.vouchermanager.service.WalletServiceTest$create@743e66f7, testMethod = createWallet(), testException = null, mergedContextConfiguration = [MergedContextConfiguration@2241f05b testClass = org.prgrms.vouchermanager.service.WalletServiceTest.create, locations = [], classes = [], contextInitializerClasses = [], activeProfiles = [], propertySourceLocations = [], propertySourceProperties = [], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@488d1cd7, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3081f72c, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@46b61c56], contextLoader = org.springframework.test.context.support.DelegatingSmartContextLoader, parent = null], attributes = {"org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents" -> false}]
-	at org.springframework.util.Assert.state(Assert.java:97)
-	at org.springframework.test.context.transaction.TransactionalTestExecutionListener.beforeTestMethod(TransactionalTestExecutionListener.java:228)
-	at org.springframework.test.context.TestContextManager.beforeTestMethod(TestContextManager.java:288)
-	at org.springframework.test.context.junit.jupiter.SpringExtension.beforeEach(SpringExtension.java:174)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeEachCallbacks$2(TestMethodTestDescriptor.java:166)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeMethodsOrCallbacksUntilExceptionOccurs$6(TestMethodTestDescriptor.java:202)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeMethodsOrCallbacksUntilExceptionOccurs(TestMethodTestDescriptor.java:202)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeEachCallbacks(TestMethodTestDescriptor.java:165)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:132)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
-	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
-	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
-	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:57)
-	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
-	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
-	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
-	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
-	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
-[2023-10-25 23:55:22:397][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:55:22:478][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$read]: read does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-25 23:55:23:1816][main] WARN  o.s.test.context.TestContextManager - Caught exception while invoking 'beforeTestMethod' callback on TestExecutionListener [org.springframework.test.context.transaction.TransactionalTestExecutionListener] for test method [void org.prgrms.vouchermanager.service.WalletServiceTest$read.findByEmail()] and test instance [org.prgrms.vouchermanager.service.WalletServiceTest$read@743e66f7]
-java.lang.IllegalStateException: Failed to retrieve PlatformTransactionManager for @Transactional test: [DefaultTestContext@15383681 testClass = org.prgrms.vouchermanager.service.WalletServiceTest.read, testInstance = org.prgrms.vouchermanager.service.WalletServiceTest$read@743e66f7, testMethod = findByEmail(), testException = null, mergedContextConfiguration = [MergedContextConfiguration@2241f05b testClass = org.prgrms.vouchermanager.service.WalletServiceTest.read, locations = [], classes = [], contextInitializerClasses = [], activeProfiles = [], propertySourceLocations = [], propertySourceProperties = [], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@488d1cd7, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3081f72c, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@46b61c56], contextLoader = org.springframework.test.context.support.DelegatingSmartContextLoader, parent = null], attributes = {"org.springframework.test.context.event.ApplicationEventsTestExecutionListener.recordApplicationEvents" -> false}]
-	at org.springframework.util.Assert.state(Assert.java:97)
-	at org.springframework.test.context.transaction.TransactionalTestExecutionListener.beforeTestMethod(TransactionalTestExecutionListener.java:228)
-	at org.springframework.test.context.TestContextManager.beforeTestMethod(TestContextManager.java:288)
-	at org.springframework.test.context.junit.jupiter.SpringExtension.beforeEach(SpringExtension.java:174)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeEachCallbacks$2(TestMethodTestDescriptor.java:166)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$invokeBeforeMethodsOrCallbacksUntilExceptionOccurs$6(TestMethodTestDescriptor.java:202)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeMethodsOrCallbacksUntilExceptionOccurs(TestMethodTestDescriptor.java:202)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.invokeBeforeEachCallbacks(TestMethodTestDescriptor.java:165)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:132)
-	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.execute(TestMethodTestDescriptor.java:68)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:151)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
-	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
-	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
-	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
-	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
-	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:147)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:127)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:90)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:55)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:102)
-	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:54)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:114)
-	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:86)
-	at org.junit.platform.launcher.core.DefaultLauncherSession$DelegatingLauncher.execute(DefaultLauncherSession.java:86)
-	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:53)
-	at com.intellij.junit5.JUnit5IdeaTestRunner.startRunnerWithArgs(JUnit5IdeaTestRunner.java:57)
-	at com.intellij.rt.junit.IdeaTestRunner$Repeater$1.execute(IdeaTestRunner.java:38)
-	at com.intellij.rt.execution.junit.TestsRepeater.repeat(TestsRepeater.java:11)
-	at com.intellij.rt.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:35)
-	at com.intellij.rt.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:232)
-	at com.intellij.rt.junit.JUnitStarter.main(JUnitStarter.java:55)
+[2023-10-26 01:43:11:854][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 27920 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-26 01:43:11:859][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-26 01:43:12:1548][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 1.177 seconds (process running for 2.043)
+[2023-10-26 01:52:32:404][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest]: JdbcVoucherRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 01:52:32:570][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest
+[2023-10-26 01:52:33:1046][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 5532 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-26 01:52:33:1048][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-10-26 01:52:33:1938][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.191 seconds (process running for 2.534)
+[2023-10-26 01:52:34:1987][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-10-26 01:52:34:2416][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3e3cd6fe
+[2023-10-26 01:52:34:2418][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-10-26 01:52:35:3543][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
+[2023-10-26 01:52:35:3554][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-10-26 01:52:35:3564][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-26 01:52:44:428][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 01:52:44:592][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-10-26 01:52:44:715][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 01:52:44:723][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-10-26 01:52:45:1083][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 14764 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-26 01:52:45:1084][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-10-26 01:52:45:1905][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.119 seconds (process running for 2.612)
+[2023-10-26 01:52:46:1944][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-10-26 01:52:46:2363][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@327e5be5
+[2023-10-26 01:52:46:2366][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-10-26 01:52:47:3276][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 01:52:47:3279][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 01:52:47:3366][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher]: findByVoucher does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 01:52:47:3368][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher
+[2023-10-26 01:52:47:3382][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 01:52:47:3407][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save]: save does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 01:52:47:3411][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save
+[2023-10-26 01:52:47:3421][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 01:52:47:3450][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-10-26 01:52:47:3461][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-26 14:38:54:909][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:39:22:535][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:41:21:474][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:44:51:518][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:47:16:498][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:47:48:436][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:51:27:735][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:51:27:851][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:51:50:713][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:51:51:901][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:53:54:429][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:53:54:527][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:31:776][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:45:737][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest]: JdbcVoucherRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:45:1010][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest
+[2023-10-26 14:55:46:2008][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 13452 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-26 14:55:46:2010][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-10-26 14:55:48:3529][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 2.143 seconds (process running for 5.428)
+[2023-10-26 14:55:48:3586][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-10-26 14:55:49:4444][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@472d0f4
+[2023-10-26 14:55:49:4448][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-10-26 14:55:50:6263][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
+[2023-10-26 14:55:50:6282][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:51:6321][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
+[2023-10-26 14:55:51:6416][main] ERROR o.p.v.r.c.JdbcCustomerRepository - Not exists
+[2023-10-26 14:55:51:6435][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:51:6986][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:51:7106][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:51:7189][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.VouchermanagerApplicationTests]: VouchermanagerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:51:7240][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.VouchermanagerApplicationTests
+[2023-10-26 14:55:51:7310][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:52:7376][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-10-26 14:55:52:7386][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:52:7391][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-10-26 14:55:52:7429][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 14:55:52:7431][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 14:55:52:7444][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher]: findByVoucher does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:52:7447][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher
+[2023-10-26 14:55:52:7470][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 14:55:52:7525][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save]: save does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:55:52:7535][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save
+[2023-10-26 14:55:52:7560][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 14:55:52:7671][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-10-26 14:55:52:7791][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-26 14:56:50:477][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest]: JdbcVoucherRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:50:651][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest
+[2023-10-26 14:56:51:1163][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 23384 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-26 14:56:51:1164][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-10-26 14:56:52:2091][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.246 seconds (process running for 3.013)
+[2023-10-26 14:56:52:2130][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-10-26 14:56:52:2624][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@8a6631b
+[2023-10-26 14:56:52:2627][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-10-26 14:56:53:3694][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
+[2023-10-26 14:56:53:3707][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:53:3738][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
+[2023-10-26 14:56:54:3804][main] ERROR o.p.v.r.c.JdbcCustomerRepository - Not exists
+[2023-10-26 14:56:54:3823][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:54:4173][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:54:4244][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:54:4321][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.VouchermanagerApplicationTests]: VouchermanagerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:54:4343][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.VouchermanagerApplicationTests
+[2023-10-26 14:56:54:4400][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:54:4449][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-10-26 14:56:54:4458][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:54:4462][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-10-26 14:56:54:4482][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 14:56:54:4485][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 14:56:54:4495][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher]: findByVoucher does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:54:4501][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher
+[2023-10-26 14:56:54:4521][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 14:56:54:4550][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save]: save does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-10-26 14:56:54:4554][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save
+[2023-10-26 14:56:54:4574][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-10-26 14:56:54:4612][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-10-26 14:56:54:4630][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
