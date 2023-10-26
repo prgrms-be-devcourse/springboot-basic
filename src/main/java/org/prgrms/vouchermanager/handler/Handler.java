@@ -196,8 +196,8 @@ public class Handler {
             output.outputWalletEmail();
             String email = input.inputCustomerEmail();
             output.outputVoucherId();
-            int voucherId = input.inputWalletVoucher();
-            Optional<Voucher> voucher = voucherController.findById(UuidUtil.intToUUID(voucherId));
+            String  voucherId = input.inputWalletVoucher();
+            Optional<Voucher> voucher = voucherController.findById(UuidUtil.stringToUUID(voucherId));
             WalletRequestDto dto = WalletRequestDto.builder().customerEmail(email).voucher(voucher.get()).build();
             walletController.createWallet(dto);
         }catch (IOException | NotExistEmailException e){
