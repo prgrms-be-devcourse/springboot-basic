@@ -71,6 +71,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteById(UUID voucherId) {
+        vouchers.remove(voucherId);
+    }
+
+    @Override
     @Profile("test")
     public void deleteAll() {
         vouchers.clear();

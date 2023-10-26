@@ -37,6 +37,11 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteById(UUID voucherId) {
+        vouchers.remove(voucherId);
+    }
+
+    @Override
     public void deleteAll() {
         vouchers.clear();
     }
