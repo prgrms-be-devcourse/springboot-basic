@@ -124,4 +124,19 @@ class JdbcVoucherRepositoryTest {
         assertThat(foundVoucher.isEmpty(), is(false));
         assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
     }
+
+    @Test
+    @Order(7)
+    @DisplayName("바우처 전체 조회를 성공한다.")
+    void testFindAllVouchersSuccessful() {
+        //given
+        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(5000), VoucherType.FIXED);
+        voucherRepository.save(voucher);
+
+        //when
+        List<Voucher> vouchers = voucherRepository.findAll();
+
+        //then
+        assertThat(vouchers, hasSize(greaterThanOrEqualTo(1)));
+    }
 }
