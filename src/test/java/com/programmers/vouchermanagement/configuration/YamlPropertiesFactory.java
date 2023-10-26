@@ -1,7 +1,5 @@
 package com.programmers.vouchermanagement.configuration;
 
-import java.io.IOException;
-
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
