@@ -49,6 +49,19 @@ class CustomerServiceTest {
 		assertCustomerInfo(actual, customers);
 	}
 
+	@Test
+	@DisplayName("[모든 고객을 조회한다]")
+	void getAllCustomers() {
+		//given
+		List<Customer> customers = CustomerFixture.getCustomers();
+		given(customerRepository.findAll()).willReturn(customers);
+
+		//when
+		List<CustomerInfo> actual = customerService.getAllCustomers();
+
+		assertCustomerInfo(actual, customers);
+	}
+
 	private void assertCustomerInfo(List<CustomerInfo> actualList, List<Customer> expectedList) {
 		assertThat(actualList).hasSameSizeAs(expectedList);
 

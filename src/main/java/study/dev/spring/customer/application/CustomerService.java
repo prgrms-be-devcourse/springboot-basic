@@ -20,6 +20,13 @@ public class CustomerService {
 	private final WalletRepository walletRepository;
 	private final CustomerRepository customerRepository;
 
+	public List<CustomerInfo> getAllCustomers() {
+		return customerRepository.findAll()
+			.stream()
+			.map(CustomerMapper::toCustomerInfo)
+			.toList();
+	}
+
 	public List<CustomerInfo> getCustomersByVoucher(String voucherId) {
 		List<String> customerIds = walletRepository.findByVoucherId(voucherId)
 			.stream()
