@@ -27,7 +27,7 @@ public class CreateCustomerCommand implements Command {
 	public void execute() {
 		consoleOutputHandler.print(NAME_PROMPT);
 		String nameInput = consoleInputHandler.readString();
-		consoleOutputHandler.print(EMAIL_PROMPT); // todo : 이메일 중복 체크?
+		consoleOutputHandler.print(EMAIL_PROMPT);
 		String emailInput = consoleInputHandler.readString();
 		customerController.createCustomer(nameInput, emailInput);
 	}
