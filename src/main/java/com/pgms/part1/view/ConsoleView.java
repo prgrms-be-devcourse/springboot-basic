@@ -28,15 +28,14 @@ public class ConsoleView {
         return command;
     }
 
-    public VoucherMenuRequestDto init(){
+    public VoucherMenuRequestDto getVoucherMenu(){
         String command = textIO.newStringInputReader()
                 .read("""
                          
-                         === Voucher Program ===
-                        Type **exit** to exit the program.
+                         === Voucher Menu ===
                         Type **create** to create a new voucher.
                         Type **list** to list all vouchers.
-                        Type **blacklist** to list blocked customers.
+                        Type **exit** to exit the menu.
                         """);
 
         return new VoucherMenuRequestDto(command);
