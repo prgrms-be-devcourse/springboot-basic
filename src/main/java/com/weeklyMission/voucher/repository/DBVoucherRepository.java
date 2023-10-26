@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
@@ -57,12 +58,13 @@ public class DBVoucherRepository implements VoucherRepository{
     public Optional<Voucher> findById(UUID id) {
         Voucher findVoucher = jdbcTemplate.queryForObject(
             "select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
-            Collections.singletonMap("voucher_id", id.toString().getBytes()), voucherRowMapper);
+            Collections.singletonMap("voucherId", id.toString().getBytes()), voucherRowMapper);
         return Optional.of(findVoucher);
     }
 
     @Override
     public void deleteById(UUID id) {
+        if(!findById(id).isPresent()) throw new NoSuchElementException("존재하지 않습니다.");
         jdbcTemplate.update("delete from voucher where voucher = UUID_TO_BIN(:voucher)",
             Collections.singletonMap("voucher_id", id.toString().getBytes()));
     }
