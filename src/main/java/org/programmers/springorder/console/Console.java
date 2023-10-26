@@ -4,7 +4,6 @@ import org.programmers.springorder.consts.ErrorMessage;
 import org.programmers.springorder.consts.Message;
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
 import org.programmers.springorder.utils.MenuType;
-import org.programmers.springorder.utils.Validation;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.model.VoucherType;
@@ -12,72 +11,45 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
 @Component
 public class Console {
 
-    private final Logger logger = LoggerFactory.getLogger(Console.class);
-    private final Input input;
-    private final Output output;
+    private static final Logger logger = LoggerFactory.getLogger(Console.class);    // TODO: logger 사용하지 않으면 제거
+    private static final Scanner scanner = new Scanner(System.in);
 
-
-    public Console() {
-        this.input = new Input();
-        this.output = new Output();
+    public static void printMessage(String message) {
+        System.out.println(message);
     }
 
-    public void printMessage(String message) {
-        output.printMessage(message);
+    private static void printPrompt() {
+        System.out.print("> ");
     }
 
-    public MenuType inputMenu() {
+    public static MenuType inputMenu() {
         printMessage(Message.MENU_SELECT_MESSAGE);
-        output.printPrompt();
-        try {
-            String menuNum = Validation.validateString(input.getInput());
-            return MenuType.selectMenu(menuNum);
-        } catch (InputMismatchException e) {
-            logger.error("errorMessage = {}", e.getMessage());
-            printMessage(e.getMessage());
-            return inputMenu(); // TODO:재귀로 호출하는 게 괜찮은 건지 확인 필요
-        }
+        printPrompt();
+        return MenuType.selectMenu(scanner.nextLine());
     }
 
-    private VoucherType inputVoucherType() {
+    private static VoucherType inputVoucherType() {
         printMessage(Message.VOUCHER_SELECT_MESSAGE);
-        output.printPrompt();
-        try {
-            String voucherNum = Validation.validateString(input.getInput());
-            return VoucherType.selectVoucherType(voucherNum);
-        } catch (InputMismatchException e) {
-            logger.error("errorMessage = {}", e.getMessage());
-            printMessage(e.getMessage());
-            return inputVoucherType();
-        }
+        printPrompt();
+        return VoucherType.selectVoucherType(scanner.nextLine());
     }
 
-    private long inputVoucherValue(VoucherType voucherType) {
+    private static long inputVoucherValue(VoucherType voucherType) {
         String discountValueMessage = voucherType == VoucherType.FIXED ? Message.INPUT_FIXED_DISCOUNT_VALUE_MESSAGE
                 : Message.INPUT_PERCENT_DISCOUNT_VALUE_MESSAGE;
         printMessage(discountValueMessage);
-        output.printPrompt();
-        try {
-            return Validation.validateDiscountValue(input.getInput(), voucherType);
-        } catch (InputMismatchException | NumberFormatException e) {
-            //TODO: Message Const 로 넣을 수 있는 방법 있는지 확인
-            String message = String.format("잘못된 입력 값입니다. %d ~ %d 사이의 값을 입력해주세요.",
-                    voucherType.getMinimumValue(),
-                    voucherType.getMaximumValue());
-            logger.error("errorMessage = {}", message);
-            printMessage(message);
-            return inputVoucherValue(voucherType);
-        }
+        printPrompt();
+        return scanner.nextLong();
     }
 
 
-    public VoucherRequestDto inputVoucherInfo() {
+    public static VoucherRequestDto inputVoucherInfo() {
         VoucherType voucherType = inputVoucherType();
         long discountValue = inputVoucherValue(voucherType);
 
