@@ -4,6 +4,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -80,15 +81,22 @@ class JdbcVoucherRepositoryTest {
                 .start();
     }
 
+    @AfterEach
+    void clear(){
+        embeddedMysql.executeScripts("test_voucher", List.of(() ->"delete from vouchers; delete from customers;"));
+    }
+
     @Test
     @DisplayName("voucher 생성 테스트")
     public void makeVoucherTest(){
-        Voucher voucher = Voucher.toVoucher(UUID.randomUUID(), 100, VoucherType.FIXED );
+        UUID uuid = UUID.randomUUID();
+        Voucher voucher = Voucher.toVoucher(uuid, 100, VoucherType.FIXED );
 
         Voucher save = voucherRepository.save(voucher);
+        Voucher foundVoucher = voucherRepository.findById(uuid).get();
 
         assertThat(voucher).isEqualTo(save);
-        //TODO: 추후 검색 기능 활성화 후 고도화 예정
+        assertThat(voucher).isEqualTo(foundVoucher);
     }
 
     @Test
