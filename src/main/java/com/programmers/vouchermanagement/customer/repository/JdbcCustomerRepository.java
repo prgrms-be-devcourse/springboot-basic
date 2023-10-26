@@ -67,6 +67,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void loadBlacklistToStorage() {
         List<Customer> blacklist = loadBlacklist(blacklistFilePath);
+        blacklist.forEach(this::save);
     }
 
     private int insert(Customer customer) {
