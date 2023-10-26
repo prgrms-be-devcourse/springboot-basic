@@ -59,12 +59,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-
+        final String deleteSQL = "DELETE FROM vouchers WHERE voucher_id=UUID_TO_BIN(:voucherId)";
+        Map<String, Object> parameteMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
+        namedParameterJdbcTemplate.update(deleteSQL, parameteMap);
     }
 
     @Override
     public void deleteAll() {
-
     }
 
     private int insert(Voucher voucher) {
