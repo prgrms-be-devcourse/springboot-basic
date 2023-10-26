@@ -20,6 +20,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'com.mysql:mysql-connector-j:8.1.0'
+    // https://mvnrepository.com/artifact/com.wix/wix-embedded-mysql
+    testImplementation 'com.wix:wix-embedded-mysql:4.6.1'
 }
 
 tasks.named('test') {
