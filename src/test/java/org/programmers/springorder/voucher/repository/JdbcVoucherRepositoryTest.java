@@ -18,6 +18,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -87,5 +89,23 @@ class JdbcVoucherRepositoryTest {
 
         assertThat(voucher).isEqualTo(save);
         //TODO: 추후 검색 기능 활성화 후 고도화 예정
+    }
+
+    @Test
+    @DisplayName("voucher 전체 조회 테스트")
+    public void getAllVoucherTest(){
+        Voucher voucher1 = Voucher.toVoucher(UUID.randomUUID(), 100, VoucherType.FIXED );
+        Voucher voucher2 = Voucher.toVoucher(UUID.randomUUID(), 100, VoucherType.FIXED );
+        Voucher voucher3 = Voucher.toVoucher(UUID.randomUUID(), 100, VoucherType.FIXED );
+
+        Voucher save1 = voucherRepository.save(voucher1);
+        Voucher save2 = voucherRepository.save(voucher2);
+        Voucher save3 = voucherRepository.save(voucher3);
+
+        List<Voucher> savedvoucherList = Arrays.asList(save1, save2, save3);
+        List<Voucher> vouchers = voucherRepository.findAll();
+
+        assertThat(vouchers).hasSize(3);
+        assertThat(vouchers).containsAll(savedvoucherList);
     }
 }
