@@ -30,11 +30,14 @@ public class FileCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private static final String COMMA_SEPARATOR = ", ";
     private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading blacklist";
+    private static final String CUSTOMER_ID_KEY = "customerId";
+    private static final String NAME_KEY = "name";
+    private static final String CUSTOMER_TYPE_KEY = "customerType";
 
     private final Function<Map, Customer> objectToCustomer = (customerObject) -> {
-        UUID customerId = UUID.fromString((String) customerObject.get("customerId"));
-        String name = (String) customerObject.get("name");
-        String customerTypeName = (String) customerObject.get("customerType");
+        UUID customerId = UUID.fromString((String) customerObject.get(CUSTOMER_ID_KEY));
+        String name = (String) customerObject.get(NAME_KEY);
+        String customerTypeName = (String) customerObject.get(CUSTOMER_TYPE_KEY);
         CustomerType customerType = CustomerType.findCustomerType(customerTypeName);
 
         return new Customer(customerId, name, customerType);
