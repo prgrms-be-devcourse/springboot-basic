@@ -19,9 +19,13 @@ public enum VoucherType {
         this.maximumValue = maximumValue;
     }
 
+    private boolean isEqual(String voucherNum) {
+        return this.voucherNum.equals(voucherNum);
+    }
+
     public static VoucherType selectVoucherType(String voucherNum) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucher -> voucher.voucherNum.equals(voucherNum))
+                .filter(voucher -> voucher.isEqual(voucherNum))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 값입니다. 다시 입력해주세요."));
     }

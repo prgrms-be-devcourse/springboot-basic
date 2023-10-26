@@ -16,13 +16,13 @@ public enum MenuType {
         this.menuNum = menuNum;
     }
 
-    public String getMenuNum() {
-        return menuNum;
+    private boolean isEqual(String menuNum) {
+        return this.menuNum.equals(menuNum);
     }
 
     public static MenuType selectMenu(String menuNum) {
         return Arrays.stream(MenuType.values())
-                .filter(menu -> menu.getMenuNum().equals(menuNum))
+                .filter(menu -> menu.isEqual(menuNum))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_VALUE_MESSAGE));
     }
