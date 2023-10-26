@@ -84,6 +84,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
+        String deleteAllSQL = "DELETE FROM customers";
+        namedParameterJdbcTemplate.update(deleteAllSQL, Collections.emptyMap());
     }
 
     @Override
