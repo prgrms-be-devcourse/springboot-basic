@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class VoucherTest {
 
@@ -25,5 +26,11 @@ class VoucherTest {
     void testPercentVoucherCreationFail() {
         assertThatThrownBy(() -> Voucher.createVoucher(UUID.randomUUID(), "percent", 150))
                 .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("할인 금액은 마이너스가 될 수 없다")
+    void testDiscountWithMinus() {
+        assertThrows(IllegalArgumentException.class, () -> Voucher.createVoucher(UUID.randomUUID(), "fixed", -100));
     }
 }
