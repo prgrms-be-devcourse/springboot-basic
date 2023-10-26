@@ -1,0 +1,2 @@
+voucher_file: src/main/resources/csvFiles/voucherList.csv
+blackList_file: src/main/resources/csvFiles/customer_blacklist.csv
