@@ -4,7 +4,7 @@ import org.prgrms.vouchermanagement.dto.VoucherCreateInfo;
 import org.prgrms.vouchermanagement.dto.VoucherUpdateInfo;
 import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
 import org.prgrms.vouchermanagement.exception.InvalidInputException;
-import org.prgrms.vouchermanagement.voucher.PolicyStatus;
+import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
 
 import java.util.Scanner;
 import java.util.UUID;

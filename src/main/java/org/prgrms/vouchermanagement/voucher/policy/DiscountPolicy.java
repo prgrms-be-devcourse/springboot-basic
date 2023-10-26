@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement.voucher;
+package org.prgrms.vouchermanagement.voucher.policy;
 
 public interface DiscountPolicy {
     long getAmountOrPercent();

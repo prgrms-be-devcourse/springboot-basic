@@ -1,8 +1,12 @@
-package org.prgrms.vouchermanagement.repository;
+package org.prgrms.vouchermanagement.voucher.repository;
 
 import org.prgrms.vouchermanagement.exception.InsertFailException;
 import org.prgrms.vouchermanagement.exception.LoadFailException;
-import org.prgrms.vouchermanagement.voucher.*;
+import org.prgrms.vouchermanagement.voucher.domain.Voucher;
+import org.prgrms.vouchermanagement.voucher.policy.DiscountPolicy;
+import org.prgrms.vouchermanagement.voucher.policy.FixedAmountVoucher;
+import org.prgrms.vouchermanagement.voucher.policy.PercentDiscountVoucher;
+import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

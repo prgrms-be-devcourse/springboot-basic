@@ -1,18 +1,18 @@
 package org.prgrms.vouchermanagement.controller;
 
-import org.prgrms.vouchermanagement.customer.Customer;
-import org.prgrms.vouchermanagement.customer.CustomerService;
+import org.prgrms.vouchermanagement.customer.domain.Customer;
+import org.prgrms.vouchermanagement.customer.service.CustomerService;
 import org.prgrms.vouchermanagement.dto.VoucherCreateInfo;
-import org.prgrms.vouchermanagement.blackCustomer.BlackCustomer;
-import org.prgrms.vouchermanagement.blackCustomer.BlackCustomerService;
+import org.prgrms.vouchermanagement.blackCustomer.domain.BlackCustomer;
+import org.prgrms.vouchermanagement.blackCustomer.service.BlackCustomerService;
 import org.prgrms.vouchermanagement.dto.VoucherUpdateInfo;
 import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
-import org.prgrms.vouchermanagement.service.VoucherService;
+import org.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.prgrms.vouchermanagement.view.Command;
 import org.prgrms.vouchermanagement.view.ConsoleInput;
 import org.prgrms.vouchermanagement.view.ConsoleOutput;
-import org.prgrms.vouchermanagement.voucher.Voucher;
-import org.prgrms.vouchermanagement.wallet.WalletService;
+import org.prgrms.vouchermanagement.voucher.domain.Voucher;
+import org.prgrms.vouchermanagement.wallet.service.WalletService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

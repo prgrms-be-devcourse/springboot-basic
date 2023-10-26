@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement.customer;
+package org.prgrms.vouchermanagement.customer.domain;
 
 import java.util.UUID;
 

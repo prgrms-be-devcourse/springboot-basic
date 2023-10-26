@@ -1,7 +1,7 @@
-package org.prgrms.vouchermanagement.repository;
+package org.prgrms.vouchermanagement.voucher.repository;
 
-import org.prgrms.vouchermanagement.voucher.DiscountPolicy;
-import org.prgrms.vouchermanagement.voucher.Voucher;
+import org.prgrms.vouchermanagement.voucher.policy.DiscountPolicy;
+import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.UUID;

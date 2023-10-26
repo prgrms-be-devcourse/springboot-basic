@@ -1,5 +1,7 @@
-package org.prgrms.vouchermanagement.customer;
+package org.prgrms.vouchermanagement.customer.service;
 
+import org.prgrms.vouchermanagement.customer.domain.Customer;
+import org.prgrms.vouchermanagement.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement.voucher;
+package org.prgrms.vouchermanagement.voucher.policy;
 
 public enum PolicyStatus {
     FIXED, //고정

@@ -1,8 +1,8 @@
 package org.prgrms.vouchermanagement.view;
 
-import org.prgrms.vouchermanagement.blackCustomer.BlackCustomer;
-import org.prgrms.vouchermanagement.customer.Customer;
-import org.prgrms.vouchermanagement.voucher.Voucher;
+import org.prgrms.vouchermanagement.blackCustomer.domain.BlackCustomer;
+import org.prgrms.vouchermanagement.customer.domain.Customer;
+import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 import java.util.List;
 

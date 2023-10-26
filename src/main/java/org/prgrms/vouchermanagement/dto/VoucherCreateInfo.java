@@ -1,6 +1,6 @@
 package org.prgrms.vouchermanagement.dto;
 
-import org.prgrms.vouchermanagement.voucher.PolicyStatus;
+import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
 
 public record VoucherCreateInfo(
         PolicyStatus policy,

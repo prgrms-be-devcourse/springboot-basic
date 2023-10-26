@@ -1,8 +1,8 @@
-package org.prgrms.vouchermanagement.wallet;
+package org.prgrms.vouchermanagement.wallet.repository;
 
-import org.prgrms.vouchermanagement.customer.Customer;
+import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
-import org.prgrms.vouchermanagement.voucher.Voucher;
+import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 import java.util.List;
 import java.util.UUID;

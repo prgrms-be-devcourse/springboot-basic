@@ -1,5 +1,7 @@
-package org.prgrms.vouchermanagement.blackCustomer;
+package org.prgrms.vouchermanagement.blackCustomer.service;
 
+import org.prgrms.vouchermanagement.blackCustomer.domain.BlackCustomer;
+import org.prgrms.vouchermanagement.blackCustomer.repository.BlackCustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

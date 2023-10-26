@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement.wallet;
+package org.prgrms.vouchermanagement.wallet.domain;
 
 import java.util.UUID;
 

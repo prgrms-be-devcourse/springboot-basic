@@ -1,8 +1,12 @@
-package org.prgrms.vouchermanagement.wallet;
+package org.prgrms.vouchermanagement.wallet.repository;
 
-import org.prgrms.vouchermanagement.customer.Customer;
+import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
-import org.prgrms.vouchermanagement.voucher.*;
+import org.prgrms.vouchermanagement.voucher.domain.Voucher;
+import org.prgrms.vouchermanagement.voucher.policy.DiscountPolicy;
+import org.prgrms.vouchermanagement.voucher.policy.FixedAmountVoucher;
+import org.prgrms.vouchermanagement.voucher.policy.PercentDiscountVoucher;
+import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

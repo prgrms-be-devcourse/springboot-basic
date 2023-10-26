@@ -1,5 +1,6 @@
-package org.prgrms.vouchermanagement.customer;
+package org.prgrms.vouchermanagement.customer.repository;
 
+import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

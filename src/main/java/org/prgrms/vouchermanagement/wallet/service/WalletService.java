@@ -1,8 +1,9 @@
-package org.prgrms.vouchermanagement.wallet;
+package org.prgrms.vouchermanagement.wallet.service;
 
-import org.prgrms.vouchermanagement.customer.Customer;
+import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
-import org.prgrms.vouchermanagement.voucher.Voucher;
+import org.prgrms.vouchermanagement.voucher.domain.Voucher;
+import org.prgrms.vouchermanagement.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

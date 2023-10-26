@@ -1,7 +1,11 @@
-package org.prgrms.vouchermanagement.service;
+package org.prgrms.vouchermanagement.voucher.service;
 
-import org.prgrms.vouchermanagement.repository.VoucherRepository;
-import org.prgrms.vouchermanagement.voucher.*;
+import org.prgrms.vouchermanagement.voucher.domain.Voucher;
+import org.prgrms.vouchermanagement.voucher.policy.DiscountPolicy;
+import org.prgrms.vouchermanagement.voucher.policy.FixedAmountVoucher;
+import org.prgrms.vouchermanagement.voucher.policy.PercentDiscountVoucher;
+import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
+import org.prgrms.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

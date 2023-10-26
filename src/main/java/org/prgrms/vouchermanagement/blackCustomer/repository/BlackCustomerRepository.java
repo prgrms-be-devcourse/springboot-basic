@@ -1,5 +1,6 @@
-package org.prgrms.vouchermanagement.blackCustomer;
+package org.prgrms.vouchermanagement.blackCustomer.repository;
 
+import org.prgrms.vouchermanagement.blackCustomer.domain.BlackCustomer;
 import org.prgrms.vouchermanagement.exception.LoadFailException;
 import org.springframework.stereotype.Repository;
 
