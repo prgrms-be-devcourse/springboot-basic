@@ -6,13 +6,13 @@ import com.programmers.springbasic.enums.ErrorCode;
 
 public class FixedAmountVoucher extends Voucher {
 
+	private static final long MINIMUM_AMOUNT = 0;
+
 	private long amount;
 
 	public FixedAmountVoucher(UUID voucherId, long amount) {
 		super(voucherId, VoucherType.FIXED_AMOUNT);
-		if (amount <= 0) {
-			throw new IllegalArgumentException(ErrorCode.AMOUNT_SHOULD_BE_POSITIVE.getMessage());
-		}
+		validateDiscountValue(amount);
 		this.amount = amount;
 	}
 
@@ -23,8 +23,15 @@ public class FixedAmountVoucher extends Voucher {
 
 	@Override
 	public void changeDiscountValue(long newDiscountValue) {
-		//todo : validation
+		validateDiscountValue(newDiscountValue);
 		this.amount = newDiscountValue;
+	}
+
+	@Override
+	public void validateDiscountValue(long discountValue) {
+		if (discountValue <= MINIMUM_AMOUNT) {
+			throw new IllegalArgumentException(ErrorCode.AMOUNT_SHOULD_BE_POSITIVE.getMessage());
+		}
 	}
 
 }

@@ -25,4 +25,6 @@ public abstract class Voucher {
 	public abstract long getDiscountValue();
 
 	public abstract void changeDiscountValue(long newDiscountValue);
+
+	public abstract void validateDiscountValue(long discountValue);
 }

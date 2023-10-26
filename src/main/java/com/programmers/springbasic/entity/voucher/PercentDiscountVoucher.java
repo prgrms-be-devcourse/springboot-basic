@@ -13,9 +13,7 @@ public class PercentDiscountVoucher extends Voucher {
 
 	public PercentDiscountVoucher(UUID voucherId, long percent) {
 		super(voucherId, VoucherType.PERCENT_DISCOUNT);
-		if (percent < MINIMUM_PERCENT || percent > MAXIMUM_PERCENT) {
-			throw new IllegalArgumentException(ErrorCode.PERCENT_OUT_OF_RANGE.getMessage());
-		}
+		validateDiscountValue(percent);
 		this.percent = percent;
 	}
 
@@ -26,7 +24,15 @@ public class PercentDiscountVoucher extends Voucher {
 
 	@Override
 	public void changeDiscountValue(long newDiscountValue) {
-		this.percent = newDiscountValue; // todo = validation
+		validateDiscountValue(newDiscountValue);
+		this.percent = newDiscountValue;
+	}
+
+	@Override
+	public void validateDiscountValue(long discountValue) {
+		if (discountValue < MINIMUM_PERCENT || discountValue > MAXIMUM_PERCENT) {
+			throw new IllegalArgumentException(ErrorCode.PERCENT_OUT_OF_RANGE.getMessage());
+		}
 	}
 
 }
