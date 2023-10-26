@@ -41,14 +41,14 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(customers.get(customerId));
+    public Optional<Customer> findById(UUID id) {
+        return Optional.ofNullable(customers.get(id));
     }
 
     @Override
     public List<Customer> findByName(String name) {
         return customers.values().stream()
-                .filter(customer -> customer.getName().equals(name))
+                .filter(customer -> customer.getName().contains(name))
                 .toList();
     }
 
@@ -125,7 +125,7 @@ public class FileCustomerRepository implements CustomerRepository {
         }
     }
 
-    private boolean isCustomerPresent(UUID customerId) {
-        return customers.containsKey(customerId);
+    private boolean isCustomerPresent(UUID id) {
+        return customers.containsKey(id);
     }
 }

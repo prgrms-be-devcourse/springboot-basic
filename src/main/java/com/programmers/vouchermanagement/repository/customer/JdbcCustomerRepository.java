@@ -4,7 +4,6 @@ import com.programmers.vouchermanagement.domain.customer.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -23,7 +22,6 @@ import java.util.UUID;
 @Profile("dev")
 public class JdbcCustomerRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
-
     private final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -32,34 +30,27 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        String sql = "select * from customers";
+        String sql = "SELECT * FROM customer";
         return jdbcTemplate.query(sql, (resultSet, i) -> mapToCustomer(resultSet));
     }
 
     @Override
     public List<Customer> findBannedCustomers() {
-        String sql = "select * from customers where is_banned = TRUE";
+        String sql = "SELECT * FROM customer WHERE is_banned = TRUE";
         return jdbcTemplate.query(sql, (resultSet, i) -> mapToCustomer(resultSet));
     }
 
     @Override
     public Optional<Customer> findById(UUID id) {
-        String sql = "select * from customers where id = UUID_TO_BIN(:customerId)";
-        SqlParameterSource namedParameters = new MapSqlParameterSource("id", id.toString());
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    sql,
-                    namedParameters,
-                    (resultSet, i) -> mapToCustomer(resultSet)));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+        String sql = "SELECT * FROM customer WHERE id = UUID_TO_BIN(:id)";
+        SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, namedParameters, (resultSet, i) -> mapToCustomer(resultSet)));
     }
 
     @Override
     public List<Customer> findByName(String name) {
-        String sql = "select * from customers where name like :name";
-        SqlParameterSource namedParameters = new MapSqlParameterSource("name", name);
+        String sql = "SELECT * FROM customer WHERE name LIKE :hasName";
+        SqlParameterSource namedParameters = new MapSqlParameterSource("hasName", "%" + name + "%");
         return jdbcTemplate.query(
                 sql,
                 namedParameters,
@@ -69,7 +60,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     @Transactional
     public Customer save(Customer customer) {
-        String sql = "INSERT INTO customers VALUES :id, :name, :createdAt, :isBanned";
+        String sql = "INSERT INTO customer (id, name, created_at, is_banned) VALUES (:id, :name, :createdAt, :isBanned)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", customer.getId())
                 .addValue("name", customer.getName())
@@ -83,7 +74,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     @Transactional
     public Customer update(Customer customer) {
-        String sql = "UPDATE customers SET :id, :name, :createdAt, :isBanned WHERE id= :id";
+        String sql = "UPDATE customer SET name = :name, created_at = :createdAt, is_banned = :isBanned WHERE id = :id";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", customer.getId())
                 .addValue("name", customer.getName())
@@ -97,7 +88,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     @Transactional
     public void delete(UUID id) {
-        String sql = "DELETE FROM customers WHERE id = :id";
+        String sql = "DELETE FROM customer WHERE id = :id";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", id);
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
@@ -105,11 +96,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private Customer mapToCustomer(ResultSet resultSet) throws SQLException {
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
-        String customerName = resultSet.getString("name");
+        final UUID id = toUUID(resultSet.getBytes("id"));
+        final String name = resultSet.getString("name");
         final LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         final boolean isBanned = resultSet.getBoolean("is_banned");
-        return new Customer(customerId, customerName, createdAt, isBanned);
+        return new Customer(id, name, createdAt, isBanned);
     }
 
     private UUID toUUID(byte[] bytes) {
