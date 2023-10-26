@@ -51,7 +51,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        final String findByIdSQL = "SELECT * FROM vouchers WHERE voucher_id=UUID_TO_BIN(:voucherId)";
+        Map<String, Object> parameterMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
+        try {
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(findByIdSQL, parameterMap, voucherRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -74,7 +80,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
-        final UUID voucherId = toUUID(resultSet.getBytes("customer_id"));
+        final UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         final BigDecimal discountValue = resultSet.getBigDecimal("discount_value");
         final String voucherTypeName = resultSet.getString("voucher_type");
         final VoucherType voucherType = VoucherType.findVoucherType(voucherTypeName);
