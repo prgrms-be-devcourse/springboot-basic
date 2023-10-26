@@ -1,0 +1,9 @@
+file:
+  resources:
+    path: src/main/resources/
+    build-path: /resources/main/
+
+  domains:
+    customer:
+      file-name: blacklist.csv
+
