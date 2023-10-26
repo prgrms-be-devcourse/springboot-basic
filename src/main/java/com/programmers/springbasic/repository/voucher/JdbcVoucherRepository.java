@@ -1,5 +1,6 @@
 package com.programmers.springbasic.repository.voucher;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -85,4 +86,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		String sql = "DELETE FROM voucher WHERE voucher_id = ?";
 		jdbcTemplate.update(sql, id);
 	}
+
+	@Override
+	public List<Voucher> findAllById(List<UUID> voucherIds) {
+		if (voucherIds == null || voucherIds.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		// '?' 플레이스홀더를 ID 개수에 맞추어 동적으로 생성
+		String placeholders = String.join(",", Collections.nCopies(voucherIds.size(), "?"));
+		String sql = "SELECT * FROM voucher WHERE voucher_id IN (" + placeholders + ")";
+
+		Object[] params = voucherIds.toArray();
+
+		return jdbcTemplate.query(sql, voucherRowMapper, params);
+	}
+
 }

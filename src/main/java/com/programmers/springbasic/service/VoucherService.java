@@ -66,6 +66,9 @@ public class VoucherService {
 	public List<Customer> getCustomersByVoucher(UUID voucherId) {
 		Voucher voucher = voucherRepository.findById(voucherId)
 			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
-		return walletRepository.findCustomersByVoucherId(voucher.getVoucherId());
+
+		List<UUID> customerIds = walletRepository.findCustomerIdsByVoucherId(voucher.getVoucherId());
+
+		return customerRepository.findAllById(customerIds);
 	}
 }

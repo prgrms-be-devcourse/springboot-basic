@@ -3,9 +3,11 @@ package com.programmers.springbasic.repository.voucher;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -73,6 +75,14 @@ public class FileVoucherRepository implements VoucherRepository {
 		storage.remove(id);
 		List<String> fileLines = voucherCsvFileMapper.voucherMapToLines(storage);
 		fileUtils.writeFile(voucherFilePath, fileLines);
+	}
+
+	@Override
+	public List<Voucher> findAllById(List<UUID> voucherIds) {
+		return voucherIds.stream()
+			.map(storage::get)
+			.filter(Objects::nonNull)
+			.collect(Collectors.toList());
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.programmers.springbasic.repository.customer;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -64,4 +65,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
 		String sql = "DELETE FROM customer WHERE customer_id = ?";
 		jdbcTemplate.update(sql, id);
 	}
+
+	@Override
+	public List<Customer> findAllById(List<UUID> customerIds) {
+		if (customerIds == null || customerIds.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		String placeholders = String.join(",", Collections.nCopies(customerIds.size(), "?"));
+		String sql = "SELECT * FROM customer WHERE customer_id IN (" + placeholders + ")";
+
+		Object[] params = customerIds.toArray();
+
+		return jdbcTemplate.query(sql, customerRowMapper, params);
+	}
+
 }

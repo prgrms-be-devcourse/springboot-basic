@@ -3,6 +3,7 @@ package com.programmers.springbasic.service;
 import static com.programmers.springbasic.enums.ErrorCode.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -79,14 +80,13 @@ public class CustomerService {
 		walletRepository.insertVoucherForCustomer(customer.getId(), voucher.getVoucherId());
 	}
 
-	public Customer getVouchersByCustomer(UUID customerId) {
+	public List<Voucher> getVouchersByCustomer(UUID customerId) {
 		Customer customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new NoSuchElementException(CUSTOMER_NOT_FOUND.getMessage()));
 
-		List<Voucher> vouchers = walletRepository.findVouchersByCustomerId(customer.getId());
-		customer.setVouchers(vouchers);
+		List<UUID> voucherIds = walletRepository.findVoucherIdsByCustomerId(customer.getId());
 
-		return customer;
+		return voucherRepository.findAllById(voucherIds);
 	}
 
 	public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
@@ -95,6 +95,6 @@ public class CustomerService {
 		Voucher voucher = voucherRepository.findById(voucherId)
 			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
 
-		walletRepository.removeVoucherForCustomer(customer.getId(), voucher.getVoucherId());
+		walletRepository.deleteVoucherFromCustomer(customer.getId(), voucher.getVoucherId());
 	}
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 
 import com.programmers.springbasic.dto.GetBlacklistCustomersResponse;
 import com.programmers.springbasic.entity.customer.Customer;
+import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.service.CustomerService;
 
 @Controller
@@ -46,7 +47,7 @@ public class CustomerController {
 		customerService.assignVoucherToCustomer(customerId, voucherId);
 	}
 
-	public Customer getVouchersByCustomer(UUID customerId) {
+	public List<Voucher> getVouchersByCustomer(UUID customerId) {
 		return customerService.getVouchersByCustomer(customerId);
 	}
 
