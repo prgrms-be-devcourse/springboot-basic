@@ -8,10 +8,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Primary
 @Repository
@@ -22,6 +19,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private final String SELECT_ALL_CUSTOMER = "SELECT * FROM customers";
     private final String INSERT_CUSTOMER = "INSERT INTO customers(customer_id, customer_name, customer_type) VALUES(UUID_TO_BIN(:customerId), :customerName, :customerType)";
     private final String FIND_BLACKLIST = "SELECT * FROM customers where customer_type = 'BLACK'";
+    private final String FIND_BY_CUSTOMER_ID = "SELECT * FROM customers where customer_id = UUID_TO_BIN(:customerId)";
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -44,6 +42,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return jdbcTemplate.query(SELECT_ALL_CUSTOMER, customerRowMapper);
     }
 
+    @Override
+    public Optional<Customer> findByID(UUID customerId) {
+        return Optional.ofNullable(jdbcTemplate.queryForObject(
+                FIND_BY_CUSTOMER_ID,
+                findByIdMap(customerId),
+                customerRowMapper
+        ));
+    }
+
     public Customer insert(Customer customer) {
         int update = jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
         if( update != 1){
@@ -57,6 +64,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
             put("customerId", customer.getCustomerId().toString().getBytes());
             put("customerName", customer.getName());
             put("customerType", customer.getCustomerType().name());
+        }};
+    }
+
+    private Map<String, Object> findByIdMap(UUID customerId) {
+        return new HashMap<>() {{
+            put("customerId", customerId.toString().getBytes());
         }};
     }
 

@@ -13,10 +13,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
@@ -59,6 +56,12 @@ public class FileCustomerRepository implements CustomerRepository {
         }
 
         return Collections.unmodifiableList(customerList);
+    }
+
+    //TODO: 추후 구현 예정
+    @Override
+    public Optional<Customer> findByID(UUID customerId) {
+        return Optional.empty();
     }
 
     @Override
