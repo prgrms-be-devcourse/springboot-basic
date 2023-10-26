@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo;
 
+import org.prgrms.kdtspringdemo.customer.CustomerFunction;
 import org.prgrms.kdtspringdemo.customer.controller.CustomerController;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
@@ -31,10 +32,27 @@ public class AppController implements CommandLineRunner {
     public void run(String... args) throws IOException {
         try {
             while (true) {
-                outputConsole.start();
+                outputConsole.startProgram();
                 String fun = inputConsole.getString();
                 try {
-                    VoucherFunction.findByCode(fun).execute(voucherController);
+                    // Mode 선택
+                    ProgramFunction mode = ProgramFunction.findByCode(fun);
+                    mode.execute(outputConsole);
+                    switch (mode) {
+                        case VOUCHER:
+                            outputConsole.startVoucherMode();
+                            fun = inputConsole.getString();  //voucher 실행
+                            VoucherFunction.findByCode(fun).execute(voucherController);
+                        case CUSTOMER:
+                            outputConsole.startCustomerMode();
+                            fun = inputConsole.getString();
+                            CustomerFunction.findByCode(fun).execute(customerController);
+                        case WALLET:
+                            outputConsole.startWalletMode();
+                            fun = inputConsole.getString();
+                            
+
+                    }
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }

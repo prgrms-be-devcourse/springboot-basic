@@ -25,6 +25,21 @@ public class FileCustomerRepository implements CustomerRepository{
     }
 
     @Override
+    public Customer insert(Customer customer) {
+        return null;
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public Optional<List<Customer>> findAll() {
+        return Optional.empty();
+    }
+
+    @Override
     public Optional<List<Customer>> getAllBlackList() throws IOException {
         List<Customer> customerList = new ArrayList<>();
 

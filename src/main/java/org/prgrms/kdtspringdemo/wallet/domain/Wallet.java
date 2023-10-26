@@ -25,4 +25,13 @@ public class Wallet {
     public List<UUID> getVouchers() {
         return vouchers;
     }
+
+    public String toString() {
+        return "=======================\n" +
+                "[walletId] : " + walletId + "\n" +
+                "[customerId] : " + customerId + "\n" +
+                "[voucherId List] : \n" +
+                "   total count : " + vouchers.size() + "\n" +
+                "   " + vouchers.stream().toString();
+    }
 }

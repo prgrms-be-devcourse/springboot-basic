@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -14,6 +15,14 @@ public class CustomerService {
 
     public CustomerService() {
         this.customerRepository = new FileCustomerRepository();
+    }
+
+    public Customer insert(Customer customer) {
+        return customerRepository.insert(customer);
+    }
+
+    public Optional<List<Customer>> findAll() {
+        return customerRepository.findAll();
     }
 
     public List<Customer> getBlackListCustomers() throws IOException {

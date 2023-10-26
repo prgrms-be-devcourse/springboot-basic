@@ -39,6 +39,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    @Override
     public Customer insert(Customer customer) {
         var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, is_black) VALUES (UUID_TO_BIN(?), ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
@@ -50,6 +51,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return customer;
     }
 
+    @Override
+    public Optional<List<Customer>> findAll() {
+        return Optional.ofNullable(jdbcTemplate.query("select * from customers", customerRowMapper));
+    }
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers");
     }
