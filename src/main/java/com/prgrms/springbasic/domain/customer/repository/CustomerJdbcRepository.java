@@ -55,7 +55,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID,
                     customerRowMapper, customer_id.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.warn("Customer not found, e");
+            logger.warn("Customer not found");
             return Optional.empty();
         }
     }
@@ -66,7 +66,7 @@ public class CustomerJdbcRepository implements CustomerRepository {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_EMAIL,
                     customerRowMapper, email));
         } catch (EmptyResultDataAccessException e) {
-            logger.warn("Customer not found, e");
+            logger.warn("Customer not found");
             return Optional.empty();
         }
     }
