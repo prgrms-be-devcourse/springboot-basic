@@ -1,7 +1,6 @@
 package com.prgrms.vouchermanagement.infra.output;
 
 import com.prgrms.vouchermanagement.core.voucher.controller.response.VouchersResponse;
-import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 import com.prgrms.vouchermanagement.infra.utils.OutputMessage;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +13,12 @@ public class OutputImpl implements OutputProvider {
     }
 
     @Override
-    public void printMessage(VoucherType voucherType) {
+    public void printVoucherTypeMessage(String voucherType) {
         switch(voucherType) {
-            case FIXED:
+            case "fixed":
                 System.out.print(OutputMessage.FIXAMOUNT_VOUCHER_AMOUNT);
                 break;
-            case PERCENT:
+            case "rate":
                 System.out.print(OutputMessage.PERCENTDISCOUNT_VOUCHER_AMOUNT);
                 break;
         }

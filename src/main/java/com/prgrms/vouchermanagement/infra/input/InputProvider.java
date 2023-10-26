@@ -8,7 +8,7 @@ import java.io.IOException;
 public interface InputProvider {
 
     MenuType inputMenuType() throws IOException;
-    VoucherType inputVoucherType() throws IOException;
+    String inputVoucherType() throws IOException;
 
     int inputVoucherAmount() throws IOException;
 

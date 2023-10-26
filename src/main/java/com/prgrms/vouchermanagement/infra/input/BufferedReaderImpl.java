@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanagement.infra.input;
 
-import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 import com.prgrms.vouchermanagement.infra.exception.InvalidFormatException;
 import com.prgrms.vouchermanagement.infra.utils.MenuPatternUtils;
 import com.prgrms.vouchermanagement.infra.utils.MenuType;
@@ -35,14 +34,14 @@ public class BufferedReaderImpl implements InputProvider {
     }
 
     @Override
-    public VoucherType inputVoucherType() throws IOException {
+    public String inputVoucherType() throws IOException {
         while(true) {
             String voucherTypeString = bufferedReader.readLine();
             try {
                 if (!MenuPatternUtils.VOUCHER_TYPE.matcher(voucherTypeString).matches()) {
                     throw new InvalidFormatException("input type은 [fixed, rate] 중 하나이어야 합니다.");
                 }
-                return VoucherType.getType(voucherTypeString);
+                return voucherTypeString;
             } catch (InvalidFormatException e) {
                 logger.error(e.getMessage());
             }

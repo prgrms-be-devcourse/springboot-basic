@@ -3,7 +3,6 @@ package com.prgrms.vouchermanagement.infra;
 import com.prgrms.vouchermanagement.core.voucher.controller.VoucherController;
 import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreateRequest;
 import com.prgrms.vouchermanagement.core.voucher.controller.response.VouchersResponse;
-import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 import com.prgrms.vouchermanagement.infra.input.InputProvider;
 import com.prgrms.vouchermanagement.infra.utils.OutputMessage;
 import com.prgrms.vouchermanagement.infra.output.OutputProvider;
@@ -59,8 +58,8 @@ public class InfraManager implements CommandLineRunner {
         outputProvider.printMessage(OutputMessage.VOUCHER_NAME);
         String name = inputProvider.inputVoucherName();
         outputProvider.printMessage(OutputMessage.VOUCHER_TYPES);
-        VoucherType voucherType = inputProvider.inputVoucherType();
-        outputProvider.printMessage(voucherType);
+        String voucherType = inputProvider.inputVoucherType();
+        outputProvider.printVoucherTypeMessage(voucherType);
         int amount = inputProvider.inputVoucherAmount();
         voucherController.createVoucher(new VoucherCreateRequest(name, voucherType, amount));
     }
