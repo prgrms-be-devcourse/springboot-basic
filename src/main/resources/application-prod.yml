@@ -1,3 +1,10 @@
 voucher:
   file:
     path: voucher.csv
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PW}
