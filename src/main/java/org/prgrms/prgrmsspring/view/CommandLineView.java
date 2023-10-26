@@ -3,11 +3,10 @@ package org.prgrms.prgrmsspring.view;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.beryx.textio.TextTerminal;
-import org.prgrms.prgrmsspring.domain.Command;
+import org.prgrms.prgrmsspring.domain.FunctionType;
 import org.prgrms.prgrmsspring.domain.VoucherType;
 import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
-import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -20,16 +19,12 @@ public class CommandLineView {
     private final TextIO textIO = TextIoFactory.getTextIO();
     private final TextTerminal<?> textTerminal = textIO.getTextTerminal();
 
-    public Command getCommand() {
+    public FunctionType getModeNumber() {
         textTerminal.println("=== Voucher Program ===");
-        for (Command command : Command.values()) {
-            textTerminal.printf("Type %s to %s\n", command.name().toLowerCase(), command.getDocument());
+        for (FunctionType functionType : FunctionType.values()) {
+            textTerminal.printf("Input %d to use Function %s\n", functionType.getModeNumber(), functionType.name());
         }
-        try {
-            return Command.of(inputCommand());
-        } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException(ExceptionMessage.INVALID_COMMAND_TYPE.getMessage());
-        }
+        return FunctionType.from(inputModeNumber());
     }
 
     public <T> void printAll(List<T> list) {
@@ -109,8 +104,12 @@ public class CommandLineView {
     }
 
 
-    private String inputCommand() {
+    public String inputCommand() {
         return textIO.newStringInputReader().read();
+    }
+
+    public int inputModeNumber() {
+        return textIO.newIntInputReader().read();
     }
 
     public <T> void print(T obj) {

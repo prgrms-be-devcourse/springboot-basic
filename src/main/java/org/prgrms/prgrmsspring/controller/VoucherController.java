@@ -1,6 +1,7 @@
 package org.prgrms.prgrmsspring.controller;
 
-import org.prgrms.prgrmsspring.domain.Command;
+import org.prgrms.prgrmsspring.domain.command.Command;
+import org.prgrms.prgrmsspring.domain.command.VoucherCommand;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.prgrms.prgrmsspring.service.VoucherService;
 import org.prgrms.prgrmsspring.view.CommandLineView;
@@ -20,14 +21,6 @@ public class VoucherController implements ApplicationController {
         this.voucherService = voucherService;
     }
 
-    @Override
-    public void start(Command command) {
-        command.run(this);
-    }
-
-    public void exit() {
-        voucherService.exit();
-    }
 
     public void create() {
         Voucher voucher = commandLineView.createVoucher();
@@ -47,5 +40,16 @@ public class VoucherController implements ApplicationController {
     public void list() {
         List<Voucher> vouchers = voucherService.list();
         commandLineView.printAll(vouchers);
+    }
+
+    @Override
+    public void run(String commandName) {
+        Command command = Command.from(commandName, VoucherCommand.class);
+        command.run(this);
+    }
+
+    @Override
+    public void listMode() {
+        commandLineView.printAll(ApplicationController.getModeStrings(VoucherCommand.values()));
     }
 }

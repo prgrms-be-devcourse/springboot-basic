@@ -1,6 +1,7 @@
 package org.prgrms.prgrmsspring.controller;
 
-import org.prgrms.prgrmsspring.domain.Command;
+import org.prgrms.prgrmsspring.domain.command.Command;
+import org.prgrms.prgrmsspring.domain.command.WalletCommand;
 import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.prgrms.prgrmsspring.entity.wallet.Wallet;
@@ -17,11 +18,6 @@ public class WalletController implements ApplicationController {
     public WalletController(CommandLineView commandLineView, WalletService walletService) {
         this.commandLineView = commandLineView;
         this.walletService = walletService;
-    }
-
-    @Override
-    public void start(Command command) {
-        command.run(this);
     }
 
     public void create() {
@@ -46,5 +42,16 @@ public class WalletController implements ApplicationController {
         UUID voucherId = commandLineView.inputVoucherId();
         Customer findCustomer = walletService.findCustomerByVoucherId(voucherId);
         commandLineView.print(findCustomer);
+    }
+
+    @Override
+    public void run(String commandName) {
+        Command command = Command.from(commandName, WalletCommand.class);
+        command.run(this);
+    }
+
+    @Override
+    public void listMode() {
+        commandLineView.printAll(ApplicationController.getModeStrings(WalletCommand.values()));
     }
 }

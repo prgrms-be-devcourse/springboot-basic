@@ -1,6 +1,7 @@
 package org.prgrms.prgrmsspring.controller;
 
-import org.prgrms.prgrmsspring.domain.Command;
+import org.prgrms.prgrmsspring.domain.command.Command;
+import org.prgrms.prgrmsspring.domain.command.CustomerCommand;
 import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.service.CustomerService;
 import org.prgrms.prgrmsspring.view.CommandLineView;
@@ -45,7 +46,13 @@ public class CustomerController implements ApplicationController {
     }
 
     @Override
-    public void start(Command command) {
+    public void run(String commandName) {
+        Command command = Command.from(commandName, CustomerCommand.class);
         command.run(this);
+    }
+
+    @Override
+    public void listMode() {
+        commandLineView.printAll(ApplicationController.getModeStrings(CustomerCommand.values()));
     }
 }
