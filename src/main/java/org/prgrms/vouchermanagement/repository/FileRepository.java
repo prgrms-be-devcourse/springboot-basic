@@ -46,7 +46,7 @@ public class FileRepository implements VoucherRepository{
     }
 
     @Override
-    public void create(UUID voucherId, DiscountPolicy discountPolicy) {
+    public int create(UUID voucherId, DiscountPolicy discountPolicy) {
 
         long amountOrPercent = discountPolicy.getAmountOrPercent();
         PolicyStatus policy = discountPolicy.getPolicyStatus();
@@ -60,16 +60,28 @@ public class FileRepository implements VoucherRepository{
 
         Voucher voucher = new Voucher(voucherId, discountPolicy);
         storage.put(voucherId, voucher);
-    }
 
-    @Override
-    public Voucher getById(UUID voucherId) {
-        return storage.get(voucherId);
+        return 0;
     }
 
     @Override
     public List<Voucher> voucherLists() {
         return storage.values().stream()
                 .toList();
+    }
+
+    @Override
+    public void update(UUID voucherId, long amount) {
+    }
+
+    @Override
+    public int deleteAll() {
+
+        return 0;
+    }
+
+    @Override
+    public Voucher getById(UUID voucherId) {
+        return storage.get(voucherId);
     }
 }

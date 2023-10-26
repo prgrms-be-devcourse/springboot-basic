@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.UUID;
 
 public interface VoucherRepository {
-     void create(UUID voucherId, DiscountPolicy discountPolicy);
-
-     Voucher getById(UUID voucherId);
+     int create(UUID voucherId, DiscountPolicy discountPolicy);
 
      List<Voucher> voucherLists();
+
+     void update(UUID voucherId, long amount);
+
+     int deleteAll();
+
+     Voucher getById(UUID voucherId);
 }

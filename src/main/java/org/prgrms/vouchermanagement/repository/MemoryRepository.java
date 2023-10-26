@@ -16,19 +16,31 @@ public class MemoryRepository implements VoucherRepository{
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 
     @Override
-    public void create(UUID voucherId, DiscountPolicy discountPolicy) {
+    public int create(UUID voucherId, DiscountPolicy discountPolicy) {
         Voucher voucher = new Voucher(voucherId, discountPolicy);
         storage.put(voucherId, voucher);
-    }
 
-    @Override
-    public Voucher getById(UUID voucherId) {
-        return storage.get(voucherId);
+        return 0;
     }
 
     @Override
     public List<Voucher> voucherLists() {
         return storage.values().stream()
                 .toList();
+    }
+
+    @Override
+    public void update(UUID voucherId, long amount) {
+    }
+
+    @Override
+    public int deleteAll() {
+
+        return 0;
+    }
+
+    @Override
+    public Voucher getById(UUID voucherId) {
+        return storage.get(voucherId);
     }
 }
