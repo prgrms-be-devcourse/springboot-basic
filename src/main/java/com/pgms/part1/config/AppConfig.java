@@ -21,11 +21,22 @@ public class AppConfig {
     @Bean
     public DataSource dataSource(){
         return DataSourceBuilder.create()
-                .driverClassName("com.mysql.cj.jdbc.Driver")
-                .url("jdbc:mysql://localhost:3306")
-                .username("root")
-                .password("root1234!")
+                .driverClassName("org.h2.Driver")
+                .url("jdbc:h2:mem:testdb;MODE=MySQL;")
+                .username("sa")
+                .password("")
                 .type(HikariDataSource.class)
                 .build();
     }
+
+//    @Bean
+//    public DataSource dataSource(){
+//        return DataSourceBuilder.create()
+//                .driverClassName("com.mysql.cj.jdbc.Driver")
+//                .url("jdbc:mysql://localhost:3306")
+//                .username("root")
+//                .password("root1234!")
+//                .type(HikariDataSource.class)
+//                .build();
+//    }
 }
