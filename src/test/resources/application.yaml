@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test_db?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&useSSL=true
+    username: root
+    password: local59!
+  sql:
+    init:
+      mode: always
+  myapp:
+    execute-command-line-runner: false
+    file-path:
+      voucher: src/test/resources/voucher.csv
+      customer: src/test/resources/customer.csv
+logging:
+  level:
+    org.springframework.core.LocalVariableTableParameterNameDiscoverer: error

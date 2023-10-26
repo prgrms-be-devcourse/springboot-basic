@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-@Profile("prod")
+@Profile({"prod", "test"})
 @Repository
 @RequiredArgsConstructor
 public class JdbcCustomerRepository implements CustomerRepository {
