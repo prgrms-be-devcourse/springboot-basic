@@ -27,6 +27,7 @@ public class CustomerService {
         this.keyGenerator = keyGenerator;
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponseDto> listBlockedCustomers(){
         List<Customer> customers = customerRepository.listBlockedCustomers();
         return customers.stream().map(customer ->
@@ -34,6 +35,7 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponseDto> listCustomers(){
         List<Customer> customers = customerRepository.listCustomers();
         return customers.stream().map(customer ->
@@ -83,13 +85,12 @@ public class CustomerService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponseDto> listCustomersByWallets(List<Wallet> wallets) {
         return customerRepository.listCustomersByWallets(wallets).stream().map(customer ->
                         new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked()))
                 .collect(Collectors.toList());
     }
 
-    // todo 있는지 체크
-    public void isAvailableCustomer(Long id) {
-    }
+    // todo 이메일 예외처리 (중복, null 체크, 양식 체크)
 }

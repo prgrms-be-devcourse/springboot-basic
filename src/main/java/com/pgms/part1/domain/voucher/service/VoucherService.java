@@ -11,11 +11,13 @@ import com.pgms.part1.util.keygen.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class VoucherService {
     private final Logger log = LoggerFactory.getLogger(VoucherService.class);
 
@@ -50,12 +52,14 @@ public class VoucherService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponseDto> listVoucher() {
         return voucherRepository.list().stream()
                 .map(voucher -> new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType()))
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponseDto> listVouchersByWallets(List<Wallet> wallets) {
         return voucherRepository.findVoucherByWallets(wallets).stream()
                 .map(voucher -> new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType()))
