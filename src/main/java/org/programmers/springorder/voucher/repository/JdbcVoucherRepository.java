@@ -2,7 +2,10 @@ package org.programmers.springorder.voucher.repository;
 
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.model.VoucherType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,10 +16,12 @@ import java.util.*;
 @Primary
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
+    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private final String INSERT_QUERY = "insert into vouchers(voucher_id, discount_value, voucher_type) values(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
     private final String FIND_ALL_QUERY = "select * from vouchers";
+    private final String FIND_BY_VOUCHER_ID_QUERY = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -37,7 +42,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.empty();
+        try{
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    FIND_BY_VOUCHER_ID_QUERY,
+                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
+                    voucherRowMapper));
+        } catch  (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return Optional.empty();
+        }
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
