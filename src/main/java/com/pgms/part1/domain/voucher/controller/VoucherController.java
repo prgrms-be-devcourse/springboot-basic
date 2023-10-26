@@ -32,6 +32,7 @@ public class VoucherController {
         switch (command) {
             case "create" -> createVoucher();
             case "list" -> listVoucher();
+            case "delete" -> deleteVoucher();
             case "exit" -> {}
             default -> {
                 voucherConsoleView.error(new RuntimeException("Please Enter Again!!"));
@@ -39,6 +40,11 @@ public class VoucherController {
                 getMenu();
             }
         }
+    }
+
+    private void deleteVoucher() {
+        Long id = voucherConsoleView.deleteVoucher();
+        voucherService.deleteVoucher(id);
     }
 
     public void createVoucher(){

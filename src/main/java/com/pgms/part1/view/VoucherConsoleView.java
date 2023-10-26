@@ -20,6 +20,7 @@ public class VoucherConsoleView extends CommonConsoleView{
                          === Voucher Menu ===
                         Type **create** to create a new voucher.
                         Type **list** to list all vouchers.
+                        Type **delete** to delete a voucher.
                         Type **exit** to exit the menu.
                         """);
 
@@ -52,4 +53,13 @@ public class VoucherConsoleView extends CommonConsoleView{
         );
     }
 
+    public Long deleteVoucher() {
+        Long id = textIO.newLongInputReader()
+                .read("""
+                         
+                         === Delete Voucher ===
+                        Enter the Voucher Id
+                        """);
+        return id;
+    }
 }

@@ -55,4 +55,8 @@ public class VoucherService {
     public void listVouchersByWallets(List<Wallet> wallets) {
         voucherRepository.findVoucherByWallets(wallets);
     }
+
+    public void deleteVoucher(Long id){
+        voucherRepository.delete(id);
+    }
 }
