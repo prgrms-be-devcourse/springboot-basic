@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -86,6 +87,17 @@ class JDBCVoucherRepositoryTest {
 
     @Test
     @Order(6)
+    @DisplayName("없는 바우처를 삭제하면 실패한다.")
+    void deleteNonExistVoucherFail() {
+        UUID NonExistVoucherId = UUID.randomUUID();
+
+        assertThrows(RuntimeException.class, () -> {
+            jdbcVoucherRepository.delete(NonExistVoucherId);
+        });
+    }
+
+    @Test
+    @Order(7)
     @DisplayName("바우처를 업데이트 할 수 있다.")
     void updateVoucherSucceed() {
         Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
