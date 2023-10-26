@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class FileCustomerRepository implements CustomerRepository {
+public class FileCustomerRepository {
 
     private final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final Console console;
@@ -30,14 +30,12 @@ public class FileCustomerRepository implements CustomerRepository {
         this.console = console;
     }
 
-    @Override
     public List<Customer> findAllBlackList() {
         return findAll().stream()
                 .filter(Customer::isBlackList)
                 .toList();
     }
 
-    @Override
     public List<Customer> findAll() {
         List<Customer> customerList = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
