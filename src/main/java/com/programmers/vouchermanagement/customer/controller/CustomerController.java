@@ -15,7 +15,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public List<Customer> readBlacklist() {
-        return customerService.readBlacklist();
+    public List<Customer> readAllBlackCustomer() {
+        return customerService.readAllBlackCustomer();
     }
 }

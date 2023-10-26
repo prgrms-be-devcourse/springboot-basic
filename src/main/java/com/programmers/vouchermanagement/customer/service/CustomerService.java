@@ -16,7 +16,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> readBlacklist() {
+    public List<Customer> readAllBlackCustomer() {
         List<Customer> blacklist = customerRepository.findAllBlackCustomer();
         if (blacklist.isEmpty()) {
             return Collections.emptyList();
