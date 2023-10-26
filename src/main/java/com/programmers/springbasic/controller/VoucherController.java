@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import com.programmers.springbasic.dto.CreateFixedAmountVoucherRequest;
 import com.programmers.springbasic.dto.CreatePercentDiscountVoucherRequest;
 import com.programmers.springbasic.dto.GetVouchersResponse;
+import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.service.VoucherService;
 
@@ -44,4 +45,9 @@ public class VoucherController {
 	public void deleteVoucher(UUID voucherId) {
 		voucherService.deleteVoucher(voucherId);
 	}
+
+	public List<Customer> getCustomersByVoucher(UUID voucherId) {
+		return voucherService.getCustomersByVoucher(voucherId);
+	}
+
 }

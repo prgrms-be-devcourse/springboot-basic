@@ -97,10 +97,4 @@ public class CustomerService {
 
 		walletRepository.removeVoucherForCustomer(customer.getId(), voucher.getVoucherId());
 	}
-
-	public List<Customer> getCustomersByVoucher(UUID voucherId) {
-		Voucher voucher = voucherRepository.findById(voucherId)
-			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
-		return walletRepository.findCustomersByVoucherId(voucher.getVoucherId());
-	}
 }

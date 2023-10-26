@@ -54,7 +54,4 @@ public class CustomerController {
 		customerService.removeVoucherFromCustomer(customerId, voucherId);
 	}
 
-	public List<Customer> getCustomersByVoucher(UUID voucherId) {
-		return customerService.getCustomersByVoucher(voucherId);
-	}
 }
