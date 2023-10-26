@@ -1,5 +1,6 @@
 package team.marco.vouchermanagementsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.UUID;
 
 public abstract class Voucher {
@@ -13,11 +14,14 @@ public abstract class Voucher {
         this.id = id;
     }
 
-    public abstract String getInfo();
+    public final UUID getId() {
+        return id;
+    }
 
     public abstract VoucherType getType();
 
-    public UUID getId() {
-        return id;
-    }
+    public abstract int getData();
+
+    @JsonIgnore
+    public abstract String getInfo();
 }

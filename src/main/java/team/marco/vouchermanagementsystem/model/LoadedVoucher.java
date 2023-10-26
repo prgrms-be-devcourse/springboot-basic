@@ -1,35 +1,25 @@
 package team.marco.vouchermanagementsystem.model;
 
-import java.util.UUID;
-
-public class LoadedVoucher {
-    private UUID id;
+public class LoadedVoucher extends Voucher {
     private VoucherType type;
-    private String info;
-    private int amount;
-    private int percent;
+    private int data;
 
     private LoadedVoucher() {
         // for object mapper deserializing
     }
 
-    public UUID getId() {
-        return id;
-    }
-
+    @Override
     public VoucherType getType() {
         return type;
     }
 
+    @Override
+    public int getData() {
+        return data;
+    }
+
+    @Override
     public String getInfo() {
-        return info;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public int getPercent() {
-        return percent;
+        return this.getClass().getName();
     }
 }

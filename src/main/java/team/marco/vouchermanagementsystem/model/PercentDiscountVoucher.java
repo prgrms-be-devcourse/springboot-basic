@@ -1,11 +1,10 @@
 package team.marco.vouchermanagementsystem.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.text.MessageFormat.format;
 
 import java.util.UUID;
-
-import static java.text.MessageFormat.format;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PercentDiscountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
@@ -42,16 +41,17 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public String getInfo() {
-        return format("{0}% 할인 쿠폰", percent);
-    }
-
-    @Override
     public VoucherType getType() {
         return VoucherType.PERCENT;
     }
 
-    public int getPercent() {
+    @Override
+    public int getData() {
         return percent;
+    }
+
+    @Override
+    public String getInfo() {
+        return format("{0}% 할인 쿠폰", percent);
     }
 }
