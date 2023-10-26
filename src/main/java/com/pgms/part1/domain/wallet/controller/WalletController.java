@@ -35,8 +35,8 @@ public class WalletController {
 
         switch (command) {
             case "add" -> addWallet();
-            case "customer list" -> listVouchersByCustomer();
-            case "voucher list" -> listCustomersByVoucher();
+            case "customer list" -> listCustomersByVoucher();
+            case "voucher list" -> listVouchersByCustomer();
             case "delete" -> deleteWallet();
             case "exit" -> {return;}
             default -> {

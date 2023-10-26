@@ -23,7 +23,7 @@ public class WalletJdbcRepository implements WalletRepository{
 
     @Override
     public List<Wallet> findWalletByCustomerId(Long id) {
-        String listWalletsByCustomerSql = "SELECT * FROM WALLETS WHERE cutomer_id = ?";
+        String listWalletsByCustomerSql = "SELECT * FROM WALLETS WHERE customer_id = ?";
         return jdbcTemplate.query(listWalletsByCustomerSql, new Object[]{id}, (resultSet, i) -> mapWallet(resultSet));
     }
 
