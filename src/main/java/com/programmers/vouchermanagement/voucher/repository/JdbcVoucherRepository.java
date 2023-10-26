@@ -1,7 +1,6 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import java.math.BigDecimal;
-import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -18,6 +17,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.programmers.vouchermanagement.util.UUIDConverter;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
@@ -91,15 +91,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
-        final UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        final UUID voucherId = UUIDConverter.toUUID(resultSet.getBytes("voucher_id"));
         final BigDecimal discountValue = resultSet.getBigDecimal("discount_value");
         final String voucherTypeName = resultSet.getString("voucher_type");
         final VoucherType voucherType = VoucherType.findVoucherType(voucherTypeName);
         return new Voucher(voucherId, discountValue, voucherType);
-    }
-
-    private static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }
