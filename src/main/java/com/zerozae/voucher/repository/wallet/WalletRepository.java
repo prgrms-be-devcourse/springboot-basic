@@ -16,7 +16,6 @@ import java.util.UUID;
 import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
 @Repository
-@Transactional(readOnly = true)
 public class WalletRepository {
 
     private static final String CUSTOMER_ID = "customerId";
@@ -33,7 +32,6 @@ public class WalletRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    @Transactional
     public Wallet save(Wallet wallet) {
         int update = namedParameterJdbcTemplate.update(
                 "INSERT INTO wallets(customer_id, voucher_id) VALUES(UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId))",
@@ -72,7 +70,6 @@ public class WalletRepository {
                 walletRowMapper);
     }
 
-    @Transactional
     public void deleteByAllId(UUID customerId, UUID voucherId) {
         namedParameterJdbcTemplate.update(
                 "DELETE FROM wallets where customer_id = UUID_TO_BIN(:customerId) and voucher_id = UUID_TO_BIN(:voucherId)",
@@ -81,7 +78,6 @@ public class WalletRepository {
                         VOUCHER_ID, voucherId.toString().getBytes()));
     }
 
-    @Transactional
     public void deleteAll(){
         namedParameterJdbcTemplate.getJdbcOperations().update("DELETE FROM wallets");
     }

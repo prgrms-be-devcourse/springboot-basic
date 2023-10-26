@@ -25,7 +25,6 @@ import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
 @Profile("prod")
 @Repository
-@Transactional(readOnly = true)
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final String VOUCHER_ID = "voucherId";
@@ -52,7 +51,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Transactional
     @Override
     public Voucher save(Voucher voucher) {
         String sql = "insert into vouchers(voucher_id ,discount,voucher_type, use_status_type) values (UUID_TO_BIN(:voucherId), :discount, :voucherType, :useStatusType)";
@@ -89,7 +87,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
-    @Transactional
     @Override
     public void deleteById(UUID voucherId) {
         String sql = "delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
@@ -98,14 +95,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 Map.of(VOUCHER_ID, voucherId.toString().getBytes()));
     }
 
-    @Transactional
     @Override
     public void deleteAll() {
         String sql = "delete from vouchers";
         jdbcTemplate.getJdbcOperations().update(sql);
     }
 
-    @Transactional
     @Override
     public void update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         String sql = "update vouchers set discount = :discount, use_status_type = :useStatusType where voucher_id = UUID_TO_BIN(:voucherId)";

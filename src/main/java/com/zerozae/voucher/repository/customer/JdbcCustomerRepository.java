@@ -23,7 +23,6 @@ import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
 @Profile("prod")
 @Repository
-@Transactional(readOnly = true)
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final String CUSTOMER_ID = "customerId";
@@ -42,7 +41,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Transactional
     @Override
     public Customer save(Customer customer) {
         String sql = "insert into customers(customer_id,customer_name , customer_type) values (UUID_TO_BIN(:customerId), :customerName, :customerType)";
@@ -77,7 +75,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }
     }
 
-    @Transactional
     @Override
     public void delete(UUID customerId) {
         String sql = "delete from customers where customer_id = UUID_TO_BIN(:customerId)";
@@ -86,14 +83,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()));
     }
 
-    @Transactional
     @Override
     public void deleteAll() {
         String sql = "delete from customers";
         jdbcTemplate.getJdbcOperations().update(sql);
     }
 
-    @Transactional
     @Override
     public void update(UUID customerId, CustomerRequest customerRequest) {
         String sql = "update customers set customer_name = :customerName, customer_type = :customerType where customer_id = UUID_TO_BIN(:customerId)";

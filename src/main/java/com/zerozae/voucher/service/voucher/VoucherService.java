@@ -13,11 +13,13 @@ import lombok.extern.flogger.Flogger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class VoucherService {
 
     private static final String VOUCHER_NOT_FOUND_MESSAGE = "바우처가 존재하지 않습니다.";
@@ -27,6 +29,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
+    @Transactional
     public VoucherResponse createVoucher(VoucherRequest voucherRequest) {
         VoucherType voucherType = voucherRequest.getVoucherType();
         try {
@@ -53,16 +56,19 @@ public class VoucherService {
         return VoucherResponse.toDto(voucher);
     }
 
+    @Transactional
     public void update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.update(voucherId, voucherUpdateRequest);
     }
 
+    @Transactional
     public void deleteById(UUID voucherId) {
         voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.deleteById(voucherId);
     }
 
+    @Transactional
     public void deleteAll() {
         voucherRepository.deleteAll();
     }

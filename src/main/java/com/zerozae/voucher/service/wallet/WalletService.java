@@ -6,12 +6,14 @@ import com.zerozae.voucher.dto.wallet.WalletResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class WalletService {
 
     private final WalletRepository walletRepository;
@@ -20,6 +22,7 @@ public class WalletService {
         this.walletRepository = walletRepository;
     }
 
+    @Transactional
     public WalletResponse createWallet(WalletRequest walletRequest) {
         if(isAlreadyExistWallet(walletRequest)){
             throw ErrorMessage.error("이미 존재하는 지갑입니다.");
@@ -44,11 +47,13 @@ public class WalletService {
                 .toList();
     }
 
+    @Transactional
     public void deleteWalletFromCustomer(UUID customerId, UUID voucherId) {
         walletRepository.findWallet(customerId,voucherId).orElseThrow(() -> ErrorMessage.error("지갑이 존재하지 않습니다."));
         walletRepository.deleteByAllId(customerId,voucherId);
     }
 
+    @Transactional
     public void deleteAllWallets() {
         walletRepository.deleteAll();
     }
