@@ -20,12 +20,10 @@ public enum CommandType {
     public static List<String> allowedCommandTypes(MenuType menuType) {
         EnumSet<CommandType> allowedTypes = EnumSet.noneOf(CommandType.class);
 
-        if (menuType == MenuType.VOUCHER) {
-            allowedTypes.addAll(EnumSet.of(CREATE, LIST, UPDATE, DELETE_ALL));
-        } else if (menuType == MenuType.CUSTOMER) {
-            allowedTypes.addAll(EnumSet.of(CREATE, BLACK_LIST));
-        } else if (menuType == MenuType.WALLET) {
-            allowedTypes.addAll(EnumSet.of(CREATE, FIND_VOUCHERS, FIND_CUSTOMERS, DELETE));
+        switch (menuType) {
+            case VOUCHER -> allowedTypes.addAll(EnumSet.of(CREATE, LIST, UPDATE, DELETE_ALL));
+            case CUSTOMER -> allowedTypes.addAll(EnumSet.of(CREATE, BLACK_LIST));
+            case WALLET -> allowedTypes.addAll(EnumSet.of(CREATE, FIND_VOUCHERS, FIND_CUSTOMERS, DELETE));
         }
 
         return allowedTypes.stream()
