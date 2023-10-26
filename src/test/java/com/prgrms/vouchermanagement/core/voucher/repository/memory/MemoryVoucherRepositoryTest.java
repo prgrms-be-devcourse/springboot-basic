@@ -4,12 +4,6 @@ import com.prgrms.vouchermanagement.core.voucher.domain.Voucher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,27 +16,14 @@ import static org.hamcrest.Matchers.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration
 class MemoryVoucherRepositoryTest {
 
-    @Configuration
-    static class Config {
-
-        @Bean
-        public MemoryVoucherRepository memoryVoucherRepository() {
-            return new MemoryVoucherRepository();
-        }
-    }
+    private final MemoryVoucherRepository memoryVoucherRepository = new MemoryVoucherRepository();
 
     @BeforeEach
     public void setUp() {
         memoryVoucherRepository.deleteAll();
     }
-
-
-    @Autowired
-    private MemoryVoucherRepository memoryVoucherRepository;
 
     @DisplayName("Voucher를 추가하면 id값이 할당되고, 저장소에 추가된다.")
     @Test
