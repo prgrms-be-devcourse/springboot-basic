@@ -1,9 +1,12 @@
 package com.pgms.part1.domain.customer.service;
 
+import com.pgms.part1.domain.customer.dto.CustomerCreateRequestDto;
 import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
 import com.pgms.part1.domain.customer.entity.Customer;
+import com.pgms.part1.domain.customer.entity.CustomerBuilder;
 import com.pgms.part1.domain.customer.repository.CustomerRepository;
 import com.pgms.part1.domain.wallet.entity.Wallet;
+import com.pgms.part1.util.keygen.KeyGenerator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,9 +17,11 @@ import java.util.stream.Collectors;
 @Transactional
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final KeyGenerator keyGenerator;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, KeyGenerator keyGenerator) {
         this.customerRepository = customerRepository;
+        this.keyGenerator = keyGenerator;
     }
 
     public List<CustomerResponseDto> listBlockedCustomers(){
@@ -33,12 +38,18 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public void addCustomer(Customer customer){
+    public void addCustomer(CustomerCreateRequestDto dto){
+        Customer customer = new CustomerBuilder().id(keyGenerator.getKey()).name(dto.name())
+                .email(dto.email()).build();
         customerRepository.addCustomer(customer);
     }
 
     public void updateCustomerName(Long id, String name){
         customerRepository.updateCustomerName(id, name);
+    }
+
+    public void updateCustomerBlocked(Long id){
+        customerRepository.updateCustomerBlocked(id);
     }
 
     public void deleteCustomer(Long id){
@@ -47,5 +58,8 @@ public class CustomerService {
 
     public void listCustomersByWallets(List<Wallet> wallets) {
         customerRepository.listCustomersByWallets(wallets);
+    }
+
+    public void isAvailableCustomer(Long id) {
     }
 }

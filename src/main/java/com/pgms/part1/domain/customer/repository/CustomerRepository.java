@@ -12,4 +12,5 @@ public interface CustomerRepository {
     public void updateCustomerName(Long id, String name);
     public void deleteCustomer(Long id);
     public List<Customer> listCustomersByWallets(List<Wallet> wallets);
+    public void updateCustomerBlocked(Long id);
 }

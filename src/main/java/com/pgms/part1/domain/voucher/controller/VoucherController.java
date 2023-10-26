@@ -1,13 +1,10 @@
 package com.pgms.part1.domain.voucher.controller;
 
-import com.pgms.part1.domain.customer.controller.CustomerController;
-import com.pgms.part1.domain.customer.service.CustomerService;
-import com.pgms.part1.view.ConsoleView;
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
-import com.pgms.part1.domain.voucher.dto.VoucherMenuRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
 import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.service.VoucherService;
+import com.pgms.part1.view.VoucherConsoleView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,32 +15,26 @@ import java.util.stream.Collectors;
 @Controller
 public class VoucherController {
     private final Logger log = LoggerFactory.getLogger(VoucherController.class);
-    private final ConsoleView consoleView;
+    private final VoucherConsoleView voucherConsoleView;
     private final VoucherService voucherService;
-    private final CustomerController customerController;
     private static final int FIXED_VOUCHER_CREATE = 1;
     private static final int PERCENT_VOUCHER_CREATE = 2;
     private static final int FIXED_VOUCHER_DISCOUNT_MAX = 100000;
 
-    public VoucherController(ConsoleView consoleView, VoucherService voucherService, CustomerService customerService, CustomerController customerController) {
-        this.consoleView = consoleView;
+    public VoucherController(VoucherService voucherService, VoucherConsoleView voucherConsoleView) {
         this.voucherService = voucherService;
-        this.customerController = customerController;
+        this.voucherConsoleView = voucherConsoleView;
     }
 
     public void getMenu() {
-        VoucherMenuRequestDto voucherMenuRequestDto = consoleView.getVoucherMenu();
+        String command = voucherConsoleView.getMenu();
 
-        switch (voucherMenuRequestDto.command()) {
+        switch (command) {
             case "create" -> createVoucher();
             case "list" -> listVoucher();
-            case "blacklist" -> {
-                customerController.listBlockedCustomers();
-                getMenu();
-            }
             case "exit" -> {}
             default -> {
-                consoleView.error(new RuntimeException("Please Enter Again!!"));
+                voucherConsoleView.error(new RuntimeException("Please Enter Again!!"));
                 log.warn("Invalid Menu Command Input");
                 getMenu();
             }
@@ -51,10 +42,10 @@ public class VoucherController {
     }
 
     public void createVoucher(){
-        VoucherCreateRequestDto voucherCreateRequestDto = consoleView.createVoucher();
+        VoucherCreateRequestDto voucherCreateRequestDto = voucherConsoleView.createVoucher();
 
         if(!isDiscountAmount(voucherCreateRequestDto)){
-            consoleView.error(new RuntimeException("Please Enter Again!!"));
+            voucherConsoleView.error(new RuntimeException("Please Enter Again!!"));
             log.warn("Invalid Create Input");
             createVoucher();
         }
@@ -87,7 +78,7 @@ public class VoucherController {
                 vouchers.stream().map(v -> new VoucherResponseDto(v.getId(), v.getDiscount(), v.getVoucherDiscountType()))
                         .collect(Collectors.toList());
 
-        consoleView.listVoucher(voucherResponseDtos);
+        voucherConsoleView.listVoucher(voucherResponseDtos);
         getMenu();
     }
 }

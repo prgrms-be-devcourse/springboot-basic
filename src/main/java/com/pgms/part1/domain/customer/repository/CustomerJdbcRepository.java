@@ -71,4 +71,10 @@ public class CustomerJdbcRepository implements CustomerRepository{
                 String.format("SELECT * FROM CUSTOMERS WHERE id IN (%s)", inSql), ids,
                 (resultSet, i) -> mapCustomer(resultSet));
     }
+
+    @Override
+    public void updateCustomerBlocked(Long id) {
+        String updateCustomerNameSql = "UPDATE CUSTOMERS SET is_blocked = true where id = ?";
+        jdbcTemplate.update(updateCustomerNameSql, id);
+    }
 }

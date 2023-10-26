@@ -4,7 +4,7 @@ public class CustomerBuilder {
     private Long id;
     private String name;
     private String email;
-    private Boolean isBlocked;
+    private Boolean isBlocked = false;
 
     public CustomerBuilder id(Long id){
         this.id = id;

@@ -78,4 +78,9 @@ public class CustomerFileRepository implements CustomerRepository{
     public List<Customer> listCustomersByWallets(List<Wallet> wallets) {
         return null;
     }
+
+    @Override
+    public void updateCustomerBlocked(Long id) {
+
+    }
 }

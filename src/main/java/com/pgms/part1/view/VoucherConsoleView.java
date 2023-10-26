@@ -1,8 +1,6 @@
 package com.pgms.part1.view;
 
-import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
-import com.pgms.part1.domain.voucher.dto.VoucherMenuRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -11,24 +9,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class ConsoleView {
+public class VoucherConsoleView extends CommonConsoleView{
     private final TextIO textIO = TextIoFactory.getTextIO();
 
-    public String getCommonMenu(){
-        String command = textIO.newStringInputReader()
-                .read("""
-                         
-                         === Voucher Program ===
-                        Type **customer** to enter the customer menu.
-                        Type **voucher** to enter the voucher menu.
-                        Type **wallet** to enter the wallet menu.
-                        Type **exit** to exit the program.
-                        """);
-
-        return command;
-    }
-
-    public VoucherMenuRequestDto getVoucherMenu(){
+    @Override
+    public String getMenu(){
         String command = textIO.newStringInputReader()
                 .read("""
                          
@@ -38,7 +23,7 @@ public class ConsoleView {
                         Type **exit** to exit the menu.
                         """);
 
-        return new VoucherMenuRequestDto(command);
+        return command;
     }
 
     public VoucherCreateRequestDto createVoucher(){
@@ -62,19 +47,9 @@ public class ConsoleView {
     public void listVoucher(List<VoucherResponseDto> voucherResponseDtos){
         System.out.println("\n === Voucher List ===");
         voucherResponseDtos.stream().forEach(v ->
-            System.out.println("ID: " + v.id() + " | Voucher Type: "
-                    + v.voucherDiscountType().getDiscountType() + " | " + "Discount " + v.voucherDiscountType().getCalculateType() + ": " + v.discount())
+                System.out.println("ID: " + v.id() + " | Voucher Type: "
+                        + v.voucherDiscountType().getDiscountType() + " | " + "Discount " + v.voucherDiscountType().getCalculateType() + ": " + v.discount())
         );
     }
 
-    public void listBlockedCustomers(List<CustomerResponseDto> customerFileResponseDtos){
-        System.out.println("\n === Customer Black List ===");
-        customerFileResponseDtos.stream().forEach(c ->
-                System.out.println("ID: " + c.id() + " | isBlocked: " + c.isBlocked())
-        );
-    }
-
-    public void error(Exception e){
-        System.out.println("\n" + e.getMessage());
-    }
 }
