@@ -1,10 +1,13 @@
 package com.programmers.vouchermanagement.customer.repository;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.sql.DataSource;
@@ -87,5 +90,17 @@ class JdbcCustomerRepositoryTest {
 
         //then
         assertThat(createdCustomer, samePropertyValuesAs(customer));
+    }
+
+    @Test
+    @DisplayName("저장된 블랙리스트 csv파일을 성공적으로 읽고 저장 후, 조회를 성공한다.")
+    void testLoadingBlacklistFileOnInit() {
+        assertThat(fileProperties.getCSVCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
+
+        //when
+        final List<Customer> blacklist = customerRepository.findBlackCustomers();
+
+        //then
+        assertThat(blacklist, hasSize(greaterThanOrEqualTo(1)));
     }
 }
