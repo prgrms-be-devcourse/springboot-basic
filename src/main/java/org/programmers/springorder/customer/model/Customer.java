@@ -1,5 +1,7 @@
 package org.programmers.springorder.customer.model;
 
+import org.programmers.springorder.customer.dto.CustomerRequestDto;
+
 import java.util.UUID;
 
 public class Customer {
@@ -15,6 +17,16 @@ public class Customer {
 
     public static Customer toCustomer(UUID customerId, String name, CustomerType customerType) {
         return new Customer(customerId, name, customerType);
+    }
+
+    private Customer(UUID customerId, CustomerRequestDto customerRequestDto) {
+        this.customerId = customerId;
+        this.name = customerRequestDto.getName();
+        this.customerType = customerRequestDto.getCustomerType();
+    }
+
+    public static Customer of(UUID customerId, CustomerRequestDto customerRequestDto) {
+        return new Customer(customerId, customerRequestDto);
     }
 
     public boolean isBlackList() {
