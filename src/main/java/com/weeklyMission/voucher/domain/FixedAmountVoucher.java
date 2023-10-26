@@ -1,11 +1,9 @@
 package com.weeklyMission.voucher.domain;
 
-import java.util.UUID;
-
 public class FixedAmountVoucher extends Voucher{
     private static final long MAX_FIXED_VOUCHER_AMOUNT = 10000;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(Long voucherId, long amount) {
         if(amount<0) {
             throw new IllegalArgumentException("음수는 될 수 없음");
         }
@@ -20,17 +18,17 @@ public class FixedAmountVoucher extends Voucher{
     }
 
     @Override
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 
     @Override
-    public long getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public Long discount(long beforeDiscount) {
         return Math.max(0, beforeDiscount-amount);
     }
 }

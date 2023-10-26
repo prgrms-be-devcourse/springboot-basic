@@ -1,12 +1,10 @@
 package com.weeklyMission.voucher.domain;
 
-import java.util.UUID;
-
 public class PercentDiscountVoucher extends Voucher{
 
     private static final long MAX_PERCENT_VOUCHER_AMOUNT = 99;
 
-    public PercentDiscountVoucher(UUID voucherId, long amount) {
+    public PercentDiscountVoucher(Long voucherId, long amount) {
         if(amount<0) {
             throw new IllegalArgumentException("음수는 될 수 없음");
         }
@@ -21,17 +19,17 @@ public class PercentDiscountVoucher extends Voucher{
     }
 
     @Override
-    public UUID getVoucherId() {
+    public Long getVoucherId() {
         return voucherId;
     }
 
     @Override
-    public long getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
     @Override
-    public long discount(long beforeDiscount) {
+    public Long discount(long beforeDiscount) {
         return (beforeDiscount-(beforeDiscount*amount/100));
     }
 }
