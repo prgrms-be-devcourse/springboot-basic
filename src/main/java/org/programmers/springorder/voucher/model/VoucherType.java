@@ -30,11 +30,13 @@ public enum VoucherType {
         return this.expression.applyAsLong(beforeDiscount, discount);
     }
 
-    public long getMinimumValue() {
-        return minimumValue;
+    private boolean isValidDiscountValue(long discountValue) {
+        return discountValue >= minimumValue && discountValue <= maximumValue;
     }
 
-    public long getMaximumValue() {
-        return maximumValue;
+    public static void validateDiscountRange(VoucherType voucherType, long discountValue) {
+        if (!voucherType.isValidDiscountValue(discountValue)) {
+            throw new IllegalArgumentException(String.format("잘못된 입력 값입니다. %d ~ %d 사이의 값을 입력해주세요.", voucherType.minimumValue, voucherType.maximumValue));
+        }
     }
 }
