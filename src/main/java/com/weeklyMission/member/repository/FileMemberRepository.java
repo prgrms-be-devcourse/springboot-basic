@@ -10,6 +10,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Repository;
 public class FileMemberRepository implements MemberRepository{
     private final String path;
 
-    private final Map<Long, Member> storage;
+    private final Map<UUID, Member> storage;
 
     public FileMemberRepository(@Value("${filePath.repository.member}") String path) {
         this.path = System.getProperty("user.dir") + path;
@@ -37,7 +38,7 @@ public class FileMemberRepository implements MemberRepository{
             String data;
             while((data=br.readLine())!=null){
                 String[] dataSplit = data.split(",");
-                Member member = new Member(Long.parseLong(dataSplit[0]), dataSplit[1], Integer.parseInt(dataSplit[2]), dataSplit[3]);
+                Member member = new Member(UUID.fromString(dataSplit[0]), dataSplit[1], Integer.parseInt(dataSplit[2]), dataSplit[3]);
                 storage.put(member.memberId(), member);
             }
         }catch(IOException e){

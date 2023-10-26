@@ -1,8 +1,10 @@
 package com.weeklyMission.member.domain;
 
 
+import java.util.UUID;
+
 public record Member(
-    Long memberId,
+    UUID memberId,
     String name,
     Integer age,
     String reason

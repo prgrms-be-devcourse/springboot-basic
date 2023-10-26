@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.HashMap;
+import java.util.UUID;
 import javax.sql.DataSource;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -33,10 +34,10 @@ class DBMemberRepositoryTest {
                 .build();
 
             NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-            jdbcTemplate.getJdbcTemplate().execute("CREATE TABLE member (member_id int PRIMARY KEY, name varchar(20) not null, age int not null, reason varchar(50))");
+            jdbcTemplate.getJdbcTemplate().execute("CREATE TABLE member (member_id BINARY(16) PRIMARY KEY, name varchar(20) not null, age int not null, reason varchar(50))");
 
             jdbcTemplate.update("INSERT INTO member(member_id, name, age, reason) values (:member_id, :name, :age, :reason)", new HashMap(){{
-                put("member_id", "1");
+                put("member_id", UUID.randomUUID());
                 put("name", "김강훈");
                 put("age", "26");
                 put("reason", "욕설");
