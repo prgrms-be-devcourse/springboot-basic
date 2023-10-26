@@ -155,6 +155,7 @@ class JdbcCustomerRepositoryTest {
     void testUpdateCustomerSuccessful() {
         //given
         final Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
 
         //when
         final Customer updatedCustomer = new Customer(customer.getCustomerId(), "updated-test-customer");
@@ -163,5 +164,20 @@ class JdbcCustomerRepositoryTest {
         //then
         final Customer founcCustomer = customerRepository.findById(customer.getCustomerId()).get();
         assertThat(founcCustomer.getName(), is(updatedCustomer.getName()));
+    }
+
+    @Test
+    @DisplayName("저장된 고객의 정보를 삭제한다.")
+    void testDeleteCustomerSuccessful() {
+        //given
+        final Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
+
+        //when
+        customerRepository.deleteById(customer.getCustomerId());
+
+        //then
+        Optional<Customer> emptyIfDeleted = customerRepository.findById(customer.getCustomerId());
+        assertThat(emptyIfDeleted.isEmpty(), is(true));
     }
 }
