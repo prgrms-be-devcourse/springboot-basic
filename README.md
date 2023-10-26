@@ -36,7 +36,7 @@ Type **list** to list all vouchers.
 
 **(기본)** **바우처 관리 애플리케이션**
 
-- [ ]  애플리케이션 단위 테스트 작성
+- [x]  애플리케이션 단위 테스트 작성
 - [x]  customers 테이블 정의 및 추가
 - [x]  CustomerRepository 추가 및 JdbcTemplate을 사용해서 구현
 - [x]  voucher 테이블 정의 및 추가
