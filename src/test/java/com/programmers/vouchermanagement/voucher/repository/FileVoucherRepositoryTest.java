@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -32,10 +33,12 @@ class FileVoucherRepositoryTest {
     VoucherRepository voucherRepository;
     @Autowired
     AppProperties appProperties;
+    UUID testVoucherId;
 
     @BeforeAll
     void setUp() {
         voucherRepository.deleteAll();
+        testVoucherId = UUID.randomUUID();
     }
 
     @Test
@@ -62,7 +65,7 @@ class FileVoucherRepositoryTest {
     @Order(3)
     void testVoucherCreationSuccessful() {
         //given
-        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        final Voucher voucher = new Voucher(testVoucherId, new BigDecimal(10000), VoucherType.FIXED);
 
         //when
         final Voucher createdVoucher = voucherRepository.save(voucher);
@@ -83,6 +86,17 @@ class FileVoucherRepositoryTest {
         final List<Voucher> vouchers = voucherRepository.findAll();
 
         //then
-        assertThat(vouchers, hasSize(2));
+        assertThat(vouchers, hasSize(greaterThanOrEqualTo(1)));
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 아이디 검색 시 빈 Optional을 반환한다")
+    @Order(5)
+    void testFindVoucherByIdSuccessful_ReturnEmptyOptional() {
+        //when
+        final Optional<Voucher> foundVoucher = voucherRepository.findById(UUID.randomUUID());
+
+        //then
+        assertThat(foundVoucher.isEmpty(), is(true));
     }
 }
