@@ -21,6 +21,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private final String SELECT_ALL_CUSTOMER = "SELECT * FROM customers";
     private final String INSERT_CUSTOMER = "INSERT INTO customers(customer_id, customer_name, customer_type) VALUES(UUID_TO_BIN(:customerId), :customerName, :customerType)";
+    private final String FIND_BLACKLIST = "SELECT * FROM customers where customer_type = 'BLACK'";
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -35,7 +36,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlackList() {
-        return null;
+        return jdbcTemplate.query(FIND_BLACKLIST, customerRowMapper);
     }
 
     @Override
