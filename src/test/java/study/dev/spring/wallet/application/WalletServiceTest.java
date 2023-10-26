@@ -103,5 +103,15 @@ class WalletServiceTest {
 					.hasMessageContaining(VoucherErrorCode.NOT_EXIST.getMessage());
 			}
 		}
+
+		@Test
+		@DisplayName("[고객 아이디에 맞는 고객의 지갑을 모두 삭제한다]")
+		void deleteByCustomer() {
+			//when
+			boolean actual = walletService.deleteByCustomer("customerId");
+
+			//then
+			assertThat(actual).isTrue();
+		}
 	}
 }
