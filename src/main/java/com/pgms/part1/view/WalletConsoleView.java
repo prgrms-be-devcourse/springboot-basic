@@ -13,6 +13,23 @@ import java.util.List;
 public class WalletConsoleView extends CommonConsoleView{
     private final TextIO textIO = TextIoFactory.getTextIO();
 
+    @Override
+    public String getMenu(){
+        String command = textIO.newStringInputReader()
+                .read("""
+                         
+                         === Wallet Menu ===
+                        Type **add** to create a new voucher.
+                        Type **customer list** to list customers own some voucher.
+                        Type **voucher list** to list vouchers owned by some customer.
+                        Type **delete** to delete voucher.
+                        Type **exit** to exit the menu.
+                        """);
+
+        return command;
+    }
+
+
     public WalletCreateRequestDto addWallet() {
         Long customerId = textIO.newLongInputReader()
                 .read("""

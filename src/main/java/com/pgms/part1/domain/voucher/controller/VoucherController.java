@@ -35,7 +35,6 @@ public class VoucherController {
             default -> {
                 voucherConsoleView.error(new RuntimeException("Please Enter Again!!"));
                 log.warn("Invalid Menu Command Input");
-                getMenu();
             }
         }
 

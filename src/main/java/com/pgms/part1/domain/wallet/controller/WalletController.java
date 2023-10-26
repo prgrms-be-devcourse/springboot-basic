@@ -42,9 +42,10 @@ public class WalletController {
             default -> {
                 walletConsoleView.error(new RuntimeException("Please Enter Again!!"));
                 log.warn("Invalid Menu Command Input");
-                getMenu();
             }
         }
+
+        getMenu();
     }
 
     public void addWallet(){

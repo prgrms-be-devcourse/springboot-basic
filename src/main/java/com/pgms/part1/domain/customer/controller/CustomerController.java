@@ -39,7 +39,6 @@ public class CustomerController {
             default -> {
                 customerConsoleView.error(new RuntimeException("Please Enter Again!!"));
                 log.warn("Invalid Menu Command Input");
-                getMenu();
             }
         }
         getMenu();
