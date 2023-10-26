@@ -44,23 +44,20 @@ public class AppController implements CommandLineRunner {
                     mode.execute(outputConsole);
                     switch (mode) {
                         case VOUCHER:
-                            outputConsole.startVoucherMode();
                             fun = inputConsole.getString();  //voucher 실행
                             VoucherFunction.findByCode(fun).execute(voucherController);
                             break;
                         case CUSTOMER:
-                            outputConsole.startCustomerMode();
                             fun = inputConsole.getString();
                             CustomerFunction.findByCode(fun).execute(customerController);
                             break;
                         case WALLET:
-                            outputConsole.startWalletMode();
                             fun = inputConsole.getString();
                             WalletFunction.findByCode(fun).execute(walletController);
                             break;
                         case EXIT:
-                            outputConsole.printProgramEnd();
-                            System.exit(1);
+                            ProgramFunction.findByCode(fun).execute(outputConsole);
+                            System.exit(0);
                             break;
 
                     }

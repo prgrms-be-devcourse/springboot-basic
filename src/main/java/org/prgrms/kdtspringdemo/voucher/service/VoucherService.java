@@ -45,7 +45,4 @@ public class VoucherService {
                 });
     }
 
-    public void endVoucherService() {
-        System.exit(0);
-    }
 }
