@@ -29,14 +29,12 @@ public class FixedAmountVoucher extends Voucher {
     private static void validate(int amount) {
         if (amount < MINIMUM_AMOUNT) {
             throw new IllegalArgumentException(
-                    format("{0}: 할인 금액은 {1} 보다 작을 수 없습니다.", amount, MINIMUM_AMOUNT)
-            );
+                    format("{0}: 할인 금액은 {1} 보다 작을 수 없습니다.", amount, MINIMUM_AMOUNT));
         }
 
         if (amount > MAXIMUM_AMOUNT) {
             throw new IllegalArgumentException(
-                    format("{0}: 할인 금액은 {1} 보다 클 수 없습니다.", amount, MAXIMUM_AMOUNT)
-            );
+                    format("{0}: 할인 금액은 {1} 보다 클 수 없습니다.", amount, MAXIMUM_AMOUNT));
         }
     }
 
