@@ -20,7 +20,7 @@ public class VoucherConsoleView extends CommonConsoleView{
                          === Voucher Menu ===
                         Type **create** to create a new voucher.
                         Type **list** to list all vouchers.
-                        Type **delete** to delete a voucher.
+                        Type **delete** to delete voucher.
                         Type **exit** to exit the menu.
                         """);
 

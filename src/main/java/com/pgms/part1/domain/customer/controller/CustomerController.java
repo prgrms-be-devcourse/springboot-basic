@@ -34,6 +34,7 @@ public class CustomerController {
             case "list" -> listCustomers();
             case "blacklist" -> listBlockedCustomers();
             case "block" -> updateCustomerBlocked();
+            case "delete" -> deleteCustomer();
             case "exit" -> {return;}
             default -> {
                 customerConsoleView.error(new RuntimeException("Please Enter Again!!"));
@@ -42,6 +43,11 @@ public class CustomerController {
             }
         }
         getMenu();
+    }
+
+    private void deleteCustomer() {
+        Long id = customerConsoleView.deleteCustomer();
+        customerService.deleteCustomer(id);
     }
 
     private void updateCustomerBlocked() {

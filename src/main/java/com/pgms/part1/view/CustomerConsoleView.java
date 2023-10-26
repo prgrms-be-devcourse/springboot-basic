@@ -22,6 +22,7 @@ public class CustomerConsoleView extends CommonConsoleView{
                         Type **list** to list all customers.
                         Type **blacklist** to list all blocked customers.
                         Type **block** to block customer.
+                        Type **delete** to delete customer.
                         Type **exit** to exit the menu.
                         """);
 
@@ -66,5 +67,15 @@ public class CustomerConsoleView extends CommonConsoleView{
                         """);
 
         return new CustomerCreateRequestDto(name, email);
+    }
+
+    public Long deleteCustomer() {
+        Long id = textIO.newLongInputReader()
+                .read("""
+                         
+                         === Delete Customer ===
+                        Enter the Customer Id
+                        """);
+        return id;
     }
 }
