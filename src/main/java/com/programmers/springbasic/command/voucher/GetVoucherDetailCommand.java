@@ -11,7 +11,6 @@ import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.VoucherController;
 import com.programmers.springbasic.dto.VoucherDto;
-import com.programmers.springbasic.entity.voucher.Voucher;
 
 @Component
 public class GetVoucherDetailCommand implements Command {

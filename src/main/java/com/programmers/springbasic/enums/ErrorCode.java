@@ -5,7 +5,6 @@ public enum ErrorCode {
 	INVALID_VOUCHER_TYPE("잘못된 바우처 타입입니다"),
 	INVALID_NUMBER("숫자 입력이 잘못되었습니다"),
 	INVALID_UUID("uuid 입력이 잘못되었습니다"),
-
 	AMOUNT_SHOULD_BE_POSITIVE("금액은 0보다 커야 합니다"),
 	PERCENT_OUT_OF_RANGE("퍼센트는 0과 100 사이여야 합니다"),
 	EMPTY_STRING("문자열은 비어있으면 안됩니다"),
@@ -15,7 +14,6 @@ public enum ErrorCode {
 	FILE_NOT_FOUND("파일이 존재하지 않습니다"),
 	CUSTOMER_NOT_FOUND("존재하지 않는 고객입니다"),
 	VOUCHER_NOT_FOUND("존재하지 않는 바우처입니다");
-
 
 	private final String message;
 

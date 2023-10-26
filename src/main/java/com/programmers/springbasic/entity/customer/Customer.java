@@ -7,8 +7,8 @@ public class Customer {
 
 	private final UUID id;
 	private final String email;
-	private String name;
 	private final LocalDateTime createdAt;
+	private String name;
 
 	public Customer(UUID id, String name, String email, LocalDateTime createdAt) {
 		// todo : validate

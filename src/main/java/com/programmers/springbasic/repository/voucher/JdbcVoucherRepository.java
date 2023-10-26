@@ -68,7 +68,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		return voucher;
 	}
 
-
 	@Override
 	public List<Voucher> findAll() {
 		String sql = "SELECT * FROM voucher";

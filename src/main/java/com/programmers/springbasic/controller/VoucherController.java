@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 
-import com.programmers.springbasic.dto.CreateFixedAmountVoucherRequest;
-import com.programmers.springbasic.dto.CreatePercentDiscountVoucherRequest;
 import com.programmers.springbasic.dto.CustomerDto;
 import com.programmers.springbasic.dto.VoucherDto;
 import com.programmers.springbasic.entity.voucher.VoucherType;

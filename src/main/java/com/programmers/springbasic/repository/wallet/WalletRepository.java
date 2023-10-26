@@ -3,9 +3,6 @@ package com.programmers.springbasic.repository.wallet;
 import java.util.List;
 import java.util.UUID;
 
-import com.programmers.springbasic.entity.customer.Customer;
-import com.programmers.springbasic.entity.voucher.Voucher;
-
 public interface WalletRepository {
 
 	void insertVoucherForCustomer(UUID customerId, UUID voucherId);
