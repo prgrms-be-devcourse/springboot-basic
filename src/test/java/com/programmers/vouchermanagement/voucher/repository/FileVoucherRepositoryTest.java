@@ -89,7 +89,6 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("존재하지 않는 아이디 검색 시 빈 Optional을 반환한다")
-    @Order(5)
     void testFindVoucherByIdSuccessful_ReturnEmptyOptional() {
         //when
         final Optional<Voucher> foundVoucher = voucherRepository.findById(UUID.randomUUID());
@@ -100,7 +99,6 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("아이디 검색으로 바우처 조회를 성공한다.")
-    @Order(6)
     void testFindVoucherByIdSuccessful() {
         //given
         final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(40), VoucherType.PERCENT);
@@ -112,5 +110,22 @@ class FileVoucherRepositoryTest {
         //then
         assertThat(foundVoucher.isEmpty(), is(false));
         assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+    }
+
+    @Test
+    @DisplayName("바우처 정보 수정을 성공한다.")
+    void testVoucherUpdateSuccessful() {
+        //given
+        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        voucherRepository.save(voucher);
+        final Voucher foundVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
+
+        //when
+        final Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), new BigDecimal(5000), voucher.getVoucherType());
+        voucherRepository.save(updatedVoucher);
+        final Voucher newlyFoundVoucher = voucherRepository.findById(foundVoucher.getVoucherId()).get();
+
+        //then
+        assertThat(newlyFoundVoucher, samePropertyValuesAs(updatedVoucher));
     }
 }
