@@ -14,6 +14,10 @@ public final class VoucherFixture {
 		return Voucher.of(VoucherType.FIXED, "Fixed_Voucher", 1000);
 	}
 
+	public static Voucher getFixedVoucher(String voucherId) {
+		return new Voucher(voucherId, "Fixed_Voucher", VoucherType.FIXED, 1000);
+	}
+
 	public static Voucher getPercentVoucher() {
 		return Voucher.of(VoucherType.PERCENT, "Percent_Voucher", 10);
 	}
