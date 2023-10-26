@@ -28,7 +28,17 @@ public class VoucherService {
         return voucherRepository.voucherLists();
     }
 
-    private static DiscountPolicy getDiscountPolicy(PolicyStatus policy, long amountOrPercent) {
+    public void updateVoucher(UUID voucherId, long amountOrPercent) {
+        voucherRepository.update(voucherId, amountOrPercent);
+    }
+
+    public void deleteVoucher() {
+        voucherRepository.deleteAll();
+    }
+
+
+
+    private DiscountPolicy getDiscountPolicy(PolicyStatus policy, long amountOrPercent) {
         DiscountPolicy discountPolicy = null;
         if (policy == PolicyStatus.FIXED) {
             discountPolicy = new FixedAmountVoucher(amountOrPercent);
