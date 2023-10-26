@@ -12,11 +12,11 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID id);
 
-    List<Voucher> findByName(String name);
+    Optional<Voucher> findByName(String name);
+
+    List<Voucher> findByNameLike(String name);
 
     Voucher save(Voucher voucher);
 
     void delete(UUID id);
-
-
 }

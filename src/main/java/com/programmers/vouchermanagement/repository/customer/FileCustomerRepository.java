@@ -46,7 +46,13 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findByName(String name) {
+    public Optional<Customer> findByName(String name) {
+        return customers.values().stream()
+                .filter(customer -> customer.getName().equals(name)).findFirst();
+    }
+
+    @Override
+    public List<Customer> findByNameLike(String name) {
         return customers.values().stream()
                 .filter(customer -> customer.getName().contains(name))
                 .toList();

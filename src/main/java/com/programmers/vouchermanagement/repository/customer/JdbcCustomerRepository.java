@@ -48,7 +48,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findByName(String name) {
+    public Optional<Customer> findByName(String name) {
+        String sql = "SELECT * FROM customer WHERE name =:name";
+        SqlParameterSource namedParameters = new MapSqlParameterSource("name", name);
+        return jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToCustomer(resultSet)).stream().findFirst();
+    }
+
+    @Override
+    public List<Customer> findByNameLike(String name) {
         String sql = "SELECT * FROM customer WHERE name LIKE :hasName";
         SqlParameterSource namedParameters = new MapSqlParameterSource("hasName", "%" + name + "%");
         return jdbcTemplate.query(

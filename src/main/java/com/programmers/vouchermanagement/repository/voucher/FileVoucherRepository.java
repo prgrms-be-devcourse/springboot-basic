@@ -47,7 +47,14 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByName(String name) {
+    public Optional<Voucher> findByName(String name) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getName().equals(name))
+                .findFirst();
+    }
+
+    @Override
+    public List<Voucher> findByNameLike(String name) {
         return vouchers.values().stream()
                 .filter(voucher -> voucher.getName().contains(name))
                 .toList();

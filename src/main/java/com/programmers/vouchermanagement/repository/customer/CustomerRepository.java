@@ -12,7 +12,9 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID id);
 
-    List<Customer> findByName(String name);
+    Optional<Customer> findByName(String name);
+
+    List<Customer> findByNameLike(String name);
 
     List<Customer> findBannedCustomers();
 

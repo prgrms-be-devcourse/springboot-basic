@@ -39,12 +39,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID id) {
         String sql = "SELECT * FROM voucher WHERE id = UUID_TO_BIN(:id)";
-        SqlParameterSource namedParameters = new MapSqlParameterSource("id", id);
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, namedParameters, (resultSet, i) -> mapToVoucher(resultSet)));
+        SqlParameterSource namedParameters = new MapSqlParameterSource("id", id.toString());
+        return jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToVoucher(resultSet)).stream().findFirst();
     }
 
     @Override
-    public List<Voucher> findByName(String name) {
+    public Optional<Voucher> findByName(String name) {
+        String sql = "SELECT * FROM voucher WHERE name = :name";
+        SqlParameterSource namedParameters = new MapSqlParameterSource("name", name);
+        return jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToVoucher(resultSet)).stream().findFirst();
+    }
+
+    @Override
+    public List<Voucher> findByNameLike(String name) {
         String sql = "SELECT * FROM voucher WHERE name LIKE :hasName";
         SqlParameterSource namedParameters = new MapSqlParameterSource("hasName", "%" + name + "%");
         return jdbcTemplate.query(
@@ -57,11 +64,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher save(Voucher voucher) {
         String sql = "INSERT INTO voucher (id, name, discount_amount, created_at, voucher_type) VALUES (UUID_TO_BIN(:id), :name, :discountAmount, :createdAt, :voucherType)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("id", voucher.getId())
+                .addValue("id", voucher.getId().toString())
                 .addValue("name", voucher.getName())
                 .addValue("discountAmount", voucher.getDiscountAmount())
                 .addValue("createdAt", voucher.getCreatedAt())
-                .addValue("voucherType", voucher.getVoucherType());
+                .addValue("voucherType", voucher.getVoucherType().toString());
 
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
         logger.debug("Affected Row on save: {}", affectedRow);
@@ -72,7 +79,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void delete(UUID id) {
         String sql = "DELETE FROM voucher WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("id", id);
+                .addValue("id", id.toString());
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
         logger.debug("Affected Row on delete: {}", affectedRow);
     }
@@ -83,7 +90,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 resultSet.getString("name"),
                 resultSet.getFloat("discount_amount"),
                 resultSet.getTimestamp("created_at").toLocalDateTime(),
-                VoucherType.valueOf(resultSet.getString("voucher_type"))
+                VoucherType.valueOf(resultSet.getString("voucher_type").toUpperCase())
         );
         return VoucherFactory.createVoucher(voucherDto);
     }
