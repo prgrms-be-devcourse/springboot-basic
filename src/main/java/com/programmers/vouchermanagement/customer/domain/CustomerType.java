@@ -17,6 +17,6 @@ public enum CustomerType {
     }
 
     private boolean isMatching(String input) {
-        return input.toLowerCase().equals(this.name());
+        return input.equalsIgnoreCase(this.name());
     }
 }
