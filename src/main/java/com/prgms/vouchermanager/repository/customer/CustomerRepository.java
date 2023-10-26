@@ -1,25 +1,24 @@
 package com.prgms.vouchermanager.repository.customer;
 
 import com.prgms.vouchermanager.domain.customer.Customer;
-import com.prgms.vouchermanager.util.file.FileManager;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
-@Repository
-public class CustomerRepository {
-    private Map<Long, Customer> blackList;
+public interface CustomerRepository {
+    Customer save(Customer customer);
 
-    public CustomerRepository(FileManager fileManager) {
+    void update(Customer customer);
 
-        blackList = fileManager.readBlackListCsv();
-    }
 
-    public List<Customer> getBlackList() {
+    Optional<Customer> findById(Long id);
 
-        return blackList.values()
-                .stream().toList();
-    }
+    List<Customer> findAll();
+
+    void deleteById(Long id);
+
+    void deleteAll();
+
+    List<Customer> findBlackList();
 
 }
