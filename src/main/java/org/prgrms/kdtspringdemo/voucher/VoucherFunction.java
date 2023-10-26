@@ -27,8 +27,9 @@ public enum VoucherFunction {
     }
 
     public static VoucherFunction findByCode(String fun) {
+        String lowerFun = fun.toLowerCase();
         return Arrays.stream(values())
-                .filter(option -> option.fun.equals(fun))
+                .filter(option -> option.fun.equals(lowerFun))
                 .findFirst()
                 .orElseThrow(() -> {
                     logger.error("해당 명령어가 존재하지 않습니다.");

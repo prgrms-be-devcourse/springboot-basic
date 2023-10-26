@@ -6,6 +6,8 @@ import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.VoucherFunction;
 import org.prgrms.kdtspringdemo.voucher.controller.VoucherController;
+import org.prgrms.kdtspringdemo.wallet.WalletFunction;
+import org.prgrms.kdtspringdemo.wallet.controller.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -19,13 +21,15 @@ public class AppController implements CommandLineRunner {
     private final OutputConsole outputConsole;
     private final VoucherController voucherController;
     private final CustomerController customerController;
+    private final WalletController walletController;
     private final Logger logger = LoggerFactory.getLogger(KdtSpringDemoApplication.class);
 
-    public AppController(InputConsole inputConsole, OutputConsole outputConsole, VoucherController voucherController, CustomerController customerController) {
+    public AppController(InputConsole inputConsole, OutputConsole outputConsole, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
         this.inputConsole = inputConsole;
         this.outputConsole = outputConsole;
         this.voucherController = voucherController;
         this.customerController = customerController;
+        this.walletController = walletController;
     }
 
     @Override
@@ -43,14 +47,21 @@ public class AppController implements CommandLineRunner {
                             outputConsole.startVoucherMode();
                             fun = inputConsole.getString();  //voucher 실행
                             VoucherFunction.findByCode(fun).execute(voucherController);
+                            break;
                         case CUSTOMER:
                             outputConsole.startCustomerMode();
                             fun = inputConsole.getString();
                             CustomerFunction.findByCode(fun).execute(customerController);
+                            break;
                         case WALLET:
                             outputConsole.startWalletMode();
                             fun = inputConsole.getString();
-                            
+                            WalletFunction.findByCode(fun).execute(walletController);
+                            break;
+                        case EXIT:
+                            outputConsole.printProgramEnd();
+                            System.exit(1);
+                            break;
 
                     }
                 } catch (Exception e) {

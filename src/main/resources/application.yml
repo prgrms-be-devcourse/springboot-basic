@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: DB
 
   datasource:
     url: jdbc:mysql://localhost:3306/kdt   # 데이터베이스 URL

@@ -2,13 +2,11 @@ package org.prgrms.kdtspringdemo.wallet.repository;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import org.prgrms.kdtspringdemo.customer.repository.JdbcCustomerRepository;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

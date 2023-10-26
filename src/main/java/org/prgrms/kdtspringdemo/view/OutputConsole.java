@@ -65,6 +65,18 @@ public class OutputConsole {
         System.out.print(start_string);
     }
 
+    public void getCustomerId() {
+        System.out.println("==============================================");
+        System.out.println("Enter Customer Id");
+        System.out.print(start_string);
+    }
+
+    public void getVoucherId() {
+        System.out.println("==============================================");
+        System.out.println("Enter Voucher Id");
+        System.out.print(start_string);
+    }
+
     public void getCustomerIsBlack() {
         System.out.println("==============================================");
         System.out.println("Enter Customer isBlack? (true / false)");
