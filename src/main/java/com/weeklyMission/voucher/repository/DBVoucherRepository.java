@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -56,17 +57,22 @@ public class DBVoucherRepository implements VoucherRepository{
 
     @Override
     public Optional<Voucher> findById(UUID id) {
-        Voucher findVoucher = jdbcTemplate.queryForObject(
-            "select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
-            Collections.singletonMap("voucherId", id.toString().getBytes()), voucherRowMapper);
-        return Optional.of(findVoucher);
+        Voucher voucherId;
+        try{
+            voucherId = jdbcTemplate.queryForObject(
+                "select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", id.toString().getBytes()), voucherRowMapper);
+        } catch (EmptyResultDataAccessException de){
+            throw new NoSuchElementException("존재하지 않는 id 입니다.", de);
+        }
+        return Optional.ofNullable(voucherId);
     }
 
     @Override
     public void deleteById(UUID id) {
-        if(!findById(id).isPresent()) throw new NoSuchElementException("존재하지 않습니다.");
-        jdbcTemplate.update("delete from voucher where voucher = UUID_TO_BIN(:voucher)",
-            Collections.singletonMap("voucher_id", id.toString().getBytes()));
+        findById(id);
+        jdbcTemplate.update("delete from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
+            Collections.singletonMap("voucherId", id.toString().getBytes()));
     }
 
     static UUID toUUID(byte[] bytes){
