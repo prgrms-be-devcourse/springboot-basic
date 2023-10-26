@@ -60,7 +60,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     @Transactional
     public Customer save(Customer customer) {
-        String sql = "INSERT INTO customer (id, name, created_at, is_banned) VALUES (:id, :name, :createdAt, :isBanned)";
+        String sql = "INSERT INTO customer (id, name, created_at, is_banned) VALUES (UUID_TO_BIN(:id), :name, :createdAt, :isBanned)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", customer.getId())
                 .addValue("name", customer.getName())
@@ -74,7 +74,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     @Transactional
     public Customer update(Customer customer) {
-        String sql = "UPDATE customer SET name = :name, created_at = :createdAt, is_banned = :isBanned WHERE id = :id";
+        String sql = "UPDATE customer SET name = :name, created_at = :createdAt, is_banned = :isBanned WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", customer.getId())
                 .addValue("name", customer.getName())
@@ -88,7 +88,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     @Transactional
     public void delete(UUID id) {
-        String sql = "DELETE FROM customer WHERE id = :id";
+        String sql = "DELETE FROM customer WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", id);
         int affectedRow = jdbcTemplate.update(sql, namedParameters);

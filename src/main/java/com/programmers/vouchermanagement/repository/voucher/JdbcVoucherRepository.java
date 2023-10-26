@@ -55,7 +55,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "INSERT INTO voucher (id, name, discount_amount, created_at, voucher_type) VALUES (:id, :name, :discountAmount, :createdAt, :voucherType)";
+        String sql = "INSERT INTO voucher (id, name, discount_amount, created_at, voucher_type) VALUES (UUID_TO_BIN(:id), :name, :discountAmount, :createdAt, :voucherType)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", voucher.getId())
                 .addValue("name", voucher.getName())
@@ -70,7 +70,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void delete(UUID id) {
-        String sql = "DELETE FROM voucher WHERE id = :id";
+        String sql = "DELETE FROM voucher WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", id);
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
