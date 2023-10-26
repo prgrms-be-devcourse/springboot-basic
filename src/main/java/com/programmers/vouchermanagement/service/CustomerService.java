@@ -1,10 +1,10 @@
 package com.programmers.vouchermanagement.service;
 
+import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -17,36 +17,49 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    List<Customer> findAllCustomers() {
+    public List<Customer> findAllCustomers() {
         return customerRepository.findAll();
     }
 
-    List<Customer> findBannedCustomers() {
+    public List<Customer> findBannedCustomers() {
         return customerRepository.findBannedCustomers();
     }
 
-    List<Customer> findByCustomerName(String name) {
-        return customerRepository.findByName(name);
+    public Customer findCustomerById(UUID id) {
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
     }
 
-    Customer createCustomer(String name) {
-        Customer customer = new Customer(UUID.randomUUID(), name, LocalDateTime.now(), false);
+    public List<Customer> findCustomerByName(String name) {
+        return customerRepository.findByNameLike(name);
+    }
+
+    public Customer createCustomer(String name) {
+        customerRepository.findByName(name).ifPresent(customer -> {
+            throw new IllegalArgumentException(ErrorMessage.CUSTOMER_ALREADY_EXISTS_MESSAGE.getMessage());
+        });
+        Customer customer = new Customer(UUID.randomUUID(), name);
         return customerRepository.save(customer);
     }
 
-    Customer banCustomer(UUID id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+    public Customer banCustomer(UUID id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
         customer.updateToBan();
         return customerRepository.update(customer);
     }
 
-    Customer unbanCustomer(UUID id) {
-        Customer customer = customerRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Customer not found"));
+    public Customer unbanCustomer(UUID id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
         customer.updateToUnban();
         return customerRepository.update(customer);
     }
 
-    void deleteCustomer(Customer customer) {
-        customerRepository.delete(customer.getId());
+    public void deleteCustomer(UUID id) {
+        int affectedRow = customerRepository.delete(id);
+        if (affectedRow == 0) {
+            throw new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
+        }
     }
 }

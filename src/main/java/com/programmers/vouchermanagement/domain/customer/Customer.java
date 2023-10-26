@@ -6,8 +6,13 @@ import java.util.UUID;
 public class Customer {
     private final UUID id;
     private final String name;
-    private final LocalDateTime createdAt;
-    private boolean isBanned;
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private boolean isBanned = false;
+
+    public Customer(UUID id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Customer(UUID id, String name, LocalDateTime createdAt, boolean isBanned) {
         this.id = id;
