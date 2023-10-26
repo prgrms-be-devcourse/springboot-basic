@@ -9,4 +9,6 @@ public interface CustomerRepository {
 
 	Optional<Customer> findById(String uuid);
 	List<Customer> findAll();
+
+	List<Customer> findByIds(List<String> ids);
 }

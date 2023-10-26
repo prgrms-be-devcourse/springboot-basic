@@ -33,6 +33,11 @@ public class WalletService {
 		return walletRepository.save(wallet).getUuid();
 	}
 
+	public boolean deleteByCustomer(String customerId) {
+		walletRepository.deleteByCustomerId(customerId);
+		return true;
+	}
+
 	private void validateCustomerExist(String customerId) {
 		customerRepository.findById(customerId)
 			.orElseThrow(() -> new CustomerException(CustomerErrorCode.NOT_EXIST));

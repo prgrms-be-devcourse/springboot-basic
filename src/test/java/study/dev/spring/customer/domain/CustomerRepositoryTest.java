@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import study.dev.spring.customer.fixture.CustomerFixture;
 import study.dev.spring.customer.infrastructure.JdbcCustomerRepository;
 import study.dev.spring.global.support.DataSourceTestSupport;
 
@@ -46,9 +47,8 @@ class CustomerRepositoryTest extends DataSourceTestSupport {
 	@DisplayName("[모든 고객을 조회한다]")
 	void findAll() {
 		//given
-		String uuid = "uuid";
-		String name = "name";
-		customerRepository.save(new Customer(uuid, name));
+		Customer customer = CustomerFixture.getCustomer();
+		customerRepository.save(customer);
 
 		//when
 		List<Customer> actual = customerRepository.findAll();
@@ -56,11 +56,7 @@ class CustomerRepositoryTest extends DataSourceTestSupport {
 		//then
 		assertThat(actual).hasSize(1);
 
-		Customer actualCustomer = actual.get(0);
-		assertAll(
-			() -> assertThat(actualCustomer.getName()).isEqualTo(name),
-			() -> assertThat(actualCustomer.getUuid()).isEqualTo(uuid)
-		);
+		assertCustomer(actual.get(0), customer);
 	}
 
 	@Nested
@@ -71,7 +67,7 @@ class CustomerRepositoryTest extends DataSourceTestSupport {
 		@DisplayName("[조회에 성공한다]")
 		void success() {
 			//given
-			Customer customer = new Customer("uuid", "name");
+			Customer customer = CustomerFixture.getCustomer();
 			customerRepository.save(customer);
 
 			//when
@@ -81,17 +77,14 @@ class CustomerRepositoryTest extends DataSourceTestSupport {
 			assertThat(actual).isPresent();
 
 			Customer actualCustomer = actual.get();
-			assertAll(
-				() -> assertThat(actualCustomer.getName()).isEqualTo(customer.getName()),
-				() -> assertThat(actualCustomer.getUuid()).isEqualTo(customer.getUuid())
-			);
+			assertCustomer(customer, actualCustomer);
 		}
 
 		@Test
 		@DisplayName("[아이디가에 해당하는 고객이 존재하지 않아 빈 값을 반환한다]")
 		void emptyValue() {
 			//given
-			Customer customer = new Customer("uuid", "name");
+			Customer customer = CustomerFixture.getCustomer();
 
 			//when
 			Optional<Customer> actual = customerRepository.findById(customer.getUuid());
@@ -99,5 +92,31 @@ class CustomerRepositoryTest extends DataSourceTestSupport {
 			//then
 			assertThat(actual).isNotPresent();
 		}
+	}
+
+	@Test
+	@DisplayName("[아이디 리스트에 포함된 모든 고객을 조회한다]")
+	void findByIds() {
+		//given
+		List<Customer> customers = CustomerFixture.getCustomers();
+		customers.forEach(customerRepository::save);
+
+		List<String> ids = customers.stream().map(Customer::getUuid).toList();
+
+		//when
+		List<Customer> actual = customerRepository.findByIds(ids);
+
+		//then
+		assertThat(actual).hasSameSizeAs(customers);
+		for (int i = 0; i < actual.size(); i++) {
+			assertCustomer(actual.get(i), customers.get(i));
+		}
+	}
+
+	private void assertCustomer(Customer actual, Customer expected) {
+		assertAll(
+			() -> assertThat(actual.getName()).isEqualTo(expected.getName()),
+			() -> assertThat(actual.getUuid()).isEqualTo(expected.getUuid())
+		);
 	}
 }

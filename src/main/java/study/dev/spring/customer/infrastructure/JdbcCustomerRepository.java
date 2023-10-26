@@ -21,9 +21,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	private static final String INSERT = "INSERT INTO Customer VALUES (:uuid, :name)";
 	private static final String FIND_ALL = "select * from Customer";
 	private static final String FIND_BY_ID = "select * from Customer c where c.uuid = :uuid";
+	private static final String FIND_BY_IDS = "select * from Customer c where c.uuid in(:ids)";
 
 	private static final String UUID = "uuid";
 	private static final String NAME = "name";
+	private static final String IDS = "ids";
 
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 	private final RowMapper<Customer> rowMapper;
@@ -63,5 +65,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public List<Customer> findAll() {
 		return jdbcTemplate.query(FIND_ALL, rowMapper);
+	}
+
+	@Override
+	public List<Customer> findByIds(List<String> ids) {
+		return jdbcTemplate.query(
+			FIND_BY_IDS,
+			Collections.singletonMap(IDS, ids),
+			rowMapper
+		);
 	}
 }
