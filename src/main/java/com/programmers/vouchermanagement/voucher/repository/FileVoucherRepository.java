@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -62,6 +63,11 @@ public class FileVoucherRepository implements VoucherRepository {
         return vouchers.values()
                 .stream()
                 .toList();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
     }
 
     @Override
