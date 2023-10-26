@@ -80,8 +80,9 @@ public class FileManager {
                 Long id = Long.parseLong(split[0]);
                 String name = split[1];
                 String email = split[2];
+                boolean blackList = split[3].equals("1") ? true : false;
 
-                customerMap.put(id, new Customer(id, name, email));
+                customerMap.put(id, new Customer(id, name, email,blackList));
             }
         } catch (IOException e) {
             throw new RuntimeException(INVALID_READ_FILE.getMessage());
