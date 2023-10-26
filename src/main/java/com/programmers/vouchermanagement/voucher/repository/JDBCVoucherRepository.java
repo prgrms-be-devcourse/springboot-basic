@@ -62,6 +62,7 @@ public class JDBCVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query(FIND_ALL_QUERY, voucherRowMapper);
     }
 
+    @Override
     public Optional<Voucher> findById(UUID id) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_QUERY,
@@ -73,6 +74,7 @@ public class JDBCVoucherRepository implements VoucherRepository {
         }
     }
 
+    @Override
     public void delete(UUID id) {
         int update = jdbcTemplate.update(DELETE_VOUCHER_QUERY, Collections.singletonMap("id", id.toString().getBytes()));
         if (update != 1) {
@@ -80,6 +82,7 @@ public class JDBCVoucherRepository implements VoucherRepository {
         }
     }
 
+    @Override
     public void update(Voucher voucher) {
         int update = jdbcTemplate.update(UPDATE_VOUCHER_QUERY, toParamMap(voucher));
         if (update != 1) {
