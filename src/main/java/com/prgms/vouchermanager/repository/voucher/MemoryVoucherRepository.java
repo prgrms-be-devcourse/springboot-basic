@@ -18,12 +18,40 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public void create(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
+        return vouchers.put(voucher.getId(), voucher);
+    }
+
+    @Override
+    public void update(Voucher voucher) {
         vouchers.put(voucher.getId(), voucher);
     }
+
     @Override
-    public List<Voucher> getAllVouchers() {
-        List<Voucher> voucherList = new ArrayList<>(vouchers.values());
-        return voucherList;
+    public Optional<Voucher> findById(UUID id) {
+        try {
+            Voucher voucher = vouchers.get(id);
+            return Optional.of(voucher);
+        } catch (NullPointerException e) {
+            return Optional.empty();
+        }
     }
+
+    @Override
+    public List<Voucher> findAll() {
+        return new ArrayList<>(vouchers.values());
+    }
+
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        if (vouchers.containsKey(id)) {
+            vouchers.remove(id);
+        }
+    }
+
 }
