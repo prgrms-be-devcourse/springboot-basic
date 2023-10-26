@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import static com.prgrms.voucher_manage.console.MenuType.EXIT;
 import static com.prgrms.voucher_manage.console.MenuType.matchMenuType;
@@ -53,6 +54,9 @@ public class ConsoleManager implements ApplicationRunner {
         switch (menuType) {
             case CREATE_VOUCHER -> createVoucher();
             case VOUCHER_LIST -> printVouchers(voucherController.getVouchers());
+            case FIND_VOUCHER -> findVoucher();
+            case UPDATE_VOUCHER -> updateVoucher();
+            case DELETE_VOUCHER -> deleteVoucher();
 
             case SAVE_CUSTOMER -> saveCustomer();
             case BLACK_CUSTOMERS ->  printCustomers(customerController.getBlackCustomers());
@@ -62,7 +66,6 @@ public class ConsoleManager implements ApplicationRunner {
             case FIND_CUSTOMER -> findCustomer();
         }
     }
-
     public void createVoucher() throws Exception {
         outputUtil.printVoucherSelect();
         VoucherType voucherType = VoucherType.matchVoucherType(inputUtil.getStringInput());
@@ -77,9 +80,40 @@ public class ConsoleManager implements ApplicationRunner {
         voucherController.createVoucher(voucherType, discountAmount);
     }
 
+    private void findVoucher() throws IOException {
+        outputUtil.printMessage("Input voucher id you want to find");
+        UUID voucherId = UUID.fromString(inputUtil.getStringInput());
+        Voucher voucher = voucherController.findVoucher(voucherId);
+        switch (voucher.getType()) {
+            case FIXED -> outputUtil.printFixedVoucherInfo(voucher);
+            case PERCENT -> outputUtil.printPercentVoucherInfo(voucher);
+        }
+    }
+
+    public void updateVoucher() throws Exception {
+        outputUtil.printMessage("Input voucher id you want to update.");
+        UUID voucherId = UUID.fromString(inputUtil.getStringInput());
+        outputUtil.printMessage("Input voucher price to update");
+        Long discountAmount = inputUtil.getLongInput();
+        voucherController.updateVoucher(voucherId,discountAmount);
+    }
+
+    public void deleteVoucher() throws IOException {
+        outputUtil.printMessage("Input voucherId to delete.");
+        voucherController.deleteVoucher(UUID.fromString(inputUtil.getStringInput()));
+    }
+
+    private CustomerType getCustomerType() throws IOException {
+        CustomerType customerType = CustomerType.matchCustomerType(inputUtil.getStringInput());
+        if (customerType == null){
+            throw new InvalidInputException("Invalid command input");
+        }
+        return customerType;
+    }
+
     private void printVouchers(List<Voucher> vouchers) {
         vouchers.forEach(voucher -> {
-            switch (voucher.getVoucherType()) {
+            switch (voucher.getType()) {
                 case FIXED -> outputUtil.printFixedVoucherInfo(voucher);
                 case PERCENT -> outputUtil.printPercentVoucherInfo(voucher);
             }
@@ -105,19 +139,9 @@ public class ConsoleManager implements ApplicationRunner {
         outputUtil.printMessage("Input customer name to update.");
         String name = inputUtil.getStringInput();
         Customer customer = customerController.findByName(name);
-//        outputUtil.printMessage("Input customer new name to change.");
-//        String newName = inputUtil.getStringInput();
 
         outputUtil.printMessage("Input customer type to change.");
         customerController.update(new Customer(customer.getId(),customer.getName(), getCustomerType()));
-    }
-
-    private CustomerType getCustomerType() throws IOException {
-        CustomerType customerType = CustomerType.matchCustomerType(inputUtil.getStringInput());
-        if (customerType == null){
-            throw new InvalidInputException("Invalid command input");
-        }
-        return customerType;
     }
 
     private void printCustomers(List<Customer> customers) {

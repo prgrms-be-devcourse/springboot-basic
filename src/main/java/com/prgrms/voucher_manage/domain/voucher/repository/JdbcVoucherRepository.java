@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -33,18 +34,44 @@ public class JdbcVoucherRepository implements VoucherRepository{
         return jdbcTemplate.query(sql, rowMapper);
     }
 
+    @Override
+    public Optional<Voucher> findById(UUID voucherId){
+        String sql = "select * from voucher where voucher_id = UUID_TO_BIN(?)";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,toBytes(voucherId)));
+    }
+
+    @Override
+    public int update(Voucher voucher){
+        String sql = "update voucher set amount = ? where voucher_id = UUID_TO_BIN(?)";
+        return jdbcTemplate.update(sql, voucher.getDiscountAmount(), toBytes(voucher.getId()));
+    }
+
+    @Override
+    public int deleteById(UUID voucherId){
+        String sql = "delete from voucher where voucher_id = UUID_TO_BIN(?)";
+        return jdbcTemplate.update(sql, toBytes(voucherId));
+    }
+
     private static final RowMapper<Voucher> rowMapper = (resultSet, i) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         Long amount = resultSet.getLong("amount");
         String type = resultSet.getString("type");
 
+        return getVoucher(voucherId, amount, type);
+    };
+
+    private static Voucher getVoucher(UUID voucherId, Long amount, String type) {
         VoucherType voucherType = VoucherType.matchVoucherType(type);
         if (voucherType==VoucherType.FIXED){
             return new FixedAmountVoucher(voucherId, amount);
         } else {
             return new PercentDiscountVoucher(voucherId, amount);
         }
-    };
+    }
+
+    static byte[] toBytes(UUID voucherId){
+        return voucherId.toString().getBytes();
+    }
 
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
