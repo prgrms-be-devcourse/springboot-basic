@@ -68,7 +68,7 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @Order(2)
-    @DisplayName("JdbcVoucherRepository 템플릿을 주입 받아 생성된다.")
+    @DisplayName("JdbcVoucherRepository가 템플릿을 주입 받아 생성된다.")
     void testJdbcVoucherRepositoryCreation() {
         assertThat(voucherRepository, notNullValue());
     }
