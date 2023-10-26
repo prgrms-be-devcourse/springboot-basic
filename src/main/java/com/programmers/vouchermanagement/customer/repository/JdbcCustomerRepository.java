@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 
 @Repository
@@ -16,10 +17,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final String blacklistFilePath;
 
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate, String blacklistFilePath) {
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate, FileProperties fileProperties) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.blacklistFilePath = blacklistFilePath;
-        System.out.println(blacklistFilePath);
+        this.blacklistFilePath = fileProperties.getCSVCustomerFilePath();
+        loadBlacklistToStorage();
     }
 
     @Override
@@ -49,5 +50,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteAll() {
+    }
+
+    @Override
+    public void loadBlacklistToStorage() {
+        List<Customer> blacklist = loadBlacklist(blacklistFilePath);
     }
 }

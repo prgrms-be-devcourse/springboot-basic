@@ -59,4 +59,13 @@ public class InMemoryCustomerRepository implements CustomerRepository {
     public void deleteAll() {
         customers.clear();
     }
+
+    @Override
+    public void loadBlacklistToStorage() {
+    }
+
+    @Override
+    public List<Customer> loadBlacklist(String blacklistFilePath) {
+        return Collections.emptyList();
+    }
 }
