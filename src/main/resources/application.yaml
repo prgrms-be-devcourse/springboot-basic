@@ -1,7 +1,7 @@
 #dev ?? ??
-Spring:
-  profiles:
-    active: dev
+#Spring:
+#  profiles:
+#    active: prod
 
 ---
 spring:
