@@ -29,4 +29,14 @@ public class MemoryVoucherRepository implements VoucherRepository{
     public List<Voucher> findAll() {
         return new ArrayList<>(storage.values());
     }
+
+    @Override
+    public Voucher findById(UUID id) {
+        return storage.get(id);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        storage.remove(id);
+    }
 }
