@@ -1,7 +1,7 @@
 package org.prgms.kdtspringweek1.console;
 
-import org.prgms.kdtspringweek1.console.dto.SelectFunctionTypeDto;
-import org.prgms.kdtspringweek1.console.dto.SelectVoucherTypeDto;
+import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
+import org.prgms.kdtspringweek1.controller.dto.SelectVoucherTypeDto;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
 import org.springframework.stereotype.Component;
 

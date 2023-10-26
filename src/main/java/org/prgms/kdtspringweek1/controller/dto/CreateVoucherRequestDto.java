@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.console.dto;
+package org.prgms.kdtspringweek1.controller.dto;
 
 import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
