@@ -14,4 +14,11 @@ public class UuidUtil {
 
         return new UUID(mostSignificantBits, leastSignificantBits);
     }
+    public static UUID stringToUUID(String inputString) {
+        try {
+            return UUID.fromString(inputString);
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
 }

@@ -25,9 +25,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @Slf4j
 @ExtendWith(SpringExtension.class)
@@ -56,7 +57,6 @@ class WalletServiceTest {
             assertThat(wallet).isEqualTo(wallet1);
             verify(walletRepository).save(any(WalletRequestDto.class));
         }
-
         @Test
         @DisplayName("존재하지 않는 고객을 지갑에 저장하면 예외가 발생한다.")
         void createWalletNoCustomer() {
@@ -64,7 +64,6 @@ class WalletServiceTest {
             Assertions.assertThrows(NotExistEmailException.class, () -> service.createWallet(wallet));
         }
     }
-
     @Nested
     @DisplayName("조회")
     class find {
@@ -80,7 +79,6 @@ class WalletServiceTest {
             assertThat(wallet1).contains(wallet);
             verify(walletRepository).findByEmail(any(String.class));
         }
-
         @Test
         @DisplayName("존재하지 않는 고객의 지갑 정보 조회 시 예외가 발생한다")
         void findByEmailNotExist() {
@@ -89,7 +87,6 @@ class WalletServiceTest {
             Assertions.assertThrows(NotExistEmailException.class, () -> service.findByEmail("example@naver.com"));
             verify(walletRepository).findByEmail(any(String.class));
         }
-
         @Test
         @DisplayName("특정 바우처를 보유한 고객의 지갑정보를 조회할 수 있다")
         void findByVoucher() {
@@ -103,7 +100,6 @@ class WalletServiceTest {
             assertThat(result).contains(wallet);
             verify(walletRepository).findByVoucher(any(Voucher.class));
         }
-
         @Test
         @DisplayName("없는 바우처에 대해 지갑 조회 시 예외가 발생한다")
         void findByVoucherNotExist() {
@@ -114,7 +110,6 @@ class WalletServiceTest {
             verify(voucherRepository).findByID(any(UUID.class));
         }
     }
-
     @Nested
     @DisplayName("삭제")
     class delete {
@@ -132,7 +127,6 @@ class WalletServiceTest {
             verify(customerRepository).findByEmail(any(String.class));
             verify(walletRepository).deleteByEmail(any(String.class));
         }
-
         @Test
         @DisplayName("존재하지 않는 고객을 삭제하려하면 예외가 발생한다")
         void deleteByEmailNotExist(){
