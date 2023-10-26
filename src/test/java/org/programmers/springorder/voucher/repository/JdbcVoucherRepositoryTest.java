@@ -108,4 +108,29 @@ class JdbcVoucherRepositoryTest {
         assertThat(vouchers).hasSize(3);
         assertThat(vouchers).containsAll(savedvoucherList);
     }
+
+    @Test
+    @DisplayName("voucher id로 조회 테스트")
+    public void getVoucherByIdTest(){
+        UUID uuid1 = UUID.randomUUID();
+        UUID uuid2 = UUID.randomUUID();
+        UUID uuid3 = UUID.randomUUID();
+
+        Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED );
+        Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED );
+        Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED );
+
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
+
+
+        Voucher findVoucher1 = voucherRepository.findById(uuid1).get();
+        Voucher findVoucher2 = voucherRepository.findById(uuid2).get();
+        Voucher findVoucher3 = voucherRepository.findById(uuid3).get();
+
+        assertThat(voucher1).isEqualTo(findVoucher1);
+        assertThat(voucher2).isEqualTo(findVoucher2);
+        assertThat(voucher3).isEqualTo(findVoucher3);
+    }
 }
