@@ -1,20 +1,25 @@
 application:
-  title: "voucher-management-system"
-  version: "1.0.0"
+  title: voucher-management-system
+  version: 1.0.0
 
 file:
   path:
-    blacklist: "src/main/resources/blacklist.csv"
-    voucher_data: "src/main/resources/voucher_data.json"
+    blacklist: src/main/resources/blacklist.csv
+    voucher_data: src/main/resources/voucher_data.json
 ---
 spring:
   profiles:
-    active: "dev"
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher_management_system
+    username: root
+    password:
 ---
 spring:
   profiles:
-    active: "local"
+    active: local
 ---
 spring:
   profiles:
-    active: "debug"
+    active: debug
