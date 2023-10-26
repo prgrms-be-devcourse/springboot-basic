@@ -69,6 +69,10 @@ public class Voucher {
         return voucherType;
     }
 
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
