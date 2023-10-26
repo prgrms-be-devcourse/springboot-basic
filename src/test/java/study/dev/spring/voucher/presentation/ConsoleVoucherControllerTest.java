@@ -30,7 +30,7 @@ class ConsoleVoucherControllerTest {
 	@DisplayName("[바우처 전체 조회 프로세스를 실행한다]")
 	void findAllVouchersTest() {
 		//when
-		Executable when = consoleVoucherController::findAllVouchers;
+		Executable when = consoleVoucherController::getAllVouchers;
 
 		//then
 		assertDoesNotThrow(when);

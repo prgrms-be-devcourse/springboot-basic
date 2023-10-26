@@ -9,7 +9,6 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 
 import jakarta.annotation.PreDestroy;
 import study.dev.spring.common.exception.GlobalException;
@@ -19,7 +18,7 @@ import study.dev.spring.voucher.domain.VoucherRepository;
 import study.dev.spring.voucher.infrastructure.dto.VoucherData;
 import study.dev.spring.voucher.infrastructure.dto.VoucherMapper;
 
-@Repository
+// @Repository
 // @Profile("prod")
 public class FileVoucherRepository implements VoucherRepository {
 

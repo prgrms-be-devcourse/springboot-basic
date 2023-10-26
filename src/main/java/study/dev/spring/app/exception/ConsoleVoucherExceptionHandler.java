@@ -15,7 +15,7 @@ public class ConsoleVoucherExceptionHandler extends ConsoleVoucherApplicationRun
 	public ConsoleVoucherExceptionHandler(
 		final ConsoleVoucherApplicationRunner target
 	) {
-		super(null, null, null, null);
+		super(null, null, null);
 		this.target = target;
 	}
 

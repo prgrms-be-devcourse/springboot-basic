@@ -1,39 +1,29 @@
 package study.dev.spring.app;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.ThrowableAssert.*;
 import static org.mockito.BDDMockito.*;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
-import study.dev.spring.app.exception.ExitException;
 import study.dev.spring.common.io.InputHandler;
 import study.dev.spring.common.io.OutputHandler;
-import study.dev.spring.customer.presentation.ConsoleCustomerController;
-import study.dev.spring.voucher.presentation.ConsoleVoucherController;
 
 @DisplayName("[ConsoleVoucherApplicationRunner Test] - App")
-@ExtendWith(MockitoExtension.class)
 class ConsoleVoucherApplicationRunnerTest {
 
 	private final ConsoleVoucherApplicationRunner runner;
+	private final CommandExecutor commandExecutor;
 	private final InputHandler mockInputHandler;
-	private final ConsoleVoucherController mockController;
-	private final ConsoleCustomerController mockConsoleCustomerController;
 
 	public ConsoleVoucherApplicationRunnerTest() {
-		mockController = Mockito.mock(ConsoleVoucherController.class);
-		mockConsoleCustomerController = Mockito.mock(ConsoleCustomerController.class);
+		commandExecutor = Mockito.mock(CommandExecutor.class);
 		mockInputHandler = Mockito.mock(InputHandler.class);
 		OutputHandler mockOutputHandler = Mockito.mock(OutputHandler.class);
 
 		this.runner = new ConsoleVoucherApplicationRunner(
-			mockController, mockConsoleCustomerController, mockInputHandler, mockOutputHandler
+			commandExecutor, mockInputHandler, mockOutputHandler
 		);
 	}
 
@@ -49,10 +39,10 @@ class ConsoleVoucherApplicationRunnerTest {
 				.willReturn("exit");
 
 			//when
-			ThrowingCallable when = runner::run;
+			runner.run();
 
 			//then
-			assertThatThrownBy(when).isInstanceOf(ExitException.class);
+			verify(commandExecutor, times(1)).exit();
 		}
 
 		@Test
@@ -60,13 +50,13 @@ class ConsoleVoucherApplicationRunnerTest {
 		void createTest() {
 			//given
 			given(mockInputHandler.inputString())
-				.willReturn("create");
+				.willReturn("create_voucher");
 
 			//when
 			runner.run();
 
 			//then
-			verify(mockController, times(1)).createVoucher();
+			verify(commandExecutor, times(1)).createVoucher();
 		}
 
 		@Test
@@ -74,13 +64,13 @@ class ConsoleVoucherApplicationRunnerTest {
 		void listTest() {
 			//given
 			given(mockInputHandler.inputString())
-				.willReturn("list");
+				.willReturn("all_vouchers");
 
 			//when
 			runner.run();
 
 			//then
-			verify(mockController, times(1)).findAllVouchers();
+			verify(commandExecutor, times(1)).allVouchers();
 		}
 
 		@Test
@@ -93,7 +83,7 @@ class ConsoleVoucherApplicationRunnerTest {
 			//when
 			runner.run();
 
-			verify(mockConsoleCustomerController, times(1)).findAllBlackListCustomers();
+			verify(commandExecutor, times(1)).blackList();
 		}
 	}
 }
