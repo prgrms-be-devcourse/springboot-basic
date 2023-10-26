@@ -7,33 +7,56 @@ import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 @Profile("file")
-public class FileVoucherRepository implements VoucherRepository{
+public class FileVoucherRepository implements VoucherRepository {
     private final FileManager fileManager;
 
-    private final Map<UUID,Voucher>vouchers ;
+    private final Map<UUID, Voucher> vouchers;
 
     public FileVoucherRepository(FileManager fileManager) {
         this.fileManager = fileManager;
         vouchers = fileManager.readVoucherCsv();
 
-
     }
 
     @Override
-    public void create(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
+        return vouchers.put(voucher.getId(), voucher);
+    }
+
+    @Override
+    public void update(Voucher voucher) {
         vouchers.put(voucher.getId(), voucher);
     }
 
     @Override
-    public List<Voucher> getAllVouchers() {
+    public Optional<Voucher> findById(UUID id) {
+        try {
+            Voucher voucher = vouchers.get(id);
+            return Optional.of(voucher);
+        } catch (NullPointerException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Voucher> findAll() {
         return new ArrayList<>(vouchers.values());
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        if (vouchers.containsKey(id)) {
+            vouchers.remove(id);
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
     }
 
     @PreDestroy
@@ -41,3 +64,4 @@ public class FileVoucherRepository implements VoucherRepository{
         fileManager.saveVoucherFile(vouchers);
     }
 }
+
