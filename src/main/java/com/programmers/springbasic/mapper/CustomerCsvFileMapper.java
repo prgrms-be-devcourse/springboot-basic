@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.entity.customer.Customer;
 
 @Component
-public class CustomerMapper {
+public class CustomerCsvFileMapper {
 	public List<Customer> linesToCustomers(List<String> fileLines) {
 		return fileLines.stream().map(line -> {
 			String[] parts = line.split(",");

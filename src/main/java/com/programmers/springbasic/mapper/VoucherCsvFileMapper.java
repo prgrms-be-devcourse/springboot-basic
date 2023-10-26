@@ -14,7 +14,7 @@ import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.entity.voucher.VoucherType;
 
 @Component
-public class VoucherMapper {
+public class VoucherCsvFileMapper {
 	public List<String> voucherMapToLines(Map<UUID, Voucher> storage) {
 		return storage.entrySet().stream().map(entry -> {
 			Voucher voucher = entry.getValue();
