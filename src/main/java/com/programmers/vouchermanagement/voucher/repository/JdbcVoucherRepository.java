@@ -8,10 +8,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -31,7 +33,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        return null;
+        final String saveSQL = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
+        Map<String, Object> parameterMap = toParameterMap(voucher);
+        int savedVoucher = namedParameterJdbcTemplate.update(saveSQL, parameterMap);
+        if (savedVoucher != 1) {
+            throw new NoSuchElementException("Exception is raised while saving the voucher %s".formatted(voucher.getVoucherId()));
+        }
+
+        return voucher;
     }
 
     @Override
@@ -59,7 +68,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Map<String, Object> parameterMap = new HashMap<>();
         parameterMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
         parameterMap.put("discountValue", voucher.getDiscountValue());
-        parameterMap.put("voucherType", voucher.getVoucherType());
+        parameterMap.put("voucherType", voucher.getVoucherType().name());
 
         return Collections.unmodifiableMap(parameterMap);
     }
