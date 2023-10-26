@@ -1,18 +1,28 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
+import java.math.BigDecimal;
+import java.nio.ByteBuffer;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
 @Repository
 @Profile("jdbc")
 public class JdbcVoucherRepository implements VoucherRepository {
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> mapToVoucher(resultSet);
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
@@ -26,7 +36,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return null;
+        final String findAllSQL = "SELECT * FROM vouchers";
+        return namedParameterJdbcTemplate.query(findAllSQL, voucherRowMapper);
     }
 
     @Override
@@ -42,5 +53,27 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
 
+    }
+
+    private Map<String, Object> toParameterMap(Voucher voucher) {
+        Map<String, Object> parameterMap = new HashMap<>();
+        parameterMap.put("voucherId", voucher.getVoucherId().toString().getBytes());
+        parameterMap.put("discountValue", voucher.getDiscountValue());
+        parameterMap.put("voucherType", voucher.getVoucherType());
+
+        return Collections.unmodifiableMap(parameterMap);
+    }
+
+    private static Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
+        final UUID voucherId = toUUID(resultSet.getBytes("customer_id"));
+        final BigDecimal discountValue = resultSet.getBigDecimal("discount_value");
+        final String voucherTypeName = resultSet.getString("voucher_type");
+        final VoucherType voucherType = VoucherType.findVoucherType(voucherTypeName);
+        return new Voucher(voucherId, discountValue, voucherType);
+    }
+
+    private static UUID toUUID(byte[] bytes) {
+        var byteBuffer = ByteBuffer.wrap(bytes);
+        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }
