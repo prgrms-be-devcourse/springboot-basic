@@ -5,6 +5,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -128,7 +129,7 @@ class VoucherServiceTest {
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
         List<UUID> rs = allVoucher.stream().map(VoucherResponseDto::getVoucherId).toList();
 
-        assertThat(allVoucher).hasSize(5);
+        assertThat(allVoucher).hasSize(4);
         assertThat(rs.containsAll(uuids))
                 .isTrue();
     }
@@ -161,11 +162,51 @@ class VoucherServiceTest {
         //when
         voucherRepository.save(voucher);
         customerRepository.insert(customer);
-        voucherRepository.updateVoucherOwner(voucher, customer);
+        voucherService.update(voucherId, customerId);
 
         //then
         Voucher voucherWithOwner = voucherRepository.findById(voucherId).get();
         assertThat(voucherWithOwner.getCustomerId()).isEqualTo(customerId);
+
+    }
+
+    @Test
+    @DisplayName("Voucher 주인을 할당하는 서비스 로직, 사용자가 없는 경우")
+    void allocateVoucherOwnerWithoutValidUser() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        UUID customerId = UUID.randomUUID();
+        Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
+        Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+
+        //when
+        voucherRepository.save(voucher);
+        customerRepository.insert(customer);
+
+        //then
+        Assertions.assertThatThrownBy(() ->voucherService.update(voucherId, UUID.randomUUID()))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("해당 고객을 찾을 수 없습니다.");
+
+    }
+
+    @Test
+    @DisplayName("Voucher 주인을 할당하는 서비스 로직, 바우처 없는 경우")
+    void allocateVoucherOwnerWithoutValidVoucher() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        UUID customerId = UUID.randomUUID();
+        Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
+        Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+
+        //when
+        voucherRepository.save(voucher);
+        customerRepository.insert(customer);
+
+        //then
+        Assertions.assertThatThrownBy(() ->voucherService.update(UUID.randomUUID(), customerId))
+                .isInstanceOf(RuntimeException.class)
+                .hasMessage("해당 바우처를 찾을 수 없습니다.");
 
     }
 }
