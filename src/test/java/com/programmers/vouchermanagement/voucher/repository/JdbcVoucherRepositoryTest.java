@@ -118,7 +118,7 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         //when
-        final Optional<Voucher> foundVoucher = voucherRepository.findById(UUID.randomUUID());
+        final Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
 
         //then
         assertThat(foundVoucher.isEmpty(), is(false));
