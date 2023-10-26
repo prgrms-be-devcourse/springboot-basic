@@ -13,13 +13,12 @@ import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("dev")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
     private static final String CSV_SEPARATOR = ",";
 
@@ -42,10 +41,31 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.ofNullable(vouchers.get(id));
+    }
+
+    @Override
+    public List<Voucher> findByName(String name) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getName().contains(name))
+                .toList();
+    }
+
+    @Override
     public Voucher save(Voucher voucher) {
         vouchers.put(voucher.getId(), voucher);
         updateFile();
         return voucher;
+    }
+
+    @Override
+    public void delete(UUID id) {
+        if (!isVoucherPresent(id)) {
+            throw new NoSuchElementException("Voucher not found with id: " + id);
+        }
+        vouchers.remove(id);
+        updateFile();
     }
 
     public void readFile() {
@@ -54,10 +74,11 @@ public class FileVoucherRepository implements VoucherRepository {
             while ((line = br.readLine()) != null) {
                 String[] strings = line.split(CSV_SEPARATOR);
                 Voucher voucher = VoucherFactory.createVoucher(
-                        UUID.fromString(strings[0]),
-                        strings[1],
-                        Float.parseFloat(strings[2]),
-                        VoucherType.valueOf(strings[3].toUpperCase()));
+                        UUID.fromString(strings[0]),    // id
+                        strings[1],                     // name
+                        Float.parseFloat(strings[2]),   // discountAmount
+                        LocalDateTime.parse(strings[3]), // createdAt
+                        VoucherType.valueOf(strings[4].toUpperCase())); // voucherType
                 vouchers.put(voucher.getId(), voucher);
             }
         } catch (FileNotFoundException e) {
@@ -67,7 +88,7 @@ public class FileVoucherRepository implements VoucherRepository {
         }
     }
 
-    public void updateFile() {
+    private void updateFile() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFilePath))) {
             vouchers.values().stream()
                     .map(voucher -> voucher.joinInfo(CSV_SEPARATOR))
@@ -82,5 +103,9 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             logger.error("Error occurred af FileWriter: ", e);
         }
+    }
+
+    private boolean isVoucherPresent(UUID id) {
+        return vouchers.containsKey(id);
     }
 }
