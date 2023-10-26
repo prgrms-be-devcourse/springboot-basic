@@ -38,6 +38,8 @@ public class VoucherController {
                 getMenu();
             }
         }
+
+        getMenu();
     }
 
     private void deleteVoucher() {
@@ -45,10 +47,10 @@ public class VoucherController {
         voucherService.deleteVoucher(id);
     }
 
-    public void createVoucher(){
+    public void createVoucher() {
         VoucherCreateRequestDto voucherCreateRequestDto = voucherConsoleView.createVoucher();
 
-        if(!isDiscountAmount(voucherCreateRequestDto)){
+        if (!isDiscountAmount(voucherCreateRequestDto)) {
             voucherConsoleView.error(new RuntimeException("Please Enter Again!!"));
             log.warn("Invalid Create Input");
             createVoucher();
@@ -58,8 +60,6 @@ public class VoucherController {
             case FIXED_VOUCHER_CREATE -> voucherService.createFixedAmountVoucher(voucherCreateRequestDto);
             case PERCENT_VOUCHER_CREATE -> voucherService.createPercentDiscountVoucher(voucherCreateRequestDto);
         }
-
-        getMenu();
     }
 
     private boolean isDiscountAmount(VoucherCreateRequestDto voucherCreateRequestDto) {
@@ -79,6 +79,5 @@ public class VoucherController {
     public void listVoucher(){
         List<VoucherResponseDto> voucherResponseDtos = voucherService.listVoucher();
         voucherConsoleView.listVoucher(voucherResponseDtos);
-        getMenu();
     }
 }

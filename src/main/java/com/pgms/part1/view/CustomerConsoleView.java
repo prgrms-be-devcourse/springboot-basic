@@ -32,7 +32,8 @@ public class CustomerConsoleView extends CommonConsoleView{
     public void listBlockedCustomers(List<CustomerResponseDto> customerResponseDtos){
         System.out.println("\n === Customer Black List ===");
         customerResponseDtos.stream().forEach(c ->
-                System.out.println("ID: " + c.id() + " | isBlocked: " + c.isBlocked())
+                System.out.println("ID: " + c.id() + " | Name: " + c.name()
+                        + " | Email: " + c.email() + " | isBlocked: " + c.isBlocked())
         );
     }
 
@@ -48,7 +49,8 @@ public class CustomerConsoleView extends CommonConsoleView{
     public void listCustomers(List<CustomerResponseDto> customerResponseDtos){
         System.out.println("\n === Customer List ===");
         customerResponseDtos.stream().forEach(c ->
-                System.out.println("ID: " + c.id() + " | isBlocked: " + c.isBlocked())
+                System.out.println("ID: " + c.id() + " | Name: " + c.name()
+                        + " | Email: " + c.email() + " | isBlocked: " + c.isBlocked())
         );
     }
 

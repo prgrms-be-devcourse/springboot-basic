@@ -69,7 +69,8 @@ public class WalletConsoleView extends CommonConsoleView{
 
     public void listCustomers(List<CustomerResponseDto> customerResponseDtos){
         customerResponseDtos.stream().forEach(c ->
-                System.out.println("ID: " + c.id() + " | isBlocked: " + c.isBlocked())
+                System.out.println("ID: " + c.id() + " | Name: " + c.name()
+                        + " | Email: " + c.email() + " | isBlocked: " + c.isBlocked())
         );
     }
 }
