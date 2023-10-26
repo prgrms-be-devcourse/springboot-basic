@@ -1,15 +1,13 @@
 package com.programmers.vouchermanagement.voucher.service;
 
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
-
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -37,4 +35,19 @@ public class VoucherService {
                 .map(VoucherResponse::from)
                 .toList();
     }
+
+    public void readVoucherById(UUID voucherId) {
+        voucherRepository.findById(voucherId);
+
+
+    }
+
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.delete(voucherId);
+    }
+
+    public void updateVoucher(Voucher voucher) {
+        voucherRepository.update(voucher);
+    }
+
 }
