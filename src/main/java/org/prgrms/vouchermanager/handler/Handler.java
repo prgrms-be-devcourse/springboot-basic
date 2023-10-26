@@ -92,12 +92,15 @@ public class Handler {
         try{
             String customerMenu = input.customerInit();
             MenuType customerType = MenuType.fromValue(customerMenu);
-            if(customerType == MenuType.LIST)
+            if(customerType == MenuType.LIST){
                 customerList();
-            else if(customerType == MenuType.CREATE)
+            }
+            else if(customerType == MenuType.CREATE){
                 customerCreate();
-            else if(customerType == MenuType.EXIT)
+            }
+            else if(customerType == MenuType.EXIT){
                 continueOrNot = false;
+            }
         }catch (InputValueException e){
             log.error(e.getMessage() + "(create or list or exit)");
         }
@@ -218,7 +221,7 @@ public class Handler {
     private void walletFindByVoucher() {
         output.outputWalletVoucher();
         try{
-            UUID voucherId = UuidUtil.intToUUID(input.inputWalletVoucher());
+            UUID voucherId = UuidUtil.stringToUUID(input.inputWalletVoucher());
             Optional<Voucher> voucher = voucherController.findById(voucherId);
             walletController.findByVoucher(voucher.get());
         }catch (IOException | NotExistVoucherException e){

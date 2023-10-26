@@ -23,10 +23,12 @@ public class VoucherController {
 //    }
 
     public void create(MenuType menuType) {
-        if(menuType == MenuType.FIXED)
+        if(menuType == MenuType.FIXED){
             voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10, MenuType.FIXED));
-        else
+        }
+        else{
             voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10, MenuType.PERCENT));
+        }
     }
     public List<Voucher> findAllVoucher() {
         return voucherService.getAllVoucher();
