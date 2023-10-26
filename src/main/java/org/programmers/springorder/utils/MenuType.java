@@ -6,9 +6,9 @@ import java.util.Arrays;
 
 public enum MenuType {
     EXIT("1"),
-    CREATE("2"),
-    LIST("3"),
-    BLACK("4");
+    VOUCHER("2"),
+    CUSTOMER("3"),
+    WALLET("4");
 
     private final String menuNum;
 

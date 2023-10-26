@@ -34,9 +34,9 @@ public class VoucherApplication implements CommandLineRunner {
                     isRunning = false;
                     console.printMessage(Message.EXIT_PROGRAM_MESSAGE);
                 }
-                case CREATE -> voucherController.createVoucher();
-                case LIST -> voucherController.getVoucherList();
-                case BLACK -> customerController.printBlackList();
+//                case VOUCHER -> voucherController.run();
+                case CUSTOMER -> customerController.run();
+//                case WALLET -> walletController.run();
             }
         }
     }
