@@ -77,7 +77,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public void deleteById(UUID customerId) {
-
+        String deleteSQL = "DELETE FROM customers WHERE customer_id=UUID_TO_BIN(:customerId)";
+        Map<String, Object> parameteMap = Collections.singletonMap("customerId", customerId.toString().getBytes());
+        namedParameterJdbcTemplate.update(deleteSQL, parameteMap);
     }
 
     @Override
