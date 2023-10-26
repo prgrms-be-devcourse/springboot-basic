@@ -12,13 +12,13 @@ import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
 
 @Component
-public class DeleteCustomerCommand implements Command {
+public class RemoveCustomerCommand implements Command {
 
 	private final CustomerController customerController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public DeleteCustomerCommand(CustomerController customerController, ConsoleInputHandler consoleInputHandler,
+	public RemoveCustomerCommand(CustomerController customerController, ConsoleInputHandler consoleInputHandler,
 		ConsoleOutputHandler consoleOutputHandler) {
 		this.customerController = customerController;
 		this.consoleInputHandler = consoleInputHandler;
@@ -29,6 +29,6 @@ public class DeleteCustomerCommand implements Command {
 	public void execute() {
 		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
-		customerController.deleteCustomer(uuidInput);
+		customerController.removeCustomer(uuidInput);
 	}
 }

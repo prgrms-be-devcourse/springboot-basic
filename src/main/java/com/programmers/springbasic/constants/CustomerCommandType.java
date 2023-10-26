@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.command.customer.CreateCustomerCommand;
-import com.programmers.springbasic.command.customer.DeleteCustomerCommand;
+import com.programmers.springbasic.command.customer.RemoveCustomerCommand;
 import com.programmers.springbasic.command.customer.GetAllCustomersCommand;
 import com.programmers.springbasic.command.customer.GetBlacklistCustomersCommand;
 import com.programmers.springbasic.command.customer.GetCustomerDetailCommand;
@@ -21,7 +21,7 @@ public enum CustomerCommandType {
 	GET_BLACKLIST_CUSTOMERS("8", GetBlacklistCustomersCommand.class),
 	GET_CUSTOMER_DETAIL("9", GetCustomerDetailCommand.class),
 	UPDATE_CUSTOMER("10", UpdateCustomerCommand.class),
-	DELETE_CUSTOMER("11", DeleteCustomerCommand.class),
+	DELETE_CUSTOMER("11", RemoveCustomerCommand.class),
 	ASSIGN_VOUCHER_TO_CUSTOMER("12", AssignVoucherToCustomerCommand.class),
 	GET_CUSTOMER_VOUCHERS("13", GetCustomerVouchersCommand.class),
 	REMOVE_CUSTOMER_VOUCHER("14", RemoveCustomerVoucherCommand.class),

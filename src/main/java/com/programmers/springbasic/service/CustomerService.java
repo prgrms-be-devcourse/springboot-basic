@@ -70,7 +70,7 @@ public class CustomerService {
 		return CustomerDto.from(customer);
 	}
 
-	public CustomerDto deleteCustomer(UUID customerId) {
+	public CustomerDto removeCustomer(UUID customerId) {
 		Customer customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new NoSuchElementException(CUSTOMER_NOT_FOUND.getMessage()));
 		customerRepository.deleteById(customer.getId());

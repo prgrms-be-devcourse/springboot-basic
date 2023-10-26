@@ -38,8 +38,8 @@ public class CustomerController {
 		return customerService.updateCustomer(customerId, nameToUpdate);
 	}
 
-	public CustomerDto deleteCustomer(UUID customerId) {
-		return customerService.deleteCustomer(customerId);
+	public CustomerDto removeCustomer(UUID customerId) {
+		return customerService.removeCustomer(customerId);
 	}
 
 	public void assignVoucherToCustomer(UUID customerId, UUID voucherId) {
