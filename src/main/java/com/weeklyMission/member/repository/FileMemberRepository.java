@@ -2,10 +2,14 @@ package com.weeklyMission.member.repository;
 
 import com.weeklyMission.member.domain.Member;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +24,8 @@ import org.springframework.stereotype.Repository;
 @Profile("dev")
 public class FileMemberRepository implements MemberRepository{
     private final String path;
+
+    private final String seperator = ",";
 
     private final Map<UUID, Member> storage;
 
@@ -46,6 +52,27 @@ public class FileMemberRepository implements MemberRepository{
         }
     }
 
+    @PreDestroy
+    public void close(){
+        writeFile();
+    }
+
+    private void writeFile() {
+        try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path, false), StandardCharsets.UTF_8))){
+            for (Member member : storage.values()) {
+                bw.write(member.memberId() + seperator + member.name() + seperator + member.age() + seperator + member.reason());
+                bw.newLine();
+            }
+        }catch (IOException e){
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public Member save(Member member) {
+        storage.put(member.memberId(), member);
+        return member;
+    }
 
     @Override
     public List<Member> findAll() {
