@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,8 @@ import com.programmers.vouchermanagement.util.UUIDConverter;
 @Repository
 @Profile("jdbc")
 public class JdbcCustomerRepository implements CustomerRepository {
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> mapToCustomer(resultSet);
+
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final String blacklistFilePath;
 
@@ -52,7 +55,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findBlackCustomers() {
-        return null;
+        String blacklistSQL = "SELECT * FROM customers WHERE customer_type='BLACK'";
+        return namedParameterJdbcTemplate.query(blacklistSQL, customerRowMapper);
     }
 
     @Override
@@ -71,7 +75,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private int insert(Customer customer) {
-        final String saveSQL = "INSERT INTO customers(customer_id, name, customer_type) VALUES (UUID_TO_BIN(:customerId), :name, :customerType)";
+        String saveSQL = "INSERT INTO customers(customer_id, name, customer_type) VALUES (UUID_TO_BIN(:customerId), :name, :customerType)";
         Map<String, Object> parameterMap = toParameterMap(customer);
         return namedParameterJdbcTemplate.update(saveSQL, parameterMap);
     }
