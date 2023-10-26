@@ -81,6 +81,44 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @Order(3)
+    @DisplayName("저장된 블랙리스트 csv파일을 성공적으로 읽고 저장 후, 조회를 성공한다.")
+    void testLoadingBlacklistFileOnInit() {
+        assertThat(fileProperties.getCSVCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
+
+        //when
+        final List<Customer> blacklist = customerRepository.findBlackCustomers();
+
+        //then
+        assertThat(blacklist, hasSize(greaterThanOrEqualTo(1)));
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("블랙리스트에 저장된 고객이 없을 시 빈 리스트를 반환한다.")
+    void testFindBlackCustomersSuccessful_ReturnEmptyList() {
+        //given
+        customerRepository.deleteAll();
+
+        //when
+        final List<Customer> blacklist = customerRepository.findBlackCustomers();
+
+        //then
+        assertThat(blacklist.isEmpty(), is(true));
+    }
+
+    @Test
+    @Order(5)
+    @DisplayName("저장된 고객이 없으면 빈 리스트를 반환한다.")
+    void testFindCustomersSuccessful_ReturnEmptyList() {
+        //when
+        final List<Customer> customers = customerRepository.findAll();
+
+        //then
+        assertThat(customers.isEmpty(), is(true));
+    }
+
+    @Test
     @DisplayName("고객 저장을 성공한다.")
     void testCustomerCreationSuccessful() {
         //given
@@ -91,18 +129,6 @@ class JdbcCustomerRepositoryTest {
 
         //then
         assertThat(createdCustomer, samePropertyValuesAs(customer));
-    }
-
-    @Test
-    @DisplayName("저장된 블랙리스트 csv파일을 성공적으로 읽고 저장 후, 조회를 성공한다.")
-    void testLoadingBlacklistFileOnInit() {
-        assertThat(fileProperties.getCSVCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
-
-        //when
-        final List<Customer> blacklist = customerRepository.findBlackCustomers();
-
-        //then
-        assertThat(blacklist, hasSize(greaterThanOrEqualTo(1)));
     }
 
     @Test
