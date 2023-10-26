@@ -1,0 +1,5 @@
+file:
+  path:
+    blacklist: "src/test/resources/blacklist.csv"
+    voucher_data: "src/test/resources/voucher_data.json"
+    voucher_setup_data: "src/test/resources/voucher_setup_data.json"
