@@ -16,6 +16,22 @@ public class Customer {
         this.isBanned = isBanned;
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public boolean isBanned() {
+        return isBanned;
+    }
+
     public void updateToBan() {
         this.isBanned = true;
     }
@@ -32,5 +48,9 @@ public class Customer {
                 "Customer Name: " + name + System.lineSeparator() +
                 "Created At:    " + createdAt + System.lineSeparator() +
                 "isBanned:      " + isBanned + System.lineSeparator();
+    }
+
+    public String joinInfo(String separator) {
+        return String.join(separator, id.toString(), name, createdAt.toString(), String.valueOf(isBanned));
     }
 }
