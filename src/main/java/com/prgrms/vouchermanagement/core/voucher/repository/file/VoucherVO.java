@@ -4,7 +4,7 @@ import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 
 public class VoucherVO {
 
-    private long voucherID;
+    private String voucherID;
     private String name;
     private long amount;
     private VoucherType voucherType;
@@ -12,14 +12,14 @@ public class VoucherVO {
     public VoucherVO() {
     }
 
-    public VoucherVO(long voucherID, String name, long amount, VoucherType voucherType) {
+    public VoucherVO(String voucherID, String name, long amount, VoucherType voucherType) {
         this.voucherID = voucherID;
         this.name = name;
         this.amount = amount;
         this.voucherType = voucherType;
     }
 
-    public long getVoucherID() {
+    public String getVoucherID() {
         return voucherID;
     }
 

@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 public class FileRepository implements VoucherRepository {
 
     private final FileStorage fileStorage;
-    private final AtomicLong idGenerator = new AtomicLong(0);
 
     @Autowired
     public FileRepository(FileStorage fileStorage) {
@@ -24,8 +23,6 @@ public class FileRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        long nextId = idGenerator.incrementAndGet();
-        voucher.setVoucherID(nextId);
         fileStorage.saveFile(new VoucherVO(voucher.getVoucherID(), voucher.getName(), voucher.getAmount(), voucher.getVoucherType()));
         return voucher;
     }

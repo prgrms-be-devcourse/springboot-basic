@@ -13,11 +13,9 @@ import java.util.concurrent.atomic.AtomicLong;
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final List<Voucher> voucherArrayList = new CopyOnWriteArrayList<>();
-    private final AtomicLong idGenerator = new AtomicLong(0);
 
     @Override
     public Voucher save(Voucher voucher) {
-        voucher.setVoucherID(idGenerator.getAndIncrement());
         voucherArrayList.add(voucher);
         return voucher;
     }
