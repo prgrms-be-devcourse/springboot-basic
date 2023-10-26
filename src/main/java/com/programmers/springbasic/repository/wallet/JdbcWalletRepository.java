@@ -1,5 +1,7 @@
 package com.programmers.springbasic.repository.wallet;
 
+import static com.programmers.springbasic.enums.ErrorCode.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +37,7 @@ public class JdbcWalletRepository implements WalletRepository {
 			return new FixedAmountVoucher(id, rs.getLong("amount"));
 		}
 
-		throw new IllegalArgumentException("Unknown voucher type");
+		throw new IllegalArgumentException(INVALID_VOUCHER_TYPE.getMessage());
 	};
 
 	public JdbcWalletRepository(JdbcTemplate jdbcTemplate) {

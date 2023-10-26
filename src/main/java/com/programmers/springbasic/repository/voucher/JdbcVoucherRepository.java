@@ -1,5 +1,7 @@
 package com.programmers.springbasic.repository.voucher;
 
+import static com.programmers.springbasic.enums.ErrorCode.*;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +33,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			return new FixedAmountVoucher(id, rs.getLong("amount"));
 		}
 
-		throw new IllegalArgumentException("Unknown voucher type");
+		throw new IllegalArgumentException(INVALID_VOUCHER_TYPE.getMessage());
 	};
 
 	public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
