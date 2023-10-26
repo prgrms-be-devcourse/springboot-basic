@@ -1,10 +1,16 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
@@ -22,6 +28,7 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Testcontainers(disabledWithoutDocker = true)
@@ -61,7 +68,7 @@ class JdbcVoucherRepositoryTest {
 
     @Test
     @Order(2)
-    @DisplayName("JdbcVoucherRepostory 템플릿을 주입 받아 생성된다.")
+    @DisplayName("JdbcVoucherRepository 템플릿을 주입 받아 생성된다.")
     void testJdbcVoucherRepositoryCreation() {
         assertThat(voucherRepository, notNullValue());
     }
@@ -75,5 +82,19 @@ class JdbcVoucherRepositoryTest {
 
         //then
         assertThat(vouchers.isEmpty(), is(true));
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("바우처 생성을 성공한다")
+    void testVoucherCreationSuccessful() {
+        //given
+        final Voucher fixedVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+
+        //when
+        final Voucher savedVoucher = voucherRepository.save(fixedVoucher);
+
+        //then
+        assertThat(savedVoucher, samePropertyValuesAs(fixedVoucher));
     }
 }
