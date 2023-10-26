@@ -15,14 +15,14 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class JdbcTemplateVoucherRepositoryTest {
+class VoucherRepositoryTest {
 
     @Autowired
-    private JdbcTemplateVoucherRepository repository;
+    private VoucherRepository voucherRepository;
 
     @BeforeEach
     void setUp() {
-        repository.deleteAll();
+        voucherRepository.deleteAll();
     }
 
     @Test
@@ -32,12 +32,12 @@ class JdbcTemplateVoucherRepositoryTest {
         Voucher newVoucher = FixedAmountVoucher.fixture();
 
         // when
-        repository.save(newVoucher);
+        voucherRepository.save(newVoucher);
 
         // then
-        Voucher foundVoucher = repository.findAll().get(0);
-        assertThat(foundVoucher.getType()).isEqualTo(newVoucher.getType());
-        assertThat(foundVoucher.getAmount()).isEqualTo(newVoucher.getAmount());
+        Voucher savedVoucher = voucherRepository.findAll().get(0);
+        assertThat(savedVoucher.getType()).isEqualTo(newVoucher.getType());
+        assertThat(savedVoucher.getAmount()).isEqualTo(newVoucher.getAmount());
     }
 
     @Test
@@ -48,15 +48,15 @@ class JdbcTemplateVoucherRepositoryTest {
         Voucher newVoucher2 = PercentDiscountVoucher.fixture();
 
         // when
-        repository.saveAll(List.of(newVoucher1, newVoucher2));
+        voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
 
         // then
-        List<Voucher> foundVouchers = repository.findAll();
+        List<Voucher> savedVouchers = voucherRepository.findAll();
 
-        assertThat(foundVouchers).hasSize(2);
-        assertThat(foundVouchers).extracting(Voucher::getType)
+        assertThat(savedVouchers).hasSize(2);
+        assertThat(savedVouchers).extracting(Voucher::getType)
                 .containsExactlyInAnyOrder(newVoucher1.getType(), newVoucher2.getType());
-        assertThat(foundVouchers).extracting(Voucher::getAmount)
+        assertThat(savedVouchers).extracting(Voucher::getAmount)
                 .containsExactlyInAnyOrder(newVoucher1.getAmount(), newVoucher2.getAmount());
     }
 
@@ -65,17 +65,17 @@ class JdbcTemplateVoucherRepositoryTest {
     void findById() {
         // given
         Voucher newVoucher = FixedAmountVoucher.fixture();
-        repository.save(newVoucher);
+        voucherRepository.save(newVoucher);
 
-        Voucher createdVoucher = repository.findAll().get(0);
+        Voucher savedVoucher = voucherRepository.findAll().get(0);
 
         // when
-        Optional<Voucher> foundVoucher = repository.findById(createdVoucher.getId());
+        Optional<Voucher> foundVoucher = voucherRepository.findById(savedVoucher.getId());
 
         // then
         assertThat(foundVoucher).isPresent();
-        assertThat(foundVoucher.get().getId()).isEqualTo(createdVoucher.getId());
-        assertThat(foundVoucher.get().getType()).isEqualTo(createdVoucher.getType());
+        assertThat(foundVoucher.get().getId()).isEqualTo(savedVoucher.getId());
+        assertThat(foundVoucher.get().getType()).isEqualTo(savedVoucher.getType());
     }
 
     @Test
@@ -84,11 +84,10 @@ class JdbcTemplateVoucherRepositoryTest {
         // given
         Voucher newVoucher1 = FixedAmountVoucher.fixture();
         Voucher newVoucher2 = PercentDiscountVoucher.fixture();
-        repository.save(newVoucher1);
-        repository.save(newVoucher2);
+        voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
 
         // when
-        List<Voucher> foundVouchers = repository.findAll();
+        List<Voucher> foundVouchers = voucherRepository.findAll();
 
         // then
         assertThat(foundVouchers).hasSize(2);
@@ -103,50 +102,50 @@ class JdbcTemplateVoucherRepositoryTest {
     void update() {
         // given
         Voucher newVoucher = FixedAmountVoucher.fixture();
-        repository.save(newVoucher);
+        voucherRepository.save(newVoucher);
 
-        Voucher createdVoucher = repository.findAll().get(0);
+        Voucher savedVoucher = voucherRepository.findAll().get(0);
 
         // when
         long newAmountValue = 2000L;
-        repository.updateById(createdVoucher.getId(), new FixedAmountVoucher(newAmountValue));
+        voucherRepository.updateById(savedVoucher.getId(), new FixedAmountVoucher(newAmountValue));
 
         // then
-        Optional<Voucher> foundVoucher = repository.findById(createdVoucher.getId());
-        assertThat(foundVoucher).isPresent();
-        assertThat(foundVoucher.get().getId()).isEqualTo(createdVoucher.getId());
-        assertThat(foundVoucher.get().getType()).isEqualTo(createdVoucher.getType());
-        assertThat(foundVoucher.get().getAmount()).isEqualTo(newAmountValue);
+        Optional<Voucher> updatedVoucher = voucherRepository.findById(savedVoucher.getId());
+        assertThat(updatedVoucher).isPresent();
+        assertThat(updatedVoucher.get().getId()).isEqualTo(savedVoucher.getId());
+        assertThat(updatedVoucher.get().getType()).isEqualTo(savedVoucher.getType());
+        assertThat(updatedVoucher.get().getAmount()).isEqualTo(newAmountValue);
     }
 
     @Test
     @DisplayName("바우처를 아이디로 삭제할 수 있다.")
     void deleteById() {
         // given
-        Voucher fixedAmountVoucher = FixedAmountVoucher.fixture();
-        repository.save(fixedAmountVoucher);
+        Voucher newVoucher = FixedAmountVoucher.fixture();
+        voucherRepository.save(newVoucher);
 
-        Voucher foundFixedAmountVoucher = repository.findAll().get(0);
+        Voucher savedVoucher = voucherRepository.findAll().get(0);
 
         // when
-        repository.deleteById(foundFixedAmountVoucher.getId());
+        voucherRepository.deleteById(savedVoucher.getId());
 
         // then
-        Optional<Voucher> voucher = repository.findById(foundFixedAmountVoucher.getId());
-        assertThat(voucher).isEmpty();
+        Optional<Voucher> foundVoucher = voucherRepository.findById(savedVoucher.getId());
+        assertThat(foundVoucher).isEmpty();
     }
 
     @Test
     @DisplayName("모든 바우처를 삭제할 수 있다.")
     void deleteAll() {
         // given
-        repository.saveAll(List.of(FixedAmountVoucher.fixture(), PercentDiscountVoucher.fixture()));
+        voucherRepository.saveAll(List.of(FixedAmountVoucher.fixture(), PercentDiscountVoucher.fixture()));
 
         // when
-        repository.deleteAll();
+        voucherRepository.deleteAll();
 
         // then
-        List<Voucher> vouchers = repository.findAll();
-        assertThat(vouchers).isEmpty();
+        List<Voucher> foundVouchers = voucherRepository.findAll();
+        assertThat(foundVouchers).isEmpty();
     }
 }
