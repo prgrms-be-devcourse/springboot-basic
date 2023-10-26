@@ -4,7 +4,6 @@ import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.prgrms.prgrmsspring.entity.wallet.Wallet;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
-import org.prgrms.prgrmsspring.repository.user.CustomerRepository;
 import org.prgrms.prgrmsspring.repository.voucher.VoucherRepository;
 import org.prgrms.prgrmsspring.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
@@ -18,12 +17,10 @@ public class WalletService {
 
     private final WalletRepository walletRepository;
     private final VoucherRepository voucherRepository;
-    private final CustomerRepository customerRepository;
 
-    public WalletService(WalletRepository walletRepository, VoucherRepository voucherRepository, CustomerRepository customerRepository) {
+    public WalletService(WalletRepository walletRepository, VoucherRepository voucherRepository) {
         this.walletRepository = walletRepository;
         this.voucherRepository = voucherRepository;
-        this.customerRepository = customerRepository;
     }
 
     public Wallet allocateVoucherToCustomer(UUID customerId, UUID voucherId) {
@@ -42,9 +39,7 @@ public class WalletService {
     }
 
     public Customer findCustomerByVoucherId(UUID voucherId) {
-        UUID customerId = walletRepository.findCustomerIdByVoucherId(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException(ExceptionMessage.NOT_FOUND_CUSTOMER.getMessage()));
-        return customerRepository.findById(customerId)
+        return walletRepository.findCustomerByVoucherId(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException(ExceptionMessage.NOT_FOUND_CUSTOMER.getMessage()));
     }
 

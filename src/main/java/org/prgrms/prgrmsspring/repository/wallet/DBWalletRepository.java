@@ -1,10 +1,12 @@
 package org.prgrms.prgrmsspring.repository.wallet;
 
+import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.entity.wallet.Wallet;
 import org.prgrms.prgrmsspring.exception.DataAccessException;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -47,9 +49,15 @@ public class DBWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Optional<UUID> findCustomerIdByVoucherId(UUID voucherId) {
-        String sql = "SELECT CUSTOMER_ID FROM WALLET WHERE VOUCHER_ID = UUID_TO_BIN(?)";
-        UUID customerId = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new BinaryToUUIDConverter().run(rs.getBytes("CUSTOMER_ID")), voucherId.toString());
-        return Optional.ofNullable(customerId);
+    public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
+        String sql = "SELECT C.CUSTOMER_ID, NAME, IS_BLACK, EMAIL FROM CUSTOMERS C JOIN WALLET W ON W.CUSTOMER_ID = C.CUSTOMER_ID WHERE W.VOUCHER_ID = UUID_TO_BIN(?)";
+        try {
+            Customer customer = jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                            new Customer(new BinaryToUUIDConverter().run(rs.getBytes("C.CUSTOMER_ID")), rs.getString("NAME"), rs.getBoolean("IS_BLACK"), rs.getString("EMAIL")),
+                    voucherId.toString());
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }

@@ -1,5 +1,6 @@
 package org.prgrms.prgrmsspring.repository.wallet;
 
+import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.entity.wallet.Wallet;
 
 import java.util.List;
@@ -13,5 +14,5 @@ public interface WalletRepository {
 
     void deleteVouchersByCustomerId(UUID customerId);
 
-    Optional<UUID> findCustomerIdByVoucherId(UUID voucherId);
+    Optional<Customer> findCustomerByVoucherId(UUID voucherId);
 }
