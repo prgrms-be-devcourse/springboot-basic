@@ -18,11 +18,6 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public float discount(float beforeDiscount) {
-        return beforeDiscount - (beforeDiscount * discountAmount / 100);
-    }
-
-    @Override
     public void validateDiscountAmount(float discountAmount) {
         if (discountAmount <= 0 || discountAmount > 100) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_PERCENTAGE_DISCOUNT_AMOUNT.getMessage());
@@ -43,4 +38,9 @@ public class PercentDiscountVoucher extends Voucher {
                 "Discount percentage: " + discountAmount + "%" + System.lineSeparator() +
                 "Created Time: " + createdAt + System.lineSeparator();
     }
+
+//    public float discount(float beforeDiscount) {
+//        return beforeDiscount - (beforeDiscount * discountAmount / 100);
+//    }
+
 }

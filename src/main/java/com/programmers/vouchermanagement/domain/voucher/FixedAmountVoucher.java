@@ -18,15 +18,6 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public float discount(float beforeDiscount) {
-        float afterDiscount = beforeDiscount - discountAmount;
-        if (afterDiscount < 0) {
-            throw new IllegalArgumentException(ErrorMessage.DISCOUNT_OVER_BEFORE_DISCOUNT.getMessage());
-        }
-        return afterDiscount;
-    }
-
-    @Override
     public void validateDiscountAmount(float discountAmount) {
         if (discountAmount <= 0) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_FIXED_DISCOUNT_AMOUNT.getMessage());
@@ -47,4 +38,12 @@ public class FixedAmountVoucher extends Voucher {
                 "Discount Amount: " + discountAmount + "$" + System.lineSeparator() +
                 "Created Time: " + createdAt + System.lineSeparator();
     }
+
+//    public float discount(float beforeDiscount) {
+//        float afterDiscount = beforeDiscount - discountAmount;
+//        if (afterDiscount < 0) {
+//            throw new IllegalArgumentException(ErrorMessage.DISCOUNT_OVER_BEFORE_DISCOUNT.getMessage());
+//        }
+//        return afterDiscount;
+//    }
 }
