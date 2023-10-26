@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 public class PercentDiscountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
-    private static final int MINIMUM_PERCENT = 1;
     private static final int MAXIMUM_PERCENT = 100;
+    private static final int MINIMUM_PERCENT = 1;
 
     private final int percent;
 
