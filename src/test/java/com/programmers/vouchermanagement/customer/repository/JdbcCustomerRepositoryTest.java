@@ -103,4 +103,21 @@ class JdbcCustomerRepositoryTest {
         //then
         assertThat(blacklist, hasSize(greaterThanOrEqualTo(1)));
     }
+
+    @Test
+    @DisplayName("저장된 고객이 있으면 고객들의 리스트를 반환한다.")
+    void testFindCustomersSuccessful_ReturnList() {
+        //given
+        final Customer firstCustomer = new Customer(UUID.randomUUID(), "first-customer");
+        final Customer secondCustomer = new Customer(UUID.randomUUID(), "second-customer");
+        customerRepository.save(firstCustomer);
+        customerRepository.save(secondCustomer);
+
+        //when
+        final List<Customer> customers = customerRepository.findAll();
+
+        //then
+        assertThat(customers.isEmpty(), is(false));
+        assertThat(customers, hasSize(greaterThanOrEqualTo(1)));
+    }
 }
