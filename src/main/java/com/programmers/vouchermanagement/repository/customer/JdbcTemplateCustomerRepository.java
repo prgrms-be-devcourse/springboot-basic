@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -39,6 +40,21 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
                 .map(customer -> new MapSqlParameterSource()
                         .addValue("email", customer.getEmail()))
                 .toArray(SqlParameterSource[]::new));
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID id) {
+        String sql = "SELECT * FROM customers WHERE id = :id";
+
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", id.toString());
+
+        try {
+            Customer customer = template.queryForObject(sql, params, getCustomerRowMapper());
+            return Optional.ofNullable(customer);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override

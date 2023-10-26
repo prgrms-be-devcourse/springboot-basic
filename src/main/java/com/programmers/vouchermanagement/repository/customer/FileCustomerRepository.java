@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -46,6 +47,11 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public void saveAll(List<Customer> customers) {
         unsupported();
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID id) {
+        return Optional.empty();
     }
 
     @Override

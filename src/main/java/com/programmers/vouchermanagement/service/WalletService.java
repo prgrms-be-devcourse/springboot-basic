@@ -1,8 +1,12 @@
 package com.programmers.vouchermanagement.service;
 
+import com.programmers.vouchermanagement.domain.customer.Customer;
+import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
 import com.programmers.vouchermanagement.dto.wallet.CreateWalletRequestDto;
 import com.programmers.vouchermanagement.dto.wallet.GetWalletsRequestDto;
+import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
+import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +17,21 @@ import java.util.UUID;
 @Service
 public class WalletService {
     private final WalletRepository walletRepository;
+    private final CustomerRepository customerRepository;
+    private final VoucherRepository voucherRepository;
 
     @Autowired
-    public WalletService(WalletRepository walletRepository) {
+    public WalletService(WalletRepository walletRepository, CustomerRepository customerRepository, VoucherRepository voucherRepository) {
         this.walletRepository = walletRepository;
+        this.customerRepository = customerRepository;
+        this.voucherRepository = voucherRepository;
     }
 
     public void createWallet(CreateWalletRequestDto request) {
-        walletRepository.save(new Wallet(request.getCustomerId(), request.getVoucherId()));
+        Customer customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("Not found customer"));
+        Voucher voucher = voucherRepository.findById(request.getVoucherId()).orElseThrow(() -> new IllegalArgumentException("Not found voucher"));
+
+        walletRepository.save(new Wallet(customer, voucher));
     }
 
     public List<Wallet> getWallets(GetWalletsRequestDto request) {
@@ -30,7 +41,7 @@ public class WalletService {
     public void deleteWallet(int id, UUID customerId) {
         Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found wallet"));
 
-        if(!wallet.getCustomerId().equals(customerId)) {
+        if(!wallet.getCustomer().getId().equals(customerId)) {
             throw new SecurityException("Forbidden");
         }
 
