@@ -108,4 +108,20 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThat(voucher.isEmpty(), is(true));
     }
+
+    @Test
+    @Order(6)
+    @DisplayName("바우처 아이디 조회를 성공한다.")
+    void testFindVoucherByIdSuccessful_ReturnList() {
+        //given
+        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(40), VoucherType.PERCENT);
+        voucherRepository.save(voucher);
+
+        //when
+        final Optional<Voucher> foundVoucher = voucherRepository.findById(UUID.randomUUID());
+
+        //then
+        assertThat(foundVoucher.isEmpty(), is(false));
+        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
+    }
 }
