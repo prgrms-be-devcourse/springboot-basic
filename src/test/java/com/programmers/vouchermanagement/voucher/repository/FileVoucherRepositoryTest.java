@@ -33,12 +33,10 @@ class FileVoucherRepositoryTest {
     VoucherRepository voucherRepository;
     @Autowired
     AppProperties appProperties;
-    UUID testVoucherId;
 
     @BeforeAll
     void setUp() {
         voucherRepository.deleteAll();
-        testVoucherId = UUID.randomUUID();
     }
 
     @Test
@@ -65,7 +63,7 @@ class FileVoucherRepositoryTest {
     @Order(3)
     void testVoucherCreationSuccessful() {
         //given
-        final Voucher voucher = new Voucher(testVoucherId, new BigDecimal(10000), VoucherType.FIXED);
+        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
 
         //when
         final Voucher createdVoucher = voucherRepository.save(voucher);
@@ -98,5 +96,21 @@ class FileVoucherRepositoryTest {
 
         //then
         assertThat(foundVoucher.isEmpty(), is(true));
+    }
+
+    @Test
+    @DisplayName("아이디 검색으로 바우처 조회를 성공한다.")
+    @Order(6)
+    void testFindVoucherByIdSuccessful() {
+        //given
+        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(40), VoucherType.PERCENT);
+        voucherRepository.save(voucher);
+
+        //when
+        final Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+
+        //then
+        assertThat(foundVoucher.isEmpty(), is(false));
+        assertThat(foundVoucher.get(), samePropertyValuesAs(voucher));
     }
 }
