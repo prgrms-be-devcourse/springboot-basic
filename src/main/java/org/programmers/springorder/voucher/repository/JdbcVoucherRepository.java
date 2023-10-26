@@ -1,5 +1,6 @@
 package org.programmers.springorder.voucher.repository;
 
+import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.model.VoucherType;
 import org.slf4j.Logger;
@@ -19,16 +20,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String INSERT_QUERY = "insert into vouchers(voucher_id, discount_value, voucher_type) values(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
-    private final String FIND_ALL_QUERY = "select * from vouchers";
-    private final String FIND_BY_VOUCHER_ID_QUERY = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String INSERT = "insert into vouchers(voucher_id, discount_value, voucher_type) values(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
+    private final String UPDATE_VOUCER_OWNER = "update vouchers set customer_id = UUID_TO_BIN(:customerId) where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String FIND_ALL = "select * from vouchers";
+    private final String FIND_BY_VOUCHER_ID = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Voucher save(Voucher voucher) {
-        int update = jdbcTemplate.update(INSERT_QUERY, toParamMap(voucher));
+        int update = jdbcTemplate.update(INSERT, toParamMap(voucher));
         if( update != 1){
             throw new RuntimeException("Nothing was inserted");
         }
@@ -37,14 +39,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(FIND_ALL_QUERY, voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL, voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try{
             return Optional.ofNullable(jdbcTemplate.queryForObject(
-                    FIND_BY_VOUCHER_ID_QUERY,
+                    FIND_BY_VOUCHER_ID,
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
         } catch  (EmptyResultDataAccessException e) {
@@ -53,11 +55,28 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
+
+    @Override
+    public Voucher updateVoucherOwner(Voucher voucher, Customer customer) {
+        int update = jdbcTemplate.update(UPDATE_VOUCER_OWNER, toUpdateOwnerMap(voucher, customer));
+        if( update != 1){
+            throw new RuntimeException("Nothing was inserted");
+        }
+        return voucher;
+    }
+
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("discountValue", voucher.getDiscountValue());
             put("voucherType", voucher.getVoucherType().name());
+        }};
+    }
+
+    private Map<String, Object> toUpdateOwnerMap(Voucher voucher,Customer customer) {
+        return new HashMap<>() {{
+            put("voucherId", voucher.getVoucherId().toString().getBytes());
+            put("customerId", customer.getCustomerId().toString().getBytes());
         }};
     }
 

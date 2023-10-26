@@ -1,5 +1,6 @@
 package org.programmers.springorder.voucher.repository;
 
+import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -29,6 +30,12 @@ public class MemoryVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
+    }
+
+    //TODO: update 구현2
+    @Override
+    public Voucher updateVoucherOwner(Voucher voucher, Customer customer) {
+        return voucher;
     }
 
 }

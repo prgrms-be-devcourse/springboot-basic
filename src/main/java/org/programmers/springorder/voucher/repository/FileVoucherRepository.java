@@ -2,6 +2,7 @@ package org.programmers.springorder.voucher.repository;
 
 import org.programmers.springorder.console.Console;
 import org.programmers.springorder.consts.ErrorMessage;
+import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.model.VoucherType;
 import org.slf4j.Logger;
@@ -70,6 +71,11 @@ public class FileVoucherRepository implements VoucherRepository{
         return findAll().stream()
                 .filter(voucher -> voucher.isSameId(voucherId))
                 .findFirst();
+    }
+    //TODO: update 구현
+    @Override
+    public Voucher updateVoucherOwner(Voucher voucher, Customer customer) {
+        return voucher;
     }
 
 }
