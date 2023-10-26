@@ -2,11 +2,13 @@ package com.prgrms.voucher_manage.domain.customer.repository;
 
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,7 +17,10 @@ import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matc
 
 @Repository
 @RequiredArgsConstructor
+@Slf4j
 public class JdbcCustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
+
     private final JdbcTemplate jdbcTemplate;
 
     public List<Customer> findAll(){
@@ -34,14 +39,18 @@ public class JdbcCustomerRepository {
     }
 
     public Customer save(Customer customer){
-        String sql = "insert into customer(customer_id, name, type) values (UUID_TO_BIN(?), ?, ?)";
-        jdbcTemplate.update(sql,customer.getId().toString().getBytes(), customer.getName(), customer.getType().getLabel());
+        String sql = "insert into customer(customer_id, name, type) values (?, ?, ?)";
+        jdbcTemplate.update(sql,customer.getId().toString(), customer.getName(), customer.getType().getData());
         return customer;
     }
-
     public int update(Customer customer){
-        String sql = "update customer set type = ? where name = ?";
-        return jdbcTemplate.update(sql, customer.getType().getLabel(),customer.getName());
+        try {
+            String sql = "update customer set type =? where name = ?";
+            return jdbcTemplate.update(sql, customer.getType().getData(),customer.getName());
+        } catch (Exception e){
+            logger.error(e.getMessage());
+        }
+        return 0;
     }
 
     public void deleteAll(){
@@ -50,14 +59,9 @@ public class JdbcCustomerRepository {
     }
 
     private static final RowMapper<Customer> rowMapper = (resultSet, i) -> {
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var name = resultSet.getString("name");
-        var type = resultSet.getString("type");
+        UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
+        String name = resultSet.getString("name");
+        String type = resultSet.getString("type");
         return new Customer(customerId, name, matchCustomerType(type));
     };
-
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 }

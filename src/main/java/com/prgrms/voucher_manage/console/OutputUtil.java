@@ -38,8 +38,8 @@ public class OutputUtil {
     public void printCustomerSelect() {
         System.out.println("""
                 === Voucher Program ===
-                Type B to create black customer.
-                Type N to create normal customer.
+                Type Black to create black customer.
+                Type Normal to create normal customer.
                 """);
     }
 
@@ -53,12 +53,12 @@ public class OutputUtil {
 
     public void printFixedVoucherInfo(Voucher voucher) {
         System.out.println(MessageFormat.format("\nVoucher id: {0} \nVoucher discount price: {1}\n"
-                , voucher.getVoucherId(), voucher.getDiscountAmount()));
+                , voucher.getId(), voucher.getDiscountAmount()));
     }
 
     public void printPercentVoucherInfo(Voucher voucher) {
         System.out.println(MessageFormat.format("\nVoucher id: {0} \nVoucher discount percent: {1}%\n"
-                , voucher.getVoucherId(), voucher.getDiscountAmount()));
+                , voucher.getId(), voucher.getDiscountAmount()));
     }
 
     public void printCustomerInfo(Customer customer) {
