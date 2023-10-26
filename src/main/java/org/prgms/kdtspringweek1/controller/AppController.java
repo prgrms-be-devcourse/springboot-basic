@@ -1,10 +1,8 @@
 package org.prgms.kdtspringweek1.controller;
 
-import org.prgms.kdtspringweek1.console.ConsoleInput;
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
 import org.prgms.kdtspringweek1.customer.CustomerService;
 import org.prgms.kdtspringweek1.controller.dto.FindCustomerResponseDto;
-import org.prgms.kdtspringweek1.controller.dto.CreateVoucherRequestDto;
 import org.prgms.kdtspringweek1.controller.dto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -15,14 +13,14 @@ import org.springframework.stereotype.Component;
 // 기존에, 입출력 관련 기능들이 컨트롤러에 명시적으로 드러나 있어, 콘솔 입출력의 경우 따로 클래스를 두어 구현
 @Component
 public class AppController {
-    private final ConsoleInput consoleInput;
+    private final ConsoleInputConverter consoleInputConverter;
     private final ConsoleOutput consoleOutput;
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private final static Logger logger = LoggerFactory.getLogger(AppController.class);
 
-    public AppController(ConsoleInput consoleInput, ConsoleOutput consoleOutput, VoucherService voucherService, CustomerService customerService) {
-        this.consoleInput = consoleInput;
+    public AppController(ConsoleInputConverter consoleInputConverter, ConsoleOutput consoleOutput, VoucherService voucherService, CustomerService customerService) {
+        this.consoleInputConverter = consoleInputConverter;
         this.consoleOutput = consoleOutput;
         this.voucherService = voucherService;
         this.customerService = customerService;
@@ -35,7 +33,7 @@ public class AppController {
     private void selectFunction() {
         consoleOutput.printFunctionsToSelect();
         try {
-            switch (consoleInput.getFunctionType()) {
+            switch (consoleInputConverter.getFunctionType()) {
                 case EXIT -> exitVoucherProgram();
                 case CREATE -> createVoucher();
                 case LIST -> getAllVouchers();
@@ -56,14 +54,14 @@ public class AppController {
     private void createVoucher() {
         consoleOutput.printVouchersToSelect();
         try {
-            switch (consoleInput.getVoucherType()) {
+            switch (consoleInputConverter.getVoucherType()) {
                 case FIXED_AMOUNT -> {
                     consoleOutput.printRequestMessageToDecideFixedAmount();
-                    voucherService.registerVoucher(new CreateVoucherRequestDto(consoleInput.getDiscountValue()).toFixedAmountVoucher());
+                    voucherService.registerVoucher(consoleInputConverter.getCreateVoucherRequestDto().toFixedAmountVoucher());
                 }
                 case PERCENT_DISCOUNT -> {
                     consoleOutput.printRequestMessageToDecidePercentDiscount();
-                    voucherService.registerVoucher(new CreateVoucherRequestDto(consoleInput.getDiscountValue()).toPercentDiscountVoucher());
+                    voucherService.registerVoucher(consoleInputConverter.getCreateVoucherRequestDto().toPercentDiscountVoucher());
                 }
             }
             consoleOutput.printSuccessToCreateVoucher();
