@@ -97,4 +97,15 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThat(savedVoucher, samePropertyValuesAs(fixedVoucher));
     }
+
+    @Test
+    @Order(5)
+    @DisplayName("존재하지 않는 아이디 조회를 실패한다.")
+    void testFindVoucherByIdFailed() {
+        //when
+        final Optional<Voucher> voucher = voucherRepository.findById(UUID.randomUUID());
+
+        //then
+        assertThat(voucher.isEmpty(), is(true));
+    }
 }
