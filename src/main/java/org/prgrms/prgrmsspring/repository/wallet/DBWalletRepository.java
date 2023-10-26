@@ -5,6 +5,7 @@ import org.prgrms.prgrmsspring.entity.wallet.Wallet;
 import org.prgrms.prgrmsspring.exception.DataAccessException;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Profile("prod")
+@Primary
 @Repository
 public class DBWalletRepository implements WalletRepository {
 
@@ -53,7 +55,7 @@ public class DBWalletRepository implements WalletRepository {
         String sql = "SELECT C.CUSTOMER_ID, NAME, IS_BLACK, EMAIL FROM CUSTOMERS C JOIN WALLET W ON W.CUSTOMER_ID = C.CUSTOMER_ID WHERE W.VOUCHER_ID = UUID_TO_BIN(?)";
         try {
             Customer customer = jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-                            new Customer(new BinaryToUUIDConverter().run(rs.getBytes("C.CUSTOMER_ID")), rs.getString("NAME"), rs.getBoolean("IS_BLACK"), rs.getString("EMAIL")),
+                            new Customer(new BinaryToUUIDConverter().run(rs.getBytes("C.CUSTOMER_ID")), rs.getString("NAME"), rs.getString("EMAIL"), rs.getBoolean("IS_BLACK")),
                     voucherId.toString());
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {

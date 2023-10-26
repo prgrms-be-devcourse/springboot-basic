@@ -4,6 +4,7 @@ import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.exception.DataAccessException;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Profile("prod")
+@Primary
 @Repository
 public class DBCustomerRepository implements CustomerRepository {
 
@@ -32,13 +34,13 @@ public class DBCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         String sql = "SELECT * FROM CUSTOMERS";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getBoolean(IS_BLACK), rs.getString(EMAIL)));
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getString(EMAIL), rs.getBoolean(IS_BLACK)));
     }
 
     @Override
     public List<Customer> findBlackAll() {
         String sql = "SELECT * FROM CUSTOMERS WHERE IS_BLACK = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getBoolean(IS_BLACK), rs.getString(EMAIL)),
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getString(EMAIL), rs.getBoolean(IS_BLACK)),
                 true);
     }
 
@@ -47,7 +49,7 @@ public class DBCustomerRepository implements CustomerRepository {
         String sql = "SELECT * FROM CUSTOMERS WHERE CUSTOMER_ID = UUID_TO_BIN(?)";
         try {
             Customer customer = jdbcTemplate.queryForObject(sql,
-                    (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getBoolean(IS_BLACK), rs.getString(EMAIL)),
+                    (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getString(EMAIL), rs.getBoolean(IS_BLACK)),
                     customerId.toString());
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
@@ -86,5 +88,11 @@ public class DBCustomerRepository implements CustomerRepository {
         if (delete != 1) {
             throw new DataAccessException(this.getClass() + " " + ExceptionMessage.DELETE_QUERY_FAILED.getMessage());
         }
+    }
+
+    @Override
+    public void clear() {
+        String sql = "DELETE FROM CUSTOMERS";
+        jdbcTemplate.update(sql);
     }
 }
