@@ -14,6 +14,7 @@ import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.repository.VoucherRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -35,14 +36,14 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처 저장 테스트")
-    void createVoucherTest() {
+    void saveTest() {
         //given
         UUID id = UUID.randomUUID();
 
         //when
         when(voucherRepository.save(any(Voucher.class)))
             .thenReturn(new FixedAmountVoucher(id, 10));
-        VoucherResponse result = voucherService.createVoucher(new VoucherRequest("fixed", id, 10));
+        VoucherResponse result = voucherService.save(new VoucherRequest("fixed", id, 10));
 
         //then
         assertThat(result.voucherId()).isEqualTo(id);
@@ -51,7 +52,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처 전체 조회 테스트")
-    void getVoucherListTest() {
+    void findAllTest() {
         //given
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 10);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
@@ -61,8 +62,39 @@ class VoucherServiceTest {
         when(voucherRepository.findAll()).thenReturn(result);
 
         //then
-        List<VoucherResponse> voucherList = voucherService.getVoucherList();
+        List<VoucherResponse> voucherList = voucherService.findAll();
         assertThat(voucherList.get(0).voucherId()).isEqualTo(fixedAmountVoucher.getVoucherId());
         verify(voucherRepository, times(1)).findAll();
+    }
+
+    @Test
+    @DisplayName("바우처 id 조회 테스트")
+    void findByIdTest() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 10);
+
+        //when
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(fixedAmountVoucher));
+
+        //then
+        VoucherResponse voucherResponse = voucherService.findById(voucherId);
+        assertThat(voucherResponse.voucherId()).isEqualTo(voucherId);
+        verify(voucherRepository, times(1)).findById(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("바우처 삭제 테스트")
+    void deleteByIdTest() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 10);
+
+        //when
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(fixedAmountVoucher));
+
+        //then
+        voucherService.deleteById(voucherId);
+        verify(voucherRepository, times(1)).deleteById(any(UUID.class));
     }
 }
