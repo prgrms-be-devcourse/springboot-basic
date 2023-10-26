@@ -3,6 +3,7 @@ package org.programmers.springorder.console;
 import org.programmers.springorder.consts.ErrorMessage;
 import org.programmers.springorder.consts.Message;
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
+import org.programmers.springorder.utils.ExceptionHandler;
 import org.programmers.springorder.utils.MenuType;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
@@ -34,25 +35,26 @@ public class Console {
         return MenuType.selectMenu(scanner.nextLine());
     }
 
-    private static VoucherType inputVoucherType() {
+    private VoucherType inputVoucherType() {
         printMessage(Message.VOUCHER_SELECT_MESSAGE);
         printPrompt();
         return VoucherType.selectVoucherType(scanner.nextLine());
     }
 
-    private static long inputVoucherValue(VoucherType voucherType) {
+    private long inputVoucherValue(VoucherType voucherType) {
         String discountValueMessage = voucherType == VoucherType.FIXED ? Message.INPUT_FIXED_DISCOUNT_VALUE_MESSAGE
                 : Message.INPUT_PERCENT_DISCOUNT_VALUE_MESSAGE;
         printMessage(discountValueMessage);
         printPrompt();
-        return scanner.nextLong();
+
+        long discountValue = scanner.nextLong();
+        voucherType.validateDiscountRange(voucherType, discountValue);
+        return discountValue;
     }
 
-
-    public static VoucherRequestDto inputVoucherInfo() {
-        VoucherType voucherType = inputVoucherType();
-        long discountValue = inputVoucherValue(voucherType);
-
+    public VoucherRequestDto inputVoucherInfo() {
+        VoucherType voucherType = ExceptionHandler.input(this::inputVoucherType);
+        long discountValue = ExceptionHandler.input(() -> inputVoucherValue(voucherType));
         return new VoucherRequestDto(discountValue, voucherType);
     }
 
