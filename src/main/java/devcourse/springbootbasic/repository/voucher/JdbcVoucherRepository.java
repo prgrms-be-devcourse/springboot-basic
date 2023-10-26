@@ -107,6 +107,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         params.put(DISCOUNT_VALUE, voucher.getDiscountValue());
         if (voucher.isAssigned()) {
             params.put(CUSTOMER_ID, voucher.getCustomerId().toString());
+        } else {
+            params.put(CUSTOMER_ID, null);
         }
 
         return params;
