@@ -32,7 +32,7 @@ public class FileCustomerRepository implements CustomerRepository {
                     .map(str -> str.split(CSV_SEPARATOR)).forEach(split -> {
                         String name = split[0];
                         Boolean isBlack = Boolean.valueOf(split[1]);
-                        Customer customer = new Customer(UUID.randomUUID(), name, isBlack, null);
+                        Customer customer = new Customer(UUID.randomUUID(), name, null, isBlack);
                         store.put(customer.getCustomerId(), customer);
                     });
         } catch (IOException e) {
@@ -80,5 +80,10 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public void delete(UUID customerId) {
         store.remove(customerId);
+    }
+
+    @Override
+    public void clear() {
+        store.clear();
     }
 }

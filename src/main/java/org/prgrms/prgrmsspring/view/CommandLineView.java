@@ -88,7 +88,7 @@ public class CommandLineView {
         String customerName = inputCustomerName();
         Boolean isBlack = inputCustomerIsBlack();
         String email = inputCustomerEmail();
-        return new Customer(UUID.randomUUID(), customerName, isBlack, email);
+        return new Customer(UUID.randomUUID(), customerName, email, isBlack);
     }
 
     public Customer updateCustomer() {
@@ -96,7 +96,7 @@ public class CommandLineView {
         String email = inputCustomerEmail();
         String customerName = inputCustomerName();
         Boolean isBlack = inputCustomerIsBlack();
-        return new Customer(customerId, customerName, isBlack, email);
+        return new Customer(customerId, customerName, email, isBlack);
     }
 
     public UUID deleteCustomer() {
