@@ -12,7 +12,9 @@ public enum ErrorCode {
 	FILE_CANNOT_READ("파일 읽기에 실패했습니다"),
 	FILE_CANNOT_WRITE("파일 쓰기에 실패했습니다"),
 	FILE_CANNOT_CREATE("파일 생성에 실패했습니다"),
-	FILE_NOT_FOUND("파일이 존재하지 않습니다");
+	FILE_NOT_FOUND("파일이 존재하지 않습니다"),
+	CUSTOMER_NOT_FOUND("존재하지 않는 고객입니다"),
+	VOUCHER_NOT_FOUND("존재하지 않는 바우처입니다");
 
 
 	private final String message;
