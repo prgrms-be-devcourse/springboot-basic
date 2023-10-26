@@ -33,15 +33,15 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher2 = Voucher.toVoucher(voucherId2, 10, VoucherType.PERCENT);
 
         // when
-        UUID saveVoucherId1 = voucherRepository.save(voucher1);
-        UUID saveVoucherId2 = voucherRepository.save(voucher2);
+        Voucher saveVoucherId1 = voucherRepository.save(voucher1);
+        Voucher saveVoucherId2 = voucherRepository.save(voucher2);
 
         List<Voucher> vouchers = voucherRepository.findAll();
 
         // then
         assertThat(vouchers).hasSize(2);
-        assertThat(voucherId1).isEqualTo(saveVoucherId1);
-        assertThat(voucherId2).isEqualTo(saveVoucherId2);
+        assertThat(voucher1).isEqualTo(saveVoucherId1);
+        assertThat(voucher2).isEqualTo(saveVoucherId2);
     }
 
     @Test
@@ -71,8 +71,8 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher1 = Voucher.toVoucher(voucherId1, 1000, VoucherType.FIXED);
 
         // when
-        UUID saveVoucherId = voucherRepository.save(voucher1);
-        UUID findVoucherId = voucherRepository.findById(voucherId1).get().getVoucherId();
+        Voucher saveVoucherId = voucherRepository.save(voucher1);
+        Voucher findVoucherId = voucherRepository.findById(voucherId1).get();
 
         // then
         assertThat(findVoucherId).isEqualTo(saveVoucherId);
