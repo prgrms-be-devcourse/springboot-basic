@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
@@ -53,9 +54,11 @@ public class DBVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Voucher findById(UUID id) {
-        return jdbcTemplate.queryForObject("select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
+    public Optional<Voucher> findById(UUID id) {
+        Voucher findVoucher = jdbcTemplate.queryForObject(
+            "select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
             Collections.singletonMap("voucher_id", id.toString().getBytes()), voucherRowMapper);
+        return Optional.of(findVoucher);
     }
 
     @Override

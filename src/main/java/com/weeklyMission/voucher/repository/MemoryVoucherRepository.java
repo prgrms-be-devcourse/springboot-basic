@@ -4,6 +4,7 @@ import com.weeklyMission.voucher.domain.Voucher;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.context.annotation.Profile;
@@ -31,8 +32,8 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Voucher findById(UUID id) {
-        return storage.get(id);
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.of(storage.get(id));
     }
 
     @Override
