@@ -10,7 +10,6 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -18,18 +17,19 @@ import java.util.UUID;
 @Repository
 public class CsvBlacklistRepository implements BlacklistRepository {
     private static final String DELIMITER_REGULAR_EXPRESSION = "[;,]";
-    private static final List<User> blacklist = Collections.synchronizedList(new ArrayList<>());
+    private final List<User> blacklist;
 
     public CsvBlacklistRepository(@Value("${file.path.blacklist}") String path) {
-        loadBlacklist(path);
+        blacklist = loadBlacklist(path);
     }
 
-    private void loadBlacklist(String path) {
+    private List<User> loadBlacklist(String path) {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
             reader.readLine(); // skip header
-            reader.lines()
+            return reader.lines()
                     .map(s -> s.split(DELIMITER_REGULAR_EXPRESSION))
-                    .forEach(data -> blacklist.add(new User(UUID.fromString(data[0]), data[1])));
+                    .map(data -> new User(UUID.fromString(data[0]), data[1]))
+                    .toList();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }

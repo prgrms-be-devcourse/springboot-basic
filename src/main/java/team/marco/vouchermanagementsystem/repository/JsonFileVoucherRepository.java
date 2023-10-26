@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile({"prod", "dev"})
 @Repository
 public class JsonFileVoucherRepository implements VoucherRepository, DisposableBean {
-    private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
+    private final Map<UUID, Voucher> voucherMap;
     private final ObjectMapper objectMapper;
     private final File file;
 
@@ -27,12 +27,13 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
         objectMapper = new ObjectMapper();
         file = new File(path);
 
-        loadVoucherMap();
+        voucherMap = loadVoucherMap();
     }
 
-    private void loadVoucherMap() {
+    private Map<UUID, Voucher> loadVoucherMap() {
+        Map<UUID, Voucher> loadedVouchers = new ConcurrentHashMap<>();
         if (!file.exists()) {
-            return;
+            return loadedVouchers;
         }
 
         ObjectReader objectReader = objectMapper.readerForListOf(LoadedJsonVoucher.class);
@@ -44,7 +45,9 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
             throw new UncheckedIOException(e);
         }
 
-        jsonVouchers.forEach(data -> voucherMap.put(data.getId(), data.convertToVoucher()));
+        jsonVouchers.forEach(data -> loadedVouchers.put(data.getId(), data.convertToVoucher()));
+
+        return loadedVouchers;
     }
 
     @Override
