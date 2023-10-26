@@ -21,4 +21,7 @@ public class CustomerController {
         List<CustomerResponseDto> customerResponseDtos = customerService.listBlockedCustomers();
         consoleView.listBlockedCustomers(customerResponseDtos);
     }
+
+    public void getMenu() {
+    }
 }

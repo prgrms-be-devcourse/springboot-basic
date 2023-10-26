@@ -14,6 +14,20 @@ import java.util.List;
 public class ConsoleView {
     private final TextIO textIO = TextIoFactory.getTextIO();
 
+    public String getCommonMenu(){
+        String command = textIO.newStringInputReader()
+                .read("""
+                         
+                         === Voucher Program ===
+                        Type **customer** to enter the customer menu.
+                        Type **voucher** to enter the voucher menu.
+                        Type **wallet** to enter the wallet menu.
+                        Type **exit** to exit the program.
+                        """);
+
+        return command;
+    }
+
     public VoucherMenuRequestDto init(){
         String command = textIO.newStringInputReader()
                 .read("""

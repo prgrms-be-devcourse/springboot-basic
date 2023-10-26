@@ -20,7 +20,6 @@ public class VoucherController {
     private final Logger log = LoggerFactory.getLogger(VoucherController.class);
     private final ConsoleView consoleView;
     private final VoucherService voucherService;
-    private final CustomerController customerController;
     private static final int FIXED_VOUCHER_CREATE = 1;
     private static final int PERCENT_VOUCHER_CREATE = 2;
     private static final int FIXED_VOUCHER_DISCOUNT_MAX = 100000;
@@ -28,7 +27,6 @@ public class VoucherController {
     public VoucherController(ConsoleView consoleView, VoucherService voucherService, CustomerService customerService, CustomerController customerController) {
         this.consoleView = consoleView;
         this.voucherService = voucherService;
-        this.customerController = customerController;
     }
 
     public void getMenu() {
@@ -37,11 +35,6 @@ public class VoucherController {
         switch (voucherMenuRequestDto.command()) {
             case "create" -> createVoucher();
             case "list" -> listVoucher();
-            case "blacklist" -> {
-                customerController.listBlockedCustomers();
-                getMenu();
-            }
-            case "exit" -> exitVoucher();
             default -> {
                 consoleView.error(new RuntimeException("Please Enter Again!!"));
                 log.warn("Invalid Menu Command Input");
@@ -89,9 +82,5 @@ public class VoucherController {
 
         consoleView.listVoucher(voucherResponseDtos);
         getMenu();
-    }
-
-    public void exitVoucher(){
-        System.exit(0);
     }
 }
