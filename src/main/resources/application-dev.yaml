@@ -1,10 +1,1 @@
-file:
-  resources:
-    path: src/main/resources/
-    build-path: /resources/main/
-
-  domains:
-    customer:
-      csv-file-name: blacklist.csv
-      json-file-name: customer.json
 

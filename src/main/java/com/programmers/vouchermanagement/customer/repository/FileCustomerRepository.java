@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.programmers.vouchermanagement.configuration.properties.AppProperties;
+import com.programmers.vouchermanagement.configuration.properties.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.util.JSONFileManager;
@@ -56,9 +56,9 @@ public class FileCustomerRepository implements CustomerRepository {
     private final JSONFileManager<UUID, Customer> jsonFileManager;
     private final Map<UUID, Customer> customers;
 
-    public FileCustomerRepository(AppProperties appProperties, @Qualifier("customer") JSONFileManager<UUID, Customer> jsonFileManager) {
-        this.customerFilePath = appProperties.getJSONCustomerFilePath();
-        this.blacklistFilePath = appProperties.getCSVCustomerFilePath();
+    public FileCustomerRepository(FileProperties fileProperties, @Qualifier("customer") JSONFileManager<UUID, Customer> jsonFileManager) {
+        this.customerFilePath = fileProperties.getJSONCustomerFilePath();
+        this.blacklistFilePath = fileProperties.getCSVCustomerFilePath();
         this.jsonFileManager = jsonFileManager;
         this.customers = new HashMap<>();
         loadBlacklist();

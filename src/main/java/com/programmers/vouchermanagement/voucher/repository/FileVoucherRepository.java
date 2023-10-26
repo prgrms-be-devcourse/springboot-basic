@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.programmers.vouchermanagement.configuration.properties.AppProperties;
+import com.programmers.vouchermanagement.configuration.properties.FileProperties;
 import com.programmers.vouchermanagement.util.JSONFileManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
@@ -44,8 +44,8 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucherObject;
     };
 
-    public FileVoucherRepository(AppProperties appProperties, @Qualifier("voucher") JSONFileManager<UUID, Voucher> jsonFileManager) {
-        this.filePath = appProperties.getVoucherFilePath();
+    public FileVoucherRepository(FileProperties fileProperties, @Qualifier("voucher") JSONFileManager<UUID, Voucher> jsonFileManager) {
+        this.filePath = fileProperties.getVoucherFilePath();
         this.jsonFileManager = jsonFileManager;
         this.vouchers = new HashMap<>();
         loadVouchersFromJSON();

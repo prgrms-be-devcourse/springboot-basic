@@ -8,13 +8,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.bind.ConstructorBinding;
 
 @ConfigurationProperties(prefix = "file")
-public class AppProperties {
+public class FileProperties {
     private static final String[] CURRENT_DIRECTORIES = System.getProperty("user.dir").split(Pattern.quote(File.separator));
     private final Resources resources;
     private final Domains domains;
 
     @ConstructorBinding
-    public AppProperties(Resources resources, Domains domains) {
+    public FileProperties(Resources resources, Domains domains) {
         this.resources = resources;
         this.domains = domains;
     }

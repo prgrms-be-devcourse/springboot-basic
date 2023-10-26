@@ -20,7 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.programmers.vouchermanagement.configuration.TestConfig;
-import com.programmers.vouchermanagement.configuration.properties.AppProperties;
+import com.programmers.vouchermanagement.configuration.properties.FileProperties;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
@@ -32,7 +32,7 @@ class FileVoucherRepositoryTest {
     @Autowired
     VoucherRepository voucherRepository;
     @Autowired
-    AppProperties appProperties;
+    FileProperties fileProperties;
 
     @BeforeAll
     void setUp() {
@@ -43,7 +43,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("저장된 json파일을 성공적으로 읽고 로드한다.")
     @Order(1)
     void testLoadingVoucherFileOnInit() {
-        assertThat(appProperties.getVoucherFilePath(), is("src/test/resources/voucher-test.json"));
+        assertThat(fileProperties.getVoucherFilePath(), is("src/test/resources/voucher-test.json"));
         assertThat(voucherRepository, notNullValue());
     }
 

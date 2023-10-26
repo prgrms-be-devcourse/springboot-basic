@@ -22,7 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import com.programmers.vouchermanagement.configuration.TestConfig;
-import com.programmers.vouchermanagement.configuration.properties.AppProperties;
+import com.programmers.vouchermanagement.configuration.properties.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 
 @SpringJUnitConfig(TestConfig.class)
@@ -32,7 +32,7 @@ class FileCustomerRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
     @Autowired
-    AppProperties appProperties;
+    FileProperties fileProperties;
 
     @AfterEach
     void cleanUp() {
@@ -44,7 +44,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("저장된 블랙리스트 csv파일을 성공적으로 읽고 로드한다")
     void testLoadingBlacklistFileOnInit() {
         assertThat(customerRepository, notNullValue());
-        assertThat(appProperties.getCSVCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
+        assertThat(fileProperties.getCSVCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
 
         //when
         final List<Customer> blacklist = customerRepository.findBlackCustomers();
