@@ -11,15 +11,15 @@ import team.marco.vouchermanagementsystem.model.voucher.Voucher;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Profile({"prod", "dev"})
 @Repository
 public class JsonFileVoucherRepository implements VoucherRepository, DisposableBean {
-    private final Map<UUID, Voucher> voucherMap = new HashMap<>();
+    private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
     private final ObjectMapper objectMapper;
     private final File file;
 
