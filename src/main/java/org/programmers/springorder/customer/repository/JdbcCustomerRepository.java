@@ -2,27 +2,27 @@ package org.programmers.springorder.customer.repository;
 
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
-import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import javax.sql.DataSource;
+import java.util.*;
 
-@Primary
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String SELECT_ALL_CUSTOMER = "SELECT * FROM customers";
-//    private final String INSERT_CUSTOMER = "INSERT INTO customers(customer_id, customer_name, customer_type) VALUES(:customerId, :customerName, :customerType)";
+    private static final String INSERT_CUSTOMER = "INSERT INTO customers(customer_id, customer_name, customer_type) VALUES(:customerId, :customerName, :customerType)";
+    private static final String SELECT_ALL_CUSTOMER = "SELECT * FROM customers";
+    private static final String SELECT_BLACKLIST_CUSTOMER = "SELECT * FROM customers where customer_type = 'BLACK'";
+    private static final String SELECT_CUSTOMER_BY_ID = "SELECT * FROM customers where customer_id = :customer_id";
 
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+
+    public JdbcCustomerRepository(DataSource dataSource) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
 
     private final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
@@ -33,14 +33,36 @@ public class JdbcCustomerRepository implements CustomerRepository {
     };
 
     @Override
-    public List<Customer> findAllBlackList() {
-        return null;
+    public Customer save(Customer customer) {
+        System.out.println("JdbcCustomerRepository.save");
+        int update = jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
+        if (update != 1) {
+            throw new RuntimeException("고객 저장에 실패했습니다.");
+        }
+        return customer;
     }
 
     @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query(SELECT_ALL_CUSTOMER, customerRowMapper);
     }
+
+    @Override
+    public List<Customer> findAllBlackList() {
+        return jdbcTemplate.query(SELECT_BLACKLIST_CUSTOMER, customerRowMapper);
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        try {
+            Map<String, Object> param = Map.of("customerId", customerId);
+            Customer customer = jdbcTemplate.queryForObject(SELECT_CUSTOMER_BY_ID, param, customerRowMapper);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
 
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
