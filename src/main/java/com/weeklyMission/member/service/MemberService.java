@@ -1,19 +1,19 @@
 package com.weeklyMission.member.service;
 
 import com.weeklyMission.member.domain.Member;
-import com.weeklyMission.member.repository.FileMemberRepository;
+import com.weeklyMission.member.repository.MemberRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
-    private final FileMemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    public MemberService(FileMemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
     public List<Member> getBlackList(){
-        return memberRepository.getBlackList();
+        return memberRepository.findAll();
     }
 }

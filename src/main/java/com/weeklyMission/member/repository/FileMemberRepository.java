@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("dev")
-public class FileMemberRepository {
+public class FileMemberRepository implements MemberRepository{
     private final String path;
 
     private final Map<Long, Member> storage;
@@ -38,14 +38,16 @@ public class FileMemberRepository {
             while((data=br.readLine())!=null){
                 String[] dataSplit = data.split(",");
                 Member member = new Member(Long.parseLong(dataSplit[0]), dataSplit[1], Integer.parseInt(dataSplit[2]), dataSplit[3]);
-                storage.put(member.voucherId(), member);
+                storage.put(member.memberId(), member);
             }
         }catch(IOException e){
             throw new RuntimeException(e.getMessage(), e);
         }
     }
 
-    public List<Member> getBlackList() {
+
+    @Override
+    public List<Member> findAll() {
         return new ArrayList<>(storage.values());
     }
 }
