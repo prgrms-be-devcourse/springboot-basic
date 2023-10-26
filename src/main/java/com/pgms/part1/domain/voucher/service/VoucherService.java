@@ -1,6 +1,7 @@
 package com.pgms.part1.domain.voucher.service;
 
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
+import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
 import com.pgms.part1.domain.voucher.entity.FixedAmountDiscountVoucher;
 import com.pgms.part1.domain.voucher.entity.PercentDiscountVoucher;
 import com.pgms.part1.domain.voucher.entity.Voucher;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class VoucherService {
@@ -48,12 +50,16 @@ public class VoucherService {
         }
     }
 
-    public List<Voucher> listVoucher() {
-        return voucherRepository.list();
+    public List<VoucherResponseDto> listVoucher() {
+        return voucherRepository.list().stream()
+                .map(voucher -> new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType()))
+                .collect(Collectors.toList());
     }
 
-    public void listVouchersByWallets(List<Wallet> wallets) {
-        voucherRepository.findVoucherByWallets(wallets);
+    public List<VoucherResponseDto> listVouchersByWallets(List<Wallet> wallets) {
+        return voucherRepository.findVoucherByWallets(wallets).stream()
+                .map(voucher -> new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType()))
+                .collect(Collectors.toList());
     }
 
     public void deleteVoucher(Long id){

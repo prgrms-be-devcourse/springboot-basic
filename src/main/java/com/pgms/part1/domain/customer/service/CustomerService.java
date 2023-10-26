@@ -56,10 +56,13 @@ public class CustomerService {
         customerRepository.deleteCustomer(id);
     }
 
-    public void listCustomersByWallets(List<Wallet> wallets) {
-        customerRepository.listCustomersByWallets(wallets);
+    public List<CustomerResponseDto> listCustomersByWallets(List<Wallet> wallets) {
+        return customerRepository.listCustomersByWallets(wallets).stream().map(customer ->
+                        new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked()))
+                .collect(Collectors.toList());
     }
 
+    // todo 있는지 체크
     public void isAvailableCustomer(Long id) {
     }
 }

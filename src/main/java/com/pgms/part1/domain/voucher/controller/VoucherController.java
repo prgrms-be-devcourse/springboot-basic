@@ -2,7 +2,6 @@ package com.pgms.part1.domain.voucher.controller;
 
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
-import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.service.VoucherService;
 import com.pgms.part1.view.VoucherConsoleView;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class VoucherController {
@@ -33,7 +31,7 @@ public class VoucherController {
             case "create" -> createVoucher();
             case "list" -> listVoucher();
             case "delete" -> deleteVoucher();
-            case "exit" -> {}
+            case "exit" -> {return;}
             default -> {
                 voucherConsoleView.error(new RuntimeException("Please Enter Again!!"));
                 log.warn("Invalid Menu Command Input");
@@ -79,11 +77,7 @@ public class VoucherController {
     }
 
     public void listVoucher(){
-        List<Voucher> vouchers = voucherService.listVoucher();
-        List<VoucherResponseDto> voucherResponseDtos =
-                vouchers.stream().map(v -> new VoucherResponseDto(v.getId(), v.getDiscount(), v.getVoucherDiscountType()))
-                        .collect(Collectors.toList());
-
+        List<VoucherResponseDto> voucherResponseDtos = voucherService.listVoucher();
         voucherConsoleView.listVoucher(voucherResponseDtos);
         getMenu();
     }
