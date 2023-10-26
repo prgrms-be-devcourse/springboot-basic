@@ -1,7 +1,6 @@
 package org.programmers.springorder.voucher.model;
 
 import java.util.Arrays;
-import java.util.InputMismatchException;
 import java.util.function.LongBinaryOperator;
 
 public enum VoucherType {
@@ -24,7 +23,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(voucher -> voucher.voucherNum.equals(voucherNum))
                 .findFirst()
-                .orElseThrow(() -> new InputMismatchException("유효하지 않은 값입니다. 다시 입력해주세요."));
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 값입니다. 다시 입력해주세요."));
     }
 
     public long calculate(long beforeDiscount, long discount) {

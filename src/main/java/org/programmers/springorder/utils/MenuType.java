@@ -3,7 +3,6 @@ package org.programmers.springorder.utils;
 import org.programmers.springorder.consts.ErrorMessage;
 
 import java.util.Arrays;
-import java.util.InputMismatchException;
 
 public enum MenuType {
     EXIT("1"),
@@ -25,6 +24,6 @@ public enum MenuType {
         return Arrays.stream(MenuType.values())
                 .filter(menu -> menu.getMenuNum().equals(menuNum))
                 .findFirst()
-                .orElseThrow(() -> new InputMismatchException(ErrorMessage.INVALID_VALUE_MESSAGE));
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_VALUE_MESSAGE));
     }
 }
