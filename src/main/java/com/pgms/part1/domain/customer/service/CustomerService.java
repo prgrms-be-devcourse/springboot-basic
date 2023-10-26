@@ -84,16 +84,9 @@ public class CustomerService {
     }
 
     public List<CustomerResponseDto> listCustomersByWallets(List<Wallet> wallets) {
-        isCustomerOwnWallet(wallets);
-
         return customerRepository.listCustomersByWallets(wallets).stream().map(customer ->
                         new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked()))
                 .collect(Collectors.toList());
-    }
-
-    private static void isCustomerOwnWallet(List<Wallet> wallets) {
-        if(wallets.size() == 0)
-            throw new RuntimeException("해당 바우처를 소유한 고객이 없습니다.");
     }
 
     // todo 있는지 체크

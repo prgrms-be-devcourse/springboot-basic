@@ -58,17 +58,25 @@ public class WalletController {
         walletService.deleteWallet(id);
     }
 
-    public void listVouchersByCustomer(){
-        Long id = walletConsoleView.getCustomerId();
-        List<Wallet> wallets = walletService.listWalletsByCustomer(id);
-        List<VoucherResponseDto> voucherResponseDtos = voucherService.listVouchersByWallets(wallets);
-        walletConsoleView.listVoucher(voucherResponseDtos);
+    public void listVouchersByCustomer() {
+        try {
+            Long id = walletConsoleView.getCustomerId();
+            List<Wallet> wallets = walletService.listWalletsByCustomer(id);
+            List<VoucherResponseDto> voucherResponseDtos = voucherService.listVouchersByWallets(wallets);
+            walletConsoleView.listVoucher(voucherResponseDtos);
+        } catch (Exception e) {
+            walletConsoleView.error(e);
+        }
     }
 
     public void listCustomersByVoucher(){
-        Long id = walletConsoleView.getVoucherId();
-        List<Wallet> wallets = walletService.listWalletsByVoucher(id);
-        List<CustomerResponseDto> customerResponseDtos = customerService.listCustomersByWallets(wallets);
-        walletConsoleView.listCustomers(customerResponseDtos);
+        try{
+            Long id = walletConsoleView.getVoucherId();
+            List<Wallet> wallets = walletService.listWalletsByVoucher(id);
+            List<CustomerResponseDto> customerResponseDtos = customerService.listCustomersByWallets(wallets);
+            walletConsoleView.listCustomers(customerResponseDtos);
+        } catch (Exception e){
+            walletConsoleView.error(e);
+        }
     }
 }
