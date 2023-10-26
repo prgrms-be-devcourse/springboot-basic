@@ -14,9 +14,10 @@ CREATE TABLE vouchers
     created_at     datetime(6) DEFAULT CURRENT_TIMESTAMP(6)
 );
 
-CREATE TABLE voucher_customer_own_info
+CREATE TABLE wallet
 (
     id          INT PRIMARY KEY AUTO_INCREMENT,
     customer_id BINARY(16) NOT NULL REFERENCES customers (id) ON DELETE CASCADE,
-    voucher_id  BINARY(16) NOT NULL REFERENCES vouchers (id) ON DELETE CASCADE
+    voucher_id  BINARY(16) NOT NULL REFERENCES vouchers (id) ON DELETE CASCADE,
+    CONSTRAINT voucher_id UNIQUE (voucher_id)
 );
