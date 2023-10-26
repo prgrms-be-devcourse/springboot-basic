@@ -8,6 +8,10 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.springorder.customer.model.Customer;
+import org.programmers.springorder.customer.model.CustomerType;
+import org.programmers.springorder.customer.repository.CustomerRepository;
+import org.programmers.springorder.customer.repository.JdbcCustomerRepository;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.model.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,10 +67,18 @@ class JdbcVoucherRepositoryTest {
             return new JdbcVoucherRepository(namedParameterJdbcTemplate);
         }
 
+        @Bean
+        public CustomerRepository customerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
+            return new JdbcCustomerRepository(namedParameterJdbcTemplate);
+        }
     }
 
     @Autowired
     VoucherRepository voucherRepository;
+
+    @Autowired
+    CustomerRepository customerRepository;
+
 
     @BeforeAll
     static void setUp(){
@@ -140,5 +152,33 @@ class JdbcVoucherRepositoryTest {
         assertThat(voucher1).isEqualTo(findVoucher1);
         assertThat(voucher2).isEqualTo(findVoucher2);
         assertThat(voucher3).isEqualTo(findVoucher3);
+    }
+
+    @Test
+    @DisplayName("voucher를 고객에게 부여하는 테스트")
+    public void setVoucherTest(){
+        UUID uuid1 = UUID.randomUUID();
+        UUID uuid2 = UUID.randomUUID();
+        UUID uuidCustomer = UUID.randomUUID();
+
+        Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED );
+        Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED );
+
+        Customer customer = Customer.toCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
+        customerRepository.insert(customer);
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+
+        voucherRepository.updateVoucherOwner(voucher1, customer);
+
+
+        Voucher findVoucher1 = voucherRepository.findById(uuid1).get();
+        Voucher findVoucher2 = voucherRepository.findById(uuid2).get();
+
+
+        assertThat(findVoucher1.getCustomerId()).isEqualTo(uuidCustomer);
+        assertThat(findVoucher1.getCustomerId()).isEqualTo(customer.getCustomerId());
+        assertThat(findVoucher2.getCustomerId()).isEqualTo(null);
+
     }
 }
