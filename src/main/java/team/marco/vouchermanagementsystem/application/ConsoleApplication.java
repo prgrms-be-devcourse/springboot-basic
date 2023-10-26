@@ -57,8 +57,10 @@ public class ConsoleApplication {
 
             switchCommand(commandType);
         } catch (NumberFormatException e) {
+            logger.warn(e.toString());
             Console.print("숫자를 입력해 주세요.");
         } catch (IllegalArgumentException e) {
+            logger.warn(e.toString());
             Console.print(e.getMessage());
         }
     }
@@ -89,8 +91,6 @@ public class ConsoleApplication {
     }
 
     private void createPercentDiscountVoucher() {
-        logger.info("Call createPercentDiscountVoucher()");
-
         Console.print("할인율을 입력해 주세요.");
 
         int percent = Console.readInt();
@@ -99,8 +99,6 @@ public class ConsoleApplication {
     }
 
     private void createFixedAmountVoucher() {
-        logger.info("Call createFixedAmountVoucher()");
-
         Console.print("할인 금액을 입력해 주세요.");
 
         int amount = Console.readInt();
@@ -109,14 +107,10 @@ public class ConsoleApplication {
     }
 
     private void getVoucherList() {
-        logger.info("Call getVoucherList()");
-
         printInquireResult(voucherService.getVouchersInfo());
     }
 
     private void getBlacklist() {
-        logger.info("Call getBlackListUsers()");
-
         printInquireResult(blacklistService.getBlacklist());
     }
 
@@ -131,8 +125,6 @@ public class ConsoleApplication {
     }
 
     private void close() {
-        logger.info("Call close()");
-
         Console.print("프로그램이 종료되었습니다.");
     }
 }
