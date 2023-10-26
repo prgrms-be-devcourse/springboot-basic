@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -46,12 +47,18 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         String findAllSQL = "SELECT * FROM customers";
-        return  namedParameterJdbcTemplate.query(findAllSQL, customerRowMapper);
+        return namedParameterJdbcTemplate.query(findAllSQL, customerRowMapper);
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.empty();
+        String findByIdSQL = "SELECT * FROM customers WHERE customer_id=UUID_TO_BIN(:customerId)";
+        Map<String, Object> parameterMap = Collections.singletonMap("customerId", customerId.toString().getBytes());
+        try {
+            return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(findByIdSQL, parameterMap, customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
