@@ -25,9 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringJUnitConfig
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class JDBCVoucherRepositoryTest {
+class VoucherJDBCRepositoryTest {
     @Autowired
-    JDBCVoucherRepository jdbcVoucherRepository;
+    VoucherJDBCRepository voucherJDBCRepository;
     @Autowired
     DataSource dataSource;
 
@@ -43,9 +43,9 @@ class JDBCVoucherRepositoryTest {
     @DisplayName("고정 금액 할인 바우처를 추가할 수 있다.")
     void saveFixedAmountVoucherSucceed() {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(555), VoucherType.FIXED);
-        jdbcVoucherRepository.save(newVoucher);
+        voucherJDBCRepository.save(newVoucher);
 
-        Optional<Voucher> retrievedVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isEmpty()).isFalse();
         assertThat(retrievedVoucher.get().getVoucherId()).isEqualTo(newVoucher.getVoucherId());
@@ -56,9 +56,9 @@ class JDBCVoucherRepositoryTest {
     @DisplayName("퍼센트 할인 바우처를 추가할 수 있다.")
     void savePercentVoucherSucceed() {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT);
-        jdbcVoucherRepository.save(newVoucher);
+        voucherJDBCRepository.save(newVoucher);
 
-        Optional<Voucher> retrievedVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isEmpty()).isFalse();
         assertThat(retrievedVoucher.get().getVoucherId()).isEqualTo(newVoucher.getVoucherId());
@@ -68,7 +68,7 @@ class JDBCVoucherRepositoryTest {
     @Order(4)
     @DisplayName("모든 바우처를 조회할 수 있다.")
     void findAllVoucherSucceed() {
-        List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+        List<Voucher> vouchers = voucherJDBCRepository.findAll();
 
         assertThat(vouchers.isEmpty()).isFalse();
     }
@@ -78,11 +78,11 @@ class JDBCVoucherRepositoryTest {
     @DisplayName("바우처를 아이디로 삭제할 수 있다.")
     void deleteVoucherSucceed() {
         Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
-        jdbcVoucherRepository.save(voucher);
+        voucherJDBCRepository.save(voucher);
 
-        jdbcVoucherRepository.delete(voucher.getVoucherId());
+        voucherJDBCRepository.delete(voucher.getVoucherId());
 
-        assertThat(jdbcVoucherRepository.findById(voucher.getVoucherId()).isEmpty()).isTrue();
+        assertThat(voucherJDBCRepository.findById(voucher.getVoucherId()).isEmpty()).isTrue();
     }
 
     @Test
@@ -92,7 +92,7 @@ class JDBCVoucherRepositoryTest {
         UUID NonExistVoucherId = UUID.randomUUID();
 
         assertThrows(RuntimeException.class, () -> {
-            jdbcVoucherRepository.delete(NonExistVoucherId);
+            voucherJDBCRepository.delete(NonExistVoucherId);
         });
     }
 
@@ -101,12 +101,12 @@ class JDBCVoucherRepositoryTest {
     @DisplayName("바우처를 업데이트 할 수 있다.")
     void updateVoucherSucceed() {
         Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
-        jdbcVoucherRepository.save(voucher);
+        voucherJDBCRepository.save(voucher);
 
         Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), BigDecimal.valueOf(100), VoucherType.PERCENT);
-        jdbcVoucherRepository.update(updatedVoucher);
+        voucherJDBCRepository.update(updatedVoucher);
 
-        Optional<Voucher> retrievedVoucher = jdbcVoucherRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getVoucherId());
         assertThat(retrievedVoucher.isEmpty()).isFalse();
         assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(updatedVoucher.getDiscountValue());
         assertThat(retrievedVoucher.get().getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());

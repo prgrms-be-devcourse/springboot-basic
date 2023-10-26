@@ -18,8 +18,8 @@ import java.util.*;
 
 @Repository
 @Profile("prod")
-public class FileVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
+public class VoucherFileRepository implements VoucherRepository {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherFileRepository.class);
 
     //constants
     private static final String VOUCHER_ID_KEY = "voucher_id";
@@ -35,7 +35,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final String filePath;
     private final Map<UUID, Voucher> vouchers;
 
-    public FileVoucherRepository(AppProperties appProperties) {
+    public VoucherFileRepository(AppProperties appProperties) {
         this.filePath = appProperties.resources().path() + appProperties.domains().get("voucher").fileName();
         this.vouchers = new HashMap<>();
         loadFile();

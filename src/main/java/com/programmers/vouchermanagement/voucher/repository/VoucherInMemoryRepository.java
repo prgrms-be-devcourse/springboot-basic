@@ -8,10 +8,10 @@ import java.util.*;
 
 @Repository
 @Profile("dev")
-public class InMemoryVoucherRepository implements VoucherRepository {
+public class VoucherInMemoryRepository implements VoucherRepository {
     private final Map<UUID, Voucher> vouchers;
 
-    public InMemoryVoucherRepository() {
+    public VoucherInMemoryRepository() {
         vouchers = new HashMap<>();
     }
 

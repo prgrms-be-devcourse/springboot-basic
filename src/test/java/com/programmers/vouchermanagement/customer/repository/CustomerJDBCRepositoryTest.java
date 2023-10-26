@@ -22,19 +22,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class JDBCCustomerRepositoryTest {
+class CustomerJDBCRepositoryTest {
     @Autowired
-    JDBCCustomerRepository jdbcCustomerRepository;
+    CustomerJDBCRepository customerJDBCRepository;
     @Autowired
     DataSource dataSource;
 
     @Test
     @DisplayName("블랙리스트를 조회할 수 있다.")
     void findAllBlackCustomerSucceed() {
-        jdbcCustomerRepository.save(new Customer(UUID.randomUUID(), "이세희7", false));
-        jdbcCustomerRepository.save(new Customer(UUID.randomUUID(), "이세희8", true));
-        jdbcCustomerRepository.save(new Customer(UUID.randomUUID(), "이세희9", false));
-        List<Customer> customers = jdbcCustomerRepository.findAllBlackCustomer();
+        customerJDBCRepository.save(new Customer(UUID.randomUUID(), "이세희7", false));
+        customerJDBCRepository.save(new Customer(UUID.randomUUID(), "이세희8", true));
+        customerJDBCRepository.save(new Customer(UUID.randomUUID(), "이세희9", false));
+        List<Customer> customers = customerJDBCRepository.findAllBlackCustomer();
         assertThat(customers.isEmpty()).isFalse();
         assertThat(customers.stream().filter(customer -> !customer.isBlack()).toList()).isEmpty();
     }

@@ -16,8 +16,8 @@ import java.util.UUID;
 
 @Repository
 @Primary
-public class JDBCCustomerRepository implements CustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JDBCCustomerRepository.class);
+public class CustomerJDBCRepository implements CustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerJDBCRepository.class);
     private static final String FIND_ALL_BLACK_CUSTOMER_QUERY = "SELECT * FROM test.customers WHERE black = TRUE";
     private static final String INSERT_QUERY = "INSERT INTO test.customers(id, name, black) VALUES (UUID_TO_BIN(:id), :name, :black)";
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
@@ -29,7 +29,7 @@ public class JDBCCustomerRepository implements CustomerRepository {
     };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JDBCCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public CustomerJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

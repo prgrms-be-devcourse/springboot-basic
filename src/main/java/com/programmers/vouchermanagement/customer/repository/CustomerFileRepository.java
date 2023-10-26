@@ -15,15 +15,15 @@ import java.util.*;
 
 @Repository
 @Profile({"dev", "prod"})
-public class FileCustomerRepository implements CustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
+public class CustomerFileRepository implements CustomerRepository {
+    private static final Logger logger = LoggerFactory.getLogger(CustomerFileRepository.class);
     private static final String COMMA_SEPARATOR = ", ";
     private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading blacklist";
 
     private final String filePath;
     private final Map<UUID, Customer> customers;
 
-    public FileCustomerRepository(AppProperties appProperties) {
+    public CustomerFileRepository(AppProperties appProperties) {
         this.filePath = appProperties.resources().path() + appProperties.domains().get("customer").fileName();
         this.customers = new HashMap<>();
         loadBlacklist();

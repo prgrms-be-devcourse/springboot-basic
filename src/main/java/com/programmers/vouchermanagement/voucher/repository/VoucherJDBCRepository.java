@@ -16,8 +16,8 @@ import java.util.*;
 
 @Repository
 @Primary
-public class JDBCVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JDBCVoucherRepository.class);
+public class VoucherJDBCRepository implements VoucherRepository {
+    private static final Logger logger = LoggerFactory.getLogger(VoucherJDBCRepository.class);
     private static final String INSERT_QUERY = "INSERT INTO test.vouchers(id, type, discount_value) VALUES (UUID_TO_BIN(:id), :type, :discountValue)";
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
     private static final String FIND_ALL_QUERY = "SELECT * FROM test.vouchers";
@@ -32,7 +32,7 @@ public class JDBCVoucherRepository implements VoucherRepository {
     };
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public JDBCVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public VoucherJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
