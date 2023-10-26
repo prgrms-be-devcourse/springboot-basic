@@ -1,12 +1,11 @@
 package com.programmers.vouchermanagement.customer.service;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -18,7 +17,7 @@ public class CustomerService {
     }
 
     public List<Customer> readBlacklist() {
-        List<Customer> blacklist = customerRepository.findBlackCustomers();
+        List<Customer> blacklist = customerRepository.findAllBlackCustomer();
         if (blacklist.isEmpty()) {
             return Collections.emptyList();
         }

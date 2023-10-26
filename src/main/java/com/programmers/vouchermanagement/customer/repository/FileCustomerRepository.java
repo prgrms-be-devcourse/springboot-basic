@@ -30,7 +30,7 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findBlackCustomers() {
+    public List<Customer> findAllBlackCustomer() {
         return customers.values()
                 .stream()
                 .filter(Customer::isBlack)
