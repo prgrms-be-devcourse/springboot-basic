@@ -1,22 +1,21 @@
 package com.prgms.vouchermanager.contorller.voucher;
 
-import com.prgms.vouchermanager.contorller.front.FrontController;
 import com.prgms.vouchermanager.domain.voucher.Voucher;
 import com.prgms.vouchermanager.dto.CreateVoucherDto;
+import com.prgms.vouchermanager.dto.UpdateVoucherDto;
 import com.prgms.vouchermanager.service.voucher.VoucherService;
 import com.prgms.vouchermanager.util.io.ConsoleInput;
 import com.prgms.vouchermanager.util.io.ConsoleOutput;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
-
+@Slf4j
 @Controller
 public class VoucherController {
-
-    private final static Logger logger = LoggerFactory.getLogger(FrontController.class);
 
     private final VoucherService voucherService;
 
@@ -31,23 +30,71 @@ public class VoucherController {
     }
 
     public void create() {
-        try{
+        try {
             consoleOutput.printVoucherType();
             int voucherType = consoleInput.inputVoucherType();
             consoleOutput.printVoucherAmount();
             long value = consoleInput.inputVoucherValue();
-            voucherService.create(new CreateVoucherDto(value,voucherType));
+            Voucher voucher = voucherService.create(new CreateVoucherDto(value, voucherType));
+            log.info(voucher.toString());
 
         } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
+        }
+
+    }
+
+    public void update() {
+        try {
+            consoleOutput.printVoucherId();
+            UUID id = consoleInput.inputVoucherId();
+            consoleOutput.printVoucherType();
+            int voucherType = consoleInput.inputVoucherType();
+            consoleOutput.printVoucherAmount();
+            long value = consoleInput.inputVoucherValue();
+            voucherService.update(id, new UpdateVoucherDto(value, voucherType));
+
+        } catch (RuntimeException e) {
+            log.warn(e.getMessage());
         }
     }
 
     public void getList() {
-        List<Voucher> voucherList = voucherService.getVoucherList();
+
+        List<Voucher> voucherList = voucherService.findAll();
 
         voucherList.forEach(voucher -> System.out.println(voucher.toString()));
 
+    }
+
+    public void findById() {
+
+        consoleOutput.printVoucherId();
+
+        try {
+            UUID id = consoleInput.inputVoucherId();
+            Voucher voucher = voucherService.findById(id);
+            log.info(voucher.toString());
+
+        } catch (RuntimeException e) {
+            log.warn(e.getMessage());
+        }
+
+    }
+
+    public void deleteById() {
+        consoleOutput.printVoucherId();
+        try {
+            UUID id = consoleInput.inputVoucherId();
+            voucherService.deleteById(id);
+            consoleOutput.printSuccessDelete();
+
+        } catch (RuntimeException e) {
+            log.warn(e.getMessage());
+        }
+    }
+
+    public void deleteAll() {
+        voucherService.deleteAll();
     }
 }
