@@ -4,6 +4,7 @@ package com.programmers.vouchermanagement.repository.voucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import com.programmers.vouchermanagement.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Repository;
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -78,12 +78,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
-        final UUID id = toUUID(resultSet.getBytes("id"));
-        final String name = resultSet.getString("name");
-        final float discountAmount = resultSet.getFloat("discount_amount");
-        final LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        final VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        return VoucherFactory.createVoucher(id, name, discountAmount, createdAt, voucherType);
+        VoucherDto.Create voucherDto = new VoucherDto.Create(
+                toUUID(resultSet.getBytes("id")),
+                resultSet.getString("name"),
+                resultSet.getFloat("discount_amount"),
+                resultSet.getTimestamp("created_at").toLocalDateTime(),
+                VoucherType.valueOf(resultSet.getString("voucher_type"))
+        );
+        return VoucherFactory.createVoucher(voucherDto);
     }
 
     private UUID toUUID(byte[] bytes) {

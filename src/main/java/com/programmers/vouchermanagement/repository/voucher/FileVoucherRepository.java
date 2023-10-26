@@ -4,6 +4,7 @@ import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import com.programmers.vouchermanagement.dto.VoucherDto;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,12 +74,14 @@ public class FileVoucherRepository implements VoucherRepository {
         try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
             while ((line = br.readLine()) != null) {
                 String[] strings = line.split(CSV_SEPARATOR);
-                Voucher voucher = VoucherFactory.createVoucher(
+                VoucherDto.Create createDto = new VoucherDto.Create(
                         UUID.fromString(strings[0]),    // id
                         strings[1],                     // name
                         Float.parseFloat(strings[2]),   // discountAmount
                         LocalDateTime.parse(strings[3]), // createdAt
                         VoucherType.valueOf(strings[4].toUpperCase())); // voucherType
+
+                Voucher voucher = VoucherFactory.createVoucher(createDto);
                 vouchers.put(voucher.getId(), voucher);
             }
         } catch (FileNotFoundException e) {
