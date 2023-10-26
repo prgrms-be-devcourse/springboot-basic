@@ -139,6 +139,7 @@ class FileCustomerRepositoryTest {
     void testUpdateCustomerSuccessful() {
         //given
         final Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
 
         //when
         final Customer updatedCustomer = new Customer(customer.getCustomerId(), "updated-test-customer");
