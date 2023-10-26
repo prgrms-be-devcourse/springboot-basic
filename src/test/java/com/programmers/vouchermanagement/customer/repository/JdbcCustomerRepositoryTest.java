@@ -3,6 +3,9 @@ package com.programmers.vouchermanagement.customer.repository;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
+
+import java.util.UUID;
 
 import javax.sql.DataSource;
 
@@ -24,6 +27,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.programmers.vouchermanagement.configuration.TestConfig;
 import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
+import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.zaxxer.hikari.HikariDataSource;
 
 @SpringJUnitConfig(TestConfig.class)
@@ -54,7 +58,7 @@ class JdbcCustomerRepositoryTest {
                 .build();
 
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        customerRepository = new JdbcCustomerRepository(namedParameterJdbcTemplate, fileProperties.getCSVCustomerFilePath());
+        customerRepository = new JdbcCustomerRepository(namedParameterJdbcTemplate, fileProperties);
     }
 
     @Test
@@ -67,8 +71,21 @@ class JdbcCustomerRepositoryTest {
 
     @Test
     @Order(2)
-    @DisplayName("JdbcCustomerRepository 템플릿을 주입 받아 생성된다.")
-    void testJdbcVoucherRepositoryCreation() {
+    @DisplayName("JdbcCustomerRepository가 템플릿을 주입 받아 생성된다.")
+    void testJdbcCustomerRepositoryCreation() {
         assertThat(customerRepository, notNullValue());
+    }
+
+    @Test
+    @DisplayName("고객 저장을 성공한다.")
+    void testCustomerCreationSuccessful() {
+        //given
+        final Customer customer = new Customer(UUID.randomUUID(), "test-user");
+
+        //when
+        final Customer createdCustomer = customerRepository.save(customer);
+
+        //then
+        assertThat(createdCustomer, samePropertyValuesAs(customer));
     }
 }
