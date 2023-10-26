@@ -1,7 +1,0 @@
-# Prevent the program stop due to auto-configuring datasource
-spring:
-  datasource:
-    driver-class-name:
-    url:
-    username:
-    password:

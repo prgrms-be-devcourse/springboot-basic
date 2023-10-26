@@ -1,6 +1,4 @@
-spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3305/voucher_management
-    username: root
-    password: 1234
+datasource:
+  url: jdbc:mysql://localhost:3305/voucher_management
+  username: root
+  password: 1234
