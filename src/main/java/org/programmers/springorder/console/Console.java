@@ -1,15 +1,15 @@
 package org.programmers.springorder.console;
 
-import org.programmers.springorder.consts.ErrorMessage;
-import org.programmers.springorder.consts.Message;
-import org.programmers.springorder.customer.dto.CustomerRequestDto;
-import org.programmers.springorder.customer.dto.CustomerResponseDto;
+import org.programmers.springorder.constant.ErrorMessage;
+import org.programmers.springorder.constant.Message;
+import org.programmers.springorder.dto.customer.CustomerRequestDto;
+import org.programmers.springorder.dto.customer.CustomerResponseDto;
 import org.programmers.springorder.utils.CustomerMenuType;
 import org.programmers.springorder.utils.ExceptionHandler;
 import org.programmers.springorder.utils.MenuType;
-import org.programmers.springorder.voucher.dto.VoucherRequestDto;
-import org.programmers.springorder.voucher.dto.VoucherResponseDto;
-import org.programmers.springorder.voucher.model.VoucherType;
+import org.programmers.springorder.dto.voucher.VoucherRequestDto;
+import org.programmers.springorder.dto.voucher.VoucherResponseDto;
+import org.programmers.springorder.model.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

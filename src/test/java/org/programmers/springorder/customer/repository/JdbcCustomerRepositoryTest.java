@@ -2,8 +2,9 @@ package org.programmers.springorder.customer.repository;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springorder.customer.model.Customer;
-import org.programmers.springorder.customer.model.CustomerType;
+import org.programmers.springorder.model.customer.Customer;
+import org.programmers.springorder.model.customer.CustomerType;
+import org.programmers.springorder.repository.customer.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;

@@ -3,10 +3,10 @@ package org.programmers.springorder.repository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springorder.voucher.model.Voucher;
-import org.programmers.springorder.voucher.model.VoucherType;
-import org.programmers.springorder.voucher.repository.MemoryVoucherRepository;
-import org.programmers.springorder.voucher.repository.VoucherRepository;
+import org.programmers.springorder.model.voucher.Voucher;
+import org.programmers.springorder.model.voucher.VoucherType;
+import org.programmers.springorder.repository.voucher.MemoryVoucherRepository;
+import org.programmers.springorder.repository.voucher.VoucherRepository;
 
 import java.util.List;
 import java.util.Optional;

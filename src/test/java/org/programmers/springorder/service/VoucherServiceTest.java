@@ -2,13 +2,12 @@ package org.programmers.springorder.service;
 
 
 import org.junit.jupiter.api.*;
-import org.programmers.springorder.voucher.dto.VoucherRequestDto;
-import org.programmers.springorder.voucher.dto.VoucherResponseDto;
-import org.programmers.springorder.voucher.model.Voucher;
-import org.programmers.springorder.voucher.model.VoucherType;
-import org.programmers.springorder.voucher.repository.MemoryVoucherRepository;
-import org.programmers.springorder.voucher.repository.VoucherRepository;
-import org.programmers.springorder.voucher.service.VoucherService;
+import org.programmers.springorder.dto.voucher.VoucherRequestDto;
+import org.programmers.springorder.dto.voucher.VoucherResponseDto;
+import org.programmers.springorder.model.voucher.Voucher;
+import org.programmers.springorder.model.voucher.VoucherType;
+import org.programmers.springorder.repository.voucher.MemoryVoucherRepository;
+import org.programmers.springorder.repository.voucher.VoucherRepository;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,15 +22,14 @@ class VoucherServiceTest {
     private static final VoucherService voucherService = new VoucherService(voucherRepository);
 
 
-
     @Test
     @Order(2)
     @DisplayName("모든 Voucher 리스트를 가져오는 Service 로직")
     void getAllVoucher() {
         List<UUID> uuids = Arrays.asList(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
-        voucherRepository.save(Voucher.toVoucher(uuids.get(0),10, VoucherType.PERCENT));
-        voucherRepository.save(Voucher.toVoucher(uuids.get(1),5, VoucherType.PERCENT));
-        voucherRepository.save(Voucher.toVoucher(uuids.get(2),1000, VoucherType.FIXED));
+        voucherRepository.save(Voucher.toVoucher(uuids.get(0), 10, VoucherType.PERCENT));
+        voucherRepository.save(Voucher.toVoucher(uuids.get(1), 5, VoucherType.PERCENT));
+        voucherRepository.save(Voucher.toVoucher(uuids.get(2), 1000, VoucherType.FIXED));
         voucherRepository.save(Voucher.toVoucher(uuids.get(3), 2000, VoucherType.FIXED));
 
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();

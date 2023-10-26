@@ -1,11 +1,11 @@
 package org.programmers.springorder;
 
 import org.programmers.springorder.console.Console;
-import org.programmers.springorder.consts.Message;
-import org.programmers.springorder.customer.controller.CustomerController;
+import org.programmers.springorder.constant.Message;
+import org.programmers.springorder.controller.CustomerController;
 import org.programmers.springorder.utils.ExceptionHandler;
 import org.programmers.springorder.utils.MenuType;
-import org.programmers.springorder.voucher.controller.VoucherController;
+import org.programmers.springorder.controller.VoucherController;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

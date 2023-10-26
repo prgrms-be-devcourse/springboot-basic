@@ -2,7 +2,7 @@ package org.programmers.springorder.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springorder.voucher.model.VoucherType;
+import org.programmers.springorder.model.voucher.VoucherType;
 
 import java.util.InputMismatchException;
 
@@ -15,7 +15,7 @@ class VoucherTypeTest {
 
     @Test
     @DisplayName("유효하지 않은 바우처 타입을 입력하면 에러 메시지를 띄운다.")
-    void invalidMenuNumber(){
+    void invalidMenuNumber() {
         //given
         String menuNum = "4";
 
@@ -30,7 +30,7 @@ class VoucherTypeTest {
 
     @Test
     @DisplayName("유효한 바우처 타입을 입력하면 바우처 타입을 반환한다.")
-    void validMenuNumber(){
+    void validMenuNumber() {
         //given
         String menuNum = "1";
         String menuNum2 = "2";

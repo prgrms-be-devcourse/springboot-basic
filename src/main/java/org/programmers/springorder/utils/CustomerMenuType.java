@@ -1,6 +1,6 @@
 package org.programmers.springorder.utils;
 
-import org.programmers.springorder.consts.ErrorMessage;
+import org.programmers.springorder.constant.ErrorMessage;
 
 import java.util.Arrays;
 

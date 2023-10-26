@@ -2,8 +2,8 @@ package org.programmers.springorder.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springorder.voucher.model.Voucher;
-import org.programmers.springorder.voucher.model.VoucherType;
+import org.programmers.springorder.model.voucher.Voucher;
+import org.programmers.springorder.model.voucher.VoucherType;
 
 import java.util.UUID;
 
