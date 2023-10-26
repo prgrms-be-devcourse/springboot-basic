@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.configuration.properties;
+package com.programmers.vouchermanagement.configuration.properties.file;
 
 import java.io.File;
 import java.util.Arrays;
