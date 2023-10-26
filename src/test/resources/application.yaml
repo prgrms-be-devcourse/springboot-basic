@@ -12,4 +12,11 @@ spring:
     init:
       mode: always
 
+file:
+  path:
+    voucher: src/test/resources/voucher_list.csv
+    blacklist: src/test/resources/customer_blackList.csv
+
+
+
 
