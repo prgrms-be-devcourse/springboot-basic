@@ -2,7 +2,9 @@ package org.programmers.springorder.console;
 
 import org.programmers.springorder.consts.ErrorMessage;
 import org.programmers.springorder.consts.Message;
+import org.programmers.springorder.customer.dto.CustomerRequestDto;
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
+import org.programmers.springorder.utils.CustomerMenuType;
 import org.programmers.springorder.utils.ExceptionHandler;
 import org.programmers.springorder.utils.MenuType;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
@@ -35,6 +37,9 @@ public class Console {
         return MenuType.selectMenu(scanner.nextLine());
     }
 
+    /**
+     * Voucher
+     */
     private VoucherType inputVoucherType() {
         printMessage(Message.VOUCHER_SELECT_MESSAGE);
         printPrompt();
@@ -64,6 +69,31 @@ public class Console {
         } else {
             allVoucher.forEach(System.out::println);
         }
+    }
+
+    /**
+     * Customer
+     */
+    public static CustomerMenuType inputCustomerMenu() {
+        printMessage(Message.CUSTOMER_MENU_SELECT_MESSAGE);
+        printPrompt();
+        return CustomerMenuType.selectCustomerMenu(scanner.nextLine());
+    }
+
+    private String inputCustomerName() {
+        printMessage(Message.INPUT_CUSTOMER_NAME_MESSAGE);
+        printPrompt();
+
+        String name = scanner.nextLine();
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException(ErrorMessage.EMPTY_VALUE_MESSAGE);
+        }
+        return name;
+    }
+
+    public CustomerRequestDto inputCustomerInfo() {
+        String name = ExceptionHandler.input(this::inputCustomerName);
+        return new CustomerRequestDto(name);
     }
 
     public void showBlackList(List<CustomerResponseDto> blackList) {
