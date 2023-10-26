@@ -56,7 +56,7 @@ class VoucherServiceTest {
 
             Optional<Voucher> voucher = service.findById(fixedVoucher.getVoucherId());
 
-            assertThat(voucher.get()).isEqualTo(fixedVoucher);
+            assertThat(voucher).contains(fixedVoucher);
             verify(repository).findByID(any());
         }
 

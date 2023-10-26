@@ -1,5 +1,6 @@
 package org.prgrms.vouchermanager.repository.voucher;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,9 +17,9 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
-@Transactional
 @Slf4j
 @SpringBootTest
+@Transactional
 class JdbcVoucherRepositoryTest {
 
 

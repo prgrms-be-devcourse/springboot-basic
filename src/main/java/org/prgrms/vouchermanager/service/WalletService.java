@@ -7,6 +7,7 @@ import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
 import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
 import org.prgrms.vouchermanager.exception.NotExistEmailException;
+import org.prgrms.vouchermanager.exception.NotExistVoucherException;
 import org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepository;
 import org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepository;
 import org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepository;
@@ -38,7 +39,7 @@ public class WalletService {
         return walletRepository.deleteByEmail(email);
     }
     public Optional<Wallet> findByVoucher(Voucher voucher) {
-        voucherRepository.findByID(voucher.getVoucherId()).orElseThrow(NotExistEmailException::new);
+        voucherRepository.findByID(voucher.getVoucherId()).orElseThrow(NotExistVoucherException::new);
         return walletRepository.findByVoucher(voucher);
     }
 
