@@ -27,7 +27,7 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public UUID save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
             String data = voucher.insertVoucherDataInFile();
             bw.write(data);
@@ -36,7 +36,7 @@ public class FileVoucherRepository implements VoucherRepository{
             logger.error("errorMessage = {}", ErrorMessage.FILE_SAVE_ERROR_MESSAGE);
             console.printMessage(ErrorMessage.FILE_SAVE_ERROR_MESSAGE);
         }
-        return voucher.getVoucherId();
+        return voucher;
     }
 
     @Override
