@@ -57,6 +57,8 @@ class JdbcWalletRepositoryTest {
 
     @BeforeEach
     void init() {
+        jdbcWalletRepository.deleteAll();
+        jdbcCustomerRepository.deleteAll();
         Customer customer = new Customer(UUID.randomUUID(), "tester01", true);
         jdbcCustomerRepository.insert(customer);
         insertCustomer = customer;
@@ -124,6 +126,22 @@ class JdbcWalletRepositoryTest {
     }
 
     @Test
+    @DisplayName("해당 voucher를 가진 customer 조회")
     void findCustomerByVoucherId() {
+        //given
+        Customer customer2 = jdbcCustomerRepository.insert(new Customer(UUID.randomUUID(), "tester02", false));
+
+        List<UUID> vouchers = new ArrayList<>();
+        UUID voucherId = UUID.randomUUID();
+        vouchers.add(voucherId);
+
+        jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId(), vouchers));
+        jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), customer2.getCustomerId(), vouchers));
+
+        //when
+        List<UUID> findCustomers = jdbcWalletRepository.findCustomerByVoucherId(voucherId);
+
+        //then
+        assertThat(findCustomers.size(), is(2));
     }
 }

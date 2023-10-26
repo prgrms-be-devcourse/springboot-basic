@@ -38,7 +38,7 @@ public class JdbcWalletRepository implements WalletRepository{
         var vouchers = new ArrayList<UUID>();
         jsonArray.forEach(data -> {
             String stringUUID = data.toString();
-            vouchers.add(UUID.fromString(stringUUID.substring(4, stringUUID.length()-4)));
+            if(stringUUID.length()!=4) vouchers.add(UUID.fromString(stringUUID.substring(4, stringUUID.length()-4)));
         });
         return new Wallet(walletId, customerId, vouchers);
     };
@@ -108,7 +108,17 @@ public class JdbcWalletRepository implements WalletRepository{
     }
 
     @Override
-    public void findCustomerByVoucherId(UUID voucherId) {
+    public List<UUID> findCustomerByVoucherId(UUID voucherId) {
+        List<Wallet> walletList = jdbcTemplate.query("select * from wallet", walletRowMapper);
+        List<UUID> customers = new ArrayList<>();
+        walletList.stream()
+                .filter(wallet -> wallet.getVouchers().contains(voucherId))
+                .forEach(wallet -> customers.add(wallet.getCustomerId()));
+        return customers;
+    }
 
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM wallet");
     }
 }
