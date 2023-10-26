@@ -43,7 +43,9 @@ class JDBCVoucherRepositoryTest {
     void saveFixedAmountVoucherSucceed() {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(555), VoucherType.FIXED);
         jdbcVoucherRepository.save(newVoucher);
+
         Optional<Voucher> retrievedVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
+
         assertThat(retrievedVoucher.isEmpty()).isFalse();
         assertThat(retrievedVoucher.get().getVoucherId()).isEqualTo(newVoucher.getVoucherId());
     }
@@ -54,7 +56,9 @@ class JDBCVoucherRepositoryTest {
     void savePercentVoucherSucceed() {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT);
         jdbcVoucherRepository.save(newVoucher);
+
         Optional<Voucher> retrievedVoucher = jdbcVoucherRepository.findById(newVoucher.getVoucherId());
+
         assertThat(retrievedVoucher.isEmpty()).isFalse();
         assertThat(retrievedVoucher.get().getVoucherId()).isEqualTo(newVoucher.getVoucherId());
     }
@@ -62,8 +66,9 @@ class JDBCVoucherRepositoryTest {
     @Test
     @Order(4)
     @DisplayName("모든 바우처를 조회할 수 있다.")
-    void finsAllVoucherSucceed() {
+    void findAllVoucherSucceed() {
         List<Voucher> vouchers = jdbcVoucherRepository.findAll();
+
         assertThat(vouchers.isEmpty()).isFalse();
     }
 
