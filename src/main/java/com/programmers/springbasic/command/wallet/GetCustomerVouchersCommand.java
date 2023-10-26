@@ -1,6 +1,7 @@
 package com.programmers.springbasic.command.wallet;
 
-import java.util.List;
+import static com.programmers.springbasic.enums.MessageConstants.*;
+
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -10,7 +11,6 @@ import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
 import com.programmers.springbasic.entity.customer.Customer;
-import com.programmers.springbasic.entity.voucher.Voucher;
 
 @Component
 public class GetCustomerVouchersCommand implements Command {
@@ -27,7 +27,7 @@ public class GetCustomerVouchersCommand implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printObject("고객 아이디 : ");
+		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
 		Customer voucherList = customerController.getVouchersByCustomer(uuidInput);
 		consoleOutputHandler.printList(voucherList.getVouchers());

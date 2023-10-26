@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.wallet;
 
+import static com.programmers.springbasic.enums.MessageConstants.*;
+
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -25,9 +27,9 @@ public class RemoveCustomerVoucherCommand implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printObject("고객 아이디 : ");
+		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID customerId = consoleInputHandler.readUUID();
-		consoleOutputHandler.printObject("바우처 아이디 : ");
+		consoleOutputHandler.print(VOUCHER_ID_PROMPT);
 		UUID voucherId = consoleInputHandler.readUUID();
 		customerController.removeVoucherFromCustomer(customerId, voucherId);
 	}

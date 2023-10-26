@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.customer;
 
+import static com.programmers.springbasic.enums.MessageConstants.*;
+
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -26,9 +28,9 @@ public class GetCustomerDetailCommand implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printIdPrompt();
+		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
 		Customer customer = customerController.getCustomerById(uuidInput);
-		consoleOutputHandler.printObject(customer);
+		consoleOutputHandler.print(customer);
 	}
 }

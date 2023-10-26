@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.voucher;
 
+import static com.programmers.springbasic.enums.MessageConstants.*;
+
 import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.command.Command;
@@ -26,7 +28,7 @@ public class CreateVoucherCommand implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printChooseVoucherType();
+		consoleOutputHandler.print(VOUCHER_TYPE_PROMPT);
 		VoucherType voucherType = VoucherType.from(consoleInputHandler.readString());
 		switch (voucherType) {
 			case FIXED_AMOUNT -> {
@@ -41,13 +43,13 @@ public class CreateVoucherCommand implements Command {
 	}
 
 	private CreateFixedAmountVoucherRequest createFixedAmountVoucherRequest() {
-		consoleOutputHandler.printFixedAmount();
+		consoleOutputHandler.print(AMOUNT_PROMPT);
 		long amount = consoleInputHandler.readLong();
 		return new CreateFixedAmountVoucherRequest(amount);
 	}
 
 	private CreatePercentDiscountVoucherRequest createPercentDiscountVoucherRequest() {
-		consoleOutputHandler.printPercentDiscount();
+		consoleOutputHandler.print(PERCENT_PROMPT);
 		long percent = consoleInputHandler.readLong();
 		return new CreatePercentDiscountVoucherRequest(percent);
 	}

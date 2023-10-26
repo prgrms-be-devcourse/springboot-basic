@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command;
 
+import static com.programmers.springbasic.enums.MessageConstants.*;
+
 import org.slf4j.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -29,7 +31,7 @@ public class CommandExecutor implements CommandLineRunner {
 	public void run(String... args) {
 		while (true) {
 			try {
-				consoleOutputHandler.printMainCommand();
+				consoleOutputHandler.print(MAIN_MENU);
 				MainCommandType mainCommandType = MainCommandType.from(consoleInputHandler.readString());
 				Command command = applicationContext.getBean(mainCommandType.getCommandClass());
 				command.execute();

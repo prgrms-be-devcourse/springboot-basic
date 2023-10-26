@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.wallet;
 
+import static com.programmers.springbasic.enums.MessageConstants.*;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +28,7 @@ public class GetCustomersByVoucher implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printObject("바우처 아이디 : ");
+		consoleOutputHandler.print(VOUCHER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
 		List<Customer> customerList = customerController.getCustomersByVoucher(uuidInput);
 		consoleOutputHandler.printList(customerList);

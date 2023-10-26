@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.customer;
 
+import static com.programmers.springbasic.enums.MessageConstants.*;
+
 import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.command.Command;
@@ -23,9 +25,9 @@ public class CreateCustomerCommand implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printObject("이름 : ");
+		consoleOutputHandler.print(NAME_PROMPT);
 		String nameInput = consoleInputHandler.readString();
-		consoleOutputHandler.printObject("이메일 : "); //todo : 이메일 중복 체크?
+		consoleOutputHandler.print(EMAIL_PROMPT); // todo : 이메일 중복 체크?
 		String emailInput = consoleInputHandler.readString();
 		customerController.createCustomer(nameInput, emailInput);
 	}

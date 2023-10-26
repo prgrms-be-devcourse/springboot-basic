@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.customer;
 
+import static com.programmers.springbasic.enums.MessageConstants.*;
+
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -25,7 +27,7 @@ public class DeleteCustomerCommand implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printIdPrompt();
+		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
 		customerController.deleteCustomer(uuidInput);
 	}

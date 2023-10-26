@@ -1,6 +1,7 @@
 package com.programmers.springbasic.command.voucher;
 
-import java.util.Optional;
+import static com.programmers.springbasic.enums.MessageConstants.*;
+
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
@@ -29,20 +30,19 @@ public class UpdateVoucherCommand implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printIdPrompt();
+		consoleOutputHandler.print(VOUCHER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
 
-		// Voucher 조회 로직 (voucherController 혹은 적절한 서비스를 사용)
 		Voucher voucher = voucherController.getVoucherDetail(uuidInput);
+		consoleOutputHandler.print(voucher);
 
 		if (voucher instanceof FixedAmountVoucher) {
-			consoleOutputHandler.printObject("Enter new amount for FixedAmountVoucher: ");
+			consoleOutputHandler.print(NEW_AMOUNT_PROMPT);
 			long newAmount = consoleInputHandler.readLong();
 			voucherController.updateVoucher(voucher.getVoucherId(), newAmount);
 		} else if (voucher instanceof PercentDiscountVoucher) {
-			consoleOutputHandler.printObject("Enter new percentage for PercentDiscountVoucher: ");
+			consoleOutputHandler.print(NEW_PERCENT_PROMPT);
 			long newPercent = consoleInputHandler.readLong();
-			voucher.changeDiscountValue(newPercent);
 			voucherController.updateVoucher(voucher.getVoucherId(), newPercent);
 		}
 	}
