@@ -157,4 +157,20 @@ class JdbcVoucherRepositoryTest {
         //then
         assertThat(newlyFoundVoucher, samePropertyValuesAs(updatedVoucher));
     }
+
+    @Test
+    @Order(9)
+    @DisplayName("바우처 삭제를 성공한다.")
+    void testDeleteVoucherSuccessful() {
+        //given
+        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
+        voucherRepository.save(voucher);
+
+        //when
+        voucherRepository.deleteById(voucher.getVoucherId());
+
+        //then
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+        assertThat(foundVoucher.isEmpty(), is(true));
+    }
 }
