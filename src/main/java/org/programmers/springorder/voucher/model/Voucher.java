@@ -9,6 +9,7 @@ public class Voucher {
     private final UUID voucherId;
     private final long discountValue;
     private final VoucherType voucherType;
+    private UUID customerId;
 
     private Voucher(UUID voucherId, long discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
@@ -16,10 +17,20 @@ public class Voucher {
         this.voucherType = voucherType;
     }
 
+    private Voucher(UUID voucherId, long discountValue, VoucherType voucherType, UUID customerId) {
+        this.voucherId = voucherId;
+        this.discountValue = discountValue;
+        this.voucherType = voucherType;
+        this.customerId = customerId;
+    }
+
     public static Voucher toVoucher(UUID voucherId, long discountValue, VoucherType voucherType){
         return new Voucher(voucherId, discountValue, voucherType);
     }
 
+    public static Voucher getVoucher(UUID voucherId, long discountValue, VoucherType voucherType, UUID customerId) {
+        return new Voucher(voucherId, discountValue, voucherType, customerId);
+    }
     private Voucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
         this.voucherId = voucherId;
         this.discountValue = voucherRequestDto.getDiscountValue();
