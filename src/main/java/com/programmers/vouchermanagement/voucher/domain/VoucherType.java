@@ -1,7 +1,6 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +30,7 @@ public enum VoucherType {
     }
 
     private boolean isMatching(String input) {
-        return Objects.equals(this.name().toLowerCase(), input.toLowerCase());
+        return input.equalsIgnoreCase(this.name());
     }
 
     public boolean isPercent() {
