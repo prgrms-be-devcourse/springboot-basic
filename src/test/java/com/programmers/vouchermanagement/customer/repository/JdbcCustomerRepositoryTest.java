@@ -134,4 +134,19 @@ class JdbcCustomerRepositoryTest {
         //then
         assertThat(foundCustomer.isEmpty(), is(true));
     }
+
+    @Test
+    @DisplayName("아이디 검색으로 고객 조회를 성공한다.")
+    void testFindCustomerByIdSuccessful() {
+        //given
+        final Customer customer = new Customer(UUID.randomUUID(), "test-customer2");
+        customerRepository.save(customer);
+
+        //when
+        final Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
+
+        //then
+        assertThat(foundCustomer.isEmpty(), is(false));
+        assertThat(foundCustomer.get(), samePropertyValuesAs(customer));
+    }
 }
