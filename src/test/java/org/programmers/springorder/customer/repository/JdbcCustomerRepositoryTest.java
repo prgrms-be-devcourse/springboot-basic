@@ -126,4 +126,21 @@ class JdbcCustomerRepositoryTest {
         assertThat(customerList).hasSize(2);
     }
 
+    @Test
+    @DisplayName("블랙 리스트 조회 테스트")
+    void findAllBlackList() {
+        // given
+        Customer customer1 = Customer.toCustomer(UUID.randomUUID(), "test1", CustomerType.NORMAL);
+        Customer customer2 = Customer.toCustomer(UUID.randomUUID(), "test2", CustomerType.BLACK);
+        customerRepository.insert(customer1);
+        customerRepository.insert(customer2);
+
+        // when
+        List<Customer> customerList = customerRepository.findAllBlackList();
+
+        // then
+        assertThat(customerList).hasSize(1);
+        assertThat(customerList).contains(customer2);
+    }
+
 }
