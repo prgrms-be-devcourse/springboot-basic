@@ -3,6 +3,7 @@ package org.programmers.springorder.customer.repository;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -44,16 +45,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findByID(UUID customerId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(
-                FIND_BY_CUSTOMER_ID,
-                findByIdMap(customerId),
-                customerRowMapper
-        ));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    FIND_BY_CUSTOMER_ID,
+                    findByIdMap(customerId),
+                    customerRowMapper));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public Customer insert(Customer customer) {
         int update = jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
-        if( update != 1){
+        if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
         return customer;
