@@ -65,6 +65,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    @Profile("test") //clarify that this is for testing only
     public void deleteAll() {
     }
 
