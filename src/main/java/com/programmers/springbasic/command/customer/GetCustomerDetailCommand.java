@@ -1,11 +1,14 @@
 package com.programmers.springbasic.command.customer;
 
+import org.springframework.stereotype.Component;
+
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
 import com.programmers.springbasic.entity.customer.Customer;
 
+@Component
 public class GetCustomerDetailCommand implements Command {
 
 	private final CustomerController customerController;

@@ -2,6 +2,8 @@ package com.programmers.springbasic.command.voucher;
 
 import java.util.Optional;
 
+import org.springframework.stereotype.Component;
+
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
@@ -10,6 +12,7 @@ import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
 import com.programmers.springbasic.entity.voucher.PercentDiscountVoucher;
 import com.programmers.springbasic.entity.voucher.Voucher;
 
+@Component
 public class UpdateVoucherCommand implements Command {
 
 	private final VoucherController voucherController;

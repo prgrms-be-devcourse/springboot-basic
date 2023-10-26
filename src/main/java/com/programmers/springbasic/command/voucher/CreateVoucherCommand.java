@@ -1,5 +1,7 @@
 package com.programmers.springbasic.command.voucher;
 
+import org.springframework.stereotype.Component;
+
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
@@ -8,6 +10,7 @@ import com.programmers.springbasic.dto.CreateFixedAmountVoucherRequest;
 import com.programmers.springbasic.dto.CreatePercentDiscountVoucherRequest;
 import com.programmers.springbasic.entity.voucher.VoucherType;
 
+@Component
 public class CreateVoucherCommand implements Command {
 
 	private final VoucherController voucherController;

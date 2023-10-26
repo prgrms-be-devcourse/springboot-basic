@@ -1,4 +1,4 @@
-package com.programmers.springbasic.command.customer;
+package com.programmers.springbasic.command.wallet;
 
 import org.springframework.stereotype.Component;
 
@@ -8,13 +8,14 @@ import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
 
 @Component
-public class CreateCustomerCommand implements Command {
+public class AssignVoucherToCustomerCommand implements Command {
 
 	private final CustomerController customerController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public CreateCustomerCommand(CustomerController customerController, ConsoleInputHandler consoleInputHandler,
+	public AssignVoucherToCustomerCommand(CustomerController customerController,
+		ConsoleInputHandler consoleInputHandler,
 		ConsoleOutputHandler consoleOutputHandler) {
 		this.customerController = customerController;
 		this.consoleInputHandler = consoleInputHandler;
@@ -23,10 +24,10 @@ public class CreateCustomerCommand implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printObject("이름 : ");
-		String nameInput = consoleInputHandler.readString();
-		consoleOutputHandler.printObject("이메일 : "); //todo : 이메일 중복 체크?
-		String emailInput = consoleInputHandler.readString();
-		customerController.createCustomer(nameInput, emailInput);
+		consoleOutputHandler.printObject("고객 아이디 : ");
+		String customerId = consoleInputHandler.readString();
+		consoleOutputHandler.printObject("바우처 아이디 : ");
+		String voucherId = consoleInputHandler.readString();
+		customerController.assignVoucherToCustomer(customerId, voucherId);
 	}
 }

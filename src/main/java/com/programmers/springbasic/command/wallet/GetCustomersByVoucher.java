@@ -1,4 +1,6 @@
-package com.programmers.springbasic.command.customer;
+package com.programmers.springbasic.command.wallet;
+
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -6,15 +8,15 @@ import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
+import com.programmers.springbasic.entity.customer.Customer;
 
 @Component
-public class CreateCustomerCommand implements Command {
-
+public class GetCustomersByVoucher implements Command {
 	private final CustomerController customerController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public CreateCustomerCommand(CustomerController customerController, ConsoleInputHandler consoleInputHandler,
+	public GetCustomersByVoucher(CustomerController customerController, ConsoleInputHandler consoleInputHandler,
 		ConsoleOutputHandler consoleOutputHandler) {
 		this.customerController = customerController;
 		this.consoleInputHandler = consoleInputHandler;
@@ -23,10 +25,9 @@ public class CreateCustomerCommand implements Command {
 
 	@Override
 	public void execute() {
-		consoleOutputHandler.printObject("이름 : ");
-		String nameInput = consoleInputHandler.readString();
-		consoleOutputHandler.printObject("이메일 : "); //todo : 이메일 중복 체크?
-		String emailInput = consoleInputHandler.readString();
-		customerController.createCustomer(nameInput, emailInput);
+		consoleOutputHandler.printObject("바우처 아이디 : ");
+		String voucherId = consoleInputHandler.readString();
+		List<Customer> customerList = customerController.getCustomersByVoucher(voucherId);
+		consoleOutputHandler.printList(customerList);
 	}
 }
