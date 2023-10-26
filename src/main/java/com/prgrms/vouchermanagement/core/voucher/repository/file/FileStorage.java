@@ -66,4 +66,18 @@ public class FileStorage {
         }
     }
 
+    /**
+     * 전체 삭제
+     */
+    public void deleteAll() {
+        lock.writeLock().lock();
+        try {
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, new ArrayList<>());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
 }

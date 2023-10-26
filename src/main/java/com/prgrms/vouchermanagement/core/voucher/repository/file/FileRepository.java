@@ -33,4 +33,9 @@ public class FileRepository implements VoucherRepository {
                 .map(it -> new Voucher(it.getVoucherID(), it.getName(), it.getAmount(), it.getVoucherType()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteAll() {
+        fileStorage.deleteAll();
+    }
 }

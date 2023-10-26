@@ -1,6 +1,7 @@
-package com.prgrms.vouchermanagement.core.voucher.repository;
+package com.prgrms.vouchermanagement.core.voucher.repository.memory;
 
 import com.prgrms.vouchermanagement.core.voucher.domain.Voucher;
+import com.prgrms.vouchermanagement.core.voucher.repository.VoucherRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -22,5 +23,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return voucherArrayList;
+    }
+
+    @Override
+    public void deleteAll() {
+        voucherArrayList.clear();
     }
 }
