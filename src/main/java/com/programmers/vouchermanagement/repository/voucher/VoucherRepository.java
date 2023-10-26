@@ -18,5 +18,5 @@ public interface VoucherRepository {
 
     Voucher save(Voucher voucher);
 
-    void delete(UUID id);
+    int delete(UUID id);
 }

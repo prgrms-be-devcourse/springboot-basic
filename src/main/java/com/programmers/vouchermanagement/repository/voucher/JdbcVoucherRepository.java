@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
@@ -61,6 +62,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    @Transactional
     public Voucher save(Voucher voucher) {
         String sql = "INSERT INTO voucher (id, name, discount_amount, created_at, voucher_type) VALUES (UUID_TO_BIN(:id), :name, :discountAmount, :createdAt, :voucherType)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -76,12 +78,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void delete(UUID id) {
+    @Transactional
+    public int delete(UUID id) {
         String sql = "DELETE FROM voucher WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", id.toString());
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
         logger.debug("Affected Row on delete: {}", affectedRow);
+        return affectedRow;
     }
 
     private Voucher mapToVoucher(ResultSet resultSet) throws SQLException {

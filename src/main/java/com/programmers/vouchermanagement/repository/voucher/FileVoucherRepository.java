@@ -15,7 +15,10 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
@@ -68,12 +71,10 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void delete(UUID id) {
-        if (!isVoucherPresent(id)) {
-            throw new NoSuchElementException("Voucher not found with id: " + id);
-        }
-        vouchers.remove(id);
+    public int delete(UUID id) {
+        Voucher voucher = vouchers.remove(id);
         updateFile();
+        return voucher != null ? 1 : 0;
     }
 
     public void readFile() {
@@ -113,9 +114,5 @@ public class FileVoucherRepository implements VoucherRepository {
         } catch (IOException e) {
             logger.error("Error occurred af FileWriter: ", e);
         }
-    }
-
-    private boolean isVoucherPresent(UUID id) {
-        return vouchers.containsKey(id);
     }
 }
