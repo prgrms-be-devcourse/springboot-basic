@@ -32,10 +32,15 @@ public class MemoryVoucherRepository implements VoucherRepository{
         return Optional.ofNullable(storage.get(voucherId));
     }
 
-    //TODO: update 구현2
+    //TODO: 구현 필요 기능(jdbc 우선)
     @Override
     public Voucher updateVoucherOwner(Voucher voucher, Customer customer) {
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomerId(Customer customer) {
+        return null;
     }
 
 }

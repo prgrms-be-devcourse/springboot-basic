@@ -24,6 +24,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String UPDATE_VOUCER_OWNER = "update vouchers set customer_id = UUID_TO_BIN(:customerId) where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String FIND_ALL = "select * from vouchers";
     private final String FIND_BY_VOUCHER_ID = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String FIND_BY_CUSTOMER_ID= "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)";
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -63,6 +64,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new RuntimeException("Nothing was inserted");
         }
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAllByCustomerId(Customer customer) {
+        return Collections.unmodifiableList(jdbcTemplate.query(
+                FIND_BY_CUSTOMER_ID,
+                Collections.singletonMap("customerId", customer.getCustomerId().toString().getBytes()),
+                voucherRowMapper
+        ));
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
