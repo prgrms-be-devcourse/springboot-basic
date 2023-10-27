@@ -9,8 +9,6 @@ import org.programmers.springorder.dto.voucher.VoucherResponseDto;
 import org.programmers.springorder.dto.wallet.WalletRequestDto;
 import org.programmers.springorder.model.voucher.VoucherType;
 import org.programmers.springorder.utils.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,7 +18,6 @@ import java.util.UUID;
 @Component
 public class Console {
 
-    private static final Logger logger = LoggerFactory.getLogger(Console.class);    // TODO: logger 사용하지 않으면 제거
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void printMessage(String message) {

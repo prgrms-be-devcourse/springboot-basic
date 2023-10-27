@@ -14,7 +14,7 @@ public class Message {
             """;
 
     public static final String VOUCHER_MENU_SELECT_MESSAGE = """
-            === Customer Menu ===
+            === Voucher Menu ===
             1. Create a new voucher.
             2. Show all vouchers.
             3. Update a voucher.
