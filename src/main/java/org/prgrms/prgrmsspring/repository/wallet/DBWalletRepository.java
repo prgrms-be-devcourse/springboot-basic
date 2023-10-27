@@ -62,4 +62,10 @@ public class DBWalletRepository implements WalletRepository {
             return Optional.empty();
         }
     }
+
+    @Override
+    public void clear() {
+        String sql = "DELETE FROM WALLET";
+        jdbcTemplate.update(sql);
+    }
 }
