@@ -1,6 +1,5 @@
 package com.weeklyMission.member.controller;
 
-import com.weeklyMission.member.domain.Member;
 import com.weeklyMission.member.dto.MemberRequest;
 import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.service.MemberService;
