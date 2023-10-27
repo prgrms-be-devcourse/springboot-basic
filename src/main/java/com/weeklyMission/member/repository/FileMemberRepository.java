@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +45,7 @@ public class FileMemberRepository implements MemberRepository{
             String data;
             while((data=br.readLine())!=null){
                 String[] dataSplit = data.split(",");
-                Member member = new Member(UUID.fromString(dataSplit[0]), dataSplit[1], Integer.parseInt(dataSplit[2]), dataSplit[3]);
+                Member member = new Member(UUID.fromString(dataSplit[0]), dataSplit[1], dataSplit[2], Integer.parseInt(dataSplit[3]));
                 storage.put(member.memberId(), member);
             }
         }catch(IOException e){
@@ -60,7 +61,7 @@ public class FileMemberRepository implements MemberRepository{
     private void writeFile() {
         try(BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path, false), StandardCharsets.UTF_8))){
             for (Member member : storage.values()) {
-                bw.write(member.memberId() + seperator + member.name() + seperator + member.age() + seperator + member.reason());
+                bw.write(member.memberId() + seperator + member.name() + seperator + member.age() + seperator);
                 bw.newLine();
             }
         }catch (IOException e){
@@ -77,5 +78,18 @@ public class FileMemberRepository implements MemberRepository{
     @Override
     public List<Member> findAll() {
         return new ArrayList<>(storage.values());
+    }
+
+    @Override
+    public Optional<Member> findById(UUID id) {
+        if(storage.containsKey(id)) {
+            return Optional.of(storage.get(id));
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        storage.remove(id);
     }
 }

@@ -20,20 +20,21 @@ class FileMemberRepositoryTest {
 
     FileMemberRepository fileMemberRepository;
 
+    Member member;
+    UUID memberId;
+
     @BeforeAll
     void init() {
-        fileMemberRepository = new FileMemberRepository(
-            "/src/test/resources/csv/blackListMember.csv");
+        fileMemberRepository = new FileMemberRepository("/src/test/resources/csv/blackListMember.csv");
         fileMemberRepository.init();
+
+        memberId = UUID.randomUUID();
+        member = new Member(memberId, "김철수", "kig2454@gmail.com", 20);
     }
 
     @Test
-    @Order(1)
     @DisplayName("저장 테스트")
     void save() {
-        //given
-        Member member = new Member(UUID.randomUUID(), "김똥깡", 20, "욕설");
-
         //when
         Member saveMember = fileMemberRepository.save(member);
 
@@ -42,18 +43,35 @@ class FileMemberRepositoryTest {
     }
 
     @Test
-    @Order(2)
-    @DisplayName("파일 동기화 테스트")
-    void write() {
+    void findAll() {
         //given
-        int basicSize = fileMemberRepository.findAll().size();
+        Member member = new Member(UUID.randomUUID(), "김강훈", "abc1234@gmail.com", 21);
 
         //when
-        fileMemberRepository.close();
-        fileMemberRepository.init();
+        fileMemberRepository.save(member);
 
         //then
-        assertThat(basicSize).isEqualTo(fileMemberRepository.findAll().size());
+        assertThat(fileMemberRepository.findAll().size()).isEqualTo(1);
     }
 
+    @Test
+    void findById() {
+        //given
+        UUID id = UUID.randomUUID();
+        Member member = new Member(id, "김영수", "ghj5678@naver.com", 30);
+
+        //when
+        Member saveMember = fileMemberRepository.save(member);
+
+        //then
+        assertThat(fileMemberRepository.findById(id).get()).isEqualTo(member);
+    }
+
+    @Test
+    void deleteById() {
+        //when
+        fileMemberRepository.deleteById(memberId);
+
+        assertThat(fileMemberRepository.findById(memberId)).isNotPresent();
+    }
 }
