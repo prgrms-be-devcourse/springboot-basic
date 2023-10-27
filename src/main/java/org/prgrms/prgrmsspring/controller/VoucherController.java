@@ -38,7 +38,7 @@ public class VoucherController implements ApplicationController {
     }
 
     public void list() {
-        List<Voucher> vouchers = voucherService.list();
+        List<Voucher> vouchers = voucherService.findAll();
         commandLineView.printAll(vouchers);
     }
 
