@@ -16,7 +16,7 @@ public class CsvUser {
     }
 
     public static CsvUser of(User user) {
-        return new CsvUser(user.getId().toString(), user.getName());
+        return new CsvUser(user.getId().toString(), user.getNickname());
     }
 
     public User toEntity() {

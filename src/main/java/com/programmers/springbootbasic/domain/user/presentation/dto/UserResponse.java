@@ -11,7 +11,7 @@ public class UserResponse {
     }
 
     public static UserResponse of(User user) {
-        return new UserResponse(user.getName());
+        return new UserResponse(user.getNickname());
     }
 
     @Override
