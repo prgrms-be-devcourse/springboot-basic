@@ -17,6 +17,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
@@ -24,6 +25,7 @@ import static com.wix.mysql.ScriptResolver.classPathScript;
 import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
 import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 class JdbcVoucherRepositoryTest {
@@ -174,6 +176,30 @@ class JdbcVoucherRepositoryTest {
 
         assertThat(vouchersWithFindCustomer).hasSize(2);
         assertThat(vouchersWithFindCustomer).containsAll(voucherWithCustomer);
+    }
+
+    @Test
+    @DisplayName("id로 voucher 삭제 테스트")
+    public void deleteVoucher(){
+        UUID uuid1 = UUID.randomUUID();
+        UUID uuid2 = UUID.randomUUID();
+        UUID uuid3 = UUID.randomUUID();
+
+        Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED );
+        Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED );
+        Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED );
+
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
+
+        assertThat(voucherRepository.findAll()).hasSize(3);
+
+        voucherRepository.deleteVoucher(voucher1);
+        assertThat(voucherRepository.findAll()).hasSize(2);
+        assertThatThrownBy(() -> voucherRepository.findById(uuid1).get())
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("No value present");
 
     }
 }
