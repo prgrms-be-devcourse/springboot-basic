@@ -124,8 +124,8 @@ public class WalletRepositoryTest {
 
         //then
         Assertions.assertThat(findByVoucherIdwallet.get().getId()).isEqualTo(wallet.getId());
-        Assertions.assertThat(findByVoucherIdwallet.get().getVoucher_id()).isEqualTo(wallet.getVoucher_id());
-        Assertions.assertThat(findByVoucherIdwallet.get().getCustomer_id()).isEqualTo(wallet.getCustomer_id());
+        Assertions.assertThat(findByVoucherIdwallet.get().getVoucherId()).isEqualTo(wallet.getVoucherId());
+        Assertions.assertThat(findByVoucherIdwallet.get().getCustomerId()).isEqualTo(wallet.getCustomerId());
     }
 
     @Test

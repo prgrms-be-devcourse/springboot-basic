@@ -1,6 +1,5 @@
 package com.prgms.vouchermanager.domain.wallet;
 
-import com.prgms.vouchermanager.domain.voucher.Voucher;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -9,13 +8,13 @@ import java.util.UUID;
 public class Wallet {
 
     private Long id;
-    private final Long customer_id;
-    private final UUID voucher_id;
+    private final Long customerId;
+    private final UUID voucherId;
 
-    public Wallet(Long id, Long customer_id, UUID voucher_id) {
+    public Wallet(Long id, Long customerId, UUID voucherId) {
         this.id = id;
-        this.customer_id = customer_id;
-        this.voucher_id = voucher_id;
+        this.customerId = customerId;
+        this.voucherId = voucherId;
     }
 
     public void setId(Long id) {
@@ -26,8 +25,8 @@ public class Wallet {
     public String toString() {
         return "Wallet{" +
                 "id=" + id +
-                ", customer_id=" + customer_id +
-                ", voucher_id=" + voucher_id +
+                ", customerId=" + customerId +
+                ", voucherId=" + voucherId +
                 '}';
     }
 }

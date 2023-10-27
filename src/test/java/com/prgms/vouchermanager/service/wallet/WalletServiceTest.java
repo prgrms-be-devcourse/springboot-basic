@@ -41,7 +41,7 @@ class WalletServiceTest {
         Wallet wallet = walletService.save(dto);
 
         //then
-        Assertions.assertThat(voucherId).isEqualTo(wallet.getVoucher_id());
+        Assertions.assertThat(voucherId).isEqualTo(wallet.getVoucherId());
         verify(walletRepository,atLeastOnce()).save(any(Wallet.class));
 
     }

@@ -37,8 +37,8 @@ public class JdbcWalletRepository implements WalletRepository {
 
         MapSqlParameterSource param = new MapSqlParameterSource()
                 .addValue("id", wallet.getId())
-                .addValue("customer_id", wallet.getCustomer_id())
-                .addValue("voucher_id", wallet.getVoucher_id().toString());
+                .addValue("customer_id", wallet.getCustomerId())
+                .addValue("voucher_id", wallet.getVoucherId().toString());
 
         template.update(INSERT.getQuery(), param);
 
