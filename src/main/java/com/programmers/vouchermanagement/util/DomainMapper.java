@@ -14,11 +14,6 @@ import java.util.UUID;
 
 @Component
 public class DomainMapper {
-    public final RowMapper<Ownership> ownershipRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
-        return new Ownership(voucherId, customerId);
-    };
     public final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID id = toUUID(resultSet.getBytes("id"));
         long discountValue = resultSet.getLong("discount_value");
@@ -33,8 +28,6 @@ public class DomainMapper {
 
         return new Customer(id, name, isBlack);
     };
-    public final RowMapper<UUID> uuidRowMapper = (resultSet, i) ->
-            toUUID(resultSet.getBytes("id"));
 
     private static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
@@ -64,9 +57,9 @@ public class DomainMapper {
 
     public Map<String, Object> voucherToParamMap(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("id", voucher.getVoucherId().toString().getBytes());
-        paramMap.put("type", voucher.getVoucherType().name());
-        paramMap.put("discountValue", voucher.getDiscountValue());
+        paramMap.put("id", voucher.voucherId().toString().getBytes());
+        paramMap.put("type", voucher.voucherType().name());
+        paramMap.put("discountValue", voucher.discountValue());
         return paramMap;
     }
 }

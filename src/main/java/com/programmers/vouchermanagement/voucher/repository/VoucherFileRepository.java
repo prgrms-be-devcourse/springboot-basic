@@ -42,7 +42,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        vouchers.put(voucher.getVoucherId(), voucher);
+        vouchers.put(voucher.voucherId(), voucher);
         saveFile();
     }
 
@@ -71,8 +71,8 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        Optional.ofNullable(vouchers.get(voucher.getVoucherId())).orElseThrow(() -> new RuntimeException("Noting was updated"));
-        vouchers.put(voucher.getVoucherId(), voucher);
+        Optional.ofNullable(vouchers.get(voucher.voucherId())).orElseThrow(() -> new RuntimeException("Noting was updated"));
+        vouchers.put(voucher.voucherId(), voucher);
         saveFile();
     }
 
@@ -90,7 +90,7 @@ public class VoucherFileRepository implements VoucherRepository {
     private void loadVouchers(Map[] voucherObjects) {
         Arrays.stream(voucherObjects).forEach(voucherObject -> {
             Voucher voucher = objectToVoucher(voucherObject);
-            vouchers.put(voucher.getVoucherId(), voucher);
+            vouchers.put(voucher.voucherId(), voucher);
         });
     }
 
@@ -125,9 +125,9 @@ public class VoucherFileRepository implements VoucherRepository {
 
     private HashMap<String, Object> voucherToObject(Voucher voucher) {
         HashMap<String, Object> voucherObject = new HashMap<>();
-        voucherObject.put(VOUCHER_ID_KEY, voucher.getVoucherId().toString());
-        voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue());
-        voucherObject.put(VOUCHER_TYPE_KEY, voucher.getVoucherType().name());
+        voucherObject.put(VOUCHER_ID_KEY, voucher.voucherId().toString());
+        voucherObject.put(DISCOUNT_VALUE_KEY, voucher.discountValue());
+        voucherObject.put(VOUCHER_TYPE_KEY, voucher.voucherType().name());
         return voucherObject;
     }
 }

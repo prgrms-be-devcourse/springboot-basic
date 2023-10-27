@@ -22,9 +22,9 @@ class VoucherInMemoryRepositoryTest {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherInMemoryRepository.save(voucher);
 
-        voucherInMemoryRepository.delete(voucher.getVoucherId());
+        voucherInMemoryRepository.delete(voucher.voucherId());
 
-        assertThat(voucherInMemoryRepository.findById(voucher.getVoucherId()).isEmpty()).isTrue();
+        assertThat(voucherInMemoryRepository.findById(voucher.voucherId()).isEmpty()).isTrue();
     }
 
     @Test
@@ -43,12 +43,12 @@ class VoucherInMemoryRepositoryTest {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherInMemoryRepository.save(voucher);
 
-        Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), 100, VoucherType.PERCENT);
+        Voucher updatedVoucher = new Voucher(voucher.voucherId(), 100, VoucherType.PERCENT);
         voucherInMemoryRepository.update(updatedVoucher);
 
-        Optional<Voucher> retrievedVoucher = voucherInMemoryRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherInMemoryRepository.findById(voucher.voucherId());
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(updatedVoucher.getDiscountValue());
-        assertThat(retrievedVoucher.get().getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());
+        assertThat(retrievedVoucher.get().discountValue()).isEqualTo(updatedVoucher.discountValue());
+        assertThat(retrievedVoucher.get().voucherType()).isEqualTo(updatedVoucher.voucherType());
     }
 }

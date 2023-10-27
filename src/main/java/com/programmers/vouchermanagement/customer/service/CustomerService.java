@@ -9,7 +9,6 @@ import java.util.List;
 
 @Service
 public class CustomerService {
-    private static final String NO_BLACKLIST = "no blacklist";
     private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {

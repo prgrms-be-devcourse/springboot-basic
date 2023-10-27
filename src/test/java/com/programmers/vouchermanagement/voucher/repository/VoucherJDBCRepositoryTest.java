@@ -2,7 +2,6 @@ package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,10 +36,10 @@ class VoucherJDBCRepositoryTest {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
         voucherJDBCRepository.save(newVoucher);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.voucherId());
 
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().getVoucherId()).isEqualTo(newVoucher.getVoucherId());
+        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(newVoucher.voucherId());
     }
 
     @Test
@@ -49,10 +48,10 @@ class VoucherJDBCRepositoryTest {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), 50, VoucherType.PERCENT);
         voucherJDBCRepository.save(newVoucher);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.voucherId());
 
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().getVoucherId()).isEqualTo(newVoucher.getVoucherId());
+        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(newVoucher.voucherId());
     }
 
     @Test
@@ -72,12 +71,12 @@ class VoucherJDBCRepositoryTest {
         Voucher voucher = new Voucher(UUID.randomUUID(), 1234, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
 
         assertThat(retrievedVoucher.isPresent()).isTrue();
-        assertThat(retrievedVoucher.get().getVoucherId()).isEqualTo(voucher.getVoucherId());
-        assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(voucher.getDiscountValue());
-        assertThat(retrievedVoucher.get().getVoucherType()).isEqualTo(voucher.getVoucherType());
+        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(voucher.voucherId());
+        assertThat(retrievedVoucher.get().discountValue()).isEqualTo(voucher.discountValue());
+        assertThat(retrievedVoucher.get().voucherType()).isEqualTo(voucher.voucherType());
     }
 
     @Test
@@ -94,9 +93,9 @@ class VoucherJDBCRepositoryTest {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
-        voucherJDBCRepository.delete(voucher.getVoucherId());
+        voucherJDBCRepository.delete(voucher.voucherId());
 
-        assertThat(voucherJDBCRepository.findById(voucher.getVoucherId()).isEmpty()).isTrue();
+        assertThat(voucherJDBCRepository.findById(voucher.voucherId()).isEmpty()).isTrue();
     }
 
     @Test
@@ -111,13 +110,13 @@ class VoucherJDBCRepositoryTest {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
-        Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), 100, VoucherType.PERCENT);
+        Voucher updatedVoucher = new Voucher(voucher.voucherId(), 100, VoucherType.PERCENT);
         voucherJDBCRepository.update(updatedVoucher);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(updatedVoucher.getDiscountValue());
-        assertThat(retrievedVoucher.get().getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());
+        assertThat(retrievedVoucher.get().discountValue()).isEqualTo(updatedVoucher.discountValue());
+        assertThat(retrievedVoucher.get().voucherType()).isEqualTo(updatedVoucher.voucherType());
     }
 
     @Test

@@ -58,7 +58,7 @@ class WalletJDBCRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "바우처 주인");
         customerJDBCRepository.save(customer);
 
-        Ownership newOwnership = new Ownership(voucher.getVoucherId(), customer.getCustomerId());
+        Ownership newOwnership = new Ownership(voucher.voucherId(), customer.getCustomerId());
         walletJDBCRepository.save(newOwnership);
     }
 
@@ -70,12 +70,12 @@ class WalletJDBCRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "바우처를 가진 고객");
         customerJDBCRepository.save(customer);
 
-        walletJDBCRepository.save(new Ownership(voucher.getVoucherId(), customer.getCustomerId()));
+        walletJDBCRepository.save(new Ownership(voucher.voucherId(), customer.getCustomerId()));
 
         Customer customer2 = new Customer(UUID.randomUUID(), "바우처를 가지지 못하는 고객");
         customerJDBCRepository.save(customer2);
 
-        assertThrows(RuntimeException.class, () -> walletJDBCRepository.save(new Ownership(voucher.getVoucherId(), customer2.getCustomerId())));
+        assertThrows(RuntimeException.class, () -> walletJDBCRepository.save(new Ownership(voucher.voucherId(), customer2.getCustomerId())));
     }
 
     @Test
@@ -84,7 +84,7 @@ class WalletJDBCRepositoryTest {
         Voucher voucher = new Voucher(UUID.randomUUID(), 333, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
-        assertThrows(RuntimeException.class, () -> walletJDBCRepository.save(new Ownership(voucher.getVoucherId(), NON_EXISTENT_CUSTOMER_ID)));
+        assertThrows(RuntimeException.class, () -> walletJDBCRepository.save(new Ownership(voucher.voucherId(), NON_EXISTENT_CUSTOMER_ID)));
     }
 
     @Test
@@ -111,7 +111,7 @@ class WalletJDBCRepositoryTest {
         for (int i = 1; i < 6; i++) {
             Voucher voucher = new Voucher(UUID.randomUUID(), i, VoucherType.FIXED);
             voucherJDBCRepository.save(voucher);
-            walletJDBCRepository.save(new Ownership(voucher.getVoucherId(), customer.getCustomerId()));
+            walletJDBCRepository.save(new Ownership(voucher.voucherId(), customer.getCustomerId()));
         }
 
         // If the customer don't have any voucher, then return empty list.
@@ -132,12 +132,12 @@ class WalletJDBCRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "1개의 삭제될 바우처를 가진 주인");
         customerJDBCRepository.save(customer);
 
-        walletJDBCRepository.save(new Ownership(voucher.getVoucherId(), customer.getCustomerId()));
+        walletJDBCRepository.save(new Ownership(voucher.voucherId(), customer.getCustomerId()));
 
-        walletJDBCRepository.delete(voucher.getVoucherId());
+        walletJDBCRepository.delete(voucher.voucherId());
 
-        assertThat(walletJDBCRepository.findCustomerByVoucherId(voucher.getVoucherId()).isEmpty()).isTrue();
-        assertThat(voucherJDBCRepository.findById(voucher.getVoucherId()).isPresent()).isTrue();
+        assertThat(walletJDBCRepository.findCustomerByVoucherId(voucher.voucherId()).isEmpty()).isTrue();
+        assertThat(voucherJDBCRepository.findById(voucher.voucherId()).isPresent()).isTrue();
     }
 
     @Test
@@ -146,7 +146,7 @@ class WalletJDBCRepositoryTest {
         Voucher voucher = new Voucher(UUID.randomUUID(), 333, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
-        assertThrows(RuntimeException.class, () -> walletJDBCRepository.delete(voucher.getVoucherId()));
+        assertThrows(RuntimeException.class, () -> walletJDBCRepository.delete(voucher.voucherId()));
     }
 
     @Test
@@ -157,9 +157,9 @@ class WalletJDBCRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "조회될 고객");
         customerJDBCRepository.save(customer);
 
-        walletJDBCRepository.save(new Ownership(voucher.getVoucherId(), customer.getCustomerId()));
+        walletJDBCRepository.save(new Ownership(voucher.voucherId(), customer.getCustomerId()));
 
-        Optional<Customer> retrievedCustomer = walletJDBCRepository.findCustomerByVoucherId(voucher.getVoucherId());
+        Optional<Customer> retrievedCustomer = walletJDBCRepository.findCustomerByVoucherId(voucher.voucherId());
 
         assertThat(retrievedCustomer.isPresent()).isTrue();
         assertThat(retrievedCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
@@ -179,11 +179,11 @@ class WalletJDBCRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "삭제될 바우처를 가진 고객");
         customerJDBCRepository.save(customer);
 
-        walletJDBCRepository.save(new Ownership(voucher.getVoucherId(), customer.getCustomerId()));
+        walletJDBCRepository.save(new Ownership(voucher.voucherId(), customer.getCustomerId()));
 
-        voucherJDBCRepository.delete(voucher.getVoucherId());
+        voucherJDBCRepository.delete(voucher.voucherId());
 
-        assertThat(walletJDBCRepository.findCustomerByVoucherId(voucher.getVoucherId()).isEmpty()).isTrue();
+        assertThat(walletJDBCRepository.findCustomerByVoucherId(voucher.voucherId()).isEmpty()).isTrue();
     }
 
     @Configuration

@@ -19,7 +19,6 @@ public class CustomerFileRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerFileRepository.class);
     private static final String COMMA_SEPARATOR = ", ";
     private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading blacklist";
-
     private final String filePath;
     private final Map<UUID, Customer> customers;
 

@@ -17,7 +17,7 @@ public class VoucherInMemoryRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        vouchers.put(voucher.getVoucherId(), voucher);
+        vouchers.put(voucher.voucherId(), voucher);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class VoucherInMemoryRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        Optional.ofNullable(vouchers.get(voucher.getVoucherId())).orElseThrow(() -> new RuntimeException("Noting was updated"));
-        vouchers.put(voucher.getVoucherId(), voucher);
+        Optional.ofNullable(vouchers.get(voucher.voucherId())).orElseThrow(() -> new RuntimeException("Noting was updated"));
+        vouchers.put(voucher.voucherId(), voucher);
     }
 }

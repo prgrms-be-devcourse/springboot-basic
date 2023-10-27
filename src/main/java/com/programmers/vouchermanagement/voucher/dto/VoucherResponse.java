@@ -17,7 +17,7 @@ public class VoucherResponse {
     }
 
     public static VoucherResponse from(Voucher voucher) {
-        return new VoucherResponse(voucher.getVoucherId(), voucher.getDiscountValue(), voucher.getVoucherType());
+        return new VoucherResponse(voucher.voucherId(), voucher.discountValue(), voucher.voucherType());
     }
 
     public UUID getVoucherId() {
