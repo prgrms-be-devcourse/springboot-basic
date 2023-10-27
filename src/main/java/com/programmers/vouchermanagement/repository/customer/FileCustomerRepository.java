@@ -55,6 +55,11 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
     public List<Customer> findAll(GetCustomersRequestDto request) {
         Stream<Customer> stream = storage.values().stream();
 

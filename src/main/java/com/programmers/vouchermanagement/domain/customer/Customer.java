@@ -17,6 +17,10 @@ public class Customer {
     private String email;
     private boolean blacklisted;
 
+    public Customer(String email) {
+        this.email = email;
+    }
+
     public Customer(String email, boolean blacklisted) {
         this.email = email;
         this.blacklisted = blacklisted;

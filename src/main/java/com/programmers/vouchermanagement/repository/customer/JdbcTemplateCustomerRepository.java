@@ -61,6 +61,21 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public Optional<Customer> findByEmail(String email) {
+        String sql = "SELECT * FROM customers WHERE email = :email";
+
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("email", email);
+
+        try {
+            Customer customer = template.queryForObject(sql, params, getCustomerRowMapper());
+            return Optional.ofNullable(customer);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public List<Customer> findAll(GetCustomersRequestDto request) {
         String sql = "SELECT * FROM customers";
         MapSqlParameterSource params = new MapSqlParameterSource();
