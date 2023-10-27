@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
@@ -44,5 +45,14 @@ public class VoucherService {
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NoSuchElementException("There is no voucher with %s".formatted(voucherId)));
         return VoucherResponse.from(voucher);
+    }
+
+    public VoucherResponse update(UpdateVoucherRequest updateVoucherRequest) {
+        if (!voucherRepository.existById(updateVoucherRequest.voucherId())) {
+            throw new NoSuchElementException("There is no voucher with %s".formatted(updateVoucherRequest.voucherId()));
+        }
+        Voucher voucher = new Voucher(updateVoucherRequest.voucherId(), updateVoucherRequest.discountValue(), updateVoucherRequest.voucherType());
+        Voucher updatedVoucher = voucherRepository.save(voucher);
+        return VoucherResponse.from(updatedVoucher);
     }
 }
