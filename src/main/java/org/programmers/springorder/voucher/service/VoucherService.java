@@ -39,12 +39,20 @@ public class VoucherService {
         log.info("등록된 Voucher => iD: {}, type: {}, value: {}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscountValue());
     }
 
-    public String update(UUID voucherId, UUID customerID){
+    public void update(UUID voucherId, UUID customerId){
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow( () -> new RuntimeException("해당 바우처를 찾을 수 없습니다."));
-        Customer customer = customerRepository.findByID(customerID)
+        Customer customer = customerRepository.findByID(customerId)
                 .orElseThrow( () -> new RuntimeException("해당 고객을 찾을 수 없습니다."));
         Voucher updatedVoucher = voucherRepository.updateVoucherOwner(voucher, customer);
-        return updatedVoucher.getVoucherId().toString();
+    }
+
+    public List<VoucherResponseDto> getCustomerOwnedVouchers(UUID customerId){
+        Customer customer = customerRepository.findByID(customerId)
+                .orElseThrow( () -> new RuntimeException("해당 고객을 찾을 수 없습니다."));
+        return voucherRepository.findAllByCustomerId(customer)
+                .stream()
+                .map(VoucherResponseDto::of)
+                .toList();
     }
 }
