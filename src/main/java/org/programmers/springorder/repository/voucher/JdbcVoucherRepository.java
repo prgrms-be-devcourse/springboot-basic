@@ -1,5 +1,6 @@
 package org.programmers.springorder.repository.voucher;
 
+import org.programmers.springorder.constant.ErrorMessage;
 import org.programmers.springorder.model.voucher.Voucher;
 import org.programmers.springorder.model.voucher.VoucherType;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -48,7 +49,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher save(Voucher voucher) {
         int update = jdbcTemplate.update(INSERT_VOUCHER, toParamMap(voucher));
         if (update != 1) {
-            throw new RuntimeException("바우처 저장에 실패했습니다.");  // TODO: ErrorMessage 리팩토링 필요 (Customer도!)
+            throw new RuntimeException(ErrorMessage.ERROR_IN_SAVE_VOUCHER);
         }
         return voucher;
     }

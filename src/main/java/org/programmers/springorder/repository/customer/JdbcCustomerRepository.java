@@ -1,5 +1,6 @@
 package org.programmers.springorder.repository.customer;
 
+import org.programmers.springorder.constant.ErrorMessage;
 import org.programmers.springorder.model.customer.Customer;
 import org.programmers.springorder.model.customer.CustomerType;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -45,7 +46,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Customer save(Customer customer) {
         int update = jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
         if (update != 1) {
-            throw new RuntimeException("고객 저장에 실패했습니다.");
+            throw new RuntimeException(ErrorMessage.ERROR_IN_SAVE_CUSTOMER);
         }
         return customer;
     }
