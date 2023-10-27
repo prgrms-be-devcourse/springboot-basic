@@ -12,8 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 class VoucherTest {
 
     @Test
-    @DisplayName("Voucher 객체 생성 테스트")
-    public void voucherCreateTest() throws Exception {
+    @DisplayName("바우처 생성에 성공한다.")
+    public void createVoucher() {
         //given
         UUID voucherId1 = UUID.randomUUID();
         long discountValue1 = 10;
@@ -32,11 +32,25 @@ class VoucherTest {
         assertThat(voucher1.getVoucherId()).isEqualTo(voucherId1);
         assertThat(voucher2.getVoucherId()).isEqualTo(voucherId2);
 
-        /**
-         * 생성된 Voucher 객체로 각각 discount 테스트 진행
-         */
         assertThat(voucher1.getCalculate(beforeDiscount)).isEqualTo(9990);
         assertThat(voucher2.getCalculate(beforeDiscount)).isEqualTo(9000);
+    }
 
+    @Test
+    @DisplayName("바우처 타입과 할인 금액 변경에 성공한다.")
+    void updateVoucher() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+        long discountValue = 10;
+        VoucherType voucherType = VoucherType.FIXED;
+
+        Voucher voucher = Voucher.toVoucher(voucherId, discountValue, voucherType);
+
+        // when
+        Voucher updatedVoucher = voucher.update(VoucherType.PERCENT, 20);
+
+        // then
+        assertThat(updatedVoucher.getVoucherType()).isEqualTo(VoucherType.PERCENT);
+        assertThat(updatedVoucher.getDiscountValue()).isEqualTo(20);
     }
 }
