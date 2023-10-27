@@ -4,32 +4,26 @@ package org.programmers.springorder.service;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.springorder.config.JdbcConfig;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
-import org.programmers.springorder.customer.repository.JdbcCustomerRepository;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.model.VoucherType;
-import org.programmers.springorder.voucher.repository.JdbcVoucherRepository;
 import org.programmers.springorder.voucher.repository.VoucherRepository;
 import org.programmers.springorder.voucher.service.VoucherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -46,45 +40,8 @@ class VoucherServiceTest {
     static EmbeddedMysql embeddedMysql;
 
     @Configuration
-    static class Config{
-        @Bean
-        public DataSource dataSource(){
-            var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test_voucher")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource){
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate){
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-
-        @Bean
-        public VoucherRepository voucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
-            return new JdbcVoucherRepository(namedParameterJdbcTemplate);
-        }
-
-        @Bean
-        public CustomerRepository customerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
-            return new JdbcCustomerRepository(namedParameterJdbcTemplate);
-        }
-
-        @Bean
-        public VoucherService voucherService(VoucherRepository voucherRepository, CustomerRepository customerRepository){
-            return new VoucherService(voucherRepository, customerRepository);
-        }
-    }
+    @ComponentScan(basePackageClasses = JdbcConfig.class)
+    static class Config{ }
 
     @Autowired
     VoucherRepository voucherRepository;
