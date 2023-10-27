@@ -1,7 +1,6 @@
 package org.programmers.springorder.customer.service;
 
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
-import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.repository.CustomerRepository;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.repository.VoucherRepository;
@@ -28,13 +27,14 @@ public class CustomerService {
                 .toList();
     }
 
-    public Customer findOwnerOfVoucher(UUID voucherId){
+    public CustomerResponseDto findOwnerOfVoucher(UUID voucherId){
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new RuntimeException("찾으시는 voucher가 존재하지 않습니다."));
         if(voucher.getCustomerId() == null) {
             throw new RuntimeException("해당 voucher는 주인이 존재하지 않습니다.");
         }
         return customerRepository.findByID(voucher.getCustomerId())
+                .map(CustomerResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("해당 고객을 찾을 수 없습니다."));
     }
 }
