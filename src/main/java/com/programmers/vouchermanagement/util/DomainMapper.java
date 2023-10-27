@@ -14,17 +14,25 @@ import java.util.UUID;
 
 @Component
 public class DomainMapper {
+    public static final String ID_KEY = "id";
+    public static final String VOUCHER_ID_KEY = "voucher_id";
+    public static final String CUSTOMER_ID_KEY = "customer_id";
+    public static final String BLACK_KEY = "black";
+    public static final String NAME_KEY = "name";
+    public static final String DISCOUNT_VALUE_KEY = "discount_value";
+    public static final String TYPE_KEY = "type";
+
     public final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID id = toUUID(resultSet.getBytes("id"));
-        long discountValue = resultSet.getLong("discount_value");
-        String voucherTypeStr = resultSet.getString("type");
+        UUID id = toUUID(resultSet.getBytes(ID_KEY));
+        long discountValue = resultSet.getLong(DISCOUNT_VALUE_KEY);
+        String voucherTypeStr = resultSet.getString(TYPE_KEY);
 
         return new Voucher(id, discountValue, VoucherType.valueOf(voucherTypeStr));
     };
     public final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        UUID id = toUUID(resultSet.getBytes("id"));
-        String name = resultSet.getString("name");
-        boolean isBlack = resultSet.getBoolean("black");
+        UUID id = toUUID(resultSet.getBytes(ID_KEY));
+        String name = resultSet.getString(NAME_KEY);
+        boolean isBlack = resultSet.getBoolean(BLACK_KEY);
 
         return new Customer(id, name, isBlack);
     };
@@ -36,30 +44,30 @@ public class DomainMapper {
 
     public Map<String, Object> customerToParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("id", customer.getCustomerId().toString().getBytes());
-        paramMap.put("name", customer.getName());
-        paramMap.put("black", customer.isBlack());
+        paramMap.put(ID_KEY, customer.getCustomerId().toString().getBytes());
+        paramMap.put(NAME_KEY, customer.getName());
+        paramMap.put(BLACK_KEY, customer.isBlack());
         return paramMap;
     }
 
     public Map<String, Object> ownershipToParamMap(Ownership ownership) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("voucherId", ownership.voucherId().toString().getBytes());
-        paramMap.put("customerId", ownership.customerId().toString().getBytes());
+        paramMap.put(VOUCHER_ID_KEY, ownership.voucherId().toString().getBytes());
+        paramMap.put(CUSTOMER_ID_KEY, ownership.customerId().toString().getBytes());
         return paramMap;
     }
 
     public Map<String, Object> uuidToParamMap(UUID id) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("id", id.toString().getBytes());
+        paramMap.put(ID_KEY, id.toString().getBytes());
         return paramMap;
     }
 
     public Map<String, Object> voucherToParamMap(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("id", voucher.voucherId().toString().getBytes());
-        paramMap.put("type", voucher.voucherType().name());
-        paramMap.put("discountValue", voucher.discountValue());
+        paramMap.put(ID_KEY, voucher.voucherId().toString().getBytes());
+        paramMap.put(TYPE_KEY, voucher.voucherType().name());
+        paramMap.put(DISCOUNT_VALUE_KEY, voucher.discountValue());
         return paramMap;
     }
 }
