@@ -6,12 +6,12 @@ import java.util.UUID;
 public record Member(
     UUID memberId,
     String name,
-    Integer age,
-    boolean blackList
+    String email,
+    Integer age
 ) {
 
     @Override
     public String toString() {
-        return "이름: " + name + " 나이: " + age + " 밴 여부: " + blackList;
+        return "이름: " + name + " 이메일 : " + email + " 나이: " + age;
     }
 }
