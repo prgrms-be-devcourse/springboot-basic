@@ -17,8 +17,8 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void registerVoucher(Voucher voucher) {
-        voucherRepository.save(voucher);
+    public Voucher registerVoucher(Voucher voucher) {
+        return voucherRepository.save(voucher);
     }
 
     public List<FindVoucherResponseDto> searchAllVouchers() {
