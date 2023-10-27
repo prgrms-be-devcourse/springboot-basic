@@ -75,6 +75,21 @@ class VoucherJDBCRepositoryTest {
 
     @Test
     @Order(5)
+    @DisplayName("바우처를 아이디로 조회할 수 있다.")
+    void findVoucherByIdSucceed() {
+        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(1234), VoucherType.FIXED);
+        voucherJDBCRepository.save(voucher);
+
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getVoucherId());
+
+        assertThat(retrievedVoucher.isPresent()).isTrue();
+        assertThat(retrievedVoucher.get().getVoucherId()).isEqualTo(voucher.getVoucherId());
+        assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(voucher.getDiscountValue());
+        assertThat(retrievedVoucher.get().getVoucherType()).isEqualTo(voucher.getVoucherType());
+    }
+
+    @Test
+    @Order(6)
     @DisplayName("바우처를 아이디로 삭제할 수 있다.")
     void deleteVoucherSucceed() {
         Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
@@ -86,18 +101,16 @@ class VoucherJDBCRepositoryTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     @DisplayName("없는 바우처를 삭제하면 실패한다.")
     void deleteNonExistVoucherFail() {
         UUID NonExistVoucherId = UUID.randomUUID();
 
-        assertThrows(RuntimeException.class, () -> {
-            voucherJDBCRepository.delete(NonExistVoucherId);
-        });
+        assertThrows(RuntimeException.class, () -> voucherJDBCRepository.delete(NonExistVoucherId));
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     @DisplayName("바우처를 업데이트 할 수 있다.")
     void updateVoucherSucceed() {
         Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
@@ -114,7 +127,7 @@ class VoucherJDBCRepositoryTest {
 
     @Configuration
     @ComponentScan(
-            basePackages = {"com.programmers.vouchermanagement.voucher.repository"}
+            basePackages = {"com.programmers.vouchermanagement"}
     )
     static class Config {
         @Bean
