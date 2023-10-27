@@ -26,8 +26,8 @@ public class JdbcConfig {
                 .password("test1234!")
                 .type(HikariDataSource.class)
                 .build();
-        dataSource.setMaximumPoolSize(1000);
-        dataSource.setMinimumIdle(100);
+        dataSource.setMaximumPoolSize(15);
+        dataSource.setMinimumIdle(10);
         return dataSource;
     }
 
@@ -52,8 +52,8 @@ public class JdbcConfig {
     }
 
     @Bean
-    public CustomerService customerService( CustomerRepository customerRepository){
-        return new CustomerService(customerRepository);
+    public CustomerService customerService( CustomerRepository customerRepository, VoucherRepository voucherRepository){
+        return new CustomerService(customerRepository, voucherRepository);
     }
 
     @Bean
