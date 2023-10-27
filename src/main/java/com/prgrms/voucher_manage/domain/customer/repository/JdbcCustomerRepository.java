@@ -3,8 +3,6 @@ package com.prgrms.voucher_manage.domain.customer.repository;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchCustomerTypeByData;
+import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchTypeByString;
 
 @Repository
 @RequiredArgsConstructor
@@ -56,6 +54,6 @@ public class JdbcCustomerRepository{
         UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
         String name = resultSet.getString("name");
         String type = resultSet.getString("type");
-        return new Customer(customerId, name, matchCustomerTypeByData(type));
+        return new Customer(customerId, name, matchTypeByString(type));
     };
 }

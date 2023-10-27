@@ -104,7 +104,7 @@ public class ConsoleManager implements ApplicationRunner {
     }
 
     private CustomerType getCustomerType() throws IOException {
-        CustomerType customerType = CustomerType.matchCustomerTypeByLabel(inputUtil.getStringInput());
+        CustomerType customerType = CustomerType.matchTypeByString(inputUtil.getStringInput());
         System.out.println(customerType);
         if (customerType == null){
             throw new InvalidInputException("Invalid command input");
