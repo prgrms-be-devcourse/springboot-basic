@@ -20,5 +20,3 @@ CREATE TABLE IF NOT EXISTS wallet
     customer_id CHAR(36),
     voucher_id  CHAR(36)
 );
-
-
