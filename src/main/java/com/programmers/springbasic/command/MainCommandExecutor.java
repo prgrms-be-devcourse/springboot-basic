@@ -12,15 +12,15 @@ import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.constants.MainCommandType;
 
 @Component
-public class CommandExecutor implements CommandLineRunner {
+public class MainCommandExecutor implements CommandLineRunner {
 
-	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(CommandExecutor.class);
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(MainCommandExecutor.class);
 
 	private final ApplicationContext applicationContext;
 	private final ConsoleOutputHandler consoleOutputHandler;
 	private final ConsoleInputHandler consoleInputHandler;
 
-	public CommandExecutor(ApplicationContext applicationContext, ConsoleOutputHandler consoleOutputHandler,
+	public MainCommandExecutor(ApplicationContext applicationContext, ConsoleOutputHandler consoleOutputHandler,
 		ConsoleInputHandler consoleInputHandler) {
 		this.applicationContext = applicationContext;
 		this.consoleOutputHandler = consoleOutputHandler;

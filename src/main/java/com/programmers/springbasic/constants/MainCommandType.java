@@ -6,13 +6,13 @@ import java.util.Arrays;
 
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.command.main.ExitCommand;
-import com.programmers.springbasic.command.main.SelectCustomerCommand;
-import com.programmers.springbasic.command.main.SelectVoucherCommand;
+import com.programmers.springbasic.command.CustomerCommandExecutor;
+import com.programmers.springbasic.command.VoucherCommandExecutor;
 
 public enum MainCommandType {
 
-	VOUCHER_MANAGEMENT("voucher", SelectVoucherCommand.class),
-	CUSTOMER_MANAGEMENT("customer", SelectCustomerCommand.class),
+	VOUCHER_MANAGEMENT("voucher", VoucherCommandExecutor.class),
+	CUSTOMER_MANAGEMENT("customer", CustomerCommandExecutor.class),
 	EXIT("exit", ExitCommand.class);
 
 	private final String inputString;

@@ -1,4 +1,4 @@
-package com.programmers.springbasic.command.main;
+package com.programmers.springbasic.command;
 
 import static com.programmers.springbasic.constants.MessageConstants.*;
 
@@ -6,21 +6,20 @@ import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
-import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.constants.VoucherCommandType;
 
 @Component
-public class SelectVoucherCommand implements Command {
+public class VoucherCommandExecutor implements Command {
 
-	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(SelectVoucherCommand.class);
+	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(VoucherCommandExecutor.class);
 
 	private final ConsoleOutputHandler consoleOutputHandler;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ApplicationContext applicationContext;
 
-	public SelectVoucherCommand(ConsoleOutputHandler consoleOutputHandler, ConsoleInputHandler consoleInputHandler,
+	public VoucherCommandExecutor(ConsoleOutputHandler consoleOutputHandler, ConsoleInputHandler consoleInputHandler,
 		ApplicationContext applicationContext) {
 		this.consoleOutputHandler = consoleOutputHandler;
 		this.consoleInputHandler = consoleInputHandler;

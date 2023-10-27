@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.programmers.springbasic.dto.CustomerDto;
 import com.programmers.springbasic.dto.VoucherDto;
@@ -98,6 +98,7 @@ public class CustomerService {
 			.toList();
 	}
 
+	@Transactional
 	public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
 		Customer customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new NoSuchElementException(CUSTOMER_NOT_FOUND.getMessage()));
