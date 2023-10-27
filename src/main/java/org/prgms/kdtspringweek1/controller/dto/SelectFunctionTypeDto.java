@@ -26,4 +26,8 @@ public enum SelectFunctionTypeDto {
         logger.debug("Invalid Function Type -> {}", name);
         throw new IllegalArgumentException(InputExceptionCode.INVALID_VOUCHER_FUNCTION_TYPE.getMessage());
     }
+
+    public String getName() {
+        return name;
+    }
 }

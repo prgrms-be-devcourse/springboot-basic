@@ -32,4 +32,8 @@ public enum SelectVoucherTypeDto {
                     return new IllegalArgumentException(InputExceptionCode.INVALID_VOUCHER_TYPE.getMessage());
                 }).voucherType;
     }
+
+    public long getNum() {
+        return num;
+    }
 }
