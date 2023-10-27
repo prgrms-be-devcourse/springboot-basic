@@ -54,6 +54,14 @@ public class Voucher {
         return this;
     }
 
+    public String getVoucherIdToString() {
+        return this.voucherId.toString();
+    }
+
+    public String getVoucherTypeName() {
+        return this.voucherType.name();
+    }
+
     public UUID getVoucherId() {
         return voucherId;
     }

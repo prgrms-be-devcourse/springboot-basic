@@ -39,9 +39,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private Map<String, Object> toParamMap(Voucher voucher) {   //TODO:디미터 법칙 리팩토링 필요 (Customer도)
         return new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId().toString());
+            put("voucherId", voucher.getVoucherIdToString());
             put("discountValue", voucher.getDiscountValue());
-            put("voucherType", voucher.getVoucherType().name());
+            put("voucherType", voucher.getVoucherTypeName());
         }};
     }
 

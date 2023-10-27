@@ -29,6 +29,14 @@ public class Customer {
         return new Customer(customerId, customerRequestDto);
     }
 
+    public String getCustomerIdToString() {
+        return this.customerId.toString();
+    }
+
+    public String getCustomerTypeName() {
+        return this.customerType.name();
+    }
+
     public boolean isBlackList() {
         return this.customerType == CustomerType.BLACK;
     }
