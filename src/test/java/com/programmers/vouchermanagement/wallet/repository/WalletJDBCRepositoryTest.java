@@ -20,7 +20,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -58,7 +57,7 @@ class WalletJDBCRepositoryTest {
     @Test
     @DisplayName("고객 id와 바우처 id 정보를 함께 저장할 수 있다.")
     void saveSucceed() {
-        Voucher newVoucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(333), VoucherType.FIXED);
+        Voucher newVoucher = new Voucher(UUID.randomUUID(), 333, VoucherType.FIXED);
         voucherJDBCRepository.save(newVoucher);
         Customer newCustomer = new Customer(UUID.randomUUID(), "바우처 주인");
         customerJDBCRepository.save(newCustomer);
@@ -70,7 +69,7 @@ class WalletJDBCRepositoryTest {
     @Test
     @DisplayName("이미 할당된 바우처라면, 고객에게 바우처를 할당할 수 없다.")
     void saveAllocatedVoucherFail() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(333), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 333, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
         Customer customer = new Customer(UUID.randomUUID(), "바우처 주인12");
         customerJDBCRepository.save(customer);
@@ -91,7 +90,7 @@ class WalletJDBCRepositoryTest {
     @Test
     @DisplayName("고객 id에 해당하는 고객이 없다면, 고객에게 바우처를 할당할 수 없다.")
     void saveNonExistCustomerFail() {
-        Voucher newVoucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(333), VoucherType.FIXED);
+        Voucher newVoucher = new Voucher(UUID.randomUUID(), 333, VoucherType.FIXED);
         voucherJDBCRepository.save(newVoucher);
         UUID nonExistCustomer = UUID.randomUUID();
 
@@ -116,7 +115,7 @@ class WalletJDBCRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "바우처 주인B");
         customerJDBCRepository.save(customer);
         for (int i = 1; i < 6; i++) {
-            Voucher newVoucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(i), VoucherType.FIXED);
+            Voucher newVoucher = new Voucher(UUID.randomUUID(), i, VoucherType.FIXED);
             voucherJDBCRepository.save(newVoucher);
             Ownership newOwnership = new Ownership(newVoucher.getVoucherId(), customer.getCustomerId());
             walletJDBCRepository.save(newOwnership);
@@ -128,7 +127,7 @@ class WalletJDBCRepositoryTest {
     @Test
     @DisplayName("함께 저장된 고객 id와 바우처 id 정보를 삭제할 수 있다.")
     void delete() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(333), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 333, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
         Customer customer = new Customer(UUID.randomUUID(), "바우처 주인1122");
         customerJDBCRepository.save(customer);
@@ -142,7 +141,7 @@ class WalletJDBCRepositoryTest {
     @Test
     @DisplayName("바우처 id로 바우처를 가진 고객 id를 가져올 수 있다.")
     void findCustomerByVoucherId() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(555), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
         Customer customer = new Customer(UUID.randomUUID(), "r1sdgd2r");
         customerJDBCRepository.save(customer);
@@ -157,7 +156,7 @@ class WalletJDBCRepositoryTest {
     @Test
     @DisplayName("바우처를 지우면 바우처 소유 정보가 사라진다.")
     void autoDeleteAfterVoucherDelete() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(555), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
         Customer customer = new Customer(UUID.randomUUID(), "바우처DFAFsdSD");
         customerJDBCRepository.save(customer);

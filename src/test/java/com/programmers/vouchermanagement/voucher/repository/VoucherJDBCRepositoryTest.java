@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +41,7 @@ class VoucherJDBCRepositoryTest {
     @Order(2)
     @DisplayName("고정 금액 할인 바우처를 추가할 수 있다.")
     void saveFixedAmountVoucherSucceed() {
-        Voucher newVoucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(555), VoucherType.FIXED);
+        Voucher newVoucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
         voucherJDBCRepository.save(newVoucher);
 
         Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.getVoucherId());
@@ -55,7 +54,7 @@ class VoucherJDBCRepositoryTest {
     @Order(3)
     @DisplayName("퍼센트 할인 바우처를 추가할 수 있다.")
     void savePercentVoucherSucceed() {
-        Voucher newVoucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(50), VoucherType.PERCENT);
+        Voucher newVoucher = new Voucher(UUID.randomUUID(), 50, VoucherType.PERCENT);
         voucherJDBCRepository.save(newVoucher);
 
         Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.getVoucherId());
@@ -77,7 +76,7 @@ class VoucherJDBCRepositoryTest {
     @Order(5)
     @DisplayName("바우처를 아이디로 조회할 수 있다.")
     void findVoucherByIdSucceed() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(1234), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 1234, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
         Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getVoucherId());
@@ -92,7 +91,7 @@ class VoucherJDBCRepositoryTest {
     @Order(6)
     @DisplayName("바우처를 아이디로 삭제할 수 있다.")
     void deleteVoucherSucceed() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
         voucherJDBCRepository.delete(voucher.getVoucherId());
@@ -113,10 +112,10 @@ class VoucherJDBCRepositoryTest {
     @Order(8)
     @DisplayName("바우처를 업데이트 할 수 있다.")
     void updateVoucherSucceed() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
-        Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), BigDecimal.valueOf(100), VoucherType.PERCENT);
+        Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), 100, VoucherType.PERCENT);
         voucherJDBCRepository.update(updatedVoucher);
 
         Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getVoucherId());
@@ -153,5 +152,4 @@ class VoucherJDBCRepositoryTest {
             return new NamedParameterJdbcTemplate(jdbcTemplate);
         }
     }
-
 }

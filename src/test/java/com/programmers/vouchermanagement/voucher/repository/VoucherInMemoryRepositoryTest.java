@@ -6,7 +6,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +19,7 @@ class VoucherInMemoryRepositoryTest {
     @Test
     @DisplayName("바우처를 아이디로 삭제할 수 있다.")
     void deleteVoucherSucceed() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherInMemoryRepository.save(voucher);
 
         voucherInMemoryRepository.delete(voucher.getVoucherId());
@@ -41,10 +40,10 @@ class VoucherInMemoryRepositoryTest {
     @Test
     @DisplayName("바우처를 업데이트 할 수 있다.")
     void updateVoucherSucceed() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), BigDecimal.valueOf(5555), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherInMemoryRepository.save(voucher);
 
-        Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), BigDecimal.valueOf(100), VoucherType.PERCENT);
+        Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), 100, VoucherType.PERCENT);
         voucherInMemoryRepository.update(updatedVoucher);
 
         Optional<Voucher> retrievedVoucher = voucherInMemoryRepository.findById(voucher.getVoucherId());

@@ -11,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +40,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("고정 할인 금액 바우처 객체를 생성할 수 있다.")
     void createFixedAmountVoucherSucceed() {
-        CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(BigDecimal.valueOf(1000), VoucherType.FIXED);
+        CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(1000, VoucherType.FIXED);
         voucherService.createVoucher(createVoucherRequest);
 
         verify(voucherRepository, times(1)).save(any(Voucher.class));
@@ -50,7 +49,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("퍼센트 할인 바우처 객체를 생성할 수 있다.")
     void createPercentDiscountVoucherSucceed() {
-        CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(BigDecimal.valueOf(100), VoucherType.PERCENT);
+        CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(100, VoucherType.PERCENT);
         voucherService.createVoucher(createVoucherRequest);
 
         verify(voucherRepository, times(1)).save(any(Voucher.class));
@@ -87,7 +86,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처를 업데이트할 수 있다.")
     void updateVoucherSucceed() {
-        voucherService.updateVoucher(new Voucher(UUID.randomUUID(), BigDecimal.valueOf(100), VoucherType.FIXED));
+        voucherService.updateVoucher(new Voucher(UUID.randomUUID(), 100, VoucherType.FIXED));
 
         verify(voucherRepository, times(1)).update(any(Voucher.class));
     }
