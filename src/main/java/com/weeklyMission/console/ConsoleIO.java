@@ -1,6 +1,7 @@
 package com.weeklyMission.console;
 
-import com.weeklyMission.member.domain.Member;
+import com.weeklyMission.common.ResponseInfo;
+import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import java.util.List;
 import java.util.Scanner;
@@ -21,7 +22,7 @@ public class ConsoleIO {
         return sc.next().toLowerCase();
     }
 
-    private Integer getAmount(){
+    private Integer getNumber(){
         System.out.print(">");
         return sc.nextInt();
     }
@@ -61,7 +62,7 @@ public class ConsoleIO {
     public Integer printAmountCommand(){
         System.out.println("=== Voucher Amount ===" + System.lineSeparator());
 
-        return getAmount();
+        return getNumber();
     }
 
     public void printSuccessCreate(){
@@ -79,9 +80,9 @@ public class ConsoleIO {
         return getId();
     }
 
-    public void printSuccessGet(VoucherResponse voucherResponse){
+    public void printSuccessGet(ResponseInfo response){
         System.out.println("=== Voucher ===");
-        System.out.println(voucherResponse.toString());
+        System.out.println(response.toString());
     }
 
     public void printSuccessDelete(){
@@ -95,8 +96,26 @@ public class ConsoleIO {
         return getCommand();
     }
 
-    public void printSuccessGetBlackList(List<Member> blackList) {
-        blackList.forEach(member -> System.out.println(member.toString() + System.lineSeparator()));
+    public String nameCommand() {
+        System.out.println("=== Name ===" + System.lineSeparator());
+
+        return getCommand();
+    }
+
+    public String emailCommand() {
+        System.out.println("=== Email ===" + System.lineSeparator());
+
+        return getCommand();
+    }
+
+    public Integer ageCommand() {
+        System.out.println("=== Age ===" + System.lineSeparator());
+
+        return getNumber();
+    }
+
+    public void printSuccessGetMemberList(List<MemberResponse> memberList) {
+        memberList.forEach(member -> System.out.println(member.toString() + System.lineSeparator()));
     }
 
     public void printExitMessage(){

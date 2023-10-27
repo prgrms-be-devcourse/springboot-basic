@@ -2,7 +2,8 @@ package com.weeklyMission.client;
 
 import com.weeklyMission.console.ConsoleIO;
 import com.weeklyMission.member.controller.MemberController;
-import com.weeklyMission.member.domain.Member;
+import com.weeklyMission.member.dto.MemberRequest;
+import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.voucher.controller.VoucherController;
 import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
@@ -56,7 +57,7 @@ public class Client {
                 VoucherType voucherType = VoucherType.of(consoleIOHandler.printSelectVoucherType());
                 VoucherRequest voucherRequest = new VoucherRequest(voucherType.getType(),
                     UUID.randomUUID(), consoleIOHandler.printAmountCommand());
-                VoucherResponse voucherDto = voucherController.create(voucherRequest);
+                voucherController.create(voucherRequest);
                 consoleIOHandler.printSuccessCreate();
             }
             case LIST -> {
@@ -82,9 +83,25 @@ public class Client {
     private void memberMode() {
         String function = consoleIOHandler.printSelectMemberFunction();
         switch (function){
+            case CREATE -> {
+                consoleIOHandler.printSelectVoucherType();
+                MemberRequest memberRequest = new MemberRequest(UUID.randomUUID(), consoleIOHandler.nameCommand(), consoleIOHandler.emailCommand(), consoleIOHandler.ageCommand());
+                memberController.create(memberRequest);
+                consoleIOHandler.printSuccessCreate();
+            }
             case LIST ->{
-                List<Member> blackList = memberController.getBlackList();
-                consoleIOHandler.printSuccessGetBlackList(blackList);
+                List<MemberResponse> memberList = memberController.findAll();
+                consoleIOHandler.printSuccessGetMemberList(memberList);
+            }
+            case FIND -> {
+                UUID id = consoleIOHandler.printCommandId();
+                MemberResponse memberResponse = memberController.findById(id);
+                consoleIOHandler.printSuccessGet(memberResponse);
+            }
+            case DELETE -> {
+                UUID id = consoleIOHandler.printCommandId();
+                memberController.deleteById(id);
+                consoleIOHandler.printSuccessDelete();
             }
             default ->{
                 throw new IncorrectInputException("function", function, "목록에 있는 것들 중 선택하세요.");
