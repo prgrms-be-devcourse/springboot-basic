@@ -19,7 +19,7 @@ import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.util.UUIDConverter;
 
 @Repository
-public class JdbcCustomerRepository {
+public class JdbcCustomerRepository implements CustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = JdbcCustomerRepository::mapToCustomer;
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -44,6 +44,7 @@ public class JdbcCustomerRepository {
         return new Customer(id, name, email, localDateTimeLastLoginAt, createAt);
     }
 
+    @Override
     public int create(Customer customer) {
         return jdbcTemplate.update(
                 "INSERT INTO customer(id, name, email, last_login_at, created_at)"
@@ -51,10 +52,12 @@ public class JdbcCustomerRepository {
                 customerToMap(customer));
     }
 
+    @Override
     public List<Customer> findAll() {
         return jdbcTemplate.query("SELECT * FROM customer", customerRowMapper);
     }
 
+    @Override
     public int update(Customer customer) {
         return jdbcTemplate.update(
                 "UPDATE customer SET name = :name, email = :email, last_login_at = :lastLoginAt"
@@ -62,6 +65,7 @@ public class JdbcCustomerRepository {
                 customerToMap(customer));
     }
 
+    @Override
     public Optional<Customer> findById(String id) {
         Customer customer = jdbcTemplate.queryForObject(
                 "SELECT * FROM customer"
@@ -72,6 +76,7 @@ public class JdbcCustomerRepository {
         return Optional.ofNullable(customer);
     }
 
+    @Override
     public List<Customer> findByName(String name) {
         return jdbcTemplate.query(
                 "SELECT * FROM customer"
@@ -80,6 +85,7 @@ public class JdbcCustomerRepository {
                 customerRowMapper);
     }
 
+    @Override
     public List<Customer> findByEmail(String email) {
         return jdbcTemplate.query(
                 "SELECT * FROM customer"
