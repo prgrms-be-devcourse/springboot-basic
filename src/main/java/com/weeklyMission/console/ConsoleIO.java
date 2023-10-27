@@ -82,7 +82,7 @@ public class ConsoleIO {
 
     public void printSuccessGet(ResponseInfo response){
         System.out.println("=== Voucher ===");
-        System.out.println(response.toString());
+        System.out.println(response.printInfo());
     }
 
     public void printSuccessDelete(){
