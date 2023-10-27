@@ -2,13 +2,14 @@ package org.programmers.springorder.model.voucher;
 
 import org.programmers.springorder.dto.voucher.VoucherRequestDto;
 
-import java.util.Objects;
 import java.util.UUID;
+
+import static org.programmers.springorder.model.voucher.VoucherType.validateDiscountRange;
 
 public class Voucher {
     private final UUID voucherId;
-    private final long discountValue;
-    private final VoucherType voucherType;
+    private long discountValue;
+    private VoucherType voucherType;
 
     private Voucher(UUID voucherId, long discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
@@ -46,6 +47,13 @@ public class Voucher {
         return this.voucherType.calculate(beforeDiscount, this.discountValue);
     }
 
+    public Voucher update(VoucherType voucherType, long discountValue) {
+        validateDiscountRange(voucherType, discountValue);
+        this.discountValue = discountValue;
+        this.voucherType = voucherType;
+        return this;
+    }
+
     public UUID getVoucherId() {
         return voucherId;
     }
@@ -58,17 +66,5 @@ public class Voucher {
         return voucherType;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Voucher voucher = (Voucher) o;
-        return discountValue == voucher.discountValue && Objects.equals(voucherId, voucher.voucherId) && voucherType == voucher.voucherType;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(voucherId, discountValue, voucherType);
-    }
 
 }
