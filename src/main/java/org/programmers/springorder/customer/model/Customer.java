@@ -18,8 +18,19 @@ public class Customer {
         return new Customer(customerId, name, customerType);
     }
 
+    public boolean sameCustomerId(UUID customerId){
+        return this.customerId.equals(customerId);
+    }
     public boolean isBlackList() {
         return this.customerType == CustomerType.BLACK;
+    }
+
+    public String insertCustomerDataInFile() {
+        StringBuilder data = new StringBuilder();
+        data.append(this.customerId).append(",")
+                .append(this.name).append(",")
+                .append(this.customerType.name());
+        return data.toString();
     }
 
     public UUID getCustomerId() {
