@@ -4,6 +4,7 @@ import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.controller.ConsoleWalletController;
@@ -52,6 +53,9 @@ public class CommandWalletApplication extends RunnableCommandApplication {
         } catch (DataAccessResourceFailureException e) {
             logger.error(e.toString());
             Console.print(e.getMessage());
+        } catch (DuplicateKeyException e) {
+            logger.error(e.toString());
+            Console.print("이미 존재하는 쿠폰입니다.");
         }
     }
 

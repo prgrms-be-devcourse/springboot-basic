@@ -6,15 +6,15 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.model.Voucher;
-import team.marco.voucher_management_system.repository.JdbcWalletRepository;
 import team.marco.voucher_management_system.repository.VoucherCustomerFacade;
+import team.marco.voucher_management_system.repository.WalletRepository;
 
 @Service
 public class WalletService {
-    private final JdbcWalletRepository walletRepository;
+    private final WalletRepository walletRepository;
     private final VoucherCustomerFacade voucherCustomerFacade;
 
-    public WalletService(JdbcWalletRepository walletRepository, VoucherCustomerFacade voucherCustomerFacade) {
+    public WalletService(WalletRepository walletRepository, VoucherCustomerFacade voucherCustomerFacade) {
         this.walletRepository = walletRepository;
         this.voucherCustomerFacade = voucherCustomerFacade;
     }

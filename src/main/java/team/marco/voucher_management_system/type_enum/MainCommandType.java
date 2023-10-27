@@ -3,7 +3,7 @@ package team.marco.voucher_management_system.type_enum;
 import static java.text.MessageFormat.format;
 
 public enum MainCommandType {
-    CREATE, LIST, EXIT, BLACKLIST, CUSTOMER;
+    CREATE, LIST, EXIT, BLACKLIST, CUSTOMER, WALLET;
 
     public static MainCommandType getCommandType(String input) {
         try {

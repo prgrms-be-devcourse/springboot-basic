@@ -15,13 +15,16 @@ public class CommandMainApplication extends RunnableCommandApplication {
     private final ConsoleVoucherController voucherController;
     private final ConsoleBlacklistController blacklistController;
     private final CommandCustomerApplication customerApplication;
+    private final CommandWalletApplication walletApplication;
 
     public CommandMainApplication(ConsoleVoucherController voucherController,
                                   ConsoleBlacklistController blacklistController,
-                                  CommandCustomerApplication customerApplication) {
+                                  CommandCustomerApplication customerApplication,
+                                  CommandWalletApplication walletApplication) {
         this.voucherController = voucherController;
         this.blacklistController = blacklistController;
         this.customerApplication = customerApplication;
+        this.walletApplication = walletApplication;
     }
 
     @Override
@@ -41,7 +44,8 @@ public class CommandMainApplication extends RunnableCommandApplication {
                 create: 쿠폰 생성
                 list: 쿠폰 목록 조회
                 blacklist: 블랙 리스트 유저 조회
-                customer: 고객 관리 메뉴""");
+                customer: 고객 관리 메뉴
+                wallet: 지갑 관리 메뉴""");
 
         String input = Console.readString();
 
@@ -69,6 +73,7 @@ public class CommandMainApplication extends RunnableCommandApplication {
             case LIST -> voucherController.voucherList();
             case BLACKLIST -> blacklistController.blacklist();
             case CUSTOMER -> customerApplication.run();
+            case WALLET -> walletApplication.run();
         }
     }
 
