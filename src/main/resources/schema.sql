@@ -15,6 +15,5 @@ CREATE TABLE IF NOT EXISTS wallets (
       wallet_id   INT PRIMARY KEY AUTO_INCREMENT,
       customer_id BINARY(16) NOT NULL,
       voucher_id  BINARY(16)  NOT NULL,
-      FOREIGN KEY (customer_id) REFERENCES customers (customer_id) ON DELETE CASCADE,
-      FOREIGN KEY (voucher_id) REFERENCES vouchers (voucher_id) ON DELETE CASCADE
+      deleted CHAR(1) DEFAULT 'N'
 );

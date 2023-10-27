@@ -28,7 +28,7 @@ public class WalletService {
             throw ErrorMessage.error("이미 존재하는 지갑입니다.");
         }
         Wallet wallet = walletRequest.of();
-        walletRepository.save(wallet);
+        walletRepository.saveOrUpdate(wallet);
 
         return WalletResponse.toDto(wallet);
     }
