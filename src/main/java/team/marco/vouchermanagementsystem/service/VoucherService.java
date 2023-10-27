@@ -47,4 +47,8 @@ public class VoucherService {
 
         voucherRepository.update(voucher);
     }
+
+    public Voucher getVoucher(UUID voucherId) {
+        return voucherRepository.findById(voucherId).orElseThrow();
+    }
 }

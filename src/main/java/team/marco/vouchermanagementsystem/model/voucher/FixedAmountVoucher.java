@@ -66,6 +66,10 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("{0}원 할인 쿠폰 {1}", amount, getOwnerId() == null ? "" : "/ 쿠폰 소지자: " + getOwnerId());
+        return MessageFormat.format("""
+                쿠폰명: {0}원 할인 쿠폰 
+                쿠폰번호: {1}
+                쿠폰 소지자: {2}
+                """, amount, getId().toString(), getOwnerId() == null ? "없음" : getOwnerId().toString());
     }
 }

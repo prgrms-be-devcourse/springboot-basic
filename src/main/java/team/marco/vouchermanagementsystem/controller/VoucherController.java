@@ -22,6 +22,10 @@ public class VoucherController {
         voucherService.createPercentDiscountVoucher(percent);
     }
 
+    public String getVoucherInfo(String voucherId) {
+        return voucherService.getVoucher(UUID.fromString(voucherId)).toString();
+    }
+
     public List<String> getVouchersInfo() {
         return voucherService.getVouchers().stream()
                 .map(Object::toString)

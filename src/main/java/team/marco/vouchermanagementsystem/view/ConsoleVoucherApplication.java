@@ -39,6 +39,7 @@ public class ConsoleVoucherApplication {
                 === 쿠폰 관리 프로그램 ===
                 create: 쿠폰 생성
                 list: 쿠폰 목록 조회
+                search: 쿠폰 검색
                 blacklist: 블랙 리스트 유저 조회
                 exit: 프로그램 종료""");
 
@@ -48,9 +49,17 @@ public class ConsoleVoucherApplication {
         switch (commandType) {
             case CREATE -> createVoucher();
             case LIST -> getVoucherList();
+            case SEARCH -> getVoucherInfo();
             case BLACKLIST -> getBlacklist();
             case EXIT -> isRunning = false;
         }
+    }
+
+    private void getVoucherInfo() {
+        Console.print("쿠폰 번호를 입력해 주세요.");
+        String voucherId = Console.readString();
+
+        Console.print(voucherController.getVoucherInfo(voucherId));
     }
 
     private void createVoucher() {
