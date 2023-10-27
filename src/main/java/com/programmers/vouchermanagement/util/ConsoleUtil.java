@@ -13,7 +13,7 @@ public class ConsoleUtil {
     private static final TextIO textIO = TextIoFactory.getTextIO();
     private static final Logger logger = LoggerFactory.getLogger(ConsoleUtil.class);
 
-    private static void displayMessage(String message) {
+    public static void displayMessage(String message) {
         textIO.getTextTerminal().println(message);
     }
 
@@ -36,5 +36,10 @@ public class ConsoleUtil {
         return textIO.newStringInputReader()
                 .withMinLength(NAME_MIN_LENGTH)
                 .read("Name: ");
+    }
+
+    public static String getName(String message) {
+        displayMessage(message);
+        return getName();
     }
 }

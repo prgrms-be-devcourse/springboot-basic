@@ -1,10 +1,10 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
-import com.programmers.vouchermanagement.common.ConsoleMessage;
+import com.programmers.vouchermanagement.common.VoucherMessage;
 
 public enum VoucherType {
-    FIXED(ConsoleMessage.FIXED_AMOUNT_VOUCHER_GUIDE_MESSAGE.getMessage()),
-    PERCENTAGE(ConsoleMessage.PERCENT_DISCOUNT_VOUCHER_GUIDE_MESSAGE.getMessage());
+    FIXED(VoucherMessage.FIXED_AMOUNT_VOUCHER_GUIDE_MESSAGE.getMessage()),
+    PERCENTAGE(VoucherMessage.PERCENT_DISCOUNT_VOUCHER_GUIDE_MESSAGE.getMessage());
 
     private final String guideMessage;
 

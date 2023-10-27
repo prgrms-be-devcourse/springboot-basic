@@ -11,6 +11,8 @@ public enum CustomerMessage {
             5. 고객 생성
             6. 고객 삭제
             """),
+    GIVE_VOUCHER_TO_CUSTOMER_MESSAGE("[System] Give voucher to customer."),
+    DELETE_VOUCHER_FROM_CUSTOMER_MESSAGE("[System] Delete voucher from customer."),
 
     // Input messages
     INPUT_CUSTOMER_ID_MESSAGE("Enter customer id."),
