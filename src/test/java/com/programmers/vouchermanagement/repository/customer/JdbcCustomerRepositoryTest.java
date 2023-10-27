@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.MySQLContainer;
 
@@ -33,12 +33,12 @@ class JdbcCustomerRepositoryTest {
         }
 
         @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
+        public NamedParameterJdbcTemplate jdbcTemplate(DataSource dataSource) {
+            return new NamedParameterJdbcTemplate(dataSource);
         }
 
         @Bean
-        public JdbcCustomerRepository jdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
+        public JdbcCustomerRepository jdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
             return new JdbcCustomerRepository(jdbcTemplate);
         }
     }
