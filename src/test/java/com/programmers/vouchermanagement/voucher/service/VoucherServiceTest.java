@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -157,5 +158,24 @@ class VoucherServiceTest {
 
         //verify
         verify(customerRepository).existById(request.customerId());
+    }
+
+    @Test
+    @DisplayName("바우처 할당을 성공한다.")
+    void testAssignVoucherSuccessful() {
+        //given
+        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final Voucher voucher = new Voucher(request.voucherId(), new BigDecimal(10000), VoucherType.FIXED, request.customerId());
+        doReturn(true).when(voucherRepository).existById(request.voucherId());
+        doReturn(true).when(customerRepository).existById(request.customerId());
+        doReturn(Optional.of(voucher)).when(voucherRepository).findById(request.voucherId());
+        doReturn(voucher).when(voucherRepository).save(any(Voucher.class));
+
+        //when
+        voucherService.assignToCustomer(request);
+
+        //verify
+        verify(voucherRepository).findById(request.voucherId());
+        verify(voucherRepository).save(any(Voucher.class));
     }
 }
