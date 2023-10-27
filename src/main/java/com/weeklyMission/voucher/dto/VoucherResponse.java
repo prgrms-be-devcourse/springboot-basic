@@ -1,5 +1,6 @@
 package com.weeklyMission.voucher.dto;
 
+import com.weeklyMission.common.ResponseInfo;
 import com.weeklyMission.voucher.domain.FixedAmountVoucher;
 import com.weeklyMission.voucher.domain.Voucher;
 import java.util.UUID;
@@ -7,7 +8,7 @@ import java.util.UUID;
 public record VoucherResponse(
     UUID voucherId,
     String type,
-    long amount) {
+    long amount) implements ResponseInfo {
     public static VoucherResponse of(Voucher voucher){
         String type;
         if (voucher instanceof FixedAmountVoucher){
@@ -18,9 +19,7 @@ public record VoucherResponse(
         }
         return new VoucherResponse(voucher.getVoucherId(), type, voucher.getAmount());
     }
-
     @Override
-    public String toString() {
-        return "VoucherId : " + voucherId + " Type : " + type + " Amount : " + amount;
-    }
+    public String printInfo() {
+        return "VoucherId : " + voucherId + " Type : " + type + " Amount : " + amount;    }
 }
