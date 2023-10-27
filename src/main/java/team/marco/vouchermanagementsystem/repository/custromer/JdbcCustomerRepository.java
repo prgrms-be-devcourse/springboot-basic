@@ -57,7 +57,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
         try {
             Customer customer = jdbcTemplate.queryForObject(SELECT_BY_ID_SQL,
-                    (resultSet, rowNum) -> resultSetToCustomer(resultSet), customerId);
+                    (resultSet, rowNum) -> resultSetToCustomer(resultSet),
+                    customerId.toString().getBytes());
 
             return Optional.of(customer);
         } catch (DataAccessException e) {
