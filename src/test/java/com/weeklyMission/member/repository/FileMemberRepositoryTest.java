@@ -43,10 +43,8 @@ class FileMemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("전체 조회 테스트")
     void findAll() {
-        //given
-        Member member = new Member(UUID.randomUUID(), "김강훈", "abc1234@gmail.com", 21);
-
         //when
         fileMemberRepository.save(member);
 
@@ -55,23 +53,26 @@ class FileMemberRepositoryTest {
     }
 
     @Test
+    @DisplayName("단일 조회 테스트")
     void findById() {
-        //given
-        UUID id = UUID.randomUUID();
-        Member member = new Member(id, "김영수", "ghj5678@naver.com", 30);
-
         //when
         Member saveMember = fileMemberRepository.save(member);
 
         //then
-        assertThat(fileMemberRepository.findById(id).get()).isEqualTo(member);
+        assertThat(fileMemberRepository.findById(memberId).get()).isEqualTo(saveMember);
     }
 
     @Test
+    @DisplayName("삭제 테스트")
     void deleteById() {
+        //given
+        Member saveMember = fileMemberRepository.save(member);
+        assertThat(saveMember).isEqualTo(member);
+
         //when
         fileMemberRepository.deleteById(memberId);
 
+        //then
         assertThat(fileMemberRepository.findById(memberId)).isNotPresent();
     }
 }
