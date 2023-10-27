@@ -40,7 +40,7 @@ public class VoucherApplication implements CommandLineRunner {
                     isRunning = false;
                     console.printMessage(Message.EXIT_PROGRAM_MESSAGE);
                 }
-//                case VOUCHER -> voucherController.run();
+                case VOUCHER -> voucherController.run();
                 case CUSTOMER -> customerController.run();
 //                case WALLET -> walletController.run();
             }
