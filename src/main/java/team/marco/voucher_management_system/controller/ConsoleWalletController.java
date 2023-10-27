@@ -12,21 +12,27 @@ public class ConsoleWalletController {
         this.walletService = walletService;
     }
 
-
     public void supplyVoucher() {
         Console.print("쿠폰을 받을 고객 ID를 입력해주세요.");
 
         String customerId = Console.readString();
 
+        walletService.hasCustomer(customerId);
+
         Console.print("지급할 쿠폰 ID를 입력해주세요.");
 
         String voucherId = Console.readString();
+
+        walletService.hasVoucher(customerId);
+        walletService.supplyVoucher(customerId, voucherId);
     }
 
     public void voucherList() {
         Console.print("보유 중인 쿠폰 목록을 확인할 고객 ID를 입력해주세요.");
 
         String customerId = Console.readString();
+
+        walletService.findVouchersByCustomerId(customerId);
     }
 
     public void returnVoucher() {
@@ -37,6 +43,8 @@ public class ConsoleWalletController {
         Console.print("반납할 쿠폰 ID를 입력해주세요.");
 
         String voucherId = Console.readString();
+
+        walletService.returnVoucher(customerId, voucherId);
     }
 
 
@@ -44,5 +52,7 @@ public class ConsoleWalletController {
         Console.print("보유 중인 고객 목록을 확인할 쿠폰 ID를 입력해주세요.");
 
         String voucherId = Console.readString();
+
+        walletService.findCustomersByVoucherId(voucherId);
     }
 }
