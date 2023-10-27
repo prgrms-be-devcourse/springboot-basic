@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.utils;
 
-import com.programmers.vouchermanagement.member.dto.MemberResponseDto;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponseDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +14,7 @@ public class ConsoleOutputManager {
                 "Type exit to exit the program. \n" +
                 "Type create to create a new voucher. \n" +
                 "Type list to list all vouchers. \n" +
-                "Type blacklist to list all blacklist members. \n");
+                "Type blacklist to list all blacklist customers. \n");
     }
 
     public void printVoucherTypeMenu() {
@@ -47,14 +47,14 @@ public class ConsoleOutputManager {
     }
 
     public void printBlackList() {
-        System.out.println("=== List All Blacklist Members ===");
+        System.out.println("=== List All Blacklist Customers ===");
     }
 
-    public void printMemberInfo(List<MemberResponseDto> memberResponseDtos) {
+    public void printCustomerInfo(List<CustomerResponseDto> customerResponseDtos) {
 
-        for (MemberResponseDto memberResponseDto : memberResponseDtos) {
-            System.out.println("memberId : " + memberResponseDto.getMemberId() + " \n" +
-                    "name : " + memberResponseDto.getName() + "\n");
+        for (CustomerResponseDto customerResponseDto : customerResponseDtos) {
+            System.out.println("customerId : " + customerResponseDto.getCustomerId() + " \n" +
+                    "name : " + customerResponseDto.getName() + "\n");
 
             System.out.println("------------------------------ \n");
         }
