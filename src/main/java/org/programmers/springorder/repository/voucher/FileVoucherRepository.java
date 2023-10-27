@@ -7,15 +7,13 @@ import org.programmers.springorder.model.voucher.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.*;
 
 @Repository
-@Profile("dev")
-public class FileVoucherRepository implements VoucherRepository {
+public class FileVoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
     @Value(("${voucherFilePath}"))
@@ -26,7 +24,6 @@ public class FileVoucherRepository implements VoucherRepository {
         this.console = console;
     }
 
-    @Override
     public UUID save(Voucher voucher) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath, true))) {
             String data = voucher.insertVoucherDataInFile();
@@ -39,7 +36,6 @@ public class FileVoucherRepository implements VoucherRepository {
         return voucher.getVoucherId();
     }
 
-    @Override
     public List<Voucher> findAll() {
         List<Voucher> voucherList = new ArrayList<>(); // TODO: 동시성 처리 ReadLock, WriteLock synchronized x queue
 
@@ -65,7 +61,6 @@ public class FileVoucherRepository implements VoucherRepository {
         return Collections.unmodifiableList(voucherList);
     }
 
-    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return findAll().stream()
                 .filter(voucher -> voucher.isSameId(voucherId))
