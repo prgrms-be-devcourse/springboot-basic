@@ -71,7 +71,7 @@ public class ConsoleIO {
 
     public void printSuccessGetAllList(List<VoucherResponse> voucherList){
         System.out.println("=== Voucher List ===");
-        voucherList.forEach(v-> System.out.println(v.toString() + System.lineSeparator()));
+        voucherList.forEach(v-> System.out.println(v.printInfo() + System.lineSeparator()));
     }
 
     public UUID printCommandId(){
@@ -91,7 +91,10 @@ public class ConsoleIO {
 
     public String printSelectMemberFunction(){
         System.out.println("=== Member Mode ===" + System.lineSeparator()
-            + "Type list to list all blackList."  + System.lineSeparator());
+            + "Type create to create a new member." + System.lineSeparator()
+            + "Type list to list all members."  + System.lineSeparator()
+            + "Type find to list find member by id."  + System.lineSeparator()
+            + "Type delete to list delete member by id."  + System.lineSeparator());
 
         return getCommand();
     }
@@ -115,7 +118,7 @@ public class ConsoleIO {
     }
 
     public void printSuccessGetMemberList(List<MemberResponse> memberList) {
-        memberList.forEach(member -> System.out.println(member.toString() + System.lineSeparator()));
+        memberList.forEach(member -> System.out.println(member.printInfo() + System.lineSeparator()));
     }
 
     public void printExitMessage(){

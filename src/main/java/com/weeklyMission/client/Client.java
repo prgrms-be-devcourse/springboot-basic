@@ -84,7 +84,6 @@ public class Client {
         String function = consoleIOHandler.printSelectMemberFunction();
         switch (function){
             case CREATE -> {
-                consoleIOHandler.printSelectVoucherType();
                 MemberRequest memberRequest = new MemberRequest(UUID.randomUUID(), consoleIOHandler.nameCommand(), consoleIOHandler.emailCommand(), consoleIOHandler.ageCommand());
                 memberController.create(memberRequest);
                 consoleIOHandler.printSuccessCreate();
