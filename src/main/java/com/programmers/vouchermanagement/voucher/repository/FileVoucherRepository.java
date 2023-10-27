@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -24,6 +25,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private static final String VOUCHER_ID_KEY = "voucher_id";
     private static final String DISCOUNT_VALUE_KEY = "discount_value";
     private static final String VOUCHER_TYPE_KEY = "voucher_type";
+    private static final String CUSTOMER_ID_KEY = "customer_id";
 
     private final String filePath;
     private final JSONFileManager<UUID, Voucher> jsonFileManager;
@@ -34,13 +36,15 @@ public class FileVoucherRepository implements VoucherRepository {
         BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
         String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
         VoucherType voucherType = VoucherType.findVoucherTypeByName(voucherTypeName);
-        return new Voucher(voucherId, discountValue, voucherType);
+        UUID customerId = UUID.fromString(String.valueOf(voucherObject.get(CUSTOMER_ID_KEY)));
+        return new Voucher(voucherId, discountValue, voucherType, customerId);
     };
     private final Function<Voucher, HashMap<String, Object>> voucherToObject = (voucher) -> {
         HashMap<String, Object> voucherObject = new HashMap<>();
         voucherObject.put(VOUCHER_ID_KEY, voucher.getVoucherId().toString());
         voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue().toString());
         voucherObject.put(VOUCHER_TYPE_KEY, voucher.getVoucherType().name());
+        voucherObject.put(CUSTOMER_ID_KEY, voucher.getCustomerId());
         return voucherObject;
     };
 
@@ -68,6 +72,14 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return vouchers.values()
+                .stream()
+                .filter(voucher -> Objects.equals(voucher.getCustomerId(), customerId))
+                .toList();
     }
 
     @Override

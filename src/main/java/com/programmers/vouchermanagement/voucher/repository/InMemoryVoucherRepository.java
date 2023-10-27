@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.voucher.repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,6 +35,14 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return vouchers.values()
+                .stream()
+                .filter(voucher -> Objects.equals(voucher.getCustomerId(), customerId))
+                .toList();
     }
 
     @Override

@@ -7,5 +7,7 @@ CREATE TABLE customers (
 CREATE TABLE vouchers (
     voucher_id      BINARY(16) PRIMARY KEY,
     discount_value  DECIMAL NOT NULL,
-    voucher_type    VARCHAR(10) NOT NULL
+    voucher_type    VARCHAR(10) NOT NULL,
+    customer_id     BINARY(16),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 )

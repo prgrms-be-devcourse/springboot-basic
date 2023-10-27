@@ -61,6 +61,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        String findByCustomerId = "SELECT * FROM vouchers WHERE customer_id=UUID_TO_BIN(:customerId)";
+        Map<String, Object> parameterMap = Collections.singletonMap("customerId", customerId.toString().getBytes());
+        return namedParameterJdbcTemplate.query(findByCustomerId, parameterMap, voucherRowMapper);
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
         String deleteSQL = "DELETE FROM vouchers WHERE voucher_id=UUID_TO_BIN(:voucherId)";
         Map<String, Object> parameteMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
@@ -98,6 +105,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         final BigDecimal discountValue = resultSet.getBigDecimal("discount_value");
         final String voucherTypeName = resultSet.getString("voucher_type");
         final VoucherType voucherType = VoucherType.findVoucherTypeByName(voucherTypeName);
-        return new Voucher(voucherId, discountValue, voucherType);
+        final UUID customerId = UUIDConverter.from(resultSet.getBytes("customer_id"));
+        return new Voucher(voucherId, discountValue, voucherType, customerId);
     }
 }

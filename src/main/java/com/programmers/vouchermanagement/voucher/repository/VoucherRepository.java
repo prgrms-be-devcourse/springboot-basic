@@ -10,6 +10,7 @@ public interface VoucherRepository {
     Voucher save(Voucher voucher);
     List<Voucher> findAll();
     Optional<Voucher> findById(UUID voucherId);
+    List<Voucher> findByCustomerId(UUID customerId);
     void deleteById(UUID voucherId);
     void deleteAll();
     default boolean existById(UUID voucherId) {

@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
@@ -35,11 +36,6 @@ public class VoucherService {
 
     public List<VoucherResponse> readAllVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
-
-        if (vouchers.isEmpty()) {
-            return Collections.emptyList();
-        }
-
         return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
@@ -53,7 +49,7 @@ public class VoucherService {
 
     public VoucherResponse update(UpdateVoucherRequest request) {
         validateVoucherIdExisting(request.voucherId());
-        Voucher voucher = new Voucher(request.voucherId(), request.discountValue(), request.voucherType(), request.customerId());
+        Voucher voucher = new Voucher(request.voucherId(), request.discountValue(), request.voucherType());
         Voucher updatedVoucher = voucherRepository.save(voucher);
         return VoucherResponse.from(updatedVoucher);
     }
@@ -69,6 +65,16 @@ public class VoucherService {
         VoucherResponse foundVoucher = findById(request.voucherId());
         Voucher voucher = new Voucher(request.voucherId(), foundVoucher.getDiscountValue(), foundVoucher.getVoucherType(), request.customerId());
         voucherRepository.save(voucher);
+    }
+
+    public List<VoucherResponse> findByCustomerId(UUID customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NoSuchElementException("There is no customer with %s".formatted(customerId)));
+        List<Voucher> vouchers = voucherRepository.findByCustomerId(customer.getCustomerId());
+
+        return vouchers.stream()
+                .map(VoucherResponse::from)
+                .toList();
     }
 
     private void validateVoucherIdExisting(UUID voucherId) {
