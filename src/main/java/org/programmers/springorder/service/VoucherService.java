@@ -24,12 +24,12 @@ public class VoucherService {
     }
 
     @Transactional
-    public void save(VoucherRequestDto voucherDto) {
+    public void createVoucher(VoucherRequestDto voucherDto) {
         Voucher voucher = Voucher.of(UUID.randomUUID(), voucherDto);
         voucherRepository.save(voucher);
         log.info("등록된 Voucher => ID: {}, type: {}, value: {}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscountValue());
     }
-    
+
     public List<VoucherResponseDto> getAllVoucher() {
         return voucherRepository.findAll()
                 .stream()

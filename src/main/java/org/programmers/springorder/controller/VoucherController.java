@@ -41,7 +41,7 @@ public class VoucherController {
 
     private void createVoucher() {
         VoucherRequestDto request = console.inputVoucherInfo();
-        voucherService.save(request);
+        voucherService.createVoucher(request);
         console.printMessage(Message.VOUCHER_REGISTERED);
     }
 
