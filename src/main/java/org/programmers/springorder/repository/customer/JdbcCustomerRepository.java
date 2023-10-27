@@ -18,7 +18,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String INSERT_CUSTOMER = "INSERT INTO customers(customer_id, customer_name, customer_type) VALUES(:customerId, :customerName, :customerType)";
     private static final String SELECT_ALL_CUSTOMER = "SELECT * FROM customers";
     private static final String SELECT_BLACKLIST_CUSTOMER = "SELECT * FROM customers where customer_type = 'BLACK'";
-    private static final String SELECT_CUSTOMER_BY_ID = "SELECT * FROM customers where customer_id = :customer_id";
+    private static final String SELECT_CUSTOMER_BY_ID = "SELECT * FROM customers WHERE customer_id = :customerId";
+    private static final String DELETE_ALL_CUSTOMER = "DELETE FROM customers";
 
 
     public JdbcCustomerRepository(DataSource dataSource) {
@@ -31,6 +32,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
         CustomerType customerType = CustomerType.valueOf(resultSet.getString("customer_type"));
         return Customer.toCustomer(customerId, customerName, customerType);
     };
+
+    private Map<String, Object> toParamMap(Customer customer) {
+        return new HashMap<>() {{
+            put("customerId", customer.getCustomerId().toString());
+            put("customerName", customer.getName());
+            put("customerType", customer.getCustomerType().name());
+        }};
+    }
 
     @Override
     public Customer save(Customer customer) {
@@ -62,12 +71,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
         }
     }
 
-
-    private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("customerName", customer.getName());
-            put("customerType", customer.getCustomerType().name());
-        }};
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update(DELETE_ALL_CUSTOMER, Collections.emptyMap());
     }
+
 }

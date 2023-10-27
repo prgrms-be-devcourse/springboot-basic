@@ -16,4 +16,6 @@ public interface CustomerRepository {
     List<Customer> findAllBlackList();  // 블랙리스트 회원 조회
 
     Optional<Customer> findById(UUID customerId);  // 아이디로 회원 조회
+
+    void deleteAll();   // 전체 회원 삭제
 }
