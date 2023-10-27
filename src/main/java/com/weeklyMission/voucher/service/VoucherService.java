@@ -19,19 +19,19 @@ public class VoucherService {
 
     public VoucherResponse save(VoucherRequest voucher){
         Voucher createVoucher = voucherRepository.save(voucher.toEntity());
-        return new VoucherResponse(createVoucher);
+        return VoucherResponse.of(createVoucher);
     }
 
     public List<VoucherResponse> findAll(){
         return voucherRepository.findAll().stream()
-            .map(VoucherResponse::new)
+            .map(VoucherResponse::of)
             .toList();
     }
 
     public VoucherResponse findById(UUID id){
         Voucher voucher = voucherRepository.findById(id)
             .orElseThrow();
-        return new VoucherResponse(voucher);
+        return VoucherResponse.of(voucher);
     }
 
     public void deleteById(UUID id){
