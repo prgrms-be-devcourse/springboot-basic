@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.voucher.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -134,26 +135,10 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 바우처의 할당을 실패한다.")
-    void testAssignVoucherFailed_NonExistentVoucher() {
-        //given
-        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
-        final NoSuchElementException exception = new NoSuchElementException();
-        doReturn(false).when(voucherRepository).existById(request.voucherId());
-
-        //when & then
-        assertThatThrownBy(() -> voucherService.assignToCustomer(request)).isInstanceOf(NoSuchElementException.class);
-
-        //verify
-        verify(voucherRepository).existById(request.voucherId());
-    }
-
-    @Test
     @DisplayName("존재하지 않는 고객에게 바우처 할당을 실패한다.")
     void testAssignVoucherFailed_NonExistentCustomer() {
         final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
         final NoSuchElementException exception = new NoSuchElementException();
-        doReturn(true).when(voucherRepository).existById(request.voucherId());
         doReturn(false).when(customerRepository).existById(request.customerId());
 
         //when & then
@@ -164,12 +149,27 @@ class VoucherServiceTest {
     }
 
     @Test
+    @DisplayName("존재하지 않는 바우처의 할당을 실패한다.")
+    void testAssignVoucherFailed_NonExistentVoucher() {
+        //given
+        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final NoSuchElementException exception = new NoSuchElementException();
+        doReturn(false).when(customerRepository).existById(request.customerId());
+        doReturn(Optional.empty()).when(voucherRepository).findById(any(UUID.class));
+
+        //when & then
+        assertThatThrownBy(() -> voucherService.assignToCustomer(request)).isInstanceOf(NoSuchElementException.class);
+
+        //verify
+        verify(voucherRepository).existById(request.voucherId());
+    }
+
+    @Test
     @DisplayName("바우처 할당을 성공한다.")
     void testAssignVoucherSuccessful() {
         //given
         final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
         final Voucher voucher = new Voucher(request.voucherId(), new BigDecimal(10000), VoucherType.FIXED, request.customerId());
-        doReturn(true).when(voucherRepository).existById(request.voucherId());
         doReturn(true).when(customerRepository).existById(request.customerId());
         doReturn(Optional.of(voucher)).when(voucherRepository).findById(request.voucherId());
         doReturn(voucher).when(voucherRepository).save(any(Voucher.class));
@@ -230,6 +230,21 @@ class VoucherServiceTest {
         List<VoucherResponse> voucherResponses = voucherService.findByCustomerId(customer.getCustomerId());
 
         //then
+        assertThat(voucherResponses, hasSize(greaterThanOrEqualTo(1)));
+    }
 
+    @Test
+    @DisplayName("고객 보유 바우처 삭제 시 존재하지 않는 고객이면 삭제를 실패한다.")
+    void testReleaseVoucherFromCustomerFailed_NonExistentVoucher() {
+        //given
+        final NoSuchElementException exception = new NoSuchElementException();
+        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        doReturn(false).when(customerRepository).existById(any(UUID.class));
+
+        //when & then
+        assertThatThrownBy(() -> voucherService.releaseFromVoucher(request));
+
+        //verify
+        verify(customerRepository).existById(request.customerId());
     }
 }
