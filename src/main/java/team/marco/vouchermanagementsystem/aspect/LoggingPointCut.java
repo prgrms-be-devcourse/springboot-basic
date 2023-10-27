@@ -6,6 +6,10 @@ public final class LoggingPointCut {
     private LoggingPointCut() {
     }
 
+    @Pointcut("execution(* team.marco.vouchermanagementsystem.controller..*(..))")
+    public static void controllerMethodPointcut() {
+    }
+
     @Pointcut("execution(* team.marco.vouchermanagementsystem.service..*(..))")
     public static void serviceMethodPointcut() {
     }

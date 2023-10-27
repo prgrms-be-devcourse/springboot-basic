@@ -12,6 +12,17 @@ import org.springframework.stereotype.Component;
 public class LoggingAdvice {
     public static final Logger log = LoggerFactory.getLogger(LoggingAdvice.class);
 
+    @Around("team.marco.vouchermanagementsystem.aspect.LoggingPointCut.controllerMethodPointcut()")
+    public Object controllerMethodLog(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info("Execute command {}", joinPoint.getSignature());
+
+        Object result = joinPoint.proceed();
+
+        log.info("End command {}", joinPoint.getSignature());
+
+        return result;
+    }
+
     @Around("team.marco.vouchermanagementsystem.aspect.LoggingPointCut.serviceMethodPointcut()")
     public Object serviceMethodLog(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("Call method {}", joinPoint.getSignature());
