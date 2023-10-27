@@ -10,33 +10,33 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
-import team.marco.vouchermanagementsystem.model.User;
+import team.marco.vouchermanagementsystem.model.BlacklistUser;
 import team.marco.vouchermanagementsystem.properties.FilePathProperties;
 
 @Repository
 public class BlacklistRepository {
     private static final String CSV_REGEX = "[;,]";
 
-    private final List<User> blacklist;
+    private final List<BlacklistUser> blacklist;
 
     public BlacklistRepository(FilePathProperties filePathProperties) {
         blacklist = load(filePathProperties.blacklist());
     }
 
-    private List<User> load(String path) {
+    private List<BlacklistUser> load(String path) {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
             reader.readLine(); // skip header
 
             return reader.lines()
                     .map(s -> s.split(CSV_REGEX))
-                    .map(data -> new User(UUID.fromString(data[0]), data[1]))
+                    .map(data -> new BlacklistUser(UUID.fromString(data[0]), data[1]))
                     .toList();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    public List<User> findAll() {
+    public List<BlacklistUser> findAll() {
         return Collections.unmodifiableList(blacklist);
     }
 }

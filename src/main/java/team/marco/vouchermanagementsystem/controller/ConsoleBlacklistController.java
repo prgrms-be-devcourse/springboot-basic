@@ -2,7 +2,7 @@ package team.marco.vouchermanagementsystem.controller;
 
 import java.util.List;
 import org.springframework.stereotype.Controller;
-import team.marco.vouchermanagementsystem.model.User;
+import team.marco.vouchermanagementsystem.model.BlacklistUser;
 import team.marco.vouchermanagementsystem.service.BlacklistService;
 import team.marco.vouchermanagementsystem.util.Console;
 
@@ -19,7 +19,7 @@ public class ConsoleBlacklistController {
     public void blacklist() {
         List<String> blacklist = blacklistService.getBlacklist()
                 .stream()
-                .map(User::getInfo)
+                .map(BlacklistUser::getInfo)
                 .toList();
         String joinedString = String.join(INFO_DELIMINATOR, blacklist);
 

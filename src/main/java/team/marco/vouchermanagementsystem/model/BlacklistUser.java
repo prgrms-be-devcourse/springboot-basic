@@ -4,11 +4,11 @@ import static java.text.MessageFormat.format;
 
 import java.util.UUID;
 
-public class User {
+public class BlacklistUser {
     private final UUID id;
     private final String name;
 
-    public User(UUID id, String name) {
+    public BlacklistUser(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
