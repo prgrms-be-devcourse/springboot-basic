@@ -60,7 +60,6 @@ public class FrontController {
 
             } catch (RuntimeException e) {
                 log.warn(e.getMessage());
-                continue;
             }
 
         }
@@ -89,7 +88,6 @@ public class FrontController {
 
         } catch (RuntimeException e) {
             log.warn(e.getMessage());
-            return;
         }
 
 
@@ -117,7 +115,6 @@ public class FrontController {
             }
         } catch (RuntimeException e) {
             log.warn(e.getMessage());
-            return;
         }
 
 
@@ -146,7 +143,6 @@ public class FrontController {
         } catch (RuntimeException e) {
 
             log.warn(e.getMessage());
-            return;
         }
     }
 }
