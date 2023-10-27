@@ -4,8 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.programmers.springorder.model.voucher.VoucherType;
 
-import java.util.InputMismatchException;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -23,7 +21,7 @@ class VoucherTypeTest {
         //then
 
         assertThatThrownBy(() -> VoucherType.selectVoucherType(menuNum))
-                .isInstanceOf(InputMismatchException.class)
+                .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("유효하지 않은 값입니다. 다시 입력해주세요.");
 
     }
