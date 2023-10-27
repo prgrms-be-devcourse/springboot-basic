@@ -21,6 +21,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.domain.CustomerType;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
@@ -192,5 +195,23 @@ class VoucherServiceTest {
 
         //verify
         verify(customerRepository).findById(customerId);
+    }
+
+    @Test
+    @DisplayName("검색한 고객에게 할당된 바우처가 없으면 빈 리스트를 반환한다.")
+    void testFindVouchersByCustomerIdSuccessful_ReturnEmptyList() {
+        //given
+        final Customer customer = new Customer(UUID.randomUUID(), "test-customer", CustomerType.NORMAL);
+        doReturn(Optional.of(customer)).when(customerRepository).findById(any(UUID.class));
+        doReturn(Collections.emptyList()).when(voucherRepository).findByCustomerId(any(UUID.class));
+
+        //when
+        List<VoucherResponse> vouchers = voucherService.findByCustomerId(customer.getCustomerId());
+
+        //then
+        assertThat(vouchers.isEmpty(), is(true));
+
+        //verify
+        verify(voucherRepository).findByCustomerId(customer.getCustomerId());
     }
 }
