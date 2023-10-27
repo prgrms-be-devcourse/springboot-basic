@@ -11,7 +11,7 @@ import java.util.Map;
 @Repository
 @Profile("file")
 public class CustomerFileRepository {
-    private Map<Long, Customer> blackList;
+    private final Map<Long, Customer> blackList;
 
     public CustomerFileRepository(FileManager fileManager) {
 
