@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
-import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
@@ -241,7 +240,7 @@ class VoucherServiceTest {
         doReturn(false).when(customerRepository).existById(any(UUID.class));
 
         //when & then
-        assertThatThrownBy(() -> voucherService.releaseFromVoucher(request));
+        assertThatThrownBy(() -> voucherService.releaseFromCustomer(request));
 
         //verify
         verify(customerRepository).existById(request.customerId());
@@ -257,9 +256,27 @@ class VoucherServiceTest {
         doThrow(exception).when(voucherRepository).findById(any(UUID.class));
 
         //when & then
-        assertThatThrownBy(() -> voucherService.releaseFromVoucher(request));
+        assertThatThrownBy(() -> voucherService.releaseFromCustomer(request));
 
         //verify
         verify(voucherRepository).findById(request.voucherId());
+    }
+
+    @Test
+    @DisplayName("고객 보유 바우처 삭제를 성공한다.")
+    void testReleaseVoucherFromVoucherSuccessful() {
+        //given
+        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final Voucher voucher = new Voucher(request.voucherId(), new BigDecimal(10000), VoucherType.FIXED, request.customerId());
+        doReturn(true).when(customerRepository).existById(request.customerId());
+        doReturn(Optional.of(voucher)).when(voucherRepository).findById(request.voucherId());
+        doReturn(voucher).when(voucherRepository).save(any(Voucher.class));
+
+        //when
+        voucherService.releaseFromCustomer(request);
+
+        //verify
+        verify(voucherRepository).findById(request.voucherId());
+        verify(voucherRepository).save(any(Voucher.class));
     }
 }
