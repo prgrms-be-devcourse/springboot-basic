@@ -16,7 +16,7 @@ public enum ErrorMessage {
     CUSTOMER_NOT_FOUND_MESSAGE("[System] Customer not found."),
 
     // Wallet Error Message
-
+    WALLET_NOT_FOUND_MESSAGE("[System] Wallet not found."),
     // File Error Message
     FILE_NOT_FOUND_MESSAGE("[System] File not found.");
 
