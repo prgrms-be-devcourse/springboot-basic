@@ -3,26 +3,21 @@ package org.programmers.springorder.voucher.repository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.programmers.springorder.config.JdbcConfig;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
-import org.programmers.springorder.customer.repository.JdbcCustomerRepository;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.model.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -38,40 +33,8 @@ class JdbcVoucherRepositoryTest {
     static EmbeddedMysql embeddedMysql;
 
     @Configuration
-    static class Config{
-        @Bean
-        public DataSource dataSource(){
-            var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test_voucher")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource){
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate){
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-
-        @Bean
-        public VoucherRepository voucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
-            return new JdbcVoucherRepository(namedParameterJdbcTemplate);
-        }
-
-        @Bean
-        public CustomerRepository customerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
-            return new JdbcCustomerRepository(namedParameterJdbcTemplate);
-        }
-    }
+    @ComponentScan(basePackageClasses = JdbcConfig.class)
+    static class Config{ }
 
     @Autowired
     VoucherRepository voucherRepository;
@@ -179,6 +142,36 @@ class JdbcVoucherRepositoryTest {
         assertThat(findVoucher1.getCustomerId()).isEqualTo(uuidCustomer);
         assertThat(findVoucher1.getCustomerId()).isEqualTo(customer.getCustomerId());
         assertThat(findVoucher2.getCustomerId()).isEqualTo(null);
+
+    }
+
+    @Test
+    @DisplayName("고객 id로 그 고객이 소유한 voucher 조회하는 테스트")
+    public void customerOwnedVoucherTest(){
+        UUID uuid1 = UUID.randomUUID();
+        UUID uuid2 = UUID.randomUUID();
+        UUID uuid3 = UUID.randomUUID();
+        UUID uuidCustomer = UUID.randomUUID();
+
+        Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED );
+        Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED );
+        Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED );
+
+        Customer customer = Customer.toCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
+        customerRepository.insert(customer);
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
+
+        Voucher updatedVoucher1 = voucherRepository.updateVoucherOwner(voucher1, customer);
+        Voucher updatedVoucher2 = voucherRepository.updateVoucherOwner(voucher2, customer);
+        List<Voucher> voucherWithCustomer = List.of(updatedVoucher1, updatedVoucher2);
+        Customer findCustomer = customerRepository.findByID(uuidCustomer).get();
+
+        List<Voucher> vouchersWithFindCustomer = voucherRepository.findAllByCustomerId(findCustomer);
+
+        assertThat(vouchersWithFindCustomer).hasSize(2);
+        assertThat(vouchersWithFindCustomer).containsAll(voucherWithCustomer);
 
     }
 }
