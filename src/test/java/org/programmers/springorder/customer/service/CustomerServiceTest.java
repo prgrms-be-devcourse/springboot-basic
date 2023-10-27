@@ -88,9 +88,9 @@ class CustomerServiceTest {
             customerRepository.insert(customer);
             voucherService.update(voucherId, customerId);
 
-            Customer ownerOfVoucher = customerService.findOwnerOfVoucher(voucherId);
+            UUID customerId1 = customerService.findOwnerOfVoucher(voucherId).getCustomerId();
 
-            assertThat(ownerOfVoucher).isEqualTo(customer);
+            assertThat(customerId1).isEqualTo(customerId);
         }
 
         @Test
