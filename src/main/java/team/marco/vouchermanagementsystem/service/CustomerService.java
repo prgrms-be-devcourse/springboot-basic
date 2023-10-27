@@ -33,6 +33,7 @@ public class CustomerService {
         Optional<Customer> customerOptional = customerRepository.findById(id);
         Customer customer = customerOptional.orElseThrow();
 
+        customer.login();
         customer.changeName(name);
 
         int update = customerRepository.update(customer);

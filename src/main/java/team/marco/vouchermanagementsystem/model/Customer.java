@@ -40,6 +40,12 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
+    public void changeName(String name) {
+        validateName(name);
+
+        this.name = name;
+    }
+
     public void login() {
         this.lastLoginAt = LocalDateTime.now();
     }
@@ -66,12 +72,6 @@ public class Customer {
 
     public String getInfo() {
         return MessageFormat.format("id   : {0}\nname : {1}\nemail: {2}", id, name, email);
-    }
-
-    public void changeName(String name) {
-        validateName(name);
-
-        this.name = name;
     }
 
     private void validateName(String name) {
