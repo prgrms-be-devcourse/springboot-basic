@@ -1,21 +1,16 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
+import com.programmers.vouchermanagement.TestConfig;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
 class VoucherJDBCRepositoryTest {
     private final static UUID NON_EXISTENT_VOUCHER_ID = UUID.randomUUID();
     @Autowired
@@ -33,25 +29,25 @@ class VoucherJDBCRepositoryTest {
     @Test
     @DisplayName("🆗 고정 금액 할인 바우처를 추가할 수 있다.")
     void saveFixedAmountVoucher() {
-        Voucher newVoucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
-        voucherJDBCRepository.save(newVoucher);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
+        voucherJDBCRepository.save(voucher);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.voucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
 
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(newVoucher.voucherId());
+        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(voucher.voucherId());
     }
 
     @Test
     @DisplayName("🆗 퍼센트 할인 바우처를 추가할 수 있다.")
     void savePercentVoucher() {
-        Voucher newVoucher = new Voucher(UUID.randomUUID(), 50, VoucherType.PERCENT);
-        voucherJDBCRepository.save(newVoucher);
+        Voucher voucher = new Voucher(UUID.randomUUID(), 50, VoucherType.PERCENT);
+        voucherJDBCRepository.save(voucher);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(newVoucher.voucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
 
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(newVoucher.voucherId());
+        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(voucher.voucherId());
     }
 
     @Test
@@ -123,34 +119,5 @@ class VoucherJDBCRepositoryTest {
     @DisplayName("🚨 해당하는 바우처가 없다면, 바우처를 업데이트 할 수 없다.")
     void updateNonExistentVoucher() {
         assertThrows(RuntimeException.class, () -> voucherJDBCRepository.update(new Voucher(NON_EXISTENT_VOUCHER_ID, 100, VoucherType.PERCENT)));
-    }
-
-    @Configuration
-    @ComponentScan(
-            basePackages = {"com.programmers.vouchermanagement"}
-    )
-    static class Config {
-        @Bean
-        public DataSource dataSource() {
-            var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:3306/test")
-                    .username("root")
-                    .password("980726")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource) {
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
     }
 }
