@@ -19,11 +19,19 @@ public class Validator {
             "Input should be a number greater than 0";
     private static final String INVALID_DISCOUNT_PERCENT_MESSAGE =
             "Input should be a number greater than 0 and smaller than 100";
+    private static final String NAME_LENGTH_EXCESSIVE = "Name is too long.";
+    private static final int MAX_NAME_LENGTH = 25;
 
     public static void validateDiscountValue(CreateVoucherRequest request) {
         switch (request.voucherType()) {
             case FIXED -> validateDiscountAmount(request.discountValue());
             case PERCENT -> validateDiscountPercent(request.discountValue());
+        }
+    }
+
+    public static void validateCustomerName(String name) {
+        if (name.length() > MAX_NAME_LENGTH) {
+            throw new IllegalArgumentException(NAME_LENGTH_EXCESSIVE);
         }
     }
 
