@@ -75,6 +75,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         ));
     }
 
+    @Override
+    public void deleteVoucher(Voucher voucher) {
+        jdbcTemplate.update("delete  from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
+                toParamMap(voucher));
+    }
+
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
