@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
+import static com.programmers.vouchermanagement.constant.Message.NOT_DELETED;
+import static com.programmers.vouchermanagement.constant.Message.NOT_UPDATED;
+
 @Repository
 @Profile("dev")
 public class VoucherInMemoryRepository implements VoucherRepository {
@@ -32,7 +35,7 @@ public class VoucherInMemoryRepository implements VoucherRepository {
 
     @Override
     public void delete(UUID id) {
-        Optional.ofNullable(vouchers.remove(id)).orElseThrow(() -> new RuntimeException("Noting was deleted"));
+        Optional.ofNullable(vouchers.remove(id)).orElseThrow(() -> new RuntimeException(NOT_DELETED));
     }
 
     @Override
@@ -43,7 +46,7 @@ public class VoucherInMemoryRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        Optional.ofNullable(vouchers.get(voucher.voucherId())).orElseThrow(() -> new RuntimeException("Noting was updated"));
+        Optional.ofNullable(vouchers.get(voucher.voucherId())).orElseThrow(() -> new RuntimeException(NOT_UPDATED));
         vouchers.put(voucher.voucherId(), voucher);
     }
 }

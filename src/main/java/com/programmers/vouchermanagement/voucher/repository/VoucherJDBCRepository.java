@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.programmers.vouchermanagement.constant.Constant.UPDATE_ONE_FLAG;
+import static com.programmers.vouchermanagement.constant.Message.*;
+import static com.programmers.vouchermanagement.voucher.repository.VoucherQuery.*;
+
 @Repository
 @Primary
 public class VoucherJDBCRepository implements VoucherRepository {
@@ -28,47 +32,47 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-        int update = jdbcTemplate.update(VoucherQuery.INSERT, domainMapper.voucherToParamMap(voucher));
-        if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+        int update = jdbcTemplate.update(INSERT, domainMapper.voucherToParamMap(voucher));
+        if (update != UPDATE_ONE_FLAG) {
+            throw new RuntimeException(NOT_INSERTED);
         }
     }
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(VoucherQuery.FIND_ALL, domainMapper.voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL, domainMapper.voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(VoucherQuery.FIND_BY_ID,
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID,
                     Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()),
                     domainMapper.voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error("Got empty result", e);
+            logger.error(EMPTY_RESULT, e);
             return Optional.empty();
         }
     }
 
     @Override
     public void delete(UUID id) {
-        int update = jdbcTemplate.update(VoucherQuery.DELETE_VOUCHER, Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()));
-        if (update != 1) {
-            throw new RuntimeException("Noting was deleted");
+        int update = jdbcTemplate.update(DELETE_VOUCHER, Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()));
+        if (update != UPDATE_ONE_FLAG) {
+            throw new RuntimeException(NOT_DELETED);
         }
     }
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(VoucherQuery.DELETE_ALL, Collections.emptyMap());
+        jdbcTemplate.update(DELETE_ALL, Collections.emptyMap());
     }
 
     @Override
     public void update(Voucher voucher) {
-        int update = jdbcTemplate.update(VoucherQuery.UPDATE_VOUCHER, domainMapper.voucherToParamMap(voucher));
-        if (update != 1) {
-            throw new RuntimeException("Noting was updated");
+        int update = jdbcTemplate.update(UPDATE_VOUCHER, domainMapper.voucherToParamMap(voucher));
+        if (update != UPDATE_ONE_FLAG) {
+            throw new RuntimeException(NOT_UPDATED);
         }
     }
 }

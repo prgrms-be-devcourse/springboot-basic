@@ -13,12 +13,13 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.*;
 
+import static com.programmers.vouchermanagement.constant.Constant.COMMA_SEPARATOR;
+import static com.programmers.vouchermanagement.constant.Message.IO_EXCEPTION;
+
 @Repository
 @Profile({"dev", "prod"})
 public class CustomerFileRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerFileRepository.class);
-    private static final String COMMA_SEPARATOR = ", ";
-    private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading blacklist";
     private final String filePath;
     private final Map<UUID, Customer> customers;
 
@@ -53,7 +54,7 @@ public class CustomerFileRepository implements CustomerRepository {
                 blacklist.add(blackCustomer);
             }
         } catch (IOException e) {
-            logger.error(IO_EXCEPTION_LOG_MESSAGE);
+            logger.error(IO_EXCEPTION);
             throw new UncheckedIOException(e);
         }
 

@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.*;
 
+import static com.programmers.vouchermanagement.constant.Message.*;
+
 @Repository
 @Profile("prod")
 public class VoucherFileRepository implements VoucherRepository {
@@ -24,12 +26,6 @@ public class VoucherFileRepository implements VoucherRepository {
     private static final String VOUCHER_ID_KEY = "voucher_id";
     private static final String DISCOUNT_VALUE_KEY = "discount_value";
     private static final String VOUCHER_TYPE_KEY = "voucher_type";
-    private static final String FILE_EXCEPTION = "Error raised while opening the file.";
-
-    //messages
-    private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading vouchers";
-    private static final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
-
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final String filePath;
     private final Map<UUID, Voucher> vouchers;
@@ -58,7 +54,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public void delete(UUID id) {
-        Optional.ofNullable(vouchers.remove(id)).orElseThrow(() -> new RuntimeException("Noting was deleted"));
+        Optional.ofNullable(vouchers.remove(id)).orElseThrow(() -> new RuntimeException(NOT_DELETED));
         saveFile();
     }
 
@@ -71,7 +67,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        Optional.ofNullable(vouchers.get(voucher.voucherId())).orElseThrow(() -> new RuntimeException("Noting was updated"));
+        Optional.ofNullable(vouchers.get(voucher.voucherId())).orElseThrow(() -> new RuntimeException(NOT_UPDATED));
         vouchers.put(voucher.voucherId(), voucher);
         saveFile();
     }
@@ -82,7 +78,7 @@ public class VoucherFileRepository implements VoucherRepository {
             Map[] voucherObjects = objectMapper.readValue(file, Map[].class);
             loadVouchers(voucherObjects);
         } catch (IOException e) {
-            logger.error(IO_EXCEPTION_LOG_MESSAGE);
+            logger.error(IO_EXCEPTION);
             throw new UncheckedIOException(e);
         }
     }
@@ -100,8 +96,8 @@ public class VoucherFileRepository implements VoucherRepository {
         String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
         VoucherType voucherType = VoucherType.findCreateMenu(voucherTypeName)
                 .orElseThrow(() -> {
-                    logger.error(INVALID_VOUCHER_TYPE_MESSAGE);
-                    return new NoSuchElementException(INVALID_VOUCHER_TYPE_MESSAGE);
+                    logger.error(INVALID_VOUCHER_TYPE);
+                    return new NoSuchElementException(INVALID_VOUCHER_TYPE);
                 });
         return new Voucher(voucherId, discountValue, voucherType);
     }

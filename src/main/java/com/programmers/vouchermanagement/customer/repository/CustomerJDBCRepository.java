@@ -10,6 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.programmers.vouchermanagement.constant.Constant.UPDATE_ONE_FLAG;
+import static com.programmers.vouchermanagement.constant.Message.NOT_INSERTED;
+import static com.programmers.vouchermanagement.customer.repository.CustomerQuery.FIND_ALL_BLACK_CUSTOMER;
+import static com.programmers.vouchermanagement.customer.repository.CustomerQuery.INSERT;
+
 @Repository
 @Primary
 public class CustomerJDBCRepository implements CustomerRepository {
@@ -24,13 +29,14 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlackCustomer() {
-        return jdbcTemplate.query(CustomerQuery.FIND_ALL_BLACK_CUSTOMER, domainMapper.customerRowMapper);
+        return jdbcTemplate.query(FIND_ALL_BLACK_CUSTOMER, domainMapper.customerRowMapper);
     }
 
     public void save(Customer customer) {
-        int update = jdbcTemplate.update(CustomerQuery.INSERT, domainMapper.customerToParamMap(customer));
-        if (update != 1) {
-            throw new RuntimeException("Noting was inserted");
+        int update = jdbcTemplate.update(INSERT, domainMapper.customerToParamMap(customer));
+        if (update != UPDATE_ONE_FLAG) {
+            logger.error(NOT_INSERTED);
+            throw new RuntimeException(NOT_INSERTED);
         }
     }
 }
