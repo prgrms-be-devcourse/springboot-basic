@@ -64,8 +64,8 @@ public class ConsoleIO {
         return getAmount();
     }
 
-    public void printSuccessCreate(VoucherResponse voucherResponse){
-        System.out.println(voucherResponse.toString() + "create Success");
+    public void printSuccessCreate(){
+        System.out.println("=== Create Success ===");
     }
 
     public void printSuccessGetAllList(List<VoucherResponse> voucherList){

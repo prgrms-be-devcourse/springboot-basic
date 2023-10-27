@@ -57,7 +57,7 @@ public class Client {
                 VoucherRequest voucherRequest = new VoucherRequest(voucherType.getType(),
                     UUID.randomUUID(), consoleIOHandler.printAmountCommand());
                 VoucherResponse voucherDto = voucherController.create(voucherRequest);
-                consoleIOHandler.printSuccessCreate(voucherDto);
+                consoleIOHandler.printSuccessCreate();
             }
             case LIST -> {
                 List<VoucherResponse> voucherListDto = voucherController.findAll();
