@@ -1,7 +1,7 @@
 package team.marco.vouchermanagementsystem.controller;
 
 public enum CustomerCommand {
-    CREATE, LIST, UPDATE, FIND_BY_ID, FIND_BY_NAME, FIND_BY_EMAIL;
+    EXIT, CREATE, LIST, UPDATE, FIND_BY_ID, FIND_BY_NAME, FIND_BY_EMAIL;
 
     public static CustomerCommand selectCommand(int index) {
         CustomerCommand[] customerCommands = values();
