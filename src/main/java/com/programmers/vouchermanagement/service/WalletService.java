@@ -37,7 +37,7 @@ public class WalletService {
     }
 
     public List<Customer> findCustomerByVoucher(UUID voucherId) {
-        return walletRepository.findByCustomerId(voucherId).stream()
+        return walletRepository.findByVoucherId(voucherId).stream()
                 .map(wallet -> customerRepository.findById(wallet.getCustomerId())
                         .orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage() +
                                 ":" + wallet.getCustomerId())))
@@ -49,7 +49,7 @@ public class WalletService {
     }
 
     public void deleteVoucherFromCustomer(UUID customerId, UUID voucherId) {
-        int affectedRow = walletRepository.delete(new Wallet(UUID.randomUUID(), customerId, voucherId).getId());
+        int affectedRow = walletRepository.delete(customerId, voucherId);
         if (affectedRow == 0) {
             throw new NoSuchElementException(ErrorMessage.WALLET_NOT_FOUND_MESSAGE.getMessage());
         }

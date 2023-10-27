@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -30,6 +31,13 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
+    public Optional<Wallet> findById(UUID id) {
+        String sql = "SELECT * FROM wallet WHERE id = UUID_TO_BIN(:id)";
+        SqlParameterSource namedParameters = new MapSqlParameterSource("id", id.toString());
+        return jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToWallet(resultSet)).stream().findFirst();
+    }
+
+    @Override
     public List<Wallet> findByCustomerId(UUID customerId) {
         String sql = "SELECT * FROM wallet WHERE customer_id = UUID_TO_BIN(:customerId)";
         SqlParameterSource namedParameters = new MapSqlParameterSource("customerId", customerId.toString());
@@ -38,7 +46,7 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<Wallet> findByVoucherId(UUID voucherId) {
-        String sql = "SELECT * FROM wallet WHERE customer_id = UUID_TO_BIN(:voucherId)";
+        String sql = "SELECT * FROM wallet WHERE voucher_id = UUID_TO_BIN(:voucherId)";
         SqlParameterSource namedParameters = new MapSqlParameterSource("voucherId", voucherId.toString());
         return jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToWallet(resultSet));
     }
@@ -48,8 +56,8 @@ public class JdbcWalletRepository implements WalletRepository {
         String sql = "INSERT INTO wallet (id, customer_id, voucher_id) VALUES (UUID_TO_BIN(:id),UUID_TO_BIN(:customerId),UUID_TO_BIN(:voucherId))";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
                 .addValue("id", wallet.getId().toString())
-                .addValue("customer_id", wallet.getCustomerId().toString())
-                .addValue("voucher_id", wallet.getVoucherId().toString());
+                .addValue("customerId", wallet.getCustomerId().toString())
+                .addValue("voucherId", wallet.getVoucherId().toString());
 
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
         logger.debug("Affected Row on save: {}", affectedRow);
@@ -57,10 +65,11 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public int delete(UUID id) {
-        String sql = "DELETE FROM wallet WHERE id = UUID_TO_BIN(:id)";
+    public int delete(UUID customerId, UUID voucherId) {
+        String sql = "DELETE FROM wallet WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
-                .addValue("id", id.toString());
+                .addValue("customerId", customerId.toString())
+                .addValue("voucherId", voucherId.toString());
         int affectedRow = jdbcTemplate.update(sql, namedParameters);
         logger.debug("Affected Row on delete: {}", affectedRow);
         return affectedRow;
@@ -89,8 +98,8 @@ public class JdbcWalletRepository implements WalletRepository {
     private Wallet mapToWallet(ResultSet resultSet) throws SQLException {
         return new Wallet(
                 toUUID(resultSet.getBytes("id")),
-                toUUID(resultSet.getBytes("customerId")),
-                toUUID(resultSet.getBytes("voucherId"))
+                toUUID(resultSet.getBytes("customer_id")),
+                toUUID(resultSet.getBytes("voucher_id"))
         );
     }
 
