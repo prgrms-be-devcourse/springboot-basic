@@ -1,51 +1,110 @@
 package com.programmers.vouchermanagement.service;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import com.programmers.vouchermanagement.domain.customer.Customer;
+import com.programmers.vouchermanagement.message.ErrorMessage;
+import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
+
+@ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
+    @InjectMocks
+    private CustomerService customerService;
+    @Mock
+    private CustomerRepository customerRepository;
+    private final List<Customer> testCustomers = new ArrayList<>();
+    private final Customer customer1 = new Customer(UUID.randomUUID(), "user1");
+    private final Customer customer2 = new Customer(UUID.randomUUID(), "user2");
+    private final Customer customer3 = new Customer(UUID.randomUUID(), "user3");
+    private final Customer customer4 = new Customer(UUID.randomUUID(), "user4");
 
-    @BeforeEach
-    void setUp() {
+    @Test
+    void 모든_고객을_가져올_수_있다() {
+        //given
+        testCustomers.add(customer1);
+        testCustomers.add(customer2);
+        testCustomers.add(customer3);
+        testCustomers.add(customer4);
+        doReturn(testCustomers).when(customerRepository).findAll();
 
-    }
+        //when
+        final List<Customer> allCustomers = customerService.findAllCustomers();
 
-    @AfterEach
-    void cleanup() {
-
+        //then
+        assertThat(allCustomers.size()).isEqualTo(testCustomers.size());
     }
 
     @Test
-    void findAllCustomers() {
+    void ID로_고객을_가져올_수_있다() {
+        //given
+        doReturn(Optional.ofNullable(customer1)).when(customerRepository).findById(customer1.getId());
+
+        //when
+        final Customer customer = customerService.findCustomerById(customer1.getId());
+
+        //then
+        assertThat(customer).isEqualTo(customer1);
     }
 
     @Test
-    void findBannedCustomers() {
+    void 이름에_특정문자열이_포함된_고객을_가져올_수_있다() {
+        //given
+        final List<Customer> singletonCustomers = Collections.singletonList(customer2);
+        doReturn(singletonCustomers).when(customerRepository).findByNameLike("2");
+
+        //when
+        final List<Customer> customers = customerService.findCustomerByName("2");
+
+        //then
+        assertThat(customers).hasSameSizeAs(singletonCustomers).contains(customer2);
     }
 
     @Test
-    void findCustomerById() {
+    void 원하는_이름으로_고객을_생성할_수_있다() {
+        //given
+        String name = "customName";
+        Customer customer = new Customer(UUID.randomUUID(), name);
+        doReturn(customer).when(customerRepository).save(any(Customer.class));
+        doReturn(Optional.empty()).when(customerRepository).findByName(name);
+
+        //when
+        final Customer savedCustomer = customerService.createCustomer(name);
+
+        //then
+        assertThat(savedCustomer).isEqualTo(customer);
     }
 
     @Test
-    void findCustomerByName() {
+    void 고객의_이름은_중복될_수_없다() {
+        //given
+        String name = "customName";
+        Customer customer = new Customer(UUID.randomUUID(), name);
+        doReturn(Optional.ofNullable(customer)).when(customerRepository).findByName(name);
+
+        //when&then
+        assertThatThrownBy(() -> customerService.createCustomer(name))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorMessage.CUSTOMER_ALREADY_EXISTS_MESSAGE.getMessage());
     }
 
     @Test
-    void createCustomer() {
-    }
+    void 존재하지_않는_고객을_삭제할_수_없다() {
+        //given
+        doReturn(0).when(customerRepository).delete(any(UUID.class));
 
-    @Test
-    void banCustomer() {
+        //when&then
+        assertThatThrownBy(() -> customerService.deleteCustomer(UUID.randomUUID()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
     }
-
-    @Test
-    void unbanCustomer() {
-    }
-
-    @Test
-    void deleteCustomer() {
-    }
-
 }
