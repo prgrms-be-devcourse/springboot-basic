@@ -52,11 +52,12 @@ public class ConsoleManager {
     private static final String VOUCHER_DISCOUNT_VALUE_INSTRUCTION =
             "Please type the amount/percent of discount of the voucher.%s".formatted(LINE_SEPARATOR);
     private static final String EXIT_MESSAGE = "System exits.";
-    private static final String CREATE_SUCCESS_MESSAGE = "The voucher(ID: %s) is successfully saved.";
+    private static final String CREATE_SUCCESS_MESSAGE = "The %s(ID: %s) is successfully saved.";
     private static final String INCORRECT_INPUT_MESSAGE = """
              Such input is incorrect.
              Please input a correct command carefully.""";
     private static final String CONTENT_VOUCHER = "voucher";
+    private static final String CONTENT_CUSTOMER = "customer";
     private static final String CONTENT_BLACKLIST = "black customer";
     private static final String CUSTOMER_CREATE_INSTRUCTION = "Please write the name of the customer";
     private static final String VOUCHER_ID_INPUT = "Please write the voucher ID";
@@ -128,7 +129,12 @@ public class ConsoleManager {
 
     public void printSaveVoucherResult(VoucherResponse voucherResponse) {
         textIO.getTextTerminal()
-                .println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.getVoucherId()));
+                .println(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_VOUCHER,voucherResponse.getVoucherId()));
+    }
+
+    public void printSaveCustomerResult(CustomerResponse customerResponse) {
+        textIO.getTextTerminal()
+                .println(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_CUSTOMER, customerResponse.customerId()));
     }
 
     public void printReadAllVouchers(List<VoucherResponse> voucherResponses) {

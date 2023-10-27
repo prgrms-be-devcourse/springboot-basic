@@ -22,4 +22,9 @@ public class CustomerController {
         List<CustomerResponse> blacklist = customerService.readBlacklist();
         consoleManager.printReadBlacklist(blacklist);
     }
+
+    public void create(String name) {
+        CustomerResponse customerResponse = customerService.create(name);
+        consoleManager.printSaveCustomerResult(customerResponse);
+    }
 }
