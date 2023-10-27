@@ -1,26 +1,25 @@
 package team.marco.vouchermanagementsystem.application;
 
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import team.marco.vouchermanagementsystem.service.BlacklistService;
-import team.marco.vouchermanagementsystem.service.VoucherService;
+import team.marco.vouchermanagementsystem.controller.ConsoleBlacklistController;
+import team.marco.vouchermanagementsystem.controller.ConsoleVoucherController;
 import team.marco.vouchermanagementsystem.util.Console;
 
 @Component
 public class ConsoleApplication {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleApplication.class);
-    private static final String INFO_DELIMINATOR = "\n";
 
-    private final VoucherService voucherService;
-    private final BlacklistService blacklistService;
+    private final ConsoleVoucherController voucherController;
+    private final ConsoleBlacklistController blacklistController;
 
     private boolean runningFlag;
 
-    public ConsoleApplication(VoucherService service, BlacklistService blacklistService) {
-        this.voucherService = service;
-        this.blacklistService = blacklistService;
+    public ConsoleApplication(ConsoleVoucherController voucherController,
+                              ConsoleBlacklistController blacklistController) {
+        this.voucherController = voucherController;
+        this.blacklistController = blacklistController;
     }
 
     public void run() {
@@ -67,61 +66,11 @@ public class ConsoleApplication {
 
     private void switchCommand(CommandType commandType) {
         switch (commandType) {
-            case CREATE -> selectVoucher();
-            case LIST -> getVoucherList();
-            case BLACKLIST -> getBlacklist();
+            case CREATE -> voucherController.selectVoucher();
+            case LIST -> voucherController.voucherList();
+            case BLACKLIST -> blacklistController.blacklist();
             case EXIT -> runningFlag = false;
         }
-    }
-
-    private void selectVoucher() {
-        logger.info("Call createVoucher()");
-
-        Console.print("""
-                0: 고정 금액 할인 쿠폰
-                1: % 할인 쿠폰""");
-
-        int selected = Console.readInt();
-
-        switch (selected) {
-            case 0 -> createFixedAmountVoucher();
-            case 1 -> createPercentDiscountVoucher();
-            default -> throw new IllegalArgumentException("올바르지 않은 입력입니다.");
-        }
-    }
-
-    private void createPercentDiscountVoucher() {
-        Console.print("할인율을 입력해 주세요.");
-
-        int percent = Console.readInt();
-
-        voucherService.createPercentDiscountVoucher(percent);
-    }
-
-    private void createFixedAmountVoucher() {
-        Console.print("할인 금액을 입력해 주세요.");
-
-        int amount = Console.readInt();
-
-        voucherService.createFixedAmountVoucher(amount);
-    }
-
-    private void getVoucherList() {
-        printInquireResult(voucherService.getVouchersInfo());
-    }
-
-    private void getBlacklist() {
-        printInquireResult(blacklistService.getBlacklist());
-    }
-
-    private void printInquireResult(List<String> inquiredList) {
-        String joinedString = String.join(INFO_DELIMINATOR, inquiredList);
-
-        if (!joinedString.isBlank()) {
-            Console.print(joinedString);
-        }
-
-        Console.print("조회가 완료되었습니다.");
     }
 
     private void close() {
