@@ -4,6 +4,7 @@ import org.programmers.springorder.console.Console;
 import org.programmers.springorder.constant.Message;
 import org.programmers.springorder.controller.CustomerController;
 import org.programmers.springorder.controller.VoucherController;
+import org.programmers.springorder.controller.WalletController;
 import org.programmers.springorder.utils.ExceptionHandler;
 import org.programmers.springorder.utils.MenuType;
 import org.springframework.boot.CommandLineRunner;
@@ -21,11 +22,13 @@ public class VoucherApplication implements CommandLineRunner {
     private final Console console;
     private final VoucherController voucherController;
     private final CustomerController customerController;
+    private final WalletController walletController;
 
-    public VoucherApplication(Console console, VoucherController voucherController, CustomerController customerController) {
+    public VoucherApplication(Console console, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
         this.console = console;
         this.voucherController = voucherController;
         this.customerController = customerController;
+        this.walletController = walletController;
     }
 
     @Override
@@ -42,7 +45,7 @@ public class VoucherApplication implements CommandLineRunner {
                 }
                 case VOUCHER -> voucherController.run();
                 case CUSTOMER -> customerController.run();
-//                case WALLET -> walletController.run();
+                case WALLET -> walletController.run();
             }
         }
     }
