@@ -22,6 +22,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
     private static final String FIND_BY_ID_QUERY = "SELECT * FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
     private static final String FIND_ALL_QUERY = "SELECT * FROM test.vouchers";
     private static final String DELETE_VOUCHER_QUERY = "DELETE FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
+    private static final String DELETE_ALL_QUERY = "TRUNCATE TABLE test.vouchers";
     private static final String UPDATE_VOUCHER_QUERY = "UPDATE test.vouchers SET type = :type, discount_value = :discountValue WHERE id = UUID_TO_BIN(:id)";
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final DomainMapper domainMapper;
@@ -63,6 +64,11 @@ public class VoucherJDBCRepository implements VoucherRepository {
         if (update != 1) {
             throw new RuntimeException("Noting was deleted");
         }
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update(DELETE_ALL_QUERY, Collections.emptyMap());
     }
 
     @Override

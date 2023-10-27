@@ -64,6 +64,13 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteAll() {
+        if (!vouchers.isEmpty())
+            vouchers.clear();
+        saveFile();
+    }
+
+    @Override
     public void update(Voucher voucher) {
         Optional.ofNullable(vouchers.get(voucher.getVoucherId())).orElseThrow(() -> new RuntimeException("Noting was updated"));
         vouchers.put(voucher.getVoucherId(), voucher);
