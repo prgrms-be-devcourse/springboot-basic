@@ -1,5 +1,7 @@
 package com.programmers.vouchermanagement.consoleapp.menu;
 
+import java.util.UUID;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -68,7 +70,8 @@ public class MenuHandler {
             }
             case LIST -> voucherController.readAllVouchers();
             case SEARCH -> {
-                return;
+                UUID voucherId = consoleManager.instructFindVoucher();
+                voucherController.findById(voucherId);
             }
             case UPDATE -> {
                 return;

@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.consoleapp.io;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 import org.beryx.textio.TextIO;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.consoleapp.menu.VoucherMenu;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.util.Formatter;
+import com.programmers.vouchermanagement.util.UUIDConverter;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
@@ -101,6 +103,12 @@ public class ConsoleManager {
     public String instructCreateCustomer() {
         return textIO.newStringInputReader()
                 .read(CUSTOMER_CREATE_INSTRUCTION);
+    }
+
+    public UUID instructFindVoucher() {
+        String voucherId = textIO.newStringInputReader()
+                .read("Please write ID of the voucher to find");
+        return UUID.fromString(voucherId);
     }
 
     public void printCreateResult(VoucherResponse voucherResponse) {
