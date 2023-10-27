@@ -63,15 +63,14 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll(GetCustomersRequestDto request) {
         String sql = "SELECT * FROM customers";
+        MapSqlParameterSource params = new MapSqlParameterSource();
 
         if (request.getBlacklisted() != null) {
             sql += " WHERE blacklisted = :blacklisted";
+            params.addValue("blacklisted", request.getBlacklisted());
         }
 
-        SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("blacklisted", request.getBlacklisted());
-
-        return template.query(sql, getCustomerRowMapper());
+        return template.query(sql, params, getCustomerRowMapper());
     }
 
     @Override

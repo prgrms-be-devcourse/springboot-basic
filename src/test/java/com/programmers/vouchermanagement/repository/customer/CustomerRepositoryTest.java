@@ -2,11 +2,11 @@ package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,15 +14,11 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@Transactional
 class CustomerRepositoryTest {
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    @BeforeEach
-    void setUp() {
-        customerRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("고객을 저장할 수 있다.")

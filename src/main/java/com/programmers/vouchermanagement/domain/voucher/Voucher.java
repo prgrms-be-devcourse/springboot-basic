@@ -1,10 +1,12 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
+@EqualsAndHashCode
 public abstract class Voucher {
     private UUID id;
     protected final VoucherType type;

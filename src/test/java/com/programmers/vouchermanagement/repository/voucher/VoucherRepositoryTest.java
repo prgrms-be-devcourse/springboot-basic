@@ -3,11 +3,11 @@ package com.programmers.vouchermanagement.repository.voucher;
 import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,15 +15,11 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@Transactional
 class VoucherRepositoryTest {
 
     @Autowired
     private VoucherRepository voucherRepository;
-
-    @BeforeEach
-    void setUp() {
-        voucherRepository.deleteAll();
-    }
 
     @Test
     @DisplayName("바우처를 저장할 수 있다.")

@@ -51,8 +51,11 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID id) {
         String sql = "SELECT * FROM vouchers WHERE id = :id";
 
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", id.toString());
+
         try {
-            Voucher voucher = template.queryForObject(sql, new MapSqlParameterSource("id", id.toString()), getVoucherRowMapper());
+            Voucher voucher = template.queryForObject(sql, params, getVoucherRowMapper());
             return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();

@@ -2,9 +2,13 @@ package com.programmers.vouchermanagement.domain.wallet;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
+@ToString
+@EqualsAndHashCode
 public class Wallet {
     private Integer id;
     private final Customer customer;

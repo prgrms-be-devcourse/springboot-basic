@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.domain.customer;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -10,6 +11,7 @@ import java.util.stream.IntStream;
 
 @Getter
 @ToString
+@EqualsAndHashCode
 public class Customer {
     private UUID id;
     private String email;

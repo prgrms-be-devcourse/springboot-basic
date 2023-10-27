@@ -56,29 +56,36 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
     @Override
     public Optional<Wallet> findById(int id) {
-        return Optional.empty();
+        String sql = "SELECT * FROM wallets WHERE id = :id";
+
+        SqlParameterSource params = new MapSqlParameterSource("id", id);
+
+        try {
+            return Optional.ofNullable(template.queryForObject(sql, params, getWalletRowMapper()));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<Wallet> findAll(GetWalletsRequestDto request) {
-        String sql = "SELECT * FROM wallets WHERE 1 = 1";
+        String sql = "SELECT * FROM wallets WHERE 1 = 1 ";
+        MapSqlParameterSource params = new MapSqlParameterSource();
 
         if (request.getUsed() != null) {
             sql += "AND used = :used";
+            params.addValue("used", request.getUsed());
         }
 
         if (request.getCustomerId() != null) {
             sql += "AND customer_id = :customerId";
+            params.addValue("customerId", request.getCustomerId().toString());
         }
 
         if (request.getVoucherId() != null) {
             sql += "AND voucher_id = :voucherId";
+            params.addValue("voucherId", request.getVoucherId().toString());
         }
-
-        SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("used", request.getUsed())
-                .addValue("customerId", request.getCustomerId().toString())
-                .addValue("voucherId", request.getVoucherId().toString());
 
         return template.query(sql, params, getWalletRowMapper());
     }
