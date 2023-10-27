@@ -13,7 +13,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
 @Profile("jdbc")
-public class DBConfiguration {
+public class DBConfig {
     @Bean
     public DataSource dataSource(DataSourceProperties dataSourceProperties) {
         return DataSourceBuilder.create()
