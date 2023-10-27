@@ -36,7 +36,9 @@ public class VoucherService {
 
 	public List<VoucherDto> getVouchers() {
 		List<Voucher> vouchers = voucherRepository.findAll();
-		return vouchers.stream().map(VoucherDto::from).collect(Collectors.toList());
+		return vouchers.stream()
+			.map(VoucherDto::from)
+			.toList();
 	}
 
 	public VoucherDto createVoucher(VoucherType voucherType, long discountValue) {
@@ -77,7 +79,7 @@ public class VoucherService {
 		List<Customer> customers = customerRepository.findAllById(customerIds);
 		return customers.stream()
 			.map(CustomerDto::from)
-			.collect(Collectors.toList());
+			.toList();
 	}
 
 }

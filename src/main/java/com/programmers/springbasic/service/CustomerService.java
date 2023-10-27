@@ -40,7 +40,7 @@ public class CustomerService {
 		List<Customer> blacklistCustomers = blacklistCustomerRepository.getBlacklistCustomers();
 		return blacklistCustomers.stream()
 			.map(CustomerDto::from)
-			.collect(Collectors.toList());
+			.toList();
 	}
 
 	public CustomerDto createCustomer(String name, String email) {
@@ -53,7 +53,7 @@ public class CustomerService {
 		List<Customer> customers = customerRepository.findAll();
 		return customers.stream()
 			.map(CustomerDto::from)
-			.collect(Collectors.toList());
+			.toList();
 	}
 
 	public CustomerDto getCustomerById(UUID customerId) {
@@ -95,7 +95,7 @@ public class CustomerService {
 		List<Voucher> vouchers = voucherRepository.findAllById(voucherIds);
 		return vouchers.stream()
 			.map(VoucherDto::from)
-			.collect(Collectors.toList());
+			.toList();
 	}
 
 	public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {

@@ -22,7 +22,7 @@ public class VoucherCsvFileMapper {
 				entry.getKey().toString(),
 				voucher.getVoucherType().toString(),
 				String.valueOf(voucher.getDiscountValue()));
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 
 	public Map<UUID, Voucher> linesToVoucherMap(List<String> fileLines) {

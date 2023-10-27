@@ -9,7 +9,7 @@ public abstract class Voucher {
 	protected final VoucherType voucherType;
 	protected Customer customer;
 
-	public Voucher(UUID voucherId, VoucherType voucherType) {
+	protected Voucher(UUID voucherId, VoucherType voucherType) {
 		this.voucherId = voucherId;
 		this.voucherType = voucherType;
 	}

@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -58,6 +57,6 @@ public class MemoryVoucherRepository implements VoucherRepository {
 		return voucherIds.stream()
 			.map(storage::get)
 			.filter(Objects::nonNull)
-			.collect(Collectors.toList());
+			.toList();
 	}
 }

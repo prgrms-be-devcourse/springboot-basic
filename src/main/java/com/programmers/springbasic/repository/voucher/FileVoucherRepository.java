@@ -82,7 +82,7 @@ public class FileVoucherRepository implements VoucherRepository {
 		return voucherIds.stream()
 			.map(storage::get)
 			.filter(Objects::nonNull)
-			.collect(Collectors.toList());
+			.toList();
 	}
 
 }
