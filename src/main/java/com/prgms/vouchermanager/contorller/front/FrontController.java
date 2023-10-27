@@ -10,18 +10,15 @@ import com.prgms.vouchermanager.contorller.wallet.WalletMenuType;
 import com.prgms.vouchermanager.util.io.ConsoleInput;
 import com.prgms.vouchermanager.util.io.ConsoleOutput;
 import com.prgms.vouchermanager.validation.InputValidation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
 import static com.prgms.vouchermanager.exception.ExceptionType.*;
 import static com.prgms.vouchermanager.exception.ExceptionType.INVALID_CUSTOMER_MENU;
 
-
+@Slf4j
 @Controller
 public class FrontController {
-
-    private final static Logger logger = LoggerFactory.getLogger(FrontController.class);
 
     private final ConsoleInput consoleInput;
     private final ConsoleOutput consoleOutput;
@@ -62,7 +59,7 @@ public class FrontController {
                 }
 
             } catch (RuntimeException e) {
-                logger.warn(e.getMessage());
+                log.warn(e.getMessage());
                 continue;
             }
 
@@ -91,7 +88,7 @@ public class FrontController {
             }
 
         } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             return;
         }
 
@@ -119,7 +116,7 @@ public class FrontController {
 
             }
         } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             return;
         }
 
@@ -148,7 +145,7 @@ public class FrontController {
 
         } catch (RuntimeException e) {
 
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             return;
         }
     }

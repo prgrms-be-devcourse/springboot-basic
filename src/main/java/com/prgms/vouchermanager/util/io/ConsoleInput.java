@@ -1,10 +1,6 @@
 package com.prgms.vouchermanager.util.io;
 
-
-import com.prgms.vouchermanager.contorller.front.FrontController;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -13,10 +9,9 @@ import java.util.UUID;
 import static com.prgms.vouchermanager.exception.ExceptionType.*;
 import static com.prgms.vouchermanager.exception.ExceptionType.INVALID_VOUCHER_INFO;
 
+@Slf4j
 @Component
 public class ConsoleInput {
-
-    private final static Logger logger = LoggerFactory.getLogger(FrontController.class);
     private final Scanner scanner;
 
 
@@ -28,7 +23,7 @@ public class ConsoleInput {
         try {
             return scanner.nextInt();
         } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             scanner.next();
             throw new RuntimeException(INVALID_FRONT_MENU.getMessage());
         }
@@ -41,7 +36,7 @@ public class ConsoleInput {
         try {
             menu = scanner.nextInt();
         } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             throw new RuntimeException(INVALID_VOUCHER_MENU.getMessage());
         }
         return menu;
@@ -55,7 +50,7 @@ public class ConsoleInput {
         try {
             menu = scanner.nextInt();
         } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             throw new RuntimeException(INVALID_CUSTOMER_MENU.getMessage());
         }
 
