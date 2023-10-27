@@ -16,6 +16,8 @@ CREATE TABLE vouchers
 
 CREATE TABLE ownership
 (
-    voucher_id  BINARY(16) PRIMARY KEY NOT NULL REFERENCES vouchers (id) ON DELETE CASCADE,
-    customer_id BINARY(16)             NOT NULL REFERENCES customers (id) ON DELETE CASCADE
+    voucher_id  BINARY(16) PRIMARY KEY,
+    customer_id BINARY(16),
+    FOREIGN KEY (voucher_id) REFERENCES vouchers (id) ON DELETE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE
 );
