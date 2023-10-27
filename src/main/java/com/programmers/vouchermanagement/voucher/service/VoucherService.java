@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.voucher.service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -60,10 +59,16 @@ public class VoucherService {
     }
 
     public void assignToCustomer(AssignVoucherRequest request) {
-        validateVoucherIdExisting(request.voucherId());
         validateCustomerIdExisting(request.customerId());
         VoucherResponse foundVoucher = findById(request.voucherId());
         Voucher voucher = new Voucher(request.voucherId(), foundVoucher.getDiscountValue(), foundVoucher.getVoucherType(), request.customerId());
+        voucherRepository.save(voucher);
+    }
+
+    public void releaseFromCustomer(AssignVoucherRequest request) {
+        validateCustomerIdExisting(request.customerId());
+        VoucherResponse foundVoucher = findById(request.voucherId());
+        Voucher voucher = new Voucher(foundVoucher.getVoucherId(), foundVoucher.getDiscountValue(), foundVoucher.getVoucherType());
         voucherRepository.save(voucher);
     }
 
