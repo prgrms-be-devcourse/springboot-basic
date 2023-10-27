@@ -3,7 +3,7 @@ package team.marco.vouchermanagementsystem.view;
 import static java.text.MessageFormat.format;
 
 public enum CommandType {
-    CREATE, LIST, SEARCH, BLACKLIST, EXIT;
+    CREATE, LIST, SEARCH, BLACKLIST, WALLET, EXIT, REGISTER, REMOVE, BACK;
 
     public static CommandType getCommandType(String input) {
         try {

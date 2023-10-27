@@ -3,7 +3,7 @@ package team.marco.vouchermanagementsystem.view;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import team.marco.vouchermanagementsystem.controller.UserController;
+import team.marco.vouchermanagementsystem.controller.CustomerController;
 import team.marco.vouchermanagementsystem.controller.VoucherController;
 import team.marco.vouchermanagementsystem.view.util.Console;
 
@@ -13,12 +13,15 @@ import java.io.UncheckedIOException;
 public class ConsoleVoucherApplication {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleVoucherApplication.class);
 
+    private final ConsoleWalletApplication walletApplication;
     private final VoucherController voucherController;
-    private final UserController userController;
+    private final CustomerController userController;
+
 
     private Boolean isRunning;
 
-    public ConsoleVoucherApplication(VoucherController voucherController, UserController userController) {
+    public ConsoleVoucherApplication(ConsoleWalletApplication walletApplication, VoucherController voucherController, CustomerController userController) {
+        this.walletApplication = walletApplication;
         this.voucherController = voucherController;
         this.userController = userController;
         this.isRunning = true;
@@ -41,6 +44,7 @@ public class ConsoleVoucherApplication {
                 list: 쿠폰 목록 조회
                 search: 쿠폰 검색
                 blacklist: 블랙 리스트 유저 조회
+                wallet: 지갑 서비스로 이동
                 exit: 프로그램 종료""");
 
         String input = Console.readString();
@@ -51,8 +55,13 @@ public class ConsoleVoucherApplication {
             case LIST -> getVoucherList();
             case SEARCH -> getVoucherInfo();
             case BLACKLIST -> getBlacklist();
+            case WALLET -> runWalletApplication();
             case EXIT -> isRunning = false;
         }
+    }
+
+    private void runWalletApplication() {
+        walletApplication.run();
     }
 
     private void getVoucherInfo() {
