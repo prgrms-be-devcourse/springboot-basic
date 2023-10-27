@@ -1,44 +1,53 @@
 package team.marco.voucher_management_system.service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.model.Voucher;
-import team.marco.voucher_management_system.repository.CustomerRepository;
-import team.marco.voucher_management_system.repository.VoucherRepository;
+import team.marco.voucher_management_system.repository.JdbcWalletRepository;
+import team.marco.voucher_management_system.repository.VoucherCustomerFacade;
 
 @Service
 public class WalletService {
-    private final VoucherRepository voucherRepository;
-    private final CustomerRepository customerRepository;
+    private final JdbcWalletRepository walletRepository;
+    private final VoucherCustomerFacade voucherCustomerFacade;
 
-    public WalletService(VoucherRepository voucherRepository, CustomerRepository customerRepository) {
-        this.voucherRepository = voucherRepository;
-        this.customerRepository = customerRepository;
+    public WalletService(JdbcWalletRepository walletRepository, VoucherCustomerFacade voucherCustomerFacade) {
+        this.walletRepository = walletRepository;
+        this.voucherCustomerFacade = voucherCustomerFacade;
     }
 
-    public boolean hasCustomer(String customerId) {
-        return false;
+    public void checkVoucherId(String voucherId) {
+        if (!voucherCustomerFacade.hasVoucher(voucherId)) {
+            throw new NoSuchElementException("ID가 일치하는 쿠폰이 존재하지 않습니다.");
+        }
     }
 
-    public boolean hasVoucher(String customerId) {
-        return false;
+    public void checkCustomerId(String customerId) {
+        if (!voucherCustomerFacade.hasCustomer(customerId)) {
+            throw new NoSuchElementException("ID가 일치하는 고객이 존재하지 않습니다.");
+        }
     }
 
-    public void supplyVoucher(String customerId, String voucherId) {
-
+    public int supplyVoucher(String customerId, String voucherId) {
+        return walletRepository.link(customerId, voucherId);
     }
 
     public List<Voucher> findVouchersByCustomerId(String customerId) {
-        return Collections.emptyList();
+        List<UUID> voucherIds = walletRepository.getVoucherIds(customerId);
+
+        return voucherCustomerFacade.getVouchers(voucherIds);
     }
 
-    public void returnVoucher(String customerId, String voucherId) {
-
+    public int returnVoucher(String customerId, String voucherId) {
+        return walletRepository.unlink(customerId, voucherId);
     }
 
     public List<Customer> findCustomersByVoucherId(String voucherId) {
-        return Collections.emptyList();
+        List<UUID> customerIds = walletRepository.getCustomerIds(voucherId);
+
+        return voucherCustomerFacade.getCustomers(customerIds);
     }
 }
