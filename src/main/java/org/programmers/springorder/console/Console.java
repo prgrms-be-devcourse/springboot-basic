@@ -4,12 +4,13 @@ import org.programmers.springorder.constant.ErrorMessage;
 import org.programmers.springorder.constant.Message;
 import org.programmers.springorder.dto.customer.CustomerRequestDto;
 import org.programmers.springorder.dto.customer.CustomerResponseDto;
-import org.programmers.springorder.utils.CustomerMenuType;
-import org.programmers.springorder.utils.ExceptionHandler;
-import org.programmers.springorder.utils.MenuType;
 import org.programmers.springorder.dto.voucher.VoucherRequestDto;
 import org.programmers.springorder.dto.voucher.VoucherResponseDto;
 import org.programmers.springorder.model.voucher.VoucherType;
+import org.programmers.springorder.utils.CustomerMenuType;
+import org.programmers.springorder.utils.ExceptionHandler;
+import org.programmers.springorder.utils.MenuType;
+import org.programmers.springorder.utils.VoucherMenuType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,12 @@ public class Console {
     /**
      * Voucher
      */
+    public static VoucherMenuType inputVoucherMenu() {
+        printMessage(Message.VOUCHER_MENU_SELECT_MESSAGE);
+        printPrompt();
+        return VoucherMenuType.selectVoucherMenu(scanner.nextLine());
+    }
+
     private VoucherType inputVoucherType() {
         printMessage(Message.VOUCHER_SELECT_MESSAGE);
         printPrompt();
@@ -52,7 +59,7 @@ public class Console {
         printMessage(discountValueMessage);
         printPrompt();
 
-        long discountValue = scanner.nextLong();
+        long discountValue = Long.parseLong(scanner.nextLine());
         voucherType.validateDiscountRange(voucherType, discountValue);
         return discountValue;
     }
@@ -63,12 +70,18 @@ public class Console {
         return new VoucherRequestDto(discountValue, voucherType);
     }
 
-    public void showList(List<VoucherResponseDto> allVoucher) {
+    public void showVoucherList(List<VoucherResponseDto> allVoucher) {
         if (allVoucher.isEmpty()) {
             printMessage(ErrorMessage.VOUCHER_NOT_EXIST_MESSAGE);
         } else {
             allVoucher.forEach(System.out::println);
         }
+    }
+
+    public String inputVoucherId() {
+        printMessage(Message.INPUT_VOUCHER_ID);
+        printPrompt();
+        return scanner.nextLine();
     }
 
     /**
