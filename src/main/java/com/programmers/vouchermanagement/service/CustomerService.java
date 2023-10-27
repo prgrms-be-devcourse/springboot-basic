@@ -3,7 +3,6 @@ package com.programmers.vouchermanagement.service;
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.message.ErrorMessage;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
-import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +12,9 @@ import java.util.UUID;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
-    private final WalletRepository walletRepository;
 
-    public CustomerService(CustomerRepository customerRepository, WalletRepository walletRepository) {
+    public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-        this.walletRepository = walletRepository;
     }
 
     public List<Customer> findAllCustomers() {
@@ -64,6 +61,5 @@ public class CustomerService {
         if (affectedRow == 0) {
             throw new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
         }
-        walletRepository.deleteByCustomerId(id);
     }
 }

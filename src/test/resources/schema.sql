@@ -20,5 +20,7 @@ CREATE TABLE wallet
 (
     id          BINARY(16) PRIMARY KEY,
     customer_id BINARY(16) NOT NULL,
-    voucher_id  BINARY(16) NOT NULL
+    voucher_id  BINARY(16) NOT NULL,
+    CONSTRAINT fk_pk_customer FOREIGN KEY (customer_id) REFERENCES customer (id) ON DELETE CASCADE,
+    CONSTRAINT fk_pk_voucher FOREIGN KEY (voucher_id) REFERENCES voucher (id) ON DELETE CASCADE
 );
