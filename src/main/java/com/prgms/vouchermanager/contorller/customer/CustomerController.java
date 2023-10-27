@@ -68,7 +68,7 @@ public class CustomerController {
 
         List<Customer> customers = customerService.findAll();
 
-        customers.forEach(customer -> consoleOutput.printCustomer(customer));
+        customers.forEach(consoleOutput::printCustomer);
 
     }
 
