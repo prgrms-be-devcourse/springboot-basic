@@ -12,4 +12,7 @@ public interface VoucherRepository {
     Optional<Voucher> findById(UUID voucherId);
     void deleteById(UUID voucherId);
     void deleteAll();
+    default boolean existById(UUID voucherId) {
+        return findById(voucherId).isPresent();
+    };
 }
