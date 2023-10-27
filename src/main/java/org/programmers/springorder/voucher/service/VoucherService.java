@@ -44,7 +44,7 @@ public class VoucherService {
                 .orElseThrow( () -> new RuntimeException("해당 바우처를 찾을 수 없습니다."));
         Customer customer = customerRepository.findByID(customerId)
                 .orElseThrow( () -> new RuntimeException("해당 고객을 찾을 수 없습니다."));
-        Voucher updatedVoucher = voucherRepository.updateVoucherOwner(voucher, customer);
+        voucherRepository.updateVoucherOwner(voucher, customer);
     }
 
     public List<VoucherResponseDto> getCustomerOwnedVouchers(UUID customerId){
@@ -54,5 +54,11 @@ public class VoucherService {
                 .stream()
                 .map(VoucherResponseDto::of)
                 .toList();
+    }
+
+    public void deleteVoucher(UUID voucherId){
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new RuntimeException("찾으시는 voucher가 존재하지 않습니다."));
+        voucherRepository.deleteVoucher(voucher);
     }
 }
