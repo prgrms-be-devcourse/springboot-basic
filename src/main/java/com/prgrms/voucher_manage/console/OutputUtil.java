@@ -38,8 +38,8 @@ public class OutputUtil {
     public void printCustomerSelect() {
         System.out.println("""
                 === Voucher Program ===
-                Type Black to create black customer.
-                Type Normal to create normal customer.
+                Type black to create black customer.
+                Type normal to create normal customer.
                 """);
     }
 

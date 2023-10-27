@@ -7,13 +7,21 @@ import java.util.Arrays;
 
 @RequiredArgsConstructor @Getter
 public enum CustomerType {
-    BLACK("B"),
-    NORMAL("N");
+    BLACK("black","B"),
+    NORMAL("normal","N");
     private final String label;
+    private final String data;
 
-    public static CustomerType matchCustomerType(String type) {
+    public static CustomerType matchCustomerTypeByLabel(String type) {
         return Arrays.stream(CustomerType.values())
                 .filter(customerType -> customerType.getLabel().equals(type))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public static CustomerType matchCustomerTypeByData(String type) {
+        return Arrays.stream(CustomerType.values())
+                .filter(customerType -> customerType.getData().equals(type))
                 .findFirst()
                 .orElse(null);
     }

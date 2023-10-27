@@ -39,7 +39,7 @@ public class ConsoleManager implements ApplicationRunner {
                 menuType = matchMenuType(inputUtil.getStringInput());
                 selectMenu(menuType);
             } catch (Exception e) {
-                outputUtil.printMessage(e.getMessage());
+                e.printStackTrace();
                 logger.error(e.getMessage());
             }
 
@@ -104,7 +104,8 @@ public class ConsoleManager implements ApplicationRunner {
     }
 
     private CustomerType getCustomerType() throws IOException {
-        CustomerType customerType = CustomerType.matchCustomerType(inputUtil.getStringInput());
+        CustomerType customerType = CustomerType.matchCustomerTypeByLabel(inputUtil.getStringInput());
+        System.out.println(customerType);
         if (customerType == null){
             throw new InvalidInputException("Invalid command input");
         }
@@ -135,13 +136,14 @@ public class ConsoleManager implements ApplicationRunner {
         outputUtil.printCustomerInfo(foundCustomer);
     }
 
-    public void updateCustomer() throws IOException {
-        outputUtil.printMessage("Input customer name to update.");
-        String name = inputUtil.getStringInput();
-        Customer customer = customerController.findByName(name);
+    public void updateCustomer() throws Exception {
+        outputUtil.printMessage("Input customer id to update.");
+        UUID id = inputUtil.getUUIDInput();
+        Customer customer = customerController.findById(id);
 
-        outputUtil.printMessage("Input customer type to change.");
-        customerController.update(new Customer(customer.getId(),customer.getName(), getCustomerType()));
+        outputUtil.printMessage("Input customer name to change");
+        String name = inputUtil.getStringInput();
+        customerController.update(new Customer(customer.getId(),name, customer.getType()));
     }
 
     private void printCustomers(List<Customer> customers) {

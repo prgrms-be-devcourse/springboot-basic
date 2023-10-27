@@ -13,19 +13,23 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchCustomerType;
+import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchCustomerTypeByData;
 
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class JdbcCustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
+public class JdbcCustomerRepository{
 
     private final JdbcTemplate jdbcTemplate;
 
     public List<Customer> findAll(){
         String sql = "select * from customer";
         return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public Optional<Customer> findById(UUID id){
+        String sql = "select * from customer where customer_id = ?";
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id.toString()));
     }
 
     public Optional<Customer> findByName(String name){
@@ -44,24 +48,14 @@ public class JdbcCustomerRepository {
         return customer;
     }
     public int update(Customer customer){
-        try {
-            String sql = "update customer set type =? where name = ?";
-            return jdbcTemplate.update(sql, customer.getType().getData(),customer.getName());
-        } catch (Exception e){
-            logger.error(e.getMessage());
-        }
-        return 0;
-    }
-
-    public void deleteAll(){
-        String sql = "DELETE FROM customer";
-        jdbcTemplate.update(sql);
+        String sql = "update customer set name = ? where customer_id = ?";
+        return jdbcTemplate.update(sql, customer.getName(), customer.getId().toString());
     }
 
     private static final RowMapper<Customer> rowMapper = (resultSet, i) -> {
         UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
         String name = resultSet.getString("name");
         String type = resultSet.getString("type");
-        return new Customer(customerId, name, matchCustomerType(type));
+        return new Customer(customerId, name, matchCustomerTypeByData(type));
     };
 }
