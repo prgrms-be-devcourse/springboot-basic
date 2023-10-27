@@ -1,18 +1,19 @@
 package com.programmers.vouchermanagement.wallet.repository;
 
-import com.programmers.vouchermanagement.customer.domain.Customer;
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.wallet.domain.Ownership;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface WalletRepository {
-    void save(UUID voucherId, UUID customerId);
+    void save(Ownership ownership);
 
-    List<Voucher> findAllVoucherByCustomerId(UUID customerId);
+    List<UUID> findAllVoucherByCustomerId(UUID customerId);
 
-    void delete(UUID voucherId, UUID customerId);
+    void delete(Ownership ownership);
 
-    Optional<Customer> findCustomerByVoucherId(UUID voucherId);
+    Optional<UUID> findCustomerByVoucherId(UUID voucherId);
+
+    void deleteAll();
 }
