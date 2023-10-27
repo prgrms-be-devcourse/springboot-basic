@@ -1,11 +1,12 @@
 package org.prgrms.prgrmsspring.service;
 
 import org.prgrms.prgrmsspring.entity.user.Customer;
+import org.prgrms.prgrmsspring.exception.DataAccessException;
+import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.repository.user.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,18 +25,25 @@ public class CustomerService {
         return customerRepository.findBlackAll();
     }
 
-    public void create(Customer customer) {
-        customerRepository.insert(customer);
+    public Customer create(Customer customer) {
+        return customerRepository.insert(customer);
     }
 
-    public void update(Customer customer) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(customer.getCustomerId());
-        if (optionalCustomer.isPresent()) {
-            customerRepository.update(customer);
+    public Customer update(Customer customer) {
+        try {
+            return customerRepository.update(customer);
+        } catch (DataAccessException e) {
+            throw new IllegalArgumentException(ExceptionMessage.NOT_FOUND_CUSTOMER.getMessage());
         }
+
     }
 
     public void delete(UUID customerId) {
-        customerRepository.delete(customerId);
+        try {
+            customerRepository.delete(customerId);
+        } catch (DataAccessException e) {
+            throw new IllegalArgumentException(ExceptionMessage.NOT_FOUND_CUSTOMER.getMessage());
+        }
+
     }
 }
