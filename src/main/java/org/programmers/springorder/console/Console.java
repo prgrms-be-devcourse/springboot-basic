@@ -5,6 +5,7 @@ import org.programmers.springorder.consts.Message;
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
 import org.programmers.springorder.utils.MenuType;
 import org.programmers.springorder.utils.Validation;
+import org.programmers.springorder.voucher.dto.GiveVoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.model.VoucherType;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class Console {
@@ -98,5 +101,25 @@ public class Console {
         } else {
             blackList.forEach(System.out::println);
         }
+    }
+
+    public GiveVoucherRequestDto giveVoucherInfo() {
+        UUID customerId = getCustomerId();
+        UUID voucherId = getVoucherId();
+        return new GiveVoucherRequestDto(voucherId, customerId);
+    }
+
+    public UUID getCustomerId() {
+        printMessage(Message.INPUT_USER_ID);
+        return UUID.fromString(input.getInput());
+    }
+
+    public UUID getVoucherId() {
+        printMessage(Message.INPUT_VOUCHER_ID);
+        return UUID.fromString(input.getInput());
+    }
+
+    public void showCustomer(CustomerResponseDto customer) {
+        printMessage(customer.toString());
     }
 }
