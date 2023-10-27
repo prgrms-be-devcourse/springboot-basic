@@ -2,8 +2,11 @@ package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -22,25 +25,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class VoucherJDBCRepositoryTest {
+    private final static UUID NON_EXISTENT_VOUCHER_ID = UUID.randomUUID();
     @Autowired
     VoucherJDBCRepository voucherJDBCRepository;
-    @Autowired
-    DataSource dataSource;
 
     @Test
-    @Order(1)
-    @DisplayName("HikariConnectionPool 연결할 수 있다.")
-    public void testHikariConnectionPool() {
-        assertThat(dataSource.getClass().getName()).isEqualTo("com.zaxxer.hikari.HikariDataSource");
-    }
-
-    @Test
-    @Order(2)
-    @DisplayName("고정 금액 할인 바우처를 추가할 수 있다.")
-    void saveFixedAmountVoucherSucceed() {
+    @DisplayName("🆗 고정 금액 할인 바우처를 추가할 수 있다.")
+    void saveFixedAmountVoucher() {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
         voucherJDBCRepository.save(newVoucher);
 
@@ -51,9 +44,8 @@ class VoucherJDBCRepositoryTest {
     }
 
     @Test
-    @Order(3)
-    @DisplayName("퍼센트 할인 바우처를 추가할 수 있다.")
-    void savePercentVoucherSucceed() {
+    @DisplayName("🆗 퍼센트 할인 바우처를 추가할 수 있다.")
+    void savePercentVoucher() {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), 50, VoucherType.PERCENT);
         voucherJDBCRepository.save(newVoucher);
 
@@ -64,18 +56,19 @@ class VoucherJDBCRepositoryTest {
     }
 
     @Test
-    @Order(4)
-    @DisplayName("모든 바우처를 조회할 수 있다.")
-    void findAllVoucherSucceed() {
+    @DisplayName("🆗 모든 바우처를 조회할 수 있다. 단, 없다면 빈 list를 반환한다.")
+    void findAllVoucher() {
+        for (int i = 1; i < 6; i++)
+            voucherJDBCRepository.save(new Voucher(UUID.randomUUID(), i * 100, VoucherType.PERCENT));
+
         List<Voucher> vouchers = voucherJDBCRepository.findAll();
 
         assertThat(vouchers.isEmpty()).isFalse();
     }
 
     @Test
-    @Order(5)
-    @DisplayName("바우처를 아이디로 조회할 수 있다.")
-    void findVoucherByIdSucceed() {
+    @DisplayName("🆗 바우처를 아이디로 조회할 수 있다.")
+    void findVoucherById() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 1234, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
@@ -88,9 +81,16 @@ class VoucherJDBCRepositoryTest {
     }
 
     @Test
-    @Order(6)
-    @DisplayName("바우처를 아이디로 삭제할 수 있다.")
-    void deleteVoucherSucceed() {
+    @DisplayName("🚨 해당하는 바우처가 없다면, 바우처를 아이디로 조회할 수 없다.")
+    void findNonExistentVoucherById() {
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(NON_EXISTENT_VOUCHER_ID);
+
+        assertThat(retrievedVoucher.isEmpty()).isTrue();
+    }
+
+    @Test
+    @DisplayName("🆗 바우처를 아이디로 삭제할 수 있다.")
+    void deleteVoucher() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
@@ -100,18 +100,14 @@ class VoucherJDBCRepositoryTest {
     }
 
     @Test
-    @Order(7)
-    @DisplayName("없는 바우처를 삭제하면 실패한다.")
-    void deleteNonExistVoucherFail() {
-        UUID NonExistVoucherId = UUID.randomUUID();
-
-        assertThrows(RuntimeException.class, () -> voucherJDBCRepository.delete(NonExistVoucherId));
+    @DisplayName("🚨 해당하는 바우처가 없다면, 바우처를 아이디로 삭제할 수 없다.")
+    void deleteNonExistentVoucher() {
+        assertThrows(RuntimeException.class, () -> voucherJDBCRepository.delete(NON_EXISTENT_VOUCHER_ID));
     }
 
     @Test
-    @Order(8)
-    @DisplayName("바우처를 업데이트 할 수 있다.")
-    void updateVoucherSucceed() {
+    @DisplayName("🆗 바우처를 업데이트 할 수 있다.")
+    void updateVoucher() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
 
@@ -122,6 +118,12 @@ class VoucherJDBCRepositoryTest {
         assertThat(retrievedVoucher.isEmpty()).isFalse();
         assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(updatedVoucher.getDiscountValue());
         assertThat(retrievedVoucher.get().getVoucherType()).isEqualTo(updatedVoucher.getVoucherType());
+    }
+
+    @Test
+    @DisplayName("🚨 해당하는 바우처가 없다면, 바우처를 업데이트 할 수 없다.")
+    void updateNonExistentVoucher() {
+        assertThrows(RuntimeException.class, () -> voucherJDBCRepository.update(new Voucher(NON_EXISTENT_VOUCHER_ID, 100, VoucherType.PERCENT)));
     }
 
     @Configuration
