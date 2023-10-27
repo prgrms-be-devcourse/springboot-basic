@@ -2,6 +2,8 @@ package com.prgrms.vouchermanagement.core.voucher.repository.file;
 
 import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 
+import java.util.Objects;
+
 public class VoucherVO {
 
     private String voucherID;
@@ -33,5 +35,18 @@ public class VoucherVO {
 
     public VoucherType getVoucherType() {
         return voucherType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VoucherVO voucherVO = (VoucherVO) o;
+        return amount == voucherVO.amount && Objects.equals(voucherID, voucherVO.voucherID) && Objects.equals(name, voucherVO.name) && voucherType == voucherVO.voucherType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(voucherID, name, amount, voucherType);
     }
 }

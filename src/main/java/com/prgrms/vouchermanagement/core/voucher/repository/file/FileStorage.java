@@ -7,6 +7,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.prgrms.vouchermanagement.core.voucher.utils.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -23,9 +25,16 @@ public class FileStorage {
     private final File file;
     private final ReentrantReadWriteLock lock;
 
-
     public FileStorage() {
         String filePath = PropertiesUtil.getProperty(PropertiesUtil.FILE_REPOSITORY_KEY);
+        this.file = new File(filePath);
+        this.lock = new ReentrantReadWriteLock();
+        objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+    }
+
+    public FileStorage(String filePath) {
         this.file = new File(filePath);
         this.lock = new ReentrantReadWriteLock();
         objectMapper = new ObjectMapper();
@@ -73,6 +82,22 @@ public class FileStorage {
         lock.writeLock().lock();
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, new ArrayList<>());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    /**
+     * 단건 삭제
+     */
+    public void deleteFile(VoucherVO voucherVO) {
+        lock.writeLock().lock();
+        try {
+            List<VoucherVO> voucherVOList = objectMapper.readValue(file, new TypeReference<List<VoucherVO>>(){});
+            voucherVOList.remove(voucherVO);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, voucherVOList);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
