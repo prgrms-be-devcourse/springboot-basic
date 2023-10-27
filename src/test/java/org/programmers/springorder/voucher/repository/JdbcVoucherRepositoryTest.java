@@ -4,7 +4,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import org.junit.jupiter.api.*;
-import org.programmers.springorder.config.JdbcConfig;
+import org.programmers.springorder.config.jdbc.JdbcConfig;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
@@ -57,6 +57,7 @@ class JdbcVoucherRepositoryTest {
 
     @AfterEach
     void clear(){
+        System.out.println(voucherRepository.getClass());
         embeddedMysql.executeScripts("test_voucher", List.of(() ->"delete from vouchers; delete from customers;"));
     }
 

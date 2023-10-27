@@ -1,4 +1,4 @@
-package org.programmers.springorder.config;
+package org.programmers.springorder.config.jdbc;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.programmers.springorder.customer.repository.CustomerRepository;

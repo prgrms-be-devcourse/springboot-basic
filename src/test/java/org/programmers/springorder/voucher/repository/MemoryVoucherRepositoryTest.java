@@ -4,7 +4,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import org.junit.jupiter.api.*;
-import org.programmers.springorder.config.MemoryConfig;
+import org.programmers.springorder.config.memory.MemoryConfig;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
