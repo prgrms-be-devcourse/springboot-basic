@@ -17,7 +17,7 @@ import team.marco.vouchermanagementsystem.model.Voucher;
 import team.marco.vouchermanagementsystem.model.VoucherType;
 import team.marco.vouchermanagementsystem.properties.FilePathProperties;
 
-@Profile("local")
+@Profile("dev")
 @Repository
 public class JSONFileVoucherRepository implements VoucherRepository, DisposableBean {
     private final Map<UUID, Voucher> voucherMap;

@@ -15,7 +15,7 @@ import team.marco.vouchermanagementsystem.model.Voucher;
 import team.marco.vouchermanagementsystem.model.VoucherType;
 import team.marco.vouchermanagementsystem.util.UUIDConverter;
 
-@Profile("dev")
+@Profile("prod")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final RowMapper<Voucher> voucherRowMapper = JdbcVoucherRepository::mapToVoucher;
