@@ -10,15 +10,17 @@ public class VoucherResponse {
     private final UUID voucherId;
     private final BigDecimal discountValue;
     private final VoucherType voucherType;
+    private final UUID customerId;
 
-    private VoucherResponse(UUID voucherId, BigDecimal discountValue, VoucherType voucherType) {
+    private VoucherResponse(UUID voucherId, BigDecimal discountValue, VoucherType voucherType, UUID customerId) {
         this.voucherId = voucherId;
         this.discountValue = discountValue;
         this.voucherType = voucherType;
+        this.customerId = customerId;
     }
 
     public static VoucherResponse from(Voucher voucher) {
-        return new VoucherResponse(voucher.getVoucherId(), voucher.getDiscountValue(), voucher.getVoucherType());
+        return new VoucherResponse(voucher.getVoucherId(), voucher.getDiscountValue(), voucher.getVoucherType(), voucher.getCustomerId());
     }
 
     public UUID getVoucherId() {
@@ -27,6 +29,14 @@ public class VoucherResponse {
 
     public BigDecimal getDiscountValue() {
         return discountValue;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public VoucherType getVoucherType() {
+        return voucherType;
     }
 
     public boolean isPercentVoucher() {
