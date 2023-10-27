@@ -33,7 +33,7 @@ public class FileVoucherRepository implements VoucherRepository {
         UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get(VOUCHER_ID_KEY)));
         BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
         String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
-        VoucherType voucherType = VoucherType.findVoucherType(voucherTypeName);
+        VoucherType voucherType = VoucherType.findVoucherTypeByName(voucherTypeName);
         return new Voucher(voucherId, discountValue, voucherType);
     };
     private final Function<Voucher, HashMap<String, Object>> voucherToObject = (voucher) -> {

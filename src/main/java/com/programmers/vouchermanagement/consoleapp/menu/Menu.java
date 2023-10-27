@@ -4,16 +4,16 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public enum Menu {
-    EXIT("exit"),
-    CREATE("create"),
-    LIST("list"),
-    BLACKLIST("blacklist"),
-    INCORRECT_MENU("incorrect menu");
+    EXIT("0"),
+    CREATE("1"),
+    LIST("2"),
+    BLACKLIST("3"),
+    INCORRECT_MENU("Incorrect Menu");
 
-    private final String menuName;
+    private final String menuCode;
 
-    Menu(String menuName) {
-        this.menuName = menuName;
+    Menu(String menuCode) {
+        this.menuCode = menuCode;
     }
 
     //set static to tell that this method does not depend on a particular Menu value
@@ -25,11 +25,11 @@ public enum Menu {
     }
 
     private boolean isMatching(String input) {
-        return Objects.equals(menuName, input);
+        return Objects.equals(menuCode, input);
     }
 
     public boolean isExit() {
-        return this == Menu.EXIT;
+        return this == EXIT;
     }
 
     public boolean isIncorrect() {

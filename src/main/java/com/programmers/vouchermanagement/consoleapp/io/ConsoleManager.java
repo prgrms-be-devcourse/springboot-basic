@@ -19,15 +19,15 @@ public class ConsoleManager {
     private static final String LINE_SEPARATOR = System.lineSeparator();
     private static final String MENU_SELECTION_INSTRUCTION = """
             === Voucher Program ===
-            Type **exit** to exit the program.
-            Type **create** to create a new voucher.
-            Type **list** to list all vouchers.
-            Type **blacklist** to list all customers in blacklist.
+            0. Exit The program
+            1. Create A New Voucher
+            2. List All Vouchers
+            3. List All Customers in Blacklist
             """;
     private static final String CREATE_SELECTION_INSTRUCTION = """
             Please select the type of voucher to create.
-            Type **fixed** to create a fixed amount voucher.
-            Type **percent** to create a percent discount voucher.
+            1. Fixed Amount Voucher
+            2. Percent discount voucher.
             """;
     private static final String VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION =
             "Please type the amount/percent of discount of the voucher.%s".formatted(LINE_SEPARATOR);
@@ -35,11 +35,9 @@ public class ConsoleManager {
             "System exits.";
     private static final String CREATE_SUCCESS_MESSAGE =
             "The voucher(ID: %s) is successfully created.";
-    private static final String INCORRECT_INPUT_MESSAGE =
-            """
-                    Such input is incorrect.
-                    Please input a correct command carefully.
-                    """;
+    private static final String INCORRECT_INPUT_MESSAGE = """
+             Such input is incorrect.
+             Please input a correct command carefully.""";
     private static final String CONTENT_VOUCHER = "voucher";
     private static final String CONTENT_BLACKLIST = "black customer";
 
@@ -59,7 +57,7 @@ public class ConsoleManager {
     public CreateVoucherRequest instructCreate() {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
-        VoucherType voucherType = VoucherType.findVoucherType(createMenu);
+        VoucherType voucherType = VoucherType.findVoucherTypeByCode(createMenu);
 
         String discountValueInput = textIO.newStringInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);

@@ -16,7 +16,7 @@ class VoucherTypeTest {
         final String desiredVoucherType = "NoCount";
 
         //when
-        assertThatThrownBy(() -> VoucherType.findVoucherType(desiredVoucherType)).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> VoucherType.findVoucherTypeByName(desiredVoucherType)).isInstanceOf(IllegalArgumentException.class);
     }
 
     @Test
@@ -27,8 +27,8 @@ class VoucherTypeTest {
         final String percentType = "percent";
 
         //when
-        final VoucherType fixedVoucherType = VoucherType.findVoucherType(fixedType);
-        final VoucherType percentVoucherType = VoucherType.findVoucherType(percentType);
+        final VoucherType fixedVoucherType = VoucherType.findVoucherTypeByName(fixedType);
+        final VoucherType percentVoucherType = VoucherType.findVoucherTypeByName(percentType);
 
         //then
         assertThat(fixedVoucherType, is(VoucherType.FIXED));
@@ -43,8 +43,8 @@ class VoucherTypeTest {
         final String percentType = "PERCENT";
 
         //when
-        final VoucherType fixedVoucherType = VoucherType.findVoucherType(fixedType);
-        final VoucherType percentVoucherType = VoucherType.findVoucherType(percentType);
+        final VoucherType fixedVoucherType = VoucherType.findVoucherTypeByName(fixedType);
+        final VoucherType percentVoucherType = VoucherType.findVoucherTypeByName(percentType);
 
         //then
         assertThat(fixedVoucherType, is(VoucherType.FIXED));
