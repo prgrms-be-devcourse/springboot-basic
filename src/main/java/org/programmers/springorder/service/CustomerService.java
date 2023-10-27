@@ -1,5 +1,6 @@
 package org.programmers.springorder.service;
 
+import org.programmers.springorder.constant.ErrorMessage;
 import org.programmers.springorder.dto.customer.CustomerRequestDto;
 import org.programmers.springorder.dto.customer.CustomerResponseDto;
 import org.programmers.springorder.model.customer.Customer;
@@ -26,11 +27,15 @@ public class CustomerService {
         return customer;
     }
 
-    @Transactional
     public List<CustomerResponseDto> getBlackList() {
         return customerRepository.findAllBlackList()
                 .stream()
                 .map(CustomerResponseDto::of)
                 .toList();
+    }
+
+    public Customer findById(UUID customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.CUSTOMER_ID_NOT_EXIST_MESSAGE));
     }
 }
