@@ -214,4 +214,22 @@ class VoucherServiceTest {
         //verify
         verify(voucherRepository).findByCustomerId(customer.getCustomerId());
     }
+
+    @Test
+    @DisplayName("고객 아이디로 보유하고 있는 바우처 조회를 성공한다.")
+    void testFindVouchersByCustomerIdSuccessful_ReturnList() {
+        //given
+        final Customer customer = new Customer(UUID.randomUUID(), "test-customer", CustomerType.NORMAL);
+        final List<Voucher> vouchers = List.of(
+                new Voucher(UUID.randomUUID(), new BigDecimal(1000), VoucherType.FIXED),
+                new Voucher(UUID.randomUUID(), new BigDecimal(40), VoucherType.PERCENT));
+        doReturn(Optional.of(customer)).when(customerRepository).findById(any(UUID.class));
+        doReturn(vouchers).when(voucherRepository).findByCustomerId(any(UUID.class));
+
+        //when
+        List<VoucherResponse> voucherResponses = voucherService.findByCustomerId(customer.getCustomerId());
+
+        //then
+
+    }
 }
