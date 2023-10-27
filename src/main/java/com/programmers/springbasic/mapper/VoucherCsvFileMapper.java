@@ -15,10 +15,13 @@ import com.programmers.springbasic.entity.voucher.VoucherType;
 
 @Component
 public class VoucherCsvFileMapper {
+
+	private static final String DELIMITER = ",";
+
 	public List<String> voucherMapToLines(Map<UUID, Voucher> storage) {
 		return storage.entrySet().stream().map(entry -> {
 			Voucher voucher = entry.getValue();
-			return String.join(",",
+			return String.join(DELIMITER,
 				entry.getKey().toString(),
 				voucher.getVoucherType().toString(),
 				String.valueOf(voucher.getDiscountValue()));
@@ -28,7 +31,7 @@ public class VoucherCsvFileMapper {
 	public Map<UUID, Voucher> linesToVoucherMap(List<String> fileLines) {
 		return fileLines.stream()
 			.map(line -> {
-				String[] parts = line.split(",");
+				String[] parts = line.split(DELIMITER);
 				UUID id = UUID.fromString(parts[0]);
 				VoucherType type = VoucherType.valueOf(parts[1]);
 

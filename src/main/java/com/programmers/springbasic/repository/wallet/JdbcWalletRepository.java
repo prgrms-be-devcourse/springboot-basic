@@ -1,44 +1,15 @@
 package com.programmers.springbasic.repository.wallet;
 
-import static com.programmers.springbasic.constants.ErrorCode.*;
-
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-import com.programmers.springbasic.entity.customer.Customer;
-import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
-import com.programmers.springbasic.entity.voucher.PercentDiscountVoucher;
-import com.programmers.springbasic.entity.voucher.Voucher;
-import com.programmers.springbasic.entity.voucher.VoucherType;
 
 @Repository
 public class JdbcWalletRepository implements WalletRepository {
 
 	private final JdbcTemplate jdbcTemplate;
-
-	private final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> new Customer(
-		UUID.fromString(resultSet.getString("customer_id")),
-		resultSet.getString("name"),
-		resultSet.getString("email"),
-		resultSet.getTimestamp("created_at").toLocalDateTime()
-	);
-
-	private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> {
-		UUID id = UUID.fromString(rs.getString("voucher_id"));
-		String type = rs.getString("voucher_type");
-
-		if (VoucherType.PERCENT_DISCOUNT.name().equals(type)) {
-			return new PercentDiscountVoucher(id, rs.getLong("percent"));
-		} else if (VoucherType.FIXED_AMOUNT.name().equals(type)) {
-			return new FixedAmountVoucher(id, rs.getLong("amount"));
-		}
-
-		throw new IllegalArgumentException(INVALID_VOUCHER_TYPE.getMessage());
-	};
 
 	public JdbcWalletRepository(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
