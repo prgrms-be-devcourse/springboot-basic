@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
+import team.marco.voucher_management_system.facade.VoucherCustomerFacade;
 import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.model.Voucher;
-import team.marco.voucher_management_system.repository.VoucherCustomerFacade;
 import team.marco.voucher_management_system.repository.WalletRepository;
 
 @Service

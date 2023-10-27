@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.repository;
+package team.marco.voucher_management_system.facade;
 
 import java.util.List;
 import java.util.Objects;
@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.model.Voucher;
+import team.marco.voucher_management_system.repository.CustomerRepository;
+import team.marco.voucher_management_system.repository.VoucherRepository;
 
 @Component
 public class VoucherCustomerFacadeImpl implements VoucherCustomerFacade {
@@ -17,7 +19,7 @@ public class VoucherCustomerFacadeImpl implements VoucherCustomerFacade {
         this.voucherRepository = voucherRepository;
         this.customerRepository = customerRepository;
     }
-    
+
     @Override
     public boolean hasVoucher(String voucherId) {
         return voucherRepository.findAll()

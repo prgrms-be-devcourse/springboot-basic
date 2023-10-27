@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.repository;
+package team.marco.voucher_management_system.facade;
 
 import java.util.List;
 import java.util.UUID;
