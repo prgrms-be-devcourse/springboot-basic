@@ -30,7 +30,7 @@ public class CustomerService {
     public CustomerResponse createCustomer(CustomerRequest customerRequest) {
         try{
             validateDuplicateCustomer(customerRequest);
-            Customer customer = customerRequest.of(UUID.randomUUID());
+            Customer customer = customerRequest.to(UUID.randomUUID());
             customerRepository.save(customer);
             return CustomerResponse.toDto(customer);
         }catch (ErrorMessage e){

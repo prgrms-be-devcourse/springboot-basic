@@ -16,7 +16,7 @@ public class WalletRequest {
         this.voucherId = voucherId;
     }
 
-    public Wallet of() {
+    public Wallet to() {
         return new Wallet(customerId,voucherId);
     }
 }

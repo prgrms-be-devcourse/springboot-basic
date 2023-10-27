@@ -29,6 +29,8 @@ public class WalletController {
 
     public Response createWallet(WalletRequest walletRequest) {
         try {
+            customerService.findById(walletRequest.getCustomerId());
+            voucherService.findById(walletRequest.getVoucherId());
             walletService.createWallet(walletRequest);
             return Response.success();
         }catch (Exception e) {
