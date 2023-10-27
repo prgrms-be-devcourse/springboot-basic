@@ -1,8 +1,11 @@
 package com.weeklyMission.member.controller;
 
 import com.weeklyMission.member.domain.Member;
+import com.weeklyMission.member.dto.MemberRequest;
+import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.service.MemberService;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -14,7 +17,19 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    public List<Member> getBlackList(){
-        return memberService.getBlackList();
+    public MemberResponse create(MemberRequest member){
+        return memberService.save(member);
+    }
+
+    public List<MemberResponse> findAll(){
+        return memberService.findAll();
+    }
+
+    public MemberResponse findById(UUID id){
+        return memberService.findById(id);
+    }
+
+    public void deleteById(UUID id){
+        memberService.deleteById(id);
     }
 }
