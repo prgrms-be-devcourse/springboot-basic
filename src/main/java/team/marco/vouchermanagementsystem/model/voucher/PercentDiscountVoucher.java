@@ -19,7 +19,6 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(int percent) {
         validate(percent);
-
         this.percent = percent;
 
         logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", getId(), percent);
@@ -28,7 +27,14 @@ public class PercentDiscountVoucher extends Voucher {
     public PercentDiscountVoucher(UUID id, int percent) {
        super(id);
         validate(percent);
+        this.percent = percent;
 
+        logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", getId(), percent);
+    }
+
+    public PercentDiscountVoucher(UUID id, Integer percent, UUID ownerId) {
+        super(id, ownerId);
+        validate(percent);
         this.percent = percent;
 
         logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", getId(), percent);
@@ -51,6 +57,6 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("PercentDiscountVoucher'{'type={0}, percent={1}'}'", type, percent);
+        return MessageFormat.format("{0}% 할인 쿠폰 {1}", percent, getOwnerId() == null ? "" : "/ 쿠폰 소지자: " + getOwnerId());
     }
 }

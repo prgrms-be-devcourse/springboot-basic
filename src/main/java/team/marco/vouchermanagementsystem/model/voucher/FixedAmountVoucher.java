@@ -19,7 +19,6 @@ public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(int amount) {
         validate(amount);
-
         this.amount = amount;
 
         logger.debug("Create FixedAmountVoucher {id: {}, amount: {}}", getId(), amount);
@@ -27,8 +26,18 @@ public class FixedAmountVoucher extends Voucher {
 
     public FixedAmountVoucher(UUID id, int amount) {
         super(id);
-
+        validate(amount);
         this.amount = amount;
+
+        logger.debug("Create FixedAmountVoucher {id: {}, amount: {}}", getId(), amount);
+    }
+
+    public FixedAmountVoucher(UUID id, int amount, UUID ownerId) {
+        super(id, ownerId);
+        validate(amount);
+        this.amount = amount;
+
+        logger.debug("Create FixedAmountVoucher {id: {}, amount: {}}", getId(), amount);
     }
 
     private void validate(int amount) {
@@ -48,6 +57,6 @@ public class FixedAmountVoucher extends Voucher {
 
     @Override
     public String toString() {
-        return MessageFormat.format("FixedAmountVoucher'{'type={0}, amount={1}'}'", type, amount);
+        return MessageFormat.format("{0}원 할인 쿠폰 {1}", amount, getOwnerId() == null ? "" : "/ 쿠폰 소지자: " + getOwnerId());
     }
 }

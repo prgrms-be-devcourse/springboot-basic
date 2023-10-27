@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import team.marco.vouchermanagementsystem.service.VoucherService;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -25,5 +26,9 @@ public class VoucherController {
         return voucherService.getVouchers().stream()
                 .map(Object::toString)
                 .toList();
+    }
+
+    public void assignVoucherOwner(UUID voucherId, UUID customerId) {
+        voucherService.assignVoucherOwner(voucherId, customerId);
     }
 }

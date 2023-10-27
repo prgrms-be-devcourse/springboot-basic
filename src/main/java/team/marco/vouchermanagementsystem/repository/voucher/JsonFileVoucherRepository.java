@@ -13,10 +13,11 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Profile({"prod", "dev"})
+@Profile("dev")
 @Repository
 public class JsonFileVoucherRepository implements VoucherRepository, DisposableBean {
     private final Map<UUID, Voucher> voucherMap;
@@ -45,7 +46,7 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
             throw new UncheckedIOException(e);
         }
 
-        jsonVouchers.forEach(data -> loadedVouchers.put(data.getId(), data.convertToVoucher()));
+        jsonVouchers.forEach(data -> loadedVouchers.put(data.getId(), data.jsonVoucherToVoucher()));
 
         return loadedVouchers;
     }
@@ -53,6 +54,7 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
     @Override
     public Voucher save(Voucher voucher) {
         voucherMap.put(voucher.getId(), voucher);
+
         return voucher;
     }
 
@@ -60,6 +62,32 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
     public List<Voucher> findAll() {
         return voucherMap.values().stream()
                 .toList();
+    }
+
+    @Override
+    public List<Voucher> findByOwner(UUID ownerId) {
+        return voucherMap.values().stream()
+                .filter(v -> v.getOwnerId() == ownerId)
+                .toList();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        if(voucherMap.containsKey(voucherId)) {
+            return Optional.of(voucherMap.get(voucherId));
+        } else return Optional.empty();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        voucherMap.put(voucher.getId(), voucher);
+
+        return voucher;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        voucherMap.remove(voucherId);
     }
 
     @Override

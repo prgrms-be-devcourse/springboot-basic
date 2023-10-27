@@ -6,6 +6,7 @@ import team.marco.vouchermanagementsystem.model.voucher.Voucher;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,6 +18,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         voucherMap.put(voucher.getId(), voucher);
+
         return voucher;
     }
 
@@ -24,5 +26,31 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return voucherMap.values().stream()
                 .toList();
+    }
+
+    @Override
+    public List<Voucher> findByOwner(UUID ownerId) {
+        return voucherMap.values().stream()
+                .filter(v -> v.getOwnerId() == ownerId)
+                .toList();
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        if(voucherMap.containsKey(voucherId)) {
+            return Optional.of(voucherMap.get(voucherId));
+        } else return Optional.empty();
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        voucherMap.put(voucher.getId(), voucher);
+
+        return voucher;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        voucherMap.remove(voucherId);
     }
 }
