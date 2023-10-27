@@ -2,10 +2,10 @@ package team.marco.vouchermanagementsystem.application;
 
 import static java.text.MessageFormat.format;
 
-public enum CommandType {
+public enum MainCommandType {
     CREATE, LIST, EXIT, BLACKLIST, CUSTOMER;
 
-    public static CommandType getCommandType(String input) {
+    public static MainCommandType getCommandType(String input) {
         try {
             return valueOf(input.toUpperCase());
         } catch (IllegalArgumentException e) {

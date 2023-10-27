@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
-import team.marco.vouchermanagementsystem.application.ConsoleApplication;
+import team.marco.vouchermanagementsystem.application.CommandMainApplication;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
@@ -20,7 +20,7 @@ public class VoucherManagementSystemApplication {
 
         logger.info("Program start (profile: {})", environment.getActiveProfiles()[0]);
 
-        ConsoleApplication application = context.getBean(ConsoleApplication.class);
+        CommandMainApplication application = context.getBean(CommandMainApplication.class);
         application.run();
 
         logger.info("Program exit");
