@@ -22,7 +22,9 @@ public interface CustomerRepository {
     void deleteById(UUID customerId);
     void deleteAll();
     void loadBlacklistToStorage();
-
+    default boolean existById(UUID customerId) {
+        return findById(customerId).isPresent();
+    }
     default List<Customer> loadBlacklist(String blacklistFilePath) {
         List<Customer> blacklist = new ArrayList<>();
 
