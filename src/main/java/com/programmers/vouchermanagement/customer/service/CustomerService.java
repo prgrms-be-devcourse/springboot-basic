@@ -23,11 +23,6 @@ public class CustomerService {
 
     public List<CustomerResponse> readBlacklist() {
         List<Customer> blacklist = customerRepository.findBlackCustomers();
-
-        if (blacklist.isEmpty()) {
-            return Collections.emptyList();
-        }
-
         return blacklist.stream()
                 .map(CustomerResponse::from)
                 .toList();
@@ -42,11 +37,6 @@ public class CustomerService {
 
     public List<CustomerResponse> findAll() {
         List<Customer> customers = customerRepository.findAll();
-
-        if (customers.isEmpty()) {
-            return Collections.emptyList();
-        }
-
         return customers.stream()
                 .map(CustomerResponse::from)
                 .toList();
