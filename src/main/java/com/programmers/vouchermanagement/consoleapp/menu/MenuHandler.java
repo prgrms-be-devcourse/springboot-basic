@@ -64,17 +64,10 @@ public class MenuHandler {
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
                 CreateVoucherRequest createVoucherRequest = consoleManager.instructCreate();
-                VoucherResponse voucherResponse = voucherController.create(createVoucherRequest);
-                consoleManager.printCreateResult(voucherResponse);
+                voucherController.create(createVoucherRequest);
             }
-            case LIST -> {
-                List<VoucherResponse> voucherResponses = voucherController.readAllVouchers();
-                consoleManager.printReadAllVouchers(voucherResponses);
-            }
-            case BLACKLIST -> {
-                List<CustomerResponse> customerResponses = customerController.readBlacklist();
-                consoleManager.printReadBlacklist(customerResponses);
-            }
+            case LIST -> voucherController.readAllVouchers();
+            case BLACKLIST -> customerController.readBlacklist();
         }
     }
 }

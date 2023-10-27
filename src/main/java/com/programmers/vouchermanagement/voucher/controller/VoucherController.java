@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
@@ -11,16 +12,20 @@ import com.programmers.vouchermanagement.voucher.service.VoucherService;
 @Controller
 public class VoucherController {
     private final VoucherService voucherService;
+    private final ConsoleManager consoleManager;
 
-    public VoucherController(VoucherService voucherService) {
+    public VoucherController(VoucherService voucherService, ConsoleManager consoleManager) {
         this.voucherService = voucherService;
+        this.consoleManager = consoleManager;
     }
 
-    public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
-        return voucherService.create(createVoucherRequest);
+    public void create(CreateVoucherRequest createVoucherRequest) {
+        VoucherResponse voucherResponse = voucherService.create(createVoucherRequest);
+        consoleManager.printCreateResult(voucherResponse);
     }
 
-    public List<VoucherResponse> readAllVouchers() {
-        return voucherService.readAllVouchers();
+    public void readAllVouchers() {
+         List<VoucherResponse> voucherResponses = voucherService.readAllVouchers();
+         consoleManager.printReadAllVouchers(voucherResponses);
     }
 }
