@@ -33,10 +33,10 @@ public class FixedAmountVoucher extends Voucher {
     public String toString() {
         return System.lineSeparator() +
                 "++++++ Fixed Amount voucher ++++++" + System.lineSeparator() +
-                "Voucher Id:    " + id + System.lineSeparator() +
-                "Voucher Name:  " + name + System.lineSeparator() +
+                "Voucher Id     : " + id + System.lineSeparator() +
+                "Voucher Name   : " + name + System.lineSeparator() +
                 "Discount Amount: " + discountAmount + "$" + System.lineSeparator() +
-                "Created Time: " + createdAt + System.lineSeparator();
+                "Created Time   : " + createdAt + System.lineSeparator();
     }
 
 //    public float discount(float beforeDiscount) {

@@ -49,10 +49,10 @@ public class Customer {
     public String toString() {
         return System.lineSeparator() +
                 "############# Customer #############" + System.lineSeparator() +
-                "Customer Id    :   " + id + System.lineSeparator() +
+                "Customer Id    : " + id + System.lineSeparator() +
                 "Customer Name  : " + name + System.lineSeparator() +
-                "Created At     :" + createdAt + System.lineSeparator() +
-                "is Banned      :" + isBanned + System.lineSeparator();
+                "Created At     : " + createdAt + System.lineSeparator() +
+                "is Banned      : " + isBanned + System.lineSeparator();
     }
 
     public String joinInfo(String separator) {

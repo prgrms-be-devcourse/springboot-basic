@@ -28,8 +28,8 @@ public class Wallet {
     @Override
     public String toString() {
         return "============= Wallet =============" +
-                "Id          :" + id + System.lineSeparator() +
-                "Customer Id :" + customerId + System.lineSeparator() +
-                "Voucher Id  :" + voucherId + System.lineSeparator();
+                "Id          : " + id + System.lineSeparator() +
+                "Customer Id : " + customerId + System.lineSeparator() +
+                "Voucher Id  : " + voucherId + System.lineSeparator();
     }
 }
