@@ -68,10 +68,10 @@ public class ConsoleView implements Input, Output {
         String command = """
         
         === Select Program ===
-        Type exit to exit the program.
-        Type customer to run customer program.
-        Type voucher to run voucher program.
-        Type Wallet to Run Wallet Program.
+        Type exit to 프로그램을 종료합니다.
+        Type customer to 회원 프로그램을 실행합니다.
+        Type voucher to 바우처 프로그램을 실행합니다.
+        Type Wallet to 지갑 프로그램을 실행합니다.
         """;
         out.println(command);
         printPrompt();
@@ -99,13 +99,13 @@ public class ConsoleView implements Input, Output {
         String command = """
         
         === Voucher Program ===
-        Type back to Main Menu.
-        Type create to Create a New Voucher.
-        Type list to List All Vouchers.
-        Type search to Search Voucher By Id From Voucher List.
-        Type update to Update Voucher Information.
-        Type delete to Remove Voucher By Id From Voucher List.
-        Type delete_all to Remove All Vouchers From Voucher List.
+        Type back to 메인 메뉴로 돌아갑니다.
+        Type create to 신규 바우처를 생성합니다.
+        Type list to 모든 바우처 목록을 조회합니다.
+        Type search to 바우처 아이디로 바우처를 조회합니다.
+        Type update to 바우처 정보를 수정합니다.
+        Type delete to 바우처 아이디로 바우처를 삭제합니다.
+        Type delete_all to 전체 바우처를 삭제합니다.
         """;
         out.println(command);
         printPrompt();
@@ -116,14 +116,14 @@ public class ConsoleView implements Input, Output {
         String command = """
         
         === Customer Program ===
-        Type back to Main Menu.
-        Type create to Create a New Customer.
-        Type list to Show All Customer.
-        Type blacklist to Show All Blacklist Customer.
-        Type search to Search Customer By Id From Customer List.
-        Type update to Update Customer Information.
-        Type delete to Delete Customer By Id From Customer List.
-        Type delete_all to Remove All Customers From Customer List.
+        Type back to 메인 메뉴로 돌아갑니다.
+        Type create to 신규 회원을 생성합니다.
+        Type list to 전체 회원 목록을 조회합니다.
+        Type blacklist to 블랙리스트 회원 목록을 조회합니다.
+        Type search to 회원 ID로 회원을 조회합니다.
+        Type update to 회원 정보를 수정합니다.
+        Type delete to 회원 아이디로 회원을 삭제합니다.
+        Type delete_all to 전체 회원을 삭제합니다.
         """;
         out.println(command);
         printPrompt();
@@ -134,12 +134,12 @@ public class ConsoleView implements Input, Output {
         String command = """
                 
         === Wallet Program ===
-        Type back to Main Menu.
-        Type assign to Register Voucher to Customer.
-        Type voucher_list to List of Vouchers Owned By Customer.
-        Type Owner to Show VoucherOwner.
-        Type remove to Remove Voucher Owned by Customer.
-        Type delete_all to Delete All Wallets.
+        Type back to 메인 메뉴로 돌아갑니다.
+        Type assign to 특정 회원에게 바우처를 할당합니다.
+        Type voucher_list to 특정 회원이 보유한 바우처들을 조회합니다.
+        Type Owner to 바우처의 소유자들을 조회합니다..
+        Type remove to 회원에게 할당했던 바우처를 회수합니다.
+        Type delete_all to 지갑 내역을 모두 삭제합니다.
         """;
         out.println(command);
         printPrompt();
