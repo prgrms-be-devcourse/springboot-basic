@@ -10,7 +10,9 @@ import org.springframework.stereotype.Component;
 import com.programmers.vouchermanagement.consoleapp.menu.CustomerMenu;
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.consoleapp.menu.VoucherMenu;
+import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
+import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.util.Formatter;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
@@ -59,9 +61,13 @@ public class ConsoleManager {
     private static final String CONTENT_VOUCHER = "voucher";
     private static final String CONTENT_CUSTOMER = "customer";
     private static final String CONTENT_BLACKLIST = "black customer";
-    private static final String CUSTOMER_CREATE_INSTRUCTION = "Please write the name of the customer";
-    private static final String ID_INPUT = "Please write the %s ID";
+    private static final String CUSTOMER_NAME_INPUT = "Please write the name of the customer to be saved." + LINE_SEPARATOR;
+    private static final String ID_INPUT = "Please write the %s ID" + LINE_SEPARATOR;
     private static final String DELETE_SUCCESSFUL = "Item is successfully deleted.";
+    private static final String CUSTOMER_TYPE_NAME_INPUT = """
+            Write **normal** if you want to update this customer to exclude from the blacklist, or
+            Write **black** if you want to update the customer to be in the blacklist.
+            """;
 
     private final TextIO textIO;
 
@@ -94,7 +100,7 @@ public class ConsoleManager {
     }
 
     public UpdateVoucherRequest instructUpdateVoucher() {
-        String voucherIdInput = read(ID_INPUT);
+        String voucherIdInput = read(ID_INPUT.formatted(CONTENT_VOUCHER));
         UUID voucherId = UUID.fromString(voucherIdInput);
 
         String discountValueInput = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
@@ -106,7 +112,18 @@ public class ConsoleManager {
     }
 
     public String instructCreateCustomer() {
-        return read(CUSTOMER_CREATE_INSTRUCTION);
+        return read(CUSTOMER_NAME_INPUT);
+    }
+
+    public UpdateCustomerRequest instructUpdateCustomer() {
+        String customerIdInput = read(ID_INPUT.formatted(CONTENT_CUSTOMER));
+        UUID customerId = UUID.fromString(customerIdInput);
+
+        String name = read(CUSTOMER_NAME_INPUT);
+
+        String customerTypeName = read(CUSTOMER_TYPE_NAME_INPUT);
+        CustomerType customerType = CustomerType.findCustomerType(customerTypeName);
+        return new UpdateCustomerRequest(customerId, name, customerType);
     }
 
     public UUID instructFindVoucher() {
@@ -147,7 +164,6 @@ public class ConsoleManager {
         if (customerResponses.isEmpty()) {
             print(Formatter.formatNoContent(CONTENT_BLACKLIST));
         }
-
         customerResponses.forEach(this::printReadCustomer);
     }
 

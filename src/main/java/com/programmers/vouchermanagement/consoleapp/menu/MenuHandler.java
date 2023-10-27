@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.controller.CustomerController;
+import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
@@ -99,7 +100,8 @@ public class MenuHandler {
                 customerController.findById(customerId);
             }
             case UPDATE -> {
-                return;
+                UpdateCustomerRequest updateCustomerRequest = consoleManager.instructUpdateCustomer();
+                customerController.update(updateCustomerRequest);
             }
             case BLACKLIST -> customerController.readBlacklist();
             case DELETE -> {

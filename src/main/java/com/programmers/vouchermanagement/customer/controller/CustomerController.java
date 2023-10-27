@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
+import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.customer.service.CustomerService;
 
 @Controller
@@ -37,5 +38,10 @@ public class CustomerController {
     public void findById(UUID customerId) {
         CustomerResponse customerResponse = customerService.findById(customerId);
         consoleManager.printReadCustomer(customerResponse);
+    }
+
+    public void update(UpdateCustomerRequest updateCustomerRequest) {
+        CustomerResponse customerResponse = customerService.update(updateCustomerRequest);
+        consoleManager.printSaveCustomerResult(customerResponse);
     }
 }
