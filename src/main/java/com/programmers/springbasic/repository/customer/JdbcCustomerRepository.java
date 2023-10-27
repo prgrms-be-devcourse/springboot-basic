@@ -21,7 +21,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 		resultSet.getString("name"),
 		resultSet.getString("email"),
 		resultSet.getTimestamp("created_at").toLocalDateTime()
-	); // todo : nullable value 체크
+	);
 
 	public JdbcCustomerRepository(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;

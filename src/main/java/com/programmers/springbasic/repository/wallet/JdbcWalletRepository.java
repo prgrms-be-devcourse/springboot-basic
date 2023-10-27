@@ -25,7 +25,7 @@ public class JdbcWalletRepository implements WalletRepository {
 		resultSet.getString("name"),
 		resultSet.getString("email"),
 		resultSet.getTimestamp("created_at").toLocalDateTime()
-	); // todo : nullable value 체크
+	);
 
 	private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> {
 		UUID id = UUID.fromString(rs.getString("voucher_id"));
