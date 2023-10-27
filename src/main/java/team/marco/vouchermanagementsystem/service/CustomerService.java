@@ -2,6 +2,7 @@ package team.marco.vouchermanagementsystem.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Service;
 import team.marco.vouchermanagementsystem.model.Customer;
 import team.marco.vouchermanagementsystem.repository.JdbcCustomerRepository;
@@ -14,27 +15,45 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public boolean create(String name, String email) {
-        return false;
+    public void create(String name, String email) {
+        Customer customer = new Customer(name, email);
+
+        int insert = customerRepository.create(customer);
+
+        if (insert != 1) {
+            throw new DataAccessResourceFailureException("고객을 추가하는 과정에서 오류가 발생했습니다.");
+        }
     }
 
     public List<Customer> getCustomers() {
-        return null;
+        return customerRepository.findAll();
     }
 
-    public boolean update(String id, String name, String email) {
-        return false;
+    public void update(String id, String name) {
+        Optional<Customer> customerOptional = customerRepository.findById(id);
+
+        customerOptional.orElseThrow(
+                () -> new IllegalArgumentException("해당 ID의 고객이 존재하지 않습니다."));
+
+        int update = customerRepository.update(id, name);
+
+        if (update != 1) {
+            throw new DataAccessResourceFailureException("고객을 추가하는 과정에서 오류가 발생했습니다.");
+        }
     }
 
-    public Optional<Customer> findById(String id) {
-        return Optional.empty();
+    public Customer findById(String id) {
+        Optional<Customer> customerOptional = customerRepository.findById(id);
+
+        return customerOptional.orElseThrow(
+                () -> new IllegalArgumentException("해당 ID의 고객이 존재하지 않습니다."));
     }
 
     public List<Customer> findByName(String name) {
-        return null;
+        return customerRepository.findByName(name);
     }
 
     public List<Customer> findByEmail(String email) {
-        return null;
+        return customerRepository.findByEmail(email);
     }
 }

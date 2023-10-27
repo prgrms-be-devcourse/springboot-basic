@@ -1,7 +1,6 @@
 package team.marco.vouchermanagementsystem.controller;
 
 import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import team.marco.vouchermanagementsystem.model.Customer;
 import team.marco.vouchermanagementsystem.service.CustomerService;
@@ -66,28 +65,21 @@ public class ConsoleCustomerController {
         Console.print("수정할 고객의 ID를 입력해 주세요.");
         String id = Console.readString();
 
-        Optional<Customer> customerOptional = customerService.findById(id);
-
-        customerOptional.orElseThrow(
-                () -> new IllegalArgumentException("해당하는 ID의 고객이 존재하지 않습니다."));
+        customerService.findById(id);
 
         Console.print("새로운 이름을 입력해 주세요.");
         String name = Console.readString();
 
-        Console.print("새로운 E-mail 주소를 입력해 주세요.");
-        String email = Console.readString();
+        customerService.update(id, name);
 
-        customerService.update(id, name, email);
+        Console.print("수정이 완료되었습니다.");
     }
 
     private void findCustomerById() {
-        Console.print("수정할 고객의 ID를 입력해 주세요.");
+        Console.print("조회할 고객의 ID를 입력해 주세요.");
         String id = Console.readString();
 
-        Optional<Customer> customerOptional = customerService.findById(id);
-
-        Customer customer = customerOptional.orElseThrow(
-                () -> new IllegalArgumentException("해당하는 ID의 고객이 존재하지 않습니다."));
+        Customer customer = customerService.findById(id);
 
         Console.print(customer.getInfo());
     }
