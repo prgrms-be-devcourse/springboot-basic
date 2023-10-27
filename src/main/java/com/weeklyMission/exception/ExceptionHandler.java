@@ -4,8 +4,6 @@ import com.weeklyMission.client.Client;
 import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.EmptyResultDataAccessException;
 
 public class ExceptionHandler extends Client{
 
@@ -30,7 +28,8 @@ public class ExceptionHandler extends Client{
         } catch(NoSuchElementException noe){
             System.out.println(noe.getMessage());
             logger.error(noe.getMessage());
-        } catch(Exception e){
+        }
+        catch(Exception e){
             System.out.println("서버 내부 오류입니다." + System.lineSeparator());
             logger.error("서버 내부 오류");
         }
