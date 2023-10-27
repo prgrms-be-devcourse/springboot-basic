@@ -60,7 +60,7 @@ public class ConsoleManager {
     private static final String CONTENT_CUSTOMER = "customer";
     private static final String CONTENT_BLACKLIST = "black customer";
     private static final String CUSTOMER_CREATE_INSTRUCTION = "Please write the name of the customer";
-    private static final String VOUCHER_ID_INPUT = "Please write the voucher ID";
+    private static final String ID_INPUT = "Please write the %s ID";
     private static final String DELETE_SUCCESSFUL = "Item is successfully deleted.";
 
     private final TextIO textIO;
@@ -94,7 +94,7 @@ public class ConsoleManager {
     }
 
     public UpdateVoucherRequest instructUpdateVoucher() {
-        String voucherIdInput = read(VOUCHER_ID_INPUT);
+        String voucherIdInput = read(ID_INPUT);
         UUID voucherId = UUID.fromString(voucherIdInput);
 
         String discountValueInput = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
@@ -110,8 +110,13 @@ public class ConsoleManager {
     }
 
     public UUID instructFindVoucher() {
-        String voucherId = read(VOUCHER_ID_INPUT);
+        String voucherId = read(ID_INPUT.formatted(CONTENT_VOUCHER));
         return UUID.fromString(voucherId);
+    }
+
+    public UUID instructFindCustomer() {
+        String customerId = read(ID_INPUT.formatted(CONTENT_CUSTOMER));
+        return UUID.fromString(customerId);
     }
 
     public void printSaveVoucherResult(VoucherResponse voucherResponse) {

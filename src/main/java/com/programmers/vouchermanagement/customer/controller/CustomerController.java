@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.customer.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 
@@ -31,5 +32,10 @@ public class CustomerController {
     public void readAllCustomers() {
         List<CustomerResponse> customerResponses = customerService.findAll();
         consoleManager.printReadAllCustomers(customerResponses);
+    }
+
+    public void findById(UUID customerId) {
+        CustomerResponse customerResponse = customerService.findById(customerId);
+        consoleManager.printReadCustomer(customerResponse);
     }
 }

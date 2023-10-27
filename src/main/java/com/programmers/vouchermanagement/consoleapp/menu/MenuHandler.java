@@ -95,7 +95,8 @@ public class MenuHandler {
             }
             case LIST -> customerController.readAllCustomers();
             case SEARCH -> {
-                return;
+                UUID customerId = consoleManager.instructFindCustomer();
+                customerController.findById(customerId);
             }
             case UPDATE -> {
                 return;

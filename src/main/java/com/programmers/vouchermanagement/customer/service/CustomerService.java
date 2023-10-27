@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.customer.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -48,5 +49,11 @@ public class CustomerService {
         return customers.stream()
                 .map(CustomerResponse::from)
                 .toList();
+    }
+
+    public CustomerResponse findById(UUID customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new NoSuchElementException("There is no customer with %s".formatted(customerId)));
+        return CustomerResponse.from(customer);
     }
 }
