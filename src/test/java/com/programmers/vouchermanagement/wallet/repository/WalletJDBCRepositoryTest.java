@@ -59,7 +59,7 @@ class WalletJDBCRepositoryTest {
     void saveSucceed() {
         Voucher newVoucher = new Voucher(UUID.randomUUID(), 333, VoucherType.FIXED);
         voucherJDBCRepository.save(newVoucher);
-        Customer newCustomer = new Customer(UUID.randomUUID(), "바우처 주인");
+        Customer newCustomer = new Customer(UUID.randomUUID(), "바우처 주인12ㅁ3");
         customerJDBCRepository.save(newCustomer);
 
         Ownership newOwnership = new Ownership(newVoucher.getVoucherId(), newCustomer.getCustomerId());
@@ -110,7 +110,7 @@ class WalletJDBCRepositoryTest {
     }
 
     @Test
-    @DisplayName("고객 id로 고객이 가진 바우처 id를 가져올 수 있다.")
+    @DisplayName("고객 id로 고객이 가진 바우처들을 가져올 수 있다.")
     void findAllVoucherByCustomerId() {
         Customer customer = new Customer(UUID.randomUUID(), "바우처 주인B");
         customerJDBCRepository.save(customer);
@@ -149,18 +149,18 @@ class WalletJDBCRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처 id로 바우처를 가진 고객 id를 가져올 수 있다.")
+    @DisplayName("바우처 id로 바우처를 가진 고객 정보를 가져올 수 있다.")
     void findCustomerByVoucherId() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
-        Customer customer = new Customer(UUID.randomUUID(), "r1sdgd2r");
+        Customer customer = new Customer(UUID.randomUUID(), "바우처 주인12345");
         customerJDBCRepository.save(customer);
-        Ownership newOwnership = new Ownership(voucher.getVoucherId(), customer.getCustomerId());
-        walletJDBCRepository.save(newOwnership);
+        Ownership ownership = new Ownership(voucher.getVoucherId(), customer.getCustomerId());
+        walletJDBCRepository.save(ownership);
 
-        Optional<UUID> customerId = walletJDBCRepository.findCustomerByVoucherId(voucher.getVoucherId());
-        assertThat(customerId.isPresent()).isTrue();
-        assertThat(customerId.get()).isEqualTo(customer.getCustomerId());
+        Optional<Customer> retrievedCustomer = walletJDBCRepository.findCustomerByVoucherId(voucher.getVoucherId());
+        assertThat(retrievedCustomer.isPresent()).isTrue();
+        assertThat(retrievedCustomer.get().getCustomerId()).isEqualTo(customer.getCustomerId());
     }
 
     @Test
