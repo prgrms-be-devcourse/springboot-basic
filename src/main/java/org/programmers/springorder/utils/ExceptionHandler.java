@@ -1,5 +1,6 @@
 package org.programmers.springorder.utils;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class ExceptionHandler {
@@ -10,6 +11,15 @@ public class ExceptionHandler {
         } catch (IllegalArgumentException e) {
             printExceptionMessage(e);
             return input(supplier);
+        }
+    }
+
+    public static <T> void process(Consumer<T> consumer, T t) {
+        try {
+            consumer.accept(t);
+        } catch (IllegalArgumentException e) {
+            printExceptionMessage(e);
+            process(consumer, t);
         }
     }
 
