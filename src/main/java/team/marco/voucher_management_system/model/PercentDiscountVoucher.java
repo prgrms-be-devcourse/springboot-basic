@@ -2,6 +2,7 @@ package team.marco.voucher_management_system.model;
 
 import static java.text.MessageFormat.format;
 
+import java.text.MessageFormat;
 import java.util.UUID;
 import team.marco.voucher_management_system.type_enum.VoucherType;
 
@@ -48,6 +49,6 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public String getInfo() {
-        return format("{0}% 할인 쿠폰", percent);
+        return MessageFormat.format("id  : {0}\n설명 : {1}% 할인 쿠폰", id, percent);
     }
 }

@@ -1,5 +1,6 @@
 package team.marco.voucher_management_system.controller;
 
+import java.text.MessageFormat;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import team.marco.voucher_management_system.model.Voucher;
@@ -8,7 +9,8 @@ import team.marco.voucher_management_system.util.Console;
 
 @Controller
 public class ConsoleVoucherController {
-    private static final String INFO_DELIMINATOR = "\n";
+    private static final String INFO_DELIMINATOR = MessageFormat.format("\n{0}\n", "-".repeat(42));
+    ;
 
     private final VoucherService voucherService;
 
