@@ -178,4 +178,19 @@ class VoucherServiceTest {
         verify(voucherRepository).findById(request.voucherId());
         verify(voucherRepository).save(any(Voucher.class));
     }
+
+    @Test
+    @DisplayName("존재하지 않는 고객의 바우처 정보 조회를 실패한다.")
+    void testFindVouchersByCustomerIdFailed_NonExistentCustomer() {
+        //given
+        final NoSuchElementException exception = new NoSuchElementException();
+        final UUID customerId = UUID.randomUUID();
+        doThrow(exception).when(customerRepository).findById(any(UUID.class));
+
+        //when && then
+        assertThatThrownBy(() -> voucherService.findByCustomerId(customerId));
+
+        //verify
+        verify(customerRepository).findById(customerId);
+    }
 }
