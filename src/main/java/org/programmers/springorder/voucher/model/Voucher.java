@@ -42,6 +42,10 @@ public class Voucher {
         return new Voucher(voucherId, requestDto);
     }
 
+    public static Voucher toVoucher(UUID voucherId, long discountValue, VoucherType voucherType, UUID customerId) {
+        return new Voucher(voucherId, discountValue, voucherType, customerId);
+    }
+
     public void updateOwner(Customer customer){
         this.customerId = customer.getCustomerId();
     }
@@ -57,11 +61,21 @@ public class Voucher {
         data.append(this.voucherId).append(",")
                 .append(this.discountValue).append(",")
                 .append(this.voucherType.name());
+        if(this.customerId != null){
+            data.append(",").append(this.customerId);
+        }
         return data.toString();
     }
 
     public boolean isSameId(UUID comparingId){
         return this.voucherId.equals(comparingId);
+    }
+
+    public boolean isSameCustomerId(UUID comparingId){
+        if (this.customerId == null) {
+            return false;
+        }
+        return this.customerId.equals(comparingId);
     }
 
     public long getCalculate(long beforeDiscount) {
