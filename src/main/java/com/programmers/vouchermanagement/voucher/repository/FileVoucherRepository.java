@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@Profile("default")
+@Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final File FILE = new File(System.getProperty("user.dir") + "/src/main/resources/data.csv");
