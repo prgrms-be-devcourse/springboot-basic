@@ -32,7 +32,17 @@ public class VoucherController {
                 .toList();
     }
 
-    public void assignVoucherOwner(UUID voucherId, UUID customerId) {
-        voucherService.assignVoucherOwner(voucherId, customerId);
+    public List<String> getVouchersInfo(String customerId) {
+        return voucherService.getVouchers(UUID.fromString(customerId)).stream()
+                .map(Object::toString)
+                .toList();
+    }
+
+    public void assignVoucherOwner(String voucherId, String customerId) {
+        voucherService.assignVoucherOwner(UUID.fromString(voucherId), UUID.fromString(customerId));
+    }
+
+    public void deleteVoucher(String voucherId) {
+        voucherService.deleteVoucher(UUID.fromString(voucherId));
     }
 }

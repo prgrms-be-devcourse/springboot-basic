@@ -59,15 +59,23 @@ public class ConsoleWalletApplication {
     }
 
     private void registerVoucher(String customerId) {
+        Console.print("등록하실 쿠폰 번호를 입력해주세요.");
+        String voucherId = Console.readString();
+        voucherController.assignVoucherOwner(voucherId, customerId);
 
+        Console.print("쿠폰 등록이 완료되었습니다.");
     }
 
     private void getMyVouchers(String customerId) {
-
+        Console.printStringList(voucherController.getVouchersInfo(customerId));
     }
 
     private void removeVoucher(String customerId) {
+        Console.print("제거할 쿠폰 번호를 입력해주세요.");
+        String voucherId = Console.readString();
+        voucherController.deleteVoucher(voucherId);
 
+        Console.print("쿠폰 삭제가 완료되었습니다.");
     }
 
     private void backToMainApplication() {

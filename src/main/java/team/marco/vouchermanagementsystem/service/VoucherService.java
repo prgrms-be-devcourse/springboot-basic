@@ -38,6 +38,10 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public List<Voucher> getVouchers(UUID customerId) {
+        return voucherRepository.findByOwner(customerId);
+    }
+
     @Transactional
     public void assignVoucherOwner(UUID voucherId, UUID customerId) {
         logger.debug("[VoucherService] Call assignVoucherOwner()");
@@ -50,5 +54,9 @@ public class VoucherService {
 
     public Voucher getVoucher(UUID voucherId) {
         return voucherRepository.findById(voucherId).orElseThrow();
+    }
+
+    public void deleteVoucher(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 }
