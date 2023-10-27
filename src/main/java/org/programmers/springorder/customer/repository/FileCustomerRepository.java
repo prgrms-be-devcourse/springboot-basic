@@ -4,15 +4,12 @@ import org.programmers.springorder.console.Console;
 import org.programmers.springorder.consts.ErrorMessage;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
+import org.programmers.springorder.utils.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 @Repository
@@ -20,8 +17,6 @@ public class FileCustomerRepository implements CustomerRepository {
 
     private final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
     private final Console console;
-    @Value(("${customerListFilePath}"))
-    private String filePath;
 
     public FileCustomerRepository(Console console) {
         this.console = console;
@@ -37,7 +32,7 @@ public class FileCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         List<Customer> customerList = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(Properties.getCustomerFilePath()))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
@@ -61,11 +56,28 @@ public class FileCustomerRepository implements CustomerRepository {
     //TODO: 추후 구현 예정
     @Override
     public Optional<Customer> findByID(UUID customerId) {
-        return Optional.empty();
+        return findAll().stream()
+                .filter(customer -> customer.sameCustomerId(customerId))
+                .findFirst();
     }
 
     @Override
     public Customer insert(Customer customer) {
-        return null;
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(Properties.getCustomerFilePath(), true))) {
+            String data = customer.insertCustomerDataInFile();
+            bw.write(data);
+            bw.newLine();
+        } catch (IOException e) {
+            logger.error("errorMessage = {}", ErrorMessage.FILE_SAVE_ERROR_MESSAGE);
+            console.printMessage(ErrorMessage.FILE_SAVE_ERROR_MESSAGE);
+        }
+        return customer;
+    }
+
+    public void clear(){
+        try (FileOutputStream fos = new FileOutputStream(Properties.getCustomerFilePath(), false)) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
