@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -30,9 +32,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     public Customer save(Customer customer) {
 
-        SqlParameterSource forSequenceParam = new MapSqlParameterSource();
-        Long sequence = template.queryForObject(COUNT.getQuery(), forSequenceParam, Long.class);
-        customer.setId(sequence+1);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("id", customer.getId())
@@ -40,9 +40,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .addValue("email", customer.getEmail())
                 .addValue("black_list", customer.isBlackList());
 
+        template.update(INSERT.getQuery(), param, keyHolder);
+        long id = keyHolder.getKey().longValue();
 
-        template.update(INSERT.getQuery(), param);
-
+        customer.setId(id);
         return customer;
 
     }

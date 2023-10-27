@@ -8,10 +8,7 @@ public enum WalletQueryType {
 
     SELECT_BY_VOUCHER_ID("select * from wallets where voucher_id = :voucher_id "),
 
-    DELETE_BY_CUSTOMER_ID("delete from wallets where customer_id = :customer_id"),
-
-    COUNT("select max(id) from wallets");
-
+    DELETE_BY_CUSTOMER_ID("delete from wallets where customer_id = :customer_id");
 
     private final String query;
 

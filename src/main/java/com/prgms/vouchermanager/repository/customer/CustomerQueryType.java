@@ -8,8 +8,7 @@ public enum CustomerQueryType {
     SELECT_ALL("select * from customers"),
     DELETE_ALL("delete from customers"),
     DELETE_BY_ID("delete from customers where id = :id"),
-    BLACKLIST("select * from customers where black_list=0"),
-    COUNT("select max(id) from customers");
+    BLACKLIST("select * from customers where black_list=0");
 
     private final String query;
 
