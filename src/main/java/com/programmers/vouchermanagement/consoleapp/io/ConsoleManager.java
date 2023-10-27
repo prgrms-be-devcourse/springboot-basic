@@ -114,8 +114,7 @@ public class ConsoleManager {
                     .println(Formatter.formatNoContent(CONTENT_VOUCHER));
         }
 
-        voucherResponses.forEach(voucherResponse -> textIO.getTextTerminal()
-                .println(Formatter.formatVoucher(voucherResponse)));
+        voucherResponses.forEach(this::printReadVoucher);
     }
 
     public void printReadBlacklist(List<CustomerResponse> customerResponses) {
