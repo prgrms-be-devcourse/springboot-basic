@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
 
@@ -22,7 +23,7 @@ public class VoucherController {
 
     public void create(CreateVoucherRequest createVoucherRequest) {
         VoucherResponse voucherResponse = voucherService.create(createVoucherRequest);
-        consoleManager.printCreateResult(voucherResponse);
+        consoleManager.printSaveVoucherResult(voucherResponse);
     }
 
     public void readAllVouchers() {
@@ -33,5 +34,10 @@ public class VoucherController {
     public void findById(UUID voucherId) {
         VoucherResponse voucherResponse = voucherService.findById(voucherId);
         consoleManager.printReadVoucher(voucherResponse);
+    }
+
+    public void update(UpdateVoucherRequest updateVoucherRequest) {
+        VoucherResponse voucherResponse = voucherService.update(updateVoucherRequest);
+        consoleManager.printSaveVoucherResult(voucherResponse);
     }
 }
