@@ -70,77 +70,61 @@ public class ConsoleManager {
     }
 
     public Menu selectMenu() {
-        String input = textIO.newStringInputReader()
-                .read(MENU_SELECTION_INSTRUCTION);
-
+        String input = read(MENU_SELECTION_INSTRUCTION);
         return Menu.findMenu(input);
     }
 
     public VoucherMenu selectVoucherMenu() {
-        String input = textIO.newStringInputReader()
-                .read(VOUCHER_MENU_SELECTION);
-
+        String input = read(VOUCHER_MENU_SELECTION);
         return VoucherMenu.findVoucherMenu(input);
     }
 
     public CustomerMenu selectCustomerMenu() {
-        String input = textIO.newStringInputReader()
-                .read(CUSTOMER_MENU_SELECTION);
-
+        String input = read(CUSTOMER_MENU_SELECTION);
         return CustomerMenu.findCustomerMenu(input);
     }
 
     public CreateVoucherRequest instructCreateVoucher() {
-        String voucherTypeCode = textIO.newStringInputReader()
-                .read(VOUCHER_TYPE_INPUT);
+        String voucherTypeCode = read(VOUCHER_TYPE_INPUT);
         VoucherType voucherType = VoucherType.findVoucherTypeByCode(voucherTypeCode);
 
-        String discountValueInput = textIO.newStringInputReader()
-                .read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
+        String discountValueInput = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
         BigDecimal discountValue = new BigDecimal(discountValueInput);
         return new CreateVoucherRequest(discountValue, voucherType);
     }
 
     public UpdateVoucherRequest instructUpdateVoucher() {
-        String voucherIdInput = textIO.newStringInputReader()
-                .read(VOUCHER_ID_INPUT);
+        String voucherIdInput = read(VOUCHER_ID_INPUT);
         UUID voucherId = UUID.fromString(voucherIdInput);
 
-        String discountValueInput = textIO.newStringInputReader()
-                .read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
+        String discountValueInput = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
         BigDecimal discountValue = new BigDecimal(discountValueInput);
 
-        String voucherTypeCode = textIO.newStringInputReader()
-                .read(VOUCHER_TYPE_INPUT);
+        String voucherTypeCode = read(VOUCHER_TYPE_INPUT);
         VoucherType voucherType = VoucherType.findVoucherTypeByCode(voucherTypeCode);
         return new UpdateVoucherRequest(voucherId, discountValue, voucherType);
     }
 
     public String instructCreateCustomer() {
-        return textIO.newStringInputReader()
-                .read(CUSTOMER_CREATE_INSTRUCTION);
+        return read(CUSTOMER_CREATE_INSTRUCTION);
     }
 
     public UUID instructFindVoucher() {
-        String voucherId = textIO.newStringInputReader()
-                .read(VOUCHER_ID_INPUT);
+        String voucherId = read(VOUCHER_ID_INPUT);
         return UUID.fromString(voucherId);
     }
 
     public void printSaveVoucherResult(VoucherResponse voucherResponse) {
-        textIO.getTextTerminal()
-                .println(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_VOUCHER,voucherResponse.getVoucherId()));
+        print(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_VOUCHER,voucherResponse.getVoucherId()));
     }
 
     public void printSaveCustomerResult(CustomerResponse customerResponse) {
-        textIO.getTextTerminal()
-                .println(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_CUSTOMER, customerResponse.customerId()));
+        print(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_CUSTOMER, customerResponse.customerId()));
     }
 
     public void printReadAllVouchers(List<VoucherResponse> voucherResponses) {
         if (voucherResponses.isEmpty()) {
-            textIO.getTextTerminal()
-                    .println(Formatter.formatNoContent(CONTENT_VOUCHER));
+            print(Formatter.formatNoContent(CONTENT_VOUCHER));
         }
 
         voucherResponses.forEach(this::printReadVoucher);
@@ -148,8 +132,7 @@ public class ConsoleManager {
 
     public void printReadAllCustomers(List<CustomerResponse> customerResponses) {
         if (customerResponses.isEmpty()) {
-            textIO.getTextTerminal()
-                    .println(Formatter.formatNoContent(CONTENT_CUSTOMER));
+            print(Formatter.formatNoContent(CONTENT_CUSTOMER));
         }
 
         customerResponses.forEach(this::printReadCustomer);
@@ -157,36 +140,43 @@ public class ConsoleManager {
 
     public void printReadBlacklist(List<CustomerResponse> customerResponses) {
         if (customerResponses.isEmpty()) {
-            textIO.getTextTerminal()
-                    .println(Formatter.formatNoContent(CONTENT_BLACKLIST));
+            print(Formatter.formatNoContent(CONTENT_BLACKLIST));
         }
 
         customerResponses.forEach(this::printReadCustomer);
     }
 
     public void printReadVoucher(VoucherResponse voucherResponse) {
-        textIO.getTextTerminal()
-                .println(Formatter.formatVoucher(voucherResponse));
+        print(Formatter.formatVoucher(voucherResponse));
     }
 
     public void printReadCustomer(CustomerResponse customerResponse) {
-        textIO.getTextTerminal()
-                .println(Formatter.formatCustomer(customerResponse));
+        print(Formatter.formatCustomer(customerResponse));
     }
 
     public void printDeleteResult() {
-        textIO.getTextTerminal().println(DELETE_SUCCESSFUL);
+        print(DELETE_SUCCESSFUL);
     }
 
     public void printExit() {
-        textIO.getTextTerminal().println(EXIT_MESSAGE);
+        print(EXIT_MESSAGE);
     }
 
     public void printIncorrectMenu() {
-        textIO.getTextTerminal().println(INCORRECT_INPUT_MESSAGE);
+        print(INCORRECT_INPUT_MESSAGE);
     }
 
     public void printException(RuntimeException e) {
-        textIO.getTextTerminal().println(e.getMessage());
+        print(e.getMessage());
+    }
+
+    private String read(String prompt) {
+        return textIO.newStringInputReader()
+                .read(prompt);
+    }
+
+    private void print(String message) {
+        textIO.getTextTerminal()
+                .println(message);
     }
 }
