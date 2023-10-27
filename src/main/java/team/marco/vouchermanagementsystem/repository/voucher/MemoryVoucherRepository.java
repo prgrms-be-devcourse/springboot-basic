@@ -1,4 +1,4 @@
-package team.marco.vouchermanagementsystem.repository;
+package team.marco.vouchermanagementsystem.repository.voucher;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -15,8 +15,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         voucherMap.put(voucher.getId(), voucher);
+        return voucher;
     }
 
     @Override

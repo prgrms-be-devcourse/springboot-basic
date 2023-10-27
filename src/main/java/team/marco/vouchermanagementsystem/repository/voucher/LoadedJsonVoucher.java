@@ -1,4 +1,4 @@
-package team.marco.vouchermanagementsystem.repository;
+package team.marco.vouchermanagementsystem.repository.voucher;
 
 import team.marco.vouchermanagementsystem.model.voucher.FixedAmountVoucher;
 import team.marco.vouchermanagementsystem.model.voucher.PercentDiscountVoucher;

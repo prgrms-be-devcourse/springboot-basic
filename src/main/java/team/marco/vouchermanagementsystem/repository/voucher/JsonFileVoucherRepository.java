@@ -1,4 +1,4 @@
-package team.marco.vouchermanagementsystem.repository;
+package team.marco.vouchermanagementsystem.repository.voucher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -51,8 +51,9 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         voucherMap.put(voucher.getId(), voucher);
+        return voucher;
     }
 
     @Override

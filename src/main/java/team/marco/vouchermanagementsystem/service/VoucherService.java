@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import team.marco.vouchermanagementsystem.model.voucher.FixedAmountVoucher;
 import team.marco.vouchermanagementsystem.model.voucher.PercentDiscountVoucher;
 import team.marco.vouchermanagementsystem.model.voucher.Voucher;
-import team.marco.vouchermanagementsystem.repository.VoucherRepository;
+import team.marco.vouchermanagementsystem.repository.voucher.VoucherRepository;
 
 import java.util.List;
 
