@@ -22,6 +22,12 @@ import team.marco.vouchermanagementsystem.util.UUIDConverter;
 public class JdbcCustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = JdbcCustomerRepository::mapToCustomer;
 
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     private static Customer mapToCustomer(ResultSet resultSet, int ignored) throws SQLException {
         UUID id = UUIDConverter.convert(resultSet.getBytes("id"));
         String name = resultSet.getString("name");
@@ -36,12 +42,6 @@ public class JdbcCustomerRepository {
         }
 
         return new Customer(id, name, email, localDateTimeLastLoginAt, createAt);
-    }
-
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     public int create(Customer customer) {

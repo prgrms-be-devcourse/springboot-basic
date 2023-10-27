@@ -20,6 +20,12 @@ import team.marco.vouchermanagementsystem.util.UUIDConverter;
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final RowMapper<Voucher> voucherRowMapper = JdbcVoucherRepository::mapToVoucher;
 
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     private static Voucher mapToVoucher(ResultSet resultSet, int ignored) throws SQLException {
         byte[] idBytes = resultSet.getBytes("id");
         String typeString = resultSet.getString("type");
@@ -32,12 +38,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         LoadedVoucher loadedVoucher = new LoadedVoucher(id, type, data);
 
         return VoucherType.convertVoucher(loadedVoucher);
-    }
-
-    private final NamedParameterJdbcTemplate jdbcTemplate;
-
-    public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
