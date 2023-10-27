@@ -36,11 +36,11 @@ public class LoggingAdvice {
 
     @Around("team.marco.vouchermanagementsystem.aspect.LoggingPointCut.repositorySavePointcut()")
     public Object repositoryMethodLog(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.debug("Call save {} args -> {}", joinPoint.getSignature(), joinPoint.getArgs());
+        log.debug("Call method {} args -> {}", joinPoint.getSignature(), joinPoint.getArgs());
 
         Object result = joinPoint.proceed();
 
-        log.debug("Return save {}", joinPoint.getSignature());
+        log.debug("Return method {} result -> {}", joinPoint.getSignature(), result);
 
         return result;
     }
