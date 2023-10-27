@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.common;
+package com.programmers.vouchermanagement.message;
 
 public enum ConsoleMessage {
     MAIN_COMMAND_LIST_MESSAGE("""

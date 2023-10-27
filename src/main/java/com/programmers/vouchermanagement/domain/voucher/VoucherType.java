@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
-import com.programmers.vouchermanagement.common.VoucherMessage;
+import com.programmers.vouchermanagement.message.VoucherMessage;
 
 public enum VoucherType {
     FIXED(VoucherMessage.FIXED_AMOUNT_VOUCHER_GUIDE_MESSAGE.getMessage()),

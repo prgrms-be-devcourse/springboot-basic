@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.common;
+package com.programmers.vouchermanagement.message;
 
 public enum ErrorMessage {
     INVALID_COMMAND_MESSAGE("[System] Invalid command."),

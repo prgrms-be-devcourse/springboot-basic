@@ -1,9 +1,9 @@
 package com.programmers.vouchermanagement.service;
 
-import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
+import com.programmers.vouchermanagement.message.ErrorMessage;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import com.programmers.vouchermanagement.repository.wallet.WalletRepository;

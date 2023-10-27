@@ -1,10 +1,10 @@
 package com.programmers.vouchermanagement.repository.voucher;
 
-import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.VoucherDto;
+import com.programmers.vouchermanagement.message.ErrorMessage;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

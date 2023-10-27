@@ -1,9 +1,9 @@
 package com.programmers.vouchermanagement.service;
 
-import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
 import com.programmers.vouchermanagement.dto.VoucherDto;
+import com.programmers.vouchermanagement.message.ErrorMessage;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;

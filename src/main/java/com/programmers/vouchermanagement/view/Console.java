@@ -1,13 +1,13 @@
 package com.programmers.vouchermanagement.view;
 
-import com.programmers.vouchermanagement.common.ConsoleMessage;
-import com.programmers.vouchermanagement.common.CustomerMessage;
-import com.programmers.vouchermanagement.common.VoucherMessage;
-import com.programmers.vouchermanagement.common.WalletMessage;
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.VoucherDto;
+import com.programmers.vouchermanagement.message.ConsoleMessage;
+import com.programmers.vouchermanagement.message.CustomerMessage;
+import com.programmers.vouchermanagement.message.VoucherMessage;
+import com.programmers.vouchermanagement.message.WalletMessage;
 import com.programmers.vouchermanagement.service.CustomerService;
 import com.programmers.vouchermanagement.service.VoucherService;
 import com.programmers.vouchermanagement.service.WalletService;

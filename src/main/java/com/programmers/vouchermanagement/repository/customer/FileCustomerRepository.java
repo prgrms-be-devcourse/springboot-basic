@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.repository.customer;
 
-import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.customer.Customer;
+import com.programmers.vouchermanagement.message.ErrorMessage;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

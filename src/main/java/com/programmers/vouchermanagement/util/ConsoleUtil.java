@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.util;
 
-import com.programmers.vouchermanagement.common.ErrorMessage;
+import com.programmers.vouchermanagement.message.ErrorMessage;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
 import org.slf4j.Logger;

@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
-import com.programmers.vouchermanagement.common.ErrorMessage;
+import com.programmers.vouchermanagement.message.ErrorMessage;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
