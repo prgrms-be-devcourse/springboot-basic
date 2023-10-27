@@ -29,8 +29,6 @@ class CustomerServiceTest {
     @DisplayName("고객 목록을 조회할 수 있다.")
     void getCustomers() {
         // given
-        GetCustomersRequestDto request = new GetCustomersRequestDto();
-
         String email1 = "test1@email.com";
         String email2 = "test2@email.com";
 
@@ -41,7 +39,7 @@ class CustomerServiceTest {
         given(customerRepository.findAll(any())).willReturn(mockCustomers);
 
         // when
-        List<Customer> customers = customerService.getCustomers(request);
+        List<Customer> customers = customerService.getCustomers(new GetCustomersRequestDto());
 
         // then
         assertThat(customers).hasSize(2);

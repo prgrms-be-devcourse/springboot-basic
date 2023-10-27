@@ -66,8 +66,10 @@ class CustomerRepositoryTest {
         Customer newCustomer = Customer.fixture();
         customerRepository.save(newCustomer);
 
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
+
         // when
-        Optional<Customer> foundCustomer = customerRepository.findById(newCustomer.getId());
+        Optional<Customer> foundCustomer = customerRepository.findById(savedCustomer.getId());
 
         // then
         assertThat(foundCustomer).isPresent();
@@ -98,7 +100,10 @@ class CustomerRepositoryTest {
     @DisplayName("모든 고객을 삭제할 수 있다.")
     void deleteAll() {
         // given
-        customerRepository.saveAll(List.of(Customer.fixture(), Customer.fixture()));
+        customerRepository.saveAll(List.of(
+                new Customer("test1@email.com", false),
+                new Customer("test2@email.com", true)
+        ));
 
         // when
         customerRepository.deleteAll();

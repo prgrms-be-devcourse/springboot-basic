@@ -24,21 +24,24 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
 
     @Override
     public void save(Customer customer) {
-        String sql = "INSERT INTO customers (email) VALUES (:email)";
+        String sql = "INSERT INTO customers (email, blacklisted) VALUES (:email, :blacklisted)";
 
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("email", customer.getEmail());
+                .addValue("email", customer.getEmail())
+                .addValue("blacklisted", customer.isBlacklisted());
 
         template.update(sql, params);
     }
 
     @Override
     public void saveAll(List<Customer> customers) {
-        String sql = "INSERT INTO customers (email) VALUES (:email)";
+        String sql = "INSERT INTO customers (email, blacklisted) VALUES (:email, :blacklisted)";
 
         template.batchUpdate(sql, customers.stream()
                 .map(customer -> new MapSqlParameterSource()
-                        .addValue("email", customer.getEmail()))
+                        .addValue("email", customer.getEmail())
+                        .addValue("blacklisted", customer.isBlacklisted())
+                )
                 .toArray(SqlParameterSource[]::new));
     }
 

@@ -48,9 +48,10 @@ class WalletServiceTest {
         Customer mockCustomer = new Customer(UUID.randomUUID(), "test@email.com", false);
         Voucher mockVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
 
-        CreateWalletRequestDto request = new CreateWalletRequestDto();
-        request.setCustomerId(mockCustomer.getId());
-        request.setVoucherId(mockVoucher.getId());
+        CreateWalletRequestDto request = CreateWalletRequestDto.builder()
+                .customerId(mockCustomer.getId())
+                .voucherId(mockVoucher.getId())
+                .build();
 
         given(customerRepository.findById(mockCustomer.getId())).willReturn(Optional.of(mockCustomer));
         given(voucherRepository.findById(mockVoucher.getId())).willReturn(Optional.of(mockVoucher));
@@ -69,9 +70,10 @@ class WalletServiceTest {
         UUID notFoundCustomerId = UUID.randomUUID();
         Voucher mockVoucher = new FixedAmountVoucher(notFoundCustomerId, 1000L);
 
-        CreateWalletRequestDto request = new CreateWalletRequestDto();
-        request.setCustomerId(notFoundCustomerId);
-        request.setVoucherId(mockVoucher.getId());
+        CreateWalletRequestDto request = CreateWalletRequestDto.builder()
+                .customerId(notFoundCustomerId)
+                .voucherId(mockVoucher.getId())
+                .build();
 
         given(customerRepository.findById(notFoundCustomerId)).willReturn(Optional.empty());
         given(voucherRepository.findById(mockVoucher.getId())).willReturn(Optional.of(mockVoucher));
@@ -89,9 +91,10 @@ class WalletServiceTest {
         Customer mockCustomer = new Customer(UUID.randomUUID(), "test@email.com", false);
         UUID notFoundVoucherId = UUID.randomUUID();
 
-        CreateWalletRequestDto request = new CreateWalletRequestDto();
-        request.setCustomerId(mockCustomer.getId());
-        request.setVoucherId(notFoundVoucherId);
+        CreateWalletRequestDto request = CreateWalletRequestDto.builder()
+                .customerId(mockCustomer.getId())
+                .voucherId(notFoundVoucherId)
+                .build();
 
         given(customerRepository.findById(mockCustomer.getId())).willReturn(Optional.of(mockCustomer));
         given(voucherRepository.findById(notFoundVoucherId)).willReturn(Optional.empty());

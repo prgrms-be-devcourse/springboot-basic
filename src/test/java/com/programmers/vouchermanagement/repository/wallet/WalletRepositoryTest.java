@@ -6,6 +6,8 @@ import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
 import com.programmers.vouchermanagement.dto.wallet.GetWalletsRequestDto;
+import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
+import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,8 +26,17 @@ class WalletRepositoryTest {
     @Autowired
     private WalletRepository walletRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private VoucherRepository voucherRepository;
+
     @BeforeEach
     void setUp() {
+        walletRepository.deleteAll();
+        voucherRepository.deleteAll();
+        customerRepository.deleteAll();
     }
 
     @Test
@@ -83,8 +94,10 @@ class WalletRepositoryTest {
         Wallet newWallet = new Wallet(customer, voucher);
         walletRepository.save(newWallet);
 
+        Wallet savedWallet = walletRepository.findAll(new GetWalletsRequestDto()).get(0);
+
         // when
-        Optional<Wallet> foundWallet = walletRepository.findById(newWallet.getId());
+        Optional<Wallet> foundWallet = walletRepository.findById(savedWallet.getId());
 
         // then
         assertThat(foundWallet).isPresent();
@@ -136,8 +149,9 @@ class WalletRepositoryTest {
 
         walletRepository.saveAll(List.of(newWallet1, newWallet2));
 
-        GetWalletsRequestDto request = new GetWalletsRequestDto();
-        request.setCustomerId(customer1.getId());
+        GetWalletsRequestDto request = GetWalletsRequestDto.builder()
+                .customerId(customer1.getId())
+                .build();
 
         // when
         List<Wallet> foundWallets = walletRepository.findAll(request);
@@ -163,8 +177,9 @@ class WalletRepositoryTest {
 
         walletRepository.saveAll(List.of(newWallet1, newWallet2));
 
-        GetWalletsRequestDto request = new GetWalletsRequestDto();
-        request.setVoucherId(voucher1.getId());
+        GetWalletsRequestDto request = GetWalletsRequestDto.builder()
+                .voucherId(voucher1.getId())
+                .build();
 
         // when
         List<Wallet> foundWallets = walletRepository.findAll(request);

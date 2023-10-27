@@ -1,10 +1,13 @@
 package com.programmers.vouchermanagement.dto.wallet;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.UUID;
 
-@Data
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class GetWalletsRequestDto {
     private UUID customerId;
     private UUID voucherId;

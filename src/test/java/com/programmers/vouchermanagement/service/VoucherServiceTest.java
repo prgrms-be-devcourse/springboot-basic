@@ -33,9 +33,10 @@ class VoucherServiceTest {
     @DisplayName("FIXED_AMOUNT 바우처를 생성할 수 있다.")
     void createFixedAmountVoucher() {
         // given
-        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
-        request.setVoucherType(VoucherType.FIXED_AMOUNT);
-        request.setAmount(1000L);
+        CreateVoucherRequestDto request = CreateVoucherRequestDto.builder()
+                .voucherType(VoucherType.FIXED_AMOUNT)
+                .amount(1000L)
+                .build();
 
         // when
         voucherService.createVoucher(request);
@@ -49,9 +50,10 @@ class VoucherServiceTest {
     @DisplayName("PERCENT_DISCOUNT 바우처를 생성할 수 있다.")
     void createPercentDiscountVoucher() {
         // given
-        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
-        request.setVoucherType(VoucherType.PERCENT_DISCOUNT);
-        request.setAmount(10L);
+        CreateVoucherRequestDto request = CreateVoucherRequestDto.builder()
+                .voucherType(VoucherType.PERCENT_DISCOUNT)
+                .amount(10L)
+                .build();
 
         // when
         voucherService.createVoucher(request);
