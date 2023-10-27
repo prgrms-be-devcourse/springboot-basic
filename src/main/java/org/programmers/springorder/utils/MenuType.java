@@ -9,8 +9,11 @@ public enum MenuType {
     EXIT("1"),
     CREATE("2"),
     LIST("3"),
-    BLACK("4");
-
+    BLACK("4"),
+    ALLOCATE("5"),
+    GET_OWNER_VOUCHER("6"),
+    DELETE_VOUCHER("7"),
+    SEARCH_VOUCHER_OWNER("8");
     private final String menuNum;
 
     MenuType(String menuNum) {

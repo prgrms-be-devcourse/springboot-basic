@@ -20,7 +20,7 @@ public class CustomerController {
     public void printBlackList(){
         console.showBlackList(customerService.getBlackList());
     }
-    
+
     public void getVoucherOwner(){
         UUID voucherId = console.getVoucherId();
         console.showCustomer(customerService.findOwnerOfVoucher(voucherId));

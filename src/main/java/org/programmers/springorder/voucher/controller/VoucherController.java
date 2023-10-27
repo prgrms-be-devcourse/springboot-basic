@@ -36,7 +36,7 @@ public class VoucherController {
         console.printMessage(Message.VOUCHER_ALLOCATED);
     }
 
-    public void getVoucherOfOwner(){
+    public void getVouchersOfOwner(){
         UUID uuid = console.getCustomerId();
         console.showList(voucherService.getCustomerOwnedVouchers(uuid));
     }

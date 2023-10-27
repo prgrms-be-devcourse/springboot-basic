@@ -5,10 +5,14 @@ public class Message {
     private Message(){}
     public static final String MENU_SELECT_MESSAGE = """
             === Voucher Program ===
-            1. Exit the program.
-            2. Create a new voucher.
-            3. List all vouchers.
-            4. Show all blacklist.
+            1. 프로그램을 종료합니다.
+            2. 바우처를 생성합니다.
+            3. 모든 바우처 리스트를 반환합니다.
+            4. blacklist를 반환합니다.
+            5. 바우처를 특정 고객에 등록합니다.
+            6. 특정 회원이 가진 바우처 리스트를 조회합니다.
+            7. 바우처를 삭제합니다.
+            8. 선택하신 바우처를 가진 고객을 찾습니다.
             """;
 
     public static final String VOUCHER_SELECT_MESSAGE = """
