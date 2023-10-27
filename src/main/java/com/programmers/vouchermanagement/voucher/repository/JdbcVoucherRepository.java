@@ -94,7 +94,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private static Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
-        final UUID voucherId = UUIDConverter.toUUID(resultSet.getBytes("voucher_id"));
+        final UUID voucherId = UUIDConverter.from(resultSet.getBytes("voucher_id"));
         final BigDecimal discountValue = resultSet.getBigDecimal("discount_value");
         final String voucherTypeName = resultSet.getString("voucher_type");
         final VoucherType voucherType = VoucherType.findVoucherTypeByName(voucherTypeName);
