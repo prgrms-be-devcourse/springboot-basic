@@ -1,10 +1,11 @@
 package team.marco.vouchermanagementsystem.controller;
 
 import org.springframework.stereotype.Controller;
-import team.marco.vouchermanagementsystem.model.Customer;
 import team.marco.vouchermanagementsystem.service.BlacklistService;
 
 import java.util.List;
+
+import static java.text.MessageFormat.format;
 
 @Controller
 public class UserController {
@@ -16,7 +17,7 @@ public class UserController {
 
     public List<String> getBlacklistInfo() {
         return blacklistService.getBlacklist().stream()
-                .map(Customer::getInfo)
+                .map(dto -> format("id: {0}, 고객명: {1} ", dto.getId() , dto.getName()))
                 .toList();
     }
 }

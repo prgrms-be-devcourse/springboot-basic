@@ -2,6 +2,13 @@ application:
   title: "voucher-management-system"
   version: "1.0.0"
 
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher_mgmt_system?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: wtwt
+
 file:
   path:
     blacklist: "src/main/resources/blacklist.csv"

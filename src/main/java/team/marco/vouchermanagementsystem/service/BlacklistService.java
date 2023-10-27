@@ -1,8 +1,8 @@
 package team.marco.vouchermanagementsystem.service;
 
 import org.springframework.stereotype.Service;
-import team.marco.vouchermanagementsystem.model.Customer;
-import team.marco.vouchermanagementsystem.repository.CsvBlacklistRepository;
+import team.marco.vouchermanagementsystem.repository.custromer.CsvBlacklistRepository;
+import team.marco.vouchermanagementsystem.repository.custromer.CustomerIdAndName;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ public class BlacklistService {
         this.blacklistRepository = blacklistRepository;
     }
 
-    public List<Customer> getBlacklist() {
+    public List<CustomerIdAndName> getBlacklist() {
         return blacklistRepository.findAll();
     }
 }
