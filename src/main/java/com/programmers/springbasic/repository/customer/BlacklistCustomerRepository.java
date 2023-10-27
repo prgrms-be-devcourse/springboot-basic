@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.springbasic.entity.customer.Customer;
-import com.programmers.springbasic.mapper.CustomerCsvFileMapper;
+import com.programmers.springbasic.utils.mapper.CustomerCsvFileMapper;
 import com.programmers.springbasic.utils.FileUtils;
 
 @Repository

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.springbasic.entity.voucher.Voucher;
-import com.programmers.springbasic.mapper.VoucherCsvFileMapper;
+import com.programmers.springbasic.utils.mapper.VoucherCsvFileMapper;
 import com.programmers.springbasic.utils.FileUtils;
 
 import jakarta.annotation.PostConstruct;

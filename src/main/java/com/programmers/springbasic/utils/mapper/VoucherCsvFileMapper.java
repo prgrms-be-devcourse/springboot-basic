@@ -1,4 +1,4 @@
-package com.programmers.springbasic.mapper;
+package com.programmers.springbasic.utils.mapper;
 
 import java.util.List;
 import java.util.Map;
