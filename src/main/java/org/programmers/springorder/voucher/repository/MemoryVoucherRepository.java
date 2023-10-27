@@ -35,17 +35,26 @@ public class MemoryVoucherRepository implements VoucherRepository{
     //TODO: 구현 필요 기능(jdbc 우선)
     @Override
     public Voucher updateVoucherOwner(Voucher voucher, Customer customer) {
+        voucher.updateOwner(customer);
+        storage.put(voucher.getVoucherId(), voucher);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAllByCustomerId(Customer customer) {
-        return null;
+        return storage.values()
+                .stream()
+                .filter(voucher -> voucher.comparingCustomer(customer.getCustomerId()))
+                .toList();
     }
 
     @Override
     public void deleteVoucher(Voucher voucher) {
+        storage.remove(voucher.getVoucherId());
+    }
 
+    public void reset(){
+        storage.clear();
     }
 
 }

@@ -1,5 +1,6 @@
 package org.programmers.springorder.voucher.model;
 
+import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 
 import java.util.Objects;
@@ -41,6 +42,16 @@ public class Voucher {
         return new Voucher(voucherId, requestDto);
     }
 
+    public void updateOwner(Customer customer){
+        this.customerId = customer.getCustomerId();
+    }
+
+    public boolean comparingCustomer(UUID customerId){
+        if(this.customerId == null) {
+            return false;
+        }
+        return this.customerId.equals(customerId);
+    }
     public String insertVoucherDataInFile() {
         StringBuilder data = new StringBuilder();
         data.append(this.voucherId).append(",")
