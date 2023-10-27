@@ -65,7 +65,7 @@ public class Customer {
     }
 
     public String getInfo() {
-        return MessageFormat.format("id={0}\nemail=''{1}\nname=''{2}", id, email, name);
+        return MessageFormat.format("id   : {0}\nname : {1}\nemail: {2}", id, name, email);
     }
 
     public void changeName(String name) {
@@ -84,5 +84,16 @@ public class Customer {
         if (!Pattern.matches(EMAIL_REGEX, email)) {
             throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다..");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", createdAt=" + createdAt +
+                ", lastLoginAt=" + lastLoginAt +
+                '}';
     }
 }
