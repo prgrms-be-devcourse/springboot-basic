@@ -54,7 +54,6 @@ public class JSONFileManager<K, T> {
         try {
             File file = new File(filePath);
             Map[] voucherObjects = objectMapper.readValue(file, Map[].class);
-
             return loadTargets(voucherObjects, mapObjectToDomain);
         } catch (MismatchedInputException e) {
             logger.debug(NO_DATA_STORED.formatted(fileType.getCanonicalName()));
