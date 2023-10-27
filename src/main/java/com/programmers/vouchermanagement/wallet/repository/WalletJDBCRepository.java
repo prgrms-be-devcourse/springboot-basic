@@ -47,7 +47,6 @@ public class WalletJDBCRepository implements WalletRepository {
                     Collections.singletonMap(DomainMapper.ID_KEY, voucherId.toString().getBytes()),
                     domainMapper.customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
-            logger.error(NOT_FOUND_CUSTOMER_ALLOCATION_INFORMATION, e);
             return Optional.empty();
         }
     }
