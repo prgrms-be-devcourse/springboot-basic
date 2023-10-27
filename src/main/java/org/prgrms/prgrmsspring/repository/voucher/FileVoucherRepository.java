@@ -123,4 +123,9 @@ public class FileVoucherRepository implements VoucherRepository {
     public void delete(UUID voucherId) {
         store.remove(voucherId);
     }
+
+    @Override
+    public void clear() {
+        store.clear();
+    }
 }

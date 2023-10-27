@@ -88,4 +88,10 @@ public class DBVoucherRepository implements VoucherRepository {
             throw new DataAccessException(this.getClass() + " " + ExceptionMessage.DELETE_QUERY_FAILED.getMessage());
         }
     }
+
+    @Override
+    public void clear() {
+        String sql = "DELETE FROM VOUCHERS";
+        jdbcTemplate.update(sql);
+    }
 }
