@@ -22,6 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -74,6 +75,7 @@ class VoucherServiceTest {
     static void finish() {
         embeddedMysql.stop();
     }
+
     @Test
     @DisplayName("모든 Voucher 리스트를 가져오는 Service 로직")
     void getAllVoucher() {
@@ -109,7 +111,7 @@ class VoucherServiceTest {
 
     @Nested
     @DisplayName("voucher 주인 할당 로직")
-    class allocateVoucher{
+    class allocateVoucher {
 
 
         @Test
@@ -220,4 +222,45 @@ class VoucherServiceTest {
                     .hasMessage("해당 고객을 찾을 수 없습니다.");
         }
     }
+
+    @Nested
+    @DisplayName("voucher 삭제 성공 테스트")
+    class DeleteVoucher {
+        @Test
+        @DisplayName("성공")
+        public void deleteVoucherTest() {
+            UUID uuid = UUID.randomUUID();
+            Voucher voucher = Voucher.toVoucher(uuid, 1000, VoucherType.FIXED);
+
+            voucherRepository.save(voucher);
+            assertThat(voucherRepository.findAll()).hasSize(1);
+            assertThat(voucherRepository.findById(uuid).get()).isEqualTo(voucher);
+
+            voucherService.deleteVoucher(uuid);
+            assertThat(voucherRepository.findAll()).hasSize(0);
+
+            assertThatThrownBy(() -> voucherRepository.findById(uuid).get())
+                    .isInstanceOf(NoSuchElementException.class)
+                    .hasMessage("No value present");
+
+        }
+
+        @Test
+        @DisplayName("실패, voucher 존재 x")
+        public void deleteVoucherFailTest() {
+            UUID uuid = UUID.randomUUID();
+            Voucher voucher = Voucher.toVoucher(uuid, 1000, VoucherType.FIXED);
+
+            voucherRepository.save(voucher);
+            assertThat(voucherRepository.findAll()).hasSize(1);
+            assertThat(voucherRepository.findById(uuid).get()).isEqualTo(voucher);
+
+            assertThatThrownBy(() -> voucherService.deleteVoucher(UUID.randomUUID()))
+                    .isInstanceOf(RuntimeException.class)
+                    .hasMessage("찾으시는 voucher가 존재하지 않습니다.");
+
+        }
+    }
+
+
 }
