@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.voucher.controller;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
@@ -27,5 +28,10 @@ public class VoucherController {
     public void readAllVouchers() {
          List<VoucherResponse> voucherResponses = voucherService.readAllVouchers();
          consoleManager.printReadAllVouchers(voucherResponses);
+    }
+
+    public void findById(UUID voucherId) {
+        VoucherResponse voucherResponse = voucherService.findById(voucherId);
+        consoleManager.printReadVoucher(voucherResponse);
     }
 }

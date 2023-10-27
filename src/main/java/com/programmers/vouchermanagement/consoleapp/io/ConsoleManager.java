@@ -128,6 +128,11 @@ public class ConsoleManager {
                 .println(Formatter.formatCustomer(customerResponse)));
     }
 
+    public void printReadVoucher(VoucherResponse voucherResponse) {
+        textIO.getTextTerminal()
+                .println(Formatter.formatVoucher(voucherResponse));
+    }
+
     public void printExit() {
         textIO.getTextTerminal().println(EXIT_MESSAGE);
     }
