@@ -1,7 +1,5 @@
 package com.programmers.vouchermanagement.consoleapp.menu;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -36,14 +34,8 @@ class MenuHandlerTest {
     @Test
     @DisplayName("exit을 입력할 시 해당 뷰를 출력하고 시스템을 종료한다.")
     void testHandleMenuFalse_Exit() {
-        //given
-        doReturn(Menu.EXIT).when(consoleManager).selectMenu();
-
         //when
-        final boolean isRunning = menuHandler.handleMenu();
-
-        //then
-        assertThat(isRunning, is(false));
+        menuHandler.handleMenu(Menu.EXIT);
 
         //verify
         verify(consoleManager).printExit();
@@ -52,54 +44,40 @@ class MenuHandlerTest {
     @Test
     @DisplayName("잘못된 메뉴를 입력하면 해당 뷰를 출력하지만 시스템은 계속 된다.")
     void testHandleMenuTrue_IncorrectMenu() {
-        //given
-        doReturn(Menu.INCORRECT_MENU).when(consoleManager).selectMenu();
-
         //when
-        final boolean isRunning = menuHandler.handleMenu();
-
-        //then
-        assertThat(isRunning, is(true));
+        menuHandler.handleMenu(Menu.INCORRECT_MENU);
 
         //verify
         verify(consoleManager).printIncorrectMenu();
     }
 
     @Test
-    @DisplayName("바우처 생성 시 잘못된 타입을 입력하면 메뉴 실행을 실패하지만 시스템은 계속 된다.")
+    @DisplayName("바우처 생성 시 잘못된 타입을 입력하면 메뉴 실행을 실패한다.")
     void testHandleMenuFailed_IncorrectVoucherType() {
         //given
         final IllegalArgumentException exception = new IllegalArgumentException();
-        doReturn(Menu.VOUCHER).when(consoleManager).selectMenu();
         doReturn(VoucherMenu.CREATE).when(consoleManager).selectVoucherMenu();
         doThrow(exception).when(consoleManager).instructCreateVoucher();
 
         //when
-        final boolean isRunning = menuHandler.handleMenu();
-
-        //then
-        assertThat(isRunning, is(true));
+        menuHandler.handleMenu(Menu.VOUCHER);
 
         //verify
         verify(consoleManager).printException(exception);
     }
 
     @Test
-    @DisplayName("바우처 생성 시 유효하지 않은 할인 값을 입력하면 메뉴 실행을 실패하지만 시스템은 계속 된다.")
+    @DisplayName("바우처 생성 시 유효하지 않은 할인 값을 입력하면 메뉴 실행을 실패한다.")
     void testHandleMenuFailed_InvalidDiscountValue() {
         //given
         final IllegalArgumentException exception = new IllegalArgumentException();
         final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(0), VoucherType.FIXED);
-        doReturn(Menu.VOUCHER).when(consoleManager).selectMenu();
         doReturn(VoucherMenu.CREATE).when(consoleManager).selectVoucherMenu();
         doReturn(request).when(consoleManager).instructCreateVoucher();
         doThrow(exception).when(voucherController).create(request);
 
         //when
-        final boolean isRunning = menuHandler.handleMenu();
-
-        //then
-        assertThat(isRunning, is(true));
+        menuHandler.handleMenu(Menu.VOUCHER);
 
         //verify
         verify(consoleManager).printException(exception);
@@ -110,15 +88,11 @@ class MenuHandlerTest {
     void testHandleMenuSuccessful_VoucherCreated() {
         //given
         final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
-        doReturn(Menu.VOUCHER).when(consoleManager).selectMenu();
         doReturn(VoucherMenu.CREATE).when(consoleManager).selectVoucherMenu();
         doReturn(request).when(consoleManager).instructCreateVoucher();
 
         //when
-        final boolean isRunning = menuHandler.handleMenu();
-
-        //then
-        assertThat(isRunning, is(true));
+        menuHandler.handleMenu(Menu.VOUCHER);
 
         //verify
         verify(voucherController).create(request);
@@ -128,14 +102,10 @@ class MenuHandlerTest {
     @DisplayName("바우처 전체 조회를 성공한다.")
     void testHandleMenuSuccessful_ReadAllVouchers() {
         //given
-        doReturn(Menu.VOUCHER).when(consoleManager).selectMenu();
         doReturn(VoucherMenu.LIST).when(consoleManager).selectVoucherMenu();
 
         //when
-        final boolean isRunning = menuHandler.handleMenu();
-
-        //then
-        assertThat(isRunning, is(true));
+        menuHandler.handleMenu(Menu.VOUCHER);
 
         //verify
         verify(voucherController).readAllVouchers();
@@ -145,14 +115,10 @@ class MenuHandlerTest {
     @DisplayName("블랙리스트 조회를 성공한다.")
     void testHandleMenuSuccessful_ReadBlacklist() {
         //given
-        doReturn(Menu.CUSTOMER).when(consoleManager).selectMenu();
-        doReturn(CustomerMenu.BLACKLIST).when(consoleManager).selectVoucherMenu();
+        doReturn(CustomerMenu.BLACKLIST).when(consoleManager).selectCustomerMenu();
 
         //when
-        final boolean isRunning = menuHandler.handleMenu();
-
-        //then
-        assertThat(isRunning, is(true));
+        menuHandler.handleMenu(Menu.CUSTOMER);
 
         //verify
         verify(customerController).readBlacklist();

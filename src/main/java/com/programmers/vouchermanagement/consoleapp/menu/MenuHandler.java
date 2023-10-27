@@ -30,28 +30,12 @@ public class MenuHandler {
         this.customerController = customerController;
     }
 
-    public boolean handleMenu() {
-        Menu menu = consoleManager.selectMenu();
-
+    public void handleMenu(Menu menu) {
         try {
             executeMenu(menu);
         } catch (RuntimeException e) {
             consoleManager.printException(e);
         }
-
-        return isValidMenu(menu);
-    }
-
-    private boolean isValidMenu(Menu menu) {
-        if (menu.isExit()) {
-            return false;
-        }
-
-        if (menu.isIncorrect()) {
-            logger.error(INCORRECT_MESSAGE);
-        }
-
-        return true;
     }
 
     private void executeMenu(Menu menu) {
