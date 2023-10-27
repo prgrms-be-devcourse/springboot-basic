@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.voucher.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -37,5 +38,11 @@ public class VoucherService {
         return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
+    }
+
+    public VoucherResponse findById(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException("There is no voucher with %s".formatted(voucherId)));
+        return VoucherResponse.from(voucher);
     }
 }
