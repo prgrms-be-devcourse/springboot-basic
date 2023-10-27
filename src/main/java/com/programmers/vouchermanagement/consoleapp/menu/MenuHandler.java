@@ -91,6 +91,7 @@ public class MenuHandler {
         switch (customerMenu) {
             case CREATE -> {
                 String name = consoleManager.instructCreateCustomer();
+                customerController.create(name);
             }
             case LIST -> {
                 return;
