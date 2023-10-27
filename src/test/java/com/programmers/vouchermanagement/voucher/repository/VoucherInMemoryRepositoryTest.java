@@ -17,7 +17,7 @@ class VoucherInMemoryRepositoryTest {
     VoucherInMemoryRepository voucherInMemoryRepository = new VoucherInMemoryRepository();
 
     @Test
-    @DisplayName("바우처를 아이디로 삭제할 수 있다.")
+    @DisplayName("🆗 바우처를 아이디로 삭제할 수 있다.")
     void deleteVoucherSucceed() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherInMemoryRepository.save(voucher);
@@ -28,17 +28,15 @@ class VoucherInMemoryRepositoryTest {
     }
 
     @Test
-    @DisplayName("없는 바우처를 삭제하면 실패한다.")
+    @DisplayName("🚨 없는 바우처를 삭제하면 실패한다.")
     void deleteNonExistVoucherFail() {
         UUID NonExistVoucherId = UUID.randomUUID();
 
-        assertThrows(RuntimeException.class, () -> {
-            voucherInMemoryRepository.delete(NonExistVoucherId);
-        });
+        assertThrows(RuntimeException.class, () -> voucherInMemoryRepository.delete(NonExistVoucherId));
     }
 
     @Test
-    @DisplayName("바우처를 업데이트 할 수 있다.")
+    @DisplayName("🆗 바우처를 업데이트 할 수 있다.")
     void updateVoucherSucceed() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
         voucherInMemoryRepository.save(voucher);
