@@ -8,9 +8,7 @@ import com.programmers.vouchermanagement.dto.voucher.CreateVoucherRequestDto;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,14 +18,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.verify;
 
-@SpringBootTest
 class VoucherServiceTest {
 
-    @MockBean
     private VoucherRepository voucherRepository;
-
-    @Autowired
     private VoucherService voucherService;
+
+    public VoucherServiceTest() {
+        this.voucherRepository = Mockito.mock(VoucherRepository.class);
+        this.voucherService = new VoucherService(voucherRepository);
+    }
 
     @Test
     @DisplayName("FIXED_AMOUNT 바우처를 생성할 수 있다.")

@@ -12,9 +12,8 @@ import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,17 +28,17 @@ import static org.mockito.Mockito.verify;
 @SpringBootTest
 class WalletServiceTest {
 
-    @MockBean
     private WalletRepository walletRepository;
-
-    @MockBean
     private CustomerRepository customerRepository;
-
-    @MockBean
     private VoucherRepository voucherRepository;
-
-    @Autowired
     private WalletService walletService;
+
+    public WalletServiceTest() {
+        this.walletRepository = Mockito.mock(WalletRepository.class);
+        this.customerRepository = Mockito.mock(CustomerRepository.class);
+        this.voucherRepository = Mockito.mock(VoucherRepository.class);
+        this.walletService = new WalletService(walletRepository, customerRepository, voucherRepository);
+    }
 
     @Test
     @DisplayName("특정 고객에게 바우처를 할당할 수 있다.")

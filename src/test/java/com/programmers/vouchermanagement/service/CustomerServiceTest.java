@@ -6,9 +6,7 @@ import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,14 +18,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest
 class CustomerServiceTest {
 
-    @MockBean
     private CustomerRepository customerRepository;
-
-    @Autowired
     private CustomerService customerService;
+
+    CustomerServiceTest() {
+        this.customerRepository = Mockito.mock(CustomerRepository.class);
+        this.customerService = new CustomerService(customerRepository);
+    }
 
     @Test
     @DisplayName("고객을 생성할 수 있다.")
