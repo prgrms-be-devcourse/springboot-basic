@@ -31,6 +31,6 @@ public class GetCustomerDetailCommand implements Command {
 		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
 		CustomerDto customer = customerController.getCustomerById(uuidInput);
-		consoleOutputHandler.print(customer);
+		consoleOutputHandler.printWithLineBreak(customer);
 	}
 }

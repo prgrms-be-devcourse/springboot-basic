@@ -31,6 +31,6 @@ public class GetVoucherDetailCommand implements Command {
 		consoleOutputHandler.print(VOUCHER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
 		VoucherDto voucher = voucherController.getVoucherDetail(uuidInput);
-		consoleOutputHandler.print(voucher);
+		consoleOutputHandler.printWithLineBreak(voucher);
 	}
 }

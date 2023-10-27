@@ -10,6 +10,7 @@ import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
 import com.programmers.springbasic.controller.CustomerController;
+import com.programmers.springbasic.dto.CustomerDto;
 
 @Component
 public class UpdateCustomerCommand implements Command {
@@ -32,6 +33,7 @@ public class UpdateCustomerCommand implements Command {
 		UUID uuidInput = consoleInputHandler.readUUID();
 		consoleOutputHandler.print(NAME_PROMPT);
 		String nameInput = consoleInputHandler.readString();
-		customerController.updateCustomer(uuidInput, nameInput);
+		CustomerDto updatedCustomer = customerController.updateCustomer(uuidInput, nameInput);
+		consoleOutputHandler.printWithLineBreak(updatedCustomer);
 	}
 }

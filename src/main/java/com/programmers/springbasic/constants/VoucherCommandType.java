@@ -18,8 +18,8 @@ public enum VoucherCommandType {
 	GET_VOUCHER_DETAIL("3", GetVoucherDetailCommand.class),
 	UPDATE_VOUCHER("4", UpdateVoucherCommand.class),
 	DELETE_VOUCHER("5", DeleteVoucherCommand.class),
-	GET_CUSTOMERS_BY_VOUCHER("15", GetCustomersByVoucher.class),
-	RETURN_TO_MAIN("return", null);
+	GET_CUSTOMERS_BY_VOUCHER("6", GetCustomersByVoucher.class),
+	RETURN_TO_MAIN("0", null);
 
 	private final String inputString;
 	private final Class<? extends Command> commandClass;

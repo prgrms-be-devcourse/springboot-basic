@@ -15,4 +15,8 @@ public class ConsoleOutputHandler {
 		System.out.print(object);
 	}
 
+	public <T> void printWithLineBreak(T object) {
+		System.out.println(object);
+	}
+
 }

@@ -33,16 +33,18 @@ public class UpdateVoucherCommand implements Command {
 		UUID voucherId = consoleInputHandler.readUUID();
 
 		VoucherDto voucher = voucherController.getVoucherDetail(voucherId);
-		consoleOutputHandler.print(voucher);
+		consoleOutputHandler.printWithLineBreak(voucher);
 
 		if (voucher.voucherType() == VoucherType.FIXED_AMOUNT) {
 			consoleOutputHandler.print(NEW_AMOUNT_PROMPT);
 			long newAmount = consoleInputHandler.readLong();
-			voucherController.updateVoucher(voucherId, newAmount);
+			VoucherDto updatedVoucher = voucherController.updateVoucher(voucherId, newAmount);
+			consoleOutputHandler.printWithLineBreak(updatedVoucher);
 		} else if (voucher.voucherType() == VoucherType.PERCENT_DISCOUNT) {
 			consoleOutputHandler.print(NEW_PERCENT_PROMPT);
 			long newPercent = consoleInputHandler.readLong();
-			voucherController.updateVoucher(voucherId, newPercent);
+			VoucherDto updatedVoucher = voucherController.updateVoucher(voucherId, newPercent);
+			consoleOutputHandler.printWithLineBreak(updatedVoucher);
 		}
 	}
 

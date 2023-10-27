@@ -16,16 +16,16 @@ import com.programmers.springbasic.command.wallet.GetCustomerVouchersCommand;
 import com.programmers.springbasic.command.wallet.RemoveCustomerVoucherCommand;
 
 public enum CustomerCommandType {
-	CREATE_CUSTOMER("6", CreateCustomerCommand.class),
-	GET_ALL_CUSTOMERS("7", GetAllCustomersCommand.class),
-	GET_BLACKLIST_CUSTOMERS("8", GetBlacklistCustomersCommand.class),
-	GET_CUSTOMER_DETAIL("9", GetCustomerDetailCommand.class),
-	UPDATE_CUSTOMER("10", UpdateCustomerCommand.class),
-	DELETE_CUSTOMER("11", RemoveCustomerCommand.class),
-	ASSIGN_VOUCHER_TO_CUSTOMER("12", AssignVoucherToCustomerCommand.class),
-	GET_CUSTOMER_VOUCHERS("13", GetCustomerVouchersCommand.class),
-	REMOVE_CUSTOMER_VOUCHER("14", RemoveCustomerVoucherCommand.class),
-	RETURN_TO_MAIN("return", null);
+	CREATE_CUSTOMER("1", CreateCustomerCommand.class),
+	GET_ALL_CUSTOMERS("2", GetAllCustomersCommand.class),
+	GET_CUSTOMER_DETAIL("3", GetCustomerDetailCommand.class),
+	UPDATE_CUSTOMER("4", UpdateCustomerCommand.class),
+	DELETE_CUSTOMER("5", RemoveCustomerCommand.class),
+	GET_BLACKLIST_CUSTOMERS("6", GetBlacklistCustomersCommand.class),
+	ASSIGN_VOUCHER_TO_CUSTOMER("7", AssignVoucherToCustomerCommand.class),
+	GET_CUSTOMER_VOUCHERS("8", GetCustomerVouchersCommand.class),
+	REMOVE_CUSTOMER_VOUCHER("9", RemoveCustomerVoucherCommand.class),
+	RETURN_TO_MAIN("0", null);
 
 	private final String inputString;
 	private final Class<? extends Command> commandClass;

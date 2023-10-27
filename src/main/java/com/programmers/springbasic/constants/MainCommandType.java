@@ -11,9 +11,9 @@ import com.programmers.springbasic.command.VoucherCommandExecutor;
 
 public enum MainCommandType {
 
-	VOUCHER_MANAGEMENT("voucher", VoucherCommandExecutor.class),
-	CUSTOMER_MANAGEMENT("customer", CustomerCommandExecutor.class),
-	EXIT("exit", ExitCommand.class);
+	VOUCHER_MANAGEMENT("1", VoucherCommandExecutor.class),
+	CUSTOMER_MANAGEMENT("2", CustomerCommandExecutor.class),
+	EXIT("0", ExitCommand.class);
 
 	private final String inputString;
 	private final Class<? extends Command> commandClass;
