@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.customer.service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -12,13 +11,17 @@ import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.util.Validator;
+import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final VoucherRepository voucherRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, VoucherRepository voucherRepository) {
         this.customerRepository = customerRepository;
+        this.voucherRepository = voucherRepository;
     }
 
     public List<CustomerResponse> readBlacklist() {
@@ -58,6 +61,12 @@ public class CustomerService {
     public void deleteById(UUID customerId) {
         validateIdExisting(customerId);
         customerRepository.deleteById(customerId);
+    }
+
+    public CustomerResponse findByVoucherId(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException(("There is no voucher with %s").formatted(voucherId)));
+        return findById(voucher.getCustomerId());
     }
 
     private void validateIdExisting(UUID customerId) {
