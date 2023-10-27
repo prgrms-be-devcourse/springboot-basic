@@ -33,13 +33,17 @@ public class JdbcWalletRepository implements WalletRepository{
         JsonArray jsonArray = new JsonArray();
         jsonArray.add(stringVouchers);
 
-        var vouchers = new ArrayList<UUID>();
-        jsonArray.forEach(data -> {
-            String stringUUID = data.toString();
-            if(stringUUID.length()!=4) vouchers.add(UUID.fromString(stringUUID.substring(4, stringUUID.length()-4)));
-        });
+        var vouchers = toVoucherList(jsonArray);
         return new Wallet(walletId, customerId, vouchers);
     };
+    static List<UUID> toVoucherList(JsonArray jsonArray) {
+        List<UUID> vouchers = new ArrayList<>();
+        jsonArray.forEach(data -> {
+            String stringUUID = data.toString();
+            if(stringUUID.length()>4) vouchers.add(UUID.fromString(stringUUID.substring(4, stringUUID.length()-4)));
+        });
+        return vouchers;
+    }
 
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
@@ -113,6 +117,20 @@ public class JdbcWalletRepository implements WalletRepository{
                 .filter(wallet -> wallet.getVouchers().contains(voucherId))
                 .forEach(wallet -> customers.add(wallet.getCustomerId()));
         return customers;
+    }
+
+    @Override
+    public List<UUID> addVoucherByCustomerId(UUID customerId, UUID voucherId) {
+        Wallet wallet = jdbcTemplate.queryForObject("select * from wallet where customer_id = UUID_TO_BIN(?)"
+                ,walletRowMapper,
+                customerId.toString().getBytes());
+        List<UUID> newVouchers = wallet.getVouchers();
+        newVouchers.add(voucherId);
+
+        jdbcTemplate.update("UPDATE wallet SET vouchers = (?) WHERE wallet_id = UUID_TO_BIN(?)",
+                gson.toJson(newVouchers),
+                wallet.getWalletId().toString().getBytes());
+        return newVouchers;
     }
 
     @Override

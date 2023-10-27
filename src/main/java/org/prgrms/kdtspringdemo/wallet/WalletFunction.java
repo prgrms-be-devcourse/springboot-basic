@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 public enum WalletFunction {
+    INSERT_VOUCHER_IN_WALLET("insertvoucher", "customerId의 지갑에 voucherId 추가", WalletController::insertVoucherByCustomerId),
     FIND_BY_CUSTOMER("findbycustomerid", "고객이 가진 지갑 속 바우처 조회", WalletController::printVouchersByCustomerId),
     DELETE_VOUCHER("deletevoucher", "customerId, voucherId로 바우처 삭제", WalletController::deleteVoucherByVoucherId);
     private final String fun;

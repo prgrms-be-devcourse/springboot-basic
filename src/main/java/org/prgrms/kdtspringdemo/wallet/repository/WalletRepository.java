@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface WalletRepository {
     Wallet insert(Wallet wallet);
+    List<UUID> addVoucherByCustomerId(UUID customerId, UUID voucherId);
     Optional<Wallet> findById(UUID voucherId);
     Optional<List<UUID>> findVouchersByCustomerId(UUID customerId);
     List<UUID> deleteVoucherByVoucherId(UUID customerId, UUID voucherId);

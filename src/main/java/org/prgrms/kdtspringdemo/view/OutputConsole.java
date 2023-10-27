@@ -14,6 +14,7 @@ public class OutputConsole {
         System.out.println("Type exit to exit the program.");
         System.out.println("Type voucher to start voucher mode.");
         System.out.println("Type customer to start customer mode.");
+        System.out.println("Type wallet to start wallet mode.");
         System.out.print(start_string);
     }
 
@@ -30,9 +31,9 @@ public class OutputConsole {
         System.out.println();
         System.out.println("=== Wallet Mode ===");
         System.out.println("To return to mode selection, please enter exit.");
-        System.out.println("Type create to create the wallet.");
         System.out.println("Type findByCustomerId : findVouchers by customerId");
         System.out.println("Type deleteVoucher : deleteVoucher by customerId & voucherId");
+        System.out.println("Type insertVoucher : insertVoucher by customerId & voucherId");
         System.out.print(start_string);
     }
 

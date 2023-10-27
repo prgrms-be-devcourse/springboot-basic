@@ -33,4 +33,9 @@ public class MemoryVoucherRepository implements VoucherRepository{
         List<Voucher> voucherList = storage.values().stream().toList();
         return Optional.ofNullable(voucherList);
     }
+
+    @Override
+    public void deleteAll() {
+
+    }
 }

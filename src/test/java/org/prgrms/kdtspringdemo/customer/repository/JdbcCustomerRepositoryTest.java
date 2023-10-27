@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,6 +24,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
+@EnableAutoConfiguration
 @ActiveProfiles("DB")
 class JdbcCustomerRepositoryTest {
     @Configuration
@@ -56,7 +58,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("데이터베이스에 고객을 추가합니다.")
     void insert() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "tester01", true);
+        Customer customer = new Customer(UUID.randomUUID(), "eugene", true);
 
         //when
         Customer insertCustomer = jdbcCustomerRepository.insert(customer);

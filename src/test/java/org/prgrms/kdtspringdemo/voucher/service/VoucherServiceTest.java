@@ -29,7 +29,7 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@ActiveProfiles("local")
+@ActiveProfiles("DB")
 class VoucherServiceTest {
 
     @Configuration
@@ -44,12 +44,7 @@ class VoucherServiceTest {
 
     @BeforeEach
     void init() {
-        try(FileWriter fileWriter = new FileWriter(filePath);
-            CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader("voucherId", "amount", "voucherType"));) {
-            csvPrinter.printRecord(UUID.randomUUID().toString(), 100, "fixeddiscount");
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        }
+        voucherService.deleteAll();
     }
 
     @Test

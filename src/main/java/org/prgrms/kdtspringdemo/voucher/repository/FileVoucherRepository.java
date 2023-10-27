@@ -19,7 +19,6 @@ import java.util.*;
 
 @Repository
 @Profile("dev")
-@PropertySource(value = "classpath:application_prod.yml")
 public class FileVoucherRepository implements VoucherRepository{
     private CsvFileHandler csvFileHandler;
     @Value("${voucher_file}")
@@ -87,5 +86,10 @@ public class FileVoucherRepository implements VoucherRepository{
             logger.error(e.getMessage());
         }
         return Optional.of(voucherList);
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 }

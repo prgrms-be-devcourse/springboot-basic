@@ -55,9 +55,4 @@ public class VoucherController {
         voucherList.forEach(voucher -> outputConsole.printVoucher(voucher));
     }
 
-    public void endProgram() {
-        voucherService.endVoucherService();
-    }
-
-
 }

@@ -13,8 +13,8 @@ import java.util.Optional;
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
-    public CustomerService() {
-        this.customerRepository = new FileCustomerRepository();
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
     public Customer insert(Customer customer) {

@@ -68,6 +68,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
     }
 
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM voucher");
     }

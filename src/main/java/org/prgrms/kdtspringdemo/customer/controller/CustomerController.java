@@ -28,7 +28,7 @@ public class CustomerController {
 
     public void insert() {
         try {
-            UUID customerId = java.util.UUID.randomUUID();
+            UUID customerId = UUID.randomUUID();
             outputConsole.getCustomerName();
             String name = inputConsole.getString();
             outputConsole.getCustomerIsBlack();

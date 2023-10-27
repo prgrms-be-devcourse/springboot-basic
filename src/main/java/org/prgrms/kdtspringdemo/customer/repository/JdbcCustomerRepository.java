@@ -46,6 +46,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 customer.getName(),
                 customer.isBlack());
         if(update != 1) {
+            logger.info("Nothing was inserted");
             throw new RuntimeException("Nothing was inserted");
         }
         return customer;

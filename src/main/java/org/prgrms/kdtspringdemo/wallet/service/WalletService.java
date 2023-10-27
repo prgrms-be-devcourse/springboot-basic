@@ -35,6 +35,10 @@ public class WalletService {
         return voucherList;
     }
 
+    public List<UUID> addVoucherByCustomerId(UUID customerId, UUID voucherId) {
+        return walletRepository.addVoucherByCustomerId(customerId, voucherId);
+    }
+
     public void deleteVoucherByVoucherId(UUID customerId, UUID voucherId) {
         walletRepository.deleteVoucherByVoucherId(customerId, voucherId);
     }

@@ -36,6 +36,21 @@ public class WalletController {
         }
     }
 
+    public void insertVoucherByCustomerId() {
+        try {
+            outputConsole.getCustomerId();
+            UUID customerId = UUID.fromString(inputConsole.getString());
+            outputConsole.getVoucherId();
+            UUID voucherId = UUID.fromString(inputConsole.getString());
+            walletService.addVoucherByCustomerId(customerId, voucherId);
+        } catch (IOException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    // customer park2 : 6378ec61-9de8-4448-aebf-283c0d66d0be
+    // voucher : 61013580-6aae-40bd-aa89-2ed4bc61f1c0
+
     public void deleteVoucherByVoucherId() {
         try {
             outputConsole.getCustomerId();
