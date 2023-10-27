@@ -1,9 +1,11 @@
 package com.weeklyMission.wallet.service;
 
 import com.weeklyMission.member.domain.Member;
+import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.repository.DBMemberRepository;
 import com.weeklyMission.member.service.MemberService;
 import com.weeklyMission.voucher.domain.Voucher;
+import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.repository.DBVoucherRepository;
 import com.weeklyMission.voucher.service.VoucherService;
 import com.weeklyMission.wallet.domain.Wallet;
@@ -32,20 +34,24 @@ public class WalletService {
         walletRepository.save(wallet);
     }
 
-    public List<Voucher> findByMemberId(UUID memberId){
+    public List<VoucherResponse> findByMemberId(UUID memberId){
         List<UUID> voucherIdList = walletRepository.findByMemberId(memberId).stream()
             .map(Wallet::voucherId)
             .toList();
 
-        return voucherRepository.findByIds(voucherIdList);
+        return voucherRepository.findByIds(voucherIdList).stream()
+            .map(VoucherResponse::of)
+            .toList();
     }
 
-    public List<Member> findByVoucherId(UUID voucherId){
+    public List<MemberResponse> findByVoucherId(UUID voucherId){
         List<UUID> memberIdList = walletRepository.findByVoucherId(voucherId).stream()
             .map(Wallet::memberId)
             .toList();
 
-        return memberRepository.findByIds(memberIdList);
+        return memberRepository.findByIds(memberIdList).stream()
+            .map(MemberResponse::of)
+            .toList();
     }
 
     public void deleteById(UUID memberId, UUID voucherId){
