@@ -3,12 +3,18 @@ package org.programmers.springorder;
 import org.programmers.springorder.console.Console;
 import org.programmers.springorder.constant.Message;
 import org.programmers.springorder.controller.CustomerController;
+import org.programmers.springorder.controller.VoucherController;
 import org.programmers.springorder.utils.ExceptionHandler;
 import org.programmers.springorder.utils.MenuType;
-import org.programmers.springorder.controller.VoucherController;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+@ConditionalOnProperty(
+        prefix = "command.line.runner",
+        value = "enabled",
+        havingValue = "true",
+        matchIfMissing = true)
 @Component
 public class VoucherApplication implements CommandLineRunner {
 
