@@ -5,10 +5,10 @@ import java.util.UUID;
 
 public class Voucher {
     private final UUID voucherId;
-    private final BigDecimal discountValue;
+    private final long discountValue;
     private final VoucherType voucherType;
 
-    public Voucher(UUID voucherId, BigDecimal discountValue, VoucherType voucherType) {
+    public Voucher(UUID voucherId, long discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.discountValue = discountValue;
@@ -18,7 +18,7 @@ public class Voucher {
         return voucherId;
     }
 
-    public BigDecimal getDiscountValue() {
+    public long getDiscountValue() {
         return discountValue;
     }
 

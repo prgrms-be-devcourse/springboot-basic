@@ -13,7 +13,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.math.BigDecimal;
 import java.util.*;
 
 @Repository
@@ -97,7 +96,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     private Voucher objectToVoucher(Map voucherObject) {
         UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get(VOUCHER_ID_KEY)));
-        BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
+        long discountValue = Long.parseLong(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
         String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
         VoucherType voucherType = VoucherType.findCreateMenu(voucherTypeName)
                 .orElseThrow(() -> {
@@ -127,7 +126,7 @@ public class VoucherFileRepository implements VoucherRepository {
     private HashMap<String, Object> voucherToObject(Voucher voucher) {
         HashMap<String, Object> voucherObject = new HashMap<>();
         voucherObject.put(VOUCHER_ID_KEY, voucher.getVoucherId().toString());
-        voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue().toString());
+        voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue());
         voucherObject.put(VOUCHER_TYPE_KEY, voucher.getVoucherType().name());
         return voucherObject;
     }

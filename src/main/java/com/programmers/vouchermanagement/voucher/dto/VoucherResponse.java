@@ -1,17 +1,16 @@
 package com.programmers.vouchermanagement.voucher.dto;
 
-import java.math.BigDecimal;
-import java.util.UUID;
-
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
+import java.util.UUID;
+
 public class VoucherResponse {
     private final UUID voucherId;
-    private final BigDecimal discountValue;
+    private final long discountValue;
     private final VoucherType voucherType;
 
-    private VoucherResponse(UUID voucherId, BigDecimal discountValue, VoucherType voucherType) {
+    private VoucherResponse(UUID voucherId, long discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.discountValue = discountValue;
         this.voucherType = voucherType;
@@ -25,7 +24,7 @@ public class VoucherResponse {
         return voucherId;
     }
 
-    public BigDecimal getDiscountValue() {
+    public long getDiscountValue() {
         return discountValue;
     }
 

@@ -22,7 +22,7 @@ public class DomainMapper {
     };
     public final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID id = toUUID(resultSet.getBytes("id"));
-        BigDecimal discountValue = resultSet.getBigDecimal("discount_value");
+        long discountValue = resultSet.getLong("discount_value");
         String voucherTypeStr = resultSet.getString("type");
 
         return new Voucher(id, discountValue, VoucherType.valueOf(voucherTypeStr));
