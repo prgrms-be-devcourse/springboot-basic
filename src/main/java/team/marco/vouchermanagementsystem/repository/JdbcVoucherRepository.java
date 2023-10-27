@@ -1,6 +1,5 @@
 package team.marco.vouchermanagementsystem.repository;
 
-import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import team.marco.vouchermanagementsystem.model.LoadedVoucher;
 import team.marco.vouchermanagementsystem.model.Voucher;
 import team.marco.vouchermanagementsystem.model.VoucherType;
+import team.marco.vouchermanagementsystem.util.UUIDConverter;
 
 @Profile("dev")
 @Repository
@@ -25,19 +25,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String typeString = resultSet.getString("type");
         String dataString = resultSet.getString("data");
 
-        UUID id = bytesToUUID(idBytes);
+        UUID id = UUIDConverter.convert(idBytes);
         VoucherType type = VoucherType.valueOf(typeString);
         int data = Integer.parseInt(dataString);
 
         LoadedVoucher loadedVoucher = new LoadedVoucher(id, type, data);
 
         return VoucherType.convertVoucher(loadedVoucher);
-    }
-
-    private static UUID bytesToUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
