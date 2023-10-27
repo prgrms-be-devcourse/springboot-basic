@@ -6,17 +6,16 @@ import org.programmers.springorder.dto.customer.CustomerRequestDto;
 import org.programmers.springorder.dto.customer.CustomerResponseDto;
 import org.programmers.springorder.dto.voucher.VoucherRequestDto;
 import org.programmers.springorder.dto.voucher.VoucherResponseDto;
+import org.programmers.springorder.dto.wallet.WalletRequestDto;
 import org.programmers.springorder.model.voucher.VoucherType;
-import org.programmers.springorder.utils.CustomerMenuType;
-import org.programmers.springorder.utils.ExceptionHandler;
-import org.programmers.springorder.utils.MenuType;
-import org.programmers.springorder.utils.VoucherMenuType;
+import org.programmers.springorder.utils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 @Component
 public class Console {
@@ -115,5 +114,26 @@ public class Console {
         } else {
             blackList.forEach(System.out::println);
         }
+    }
+
+    /**
+     * Wallet
+     */
+    public static WalletMenuType inputWalletMenu() {
+        printMessage(Message.WALLET_MENU_SELECT_MESSAGE);
+        printPrompt();
+        return WalletMenuType.selectWalletMenu(scanner.nextLine());
+    }
+
+    public String inputCustomerId() {
+        printMessage(Message.INPUT_CUSTOMER_ID_MESSAGE);
+        printPrompt();
+        return scanner.nextLine();
+    }
+
+    public WalletRequestDto inputWalletInfo() {
+        UUID customerId = UUID.fromString(ExceptionHandler.input(this::inputCustomerId));
+        UUID voucherId = UUID.fromString(ExceptionHandler.input(this::inputVoucherId));
+        return new WalletRequestDto(customerId, voucherId);
     }
 }
