@@ -14,7 +14,8 @@ public class CustomerCsvFileMapper {
 			String[] parts = line.split(",");
 			UUID id = UUID.fromString(parts[0]);
 			String name = parts[1];
-			return new Customer(id, name, null, null);
+			String email = parts[2];
+			return new Customer(id, name, email, null);
 		}).toList();
 	}
 
