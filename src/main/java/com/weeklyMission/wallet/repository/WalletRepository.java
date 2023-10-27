@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface WalletRepository {
 
-    Wallet save(Wallet wallet);
+    void save(Wallet wallet);
 
     List<Wallet> findByMemberId(UUID id);
 

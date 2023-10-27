@@ -40,23 +40,22 @@ public class DBWalletRepository implements WalletRepository{
     }
 
     @Override
-    public Wallet save(Wallet wallet) {
+    public void save(Wallet wallet) {
         jdbcTemplate.update(
             "INSERT INTO wallet (wallet_id, member_id, voucher_id) VALUES (UUID_TO_BIN(:walletId), UUID_TO_BIN(:memberId), UUID_TO_BIN(:voucherId))",
             toParamMap(wallet));
-        return wallet;
     }
 
     @Override
-    public List<Wallet> findByMemberId(UUID id) {
+    public List<Wallet> findByMemberId(UUID memberId) {
         return jdbcTemplate.query("select * from wallet where member_id = UUID_TO_BIN(:memberId)",
-            Collections.singletonMap("memberId", id.toString().getBytes()), walletRowMapper);
+            Collections.singletonMap("memberId", memberId.toString().getBytes()), walletRowMapper);
     }
 
     @Override
-    public List<Wallet> findByVoucherId(UUID id) {
+    public List<Wallet> findByVoucherId(UUID voucherId) {
         return jdbcTemplate.query("select * from wallet where voucher_id = UUID_TO_BIN(:voucherId)",
-            Collections.singletonMap("voucherId", id.toString().getBytes()), walletRowMapper);
+            Collections.singletonMap("voucherId", voucherId.toString().getBytes()), walletRowMapper);
     }
 
     @Override
