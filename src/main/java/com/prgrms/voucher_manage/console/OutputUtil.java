@@ -19,7 +19,6 @@ public class OutputUtil {
                 Type saveCustomer to save customer.
                 Type allCustomers to get all customers.
                 Type blackCustomers to get black customers.
-                Type normalCustomers to get normal customers.
                 Type findCustomer to find customer by name.
                 Type updateCustomer to update customer.
                 

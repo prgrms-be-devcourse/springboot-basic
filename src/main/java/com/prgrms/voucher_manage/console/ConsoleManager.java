@@ -61,7 +61,6 @@ public class ConsoleManager implements ApplicationRunner {
             case SAVE_CUSTOMER -> saveCustomer();
             case BLACK_CUSTOMERS ->  printCustomers(customerController.getBlackCustomers());
             case ALL_CUSTOMERS -> printCustomers(customerController.getAllCustomers());
-            case NORMAL_CUSTOMERS -> printCustomers(customerController.getNormalCustomers());
             case UPDATE_CUSTOMER -> updateCustomer();
             case FIND_CUSTOMER -> findCustomer();
         }

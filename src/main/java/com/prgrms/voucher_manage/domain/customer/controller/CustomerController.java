@@ -21,9 +21,6 @@ public class CustomerController {
     public List<Customer> getBlackCustomers() {
         return customerService.getBlackCustomers();
     }
-    public List<Customer> getNormalCustomers(){
-        return customerService.getNormalCustomers();
-    }
     public Customer findById(UUID id){
         return customerService.findById(id);
     }

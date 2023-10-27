@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.BLACK;
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.NORMAL;
@@ -15,19 +16,22 @@ import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.NORM
 public class CustomerService {
     private final JdbcCustomerRepository jdbcCustomerRepository;
 
-    public List<Customer> getBlackCustomers() {
-        return jdbcCustomerRepository.findByType(BLACK.getLabel());
+    public List<Customer> getAllCustomers(){
+        List<Customer> customers = jdbcCustomerRepository.findAll();
+        if (customers.isEmpty()) {
+            throw new  RuntimeException("There is no customers.");
+        }
+        return customers;
     }
 
-    public List<Customer> getNormalCustomers(){
-        return jdbcCustomerRepository.findByType(NORMAL.getLabel());
+    public List<Customer> getBlackCustomers() {
+        return jdbcCustomerRepository.findByType(BLACK.getData());
     }
-    public List<Customer> getAllCustomers(){
-        return jdbcCustomerRepository.findAll();
-    }
+
     public Customer save(Customer customer){
         return jdbcCustomerRepository.save(customer);
     }
+
     public void update(Customer customer){
         int result = jdbcCustomerRepository.update(customer);
         if (result!=1){
@@ -36,5 +40,9 @@ public class CustomerService {
     }
     public Customer findByName(String name){
         return jdbcCustomerRepository.findByName(name).orElseThrow(RuntimeException::new);
+    }
+
+    public Customer findById(UUID id){
+        return jdbcCustomerRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 }

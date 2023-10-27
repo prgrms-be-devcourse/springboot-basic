@@ -24,8 +24,6 @@ public enum MenuType {
 
     BLACK_CUSTOMERS("blackCustomers"),
 
-    NORMAL_CUSTOMERS("normalCustomers"),
-
     FIND_CUSTOMER("findCustomer"),
 
     UPDATE_CUSTOMER("updateCustomer"),
