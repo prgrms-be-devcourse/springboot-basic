@@ -8,14 +8,14 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
 import com.programmers.springbasic.constants.ErrorCode;
 
-@Component
 public class FileUtils {
 
-	public List<String> readFile(String filePath) {
+	private FileUtils() {
+	}
+
+	public static List<String> readFile(String filePath) {
 		checkFileExistAndCreate(filePath);
 		try {
 			return Files.readAllLines(Paths.get(filePath), StandardCharsets.UTF_8);
@@ -24,7 +24,7 @@ public class FileUtils {
 		}
 	}
 
-	public void writeFile(String filePath, List<String> lines) {
+	public static void writeFile(String filePath, List<String> lines) {
 		isFileExist(filePath);
 		try {
 			Files.write(Paths.get(filePath), lines, StandardCharsets.UTF_8, StandardOpenOption.WRITE,
@@ -35,13 +35,13 @@ public class FileUtils {
 		}
 	}
 
-	private void isFileExist(String filePath) {
+	private static void isFileExist(String filePath) {
 		Path path = Paths.get(filePath);
 		if (Files.notExists(path))
 			throw new RuntimeException(ErrorCode.FILE_NOT_FOUND.getMessage());
 	}
 
-	private void checkFileExistAndCreate(String pathString) {
+	private static void checkFileExistAndCreate(String pathString) {
 		Path path = Paths.get(pathString);
 		try {
 			if (Files.notExists(path.getParent())) {

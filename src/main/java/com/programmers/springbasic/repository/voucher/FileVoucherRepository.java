@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.springbasic.entity.voucher.Voucher;
-import com.programmers.springbasic.utils.mapper.VoucherCsvFileMapper;
 import com.programmers.springbasic.utils.FileUtils;
+import com.programmers.springbasic.utils.mapper.VoucherCsvFileMapper;
 
 import jakarta.annotation.PostConstruct;
 
@@ -22,22 +22,20 @@ import jakarta.annotation.PostConstruct;
 @Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
 
-	private final FileUtils fileUtils;
 	private final VoucherCsvFileMapper voucherCsvFileMapper;
 	private final Map<UUID, Voucher> storage;
 
 	@Value("${file.voucher-path}")
 	private String voucherFilePath;
 
-	public FileVoucherRepository(FileUtils fileUtils, VoucherCsvFileMapper voucherCsvFileMapper) {
-		this.fileUtils = fileUtils;
+	public FileVoucherRepository(VoucherCsvFileMapper voucherCsvFileMapper) {
 		this.voucherCsvFileMapper = voucherCsvFileMapper;
 		this.storage = new ConcurrentHashMap<>();
 	}
 
 	@PostConstruct
 	public void init() {
-		List<String> fileLines = fileUtils.readFile(voucherFilePath);
+		List<String> fileLines = FileUtils.readFile(voucherFilePath);
 		storage.putAll(this.voucherCsvFileMapper.linesToVoucherMap(fileLines));
 	}
 
@@ -45,7 +43,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	public Voucher insert(Voucher voucher) {
 		storage.put(voucher.getVoucherId(), voucher);
 		List<String> fileLines = voucherCsvFileMapper.voucherMapToLines(storage);
-		fileUtils.writeFile(voucherFilePath, fileLines);
+		FileUtils.writeFile(voucherFilePath, fileLines);
 		return voucher;
 	}
 
@@ -53,7 +51,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	public Voucher update(Voucher voucher) {
 		storage.put(voucher.getVoucherId(), voucher);
 		List<String> fileLines = voucherCsvFileMapper.voucherMapToLines(storage);
-		fileUtils.writeFile(voucherFilePath, fileLines);
+		FileUtils.writeFile(voucherFilePath, fileLines);
 		return voucher;
 	}
 
@@ -73,7 +71,7 @@ public class FileVoucherRepository implements VoucherRepository {
 	public void deleteById(UUID id) {
 		storage.remove(id);
 		List<String> fileLines = voucherCsvFileMapper.voucherMapToLines(storage);
-		fileUtils.writeFile(voucherFilePath, fileLines);
+		FileUtils.writeFile(voucherFilePath, fileLines);
 	}
 
 	@Override

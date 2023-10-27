@@ -12,19 +12,17 @@ import com.programmers.springbasic.utils.FileUtils;
 @Repository
 public class BlacklistCustomerRepository {
 
-	private final FileUtils fileUtils;
 	private final CustomerCsvFileMapper customerCsvFileMapper;
 
 	@Value("${file.blacklist-path}")
 	private String blacklistFilePath;
 
-	public BlacklistCustomerRepository(FileUtils fileUtils, CustomerCsvFileMapper customerCsvFileMapper) {
-		this.fileUtils = fileUtils;
+	public BlacklistCustomerRepository(CustomerCsvFileMapper customerCsvFileMapper) {
 		this.customerCsvFileMapper = customerCsvFileMapper;
 	}
 
 	public List<Customer> getBlacklistCustomers() {
-		List<String> fileLines = fileUtils.readFile(blacklistFilePath);
+		List<String> fileLines = FileUtils.readFile(blacklistFilePath);
 		return customerCsvFileMapper.linesToCustomers(fileLines);
 	}
 
