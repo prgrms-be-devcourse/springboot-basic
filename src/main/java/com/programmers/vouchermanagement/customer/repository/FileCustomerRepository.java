@@ -51,8 +51,8 @@ public class FileCustomerRepository implements CustomerRepository {
         this.blacklistFilePath = fileProperties.getCSVCustomerFilePath();
         this.jsonFileManager = jsonFileManager;
         this.customers = new HashMap<>();
-        loadBlacklistToStorage();
         loadCustomersFromJSON();
+        loadBlacklistToStorage();
     }
 
     @Override
