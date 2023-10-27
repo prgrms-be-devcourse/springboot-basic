@@ -7,11 +7,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import team.marco.vouchermanagementsystem.model.Customer;
 
-import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static team.marco.vouchermanagementsystem.util.UUIDUtil.bytesToUUID;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
@@ -33,7 +35,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 customer.getId().toString().getBytes(),
                 customer.getName(),
                 customer.getEmail(),
-                customer.getCreatedAt());
+                Timestamp.valueOf(customer.getCreatedAt()));
 
         if(update != 1) {
             logger.error("사용자를 추가하는 과정에서 오류가 발생했습니다.");
@@ -70,10 +72,5 @@ public class JdbcCustomerRepository implements CustomerRepository {
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
         return new Customer(customerId, customerName, email, createdAt);
-    }
-
-    private UUID bytesToUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
 }
