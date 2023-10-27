@@ -68,6 +68,18 @@ public class DBVoucherRepository implements VoucherRepository{
         return Optional.ofNullable(voucherId);
     }
 
+    public List<Voucher> findByIds(List<UUID> idList){
+        List<byte[]> idByteList = idList.stream()
+            .map(id -> id.toString().getBytes())
+            .toList();
+
+        List<Voucher> vouchers = jdbcTemplate.query(
+            "select * from voucher where voucher_id in (:voucherIds)",
+            Collections.singletonMap("voucherIds", idByteList), voucherRowMapper);
+
+        return vouchers;
+    }
+
     @Override
     public void deleteById(UUID id) {
         findById(id);
