@@ -10,6 +10,7 @@ import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.controller.CustomerController;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 
 @Component
 public class MenuHandler {
@@ -74,10 +75,12 @@ public class MenuHandler {
                 voucherController.findById(voucherId);
             }
             case UPDATE -> {
-                return;
+                UpdateVoucherRequest updateVoucherRequest = consoleManager.instructUpdateVoucher();
+                voucherController.update(updateVoucherRequest);
             }
             case DELETE -> {
-                return;
+                UUID voucherId = consoleManager.instructFindVoucher();
+                voucherController.deleteById(voucherId);
             }
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
         }

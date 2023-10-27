@@ -12,9 +12,9 @@ import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.consoleapp.menu.VoucherMenu;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.util.Formatter;
-import com.programmers.vouchermanagement.util.UUIDConverter;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 @Component
@@ -44,23 +44,23 @@ public class ConsoleManager {
             5. Delete Customer
             6. List All Customers in Blacklist
             """;
-    private static final String CREATE_SELECTION_INSTRUCTION = """
-            Please select the type of voucher to create.
+    private static final String VOUCHER_TYPE_INPUT = """
+            Please select the type of voucher.
             1. Fixed Amount Voucher
             2. Percent discount voucher.
             """;
-    private static final String VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION =
+    private static final String VOUCHER_DISCOUNT_VALUE_INSTRUCTION =
             "Please type the amount/percent of discount of the voucher.%s".formatted(LINE_SEPARATOR);
-    private static final String EXIT_MESSAGE =
-            "System exits.";
-    private static final String CREATE_SUCCESS_MESSAGE =
-            "The voucher(ID: %s) is successfully created.";
+    private static final String EXIT_MESSAGE = "System exits.";
+    private static final String CREATE_SUCCESS_MESSAGE = "The voucher(ID: %s) is successfully saved.";
     private static final String INCORRECT_INPUT_MESSAGE = """
              Such input is incorrect.
              Please input a correct command carefully.""";
     private static final String CONTENT_VOUCHER = "voucher";
     private static final String CONTENT_BLACKLIST = "black customer";
     private static final String CUSTOMER_CREATE_INSTRUCTION = "Please write the name of the customer";
+    private static final String VOUCHER_ID_INPUT = "Please write the voucher ID";
+    private static final String DELETE_SUCCESSFUL = "Item is successfully deleted.";
 
     private final TextIO textIO;
 
@@ -90,14 +90,29 @@ public class ConsoleManager {
     }
 
     public CreateVoucherRequest instructCreateVoucher() {
-        String createMenu = textIO.newStringInputReader()
-                .read(CREATE_SELECTION_INSTRUCTION);
-        VoucherType voucherType = VoucherType.findVoucherTypeByCode(createMenu);
+        String voucherTypeCode = textIO.newStringInputReader()
+                .read(VOUCHER_TYPE_INPUT);
+        VoucherType voucherType = VoucherType.findVoucherTypeByCode(voucherTypeCode);
 
         String discountValueInput = textIO.newStringInputReader()
-                .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
+                .read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
         BigDecimal discountValue = new BigDecimal(discountValueInput);
         return new CreateVoucherRequest(discountValue, voucherType);
+    }
+
+    public UpdateVoucherRequest instructUpdateVoucher() {
+        String voucherIdInput = textIO.newStringInputReader()
+                .read(VOUCHER_ID_INPUT);
+        UUID voucherId = UUID.fromString(voucherIdInput);
+
+        String discountValueInput = textIO.newStringInputReader()
+                .read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
+        BigDecimal discountValue = new BigDecimal(discountValueInput);
+
+        String voucherTypeCode = textIO.newStringInputReader()
+                .read(VOUCHER_TYPE_INPUT);
+        VoucherType voucherType = VoucherType.findVoucherTypeByCode(voucherTypeCode);
+        return new UpdateVoucherRequest(voucherId, discountValue, voucherType);
     }
 
     public String instructCreateCustomer() {
@@ -107,11 +122,11 @@ public class ConsoleManager {
 
     public UUID instructFindVoucher() {
         String voucherId = textIO.newStringInputReader()
-                .read("Please write ID of the voucher to find");
+                .read(VOUCHER_ID_INPUT);
         return UUID.fromString(voucherId);
     }
 
-    public void printCreateResult(VoucherResponse voucherResponse) {
+    public void printSaveVoucherResult(VoucherResponse voucherResponse) {
         textIO.getTextTerminal()
                 .println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.getVoucherId()));
     }
@@ -138,6 +153,10 @@ public class ConsoleManager {
     public void printReadVoucher(VoucherResponse voucherResponse) {
         textIO.getTextTerminal()
                 .println(Formatter.formatVoucher(voucherResponse));
+    }
+
+    public void printDeleteResult() {
+        textIO.getTextTerminal().println(DELETE_SUCCESSFUL);
     }
 
     public void printExit() {

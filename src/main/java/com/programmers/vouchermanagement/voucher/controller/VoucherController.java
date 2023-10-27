@@ -40,4 +40,9 @@ public class VoucherController {
         VoucherResponse voucherResponse = voucherService.update(updateVoucherRequest);
         consoleManager.printSaveVoucherResult(voucherResponse);
     }
+
+    public void deleteById(UUID voucherId) {
+        voucherService.deleteById(voucherId);
+        consoleManager.printDeleteResult();
+    }
 }

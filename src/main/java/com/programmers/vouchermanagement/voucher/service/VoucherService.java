@@ -48,11 +48,20 @@ public class VoucherService {
     }
 
     public VoucherResponse update(UpdateVoucherRequest updateVoucherRequest) {
-        if (!voucherRepository.existById(updateVoucherRequest.voucherId())) {
-            throw new NoSuchElementException("There is no voucher with %s".formatted(updateVoucherRequest.voucherId()));
-        }
+        validateIdExisting(updateVoucherRequest.voucherId());
         Voucher voucher = new Voucher(updateVoucherRequest.voucherId(), updateVoucherRequest.discountValue(), updateVoucherRequest.voucherType());
         Voucher updatedVoucher = voucherRepository.save(voucher);
         return VoucherResponse.from(updatedVoucher);
+    }
+
+    public void deleteById(UUID voucherId) {
+        validateIdExisting(voucherId);
+        voucherRepository.deleteById(voucherId);
+    }
+
+    private void validateIdExisting(UUID voucherId) {
+        if (!voucherRepository.existById(voucherId)) {
+            throw new NoSuchElementException("There is no voucher with %s".formatted(voucherId));
+        }
     }
 }
