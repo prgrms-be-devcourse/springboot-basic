@@ -31,11 +31,11 @@ public class CustomerService {
 
     public void update(String id, String name) {
         Optional<Customer> customerOptional = customerRepository.findById(id);
+        Customer customer = customerOptional.orElseThrow();
 
-        customerOptional.orElseThrow(
-                () -> new IllegalArgumentException("해당 ID의 고객이 존재하지 않습니다."));
+        customer.changeName(name);
 
-        int update = customerRepository.update(id, name);
+        int update = customerRepository.update(customer);
 
         if (update != 1) {
             throw new DataAccessResourceFailureException("고객을 추가하는 과정에서 오류가 발생했습니다.");
@@ -45,8 +45,7 @@ public class CustomerService {
     public Customer findById(String id) {
         Optional<Customer> customerOptional = customerRepository.findById(id);
 
-        return customerOptional.orElseThrow(
-                () -> new IllegalArgumentException("해당 ID의 고객이 존재하지 않습니다."));
+        return customerOptional.orElseThrow();
     }
 
     public List<Customer> findByName(String name) {
