@@ -65,6 +65,11 @@ public class CustomerService {
         return CustomerResponse.from(updatedCustomer);
     }
 
+    public void deleteById(UUID customerId) {
+        validateIdExisting(customerId);
+        customerRepository.deleteById(customerId);
+    }
+
     private void validateIdExisting(UUID customerId) {
         if (!customerRepository.existById(customerId)) {
             throw new NoSuchElementException("There is no customer with %s".formatted(customerId));

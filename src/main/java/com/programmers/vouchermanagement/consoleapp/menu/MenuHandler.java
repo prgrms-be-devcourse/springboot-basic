@@ -105,7 +105,8 @@ public class MenuHandler {
             }
             case BLACKLIST -> customerController.readBlacklist();
             case DELETE -> {
-                return;
+                UUID customerId = consoleManager.instructFindCustomer();
+                customerController.deleteById(customerId);
             }
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
         }

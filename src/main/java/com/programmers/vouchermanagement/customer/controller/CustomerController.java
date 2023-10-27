@@ -44,4 +44,9 @@ public class CustomerController {
         CustomerResponse customerResponse = customerService.update(updateCustomerRequest);
         consoleManager.printSaveCustomerResult(customerResponse);
     }
+
+    public void deleteById(UUID customerId) {
+        customerService.deleteById(customerId);
+        consoleManager.printDeleteResult();
+    }
 }
