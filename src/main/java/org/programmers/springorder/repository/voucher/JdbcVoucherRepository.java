@@ -21,6 +21,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String UPDATE_VOUCHER = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = :voucherId";
     private static final String DELETE_ALL_VOUCHER = "DELETE FROM vouchers";
     private static final String DELETE_VOUCHER_BY_ID = "DELETE FROM vouchers WHERE voucher_Id = :voucherId";
+    private static final String UPDATE_VOUCHER_ASSIGN_CUSTOMER = "UPDATE vouchers SET customer_id = :customerId WHERE voucher_id = :voucherId";
+    private static final String SELECT_VOUCHER_BY_CUSTOMER_ID = "SELECT * FROM vouchers WHERE customer_id = :customerId";
+
 
     public JdbcVoucherRepository(DataSource dataSource) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
@@ -81,5 +84,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public void deleteById(UUID voucherId) {
         Map<String, Object> param = Map.of("voucherId", voucherId);
         jdbcTemplate.update(DELETE_VOUCHER_BY_ID, param);
+    }
+
+    @Override
+    public void assignVoucherToCustomer(UUID customerId, UUID voucherId) {
+        Map<String, Object> param = Map.of("customerId", customerId, "voucherId", voucherId);
+        jdbcTemplate.update(UPDATE_VOUCHER_ASSIGN_CUSTOMER, param);
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        Map<String, Object> param = Map.of("customerId", customerId);
+        return jdbcTemplate.query(SELECT_VOUCHER_BY_CUSTOMER_ID, param, voucherRowMapper);
     }
 }
