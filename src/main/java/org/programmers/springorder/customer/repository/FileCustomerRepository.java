@@ -7,11 +7,13 @@ import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.utils.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.*;
 
+@Profile("dev")
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
 

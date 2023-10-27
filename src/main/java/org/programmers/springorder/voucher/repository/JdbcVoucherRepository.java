@@ -6,6 +6,7 @@ import org.programmers.springorder.voucher.model.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,8 +14,8 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.util.*;
-
 @Primary
+@Profile("prod")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
