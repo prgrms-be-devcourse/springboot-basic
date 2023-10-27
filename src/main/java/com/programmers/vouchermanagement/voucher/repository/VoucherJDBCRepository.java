@@ -18,12 +18,6 @@ import java.util.UUID;
 @Primary
 public class VoucherJDBCRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(VoucherJDBCRepository.class);
-    private static final String INSERT_QUERY = "INSERT INTO test.vouchers(id, type, discount_value) VALUES (UUID_TO_BIN(:id), :type, :discountValue)";
-    private static final String FIND_BY_ID_QUERY = "SELECT * FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
-    private static final String FIND_ALL_QUERY = "SELECT * FROM test.vouchers";
-    private static final String DELETE_VOUCHER_QUERY = "DELETE FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
-    private static final String DELETE_ALL_QUERY = "TRUNCATE TABLE test.vouchers";
-    private static final String UPDATE_VOUCHER_QUERY = "UPDATE test.vouchers SET type = :type, discount_value = :discountValue WHERE id = UUID_TO_BIN(:id)";
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final DomainMapper domainMapper;
 
@@ -32,10 +26,9 @@ public class VoucherJDBCRepository implements VoucherRepository {
         this.domainMapper = domainMapper;
     }
 
-
     @Override
     public void save(Voucher voucher) {
-        int update = jdbcTemplate.update(INSERT_QUERY, domainMapper.voucherToParamMap(voucher));
+        int update = jdbcTemplate.update(VoucherQuery.INSERT, domainMapper.voucherToParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
         }
@@ -43,14 +36,14 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(FIND_ALL_QUERY, domainMapper.voucherRowMapper);
+        return jdbcTemplate.query(VoucherQuery.FIND_ALL, domainMapper.voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_QUERY,
-                    Collections.singletonMap("id", id.toString().getBytes()),
+            return Optional.ofNullable(jdbcTemplate.queryForObject(VoucherQuery.FIND_BY_ID,
+                    Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()),
                     domainMapper.voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
@@ -60,7 +53,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public void delete(UUID id) {
-        int update = jdbcTemplate.update(DELETE_VOUCHER_QUERY, Collections.singletonMap("id", id.toString().getBytes()));
+        int update = jdbcTemplate.update(VoucherQuery.DELETE_VOUCHER, Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()));
         if (update != 1) {
             throw new RuntimeException("Noting was deleted");
         }
@@ -68,12 +61,12 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(DELETE_ALL_QUERY, Collections.emptyMap());
+        jdbcTemplate.update(VoucherQuery.DELETE_ALL, Collections.emptyMap());
     }
 
     @Override
     public void update(Voucher voucher) {
-        int update = jdbcTemplate.update(UPDATE_VOUCHER_QUERY, domainMapper.voucherToParamMap(voucher));
+        int update = jdbcTemplate.update(VoucherQuery.UPDATE_VOUCHER, domainMapper.voucherToParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Noting was updated");
         }
