@@ -153,14 +153,14 @@ class VoucherServiceTest {
         //given
         final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
         final NoSuchElementException exception = new NoSuchElementException();
-        doReturn(false).when(customerRepository).existById(request.customerId());
+        doReturn(true).when(customerRepository).existById(request.customerId());
         doReturn(Optional.empty()).when(voucherRepository).findById(any(UUID.class));
 
         //when & then
         assertThatThrownBy(() -> voucherService.assignToCustomer(request)).isInstanceOf(NoSuchElementException.class);
 
         //verify
-        verify(voucherRepository).existById(request.voucherId());
+        verify(voucherRepository).findById(request.voucherId());
     }
 
     @Test
