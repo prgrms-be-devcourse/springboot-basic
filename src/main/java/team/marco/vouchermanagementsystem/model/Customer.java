@@ -4,16 +4,16 @@ import java.util.UUID;
 
 import static java.text.MessageFormat.format;
 
-public class User {
+public class Customer {
     private final UUID id;
     private final String name;
 
-    public User(UUID id, String name) {
+    public Customer(UUID id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public User(String name) {
+    public Customer(String name) {
         this.id = UUID.randomUUID();
         this.name = name;
     }

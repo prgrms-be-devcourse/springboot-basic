@@ -1,7 +1,7 @@
 package team.marco.vouchermanagementsystem.controller;
 
 import org.springframework.stereotype.Controller;
-import team.marco.vouchermanagementsystem.model.User;
+import team.marco.vouchermanagementsystem.model.Customer;
 import team.marco.vouchermanagementsystem.service.BlacklistService;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class UserController {
 
     public List<String> getBlacklistInfo() {
         return blacklistService.getBlacklist().stream()
-                .map(User::getInfo)
+                .map(Customer::getInfo)
                 .toList();
     }
 }
