@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
 import com.programmers.vouchermanagement.dto.VoucherDto;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
+import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,9 +15,11 @@ import java.util.UUID;
 @Service
 public class VoucherService {
     private final VoucherRepository voucherRepository;
+    private final WalletRepository walletRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository, WalletRepository walletRepository) {
         this.voucherRepository = voucherRepository;
+        this.walletRepository = walletRepository;
     }
 
     public List<Voucher> findAllVouchers() {
@@ -41,6 +44,10 @@ public class VoucherService {
     }
 
     public void deleteVoucher(UUID id) {
-        voucherRepository.delete(id);
+        int affectedRow = voucherRepository.delete(id);
+        if (affectedRow == 0) {
+            throw new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage());
+        }
+        walletRepository.deleteByVoucherId(id);
     }
 }

@@ -15,4 +15,8 @@ public interface WalletRepository {
     Wallet save(Wallet wallet);
 
     int delete(UUID uuid);
+
+    int deleteByVoucherId(UUID voucherId);
+
+    int deleteByCustomerId(UUID customerId);
 }

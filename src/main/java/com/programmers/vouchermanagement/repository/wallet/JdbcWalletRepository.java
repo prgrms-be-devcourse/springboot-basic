@@ -66,6 +66,26 @@ public class JdbcWalletRepository implements WalletRepository {
         return affectedRow;
     }
 
+    @Override
+    public int deleteByVoucherId(UUID voucherId) {
+        String sql = "DELETE FROM wallet WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+        SqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("voucherId", voucherId.toString());
+        int affectedRow = jdbcTemplate.update(sql, namedParameters);
+        logger.debug("Affected Row on delete by Voucher Id: {}", affectedRow);
+        return affectedRow;
+    }
+
+    @Override
+    public int deleteByCustomerId(UUID customerId) {
+        String sql = "DELETE FROM wallet WHERE customer_id = UUID_TO_BIN(:customerId)";
+        SqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("id", customerId.toString());
+        int affectedRow = jdbcTemplate.update(sql, namedParameters);
+        logger.debug("Affected Row on delete by Customer Id: {}", affectedRow);
+        return affectedRow;
+    }
+
     private Wallet mapToWallet(ResultSet resultSet) throws SQLException {
         return new Wallet(
                 toUUID(resultSet.getBytes("id")),
