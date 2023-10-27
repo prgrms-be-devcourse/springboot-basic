@@ -1,7 +1,10 @@
 package team.marco.vouchermanagementsystem.application;
 
+import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 import team.marco.vouchermanagementsystem.controller.ConsoleBlacklistController;
 import team.marco.vouchermanagementsystem.controller.ConsoleCustomerController;
@@ -65,6 +68,12 @@ public class ConsoleApplication {
             Console.print("숫자를 입력해 주세요.");
         } catch (IllegalArgumentException e) {
             logger.warn(e.toString());
+            Console.print(e.getMessage());
+        } catch (EmptyResultDataAccessException | NoSuchElementException e) {
+            logger.error(e.toString());
+            Console.print("존재하지 않는 데이터 입니다.");
+        } catch (DataAccessResourceFailureException e) {
+            logger.error(e.toString());
             Console.print(e.getMessage());
         }
     }
