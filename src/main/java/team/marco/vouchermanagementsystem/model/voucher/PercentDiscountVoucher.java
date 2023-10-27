@@ -27,12 +27,15 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID id, int percent) {
        super(id);
+        validate(percent);
 
         this.percent = percent;
+
+        logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", getId(), percent);
     }
 
     private void validate(int percent) {
-        if (percent < MIN_PERCENT || percent > MAX_PERCENT) {
+        if (percent <= MIN_PERCENT || percent >= MAX_PERCENT) {
             throw new IllegalArgumentException(format("{0}: 할인율은 {1}% 보다 작거나 {2}% 보다 클 수 없습니다.", percent, MIN_PERCENT, MAX_PERCENT));
         }
     }
@@ -40,6 +43,10 @@ public class PercentDiscountVoucher extends Voucher {
     @Override
     public VoucherType getType() {
         return type;
+    }
+
+    public int getPercent() {
+        return percent;
     }
 
     @Override
