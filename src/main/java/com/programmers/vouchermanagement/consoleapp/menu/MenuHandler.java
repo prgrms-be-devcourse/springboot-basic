@@ -93,9 +93,7 @@ public class MenuHandler {
                 String name = consoleManager.instructCreateCustomer();
                 customerController.create(name);
             }
-            case LIST -> {
-                return;
-            }
+            case LIST -> customerController.readAllCustomers();
             case SEARCH -> {
                 return;
             }

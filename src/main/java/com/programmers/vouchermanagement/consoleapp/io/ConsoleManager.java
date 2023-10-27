@@ -146,19 +146,32 @@ public class ConsoleManager {
         voucherResponses.forEach(this::printReadVoucher);
     }
 
+    public void printReadAllCustomers(List<CustomerResponse> customerResponses) {
+        if (customerResponses.isEmpty()) {
+            textIO.getTextTerminal()
+                    .println(Formatter.formatNoContent(CONTENT_CUSTOMER));
+        }
+
+        customerResponses.forEach(this::printReadCustomer);
+    }
+
     public void printReadBlacklist(List<CustomerResponse> customerResponses) {
         if (customerResponses.isEmpty()) {
             textIO.getTextTerminal()
                     .println(Formatter.formatNoContent(CONTENT_BLACKLIST));
         }
 
-        customerResponses.forEach(customerResponse -> textIO.getTextTerminal()
-                .println(Formatter.formatCustomer(customerResponse)));
+        customerResponses.forEach(this::printReadCustomer);
     }
 
     public void printReadVoucher(VoucherResponse voucherResponse) {
         textIO.getTextTerminal()
                 .println(Formatter.formatVoucher(voucherResponse));
+    }
+
+    public void printReadCustomer(CustomerResponse customerResponse) {
+        textIO.getTextTerminal()
+                .println(Formatter.formatCustomer(customerResponse));
     }
 
     public void printDeleteResult() {

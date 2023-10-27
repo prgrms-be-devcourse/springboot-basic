@@ -37,4 +37,16 @@ public class CustomerService {
         customerRepository.save(customer);
         return CustomerResponse.from(customer);
     }
+
+    public List<CustomerResponse> findAll() {
+        List<Customer> customers = customerRepository.findAll();
+
+        if (customers.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return customers.stream()
+                .map(CustomerResponse::from)
+                .toList();
+    }
 }

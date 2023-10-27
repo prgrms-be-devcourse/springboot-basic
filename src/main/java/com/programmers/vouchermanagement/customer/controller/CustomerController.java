@@ -27,4 +27,9 @@ public class CustomerController {
         CustomerResponse customerResponse = customerService.create(name);
         consoleManager.printSaveCustomerResult(customerResponse);
     }
+
+    public void readAllCustomers() {
+        List<CustomerResponse> customerResponses = customerService.findAll();
+        consoleManager.printReadAllCustomers(customerResponses);
+    }
 }
