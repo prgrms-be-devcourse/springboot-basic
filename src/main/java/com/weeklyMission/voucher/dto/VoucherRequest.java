@@ -13,8 +13,11 @@ public record VoucherRequest(
 ) {
     public Voucher toEntity(){
         if(type.equals(VoucherType.Fixed.getType())){
-            new FixedAmountVoucher(id, amount);
+            return new FixedAmountVoucher(id, amount);
         }
-        return new PercentDiscountVoucher(id, amount);
+        else if(type.equals(VoucherType.Percent.getType())){
+            return new PercentDiscountVoucher(id, amount);
+        }
+        return null;
     }
 }
