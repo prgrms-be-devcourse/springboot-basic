@@ -8,8 +8,8 @@ public enum CustomerMenu {
     LIST("2"),
     SEARCH("3"),
     UPDATE("4"),
-    BLACKLIST("5"),
-    DELETE("6"),
+    DELETE("5"),
+    BLACKLIST("6"),
     INCORRECT_MENU("Incorrect Menu");
 
     private final String menuCode;
