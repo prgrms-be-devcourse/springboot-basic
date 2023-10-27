@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +25,6 @@ import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.AssignVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
@@ -39,7 +37,7 @@ class VoucherServiceTest {
     void setUp() {
         customerRepository = mock(CustomerRepository.class);
         voucherRepository = mock(VoucherRepository.class);
-        voucherService = new VoucherService(voucherRepository);
+        voucherService = new VoucherService(voucherRepository, customerRepository);
     }
     
     @Test
@@ -144,5 +142,20 @@ class VoucherServiceTest {
 
         //verify
         verify(voucherRepository).existById(request.voucherId());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 고객에게 바우처 할당을 실패한다.")
+    void testAssignVoucherFailed_NonExistentCustomer() {
+        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final NoSuchElementException exception = new NoSuchElementException();
+        doReturn(true).when(voucherRepository).existById(request.voucherId());
+        doReturn(false).when(customerRepository).existById(request.customerId());
+
+        //when & then
+        assertThatThrownBy(() -> voucherService.assignToCustomer(request)).isInstanceOf(NoSuchElementException.class);
+
+        //verify
+        verify(customerRepository).existById(request.customerId());
     }
 }
