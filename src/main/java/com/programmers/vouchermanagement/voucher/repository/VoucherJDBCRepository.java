@@ -1,18 +1,18 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
+import com.programmers.vouchermanagement.util.DomainMapper;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-import java.nio.ByteBuffer;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @Primary
@@ -23,35 +23,18 @@ public class VoucherJDBCRepository implements VoucherRepository {
     private static final String FIND_ALL_QUERY = "SELECT * FROM test.vouchers";
     private static final String DELETE_VOUCHER_QUERY = "DELETE FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
     private static final String UPDATE_VOUCHER_QUERY = "UPDATE test.vouchers SET type = :type, discount_value = :discountValue WHERE id = UUID_TO_BIN(:id)";
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID id = toUUID(resultSet.getBytes("id"));
-        BigDecimal discountValue = resultSet.getBigDecimal("discount_value");
-        String voucherTypeStr = resultSet.getString("type");
-
-        return new Voucher(id, discountValue, VoucherType.valueOf(voucherTypeStr));
-    };
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final DomainMapper domainMapper;
 
-    public VoucherJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public VoucherJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate, DomainMapper domainMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.domainMapper = domainMapper;
     }
 
-    static UUID toUUID(byte[] bytes) {
-        var byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
-    private Map<String, Object> toParamMap(Voucher voucher) {
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("id", voucher.getVoucherId().toString().getBytes());
-        paramMap.put("type", voucher.getVoucherType().name());
-        paramMap.put("discountValue", voucher.getDiscountValue());
-        return paramMap;
-    }
 
     @Override
     public void save(Voucher voucher) {
-        int update = jdbcTemplate.update(INSERT_QUERY, toParamMap(voucher));
+        int update = jdbcTemplate.update(INSERT_QUERY, domainMapper.voucherToParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
         }
@@ -59,7 +42,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(FIND_ALL_QUERY, voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL_QUERY, domainMapper.voucherRowMapper);
     }
 
     @Override
@@ -67,7 +50,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID_QUERY,
                     Collections.singletonMap("id", id.toString().getBytes()),
-                    voucherRowMapper));
+                    domainMapper.voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
@@ -84,7 +67,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        int update = jdbcTemplate.update(UPDATE_VOUCHER_QUERY, toParamMap(voucher));
+        int update = jdbcTemplate.update(UPDATE_VOUCHER_QUERY, domainMapper.voucherToParamMap(voucher));
         if (update != 1) {
             throw new RuntimeException("Noting was updated");
         }
