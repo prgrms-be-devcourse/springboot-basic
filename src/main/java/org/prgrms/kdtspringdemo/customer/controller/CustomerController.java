@@ -38,6 +38,8 @@ public class CustomerController {
             walletService.create(customerId); // 고객 생성 시 지갑 자동 생성
         } catch (IOException e) {
             logger.error(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            logger.error("유효한 UUID 값이 아닙니다.");
         }
     }
 
@@ -48,5 +50,9 @@ public class CustomerController {
     public void printAllBlackListCustomer() throws IOException {
         List<Customer> customerList = customerService.getBlackListCustomers();
         customerList.stream().forEach(customer -> outputConsole.printCustomer(customer));
+    }
+
+    public void endCustomerMode() {
+        outputConsole.printCustomerModeEnd();
     }
 }

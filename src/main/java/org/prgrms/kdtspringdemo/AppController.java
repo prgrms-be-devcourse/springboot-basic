@@ -59,10 +59,9 @@ public class AppController implements CommandLineRunner {
                             ProgramFunction.findByCode(fun).execute(outputConsole);
                             System.exit(0);
                             break;
-
                     }
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    logger.error(e.getMessage());
                 }
             }
         } catch (Exception e) {

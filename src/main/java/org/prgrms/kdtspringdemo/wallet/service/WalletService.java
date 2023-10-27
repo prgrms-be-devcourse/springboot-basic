@@ -42,4 +42,8 @@ public class WalletService {
     public void deleteVoucherByVoucherId(UUID customerId, UUID voucherId) {
         walletRepository.deleteVoucherByVoucherId(customerId, voucherId);
     }
+
+    public void deleteAll() {
+        walletRepository.deleteAll();
+    }
 }

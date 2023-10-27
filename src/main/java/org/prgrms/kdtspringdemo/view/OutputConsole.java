@@ -93,7 +93,15 @@ public class OutputConsole {
         System.out.println("<<<The program is closing>>>");
     }
 
-    public void printNumberFormatException() {
-        System.out.println("올바른 숫자 형식이 아닙니다.");
+    public void printVoucherModeEnd() {
+        System.out.println("<< End Voucher Mode >>");
+    }
+
+    public void printCustomerModeEnd() {
+        System.out.println("<< End Customer Mode >>");
+    }
+
+    public void printWalletModeEnd() {
+        System.out.println("<< End Wallet Mode >>");
     }
 }

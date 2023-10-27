@@ -13,7 +13,8 @@ import java.util.function.Consumer;
 
 public enum VoucherFunction {
     CREATE("create", "바우처 등록", VoucherController::createVoucher),
-    LIST_ALL_VOUCHERS("list", "바우처 목록", VoucherController::showAllVouchers);
+    LIST_ALL_VOUCHERS("list", "바우처 목록", VoucherController::showAllVouchers),
+    EXIT("exit", "voucher mode 종료", VoucherController::endVoucherMode);
     private final String fun;
     private final String description;
     private final Consumer<VoucherController> voucherControllerConsumer;

@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"local", "test"})
+@Profile({"local"})
 public class MemoryVoucherRepository implements VoucherRepository{
     private final Map<UUID, Voucher> storage;
 

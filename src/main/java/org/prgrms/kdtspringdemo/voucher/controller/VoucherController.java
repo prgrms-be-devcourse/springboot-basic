@@ -55,4 +55,8 @@ public class VoucherController {
         voucherList.forEach(voucher -> outputConsole.printVoucher(voucher));
     }
 
+    public void endVoucherMode() {
+        outputConsole.printVoucherModeEnd();
+    }
+
 }

@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.repository;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import org.junit.jupiter.api.*;
@@ -9,12 +10,16 @@ import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import javax.sql.DataSource;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -24,11 +29,11 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@ActiveProfiles("dev")
+@ActiveProfiles({"dev"})
 class FileVoucherRepositoryTest {
 
     @Configuration
-    @ComponentScan()
+    @ComponentScan({"org,prgrms.kdtspringdemo.voucher"})
     static class Config {
     }
     @Autowired
@@ -38,7 +43,7 @@ class FileVoucherRepositoryTest {
 
 
     @BeforeEach
-    void init() throws IOException {
+    void init() {
         try(FileWriter fileWriter = new FileWriter(filePath);
         CSVPrinter csvPrinter = new CSVPrinter(fileWriter, CSVFormat.DEFAULT.withHeader("voucherId", "amount", "voucherType"));) {
             csvPrinter.printRecord(UUID.randomUUID().toString(), 100, "fixeddiscount");

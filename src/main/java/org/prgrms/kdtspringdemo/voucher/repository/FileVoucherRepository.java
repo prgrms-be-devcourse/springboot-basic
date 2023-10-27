@@ -19,6 +19,7 @@ import java.util.*;
 
 @Repository
 @Profile("dev")
+@PropertySource("classpath=application.yml")
 public class FileVoucherRepository implements VoucherRepository{
     private CsvFileHandler csvFileHandler;
     @Value("${voucher_file}")

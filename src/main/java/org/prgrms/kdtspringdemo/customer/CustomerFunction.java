@@ -11,7 +11,9 @@ import java.util.function.Consumer;
 
 public enum CustomerFunction {
     CREATE("create", "고객 등록", CustomerController::insert),
-    LIST_ALL_VOUCHERS("list", "바우처 목록", CustomerController::printAllCustomers);
+    LIST_ALL_CUSTOMERS("list", "고객 목록", CustomerController::printAllCustomers),
+    EXIT("exit", "voucher mode 종료", CustomerController::endCustomerMode);
+
     private final String fun;
     private final String description;
     private final Consumer<CustomerController> customerControllerConsumer;

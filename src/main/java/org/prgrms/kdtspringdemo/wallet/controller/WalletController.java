@@ -62,4 +62,8 @@ public class WalletController {
             logger.error(e.getMessage());
         }
     }
+
+    public void endWalletMode() {
+        outputConsole.printWalletModeEnd();
+    }
 }
