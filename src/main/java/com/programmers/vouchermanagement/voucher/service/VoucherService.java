@@ -38,8 +38,6 @@ public class VoucherService {
 
     public void readVoucherById(UUID voucherId) {
         voucherRepository.findById(voucherId);
-
-
     }
 
     public void deleteVoucher(UUID voucherId) {
