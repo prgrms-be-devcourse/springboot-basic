@@ -7,11 +7,11 @@ public record Member(
     UUID memberId,
     String name,
     Integer age,
-    String reason
+    boolean blackList
 ) {
 
     @Override
     public String toString() {
-        return "이름: " + name + " 나이: " + age + " 사유: " + reason;
+        return "이름: " + name + " 나이: " + age + " 밴 여부: " + blackList;
     }
 }
