@@ -1,5 +1,6 @@
 package team.marco.vouchermanagementsystem.model;
 
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -64,5 +65,9 @@ public class Customer {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public String getInfo() {
+        return MessageFormat.format("id={0}\nemail=''{1}\nname=''{2}", id, email, name);
     }
 }
