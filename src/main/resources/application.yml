@@ -2,6 +2,13 @@ application:
   title: voucher-management-system
   version: 1.0.0
 
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher_management_system
+    username: root
+    password:
+
 file:
   path:
     blacklist: src/main/resources/blacklist.csv
@@ -10,11 +17,6 @@ file:
 spring:
   profiles:
     active: prod
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/voucher_management_system
-    username: root
-    password:
 ---
 spring:
   profiles:
