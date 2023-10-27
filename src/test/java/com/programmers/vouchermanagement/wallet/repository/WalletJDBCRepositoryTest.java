@@ -125,7 +125,7 @@ class WalletJDBCRepositoryTest {
     }
 
     @Test
-    @DisplayName("함께 저장된 고객 id와 바우처 id 정보를 삭제할 수 있다.")
+    @DisplayName("바우처 id를 통해 할당 정보를 삭제할 수 있다.")
     void delete() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 333, VoucherType.FIXED);
         voucherJDBCRepository.save(voucher);
@@ -135,7 +135,17 @@ class WalletJDBCRepositoryTest {
         Ownership newOwnership = new Ownership(voucher.getVoucherId(), customer.getCustomerId());
         walletJDBCRepository.save(newOwnership);
 
-        walletJDBCRepository.delete(newOwnership);
+        walletJDBCRepository.delete(voucher.getVoucherId());
+    }
+
+    @Test
+    @DisplayName("바우처가 할당 정보가 없다면, 함께 저장된 고객 id와 바우처 id 정보를 삭제할 수 없다.")
+    void deleteNonAllocatedVoucher() {
+        Voucher voucher = new Voucher(UUID.randomUUID(), 333, VoucherType.FIXED);
+        voucherJDBCRepository.save(voucher);
+        assertThrows(RuntimeException.class, () -> {
+            walletJDBCRepository.delete(voucher.getVoucherId());
+        });
     }
 
     @Test

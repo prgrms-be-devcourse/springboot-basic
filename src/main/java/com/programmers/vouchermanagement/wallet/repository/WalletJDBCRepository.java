@@ -17,7 +17,7 @@ import java.util.UUID;
 public class WalletJDBCRepository implements WalletRepository {
     private static final Logger logger = LoggerFactory.getLogger(WalletJDBCRepository.class);
     private static final String INSERT_QUERY = "INSERT INTO test.ownership(voucher_id, customer_id) VALUES (UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId))";
-    private static final String DELETE_OWNERSHIP_QUERY = "DELETE FROM test.ownership WHERE voucher_id = UUID_TO_BIN(:voucherId) AND customer_id = UUID_TO_BIN(:customerId)";
+    private static final String DELETE_OWNERSHIP_QUERY = "DELETE FROM test.ownership WHERE voucher_id = UUID_TO_BIN(:id)";
     private static final String DELETE_ALL_QUERY = "TRUNCATE TABLE test.ownership";
     private static final String FIND_ALL_VOUCHER_BY_CUSTOMER_ID_QUERY = "SELECT voucher_id as id FROM test.ownership WHERE customer_id = UUID_TO_BIN(:id)";
     private static final String FIND_CUSTOMER_BY_VOUCHER_ID_QUERY = "SELECT customer_id as id FROM test.ownership WHERE voucher_id = UUID_TO_BIN(:id)";
@@ -45,8 +45,8 @@ public class WalletJDBCRepository implements WalletRepository {
     }
 
     @Override
-    public void delete(Ownership ownership) {
-        int update = jdbcTemplate.update(DELETE_OWNERSHIP_QUERY, domainMapper.ownershipToParamMap(ownership));
+    public void delete(UUID voucherId) {
+        int update = jdbcTemplate.update(DELETE_OWNERSHIP_QUERY, domainMapper.uuidToParamMap(voucherId));
         if (update != 1) {
             throw new RuntimeException("Noting was deleted");
         }

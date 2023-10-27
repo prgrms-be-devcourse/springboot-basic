@@ -7,7 +7,6 @@ import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +53,12 @@ public class DomainMapper {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("voucherId", ownership.voucherId().toString().getBytes());
         paramMap.put("customerId", ownership.customerId().toString().getBytes());
+        return paramMap;
+    }
+
+    public Map<String, Object> uuidToParamMap(UUID id) {
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("id", id.toString().getBytes());
         return paramMap;
     }
 
