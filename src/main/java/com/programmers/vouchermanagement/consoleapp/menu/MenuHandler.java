@@ -27,7 +27,7 @@ public class MenuHandler {
     }
 
     public boolean handleMenu() {
-        Menu menu = selectMenu();
+        Menu menu = consoleManager.selectMenu();
 
         try {
             executeMenu(menu);
@@ -36,10 +36,6 @@ public class MenuHandler {
         }
 
         return isValidMenu(menu);
-    }
-
-    private Menu selectMenu() {
-        return consoleManager.selectMenu();
     }
 
     private boolean isValidMenu(Menu menu) {
@@ -58,12 +54,52 @@ public class MenuHandler {
         switch (menu) {
             case EXIT -> consoleManager.printExit();
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
+            case VOUCHER -> executeVoucherMenu();
+            case CUSTOMER -> executeCustomerMenu();
+        }
+    }
+
+    private void executeVoucherMenu() {
+        VoucherMenu voucherMenu = consoleManager.selectVoucherMenu();
+        switch (voucherMenu) {
             case CREATE -> {
-                CreateVoucherRequest createVoucherRequest = consoleManager.instructCreate();
+                CreateVoucherRequest createVoucherRequest = consoleManager.instructCreateVoucher();
                 voucherController.create(createVoucherRequest);
             }
             case LIST -> voucherController.readAllVouchers();
+            case SEARCH -> {
+                return;
+            }
+            case UPDATE -> {
+                return;
+            }
+            case DELETE -> {
+                return;
+            }
+            case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
+        }
+    }
+
+    private void executeCustomerMenu() {
+        CustomerMenu customerMenu = consoleManager.selectCustomerMenu();
+        switch (customerMenu) {
+            case CREATE -> {
+                String name = consoleManager.instructCreateCustomer();
+            }
+            case LIST -> {
+                return;
+            }
+            case SEARCH -> {
+                return;
+            }
+            case UPDATE -> {
+                return;
+            }
             case BLACKLIST -> customerController.readBlacklist();
+            case DELETE -> {
+                return;
+            }
+            case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
         }
     }
 }

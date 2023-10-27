@@ -22,34 +22,15 @@ class MenuTest {
     }
 
     @Test
-    @DisplayName("Parameter로 넘겨 받은 문자열이 대소문자 혼용일 경우 INCORRECT_MENU를 반환한다.")
-    void testFindMenuFailed_CaseInsensitive() {
+    @DisplayName("입력 받은 메뉴 번호에 맞는 메뉴를 반환한다.")
+    void testFindMenuSuccessful() {
         //given
-        final String selectExit = "Exit";
-        final String selectList = "LIST";
+        final String menuInput = "1";
 
         //when
-        final Menu exitMenu = Menu.findMenu(selectExit);
-        final Menu listMenu = Menu.findMenu(selectList);
+        final Menu menu = Menu.findMenu(menuInput);
 
         //then
-        assertThat(exitMenu, is(Menu.INCORRECT_MENU));
-        assertThat(listMenu, is(Menu.INCORRECT_MENU));
-    }
-
-    @Test
-    @DisplayName("Parameter로 넘겨 받은 소문자 문자열과 비교해 맞는 메뉴를 반환한다.")
-    void testFindMenuSuccessful_LowerCase() {
-        //given
-        final String selectCreate = "create";
-        final String selectBlacklist = "blacklist";
-
-        //when
-        final Menu createMenu = Menu.findMenu(selectCreate);
-        final Menu blacklistMenu = Menu.findMenu(selectBlacklist);
-
-        //then
-        assertThat(createMenu, is(Menu.CREATE));
-        assertThat(blacklistMenu, is(Menu.BLACKLIST));
+        assertThat(menu, is(Menu.VOUCHER));
     }
 }

@@ -6,7 +6,9 @@ import java.util.List;
 import org.beryx.textio.TextIO;
 import org.springframework.stereotype.Component;
 
+import com.programmers.vouchermanagement.consoleapp.menu.CustomerMenu;
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
+import com.programmers.vouchermanagement.consoleapp.menu.VoucherMenu;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.util.Formatter;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
@@ -20,9 +22,25 @@ public class ConsoleManager {
     private static final String MENU_SELECTION_INSTRUCTION = """
             === Voucher Program ===
             0. Exit The program
+            1. Voucher Menu
+            2. Customer Menu
+            """;
+    private static final String VOUCHER_MENU_SELECTION = """
+            Please select the menu.
             1. Create A New Voucher
             2. List All Vouchers
-            3. List All Customers in Blacklist
+            3. Search for A Voucher
+            4. Update Voucher
+            5. Delete Voucher
+            """;
+    private static final String CUSTOMER_MENU_SELECTION = """
+            Please select the menu
+            1. Create A New Customer
+            2. List All Customers
+            3. Search for A Customer
+            4. Update Customer
+            5. Delete Customer
+            6. List All Customers in Blacklist
             """;
     private static final String CREATE_SELECTION_INSTRUCTION = """
             Please select the type of voucher to create.
@@ -40,6 +58,7 @@ public class ConsoleManager {
              Please input a correct command carefully.""";
     private static final String CONTENT_VOUCHER = "voucher";
     private static final String CONTENT_BLACKLIST = "black customer";
+    private static final String CUSTOMER_CREATE_INSTRUCTION = "Please write the name of the customer";
 
     private final TextIO textIO;
 
@@ -54,7 +73,21 @@ public class ConsoleManager {
         return Menu.findMenu(input);
     }
 
-    public CreateVoucherRequest instructCreate() {
+    public VoucherMenu selectVoucherMenu() {
+        String input = textIO.newStringInputReader()
+                .read(VOUCHER_MENU_SELECTION);
+
+        return VoucherMenu.findVoucherMenu(input);
+    }
+
+    public CustomerMenu selectCustomerMenu() {
+        String input = textIO.newStringInputReader()
+                .read(CUSTOMER_MENU_SELECTION);
+
+        return CustomerMenu.findCustomerMenu(input);
+    }
+
+    public CreateVoucherRequest instructCreateVoucher() {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
         VoucherType voucherType = VoucherType.findVoucherTypeByCode(createMenu);
@@ -63,6 +96,11 @@ public class ConsoleManager {
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
         BigDecimal discountValue = new BigDecimal(discountValueInput);
         return new CreateVoucherRequest(discountValue, voucherType);
+    }
+
+    public String instructCreateCustomer() {
+        return textIO.newStringInputReader()
+                .read(CUSTOMER_CREATE_INSTRUCTION);
     }
 
     public void printCreateResult(VoucherResponse voucherResponse) {

@@ -70,8 +70,9 @@ class MenuHandlerTest {
     void testHandleMenuFailed_IncorrectVoucherType() {
         //given
         final IllegalArgumentException exception = new IllegalArgumentException();
-        doReturn(Menu.CREATE).when(consoleManager).selectMenu();
-        doThrow(exception).when(consoleManager).instructCreate();
+        doReturn(Menu.VOUCHER).when(consoleManager).selectMenu();
+        doReturn(VoucherMenu.CREATE).when(consoleManager).selectVoucherMenu();
+        doThrow(exception).when(consoleManager).instructCreateVoucher();
 
         //when
         final boolean isRunning = menuHandler.handleMenu();
@@ -89,8 +90,9 @@ class MenuHandlerTest {
         //given
         final IllegalArgumentException exception = new IllegalArgumentException();
         final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(0), VoucherType.FIXED);
-        doReturn(Menu.CREATE).when(consoleManager).selectMenu();
-        doReturn(request).when(consoleManager).instructCreate();
+        doReturn(Menu.VOUCHER).when(consoleManager).selectMenu();
+        doReturn(VoucherMenu.CREATE).when(consoleManager).selectVoucherMenu();
+        doReturn(request).when(consoleManager).instructCreateVoucher();
         doThrow(exception).when(voucherController).create(request);
 
         //when
@@ -108,8 +110,9 @@ class MenuHandlerTest {
     void testHandleMenuSuccessful_VoucherCreated() {
         //given
         final CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
-        doReturn(Menu.CREATE).when(consoleManager).selectMenu();
-        doReturn(request).when(consoleManager).instructCreate();
+        doReturn(Menu.VOUCHER).when(consoleManager).selectMenu();
+        doReturn(VoucherMenu.CREATE).when(consoleManager).selectVoucherMenu();
+        doReturn(request).when(consoleManager).instructCreateVoucher();
 
         //when
         final boolean isRunning = menuHandler.handleMenu();
@@ -125,7 +128,8 @@ class MenuHandlerTest {
     @DisplayName("바우처 전체 조회를 성공한다.")
     void testHandleMenuSuccessful_ReadAllVouchers() {
         //given
-        doReturn(Menu.LIST).when(consoleManager).selectMenu();
+        doReturn(Menu.VOUCHER).when(consoleManager).selectMenu();
+        doReturn(VoucherMenu.LIST).when(consoleManager).selectVoucherMenu();
 
         //when
         final boolean isRunning = menuHandler.handleMenu();
@@ -141,7 +145,8 @@ class MenuHandlerTest {
     @DisplayName("블랙리스트 조회를 성공한다.")
     void testHandleMenuSuccessful_ReadBlacklist() {
         //given
-        doReturn(Menu.BLACKLIST).when(consoleManager).selectMenu();
+        doReturn(Menu.CUSTOMER).when(consoleManager).selectMenu();
+        doReturn(CustomerMenu.BLACKLIST).when(consoleManager).selectVoucherMenu();
 
         //when
         final boolean isRunning = menuHandler.handleMenu();
