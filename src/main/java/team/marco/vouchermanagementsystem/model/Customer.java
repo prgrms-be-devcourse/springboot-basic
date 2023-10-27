@@ -3,8 +3,6 @@ package team.marco.vouchermanagementsystem.model;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import static java.text.MessageFormat.format;
-
 public class Customer {
     private final UUID id;
     private final String name;
@@ -23,10 +21,6 @@ public class Customer {
         this.email = email;
         this.name = name;
         this.createdAt = LocalDateTime.now();
-    }
-
-    public String getInfo() {
-        return format("id: {0}, 고객명: {1} ", id, name);
     }
 
     public UUID getId() {
