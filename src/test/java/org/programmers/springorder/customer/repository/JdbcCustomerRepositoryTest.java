@@ -4,10 +4,7 @@ import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +82,11 @@ class JdbcCustomerRepositoryTest {
     @AfterEach
     void clear(){
         embeddedMysql.executeScripts("test_voucher", List.of(() ->"delete from vouchers; delete from customers;"));
+    }
+
+    @AfterAll
+    static void finish(){
+        embeddedMysql.stop();
     }
 
     @Test

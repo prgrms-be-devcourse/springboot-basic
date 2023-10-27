@@ -3,10 +3,7 @@ package org.programmers.springorder.voucher.repository;
 import com.wix.mysql.EmbeddedMysql;
 import com.wix.mysql.config.Charset;
 import com.wix.mysql.config.MysqldConfig;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.programmers.springorder.config.JdbcConfig;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
@@ -59,6 +56,11 @@ class JdbcVoucherRepositoryTest {
     @AfterEach
     void clear(){
         embeddedMysql.executeScripts("test_voucher", List.of(() ->"delete from vouchers; delete from customers;"));
+    }
+
+    @AfterAll
+    static void finish(){
+        embeddedMysql.stop();
     }
 
     @Test
