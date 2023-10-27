@@ -44,7 +44,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID id) {
         String sql = "SELECT * FROM customer WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource("id", id.toString());
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, namedParameters, (resultSet, i) -> mapToCustomer(resultSet)));
+        return jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToCustomer(resultSet)).stream().findFirst();
     }
 
     @Override
