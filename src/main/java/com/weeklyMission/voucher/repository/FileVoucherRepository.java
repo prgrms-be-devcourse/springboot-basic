@@ -86,7 +86,10 @@ public class FileVoucherRepository implements VoucherRepository{
 
     @Override
     public Optional<Voucher> findById(UUID id) {
-        return Optional.of(storage.get(id));
+        if(storage.containsKey(id)) {
+            return Optional.of(storage.get(id));
+        }
+        return Optional.empty();
     }
 
     @Override
