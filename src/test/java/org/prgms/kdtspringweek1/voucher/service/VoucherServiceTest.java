@@ -48,7 +48,7 @@ class VoucherServiceTest {
         Voucher registeredVoucher = voucherService.registerVoucher(voucher);
 
         // then
-        assertThat(registeredVoucher,samePropertyValuesAs(voucher));
+        assertThat(registeredVoucher, samePropertyValuesAs(voucher));
     }
 
     @Test
@@ -64,9 +64,9 @@ class VoucherServiceTest {
         assertThat(vouchers, hasSize(14));
     }
 
-    private List<Voucher> createVouchers(){
+    private List<Voucher> createVouchers() {
         List<Voucher> vouchers = new ArrayList<>();
-        for(int i=0; i<7; i++){
+        for (int i = 0; i < 7; i++) {
             vouchers.add(FixedAmountVoucher.createWithAmount(7));
             vouchers.add(PercentDiscountVoucher.createWithPercent(7));
         }
