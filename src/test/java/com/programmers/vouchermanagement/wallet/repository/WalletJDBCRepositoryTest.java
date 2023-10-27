@@ -8,8 +8,6 @@ import com.programmers.vouchermanagement.voucher.repository.VoucherJDBCRepositor
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -40,10 +38,6 @@ class WalletJDBCRepositoryTest {
     VoucherJDBCRepository voucherJDBCRepository;
     @Autowired
     CustomerJDBCRepository customerJDBCRepository;
-    @Autowired
-    DataSource dataSource;
-    @Autowired
-    NamedParameterJdbcTemplate jdbcTemplate;
 
     @Test
     @Order(1)
