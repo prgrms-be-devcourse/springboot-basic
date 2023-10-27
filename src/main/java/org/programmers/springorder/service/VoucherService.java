@@ -54,4 +54,16 @@ public class VoucherService {
         this.findById(voucherId);
         voucherRepository.deleteById(voucherId);
     }
+
+    @Transactional
+    public void assignVoucherToCustomer(UUID customerId, UUID voucherId) {
+        voucherRepository.assignVoucherToCustomer(customerId, voucherId);
+    }
+
+    public List<VoucherResponseDto> getVoucherByCustomerId(UUID customerId) {
+        return voucherRepository.findAll()
+                .stream()
+                .map(VoucherResponseDto::of)
+                .toList();
+    }
 }
