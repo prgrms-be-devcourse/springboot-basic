@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import team.marco.vouchermanagementsystem.controller.ConsoleBlacklistController;
+import team.marco.vouchermanagementsystem.controller.ConsoleCustomerController;
 import team.marco.vouchermanagementsystem.controller.ConsoleVoucherController;
 import team.marco.vouchermanagementsystem.util.Console;
 
@@ -13,13 +14,16 @@ public class ConsoleApplication {
 
     private final ConsoleVoucherController voucherController;
     private final ConsoleBlacklistController blacklistController;
+    private final ConsoleCustomerController customerController;
 
     private boolean runningFlag;
 
     public ConsoleApplication(ConsoleVoucherController voucherController,
-                              ConsoleBlacklistController blacklistController) {
+                              ConsoleBlacklistController blacklistController,
+                              ConsoleCustomerController customerController) {
         this.voucherController = voucherController;
         this.blacklistController = blacklistController;
+        this.customerController = customerController;
     }
 
     public void run() {
@@ -42,7 +46,8 @@ public class ConsoleApplication {
                     exit: 프로그램 종료
                     create: 쿠폰 생성
                     list: 쿠폰 목록 조회
-                    blacklist: 블랙 리스트 유저 조회""");
+                    blacklist: 블랙 리스트 유저 조회
+                    customer: 고객 관리 메뉴""");
 
             String input = Console.readString();
 
@@ -69,6 +74,7 @@ public class ConsoleApplication {
             case CREATE -> voucherController.selectVoucher();
             case LIST -> voucherController.voucherList();
             case BLACKLIST -> blacklistController.blacklist();
+            case CUSTOMER -> customerController.selectCommand();
             case EXIT -> runningFlag = false;
         }
     }
