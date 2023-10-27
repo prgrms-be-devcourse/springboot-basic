@@ -14,8 +14,6 @@ import java.util.List;
 @Primary
 public class CustomerJDBCRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerJDBCRepository.class);
-    private static final String FIND_ALL_BLACK_CUSTOMER_QUERY = "SELECT * FROM test.customers WHERE black = TRUE";
-    private static final String INSERT_QUERY = "INSERT INTO test.customers(id, name, black) VALUES (UUID_TO_BIN(:id), :name, :black)";
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final DomainMapper domainMapper;
 
@@ -26,11 +24,11 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlackCustomer() {
-        return jdbcTemplate.query(FIND_ALL_BLACK_CUSTOMER_QUERY, domainMapper.customerRowMapper);
+        return jdbcTemplate.query(CustomerQuery.FIND_ALL_BLACK_CUSTOMER, domainMapper.customerRowMapper);
     }
 
     public void save(Customer customer) {
-        int update = jdbcTemplate.update(INSERT_QUERY, domainMapper.customerToParamMap(customer));
+        int update = jdbcTemplate.update(CustomerQuery.INSERT, domainMapper.customerToParamMap(customer));
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");
         }
