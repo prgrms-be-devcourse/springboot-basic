@@ -38,15 +38,7 @@ class WalletRepositoryTest {
     @DisplayName("지갑을 저장할 수 있다.")
     void save() {
         // given
-        Customer newCustomer = Customer.fixture();
-        customerRepository.save(newCustomer);
-        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
-
-        Voucher newVoucher = FixedAmountVoucher.fixture();
-        voucherRepository.save(newVoucher);
-        Voucher savedVoucher = voucherRepository.findAll().get(0);
-
-        Wallet newWallet = new Wallet(savedCustomer, savedVoucher);
+        Wallet newWallet = getNewWallet();
 
         // when
         walletRepository.save(newWallet);
@@ -62,18 +54,9 @@ class WalletRepositoryTest {
     @DisplayName("지갑 목록을 저장할 수 있다.")
     void saveAll() {
         // given
-        Customer newCustomer1 = new Customer("test1@email.com", false);
-        Customer newCustomer2 = new Customer("test2@email.com", true);
-        customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
-        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto());
-
-        Voucher newVoucher1 = new FixedAmountVoucher(1000L);
-        Voucher newVoucher2 = new PercentDiscountVoucher(10L);
-        voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
-        List<Voucher> savedVouchers = voucherRepository.findAll();
-
-        Wallet newWallet1 = new Wallet(savedCustomers.get(0), savedVouchers.get(0));
-        Wallet newWallet2 = new Wallet(savedCustomers.get(1), savedVouchers.get(1));
+        List<Wallet> newWallets = getTwoNewWallets();
+        Wallet newWallet1 = newWallets.get(0);
+        Wallet newWallet2 = newWallets.get(1);
 
         // when
         walletRepository.saveAll(List.of(newWallet1, newWallet2));
@@ -94,15 +77,7 @@ class WalletRepositoryTest {
     @DisplayName("지갑을 아이디로 조회할 수 있다.")
     void findById() {
         // given
-        Customer newCustomer = Customer.fixture();
-        customerRepository.save(newCustomer);
-        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
-
-        Voucher newVoucher = FixedAmountVoucher.fixture();
-        voucherRepository.save(newVoucher);
-        Voucher savedVoucher = voucherRepository.findAll().get(0);
-
-        Wallet newWallet = new Wallet(savedCustomer, savedVoucher);
+        Wallet newWallet = getNewWallet();
         walletRepository.save(newWallet);
 
         Wallet savedWallet = walletRepository.findAll(new GetWalletsRequestDto()).get(0);
@@ -121,18 +96,9 @@ class WalletRepositoryTest {
     @DisplayName("모든 지갑을 조회할 수 있다.")
     void findAll() {
         // given
-        Customer newCustomer1 = new Customer("test1@email.com", false);
-        Customer newCustomer2 = new Customer("test2@email.com", true);
-        customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
-        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto());
-
-        Voucher newVoucher1 = new FixedAmountVoucher(1000L);
-        Voucher newVoucher2 = new PercentDiscountVoucher(10L);
-        voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
-        List<Voucher> savedVouchers = voucherRepository.findAll();
-
-        Wallet newWallet1 = new Wallet(savedCustomers.get(0), savedVouchers.get(0));
-        Wallet newWallet2 = new Wallet(savedCustomers.get(1), savedVouchers.get(1));
+        List<Wallet> newWallets = getTwoNewWallets();
+        Wallet newWallet1 = newWallets.get(0);
+        Wallet newWallet2 = newWallets.get(1);
         walletRepository.saveAll(List.of(newWallet1, newWallet2));
 
         // when
@@ -214,6 +180,32 @@ class WalletRepositoryTest {
     @DisplayName("모든 지갑을 삭제할 수 있다.")
     void deleteAll() {
         // given
+        List<Wallet> newWallets = getTwoNewWallets();
+        Wallet newWallet1 = newWallets.get(0);
+        Wallet newWallet2 = newWallets.get(1);
+        walletRepository.saveAll(List.of(newWallet1, newWallet2));
+
+        // when
+        walletRepository.deleteAll();
+
+        // then
+        List<Wallet> foundWallets = walletRepository.findAll(new GetWalletsRequestDto());
+        assertThat(foundWallets).isEmpty();
+    }
+
+    private Wallet getNewWallet() {
+        Customer newCustomer = Customer.fixture();
+        customerRepository.save(newCustomer);
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
+
+        Voucher newVoucher = FixedAmountVoucher.fixture();
+        voucherRepository.save(newVoucher);
+        Voucher savedVoucher = voucherRepository.findAll().get(0);
+
+        return new Wallet(savedCustomer, savedVoucher);
+    }
+
+    private List<Wallet> getTwoNewWallets() {
         Customer newCustomer1 = new Customer("test1@email.com", false);
         Customer newCustomer2 = new Customer("test2@email.com", true);
         customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
@@ -226,13 +218,7 @@ class WalletRepositoryTest {
 
         Wallet newWallet1 = new Wallet(savedCustomers.get(0), savedVouchers.get(0));
         Wallet newWallet2 = new Wallet(savedCustomers.get(1), savedVouchers.get(1));
-        walletRepository.saveAll(List.of(newWallet1, newWallet2));
 
-        // when
-        walletRepository.deleteAll();
-
-        // then
-        List<Wallet> foundWallets = walletRepository.findAll(new GetWalletsRequestDto());
-        assertThat(foundWallets).isEmpty();
+        return List.of(newWallet1, newWallet2);
     }
 }
