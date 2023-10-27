@@ -1,5 +1,11 @@
 [ {
   "voucher_type" : "FIXED",
+  "voucher_id" : "4b10670f-5fcc-4b05-ba9c-c7972411c1fb",
+  "discount_value" : "1000",
+  "customer_id" : null
+}, {
+  "voucher_type" : "FIXED",
   "voucher_id" : "4580ed30-4725-481a-807b-feeeccd5cd06",
-  "discount_value" : "10000"
+  "discount_value" : "10000",
+  "customer_id" : null
 } ]
