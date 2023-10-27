@@ -32,6 +32,15 @@ public class PercentDiscountVoucher extends Voucher {
         logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", getId(), percent);
     }
 
+    public PercentDiscountVoucher(int percent, UUID ownerId) {
+        validate(percent);
+        this.percent = percent;
+
+        assigneOwner(ownerId);
+
+        logger.info("Create PercentDiscountVoucher {id: {}, percent: {}}", getId(), percent);
+    }
+
     public PercentDiscountVoucher(UUID id, Integer percent, UUID ownerId) {
         super(id, ownerId);
         validate(percent);

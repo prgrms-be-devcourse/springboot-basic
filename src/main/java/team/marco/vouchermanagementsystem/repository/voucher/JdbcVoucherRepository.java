@@ -22,11 +22,11 @@ import static team.marco.vouchermanagementsystem.util.UUIDUtil.bytesToUUID;
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
-    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, amount, percent) VALUES (UUID_TO_BIN(?), ?, ?, ?)";
+    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, amount, percent, owner_id) VALUES (UUID_TO_BIN(?), ?, ?, ?, UUID_TO_BIN(?))";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
     private static final String SELECT_BY_OWNER_SQL = "SELECT * FROM vouchers WHERE owner_id = UUID_TO_BIN(?)";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
-    private static final String UPDATE_BY_ID_SQL = "UPDATE vouchers SET amount = ?, percent = ?, owner_id = ? WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String UPDATE_BY_ID_SQL = "UPDATE vouchers SET amount = ?, percent = ?, owner_id = UUID_TO_BIN(?) WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String DELETE_BY_ID_SQL = "DELETE From vouchers WHERE voucher_id = UUID_TO_BIN(?)";
 
     private final JdbcTemplate jdbcTemplate;
@@ -47,7 +47,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
                         voucher.getId().toString().getBytes(),
                         voucher.getType().name(),
                         amountVoucher.getAmount(),
-                        null);
+                        null,
+                        voucher.getOwnerId() == null ? null : voucher.getOwnerId().toString().getBytes());
             }
             case PERCENT -> {
                 PercentDiscountVoucher percentVoucher = (PercentDiscountVoucher) voucher;
@@ -55,7 +56,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
                         voucher.getId().toString().getBytes(),
                         voucher.getType().name(),
                         null,
-                        percentVoucher.getPercent());
+                        percentVoucher.getPercent(),
+                        voucher.getOwnerId() == null ? null : voucher.getOwnerId().toString().getBytes());
             }
         }
 
@@ -70,7 +72,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         List<Voucher> vouchers = new ArrayList<>();
-        jdbcTemplate.query(SELECT_ALL_SQL, (resultSet, rowNum) -> vouchers.add(resultSetToVoucher(resultSet)));
+        jdbcTemplate.query(SELECT_ALL_SQL
+                , (resultSet, rowNum) -> vouchers.add(resultSetToVoucher(resultSet)));
 
         return Collections.unmodifiableList(vouchers);
     }

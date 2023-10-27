@@ -25,7 +25,7 @@ public abstract class Voucher {
 
     abstract public VoucherType getType();
 
-    public void assigneOwner(UUID owner) {
+    public void assigneOwner(UUID ownerId) {
         this.ownerId = ownerId;
     }
 }

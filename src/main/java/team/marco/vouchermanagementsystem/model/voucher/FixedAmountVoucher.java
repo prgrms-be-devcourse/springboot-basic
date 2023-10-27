@@ -32,6 +32,15 @@ public class FixedAmountVoucher extends Voucher {
         logger.debug("Create FixedAmountVoucher {id: {}, amount: {}}", getId(), amount);
     }
 
+    public FixedAmountVoucher(int amount, UUID ownerId) {
+        validate(amount);
+        this.amount = amount;
+
+        assigneOwner(ownerId);
+
+        logger.debug("Create FixedAmountVoucher {id: {}, amount: {}}", getId(), amount);
+    }
+
     public FixedAmountVoucher(UUID id, int amount, UUID ownerId) {
         super(id, ownerId);
         validate(amount);
