@@ -24,6 +24,8 @@ import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 @Repository
 @Profile("jdbc")
 public class JdbcVoucherRepository implements VoucherRepository {
+    private static final int SINGLE_DATA_FLAG = 1;
+
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> mapToVoucher(resultSet);
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
@@ -35,7 +37,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         int savedVoucher = findById(voucher.getVoucherId()).isEmpty() ? insert(voucher) : update(voucher);
-        if (savedVoucher != 1) {
+        if (savedVoucher != SINGLE_DATA_FLAG) {
             throw new NoSuchElementException("Exception is raised while saving the voucher %s".formatted(voucher.getVoucherId()));
         }
         return voucher;
@@ -44,7 +46,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         String findAllSQL = "SELECT * FROM vouchers";
-        return namedParameterJdbcTemplate.query(findAllSQL, voucherRowMapper);
+        return Collections.unmodifiableList(namedParameterJdbcTemplate.query(findAllSQL, voucherRowMapper));
     }
 
     @Override

@@ -25,6 +25,7 @@ import com.programmers.vouchermanagement.util.UUIDConverter;
 @Profile("jdbc")
 public class JdbcCustomerRepository implements CustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> mapToCustomer(resultSet);
+    public static final int SINGLE_DATA_FLAG = 1;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final String blacklistFilePath;
@@ -45,8 +46,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer save(Customer customer) {
-        int savedVoucher = findById(customer.getCustomerId()).isEmpty() ? insert(customer) : update(customer);
-        if (savedVoucher != 1) {
+        int savedCustomer = findById(customer.getCustomerId()).isEmpty() ? insert(customer) : update(customer);
+        if (savedCustomer != SINGLE_DATA_FLAG) {
             throw new NoSuchElementException("Exception is raised while saving the customer %s".formatted(customer.getCustomerId()));
         }
         return customer;
@@ -55,7 +56,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         String findAllSQL = "SELECT * FROM customers";
-        return namedParameterJdbcTemplate.query(findAllSQL, customerRowMapper);
+        return Collections.unmodifiableList(namedParameterJdbcTemplate.query(findAllSQL, customerRowMapper));
     }
 
     @Override
@@ -83,6 +84,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    @Profile("test")// for the use of clearing in the test only
     public void deleteAll() {
         String deleteAllSQL = "DELETE FROM customers";
         namedParameterJdbcTemplate.update(deleteAllSQL, Collections.emptyMap());
