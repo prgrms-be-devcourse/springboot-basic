@@ -14,7 +14,7 @@ public class Validator {
     private static final String INVALID_DISCOUNT_PERCENT_MESSAGE =
             "Input should be a number greater than 0 and smaller than 100";
     private static final String INVALID_DISCOUNT_VALUE_MESSAGE =
-            "Input should be a number greater than 0 and smaller than 999999999999999999(length: 18)";
+            "Input should be a number greater than 0 and smaller than 999,999,999,999,999,999(length: 18)";
 
     public static void validateDiscountValue(VoucherType voucherType, String discountValueStr) {
         validateLongBoundary(discountValueStr);
