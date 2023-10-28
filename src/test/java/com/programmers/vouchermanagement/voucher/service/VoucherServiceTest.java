@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.samePropertyValuesAs;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -131,6 +132,36 @@ class VoucherServiceTest {
 
         //verify
         verify(voucherRepository).findAll();
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 바우처의 조회를 실패한다.")
+    void testFindVoucherByIdFailed_NonExistentVoucher() {
+        //given
+        doReturn(Optional.empty()).when(voucherRepository).findById(any(UUID.class));
+
+        //when & then
+        assertThatThrownBy(() -> voucherService.findById(UUID.randomUUID()));
+
+        //verify
+        verify(voucherRepository).findById(any(UUID.class));
+    }
+
+    @Test
+    @DisplayName("아이디로 바우처 조회를 성공한다.")
+    void testFindVoucherByIdSuccessful() {
+        //given
+        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(1000), VoucherType.FIXED);
+        doReturn(Optional.of(voucher)).when(voucherRepository).findById(any(UUID.class));
+
+        //when
+        VoucherResponse voucherResponse = voucherService.findById(voucher.getVoucherId());
+
+        //then
+        assertThat(voucherResponse, samePropertyValuesAs(VoucherResponse.from(voucher)));
+
+        //verify
+        verify(voucherRepository).findById(voucher.getVoucherId());
     }
 
     @Test
