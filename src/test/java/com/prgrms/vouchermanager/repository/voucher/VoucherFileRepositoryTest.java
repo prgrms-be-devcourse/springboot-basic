@@ -65,8 +65,9 @@ class VoucherFileRepositoryTest {
     @Test
     @DisplayName("updateDiscount")
     void updateDiscount() {
-        Voucher voucher = repository.updateDiscount(voucher2.getId(), 20);
-        Assertions.assertThat(voucher.getDiscount()).isEqualTo(20);
+        Voucher voucher = new PercentAmountVoucher(voucher2.getId(), 20);
+        Voucher updateVoucher = repository.updateDiscount(voucher);
+        Assertions.assertThat(updateVoucher.getDiscount()).isEqualTo(20);
     }
 
     @Test

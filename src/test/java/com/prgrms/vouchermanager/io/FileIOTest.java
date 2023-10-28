@@ -60,7 +60,7 @@ class FileIOTest {
     @Test
     @DisplayName("file to customerMap")
     void fileToCustomerMap() {
-        fileIoC.readFile(customerMap);
+        fileIoC.readCustomerFile(customerMap);
 
         Assertions.assertThat(customerMap.size()).isEqualTo(3);
     }
