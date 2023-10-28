@@ -49,9 +49,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID id) {
-        if (vouchers.containsKey(id)) {
-            vouchers.remove(id);
-        }
+        vouchers.remove(id);
     }
 
     @Override
