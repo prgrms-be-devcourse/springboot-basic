@@ -10,6 +10,8 @@ public enum CustomerMenu {
     UPDATE("4"),
     DELETE("5"),
     BLACKLIST("6"),
+    SEARCH_VOUCHERS("7"),
+    REMOVE_VOUCHER("8"),
     INCORRECT_MENU("Incorrect Menu");
 
     private final String menuCode;

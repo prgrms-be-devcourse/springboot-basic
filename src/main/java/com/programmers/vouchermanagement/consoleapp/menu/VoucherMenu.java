@@ -9,6 +9,8 @@ public enum VoucherMenu {
     SEARCH("3"),
     UPDATE("4"),
     DELETE("5"),
+    GRANT("6"),
+    SEARCH_OWNER("7"),
     INCORRECT_MENU("Incorrect Menu");
 
     private final String menuCode;

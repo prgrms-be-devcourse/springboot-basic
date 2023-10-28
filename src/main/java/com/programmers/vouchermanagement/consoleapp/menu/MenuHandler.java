@@ -16,11 +16,6 @@ import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 
 @Component
 public class MenuHandler {
-    private static final Logger logger = LoggerFactory.getLogger(MenuHandler.class);
-
-    //messages
-    private static final String INCORRECT_MESSAGE = "This menu is not executable.";
-
     private final ConsoleManager consoleManager;
     private final VoucherController voucherController;
     private final CustomerController customerController;
