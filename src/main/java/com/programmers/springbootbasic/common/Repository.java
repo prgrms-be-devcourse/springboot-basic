@@ -3,9 +3,9 @@ package com.programmers.springbootbasic.common;
 import java.util.List;
 import java.util.Optional;
 
-public interface Repository<ID,T> {
+public interface Repository<ID, T> {
 
-    <S extends T> S save(S entity);
+    T save(T entity);
 
     Optional<T> findById(ID id);
 
@@ -13,5 +13,5 @@ public interface Repository<ID,T> {
 
     int deleteById(ID id);
 
-    <S extends T> int update(S entity);
+    int update(T entity);
 }
