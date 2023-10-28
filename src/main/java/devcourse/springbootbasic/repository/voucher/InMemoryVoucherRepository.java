@@ -42,10 +42,8 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int delete(Voucher voucher) {
-        int deletedRow = voucherDatabase.containsKey(voucher.getId()) ? 1 : 0;
+    public void delete(Voucher voucher) {
         voucherDatabase.remove(voucher.getId());
-        return deletedRow;
     }
 
     @Override

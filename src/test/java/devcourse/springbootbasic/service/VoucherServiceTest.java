@@ -103,7 +103,6 @@ class VoucherServiceTest {
         // Given
         Voucher existingVoucher = generateUnassignedVoucher(VoucherType.FIXED, 100);
         when(voucherRepository.findById(existingVoucher.getId())).thenReturn(Optional.of(existingVoucher));
-        when(voucherRepository.delete(any(Voucher.class))).thenReturn(1);
 
         // When
         Voucher deletedVoucher = voucherService.deleteVoucher(existingVoucher.getId());

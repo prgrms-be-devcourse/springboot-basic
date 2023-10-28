@@ -112,25 +112,11 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         // When
-        int deletedRows = voucherRepository.delete(voucher);
+        voucherRepository.delete(voucher);
 
         // Then
-        assertThat(deletedRows).isEqualTo(1);
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         assertThat(foundVoucher).isEmpty();
-    }
-
-    @Test
-    @DisplayName("삭제할 Voucher가 없으면 0을 반환합니다.")
-    void testDeleteVoucherFail() {
-        // Given
-        Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 15);
-
-        // When
-        int deletedRows = voucherRepository.delete(voucher);
-
-        // Then
-        assertThat(deletedRows).isZero();
     }
 
     @Test

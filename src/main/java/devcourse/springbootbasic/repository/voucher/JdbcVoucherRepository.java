@@ -65,13 +65,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int delete(Voucher voucher) {
+    public void delete(Voucher voucher) {
         String query = """
                         DELETE FROM voucher
                         WHERE id = UUID_TO_BIN(:id)
                 """;
 
-        return jdbcTemplate.update(query, mapVoucherParameters(voucher));
+        jdbcTemplate.update(query, mapVoucherParameters(voucher));
     }
 
     @Override

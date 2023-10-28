@@ -111,23 +111,9 @@ class InMemoryVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         // When
-        int deletedRows = voucherRepository.delete(voucher);
+        voucherRepository.delete(voucher);
 
         // Then
-        assertThat(deletedRows).isEqualTo(1);
         assertThat(voucherRepository.findById(voucherId)).isEmpty();
-    }
-
-    @Test
-    @DisplayName("바우처 정보가 없는 경우 삭제하지 않습니다.")
-    void testDeleteVoucherWhenVoucherDoesNotExist() {
-        // Given
-        Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 100);
-
-        // When
-        int deletedRows = voucherRepository.delete(voucher);
-
-        // Then
-        assertThat(deletedRows).isZero();
     }
 }
