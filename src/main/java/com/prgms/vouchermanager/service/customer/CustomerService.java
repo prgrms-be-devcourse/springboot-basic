@@ -11,11 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.prgms.vouchermanager.exception.ExceptionType.*;
+import static com.prgms.vouchermanager.exception.ExceptionType.INVALID_CUSTOMER_ID;
+import static com.prgms.vouchermanager.exception.ExceptionType.INVALID_CUSTOMER_INFO;
 
 @Service
 public class CustomerService {
-    
+
     private final CustomerRepository customerRepository;
     private final InputValidation inputValidation;
 
@@ -50,7 +51,7 @@ public class CustomerService {
                 blackList = true;
             }
             customerRepository.update(new Customer(id, dto.getName(), dto.getEmail(), blackList));
-        }
+        } else throw new RuntimeException(INVALID_CUSTOMER_INFO.getMessage());
     }
 
     @Transactional(readOnly = true)

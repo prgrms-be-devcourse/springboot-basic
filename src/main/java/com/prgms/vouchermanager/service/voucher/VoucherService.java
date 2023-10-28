@@ -7,7 +7,6 @@ import com.prgms.vouchermanager.domain.voucher.Voucher;
 import com.prgms.vouchermanager.dto.CreateVoucherDto;
 import com.prgms.vouchermanager.dto.UpdateVoucherDto;
 import com.prgms.vouchermanager.repository.voucher.VoucherRepository;
-import com.prgms.vouchermanager.validation.InputValidation;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -21,11 +20,9 @@ import static com.prgms.vouchermanager.exception.ExceptionType.*;
 @Service
 public class VoucherService {
 
-    private final InputValidation inputValidation;
     private final VoucherRepository voucherRepository;
 
-    public VoucherService(InputValidation inputValidation, VoucherRepository voucherRepository) {
-        this.inputValidation = inputValidation;
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 
@@ -55,9 +52,6 @@ public class VoucherService {
         if (dto.getVoucherType() == 1) {
             voucher = new FixedAmountVoucher(id, dto.getValue());
         } else if (dto.getVoucherType() == 2) {
-            if (!inputValidation.validVoucherPercent(dto.getValue())) {
-                throw new RuntimeException(INVALID_VOUCHER_PERCENT.getMessage());
-            }
             voucher = new PercentDiscountVoucher(id, dto.getValue());
         } else throw new RuntimeException(INVALID_VOUCHER_INFO.getMessage());
 
