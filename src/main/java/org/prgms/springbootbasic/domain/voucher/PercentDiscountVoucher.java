@@ -12,7 +12,7 @@ public class PercentDiscountVoucher implements VoucherPolicy {
 
     public PercentDiscountVoucher(UUID voucherId, long percent) {
         if (percent > 100 || percent <= 0) {
-            log.warn("percent value is out of range.");
+            log.error("percent value is out of range.");
             throw new OutOfRangeException("percent value is out of range.");
         }
 
