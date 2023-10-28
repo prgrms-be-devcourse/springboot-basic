@@ -137,7 +137,6 @@ class VoucherServiceTest {
     @DisplayName("존재하지 않는 고객에게 바우처 할당을 실패한다.")
     void testAssignVoucherFailed_NonExistentCustomer() {
         final VoucherCustomerRequest request = new VoucherCustomerRequest(UUID.randomUUID(), UUID.randomUUID());
-        final NoSuchElementException exception = new NoSuchElementException();
         doReturn(false).when(customerRepository).existById(request.customerId());
 
         //when & then
@@ -152,7 +151,6 @@ class VoucherServiceTest {
     void testAssignVoucherFailed_NonExistentVoucher() {
         //given
         final VoucherCustomerRequest request = new VoucherCustomerRequest(UUID.randomUUID(), UUID.randomUUID());
-        final NoSuchElementException exception = new NoSuchElementException();
         doReturn(true).when(customerRepository).existById(request.customerId());
         doReturn(Optional.empty()).when(voucherRepository).findById(any(UUID.class));
 
