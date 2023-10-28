@@ -111,10 +111,10 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
     private RowMapper<Wallet> getWalletRowMapper() {
         return (rs, rowNum) -> {
             int id = rs.getInt("id");
+            boolean used = rs.getBoolean("used");
 
             UUID customerId = UUID.fromString(rs.getString("customer_id"));
             String email = rs.getString("email");
-            boolean used = rs.getBoolean("used");
             boolean blacklisted = rs.getBoolean("blacklisted");
             Customer customer = new Customer(customerId, email, blacklisted);
 
