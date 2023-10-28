@@ -7,6 +7,7 @@ import devcourse.springbootbasic.dto.customer.CustomerUpdateBlacklistRequest;
 import devcourse.springbootbasic.exception.CustomerErrorMessage;
 import devcourse.springbootbasic.exception.CustomerException;
 import devcourse.springbootbasic.repository.customer.CustomerRepository;
+import devcourse.springbootbasic.util.UUIDUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,8 +72,9 @@ class CustomerServiceTest {
     @DisplayName("블랙리스트 업데이트 시 블랙리스트 상태가 업데이트된 고객을 반환합니다.")
     void givenValidBlacklistUpdateRequest_whenUpdateBlacklistStatus_thenBlacklistStatusIsUpdated() {
         // Given
-        CustomerUpdateBlacklistRequest request = new CustomerUpdateBlacklistRequest(UUID.randomUUID(), true);
         Customer existingCustomer = generateBlacklistCustomer("Existing Customer");
+        UUID customerId = existingCustomer.getId();
+        CustomerUpdateBlacklistRequest request = new CustomerUpdateBlacklistRequest(customerId, true);
         when(customerRepository.findById(request.getId())).thenReturn(Optional.of(existingCustomer));
         when(customerRepository.update(any())).thenReturn(1);
 
@@ -89,7 +91,7 @@ class CustomerServiceTest {
     @DisplayName("블랙리스트 업데이트 시 존재하지 않는 고객 ID가 주어지면 예외를 발생시킵니다.")
     void givenNonExistentCustomerId_whenUpdateBlacklistStatus_thenThrowException() {
         // Given
-        CustomerUpdateBlacklistRequest request = new CustomerUpdateBlacklistRequest(UUID.randomUUID(), true);
+        CustomerUpdateBlacklistRequest request = new CustomerUpdateBlacklistRequest(UUIDUtil.generateRandomUUID(), true);
         when(customerRepository.findById(request.getId())).thenReturn(Optional.empty());
 
         // When, Then
