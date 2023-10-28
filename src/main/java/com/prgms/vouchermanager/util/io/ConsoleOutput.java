@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConsoleOutput {
 
-
-    public ConsoleOutput() {
+    private void printCommon(String s) {
+        System.out.println(s);
     }
     public void printFrontMenu() {
-        System.out.println("""
+        printCommon("""
                 
                 사용할 메뉴를 선택해주세요.
                 
@@ -26,7 +26,7 @@ public class ConsoleOutput {
     }
 
     public void printVoucherMenu() {
-        System.out.println("""
+        printCommon("""
                 === Voucher Program ===
                 
                 이용할 바우처 메뉴를 선택해주세요
@@ -48,7 +48,7 @@ public class ConsoleOutput {
 
 
     public void printVoucherType() {
-        System.out.println("""
+        printCommon("""
                                 
                 이용하실 쿠폰의 타입 번호를 입력해주세요
                                 
@@ -60,7 +60,7 @@ public class ConsoleOutput {
     }
 
     public void printCustomerMenu() {
-        System.out.println("""
+        printCommon("""
                 
                 이용하실 고객 메뉴를 입력해주세요
                 
@@ -82,7 +82,7 @@ public class ConsoleOutput {
     }
 
     public void printWalletMenu() {
-        System.out.println("""
+        printCommon("""
                 이용하실 지갑 메뉴를 입력해주세요
                 
                 1. CREATE
@@ -96,42 +96,42 @@ public class ConsoleOutput {
                 """);
     }
     public void printVoucherAmount() {
-        System.out.println("쿠폰의 할인값을 입력해주세요");
+        printCommon("쿠폰의 할인값을 입력해주세요");
     }
 
     public void printVoucherId() {
-        System.out.println("쿠폰 번호를 입력해주세요.");
+        printCommon("쿠폰 번호를 입력해주세요.");
     }
 
     public void printSuccessDelete() {
-        System.out.println("성공적으로 삭제되었습니다.");
+        printCommon("성공적으로 삭제되었습니다.");
     }
 
     public void printCustomerName() {
-        System.out.println("고객명을 입력해주세요.{");
+        printCommon("고객명을 입력해주세요.{");
     }
 
     public void printCustomerEmail() {
-        System.out.println("이메일을 입력해주세요.");
+        printCommon("이메일을 입력해주세요.");
     }
 
     public void printBlackList() {
-        System.out.println("블랙리스트에 등록하시려면 1번, 아니라면 2번을 입력해주세요");
+        printCommon("블랙리스트에 등록하시려면 1번, 아니라면 2번을 입력해주세요");
     }
 
     public void printCustomerId() {
-        System.out.println("고객 ID를 입력해주세요.");
+        printCommon("고객 ID를 입력해주세요.");
     }
 
     public void printCustomer(Customer customer) {
-        System.out.println(customer.toString());
+        printCommon(customer.toString());
     }
 
     public void printSuccessUpdate() {
-        System.out.println("성공적으로 업데이트 되었습니다.");
+        printCommon("성공적으로 업데이트 되었습니다.");
     }
 
     public void printWallet(Wallet wallet) {
-        System.out.println(wallet.toString());
+        printCommon(wallet.toString());
     }
 }

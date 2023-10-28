@@ -1,5 +1,6 @@
 package com.prgms.vouchermanager.util.io;
 
+import com.prgms.vouchermanager.exception.ExceptionType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -14,50 +15,36 @@ import static com.prgms.vouchermanager.exception.ExceptionType.INVALID_VOUCHER_I
 public class ConsoleInput {
     private final Scanner scanner = new Scanner(System.in);
 
-    public int inputFrontMenu() {
+    private int inputMenu(ExceptionType type) {
         try {
             return scanner.nextInt();
         } catch (RuntimeException e) {
-            log.warn(e.getMessage());
             scanner.next();
-            throw new RuntimeException(INVALID_FRONT_MENU.getMessage());
+            throw new RuntimeException(type.getMessage());
         }
     }
 
+    public int inputFrontMenu() {
+        return inputMenu(INVALID_FRONT_MENU);
+    }
+
     public int inputVoucherMenu() {
-
-        int menu ;
-
-        try {
-            menu = scanner.nextInt();
-        } catch (RuntimeException e) {
-            log.warn(e.getMessage());
-            throw new RuntimeException(INVALID_VOUCHER_MENU.getMessage());
-        }
-        return menu;
-
+        return inputMenu(INVALID_VOUCHER_MENU);
     }
 
     public int inputCustomerMenu() {
 
-        int menu;
-
-        try {
-            menu = scanner.nextInt();
-        } catch (RuntimeException e) {
-            log.warn(e.getMessage());
-            throw new RuntimeException(INVALID_CUSTOMER_MENU.getMessage());
-        }
-
-        return menu;
+        return inputMenu(INVALID_CUSTOMER_MENU);
     }
 
     public int inputVoucherType() {
-        try {
-            return scanner.nextInt();
-        } catch (RuntimeException e) {
-            throw new RuntimeException(INVALID_VOUCHER_TYPE.getMessage());
-        }
+
+        return inputMenu(INVALID_VOUCHER_TYPE);
+    }
+
+    public int inputBlackList() {
+
+        return inputMenu(INVALID_CUSTOMER_INFO);
     }
 
     public long inputVoucherValue() {
@@ -71,7 +58,7 @@ public class ConsoleInput {
     public UUID inputVoucherId() {
         try {
             return UUID.fromString(scanner.next());
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             throw new RuntimeException(INVALID_VOUCHER_INFO.getMessage());
         }
     }
@@ -82,14 +69,6 @@ public class ConsoleInput {
 
     public String inputCustomerEmail() {
         return scanner.next();
-    }
-
-    public int inputBlackList() {
-        try {
-            return  scanner.nextInt();
-        } catch (RuntimeException e) {
-            throw new RuntimeException(INVALID_CUSTOMER_INFO.getMessage());
-        }
     }
 
     public Long inputCustomerId() {
