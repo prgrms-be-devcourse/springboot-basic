@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-@Profile("default")
+@Profile({"default", "command"})
 @Repository
 @RequiredArgsConstructor
 public class VoucherJDBCRepository implements VoucherRepository {

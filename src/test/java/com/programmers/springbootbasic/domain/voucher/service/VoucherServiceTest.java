@@ -1,7 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher.service;
 
 import com.programmers.springbootbasic.common.utils.UUIDValueStrategy;
-import com.programmers.springbootbasic.domain.voucher.dto.VoucherRequestDto;
+import com.programmers.springbootbasic.domain.voucher.dto.VoucherServiceRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.FixedAmountVoucher;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
@@ -42,14 +42,13 @@ class VoucherServiceTest {
     @Test
     void testCreateVoucherSuccess() {
         // Arrange
-        long expectedBeforeDiscount = 100L;
-        VoucherRequestDto voucherRequestDto = VoucherRequestDto.builder()
+        VoucherServiceRequestDto voucherServiceRequestDto = VoucherServiceRequestDto.builder()
                 .voucherType(1)
                 .value(VALUE)
                 .build();
         when(voucherRepository.save(any(Voucher.class))).thenReturn(VoucherType.of(1, VOUCHER_ID, VALUE));
         // Act
-        Voucher actualResult = voucherService.createVoucher(voucherRequestDto);
+        Voucher actualResult = voucherService.createVoucher(voucherServiceRequestDto);
         // Assert
         assertThat(actualResult).isInstanceOf(FixedAmountVoucher.class);
         assertThat(actualResult.getVoucherId()).isEqualTo(VOUCHER_ID);
@@ -61,11 +60,11 @@ class VoucherServiceTest {
         int expectedVoucherType = 1;
         Voucher expectedResult = VoucherType.of(expectedVoucherType, VOUCHER_ID, VALUE);
         when(voucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(expectedResult));
-        VoucherRequestDto voucherRequestDto = VoucherRequestDto.builder()
+        VoucherServiceRequestDto voucherServiceRequestDto = VoucherServiceRequestDto.builder()
                 .voucherId(VOUCHER_ID)
                 .build();
         // Act
-        Voucher actualResult = voucherService.findVoucherById(voucherRequestDto);
+        Voucher actualResult = voucherService.findVoucherById(voucherServiceRequestDto);
         // Assert
         assertThat(actualResult).isEqualTo(expectedResult);
     }
@@ -75,11 +74,11 @@ class VoucherServiceTest {
         // Arrange
         UUID expectedVoucherId = UUID.randomUUID();
         when(voucherRepository.findById(any(UUID.class))).thenReturn(Optional.empty());
-        VoucherRequestDto voucherRequestDto = VoucherRequestDto.builder()
+        VoucherServiceRequestDto voucherServiceRequestDto = VoucherServiceRequestDto.builder()
                 .voucherId(expectedVoucherId)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, () -> voucherService.findVoucherById(voucherRequestDto));
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> voucherService.findVoucherById(voucherServiceRequestDto));
         assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.VOUCHER_NOT_FOUND.getMessage());
     }
 
@@ -90,12 +89,12 @@ class VoucherServiceTest {
         long expectedVoucherValue = 60L;
         Voucher expectedResult = VoucherType.of(expectedVoucherType, VOUCHER_ID, VALUE);
         when(voucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(expectedResult));
-        VoucherRequestDto voucherRequestDto = VoucherRequestDto.builder()
+        VoucherServiceRequestDto voucherServiceRequestDto = VoucherServiceRequestDto.builder()
                 .voucherId(VOUCHER_ID)
                 .value(expectedVoucherValue)
                 .build();
         // Act
-        voucherService.updateVoucher(voucherRequestDto);
+        voucherService.updateVoucher(voucherServiceRequestDto);
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher.controller;
 
 import com.programmers.springbootbasic.common.response.CommonResult;
-import com.programmers.springbootbasic.domain.voucher.dto.VoucherRequestDto;
+import com.programmers.springbootbasic.domain.voucher.dto.VoucherServiceRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.voucher.service.VoucherService;
@@ -20,7 +20,7 @@ public class VoucherController {
 
     public CommonResult<String> createVoucher(String voucherType, String value) {
         try {
-            voucherService.createVoucher(VoucherRequestDto.builder()
+            voucherService.createVoucher(VoucherServiceRequestDto.builder()
                     .voucherType(Integer.parseInt(voucherType))
                     .value(Long.parseLong(value))
                     .build());
@@ -36,7 +36,7 @@ public class VoucherController {
 
     public CommonResult<String> findVoucherById(String voucherId) {
         try {
-            Voucher voucher = voucherService.findVoucherById(VoucherRequestDto.builder()
+            Voucher voucher = voucherService.findVoucherById(VoucherServiceRequestDto.builder()
                     .voucherId(UUID.fromString(voucherId))
                     .build());
             return CommonResult.getSingleResult(voucher.getInformation());
@@ -51,7 +51,7 @@ public class VoucherController {
 
     public CommonResult<String> updateVoucher(String voucherId, String value) {
         try {
-            voucherService.updateVoucher(VoucherRequestDto.builder()
+            voucherService.updateVoucher(VoucherServiceRequestDto.builder()
                     .voucherId(UUID.fromString(voucherId))
                     .value(Long.parseLong(value))
                     .build());
@@ -70,7 +70,7 @@ public class VoucherController {
 
     public CommonResult<String> deleteVoucher(String voucherId) {
         try {
-            voucherService.deleteVoucher(VoucherRequestDto.builder()
+            voucherService.deleteVoucher(VoucherServiceRequestDto.builder()
                     .voucherId(UUID.fromString(voucherId))
                     .build());
         } catch (IllegalArgumentException e) {

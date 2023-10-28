@@ -1,7 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher.controller;
 
 import com.programmers.springbootbasic.common.response.CommonResult;
-import com.programmers.springbootbasic.domain.voucher.dto.VoucherRequestDto;
+import com.programmers.springbootbasic.domain.voucher.dto.VoucherServiceRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.voucher.service.VoucherService;
@@ -37,7 +37,7 @@ class VoucherControllerTest {
     void testCreateVoucherSuccess() {
         // Arrange
         Voucher expectedVoucher = VoucherType.of(1, VOUCHER_ID, 25L);
-        when(voucherService.createVoucher(any(VoucherRequestDto.class))).thenReturn(expectedVoucher);
+        when(voucherService.createVoucher(any(VoucherServiceRequestDto.class))).thenReturn(expectedVoucher);
         // Act
         CommonResult<String> actualResult = voucherController.createVoucher(VOUCHER_TYPE_STR, VALUE_STR);
         // Assert
@@ -65,7 +65,7 @@ class VoucherControllerTest {
         // Arrange
         long expectedVoucherValue = 25L;
         Voucher expectedVoucher = VoucherType.of(1, VOUCHER_ID, expectedVoucherValue);
-        when(voucherService.findVoucherById(any(VoucherRequestDto.class))).thenReturn(expectedVoucher);
+        when(voucherService.findVoucherById(any(VoucherServiceRequestDto.class))).thenReturn(expectedVoucher);
         // Act
         CommonResult<String> actualResult = voucherController.findVoucherById(VOUCHER_ID.toString());
         // Assert
@@ -88,7 +88,7 @@ class VoucherControllerTest {
     @Test
     void testUpdateVoucherSuccess() {
         // Arrange
-        doNothing().when(voucherService).updateVoucher(any(VoucherRequestDto.class));
+        doNothing().when(voucherService).updateVoucher(any(VoucherServiceRequestDto.class));
         // Act
         CommonResult<String> actualResult = voucherController.updateVoucher(VOUCHER_ID.toString(), VALUE_STR);
         // Assert
@@ -123,7 +123,7 @@ class VoucherControllerTest {
     @Test
     void testDeleteVoucherSuccess() {
         // Arrange
-        doNothing().when(voucherService).deleteVoucher(any(VoucherRequestDto.class));
+        doNothing().when(voucherService).deleteVoucher(any(VoucherServiceRequestDto.class));
         // Act
         CommonResult<String> actualResult = voucherController.deleteVoucher(VOUCHER_ID.toString());
         // Assert

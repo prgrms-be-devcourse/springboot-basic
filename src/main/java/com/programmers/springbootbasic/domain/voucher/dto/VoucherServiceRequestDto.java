@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class VoucherRequestDto {
+public class VoucherServiceRequestDto {
     private final UUID voucherId;
     private final int voucherType;
     private final long value;

@@ -1,7 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher.service;
 
 import com.programmers.springbootbasic.common.utils.UUIDValueStrategy;
-import com.programmers.springbootbasic.domain.voucher.dto.VoucherRequestDto;
+import com.programmers.springbootbasic.domain.voucher.dto.VoucherServiceRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.voucher.repository.VoucherRepository;
@@ -24,26 +24,26 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher createVoucher(VoucherRequestDto voucherRequestDto) {
-        Voucher voucher = VoucherType.of(voucherRequestDto.getVoucherType(), uuidValueStrategy.generateUUID(), voucherRequestDto.getValue());
+    public Voucher createVoucher(VoucherServiceRequestDto voucherServiceRequestDto) {
+        Voucher voucher = VoucherType.of(voucherServiceRequestDto.getVoucherType(), uuidValueStrategy.generateUUID(), voucherServiceRequestDto.getValue());
         return voucherRepository.save(voucher);
     }
 
-    public Voucher findVoucherById(VoucherRequestDto voucherRequestDto) {
-        return voucherRepository.findById(voucherRequestDto.getVoucherId()).orElseThrow(() -> {
+    public Voucher findVoucherById(VoucherServiceRequestDto voucherServiceRequestDto) {
+        return voucherRepository.findById(voucherServiceRequestDto.getVoucherId()).orElseThrow(() -> {
             log.warn(ErrorMsg.VOUCHER_NOT_FOUND.getMessage());
             return new RuntimeException(ErrorMsg.VOUCHER_NOT_FOUND.getMessage());
         });
     }
 
-    public void updateVoucher(VoucherRequestDto voucherRequestDto) {
-        Voucher voucher = findVoucherById(voucherRequestDto);
-        voucher = VoucherType.of(VoucherType.predictVoucherType(voucher), voucherRequestDto.getVoucherId(), voucherRequestDto.getValue());
+    public void updateVoucher(VoucherServiceRequestDto voucherServiceRequestDto) {
+        Voucher voucher = findVoucherById(voucherServiceRequestDto);
+        voucher = VoucherType.of(VoucherType.predictVoucherType(voucher), voucherServiceRequestDto.getVoucherId(), voucherServiceRequestDto.getValue());
         voucherRepository.update(voucher);
     }
 
-    public void deleteVoucher(VoucherRequestDto voucherRequestDto) {
-        Voucher voucher = findVoucherById(voucherRequestDto);
+    public void deleteVoucher(VoucherServiceRequestDto voucherServiceRequestDto) {
+        Voucher voucher = findVoucherById(voucherServiceRequestDto);
         voucherRepository.delete(voucher);
     }
 
