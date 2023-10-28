@@ -9,7 +9,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"dev", "prod", "local", "test"})
+@Profile({"local", "test"})
 @Slf4j
 public class VoucherMemoryRepository implements VoucherRepository{
     private final ConcurrentHashMap<UUID, VoucherPolicy> mem = new ConcurrentHashMap<>();
@@ -28,5 +28,15 @@ public class VoucherMemoryRepository implements VoucherRepository{
     public VoucherPolicy create(VoucherPolicy voucherPolicy) {
         mem.putIfAbsent(voucherPolicy.getVoucherId(), voucherPolicy);
         return voucherPolicy;
+    }
+
+    @Override
+    public Optional<VoucherPolicy> deleteById(UUID voucherId) {
+        return Optional.ofNullable(mem.remove(voucherId));
+    }
+
+    @Override
+    public void deleteAll() {
+        mem.clear();
     }
 }

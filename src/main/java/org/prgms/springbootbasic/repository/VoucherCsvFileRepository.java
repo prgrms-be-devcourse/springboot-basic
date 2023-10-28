@@ -42,6 +42,16 @@ public class VoucherCsvFileRepository implements VoucherRepository {
         return voucherPolicy;
     }
 
+    @Override
+    public Optional<VoucherPolicy> deleteById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.remove(voucherId));
+    }
+
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
+    }
+
     @PostConstruct
     private void fileRead(){
         List<VoucherPolicy> voucherPolicies = voucherCsvFileManager.read();

@@ -29,14 +29,14 @@ public class VoucherCsvFileManager {
     }
 
     public List<VoucherPolicy> read(){
-        return csvFileTemplate.read(FILE_PATH, this::covertToVoucher);
+        return csvFileTemplate.read(FILE_PATH, this::convertToVoucher);
     }
 
     public void write(List<VoucherPolicy> voucherPolicies){
         csvFileTemplate.write(FILE_PATH, voucherPolicies, this::convertToString, CSV_FIRST_LINE);
     }
 
-    private VoucherPolicy covertToVoucher(String line){
+    private VoucherPolicy convertToVoucher(String line){
         log.debug("line = {}", line);
 
         List<String> splitLine = Arrays.stream(line.split(CSV_PATTERN))

@@ -10,4 +10,6 @@ public interface VoucherRepository {
     Optional<VoucherPolicy> findById(UUID voucherId);
     List<VoucherPolicy> findAll();
     VoucherPolicy create(VoucherPolicy voucherPolicy);
+    Optional<VoucherPolicy> deleteById(UUID voucherId);
+    void deleteAll();
 }
