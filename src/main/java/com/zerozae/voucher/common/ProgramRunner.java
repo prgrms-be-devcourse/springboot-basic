@@ -5,7 +5,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import org.xml.sax.ErrorHandler;
 
 @Component
 public class ProgramRunner implements CommandLineRunner {
@@ -56,7 +55,7 @@ public class ProgramRunner implements CommandLineRunner {
                         menuHandler.createVoucher();
                     }
                     case LIST -> {
-                        menuHandler.voucherList();
+                        menuHandler.findVoucherList();
                     }
                     case SEARCH -> {
                         menuHandler.findVoucherById();
@@ -92,7 +91,7 @@ public class ProgramRunner implements CommandLineRunner {
                         menuHandler.createCustomer();
                     }
                     case LIST -> {
-                        menuHandler.customerList();
+                        menuHandler.findCustomerList();
                     }
                     case SEARCH -> {
                         menuHandler.findCustomerById();
@@ -107,7 +106,7 @@ public class ProgramRunner implements CommandLineRunner {
                         menuHandler.deleteAllCustomers();
                     }
                     case BLACKLIST -> {
-                        menuHandler.customerBlacklist();
+                        menuHandler.findCustomerBlacklist();
                     }
                     case BACK -> {
                         return true;

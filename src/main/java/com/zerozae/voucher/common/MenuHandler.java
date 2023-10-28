@@ -74,7 +74,7 @@ public class MenuHandler {
         }
     }
 
-    public void voucherList() {
+    public void findVoucherList() {
         Response<List<VoucherResponse>> vouchers = voucherController.findAllVouchers();
 
         List<VoucherResponse> data = vouchers.getData();
@@ -153,14 +153,14 @@ public class MenuHandler {
         }
     }
 
-    public void customerList() {
+    public void findCustomerList() {
         Response<List<CustomerResponse>> customers = customerController.findAllCustomers();
 
         List<CustomerResponse> data = customers.getData();
         data.forEach(customer -> consoleView.printInfo(customer.getInfo()));
     }
 
-    public void customerBlacklist() {
+    public void findCustomerBlacklist() {
         Response<List<CustomerResponse>> blacklistCustomers = customerController.findAllBlacklistCustomers();
 
         List<CustomerResponse> data = blacklistCustomers.getData();
