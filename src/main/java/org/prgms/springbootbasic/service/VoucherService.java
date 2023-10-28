@@ -3,7 +3,7 @@ package org.prgms.springbootbasic.service;
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
-import org.prgms.springbootbasic.repository.VoucherRepository;
+import org.prgms.springbootbasic.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

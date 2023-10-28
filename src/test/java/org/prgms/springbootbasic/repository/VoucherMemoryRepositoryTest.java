@@ -5,6 +5,7 @@ import org.prgms.springbootbasic.BasicApplication;
 import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
 import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
+import org.prgms.springbootbasic.repository.voucher.VoucherMemoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;

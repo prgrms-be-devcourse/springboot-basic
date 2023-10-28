@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.repository;
+package org.prgms.springbootbasic.repository.voucher;
 
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 
