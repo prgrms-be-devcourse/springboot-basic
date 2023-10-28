@@ -13,8 +13,8 @@ import com.prgms.vouchermanager.validation.InputValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 
-import static com.prgms.vouchermanager.exception.ExceptionType.*;
-import static com.prgms.vouchermanager.exception.ExceptionType.INVALID_CUSTOMER_MENU;
+import static com.prgms.vouchermanager.exception.ExceptionType.INVALID_FRONT_MENU;
+import static com.prgms.vouchermanager.exception.ExceptionType.INVALID_WALLET_MENU;
 
 @Slf4j
 @Controller
@@ -72,10 +72,6 @@ public class FrontController {
         try {
             menu = consoleInput.inputVoucherMenu();
 
-            if (!inputValidation.validVoucherMenu(menu)) {
-                throw new RuntimeException(INVALID_VOUCHER_MENU.getMessage());
-            }
-
             switch (VoucherMenuType.fromValue(menu)) {
                 case CREATE -> voucherController.create();
                 case UPDATE -> voucherController.update();
@@ -100,9 +96,6 @@ public class FrontController {
         try {
             menu = consoleInput.inputCustomerMenu();
 
-            if (!inputValidation.validCustomerMenu(menu)) {
-                throw new RuntimeException(INVALID_CUSTOMER_MENU.getMessage());
-            }
             switch (CustomerMenuType.fromValue(menu)) {
                 case CREATE -> customerController.create();
                 case UPDATE -> customerController.update();
