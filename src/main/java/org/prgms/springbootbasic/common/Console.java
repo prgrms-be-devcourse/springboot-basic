@@ -9,7 +9,7 @@ import java.util.*;
 @Component
 @Slf4j
 public class Console { // view - domain 분리 필. Controller를 따로 만들고, 거기서 View, Service 호출.
-    private static final Scanner CONSOLE_INPUT = new Scanner(System.in);
+    private static final Scanner consoleInput = new Scanner(System.in);
 
     public static String readCommand() {
         System.out.println("=== Voucher Program ===");
@@ -18,7 +18,7 @@ public class Console { // view - domain 분리 필. Controller를 따로 만들�
         System.out.println("Type 'list' to list all vouchers.");
         System.out.println("Type 'black' to list customers blacked.");
 
-        return CONSOLE_INPUT.next();
+        return consoleInput.next();
     }
 
     public static int selectCreateType() {
@@ -27,7 +27,7 @@ public class Console { // view - domain 분리 필. Controller를 따로 만들�
         System.out.println("1. FixedAmountVoucher");
         System.out.println("2. PercentDiscountVoucher");
 
-        return CONSOLE_INPUT.nextInt();
+        return consoleInput.nextInt();
     }
 
     public static int putDiscountDegree(VoucherType type) {
@@ -35,12 +35,12 @@ public class Console { // view - domain 분리 필. Controller를 따로 만들�
             case FIXED_AMOUNT -> System.out.println("Enter the fixed discount amount.");
             case PERCENT_DISCOUNT -> System.out.println("Enter the discount percentage.");
         }
-        return CONSOLE_INPUT.nextInt();
+        return consoleInput.nextInt();
     }
 
 
     public static String ignoreLine() {
-        return CONSOLE_INPUT.nextLine();
+        return consoleInput.nextLine();
     }
 
     public static <T> void printList(Collection<T> collection) {
