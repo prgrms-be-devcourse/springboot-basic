@@ -52,9 +52,8 @@ public class UserVoucherWalletService {
             .orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
 
         var nowTime = timeGenerator.now();
-        var test = request.toEntity(user.getId(), nowTime);
-        var a = userVoucherWalletRepository.save(request.toEntity(user.getId(), nowTime));
-        return a.getId();
+        var result = userVoucherWalletRepository.save(request.toEntity(user.getId(), nowTime));
+        return result.getId();
     }
 
     public List<UserResponse> findUserByVoucherId(UUID voucherId) {
