@@ -28,6 +28,7 @@ import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
@@ -141,7 +142,7 @@ class VoucherServiceTest {
         doReturn(Optional.empty()).when(voucherRepository).findById(any(UUID.class));
 
         //when & then
-        assertThatThrownBy(() -> voucherService.findById(UUID.randomUUID()));
+        assertThatThrownBy(() -> voucherService.findById(UUID.randomUUID())).isInstanceOf(NoSuchElementException.class);
 
         //verify
         verify(voucherRepository).findById(any(UUID.class));
@@ -162,6 +163,50 @@ class VoucherServiceTest {
 
         //verify
         verify(voucherRepository).findById(voucher.getVoucherId());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 바우처의 정보 수정을 실패한다.")
+    void testUpdateVoucherFailed_NonExistentVoucher() {
+        //given
+        doReturn(false).when(voucherRepository).existById(any(UUID.class));
+
+        //when & then
+        final UpdateVoucherRequest request = new UpdateVoucherRequest(UUID.randomUUID(), new BigDecimal(1000), VoucherType.FIXED);
+        assertThatThrownBy(() -> voucherService.update(request)).isInstanceOf(NoSuchElementException.class);
+
+        //verify
+        verify(voucherRepository).existById(request.voucherId());
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 값의 바우처 정보 수정을 실패한다.")
+    void testUpdateVoucherFailed_InvalidDiscountValue() {
+        //given
+        final UpdateVoucherRequest request = new UpdateVoucherRequest(UUID.randomUUID(), BigDecimal.ZERO, VoucherType.FIXED);
+        doReturn(true).when(voucherRepository).existById(any(UUID.class));
+
+        //when & then
+        assertThatThrownBy(() -> voucherService.update(request)).isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("바우처 정보 수정을 성공한다.")
+    void testUpdateVoucherSuccessful() {
+        //given
+        final UpdateVoucherRequest request = new UpdateVoucherRequest(UUID.randomUUID(), BigDecimal.TEN, VoucherType.PERCENT);
+        final Voucher voucher = new Voucher(request.voucherId(), request.discountValue(), request.voucherType());
+        doReturn(true).when(voucherRepository).existById(any(UUID.class));
+        doReturn(voucher).when(voucherRepository).save(any(Voucher.class));
+
+        //when
+        VoucherResponse voucherResponse = voucherService.update(request);
+
+        //then
+        assertThat(voucherResponse, samePropertyValuesAs(VoucherResponse.from(voucher)));
+
+        //verify
+        verify(voucherRepository).save(any(Voucher.class));
     }
 
     @Test
