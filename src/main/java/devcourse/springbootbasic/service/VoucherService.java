@@ -8,6 +8,7 @@ import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
 import devcourse.springbootbasic.exception.VoucherErrorMessage;
 import devcourse.springbootbasic.exception.VoucherException;
 import devcourse.springbootbasic.repository.voucher.VoucherRepository;
+import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,7 @@ public class VoucherService {
 
     @Transactional
     public Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
-        return voucherRepository.save(voucherCreateRequest.toEntity());
+        return voucherRepository.save(voucherCreateRequest.toEntity(UUIDUtil.generateRandomUUID()));
     }
 
     @Transactional

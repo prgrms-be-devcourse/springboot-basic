@@ -8,6 +8,7 @@ import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
 import devcourse.springbootbasic.exception.VoucherErrorMessage;
 import devcourse.springbootbasic.exception.VoucherException;
 import devcourse.springbootbasic.repository.voucher.VoucherRepository;
+import devcourse.springbootbasic.util.UUIDUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,7 +58,7 @@ class VoucherServiceTest {
     void testCreateVoucher() {
         // Given
         VoucherCreateRequest createRequest = new VoucherCreateRequest(VoucherType.FIXED, 100);
-        Voucher voucher = createRequest.toEntity();
+        Voucher voucher = createRequest.toEntity(UUIDUtil.generateRandomUUID());
         when(voucherRepository.save(any(Voucher.class))).thenReturn(voucher);
 
         // When
