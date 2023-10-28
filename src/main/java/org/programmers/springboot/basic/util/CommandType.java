@@ -6,10 +6,23 @@ import java.util.Arrays;
 
 public enum CommandType {
 
+    VOUCHER,
+    CUSTOMER,
     CREATE,
     LIST,
+    FIND,
+    UPDATE,
     BLACKLIST,
-    EXIT;
+    ADD_BLACK,
+    DELETE_BLACK,
+    WALLET,
+    REMOVE,
+    DELETE,
+    DELETE_ALL,
+    ASSIGN,
+    BACK,
+    EXIT,
+    ERROR;
 
     public static CommandType valueOfCommand(String command) {
 
