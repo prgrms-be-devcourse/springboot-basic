@@ -22,7 +22,7 @@ public class VoucherService {
     }
 
     public void create(VoucherType voucherType, int discountDegree) {
-        VoucherPolicy voucherPolicy = voucherType.create(discountDegree); // 생성 비즈니스 로직이 있다.
+        VoucherPolicy voucherPolicy = voucherType.create(discountDegree);
 
         voucherRepository.create(voucherPolicy);
     }

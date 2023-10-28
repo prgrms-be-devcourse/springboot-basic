@@ -12,7 +12,7 @@ import static org.prgms.springbootbasic.common.CommonConstant.INPUT_PERCENT_DISC
 
 @Component
 @Slf4j
-public class Console { // view - domain 분리 필. Controller를 따로 만들고, 거기서 View, Service 호출.
+public class Console {
     private static final Scanner consoleInput = new Scanner(System.in);
 
     public static String readCommand() {

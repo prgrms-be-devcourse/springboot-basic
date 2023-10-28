@@ -15,7 +15,7 @@ import static org.prgms.springbootbasic.common.CommonConstant.CSV_PATTERN;
 @Component
 @Slf4j
 @Profile({"dev", "prod"})
-public class VoucherCsvFileManager { // CsvFileManager 하나로 합쳐서. domain은 최대한 순수하게 유지. 외부 의존성이 들어간다? 이게 도메인에 들어가면 변경이 취약. -> 분리
+public class VoucherCsvFileManager {
     private static final String FILE_PATH = "./src/main/resources/voucher.csv";
     private static final String CSV_FIRST_LINE = "UUID,Type,DiscountValue";
     private static final int UUID_IDX = 0;
