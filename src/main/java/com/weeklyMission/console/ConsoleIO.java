@@ -36,6 +36,7 @@ public class ConsoleIO {
         System.out.println("=== Select Program ===" + System.lineSeparator()
             + "Type voucher to Voucher Mode." + System.lineSeparator()
             + "Type member to Member Mode" + System.lineSeparator()
+            + "Type wallet to Wallet Mode" + System.lineSeparator()
             + "Type exit to exit the program." + System.lineSeparator());
 
         return getCommand();
@@ -69,13 +70,19 @@ public class ConsoleIO {
         System.out.println("=== Create Success ===");
     }
 
-    public void printSuccessGetAllList(List<VoucherResponse> voucherList){
+    public void printSuccessGetVoucherList(List<VoucherResponse> voucherList){
         System.out.println("=== Voucher List ===");
         voucherList.forEach(v-> System.out.println(v.printInfo() + System.lineSeparator()));
     }
 
-    public UUID printCommandId(){
-        System.out.println("=== Command Id ===" + System.lineSeparator());
+    public UUID commandVoucherId(){
+        System.out.println("=== Voucher Id ===" + System.lineSeparator());
+
+        return getId();
+    }
+
+    public UUID commandMemberId(){
+        System.out.println("=== Member Id ===" + System.lineSeparator());
 
         return getId();
     }
@@ -118,10 +125,21 @@ public class ConsoleIO {
     }
 
     public void printSuccessGetMemberList(List<MemberResponse> memberList) {
+        System.out.println("=== Member List ===");
         memberList.forEach(member -> System.out.println(member.printInfo() + System.lineSeparator()));
     }
 
     public void printExitMessage(){
         System.out.println("프로그램을 종료합니다.");
+    }
+
+    public String printSelectWalletFunction() {
+        System.out.println("=== Wallet Mode ===" + System.lineSeparator()
+            + "Type create to create a new member." + System.lineSeparator()
+            + "Type findmember to list find member By voucher." + System.lineSeparator()
+            + "Type findvoucher to list find voucher by member." + System.lineSeparator()
+            + "Type delete to list delete member by id."  + System.lineSeparator());
+
+        return getCommand();
     }
 }
