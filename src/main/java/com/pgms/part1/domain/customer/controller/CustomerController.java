@@ -52,8 +52,6 @@ public class CustomerController {
     private void updateCustomerBlocked() {
         Long id = customerConsoleView.updateCustomerBlocked();
 
-        customerService.isAvailableCustomer(id);
-
         customerService.updateCustomerBlocked(id);
     }
 
