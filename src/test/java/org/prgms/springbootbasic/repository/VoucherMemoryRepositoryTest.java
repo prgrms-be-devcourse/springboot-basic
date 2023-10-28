@@ -17,13 +17,13 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig(BasicApplication.class)
-@ActiveProfiles("test")
+@ActiveProfiles("local")
 class VoucherMemoryRepositoryTest {
 
     @Autowired
     private VoucherMemoryRepository voucherMemoryRepository;
 
-    @AfterEach
+    @BeforeEach
     void cleanUp(){
         voucherMemoryRepository.deleteAll();
     }
