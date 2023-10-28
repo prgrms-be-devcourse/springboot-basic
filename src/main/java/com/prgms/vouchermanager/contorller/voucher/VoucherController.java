@@ -41,7 +41,7 @@ public class VoucherController {
             int voucherType = consoleInput.inputVoucherType();
             consoleOutput.printVoucherAmount();
             long value = consoleInput.inputVoucherValue();
-            if (voucherType==2&&!inputValidation.validVoucherPercent(value)) {
+            if (voucherType == 2 && !inputValidation.validVoucherPercent(value)) {
                 throw new RuntimeException(INVALID_VOUCHER_PERCENT.getMessage());
             }
             Voucher voucher = voucherService.create(new CreateVoucherDto(value, voucherType));
@@ -61,6 +61,9 @@ public class VoucherController {
             int voucherType = consoleInput.inputVoucherType();
             consoleOutput.printVoucherAmount();
             long value = consoleInput.inputVoucherValue();
+            if (voucherType == 2 && !inputValidation.validVoucherPercent(value)) {
+                throw new RuntimeException(INVALID_VOUCHER_PERCENT.getMessage());
+            }
             voucherService.update(id, new UpdateVoucherDto(value, voucherType));
 
         } catch (RuntimeException e) {
