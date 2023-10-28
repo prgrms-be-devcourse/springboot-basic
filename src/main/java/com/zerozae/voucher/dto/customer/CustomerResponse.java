@@ -2,7 +2,6 @@ package com.zerozae.voucher.dto.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter

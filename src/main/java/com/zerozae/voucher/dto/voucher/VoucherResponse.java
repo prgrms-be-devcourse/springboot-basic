@@ -3,7 +3,6 @@ package com.zerozae.voucher.dto.voucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter

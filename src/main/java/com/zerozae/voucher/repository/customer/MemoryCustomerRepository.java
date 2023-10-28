@@ -1,7 +1,6 @@
 package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
-import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
