@@ -5,29 +5,37 @@
             converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
 
     <property
-            name="LOG_PATTERN"
+            name="CONSOLE_LOG"
             value="%clr(%d{HH:mm:ss.SSS}){cyan} [%thread] %clr(%-5level) %logger{36} - %msg%n"/>
 
-    <property
-            name="LOG_FILE_PATTERN"
-            value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
-
     <appender
-            name="ROLLING_FILE"
-            class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/error.log</file>
-        <append>false</append>
-        <rollingPolicy
-                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/error-%d{yyyy-MM-dd}.log</fileNamePattern>
-        </rollingPolicy>
+            name="INFO_STDOUT"
+            class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
-            <pattern>${LOG_FILE_PATTERN}</pattern>
+            <pattern>${CONSOLE_LOG}</pattern>
         </encoder>
     </appender>
 
     <appender
-            name="STDOUT"
+            name="WARN_STDOUT"
+            class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <pattern>${CONSOLE_LOG}</pattern>
+        </encoder>
+    </appender>
+
+    <appender
+            name="ERROR_STDOUT"
             class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
@@ -35,16 +43,14 @@
             <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
-            <pattern>${LOG_PATTERN}</pattern>
+            <pattern>${CONSOLE_LOG}</pattern>
         </encoder>
     </appender>
 
-    <logger name="org.programmers.springboot.basic" level="warn">
-        <appender-ref ref="ROLLING_FILE" />
-    </logger>
-
-    <root level="error">
-        <appender-ref ref="STDOUT"/>
+    <root level="info">
+        <appender-ref ref="INFO_STDOUT"/>
+        <appender-ref ref="WARN_STDOUT"/>
+        <appender-ref ref="ERROR_STDOUT"/>
     </root>
 
 </configuration>
