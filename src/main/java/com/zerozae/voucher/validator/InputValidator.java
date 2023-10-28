@@ -2,6 +2,9 @@ package com.zerozae.voucher.validator;
 
 import com.zerozae.voucher.exception.ExceptionMessage;
 
+import java.io.IOException;
+import java.util.UUID;
+
 
 public class InputValidator {
 
@@ -21,6 +24,15 @@ public class InputValidator {
             return input;
         } else {
             throw ExceptionMessage.error("입력값은 문자열이어야 합니다.");
+        }
+    }
+
+    public static String validateInputUuid(String input){
+        try {
+            UUID uuid = UUID.fromString(input);
+            return uuid.toString();
+        } catch (IllegalArgumentException e) {
+            throw ExceptionMessage.error("유효하지 않은 UUID 형식입니다.");
         }
     }
 }

@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.MessageFormat;
 
+import static com.zerozae.voucher.validator.InputValidator.*;
 import static java.lang.System.out;
 
 @Component
@@ -24,7 +25,7 @@ public class ConsoleView implements Input, Output {
     @Override
     public Long inputNumber() {
         try {
-            return InputValidator.validateInputNumber(bufferedReader.readLine());
+            return validateInputNumber(bufferedReader.readLine());
         } catch (IOException e) {
             throw ExceptionMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
         } catch (ExceptionMessage e) {
@@ -35,11 +36,11 @@ public class ConsoleView implements Input, Output {
     @Override
     public String inputUuid() {
         try {
-            return bufferedReader.readLine();
+            return validateInputUuid(bufferedReader.readLine());
         }catch (IOException e){
             throw ExceptionMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
-        }catch (IllegalArgumentException e) {
-            throw ExceptionMessage.error("유효하지 않은 UUID 형식입니다.");
+        }catch (Exception e) {
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -151,7 +152,7 @@ public class ConsoleView implements Input, Output {
 
     private String checkInputStringAndGet() {
         try {
-            return InputValidator.validateInputString(bufferedReader.readLine());
+            return validateInputString(bufferedReader.readLine());
         } catch (IOException e) {
             throw ExceptionMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
         } catch (ExceptionMessage e) {
