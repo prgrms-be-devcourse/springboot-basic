@@ -32,14 +32,6 @@ public class WalletRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public Wallet saveOrUpdate(Wallet wallet){
-        if(isDeletedWallet(wallet)) {
-            return update(wallet);
-        } else {
-            return save(wallet);
-        }
-    }
-
     public Wallet save(Wallet wallet) {
         int insert = namedParameterJdbcTemplate.update(
                 "INSERT INTO wallets(customer_id, voucher_id) VALUES(UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId))",
@@ -88,18 +80,6 @@ public class WalletRepository {
 
     public void deleteAll(){
         namedParameterJdbcTemplate.getJdbcOperations().update("UPDATE wallets SET deleted = 'Y'");
-    }
-
-    public Wallet update(Wallet wallet){
-        int update = namedParameterJdbcTemplate.update(
-                "UPDATE wallets SET deleted = 'N' WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)",
-                toParamMap(wallet));
-
-        if(update != 1){
-            throw ErrorMessage.error("업데이트에 실패했습니다.");
-        }
-
-        return wallet;
     }
 
     private MapSqlParameterSource toParamMap(Wallet wallet) {
