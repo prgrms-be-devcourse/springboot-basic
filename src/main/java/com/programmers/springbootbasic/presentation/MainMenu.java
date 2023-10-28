@@ -16,6 +16,10 @@ public enum MainMenu {
     DELETE_VOUCHER("delete voucher", ControllerAdapter::deleteVoucherById),
     UPDATE_VOUCHER("update voucher", ControllerAdapter::updateVoucher),
     LIST_BLACK_USER("list black user", ControllerAdapter::getBlackList),
+    CREATE_USER_VOUCHER("register my voucher", ControllerAdapter::createUserVoucher),
+    FIND_USER_BY_VOUCHER("find users by voucher Id", ControllerAdapter::findUserByVoucherId),
+    FIND_VOUCHER_MINE("find my voucher", ControllerAdapter::findVoucherByUserNickname),
+    DELETE_VOUCHER_MINE("delete my voucher", ControllerAdapter::deleteUserVoucherById),
     ;
 
     private final String command;

@@ -31,6 +31,10 @@ public enum Messages {
     SUCCESS_VOUCHER_DELETE("바우처가 삭제되었습니다."),
     SUCCESS_VOUCHER_UPDATE("바우처가 수정되었습니다."),
     SUCCESS_BLACK_USER_LIST("블랙리스트 유저 목록입니다."),
+    SUCCESS_USER_VOUCHER_REGISTER("요청하신 바우처가 등록되었습니다."),
+    SUCCESS_USER_FOUND_BY_VOUCHER("요청하신 바우처를 소유한 유저 목록입니다."),
+    SUCCESS_USER_VOUCHER_FOUND_MINE("소유하신 바우처 목록입니다."),
+    SUCCESS_USER_VOUCHER_DELETE("요청하신 바우처가 삭제되었습니다."),
     ;
 
     Messages(String Message) {
