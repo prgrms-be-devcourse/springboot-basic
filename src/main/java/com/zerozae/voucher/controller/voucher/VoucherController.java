@@ -1,7 +1,7 @@
 package com.zerozae.voucher.controller.voucher;
 
 import com.zerozae.voucher.common.response.Response;
-import com.zerozae.voucher.dto.voucher.VoucherRequest;
+import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
@@ -21,7 +21,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public Response createVoucher(VoucherRequest voucherRequest) {
+    public Response createVoucher(VoucherCreateRequest voucherRequest) {
         try {
             voucherService.createVoucher(voucherRequest);
             return Response.success();

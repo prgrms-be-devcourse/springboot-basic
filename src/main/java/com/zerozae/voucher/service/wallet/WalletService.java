@@ -1,7 +1,7 @@
 package com.zerozae.voucher.service.wallet;
 
 import com.zerozae.voucher.domain.wallet.Wallet;
-import com.zerozae.voucher.dto.wallet.WalletRequest;
+import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
 import com.zerozae.voucher.dto.wallet.WalletResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.repository.wallet.WalletRepository;
@@ -22,7 +22,7 @@ public class WalletService {
         this.walletRepository = walletRepository;
     }
 
-    public WalletResponse createWallet(WalletRequest walletRequest) {
+    public WalletResponse createWallet(WalletCreateRequest walletRequest) {
         if(isAlreadyExistWallet(walletRequest)){
             throw ErrorMessage.error("이미 존재하는 지갑입니다.");
         }
@@ -57,7 +57,7 @@ public class WalletService {
         walletRepository.deleteAll();
     }
 
-    private boolean isAlreadyExistWallet(WalletRequest walletRequest) {
+    private boolean isAlreadyExistWallet(WalletCreateRequest walletRequest) {
         Optional<Wallet> wallet = walletRepository.findWallet(walletRequest.getCustomerId(), walletRequest.getVoucherId());
         return wallet.isPresent();
     }

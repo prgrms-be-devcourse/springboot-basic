@@ -2,8 +2,9 @@ package com.zerozae.voucher.service.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import com.zerozae.voucher.dto.customer.CustomerRequest;
+import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public CustomerResponse createCustomer(CustomerRequest customerRequest) {
+    public CustomerResponse createCustomer(CustomerCreateRequest customerRequest) {
         try{
             validateDuplicateCustomer(customerRequest);
             Customer customer = customerRequest.to(UUID.randomUUID());
@@ -69,12 +70,12 @@ public class CustomerService {
         customerRepository.deleteAll();
     }
 
-    public void update(UUID customerId, CustomerRequest customerRequest) {
+    public void update(UUID customerId, CustomerUpdateRequest customerRequest) {
         customerRepository.findById(customerId).orElseThrow(() -> ErrorMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         customerRepository.update(customerId, customerRequest);
     }
 
-    private void validateDuplicateCustomer(CustomerRequest customerRequest) {
+    private void validateDuplicateCustomer(CustomerCreateRequest customerRequest) {
         Optional<Customer> findCustomer = customerRepository.findAll()
                 .stream()
                 .filter(customer -> customer.getCustomerName().equals(customerRequest.getCustomerName()))

@@ -1,8 +1,9 @@
 package com.zerozae.voucher.controller.customer;
 
 import com.zerozae.voucher.common.response.Response;
-import com.zerozae.voucher.dto.customer.CustomerRequest;
+import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public Response createCustomer(CustomerRequest customerRequest) {
+    public Response createCustomer(CustomerCreateRequest customerRequest) {
         try{
             customerService.createCustomer(customerRequest);
             return Response.success();
@@ -60,7 +61,7 @@ public class CustomerController {
         return Response.success();
     }
 
-    public Response updateCustomer(UUID customerId, CustomerRequest customerRequest) {
+    public Response updateCustomer(UUID customerId, CustomerUpdateRequest customerRequest) {
         try {
             customerService.update(customerId, customerRequest);
             return Response.success();

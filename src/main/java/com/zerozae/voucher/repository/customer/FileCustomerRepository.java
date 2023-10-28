@@ -2,18 +2,12 @@ package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import com.zerozae.voucher.dto.customer.CustomerRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import com.zerozae.voucher.util.FileUtil;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -67,7 +61,7 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void update(UUID customerId, CustomerRequest customerRequest) {
+    public void update(UUID customerId, CustomerUpdateRequest customerRequest) {
         Customer customer = customers.get(customerId);
         customer.updateCustomerInfo(customerRequest);
         fileUtil.updateFile(getCustomerInfo(customer), customerId, FILE_PATH);

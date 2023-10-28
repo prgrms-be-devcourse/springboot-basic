@@ -2,14 +2,14 @@ package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import com.zerozae.voucher.dto.customer.CustomerRequest;
+import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -90,7 +90,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public void update(UUID customerId, CustomerRequest customerRequest) {
+    public void update(UUID customerId, CustomerUpdateRequest customerRequest) {
         String sql = "update customers set customer_name = :customerName, customer_type = :customerType where customer_id = UUID_TO_BIN(:customerId)";
         int update = jdbcTemplate.update(
                 sql,

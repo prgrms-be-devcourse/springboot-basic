@@ -1,7 +1,8 @@
 package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
-import com.zerozae.voucher.dto.customer.CustomerRequest;
+import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,5 +14,5 @@ public interface CustomerRepository {
     Optional<Customer> findById(UUID customerID);
     void delete(UUID customerId);
     void deleteAll();
-    void update(UUID customerId, CustomerRequest customerRequest);
+    void update(UUID customerId, CustomerUpdateRequest customerRequest);
 }

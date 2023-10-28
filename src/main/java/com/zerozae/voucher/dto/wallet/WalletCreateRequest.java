@@ -7,11 +7,11 @@ import java.util.UUID;
 
 @Getter
 
-public class WalletRequest {
+public class WalletCreateRequest {
     private UUID customerId;
     private UUID voucherId;
 
-    public WalletRequest(UUID customerId, UUID voucherId) {
+    public WalletCreateRequest(UUID customerId, UUID voucherId) {
         this.customerId = customerId;
         this.voucherId = voucherId;
     }

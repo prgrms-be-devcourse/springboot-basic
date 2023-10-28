@@ -7,12 +7,13 @@ import com.zerozae.voucher.controller.wallet.WalletController;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.VoucherType;
-import com.zerozae.voucher.dto.customer.CustomerRequest;
+import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
-import com.zerozae.voucher.dto.voucher.VoucherRequest;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
+import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
-import com.zerozae.voucher.dto.wallet.WalletRequest;
+import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.view.ConsoleView;
 import org.springframework.stereotype.Component;
@@ -70,7 +71,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             Long discount = consoleView.inputNumber();
 
-            VoucherRequest voucherRequest = new VoucherRequest(discount, voucherType);
+            VoucherCreateRequest voucherRequest = new VoucherCreateRequest(discount, voucherType);
             consoleView.printSystemMessage(voucherController.createVoucher(voucherRequest).getMessage());
         }catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
@@ -149,7 +150,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             CustomerType customerType = CustomerType.of(consoleView.inputCustomerType());
 
-            CustomerRequest customerRequest = new CustomerRequest(customerName, customerType);
+            CustomerCreateRequest customerRequest = new CustomerCreateRequest(customerName, customerType);
             consoleView.printSystemMessage(customerController.createCustomer(customerRequest).getMessage());
         }catch (ErrorMessage e) {
             throw ErrorMessage.error(e.getMessage());
@@ -196,7 +197,7 @@ public class MenuHandler {
             consoleView.printSystemMessage("회원 타입을 입력하세요.");
             consoleView.printPrompt();
             CustomerType newCustomerType = CustomerType.of(consoleView.inputCustomerType());
-            CustomerRequest customerRequest = new CustomerRequest(newCustomerName, newCustomerType);
+            CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newCustomerName, newCustomerType);
 
             consoleView.printSystemMessage(customerController.updateCustomer(customerId, customerRequest).getMessage());
         }catch (Exception e) {
@@ -235,7 +236,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             UUID voucherId = UUID.fromString(consoleView.inputUuid());
 
-            WalletRequest walletRequest = new WalletRequest(customerId, voucherId);
+            WalletCreateRequest walletRequest = new WalletCreateRequest(customerId, voucherId);
             consoleView.printSystemMessage(walletController.createWallet(walletRequest).getMessage());
         }catch (Exception e) {
             throw ErrorMessage.error(e.getMessage());

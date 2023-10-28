@@ -1,11 +1,10 @@
 package com.zerozae.voucher.service.wallet;
 
 import com.zerozae.voucher.domain.wallet.Wallet;
-import com.zerozae.voucher.dto.wallet.WalletRequest;
+import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
 import com.zerozae.voucher.dto.wallet.WalletResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.repository.wallet.WalletRepository;
-import com.zerozae.voucher.service.wallet.WalletService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +37,7 @@ class WalletServiceTest {
     @DisplayName("지갑 생성 성공 테스트")
     void createWallet_Success_Test() {
         // Given
-        WalletRequest walletRequest = new WalletRequest(wallet.getCustomerId(), wallet.getVoucherId());
+        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.getCustomerId(), wallet.getVoucherId());
         when(walletRepository.save(any(Wallet.class))).thenReturn(wallet);
 
         // When
@@ -53,7 +52,7 @@ class WalletServiceTest {
     @DisplayName("지갑 생성 실패 (지갑이 이미 존재) 테스트")
     void createWallet_AlreadyExist_Failed_Test() {
         // Given
-        WalletRequest walletRequest = new WalletRequest(wallet.getCustomerId(), wallet.getVoucherId());
+        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.getCustomerId(), wallet.getVoucherId());
         when(walletRepository.findWallet(wallet.getCustomerId(), wallet.getVoucherId())).thenReturn(Optional.of(wallet));
 
         // When & Then

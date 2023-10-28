@@ -5,12 +5,11 @@ import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
-import com.zerozae.voucher.dto.voucher.VoucherRequest;
+import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.repository.voucher.VoucherRepository;
-import com.zerozae.voucher.service.voucher.VoucherService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -42,7 +41,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 등록 메서드 호출 성공 테스트")
     void createVoucher_Success_Test() {
         // Given
-        VoucherRequest voucherRequest = new VoucherRequest(10L, VoucherType.FIXED);
+        VoucherCreateRequest voucherRequest = new VoucherCreateRequest(10L, VoucherType.FIXED);
 
         when(voucherRepository.save(any(Voucher.class))).thenReturn(fixedDiscountVoucher);
 

@@ -4,14 +4,11 @@ import com.zerozae.voucher.domain.voucher.FixedDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
-import com.zerozae.voucher.dto.voucher.VoucherRequest;
+import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.repository.voucher.VoucherRepository;
-import lombok.extern.flogger.Flogger;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +26,7 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherResponse createVoucher(VoucherRequest voucherRequest) {
+    public VoucherResponse createVoucher(VoucherCreateRequest voucherRequest) {
         VoucherType voucherType = voucherRequest.getVoucherType();
         try {
             Voucher voucher = switch (voucherType) {

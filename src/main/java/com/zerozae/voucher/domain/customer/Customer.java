@@ -1,6 +1,7 @@
 package com.zerozae.voucher.domain.customer;
 
-import com.zerozae.voucher.dto.customer.CustomerRequest;
+import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import lombok.Getter;
 
@@ -21,7 +22,7 @@ public class Customer {
         this.customerType = customerType;
     }
 
-    public void updateCustomerInfo(CustomerRequest customerRequest) {
+    public void updateCustomerInfo(CustomerUpdateRequest customerRequest) {
         isValidCustomerName(customerRequest.getCustomerName());
         this.customerName = customerRequest.getCustomerName();
         this.customerType = customerRequest.getCustomerType();

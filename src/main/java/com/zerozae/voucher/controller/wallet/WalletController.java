@@ -3,7 +3,7 @@ package com.zerozae.voucher.controller.wallet;
 import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
-import com.zerozae.voucher.dto.wallet.WalletRequest;
+import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
 import com.zerozae.voucher.dto.wallet.WalletResponse;
 import com.zerozae.voucher.exception.ErrorMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
@@ -27,7 +27,7 @@ public class WalletController {
         this.customerService = customerService;
     }
 
-    public Response createWallet(WalletRequest walletRequest) {
+    public Response createWallet(WalletCreateRequest walletRequest) {
         try {
             customerService.findById(walletRequest.getCustomerId());
             voucherService.findById(walletRequest.getVoucherId());
