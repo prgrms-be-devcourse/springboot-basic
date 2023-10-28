@@ -47,7 +47,7 @@ public class DBMemberRepository implements MemberRepository{
     @Override
     public Member save(Member member) {
         jdbcTemplate.update(
-            "INSERT INTO members (member_id, name, age, reason) VALUES (UUID_TO_BIN(:memberId), :name, :age, :reason)",
+            "INSERT INTO members (member_id, name, email, age) VALUES (UUID_TO_BIN(:memberId), :name, :email, :age)",
             toParamMap(member));
         return member;
     }
@@ -85,7 +85,7 @@ public class DBMemberRepository implements MemberRepository{
     public void deleteById(UUID id) {
         findById(id);
         jdbcTemplate.update("delete from members where member_id = UUID_TO_BIN(:memberId)",
-            Collections.singletonMap("voucherId", id.toString().getBytes()));
+            Collections.singletonMap("memberId", id.toString().getBytes()));
     }
 
     static UUID toUUID(byte[] bytes){
