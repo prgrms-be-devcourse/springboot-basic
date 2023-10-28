@@ -1,6 +1,5 @@
 package devcourse.springbootbasic.repository.customer;
 
-import devcourse.springbootbasic.TestDataFactory;
 import devcourse.springbootbasic.domain.customer.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static devcourse.springbootbasic.TestDataFactory.generateBlacklistCustomer;
+import static devcourse.springbootbasic.TestDataFactory.generateNotBlacklistCustomers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
@@ -39,8 +40,8 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("블랙리스트인 고객을 조회할 수 있습니다.")
     void testFindAllBlacklistedCustomers() {
         // Given
-        Customer notBlacklistedCustomer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
-        Customer blacklistedCustomer = TestDataFactory.generateBlacklistCustomer("Ogu");
+        Customer notBlacklistedCustomer = generateNotBlacklistCustomers("Platypus");
+        Customer blacklistedCustomer = generateBlacklistCustomer("Ogu");
         customerRepository.save(notBlacklistedCustomer);
         customerRepository.save(blacklistedCustomer);
 
@@ -55,7 +56,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("고객을 저장할 수 있습니다.")
     void testSaveCustomer() {
         // Given
-        Customer newCustomer = TestDataFactory.generateBlacklistCustomer("Ogu");
+        Customer newCustomer = generateBlacklistCustomer("Ogu");
         Customer savedCustomer = customerRepository.save(newCustomer);
 
         // When
@@ -70,7 +71,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("고객 ID로 고객을 조회할 수 있습니다.")
     void testFindById() {
         // Given
-        Customer customer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
+        Customer customer = generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
         customerRepository.save(customer);
 
@@ -86,7 +87,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("고객을 수정할 수 있습니다.")
     void testUpdateCustomer() {
         // Given
-        Customer customer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
+        Customer customer = generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
         customerRepository.save(customer);
 
@@ -103,10 +104,10 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("없는 고객을 수정하면 0을 반환합니다.")
     void testUpdateCustomerFail() {
         // Given
-        customerRepository.save(TestDataFactory.generateNotBlacklistCustomers("Customer 1"));
+        customerRepository.save(generateNotBlacklistCustomers("Customer 1"));
 
         // When
-        Customer customer = TestDataFactory.generateBlacklistCustomer("Customer 2");
+        Customer customer = generateBlacklistCustomer("Customer 2");
         int updatedRows = customerRepository.update(customer);
 
         // Then

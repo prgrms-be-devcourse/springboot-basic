@@ -1,6 +1,5 @@
 package devcourse.springbootbasic.service;
 
-import devcourse.springbootbasic.TestDataFactory;
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
@@ -20,8 +19,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.UUID;
 
-import static devcourse.springbootbasic.TestDataFactory.generateAssignedVoucher;
-import static devcourse.springbootbasic.TestDataFactory.generateUnassignedVoucher;
+import static devcourse.springbootbasic.TestDataFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -44,7 +42,7 @@ class WalletServiceTest {
     @DisplayName("주어진 바우처와 고객이 존재할 때 바우처를 고객에게 할당합니다.")
     void givenVoucherAndCustomerExist_whenAssignVoucherToCustomer_thenVoucherIsAssigned() {
         // Given
-        Customer customer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
+        Customer customer = generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
 
         Voucher voucher = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
@@ -69,7 +67,7 @@ class WalletServiceTest {
     @DisplayName("고객 ID로 바우처 목록을 조회합니다.")
     void givenCustomerId_whenFindVouchersByCustomerId_thenListOfVouchersIsReturned() {
         // Given
-        Customer customer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
+        Customer customer = generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
         when(customerService.findById(customerId)).thenReturn(customer);
 
@@ -88,7 +86,7 @@ class WalletServiceTest {
     @DisplayName("할당된 바우처를 고객으로부터 해제합니다.")
     void givenAssignedVoucher_whenUnassignVoucherFromCustomer_thenVoucherIsUnassigned() {
         // Given
-        Customer customer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
+        Customer customer = generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
         when(customerService.findById(customerId)).thenReturn(customer);
 
@@ -126,7 +124,7 @@ class WalletServiceTest {
     @DisplayName("바우처 ID로 고객을 조회합니다.")
     void givenAssignedVoucher_whenFindCustomerByVoucherId_thenCustomerIsFound() {
         // Given
-        Customer customer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
+        Customer customer = generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
         when(customerService.findById(customerId)).thenReturn(customer);
 

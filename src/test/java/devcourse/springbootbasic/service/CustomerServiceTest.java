@@ -1,6 +1,5 @@
 package devcourse.springbootbasic.service;
 
-import devcourse.springbootbasic.TestDataFactory;
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.dto.customer.CustomerCreateRequest;
 import devcourse.springbootbasic.dto.customer.CustomerFindResponse;

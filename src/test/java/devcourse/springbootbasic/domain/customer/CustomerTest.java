@@ -1,9 +1,10 @@
 package devcourse.springbootbasic.domain.customer;
 
-import devcourse.springbootbasic.TestDataFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static devcourse.springbootbasic.TestDataFactory.generateBlacklistCustomer;
+import static devcourse.springbootbasic.TestDataFactory.generateNotBlacklistCustomers;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CustomerTest {
@@ -15,7 +16,7 @@ class CustomerTest {
         String name = "Platypus";
 
         // When
-        Customer customer = TestDataFactory.generateNotBlacklistCustomers(name);
+        Customer customer = generateNotBlacklistCustomers(name);
 
         // Then
         assertThat(customer).isNotNull();
@@ -28,7 +29,7 @@ class CustomerTest {
     void givenUpdatedBlacklistStatus_whenUpdateBlacklistStatus_thenBlacklistStatusIsUpdated() {
         // Given
         String name = "Platypus";
-        Customer customer = TestDataFactory.generateBlacklistCustomer(name);
+        Customer customer = generateBlacklistCustomer(name);
 
         // When
         customer = customer.releaseBlacklist();
