@@ -10,8 +10,8 @@ public class VoucherApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(
-            VoucherApplication.class,
-            args);
+            VoucherApplication.class, args
+        );
 
         startAppWithErrorHandler(applicationContext);
     }
