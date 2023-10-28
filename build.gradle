@@ -20,7 +20,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'mysql:mysql-connector-java:8.0.33'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.33'
 
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.assertj:assertj-core'
