@@ -18,7 +18,11 @@ public enum SelectFunctionTypeDto {
     UPDATE_CUSTOMER("update customer"),
     DELETE_ALL_CUSTOMERS("delete all customers"),
     DELETE_CUSTOMER("delete customer"),
-    LIST_BLACK_CUSTOMERS("list black customers");
+    LIST_BLACK_CUSTOMERS("list black customers"),
+    CREATE_MY_WALLET("create my wallet"),
+    SEARCH_MY_VOUCHERS("search my vouchers"),
+    DELETE_MY_WALLET("delete my wallet"),
+    SEARCH_MY_CUSTOMERS("search my customers");
 
     private String name;
     private final static Logger logger = LoggerFactory.getLogger(SelectFunctionTypeDto.class);

@@ -24,7 +24,12 @@ public class ConsoleOutput {
                 Type "update customer" to update customer info.
                 Type "delete all customers" to delete customer by id.
                 Type "delete customer" to delete all customers.
-                Type "list black customers" to list all black customers."""
+                Type "list black customers" to list all black customers.
+                                
+                Type "create my wallet" to create a wallet.
+                Type "search my vouchers" to list vouchers owned by a customer.
+                Type "delete my wallet" to delete a wallet.
+                Type "search my customers" to list customers owned by a voucher."""
         );
     }
 
@@ -45,8 +50,12 @@ public class ConsoleOutput {
         System.out.println("할인 금액/할인율을 입력해주세요.");
     }
 
-    public void printRequestMessageForId() {
-        System.out.println("id를 입력해주세요.");
+    public void printRequestMessageForVoucherId() {
+        System.out.println("voucher id를 입력해주세요.");
+    }
+
+    public void printRequestMessageForCustomerId() {
+        System.out.println("customer id를 입력해주세요.");
     }
 
     public void printRequestMessageForName() {
