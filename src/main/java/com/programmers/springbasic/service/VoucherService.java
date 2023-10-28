@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.programmers.springbasic.dto.CustomerDto;
 import com.programmers.springbasic.dto.VoucherDto;
@@ -19,6 +20,7 @@ import com.programmers.springbasic.repository.customer.CustomerRepository;
 import com.programmers.springbasic.repository.voucher.VoucherRepository;
 import com.programmers.springbasic.repository.wallet.WalletRepository;
 
+@Transactional
 @Service
 public class VoucherService {
 

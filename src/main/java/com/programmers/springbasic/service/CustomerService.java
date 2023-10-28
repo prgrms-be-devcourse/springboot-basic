@@ -19,6 +19,7 @@ import com.programmers.springbasic.repository.customer.CustomerRepository;
 import com.programmers.springbasic.repository.voucher.VoucherRepository;
 import com.programmers.springbasic.repository.wallet.WalletRepository;
 
+@Transactional
 @Service
 public class CustomerService {
 
@@ -98,7 +99,6 @@ public class CustomerService {
 			.toList();
 	}
 
-	@Transactional
 	public void removeVoucherFromCustomer(UUID customerId, UUID voucherId) {
 		Customer customer = customerRepository.findById(customerId)
 			.orElseThrow(() -> new NoSuchElementException(CUSTOMER_NOT_FOUND.getMessage()));
