@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS customers(
+    customer_id BINARY(16) PRIMARY KEY,
+    name VARCHAR(26) NOT NULL,
+    email VARCHAR(56) NOT NULL ,
+    last_login_at DATETIME(6) DEFAULT NULL,
+    created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    is_blacked BOOLEAN NOT NULL DEFAULT FALSE,
+    CONSTRAINT unq_user_email UNIQUE (email)
+);
