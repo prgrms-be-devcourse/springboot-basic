@@ -13,3 +13,13 @@ CREATE TABLE voucher(
     type varchar(10) NOT NULL
 );
 
+
+DROP TABLE IF EXISTS wallet;
+CREATE TABLE wallet(
+    customer_id varchar(36),
+    voucher_id varchar(36),
+    PRIMARY KEY (customer_id, voucher_id)
+);
+
+
+
