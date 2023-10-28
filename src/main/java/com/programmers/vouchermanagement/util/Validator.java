@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 
 public class Validator {
@@ -22,10 +23,10 @@ public class Validator {
     private static final String NAME_LENGTH_EXCESSIVE = "Name is too long.";
     private static final int MAX_NAME_LENGTH = 25;
 
-    public static void validateDiscountValue(CreateVoucherRequest request) {
-        switch (request.voucherType()) {
-            case FIXED -> validateDiscountAmount(request.discountValue());
-            case PERCENT -> validateDiscountPercent(request.discountValue());
+    public static void validateDiscountValue(BigDecimal discountValue, VoucherType voucherType) {
+        switch (voucherType) {
+            case FIXED -> validateDiscountAmount(discountValue);
+            case PERCENT -> validateDiscountPercent(discountValue);
         }
     }
 

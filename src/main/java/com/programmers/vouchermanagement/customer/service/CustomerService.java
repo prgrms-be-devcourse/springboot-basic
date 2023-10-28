@@ -32,7 +32,6 @@ public class CustomerService {
     }
 
     public CustomerResponse create(String name) {
-        Validator.validateCustomerName(name);
         Customer customer = new Customer(UUID.randomUUID(), name);
         customerRepository.save(customer);
         return CustomerResponse.from(customer);

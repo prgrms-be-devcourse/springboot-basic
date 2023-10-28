@@ -27,7 +27,6 @@ public class VoucherService {
     }
 
     public VoucherResponse create(CreateVoucherRequest request) {
-        Validator.validateDiscountValue(request);
         Voucher voucher = new Voucher(UUID.randomUUID(), request.discountValue(), request.voucherType());
         voucherRepository.save(voucher);
         return VoucherResponse.from(voucher);
