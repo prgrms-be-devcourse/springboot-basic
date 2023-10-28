@@ -6,3 +6,14 @@ spring:
       path: src/main/resources/voucher.csv
     customer:
       path: src/main/resources/customer.csv
+  datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/voucher_management
+      username: root
+      password: "#e020221"
+  sql:
+    init:
+      mode: always
+    batch:
+      jdbc:
+        schema: classpath:schema.sql
