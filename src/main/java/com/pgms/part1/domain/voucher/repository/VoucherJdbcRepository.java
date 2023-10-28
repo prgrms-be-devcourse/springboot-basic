@@ -23,13 +23,7 @@ public class VoucherJdbcRepository implements VoucherRepository{
     }
 
     private Voucher mapVoucher(ResultSet resultSet) throws SQLException {
-        if(resultSet.getString("discount_type").equals(VoucherDiscountType.FIXED_AMOUNT_DISCOUNT.toString())){
-            return Voucher.newFixedAmountDiscountVoucher(resultSet.getLong("id"), resultSet.getInt("discount"));
-        }
-        else if(resultSet.getString("discount_type").equals(VoucherDiscountType.PERCENT_DISCOUNT.toString())){
-            return Voucher.newPercentDiscountVoucher(resultSet.getLong("id"), resultSet.getInt("discount"));
-        }
-        else throw new RuntimeException("no such discount type!!");
+        return Voucher.newVocher(resultSet.getLong("id"), resultSet.getInt("discount"), VoucherDiscountType.valueOf(resultSet.getString("discount_type")));
     }
 
     @Override

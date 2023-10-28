@@ -2,9 +2,8 @@ package com.pgms.part1.domain.voucher.service;
 
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
-import com.pgms.part1.domain.voucher.entity.FixedAmountDiscountVoucher;
-import com.pgms.part1.domain.voucher.entity.PercentDiscountVoucher;
 import com.pgms.part1.domain.voucher.entity.Voucher;
+import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import com.pgms.part1.domain.voucher.repository.VoucherRepository;
 import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.util.keygen.KeyGenerator;
@@ -29,22 +28,12 @@ public class VoucherService {
         this.keyGenerator = keyGenerator;
     }
 
-    public void createFixedAmountVoucher(VoucherCreateRequestDto voucherCreateRequestDto) {
-        FixedAmountDiscountVoucher fixedAmountDiscountVoucher = Voucher.newFixedAmountDiscountVoucher(keyGenerator.getKey(), voucherCreateRequestDto.discount());
-        try{
-            voucherRepository.add(fixedAmountDiscountVoucher);
-            log.info("Voucher {} added", fixedAmountDiscountVoucher.getId());
-        }
-        catch(Exception e){
-            log.info(e.getMessage());
-        }
-    }
+    public void createVoucher(VoucherCreateRequestDto voucherCreateRequestDto, VoucherDiscountType voucherDiscountType) {
+        Voucher voucher = Voucher.newVocher(keyGenerator.getKey(), voucherCreateRequestDto.discount(), voucherDiscountType);
 
-    public void createPercentDiscountVoucher(VoucherCreateRequestDto voucherCreateRequestDto) {
-        PercentDiscountVoucher percentDiscountVoucher = Voucher.newPercentDiscountVoucher(keyGenerator.getKey(), voucherCreateRequestDto.discount());
-        try {
-            voucherRepository.add(percentDiscountVoucher);
-            log.info("Voucher {} added", percentDiscountVoucher.getId());
+        try{
+            voucherRepository.add(voucher);
+            log.info("Voucher {} added", voucher.getId());
         }
         catch(Exception e){
             log.info(e.getMessage());

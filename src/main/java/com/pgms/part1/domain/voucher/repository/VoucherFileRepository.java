@@ -38,11 +38,7 @@ public class VoucherFileRepository implements VoucherRepository {
                 Long id = Long.parseLong(data[0]);
                 int discount = Integer.parseInt(data[1]);
                 VoucherDiscountType discountType = Enum.valueOf(VoucherDiscountType.class, data[2]);
-
-                if(discountType == VoucherDiscountType.PERCENT_DISCOUNT)
-                    voucherMap.put(id, Voucher.newPercentDiscountVoucher(id, discount));
-                else if(discountType == VoucherDiscountType.FIXED_AMOUNT_DISCOUNT)
-                    voucherMap.put(id, Voucher.newFixedAmountDiscountVoucher(id, discount));
+                voucherMap.put(id, Voucher.newVocher(id, discount, discountType));
             });
         }
         catch (ArrayIndexOutOfBoundsException e){

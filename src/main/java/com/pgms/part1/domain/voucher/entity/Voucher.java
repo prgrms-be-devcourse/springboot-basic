@@ -11,12 +11,13 @@ public abstract class Voucher {
         this.voucherDiscountType = voucherDiscountType;
     }
 
-    public static FixedAmountDiscountVoucher newFixedAmountDiscountVoucher(Long id, Integer discount){
-        return new FixedAmountDiscountVoucher(id, discount);
-    }
-
-    public static PercentDiscountVoucher newPercentDiscountVoucher(Long id, Integer discount){
-        return new PercentDiscountVoucher(id, discount);
+    public static Voucher newVocher(Long id, Integer discount, VoucherDiscountType voucherDiscountType){
+        if(voucherDiscountType.equals(VoucherDiscountType.PERCENT_DISCOUNT)){
+            return new PercentDiscountVoucher(id, discount);
+        }
+        else if(voucherDiscountType.equals(VoucherDiscountType.FIXED_AMOUNT_DISCOUNT){
+            return new FixedAmountDiscountVoucher(id, discount);
+        }
     }
 
     public Long getId() {

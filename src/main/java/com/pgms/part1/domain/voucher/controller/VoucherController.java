@@ -2,6 +2,7 @@ package com.pgms.part1.domain.voucher.controller;
 
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
+import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import com.pgms.part1.domain.voucher.service.VoucherService;
 import com.pgms.part1.view.VoucherConsoleView;
 import org.slf4j.Logger;
@@ -56,8 +57,8 @@ public class VoucherController {
         }
 
         switch (voucherCreateRequestDto.command()) {
-            case FIXED_VOUCHER_CREATE -> voucherService.createFixedAmountVoucher(voucherCreateRequestDto);
-            case PERCENT_VOUCHER_CREATE -> voucherService.createPercentDiscountVoucher(voucherCreateRequestDto);
+            case FIXED_VOUCHER_CREATE -> voucherService.createVoucher(voucherCreateRequestDto, VoucherDiscountType.FIXED_AMOUNT_DISCOUNT);
+            case PERCENT_VOUCHER_CREATE -> voucherService.createVoucher(voucherCreateRequestDto, VoucherDiscountType.PERCENT_DISCOUNT);
         }
     }
 
