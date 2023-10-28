@@ -1,11 +1,9 @@
 package com.programmers.vouchermanagement.repository.wallet;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.domain.voucher.*;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
 import com.programmers.vouchermanagement.dto.wallet.GetWalletsRequestDto;
-import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
-import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -20,14 +18,10 @@ import java.util.UUID;
 @Repository
 public class JdbcTemplateWalletRepository implements WalletRepository {
     private final NamedParameterJdbcTemplate template;
-    private final CustomerRepository customerRepository;
-    private final VoucherRepository voucherRepository;
 
     @Autowired
-    public JdbcTemplateWalletRepository(NamedParameterJdbcTemplate template, CustomerRepository customerRepository, VoucherRepository voucherRepository) {
+    public JdbcTemplateWalletRepository(NamedParameterJdbcTemplate template) {
         this.template = template;
-        this.customerRepository = customerRepository;
-        this.voucherRepository = voucherRepository;
     }
 
     @Override
@@ -56,7 +50,13 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
     @Override
     public Optional<Wallet> findById(int id) {
-        String sql = "SELECT * FROM wallets WHERE id = :id";
+        String sql = """
+                SELECT *
+                FROM wallets
+                         LEFT JOIN customers ON wallets.customer_id = customers.id
+                         LEFT JOIN vouchers ON wallets.voucher_id = vouchers.id
+                WHERE wallets.id = :id\s
+                """;
 
         SqlParameterSource params = new MapSqlParameterSource("id", id);
 
@@ -69,7 +69,13 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
 
     @Override
     public List<Wallet> findAll(GetWalletsRequestDto request) {
-        String sql = "SELECT * FROM wallets WHERE 1 = 1 ";
+        String sql = """
+                SELECT *
+                FROM wallets
+                         LEFT JOIN customers ON wallets.customer_id = customers.id
+                         LEFT JOIN vouchers ON wallets.voucher_id = vouchers.id
+                WHERE 1 = 1\s
+                """;
         MapSqlParameterSource params = new MapSqlParameterSource();
 
         if (request.getUsed() != null) {
@@ -105,13 +111,17 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
     private RowMapper<Wallet> getWalletRowMapper() {
         return (rs, rowNum) -> {
             int id = rs.getInt("id");
-            UUID customerId = UUID.fromString(rs.getString("customer_id"));
-            UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
-            boolean used = rs.getBoolean("used");
 
-            //! 고민
-            Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new InternalError("Not found customer"));
-            Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> new InternalError("Not found voucher"));
+            UUID customerId = UUID.fromString(rs.getString("customer_id"));
+            String email = rs.getString("email");
+            boolean used = rs.getBoolean("used");
+            boolean blacklisted = rs.getBoolean("blacklisted");
+            Customer customer = new Customer(customerId, email, blacklisted);
+
+            UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
+            VoucherType type = VoucherType.valueOf(rs.getString("type"));
+            Long amount = rs.getLong("amount");
+            Voucher voucher = VoucherFactory.create(voucherId, type, amount);
 
             return new Wallet(id, customer, voucher, used);
         };
