@@ -8,10 +8,10 @@ public interface WalletRepository {
 
     void save(Wallet wallet);
 
-    List<Wallet> findByMemberId(UUID id);
+    List<Wallet> findByMemberId(String id);
 
-    List<Wallet> findByVoucherId(UUID id);
+    List<Wallet> findByVoucherId(String id);
 
-    void deleteById(UUID memberId, UUID voucherId);
+    void deleteById(String memberId, String voucherId);
 
 }

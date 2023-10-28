@@ -11,7 +11,7 @@ public interface MemberRepository {
 
     List<Member> findAll();
 
-    Optional<Member> findById(UUID id);
+    Optional<Member> findById(String id);
 
-    void deleteById(UUID id);
+    void deleteById(String id);
 }

@@ -27,7 +27,7 @@ import org.springframework.stereotype.Repository;
 public class FileVoucherRepository implements VoucherRepository{
     private final String path;
     private final String seperator = ",";
-    private final Map<UUID, Voucher> storage;
+    private final Map<String, Voucher> storage;
 
     public FileVoucherRepository(@Value("${filePath.repository.voucher}") String path) {
         this.path = System.getProperty("user.dir") + path;
@@ -45,8 +45,7 @@ public class FileVoucherRepository implements VoucherRepository{
             while((data=br.readLine())!=null){
                 String[] dataSplit = data.split(",");
                 VoucherFactory voucherFactory = VoucherFactory.of(dataSplit[0]);
-                Voucher voucher = voucherFactory.makeVoucher(UUID.fromString(dataSplit[1]),
-                    Integer.parseInt(dataSplit[2]));
+                Voucher voucher = voucherFactory.makeVoucher((dataSplit[1]), Integer.parseInt(dataSplit[2]));
                 storage.put(voucher.getVoucherId(), voucher);
             }
         }catch(IOException e){
@@ -85,7 +84,7 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Voucher> findById(UUID id) {
+    public Optional<Voucher> findById(String id) {
         if(storage.containsKey(id)) {
             return Optional.of(storage.get(id));
         }
@@ -93,7 +92,7 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public void deleteById(String id) {
         storage.remove(id);
     }
 }

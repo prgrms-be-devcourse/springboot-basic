@@ -28,13 +28,13 @@ public class VoucherService {
             .toList();
     }
 
-    public VoucherResponse findById(UUID id){
+    public VoucherResponse findById(String id){
         Voucher voucher = voucherRepository.findById(id)
             .orElseThrow();
         return VoucherResponse.of(voucher);
     }
 
-    public void deleteById(UUID id){
+    public void deleteById(String id){
         voucherRepository.deleteById(id);
     }
 }

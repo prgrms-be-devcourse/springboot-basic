@@ -11,8 +11,12 @@ import com.weeklyMission.exception.IncorrectInputException;
 import com.weeklyMission.wallet.controller.WalletController;
 import java.util.List;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Client {
+
+    private final Logger logger = LoggerFactory.getLogger(Client.class);
 
     private static final String VOUCHER = "voucher";
     private static final String MEMBER = "member";
@@ -65,8 +69,12 @@ public class Client {
         switch (function) {
             case CREATE -> {
                 VoucherType voucherType = VoucherType.of(consoleIOHandler.printSelectVoucherType());
+                UUID uuid = UUID.randomUUID();
                 VoucherRequest voucherRequest = new VoucherRequest(voucherType.getType(),
-                    UUID.randomUUID(), consoleIOHandler.printAmountCommand());
+                    uuid.toString(), consoleIOHandler.printAmountCommand());
+                logger.info("UUID -> {}", uuid);
+                logger.info("toString -> {}", uuid.toString());
+
                 voucherController.create(voucherRequest);
                 consoleIOHandler.printSuccessCreate();
             }
@@ -75,12 +83,12 @@ public class Client {
                 consoleIOHandler.printSuccessGetVoucherList(voucherListDto);
             }
             case FIND -> {
-                UUID id = consoleIOHandler.commandVoucherId();
+                String id = consoleIOHandler.commandVoucherId();
                 VoucherResponse voucherResponse = voucherController.findById(id);
                 consoleIOHandler.printSuccessGet(voucherResponse);
             }
             case DELETE -> {
-                UUID id = consoleIOHandler.commandVoucherId();
+                String id = consoleIOHandler.commandVoucherId();
                 voucherController.deleteById(id);
                 consoleIOHandler.printSuccessDelete();
             }
@@ -94,7 +102,7 @@ public class Client {
         String function = consoleIOHandler.printSelectMemberFunction();
         switch (function){
             case CREATE -> {
-                MemberRequest memberRequest = new MemberRequest(UUID.randomUUID(), consoleIOHandler.nameCommand(), consoleIOHandler.emailCommand(), consoleIOHandler.ageCommand());
+                MemberRequest memberRequest = new MemberRequest(UUID.randomUUID().toString(), consoleIOHandler.nameCommand(), consoleIOHandler.emailCommand(), consoleIOHandler.ageCommand());
                 memberController.create(memberRequest);
                 consoleIOHandler.printSuccessCreate();
             }
@@ -103,12 +111,12 @@ public class Client {
                 consoleIOHandler.printSuccessGetMemberList(memberList);
             }
             case FIND -> {
-                UUID id = consoleIOHandler.commandMemberId();
+                String id = consoleIOHandler.commandMemberId();
                 MemberResponse memberResponse = memberController.findById(id);
                 consoleIOHandler.printSuccessGet(memberResponse);
             }
             case DELETE -> {
-                UUID id = consoleIOHandler.commandMemberId();
+                String id = consoleIOHandler.commandMemberId();
                 memberController.deleteById(id);
                 consoleIOHandler.printSuccessDelete();
             }
@@ -123,28 +131,28 @@ public class Client {
         switch (function){
             case CREATE -> {
                 consoleIOHandler.printSuccessGetMemberList(memberController.findAll());
-                UUID memberId = consoleIOHandler.commandMemberId();
+                String memberId = consoleIOHandler.commandMemberId();
                 consoleIOHandler.printSuccessGetVoucherList(voucherController.findAll());
-                UUID voucherId = consoleIOHandler.commandVoucherId();
+                String voucherId = consoleIOHandler.commandVoucherId();
                 walletController.walletSave(memberId, voucherId);
             }
             case FINDMEMBER -> {
                 consoleIOHandler.printSuccessGetVoucherList(voucherController.findAll());
-                UUID voucherId = consoleIOHandler.commandVoucherId();
+                String voucherId = consoleIOHandler.commandVoucherId();
                 List<MemberResponse> memberList = walletController.findByVoucherId(voucherId);
                 consoleIOHandler.printSuccessGetMemberList(memberList);
             }
             case FINDVOUCHER -> {
                 consoleIOHandler.printSuccessGetMemberList(memberController.findAll());
-                UUID memberId = consoleIOHandler.commandMemberId();
+                String memberId = consoleIOHandler.commandMemberId();
                 List<VoucherResponse> voucherList = walletController.findByMemberId(memberId);
                 consoleIOHandler.printSuccessGetVoucherList(voucherList);
             }
             case DELETE -> {
                 consoleIOHandler.printSuccessGetMemberList(memberController.findAll());
-                UUID memberId = consoleIOHandler.commandMemberId();
+                String memberId = consoleIOHandler.commandMemberId();
                 consoleIOHandler.printSuccessGetVoucherList(voucherController.findAll());
-                UUID voucherId = consoleIOHandler.commandVoucherId();
+                String voucherId = consoleIOHandler.commandVoucherId();
                 walletController.deleteById(memberId, voucherId);
             }
             default -> {

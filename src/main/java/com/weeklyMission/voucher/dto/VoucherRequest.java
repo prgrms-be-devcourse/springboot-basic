@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public record VoucherRequest(
     String type,
-    UUID id,
+    String id,
     int amount
 ) {
     public Voucher toEntity(){

@@ -27,9 +27,9 @@ public class ConsoleIO {
         return sc.nextInt();
     }
 
-    private UUID getId(){
+    private String getId(){
         System.out.print(">");
-        return UUID.fromString(sc.next());
+        return sc.next();
     }
 
     public String printSelectMode(){
@@ -75,13 +75,13 @@ public class ConsoleIO {
         voucherList.forEach(v-> System.out.println(v.printInfo() + System.lineSeparator()));
     }
 
-    public UUID commandVoucherId(){
+    public String commandVoucherId(){
         System.out.println("=== Voucher Id ===" + System.lineSeparator());
 
         return getId();
     }
 
-    public UUID commandMemberId(){
+    public String commandMemberId(){
         System.out.println("=== Member Id ===" + System.lineSeparator());
 
         return getId();

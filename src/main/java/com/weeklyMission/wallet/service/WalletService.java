@@ -29,13 +29,13 @@ public class WalletService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void save(UUID memberId, UUID voucherId){
-        Wallet wallet = new Wallet(UUID.randomUUID(), memberId, voucherId);
+    public void save(String memberId, String voucherId){
+        Wallet wallet = new Wallet(UUID.randomUUID().toString(), memberId, voucherId);
         walletRepository.save(wallet);
     }
 
-    public List<VoucherResponse> findByMemberId(UUID memberId){
-        List<UUID> voucherIdList = walletRepository.findByMemberId(memberId).stream()
+    public List<VoucherResponse> findByMemberId(String memberId){
+        List<String> voucherIdList = walletRepository.findByMemberId(memberId).stream()
             .map(Wallet::voucherId)
             .toList();
 
@@ -44,8 +44,8 @@ public class WalletService {
             .toList();
     }
 
-    public List<MemberResponse> findByVoucherId(UUID voucherId){
-        List<UUID> memberIdList = walletRepository.findByVoucherId(voucherId).stream()
+    public List<MemberResponse> findByVoucherId(String voucherId){
+        List<String> memberIdList = walletRepository.findByVoucherId(voucherId).stream()
             .map(Wallet::memberId)
             .toList();
 
@@ -54,7 +54,7 @@ public class WalletService {
             .toList();
     }
 
-    public void deleteById(UUID memberId, UUID voucherId){
+    public void deleteById(String memberId, String voucherId){
         walletRepository.deleteById(memberId, voucherId);
     }
 }

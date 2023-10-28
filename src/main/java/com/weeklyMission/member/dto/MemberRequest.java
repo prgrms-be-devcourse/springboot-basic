@@ -4,7 +4,7 @@ import com.weeklyMission.member.domain.Member;
 import java.util.UUID;
 
 public record MemberRequest(
-    UUID id,
+    String id,
     String name,
     String email,
     Integer age

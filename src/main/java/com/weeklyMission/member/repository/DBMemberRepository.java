@@ -27,7 +27,7 @@ public class DBMemberRepository implements MemberRepository{
     }
 
     private static final RowMapper<Member> memberRowMapper = (resultSet, i) -> {
-        UUID memberId = toUUID(resultSet.getBytes("member_id"));
+        String memberId = resultSet.getString("member_id");
         String name = resultSet.getString("name");
         String email = resultSet.getString("email");
         Integer age = Integer.parseInt(resultSet.getString("age"));
@@ -37,7 +37,7 @@ public class DBMemberRepository implements MemberRepository{
 
     private Map<String, Object> toParamMap(Member member){
         Map<String, Object> map = new HashMap<>();
-        map.put("memberId", member.memberId().toString().getBytes());
+        map.put("memberId", member.memberId());
         map.put("name", member.name());
         map.put("email", member.email());
         map.put("age", member.age());
@@ -47,7 +47,7 @@ public class DBMemberRepository implements MemberRepository{
     @Override
     public Member save(Member member) {
         jdbcTemplate.update(
-            "INSERT INTO members (member_id, name, email, age) VALUES (UUID_TO_BIN(:memberId), :name, :email, :age)",
+            "INSERT INTO members (member_id, name, email, age) VALUES (:memberId, :name, :email, :age)",
             toParamMap(member));
         return member;
     }
@@ -58,18 +58,18 @@ public class DBMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Optional<Member> findById(UUID id) {
+    public Optional<Member> findById(String id) {
         Member member;
         try{
-            member = jdbcTemplate.queryForObject("select * from members where member_id = UUID_TO_BIN(:memberId)",
-                Collections.singletonMap("memberId", id.toString().getBytes()), memberRowMapper);
+            member = jdbcTemplate.queryForObject("select * from members where member_id = :memberId",
+                Collections.singletonMap("memberId", id), memberRowMapper);
         } catch (EmptyResultDataAccessException de){
             throw new NoSuchElementException("존재하지 않는 id 입니다.", de);
         }
         return Optional.ofNullable(member);
     }
 
-    public List<Member> findByIds(List<UUID> idList){
+    public List<Member> findByIds(List<String> idList){
         List<byte[]> idByteList = idList.stream()
             .map(id -> id.toString().getBytes())
             .toList();
@@ -82,10 +82,10 @@ public class DBMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public void deleteById(String id) {
         findById(id);
-        jdbcTemplate.update("delete from members where member_id = UUID_TO_BIN(:memberId)",
-            Collections.singletonMap("memberId", id.toString().getBytes()));
+        jdbcTemplate.update("delete from members where member_id = :memberId",
+            Collections.singletonMap("memberId", id));
     }
 
     static UUID toUUID(byte[] bytes){

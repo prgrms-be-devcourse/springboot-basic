@@ -29,7 +29,7 @@ public class DBVoucherRepository implements VoucherRepository{
     }
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        String voucherId = resultSet.getString("voucher_id");
         String type = resultSet.getString("type");
         long amount = Long.parseLong(resultSet.getString("amount"));
 
@@ -38,7 +38,7 @@ public class DBVoucherRepository implements VoucherRepository{
 
     private Map<String, Object> toParamMap(Voucher voucher){
         Map<String, Object> map = new HashMap<>();
-        map.put("voucherId", voucher.getVoucherId().toString().getBytes());
+        map.put("voucherId", voucher.getVoucherId());
         map.put("type", voucher instanceof FixedAmountVoucher?"fixed":"percent");
         map.put("amount", voucher.getAmount());
         return map;
@@ -46,7 +46,7 @@ public class DBVoucherRepository implements VoucherRepository{
 
     @Override
     public Voucher save(Voucher voucher) {
-        jdbcTemplate.update("INSERT INTO voucher(voucher_id, type, amount) VALUES (UUID_TO_BIN(:voucherId), :type, :amount)", toParamMap(voucher));
+        jdbcTemplate.update("INSERT INTO voucher(voucher_id, type, amount) VALUES (:voucherId, :type, :amount)", toParamMap(voucher));
         return voucher;
     }
 
@@ -56,35 +56,31 @@ public class DBVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Voucher> findById(UUID id) {
+    public Optional<Voucher> findById(String id) {
         Voucher voucherId;
         try{
             voucherId = jdbcTemplate.queryForObject(
-                "select * from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
-                Collections.singletonMap("voucherId", id.toString().getBytes()), voucherRowMapper);
+                "select * from voucher where voucher_id = :voucherId)",
+                Collections.singletonMap("voucherId", id), voucherRowMapper);
         } catch (EmptyResultDataAccessException de){
             throw new NoSuchElementException("존재하지 않는 id 입니다.", de);
         }
         return Optional.ofNullable(voucherId);
     }
 
-    public List<Voucher> findByIds(List<UUID> idList){
-        List<byte[]> idByteList = idList.stream()
-            .map(id -> id.toString().getBytes())
-            .toList();
-
+    public List<Voucher> findByIds(List<String> idList){
         List<Voucher> vouchers = jdbcTemplate.query(
             "select * from voucher where voucher_id in (:voucherIds)",
-            Collections.singletonMap("voucherIds", idByteList), voucherRowMapper);
+            Collections.singletonMap("voucherIds", idList), voucherRowMapper);
 
         return vouchers;
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public void deleteById(String id) {
         findById(id);
-        jdbcTemplate.update("delete from voucher where voucher_id = UUID_TO_BIN(:voucherId)",
-            Collections.singletonMap("voucherId", id.toString().getBytes()));
+        jdbcTemplate.update("delete from voucher where voucher_id = :voucherId",
+            Collections.singletonMap("voucherId", id));
     }
 
     static UUID toUUID(byte[] bytes){

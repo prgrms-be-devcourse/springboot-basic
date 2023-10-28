@@ -4,7 +4,7 @@ package com.weeklyMission.member.domain;
 import java.util.UUID;
 
 public record Member(
-    UUID memberId,
+    String memberId,
     String name,
     String email,
     Integer age

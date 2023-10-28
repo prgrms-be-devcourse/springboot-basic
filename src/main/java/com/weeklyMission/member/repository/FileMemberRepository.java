@@ -28,7 +28,7 @@ public class FileMemberRepository implements MemberRepository{
 
     private final String seperator = ",";
 
-    private final Map<UUID, Member> storage;
+    private final Map<String, Member> storage;
 
     public FileMemberRepository(@Value("${filePath.repository.member}") String path) {
         this.path = System.getProperty("user.dir") + path;
@@ -45,7 +45,7 @@ public class FileMemberRepository implements MemberRepository{
             String data;
             while((data=br.readLine())!=null){
                 String[] dataSplit = data.split(",");
-                Member member = new Member(UUID.fromString(dataSplit[0]), dataSplit[1], dataSplit[2], Integer.parseInt(dataSplit[3]));
+                Member member = new Member(dataSplit[0], dataSplit[1], dataSplit[2], Integer.parseInt(dataSplit[3]));
                 storage.put(member.memberId(), member);
             }
         }catch(IOException e){
@@ -81,7 +81,7 @@ public class FileMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Optional<Member> findById(UUID id) {
+    public Optional<Member> findById(String id) {
         if(storage.containsKey(id)) {
             return Optional.of(storage.get(id));
         }
@@ -89,7 +89,7 @@ public class FileMemberRepository implements MemberRepository{
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public void deleteById(String id) {
         storage.remove(id);
     }
 }

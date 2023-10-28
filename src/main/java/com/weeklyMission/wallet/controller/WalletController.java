@@ -16,19 +16,19 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    public void walletSave(UUID memberId, UUID voucherId){
+    public void walletSave(String memberId, String voucherId){
         walletService.save(memberId, voucherId);
     }
 
-    public List<VoucherResponse> findByMemberId(UUID memberId){
+    public List<VoucherResponse> findByMemberId(String memberId){
         return walletService.findByMemberId(memberId);
     }
 
-    public List<MemberResponse> findByVoucherId(UUID voucherId){
+    public List<MemberResponse> findByVoucherId(String voucherId){
         return walletService.findByVoucherId(voucherId);
     }
 
-    public void deleteById(UUID memberId, UUID voucherId){
+    public void deleteById(String memberId, String voucherId){
         walletService.deleteById(memberId, voucherId);
     }
 }

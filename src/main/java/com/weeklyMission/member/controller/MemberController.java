@@ -24,11 +24,11 @@ public class MemberController {
         return memberService.findAll();
     }
 
-    public MemberResponse findById(UUID id){
+    public MemberResponse findById(String id){
         return memberService.findById(id);
     }
 
-    public void deleteById(UUID id){
+    public void deleteById(String id){
         memberService.deleteById(id);
     }
 }

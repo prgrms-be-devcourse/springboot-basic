@@ -5,7 +5,7 @@ import com.weeklyMission.member.domain.Member;
 import java.util.UUID;
 
 public record MemberResponse(
-    UUID id,
+    String id,
     String name,
     String email,
     Integer age

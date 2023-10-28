@@ -6,7 +6,7 @@ import com.weeklyMission.voucher.domain.Voucher;
 import java.util.UUID;
 
 public record VoucherResponse(
-    UUID voucherId,
+    String voucherId,
     String type,
     long amount) implements ResponseInfo {
     public static VoucherResponse of(Voucher voucher){

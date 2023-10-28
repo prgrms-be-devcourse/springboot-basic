@@ -24,11 +24,11 @@ public class VoucherController {
         return voucherService.findAll();
     }
 
-    public VoucherResponse findById(UUID id){
+    public VoucherResponse findById(String id){
         return voucherService.findById(id);
     }
 
-    public void deleteById(UUID id){
+    public void deleteById(String id){
         voucherService.deleteById(id);
     }
 }

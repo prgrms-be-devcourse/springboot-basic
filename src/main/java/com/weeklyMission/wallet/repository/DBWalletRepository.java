@@ -24,47 +24,47 @@ public class DBWalletRepository implements WalletRepository{
     }
 
     private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
-        UUID walletId = toUUID(resultSet.getBytes("wallet_id"));
-        UUID memberId = toUUID(resultSet.getBytes("member_id"));
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        String walletId = resultSet.getString("wallet_id");
+        String memberId = resultSet.getString("member_id");
+        String voucherId = resultSet.getString("voucher_id");
 
         return new Wallet(walletId, memberId, voucherId);
     };
 
     private Map<String, Object> toParamMap(Wallet wallet){
         Map<String, Object> map = new HashMap<>();
-        map.put("walletId", wallet.walletId().toString().getBytes());
-        map.put("memberId", wallet.memberId().toString().getBytes());
-        map.put("voucherId", wallet.voucherId().toString().getBytes());
+        map.put("walletId", wallet.walletId());
+        map.put("memberId", wallet.memberId());
+        map.put("voucherId", wallet.voucherId());
         return map;
     }
 
     @Override
     public void save(Wallet wallet) {
         jdbcTemplate.update(
-            "INSERT INTO wallet (wallet_id, member_id, voucher_id) VALUES (UUID_TO_BIN(:walletId), UUID_TO_BIN(:memberId), UUID_TO_BIN(:voucherId))",
+            "INSERT INTO wallet (wallet_id, member_id, voucher_id) VALUES (:walletId, :memberId, :voucherId)",
             toParamMap(wallet));
     }
 
     @Override
-    public List<Wallet> findByMemberId(UUID memberId) {
-        return jdbcTemplate.query("select * from wallet where member_id = UUID_TO_BIN(:memberId)",
-            Collections.singletonMap("memberId", memberId.toString().getBytes()), walletRowMapper);
+    public List<Wallet> findByMemberId(String memberId) {
+        return jdbcTemplate.query("select * from wallet where member_id = :memberId",
+            Collections.singletonMap("memberId", memberId), walletRowMapper);
     }
 
     @Override
-    public List<Wallet> findByVoucherId(UUID voucherId) {
-        return jdbcTemplate.query("select * from wallet where voucher_id = UUID_TO_BIN(:voucherId)",
-            Collections.singletonMap("voucherId", voucherId.toString().getBytes()), walletRowMapper);
+    public List<Wallet> findByVoucherId(String voucherId) {
+        return jdbcTemplate.query("select * from wallet where voucher_id = :voucherId",
+            Collections.singletonMap("voucherId", voucherId), walletRowMapper);
     }
 
     @Override
-    public void deleteById(UUID memberId, UUID voucherId) {
+    public void deleteById(String memberId, String voucherId) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("memberId", memberId.toString().getBytes());
-        paramMap.put("voucherId", voucherId.toString().getBytes());
+        paramMap.put("memberId", memberId);
+        paramMap.put("voucherId", voucherId);
 
-        jdbcTemplate.update("delete from wallet where member_id = UUID_TO_BIN(:memberId) and voucher_id = UUID_TO_BIN(:voucherId)",
+        jdbcTemplate.update("delete from wallet where member_id = :memberId and voucher_id = :voucherId",
             paramMap);
     }
 

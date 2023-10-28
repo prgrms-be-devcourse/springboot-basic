@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Profile("local")
 public class MemoryVoucherRepository implements VoucherRepository{
 
-    private final Map<UUID, Voucher> storage;
+    private final Map<String, Voucher> storage;
 
     public MemoryVoucherRepository(){
         storage = new ConcurrentHashMap<>();
@@ -32,12 +32,12 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Voucher> findById(UUID id) {
+    public Optional<Voucher> findById(String id) {
         return Optional.of(storage.get(id));
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public void deleteById(String id) {
         storage.remove(id);
     }
 }

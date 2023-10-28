@@ -27,13 +27,13 @@ public class MemberService {
             .toList();
     }
 
-    public MemberResponse findById(UUID id){
+    public MemberResponse findById(String id){
         Member member = memberRepository.findById(id)
             .orElseThrow();
         return MemberResponse.of(member);
     }
 
-    public void deleteById(UUID id){
+    public void deleteById(String id){
         memberRepository.deleteById(id);
     }
 }
