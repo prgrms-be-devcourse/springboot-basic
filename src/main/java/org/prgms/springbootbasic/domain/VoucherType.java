@@ -9,10 +9,13 @@ import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import java.util.UUID;
 import java.util.function.BiFunction;
 
+import static org.prgms.springbootbasic.common.CommonConstant.INPUT_FIXED_AMOUNT_VOUCHER;
+import static org.prgms.springbootbasic.common.CommonConstant.INPUT_PERCENT_DISCOUNT_VOUCHER;
+
 @Slf4j
 public enum VoucherType {
-    FIXED_AMOUNT(1, FixedAmountVoucher::new, "FixedAmountVoucher"),
-    PERCENT_DISCOUNT(2, PercentDiscountVoucher::new, "PercentDiscountVoucher");
+    FIXED_AMOUNT(INPUT_FIXED_AMOUNT_VOUCHER, FixedAmountVoucher::new, "FixedAmountVoucher"),
+    PERCENT_DISCOUNT(INPUT_PERCENT_DISCOUNT_VOUCHER, PercentDiscountVoucher::new, "PercentDiscountVoucher");
 
     private final int seq;
     private final BiFunction<UUID, Long, VoucherPolicy> biFunction;

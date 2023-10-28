@@ -4,7 +4,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.springframework.stereotype.Component;
 
+import java.text.MessageFormat;
 import java.util.*;
+
+import static org.prgms.springbootbasic.common.CommonConstant.INPUT_FIXED_AMOUNT_VOUCHER;
+import static org.prgms.springbootbasic.common.CommonConstant.INPUT_PERCENT_DISCOUNT_VOUCHER;
 
 @Component
 @Slf4j
@@ -24,8 +28,8 @@ public class Console { // view - domain 분리 필. Controller를 따로 만들�
     public static int selectCreateType() {
         System.out.println();
         System.out.println("Which voucher would you like to create? Just type number.");
-        System.out.println("1. FixedAmountVoucher");
-        System.out.println("2. PercentDiscountVoucher");
+        System.out.println(MessageFormat.format("{0}. FixedAmountVoucher", INPUT_FIXED_AMOUNT_VOUCHER));
+        System.out.println(MessageFormat.format("{0}. PercentDiscountVoucher", INPUT_PERCENT_DISCOUNT_VOUCHER));
 
         return consoleInput.nextInt();
     }
