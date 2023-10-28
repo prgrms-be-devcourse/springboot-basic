@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.controller.dto;
+package org.prgms.kdtspringweek1.controller.dto.voucherDto;
 
 import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;

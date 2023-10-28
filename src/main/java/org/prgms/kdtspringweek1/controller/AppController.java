@@ -1,10 +1,10 @@
 package org.prgms.kdtspringweek1.controller;
 
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
-import org.prgms.kdtspringweek1.controller.dto.UpdateCustomerRequestDto;
+import org.prgms.kdtspringweek1.controller.dto.customerDto.UpdateCustomerRequestDto;
 import org.prgms.kdtspringweek1.customer.CustomerService;
-import org.prgms.kdtspringweek1.controller.dto.FindCustomerResponseDto;
-import org.prgms.kdtspringweek1.controller.dto.FindVoucherResponseDto;
+import org.prgms.kdtspringweek1.controller.dto.customerDto.FindCustomerResponseDto;
+import org.prgms.kdtspringweek1.controller.dto.voucherDto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.customer.entity.Customer;
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.controller.dto;
+package org.prgms.kdtspringweek1.controller.dto.customerDto;
 
 import org.prgms.kdtspringweek1.customer.entity.Customer;
 
