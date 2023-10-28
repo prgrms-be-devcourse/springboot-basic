@@ -1,9 +1,9 @@
 package org.programmers.springboot.basic.domain.customer.exception;
 
-public class CustomerNotFoundException extends RuntimeException {
+public class IllegalEmailException extends RuntimeException {
 
-    public CustomerNotFoundException() {
-        super("No matching customers found!");
+    public IllegalEmailException() {
+        super("Illegal Email Type!");
     }
 
     @Override
