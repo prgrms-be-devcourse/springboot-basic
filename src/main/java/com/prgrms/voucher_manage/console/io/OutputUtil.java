@@ -22,6 +22,8 @@ public class OutputUtil {
                 Type findCustomer to find customer by name.
                 Type updateCustomer to update customer.
                 
+                Type saveWallet to save wallet.
+                Type deleteWallet to delete wallet.
                 Type exit to exit the program.
                 """);
     }

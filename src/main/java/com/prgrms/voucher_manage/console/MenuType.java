@@ -28,6 +28,15 @@ public enum MenuType {
 
     UPDATE_CUSTOMER("updateCustomer"),
 
+
+    SAVE_WALLET("saveWallet"),
+
+    FIND_WALLET1("findWallet1"),
+
+    FIND_WALLET2("findWallet2"),
+
+    DELETE_WALLET("deleteWallet"),
+
     EXIT("exit");
 
     private final String label;
