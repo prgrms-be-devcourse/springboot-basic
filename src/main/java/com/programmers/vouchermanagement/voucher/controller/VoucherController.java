@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
+import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
@@ -36,13 +37,28 @@ public class VoucherController {
         consoleManager.printReadVoucher(voucherResponse);
     }
 
-    public void update(UpdateVoucherRequest updateVoucherRequest) {
-        VoucherResponse voucherResponse = voucherService.update(updateVoucherRequest);
+    public void update(UpdateVoucherRequest request) {
+        VoucherResponse voucherResponse = voucherService.update(request);
         consoleManager.printSaveVoucherResult(voucherResponse);
     }
 
     public void deleteById(UUID voucherId) {
         voucherService.deleteById(voucherId);
+        consoleManager.printDeleteResult();
+    }
+
+    public void grantToCustomer(VoucherCustomerRequest request) {
+        voucherService.grantToCustomer(request);
+        consoleManager.printGranted(request);
+    }
+
+    public void searchOwnedVouchers(UUID customerId) {
+        List<VoucherResponse> vouchers = voucherService.findByCustomerId(customerId);
+        consoleManager.printOwnedVouchers(customerId, vouchers);
+    }
+
+    public void removeVoucherFromUser(VoucherCustomerRequest request) {
+        voucherService.releaseFromCustomer(request);
         consoleManager.printDeleteResult();
     }
 }

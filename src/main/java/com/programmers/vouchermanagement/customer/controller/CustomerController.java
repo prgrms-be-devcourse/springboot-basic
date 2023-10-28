@@ -26,27 +26,32 @@ public class CustomerController {
     }
 
     public void create(String name) {
-        CustomerResponse customerResponse = customerService.create(name);
-        consoleManager.printSaveCustomerResult(customerResponse);
+        CustomerResponse customer = customerService.create(name);
+        consoleManager.printSaveCustomerResult(customer);
     }
 
     public void readAllCustomers() {
-        List<CustomerResponse> customerResponses = customerService.findAll();
-        consoleManager.printReadAllCustomers(customerResponses);
+        List<CustomerResponse> customers = customerService.findAll();
+        consoleManager.printReadAllCustomers(customers);
     }
 
     public void findById(UUID customerId) {
-        CustomerResponse customerResponse = customerService.findById(customerId);
-        consoleManager.printReadCustomer(customerResponse);
+        CustomerResponse customer = customerService.findById(customerId);
+        consoleManager.printReadCustomer(customer);
     }
 
-    public void update(UpdateCustomerRequest updateCustomerRequest) {
-        CustomerResponse customerResponse = customerService.update(updateCustomerRequest);
-        consoleManager.printSaveCustomerResult(customerResponse);
+    public void update(UpdateCustomerRequest request) {
+        CustomerResponse customer = customerService.update(request);
+        consoleManager.printSaveCustomerResult(customer);
     }
 
     public void deleteById(UUID customerId) {
         customerService.deleteById(customerId);
         consoleManager.printDeleteResult();
+    }
+
+    public void findVoucherOwner(UUID voucherId) {
+        CustomerResponse customer = customerService.findByVoucherId(voucherId);
+        consoleManager.printVoucherOwner(voucherId, customer);
     }
 }
