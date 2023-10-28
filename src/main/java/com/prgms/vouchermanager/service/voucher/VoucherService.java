@@ -37,9 +37,6 @@ public class VoucherService {
         if (dto.getVoucherType() == 1) {
             voucher = new FixedAmountVoucher(UUID.randomUUID(), dto.getValue());
         } else if (dto.getVoucherType() == 2) {
-            if (!inputValidation.validVoucherPercent(dto.getValue())) {
-                throw new RuntimeException(INVALID_VOUCHER_PERCENT.getMessage());
-            }
             voucher = new PercentDiscountVoucher(UUID.randomUUID(), dto.getValue());
         } else throw new RuntimeException(INVALID_VOUCHER_INFO.getMessage());
 
@@ -67,13 +64,15 @@ public class VoucherService {
         voucherRepository.update(voucher);
 
     }
+
     @Transactional(readOnly = true)
 
     public Voucher findById(UUID id) {
 
-        return voucherRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(INVALID_VOUCHER_ID.getMessage(),1));
+        return voucherRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(INVALID_VOUCHER_ID.getMessage(), 1));
 
     }
+
     @Transactional(readOnly = true)
 
     public List<Voucher> findAll() {
