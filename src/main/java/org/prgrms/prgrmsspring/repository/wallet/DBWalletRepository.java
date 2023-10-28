@@ -7,6 +7,7 @@ import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -31,10 +32,12 @@ public class DBWalletRepository implements WalletRepository {
     @Override
     public Wallet allocateVoucherToCustomer(UUID customerId, UUID voucherId) {
         String sql = "INSERT INTO WALLET (CUSTOMER_ID, VOUCHER_ID) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?))";
-        int update = jdbcTemplate.update(sql, customerId.toString(), voucherId.toString());
-        if (update != 1) {
+        try {
+            jdbcTemplate.update(sql, customerId.toString(), voucherId.toString());
+        } catch (DataIntegrityViolationException e) {
             throw new DataAccessException(ExceptionMessage.INSERT_QUERY_FAILED.getMessage());
         }
+
         return new Wallet(customerId, voucherId);
     }
 
