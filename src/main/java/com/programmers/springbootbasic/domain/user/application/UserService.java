@@ -1,28 +1,27 @@
 package com.programmers.springbootbasic.domain.user.application;
 
-import com.programmers.springbootbasic.domain.user.infrastructure.dto.CsvUser;
+import com.programmers.springbootbasic.domain.user.domain.UserRepository;
 import com.programmers.springbootbasic.domain.user.presentation.dto.UserResponse;
-import com.programmers.springbootbasic.util.FileManager;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 public class UserService {
 
-    private final FileManager fileManager;
-    private final String fileName;
+    private final UserRepository userRepository;
 
-    public UserService(FileManager fileManager, @Value("${file.user.path}") String fileName) {
-        this.fileName = fileName;
-        this.fileManager = fileManager;
+    public UserService(
+        UserRepository userRepository
+    ) {
+        this.userRepository = userRepository;
     }
 
     public List<UserResponse> findBlacklistedUsers() {
-        return fileManager
-            .read(fileName, CsvUser.class)
+        return userRepository.findBlacklistedUsers()
             .stream()
-            .map(csvUser -> UserResponse.of(csvUser.toEntity()))
+            .map(UserResponse::of)
             .toList();
     }
 
