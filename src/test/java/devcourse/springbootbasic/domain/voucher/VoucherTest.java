@@ -115,8 +115,12 @@ class VoucherTest {
         Voucher voucherWithCustomer = Voucher.createVoucher(voucherId, voucherType, initialDiscountValue, customerId);
         Voucher voucherWithoutCustomer = Voucher.createVoucher(voucherId, voucherType, initialDiscountValue, null);
 
+        // When
+        boolean isAssignedToCustomer = voucherWithCustomer.isAssigned();
+        boolean isAssignedWithoutCustomer = voucherWithoutCustomer.isAssigned();
+
         // Then
-        assertThat(voucherWithCustomer.isAssigned()).isTrue();
-        assertThat(voucherWithoutCustomer.isAssigned()).isFalse();
+        assertThat(isAssignedToCustomer).isTrue();
+        assertThat(isAssignedWithoutCustomer).isFalse();
     }
 }
