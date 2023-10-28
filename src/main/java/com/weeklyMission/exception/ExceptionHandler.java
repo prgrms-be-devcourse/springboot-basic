@@ -12,7 +12,7 @@ public class ExceptionHandler extends Client{
     private final Client client;
 
     public ExceptionHandler(Client client) {
-        super(null,null,null);
+        super(null,null,null,null);
         this.client = client;
     }
 
@@ -29,9 +29,9 @@ public class ExceptionHandler extends Client{
             System.out.println(noe.getMessage());
             logger.error(noe.getMessage());
         }
-        catch(Exception e){
-            System.out.println("서버 내부 오류입니다." + System.lineSeparator());
-            logger.error("서버 내부 오류");
-        }
+//        catch(Exception e){
+//            System.out.println("서버 내부 오류입니다." + System.lineSeparator());
+//            logger.error("서버 내부 오류");
+//        }
     }
 }
