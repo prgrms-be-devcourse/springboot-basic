@@ -4,11 +4,13 @@ import static com.programmers.springbootbasic.domain.voucher.domain.VoucherType.
 import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_PERCENT_VOUCHER_BENEFIT;
 
 import com.programmers.springbootbasic.exception.exceptionClass.VoucherException;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
 public class PercentDiscountVoucher implements VoucherType {
 
     public PercentDiscountVoucher(Integer benefit) {
-        if (benefit < 0 || benefit > 100) {
+        if (benefit <= 0 || benefit > 100) {
             throw new VoucherException(INVALID_PERCENT_VOUCHER_BENEFIT);
         }
     }
