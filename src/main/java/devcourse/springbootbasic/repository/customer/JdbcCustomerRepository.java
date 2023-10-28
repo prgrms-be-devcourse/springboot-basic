@@ -64,14 +64,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public int update(Customer customer) {
+    public boolean update(Customer customer) {
         String query = """
                         UPDATE customer
                         SET name = :name, is_blacklisted = :is_blacklisted
                         WHERE id = UUID_TO_BIN(:id)
                 """;
 
-        return jdbcTemplate.update(query, mapCustomerParameters(customer));
+        int updatedRows = jdbcTemplate.update(query, mapCustomerParameters(customer));
+        return updatedRows == 1;
     }
 
     private Map<String, Object> mapCustomerParameters(Customer customer) {

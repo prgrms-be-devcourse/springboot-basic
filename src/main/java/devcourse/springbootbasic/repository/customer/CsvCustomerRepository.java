@@ -47,10 +47,10 @@ public class CsvCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public int update(Customer customer) {
+    public boolean update(Customer customer) {
         int updatedRow = customerDatabase.containsKey(customer.getId()) ? 1 : 0;
         if (updatedRow == 1) customerDatabase.put(customer.getId(), customer);
-        return updatedRow;
+        return updatedRow == 1;
     }
 
     @PostConstruct

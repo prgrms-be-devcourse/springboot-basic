@@ -75,7 +75,7 @@ class VoucherServiceTest {
         VoucherUpdateDiscountValueRequest updateRequest = new VoucherUpdateDiscountValueRequest(UUID.randomUUID(), 200);
         Voucher existingVoucher = generateUnassignedVoucher(VoucherType.FIXED, 100);
         when(voucherRepository.findById(updateRequest.getId())).thenReturn(Optional.of(existingVoucher));
-        when(voucherRepository.update(any(Voucher.class))).thenReturn(1);
+        when(voucherRepository.update(any(Voucher.class))).thenReturn(true);
 
         // When
         Voucher updatedVoucher = voucherService.updateDiscountValue(updateRequest);

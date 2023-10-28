@@ -79,10 +79,10 @@ class InMemoryCustomerRepositoryTest {
 
         // When
         customer.applyBlacklist();
-        int updatedRows = customerRepository.update(customer);
+        boolean updateResult = customerRepository.update(customer);
 
         // Then
-        assertThat(updatedRows).isEqualTo(1);
+        assertThat(updateResult).isTrue();
         Optional<Customer> foundCustomer = customerRepository.findById(customerId);
         assertThat(foundCustomer).isPresent();
         assertThat(foundCustomer.get().isBlacklisted()).isTrue();
@@ -95,9 +95,9 @@ class InMemoryCustomerRepositoryTest {
         Customer customer = generateNotBlacklistCustomers("Platypus");
 
         // When
-        int updatedRows = customerRepository.update(customer);
+        boolean updateResult = customerRepository.update(customer);
 
         // Then
-        assertThat(updatedRows).isZero();
+        assertThat(updateResult).isFalse();
     }
 }

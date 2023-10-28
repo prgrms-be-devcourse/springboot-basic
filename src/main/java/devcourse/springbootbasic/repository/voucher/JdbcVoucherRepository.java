@@ -52,7 +52,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int update(Voucher voucher) {
+    public boolean update(Voucher voucher) {
         String query = """
                         UPDATE voucher
                         SET voucher_type = :voucher_type,
@@ -61,7 +61,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
                         WHERE id = UUID_TO_BIN(:id)
                 """;
 
-        return jdbcTemplate.update(query, mapVoucherParameters(voucher));
+        int updatedRow = jdbcTemplate.update(query, mapVoucherParameters(voucher));
+        return updatedRow == 1;
     }
 
     @Override

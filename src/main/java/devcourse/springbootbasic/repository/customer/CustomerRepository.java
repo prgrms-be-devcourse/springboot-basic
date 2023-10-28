@@ -14,5 +14,5 @@ public interface CustomerRepository {
 
     Optional<Customer> findById(UUID customerId);
 
-    int update(Customer customer);
+    boolean update(Customer customer);
 }

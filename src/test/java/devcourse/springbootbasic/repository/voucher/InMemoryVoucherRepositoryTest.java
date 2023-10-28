@@ -80,10 +80,10 @@ class InMemoryVoucherRepositoryTest {
 
         // When
         voucher.updateDiscountValue(150);
-        int updatedRows = voucherRepository.update(voucher);
+        boolean updateResult = voucherRepository.update(voucher);
 
         // Then
-        assertThat(updatedRows).isEqualTo(1);
+        assertThat(updateResult).isTrue();
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         assertThat(foundVoucher).isPresent();
         assertThat(foundVoucher.get().getDiscountValue()).isEqualTo(150);
@@ -96,10 +96,10 @@ class InMemoryVoucherRepositoryTest {
         Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 100);
 
         // When
-        int updatedRows = voucherRepository.update(voucher);
+        boolean updateResult = voucherRepository.update(voucher);
 
         // Then
-        assertThat(updatedRows).isZero();
+        assertThat(updateResult).isFalse();
     }
 
     @Test

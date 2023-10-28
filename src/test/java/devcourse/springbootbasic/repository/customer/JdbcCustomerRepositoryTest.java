@@ -93,10 +93,10 @@ class JdbcCustomerRepositoryTest {
 
         // When
         Customer findCustomer = customerRepository.findById(customerId).orElseThrow();
-        int updatedRows = customerRepository.update(findCustomer.applyBlacklist());
+        boolean updateResult = customerRepository.update(findCustomer.applyBlacklist());
 
         // Then
-        assertThat(updatedRows).isEqualTo(1);
+        assertThat(updateResult).isTrue();
         assertThat(findCustomer.isBlacklisted()).isTrue();
     }
 
@@ -108,9 +108,9 @@ class JdbcCustomerRepositoryTest {
 
         // When
         Customer customer = generateBlacklistCustomer("Customer 2");
-        int updatedRows = customerRepository.update(customer);
+        boolean updateResult = customerRepository.update(customer);
 
         // Then
-        assertThat(updatedRows).isZero();
+        assertThat(updateResult).isFalse();
     }
 }

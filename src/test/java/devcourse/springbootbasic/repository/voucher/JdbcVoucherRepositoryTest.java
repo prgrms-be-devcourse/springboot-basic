@@ -81,10 +81,10 @@ class JdbcVoucherRepositoryTest {
 
         // When
         Voucher updatedVoucher = voucher.updateDiscountValue(20);
-        int updatedRows = voucherRepository.update(updatedVoucher);
+        boolean updateResult = voucherRepository.update(updatedVoucher);
 
         // Then
-        assertThat(updatedRows).isEqualTo(1);
+        assertThat(updateResult).isTrue();
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
         assertThat(foundVoucher).isPresent();
         assertThat(foundVoucher.get().getDiscountValue()).isEqualTo(20);
@@ -97,10 +97,10 @@ class JdbcVoucherRepositoryTest {
         Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 15);
 
         // When
-        int updatedRows = voucherRepository.update(voucher);
+        boolean updateResult = voucherRepository.update(voucher);
 
         // Then
-        assertThat(updatedRows).isZero();
+        assertThat(updateResult).isFalse();
     }
 
     @Test

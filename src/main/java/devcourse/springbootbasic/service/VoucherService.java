@@ -73,7 +73,7 @@ public class VoucherService {
     }
 
     private Voucher persist(Voucher voucher) {
-        if (voucherRepository.update(voucher) == 0) {
+        if (!voucherRepository.update(voucher)) {
             throw VoucherException.of(VoucherErrorMessage.NOT_FOUND);
         }
 

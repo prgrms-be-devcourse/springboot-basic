@@ -76,7 +76,7 @@ class CustomerServiceTest {
         UUID customerId = existingCustomer.getId();
         CustomerUpdateBlacklistRequest request = new CustomerUpdateBlacklistRequest(customerId, true);
         when(customerRepository.findById(request.getId())).thenReturn(Optional.of(existingCustomer));
-        when(customerRepository.update(any())).thenReturn(1);
+        when(customerRepository.update(any())).thenReturn(true);
 
         // When
         Customer updatedCustomer = customerService.updateBlacklistStatus(request);

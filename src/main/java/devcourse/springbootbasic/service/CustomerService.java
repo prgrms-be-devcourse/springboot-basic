@@ -47,7 +47,7 @@ public class CustomerService {
     }
 
     private Customer persist(Customer customer) {
-        if (customerRepository.update(customer) == 0) {
+        if (!customerRepository.update(customer)) {
             throw CustomerException.of(CustomerErrorMessage.NOT_FOUND);
         }
 
