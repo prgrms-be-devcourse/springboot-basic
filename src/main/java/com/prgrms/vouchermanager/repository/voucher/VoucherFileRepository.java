@@ -47,15 +47,8 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher updateDiscount(UUID id, int discount) {
-        Voucher voucher = vouchers.get(id);
-        vouchers.remove(id);
-
-        Voucher updateVoucher = VoucherFactory.update(id,
-                        voucher instanceof FixedAmountVoucher ? VoucherType.FIXED : VoucherType.PERCENT,
-                        discount)
-                .get();
-        vouchers.put(id, updateVoucher);
+    public Voucher updateDiscount(Voucher updateVoucher) {
+        vouchers.computeIfPresent(updateVoucher.getId(), (k, v) -> updateVoucher);
 
         fileIO.updateFile(vouchers);
         return updateVoucher;
