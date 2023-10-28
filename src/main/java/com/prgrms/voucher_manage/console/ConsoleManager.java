@@ -1,12 +1,14 @@
 package com.prgrms.voucher_manage.console;
 
+import com.prgrms.voucher_manage.console.io.IOManager;
+import com.prgrms.voucher_manage.console.io.InputUtil;
+import com.prgrms.voucher_manage.console.io.OutputUtil;
 import com.prgrms.voucher_manage.domain.customer.controller.CustomerController;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.entity.CustomerType;
 import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
-import com.prgrms.voucher_manage.exception.ErrorMessage;
 import com.prgrms.voucher_manage.exception.InvalidInputException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

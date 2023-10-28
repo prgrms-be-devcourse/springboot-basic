@@ -1,5 +1,6 @@
-package com.prgrms.voucher_manage.console;
+package com.prgrms.voucher_manage.console.io;
 
+import com.prgrms.voucher_manage.console.ConsoleMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

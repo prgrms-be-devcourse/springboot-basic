@@ -5,17 +5,15 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor @Getter
 public enum ConsoleMessage {
-    VOUCHER_FIND_ID("Input voucher id you want to find."),
-    VOUCHER_UPDATE_ID("Input voucher id you want to update,"),
-    VOUCHER_UPDATE_PRICE("Input voucher price you want to update,"),
-    VOUCHER_DELETE_ID("Input voucher id you want to delete."),
+    VOUCHER_FIND_ID("찾으려는 바우처 아이디를 입력해주세요."),
+    VOUCHER_UPDATE_ID("업데이트하려는 바우처 id를 입력해주세요."),
+    VOUCHER_UPDATE_PRICE("업데이트하려는 바우처 가격을 입력해주세요."),
+    VOUCHER_DELETE_ID("삭제하려는 바우처 아이디를 입력해주세요."),
 
-    VOUCHER_SAVE_NAME("Input new customer name."),
-
-    CUSTOMER_SAVE_NAME("Input customer name to save"),
-    CUSTOMER_UPDATE_NAME("Input customer name to update"),
-    CUSTOMER_UPDATE_ID("Input customer id to update"),
-    CUSTOMER_FIND_NAME("Input customer name to find.");
+    CUSTOMER_SAVE_NAME("저장할 회원의 이름을 입력해주세요."),
+    CUSTOMER_UPDATE_NAME("업데이트할 회원의 이름을 입력해주세요."),
+    CUSTOMER_UPDATE_ID("업데이트할 회원의 아이디를 입력해주세요."),
+    CUSTOMER_FIND_NAME("검색할 회원 이름을 입력해주세요.");
 
 
     private final String message;
