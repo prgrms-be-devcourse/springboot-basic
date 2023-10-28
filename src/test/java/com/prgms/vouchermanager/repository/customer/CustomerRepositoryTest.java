@@ -25,16 +25,17 @@ public class CustomerRepositoryTest {
         //given
         Customer customer1 = new Customer(null, "heo", "heo@naver.com", true);
         Customer customer2 = new Customer(null, "koo", "koo@naver.com", false);
-        Customer customer3 = new Customer(100L, "koo", "koo@naver.com", false);
+        Customer customer3 = new Customer(null, "koo1", "koo@naver.com", false);
 
         //when
-        customerRepository.save(customer1);
-        customerRepository.save(customer2);
-        customerRepository.save(customer3);
+        Customer saveCustomer1 = customerRepository.save(customer1);
+        Customer saveCustomer2 = customerRepository.save(customer2);
+        Customer saveCustomer3 = customerRepository.save(customer3);
+
 
         //then
-        Assertions.assertThat(customer1.getId() + 1).isEqualTo(customer2.getId());
-        Assertions.assertThat(customer2.getId() + 1).isEqualTo(customer3.getId());
+        Assertions.assertThat(saveCustomer1.getId() + 1).isEqualTo(saveCustomer2.getId());
+        Assertions.assertThat(saveCustomer2.getId() + 1).isEqualTo(saveCustomer3.getId());
     }
 
     @Test
@@ -112,7 +113,7 @@ public class CustomerRepositoryTest {
 
         //given
         Long id = 1L;
-        Customer customer = new Customer(id, "kim", "lee@naver.com", true);
+        Customer customer = new Customer(null, "kim33", "lee@naver.com", true);
         customerRepository.save(customer);
 
         //when

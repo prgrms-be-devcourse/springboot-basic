@@ -12,12 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
+@Transactional
 public class WalletRepositoryTest {
 
     @Autowired
@@ -34,11 +36,11 @@ public class WalletRepositoryTest {
         //given
         UUID id = UUID.randomUUID();
         Voucher voucher = new FixedAmountVoucher(id, 100000);
-        Customer customer = new Customer(1L, "ko", "kp@naver.com", true);
+        Customer customer = new Customer(null, "ko", "kp@naver.com", true);
         voucherRepository.save(voucher);
-        customerRepository.save(customer);
+        Customer savedCustomer = customerRepository.save(customer);
 
-        Wallet wallet = new Wallet(6L, 1L, id);
+        Wallet wallet = new Wallet(6L, savedCustomer.getId(), id);
 
         //when
         Wallet savedWallet = walletRepository.save(wallet);
@@ -55,7 +57,7 @@ public class WalletRepositoryTest {
         //given
         UUID id = UUID.randomUUID();
         Voucher voucher = new FixedAmountVoucher(id, 100000);
-        Customer customer = new Customer(1L, "ko", "kp@naver.com", true);
+        Customer customer = new Customer(null, "ko", "kp@naver.com", true);
         Wallet wallet = new Wallet(10L, 1214L, UUID.randomUUID()); //존재하지 않는 참조데이터
 
         //when

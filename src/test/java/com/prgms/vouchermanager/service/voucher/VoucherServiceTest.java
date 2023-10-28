@@ -48,7 +48,6 @@ class VoucherServiceTest {
                 new PercentDiscountVoucher(id,dto.getValue());
 
         when(voucherRepository.save(any(Voucher.class))).thenReturn(result);
-        when(inputValidation.validVoucherPercent(dto.getValue())).thenReturn(true);
         //when
         Voucher voucher = voucherService.create(dto);
 
@@ -56,17 +55,6 @@ class VoucherServiceTest {
         Assertions.assertThat(voucher).isEqualTo(result);
         verify(voucherRepository,atLeastOnce()).save(any(Voucher.class));
 
-    }
-    @Test
-    @DisplayName("service의 create()에서  repository의 save()를 실행에 실패한다.")
-    void createVoucherFail() {
-        //given
-        CreateVoucherDto dto = new CreateVoucherDto(101,  2);
-        when(inputValidation.validVoucherPercent(dto.getValue())).thenReturn(false);
-        //when
-        //then
-        Assertions.assertThatThrownBy(() -> voucherService.create(dto)).
-                isInstanceOf(RuntimeException.class);
     }
 
     @Test
