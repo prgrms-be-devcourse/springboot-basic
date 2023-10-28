@@ -20,6 +20,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.List;
 import java.util.UUID;
 
+import static devcourse.springbootbasic.TestDataFactory.generateAssignedVoucher;
+import static devcourse.springbootbasic.TestDataFactory.generateUnassignedVoucher;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -45,8 +47,8 @@ class WalletServiceTest {
         Customer customer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
 
-        UUID voucherId = UUID.randomUUID();
-        Voucher voucher = createVoucher(voucherId, customerId);
+        Voucher voucher = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
+        UUID voucherId = voucher.getId();
 
         VoucherAssignRequest request = new VoucherAssignRequest(voucherId, customerId);
 
@@ -71,8 +73,8 @@ class WalletServiceTest {
         UUID customerId = customer.getId();
         when(customerService.findById(customerId)).thenReturn(customer);
 
-        Voucher voucher1 = createVoucher(UUID.randomUUID(), customerId);
-        Voucher voucher2 = createVoucher(UUID.randomUUID(), customerId);
+        Voucher voucher1 = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
+        Voucher voucher2 = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
         when(voucherService.findVouchersByCustomer(customer)).thenReturn(List.of(new VoucherFindResponse(voucher1), new VoucherFindResponse(voucher2)));
 
         // When
@@ -90,11 +92,12 @@ class WalletServiceTest {
         UUID customerId = customer.getId();
         when(customerService.findById(customerId)).thenReturn(customer);
 
-        UUID voucherId = UUID.randomUUID();
-        Voucher voucher = createVoucher(voucherId, customerId);
+        Voucher voucher = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
+        UUID voucherId = voucher.getId();
         when(voucherService.findById(voucherId)).thenReturn(voucher);
 
-        when(voucherService.unassignVoucherToCustomer(voucher)).thenReturn(createVoucher(voucherId, null));
+        when(voucherService.unassignVoucherToCustomer(voucher)).thenReturn(voucher.unassignToCustomer());
+        voucher.assignToCustomer(customerId); // 테스트를 위해 바우처를 고객에게 다시 할당
 
         // When
         VoucherAssignResponse response = walletService.unassignVoucherFromCustomer(voucherId);
@@ -109,8 +112,8 @@ class WalletServiceTest {
     @DisplayName("할당되지 않은 바우처를 고객으로부터 해제하려고 하면 예외를 발생시킵니다.")
     void givenUnassignedVoucher_whenUnassignVoucherFromCustomer_thenThrowException() {
         // Given
-        UUID voucherId = UUID.randomUUID();
-        Voucher voucher = createVoucher(voucherId, null);
+        Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 50);
+        UUID voucherId = voucher.getId();
         when(voucherService.findById(voucherId)).thenReturn(voucher);
 
         // When, Then
@@ -127,8 +130,8 @@ class WalletServiceTest {
         UUID customerId = customer.getId();
         when(customerService.findById(customerId)).thenReturn(customer);
 
-        UUID voucherId = UUID.randomUUID();
-        Voucher voucher = createVoucher(voucherId, customerId);
+        Voucher voucher = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
+        UUID voucherId = voucher.getId();
         when(voucherService.findById(voucherId)).thenReturn(voucher);
 
         // When
@@ -144,22 +147,13 @@ class WalletServiceTest {
     @DisplayName("바우처 ID로 고객을 조회할 때 할당되지 않은 바우처이면 예외를 발생시킵니다.")
     void givenUnassignedVoucher_whenFindCustomerByVoucherId_thenThrowException() {
         // Given
-        UUID voucherId = UUID.randomUUID();
-        Voucher voucher = createVoucher(voucherId, null);
+        Voucher voucher = generateAssignedVoucher(VoucherType.FIXED, 50, null);
+        UUID voucherId = voucher.getId();
         when(voucherService.findById(voucherId)).thenReturn(voucher);
 
         // When, Then
         assertThatThrownBy(() -> walletService.findCustomerByVoucherId(voucherId))
                 .isInstanceOf(VoucherException.class)
                 .hasMessageContaining(VoucherErrorMessage.NOT_ASSIGNED.getMessage());
-    }
-
-    private Voucher createVoucher(UUID id, UUID customerId) {
-        return Voucher.builder()
-                .id(id)
-                .voucherType(VoucherType.FIXED)
-                .discountValue(50L)
-                .customerId(customerId)
-                .build();
     }
 }

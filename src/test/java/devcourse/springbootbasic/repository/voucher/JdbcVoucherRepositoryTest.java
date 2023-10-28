@@ -4,7 +4,6 @@ import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.repository.customer.CustomerRepository;
-import devcourse.springbootbasic.util.UUIDUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static devcourse.springbootbasic.TestDataFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Transactional
@@ -43,8 +43,8 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("모든 Voucher를 조회할 수 있습니다.")
     void testFindAllVouchers() {
         // Given
-        Voucher voucher1 = Voucher.createVoucher(UUIDUtil.generateRandomUUID(), VoucherType.FIXED, 10, null);
-        Voucher voucher2 = Voucher.createVoucher(UUIDUtil.generateRandomUUID(), VoucherType.PERCENT, 20, null);
+        Voucher voucher1 = generateUnassignedVoucher(VoucherType.FIXED, 10);
+        Voucher voucher2 = generateUnassignedVoucher(VoucherType.PERCENT, 20);
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
 
@@ -59,8 +59,8 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("Voucher를 ID로 조회할 수 있습니다.")
     void testFindVoucherById() {
         // Given
-        UUID voucherId = UUIDUtil.generateRandomUUID();
-        Voucher voucher = Voucher.createVoucher(voucherId, VoucherType.FIXED, 15, null);
+        Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 15);
+        UUID voucherId = voucher.getId();
         voucherRepository.save(voucher);
 
         // When
@@ -75,8 +75,8 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("Voucher를 수정할 수 있습니다.")
     void testUpdateVoucher() {
         // Given
-        UUID voucherId = UUIDUtil.generateRandomUUID();
-        Voucher voucher = Voucher.createVoucher(voucherId, VoucherType.FIXED, 15, null);
+        Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 15);
+        UUID voucherId = voucher.getId();
         voucherRepository.save(voucher);
 
         // When
@@ -94,8 +94,7 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("수정할 Voucher가 없으면 0을 반환합니다.")
     void testUpdateVoucherFail() {
         // Given
-        UUID voucherId = UUIDUtil.generateRandomUUID();
-        Voucher voucher = Voucher.createVoucher(voucherId, VoucherType.FIXED, 15, null);
+        Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 15);
 
         // When
         int updatedRows = voucherRepository.update(voucher);
@@ -108,8 +107,8 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("Voucher를 삭제할 수 있습니다.")
     void testDeleteVoucher() {
         // Given
-        UUID voucherId = UUIDUtil.generateRandomUUID();
-        Voucher voucher = Voucher.createVoucher(voucherId, VoucherType.FIXED, 15, null);
+        Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 15);
+        UUID voucherId = voucher.getId();
         voucherRepository.save(voucher);
 
         // When
@@ -125,8 +124,7 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("삭제할 Voucher가 없으면 0을 반환합니다.")
     void testDeleteVoucherFail() {
         // Given
-        UUID voucherId = UUIDUtil.generateRandomUUID();
-        Voucher voucher = Voucher.createVoucher(voucherId, VoucherType.FIXED, 15, null);
+        Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 15);
 
         // When
         int deletedRows = voucherRepository.delete(voucher);
@@ -139,10 +137,13 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("Customer ID로 Voucher를 조회할 수 있습니다.")
     void testFindByCustomerId() {
         // Given
-        UUID customerId = UUIDUtil.generateRandomUUID();
-        customerRepository.save(Customer.createCustomer(customerId, "Customer 1", false));
-        Voucher voucher1 = Voucher.createVoucher(UUIDUtil.generateRandomUUID(), VoucherType.FIXED, 10, customerId);
-        Voucher voucher2 = Voucher.createVoucher(UUIDUtil.generateRandomUUID(), VoucherType.FIXED, 20, customerId);
+        Customer customer = generateNotBlacklistCustomers("Customer 1");
+        UUID customerId = customer.getId();
+        customerRepository.save(customer);
+
+        Voucher voucher1 = generateAssignedVoucher(VoucherType.FIXED, 10, customerId);
+        Voucher voucher2 = generateAssignedVoucher(VoucherType.FIXED, 20, customerId);
+
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
 
@@ -157,8 +158,8 @@ class JdbcVoucherRepositoryTest {
     @DisplayName("Voucher를 저장할 수 있습니다.")
     void testSaveVoucher() {
         // Given
-        UUID voucherId = UUIDUtil.generateRandomUUID();
-        Voucher voucher = Voucher.createVoucher(voucherId, VoucherType.FIXED, 15, null);
+        Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 15);
+        UUID voucherId = voucher.getId();
 
         // When
         Voucher savedVoucher = voucherRepository.save(voucher);

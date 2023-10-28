@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static devcourse.springbootbasic.TestDataFactory.generateUnassignedVoucher;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -55,7 +56,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 생성 시 생성된 바우처를 반환합니다.")
     void testCreateVoucher() {
         // Given
-        VoucherCreateRequest createRequest = createSampleCreateRequest();
+        VoucherCreateRequest createRequest = new VoucherCreateRequest(VoucherType.FIXED, 100);
         Voucher voucher = createRequest.toEntity();
         when(voucherRepository.save(any(Voucher.class))).thenReturn(voucher);
 
@@ -70,8 +71,8 @@ class VoucherServiceTest {
     @DisplayName("바우처 할인 금액 수정 시 수정된 바우처를 반환합니다.")
     void testUpdateDiscountValue() {
         // Given
-        VoucherUpdateDiscountValueRequest updateRequest = createSampleUpdateRequest();
-        Voucher existingVoucher = createSampleVoucher();
+        VoucherUpdateDiscountValueRequest updateRequest = new VoucherUpdateDiscountValueRequest(UUID.randomUUID(), 200);
+        Voucher existingVoucher = generateUnassignedVoucher(VoucherType.FIXED, 100);
         when(voucherRepository.findById(updateRequest.getId())).thenReturn(Optional.of(existingVoucher));
         when(voucherRepository.update(any(Voucher.class))).thenReturn(1);
 
@@ -86,7 +87,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 할인 금액 수정 시 존재하지 않는 바우처를 수정하려고 하면 예외를 발생시킵니다.")
     void testUpdateDiscountValueFailNotFound() {
         // Given
-        VoucherUpdateDiscountValueRequest updateRequest = createSampleUpdateRequest();
+        VoucherUpdateDiscountValueRequest updateRequest = new VoucherUpdateDiscountValueRequest(UUID.randomUUID(), 200);
         when(voucherRepository.findById(updateRequest.getId())).thenReturn(Optional.empty());
 
         // When, Then
@@ -99,7 +100,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 삭제 시 삭제된 바우처를 반환합니다.")
     void testDeleteVoucher() {
         // Given
-        Voucher existingVoucher = createSampleVoucher();
+        Voucher existingVoucher = generateUnassignedVoucher(VoucherType.FIXED, 100);
         when(voucherRepository.findById(existingVoucher.getId())).thenReturn(Optional.of(existingVoucher));
         when(voucherRepository.delete(any(Voucher.class))).thenReturn(1);
 
@@ -113,20 +114,8 @@ class VoucherServiceTest {
     private List<Voucher> createSampleVouchers() {
         List<Voucher> vouchers = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            vouchers.add(createSampleVoucher());
+            vouchers.add(generateUnassignedVoucher(VoucherType.FIXED, 100));
         }
         return vouchers;
-    }
-
-    private VoucherCreateRequest createSampleCreateRequest() {
-        return new VoucherCreateRequest(VoucherType.FIXED, 100);
-    }
-
-    private VoucherUpdateDiscountValueRequest createSampleUpdateRequest() {
-        return new VoucherUpdateDiscountValueRequest(UUID.randomUUID(), 200);
-    }
-
-    private Voucher createSampleVoucher() {
-        return Voucher.createVoucher(UUID.randomUUID(), VoucherType.FIXED, 100, null);
     }
 }
