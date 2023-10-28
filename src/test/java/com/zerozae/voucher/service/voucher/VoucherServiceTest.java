@@ -23,16 +23,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class VoucherServiceTest {
-    VoucherRepository voucherRepository;
-    VoucherService voucherService;
-    FixedDiscountVoucher fixedDiscountVoucher;
-    PercentDiscountVoucher percentDiscountVoucher;
+
+    private final VoucherRepository voucherRepository;
+    private final VoucherService voucherService;
+    private FixedDiscountVoucher fixedDiscountVoucher;
+    private PercentDiscountVoucher percentDiscountVoucher;
+
+    VoucherServiceTest() {
+        this.voucherRepository = mock(VoucherRepository.class);
+        this.voucherService = new VoucherService(voucherRepository);
+    }
 
     @BeforeEach
     void setUp() {
-        voucherRepository = mock(VoucherRepository.class);
-        voucherService = new VoucherService(voucherRepository);
-
         fixedDiscountVoucher = new FixedDiscountVoucher(10L);
         percentDiscountVoucher = new PercentDiscountVoucher(10L);
     }

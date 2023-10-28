@@ -19,13 +19,16 @@ import static org.hamcrest.Matchers.*;
 
 class MemoryVoucherRepositoryTest {
 
-    VoucherRepository voucherRepository;
-    FixedDiscountVoucher fixedDiscountVoucher;
-    PercentDiscountVoucher percentDiscountVoucher;
+    private final VoucherRepository voucherRepository;
+    private FixedDiscountVoucher fixedDiscountVoucher;
+    private PercentDiscountVoucher percentDiscountVoucher;
+
+    MemoryVoucherRepositoryTest() {
+        this.voucherRepository = new MemoryVoucherRepository();
+    }
 
     @BeforeEach
     void setUp(){
-        voucherRepository = new MemoryVoucherRepository();
         fixedDiscountVoucher = new FixedDiscountVoucher(10L);
         percentDiscountVoucher = new PercentDiscountVoucher(10L);
     }

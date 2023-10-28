@@ -20,16 +20,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class CustomerServiceTest {
-    CustomerRepository customerRepository;
-    CustomerService customerService;
-    Customer normalCustomer;
-    Customer blackCustomer;
+
+    private final CustomerRepository customerRepository;
+    private final CustomerService customerService;
+    private Customer normalCustomer;
+    private Customer blackCustomer;
+
+    CustomerServiceTest() {
+        this.customerRepository = mock(MemoryCustomerRepository.class);
+        this.customerService = new CustomerService(customerRepository);
+    }
 
     @BeforeEach
     void setUp() {
-        customerRepository = mock(MemoryCustomerRepository.class);
-        customerService = new CustomerService(customerRepository);
-
         normalCustomer = new Customer(UUID.randomUUID(), "고객1", CustomerType.NORMAL);
         blackCustomer = new Customer(UUID.randomUUID(), "고객2", CustomerType.BLACKLIST);
     }

@@ -17,14 +17,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class FileUtilTest {
 
     private final String testFilePath = "test.csv";
-    Customer normalCustomer;
-    Customer blacklistCustomer;
-    FileUtil fileUtil;
-    File testFile;
+    private final FileUtil fileUtil;
+    private Customer normalCustomer;
+    private Customer blacklistCustomer;
+    private File testFile;
+
+    FileUtilTest() {
+        this.fileUtil = new FileUtil();
+    }
 
     @BeforeEach
     void setUp() {
-        fileUtil = new FileUtil();
         normalCustomer = new Customer(UUID.randomUUID(), "normalUser", CustomerType.NORMAL);
         blacklistCustomer= new Customer(UUID.randomUUID(), "blackUser", CustomerType.BLACKLIST);
 

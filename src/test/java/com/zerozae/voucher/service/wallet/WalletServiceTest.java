@@ -21,15 +21,17 @@ import static org.mockito.Mockito.*;
 
 class WalletServiceTest {
 
-    WalletService walletService;
-    WalletRepository walletRepository;
-    Wallet wallet;
+    private final WalletService walletService;
+    private final WalletRepository walletRepository;
+    private Wallet wallet;
+
+    WalletServiceTest() {
+        this.walletRepository = mock(WalletRepository.class);
+        this.walletService = new WalletService(walletRepository);
+    }
 
     @BeforeEach
     void setUp() {
-        walletRepository = Mockito.mock(WalletRepository.class);
-        walletService = new WalletService(walletRepository);
-
         wallet = new Wallet(UUID.randomUUID(), UUID.randomUUID());
     }
 

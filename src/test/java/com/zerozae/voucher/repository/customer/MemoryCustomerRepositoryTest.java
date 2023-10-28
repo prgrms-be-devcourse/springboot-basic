@@ -2,7 +2,6 @@ package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,13 +17,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryCustomerRepositoryTest {
 
-    CustomerRepository customerRepository;
-    Customer normalCustomer;
-    Customer blacklistCustomer;
+    private final CustomerRepository customerRepository;
+    private Customer normalCustomer;
+    private Customer blacklistCustomer;
+
+    MemoryCustomerRepositoryTest() {
+        this.customerRepository = new MemoryCustomerRepository();
+    }
 
     @BeforeEach
     void setUp(){
-        customerRepository = new MemoryCustomerRepository();
         normalCustomer = new Customer(UUID.randomUUID(), "normalUser", CustomerType.NORMAL);
         blacklistCustomer= new Customer(UUID.randomUUID(), "blackUser", CustomerType.BLACKLIST);
     }
