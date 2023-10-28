@@ -10,7 +10,7 @@ CREATE TABLE vouchers(
 
 
 CREATE TABLE customers(
-                          id BIGINT primary key ,
+                          id BIGINT primary key auto_increment,
                           name varchar(10),
                           email varchar(40),
                           black_list bool
@@ -18,7 +18,7 @@ CREATE TABLE customers(
 
 
 CREATE TABLE wallets(
-                        id BIGINT primary key ,
+                        id BIGINT primary key auto_increment ,
                         customer_id BIGINT,
                         voucher_id VARCHAR(36),
                         foreign key (customer_id) REFERENCES customers(id) on delete cascade on update cascade,
