@@ -31,10 +31,10 @@ public class CustomerCsvFileManager {
 
 
     public List<Customer> readBlack(){
-        return csvFileTemplate.read(BLACK_PATH, this::lineToBlack);
+        return csvFileTemplate.read(BLACK_PATH, this::convertToBlack);
     }
 
-    private Customer lineToBlack(String line){
+    private Customer convertToBlack(String line){
         log.debug("line = {}", line);
 
         List<String> csvFields =
