@@ -17,6 +17,7 @@ import com.programmers.vouchermanagement.util.Formatter;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 @Component
@@ -34,8 +35,10 @@ public class ConsoleManager {
             1. Create A New Voucher
             2. List All Vouchers
             3. Search for A Voucher
-            4. Update Voucher
-            5. Delete Voucher
+            4. Update A Voucher
+            5. Delete A Voucher
+            6. Grant A Voucher to A Customer
+            7. Search for A Owner of A Voucher
             """;
     private static final String CUSTOMER_MENU_SELECTION = """
             Please select the menu
@@ -45,6 +48,8 @@ public class ConsoleManager {
             4. Update Customer
             5. Delete Customer
             6. List All Customers in Blacklist
+            7. Search Vouchers of A Customer
+            8. Remove A Voucher from A Customer
             """;
     private static final String VOUCHER_TYPE_INPUT = """
             Please select the type of voucher.
@@ -56,8 +61,8 @@ public class ConsoleManager {
     private static final String EXIT_MESSAGE = "System exits.";
     private static final String CREATE_SUCCESS_MESSAGE = "The %s(ID: %s) is successfully saved.";
     private static final String INCORRECT_INPUT_MESSAGE = """
-             Such input is incorrect.
-             Please input a correct command carefully.""";
+            Such input is incorrect.
+            Please input a correct command carefully.""";
     private static final String CONTENT_VOUCHER = "voucher";
     private static final String CONTENT_CUSTOMER = "customer";
     private static final String CONTENT_BLACKLIST = "black customer";
@@ -68,6 +73,10 @@ public class ConsoleManager {
             Write **normal** if you want to update this customer to exclude from the blacklist, or
             Write **black** if you want to update the customer to be in the blacklist.
             """;
+    private static final String NO_OWNED_VOUCHER = "This customer has no voucher yet!";
+    private static final String LISTING_OWNED_VOUCHERS_OF = "Listing vouchers that Customer %s has ...";
+    private static final String GRANT_SUCCESSFUL = "Voucher (%s) is granted to Customer (%s).";
+    private static final String VOUCHER_OWNER_BELOW = "The owner of Voucher %s is provided below:";
 
     private final TextIO textIO;
 
@@ -136,8 +145,14 @@ public class ConsoleManager {
         return UUID.fromString(customerId);
     }
 
+    public VoucherCustomerRequest instructRequestVoucherCustomer() {
+        String voucherId = read(ID_INPUT.formatted(CONTENT_VOUCHER));
+        String customerId = read(ID_INPUT.formatted(CONTENT_CUSTOMER));
+        return new VoucherCustomerRequest(UUID.fromString(voucherId), UUID.fromString(customerId));
+    }
+
     public void printSaveVoucherResult(VoucherResponse voucherResponse) {
-        print(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_VOUCHER,voucherResponse.getVoucherId()));
+        print(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_VOUCHER, voucherResponse.getVoucherId()));
     }
 
     public void printSaveCustomerResult(CustomerResponse customerResponse) {
@@ -173,6 +188,23 @@ public class ConsoleManager {
 
     public void printReadCustomer(CustomerResponse customerResponse) {
         print(Formatter.formatCustomer(customerResponse));
+    }
+
+    public void printGranted(VoucherCustomerRequest request) {
+        print(GRANT_SUCCESSFUL.formatted(request.voucherId(), request.customerId()));
+    }
+
+    public void printOwnedVouchers(UUID customerId, List<VoucherResponse> vouchers) {
+        print(LISTING_OWNED_VOUCHERS_OF.formatted(customerId));
+        if (vouchers.isEmpty()) {
+            print(NO_OWNED_VOUCHER);
+        }
+        vouchers.forEach(this::printReadVoucher);
+    }
+
+    public void printVoucherOwner(UUID voucherId, CustomerResponse customerResponse) {
+        print(VOUCHER_OWNER_BELOW.formatted(voucherId));
+        printReadCustomer(customerResponse);
     }
 
     public void printDeleteResult() {
