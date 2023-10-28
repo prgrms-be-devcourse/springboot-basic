@@ -49,8 +49,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 toParamMap(customer));
 
         if(updated != 1) {
-            String SAVE_FAILED_MESSAGE = "저장에 실패했습니다.";
-            throw ErrorMessage.error(SAVE_FAILED_MESSAGE);
+            throw ErrorMessage.error("저장에 실패했습니다.");
         }
         return customer;
     }
@@ -100,8 +99,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                         CUSTOMER_ID, customerId.toString().getBytes()));
 
         if(update != 1) {
-            String UPDATE_FAILED_MESSAGE = "업데이트에 실패했습니다.";
-            throw ErrorMessage.error(UPDATE_FAILED_MESSAGE);
+            throw ErrorMessage.error("업데이트에 실패했습니다.");
         }
     }
 
