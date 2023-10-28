@@ -27,14 +27,9 @@ import static com.zerozae.voucher.util.UuidConverter.toUUID;
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
 
-    private static final String VOUCHER_ID = "voucherId";
-    private static final String DISCOUNT = "discount";
-    private static final String VOUCHER_TYPE = "voucherType";
-    private static final String USE_STATUS_TYPE = "useStatusType";
-
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        long discount = resultSet.getLong(DISCOUNT);
+        long discount = resultSet.getLong("discount");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         UseStatusType useStatusType = UseStatusType.valueOf(resultSet.getString("use_status_type"));
 
@@ -79,7 +74,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         try {
             Voucher voucher = jdbcTemplate.queryForObject(
                     sql,
-                    Map.of(VOUCHER_ID, voucherId.toString().getBytes()),
+                    Map.of("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper);
             return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
@@ -92,7 +87,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String sql = "delete from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
         jdbcTemplate.update(
                 sql,
-                Map.of(VOUCHER_ID, voucherId.toString().getBytes()));
+                Map.of("voucherId", voucherId.toString().getBytes()));
     }
 
     @Override
@@ -107,9 +102,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int result = jdbcTemplate.update(
                 sql,
                 Map.of(
-                        DISCOUNT, voucherUpdateRequest.getDiscount(),
-                        USE_STATUS_TYPE, voucherUpdateRequest.getUseStatusType().toString(),
-                        VOUCHER_ID, voucherId.toString().getBytes()));
+                        "discount", voucherUpdateRequest.getDiscount(),
+                        "useStatusType", voucherUpdateRequest.getUseStatusType().toString(),
+                        "voucherId", voucherId.toString().getBytes()));
 
         if(result != 1) {
             throw ErrorMessage.error("바우처 업데이트에 실패했습니다.");
@@ -117,9 +112,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
     private MapSqlParameterSource toParamMap(Voucher voucher) {
         return new MapSqlParameterSource()
-                .addValue(VOUCHER_ID, voucher.getVoucherId().toString().getBytes())
-                .addValue(DISCOUNT, voucher.getDiscount())
-                .addValue(VOUCHER_TYPE, voucher.getVoucherType().toString())
-                .addValue(USE_STATUS_TYPE, voucher.getUseStatusType().toString());
+                .addValue("voucherId", voucher.getVoucherId().toString().getBytes())
+                .addValue("discount", voucher.getDiscount())
+                .addValue("voucherType", voucher.getVoucherType().toString())
+                .addValue("useStatusType", voucher.getUseStatusType().toString());
     }
 }

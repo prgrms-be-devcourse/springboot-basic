@@ -25,9 +25,6 @@ import static com.zerozae.voucher.util.UuidConverter.toUUID;
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private static final String CUSTOMER_ID = "customerId";
-    private static final String CUSTOMER_NAME = "customerName";
-    private static final String CUSTOMER_TYPE = "customerType";
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String customerName = resultSet.getString("customer_name");
@@ -35,6 +32,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
         return new Customer(customerId, customerName, customerType);
     };
+
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public JdbcCustomerRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -66,7 +64,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             Customer customer = jdbcTemplate.queryForObject(
                     sql,
-                    Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()),
+                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
                     customerRowMapper);
             return Optional.of(customer);
         }catch (EmptyResultDataAccessException e) {
@@ -79,7 +77,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         String sql = "delete from customers where customer_id = UUID_TO_BIN(:customerId)";
         jdbcTemplate.update(
                 sql,
-                Collections.singletonMap(CUSTOMER_ID, customerId.toString().getBytes()));
+                Collections.singletonMap("customerId", customerId.toString().getBytes()));
     }
 
     @Override
@@ -94,9 +92,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
         int update = jdbcTemplate.update(
                 sql,
                 Map.of(
-                        CUSTOMER_NAME, customerRequest.getCustomerName(),
-                        CUSTOMER_TYPE, customerRequest.getCustomerType().toString(),
-                        CUSTOMER_ID, customerId.toString().getBytes()));
+                        "customerName", customerRequest.getCustomerName(),
+                        "customerType", customerRequest.getCustomerType().toString(),
+                        "customerId", customerId.toString().getBytes()));
 
         if(update != 1) {
             throw ErrorMessage.error("업데이트에 실패했습니다.");
@@ -105,9 +103,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
-            put(CUSTOMER_ID, customer.getCustomerId().toString().getBytes());
-            put(CUSTOMER_NAME, customer.getCustomerName());
-            put(CUSTOMER_TYPE, customer.getCustomerType().toString());
+            put("customerId", customer.getCustomerId().toString().getBytes());
+            put("customerName", customer.getCustomerName());
+            put("customerType", customer.getCustomerType().toString());
         }};
     }
 }
