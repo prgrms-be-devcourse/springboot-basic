@@ -24,36 +24,36 @@ public class WalletService {
 
     @Transactional
     public VoucherAssignResponse assignVoucherToCustomer(VoucherAssignRequest voucherAssignRequest) {
-        Voucher voucher = voucherService.findById(voucherAssignRequest.getVoucherId());
-        Customer customer = customerService.findById(voucherAssignRequest.getCustomerId());
+        Voucher voucher = voucherService.getVoucherById(voucherAssignRequest.getVoucherId());
+        Customer customer = customerService.getByCustomerId(voucherAssignRequest.getCustomerId());
         Voucher updatedVoucher = voucherService.assignVoucherToCustomer(voucher, customer);
 
         return new VoucherAssignResponse(updatedVoucher.getId(), updatedVoucher.getCustomerId());
     }
 
     public List<VoucherFindResponse> findVouchersByCustomerId(UUID customerId) {
-        Customer customer = customerService.findById(customerId);
+        Customer customer = customerService.getByCustomerId(customerId);
         return voucherService.findVouchersByCustomer(customer);
     }
 
     @Transactional
     public VoucherAssignResponse unassignVoucherFromCustomer(UUID voucherId) {
-        Voucher voucher = voucherService.findById(voucherId);
+        Voucher voucher = voucherService.getVoucherById(voucherId);
         if (!voucher.isAssigned()) {
             throw VoucherException.of(VoucherErrorMessage.NOT_ASSIGNED);
         }
-        Customer customer = customerService.findById(voucher.getCustomerId());
+        Customer customer = customerService.getByCustomerId(voucher.getCustomerId());
         Voucher updatedVoucher = voucherService.unassignVoucherToCustomer(voucher);
 
         return new VoucherAssignResponse(updatedVoucher.getId(), customer.getId());
     }
 
     public CustomerFindResponse findCustomerByVoucherId(UUID voucherId) {
-        Voucher voucher = voucherService.findById(voucherId);
+        Voucher voucher = voucherService.getVoucherById(voucherId);
         if (!voucher.isAssigned()) {
             throw VoucherException.of(VoucherErrorMessage.NOT_ASSIGNED);
         }
-        Customer customer = customerService.findById(voucher.getCustomerId());
+        Customer customer = customerService.getByCustomerId(voucher.getCustomerId());
 
         return new CustomerFindResponse(customer);
     }

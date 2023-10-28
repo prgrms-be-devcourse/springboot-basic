@@ -35,13 +35,13 @@ public class CustomerService {
 
     @Transactional
     public Customer updateBlacklistStatus(CustomerUpdateBlacklistRequest customerUpdateBlacklistRequest) {
-        Customer findCustomer = this.findById(customerUpdateBlacklistRequest.getId());
+        Customer findCustomer = this.getByCustomerId(customerUpdateBlacklistRequest.getId());
 
         if (customerUpdateBlacklistRequest.isBlacklisted()) return persist(findCustomer.applyBlacklist());
         else return persist(findCustomer.releaseBlacklist());
     }
 
-    public Customer findById(UUID customerId) {
+    public Customer getByCustomerId(UUID customerId) {
         return customerRepository.findById(customerId)
                 .orElseThrow(() -> CustomerException.of(CustomerErrorMessage.NOT_FOUND));
     }

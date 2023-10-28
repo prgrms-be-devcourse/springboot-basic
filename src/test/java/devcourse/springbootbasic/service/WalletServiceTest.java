@@ -50,8 +50,8 @@ class WalletServiceTest {
 
         VoucherAssignRequest request = new VoucherAssignRequest(voucherId, customerId);
 
-        when(voucherService.findById(voucherId)).thenReturn(voucher);
-        when(customerService.findById(customerId)).thenReturn(customer);
+        when(voucherService.getVoucherById(voucherId)).thenReturn(voucher);
+        when(customerService.getByCustomerId(customerId)).thenReturn(customer);
         when(voucherService.assignVoucherToCustomer(voucher, customer)).thenReturn(voucher.assignToCustomer(customerId));
 
         // When
@@ -69,7 +69,7 @@ class WalletServiceTest {
         // Given
         Customer customer = generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
-        when(customerService.findById(customerId)).thenReturn(customer);
+        when(customerService.getByCustomerId(customerId)).thenReturn(customer);
 
         Voucher voucher1 = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
         Voucher voucher2 = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
@@ -88,11 +88,11 @@ class WalletServiceTest {
         // Given
         Customer customer = generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
-        when(customerService.findById(customerId)).thenReturn(customer);
+        when(customerService.getByCustomerId(customerId)).thenReturn(customer);
 
         Voucher voucher = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
         UUID voucherId = voucher.getId();
-        when(voucherService.findById(voucherId)).thenReturn(voucher);
+        when(voucherService.getVoucherById(voucherId)).thenReturn(voucher);
 
         when(voucherService.unassignVoucherToCustomer(voucher)).thenReturn(voucher.unassignToCustomer());
         voucher.assignToCustomer(customerId); // 테스트를 위해 바우처를 고객에게 다시 할당
@@ -112,7 +112,7 @@ class WalletServiceTest {
         // Given
         Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 50);
         UUID voucherId = voucher.getId();
-        when(voucherService.findById(voucherId)).thenReturn(voucher);
+        when(voucherService.getVoucherById(voucherId)).thenReturn(voucher);
 
         // When, Then
         assertThatThrownBy(() -> walletService.unassignVoucherFromCustomer(voucherId))
@@ -126,11 +126,11 @@ class WalletServiceTest {
         // Given
         Customer customer = generateNotBlacklistCustomers("Platypus");
         UUID customerId = customer.getId();
-        when(customerService.findById(customerId)).thenReturn(customer);
+        when(customerService.getByCustomerId(customerId)).thenReturn(customer);
 
         Voucher voucher = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
         UUID voucherId = voucher.getId();
-        when(voucherService.findById(voucherId)).thenReturn(voucher);
+        when(voucherService.getVoucherById(voucherId)).thenReturn(voucher);
 
         // When
         CustomerFindResponse response = walletService.findCustomerByVoucherId(voucherId);
@@ -147,7 +147,7 @@ class WalletServiceTest {
         // Given
         Voucher voucher = generateAssignedVoucher(VoucherType.FIXED, 50, null);
         UUID voucherId = voucher.getId();
-        when(voucherService.findById(voucherId)).thenReturn(voucher);
+        when(voucherService.getVoucherById(voucherId)).thenReturn(voucher);
 
         // When, Then
         assertThatThrownBy(() -> walletService.findCustomerByVoucherId(voucherId))

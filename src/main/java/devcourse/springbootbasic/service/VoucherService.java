@@ -36,7 +36,7 @@ public class VoucherService {
 
     @Transactional
     public Voucher updateDiscountValue(VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
-        Voucher updatedDiscountVoucher = this.findById(voucherUpdateDiscountValueRequest.getId())
+        Voucher updatedDiscountVoucher = this.getVoucherById(voucherUpdateDiscountValueRequest.getId())
                 .updateDiscountValue(voucherUpdateDiscountValueRequest.getDiscountValue());
 
         return persist(updatedDiscountVoucher);
@@ -44,7 +44,7 @@ public class VoucherService {
 
     @Transactional
     public Voucher deleteVoucher(UUID voucherId) {
-        Voucher voucher = this.findById(voucherId);
+        Voucher voucher = this.getVoucherById(voucherId);
 
         if (voucherRepository.delete(voucher) == 0) {
             throw VoucherException.of(VoucherErrorMessage.NOT_FOUND);
@@ -68,7 +68,7 @@ public class VoucherService {
         return persist(voucher.unassignToCustomer());
     }
 
-    public Voucher findById(UUID voucherId) {
+    public Voucher getVoucherById(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> VoucherException.of(VoucherErrorMessage.NOT_FOUND));
