@@ -1,28 +1,28 @@
 package org.programmers.springboot.basic.domain.customer.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.UUID;
 
+@Getter
+@AllArgsConstructor
 public class Customer {
 
     private final UUID customerId;
     private final String name;
-    private final CustomerType customerType;
+    private final String email;
+    private CustomerType customerType;
 
-    public Customer(UUID customerId, String name, CustomerType customerType) {
-        this.customerId = customerId;
-        this.name = name;
-        this.customerType = customerType;
+    public int getCustomerTypeValue() {
+        return this.customerType.getValue();
     }
 
-    public UUID getCustomerId() {
-        return this.customerId;
+    public void setBlack() {
+        this.customerType = CustomerType.BLACK;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public CustomerType getCustomerType() {
-        return this.customerType;
+    public void setNormal() {
+        this.customerType = CustomerType.NORMAL;
     }
 }
