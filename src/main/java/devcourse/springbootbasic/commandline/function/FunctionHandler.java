@@ -6,13 +6,15 @@ import devcourse.springbootbasic.commandline.constant.InputMessage;
 import devcourse.springbootbasic.commandline.domain.VoucherTypeSelector;
 import devcourse.springbootbasic.controller.CustomerController;
 import devcourse.springbootbasic.controller.VoucherController;
-import devcourse.springbootbasic.controller.WalletController;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.dto.customer.CustomerCreateRequest;
 import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
 import devcourse.springbootbasic.dto.customer.CustomerResponse;
 import devcourse.springbootbasic.dto.customer.CustomerUpdateBlacklistRequest;
-import devcourse.springbootbasic.dto.voucher.*;
+import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
+import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
+import devcourse.springbootbasic.dto.voucher.VoucherResponse;
+import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
 import devcourse.springbootbasic.dto.wallet.VoucherAssignRequest;
 import devcourse.springbootbasic.dto.wallet.VoucherAssignResponse;
 import devcourse.springbootbasic.exception.InputErrorMessage;
@@ -31,7 +33,6 @@ public class FunctionHandler {
 
     private final VoucherController voucherController;
     private final CustomerController customerController;
-    private final WalletController walletController;
     private final ConsoleIOHandler consoleIOHandler;
 
     public void exit() {
@@ -99,14 +100,14 @@ public class FunctionHandler {
         UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
         UUID customerId = consoleIOHandler.inputUUIDWithMessage(InputMessage.CUSTOMER_ID);
 
-        VoucherAssignResponse voucher = walletController.assignVoucherToCustomer(new VoucherAssignRequest(voucherId, customerId));
+        VoucherAssignResponse voucher = voucherController.assignVoucherToCustomer(new VoucherAssignRequest(voucherId, customerId));
         log.info(String.format(ConsoleConstants.VOUCHER_ASSIGN_MESSAGE, voucher.getVoucherId(), voucher.getCustomerId()));
     }
 
     public void listVouchersByCustomerId() {
         UUID customerId = consoleIOHandler.inputUUIDWithMessage(InputMessage.CUSTOMER_ID);
 
-        List<VoucherFindResponse> voucherList = walletController.findVouchersByCustomerId(customerId);
+        List<VoucherFindResponse> voucherList = customerController.findVouchersByCustomerId(customerId);
 
         consoleIOHandler.printListString(voucherList);
     }
@@ -114,14 +115,14 @@ public class FunctionHandler {
     public void unassignVoucherFromCustomer() {
         UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
 
-        VoucherAssignResponse voucher = walletController.unassignVoucherFromCustomer(voucherId);
+        VoucherAssignResponse voucher = voucherController.unassignVoucherFromCustomer(voucherId);
         log.info(String.format(ConsoleConstants.VOUCHER_UNASSIGN_MESSAGE, voucher.getVoucherId(), voucher.getCustomerId()));
     }
 
     public void findCustomerByVoucherId() {
         UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
 
-        CustomerFindResponse customer = walletController.findCustomerByVoucherId(voucherId);
+        CustomerFindResponse customer = voucherController.findCustomerByVoucherId(voucherId);
 
         consoleIOHandler.printListString(List.of(customer));
     }
