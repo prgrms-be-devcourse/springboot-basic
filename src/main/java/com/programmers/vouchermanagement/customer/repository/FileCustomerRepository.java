@@ -33,24 +33,23 @@ public class FileCustomerRepository implements CustomerRepository {
                 .toList();
     }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.ofNullable(storage.get(customerId));
+    }
 
-            String data;
+    private Map<UUID, Customer> addCustomerByFile(List<String> readCsv) {
 
-            while ((data = br.readLine()) != null) {
+        Map<UUID, Customer> storage = new ConcurrentHashMap<>();
 
-                String[] singleData = data.split(",");
+        for (String data : readCsv) {
 
-                Customer customer = CustomerMapper.toEntity(singleData);
-                customers.add(customer);
-            }
-        } catch (FileNotFoundException e) {
-            throw new FileIOException("File not found. ");
+            String[] splitData = data.split(",");
 
-        } catch (IOException e) {
-            throw new FileIOException("Customer not read due to file issue. ");
+            Customer customer = CustomerMapper.toEntity(splitData);
+            storage.put(customer.getCustomerId(), customer);
         }
 
-        return customers;
+        return storage;
     }
 }

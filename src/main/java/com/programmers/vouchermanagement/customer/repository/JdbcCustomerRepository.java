@@ -8,15 +8,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 @Profile("default")
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private static final String READ = "SELECT * FROM customer WHERE customer_type = 'BLACK'";
+    private static final String READ_BLACK = "SELECT * FROM customer WHERE customer_type = 'BLACK'";
+    private static final String READ_ONCE = "SELECT * FROM customer WHERE customer_id = UUID_TO_BIN(?)";
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, index) -> {
 
@@ -36,18 +37,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAllBlack() {
 
-        List<Customer> customers = jdbcTemplate.query(READ, customerRowMapper);
+        List<Customer> customers = jdbcTemplate.query(READ_BLACK, customerRowMapper);
 
         return customers;
     }
 
-    private static UUID bytesToUUID(byte[] bytes) {
-
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-
-        long mostSignificantBits = byteBuffer.getLong();
-        long leastSignificantBits = byteBuffer.getLong();
-
-        return new UUID(mostSignificantBits, leastSignificantBits);
+    @Override
+    public Optional<Customer> findById(UUID customerId) {
+        return Optional.ofNullable(jdbcTemplate.queryForObject(READ_ONCE, customerRowMapper, customerId.toString()));
     }
 }
