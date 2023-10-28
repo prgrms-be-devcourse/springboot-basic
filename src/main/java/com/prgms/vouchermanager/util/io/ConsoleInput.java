@@ -12,12 +12,7 @@ import static com.prgms.vouchermanager.exception.ExceptionType.INVALID_VOUCHER_I
 @Slf4j
 @Component
 public class ConsoleInput {
-    private final Scanner scanner;
-
-
-    public ConsoleInput() {
-        scanner = new Scanner(System.in);
-    }
+    private final Scanner scanner = new Scanner(System.in);
 
     public int inputFrontMenu() {
         try {
