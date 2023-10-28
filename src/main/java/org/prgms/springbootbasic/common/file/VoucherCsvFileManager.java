@@ -3,6 +3,7 @@ package org.prgms.springbootbasic.common.file;
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,8 @@ import static org.prgms.springbootbasic.common.CommonConstant.CSV_PATTERN;
 @Slf4j
 @Profile({"dev", "prod"})
 public class VoucherCsvFileManager {
-    private static final String FILE_PATH = "./src/main/resources/voucher.csv";
+    @Value("${basic.file.path}")
+    private String FILE_PATH;
     private static final String CSV_FIRST_LINE = "UUID,Type,DiscountValue";
     private static final int UUID_IDX = 0;
     private static final int TYPE_IDX = 1;
