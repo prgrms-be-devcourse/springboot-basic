@@ -1,8 +1,11 @@
 package com.prgrms.vouchermanager.domain.voucher;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Optional;
 import java.util.UUID;
 
+@Component
 public class VoucherFactory {
     public static Optional<Voucher> create(VoucherType voucherType, long discount) {
         if(voucherType == VoucherType.FIXED) {
