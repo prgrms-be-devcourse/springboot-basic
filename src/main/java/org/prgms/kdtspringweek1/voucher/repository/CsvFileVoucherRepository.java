@@ -18,7 +18,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("default")
+@Profile("local")
 public class CsvFileVoucherRepository implements VoucherRepository {
     private Map<UUID, Voucher> vouchers;
     private File voucherInfoCsv;
@@ -54,6 +54,28 @@ public class CsvFileVoucherRepository implements VoucherRepository {
         List<Voucher> allVouchers = new ArrayList<>(vouchers.values());
         logger.info("Success to findAllVouchers");
         return allVouchers;
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        vouchers.put(voucher.getVoucherId(), voucher);
+        updateVouchersInfoOnCsv();
+        return voucher;
+    }
+
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
+    }
+
+    @Override
+    public Optional<Voucher> deleteById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.remove(voucherId));
     }
 
     private void prepareCsv() {
