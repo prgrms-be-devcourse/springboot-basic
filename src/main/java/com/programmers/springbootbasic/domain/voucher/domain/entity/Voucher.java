@@ -2,6 +2,7 @@ package com.programmers.springbootbasic.domain.voucher.domain.entity;
 
 
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherType;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Voucher {
@@ -28,4 +29,22 @@ public class Voucher {
         return benefitValue;
     }
 
+    // 테스트코드를 위해 재정의
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Voucher voucher)) {
+            return false;
+        }
+        return Objects.equals(getId(), voucher.getId()) && Objects.equals(
+            getVoucherType(), voucher.getVoucherType()) && Objects.equals(getBenefitValue(),
+            voucher.getBenefitValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getVoucherType(), getBenefitValue());
+    }
 }

@@ -30,4 +30,15 @@ public class VoucherResponse {
             """.formatted(id, voucherType, benefitValue);
     }
 
+    public UUID getId() {
+        return id;
+    }
+
+    public String getVoucherType() {
+        return voucherType;
+    }
+
+    public Integer getBenefitValue() {
+        return benefitValue;
+    }
 }

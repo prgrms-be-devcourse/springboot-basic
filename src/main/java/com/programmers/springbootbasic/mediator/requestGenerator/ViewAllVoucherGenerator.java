@@ -9,7 +9,7 @@ public class ViewAllVoucherGenerator implements MenuRequestGenerator {
 
     @Override
     public String getMenuCommand() {
-        return MainMenu.LIST_VOUCHER.getCommand();
+        return MainMenu.FIND_ALL_VOUCHER.getCommand();
     }
 
     @Override

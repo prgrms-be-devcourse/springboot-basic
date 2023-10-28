@@ -41,6 +41,26 @@ public class ControllerAdapter {
             SUCCESS_VOUCHER_LIST.getMessage());
     }
 
+    public ConsoleResponse<VoucherResponse> getVoucherById(Object... params) {
+        UUID id = (UUID) params[0];
+        return ConsoleResponse.createWithBodyResponse(
+            voucherController.getVoucherById(id),
+            SUCCESS_VOUCHER_FOUND.getMessage());
+    }
+
+    public ConsoleResponse<Void> deleteVoucherById(Object... params) {
+        UUID id = (UUID) params[0];
+        voucherController.deleteVoucherById(id);
+        return ConsoleResponse.createNoBodyResponse(SUCCESS_VOUCHER_DELETE.getMessage());
+    }
+
+    public ConsoleResponse<Void> updateVoucher(Object... params) {
+        UpdateVoucherMediatorRequest request = (UpdateVoucherMediatorRequest) params[0];
+
+        voucherController.updateVoucher(request.getId(), request.toUpdateVoucherRequest());
+        return ConsoleResponse.createNoBodyResponse(SUCCESS_VOUCHER_UPDATE.getMessage());
+    }
+
     public ConsoleResponse<List<UserResponse>> getBlackList(Object... params) {
         return ConsoleResponse.createWithBodyResponse(userController.getBlackList(),
             SUCCESS_BLACK_USER_LIST.getMessage());

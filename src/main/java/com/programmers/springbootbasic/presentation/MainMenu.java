@@ -11,7 +11,10 @@ import java.util.stream.Stream;
 public enum MainMenu {
     EXIT("exit", ControllerAdapter::handleExit),
     CREATE_VOUCHER("create voucher", ControllerAdapter::createVoucher),
-    LIST_VOUCHER("list voucher", ControllerAdapter::getAllVouchers),
+    FIND_ALL_VOUCHER("list voucher", ControllerAdapter::getAllVouchers),
+    FIND_VOUCHER("find voucher", ControllerAdapter::getVoucherById),
+    DELETE_VOUCHER("delete voucher", ControllerAdapter::deleteVoucherById),
+    UPDATE_VOUCHER("update voucher", ControllerAdapter::updateVoucher),
     LIST_BLACK_USER("list black user", ControllerAdapter::getBlackList),
     ;
 
