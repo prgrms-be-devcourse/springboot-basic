@@ -12,10 +12,7 @@ public class ProgramRunner implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ProgramRunner.class);
     private static final String NOT_EXIST_MENU = "존재하지 않는 메뉴입니다.";
-    private static final String MAIN_PROGRAM = "mainProgram";
-    private static final String CUSTOMER_PROGRAM = "customerProgram";
-    private static final String VOUCHER_PROGRAM = "voucherProgram";
-    private static final String WALLET_PROGRAM = "walletProgram";
+
     private final MenuHandler menuHandler;
 
     public ProgramRunner(MenuHandler menuHandler) {
@@ -27,7 +24,7 @@ public class ProgramRunner implements CommandLineRunner {
         boolean continueRun = true;
         while(continueRun){
             try{
-                MenuType command = menuHandler.selectCommand(MAIN_PROGRAM);
+                MenuType command = menuHandler.selectCommand("mainProgram");
 
                 switch (command){
                     case VOUCHER -> {
@@ -53,7 +50,7 @@ public class ProgramRunner implements CommandLineRunner {
     private boolean isVoucherMenuSelected() {
         while(true){
             try{
-                MenuType command = menuHandler.selectCommand(VOUCHER_PROGRAM);
+                MenuType command = menuHandler.selectCommand("voucherProgram");
                 switch (command) {
                     case CREATE -> {
                         menuHandler.createVoucher();
@@ -89,7 +86,7 @@ public class ProgramRunner implements CommandLineRunner {
     private boolean isCustomerMenuSelected() {
         while(true){
             try{
-                MenuType command = menuHandler.selectCommand(CUSTOMER_PROGRAM);
+                MenuType command = menuHandler.selectCommand("customerProgram");
                 switch (command) {
                     case CREATE -> {
                         menuHandler.createCustomer();
@@ -128,7 +125,7 @@ public class ProgramRunner implements CommandLineRunner {
     private boolean isWalletMenuSelected() {
         while(true){
             try {
-                MenuType command = menuHandler.selectCommand(WALLET_PROGRAM);
+                MenuType command = menuHandler.selectCommand("walletProgram");
                 switch (command) {
                     case ASSIGN -> {
                         menuHandler.assignVoucherToCustomer();

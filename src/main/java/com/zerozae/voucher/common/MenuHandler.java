@@ -25,10 +25,6 @@ import java.util.UUID;
 @Component
 public class MenuHandler {
 
-    private static final String MAIN_PROGRAM = "mainProgram";
-    private static final String CUSTOMER_PROGRAM = "customerProgram";
-    private static final String VOUCHER_PROGRAM = "voucherProgram";
-    private static final String WALLET_PROGRAM = "walletProgram";
     private final ConsoleView consoleView;
     private final VoucherController voucherController;
     private final CustomerController customerController;
@@ -46,10 +42,10 @@ public class MenuHandler {
     public MenuType selectCommand(String program) {
         try {
             switch (program){
-                case MAIN_PROGRAM -> consoleView.printCommand();
-                case CUSTOMER_PROGRAM -> consoleView.printCustomerCommand();
-                case VOUCHER_PROGRAM -> consoleView.printVoucherCommand();
-                case WALLET_PROGRAM -> consoleView.printWalletCommand();
+                case "mainProgram" -> consoleView.printCommand();
+                case "customerProgram" -> consoleView.printCustomerCommand();
+                case "voucherProgram" -> consoleView.printVoucherCommand();
+                case "walletProgram" -> consoleView.printWalletCommand();
             }
             return MenuType.of(consoleView.inputCommand());
         }catch (ErrorMessage e){
