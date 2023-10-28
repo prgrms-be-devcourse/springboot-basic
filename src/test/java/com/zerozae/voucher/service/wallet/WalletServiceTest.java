@@ -37,7 +37,7 @@ class WalletServiceTest {
     @DisplayName("지갑 생성 성공 테스트")
     void createWallet_Success_Test() {
         // Given
-        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.getCustomerId(), wallet.getVoucherId());
+        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId(), wallet.voucherId());
         when(walletRepository.save(any(Wallet.class))).thenReturn(wallet);
 
         // When
@@ -52,8 +52,8 @@ class WalletServiceTest {
     @DisplayName("지갑 생성 실패 (지갑이 이미 존재) 테스트")
     void createWallet_AlreadyExist_Failed_Test() {
         // Given
-        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.getCustomerId(), wallet.getVoucherId());
-        when(walletRepository.findWallet(wallet.getCustomerId(), wallet.getVoucherId())).thenReturn(Optional.of(wallet));
+        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId(), wallet.voucherId());
+        when(walletRepository.findWallet(wallet.customerId(), wallet.voucherId())).thenReturn(Optional.of(wallet));
 
         // When & Then
         assertThrows(ErrorMessage.class,() -> {
@@ -66,14 +66,14 @@ class WalletServiceTest {
     void findWalletByCustomerId_Success_Test() {
         // Given
         List.of(wallet);
-        when(walletRepository.findByCustomerId(wallet.getCustomerId())).thenReturn(List.of(wallet));
+        when(walletRepository.findByCustomerId(wallet.customerId())).thenReturn(List.of(wallet));
 
         // When
-        List<WalletResponse> wallets = walletService.findWalletByCustomerId(wallet.getCustomerId());
+        List<WalletResponse> wallets = walletService.findWalletByCustomerId(wallet.customerId());
 
         // Then
-        assertEquals(wallets.get(0).getCustomerId(), wallet.getCustomerId());
-        assertEquals(wallets.get(0).getVoucherId(), wallet.getVoucherId());
+        assertEquals(wallets.get(0).getCustomerId(), wallet.customerId());
+        assertEquals(wallets.get(0).getVoucherId(), wallet.voucherId());
     }
 
     @Test
@@ -81,39 +81,39 @@ class WalletServiceTest {
     void findWalletByVoucherId_Success_test() {
         // Given
         List.of(wallet);
-        when(walletRepository.findByVoucherId(wallet.getVoucherId())).thenReturn(List.of(wallet));
+        when(walletRepository.findByVoucherId(wallet.voucherId())).thenReturn(List.of(wallet));
 
         // When
-        List<WalletResponse> wallets = walletService.findWalletByVoucherId(wallet.getVoucherId());
+        List<WalletResponse> wallets = walletService.findWalletByVoucherId(wallet.voucherId());
 
         // Then
-        assertEquals(wallets.get(0).getCustomerId(), wallet.getCustomerId());
-        assertEquals(wallets.get(0).getVoucherId(), wallet.getVoucherId());
+        assertEquals(wallets.get(0).getCustomerId(), wallet.customerId());
+        assertEquals(wallets.get(0).getVoucherId(), wallet.voucherId());
     }
 
     @Test
     @DisplayName("회원에게 할당한 바우처 회수 성공 테스트")
     void deleteWalletFromCustomer_Success_Test() {
         // Given
-        when(walletRepository.findWallet(wallet.getCustomerId(), wallet.getVoucherId())).thenReturn(Optional.of(wallet));
+        when(walletRepository.findWallet(wallet.customerId(), wallet.voucherId())).thenReturn(Optional.of(wallet));
 
         // When
-        walletService.deleteWalletFromCustomer(wallet.getCustomerId(), wallet.getVoucherId());
+        walletService.deleteWalletFromCustomer(wallet.customerId(), wallet.voucherId());
 
         // Then
-        verify(walletRepository, times(1)).findWallet(wallet.getCustomerId(), wallet.getVoucherId());
-        verify(walletRepository, times(1)).deleteByAllId(wallet.getCustomerId(), wallet.getVoucherId());
+        verify(walletRepository, times(1)).findWallet(wallet.customerId(), wallet.voucherId());
+        verify(walletRepository, times(1)).deleteByAllId(wallet.customerId(), wallet.voucherId());
     }
 
     @Test
     @DisplayName("회원에게 할당한 바우처 회수 실패 (존재하지 않는 아이디) 테스트")
     void deleteWalletFromCustomer_NotExist_Failed_Test() {
         // Given
-        when(walletRepository.findWallet(wallet.getCustomerId(), wallet.getVoucherId())).thenReturn(Optional.empty());
+        when(walletRepository.findWallet(wallet.customerId(), wallet.voucherId())).thenReturn(Optional.empty());
 
         // When & Then
         assertThrows(ErrorMessage.class , () -> {
-           walletService.deleteWalletFromCustomer(wallet.getCustomerId(), wallet.getVoucherId());
+           walletService.deleteWalletFromCustomer(wallet.customerId(), wallet.voucherId());
         });
     }
 

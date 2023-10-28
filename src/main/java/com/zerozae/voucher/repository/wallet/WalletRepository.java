@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -84,7 +83,7 @@ public class WalletRepository {
 
     private MapSqlParameterSource toParamMap(Wallet wallet) {
         return new MapSqlParameterSource()
-                .addValue(CUSTOMER_ID, wallet.getCustomerId().toString().getBytes())
-                .addValue(VOUCHER_ID, wallet.getVoucherId().toString().getBytes());
+                .addValue(CUSTOMER_ID, wallet.customerId().toString().getBytes())
+                .addValue(VOUCHER_ID, wallet.voucherId().toString().getBytes());
     }
 }

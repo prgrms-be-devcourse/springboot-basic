@@ -18,8 +18,8 @@ public class WalletResponse {
 
     public static WalletResponse toDto(Wallet wallet) {
         return new WalletResponse(
-                wallet.getCustomerId(),
-                wallet.getVoucherId()
+                wallet.customerId(),
+                wallet.voucherId()
         );
     }
 }
