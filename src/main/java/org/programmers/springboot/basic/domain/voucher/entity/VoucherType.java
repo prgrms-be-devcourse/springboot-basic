@@ -9,20 +9,20 @@ public enum VoucherType {
     FIXED(1),
     PERCENT(2);
 
-    private final int type;
+    private final int value;
 
-    VoucherType(int type) {
-        this.type = type;
+    VoucherType(int value) {
+        this.value = value;
     }
 
-    public int getType() {
-        return this.type;
+    public int getValue() {
+        return this.value;
     }
 
-    public static VoucherType valueOfVoucherByType(int type) {
+    public static VoucherType valueOfVoucherByValue(int value) {
 
-        return Arrays.stream(VoucherType.values())
-                .filter(voucher -> voucher.getType() == type)
+        return Arrays.stream(values())
+                .filter(voucher -> voucher.getValue() == value)
                 .findAny()
                 .orElseThrow(VoucherNotFoundException::new);
     }

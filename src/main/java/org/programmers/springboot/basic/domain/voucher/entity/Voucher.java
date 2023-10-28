@@ -1,10 +1,19 @@
 package org.programmers.springboot.basic.domain.voucher.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.UUID;
 
-public interface Voucher {
+@Getter
+@AllArgsConstructor
+public class Voucher {
 
-    UUID getVoucherId();
-    VoucherType getVoucherType();
-    Long getDiscount();
+    private final UUID voucherId;
+    private final VoucherType voucherType;
+    private final Long discount;
+
+    public int getVoucherTypeValue() {
+        return this.voucherType.getValue();
+    }
 }
