@@ -31,7 +31,6 @@ public class WalletService {
         return new VoucherAssignResponse(updatedVoucher.getId(), updatedVoucher.getCustomerId());
     }
 
-    @Transactional
     public List<VoucherFindResponse> findVouchersByCustomerId(UUID customerId) {
         Customer customer = customerService.findById(customerId);
         return voucherService.findVouchersByCustomer(customer);
