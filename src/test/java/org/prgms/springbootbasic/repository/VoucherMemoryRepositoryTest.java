@@ -1,9 +1,6 @@
 package org.prgms.springbootbasic.repository;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.prgms.springbootbasic.BasicApplication;
 import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
 import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
@@ -21,11 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig(BasicApplication.class)
 @ActiveProfiles("test")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class VoucherMemoryRepositoryTest {
 
     @Autowired
     private VoucherMemoryRepository voucherMemoryRepository;
+
+    @AfterEach
+    void cleanUp(){
+        voucherMemoryRepository.deleteAll();
+    }
 
     @Test
     void findVoucherByIdFromMemory() {
@@ -43,7 +44,6 @@ class VoucherMemoryRepositoryTest {
     }
 
     @Test
-    @Order(1)
     void findAllVoucherFromMemory() {
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 6000);
@@ -58,15 +58,25 @@ class VoucherMemoryRepositoryTest {
 
     @Test
     void createNewVouchersToMemory() {
-        int beforeSize = voucherMemoryRepository.findAll().size();
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30);
 
         this.voucherMemoryRepository.create(fixedAmountVoucher);
         this.voucherMemoryRepository.create(percentDiscountVoucher);
 
-        assertThat(voucherMemoryRepository.findAll(), hasSize(2 + beforeSize));
+        assertThat(voucherMemoryRepository.findAll(), hasSize(2));
         assertThrows(IllegalArgumentException.class,
                 () -> voucherMemoryRepository.create(new PercentDiscountVoucher(UUID.randomUUID(), 0)));
+    }
+
+    @Test
+    void deleteAllVouchersFromMemory() {
+        voucherMemoryRepository.create(new PercentDiscountVoucher(UUID.randomUUID(), 10));
+        voucherMemoryRepository.create(new PercentDiscountVoucher(UUID.randomUUID(), 20));
+        voucherMemoryRepository.create(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+
+        voucherMemoryRepository.deleteAll();
+
+        assertThat(voucherMemoryRepository.findAll(), hasSize(0));
     }
 }
