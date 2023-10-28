@@ -6,9 +6,19 @@ import org.slf4j.LoggerFactory;
 
 public enum SelectFunctionTypeDto {
     EXIT("exit"),
-    CREATE("create"),
-    LIST("list"),
-    BLACK_LIST("blackList");
+    CREATE_VOUCHER("create voucher"),
+    LIST_VOUCHERS("list vouchers"),
+    SEARCH_VOUCHER("search voucher"),
+    UPDATE_VOUCHER("update voucher"),
+    DELETE_ALL_VOUCHERS("delete all vouchers"),
+    DELETE_VOUCHER("delete voucher"),
+    CREATE_CUSTOMER("create customer"),
+    LIST_CUSTOMERS("list customers"),
+    SEARCH_CUSTOMER("search customer"),
+    UPDATE_CUSTOMER("update customer"),
+    DELETE_ALL_CUSTOMERS("delete all customers"),
+    DELETE_CUSTOMER("delete customer"),
+    LIST_BLACK_CUSTOMERS("list black customers");
 
     private String name;
     private final static Logger logger = LoggerFactory.getLogger(SelectFunctionTypeDto.class);

@@ -4,8 +4,11 @@ import org.prgms.kdtspringweek1.console.ConsoleInput;
 import org.prgms.kdtspringweek1.controller.dto.CreateVoucherRequestDto;
 import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
 import org.prgms.kdtspringweek1.controller.dto.SelectVoucherTypeDto;
+import org.prgms.kdtspringweek1.controller.dto.UpdateVoucherRequestDto;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
 
 @Component
 public class ConsoleInputConverter {
@@ -26,5 +29,21 @@ public class ConsoleInputConverter {
 
     public CreateVoucherRequestDto getCreateVoucherRequestDto() {
         return new CreateVoucherRequestDto(Long.parseLong(consoleInput.getInput()));
+    }
+
+    public UUID getId() {
+        return UUID.fromString(consoleInput.getInput());
+    }
+
+    public String getCustomerName() {
+        return consoleInput.getInput();
+    }
+
+    public boolean getIsBlackCustomer() {
+        return Boolean.parseBoolean(consoleInput.getInput());
+    }
+
+    public UpdateVoucherRequestDto getUpdateVoucherRequestDto(UUID voucherId) {
+        return new UpdateVoucherRequestDto(voucherId, Long.parseLong(consoleInput.getInput()));
     }
 }
