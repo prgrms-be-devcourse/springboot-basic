@@ -17,12 +17,12 @@ public enum VoucherType {
 
     public static VoucherType getVoucherTypeByName(String name) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> voucherType.getLowerCaseName().equals(name))
+                .filter(voucherType -> voucherType.getName().equalsIgnoreCase(name))
                 .findAny().orElseThrow(VoucherTypeNotFoundException::new);
     }
 
-    public String getLowerCaseName() {
-        return this.name().toLowerCase();
+    private String getName() {
+        return this.name();
     }
 
     public VoucherPolicy getVoucherPolicy() {
