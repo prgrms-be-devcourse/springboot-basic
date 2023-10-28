@@ -72,8 +72,8 @@ public class CsvFileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> deleteById(UUID customerId) {
-        return Optional.ofNullable(customers.remove(customerId));
+    public void deleteById(UUID customerId) {
+        customers.remove(customerId);
     }
 
     @Override

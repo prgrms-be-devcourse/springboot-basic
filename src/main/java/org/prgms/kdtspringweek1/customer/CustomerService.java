@@ -47,8 +47,8 @@ public class CustomerService {
         customerRepository.deleteAll();
     }
 
-    public Optional<Customer> deleteCustomerById(UUID customerId) {
-        return customerRepository.deleteById(customerId);
+    public void deleteCustomerById(UUID customerId) {
+        customerRepository.deleteById(customerId);
     }
 
 }

@@ -41,7 +41,7 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    public Optional<Voucher> deleteVoucherById(UUID voucherId) {
-        return voucherRepository.deleteById(voucherId);
+    public void deleteVoucherById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 }

@@ -3,7 +3,6 @@ package org.prgms.kdtspringweek1.customer.repository;
 import org.prgms.kdtspringweek1.customer.entity.Customer;
 import org.prgms.kdtspringweek1.exception.JdbcException;
 import org.prgms.kdtspringweek1.exception.JdbcExceptionCode;
-import org.prgms.kdtspringweek1.voucher.repository.JdbcVoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,7 +16,7 @@ import java.util.*;
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
-    private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -77,7 +76,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Customer update(Customer customer) {
-        int isUpdated = jdbcTemplate.update("UPDATE customers SET name = :name, is_black_customer = :isBlackCustomer WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+        int isUpdated = jdbcTemplate.update("UPDATE customers SET name = :name, is_black_customer = :isBlackCustomer WHERE customer_id = UUID_TO_BIN(:customerId)",
                 toParamMap(customer));
         if (isUpdated != 1) {
             logger.error(JdbcExceptionCode.FAIL_TO_UPDATE.getMessage());
@@ -93,14 +92,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> deleteById(UUID customerId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("DELETE customers WHERE customer_id = UUID_TO_BIN(:customerId)",
-                    Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                    customerRowMapper));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("customerId 해당하는 customer를 찾지 못했습니다.");
-            return Optional.empty();
+    public void deleteById(UUID customerId) {
+        int isUpdated = jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)",
+                Collections.singletonMap("customerId", customerId.toString().getBytes()));
+
+        if (isUpdated != 1) {
+            logger.error(JdbcExceptionCode.FAIL_TO_DELETE.getMessage());
+            throw new JdbcException(JdbcExceptionCode.FAIL_TO_DELETE);
         }
     }
 

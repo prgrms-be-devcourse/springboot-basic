@@ -74,8 +74,8 @@ public class CsvFileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> deleteById(UUID voucherId) {
-        return Optional.ofNullable(vouchers.remove(voucherId));
+    public void deleteById(UUID voucherId) {
+        vouchers.remove(voucherId);
     }
 
     private void prepareCsv() {

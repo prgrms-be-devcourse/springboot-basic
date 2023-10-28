@@ -142,14 +142,9 @@ public class AppController {
 
     private void deleteVoucher() {
         try {
-            consoleOutput.printRequestMessageForId();
-            voucherService.deleteVoucherById(consoleInputConverter.getId())
-                    .ifPresentOrElse(
-                            voucher -> {
-                                consoleOutput.printSuccessToDelete();
-                            },
-                            consoleOutput::printValueNotFound
-                    );
+            consoleOutput.printRequestMessageForVoucherId();
+            voucherService.deleteVoucherById(consoleInputConverter.getId());
+            consoleOutput.printSuccessToDelete();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             logger.error(e.getMessage());
@@ -229,14 +224,9 @@ public class AppController {
 
     private void deleteCustomer() {
         try {
-            consoleOutput.printRequestMessageForId();
-            customerService.deleteCustomerById(consoleInputConverter.getId())
-                    .ifPresentOrElse(
-                            voucher -> {
-                                consoleOutput.printSuccessToDelete();
-                            },
-                            consoleOutput::printValueNotFound
-                    );
+            consoleOutput.printRequestMessageForCustomerId();
+            customerService.deleteCustomerById(consoleInputConverter.getId());
+            consoleOutput.printSuccessToDelete();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             logger.error(e.getMessage());

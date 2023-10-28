@@ -104,14 +104,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> deleteById(UUID voucherId) {
-        try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject("DELETE vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
-                    Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
-                    voucherRowMapper));
-        } catch (EmptyResultDataAccessException e) {
-            logger.error("voucherId에 해당하는 voucher를 찾지 못했습니다.");
-            return Optional.empty();
+    public void deleteById(UUID voucherId) {
+        int isUpdated = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
+
+        if (isUpdated != 1) {
+            logger.error(JdbcExceptionCode.FAIL_TO_DELETE.getMessage());
+            throw new JdbcException(JdbcExceptionCode.FAIL_TO_DELETE);
         }
     }
 }
