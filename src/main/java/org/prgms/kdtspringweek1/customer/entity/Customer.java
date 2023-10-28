@@ -7,7 +7,25 @@ public class Customer {
     private final String name;
     private boolean isBlackCustomer = false;
 
-    public Customer(UUID customerId, String name, boolean isBlackCustomer) {
+    public static Customer createWithName(String name) {
+        return new Customer(name);
+    }
+
+    public static Customer createWithIdAndNameAndIsBlackCustomer(UUID customerId, String name, boolean isBlackCustomer) {
+        return new Customer(customerId, name, isBlackCustomer);
+    }
+
+    private Customer(String name) {
+        this.customerId = UUID.randomUUID();
+        this.name = name;
+    }
+
+    private Customer(UUID customerId, String name) {
+        this.customerId = customerId;
+        this.name = name;
+    }
+
+    private Customer(UUID customerId, String name, boolean isBlackCustomer) {
         this.customerId = customerId;
         this.name = name;
         this.isBlackCustomer = isBlackCustomer;
