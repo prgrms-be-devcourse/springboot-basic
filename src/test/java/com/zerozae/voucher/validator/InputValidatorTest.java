@@ -1,6 +1,6 @@
 package com.zerozae.voucher.validator;
 
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +29,7 @@ class InputValidatorTest {
         String validInput = "test";
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             InputValidator.validateInputNumber(validInput);
         });
     }
@@ -54,7 +54,7 @@ class InputValidatorTest {
         String validInput = "42";
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             InputValidator.validateInputString(validInput);
         });
     }

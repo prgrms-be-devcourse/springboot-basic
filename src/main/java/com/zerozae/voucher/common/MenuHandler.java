@@ -14,7 +14,7 @@ import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.view.ConsoleView;
 import org.springframework.stereotype.Component;
 
@@ -48,8 +48,8 @@ public class MenuHandler {
                 case "walletProgram" -> consoleView.printWalletCommand();
             }
             return MenuType.of(consoleView.inputCommand());
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e){
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -69,8 +69,8 @@ public class MenuHandler {
 
             VoucherCreateRequest voucherRequest = new VoucherCreateRequest(discount, voucherType);
             consoleView.printSystemMessage(voucherController.createVoucher(voucherRequest).getMessage());
-        }catch (ErrorMessage e) {
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e) {
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -90,7 +90,7 @@ public class MenuHandler {
             Response<VoucherResponse> result = voucherController.findVoucherById(voucherId);
             consoleView.printSystemMessage(result.getData().getInfo());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -102,7 +102,7 @@ public class MenuHandler {
 
             consoleView.printSystemMessage(voucherController.deleteById(voucherId).getMessage());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -111,7 +111,7 @@ public class MenuHandler {
             consoleView.printSystemMessage("전체 바우처를 제거하겠습니다.");
             consoleView.printSystemMessage(voucherController.deleteAll().getMessage());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -132,7 +132,7 @@ public class MenuHandler {
             VoucherUpdateRequest updateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType);
             consoleView.printSystemMessage(voucherController.updateVoucher(voucherId, updateRequest).getMessage());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -148,8 +148,8 @@ public class MenuHandler {
 
             CustomerCreateRequest customerRequest = new CustomerCreateRequest(customerName, customerType);
             consoleView.printSystemMessage(customerController.createCustomer(customerRequest).getMessage());
-        }catch (ErrorMessage e) {
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e) {
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -176,7 +176,7 @@ public class MenuHandler {
             Response<CustomerResponse> data = customerController.findCustomerById(customerId);
             consoleView.printSystemMessage(data.getData().getInfo());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -197,7 +197,7 @@ public class MenuHandler {
 
             consoleView.printSystemMessage(customerController.updateCustomer(customerId, customerRequest).getMessage());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -209,7 +209,7 @@ public class MenuHandler {
 
             consoleView.printSystemMessage(customerController.deleteCustomerById(customerId).getMessage());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -218,7 +218,7 @@ public class MenuHandler {
             consoleView.printSystemMessage("전체 회원을 제거하겠습니다.");
             consoleView.printSystemMessage(customerController.deleteAllCustomers().getMessage());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -235,7 +235,7 @@ public class MenuHandler {
             WalletCreateRequest walletRequest = new WalletCreateRequest(customerId, voucherId);
             consoleView.printSystemMessage(walletController.createWallet(walletRequest).getMessage());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -250,7 +250,7 @@ public class MenuHandler {
             UUID voucherId = UUID.fromString(consoleView.inputUuid());
             consoleView.printSystemMessage(walletController.deleteWalletsById(customerId, voucherId).getMessage());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -264,7 +264,7 @@ public class MenuHandler {
             result.getData()
                     .forEach(voucher -> consoleView.printInfo(voucher.getInfo()));
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -278,7 +278,7 @@ public class MenuHandler {
             result.getData()
                     .forEach(customer -> consoleView.printInfo(customer.getInfo()));
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -287,7 +287,7 @@ public class MenuHandler {
             consoleView.printSystemMessage("지갑 전체를 초기화합니다.");
             consoleView.printSystemMessage(walletController.deleteAllWallets().getMessage());
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.zerozae.voucher.domain.voucher;
 
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
 
 import java.util.UUID;
 

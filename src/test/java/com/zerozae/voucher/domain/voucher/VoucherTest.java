@@ -1,10 +1,7 @@
 package com.zerozae.voucher.domain.voucher;
 
-import com.zerozae.voucher.domain.voucher.FixedDiscountVoucher;
-import com.zerozae.voucher.domain.voucher.UseStatusType;
-import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +29,7 @@ class VoucherTest {
         long discount = -10L;
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             new FixedDiscountVoucher(discount);
         });
     }
@@ -71,7 +68,7 @@ class VoucherTest {
         VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType);
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             voucher.updateVoucherInfo(voucherUpdateRequest);
         });
     }

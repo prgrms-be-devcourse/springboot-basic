@@ -3,7 +3,7 @@ package com.zerozae.voucher.service.wallet;
 import com.zerozae.voucher.domain.wallet.Wallet;
 import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
 import com.zerozae.voucher.dto.wallet.WalletResponse;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +56,7 @@ class WalletServiceTest {
         when(walletRepository.findWallet(wallet.customerId(), wallet.voucherId())).thenReturn(Optional.of(wallet));
 
         // When & Then
-        assertThrows(ErrorMessage.class,() -> {
+        assertThrows(ExceptionMessage.class,() -> {
             walletService.createWallet(walletRequest);
         });
     }
@@ -112,7 +112,7 @@ class WalletServiceTest {
         when(walletRepository.findWallet(wallet.customerId(), wallet.voucherId())).thenReturn(Optional.empty());
 
         // When & Then
-        assertThrows(ErrorMessage.class , () -> {
+        assertThrows(ExceptionMessage.class , () -> {
            walletService.deleteWalletFromCustomer(wallet.customerId(), wallet.voucherId());
         });
     }

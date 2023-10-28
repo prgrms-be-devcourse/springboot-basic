@@ -3,7 +3,7 @@ package com.zerozae.voucher.service.wallet;
 import com.zerozae.voucher.domain.wallet.Wallet;
 import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
 import com.zerozae.voucher.dto.wallet.WalletResponse;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +24,7 @@ public class WalletService {
 
     public WalletResponse createWallet(WalletCreateRequest walletRequest) {
         if(isAlreadyExistWallet(walletRequest)){
-            throw ErrorMessage.error("이미 존재하는 지갑입니다.");
+            throw ExceptionMessage.error("이미 존재하는 지갑입니다.");
         }
         Wallet wallet = walletRequest.to();
         walletRepository.save(wallet);
@@ -49,7 +49,7 @@ public class WalletService {
     }
 
     public void deleteWalletFromCustomer(UUID customerId, UUID voucherId) {
-        walletRepository.findWallet(customerId,voucherId).orElseThrow(() -> ErrorMessage.error("지갑이 존재하지 않습니다."));
+        walletRepository.findWallet(customerId,voucherId).orElseThrow(() -> ExceptionMessage.error("지갑이 존재하지 않습니다."));
         walletRepository.deleteByAllId(customerId,voucherId);
     }
 

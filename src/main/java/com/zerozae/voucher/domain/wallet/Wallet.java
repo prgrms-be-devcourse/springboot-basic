@@ -4,7 +4,6 @@ import lombok.Getter;
 
 import java.util.UUID;
 
-@Getter
 public record Wallet(UUID customerId, UUID voucherId) {
 
 }

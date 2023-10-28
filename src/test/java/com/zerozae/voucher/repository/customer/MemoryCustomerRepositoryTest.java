@@ -3,6 +3,7 @@ package com.zerozae.voucher.repository.customer;
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -126,7 +127,7 @@ class MemoryCustomerRepositoryTest {
     void updateCustomer_Success_Test() {
         // Given
         customerRepository.save(normalCustomer);
-        CustomerCreateRequest customerRequest = new CustomerCreateRequest("진상 고객", CustomerType.BLACKLIST);
+        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest("진상 고객", CustomerType.BLACKLIST);
 
         // When
         customerRepository.update(normalCustomer.getCustomerId(), customerRequest);

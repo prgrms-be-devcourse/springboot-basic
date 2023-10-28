@@ -1,6 +1,6 @@
 package com.zerozae.voucher.util;
 
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -27,7 +27,7 @@ public class FileUtil {
             try {
                 file.createNewFile();
             } catch (Exception e){
-                throw ErrorMessage.error("파일 생성 중 문제가 발생했습니다.");
+                throw ExceptionMessage.error("파일 생성 중 문제가 발생했습니다.");
             }
         }
     }
@@ -36,7 +36,7 @@ public class FileUtil {
         try {
             Files.writeString(Path.of(filePath), saveData, StandardOpenOption.APPEND);
         }catch (Exception e){
-            throw ErrorMessage.error("파일 저장 중 문제가 발생했습니다.");
+            throw ExceptionMessage.error("파일 저장 중 문제가 발생했습니다.");
         }
     }
 
@@ -44,7 +44,7 @@ public class FileUtil {
         try {
             return Files.readAllLines(Path.of(filePath), StandardCharsets.UTF_8);
         }catch (Exception e) {
-            throw ErrorMessage.error("파일로부터 데이터를 읽어오던 중 문제가 발생했습니다.");
+            throw ExceptionMessage.error("파일로부터 데이터를 읽어오던 중 문제가 발생했습니다.");
         }
     }
 
@@ -64,7 +64,7 @@ public class FileUtil {
                 }
             }
         } catch (IOException e) {
-            throw ErrorMessage.error("파일 수정 중 오류가 발생했습니다.");
+            throw ExceptionMessage.error("파일 수정 중 오류가 발생했습니다.");
         }
         backupAndRenameFile(filePath);
     }
@@ -78,7 +78,7 @@ public class FileUtil {
             }
             file.createNewFile();
         } catch (IOException e) {
-            throw ErrorMessage.error("파일의 데이터를 모두 삭제하던 중 오류가 발생했습니다.");
+            throw ExceptionMessage.error("파일의 데이터를 모두 삭제하던 중 오류가 발생했습니다.");
         }
     }
 
@@ -97,7 +97,7 @@ public class FileUtil {
                 }
             }
         } catch (IOException e) {
-            throw ErrorMessage.error("파일 데이터 삭제 작업 중 오류가 발생했습니다.");
+            throw ExceptionMessage.error("파일 데이터 삭제 작업 중 오류가 발생했습니다.");
         }
         backupAndRenameFile(filePath);
     }

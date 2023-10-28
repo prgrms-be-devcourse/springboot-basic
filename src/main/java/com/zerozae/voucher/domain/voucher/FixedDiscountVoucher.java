@@ -1,6 +1,6 @@
 package com.zerozae.voucher.domain.voucher;
 
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -14,8 +14,8 @@ public class FixedDiscountVoucher extends Voucher {
     public FixedDiscountVoucher(Long discount) {
         try {
             validateVoucherInfo(discount);
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e){
+            throw ExceptionMessage.error(e.getMessage());
         }
         this.voucherId = UUID.randomUUID();
         this.discount = discount;
@@ -26,8 +26,8 @@ public class FixedDiscountVoucher extends Voucher {
     public FixedDiscountVoucher(UUID voucherId, long discount, UseStatusType useStatusType) {
         try {
             validateVoucherInfo(discount);
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e){
+            throw ExceptionMessage.error(e.getMessage());
         }
         this.voucherId = voucherId;
         this.discount = discount;
@@ -38,7 +38,7 @@ public class FixedDiscountVoucher extends Voucher {
     @Override
     public void validateVoucherInfo(long discount) {
         if(discount < ZERO) {
-            throw ErrorMessage.error("고정할인 바우처의 할인 정보는 음수값을 입력할 수 없습니다.");
+            throw ExceptionMessage.error("고정할인 바우처의 할인 정보는 음수값을 입력할 수 없습니다.");
         }
     }
 }

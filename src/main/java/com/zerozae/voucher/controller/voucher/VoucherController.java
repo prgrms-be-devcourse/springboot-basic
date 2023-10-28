@@ -4,7 +4,7 @@ import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.service.voucher.VoucherService;
 import org.springframework.stereotype.Controller;
 
@@ -25,8 +25,8 @@ public class VoucherController {
         try {
             voucherService.createVoucher(voucherRequest);
             return Response.success();
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e){
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -40,7 +40,7 @@ public class VoucherController {
             VoucherResponse findVoucher = voucherService.findById(voucherId);
             return Response.success(findVoucher);
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -49,7 +49,7 @@ public class VoucherController {
             voucherService.deleteById(voucherId);
             return Response.success();
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -58,7 +58,7 @@ public class VoucherController {
             voucherService.deleteAll();
             return Response.success();
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -67,7 +67,7 @@ public class VoucherController {
             voucherService.update(voucherId, voucherUpdateRequest);
             return Response.success();
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 }

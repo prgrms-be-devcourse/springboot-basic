@@ -1,7 +1,7 @@
 package com.zerozae.voucher.repository.wallet;
 
 import com.zerozae.voucher.domain.wallet.Wallet;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -36,7 +36,7 @@ public class WalletRepository {
                 toParamMap(wallet));
 
         if(insert != 1){
-            throw ErrorMessage.error("저장에 실패했습니다.");
+            throw ExceptionMessage.error("저장에 실패했습니다.");
         }
         return wallet;
     }

@@ -7,7 +7,7 @@ import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,8 +35,8 @@ public class VoucherService {
             };
             voucherRepository.save(voucher);
             return VoucherResponse.toDto(voucher);
-        }catch (ErrorMessage e) {
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e) {
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -50,17 +50,17 @@ public class VoucherService {
 
     @Transactional(readOnly = true)
     public VoucherResponse findById(UUID voucherId) {
-        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
+        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> ExceptionMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         return VoucherResponse.toDto(voucher);
     }
 
     public void update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
-        voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
+        voucherRepository.findById(voucherId).orElseThrow(() -> ExceptionMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.update(voucherId, voucherUpdateRequest);
     }
 
     public void deleteById(UUID voucherId) {
-        voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
+        voucherRepository.findById(voucherId).orElseThrow(() -> ExceptionMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.deleteById(voucherId);
     }
 

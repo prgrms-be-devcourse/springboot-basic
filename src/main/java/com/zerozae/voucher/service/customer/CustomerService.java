@@ -5,7 +5,7 @@ import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,8 +33,8 @@ public class CustomerService {
             Customer customer = customerRequest.to(UUID.randomUUID());
             customerRepository.save(customer);
             return CustomerResponse.toDto(customer);
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e){
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -57,12 +57,12 @@ public class CustomerService {
 
     @Transactional(readOnly = true)
     public CustomerResponse findById(UUID customerId) {
-        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> ErrorMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() -> ExceptionMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         return CustomerResponse.toDto(customer);
     }
 
     public void deleteById(UUID customerId) {
-        customerRepository.findById(customerId).orElseThrow(() -> ErrorMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
+        customerRepository.findById(customerId).orElseThrow(() -> ExceptionMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         customerRepository.delete(customerId);
     }
 
@@ -71,7 +71,7 @@ public class CustomerService {
     }
 
     public void update(UUID customerId, CustomerUpdateRequest customerRequest) {
-        customerRepository.findById(customerId).orElseThrow(() -> ErrorMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
+        customerRepository.findById(customerId).orElseThrow(() -> ExceptionMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         customerRepository.update(customerId, customerRequest);
     }
 
@@ -82,7 +82,7 @@ public class CustomerService {
                 .findAny();
 
         if(findCustomer.isPresent()) {
-            throw ErrorMessage.error(ALREADY_EXIST_CUSTOMER_MESSAGE);
+            throw ExceptionMessage.error(ALREADY_EXIST_CUSTOMER_MESSAGE);
         }
     }
 }

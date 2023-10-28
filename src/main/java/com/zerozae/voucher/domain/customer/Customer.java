@@ -1,8 +1,7 @@
 package com.zerozae.voucher.domain.customer;
 
-import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -30,7 +29,7 @@ public class Customer {
 
     private void isValidCustomerName(String customerName) {
         if(customerName == null || customerName.isBlank()){
-            throw ErrorMessage.error("회원 이름은 필수 입력 입니다.");
+            throw ExceptionMessage.error("회원 이름은 필수 입력 입니다.");
         }
     }
 }

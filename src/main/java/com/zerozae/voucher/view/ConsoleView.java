@@ -1,6 +1,6 @@
 package com.zerozae.voucher.view;
 
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.validator.InputValidator;
 import org.springframework.stereotype.Component;
 
@@ -26,9 +26,9 @@ public class ConsoleView implements Input, Output {
         try {
             return InputValidator.validateInputNumber(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
-        } catch (ErrorMessage e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
+        } catch (ExceptionMessage e) {
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -37,9 +37,9 @@ public class ConsoleView implements Input, Output {
         try {
             return bufferedReader.readLine();
         }catch (IOException e){
-            throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
+            throw ExceptionMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
         }catch (IllegalArgumentException e) {
-            throw ErrorMessage.error("유효하지 않은 UUID 형식입니다.");
+            throw ExceptionMessage.error("유효하지 않은 UUID 형식입니다.");
         }
     }
 
@@ -153,9 +153,9 @@ public class ConsoleView implements Input, Output {
         try {
             return InputValidator.validateInputString(bufferedReader.readLine());
         } catch (IOException e) {
-            throw ErrorMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
-        } catch (ErrorMessage e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(INPUT_READ_EXCEPTION_MESSAGE);
+        } catch (ExceptionMessage e) {
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 }

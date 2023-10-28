@@ -6,14 +6,13 @@ import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -54,7 +53,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 toParamMap(voucher));
 
         if(result != 1) {
-            throw ErrorMessage.error("저장에 실패했습니다.");
+            throw ExceptionMessage.error("저장에 실패했습니다.");
         }
 
         return voucher;
@@ -107,7 +106,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                         "voucherId", voucherId.toString().getBytes()));
 
         if(result != 1) {
-            throw ErrorMessage.error("바우처 업데이트에 실패했습니다.");
+            throw ExceptionMessage.error("바우처 업데이트에 실패했습니다.");
         }
     }
     private MapSqlParameterSource toParamMap(Voucher voucher) {

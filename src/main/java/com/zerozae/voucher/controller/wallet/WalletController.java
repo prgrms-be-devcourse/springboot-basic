@@ -5,7 +5,7 @@ import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
 import com.zerozae.voucher.dto.wallet.WalletResponse;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
 import com.zerozae.voucher.service.voucher.VoucherService;
 import com.zerozae.voucher.service.wallet.WalletService;
@@ -34,7 +34,7 @@ public class WalletController {
             walletService.createWallet(walletRequest);
             return Response.success();
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -48,7 +48,7 @@ public class WalletController {
 
             return Response.success(customers);
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -62,7 +62,7 @@ public class WalletController {
 
             return Response.success(vouchers);
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -73,7 +73,7 @@ public class WalletController {
             walletService.deleteWalletFromCustomer(customerId,voucherId);
             return Response.success();
         }catch (Exception e){
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 

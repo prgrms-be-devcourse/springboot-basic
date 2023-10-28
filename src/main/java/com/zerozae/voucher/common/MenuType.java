@@ -1,8 +1,6 @@
 package com.zerozae.voucher.common;
 
-import com.zerozae.voucher.exception.ErrorMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.zerozae.voucher.exception.ExceptionMessage;
 
 
 public enum MenuType {
@@ -28,7 +26,7 @@ public enum MenuType {
         try {
             return MenuType.valueOf(input.toUpperCase());
         }catch (RuntimeException e) {
-            throw ErrorMessage.error("존재하지 않는 메뉴입니다. 다시 입력해주세요.");
+            throw ExceptionMessage.error("존재하지 않는 메뉴입니다. 다시 입력해주세요.");
         }
     }
 }

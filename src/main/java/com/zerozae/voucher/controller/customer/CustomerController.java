@@ -4,7 +4,7 @@ import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.springframework.stereotype.Controller;
 
@@ -24,8 +24,8 @@ public class CustomerController {
         try{
             customerService.createCustomer(customerRequest);
             return Response.success();
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e){
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -44,7 +44,7 @@ public class CustomerController {
             CustomerResponse customerReponse = customerService.findById(customerId);
             return Response.success(customerReponse);
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 
@@ -53,7 +53,7 @@ public class CustomerController {
             customerService.deleteById(customerId);
             return Response.success();
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
     public Response deleteAllCustomers() {
@@ -66,7 +66,7 @@ public class CustomerController {
             customerService.update(customerId, customerRequest);
             return Response.success();
         }catch (Exception e) {
-            throw ErrorMessage.error(e.getMessage());
+            throw ExceptionMessage.error(e.getMessage());
         }
     }
 }

@@ -8,7 +8,7 @@ import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -98,7 +98,7 @@ class VoucherServiceTest {
         when(voucherRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             VoucherResponse findVoucher = voucherService.findById(notExistId);
         });
         verify(voucherRepository, times(1)).findById(notExistId);
@@ -127,7 +127,7 @@ class VoucherServiceTest {
         when(voucherRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // When
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             voucherService.deleteById(notExistId);
         });
 
@@ -173,7 +173,7 @@ class VoucherServiceTest {
         when(voucherRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             voucherService.update(notExistId, voucherUpdateRequest);
         });
         verify(voucherRepository, times(1)).findById(notExistId);

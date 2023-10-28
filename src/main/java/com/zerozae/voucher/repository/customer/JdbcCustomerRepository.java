@@ -2,9 +2,8 @@ package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -47,7 +46,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 toParamMap(customer));
 
         if(updated != 1) {
-            throw ErrorMessage.error("저장에 실패했습니다.");
+            throw ExceptionMessage.error("저장에 실패했습니다.");
         }
         return customer;
     }
@@ -97,7 +96,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                         "customerId", customerId.toString().getBytes()));
 
         if(update != 1) {
-            throw ErrorMessage.error("업데이트에 실패했습니다.");
+            throw ExceptionMessage.error("업데이트에 실패했습니다.");
         }
     }
 

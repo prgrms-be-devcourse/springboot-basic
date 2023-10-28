@@ -4,7 +4,8 @@ import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.customer.CustomerRepository;
 import com.zerozae.voucher.repository.customer.MemoryCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,7 +98,7 @@ class CustomerServiceTest {
         when(customerRepository.findAll()).thenReturn(List.of(blackCustomer));
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             customerService.createCustomer(customerRequest);
         });
     }
@@ -127,7 +128,7 @@ class CustomerServiceTest {
         when(customerRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // When & Then
-        assertThrows(ErrorMessage.class,  () ->  {
+        assertThrows(ExceptionMessage.class,  () ->  {
             customerService.findById(notExistId);
         });
         verify(customerRepository, times(1)).findById(notExistId);
@@ -156,7 +157,7 @@ class CustomerServiceTest {
         when(customerRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // Then & When
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             customerService.deleteById(notExistId);
         });
         verify(customerRepository,times(1)).findById(notExistId);
@@ -178,7 +179,7 @@ class CustomerServiceTest {
     @DisplayName("회원 업데이트 호출 테스트")
     void updateCustomer_Success_Test() {
         // Given
-        CustomerCreateRequest updateRequest = new CustomerCreateRequest("고객2", CustomerType.BLACKLIST);
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", CustomerType.BLACKLIST);
         Customer customer = normalCustomer;
         when(customerRepository.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
 
@@ -194,12 +195,12 @@ class CustomerServiceTest {
     @DisplayName("회원 업데이트 실패 테스트")
     void updateCustomer_NotExistId_Failed_Test() {
         // Given
-        CustomerCreateRequest updateRequest = new CustomerCreateRequest("고객2", CustomerType.BLACKLIST);
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", CustomerType.BLACKLIST);
         UUID notExistId = UUID.randomUUID();
         when(customerRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             customerService.update(notExistId, updateRequest);
         });
         verify(customerRepository, times(1)).findById(notExistId);

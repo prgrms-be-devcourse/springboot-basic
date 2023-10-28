@@ -1,6 +1,6 @@
 package com.zerozae.voucher.domain.voucher;
 
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 
 public enum UseStatusType {
 
@@ -21,7 +21,7 @@ public enum UseStatusType {
         try {
             return UseStatusType.valueOf(input.toUpperCase());
         }catch (RuntimeException e) {
-            throw ErrorMessage.error("존재하지 않는 사용 타입입니다. 다시 입력해주세요.");
+            throw ExceptionMessage.error("존재하지 않는 사용 타입입니다. 다시 입력해주세요.");
         }
     }
 }

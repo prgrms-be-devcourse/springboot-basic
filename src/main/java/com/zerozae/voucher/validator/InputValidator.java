@@ -1,6 +1,6 @@
 package com.zerozae.voucher.validator;
 
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 
 
 public class InputValidator {
@@ -12,7 +12,7 @@ public class InputValidator {
         if (input != null && input.matches(NUMBER_PATTERN)) {
             return Long.valueOf(input);
         } else {
-            throw ErrorMessage.error("입력값은 숫자여야 합니다.");
+            throw ExceptionMessage.error("입력값은 숫자여야 합니다.");
         }
     }
 
@@ -20,7 +20,7 @@ public class InputValidator {
         if (input != null && input.matches(KOREAN_ALPHABET_PATTERN)) {
             return input;
         } else {
-            throw ErrorMessage.error("입력값은 문자열이어야 합니다.");
+            throw ExceptionMessage.error("입력값은 문자열이어야 합니다.");
         }
     }
 }

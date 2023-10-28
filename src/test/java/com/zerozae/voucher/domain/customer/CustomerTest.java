@@ -1,8 +1,7 @@
 package com.zerozae.voucher.domain.customer;
 
-import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +37,7 @@ class CustomerTest {
         CustomerType customerType = CustomerType.BLACKLIST;
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             new Customer(customerId, username, customerType);
         });
     }
@@ -78,7 +77,7 @@ class CustomerTest {
         CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, newCustomerType);
 
         // When & Then
-        assertThrows(ErrorMessage.class, () -> {
+        assertThrows(ExceptionMessage.class, () -> {
             createdCustomer.updateCustomerInfo(customerRequest);
         });
     }
