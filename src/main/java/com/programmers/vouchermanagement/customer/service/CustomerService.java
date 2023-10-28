@@ -64,6 +64,9 @@ public class CustomerService {
     public CustomerResponse findByVoucherId(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NoSuchElementException(("There is no voucher with %s").formatted(voucherId)));
+        if (!voucher.isOwned()) {
+            throw new NoSuchElementException("This voucher is not owned by any customer");
+        }
         return findById(voucher.getCustomerId());
     }
 

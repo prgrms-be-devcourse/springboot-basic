@@ -38,4 +38,8 @@ public class Voucher {
     public UUID getCustomerId() {
         return customerId;
     }
+
+    public boolean isOwned() {
+        return this.customerId != null;
+    }
 }
