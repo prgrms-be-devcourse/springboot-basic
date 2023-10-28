@@ -13,3 +13,10 @@ CREATE TABLE IF NOT EXISTS voucher (
     discount BIGINT,
     voucher_type ENUM('FIXED', 'PERCENT')
 );
+
+DROP TABLE IF EXISTS wallet;
+CREATE TABLE IF NOT EXISTS wallet (
+    wallet_id BINARY(16) PRIMARY KEY,
+    customer_id BINARY(16),
+    voucher_id BINARY(16)
+);
