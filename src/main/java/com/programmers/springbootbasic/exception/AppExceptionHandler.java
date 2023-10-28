@@ -1,5 +1,7 @@
 package com.programmers.springbootbasic.exception;
 
+import static com.programmers.springbootbasic.exception.ErrorCode.DATABASE_ERROR;
+
 import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
 import com.programmers.springbootbasic.exception.exceptionClass.FileIOException;
 import com.programmers.springbootbasic.exception.exceptionClass.SystemException;
@@ -10,6 +12,7 @@ import com.programmers.springbootbasic.mediator.RequestProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -55,6 +58,11 @@ public class AppExceptionHandler {
             logger.error(String.format("User Error : %s", e.getMessage()));
             requestProcessor.sendResponse(
                 ConsoleResponse.createNoBodyResponse(e.getMessage())
+            );
+        } catch (DataAccessException e) {
+            logger.error(String.format("DataAccess Error : %s", e.getMessage()));
+            requestProcessor.sendResponse(
+                ConsoleResponse.createNoBodyResponse(DATABASE_ERROR.getMessage())
             );
         } catch (Exception e) {
             logger.error(String.format("Unknown Error : %s", e.getMessage()));
