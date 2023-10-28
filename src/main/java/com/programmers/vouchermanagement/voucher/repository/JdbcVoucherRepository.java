@@ -8,8 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -17,7 +17,10 @@ import java.util.UUID;
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final String CREATE = "INSERT INTO voucher(voucher_id, discount, voucher_type) VALUES(UUID_TO_BIN(?), (?), (?))";
-    private static final String READ = "SELECT * FROM voucher";
+    private static final String READ_ALL = "SELECT * FROM voucher";
+    private static final String READ_ONCE = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String UPDATE = "UPDATE voucher SET discount = ?, voucher_type = ? WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String DELETE = "DELETE FROM voucher";
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, index) -> {
 
@@ -36,7 +39,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-
         jdbcTemplate.update(CREATE,
                 voucher.getVoucherId().toString(),
                 voucher.getDiscount(),
@@ -46,18 +48,26 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
 
-        List<Voucher> vouchers = jdbcTemplate.query(READ, voucherRowMapper);
+        List<Voucher> vouchers = jdbcTemplate.query(READ_ALL, voucherRowMapper);
 
         return vouchers;
     }
 
-    private static UUID bytesToUUID(byte[] bytes) {
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(jdbcTemplate.queryForObject(READ_ONCE, voucherRowMapper, voucherId.toString()));
+    }
 
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+    @Override
+    public void update(Voucher voucher) {
+        jdbcTemplate.update(UPDATE,
+                voucher.getDiscount(),
+                voucher.getVoucherType().toString(),
+                voucher.getVoucherId().toString());
+    }
 
-        long mostSignificantBits = byteBuffer.getLong();
-        long leastSignificantBits = byteBuffer.getLong();
-
-        return new UUID(mostSignificantBits, leastSignificantBits);
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update(DELETE);
     }
 }
