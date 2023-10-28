@@ -28,9 +28,9 @@ import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
@@ -45,7 +45,7 @@ class VoucherServiceTest {
         voucherRepository = mock(VoucherRepository.class);
         voucherService = new VoucherService(voucherRepository, customerRepository);
     }
-    
+
     @Test
     @DisplayName("고정 금액 바우처 생성에 성공한다.")
     void testFixedVoucherCreationSuccessful() {
@@ -140,12 +140,13 @@ class VoucherServiceTest {
     void testFindVoucherByIdFailed_NonExistentVoucher() {
         //given
         doReturn(Optional.empty()).when(voucherRepository).findById(any(UUID.class));
+        final UUID voucherId = UUID.randomUUID();
 
         //when & then
-        assertThatThrownBy(() -> voucherService.findById(UUID.randomUUID())).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> voucherService.findById(voucherId)).isInstanceOf(NoSuchElementException.class);
 
         //verify
-        verify(voucherRepository).findById(any(UUID.class));
+        verify(voucherRepository).findById(voucherId);
     }
 
     @Test
