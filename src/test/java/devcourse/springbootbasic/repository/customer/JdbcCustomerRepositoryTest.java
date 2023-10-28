@@ -90,7 +90,7 @@ class JdbcCustomerRepositoryTest {
 
         // When
         Customer customer = customerRepository.findById(customerId).orElseThrow();
-        int updatedRows = customerRepository.update(customer.updateBlacklistStatus(true));
+        int updatedRows = customerRepository.update(customer.applyBlacklist());
 
         // Then
         assertThat(updatedRows).isEqualTo(1);

@@ -77,7 +77,7 @@ class InMemoryCustomerRepositoryTest {
         customerRepository.save(customer);
 
         // When
-        customer.updateBlacklistStatus(true);
+        customer.applyBlacklist();
         int updatedRows = customerRepository.update(customer);
 
         // Then

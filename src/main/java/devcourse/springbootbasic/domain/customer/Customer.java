@@ -27,8 +27,13 @@ public class Customer {
                 .build();
     }
 
-    public Customer updateBlacklistStatus(boolean isBlacklisted) {
-        this.isBlacklisted = isBlacklisted;
+    public Customer applyBlacklist() {
+        this.isBlacklisted = true;
+        return this;
+    }
+
+    public Customer releaseBlacklist() {
+        this.isBlacklisted = false;
         return this;
     }
 }

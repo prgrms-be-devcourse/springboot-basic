@@ -30,15 +30,13 @@ class CustomerTest {
     void givenUpdatedBlacklistStatus_whenUpdateBlacklistStatus_thenBlacklistStatusIsUpdated() {
         // Given
         String name = "Platypus";
-        boolean initialBlacklistStatus = true;
-        Customer customer = Customer.createCustomer(UUID.randomUUID(), name, initialBlacklistStatus);
+        Customer customer = Customer.createCustomer(UUID.randomUUID(), name, true);
 
         // When
-        boolean updatedBlacklistStatus = false;
-        customer = customer.updateBlacklistStatus(updatedBlacklistStatus);
+        customer = customer.releaseBlacklist();
 
         // Then
         assertThat(customer).isNotNull();
-        assertThat(customer.isBlacklisted()).isEqualTo(updatedBlacklistStatus);
+        assertThat(customer.isBlacklisted()).isFalse();
     }
 }

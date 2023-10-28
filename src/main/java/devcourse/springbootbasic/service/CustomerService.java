@@ -34,10 +34,10 @@ public class CustomerService {
 
     @Transactional
     public Customer updateBlacklistStatus(CustomerUpdateBlacklistRequest customerUpdateBlacklistRequest) {
-        Customer updatedCustomer = this.findById(customerUpdateBlacklistRequest.getId())
-                .updateBlacklistStatus(customerUpdateBlacklistRequest.isBlacklisted());
+        Customer findCustomer = this.findById(customerUpdateBlacklistRequest.getId());
 
-        return persist(updatedCustomer);
+        if (customerUpdateBlacklistRequest.isBlacklisted()) return persist(findCustomer.applyBlacklist());
+        else return persist(findCustomer.releaseBlacklist());
     }
 
     public Customer findById(UUID customerId) {
