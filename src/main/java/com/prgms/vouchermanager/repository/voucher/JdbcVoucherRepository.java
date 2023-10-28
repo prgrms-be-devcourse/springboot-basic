@@ -51,7 +51,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("id", id.toString());
         try {
-            return Optional.of(template.queryForObject(SELECT_BY_ID.getQuery(), param, voucherRowMapper()));
+            return Optional.ofNullable(template.queryForObject(SELECT_BY_ID.getQuery(), param, voucherRowMapper()));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

@@ -65,7 +65,7 @@ public class JdbcWalletRepository implements WalletRepository {
                 .addValue("voucher_id", voucherId.toString());
 
         try {
-            return Optional.of(template.queryForObject(SELECT_BY_VOUCHER_ID.getQuery(), param, walletRowMapper()));
+            return Optional.ofNullable(template.queryForObject(SELECT_BY_VOUCHER_ID.getQuery(), param, walletRowMapper()));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

@@ -67,7 +67,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 .addValue("id", id);
 
         try {
-            return Optional.of(template.queryForObject(SELECT_BY_ID.getQuery(), param, customerRowMapper()));
+            return Optional.ofNullable(template.queryForObject(SELECT_BY_ID.getQuery(), param, customerRowMapper()));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
