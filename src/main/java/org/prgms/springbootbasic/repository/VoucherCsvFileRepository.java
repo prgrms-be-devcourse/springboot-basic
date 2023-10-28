@@ -16,11 +16,11 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile({"dev", "prod"})
 @Primary
 @Slf4j
-public class VoucherFileRepository implements VoucherRepository { // csv를 다루니 이름은 Csv를 붙여 더 명확히 해야 하지 않나 싶다.
+public class VoucherCsvFileRepository implements VoucherRepository {
     private final ConcurrentHashMap<UUID, VoucherPolicy> vouchers = new ConcurrentHashMap<>();
     private final VoucherCsvFileManager voucherCsvFileManager;
 
-    public VoucherFileRepository(VoucherCsvFileManager voucherCsvFileManager) {
+    public VoucherCsvFileRepository(VoucherCsvFileManager voucherCsvFileManager) {
         log.debug("FileVoucherRepository started.");
 
         this.voucherCsvFileManager = voucherCsvFileManager;
