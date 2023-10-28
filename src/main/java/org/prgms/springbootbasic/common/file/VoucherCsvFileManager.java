@@ -29,14 +29,14 @@ public class VoucherCsvFileManager { // CsvFileManager 하나로 합쳐서. doma
     }
 
     public List<VoucherPolicy> read(){
-        return csvFileTemplate.read(FILE_PATH, this::lineToVoucher);
+        return csvFileTemplate.read(FILE_PATH, this::covertToVoucher);
     }
 
     public void write(List<VoucherPolicy> voucherPolicies){
-        csvFileTemplate.write(FILE_PATH, voucherPolicies, this::voucherToString, CSV_FIRST_LINE);
+        csvFileTemplate.write(FILE_PATH, voucherPolicies, this::convertToString, CSV_FIRST_LINE);
     }
 
-    private VoucherPolicy lineToVoucher(String line){
+    private VoucherPolicy covertToVoucher(String line){
         log.debug("line = {}", line);
 
         List<String> splitLine = Arrays.stream(line.split(CSV_PATTERN))
@@ -62,7 +62,7 @@ public class VoucherCsvFileManager { // CsvFileManager 하나로 합쳐서. doma
         throw new IllegalArgumentException("Invalid voucher type.");
     }
 
-    private String voucherToString(VoucherPolicy voucherPolicy){
+    private String convertToString(VoucherPolicy voucherPolicy){
         StringBuilder sb = new StringBuilder();
 
         sb.append(voucherPolicy.getVoucherId());
