@@ -27,7 +27,7 @@ import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-import com.programmers.vouchermanagement.voucher.dto.AssignVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
@@ -136,12 +136,12 @@ class VoucherServiceTest {
     @Test
     @DisplayName("존재하지 않는 고객에게 바우처 할당을 실패한다.")
     void testAssignVoucherFailed_NonExistentCustomer() {
-        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final VoucherCustomerRequest request = new VoucherCustomerRequest(UUID.randomUUID(), UUID.randomUUID());
         final NoSuchElementException exception = new NoSuchElementException();
         doReturn(false).when(customerRepository).existById(request.customerId());
 
         //when & then
-        assertThatThrownBy(() -> voucherService.assignToCustomer(request)).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> voucherService.grantToCustomer(request)).isInstanceOf(NoSuchElementException.class);
 
         //verify
         verify(customerRepository).existById(request.customerId());
@@ -151,13 +151,13 @@ class VoucherServiceTest {
     @DisplayName("존재하지 않는 바우처의 할당을 실패한다.")
     void testAssignVoucherFailed_NonExistentVoucher() {
         //given
-        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final VoucherCustomerRequest request = new VoucherCustomerRequest(UUID.randomUUID(), UUID.randomUUID());
         final NoSuchElementException exception = new NoSuchElementException();
         doReturn(true).when(customerRepository).existById(request.customerId());
         doReturn(Optional.empty()).when(voucherRepository).findById(any(UUID.class));
 
         //when & then
-        assertThatThrownBy(() -> voucherService.assignToCustomer(request)).isInstanceOf(NoSuchElementException.class);
+        assertThatThrownBy(() -> voucherService.grantToCustomer(request)).isInstanceOf(NoSuchElementException.class);
 
         //verify
         verify(voucherRepository).findById(request.voucherId());
@@ -167,14 +167,14 @@ class VoucherServiceTest {
     @DisplayName("바우처 할당을 성공한다.")
     void testAssignVoucherSuccessful() {
         //given
-        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final VoucherCustomerRequest request = new VoucherCustomerRequest(UUID.randomUUID(), UUID.randomUUID());
         final Voucher voucher = new Voucher(request.voucherId(), new BigDecimal(10000), VoucherType.FIXED, request.customerId());
         doReturn(true).when(customerRepository).existById(request.customerId());
         doReturn(Optional.of(voucher)).when(voucherRepository).findById(request.voucherId());
         doReturn(voucher).when(voucherRepository).save(any(Voucher.class));
 
         //when
-        voucherService.assignToCustomer(request);
+        voucherService.grantToCustomer(request);
 
         //verify
         verify(voucherRepository).findById(request.voucherId());
@@ -236,7 +236,7 @@ class VoucherServiceTest {
     @DisplayName("고객 보유 바우처 삭제 시 존재하지 않는 고객이면 삭제를 실패한다.")
     void testReleaseVoucherFromCustomerFailed_NonExistentCustomer() {
         //given
-        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final VoucherCustomerRequest request = new VoucherCustomerRequest(UUID.randomUUID(), UUID.randomUUID());
         doReturn(false).when(customerRepository).existById(any(UUID.class));
 
         //when & then
@@ -251,7 +251,7 @@ class VoucherServiceTest {
     void testReleaseVoucherFromCustomerFailed_NonExistentVoucher() {
         //given
         final NoSuchElementException exception = new NoSuchElementException();
-        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final VoucherCustomerRequest request = new VoucherCustomerRequest(UUID.randomUUID(), UUID.randomUUID());
         doReturn(true).when(customerRepository).existById(any(UUID.class));
         doThrow(exception).when(voucherRepository).findById(any(UUID.class));
 
@@ -266,7 +266,7 @@ class VoucherServiceTest {
     @DisplayName("고객 보유 바우처 삭제를 성공한다.")
     void testReleaseVoucherFromVoucherSuccessful() {
         //given
-        final AssignVoucherRequest request = new AssignVoucherRequest(UUID.randomUUID(), UUID.randomUUID());
+        final VoucherCustomerRequest request = new VoucherCustomerRequest(UUID.randomUUID(), UUID.randomUUID());
         final Voucher voucher = new Voucher(request.voucherId(), new BigDecimal(10000), VoucherType.FIXED, request.customerId());
         doReturn(true).when(customerRepository).existById(request.customerId());
         doReturn(Optional.of(voucher)).when(voucherRepository).findById(request.voucherId());

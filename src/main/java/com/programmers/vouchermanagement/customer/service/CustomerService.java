@@ -51,9 +51,9 @@ public class CustomerService {
         return CustomerResponse.from(customer);
     }
 
-    public CustomerResponse update(UpdateCustomerRequest updateCustomerRequest) {
-        validateIdExisting(updateCustomerRequest.customerId());
-        Customer customer = new Customer(updateCustomerRequest.customerId(), updateCustomerRequest.name(), updateCustomerRequest.customerType());
+    public CustomerResponse update(UpdateCustomerRequest request) {
+        validateIdExisting(request.customerId());
+        Customer customer = new Customer(request.customerId(), request.name(), request.customerType());
         Customer updatedCustomer = customerRepository.save(customer);
         return CustomerResponse.from(updatedCustomer);
     }

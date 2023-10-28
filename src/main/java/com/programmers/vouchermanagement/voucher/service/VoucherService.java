@@ -10,7 +10,7 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.dto.AssignVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
@@ -58,14 +58,14 @@ public class VoucherService {
         voucherRepository.deleteById(voucherId);
     }
 
-    public void assignToCustomer(AssignVoucherRequest request) {
+    public void grantToCustomer(VoucherCustomerRequest request) {
         validateCustomerIdExisting(request.customerId());
         VoucherResponse foundVoucher = findById(request.voucherId());
         Voucher voucher = new Voucher(request.voucherId(), foundVoucher.getDiscountValue(), foundVoucher.getVoucherType(), request.customerId());
         voucherRepository.save(voucher);
     }
 
-    public void releaseFromCustomer(AssignVoucherRequest request) {
+    public void releaseFromCustomer(VoucherCustomerRequest request) {
         validateCustomerIdExisting(request.customerId());
         VoucherResponse foundVoucher = findById(request.voucherId());
         Voucher voucher = new Voucher(foundVoucher.getVoucherId(), foundVoucher.getDiscountValue(), foundVoucher.getVoucherType());
