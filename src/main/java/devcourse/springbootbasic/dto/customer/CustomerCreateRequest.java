@@ -1,17 +1,18 @@
 package devcourse.springbootbasic.dto.customer;
 
 import devcourse.springbootbasic.domain.customer.Customer;
-import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public class CustomerCreateRequest {
 
     private final String name;
 
-    public Customer toEntity() {
+    public Customer toEntity(UUID uuid) {
         return Customer.builder()
-                .id(UUIDUtil.generateRandomUUID())
+                .id(uuid)
                 .name(name)
                 .isBlacklisted(false)
                 .build();

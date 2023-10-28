@@ -7,6 +7,7 @@ import devcourse.springbootbasic.dto.customer.CustomerUpdateBlacklistRequest;
 import devcourse.springbootbasic.exception.CustomerErrorMessage;
 import devcourse.springbootbasic.exception.CustomerException;
 import devcourse.springbootbasic.repository.customer.CustomerRepository;
+import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public class CustomerService {
 
     @Transactional
     public Customer createCustomer(CustomerCreateRequest customerCreateRequest) {
-        return customerRepository.save(customerCreateRequest.toEntity());
+        return customerRepository.save(customerCreateRequest.toEntity(UUIDUtil.generateRandomUUID()));
     }
 
     @Transactional
