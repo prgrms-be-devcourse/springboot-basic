@@ -30,12 +30,12 @@ public class VoucherController {
         }
     }
 
-    public Response findAllVouchers() {
+    public Response<List<VoucherResponse>> findAllVouchers() {
         List<VoucherResponse> vouchers = voucherService.findAllVouchers();
         return Response.success(vouchers);
     }
 
-    public Response findVoucherById(UUID voucherId) {
+    public Response<VoucherResponse> findVoucherById(UUID voucherId) {
         try{
             VoucherResponse findVoucher = voucherService.findById(voucherId);
             return Response.success(findVoucher);

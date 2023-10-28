@@ -24,7 +24,7 @@ public class Response<T> {
         return new Response(true, "완료 되었습니다.");
     }
 
-    public static <T> Response success(T data) {
+    public static <T> Response<T> success(T data) {
         return new Response(true,  data);
     }
 }

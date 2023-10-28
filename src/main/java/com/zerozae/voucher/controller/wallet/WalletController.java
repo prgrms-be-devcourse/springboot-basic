@@ -38,7 +38,7 @@ public class WalletController {
         }
     }
 
-    public Response findWalletByCustomerId(UUID customerId) {
+    public Response<List<VoucherResponse>> findWalletByCustomerId(UUID customerId) {
         try {
             customerService.findById(customerId);
             List<WalletResponse> wallets = walletService.findWalletByCustomerId(customerId);
@@ -52,7 +52,7 @@ public class WalletController {
         }
     }
 
-    public Response findWalletByVoucherId(UUID voucherId) {
+    public Response<List<CustomerResponse>> findWalletByVoucherId(UUID voucherId) {
         try {
             voucherService.findById(voucherId);
             List<WalletResponse> wallets = walletService.findWalletByVoucherId(voucherId);

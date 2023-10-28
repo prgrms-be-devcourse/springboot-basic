@@ -29,20 +29,20 @@ public class CustomerController {
         }
     }
 
-    public Response findAllCustomers() {
+    public Response<List<CustomerResponse>> findAllCustomers() {
         List<CustomerResponse> customers = customerService.findAllCustomers();
         return Response.success(customers);
     }
 
-    public Response findAllBlacklistCustomers() {
+    public Response<List<CustomerResponse>> findAllBlacklistCustomers() {
         List<CustomerResponse> blacklistCustomer = customerService.findAllBlacklistCustomers();
         return Response.success(blacklistCustomer);
     }
 
-    public Response findCustomerById(UUID customerId) {
+    public Response<CustomerResponse> findCustomerById(UUID customerId) {
         try {
-            CustomerResponse customerReponse = customerService.findById(customerId);
-            return Response.success(customerReponse);
+            CustomerResponse customerResponse = customerService.findById(customerId);
+            return Response.success(customerResponse);
         }catch (Exception e) {
             throw ExceptionMessage.error(e.getMessage());
         }
