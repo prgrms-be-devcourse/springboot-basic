@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,7 +31,7 @@ public class CustomerService {
         List<Customer> customers = customerRepository.listBlockedCustomers();
         return customers.stream().map(customer ->
                 new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -40,7 +39,7 @@ public class CustomerService {
         List<Customer> customers = customerRepository.listCustomers();
         return customers.stream().map(customer ->
                         new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public void addCustomer(CustomerCreateRequestDto dto){
@@ -89,7 +88,7 @@ public class CustomerService {
     public List<CustomerResponseDto> listCustomersByWallets(List<Wallet> wallets) {
         return customerRepository.listCustomersByWallets(wallets).stream().map(customer ->
                         new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     // todo 이메일 예외처리 (중복, null 체크, 양식 체크)

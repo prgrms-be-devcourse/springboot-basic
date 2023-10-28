@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -56,14 +55,14 @@ public class VoucherService {
     public List<VoucherResponseDto> listVoucher() {
         return voucherRepository.list().stream()
                 .map(voucher -> new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional(readOnly = true)
     public List<VoucherResponseDto> listVouchersByWallets(List<Wallet> wallets) {
         return voucherRepository.findVoucherByWallets(wallets).stream()
                 .map(voucher -> new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public void deleteVoucher(Long id){
