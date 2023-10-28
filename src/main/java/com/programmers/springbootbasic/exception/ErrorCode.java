@@ -15,6 +15,7 @@ public enum ErrorCode {
     FAIL_TO_DELETE_VOUCHER("바우처 삭제에 실패하였습니다."),
     FAIL_TO_UPDATE_VOUCHER("바우처 수정에 실패하였습니다."),
     DUPLICATED_VOUCHER("이미 등록된 바우처 입니다."),
+    DUPLICATED_USER("이미 등록된 사용자 입니다."),
     FAIL_TO_DELETE_USER_VOUCHER("사용자 바우처 삭제에 실패하였습니다."),
     ;
 

@@ -15,6 +15,7 @@ public enum MainMenu {
     FIND_VOUCHER("find voucher", ControllerAdapter::getVoucherById),
     DELETE_VOUCHER("delete voucher", ControllerAdapter::deleteVoucherById),
     UPDATE_VOUCHER("update voucher", ControllerAdapter::updateVoucher),
+    CREATE_USER("register user", ControllerAdapter::createUser),
     LIST_BLACK_USER("list black user", ControllerAdapter::getBlackList),
     CREATE_USER_VOUCHER("register my voucher", ControllerAdapter::createUserVoucher),
     FIND_USER_BY_VOUCHER("find users by voucher Id", ControllerAdapter::findUserByVoucherId),

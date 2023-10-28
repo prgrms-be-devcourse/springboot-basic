@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.infrastructure.IO;
 
+import com.programmers.springbootbasic.domain.user.presentation.dto.CreateUserRequest;
 import com.programmers.springbootbasic.domain.userVoucherWallet.presentation.dto.CreateUserVoucherWalletRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVoucherRequest;
 import com.programmers.springbootbasic.mediator.dto.UpdateVoucherMediatorRequest;
@@ -24,6 +25,11 @@ public class ConsoleInteractionAggregator {
         String title = console.collectStringInput(Messages.VOUCHER_REGISTER_TYPE.getMessage());
         int amount = console.collectIntegerInput(Messages.VOUCHER_REGISTER_AMOUNT.getMessage());
         return CreateVoucherRequest.of(title, amount);
+    }
+
+    public CreateUserRequest collectUserInput() {
+        String nickname = console.collectStringInput(Messages.INPUT_NICKNAME.getMessage());
+        return CreateUserRequest.of(nickname);
     }
 
     //TODO: 메세지 어찌할지

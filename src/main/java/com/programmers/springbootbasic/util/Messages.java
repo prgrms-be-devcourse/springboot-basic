@@ -13,6 +13,7 @@ public enum Messages {
         바우처 수정 : update voucher
                 
         === User Menu ===
+        유저 등록 : register user
         유저 블랙리스트 조회 : list black user
         내 앞으로 바우처 등록 : register my voucher
         내 바우처 조회 : find my voucher
@@ -35,6 +36,7 @@ public enum Messages {
     SUCCESS_USER_FOUND_BY_VOUCHER("요청하신 바우처를 소유한 유저 목록입니다."),
     SUCCESS_USER_VOUCHER_FOUND_MINE("소유하신 바우처 목록입니다."),
     SUCCESS_USER_VOUCHER_DELETE("요청하신 바우처가 삭제되었습니다."),
+    SUCCESS_USER_REGISTER("사용자가 등록되었습니다."),
     ;
 
     Messages(String Message) {

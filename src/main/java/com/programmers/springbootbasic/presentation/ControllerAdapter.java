@@ -3,6 +3,7 @@ package com.programmers.springbootbasic.presentation;
 import static com.programmers.springbootbasic.exception.ErrorCode.EXIT;
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_BLACK_USER_LIST;
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_USER_FOUND_BY_VOUCHER;
+import static com.programmers.springbootbasic.util.Messages.SUCCESS_USER_REGISTER;
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_USER_VOUCHER_DELETE;
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_USER_VOUCHER_FOUND_MINE;
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_USER_VOUCHER_REGISTER;
@@ -13,6 +14,7 @@ import static com.programmers.springbootbasic.util.Messages.SUCCESS_VOUCHER_REGI
 import static com.programmers.springbootbasic.util.Messages.SUCCESS_VOUCHER_UPDATE;
 
 import com.programmers.springbootbasic.domain.user.presentation.UserController;
+import com.programmers.springbootbasic.domain.user.presentation.dto.CreateUserRequest;
 import com.programmers.springbootbasic.domain.user.presentation.dto.UserResponse;
 import com.programmers.springbootbasic.domain.userVoucherWallet.presentation.UserVoucherWalletController;
 import com.programmers.springbootbasic.domain.userVoucherWallet.presentation.dto.CreateUserVoucherWalletRequest;
@@ -76,6 +78,12 @@ public class ControllerAdapter {
 
         voucherController.updateVoucher(request.getId(), request.toUpdateVoucherRequest());
         return ConsoleResponse.createNoBodyResponse(SUCCESS_VOUCHER_UPDATE.getMessage());
+    }
+
+    public ConsoleResponse<Void> createUser(Object... params) {
+        CreateUserRequest request = (CreateUserRequest) params[0];
+        userController.createUser(request);
+        return ConsoleResponse.createNoBodyResponse(SUCCESS_USER_REGISTER.getMessage());
     }
 
     public ConsoleResponse<List<UserResponse>> getBlackList(Object... params) {
