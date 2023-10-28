@@ -41,4 +41,29 @@ public class VoucherService {
 
         return voucherResponseDtos;
     }
+
+    public VoucherResponseDto readVoucherById(UUID voucherId) {
+
+        Voucher voucher = voucherRepository.findById(voucherId)
+                .orElseThrow(VoucherNotFoundException::new);
+
+        VoucherResponseDto voucherResponseDto = new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount());
+
+        return voucherResponseDto;
+    }
+
+    public void updateVoucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
+
+        voucherRepository.findById(voucherId)
+                .orElseThrow(VoucherNotFoundException::new);
+
+        Long discount = voucherRequestDto.getDiscount();
+        VoucherType voucherType = voucherRequestDto.getVoucherType();
+
+        voucherRepository.update(new Voucher(voucherId, discount, voucherType, voucherType.getVoucherPolicy()));
+    }
+
+    public void removeAllVoucher() {
+        voucherRepository.deleteAll();
+    }
 }

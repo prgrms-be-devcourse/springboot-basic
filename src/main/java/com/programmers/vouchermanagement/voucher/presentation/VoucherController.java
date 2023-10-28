@@ -14,7 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -33,10 +35,11 @@ public class VoucherController {
 
     public void createVoucher() {
 
+        consoleOutputManager.printCreateVoucher();
         consoleOutputManager.printVoucherTypeMenu();
 
         VoucherType voucherType;
-        String input = consoleInputManager.inputString().toLowerCase();
+        String input = consoleInputManager.inputString();
 
         try {
             voucherType = VoucherType.getVoucherTypeByName(input);
@@ -79,6 +82,89 @@ public class VoucherController {
             consoleOutputManager.printVoucherInfo(voucherResponseDtos);
 
         } catch (VoucherNotFoundException | FileIOException | VoucherTypeNotFoundException e) {
+            logger.error(e.getMessage(), e);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+        }
+    }
+
+    public void readVoucherById() {
+
+        consoleOutputManager.printReadVoucherById();
+        consoleOutputManager.printGetVoucherId();
+
+        UUID voucherId = UUID.fromString(consoleInputManager.inputString());
+
+        try {
+            VoucherResponseDto voucherResponseDto = voucherService.readVoucherById(voucherId);
+            consoleOutputManager.printVoucherInfo(new ArrayList<>() {{
+                add(voucherResponseDto);
+            }});
+
+        } catch (VoucherNotFoundException e) {
+            logger.error(e.getMessage() + "Console Input : " + voucherId, e);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+        }
+    }
+
+    public void updateVoucher() {
+
+        consoleOutputManager.printUpdateVoucher();
+        consoleOutputManager.printGetVoucherId();
+
+        UUID voucherId = UUID.fromString(consoleInputManager.inputString());
+
+        consoleOutputManager.printVoucherTypeMenu();
+
+        VoucherType voucherType;
+        String input = consoleInputManager.inputString();
+
+        try {
+            voucherType = VoucherType.getVoucherTypeByName(input);
+
+        } catch (VoucherTypeNotFoundException e) {
+            logger.error(e.getMessage() + "Console Input : " + input, e);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+            return;
+        }
+
+        consoleOutputManager.printDiscountRequest();
+        Long discount = consoleInputManager.inputDiscount();
+
+        try {
+            voucherService.updateVoucher(voucherId, new VoucherRequestDto(voucherType, discount));
+
+        } catch (VoucherNotFoundException e) {
+            logger.error(e.getMessage() + "Console Input : " + voucherId, e);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+            return;
+
+        } catch (IllegalDiscountException e) {
+            logger.error(e.getMessage() + "Console Input : " + discount, e);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+            return;
+
+        } catch (FileIOException e) {
+            logger.error(e.getMessage(), e);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+            return;
+        }
+
+        consoleOutputManager.printSuccessUpdate();
+    }
+
+    public void removeAllVoucher() {
+
+        consoleOutputManager.printRemoveVoucher();
+
+        try {
+            voucherService.removeAllVoucher();
+        } catch (FileIOException e) {
             logger.error(e.getMessage(), e);
 
             consoleOutputManager.printReturnMain(e.getMessage());
