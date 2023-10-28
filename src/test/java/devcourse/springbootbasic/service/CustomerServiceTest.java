@@ -1,5 +1,6 @@
 package devcourse.springbootbasic.service;
 
+import devcourse.springbootbasic.TestDataFactory;
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.dto.customer.CustomerCreateRequest;
 import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static devcourse.springbootbasic.TestDataFactory.generateBlacklistCustomer;
+import static devcourse.springbootbasic.TestDataFactory.generateNotBlacklistCustomers;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -38,8 +41,8 @@ class CustomerServiceTest {
     @DisplayName("블랙리스트 고객 조회 시 전체 블랙리스트 고객 Response DTO를 반환합니다.")
     void givenBlacklistedCustomersExist_whenFindAllBlacklistedCustomers_thenReturnListOfBlacklistedCustomers() {
         // Given
-        Customer customer1 = createCustomer(UUID.randomUUID(), "Customer 1", true);
-        Customer customer2 = createCustomer(UUID.randomUUID(), "Customer 2", true);
+        Customer customer1 = generateBlacklistCustomer("Customer 1");
+        Customer customer2 = generateBlacklistCustomer("Customer 2");
         when(customerRepository.findAllBlacklistedCustomers()).thenReturn(List.of(customer1, customer2));
 
         // When
@@ -55,7 +58,7 @@ class CustomerServiceTest {
         // Given
         String name = "New Customer";
         CustomerCreateRequest request = new CustomerCreateRequest(name);
-        Customer createdCustomer = createCustomer(UUID.randomUUID(), name, false);
+        Customer createdCustomer = generateNotBlacklistCustomers(name);
         when(customerRepository.save(any())).thenReturn(createdCustomer);
 
         // When
@@ -70,7 +73,7 @@ class CustomerServiceTest {
     void givenValidBlacklistUpdateRequest_whenUpdateBlacklistStatus_thenBlacklistStatusIsUpdated() {
         // Given
         CustomerUpdateBlacklistRequest request = new CustomerUpdateBlacklistRequest(UUID.randomUUID(), true);
-        Customer existingCustomer = createCustomer(request.getId(), "Existing Customer", false);
+        Customer existingCustomer = generateBlacklistCustomer("Existing Customer");
         when(customerRepository.findById(request.getId())).thenReturn(Optional.of(existingCustomer));
         when(customerRepository.update(any())).thenReturn(1);
 
@@ -94,13 +97,5 @@ class CustomerServiceTest {
         assertThatThrownBy(() -> customerService.updateBlacklistStatus(request))
                 .isInstanceOf(CustomerException.class)
                 .hasMessageContaining(CustomerErrorMessage.NOT_FOUND.getMessage());
-    }
-
-    private Customer createCustomer(UUID id, String name, boolean isBlacklisted) {
-        return Customer.builder()
-                .id(id)
-                .name(name)
-                .isBlacklisted(isBlacklisted)
-                .build();
     }
 }

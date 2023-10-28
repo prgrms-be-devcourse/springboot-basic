@@ -1,7 +1,7 @@
 package devcourse.springbootbasic.repository.customer;
 
+import devcourse.springbootbasic.TestDataFactory;
 import devcourse.springbootbasic.domain.customer.Customer;
-import devcourse.springbootbasic.util.UUIDUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,8 +39,8 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("블랙리스트인 고객을 조회할 수 있습니다.")
     void testFindAllBlacklistedCustomers() {
         // Given
-        Customer notBlacklistedCustomer = Customer.createCustomer(UUIDUtil.generateRandomUUID(), "Customer 1", false);
-        Customer blacklistedCustomer = Customer.createCustomer(UUIDUtil.generateRandomUUID(), "Customer 2", true);
+        Customer notBlacklistedCustomer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
+        Customer blacklistedCustomer = TestDataFactory.generateBlacklistCustomer("Ogu");
         customerRepository.save(notBlacklistedCustomer);
         customerRepository.save(blacklistedCustomer);
 
@@ -55,7 +55,7 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("고객을 저장할 수 있습니다.")
     void testSaveCustomer() {
         // Given
-        Customer newCustomer = Customer.createCustomer(UUIDUtil.generateRandomUUID(), "New Customer", true);
+        Customer newCustomer = TestDataFactory.generateBlacklistCustomer("Ogu");
         Customer savedCustomer = customerRepository.save(newCustomer);
 
         // When
@@ -70,42 +70,43 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("고객 ID로 고객을 조회할 수 있습니다.")
     void testFindById() {
         // Given
-        UUID customerId = UUIDUtil.generateRandomUUID();
-        customerRepository.save(Customer.createCustomer(customerId, "Customer 1", true));
+        Customer customer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
+        UUID customerId = customer.getId();
+        customerRepository.save(customer);
 
         // When
-        Optional<Customer> customer = customerRepository.findById(customerId);
+        Optional<Customer> findCustomer = customerRepository.findById(customerId);
 
         // Then
-        assertThat(customer).isPresent();
-        assertThat(customer.get().getId()).isEqualTo(customerId);
+        assertThat(findCustomer).isPresent();
+        assertThat(findCustomer.get().getId()).isEqualTo(customerId);
     }
 
     @Test
     @DisplayName("고객을 수정할 수 있습니다.")
     void testUpdateCustomer() {
         // Given
-        UUID customerId = UUIDUtil.generateRandomUUID();
-        customerRepository.save(Customer.createCustomer(customerId, "Customer 1", false));
+        Customer customer = TestDataFactory.generateNotBlacklistCustomers("Platypus");
+        UUID customerId = customer.getId();
+        customerRepository.save(customer);
 
         // When
-        Customer customer = customerRepository.findById(customerId).orElseThrow();
-        int updatedRows = customerRepository.update(customer.applyBlacklist());
+        Customer findCustomer = customerRepository.findById(customerId).orElseThrow();
+        int updatedRows = customerRepository.update(findCustomer.applyBlacklist());
 
         // Then
         assertThat(updatedRows).isEqualTo(1);
-        assertThat(customer.isBlacklisted()).isTrue();
+        assertThat(findCustomer.isBlacklisted()).isTrue();
     }
 
     @Test
     @DisplayName("없는 고객을 수정하면 0을 반환합니다.")
     void testUpdateCustomerFail() {
         // Given
-        UUID customerId = UUIDUtil.generateRandomUUID();
-        customerRepository.save(Customer.createCustomer(customerId, "Customer 1", false));
+        customerRepository.save(TestDataFactory.generateNotBlacklistCustomers("Customer 1"));
 
         // When
-        Customer customer = Customer.createCustomer(UUIDUtil.generateRandomUUID(), "Customer 2", true);
+        Customer customer = TestDataFactory.generateBlacklistCustomer("Customer 2");
         int updatedRows = customerRepository.update(customer);
 
         // Then

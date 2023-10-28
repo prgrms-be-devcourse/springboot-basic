@@ -1,9 +1,8 @@
 package devcourse.springbootbasic.domain.customer;
 
+import devcourse.springbootbasic.TestDataFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,15 +13,14 @@ class CustomerTest {
     void givenValidCustomerData_whenCreateCustomer_thenCustomerIsCreated() {
         // Given
         String name = "Platypus";
-        boolean isBlacklisted = false;
 
         // When
-        Customer customer = Customer.createCustomer(UUID.randomUUID(), name, isBlacklisted);
+        Customer customer = TestDataFactory.generateNotBlacklistCustomers(name);
 
         // Then
         assertThat(customer).isNotNull();
         assertThat(customer.getName()).isEqualTo(name);
-        assertThat(customer.isBlacklisted()).isEqualTo(isBlacklisted);
+        assertThat(customer.isBlacklisted()).isFalse();
     }
 
     @Test
@@ -30,7 +28,7 @@ class CustomerTest {
     void givenUpdatedBlacklistStatus_whenUpdateBlacklistStatus_thenBlacklistStatusIsUpdated() {
         // Given
         String name = "Platypus";
-        Customer customer = Customer.createCustomer(UUID.randomUUID(), name, true);
+        Customer customer = TestDataFactory.generateBlacklistCustomer(name);
 
         // When
         customer = customer.releaseBlacklist();
