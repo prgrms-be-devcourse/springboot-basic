@@ -87,16 +87,4 @@ public class WalletRepository {
                 .addValue(CUSTOMER_ID, wallet.getCustomerId().toString().getBytes())
                 .addValue(VOUCHER_ID, wallet.getVoucherId().toString().getBytes());
     }
-
-    private boolean isDeletedWallet(Wallet wallet) {
-        try {
-            int count = namedParameterJdbcTemplate.queryForObject(
-                    "SELECT COUNT(*) FROM wallets WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)",
-                    toParamMap(wallet),
-                    Integer.class);
-            return count == 1;
-        }catch (Exception e){
-            throw ErrorMessage.error("조회 중 문제가 발생했습니다.");
-        }
-    }
 }

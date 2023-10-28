@@ -1,6 +1,7 @@
 package com.zerozae.voucher.domain.customer;
 
 import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import com.zerozae.voucher.exception.ErrorMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,7 +54,7 @@ class CustomerTest {
 
         String newUsername = "zerozae";
         CustomerType newCustomerType = CustomerType.NORMAL;
-        CustomerCreateRequest customerRequest = new CustomerCreateRequest(newUsername, newCustomerType);
+        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, newCustomerType);
 
         // When
         createdCustomer.updateCustomerInfo(customerRequest);
@@ -74,7 +75,7 @@ class CustomerTest {
 
         String newUsername = "";
         CustomerType newCustomerType = CustomerType.NORMAL;
-        CustomerCreateRequest customerRequest = new CustomerCreateRequest(newUsername, newCustomerType);
+        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, newCustomerType);
 
         // When & Then
         assertThrows(ErrorMessage.class, () -> {

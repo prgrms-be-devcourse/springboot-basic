@@ -40,4 +40,3 @@ public class VoucherResponse {
                 """.formatted(voucherId, voucherType, discount, useStatusType.getDescription());
     }
 }
-
