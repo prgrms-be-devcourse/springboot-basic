@@ -10,6 +10,7 @@ import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.controller.CustomerController;
 import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
+import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 
@@ -51,8 +52,8 @@ public class MenuHandler {
         VoucherMenu voucherMenu = consoleManager.selectVoucherMenu();
         switch (voucherMenu) {
             case CREATE -> {
-                CreateVoucherRequest createVoucherRequest = consoleManager.instructCreateVoucher();
-                voucherController.create(createVoucherRequest);
+                CreateVoucherRequest request = consoleManager.instructCreateVoucher();
+                voucherController.create(request);
             }
             case LIST -> voucherController.readAllVouchers();
             case SEARCH -> {
@@ -60,12 +61,20 @@ public class MenuHandler {
                 voucherController.findById(voucherId);
             }
             case UPDATE -> {
-                UpdateVoucherRequest updateVoucherRequest = consoleManager.instructUpdateVoucher();
-                voucherController.update(updateVoucherRequest);
+                UpdateVoucherRequest request = consoleManager.instructUpdateVoucher();
+                voucherController.update(request);
             }
             case DELETE -> {
                 UUID voucherId = consoleManager.instructFindVoucher();
                 voucherController.deleteById(voucherId);
+            }
+            case GRANT -> {
+                VoucherCustomerRequest request = consoleManager.instructRequestVoucherCustomer();
+                voucherController.grantToCustomer(request);
+            }
+            case SEARCH_OWNER -> {
+                UUID voucherId = consoleManager.instructFindVoucher();
+                customerController.findVoucherOwner(voucherId);
             }
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
         }
@@ -91,6 +100,14 @@ public class MenuHandler {
             case DELETE -> {
                 UUID customerId = consoleManager.instructFindCustomer();
                 customerController.deleteById(customerId);
+            }
+            case SEARCH_VOUCHERS -> {
+                UUID customerId = consoleManager.instructFindCustomer();
+                voucherController.searchOwnedVouchers(customerId);
+            }
+            case REMOVE_VOUCHER -> {
+                VoucherCustomerRequest request = consoleManager.instructRequestVoucherCustomer();
+                voucherController.removeVoucherFromUser(request);
             }
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
         }
