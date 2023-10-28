@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
-import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 

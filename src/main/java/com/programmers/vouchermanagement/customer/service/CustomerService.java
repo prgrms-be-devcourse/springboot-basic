@@ -10,7 +10,6 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
-import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
