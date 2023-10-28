@@ -42,6 +42,8 @@ public class WalletService {
         }
     }
 
+    @Transactional(readOnly = true)
+
     public List<Wallet> findByCustomerId(Long customerId) {
         try {
             return walletRepository.findByCustomerId(customerId);
@@ -49,6 +51,8 @@ public class WalletService {
             throw new EmptyResultDataAccessException(INVALID_CUSTOMER_ID.getMessage(),0);
         }
     }
+
+    @Transactional(readOnly = true)
 
     public Wallet findByVoucherId(UUID voucherId) {
 

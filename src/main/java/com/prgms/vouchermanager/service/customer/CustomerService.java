@@ -15,8 +15,7 @@ import static com.prgms.vouchermanager.exception.ExceptionType.*;
 
 @Service
 public class CustomerService {
-
-
+    
     private final CustomerRepository customerRepository;
     private final InputValidation inputValidation;
 
@@ -54,12 +53,14 @@ public class CustomerService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Customer findById(Long id) {
 
-        return customerRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(INVALID_CUSTOMER_ID.getMessage(),1));
+        return customerRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(INVALID_CUSTOMER_ID.getMessage(), 1));
 
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> findAll() {
 
         List<Customer> customers = customerRepository.findAll();
@@ -80,6 +81,7 @@ public class CustomerService {
 
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> findBlackList() {
 
         return customerRepository.findBlackList();

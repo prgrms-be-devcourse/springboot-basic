@@ -67,12 +67,14 @@ public class VoucherService {
         voucherRepository.update(voucher);
 
     }
+    @Transactional(readOnly = true)
 
     public Voucher findById(UUID id) {
 
         return voucherRepository.findById(id).orElseThrow(() -> new EmptyResultDataAccessException(INVALID_VOUCHER_ID.getMessage(),1));
 
     }
+    @Transactional(readOnly = true)
 
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
