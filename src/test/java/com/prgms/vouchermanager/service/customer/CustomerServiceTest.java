@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import java.util.NoSuchElementException;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -22,15 +22,12 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
 
-    @Mock
-    private CustomerRepository customerRepsotiory;
-
-    @Mock
-    private InputValidation inputValidation;
-
     @InjectMocks
     CustomerService customerService;
-
+    @Mock
+    private CustomerRepository customerRepsotiory;
+    @Mock
+    private InputValidation inputValidation;
 
     @Test
     @DisplayName("service의 create()를 통해 repository의 save()를 정상 실행하고, 값을 받아올수 있다.")
@@ -48,15 +45,14 @@ class CustomerServiceTest {
 
         //then
         Assertions.assertThat(customer).isEqualTo(result);
-        verify(customerRepsotiory,atLeastOnce()).save(any(Customer.class));
 
     }
 
     @Test
-    @DisplayName("service의 create()를 통해 repository의 save()를 실행에 실패한다.")
+    @DisplayName("service의 create()를 실행시 입력값 검증 실패로 RuntimeException 예외가 발생한다.")
     void createCusteomerFail() {
         //given
-        CreateCustomerDto dto = new CreateCustomerDto("kim", "won05121@naver.com", 1);
+        CreateCustomerDto dto = new CreateCustomerDto("kim", "won05121@naver.com", 12345);
         when(inputValidation.validCustomerInfo(dto.getName(), dto.getEmail(), dto.getBlackList()))
                 .thenReturn(false);
 
@@ -71,7 +67,6 @@ class CustomerServiceTest {
     void updateCustomerSuccess() {
         //given
         UpdateCustomerDto dto = new UpdateCustomerDto("kim", "won05121@naver.com", 1);
-        Customer result = new Customer(null, dto.getName(), dto.getEmail(), true);
         when(inputValidation.validCustomerInfo(dto.getName(), dto.getEmail(), dto.getBlackList())).thenReturn(true);
 
         //when
@@ -82,41 +77,57 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("service의 update()를 통해 repository의 update()의 실행에 실패한다.")
+    @DisplayName("service의 update()를 통해 입력값 검증 실패시 RuntimeException예외가 발생한다.")
     void updateCustomerFail() {
         //given
         UpdateCustomerDto dto = new UpdateCustomerDto("kim", "won05121@naver.com", 1);
         when(inputValidation.validCustomerInfo(dto.getName(), dto.getEmail(), dto.getBlackList())).thenReturn(false);
 
         //when
-        customerService.update(1L,dto);
-
         //then
-        verify(customerRepsotiory, never()).update(any(Customer.class));
+        Assertions.assertThatThrownBy(() -> customerService.update(1L, dto)).isInstanceOf(RuntimeException.class);
 
     }
 
     @Test
-    @DisplayName("service의 findById()의 인자값에 상관없이 ,repository의 findById()는 반드시 한번은 실행된다.")
+    @DisplayName("service의 findById()로 존재하는 ID가 들어오면 ,repository의 findById()는 성공적으로 값을 찾아온다. .")
     void findByIdCustomerSuccess() {
         //given
-        when(customerRepsotiory.findById(any()))
-                .thenReturn(Optional.ofNullable(null));
+        Customer customer = new Customer(1L, "kk", "kk@naver.com", true);
+        when(customerRepsotiory.findById(customer.getId()))
+                .thenReturn(Optional.ofNullable(customer));
 
-        Assertions.assertThatThrownBy(() -> customerService.findById(1L)).isInstanceOf(EmptyResultDataAccessException.class);
-        verify(customerRepsotiory, atLeastOnce()).findById(any());
+        //when
+        //then
+        Assertions.assertThat(customer).isEqualTo(customerService.findById(customer.getId()));
 
     }
 
     @Test
-    @DisplayName("service의 findAll()을 통해 repository 의 findAll() 을 실행에 반드시 성공한다.")
-    void findAll() {
+    @DisplayName("service의 findById()의 인자로 존재하지 않는 ID가 들어오면 EmptyResultDataAccessException 예외가 발생한다 .")
+    void findByIdCustomerFail() {
         //given
+        Long notExistId = 1L;
         //when
-        customerService.findAll();
+        when(customerRepsotiory.findById(any())).thenReturn(Optional.ofNullable(null));
 
         //then
-        verify(customerRepsotiory, atLeastOnce()).findAll();
+        Assertions.assertThatThrownBy(() -> customerService.findById(notExistId)).isInstanceOf(EmptyResultDataAccessException.class);
+
+    }
+
+    @Test
+    @DisplayName("service의 findAll()을 통해 repository 의 findAll()실행시켜 성공적으로 값을 얻는다.")
+    void findAll() {
+        //given
+        List<Customer> customers = List.of(new Customer(1L, "kk", "kk@naver.com", true));
+        when(customerRepsotiory.findAll()).thenReturn(customers);
+
+        //when
+        List<Customer> customerList = customerService.findAll();
+
+        //then
+        Assertions.assertThat(customers).isEqualTo(customerList);
 
     }
 
@@ -143,14 +154,16 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("service의 getBlackList()를 통해 repository의 getBlackList()을 반드시 한번은 실행한다.")
+    @DisplayName("service의 getBlackList()를 통해 repository의 getBlackList()을 실행시켜 성공적으로 값을 찾아온다.")
     void getBlackList() {
         //given
+        List<Customer> blackList = List.of(new Customer(1L, "kk", "kk@naver.com", true));
+
         //when
-        customerService.findBlackList();
+        when(customerRepsotiory.findBlackList()).thenReturn(blackList);
 
         //then
-        verify(customerRepsotiory, atLeastOnce()).findBlackList();
+        Assertions.assertThat(blackList).isEqualTo(customerService.findBlackList());
 
     }
 }
