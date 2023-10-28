@@ -2,7 +2,7 @@ spring:
   main:
     web-application-type: none
   profiles:
-    active: jdbc
+    active: prod
   datasource:
     url: jdbc:h2:mem:testdb;MODE=MySQL
     driver-class-name: org.h2.Driver
@@ -20,17 +20,3 @@ spring:
 file:
   blacklist-path: ${user.home}/data/customer_blacklist.csv
   voucher-path: ${user.home}/data/vouchers.csv
-
-# file 프로필 설정 (현재 빈 설정이지만 추후 필요한 경우에 확장 가능)
----
-spring:
-  config:
-    activate:
-      on-profile: file
-
-# memory 프로필 설정
----
-spring:
-  config:
-    activate:
-      on-profile: memory

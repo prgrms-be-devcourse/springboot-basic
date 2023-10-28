@@ -19,7 +19,7 @@ import com.programmers.springbasic.utils.mapper.VoucherCsvFileMapper;
 import jakarta.annotation.PostConstruct;
 
 @Repository
-@Profile("file")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
 
 	private final VoucherCsvFileMapper voucherCsvFileMapper;

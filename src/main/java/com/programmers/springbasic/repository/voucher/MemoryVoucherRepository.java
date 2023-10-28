@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.programmers.springbasic.entity.voucher.Voucher;
 
 @Repository
-@Profile("memory")
+@Profile("dev")
 public class MemoryVoucherRepository implements VoucherRepository {
 
 	private final Map<UUID, Voucher> storage;
