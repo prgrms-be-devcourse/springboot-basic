@@ -27,6 +27,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
+    // SpringBoot Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // SpringBoot Thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
 
 tasks.named('test') {
