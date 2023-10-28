@@ -15,7 +15,7 @@ import java.util.UUID;
 
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class CustomerService {
 
     private static final String CUSTOMER_NOT_FOUND_MESSAGE = "회원이 존재하지 않습니다.";
@@ -26,7 +26,6 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    @Transactional
     public CustomerResponse createCustomer(CustomerRequest customerRequest) {
         try{
             validateDuplicateCustomer(customerRequest);
@@ -38,6 +37,7 @@ public class CustomerService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> findAllCustomers() {
         return customerRepository.findAll()
                 .stream()
@@ -45,6 +45,7 @@ public class CustomerService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> findAllBlacklistCustomers() {
         return customerRepository.findAll()
                 .stream()
@@ -53,23 +54,21 @@ public class CustomerService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public CustomerResponse findById(UUID customerId) {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() -> ErrorMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         return CustomerResponse.toDto(customer);
     }
 
-    @Transactional
     public void deleteById(UUID customerId) {
         customerRepository.findById(customerId).orElseThrow(() -> ErrorMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         customerRepository.delete(customerId);
     }
 
-    @Transactional
     public void deleteAll() {
         customerRepository.deleteAll();
     }
 
-    @Transactional
     public void update(UUID customerId, CustomerRequest customerRequest) {
         customerRepository.findById(customerId).orElseThrow(() -> ErrorMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         customerRepository.update(customerId, customerRequest);

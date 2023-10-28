@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class VoucherService {
 
     private static final String VOUCHER_NOT_FOUND_MESSAGE = "바우처가 존재하지 않습니다.";
@@ -29,7 +29,6 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    @Transactional
     public VoucherResponse createVoucher(VoucherRequest voucherRequest) {
         VoucherType voucherType = voucherRequest.getVoucherType();
         try {
@@ -44,6 +43,7 @@ public class VoucherService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponse> findAllVouchers() {
         return voucherRepository.findAll()
                 .stream()
@@ -51,24 +51,22 @@ public class VoucherService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public VoucherResponse findById(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         return VoucherResponse.toDto(voucher);
     }
 
-    @Transactional
     public void update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.update(voucherId, voucherUpdateRequest);
     }
 
-    @Transactional
     public void deleteById(UUID voucherId) {
         voucherRepository.findById(voucherId).orElseThrow(() -> ErrorMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.deleteById(voucherId);
     }
 
-    @Transactional
     public void deleteAll() {
         voucherRepository.deleteAll();
     }
