@@ -10,14 +10,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.voucher_manage.exception.ErrorMessage.VOUCHER_DELETE_FAILED;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.VOUCHER_UPDATE_FAILED;
+
 
 @Service
 @RequiredArgsConstructor
 public class VoucherService{
     private final VoucherRepository voucherRepository;
 
-    public void createVoucher(CreateVoucherDto dto) {
-        voucherRepository.save(dto.of());
+    public Voucher createVoucher(CreateVoucherDto dto) {
+        return voucherRepository.save(dto.of());
     }
 
     public List<Voucher> getVouchers() {
@@ -30,11 +33,11 @@ public class VoucherService{
 
     public void updateVoucher(UpdateVoucherDto dto){
         int update = voucherRepository.update(dto.of());
-        if (update !=1) throw new RuntimeException("업데이트에 실패하였습니다");
+        if (update !=1) throw new RuntimeException(VOUCHER_UPDATE_FAILED.getMessage());
     }
 
     public void deleteVoucher(UUID voucherId){
         int delete = voucherRepository.deleteById(voucherId);
-        if (delete!=1) throw new RuntimeException("삭제에 실패했습니다.");
+        if (delete!=1) throw new RuntimeException(VOUCHER_DELETE_FAILED.getMessage());
     }
 }

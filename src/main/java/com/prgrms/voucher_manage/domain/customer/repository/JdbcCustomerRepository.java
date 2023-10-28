@@ -1,6 +1,7 @@
 package com.prgrms.voucher_manage.domain.customer.repository;
 
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
+import com.prgrms.voucher_manage.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchTypeByString;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -32,7 +34,11 @@ public class JdbcCustomerRepository{
 
     public Optional<Customer> findByName(String name){
         String sql = "select * from customer where name = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,name));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,name));
+        } catch (Exception e){
+            throw new RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
+        }
     }
 
     public List<Customer> findByType(String type){

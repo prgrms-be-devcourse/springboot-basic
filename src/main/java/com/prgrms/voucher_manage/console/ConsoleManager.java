@@ -6,6 +6,7 @@ import com.prgrms.voucher_manage.domain.customer.entity.CustomerType;
 import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
+import com.prgrms.voucher_manage.exception.ErrorMessage;
 import com.prgrms.voucher_manage.exception.InvalidInputException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,12 +19,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.voucher_manage.console.ConsoleMessage.*;
 import static com.prgrms.voucher_manage.console.MenuType.EXIT;
 import static com.prgrms.voucher_manage.console.MenuType.matchMenuType;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
 
 @Component
 @RequiredArgsConstructor
 public class ConsoleManager implements ApplicationRunner {
+    private final IOManager ioManager;
     private final OutputUtil outputUtil;
     private final InputUtil inputUtil;
     private final VoucherController voucherController;
@@ -48,7 +52,7 @@ public class ConsoleManager implements ApplicationRunner {
 
     public void selectMenu(MenuType menuType) throws Exception {
         if (menuType == null) {
-            throw new InvalidInputException("Invalid command input.");
+            throw new InvalidInputException(INVALID_COMMAND_INPUT.getMessage());
         }
 
         switch (menuType) {
@@ -66,10 +70,9 @@ public class ConsoleManager implements ApplicationRunner {
         }
     }
     public void createVoucher() throws Exception {
-        outputUtil.printVoucherSelect();
-        VoucherType voucherType = VoucherType.matchVoucherType(inputUtil.getStringInput());
+        VoucherType voucherType = VoucherType.matchVoucherType(ioManager.getVoucherType());
         if (voucherType == null) {
-            throw new InvalidInputException("Invalid command input.");
+            throw new InvalidInputException(INVALID_COMMAND_INPUT.getMessage());
         }
         switch (voucherType) {
             case FIXED -> outputUtil.requestDiscountPriceInfo();
@@ -79,9 +82,8 @@ public class ConsoleManager implements ApplicationRunner {
         voucherController.createVoucher(voucherType, discountAmount);
     }
 
-    private void findVoucher() throws IOException {
-        outputUtil.printMessage("Input voucher id you want to find");
-        UUID voucherId = UUID.fromString(inputUtil.getStringInput());
+    private void findVoucher() {
+        UUID voucherId = ioManager.getUUID(VOUCHER_FIND_ID);
         Voucher voucher = voucherController.findVoucher(voucherId);
         switch (voucher.getType()) {
             case FIXED -> outputUtil.printFixedVoucherInfo(voucher);
@@ -90,23 +92,20 @@ public class ConsoleManager implements ApplicationRunner {
     }
 
     public void updateVoucher() throws Exception {
-        outputUtil.printMessage("Input voucher id you want to update.");
-        UUID voucherId = UUID.fromString(inputUtil.getStringInput());
-        outputUtil.printMessage("Input voucher price to update");
-        Long discountAmount = inputUtil.getLongInput();
+        UUID voucherId = ioManager.getUUID(VOUCHER_UPDATE_ID);
+        Long discountAmount = ioManager.getLong(VOUCHER_UPDATE_PRICE);
         voucherController.updateVoucher(voucherId,discountAmount);
     }
 
-    public void deleteVoucher() throws IOException {
-        outputUtil.printMessage("Input voucherId to delete.");
-        voucherController.deleteVoucher(UUID.fromString(inputUtil.getStringInput()));
+    public void deleteVoucher(){
+        UUID voucherId = ioManager.getUUID(VOUCHER_DELETE_ID);
+        voucherController.deleteVoucher(voucherId);
     }
 
     private CustomerType getCustomerType() throws IOException {
         CustomerType customerType = CustomerType.matchTypeByString(inputUtil.getStringInput());
-        System.out.println(customerType);
         if (customerType == null){
-            throw new InvalidInputException("Invalid command input");
+            throw new InvalidInputException(INVALID_COMMAND_INPUT.getMessage());
         }
         return customerType;
     }
@@ -123,25 +122,21 @@ public class ConsoleManager implements ApplicationRunner {
     public void saveCustomer() throws IOException {
         outputUtil.printCustomerSelect();
         CustomerType customerType = getCustomerType();
-        outputUtil.printMessage("Input customer name.");
-        String name = inputUtil.getStringInput();
+        String name = ioManager.getString(CUSTOMER_SAVE_NAME);
         customerController.save(new Customer(name, customerType));
     }
 
     public void findCustomer() throws IOException {
-        outputUtil.printMessage("Input customer name to find.");
-        String name = inputUtil.getStringInput();
+        String name = ioManager.getString(CUSTOMER_FIND_NAME);
         Customer foundCustomer = customerController.findByName(name);
         outputUtil.printCustomerInfo(foundCustomer);
     }
 
     public void updateCustomer() throws Exception {
-        outputUtil.printMessage("Input customer id to update.");
-        UUID id = inputUtil.getUUIDInput();
+        UUID id = ioManager.getUUID(CUSTOMER_UPDATE_ID);
         Customer customer = customerController.findById(id);
 
-        outputUtil.printMessage("Input customer name to change");
-        String name = inputUtil.getStringInput();
+        String name = ioManager.getString(CUSTOMER_UPDATE_NAME);
         customerController.update(new Customer(customer.getId(),name, customer.getType()));
     }
 
