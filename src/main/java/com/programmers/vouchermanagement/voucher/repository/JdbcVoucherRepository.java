@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
+import com.programmers.vouchermanagement.global.common.JdbcRepositoryManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
@@ -20,7 +21,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, index) -> {
 
-        UUID voucherId = bytesToUUID(resultSet.getBytes("voucher_id"));
+        UUID voucherId = JdbcRepositoryManager.bytesToUUID(resultSet.getBytes("voucher_id"));
         Long discount = resultSet.getLong("discount");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
 
