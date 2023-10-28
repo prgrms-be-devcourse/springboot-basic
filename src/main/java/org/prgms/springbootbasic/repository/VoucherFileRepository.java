@@ -27,9 +27,8 @@ public class VoucherFileRepository implements VoucherRepository { // csv를 다�
     }
 
     @Override
-    public VoucherPolicy findById(UUID voucherId) {
-        return Optional.ofNullable(vouchers.get(voucherId))
-                .orElseThrow(NoSuchElementException::new);
+    public Optional<VoucherPolicy> findById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
     }
 
     @Override

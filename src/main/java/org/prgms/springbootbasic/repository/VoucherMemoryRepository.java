@@ -15,9 +15,8 @@ public class VoucherMemoryRepository implements VoucherRepository{
     private final ConcurrentHashMap<UUID, VoucherPolicy> mem = new ConcurrentHashMap<>();
 
     @Override
-    public VoucherPolicy findById(UUID voucherId) {
-        return Optional.ofNullable(mem.get(voucherId))
-                .orElseThrow(NoSuchElementException::new);
+    public Optional<VoucherPolicy> findById(UUID voucherId) {
+        return Optional.ofNullable(mem.get(voucherId));
     }
 
     @Override
