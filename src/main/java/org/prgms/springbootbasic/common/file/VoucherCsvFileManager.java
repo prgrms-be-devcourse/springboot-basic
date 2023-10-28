@@ -44,22 +44,16 @@ public class VoucherCsvFileManager { // CsvFileManager 하나로 합쳐서. doma
                 .toList();
         VoucherType[] voucherTypes = VoucherType.values();
 
-        for (VoucherType type : voucherTypes) {
-            String voucherType = type.getDisplayName();
-            String curStringType = splitLine.get(TYPE_IDX);
-
-            if (curStringType.equals(voucherType)) {
-                log.info("This voucher type is {}", voucherType);
-
-                return type.create(
-                        UUID.fromString(splitLine.get(UUID_IDX)),
-                        Long.parseLong(splitLine.get(DISCOUNT_VALUE_IDX))
-                );
-            }
-        }
-
-        log.error("Invalid voucher type.");
-        throw new IllegalArgumentException("Invalid voucher type.");
+        VoucherType thisVoucherType =
+                Arrays.stream(voucherTypes)
+                        .filter(type -> type.getDisplayName().equals(splitLine.get(TYPE_IDX)))
+                        .findAny()
+                        .orElseThrow(() -> {
+                            log.error("Invalid voucher type.");
+                            return new IllegalArgumentException("Invalid voucher type");
+                        });
+        return thisVoucherType.create(UUID.fromString(splitLine.get(UUID_IDX)),
+                Long.parseLong(splitLine.get(DISCOUNT_VALUE_IDX)));
     }
 
     private String convertToString(VoucherPolicy voucherPolicy){
