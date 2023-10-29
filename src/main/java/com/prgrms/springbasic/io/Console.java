@@ -1,6 +1,7 @@
 package com.prgrms.springbasic.io;
 
 import com.prgrms.springbasic.common.CommandType;
+import com.prgrms.springbasic.common.MenuType;
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
@@ -9,10 +10,13 @@ import org.beryx.textio.TextIoFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.UUID;
 
 @Component
 public class Console implements Output, Input {
     private static final TextIO textIO = TextIoFactory.getTextIO();
+    private static final String EMAIL_PATTERN = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
 
     @Override
     public void printConsoleMessage(ConsoleMessage consoleMessage) {
@@ -22,9 +26,16 @@ public class Console implements Output, Input {
     @Override
     public String inputMenuType() {
         return textIO.newStringInputReader()
+                .withPossibleValues(MenuType.allowedMenuTypes())
+                .read(ConsoleMessage.CHOOSE_COMMAND_TYPE.getMessage()).toUpperCase();
+    }
+
+    @Override
+    public String inputCommandType(MenuType menuType) {
+        return textIO.newStringInputReader()
                 .withIgnoreCase()
-                .withPossibleValues(CommandType.allowedMenuTypes())
-                .read(ConsoleMessage.CHOOSE_MENU_TYPE.getMessage()).toUpperCase();
+                .withPossibleValues(CommandType.allowedCommandTypes(menuType))
+                .read(ConsoleMessage.CHOOSE_COMMAND_TYPE.getMessage()).toUpperCase();
     }
 
     @Override
@@ -50,6 +61,26 @@ public class Console implements Output, Input {
     }
 
     @Override
+    public String inputString(ConsoleMessage consoleMessage) {
+        return textIO.newStringInputReader()
+                .read(consoleMessage.getMessage());
+    }
+
+    @Override
+    public String inputEmail() {
+        return textIO.newStringInputReader()
+                .withPattern(EMAIL_PATTERN)
+                .read(ConsoleMessage.GET_EMAIL.getMessage());
+    }
+
+    @Override
+    public UUID inputUUID(ConsoleMessage consoleMessage) {
+        String id = textIO.newStringInputReader()
+                .read(consoleMessage.getMessage());
+        return UUID.fromString(id);
+    }
+
+    @Override
     public void printVouchers(List<VoucherResponse> vouchers) {
         if (vouchers.isEmpty()) {
             textIO.getTextTerminal().println(ConsoleMessage.NO_VOUCHER_EXIST.getMessage());
@@ -57,7 +88,7 @@ public class Console implements Output, Input {
         }
         textIO.getTextTerminal().println(ConsoleMessage.FIND_ALL_VOUCHERS.getMessage());
         for (VoucherResponse voucher : vouchers) {
-            textIO.getTextTerminal().println(voucher.toString());
+            textIO.getTextTerminal().println(voucherShowFormat(voucher));
         }
     }
 
@@ -68,7 +99,25 @@ public class Console implements Output, Input {
             return;
         }
         for (CustomerResponse customer : customers) {
-            textIO.getTextTerminal().println(customer.toString());
+            textIO.getTextTerminal().println(customerShowFormat(customer));
         }
+    }
+
+    private static String voucherShowFormat(VoucherResponse voucher) {
+        return """
+                Voucher Id : %s
+                Discount Type : %s
+                Discount Value : %d
+                ------------------------------
+                """.formatted(voucher.voucherId(), voucher.discountType(), voucher.discountValue());
+    }
+
+    private static String customerShowFormat(CustomerResponse customer) {
+        return """
+                Customer Id : %s
+                Customer Name : %s
+                Customer Email : %s
+                ------------------------------
+                """.formatted(customer.customerId(), customer.name(), customer.email());
     }
 }

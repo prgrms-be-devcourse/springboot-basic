@@ -2,23 +2,20 @@ package com.prgrms.springbasic.domain.customer.repository;
 
 
 import com.prgrms.springbasic.domain.customer.entity.Customer;
-import com.prgrms.springbasic.util.CsvFileUtil;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
-@Repository
-public class CustomerRepository {
-    @Value("${repository.customer.blacklist_filePath}")
-    private String filePath;
+public interface CustomerRepository {
 
-    public List<Customer> findAllBlackList() {
-        Map<UUID, Customer> blackListCustomers = CsvFileUtil.readCustomerFromFile(filePath);
-        return blackListCustomers.values()
-                .stream()
-                .toList();
-    }
+    Customer save(Customer customer);
+
+    List<Customer> findAllBlackList();
+
+    Optional<Customer> findCustomerById(UUID customer_id);
+
+    Optional<Customer> findCustomerByEmail(String email);
+
+    List<Customer> findAll();
 }

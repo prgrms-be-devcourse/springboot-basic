@@ -20,18 +20,60 @@ public class VoucherRunner implements CommandLineRunner {
 
         boolean isRunning = true;
         while (isRunning) {
-            CommandType commandType;
+            MenuType menuType;
             try {
-                commandType = CommandType.find(menuHandler.chooseMode());
-                switch (commandType) {
+                menuType = MenuType.find(menuHandler.chooseMenu());
+
+                switch (menuType) {
+                    case VOUCHER -> runVoucher(menuType);
+                    case CUSTOMER -> runCustomer(menuType);
+                    case WALLET -> runWallet(menuType);
                     case EXIT -> isRunning = menuHandler.exit();
-                    case CREATE -> menuHandler.createVoucher();
-                    case LIST -> menuHandler.showAllVouchers();
-                    case BLACK_LIST -> menuHandler.showAllBlackLists();
                 }
             } catch (Exception e) {
                 logger.warn(e.getMessage());
             }
+        }
+    }
+
+    private void runVoucher(MenuType menuType) {
+        try {
+            CommandType commandType = CommandType.find(menuHandler.chooseMode(menuType));
+            switch (commandType) {
+                case CREATE -> menuHandler.createVoucher();
+                case LIST -> menuHandler.showAllVouchers();
+                case UPDATE -> menuHandler.updateVoucher();
+                case DELETE_ALL -> menuHandler.deleteAllVoucher();
+            }
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+        }
+    }
+
+    private void runCustomer(MenuType menuType) {
+        try {
+            CommandType commandType = CommandType.find(menuHandler.chooseMode(menuType));
+            switch (commandType) {
+                case CREATE -> menuHandler.createCustomer();
+                case LIST -> menuHandler.showAllCustomer();
+                case BLACK_LIST -> menuHandler.showAllBlackLists();
+            }
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
+        }
+    }
+
+    private void runWallet(MenuType menuType) {
+        try {
+            CommandType commandType = CommandType.find(menuHandler.chooseMode(menuType));
+            switch (commandType) {
+                case CREATE -> menuHandler.createWallet();
+                case FIND_VOUCHERS -> menuHandler.showAllCustomerVouchers();
+                case FIND_CUSTOMERS -> menuHandler.showAllVoucherCustomers();
+                case DELETE -> menuHandler.deleteWallet();
+            }
+        } catch (Exception e) {
+            logger.warn(e.getMessage());
         }
     }
 }

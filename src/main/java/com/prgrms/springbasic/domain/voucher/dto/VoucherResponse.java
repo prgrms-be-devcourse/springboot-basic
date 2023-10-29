@@ -15,14 +15,4 @@ public record VoucherResponse(
                 voucher.getDiscountValue()
         );
     }
-
-    @Override
-    public String toString() {
-        return """
-                Voucher Id : %s
-                Discount Type : %s
-                Discount Value : %d
-                ------------------------------
-                """.formatted(voucherId, discountType, discountValue);
-    }
 }
