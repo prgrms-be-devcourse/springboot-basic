@@ -65,7 +65,7 @@ class ConsoleInputConverterTest {
     @DisplayName("기능 입력 실패 - 지원되지 않는 기능인 경우")
     void Fail_FunctionType_UnsupportedFunction() {
         // given
-        String input = "update";
+        String input = "abcdefg";
         when(scannerInput.getInput()).thenReturn(input);
 
         // when
