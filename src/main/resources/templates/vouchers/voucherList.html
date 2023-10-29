@@ -13,6 +13,7 @@
             <th>Type</th>
             <th>ID</th>
             <th>Value</th>
+            <th>Created At</th>
         </tr>
         </thead>
         <tbody>
@@ -21,6 +22,7 @@
             <td th:if="${voucher instanceOf T(com.programmers.springbootbasic.domain.voucher.entity.PercentDiscountVoucher)}" th:text="'Percent Discount'"/>
             <td th:text="${voucher.voucherId}"></td>
             <td th:text="${voucher.value}"></td>
+            <td th:text="${voucher.getCreatedAt()}"></td>
         </tr>
         </tbody>
     </table>

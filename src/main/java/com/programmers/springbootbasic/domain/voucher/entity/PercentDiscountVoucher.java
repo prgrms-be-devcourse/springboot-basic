@@ -3,6 +3,7 @@ package com.programmers.springbootbasic.domain.voucher.entity;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -11,6 +12,7 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final UUID voucherId;
     private final long value;
+    private final LocalDate createdAt;
 
     @Override
     public long discount(long beforeDiscount) {
@@ -23,6 +25,7 @@ public class PercentDiscountVoucher implements Voucher {
                 PercentDiscountVoucher:
                 Voucher ID: %s
                 Discount Percent: %d%%
-                """, voucherId.toString(), value);
+                Created At: %s
+                """, voucherId.toString(), value, createdAt.toString());
     }
 }

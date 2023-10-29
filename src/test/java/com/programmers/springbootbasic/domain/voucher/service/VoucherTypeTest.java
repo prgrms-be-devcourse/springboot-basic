@@ -7,6 +7,7 @@ import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @DisplayName("VoucherType Test")
 class VoucherTypeTest {
 
+    private static final LocalDate CREATED_DATE = LocalDate.now();
+
     @DisplayName("of. FixedAmountVoucher 생성 성공")
     @Test
     void testOfMethodCreateFixedAmountVoucherSuccess() {
@@ -22,7 +25,7 @@ class VoucherTypeTest {
         UUID expectedUUID = UUID.randomUUID();
         long expectedValue = 50L;
         // Act
-        Voucher actualResult = VoucherType.of(1, expectedUUID, expectedValue);
+        Voucher actualResult = VoucherType.of(1, expectedUUID, expectedValue, CREATED_DATE);
         // Assert
         assertThat(actualResult).isInstanceOf(FixedAmountVoucher.class);
         assertThat(actualResult.getVoucherId()).isEqualTo(expectedUUID);
@@ -36,7 +39,7 @@ class VoucherTypeTest {
         UUID expectedUUID = UUID.randomUUID();
         long expectedValue = -10L;
         // Act & Assert
-        Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(1, expectedUUID, expectedValue));
+        Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(1, expectedUUID, expectedValue, CREATED_DATE));
         assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.WRONG_FIXED_AMOUNT_VALUE_INPUT.getMessage());
     }
 
@@ -47,7 +50,7 @@ class VoucherTypeTest {
         UUID expectedUUID = UUID.randomUUID();
         long expectedValue = 50L;
         // Act
-        Voucher actualResult = VoucherType.of(2, expectedUUID, expectedValue);
+        Voucher actualResult = VoucherType.of(2, expectedUUID, expectedValue, CREATED_DATE);
         // Assert
         assertThat(actualResult).isInstanceOf(PercentDiscountVoucher.class);
         assertThat(actualResult.getVoucherId()).isEqualTo(expectedUUID);
@@ -62,9 +65,9 @@ class VoucherTypeTest {
         long expectedValue1 = -10L;
         long expectedValue2 = 101L;
         // Act & Assert
-        Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(2, expectedUUID, expectedValue1));
+        Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(2, expectedUUID, expectedValue1, CREATED_DATE));
         assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.WRONG_PERCENT_DISCOUNT_VALUE_INPUT.getMessage());
-        actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(2, expectedUUID, expectedValue2));
+        actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(2, expectedUUID, expectedValue2, CREATED_DATE));
         assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.WRONG_PERCENT_DISCOUNT_VALUE_INPUT.getMessage());
     }
 
@@ -75,7 +78,7 @@ class VoucherTypeTest {
         UUID expectedUUID = UUID.randomUUID();
         long expectedValue = 10L;
         // Act & Assert
-        Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(-100, expectedUUID, expectedValue));
+        Throwable actualResult = assertThrows(IllegalArgumentException.class, () -> VoucherType.of(-100, expectedUUID, expectedValue, CREATED_DATE));
         assertThat(actualResult.getMessage()).isEqualTo(ErrorMsg.WRONG_VOUCHER_TYPE_NUMBER.getMessage());
     }
 }

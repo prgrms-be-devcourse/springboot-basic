@@ -1,40 +1,41 @@
 package com.programmers.springbootbasic.domain.voucher.service;
 
+import com.programmers.springbootbasic.common.utils.TriFunction;
 import com.programmers.springbootbasic.domain.voucher.entity.FixedAmountVoucher;
 import com.programmers.springbootbasic.domain.voucher.entity.PercentDiscountVoucher;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.BiFunction;
 import java.util.function.Predicate;
 
 public enum VoucherType {
-    FIXED_AMOUNT(1, (UUID voucherId, Long value) -> {
+    FIXED_AMOUNT(1, (UUID voucherId, Long value, LocalDate localDate) -> {
         if (value < 0) {
             throw new IllegalArgumentException(ErrorMsg.WRONG_FIXED_AMOUNT_VALUE_INPUT.getMessage());
         }
-        return new FixedAmountVoucher(voucherId, value);
+        return new FixedAmountVoucher(voucherId, value, localDate);
     }, FixedAmountVoucher.class::isInstance),
-    PERCENT_DISCOUNT(2, (UUID voucherId, Long value) -> {
+    PERCENT_DISCOUNT(2, (UUID voucherId, Long value, LocalDate localDate) -> {
         if (value < 0 || value > 100) {
             throw new IllegalArgumentException(ErrorMsg.WRONG_PERCENT_DISCOUNT_VALUE_INPUT.getMessage());
         }
-        return new PercentDiscountVoucher(voucherId, value);
+        return new PercentDiscountVoucher(voucherId, value, localDate);
     }, PercentDiscountVoucher.class::isInstance),
-    ERROR(99, (UUID voucherId, Long value) -> {
+    ERROR(99, (UUID voucherId, Long value, LocalDate localDate) -> {
         throw new IllegalArgumentException(ErrorMsg.WRONG_VOUCHER_TYPE_NUMBER.getMessage());
     }, Objects::nonNull);
 
     private final int number;
-    private final BiFunction<UUID, Long, Voucher> biFunction;
+    private final TriFunction<UUID, Long, LocalDate, Voucher> triFunction;
     private final Predicate<Voucher> predicate;
 
-    VoucherType(int number, BiFunction<UUID, Long, Voucher> biFunction, Predicate<Voucher> predicate) {
+    VoucherType(int number, TriFunction<UUID, Long, LocalDate, Voucher> triFunction, Predicate<Voucher> predicate) {
         this.number = number;
-        this.biFunction = biFunction;
+        this.triFunction = triFunction;
         this.predicate = predicate;
     }
 
@@ -45,8 +46,8 @@ public enum VoucherType {
                 .orElse(ERROR);
     }
 
-    public static Voucher of(int number, UUID voucherId, long value) {
-        return findByNumber(number).biFunction.apply(voucherId, value);
+    public static Voucher of(int number, UUID voucherId, long value, LocalDate createdAt) {
+        return findByNumber(number).triFunction.apply(voucherId, value, createdAt);
     }
 
     public static int predictVoucherType(Voucher voucher) {
@@ -54,5 +55,10 @@ public enum VoucherType {
                 .filter(v -> v.predicate.test(voucher))
                 .findAny()
                 .orElse(ERROR).number;
+    }
+
+    public static boolean predictVoucherTypeNumber(int number) {
+        return Arrays.stream(VoucherType.values())
+                .anyMatch(voucherType -> voucherType.number == number);
     }
 }

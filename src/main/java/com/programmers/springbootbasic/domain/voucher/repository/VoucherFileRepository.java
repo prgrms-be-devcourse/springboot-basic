@@ -1,6 +1,7 @@
 package com.programmers.springbootbasic.domain.voucher.repository;
 
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
+import com.programmers.springbootbasic.domain.voucher.service.VoucherType;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -83,6 +85,24 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByVoucherType(int voucherType) {
+        Map<UUID, Voucher> voucherMemory = readVouchersFromFile();
+        return voucherMemory.values()
+                .stream()
+                .filter(voucher -> VoucherType.predictVoucherType(voucher) == voucherType)
+                .toList();
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate date) {
+        Map<UUID, Voucher> voucherMemory = readVouchersFromFile();
+        return voucherMemory.values()
+                .stream()
+                .filter(voucher -> voucher.getCreatedAt().isEqual(date))
+                .toList();
+    }
+
+    @Override
     public void update(Voucher voucher) {
         save(voucher);
     }
@@ -93,4 +113,5 @@ public class VoucherFileRepository implements VoucherRepository {
         voucherMemory.remove(voucher.getVoucherId());
         writeVouchersToFile(voucherMemory);
     }
+
 }

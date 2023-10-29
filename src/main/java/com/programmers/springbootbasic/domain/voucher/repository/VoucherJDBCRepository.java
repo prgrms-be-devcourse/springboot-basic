@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,9 +20,11 @@ import java.util.UUID;
 @Repository
 @RequiredArgsConstructor
 public class VoucherJDBCRepository implements VoucherRepository {
-    private static final String INSERT_QUERY = "INSERT INTO vouchers(voucher_id, value, voucher_type) VALUES(UUID_TO_BIN(?), ?, ?)";
+    private static final String INSERT_QUERY = "INSERT INTO vouchers(voucher_id, value, voucher_type, created_at) VALUES(UUID_TO_BIN(?), ?, ?, ?)";
     private static final String SELECT_ALL_QUERY = "SELECT * FROM vouchers";
     private static final String SELECT_BY_ID_QUERY = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String SELECT_BY_TYPE_QUERY = "SELECT * FROM vouchers WHERE voucher_type = ?";
+    private static final String SELECT_BY_DATE_QUERY = "SELECT * FROM vouchers WHERE created_at = ?";
     private static final String UPDATE_QUERY = "UPDATE vouchers SET value = ?, voucher_type = ? WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String DELETE_BY_ID_QUERY = "DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String TRUNCATE_TABLE = "DELETE FROM vouchers";
@@ -30,14 +33,19 @@ public class VoucherJDBCRepository implements VoucherRepository {
         UUID voucherId = UUIDConverter.toUUID(resultSet.getBytes("voucher_id"));
         long value = resultSet.getLong("value");
         int voucherType = resultSet.getInt("voucher_type");
-        return VoucherType.of(voucherType, voucherId, value);
+        LocalDate createdAt = resultSet.getDate("created_at").toLocalDate();
+        return VoucherType.of(voucherType, voucherId, value, createdAt);
     };
 
     private final JdbcTemplate jdbcTemplate;
 
     @Override
     public Voucher save(Voucher voucher) {
-        jdbcTemplate.update(INSERT_QUERY, voucher.getVoucherId().toString().getBytes(), voucher.getValue(), VoucherType.predictVoucherType(voucher));
+        jdbcTemplate.update(INSERT_QUERY,
+                voucher.getVoucherId().toString().getBytes(),
+                voucher.getValue(),
+                VoucherType.predictVoucherType(voucher),
+                voucher.getCreatedAt().toString());
         return voucher;
     }
 
@@ -61,6 +69,16 @@ public class VoucherJDBCRepository implements VoucherRepository {
     @Override
     public void delete(Voucher voucher) {
         jdbcTemplate.update(DELETE_BY_ID_QUERY, voucher.getVoucherId().toString().getBytes());
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(int voucherType) {
+        return jdbcTemplate.query(SELECT_BY_TYPE_QUERY, ROW_MAPPER, voucherType);
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDate date) {
+        return jdbcTemplate.query(SELECT_BY_DATE_QUERY, ROW_MAPPER, date.toString());
     }
 
     @Override

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,8 +32,9 @@ class VoucherMemoryRepositoryTest {
     void testSaveSuccess() {
         // Arrange
         UUID expectedUUID = UUID.randomUUID();
+        LocalDate expectedCreatedAt = LocalDate.now();
         long expectedValue = 10L;
-        Voucher expectedResult = new FixedAmountVoucher(expectedUUID, expectedValue);
+        Voucher expectedResult = new FixedAmountVoucher(expectedUUID, expectedValue, expectedCreatedAt);
         // Act
         Voucher actualResult = voucherRepository.save(expectedResult);
         // Assert
@@ -40,6 +42,7 @@ class VoucherMemoryRepositoryTest {
         assertThat(actualResult).isEqualTo(expectedResult);
         assertThat(actualResult.getVoucherId()).isEqualTo(expectedUUID);
         assertThat(actualResult.getValue()).isEqualTo(expectedValue);
+        assertThat(actualResult.getCreatedAt()).isEqualTo(expectedCreatedAt);
         assertThat(actualResult.getInformation()).isEqualTo(expectedResult.getInformation());
     }
 
@@ -47,8 +50,9 @@ class VoucherMemoryRepositoryTest {
     void testFindAllSuccess() {
         // Arrange
         long expectedValue = 10L;
-        Voucher expectedVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), expectedValue);
-        Voucher expectedVoucher2 = new PercentDiscountVoucher(UUID.randomUUID(), expectedValue);
+        LocalDate expectedCreatedAt = LocalDate.now();
+        Voucher expectedVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), expectedValue, expectedCreatedAt);
+        Voucher expectedVoucher2 = new PercentDiscountVoucher(UUID.randomUUID(), expectedValue, expectedCreatedAt);
         List<Voucher> expectedResult = List.of(expectedVoucher1, expectedVoucher2);
         voucherRepository.save(expectedVoucher1);
         voucherRepository.save(expectedVoucher2);

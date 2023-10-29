@@ -1,5 +1,6 @@
 package com.programmers.springbootbasic.domain.voucher.service;
 
+import com.programmers.springbootbasic.common.utils.LocalDateValueStrategy;
 import com.programmers.springbootbasic.common.utils.UUIDValueStrategy;
 import com.programmers.springbootbasic.domain.voucher.dto.VoucherServiceRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.FixedAmountVoucher;
@@ -14,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,15 +30,17 @@ import static org.mockito.Mockito.when;
 class VoucherServiceTest {
     private static final long VALUE = 50L;
     private static final UUID VOUCHER_ID = UUID.randomUUID();
+    private static final LocalDate CREATED_DATE = LocalDate.parse("2023-10-29");
     @InjectMocks
     private VoucherService voucherService;
     @Mock
     private VoucherRepository voucherRepository;
     private final UUIDValueStrategy uuidValueStrategy = () -> VOUCHER_ID;
+    private final LocalDateValueStrategy localDateValueStrategy = () -> CREATED_DATE;
 
     @BeforeEach
     void init() {
-        voucherService = new VoucherService(voucherRepository, uuidValueStrategy);
+        voucherService = new VoucherService(voucherRepository, uuidValueStrategy, localDateValueStrategy);
     }
 
     @Test
@@ -46,19 +50,21 @@ class VoucherServiceTest {
                 .voucherType(1)
                 .value(VALUE)
                 .build();
-        when(voucherRepository.save(any(Voucher.class))).thenReturn(VoucherType.of(1, VOUCHER_ID, VALUE));
+        when(voucherRepository.save(any(Voucher.class))).thenReturn(VoucherType.of(1, VOUCHER_ID, VALUE, CREATED_DATE));
         // Act
         Voucher actualResult = voucherService.createVoucher(voucherServiceRequestDto);
         // Assert
         assertThat(actualResult).isInstanceOf(FixedAmountVoucher.class);
         assertThat(actualResult.getVoucherId()).isEqualTo(VOUCHER_ID);
+        assertThat(actualResult.getValue()).isEqualTo(VALUE);
+        assertThat(actualResult.getCreatedAt()).isEqualTo(CREATED_DATE);
     }
 
     @Test
     void testFindVoucherByIdSuccess() {
         // Arrange
         int expectedVoucherType = 1;
-        Voucher expectedResult = VoucherType.of(expectedVoucherType, VOUCHER_ID, VALUE);
+        Voucher expectedResult = VoucherType.of(expectedVoucherType, VOUCHER_ID, VALUE, CREATED_DATE);
         when(voucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(expectedResult));
         VoucherServiceRequestDto voucherServiceRequestDto = VoucherServiceRequestDto.builder()
                 .voucherId(VOUCHER_ID)
@@ -87,7 +93,7 @@ class VoucherServiceTest {
         // Arrange
         int expectedVoucherType = 1;
         long expectedVoucherValue = 60L;
-        Voucher expectedResult = VoucherType.of(expectedVoucherType, VOUCHER_ID, VALUE);
+        Voucher expectedResult = VoucherType.of(expectedVoucherType, VOUCHER_ID, VALUE, CREATED_DATE);
         when(voucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(expectedResult));
         VoucherServiceRequestDto voucherServiceRequestDto = VoucherServiceRequestDto.builder()
                 .voucherId(VOUCHER_ID)
@@ -101,8 +107,8 @@ class VoucherServiceTest {
     void testFindAllVoucher() {
         // Arrange
         long expectedValue = 50L;
-        Voucher voucher1 = VoucherType.of(1, UUID.randomUUID(), expectedValue);
-        Voucher voucher2 = VoucherType.of(2, UUID.randomUUID(), expectedValue);
+        Voucher voucher1 = VoucherType.of(1, UUID.randomUUID(), expectedValue, CREATED_DATE);
+        Voucher voucher2 = VoucherType.of(2, UUID.randomUUID(), expectedValue, CREATED_DATE);
         List<Voucher> expectedResult = List.of(voucher1, voucher2);
         when(voucherRepository.findAll()).thenReturn(expectedResult);
         // Act

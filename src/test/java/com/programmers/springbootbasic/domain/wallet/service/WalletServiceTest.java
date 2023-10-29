@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,13 +39,14 @@ class WalletServiceTest {
     private static final int VOUCHER_TYPE = 1;
     private static final UUID VOUCHER_ID = UUID.randomUUID();
     private static final long VALUE = 20L;
+    private static final LocalDate VOUCHER_CREATED_AT = LocalDate.now();
     private static final Customer CUSTOMER = Customer.builder()
             .customerId(CUSTOMER_ID)
             .email(EMAIL)
             .name(NAME)
             .isBlacklist(false)
             .build();
-    private static final Voucher VOUCHER = VoucherType.of(VOUCHER_TYPE, VOUCHER_ID, VALUE);
+    private static final Voucher VOUCHER = VoucherType.of(VOUCHER_TYPE, VOUCHER_ID, VALUE, VOUCHER_CREATED_AT);
     @InjectMocks
     private WalletService walletService;
     @Mock
