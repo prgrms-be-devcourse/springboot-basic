@@ -2,7 +2,7 @@ package com.programmers.springbootbasic.domain.wallet.controller;
 
 import com.programmers.springbootbasic.common.response.CommonResult;
 import com.programmers.springbootbasic.domain.customer.exception.ErrorMsg;
-import com.programmers.springbootbasic.domain.wallet.dto.WalletRequestDto;
+import com.programmers.springbootbasic.domain.wallet.dto.WalletServiceRequestDto;
 import com.programmers.springbootbasic.domain.wallet.entity.Wallet;
 import com.programmers.springbootbasic.domain.wallet.service.WalletService;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +38,7 @@ class WalletControllerTest {
                 .email(EMAIL)
                 .voucherId(UUID.fromString(VOUCHER_ID_STR))
                 .build();
-        when(walletService.createWallet(any(WalletRequestDto.class))).thenReturn(expectedWallet);
+        when(walletService.createWallet(any(WalletServiceRequestDto.class))).thenReturn(expectedWallet);
         // Act
         CommonResult<String> actualResult = walletController.addWallet(EMAIL, VOUCHER_ID_STR);
         // Assert
@@ -80,7 +80,7 @@ class WalletControllerTest {
                 --- %s user Vouchers ---
                 %s
                 """, EMAIL, VOUCHER_ID_STR);
-        when(walletService.findWalletsByCustomerEmail(any(WalletRequestDto.class))).thenReturn(expectedWallets);
+        when(walletService.findWalletsByCustomerEmail(any(WalletServiceRequestDto.class))).thenReturn(expectedWallets);
         // Act
         CommonResult<String> actualResult = walletController.findWalletsByCustomerEmail(EMAIL);
         // Assert
@@ -110,7 +110,7 @@ class WalletControllerTest {
                 --- Contain %s Voucher User list ---
                 %s
                 """, VOUCHER_ID_STR, EMAIL);
-        when(walletService.findWalletsByVoucherId(any(WalletRequestDto.class))).thenReturn(expectedWallets);
+        when(walletService.findWalletsByVoucherId(any(WalletServiceRequestDto.class))).thenReturn(expectedWallets);
         // Act
         CommonResult<String> actualResult = walletController.findWalletsByVoucherId(VOUCHER_ID_STR);
         // Assert
@@ -133,7 +133,7 @@ class WalletControllerTest {
     @Test
     void testDeleteWalletSuccess() {
         // Arrange
-        doNothing().when(walletService).deleteWallet(any(WalletRequestDto.class));
+        doNothing().when(walletService).deleteWallet(any(WalletServiceRequestDto.class));
         // Act
         CommonResult<String> actualResult = walletController.deleteWallet(EMAIL, VOUCHER_ID_STR);
         // Assert

@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Find Voucher</title>
+    <title>Find All Voucher In Wallet</title>
 </head>
 <body>
 <div>
-    <form method="get" th:action="@{/vouchers/find}">
+    <form th:action="@{/wallets/voucher}" th:method="GET">
         <div>
-            <label for="voucherId">Voucher ID</label><br>
-            <input id="voucherId" name="voucherId" placeholder="Enter the Voucher Id" type="text">
+            <label for="email">Email</label><br>
+            <input id="email" name="email" placeholder="Enter the email" type="text">
         </div>
         <button type="submit">조회</button>
     </form>
@@ -18,5 +18,3 @@
         <button type="submit">Home</button>
     </form>
 </div>
-</body>
-</html>

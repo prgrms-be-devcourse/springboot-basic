@@ -2,9 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Voucher List</title>
+    <title>Add Voucher to Wallet</title>
 </head>
 <body>
+<h2>Add Voucher to Wallet</h2>
 <div>
     <h4>Voucher List</h4>
     <table>
@@ -26,10 +27,23 @@
         </tr>
         </tbody>
     </table>
+    <hr>
+    <form th:action="@{/wallets/add}" th:method="POST">
+        <div>
+            <label for="email">Email</label><br>
+            <input id="email" name="email" placeholder="Enter the email" type="text">
+        </div>
+        <div>
+            <label for="voucherId">Voucher ID</label><br>
+            <input id="voucherId" name="voucherId" placeholder="Enter the Voucher Id" type="text">
+        </div>
+        <button type="submit">추가</button>
+    </form>
+
+    <br>
+    <form th:action="@{/}" th:method="GET">
+        <button type="submit">Home</button>
+    </form>
 </div>
-<br>
-<form th:action="@{/}" th:method="GET">
-    <button type="submit">Home</button>
-</form>
 </body>
 </html>

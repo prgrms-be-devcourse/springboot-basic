@@ -4,7 +4,7 @@ import com.programmers.springbootbasic.domain.customer.entity.Customer;
 import com.programmers.springbootbasic.domain.customer.repository.CustomerRepository;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.repository.VoucherRepository;
-import com.programmers.springbootbasic.domain.wallet.dto.WalletRequestDto;
+import com.programmers.springbootbasic.domain.wallet.dto.WalletServiceRequestDto;
 import com.programmers.springbootbasic.domain.wallet.entity.Wallet;
 import com.programmers.springbootbasic.domain.wallet.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,9 +29,9 @@ public class WalletService {
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
 
-    public Wallet createWallet(WalletRequestDto walletRequestDto) {
-        Customer customer = findCustomer(walletRequestDto.getEmail());
-        Voucher voucher = findVoucher(walletRequestDto.getVoucherId());
+    public Wallet createWallet(WalletServiceRequestDto walletServiceRequestDto) {
+        Customer customer = findCustomer(walletServiceRequestDto.getEmail());
+        Voucher voucher = findVoucher(walletServiceRequestDto.getVoucherId());
         if (walletRepository.findByValues(customer.getEmail(), voucher.getVoucherId()).isPresent()) {
             log.warn(WALLET_ALREADY_EXIST.getMessage());
             throw new RuntimeException(WALLET_ALREADY_EXIST.getMessage());
@@ -43,19 +43,19 @@ public class WalletService {
         return walletRepository.save(wallet);
     }
 
-    public List<Wallet> findWalletsByCustomerEmail(WalletRequestDto walletRequestDto) {
-        Customer customer = findCustomer(walletRequestDto.getEmail());
+    public List<Wallet> findWalletsByCustomerEmail(WalletServiceRequestDto walletServiceRequestDto) {
+        Customer customer = findCustomer(walletServiceRequestDto.getEmail());
         return walletRepository.findByCustomerEmail(customer.getEmail());
     }
 
-    public List<Wallet> findWalletsByVoucherId(WalletRequestDto walletRequestDto) {
-        Voucher voucher = findVoucher(walletRequestDto.getVoucherId());
+    public List<Wallet> findWalletsByVoucherId(WalletServiceRequestDto walletServiceRequestDto) {
+        Voucher voucher = findVoucher(walletServiceRequestDto.getVoucherId());
         return walletRepository.findByVoucherId(voucher.getVoucherId());
     }
 
-    public void deleteWallet(WalletRequestDto walletRequestDto) {
-        Customer customer = findCustomer(walletRequestDto.getEmail());
-        Voucher voucher = findVoucher(walletRequestDto.getVoucherId());
+    public void deleteWallet(WalletServiceRequestDto walletServiceRequestDto) {
+        Customer customer = findCustomer(walletServiceRequestDto.getEmail());
+        Voucher voucher = findVoucher(walletServiceRequestDto.getVoucherId());
         Wallet wallet = walletRepository.findByValues(customer.getEmail(), voucher.getVoucherId()).orElseThrow(() -> {
             log.warn(WALLET_NOT_FOUND.getMessage());
             return new RuntimeException(WALLET_NOT_FOUND.getMessage());

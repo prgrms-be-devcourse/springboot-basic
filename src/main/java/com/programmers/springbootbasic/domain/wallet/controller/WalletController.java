@@ -2,7 +2,7 @@ package com.programmers.springbootbasic.domain.wallet.controller;
 
 import com.programmers.springbootbasic.common.response.CommonResult;
 import com.programmers.springbootbasic.domain.customer.vo.Email;
-import com.programmers.springbootbasic.domain.wallet.dto.WalletRequestDto;
+import com.programmers.springbootbasic.domain.wallet.dto.WalletServiceRequestDto;
 import com.programmers.springbootbasic.domain.wallet.entity.Wallet;
 import com.programmers.springbootbasic.domain.wallet.service.WalletService;
 import com.programmers.springbootbasic.domain.wallet.view.WalletView;
@@ -23,7 +23,7 @@ public class WalletController {
 
     public CommonResult<String> addWallet(String email, String voucherId) {
         try {
-            walletService.createWallet(WalletRequestDto.builder()
+            walletService.createWallet(WalletServiceRequestDto.builder()
                     .email(Email.from(email).getValue())
                     .voucherId(UUID.fromString(voucherId))
                     .build());
@@ -42,7 +42,7 @@ public class WalletController {
 
     public CommonResult<String> findWalletsByCustomerEmail(String email) {
         try {
-            List<String> vouchers = walletService.findWalletsByCustomerEmail(WalletRequestDto.builder()
+            List<String> vouchers = walletService.findWalletsByCustomerEmail(WalletServiceRequestDto.builder()
                             .email(Email.from(email).getValue())
                             .build())
                     .stream()
@@ -59,7 +59,7 @@ public class WalletController {
 
     public CommonResult<String> findWalletsByVoucherId(String voucherId) {
         try {
-            List<String> customers = walletService.findWalletsByVoucherId(WalletRequestDto.builder()
+            List<String> customers = walletService.findWalletsByVoucherId(WalletServiceRequestDto.builder()
                             .voucherId(UUID.fromString(voucherId))
                             .build())
                     .stream()
@@ -78,7 +78,7 @@ public class WalletController {
 
     public CommonResult<String> deleteWallet(String email, String voucherId) {
         try {
-            walletService.deleteWallet(WalletRequestDto.builder()
+            walletService.deleteWallet(WalletServiceRequestDto.builder()
                     .email(Email.from(email).getValue())
                     .voucherId(UUID.fromString(voucherId))
                     .build());

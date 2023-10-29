@@ -5,7 +5,7 @@ import com.programmers.springbootbasic.domain.customer.repository.CustomerReposi
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.repository.VoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.service.VoucherType;
-import com.programmers.springbootbasic.domain.wallet.dto.WalletRequestDto;
+import com.programmers.springbootbasic.domain.wallet.dto.WalletServiceRequestDto;
 import com.programmers.springbootbasic.domain.wallet.entity.Wallet;
 import com.programmers.springbootbasic.domain.wallet.repository.WalletRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -67,12 +67,12 @@ class WalletServiceTest {
         when(voucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(VOUCHER));
         when(walletRepository.findByValues(any(String.class), any(UUID.class))).thenReturn(Optional.empty());
         when(walletRepository.save(any(Wallet.class))).thenReturn(expectedResult);
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(EMAIL)
                 .voucherId(VOUCHER_ID)
                 .build();
         // Act
-        Wallet actualResult = walletService.createWallet(walletRequestDto);
+        Wallet actualResult = walletService.createWallet(walletServiceRequestDto);
         // Assert
         assertThat(actualResult).isEqualTo(expectedResult);
     }
@@ -83,12 +83,12 @@ class WalletServiceTest {
         // Arrange
         String expectedEmail = "test2@gmail.com";
         when(customerRepository.findByEmail(expectedEmail)).thenReturn(Optional.empty());
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(expectedEmail)
                 .voucherId(VOUCHER_ID)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.createWallet(walletRequestDto));
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.createWallet(walletServiceRequestDto));
         assertThat(actualResult.getMessage()).isEqualTo(CUSTOMER_NOT_FOUND.getMessage());
     }
 
@@ -99,12 +99,12 @@ class WalletServiceTest {
         UUID expectedVoucherId = UUID.randomUUID();
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(CUSTOMER));
         when(voucherRepository.findById(expectedVoucherId)).thenReturn(Optional.empty());
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(EMAIL)
                 .voucherId(expectedVoucherId)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.createWallet(walletRequestDto));
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.createWallet(walletServiceRequestDto));
         assertThat(actualResult.getMessage()).isEqualTo(VOUCHER_NOT_FOUND.getMessage());
     }
 
@@ -119,12 +119,12 @@ class WalletServiceTest {
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(CUSTOMER));
         when(voucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(VOUCHER));
         when(walletRepository.findByValues(any(String.class), any(UUID.class))).thenReturn(Optional.of(expectedWallet));
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(EMAIL)
                 .voucherId(VOUCHER_ID)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.createWallet(walletRequestDto));
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.createWallet(walletServiceRequestDto));
         assertThat(actualResult.getMessage()).isEqualTo(WALLET_ALREADY_EXIST.getMessage());
     }
 
@@ -138,11 +138,11 @@ class WalletServiceTest {
         List<Wallet> expectedResult = List.of(expectedWallet);
         when(walletRepository.findByCustomerEmail(EMAIL)).thenReturn(expectedResult);
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(CUSTOMER));
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(EMAIL)
                 .build();
         // Act
-        List<Wallet> actualResult = walletService.findWalletsByCustomerEmail(walletRequestDto);
+        List<Wallet> actualResult = walletService.findWalletsByCustomerEmail(walletServiceRequestDto);
         // Assert
         assertThat(actualResult.size()).isEqualTo(expectedResult.size());
         assertThat(actualResult).contains(expectedWallet);
@@ -154,11 +154,11 @@ class WalletServiceTest {
         // Arrange
         String expectedEmail = "test2@gmail.com";
         when(customerRepository.findByEmail(expectedEmail)).thenReturn(Optional.empty());
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(expectedEmail)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.findWalletsByCustomerEmail(walletRequestDto));
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.findWalletsByCustomerEmail(walletServiceRequestDto));
         assertThat(actualResult.getMessage()).isEqualTo(CUSTOMER_NOT_FOUND.getMessage());
     }
 
@@ -172,11 +172,11 @@ class WalletServiceTest {
         List<Wallet> expectedResult = List.of(expectedWallet);
         when(walletRepository.findByVoucherId(VOUCHER_ID)).thenReturn(expectedResult);
         when(voucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(VOUCHER));
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .voucherId(VOUCHER_ID)
                 .build();
         // Act
-        List<Wallet> actualResult = walletService.findWalletsByVoucherId(walletRequestDto);
+        List<Wallet> actualResult = walletService.findWalletsByVoucherId(walletServiceRequestDto);
         // Assert
         assertThat(actualResult.size()).isEqualTo(expectedResult.size());
         assertThat(actualResult).contains(expectedWallet);
@@ -187,11 +187,11 @@ class WalletServiceTest {
     void testFindWalletsByVoucherIdFailWhenVoucherNotFound() {
         UUID expectedVoucherId = UUID.randomUUID();
         when(voucherRepository.findById(expectedVoucherId)).thenReturn(Optional.empty());
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .voucherId(expectedVoucherId)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.findWalletsByVoucherId(walletRequestDto));
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.findWalletsByVoucherId(walletServiceRequestDto));
         assertThat(actualResult.getMessage()).isEqualTo(VOUCHER_NOT_FOUND.getMessage());
     }
 
@@ -206,12 +206,12 @@ class WalletServiceTest {
         when(voucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(VOUCHER));
         when(walletRepository.findByValues(any(String.class), any(UUID.class))).thenReturn(Optional.of(expectedWallet));
         doNothing().when(walletRepository).delete(expectedWallet);
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(EMAIL)
                 .voucherId(VOUCHER_ID)
                 .build();
         // Act
-        walletService.deleteWallet(walletRequestDto);
+        walletService.deleteWallet(walletServiceRequestDto);
     }
 
     @DisplayName("Test deleteWallet Fail: When customer Not Found")
@@ -220,12 +220,12 @@ class WalletServiceTest {
         // Arrange
         String expectedEmail = "test2@gmail.com";
         when(customerRepository.findByEmail(expectedEmail)).thenReturn(Optional.empty());
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(expectedEmail)
                 .voucherId(VOUCHER_ID)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.deleteWallet(walletRequestDto));
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.deleteWallet(walletServiceRequestDto));
         assertThat(actualResult.getMessage()).isEqualTo(CUSTOMER_NOT_FOUND.getMessage());
     }
 
@@ -236,12 +236,12 @@ class WalletServiceTest {
         UUID expectedVoucherId = UUID.randomUUID();
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(CUSTOMER));
         when(voucherRepository.findById(expectedVoucherId)).thenReturn(Optional.empty());
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(EMAIL)
                 .voucherId(expectedVoucherId)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.deleteWallet(walletRequestDto));
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.deleteWallet(walletServiceRequestDto));
         assertThat(actualResult.getMessage()).isEqualTo(VOUCHER_NOT_FOUND.getMessage());
     }
 
@@ -252,12 +252,12 @@ class WalletServiceTest {
         when(customerRepository.findByEmail(EMAIL)).thenReturn(Optional.of(CUSTOMER));
         when(voucherRepository.findById(VOUCHER_ID)).thenReturn(Optional.of(VOUCHER));
         when(walletRepository.findByValues(any(String.class), any(UUID.class))).thenReturn(Optional.empty());
-        WalletRequestDto walletRequestDto = WalletRequestDto.builder()
+        WalletServiceRequestDto walletServiceRequestDto = WalletServiceRequestDto.builder()
                 .email(EMAIL)
                 .voucherId(VOUCHER_ID)
                 .build();
         // Act & Assert
-        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.deleteWallet(walletRequestDto));
+        Throwable actualResult = assertThrows(RuntimeException.class, () -> walletService.deleteWallet(walletServiceRequestDto));
         assertThat(actualResult.getMessage()).isEqualTo(WALLET_NOT_FOUND.getMessage());
     }
 }

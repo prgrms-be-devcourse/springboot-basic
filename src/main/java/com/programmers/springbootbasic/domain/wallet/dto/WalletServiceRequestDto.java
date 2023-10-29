@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class WalletRequestDto {
+public class WalletServiceRequestDto {
     private final String email;
     private final UUID voucherId;
 }

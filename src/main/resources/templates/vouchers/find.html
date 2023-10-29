@@ -8,5 +8,8 @@
 <div>
     <span th:text="${voucher.getInformation()}"/>
 </div>
+<form th:action="@{/}" th:method="GET">
+    <button type="submit">Home</button>
+</form>
 </body>
 </html>
