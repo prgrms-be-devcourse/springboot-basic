@@ -12,11 +12,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@Repository
+//@Repository
 @Slf4j
 public class FileCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> storage;
@@ -39,13 +40,42 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public void save(Customer customer) {
+        unsupported();
+    }
+
+    @Override
+    public void saveAll(List<Customer> customers) {
+        unsupported();
+    }
+
+    @Override
+    public Optional<Customer> findById(UUID id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        return Optional.empty();
+    }
+
+    @Override
     public List<Customer> findAll(GetCustomersRequestDto request) {
         Stream<Customer> stream = storage.values().stream();
 
-        if (request.isBlacklisted()) {
+        if (request.getBlacklisted()) {
             stream = stream.filter(Customer::isBlacklisted);
         }
 
         return stream.collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteAll() {
+        unsupported();
+    }
+
+    private void unsupported() {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 }

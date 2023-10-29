@@ -3,13 +3,9 @@ spring:
     active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/app
+    url: jdbc:mysql://localhost:3306/test
     username: root
     password: rootpassword
   sql:
     init:
       mode: always
-
-app:
-  file:
-    customers: customers.csv

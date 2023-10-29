@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetCustomersRequestDto {
-    private Boolean blacklisted;
+public class CreateCustomerRequestDto {
+    private String email;
 }
