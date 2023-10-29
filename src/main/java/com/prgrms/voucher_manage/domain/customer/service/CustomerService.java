@@ -15,10 +15,10 @@ import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
-    private final JdbcCustomerRepository jdbcCustomerRepository;
+    private final JdbcCustomerRepository repository;
 
     public List<Customer> getAllCustomers(){
-        List<Customer> customers = jdbcCustomerRepository.findAll();
+        List<Customer> customers = repository.findAll();
         if (customers.isEmpty()) {
             throw new  RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
         }
@@ -26,28 +26,32 @@ public class CustomerService {
     }
 
     public List<Customer> getBlackCustomers() {
-        List<Customer> customers = jdbcCustomerRepository.findAll();
+        List<Customer> customers = repository.findAll();
         if (customers.isEmpty()) {
             throw new  RuntimeException(BLACK_CUSTOMER_NOT_EXIST.getMessage());
         }
-        return jdbcCustomerRepository.findByType(BLACK.getData());
+        return repository.findByType(BLACK.getData());
     }
 
     public Customer save(Customer customer){
-        return jdbcCustomerRepository.save(customer);
+        return repository.save(customer);
     }
 
     public void update(UpdateCustomerDto dto){
-        int result = jdbcCustomerRepository.update(dto);
+        int result = repository.update(dto);
         if (result!=1){
             throw new RuntimeException(CUSTOMER_UPDATE_FAILED.getMessage());
         }
     }
     public Customer findByName(String name){
-        return jdbcCustomerRepository.findByName(name).orElseThrow(RuntimeException::new);
+        return repository
+                .findByName(name)
+                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_EXIST.getMessage()));
     }
 
-    public Customer findById(UUID id){
-        return jdbcCustomerRepository.findById(id).orElseThrow(RuntimeException::new);
+    public Customer findById(UUID voucherId){
+        return repository
+                .findById(voucherId)
+                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_EXIST.getMessage()));
     }
 }
