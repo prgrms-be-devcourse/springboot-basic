@@ -1,3 +1,5 @@
+CREATE DATABASE order_management;
+USE order_management;
 CREATE TABLE customer
 (
     id         BINARY(16) PRIMARY KEY,
@@ -13,6 +15,7 @@ CREATE TABLE voucher
     name            varchar(20) NOT NULL UNIQUE,
     discount_amount float       NOT NULL DEFAULT FALSE,
     created_at      datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+    voucher_type    varchar(20) NOT NULL,
     CONSTRAINT unq_voucher_name UNIQUE (name)
 );
 

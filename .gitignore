@@ -38,3 +38,4 @@ out/
 
 ### custom ###
 /log
+**/database/data

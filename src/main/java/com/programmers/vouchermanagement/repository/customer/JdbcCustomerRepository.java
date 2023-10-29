@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
+import com.programmers.vouchermanagement.dto.CustomerDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -108,7 +109,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         final String name = resultSet.getString("name");
         final LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         final boolean isBanned = resultSet.getBoolean("is_banned");
-        return new Customer(id, name, createdAt, isBanned);
+        return new Customer(new CustomerDto.Create(id, name, createdAt, isBanned));
     }
 
     private UUID toUUID(byte[] bytes) {

@@ -13,7 +13,7 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/order_mgmt
+    url: jdbc:mysql://localhost:3306/order_management
     username: root
     password: root1234
 csv:
