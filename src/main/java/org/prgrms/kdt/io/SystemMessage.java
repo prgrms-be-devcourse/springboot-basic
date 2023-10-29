@@ -1,4 +1,4 @@
-package org.prgrms.kdt.app.io;
+package org.prgrms.kdt.io;
 
 public enum SystemMessage {
     EXIT_PROGRAM("프로그램을 종료합니다."),

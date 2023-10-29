@@ -1,4 +1,4 @@
-package org.prgrms.kdt.app.io;
+package org.prgrms.kdt.io;
 
 import java.io.IOException;
 

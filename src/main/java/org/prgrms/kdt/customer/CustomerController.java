@@ -1,9 +1,8 @@
-package org.prgrms.kdt.customer.controller;
+package org.prgrms.kdt.customer;
 
-import org.prgrms.kdt.app.io.InputHandler;
-import org.prgrms.kdt.app.io.OutputHandler;
-import org.prgrms.kdt.customer.domain.Customer;
-import org.prgrms.kdt.customer.service.CustomerService;
+import org.prgrms.kdt.io.InputHandler;
+import org.prgrms.kdt.io.OutputHandler;
+import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -24,5 +23,14 @@ public class CustomerController {
     public void getBlackList() {
         List<Customer> blackList = customerService.getBlackList();
         outputHandler.outputBlackList(blackList);
+    }
+
+    public void getAllVoucher() {
+        List<Voucher> voucherList = customerService.getAllVoucher();
+        outputHandler.outputVouchers(voucherList);
+    }
+
+    public void removeVoucher() {
+
     }
 }

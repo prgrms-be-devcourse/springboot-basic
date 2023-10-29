@@ -1,11 +1,12 @@
-package org.prgrms.kdt.voucher.controller;
+package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.app.io.InputHandler;
-import org.prgrms.kdt.app.io.OutputHandler;
-import org.prgrms.kdt.app.io.StartMenu;
-import org.prgrms.kdt.customer.controller.CustomerController;
+import org.prgrms.kdt.io.InputHandler;
+import org.prgrms.kdt.io.OutputHandler;
+import org.prgrms.kdt.io.StartMenu;
+import org.prgrms.kdt.customer.CustomerController;
+import org.prgrms.kdt.voucher.Dto.FixedAmountVoucherDto;
+import org.prgrms.kdt.voucher.Dto.PercentDiscountVoucherDto;
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
-import static org.prgrms.kdt.app.io.SystemMessage.*;
+import static org.prgrms.kdt.io.SystemMessage.*;
 
 @Controller
 public class VoucherController {

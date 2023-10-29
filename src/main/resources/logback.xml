@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-  <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-  <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <file>logs/access.log</file> <!-- 2021-07-01 -->
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-      <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
-    </rollingPolicy>
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/access.log</file> <!-- 2021-07-01 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/access-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
 
-    <encoder>
-      <pattern>${FILE_LOG_PATTERN}</pattern>
-    </encoder>
-  </appender>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
 
-  <logger name="org.prgrms.kdt" level="error">
-    <appender-ref ref="ROLLING_FILE" />
-  </logger>
+    <logger name="org.prgrms.kdt" level="error">
+        <appender-ref ref="ROLLING_FILE"/>
+    </logger>
 
-<!--  <logger name="org.prgrms.kdt" level="debug" />-->
+    <!--  <logger name="org.prgrms.kdt" level="debug" />-->
 
-  <root level="warn">
-    <appender-ref ref="CONSOLE" />
-  </root>
+    <root level="warn">
+        <appender-ref ref="CONSOLE"/>
+    </root>
 </configuration>

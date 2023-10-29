@@ -1,4 +1,4 @@
-package org.prgrms.kdt.voucher.controller;
+package org.prgrms.kdt.voucher.Dto;
 
 import java.util.UUID;
 

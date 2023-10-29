@@ -1,6 +1,6 @@
-package org.prgrms.kdt.app.io;
+package org.prgrms.kdt.io;
 
-import org.prgrms.kdt.customer.domain.Customer;
+import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.voucher.domain.Voucher;
 
 import java.util.List;

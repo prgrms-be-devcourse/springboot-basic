@@ -1,14 +1,13 @@
-package org.prgrms.kdt.voucher.service;
+package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.voucher.controller.FixedAmountVoucherDto;
-import org.prgrms.kdt.voucher.controller.PercentDiscountVoucherDto;
+import org.prgrms.kdt.voucher.Dto.FixedAmountVoucherDto;
+import org.prgrms.kdt.voucher.Dto.PercentDiscountVoucherDto;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -16,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.prgrms.kdt.app.io.SystemMessage.EXCEPTION_FIND_VOUCHER;
-import static org.prgrms.kdt.app.io.SystemMessage.FOUND_VOUCHER_IS_EMPTY;
+import static org.prgrms.kdt.io.SystemMessage.EXCEPTION_FIND_VOUCHER;
+import static org.prgrms.kdt.io.SystemMessage.FOUND_VOUCHER_IS_EMPTY;
 
 @Service
 public class VoucherService {
@@ -26,7 +25,7 @@ public class VoucherService {
     private List<Voucher> voucherList = new ArrayList<>();
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
-    public VoucherService(@Qualifier("memory") VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
 

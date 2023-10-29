@@ -1,4 +1,4 @@
-package org.prgrms.kdt.app;
+package org.prgrms.kdt.util;
 
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.env.PropertiesPropertySource;
