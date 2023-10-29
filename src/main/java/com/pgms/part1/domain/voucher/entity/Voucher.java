@@ -15,9 +15,10 @@ public abstract class Voucher {
         if(voucherDiscountType.equals(VoucherDiscountType.PERCENT_DISCOUNT)){
             return new PercentDiscountVoucher(id, discount);
         }
-        else if(voucherDiscountType.equals(VoucherDiscountType.FIXED_AMOUNT_DISCOUNT){
+        else if(voucherDiscountType.equals(VoucherDiscountType.FIXED_AMOUNT_DISCOUNT)){
             return new FixedAmountDiscountVoucher(id, discount);
         }
+        else throw new RuntimeException("Voucher Type Error!!");
     }
 
     public Long getId() {
