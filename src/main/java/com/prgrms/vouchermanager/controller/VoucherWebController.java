@@ -3,12 +3,14 @@ package com.prgrms.vouchermanager.controller;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.service.VoucherService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -32,5 +34,18 @@ public class VoucherWebController {
         return "basic/vouchers";
     }
 
+    @GetMapping("/{voucherId}")
+    public String voucher(@PathVariable UUID voucherId, Model model) {
+        Voucher voucher = service.findById(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "basic/voucher";
+    }
 
+    @PostConstruct
+    public void init() {
+        List<Voucher> list = service.findAll();
+        list.forEach(System.out::println);
+        service.create(VoucherType.FIXED, 20000);
+        service.create(VoucherType.PERCENT, 20);
+    }
 }

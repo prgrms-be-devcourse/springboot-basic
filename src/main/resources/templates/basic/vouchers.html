@@ -35,6 +35,7 @@
             <tr th:each="voucher : ${vouchers}">
                 <td><a href = "voucher.html" th:href="@{/basic/vouchers/{voucherId}(voucherId=${voucher.id})}"
                 th:text="${voucher.id}">Voucher Id</a></td>
+                <td th:text="${voucher.type}">Voucher type</td>
                 <td th:text = "${voucher.discount}">10000</td>
             </tr>
             </tbody>

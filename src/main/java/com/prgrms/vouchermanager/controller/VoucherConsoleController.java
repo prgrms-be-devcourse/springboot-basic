@@ -22,9 +22,12 @@ public class VoucherConsoleController {
         return service.create(voucherType, discount);
     }
 
-    @GetMapping
     public List<Voucher> findAll() {
         return service.findAll();
+    }
+
+    public Voucher findById(UUID id) {
+        return service.findById(id);
     }
 
     public Voucher updateDiscount(UUID id, int discount) {

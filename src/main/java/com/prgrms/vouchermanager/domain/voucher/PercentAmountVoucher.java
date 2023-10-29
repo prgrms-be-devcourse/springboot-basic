@@ -5,10 +5,12 @@ import java.util.UUID;
 public class PercentAmountVoucher extends Voucher {
     public PercentAmountVoucher(long discount) {
         super(discount);
+        super.type = VoucherType.PERCENT;
     }
 
     public PercentAmountVoucher(UUID id, long discount) {
         super(id, discount);
+        super.type = VoucherType.PERCENT;
     }
 
     @Override

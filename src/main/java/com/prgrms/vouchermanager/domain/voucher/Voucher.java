@@ -9,6 +9,7 @@ import java.util.UUID;
 public abstract class Voucher {
     protected final UUID id;
     protected final long discount;
+    protected VoucherType type;
 
     protected Voucher(long discount) {
         this(UUID.randomUUID(), discount);

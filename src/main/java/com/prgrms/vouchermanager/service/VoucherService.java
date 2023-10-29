@@ -31,6 +31,9 @@ public class VoucherService {
         return voucher;
     }
 
+    public Voucher findById(UUID id) {
+        return voucherRepository.findById(id);
+    }
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
     }
@@ -38,7 +41,7 @@ public class VoucherService {
     public Voucher updateDiscount(UUID id, int discount) {
         Voucher voucher = voucherRepository.findById(id);
         Voucher updateVoucher = VoucherFactory.update(id,
-                        VoucherTypeResolver.resolve(voucher),
+                        voucher.getType(),
                         discount)
                         .get();
         return voucherRepository.updateDiscount(updateVoucher);
