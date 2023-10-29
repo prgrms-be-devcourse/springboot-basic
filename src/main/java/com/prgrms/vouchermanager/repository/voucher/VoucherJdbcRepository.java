@@ -4,6 +4,7 @@ import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.io.FileIO;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -72,7 +73,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 .values()
                 .stream()
                 .toList()
-                .forEach(this::create);
+                .forEach(voucher -> {
+                    jdbcTemplate.update(INSERT_VOUCHER_IGNORE_DUPLICATE.getMessage(),
+                            voucher.getId().toString().getBytes(),
+                            voucher instanceof FixedAmountVoucher ? "fixed" : "percent",
+                            voucher.getDiscount(),
+                            voucher.getId().toString().getBytes());
+                });
     }
 
     private RowMapper<Voucher> voucherRowMapper() {
