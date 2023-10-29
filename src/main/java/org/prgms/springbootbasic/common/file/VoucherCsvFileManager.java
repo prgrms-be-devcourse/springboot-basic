@@ -65,7 +65,7 @@ public class VoucherCsvFileManager {
         sb.append(",");
         sb.append(voucherPolicy.getClass().getSimpleName());
         sb.append(",");
-        sb.append(voucherPolicy.getDiscountAmount());
+        sb.append(voucherPolicy.getDiscountDegree());
         sb.append(System.lineSeparator());
 
         return sb.toString();

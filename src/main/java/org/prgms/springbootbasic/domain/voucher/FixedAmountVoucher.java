@@ -23,7 +23,7 @@ public class FixedAmountVoucher implements VoucherPolicy {
     }
 
     @Override
-    public long getDiscountAmount() {
+    public long getDiscountDegree() {
         return this.amount;
     }
 

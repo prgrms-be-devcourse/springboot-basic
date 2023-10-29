@@ -26,7 +26,7 @@ public class PercentDiscountVoucher implements VoucherPolicy {
     }
 
     @Override
-    public long getDiscountAmount() {
+    public long getDiscountDegree() {
         return this.percent;
     }
 
