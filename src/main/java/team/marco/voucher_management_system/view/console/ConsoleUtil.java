@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.view.util;
+package team.marco.voucher_management_system.view.console;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,26 +7,35 @@ import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Objects;
 
-public final class Console {
+public final class ConsoleUtil {
     private static final String INFO_DELIMINATOR = "\n";
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    private Console() {
+    private ConsoleUtil() {
         // Don't let anyone instantiate this class.
     }
 
     public static void print(Object object) {
-        System.out.println(object + System.lineSeparator()); // thanks to SH, IJ
+        System.out.print(object + System.lineSeparator());
+    }
+
+    public static void println(Object object) {
+        print(object);
+        System.out.println();
+    }
+
+    public static void println() {
+        System.out.println();
     }
 
     public static void printStringList(List<String> list) {
         String joinedString = String.join(INFO_DELIMINATOR, list);
 
         if (!joinedString.isBlank()) {
-            Console.print(joinedString);
+            ConsoleUtil.println(joinedString);
         }
 
-        Console.print("조회가 완료되었습니다.");
+        ConsoleUtil.println("조회가 완료되었습니다.");
     }
 
     public static String readString() {

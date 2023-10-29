@@ -1,27 +1,24 @@
-package team.marco.voucher_management_system.view;
+package team.marco.voucher_management_system.view.console.management;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.controller.CustomerController;
 import team.marco.voucher_management_system.controller.VoucherController;
-import team.marco.voucher_management_system.view.util.Console;
+import team.marco.voucher_management_system.view.console.ConsoleUtil;
 
 import java.io.UncheckedIOException;
 
 @Component
-public class ConsoleVoucherApplication {
-    private static final Logger logger = LoggerFactory.getLogger(ConsoleVoucherApplication.class);
+public class ManagementApplication {
+    private static final Logger logger = LoggerFactory.getLogger(ManagementApplication.class);
 
-    private final ConsoleWalletApplication walletApplication;
     private final VoucherController voucherController;
     private final CustomerController userController;
 
-
     private Boolean isRunning;
 
-    public ConsoleVoucherApplication(ConsoleWalletApplication walletApplication, VoucherController voucherController, CustomerController userController) {
-        this.walletApplication = walletApplication;
+    public ManagementApplication(VoucherController voucherController, CustomerController userController) {
         this.voucherController = voucherController;
         this.userController = userController;
         this.isRunning = true;
@@ -38,47 +35,49 @@ public class ConsoleVoucherApplication {
     }
 
     public void selectCommand() {
-        Console.print("""
-                === 쿠폰 관리 프로그램 ===
-                create: 쿠폰 생성
-                list: 쿠폰 목록 조회
-                search: 쿠폰 검색
-                blacklist: 블랙 리스트 유저 조회
-                wallet: 지갑 서비스로 이동
-                exit: 프로그램 종료""");
+        ConsoleUtil.print("=== 관리자 페이지 ===");
 
-        String input = Console.readString();
+        for(ManagementCommandType type : ManagementCommandType.values()) {
+            ConsoleUtil.print(type.getInfo());
+        }
 
-        CommandType commandType = CommandType.getCommandType(input);
+        ConsoleUtil.println();
+
+        ConsoleUtil.print("Q. 이용하실 서비스를 선택해 주세요.(숫자)");
+        int input = ConsoleUtil.readInt();
+
+        ManagementCommandType commandType = ManagementCommandType.get(input);
         switch (commandType) {
-            case CREATE -> createVoucher();
-            case LIST -> getVoucherList();
-            case SEARCH -> getVoucherInfo();
+            case CREATE_VOUCHER -> createVoucher();
+            case VOUCHER_LIST -> getVoucherList();
+            case SEARCH_VOUCHER -> getVoucherInfo();
+            case CUSTOMER_LIST -> getCustomerList();
             case BLACKLIST -> getBlacklist();
-            case WALLET -> runWalletApplication();
-            case EXIT -> isRunning = false;
+            case BACK -> close();
         }
     }
 
-    private void runWalletApplication() {
-        walletApplication.run();
+    private void getCustomerList() {
+        /**
+         * TODO: getCustomerList() 구현
+         */
     }
 
     private void getVoucherInfo() {
-        Console.print("쿠폰 번호를 입력해 주세요.");
-        String voucherId = Console.readString();
+        ConsoleUtil.print("쿠폰 번호를 입력해 주세요.");
+        String voucherId = ConsoleUtil.readString();
 
-        Console.print(voucherController.getVoucherInfo(voucherId));
+        ConsoleUtil.print(voucherController.getVoucherInfo(voucherId));
     }
 
     private void createVoucher() {
         logger.info("Call createVoucher()");
 
-        Console.print("""
+        ConsoleUtil.print("""
                 0: 고정 금액 할인 쿠폰
                 1: % 할인 쿠폰""");
 
-        int selected = Console.readInt();
+        int selected = ConsoleUtil.readInt();
 
         switch (selected) {
             case 0 -> createFixedAmountVoucher();
@@ -90,8 +89,8 @@ public class ConsoleVoucherApplication {
     private void createPercentDiscountVoucher() {
         logger.info("Call createPercentDiscountVoucher()");
 
-        Console.print("할인율을 입력해 주세요.");
-        int percent = Console.readInt();
+        ConsoleUtil.print("할인율을 입력해 주세요.");
+        int percent = ConsoleUtil.readInt();
 
         voucherController.createPercentDiscountVoucher(percent);
     }
@@ -99,8 +98,8 @@ public class ConsoleVoucherApplication {
     private void createFixedAmountVoucher() {
         logger.info("Call createFixedAmountVoucher()");
 
-        Console.print("할인 금액을 입력해 주세요.");
-        int amount = Console.readInt();
+        ConsoleUtil.print("할인 금액을 입력해 주세요.");
+        int amount = ConsoleUtil.readInt();
 
         voucherController.createFixedAmountVoucher(amount);
     }
@@ -108,36 +107,34 @@ public class ConsoleVoucherApplication {
     private void getVoucherList() {
         logger.info("Call getVoucherList()");
 
-        Console.printStringList(voucherController.getVouchersInfo());
+        ConsoleUtil.printStringList(voucherController.getVouchersInfo());
     }
 
     private void getBlacklist() {
         logger.info("Call getBlackListUsers()");
 
-        Console.printStringList(userController.getBlacklistInfo());
+        ConsoleUtil.printStringList(userController.getBlacklistInfo());
     }
 
     private void close() {
-        logger.info("Call close()");
-
-        Console.print("프로그램이 종료되었습니다.");
+        isRunning = false;
     }
 
     private void handleException(Exception e) {
         if(e instanceof NumberFormatException) {
-            Console.print("숫자를 입력해 주세요.");
+            ConsoleUtil.print("숫자를 입력해 주세요.");
             return;
         }
 
         if(e instanceof IllegalArgumentException) {
-            Console.print(e.getMessage());
+            ConsoleUtil.print(e.getMessage());
             return;
         }
 
         logger.error(e.toString());
 
         String errorMessage = (e instanceof UncheckedIOException)? "파일을 처리하는 과정에서 에러가 발생했습니다." : "프로그램에 에러가 발생했습니다.";
-        Console.print(errorMessage);
+        ConsoleUtil.print(errorMessage);
 
         isRunning = false;
 
