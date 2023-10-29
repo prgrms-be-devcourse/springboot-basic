@@ -9,6 +9,7 @@ import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
 import com.programmers.vouchermanagement.wallet.presentation.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,9 @@ public class VoucherManagementController implements CommandLineRunner {
     private final CustomerController customerController;
     private final WalletController walletController;
 
+    @Value("${command-line-runner.run}")
+    private boolean isRunning;
+
     public VoucherManagementController(ConsoleInputManager consoleInputManager, ConsoleOutputManager consoleOutputManager, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
         this.consoleInputManager = consoleInputManager;
         this.consoleOutputManager = consoleOutputManager;
@@ -34,56 +38,58 @@ public class VoucherManagementController implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        logger.info("Start Voucher Program.");
+        if (isRunning) {
+            logger.info("Start Voucher Program.");
 
-        boolean chooseExit = false;
+            boolean chooseExit = false;
 
-        while (!chooseExit) {
+            while (!chooseExit) {
 
-            consoleOutputManager.printCommandMenu();
+                consoleOutputManager.printCommandMenu();
 
-            Command command;
-            String input = consoleInputManager.inputString();
+                Command command;
+                String input = consoleInputManager.inputString();
 
-            try {
-                command = Command.getCommandByNumber(input);
+                try {
+                    command = Command.getCommandByNumber(input);
 
-            } catch (CommandNotFoundException e) {
-                logger.error(e.getMessage() + "Console Input : " + input, e);
+                } catch (CommandNotFoundException e) {
+                    logger.error(e.getMessage() + "Console Input : " + input, e);
 
-                consoleOutputManager.printEnterAgain(e.getMessage());
-                continue;
-            }
+                    consoleOutputManager.printEnterAgain(e.getMessage());
+                    continue;
+                }
 
-            switch (command) {
+                switch (command) {
 
-                case CREATE_VOUCHER -> voucherController.createVoucher();
+                    case CREATE_VOUCHER -> voucherController.createVoucher();
 
-                case LIST_VOUCHER -> voucherController.readAllVoucher();
+                    case LIST_VOUCHER -> voucherController.readAllVoucher();
 
-                case ONE_VOUCHER -> voucherController.readVoucherById();
+                    case ONE_VOUCHER -> voucherController.readVoucherById();
 
-                case UPDATE_VOUCHER -> voucherController.updateVoucher();
+                    case UPDATE_VOUCHER -> voucherController.updateVoucher();
 
-                case DELETE_VOUCHER -> voucherController.removeAllVoucher();
+                    case DELETE_VOUCHER -> voucherController.removeAllVoucher();
 
-                case BLACKLIST -> customerController.readAllBlackList();
+                    case BLACKLIST -> customerController.readAllBlackList();
 
-                case CREATE_WALLET -> walletController.createWallet();
+                    case CREATE_WALLET -> walletController.createWallet();
 
-                case LIST_WALLET_VOUCHER -> walletController.readVouchersByCustomer();
+                    case LIST_WALLET_VOUCHER -> walletController.readVouchersByCustomer();
 
-                case LIST_WALLET_CUSTOMER -> walletController.readCustomersByVoucher();
+                    case LIST_WALLET_CUSTOMER -> walletController.readCustomersByVoucher();
 
-                case DELETE_WALLET -> walletController.removeWalletsByCustomer();
+                    case DELETE_WALLET -> walletController.removeWalletsByCustomer();
 
-                case EXIT -> {
-                    consoleOutputManager.printExit();
-                    chooseExit = true;
+                    case EXIT -> {
+                        consoleOutputManager.printExit();
+                        chooseExit = true;
+                    }
                 }
             }
-        }
 
-        logger.info("Exit Voucher Program.");
+            logger.info("Exit Voucher Program.");
+        }
     }
 }
