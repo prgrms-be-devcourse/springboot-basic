@@ -32,7 +32,7 @@ public class CustomerService {
         return customer;
     }
 
-    public List<Customer> list() {
+    public List<Customer> findAll() {
         return customerRepository.list();
     }
 

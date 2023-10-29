@@ -73,7 +73,7 @@ class VoucherJdbcRepositoryTest {
     @Test
     @DisplayName("list")
     void list() {
-        List<Voucher> list = repository.list();
+        List<Voucher> list = repository.findAll();
         Assertions.assertThat(list.size()).isEqualTo(4);
     }
 

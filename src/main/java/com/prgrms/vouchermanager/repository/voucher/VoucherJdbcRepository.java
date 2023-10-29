@@ -31,6 +31,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         fileToDb();
     }
 
+    @Override
     public Voucher create(Voucher voucher) {
         jdbcTemplate.update(INSERT_VOUCHER.getMessage(),
                 voucher.getId().toString().getBytes(),
@@ -39,14 +40,17 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return voucher;
     }
 
-    public List<Voucher> list() {
+    @Override
+    public List<Voucher> findAll() {
         return jdbcTemplate.query(LIST_VOUCHER.getMessage(), voucherRowMapper());
     }
 
+    @Override
     public Voucher findById(UUID id) {
         return jdbcTemplate.queryForObject(FIND_BY_ID_VOUCHER.getMessage(), voucherRowMapper(), id.toString().getBytes());
     }
 
+    @Override
     public Voucher updateDiscount(Voucher updateVoucher) {
         jdbcTemplate.update(UPDATE_DISCOUNT_VOUCHER.getMessage(),
                 updateVoucher.getDiscount(),
@@ -54,6 +58,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return findById(updateVoucher.getId());
     }
 
+    @Override
     public int delete(UUID id) {
         return jdbcTemplate.update(DELETE_VOUCHER.getMessage(), id.toString().getBytes());
     }

@@ -48,7 +48,7 @@ class VoucherFileRepositoryTest {
     @Test
     @DisplayName("list")
     void list() {
-        List<Voucher> list = repository.list();
+        List<Voucher> list = repository.findAll();
         Assertions.assertThat(list.size()).isEqualTo(4);
     }
 
@@ -74,6 +74,6 @@ class VoucherFileRepositoryTest {
     @DisplayName("delete")
     void delete() {
         repository.delete(voucher2.getId());
-        Assertions.assertThat(repository.list().size()).isEqualTo(3);
+        Assertions.assertThat(repository.findAll().size()).isEqualTo(3);
     }
 }

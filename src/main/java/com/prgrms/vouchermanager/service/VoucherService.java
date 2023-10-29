@@ -29,8 +29,8 @@ public class VoucherService {
         return voucher;
     }
 
-    public List<Voucher> list() {
-        return voucherRepository.list();
+    public List<Voucher> findAll() {
+        return voucherRepository.findAll();
     }
 
     public Voucher updateDiscount(UUID id, int discount) {

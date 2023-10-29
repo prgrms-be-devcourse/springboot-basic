@@ -22,7 +22,7 @@ public class CustomerController {
     public Customer create(String name, int year) { return service.create(name, year); };
 
     public List<Customer> list() {
-        return service.list();
+        return service.findAll();
     }
 
     public Customer updateYearOfBirth(UUID id, int year) {

@@ -85,7 +85,7 @@ class CustomerServiceTest {
     @Test
     @DisplayName("list")
     void list() {
-        List<Customer> list = service.list();
+        List<Customer> list = service.findAll();
 
         Assertions.assertThat(list.size()).isEqualTo(4);
     }

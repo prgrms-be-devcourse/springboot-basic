@@ -21,6 +21,7 @@ public class Customer {
         this(UUID.randomUUID(), name, yearOfBirth, false);
     }
 
+    @Override
     public String toString() {
         return """
                 Id : %s

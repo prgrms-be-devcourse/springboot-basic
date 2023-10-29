@@ -27,6 +27,7 @@ public class VoucherFileRepository implements VoucherRepository {
         fileIO.fileToVoucherMap(vouchers);
     }
 
+    @Override
     public Voucher create(Voucher voucher) {
         vouchers.put(voucher.getId(), voucher);
 
@@ -34,7 +35,8 @@ public class VoucherFileRepository implements VoucherRepository {
         return voucher;
     }
 
-    public List<Voucher> list() {
+    @Override
+    public List<Voucher> findAll() {
         return vouchers
                 .values()
                 .stream()

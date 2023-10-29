@@ -23,7 +23,7 @@ public class VoucherController {
     }
 
     public List<Voucher> list() {
-        return service.list();
+        return service.findAll();
     }
 
     public Voucher updateDiscount(UUID id, int discount) {

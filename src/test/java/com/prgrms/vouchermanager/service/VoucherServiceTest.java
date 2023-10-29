@@ -74,7 +74,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("list")
     void list() {
-        List<Voucher> list = service.list();
+        List<Voucher> list = service.findAll();
         Assertions.assertThat(list.size()).isEqualTo(4);
     }
 
