@@ -1,4 +1,0 @@
-21:39:34.178 [main] ERROR o.p.springorder.console.Console -- errorMessage = 잘못된 입력 값입니다. 100 ~ 10000 사이의 값을 입력해주세요.
-21:39:35.587 [main] ERROR o.p.springorder.console.Console -- errorMessage = 잘못된 입력 값입니다. 100 ~ 10000 사이의 값을 입력해주세요.
-21:39:36.547 [main] ERROR o.p.springorder.console.Console -- errorMessage = 잘못된 입력 값입니다. 100 ~ 10000 사이의 값을 입력해주세요.
-21:39:37.328 [main] ERROR o.p.springorder.console.Console -- errorMessage = 잘못된 입력 값입니다. 100 ~ 10000 사이의 값을 입력해주세요.
