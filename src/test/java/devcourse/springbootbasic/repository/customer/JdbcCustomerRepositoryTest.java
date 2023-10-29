@@ -98,7 +98,7 @@ class JdbcCustomerRepositoryTest extends JdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("없는 고객을 수정하면 0을 반환합니다.")
+    @DisplayName("없는 고객을 수정하면 false를 반환합니다.")
     void testUpdateCustomerFail() {
         // Given
         customerRepository.save(generateNotBlacklistCustomers("Customer 1"));

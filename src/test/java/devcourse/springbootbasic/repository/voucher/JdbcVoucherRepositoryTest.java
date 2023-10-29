@@ -88,7 +88,7 @@ class JdbcVoucherRepositoryTest extends JdbcRepositoryTest {
     }
 
     @Test
-    @DisplayName("수정할 Voucher가 없으면 0을 반환합니다.")
+    @DisplayName("수정할 Voucher가 없으면 false를 반환합니다.")
     void testUpdateVoucherFail() {
         // Given
         Voucher voucher = generateUnassignedVoucher(VoucherType.FIXED, 15);
