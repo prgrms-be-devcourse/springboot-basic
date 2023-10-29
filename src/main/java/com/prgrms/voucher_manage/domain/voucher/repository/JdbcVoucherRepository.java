@@ -19,13 +19,13 @@ import static com.prgrms.voucher_manage.exception.ErrorMessage.VOUCHER_NOT_EXIST
 @Repository
 @RequiredArgsConstructor
 @Profile("prod")
-public class JdbcVoucherRepository implements VoucherRepository{
+public class JdbcVoucherRepository implements VoucherRepository {
     private final JdbcTemplate jdbcTemplate;
 
     @Override
     public Voucher save(Voucher voucher) {
         String sql = "insert into voucher(voucher_id, amount, type) values (?,?,?)";
-        jdbcTemplate.update(sql,voucher.getId().toString(), voucher.getDiscountAmount(), voucher.getType().getLabel());
+        jdbcTemplate.update(sql, voucher.getId().toString(), voucher.getDiscountAmount(), voucher.getType().getLabel());
         return voucher;
     }
 
@@ -36,23 +36,23 @@ public class JdbcVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<Voucher> findById(UUID voucherId){
+    public Optional<Voucher> findById(UUID voucherId) {
         String sql = "select * from voucher where voucher_id = ?";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,voucherId.toString()));
-        } catch (Exception e){
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, voucherId.toString()));
+        } catch (Exception e) {
             throw new RuntimeException(VOUCHER_NOT_EXISTS.getMessage());
         }
     }
 
     @Override
-    public int update(Voucher voucher){
+    public int update(Voucher voucher) {
         String sql = "update voucher set amount = ? where voucher_id = ?";
         return jdbcTemplate.update(sql, voucher.getDiscountAmount(), voucher.getId().toString());
     }
 
     @Override
-    public int deleteById(UUID voucherId){
+    public int deleteById(UUID voucherId) {
         String sql = "delete from voucher where voucher_id = ?";
         return jdbcTemplate.update(sql, voucherId.toString());
     }
@@ -67,7 +67,7 @@ public class JdbcVoucherRepository implements VoucherRepository{
 
     private static Voucher getVoucher(UUID voucherId, Long amount, String type) {
         VoucherType voucherType = VoucherType.matchVoucherType(type);
-        if (voucherType==VoucherType.FIXED){
+        if (voucherType == VoucherType.FIXED) {
             return new FixedAmountVoucher(voucherId, amount);
         } else {
             return new PercentDiscountVoucher(voucherId, amount);

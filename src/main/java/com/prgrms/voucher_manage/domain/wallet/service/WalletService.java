@@ -15,19 +15,20 @@ import java.util.stream.Collectors;
 
 import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
 
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class WalletService {
     private final WalletRepository walletRepository;
     private final VoucherService voucherService;
     private final CustomerService customerService;
 
-    public Wallet save(Wallet wallet){
+    public Wallet save(Wallet wallet) {
         if (walletRepository.findByIds(wallet.getCustomer_id(), wallet.getVoucher_id()).isPresent())
             throw new RuntimeException(WALLET_ALREADY_EXISTS.getMessage());
         return walletRepository.save(wallet);
     }
-    
-    public List<Voucher> findByCustomerId(UUID customerId){
+
+    public List<Voucher> findByCustomerId(UUID customerId) {
         List<Wallet> wallets = walletRepository.findByCustomerId(customerId);
         if (wallets.isEmpty())
             throw new RuntimeException(WALLET_CUSTOMER_NOT_EXISTS.getMessage());
@@ -36,8 +37,8 @@ public class WalletService {
                 .map(w -> voucherService.findVoucher(w.getVoucher_id()))
                 .collect(Collectors.toList());
     }
-    
-    public List<Customer> findByVoucherId(UUID voucherId){
+
+    public List<Customer> findByVoucherId(UUID voucherId) {
         List<Wallet> wallets = walletRepository.findByVoucherId(voucherId);
         if (wallets.isEmpty())
             throw new RuntimeException(WALLET_VOUCHER_NOT_EXISTS.getMessage());

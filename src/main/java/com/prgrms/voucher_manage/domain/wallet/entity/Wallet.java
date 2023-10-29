@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
-@RequiredArgsConstructor @Getter
+
+@RequiredArgsConstructor
+@Getter
 public class Wallet {
     private final UUID customer_id;
     private final UUID voucher_id;

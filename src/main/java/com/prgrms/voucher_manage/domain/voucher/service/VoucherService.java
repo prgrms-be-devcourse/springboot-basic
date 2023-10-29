@@ -15,7 +15,7 @@ import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
 
 @Service
 @RequiredArgsConstructor
-public class VoucherService{
+public class VoucherService {
     private final VoucherRepository voucherRepository;
 
     public Voucher createVoucher(CreateVoucherDto dto) {
@@ -30,22 +30,22 @@ public class VoucherService{
         return vouchers;
     }
 
-    public Voucher findVoucher(UUID voucherId){
+    public Voucher findVoucher(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException(VOUCHER_NOT_EXISTS.getMessage()));
     }
 
-    public void updateVoucher(UpdateVoucherDto dto){
+    public void updateVoucher(UpdateVoucherDto dto) {
         int update = voucherRepository.update(dto.of());
-        if (update !=1) {
+        if (update != 1) {
             throw new RuntimeException(VOUCHER_UPDATE_FAILED.getMessage());
         }
     }
 
-    public void deleteVoucher(UUID voucherId){
+    public void deleteVoucher(UUID voucherId) {
         int delete = voucherRepository.deleteById(voucherId);
-        if (delete!=1) {
+        if (delete != 1) {
             throw new RuntimeException(VOUCHER_DELETE_FAILED.getMessage());
         }
     }

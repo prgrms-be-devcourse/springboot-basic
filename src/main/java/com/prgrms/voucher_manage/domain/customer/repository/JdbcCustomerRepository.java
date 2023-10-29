@@ -2,7 +2,6 @@ package com.prgrms.voucher_manage.domain.customer.repository;
 
 import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
-import com.prgrms.voucher_manage.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,45 +13,46 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchTypeByString;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.CUSTOMER_NOT_EXIST;
 
 @Repository
 @RequiredArgsConstructor
 @Slf4j
-public class JdbcCustomerRepository{
+public class JdbcCustomerRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public List<Customer> findAll(){
+    public List<Customer> findAll() {
         String sql = "select * from customer";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
-    public Optional<Customer> findById(UUID id){
+    public Optional<Customer> findById(UUID id) {
         String sql = "select * from customer where customer_id = ?";
         return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id.toString()));
     }
 
-    public Optional<Customer> findByName(String name){
+    public Optional<Customer> findByName(String name) {
         String sql = "select * from customer where name = ?";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,name));
-        } catch (Exception e){
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, name));
+        } catch (Exception e) {
             throw new RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
         }
     }
 
-    public List<Customer> findByType(String type){
+    public List<Customer> findByType(String type) {
         String sql = "select * from customer where type = ?";
-        return jdbcTemplate.query(sql, rowMapper,type);
+        return jdbcTemplate.query(sql, rowMapper, type);
     }
 
-    public Customer save(Customer customer){
+    public Customer save(Customer customer) {
         String sql = "insert into customer(customer_id, name, type) values (?, ?, ?)";
-        jdbcTemplate.update(sql,customer.getId().toString(), customer.getName(), customer.getType().getData());
+        jdbcTemplate.update(sql, customer.getId().toString(), customer.getName(), customer.getType().getData());
         return customer;
     }
-    public int update(UpdateCustomerDto dto){
+
+    public int update(UpdateCustomerDto dto) {
         String sql = "update customer set name = ? where customer_id = ?";
         return jdbcTemplate.update(sql, dto.getName(), dto.getId().toString());
     }

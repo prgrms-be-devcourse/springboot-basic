@@ -5,10 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
 
-@RequiredArgsConstructor @Getter
+@RequiredArgsConstructor
+@Getter
 public enum CustomerType {
-    BLACK("black","B"),
-    NORMAL("normal","N");
+    BLACK("black", "B"),
+    NORMAL("normal", "N");
     private final String label;
     private final String data;
 

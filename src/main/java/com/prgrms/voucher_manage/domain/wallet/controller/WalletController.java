@@ -10,21 +10,24 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.UUID;
 
-@Controller @RequiredArgsConstructor
+@Controller
+@RequiredArgsConstructor
 public class WalletController {
     private final WalletService walletService;
-    public void saveWallet(UUID customerId, UUID voucherId){
+
+    public void saveWallet(UUID customerId, UUID voucherId) {
         walletService.save(new Wallet(customerId, voucherId));
     }
 
-    public List<Voucher> findVouchers(UUID customerId){
+    public List<Voucher> findVouchers(UUID customerId) {
         return walletService.findByCustomerId(customerId);
     }
 
-    public List<Customer> findCustomers(UUID voucherId){
+    public List<Customer> findCustomers(UUID voucherId) {
         return walletService.findByVoucherId(voucherId);
     }
-    public void deleteWallet(UUID customerId, UUID voucherId){
+
+    public void deleteWallet(UUID customerId, UUID voucherId) {
         walletService.delete(new Wallet(customerId, voucherId));
     }
 }

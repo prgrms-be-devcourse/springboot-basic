@@ -47,7 +47,7 @@ public class ConsoleManager implements ApplicationRunner {
                 menuType = matchMenuType(inputUtil.getStringInput());
                 selectMenu(menuType);
             } catch (Exception e) {
-                e.printStackTrace();
+                outputUtil.printMessage(e.getMessage());
                 logger.error(e.getMessage());
             }
 
@@ -67,7 +67,7 @@ public class ConsoleManager implements ApplicationRunner {
             case DELETE_VOUCHER -> deleteVoucher();
 
             case SAVE_CUSTOMER -> saveCustomer();
-            case BLACK_CUSTOMERS ->  printCustomers(customerController.getBlackCustomers());
+            case BLACK_CUSTOMERS -> printCustomers(customerController.getBlackCustomers());
             case ALL_CUSTOMERS -> printCustomers(customerController.getAllCustomers());
             case UPDATE_CUSTOMER -> updateCustomer();
             case FIND_CUSTOMER -> findCustomer();
@@ -80,25 +80,25 @@ public class ConsoleManager implements ApplicationRunner {
         }
     }
 
-    public void saveWallet(){
+    public void saveWallet() {
         UUID customerId = ioManager.getUUID(WALLET_SAVE_CUSTOMER_ID);
         UUID voucherId = ioManager.getUUID(WALLET_SAVE_VOUCHER_ID);
         walletController.saveWallet(customerId, voucherId);
     }
 
-    public void findWalletVouchers(){
+    public void findWalletVouchers() {
         UUID customerId = ioManager.getUUID(WALLET_FIND_CUSTOMER_ID);
         List<Voucher> vouchers = walletController.findVouchers(customerId);
         printVouchers(vouchers);
     }
 
-    public void findWalletCustomers(){
+    public void findWalletCustomers() {
         UUID voucherId = ioManager.getUUID(WALLET_FIND_VOUCHER_ID);
         List<Customer> customers = walletController.findCustomers(voucherId);
         printCustomers(customers);
     }
 
-    public void deleteWallet(){
+    public void deleteWallet() {
         UUID customerId = ioManager.getUUID(WALLET_DELETE_CUSTOMER_ID);
         UUID voucherId = ioManager.getUUID(WALLET_DELETE_VOUCHER_ID);
         walletController.deleteWallet(customerId, voucherId);
@@ -129,17 +129,17 @@ public class ConsoleManager implements ApplicationRunner {
     public void updateVoucher() throws Exception {
         UUID voucherId = ioManager.getUUID(VOUCHER_UPDATE_ID);
         Long discountAmount = ioManager.getLong(VOUCHER_UPDATE_PRICE);
-        voucherController.updateVoucher(voucherId,discountAmount);
+        voucherController.updateVoucher(voucherId, discountAmount);
     }
 
-    public void deleteVoucher(){
+    public void deleteVoucher() {
         UUID voucherId = ioManager.getUUID(VOUCHER_DELETE_ID);
         voucherController.deleteVoucher(voucherId);
     }
 
     private CustomerType getCustomerType() throws IOException {
         CustomerType customerType = CustomerType.matchTypeByString(inputUtil.getStringInput());
-        if (customerType == null){
+        if (customerType == null) {
             throw new InvalidInputException(INVALID_COMMAND_INPUT.getMessage());
         }
         return customerType;

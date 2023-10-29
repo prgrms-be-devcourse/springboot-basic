@@ -31,10 +31,10 @@ public class InputUtil {
         return Long.valueOf(value);
     }
 
-    public UUID getUUIDInput(){
+    public UUID getUUIDInput() {
         try {
             return UUID.fromString(getStringInput());
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(INVALID_UUID_FORMAT.getMessage());
         }
     }

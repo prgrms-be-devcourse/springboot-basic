@@ -18,7 +18,7 @@ public class IOManager {
         return inputUtil.getStringInput();
     }
 
-    public UUID getUUID(ConsoleMessage message){
+    public UUID getUUID(ConsoleMessage message) {
         outputUtil.printMessage(message.getMessage());
         return inputUtil.getUUIDInput();
     }

@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
-@Getter @RequiredArgsConstructor
+@Getter
+@RequiredArgsConstructor
 public class Customer {
     private final UUID id;
     private final String name;

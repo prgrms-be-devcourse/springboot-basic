@@ -17,10 +17,10 @@ import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
 public class CustomerService {
     private final JdbcCustomerRepository repository;
 
-    public List<Customer> getAllCustomers(){
+    public List<Customer> getAllCustomers() {
         List<Customer> customers = repository.findAll();
         if (customers.isEmpty()) {
-            throw new  RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
+            throw new RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
         }
         return customers;
     }
@@ -28,28 +28,29 @@ public class CustomerService {
     public List<Customer> getBlackCustomers() {
         List<Customer> customers = repository.findAll();
         if (customers.isEmpty()) {
-            throw new  RuntimeException(BLACK_CUSTOMER_NOT_EXIST.getMessage());
+            throw new RuntimeException(BLACK_CUSTOMER_NOT_EXIST.getMessage());
         }
         return repository.findByType(BLACK.getData());
     }
 
-    public Customer save(Customer customer){
+    public Customer save(Customer customer) {
         return repository.save(customer);
     }
 
-    public void update(UpdateCustomerDto dto){
+    public void update(UpdateCustomerDto dto) {
         int result = repository.update(dto);
-        if (result!=1){
+        if (result != 1) {
             throw new RuntimeException(CUSTOMER_UPDATE_FAILED.getMessage());
         }
     }
-    public Customer findByName(String name){
+
+    public Customer findByName(String name) {
         return repository
                 .findByName(name)
                 .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_EXIST.getMessage()));
     }
 
-    public Customer findById(UUID voucherId){
+    public Customer findById(UUID voucherId) {
         return repository
                 .findById(voucherId)
                 .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_EXIST.getMessage()));

@@ -8,8 +8,12 @@ import java.util.UUID;
 
 public interface WalletRepository {
     Wallet save(Wallet wallet);
+
     Optional<Wallet> findByIds(UUID customerId, UUID voucherId);
+
     List<Wallet> findByCustomerId(UUID customerId);
+
     List<Wallet> findByVoucherId(UUID voucherId);
+
     int delete(Wallet wallet);
 }

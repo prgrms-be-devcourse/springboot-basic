@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
-@RequiredArgsConstructor @Getter
+
+@RequiredArgsConstructor
+@Getter
 public class UpdateCustomerDto {
     private final UUID id;
     private final String name;

@@ -11,16 +11,17 @@ import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 
-@Getter @RequiredArgsConstructor
+@Getter
+@RequiredArgsConstructor
 public class UpdateVoucherDto {
     private final UUID id;
     private final VoucherType type;
     private final Long discountAmount;
 
-    public Voucher of(){
+    public Voucher of() {
         if (type == FIXED) {
-            return new FixedAmountVoucher(id,discountAmount);
+            return new FixedAmountVoucher(id, discountAmount);
         }
-        return new PercentDiscountVoucher(id,discountAmount);
+        return new PercentDiscountVoucher(id, discountAmount);
     }
 }

@@ -26,20 +26,22 @@ public class VoucherController {
         validateVoucher(voucherType, discountAmount);
         voucherService.createVoucher(new CreateVoucherDto(voucherType, discountAmount));
     }
+
     public List<Voucher> getVouchers() {
         return voucherService.getVouchers();
     }
 
-    public Voucher findVoucher(UUID voucherId){
+    public Voucher findVoucher(UUID voucherId) {
         return voucherService.findVoucher(voucherId);
     }
-    public void updateVoucher(UUID voucherId, Long discountAmount){
+
+    public void updateVoucher(UUID voucherId, Long discountAmount) {
         VoucherType type = voucherService.findVoucher(voucherId).getType();
         validateVoucher(type, discountAmount);
-        voucherService.updateVoucher(new UpdateVoucherDto(voucherId,type, discountAmount));
+        voucherService.updateVoucher(new UpdateVoucherDto(voucherId, type, discountAmount));
     }
 
-    public void deleteVoucher(UUID voucherId){
+    public void deleteVoucher(UUID voucherId) {
         voucherService.deleteVoucher(voucherId);
     }
 

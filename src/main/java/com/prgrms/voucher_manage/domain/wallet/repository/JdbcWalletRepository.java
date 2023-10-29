@@ -43,11 +43,11 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public Optional<Wallet> findByIds(UUID customerId, UUID voucherId){
+    public Optional<Wallet> findByIds(UUID customerId, UUID voucherId) {
         String sql = "select * from wallet where customer_id = ? and voucher_id = ?";
-        try{
+        try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, customerId.toString(), voucherId.toString()));
-        } catch (Exception e){
+        } catch (Exception e) {
             return Optional.empty();
         }
     }

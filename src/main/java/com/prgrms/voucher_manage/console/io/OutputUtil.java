@@ -10,25 +10,25 @@ import java.text.MessageFormat;
 public class OutputUtil {
     public void printMenu() {
         System.out.println("""
-                
+                                
                 === Voucher Program ===
                 Type saveVoucher to save voucher.
                 Type voucherList to get all voucher.
                 Type findVoucher to find voucher by id.
                 Type updateVoucher to update voucher.
                 Type deleteVoucher to delete voucher by id.
-                
+                                
                 Type saveCustomer to save customer.
                 Type allCustomers to get all customers.
                 Type blackCustomers to get black customers.
                 Type findCustomer to find customer by name.
                 Type updateCustomer to update customer.
-                
+                                
                 Type saveWallet to save wallet.
                 Type findWalletVouchers to find vouchers of wallet.
                 Type findWalletCustomers to find customers of wallet.
                 Type deleteWallet to delete wallet.
-                
+                                
                 Type exit to exit the program.
                 """);
     }

@@ -15,9 +15,9 @@ public class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("Voucher를 저장할 수 있다.")
-    public void memoryVoucherRepository_save(){
+    public void memoryVoucherRepository_save() {
         //given
-        Voucher  percentDiscountVoucher = new PercentDiscountVoucher(1000L);
+        Voucher percentDiscountVoucher = new PercentDiscountVoucher(1000L);
         //when
         Voucher savedVoucher = repository.save(percentDiscountVoucher);
         //then
@@ -28,7 +28,7 @@ public class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("voucher를 id로 찾을 수 있다.")
-    public void jdbcVoucherRepository_findById(){
+    public void jdbcVoucherRepository_findById() {
         //given
         Voucher voucher = saveVoucher();
         //when
@@ -41,7 +41,7 @@ public class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("모든 voucher를 찾을 수 있다.")
-    public void memoryVoucherRepository_findAll(){
+    public void memoryVoucherRepository_findAll() {
         //given
         Voucher percentDiscountVoucher1 = new PercentDiscountVoucher(1000L);
         Voucher percentDiscountVoucher2 = new PercentDiscountVoucher(1000L);
@@ -57,7 +57,7 @@ public class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("voucher를 삭제할 수 있다.")
-    public void jdbcVoucherRepository_deleteById(){
+    public void jdbcVoucherRepository_deleteById() {
         //given
         Voucher voucher = saveVoucher();
         //when
@@ -70,7 +70,7 @@ public class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("voucher를 업데이트할 수 있다.")
-    public void jdbcVoucherRepository_update(){
+    public void jdbcVoucherRepository_update() {
         //given
         Voucher voucher = saveVoucher();
         //when
@@ -82,7 +82,7 @@ public class MemoryVoucherRepositoryTest {
 
     }
 
-    public Voucher saveVoucher(){
+    public Voucher saveVoucher() {
         return repository.save(new PercentDiscountVoucher(1000L));
     }
 

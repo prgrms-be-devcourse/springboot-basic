@@ -13,8 +13,9 @@ import java.util.List;
 
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static org.assertj.core.api.Assertions.assertThat;
+
 @JdbcTest
-@ActiveProfiles({"prod","test"})
+@ActiveProfiles({"prod", "test"})
 @Import(JdbcVoucherRepository.class)
 public class JdbcVoucherRepositoryTest {
     @Autowired
@@ -36,7 +37,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("voucher를 id로 찾을 수 있다.")
-    public void jdbcVoucherRepository_findById(){
+    public void jdbcVoucherRepository_findById() {
         //given
         Voucher voucher = saveVoucher();
         //when
@@ -49,7 +50,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("모든 voucher를 찾을 수 있다.")
-    public void jdbcVoucherRepository_findVoucher(){
+    public void jdbcVoucherRepository_findVoucher() {
         //given
         Voucher voucher1 = saveVoucher();
         Voucher voucher2 = saveVoucher();
@@ -63,7 +64,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("voucher를 삭제할 수 있다.")
-    public void jdbcVoucherRepository_deleteById(){
+    public void jdbcVoucherRepository_deleteById() {
         //given
         Voucher voucher = saveVoucher();
         //when
@@ -76,7 +77,7 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("voucher를 업데이트할 수 있다.")
-    public void jdbcVoucherRepository_update(){
+    public void jdbcVoucherRepository_update() {
         //given
         Voucher voucher = saveVoucher();
         //when
@@ -88,7 +89,7 @@ public class JdbcVoucherRepositoryTest {
 
     }
 
-    public Voucher saveVoucher(){
+    public Voucher saveVoucher() {
         return repository.save(new FixedAmountVoucher(1000L));
     }
 }

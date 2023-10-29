@@ -26,7 +26,7 @@ public class VoucherServiceTest {
     private VoucherService service;
 
     @Test
-    public void voucherService_createVoucher(){
+    public void voucherService_createVoucher() {
         FixedAmountVoucher voucher = new FixedAmountVoucher(1000L);
         CreateVoucherDto dto = new CreateVoucherDto(voucher.getType(), voucher.getDiscountAmount());
 
@@ -38,7 +38,7 @@ public class VoucherServiceTest {
     }
 
     @Test
-    public void voucherService_findVoucher(){
+    public void voucherService_findVoucher() {
         FixedAmountVoucher voucher = new FixedAmountVoucher(1000L);
 
         when(repository.findById(voucher.getId())).thenReturn(Optional.of(voucher));
@@ -50,7 +50,7 @@ public class VoucherServiceTest {
 
 
     @Test
-    public void voucherService_delete(){
+    public void voucherService_delete() {
         UUID testVoucherId = UUID.randomUUID();
 
         when(repository.deleteById(testVoucherId)).thenReturn(1);

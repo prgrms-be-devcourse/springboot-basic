@@ -14,22 +14,28 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
-    public void saveCustomer(String name, CustomerType type){
+
+    public void saveCustomer(String name, CustomerType type) {
         customerService.save(new Customer(name, type));
     }
-    public List<Customer> getAllCustomers(){
+
+    public List<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
+
     public List<Customer> getBlackCustomers() {
         return customerService.getBlackCustomers();
     }
-    public Customer findById(UUID id){
+
+    public Customer findById(UUID id) {
         return customerService.findById(id);
     }
-    public Customer findByName(String name){
+
+    public Customer findByName(String name) {
         return customerService.findByName(name);
     }
-    public void update(UUID id, String name){
+
+    public void update(UUID id, String name) {
         customerService.update(new UpdateCustomerDto(id, name));
     }
 
