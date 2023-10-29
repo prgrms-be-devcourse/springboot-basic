@@ -26,7 +26,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles("jdbc")
+@ActiveProfiles("prod")
 @ContextConfiguration(classes = {JdbcCustomerRepository.class, JdbcCustomerRepositoryTest.Config.class})
 class JdbcCustomerRepositoryTest {
 
@@ -40,7 +40,7 @@ class JdbcCustomerRepositoryTest {
                     .setType(H2)
                     .setScriptEncoding("UTF-8")
                     .ignoreFailedDrops(true)
-                    .addScript("customer-init.sql")
+                    .addScript("sql/customer-init.sql")
                     .build();
         }
 

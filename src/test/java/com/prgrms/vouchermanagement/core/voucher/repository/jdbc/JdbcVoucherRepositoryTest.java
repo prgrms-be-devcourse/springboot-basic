@@ -16,19 +16,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles("jdbc")
+@ActiveProfiles("prod")
 @ContextConfiguration(classes = {JdbcVoucherRepository.class, JdbcVoucherRepositoryTest.Config.class})
 class JdbcVoucherRepositoryTest {
 
@@ -42,7 +39,7 @@ class JdbcVoucherRepositoryTest {
                     .setType(H2)
                     .setScriptEncoding("UTF-8")
                     .ignoreFailedDrops(true)
-                    .addScript("data.sql")
+                    .addScript("sql/voucher-init.sql")
                     .build();
         }
 

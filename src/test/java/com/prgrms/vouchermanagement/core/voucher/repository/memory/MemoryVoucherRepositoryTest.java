@@ -36,7 +36,7 @@ class MemoryVoucherRepositoryTest {
 
         // then
         assertAll(
-                () -> assertThat(voucher.getVoucherID().isEmpty(), is(false)),
+                () -> assertThat(voucher.getId().isEmpty(), is(false)),
                 () -> assertThat(memoryVoucherRepository.findAll().isEmpty(), is(false))
         );
     }
@@ -45,7 +45,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     void saveWithMulitThread() throws InterruptedException, ExecutionException {
         // given
-        int threadCnt = 100;
+        int threadCnt = 100; // 축약 X
         ExecutorService executorService = Executors.newCachedThreadPool();
         List<Callable<String>> ans = getCallables(threadCnt);
         Set<String> callableExSet = new HashSet<>();
@@ -67,7 +67,7 @@ class MemoryVoucherRepositoryTest {
             callables.add(() -> {
                 Voucher voucher = new Voucher("sujin", 100, "fixed");
                 Voucher savedVoucher = memoryVoucherRepository.save(voucher);
-                return savedVoucher.getVoucherID();
+                return savedVoucher.getId();
             });
         }
         return callables;
