@@ -2,7 +2,7 @@
 The following was discovered as part of building this project:
 
 * The JVM level was changed from '16' to '17', review the [JDK Version Range](https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Versions#jdk-version-range) on the wiki for more details.
-* The original package name 'team.marco.voucher-management-system' is invalid and this project uses 'team.marco.vouchermanagementsystem' instead.
+* The original package name 'team.marco.voucher-management-system' is invalid and this project uses 'team.marco.voucher_management_system' instead.
 
 # Getting Started
 

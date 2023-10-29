@@ -1,6 +1,6 @@
 <configuration>
     <property name="LOG_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} -%kvp- %msg%n"/>
-    <property name="PACKAGE_NAME" value="team.marco.vouchermanagementsystem"/>
+    <property name="PACKAGE_NAME" value="team.marco.voucher_management_system"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
