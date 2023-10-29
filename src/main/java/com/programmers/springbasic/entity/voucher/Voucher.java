@@ -2,11 +2,14 @@ package com.programmers.springbasic.entity.voucher;
 
 import java.util.UUID;
 
+import com.programmers.springbasic.entity.customer.Customer;
+
 public abstract class Voucher {
 	protected final UUID voucherId;
 	protected final VoucherType voucherType;
+	protected Customer customer;
 
-	public Voucher(UUID voucherId, VoucherType voucherType) {
+	protected Voucher(UUID voucherId, VoucherType voucherType) {
 		this.voucherId = voucherId;
 		this.voucherType = voucherType;
 	}
@@ -20,4 +23,8 @@ public abstract class Voucher {
 	}
 
 	public abstract long getDiscountValue();
+
+	public abstract void changeDiscountValue(long newDiscountValue);
+
+	public abstract void validateDiscountValue(long discountValue);
 }

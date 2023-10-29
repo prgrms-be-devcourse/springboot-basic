@@ -1,18 +1,39 @@
 package com.programmers.springbasic.entity.customer;
 
+import static com.programmers.springbasic.constants.ErrorCode.*;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+import java.util.regex.Pattern;
+
 public class Customer {
 
-	private final Long id;
-	private final String name;
-	private Boolean isBlacklisted;
+	private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+	private static final String NAME_REGEX = "^[a-zA-Z가-힣\\s]+$";
 
-	public Customer(Long id, String name, Boolean isBlacklisted) {
+	private final UUID id;
+	private final String email;
+	private final LocalDateTime createdAt;
+	private String name;
+
+	public Customer(UUID id, String name, String email, LocalDateTime createdAt) {
+		validateName(name);
+		validateEmail(email);
 		this.id = id;
 		this.name = name;
-		this.isBlacklisted = isBlacklisted;
+		this.email = email;
+		this.createdAt = createdAt;
 	}
 
-	public Long getId() {
+	public String getEmail() {
+		return email;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public UUID getId() {
 		return id;
 	}
 
@@ -20,7 +41,21 @@ public class Customer {
 		return name;
 	}
 
-	public Boolean isBlacklisted() {
-		return isBlacklisted;
+	public void changeName(String nameToUpdate) {
+		validateName(nameToUpdate);
+		this.name = nameToUpdate;
 	}
+
+	private void validateEmail(String email) {
+		if (!Pattern.matches(EMAIL_REGEX, email)) {
+			throw new IllegalArgumentException(INVALID_EMAIL.getMessage());
+		}
+	}
+
+	private void validateName(String name) {
+		if (!Pattern.matches(NAME_REGEX, name)) {
+			throw new IllegalArgumentException(INVALID_NAME.getMessage());
+		}
+	}
+
 }

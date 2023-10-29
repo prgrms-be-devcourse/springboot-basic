@@ -1,30 +1,22 @@
-# 공통 설정
 spring:
   main:
     web-application-type: none
   profiles:
     active: prod
-
----
-
-# prod 프로필 설정
-spring:
-  config:
-    activate:
-      on-profile: prod
-
-file:
-  voucher-path: ${user.home}/prod/data/vouchers.csv
-  blacklist-path: ${user.home}/prod/data/customer_blacklist.csv
-
----
-
-# dev 프로필 설정
-spring:
-  config:
-    activate:
-      on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
 
 file:
-  voucher-path: ${user.home}/dev/data/vouchers.csv
-  blacklist-path: ${user.home}/dev/data/customer_blacklist.csv
+  blacklist-path: ${user.home}/data/customer_blacklist.csv
+  voucher-path: ${user.home}/data/vouchers.csv

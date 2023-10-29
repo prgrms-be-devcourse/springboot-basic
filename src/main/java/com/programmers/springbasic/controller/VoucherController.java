@@ -5,9 +5,9 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Controller;
 
-import com.programmers.springbasic.dto.CreateFixedAmountVoucherRequest;
-import com.programmers.springbasic.dto.CreatePercentDiscountVoucherRequest;
-import com.programmers.springbasic.dto.GetVouchersResponse;
+import com.programmers.springbasic.dto.CustomerDto;
+import com.programmers.springbasic.dto.VoucherDto;
+import com.programmers.springbasic.entity.voucher.VoucherType;
 import com.programmers.springbasic.service.VoucherService;
 
 @Controller
@@ -19,16 +19,28 @@ public class VoucherController {
 		this.voucherService = voucherService;
 	}
 
-	public UUID createPercentDiscountVoucher(CreatePercentDiscountVoucherRequest request) {
-		return voucherService.createPercentDiscountVoucher(request);
+	public VoucherDto createVoucher(VoucherType voucherType, long discountValue) {
+		return voucherService.createVoucher(voucherType, discountValue);
 	}
 
-	public UUID createFixedAmountVoucher(CreateFixedAmountVoucherRequest request) {
-		return voucherService.createFixedAmountVoucher(request);
-	}
-
-	public List<GetVouchersResponse> getVouchers() {
+	public List<VoucherDto> getVouchers() {
 		return voucherService.getVouchers();
+	}
+
+	public VoucherDto getVoucherDetail(UUID voucherId) {
+		return voucherService.getVoucherDetail(voucherId);
+	}
+
+	public VoucherDto updateVoucher(UUID voucherId, long newDiscountValue) {
+		return voucherService.updateVoucher(voucherId, newDiscountValue);
+	}
+
+	public void deleteVoucher(UUID voucherId) {
+		voucherService.deleteVoucher(voucherId);
+	}
+
+	public List<CustomerDto> getCustomersByVoucher(UUID voucherId) {
+		return voucherService.getCustomersByVoucher(voucherId);
 	}
 
 }
