@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.prgrms.voucher_manage.exception.ErrorMessage.VOUCHER_NOT_EXISTS;
+
 @Repository
 @RequiredArgsConstructor
 @Profile("prod")
@@ -36,7 +38,11 @@ public class JdbcVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID voucherId){
         String sql = "select * from voucher where voucher_id = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,voucherId.toString()));
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper,voucherId.toString()));
+        } catch (Exception e){
+            throw new RuntimeException(VOUCHER_NOT_EXISTS.getMessage());
+        }
     }
 
     @Override

@@ -156,9 +156,9 @@ public class ConsoleManager implements ApplicationRunner {
 
     public void saveCustomer() throws IOException {
         outputUtil.printCustomerSelect();
-        CustomerType customerType = getCustomerType();
+        CustomerType type = getCustomerType();
         String name = ioManager.getString(CUSTOMER_SAVE_NAME);
-        customerController.saveCustomer(new Customer(name, customerType));
+        customerController.saveCustomer(name, type);
     }
 
     public void findCustomer() throws IOException {
@@ -172,7 +172,7 @@ public class ConsoleManager implements ApplicationRunner {
         Customer customer = customerController.findById(id);
 
         String name = ioManager.getString(CUSTOMER_UPDATE_NAME);
-        customerController.update(new Customer(customer.getId(),name, customer.getType()));
+        customerController.update(customer.getId(), name);
     }
 
     private void printCustomers(List<Customer> customers) {

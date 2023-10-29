@@ -1,6 +1,8 @@
 package com.prgrms.voucher_manage.domain.customer.controller;
 
+import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
+import com.prgrms.voucher_manage.domain.customer.entity.CustomerType;
 import com.prgrms.voucher_manage.domain.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -12,8 +14,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
-    public Customer save(Customer customer){
-        return customerService.save(customer);
+    public void saveCustomer(String name, CustomerType type){
+        customerService.save(new Customer(name, type));
     }
     public List<Customer> getAllCustomers(){
         return customerService.getAllCustomers();
@@ -27,8 +29,8 @@ public class CustomerController {
     public Customer findByName(String name){
         return customerService.findByName(name);
     }
-    public void update(Customer customer){
-        customerService.update(customer);
+    public void update(UUID id, String name){
+        customerService.update(new UpdateCustomerDto(id, name));
     }
 
 }

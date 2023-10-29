@@ -1,5 +1,6 @@
 package com.prgrms.voucher_manage.domain.customer.repository;
 
+import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -66,11 +67,11 @@ public class JdbcCustomerRepositoryTest {
         //given
         Customer customer = repository.save(new Customer("전", BLACK));
         //when
-        Customer updatedCustomer = new Customer(customer.getId(), "후", customer.getType());
-        int update = repository.update(updatedCustomer);
+        UpdateCustomerDto dto = new UpdateCustomerDto(customer.getId(), "후");
+        int update = repository.update(dto);
         //then
         assertThat(update).isEqualTo(1);
-        assertThat(updatedCustomer.getName()).isEqualTo("후");
+        assertThat(dto.getName()).isEqualTo("후");
     }
 
     @Test
@@ -82,7 +83,7 @@ public class JdbcCustomerRepositoryTest {
         repository.save(customer1);
         repository.save(customer2);
         //when
-        List<Customer> customers = repository.findByType(BLACK.getLabel());
+        List<Customer> customers = repository.findByType(BLACK.getData());
         //then
         assertThat(customers.size()).isEqualTo(1);
         assertThat(customers.get(0).getName()).isEqualTo("호");

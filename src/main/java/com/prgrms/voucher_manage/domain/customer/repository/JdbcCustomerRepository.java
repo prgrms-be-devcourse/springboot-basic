@@ -1,5 +1,6 @@
 package com.prgrms.voucher_manage.domain.customer.repository;
 
+import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.exception.ErrorMessage;
 import lombok.RequiredArgsConstructor;
@@ -51,9 +52,9 @@ public class JdbcCustomerRepository{
         jdbcTemplate.update(sql,customer.getId().toString(), customer.getName(), customer.getType().getData());
         return customer;
     }
-    public int update(Customer customer){
+    public int update(UpdateCustomerDto dto){
         String sql = "update customer set name = ? where customer_id = ?";
-        return jdbcTemplate.update(sql, customer.getName(), customer.getId().toString());
+        return jdbcTemplate.update(sql, dto.getName(), dto.getId().toString());
     }
 
     private static final RowMapper<Customer> rowMapper = (resultSet, i) -> {

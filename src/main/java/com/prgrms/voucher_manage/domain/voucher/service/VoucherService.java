@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.voucher_manage.exception.ErrorMessage.VOUCHER_DELETE_FAILED;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.VOUCHER_UPDATE_FAILED;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
 
 
 @Service
@@ -24,7 +23,10 @@ public class VoucherService{
     }
 
     public List<Voucher> getVouchers() {
-       return voucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
+        if (vouchers.isEmpty())
+            throw new RuntimeException(VOUCHER_NOT_EXISTS.getMessage());
+        return vouchers;
     }
 
     public Voucher findVoucher(UUID voucherId){

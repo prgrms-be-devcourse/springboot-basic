@@ -22,7 +22,7 @@ import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.PERCEN
 public class VoucherController {
     private final VoucherService voucherService;
 
-    public void createVoucher(VoucherType voucherType, Long discountAmount) {
+    public void saveVoucher(VoucherType voucherType, Long discountAmount) {
         validateVoucher(voucherType, discountAmount);
         voucherService.createVoucher(new CreateVoucherDto(voucherType, discountAmount));
     }
