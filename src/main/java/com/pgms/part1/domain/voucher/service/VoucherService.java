@@ -5,7 +5,6 @@ import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
 import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import com.pgms.part1.domain.voucher.repository.VoucherRepository;
-import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.util.keygen.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,13 +42,6 @@ public class VoucherService {
     @Transactional(readOnly = true)
     public List<VoucherResponseDto> listVoucher() {
         return voucherRepository.list().stream()
-                .map(voucher -> new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType()))
-                .toList();
-    }
-
-    @Transactional(readOnly = true)
-    public List<VoucherResponseDto> listVouchersByWallets(List<Wallet> wallets) {
-        return voucherRepository.findVoucherByWallets(wallets).stream()
                 .map(voucher -> new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType()))
                 .toList();
     }

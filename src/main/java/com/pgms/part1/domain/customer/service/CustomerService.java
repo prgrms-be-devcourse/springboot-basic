@@ -5,7 +5,6 @@ import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
 import com.pgms.part1.domain.customer.entity.Customer;
 import com.pgms.part1.domain.customer.entity.CustomerBuilder;
 import com.pgms.part1.domain.customer.repository.CustomerRepository;
-import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.util.keygen.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,13 +81,6 @@ public class CustomerService {
         catch (Exception e){
             log.error(e.getMessage());
         }
-    }
-
-    @Transactional(readOnly = true)
-    public List<CustomerResponseDto> listCustomersByWallets(List<Wallet> wallets) {
-        return customerRepository.listCustomersByWallets(wallets).stream().map(customer ->
-                        new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked()))
-                .toList();
     }
 
     // todo 이메일 예외처리 (중복, null 체크, 양식 체크)
