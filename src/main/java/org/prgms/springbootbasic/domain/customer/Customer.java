@@ -11,6 +11,14 @@ public class Customer {
     private LocalDateTime lastLoginAt;
     private boolean isBlacked;
 
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.createdAt = createdAt;
+        this.isBlacked = false;
+    }
+
     public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt, boolean isBlacked) {
         this.customerId = customerId;
         this.name = name;
@@ -30,6 +38,17 @@ public class Customer {
 
     public String getEmail() {
         return email;
+    }
+
+    public boolean isBlacked() {
+        return isBlacked;
+    }
+
+    public Customer changeInfo(String name, boolean isBlacked){
+        this.name = name;
+        this.isBlacked = isBlacked;
+
+        return this;
     }
 
     @Override
