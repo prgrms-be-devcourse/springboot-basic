@@ -4,6 +4,7 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.global.common.JdbcRepositoryManager;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -44,6 +45,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(READ_ONCE, customerRowMapper, customerId.toString()));
+
+        try {
+            Optional<Customer> optionalCustomer = Optional.of(jdbcTemplate.queryForObject(READ_ONCE, customerRowMapper, customerId.toString()));
+            return optionalCustomer;
+
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }
