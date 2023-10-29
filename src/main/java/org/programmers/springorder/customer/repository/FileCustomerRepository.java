@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.*;
 
-@Profile("dev")
+@Profile({"dev", "test"})
 @Repository
 public class FileCustomerRepository implements CustomerRepository {
 
