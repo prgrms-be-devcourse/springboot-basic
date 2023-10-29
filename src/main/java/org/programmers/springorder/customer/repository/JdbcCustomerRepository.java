@@ -2,6 +2,7 @@ package org.programmers.springorder.customer.repository;
 
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.nio.ByteBuffer;
 import java.util.*;
 
-//@Profile("prod")
+@Profile("default")
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
