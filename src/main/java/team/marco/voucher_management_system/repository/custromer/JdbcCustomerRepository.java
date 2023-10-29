@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static team.marco.voucher_management_system.util.UUIDUtil.bytesToUUID;
+import static team.marco.voucher_management_system.util.UUIDUtil.uuidToBytes;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
@@ -32,7 +33,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Customer insert(Customer customer) {
         int update = jdbcTemplate.update(INSERT_SQL,
-                customer.getId().toString().getBytes(),
+                uuidToBytes(customer.getId()),
                 customer.getName(),
                 customer.getEmail(),
                 Timestamp.valueOf(customer.getCreatedAt()));
@@ -58,7 +59,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         try {
             Customer customer = jdbcTemplate.queryForObject(SELECT_BY_ID_SQL,
                     (resultSet, rowNum) -> resultSetToCustomer(resultSet),
-                    customerId.toString().getBytes());
+                    uuidToBytes(customerId));
 
             return Optional.of(customer);
         } catch (DataAccessException e) {

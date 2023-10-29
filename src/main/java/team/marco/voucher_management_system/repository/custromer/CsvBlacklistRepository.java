@@ -11,7 +11,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
+
+import static team.marco.voucher_management_system.util.UUIDUtil.stringToUUID;
 
 @Repository
 public class CsvBlacklistRepository implements BlacklistRepository {
@@ -27,7 +28,7 @@ public class CsvBlacklistRepository implements BlacklistRepository {
             reader.readLine(); // skip header
             return reader.lines()
                     .map(s -> s.split(DELIMITER_REGULAR_EXPRESSION))
-                    .map(data -> new CustomerIdAndName(UUID.fromString(data[0]), data[1]))
+                    .map(data -> new CustomerIdAndName(stringToUUID(data[0]), data[1]))
                     .toList();
         } catch (IOException e) {
             throw new UncheckedIOException(e);

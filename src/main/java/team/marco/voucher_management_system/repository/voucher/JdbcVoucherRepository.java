@@ -16,6 +16,7 @@ import java.sql.SQLException;
 import java.util.*;
 
 import static team.marco.voucher_management_system.util.UUIDUtil.bytesToUUID;
+import static team.marco.voucher_management_system.util.UUIDUtil.uuidToBytes;
 
 @Profile("prod")
 @Repository
@@ -44,20 +45,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
             case FIXED -> {
                 FixedAmountVoucher amountVoucher = (FixedAmountVoucher) voucher;
                 update = jdbcTemplate.update(INSERT_SQL,
-                        voucher.getId().toString().getBytes(),
+                        uuidToBytes(voucher.getId()),
                         voucher.getType().name(),
                         amountVoucher.getAmount(),
                         null,
-                        voucher.getOwnerId() == null ? null : voucher.getOwnerId().toString().getBytes());
+                        voucher.getOwnerId() == null ? null : uuidToBytes(voucher.getOwnerId()));
             }
             case PERCENT -> {
                 PercentDiscountVoucher percentVoucher = (PercentDiscountVoucher) voucher;
                 update = jdbcTemplate.update(INSERT_SQL,
-                        voucher.getId().toString().getBytes(),
+                        uuidToBytes(voucher.getId()),
                         voucher.getType().name(),
                         null,
                         percentVoucher.getPercent(),
-                        voucher.getOwnerId() == null ? null : voucher.getOwnerId().toString().getBytes());
+                        voucher.getOwnerId() == null ? null : uuidToBytes(voucher.getOwnerId()));
             }
         }
 
@@ -83,7 +84,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         List<Voucher> vouchers = new ArrayList<>();
         jdbcTemplate.query(SELECT_BY_OWNER_SQL
                 , (resultSet, rowNum) -> vouchers.add(resultSetToVoucher(resultSet))
-                , ownerId.toString());
+                , uuidToBytes(ownerId));
 
         return Collections.unmodifiableList(vouchers);
     }
@@ -92,7 +93,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.of(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL
                 , (resultSet, rowNum) -> resultSetToVoucher(resultSet)
-                , voucherId.toString()));
+                , uuidToBytes(voucherId)));
     }
 
     @Override
@@ -104,16 +105,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
                         amountVoucher.getAmount(),
                         null,
-                        amountVoucher.getOwnerId() != null ?  amountVoucher.getOwnerId().toString().getBytes() : null,
-                        voucher.getId().toString().getBytes());
+                        amountVoucher.getOwnerId() != null ?  uuidToBytes(amountVoucher.getOwnerId()) : null,
+                        uuidToBytes(voucher.getId()));
             }
             case PERCENT -> {
                 PercentDiscountVoucher percentVoucher = (PercentDiscountVoucher) voucher;
                 update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
                         null,
                         percentVoucher.getPercent(),
-                        percentVoucher.getOwnerId() != null ?  percentVoucher.getOwnerId().toString().getBytes() : null,
-                        voucher.getId().toString().getBytes());
+                        percentVoucher.getOwnerId() != null ? uuidToBytes(percentVoucher.getOwnerId()) : null,
+                        uuidToBytes(voucher.getId()));
             }
         }
 
@@ -127,7 +128,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(DELETE_BY_ID_SQL, voucherId.toString().getBytes());
+        jdbcTemplate.update(DELETE_BY_ID_SQL, uuidToBytes(voucherId));
     }
 
     private Voucher resultSetToVoucher(ResultSet resultSet) throws SQLException {
