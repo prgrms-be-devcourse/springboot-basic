@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
+import com.programmers.vouchermanagement.dto.CustomerDto;
 import com.programmers.vouchermanagement.dto.VoucherDto;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
@@ -36,7 +37,7 @@ class WalletServiceTest {
     private final UUID voucherId_1 = UUID.randomUUID();
     private final UUID voucherId_2 = UUID.randomUUID();
     private final Voucher voucher = VoucherFactory.createVoucher(new VoucherDto.Create("voucher", 1000, VoucherType.FIXED));
-    private final Customer customer = new Customer(UUID.randomUUID(), "user");
+    private final Customer customer = new Customer(new CustomerDto.Create("user"));
 
     @BeforeEach
     void setUp() {

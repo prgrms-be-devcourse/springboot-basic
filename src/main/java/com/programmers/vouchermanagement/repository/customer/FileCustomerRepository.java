@@ -1,7 +1,8 @@
 package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.message.ErrorMessage;
+import com.programmers.vouchermanagement.dto.CustomerDto;
+import com.programmers.vouchermanagement.utils.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,17 +20,17 @@ import java.util.concurrent.ConcurrentHashMap;
 public class FileCustomerRepository implements CustomerRepository {
     private static final String CSV_SEPARATOR = ",";
 
-    private final String customerFilePath;
+    private final String csvFilePath;
     private final ConcurrentHashMap<UUID, Customer> customers = new ConcurrentHashMap<>();
     private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
 
-    public FileCustomerRepository(@Value("${csv.file.customer.path}") String customerFilePath) {
-        this.customerFilePath = customerFilePath;
+    public FileCustomerRepository(@Value("${csv.file.customer.path}") String csvFilePath) {
+        this.csvFilePath = csvFilePath;
     }
 
     @PostConstruct
     public void init() {
-        readCustomerFile();
+        readFile();
     }
 
     @Override
@@ -83,40 +82,16 @@ public class FileCustomerRepository implements CustomerRepository {
         return customer != null ? 1 : 0;
     }
 
-    private void readCustomerFile() {
-        String line;
-        try (BufferedReader br = new BufferedReader(new FileReader(customerFilePath))) {
-            while ((line = br.readLine()) != null) {
-                String[] strings = line.split(CSV_SEPARATOR);
-                Customer customer = new Customer(
-                        UUID.fromString(strings[0]),
-                        strings[1],
-                        LocalDateTime.parse(strings[2]),
-                        Boolean.parseBoolean(strings[3])
-                );
-                customers.put(customer.getId(), customer);
-            }
-        } catch (FileNotFoundException e) {
-            logger.warn("{} : {}", ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage(), customerFilePath);
-        } catch (IOException e) {
-            logger.error("Error occurred at FileReader: ", e);
-        }
+    private void readFile() {
+        final List<String> lines = CsvFileUtil.readCsvFile(csvFilePath);
+        lines.forEach(line -> {
+            String[] customerInfo = line.split(CSV_SEPARATOR);
+            final Customer customer = new Customer(new CustomerDto.Create(customerInfo));
+            customers.put(customer.getId(), customer);
+        });
     }
 
     private void updateFile() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(customerFilePath))) {
-            customers.values().stream()
-                    .map(customer -> customer.joinInfo(CSV_SEPARATOR))
-                    .forEach(line -> {
-                        try {
-                            bw.write(line);
-                            bw.newLine();
-                        } catch (IOException e) {
-                            logger.error("Error occurred at FileWriter: ", e);
-                        }
-                    });
-        } catch (IOException e) {
-            logger.error("Error occurred af FileWriter: ", e);
-        }
+        CsvFileUtil.updateCsvFile(csvFilePath, customers.values().stream().toList());
     }
 }

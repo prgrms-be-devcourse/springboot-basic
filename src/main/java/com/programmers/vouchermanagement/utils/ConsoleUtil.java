@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.util;
+package com.programmers.vouchermanagement.utils;
 
 import com.programmers.vouchermanagement.message.ErrorMessage;
 import org.beryx.textio.TextIO;

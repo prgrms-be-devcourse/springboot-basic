@@ -38,12 +38,4 @@ public class FixedAmountVoucher extends Voucher {
                 "Discount Amount: " + discountAmount + "$" + System.lineSeparator() +
                 "Created Time   : " + createdAt + System.lineSeparator();
     }
-
-//    public float discount(float beforeDiscount) {
-//        float afterDiscount = beforeDiscount - discountAmount;
-//        if (afterDiscount < 0) {
-//            throw new IllegalArgumentException(ErrorMessage.DISCOUNT_OVER_BEFORE_DISCOUNT.getMessage());
-//        }
-//        return afterDiscount;
-//    }
 }

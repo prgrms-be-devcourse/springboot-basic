@@ -2,9 +2,8 @@ package com.programmers.vouchermanagement.repository.voucher;
 
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
-import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.VoucherDto;
-import com.programmers.vouchermanagement.message.ErrorMessage;
+import com.programmers.vouchermanagement.utils.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
-import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -78,41 +74,16 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public void readFile() {
-        String line;
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
-            while ((line = br.readLine()) != null) {
-                String[] strings = line.split(CSV_SEPARATOR);
-                VoucherDto.Create createDto = new VoucherDto.Create(
-                        UUID.fromString(strings[0]),    // id
-                        strings[1],                     // name
-                        Float.parseFloat(strings[2]),   // discountAmount
-                        LocalDateTime.parse(strings[3]), // createdAt
-                        VoucherType.valueOf(strings[4].toUpperCase())); // voucherType
 
-                Voucher voucher = VoucherFactory.createVoucher(createDto);
-                vouchers.put(voucher.getId(), voucher);
-            }
-        } catch (FileNotFoundException e) {
-            logger.warn(MessageFormat.format("{0} : {1}", ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage(), csvFilePath));
-        } catch (IOException e) {
-            logger.error("Error occurred at FileReader: ", e);
-        }
+        final List<String> lines = CsvFileUtil.readCsvFile(csvFilePath);
+        lines.forEach(line -> {
+            String[] voucherInfo = line.split(CSV_SEPARATOR);
+            Voucher voucher = VoucherFactory.createVoucher(new VoucherDto.Create(voucherInfo));
+            vouchers.put(voucher.getId(), voucher);
+        });
     }
 
     private void updateFile() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFilePath))) {
-            vouchers.values().stream()
-                    .map(voucher -> voucher.joinInfo(CSV_SEPARATOR))
-                    .forEach(line -> {
-                        try {
-                            bw.write(line);
-                            bw.newLine();
-                        } catch (IOException e) {
-                            logger.error("Error occurred at FileWriter: ", e);
-                        }
-                    });
-        } catch (IOException e) {
-            logger.error("Error occurred af FileWriter: ", e);
-        }
+        CsvFileUtil.updateCsvFile(csvFilePath, vouchers.values().stream().toList());
     }
 }

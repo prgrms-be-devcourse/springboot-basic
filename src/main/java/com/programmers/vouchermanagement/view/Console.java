@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.view;
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import com.programmers.vouchermanagement.dto.CustomerDto;
 import com.programmers.vouchermanagement.dto.VoucherDto;
 import com.programmers.vouchermanagement.message.ConsoleMessage;
 import com.programmers.vouchermanagement.message.CustomerMessage;
@@ -25,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.programmers.vouchermanagement.util.ConsoleUtil.*;
+import static com.programmers.vouchermanagement.utils.ConsoleUtil.*;
 
 @Component
 public class Console implements CommandLineRunner {
@@ -173,7 +174,7 @@ public class Console implements CommandLineRunner {
 
     private void createCustomer() {
         String customerName = getName(CustomerMessage.INPUT_CUSTOMER_NAME_MESSAGE.getMessage());
-        Customer customer = customerService.createCustomer(customerName);
+        Customer customer = customerService.createCustomer(new CustomerDto.Create(customerName));
         displayMessage(customer.toString());
         displayMessage(CustomerMessage.CUSTOMER_CREATED_MESSAGE.getMessage());
     }

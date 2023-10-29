@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.service;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
+import com.programmers.vouchermanagement.dto.CustomerDto;
 import com.programmers.vouchermanagement.message.ErrorMessage;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.Test;
@@ -23,10 +24,10 @@ class CustomerServiceTest {
     @Mock
     private CustomerRepository customerRepository;
     private final List<Customer> testCustomers = new ArrayList<>();
-    private final Customer customer1 = new Customer(UUID.randomUUID(), "user1");
-    private final Customer customer2 = new Customer(UUID.randomUUID(), "user2");
-    private final Customer customer3 = new Customer(UUID.randomUUID(), "user3");
-    private final Customer customer4 = new Customer(UUID.randomUUID(), "user4");
+    private final Customer customer1 = new Customer(new CustomerDto.Create("user1"));
+    private final Customer customer2 = new Customer(new CustomerDto.Create("user2"));
+    private final Customer customer3 = new Customer(new CustomerDto.Create("user3"));
+    private final Customer customer4 = new Customer(new CustomerDto.Create("user4"));
 
     @Test
     void 모든_고객을_가져올_수_있다() {
@@ -73,12 +74,13 @@ class CustomerServiceTest {
     void 원하는_이름으로_고객을_생성할_수_있다() {
         //given
         String name = "customName";
-        Customer customer = new Customer(UUID.randomUUID(), name);
+        CustomerDto.Create customerDto = new CustomerDto.Create(name);
+        Customer customer = new Customer(customerDto);
         doReturn(customer).when(customerRepository).save(any(Customer.class));
         doReturn(Optional.empty()).when(customerRepository).findByName(name);
 
         //when
-        final Customer savedCustomer = customerService.createCustomer(name);
+        final Customer savedCustomer = customerService.createCustomer(customerDto);
 
         //then
         assertThat(savedCustomer).isEqualTo(customer);
@@ -88,11 +90,12 @@ class CustomerServiceTest {
     void 고객의_이름은_중복될_수_없다() {
         //given
         String name = "customName";
-        Customer customer = new Customer(UUID.randomUUID(), name);
+        CustomerDto.Create customerDto = new CustomerDto.Create(name);
+        Customer customer = new Customer(customerDto);
         doReturn(Optional.ofNullable(customer)).when(customerRepository).findByName(name);
 
         //when&then
-        assertThatThrownBy(() -> customerService.createCustomer(name))
+        assertThatThrownBy(() -> customerService.createCustomer(customerDto))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorMessage.CUSTOMER_ALREADY_EXISTS_MESSAGE.getMessage());
     }

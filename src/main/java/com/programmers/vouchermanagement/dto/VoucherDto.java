@@ -26,5 +26,13 @@ public class VoucherDto {
             this.createdAt = createdAt;
             this.voucherType = voucherType;
         }
+
+        public Create(String[] voucherInfo) {
+            this.voucherId = UUID.fromString(voucherInfo[0]);
+            this.voucherName = voucherInfo[1];
+            this.discountAmount = Float.parseFloat(voucherInfo[2]);
+            this.createdAt = LocalDateTime.parse(voucherInfo[3]);
+            this.voucherType = VoucherType.valueOf(voucherInfo[4]);
+        }
     }
 }

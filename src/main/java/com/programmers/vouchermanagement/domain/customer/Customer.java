@@ -1,24 +1,24 @@
 package com.programmers.vouchermanagement.domain.customer;
 
+import com.programmers.vouchermanagement.dto.CustomerDto;
+import com.programmers.vouchermanagement.utils.CsvConvertable;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class Customer {
+public class Customer implements CsvConvertable {
     private final UUID id;
     private final String name;
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private boolean isBanned = false;
+    private final LocalDateTime createdAt;
+    private boolean isBanned;
 
-    public Customer(UUID id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Customer(UUID id, String name, LocalDateTime createdAt, boolean isBanned) {
-        this.id = id;
-        this.name = name;
-        this.createdAt = createdAt;
-        this.isBanned = isBanned;
+    public Customer(CustomerDto.Create customerDto) {
+        if (customerDto.id == null) customerDto.id = UUID.randomUUID();
+        if (customerDto.createdAt == null) customerDto.createdAt = LocalDateTime.now();
+        this.id = customerDto.id;
+        this.name = customerDto.name;
+        this.createdAt = customerDto.createdAt;
+        this.isBanned = customerDto.isBanned;
     }
 
     public UUID getId() {
@@ -55,7 +55,9 @@ public class Customer {
                 "is Banned      : " + isBanned + System.lineSeparator();
     }
 
+    @Override
     public String joinInfo(String separator) {
         return String.join(separator, id.toString(), name, createdAt.toString(), String.valueOf(isBanned));
     }
+
 }

@@ -1,9 +1,11 @@
 package com.programmers.vouchermanagement.domain.voucher;
 
+import com.programmers.vouchermanagement.utils.CsvConvertable;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public abstract class Voucher {
+public abstract class Voucher implements CsvConvertable {
     protected final UUID id;
     protected final String name;
     protected final float discountAmount;
@@ -36,5 +38,6 @@ public abstract class Voucher {
 
     public abstract void validateDiscountAmount(float discountAmount);
 
+    @Override
     public abstract String joinInfo(String separator);
 }

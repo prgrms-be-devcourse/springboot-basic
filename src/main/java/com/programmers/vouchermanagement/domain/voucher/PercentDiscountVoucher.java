@@ -38,9 +38,4 @@ public class PercentDiscountVoucher extends Voucher {
                 "Discount percentage: " + discountAmount + "%" + System.lineSeparator() +
                 "Created Time   :" + createdAt + System.lineSeparator();
     }
-
-//    public float discount(float beforeDiscount) {
-//        return beforeDiscount - (beforeDiscount * discountAmount / 100);
-//    }
-
 }
