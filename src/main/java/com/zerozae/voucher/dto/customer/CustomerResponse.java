@@ -2,7 +2,6 @@ package com.zerozae.voucher.dto.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
@@ -26,7 +25,7 @@ public class CustomerResponse {
         );
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return """
                 회원 번호  : %s
                 회원 이름  : %s
@@ -37,4 +36,3 @@ public class CustomerResponse {
     }
 
 }
-

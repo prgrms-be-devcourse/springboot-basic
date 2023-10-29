@@ -7,17 +7,17 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public class CustomerRequest {
+public class CustomerCreateRequest {
 
     private String customerName;
     private CustomerType customerType;
 
-    public CustomerRequest(String customerName, CustomerType customerType) {
+    public CustomerCreateRequest(String customerName, CustomerType customerType) {
         this.customerName = customerName;
         this.customerType = customerType;
     }
 
-    public Customer of(UUID customerId){
+    public Customer to(UUID customerId) {
         return new Customer(customerId, customerName, customerType);
     }
 }

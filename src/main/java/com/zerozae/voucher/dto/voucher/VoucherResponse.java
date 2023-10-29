@@ -3,7 +3,6 @@ package com.zerozae.voucher.dto.voucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
@@ -21,7 +20,7 @@ public class VoucherResponse {
         this.useStatusType = useStatusType;
     }
 
-    public static VoucherResponse toDto(Voucher voucher){
+    public static VoucherResponse toDto(Voucher voucher) {
         return new VoucherResponse(
                 voucher.getVoucherId().toString(),
                 voucher.getDiscount(),
@@ -29,7 +28,7 @@ public class VoucherResponse {
                 voucher.getUseStatusType());
     }
 
-    public String getInfo(){
+    public String getInfo() {
         return """
                 바우처 번호  : %s
                 바우처 종류  : %s
@@ -40,4 +39,3 @@ public class VoucherResponse {
                 """.formatted(voucherId, voucherType, discount, useStatusType.getDescription());
     }
 }
-

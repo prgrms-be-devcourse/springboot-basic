@@ -4,12 +4,12 @@ import com.zerozae.voucher.domain.voucher.VoucherType;
 import lombok.Getter;
 
 @Getter
-public class VoucherRequest {
+public class VoucherCreateRequest {
 
     private long discount;
     private VoucherType voucherType;
 
-    public VoucherRequest(long discount, VoucherType voucherType) {
+    public VoucherCreateRequest(long discount, VoucherType voucherType) {
         this.discount = discount;
         this.voucherType = voucherType;
     }

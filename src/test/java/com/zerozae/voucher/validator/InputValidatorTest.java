@@ -1,24 +1,22 @@
 package com.zerozae.voucher.validator;
 
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.context.MessageSource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 
 class InputValidatorTest {
 
     @Test
     @DisplayName("숫자 입력 검증 시 숫자 입력 성공 테스트")
-    public void validateInputDiscountSuccessTest() {
+    void validateInputNumber_Success_Test() {
         // Given
         String validInput = "10";
 
         // When
-        Long result = InputValidator.validateInputDiscount(validInput);
+        Long result = InputValidator.validateInputNumber(validInput);
 
         // Then
         assertEquals(result, Long.parseLong(validInput));
@@ -26,21 +24,19 @@ class InputValidatorTest {
 
     @Test
     @DisplayName("숫자 입력 검증 시 문자열 입력 실패 테스트")
-    void validateInputDiscountFailedTest() {
+    void validateInputNumber_inputString_Failed_Test() {
         // Given
         String validInput = "test";
 
-        // When
-
-        // Then
-        assertThrows(ErrorMessage.class, () -> {
-            InputValidator.validateInputDiscount(validInput);
+        // When & Then
+        assertThrows(ExceptionMessage.class, () -> {
+            InputValidator.validateInputNumber(validInput);
         });
     }
 
     @Test
     @DisplayName("문자열 입력 검증 시 문자 입력 성공 테스트")
-    void validateInputStringSuccessTest() {
+    void validateInputString_Success_Test() {
         // Given
         String validInput = "test";
 
@@ -53,14 +49,12 @@ class InputValidatorTest {
 
     @Test
     @DisplayName("문자열 입력 검증 시 숫자 입력 실패 테스트")
-    void validateInputStringFailedTest(){
+    void validateInputString_inputNumber_Failed_Test() {
         // Given
         String validInput = "42";
 
-        // When
-
-        // Then
-        assertThrows(ErrorMessage.class, () -> {
+        // When & Then
+        assertThrows(ExceptionMessage.class, () -> {
             InputValidator.validateInputString(validInput);
         });
     }

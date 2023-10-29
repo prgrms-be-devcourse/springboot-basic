@@ -1,6 +1,7 @@
 package com.zerozae.voucher.domain.customer;
 
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -10,8 +11,8 @@ import java.util.UUID;
 public class Customer {
 
     private final UUID customerId;
-    private final String customerName;
-    private final CustomerType customerType;
+    private String customerName;
+    private CustomerType customerType;
 
     public Customer(UUID customerId, String customerName, CustomerType customerType) {
         isValidCustomerName(customerName);
@@ -20,9 +21,15 @@ public class Customer {
         this.customerType = customerType;
     }
 
+    public void updateCustomerInfo(CustomerUpdateRequest customerRequest) {
+        isValidCustomerName(customerRequest.getCustomerName());
+        this.customerName = customerRequest.getCustomerName();
+        this.customerType = customerRequest.getCustomerType();
+    }
+
     private void isValidCustomerName(String customerName) {
         if(customerName == null || customerName.isBlank()){
-            throw ErrorMessage.error("회원 이름은 필수 입력 입니다.");
+            throw ExceptionMessage.error("회원 이름은 필수 입력 입니다.");
         }
     }
 }

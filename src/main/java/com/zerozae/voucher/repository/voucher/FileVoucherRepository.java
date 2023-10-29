@@ -5,77 +5,67 @@ import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
-import com.zerozae.voucher.exception.ErrorMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
+import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
+import com.zerozae.voucher.util.FileUtil;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@Profile("prod")
-@Repository
+@Deprecated
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final String FILE_PATH = System.getProperty("user.home") + "/voucher.csv";
     private static final String DELIMITER = ",";
     private final Map<UUID, Voucher> vouchers;
+    private final FileUtil fileUtil;
 
-    public FileVoucherRepository() {
-        createFile();
-        this.vouchers = loadVoucherFromCsvFile();
+    public FileVoucherRepository(FileUtil fileUtil) {
+        this.fileUtil = fileUtil;
+        this.vouchers = initData();
 
     }
 
     @Override
     public Voucher save(Voucher voucher) {
-        try {
-            vouchers.put(voucher.getVoucherId(), voucher);
-            String voucherInfo = getVoucherInfo(voucher) + System.lineSeparator();
-            Files.writeString(Path.of(FILE_PATH), voucherInfo, StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            throw ErrorMessage.error("파일에 쓰기 중 문제가 발생했습니다.");
-        }
+        vouchers.put(voucher.getVoucherId(), voucher);
+        String voucherInfo = getVoucherInfo(voucher) + System.lineSeparator();
+        fileUtil.saveToCsvFile(voucherInfo, FILE_PATH);
         return voucher;
     }
 
     @Override
     public List<Voucher> findAll() {
-        return vouchers.values().stream().toList();
+        return vouchers.values()
+                .stream()
+                .toList();
     }
 
-    public Map<UUID, Voucher> loadVoucherFromCsvFile() {
-        Map<UUID, Voucher> loadedVouchers = new ConcurrentHashMap<>();
-        try {
-            List<String> lines = Files.readAllLines(Path.of(FILE_PATH), StandardCharsets.UTF_8);
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
+    }
 
-            for (String line : lines) {
-                String[] voucherInfo = line.split(DELIMITER);
-                UUID voucherId = UUID.fromString(voucherInfo[0]);
-                long discount = Long.parseLong(voucherInfo[1]);
-                VoucherType voucherType = VoucherType.valueOf(voucherInfo[2]);
-                UseStatusType useStatusType = UseStatusType.valueOf(voucherInfo[3]);
+    @Override
+    public void deleteById(UUID voucherId) {
+        vouchers.remove(voucherId);
+        fileUtil.deleteFileDataById(voucherId,FILE_PATH);
+    }
 
-                Voucher voucher = switch (voucherType) {
-                    case FIXED -> new FixedDiscountVoucher(voucherId, discount, useStatusType);
-                    case PERCENT -> new PercentDiscountVoucher(voucherId, discount, useStatusType);
-                };
-                loadedVouchers.put(voucherId, voucher);
-            }
-        } catch (IOException e) {
-            throw ErrorMessage.error("파일을 읽어오던 중 문제가 발생했습니다.");
-        }
-        return loadedVouchers;
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
+        fileUtil.clearDataFile(FILE_PATH);
+    }
+
+    @Override
+    public void update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
+        Voucher voucher = vouchers.get(voucherId);
+        voucher.updateVoucherInfo(voucherUpdateRequest);
+        fileUtil.updateFile(getVoucherInfo(voucher), voucherId, FILE_PATH);
     }
 
     private String getVoucherInfo(Voucher voucher) {
@@ -87,14 +77,24 @@ public class FileVoucherRepository implements VoucherRepository {
         return String.join(DELIMITER, voucherId, discount, voucherType, useStatusType);
     }
 
-    private void createFile(){
-        File file = new File(FILE_PATH);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                throw ErrorMessage.error("파일 생성 중 문제가 발생했습니다.");
-            }
+    private Map<UUID, Voucher> initData() {
+        fileUtil.createFile(FILE_PATH);
+        Map<UUID, Voucher> loadedVouchers = new ConcurrentHashMap<>();
+        List<String> loadedData = fileUtil.loadFromCsvFile(FILE_PATH);
+
+        for (String data : loadedData) {
+            String[] voucherInfo = data.split(DELIMITER);
+            UUID voucherId = UUID.fromString(voucherInfo[0]);
+            long discount = Long.parseLong(voucherInfo[1]);
+            VoucherType voucherType = VoucherType.valueOf(voucherInfo[2]);
+            UseStatusType useStatusType = UseStatusType.valueOf(voucherInfo[3]);
+
+            Voucher voucher = switch (voucherType) {
+                case FIXED -> new FixedDiscountVoucher(voucherId, discount, useStatusType);
+                case PERCENT -> new PercentDiscountVoucher(voucherId, discount, useStatusType);
+            };
+            loadedVouchers.put(voucherId, voucher);
         }
+        return loadedVouchers;
     }
 }

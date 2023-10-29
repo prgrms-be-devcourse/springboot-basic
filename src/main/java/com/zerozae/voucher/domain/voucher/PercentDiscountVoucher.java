@@ -1,6 +1,6 @@
 package com.zerozae.voucher.domain.voucher;
 
-import com.zerozae.voucher.exception.ErrorMessage;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -9,14 +9,14 @@ import java.util.UUID;
 @Getter
 public class PercentDiscountVoucher extends Voucher {
 
-    private static final long ZERO = 0L;
-    private static final long MAXIMUM = 100L;
+    private static final long MINIMUM_DISCOUNT = 0L;
+    private static final long MAXIMUM_DISCOUNT = 100L;
 
     public PercentDiscountVoucher(Long discount) {
         try {
             validateVoucherInfo(discount);
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e){
+            throw ExceptionMessage.error(e.getMessage());
         }
         this.voucherId = UUID.randomUUID();
         this.discount = discount;
@@ -24,11 +24,11 @@ public class PercentDiscountVoucher extends Voucher {
         this.useStatusType = UseStatusType.AVAILABLE;
     }
 
-    public PercentDiscountVoucher(UUID voucherId, Long discount, UseStatusType useStatusType){
+    public PercentDiscountVoucher(UUID voucherId, Long discount, UseStatusType useStatusType) {
         try {
             validateVoucherInfo(discount);
-        }catch (ErrorMessage e){
-            throw ErrorMessage.error(e.getMessage());
+        }catch (ExceptionMessage e){
+            throw ExceptionMessage.error(e.getMessage());
         }
         this.voucherId = voucherId;
         this.discount = discount;
@@ -38,8 +38,8 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public void validateVoucherInfo(long discount) {
-        if(discount < ZERO || discount > MAXIMUM) {
-            throw ErrorMessage.error("비율할인 바우처의 할인 정보는 1 ~ 100 값만 입력해야 합니다.");
+        if(discount < MINIMUM_DISCOUNT || discount > MAXIMUM_DISCOUNT) {
+            throw ExceptionMessage.error("비율할인 바우처의 할인 정보는 1 ~ 100 값만 입력해야 합니다.");
         }
     }
 }
