@@ -28,7 +28,7 @@ public class VoucherService {
     public List<VoucherDto> findAllVoucher() {
         List<Voucher> voucherList = voucherRepository.findAll();
         return voucherList.stream()
-                .map(it -> new VoucherDto(it.getVoucherID(), it.getName(), it.getAmount(), it.getVoucherType()))
+                .map(it -> new VoucherDto(it.getId(), it.getName(), it.getAmount(), it.getVoucherType()))
                 .collect(Collectors.toList());
     }
 }

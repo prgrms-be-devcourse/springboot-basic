@@ -7,9 +7,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Profile("prod")
+@Profile("dev")
 @Repository
 public class FileRepository implements VoucherRepository {
 
@@ -22,7 +23,7 @@ public class FileRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        fileStorage.saveFile(new VoucherVO(voucher.getVoucherID(), voucher.getName(), voucher.getAmount(), voucher.getVoucherType()));
+        fileStorage.saveFile(new VoucherVO(voucher.getId(), voucher.getName(), voucher.getAmount(), voucher.getVoucherType()));
         return voucher;
     }
 
@@ -37,5 +38,10 @@ public class FileRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         fileStorage.deleteAll();
+    }
+
+    @Override
+    public Optional<Voucher> findById(String id) {
+        return Optional.empty();
     }
 }

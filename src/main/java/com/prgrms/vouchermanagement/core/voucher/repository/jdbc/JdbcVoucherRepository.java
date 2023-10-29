@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Profile("jdbc")
+@Profile("prod")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
 

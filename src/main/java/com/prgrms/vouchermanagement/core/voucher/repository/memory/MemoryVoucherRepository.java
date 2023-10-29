@@ -6,9 +6,10 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-@Profile("dev")
+@Profile("memory")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
@@ -28,5 +29,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         voucherArrayList.clear();
+    }
+
+    @Override
+    public Optional<Voucher> findById(String id) {
+        return Optional.empty();
     }
 }

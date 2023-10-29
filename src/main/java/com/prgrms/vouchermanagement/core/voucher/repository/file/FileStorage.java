@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.prgrms.vouchermanagement.core.voucher.utils.PropertiesUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,16 +24,8 @@ public class FileStorage {
     private final File file;
     private final ReentrantReadWriteLock lock;
 
-    public FileStorage() {
-        String filePath = PropertiesUtil.getProperty(PropertiesUtil.FILE_REPOSITORY_KEY);
-        this.file = new File(filePath);
-        this.lock = new ReentrantReadWriteLock();
-        objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-    }
-
-    public FileStorage(String filePath) {
+    @Autowired
+    public FileStorage(@Value("${voucher.repository.path}") String filePath) {
         this.file = new File(filePath);
         this.lock = new ReentrantReadWriteLock();
         objectMapper = new ObjectMapper();

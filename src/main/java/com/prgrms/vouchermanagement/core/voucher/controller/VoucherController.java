@@ -21,10 +21,18 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
+    /**
+     * 바우처 등록
+     * @param voucherCreateRequest
+     */
     public void createVoucher(VoucherCreateRequest voucherCreateRequest) {
         voucherService.createVoucher(voucherCreateRequest);
     }
 
+    /**
+     * 모든 바우처 조회
+     * @return VouchersResponse
+     */
     public VouchersResponse getAllVoucher() {
         List<VoucherDto> voucherDtoList = voucherService.findAllVoucher();
         List<VoucherResponse> voucherResponseList = voucherDtoList.stream()
