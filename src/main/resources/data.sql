@@ -23,5 +23,5 @@ create table wallets(
     customer_id long,
     created_at datetime not null default current_timestamp,
     updated_at datetime not null default current_timestamp on update current_timestamp,
-    primary key(id),
+    primary key(id)
 );

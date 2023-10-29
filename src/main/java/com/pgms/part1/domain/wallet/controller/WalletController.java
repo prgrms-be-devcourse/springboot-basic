@@ -5,7 +5,6 @@ import com.pgms.part1.domain.customer.service.CustomerService;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
 import com.pgms.part1.domain.voucher.service.VoucherService;
 import com.pgms.part1.domain.wallet.dto.WalletCreateRequestDto;
-import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.domain.wallet.service.WalletService;
 import com.pgms.part1.view.WalletConsoleView;
 import org.slf4j.Logger;
@@ -61,8 +60,7 @@ public class WalletController {
     public void listVouchersByCustomer() {
         try {
             Long id = walletConsoleView.getCustomerId();
-            List<Wallet> wallets = walletService.listWalletsByCustomer(id);
-            List<VoucherResponseDto> voucherResponseDtos = voucherService.listVouchersByWallets(wallets);
+            List<VoucherResponseDto> voucherResponseDtos = walletService.listVouchersByCustomer(id);
             walletConsoleView.listVoucher(voucherResponseDtos);
         } catch (Exception e) {
             walletConsoleView.error(e);
@@ -72,8 +70,7 @@ public class WalletController {
     public void listCustomersByVoucher(){
         try{
             Long id = walletConsoleView.getVoucherId();
-            List<Wallet> wallets = walletService.listWalletsByVoucher(id);
-            List<CustomerResponseDto> customerResponseDtos = customerService.listCustomersByWallets(wallets);
+            List<CustomerResponseDto> customerResponseDtos = walletService.listCustomersByVoucher(id);
             walletConsoleView.listCustomers(customerResponseDtos);
         } catch (Exception e){
             walletConsoleView.error(e);

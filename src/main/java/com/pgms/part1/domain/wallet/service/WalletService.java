@@ -1,5 +1,9 @@
 package com.pgms.part1.domain.wallet.service;
 
+import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
+import com.pgms.part1.domain.customer.entity.Customer;
+import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
+import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.wallet.dto.WalletCreateRequestDto;
 import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.domain.wallet.repository.WalletRepository;
@@ -50,16 +54,20 @@ public class WalletService {
     }
 
     @Transactional(readOnly = true)
-    public List<Wallet> listWalletsByCustomer(Long customerId) {
-        List<Wallet> walletByCustomerId = walletRepository.findWalletByCustomerId(customerId);
-        isWalletExist(walletByCustomerId);
-        return walletByCustomerId;
+    public List<VoucherResponseDto> listVouchersByCustomer(Long customerId) {
+        List<Voucher> vouchersByCustomerId = walletRepository.findVouchersByCustomerId(customerId);
+        List<VoucherResponseDto> voucherResponseDtos = vouchersByCustomerId.stream().map(voucher ->
+                new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType())).toList();
+        if(voucherResponseDtos.size() == 0) throw new RuntimeException("no search result!!");
+        return voucherResponseDtos;
     }
 
     @Transactional(readOnly = true)
-    public List<Wallet> listWalletsByVoucher(Long voucherId) {
-        List<Wallet> walletByVoucherId = walletRepository.findWalletByVoucherId(voucherId);
-        isWalletExist(walletByVoucherId);
-        return walletByVoucherId;
+    public List<CustomerResponseDto> listCustomersByVoucher(Long voucherId) {
+        List<Customer> customersByVoucherId = walletRepository.findCustomersByVoucherId(voucherId);
+        List<CustomerResponseDto> customerResponseDtos = customersByVoucherId.stream().map(customer ->
+                new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked())).toList();
+        if(customersByVoucherId.size() == 0) throw new RuntimeException("no search result!!");
+        return customerResponseDtos;
     }
 }
