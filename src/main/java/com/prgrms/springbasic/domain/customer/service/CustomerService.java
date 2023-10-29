@@ -32,6 +32,12 @@ public class CustomerService {
                 .toList();
     }
 
+    public List<CustomerResponse> findAll() {
+        return customerRepository.findAll().stream()
+                .map(CustomerResponse::from)
+                .toList();
+    }
+
     private boolean isEmailAlreadyExists(String email) {
         Optional<Customer> existingCustomer = customerRepository.findCustomerByEmail(email);
         return existingCustomer.isPresent();

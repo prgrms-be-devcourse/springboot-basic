@@ -22,4 +22,8 @@ public class CustomerController {
     public List<CustomerResponse> findAllBlackLists() {
         return customerService.findAllBlackList();
     }
+
+    public List<CustomerResponse> findAll() {
+        return customerService.findAll();
+    }
 }

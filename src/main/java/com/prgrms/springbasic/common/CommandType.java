@@ -22,7 +22,7 @@ public enum CommandType {
 
         switch (menuType) {
             case VOUCHER -> allowedTypes.addAll(EnumSet.of(CREATE, LIST, UPDATE, DELETE_ALL));
-            case CUSTOMER -> allowedTypes.addAll(EnumSet.of(CREATE, BLACK_LIST));
+            case CUSTOMER -> allowedTypes.addAll(EnumSet.of(CREATE, LIST, BLACK_LIST));
             case WALLET -> allowedTypes.addAll(EnumSet.of(CREATE, FIND_VOUCHERS, FIND_CUSTOMERS, DELETE));
         }
 

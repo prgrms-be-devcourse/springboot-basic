@@ -75,6 +75,11 @@ public class MenuHandler {
         customerController.createCustomer(new CreateCustomerRequest(email, name));
     }
 
+    public void showAllCustomer() {
+        List<CustomerResponse> customers = customerController.findAll();
+        console.printCustomers(customers);
+    }
+
     public void showAllBlackLists() {
         List<CustomerResponse> customers = customerController.findAllBlackLists();
         console.printCustomers(customers);

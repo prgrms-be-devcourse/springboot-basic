@@ -16,3 +16,7 @@ spring:
   batch:
     jdbc:
       schema: classpath:schema.sql
+
+  sql:
+    init:
+      mode: always

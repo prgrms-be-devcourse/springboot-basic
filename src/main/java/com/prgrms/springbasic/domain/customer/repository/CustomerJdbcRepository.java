@@ -17,6 +17,7 @@ import java.util.UUID;
 public class CustomerJdbcRepository implements CustomerRepository {
 
     private static final String INSERT = "INSERT INTO customers(customer_id, name, email) VALUES(UUID_TO_BIN(?), ?, ?)";
+    private static final String SELECT_ALL = "SELECT * FROM customers";
     private static final String FIND_BY_ID = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)";
     private static final String FIND_BY_EMAIL = "SELECT * FROM customers WHERE email = ?";
     private static final String FIND_BLACKLISTS = "SELECT * FROM customers WHERE isBlackList = 1";
@@ -69,5 +70,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
             logger.warn("Customer not found");
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return jdbcTemplate.query(SELECT_ALL, customerRowMapper);
     }
 }
