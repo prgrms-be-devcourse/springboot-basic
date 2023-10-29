@@ -9,7 +9,7 @@ import java.util.UUID;
 @Getter
 public class FixedDiscountVoucher extends Voucher {
 
-    private static final long ZERO = 0L;
+    private static final long MINIMUM_DISCOUNT = 0L;
 
     public FixedDiscountVoucher(Long discount) {
         try {
@@ -37,7 +37,7 @@ public class FixedDiscountVoucher extends Voucher {
 
     @Override
     public void validateVoucherInfo(long discount) {
-        if(discount < ZERO) {
+        if(discount < MINIMUM_DISCOUNT) {
             throw ExceptionMessage.error("고정할인 바우처의 할인 정보는 음수값을 입력할 수 없습니다.");
         }
     }

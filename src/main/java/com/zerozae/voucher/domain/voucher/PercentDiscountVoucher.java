@@ -9,8 +9,8 @@ import java.util.UUID;
 @Getter
 public class PercentDiscountVoucher extends Voucher {
 
-    private static final long ZERO = 0L;
-    private static final long MAXIMUM = 100L;
+    private static final long MINIMUM_DISCOUNT = 0L;
+    private static final long MAXIMUM_DISCOUNT = 100L;
 
     public PercentDiscountVoucher(Long discount) {
         try {
@@ -38,7 +38,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public void validateVoucherInfo(long discount) {
-        if(discount < ZERO || discount > MAXIMUM) {
+        if(discount < MINIMUM_DISCOUNT || discount > MAXIMUM_DISCOUNT) {
             throw ExceptionMessage.error("비율할인 바우처의 할인 정보는 1 ~ 100 값만 입력해야 합니다.");
         }
     }
