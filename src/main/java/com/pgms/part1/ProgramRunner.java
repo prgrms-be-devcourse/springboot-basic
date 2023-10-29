@@ -1,27 +1,28 @@
 package com.pgms.part1;
 
-import com.pgms.part1.domain.voucher.controller.VoucherController;
-import com.pgms.part1.util.file.FileService;
+import com.pgms.part1.domain.common.controller.CommonController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("!test")
 @Component
 public class ProgramRunner implements CommandLineRunner {
     private final Logger log = LoggerFactory.getLogger(ProgramRunner.class);
-    private final VoucherController voucherController;
+    private final CommonController commonController;
     private Boolean isRunning = true;
 
-    public ProgramRunner(VoucherController voucherController) {
-        this.voucherController = voucherController;
+    public ProgramRunner(CommonController commonController) {
+        this.commonController = commonController;
     }
 
     @Override
     public void run(String... args) throws Exception {
         while(isRunning){
             try{
-                voucherController.getMenu();
+                commonController.getMenu();
             }
             catch (Exception e){
                 log.warn(e.getMessage());

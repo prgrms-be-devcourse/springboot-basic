@@ -1,6 +1,4 @@
 package com.pgms.part1.domain.customer.dto;
 
-import java.util.UUID;
-
-public record CustomerResponseDto(UUID id, Boolean isBlocked) {
+public record CustomerResponseDto(Long id, String name, String email, Boolean isBlocked) {
 }
