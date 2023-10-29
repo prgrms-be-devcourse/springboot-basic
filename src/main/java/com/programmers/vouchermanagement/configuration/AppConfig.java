@@ -23,7 +23,7 @@ public class AppConfig {
         var dataSource = DataSourceBuilder.create()
                 .url("jdbc:mysql://localhost:3306/test")
                 .username("root")
-                .password("980726")
+                .password("20231028")
                 .type(HikariDataSource.class)
                 .build();
         dataSource.setMaximumPoolSize(1000);

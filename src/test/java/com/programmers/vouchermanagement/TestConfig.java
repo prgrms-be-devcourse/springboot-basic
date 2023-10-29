@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,13 +15,14 @@ import javax.sql.DataSource;
 @ComponentScan(
         basePackages = {"com.programmers.vouchermanagement"}
 )
+@ConfigurationPropertiesScan
 public class TestConfig {
     @Bean
     public DataSource dataSource() {
         var dataSource = DataSourceBuilder.create()
                 .url("jdbc:mysql://localhost:3306/test")
                 .username("root")
-                .password("980726")
+                .password("20231028")
                 .type(HikariDataSource.class)
                 .build();
         dataSource.setMaximumPoolSize(1000);
