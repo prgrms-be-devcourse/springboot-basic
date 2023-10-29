@@ -2,7 +2,7 @@ package org.prgms.kdtspringweek1.controller;
 
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
 import org.prgms.kdtspringweek1.controller.dto.customerDto.UpdateCustomerRequestDto;
-import org.prgms.kdtspringweek1.customer.CustomerService;
+import org.prgms.kdtspringweek1.customer.service.CustomerService;
 import org.prgms.kdtspringweek1.controller.dto.customerDto.FindCustomerResponseDto;
 import org.prgms.kdtspringweek1.controller.dto.voucherDto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.customer.entity.Customer;

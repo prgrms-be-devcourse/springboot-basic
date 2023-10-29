@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.customer;
+package org.prgms.kdtspringweek1.customer.service;
 
 import org.prgms.kdtspringweek1.controller.dto.customerDto.FindCustomerResponseDto;
 import org.prgms.kdtspringweek1.customer.entity.Customer;
@@ -24,7 +24,7 @@ public class CustomerService {
     }
 
     public List<FindCustomerResponseDto> searchAllBlackCustomers() {
-        return customerRepository.findAllBlackConsumer().stream()
+        return customerRepository.findAllBlackCustomer().stream()
                 .map(FindCustomerResponseDto::new)
                 .collect(Collectors.toList());
     }
