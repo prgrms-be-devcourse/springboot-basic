@@ -19,7 +19,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.prgrms.kdt.io.SystemMessage.EXCEPTION_VOUCHER_ROW_MAPPER;
+import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_VOUCHER_ROW_MAPPER;
+
 
 @Repository
 @Profile("dev")

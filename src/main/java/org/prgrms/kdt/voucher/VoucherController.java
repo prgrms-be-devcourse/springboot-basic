@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.prgrms.kdt.io.SystemMessage.*;
+import static org.prgrms.kdt.voucher.VoucherMessage.*;
 
 @Controller
 public class VoucherController {
@@ -74,7 +75,7 @@ public class VoucherController {
 
     private void createVoucher() throws IOException {
         while (true) {
-            outputHandler.outputSystemMessage(CREATE_BOUCHER_TYPE.getMessage());
+            outputHandler.outputSystemMessage(CREATE_VOUCHER_TYPE.getMessage());
             var createVoucherType = inputHandler.inputString();
 
             var isRepeat = true;
@@ -96,7 +97,7 @@ public class VoucherController {
     }
 
     private boolean createFixedAmountVoucher() throws IOException {
-        outputHandler.outputSystemMessage(CREATE_FIXED_BOUCHER.getMessage());
+        outputHandler.outputSystemMessage(CREATE_FIXED_VOUCHER.getMessage());
 
         var amount = 0;
         while (true) {
@@ -123,7 +124,7 @@ public class VoucherController {
     }
 
     private boolean createPercentDiscountVoucher() throws IOException {
-        outputHandler.outputSystemMessage(CREATE_PERCENT_BOUCHER.getMessage());
+        outputHandler.outputSystemMessage(CREATE_PERCENT_VOUCHER.getMessage());
 
         var percent = 0;
         while (true) {

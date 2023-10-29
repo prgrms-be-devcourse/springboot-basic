@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.prgrms.kdt.io.SystemMessage.EXCEPTION_FIND_VOUCHER;
-import static org.prgrms.kdt.io.SystemMessage.FOUND_VOUCHER_IS_EMPTY;
+import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_FIND_VOUCHER;
+import static org.prgrms.kdt.voucher.VoucherMessage.VOUCHER_IS_EMPTY;
 
 @Service
 public class VoucherService {
@@ -52,7 +52,7 @@ public class VoucherService {
     public List<Voucher> getAllVouchers() {
         var voucherList = voucherRepository.findAll();
         if (voucherList.isEmpty()) {
-            System.out.println(FOUND_VOUCHER_IS_EMPTY.getMessage());
+            System.out.println(VOUCHER_IS_EMPTY.getMessage());
         }
         return voucherList;
     }
