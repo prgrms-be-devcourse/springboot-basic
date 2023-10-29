@@ -2,9 +2,11 @@ package org.prgms.kdtspringweek1;
 
 import org.prgms.kdtspringweek1.controller.AppController;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("!test")
 public class AppCommandLineRunner implements CommandLineRunner {
 
     private final AppController appController;

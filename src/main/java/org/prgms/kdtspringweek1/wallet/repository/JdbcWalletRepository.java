@@ -10,6 +10,7 @@ import org.prgms.kdtspringweek1.wallet.entity.Wallet;
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,6 +19,7 @@ import java.nio.ByteBuffer;
 import java.util.*;
 
 @Repository
+@Profile({"default", "test"})
 public class JdbcWalletRepository implements WalletRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcWalletRepository.class);

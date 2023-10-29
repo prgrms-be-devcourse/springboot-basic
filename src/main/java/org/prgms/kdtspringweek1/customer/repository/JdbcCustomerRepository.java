@@ -5,6 +5,7 @@ import org.prgms.kdtspringweek1.exception.JdbcException;
 import org.prgms.kdtspringweek1.exception.JdbcExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,6 +15,7 @@ import java.nio.ByteBuffer;
 import java.util.*;
 
 @Repository
+@Profile({"default", "test"})
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
