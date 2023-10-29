@@ -29,8 +29,7 @@ public class WalletService {
 
     public List<Voucher> findVoucherListByCustomerId(UUID customerId) {
         List<Voucher> result = new ArrayList<>();
-        List<UUID> voucherIdList = walletRepository.findVoucherIdListByCustomerId(customerId);
-        voucherIdList.forEach(voucherId -> voucherRepository.findById(voucherId).ifPresent(result::add));
+        walletRepository.findVoucherIdListByCustomerId(customerId).forEach(voucherId -> voucherRepository.findById(voucherId).ifPresent(result::add));
         return result;
     }
 
