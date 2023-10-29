@@ -28,6 +28,11 @@ public class CustomerMemoryRepository implements CustomerRepository { // 추후 
     }
 
     @Override
+    public List<Customer> findAll() {
+        return null;
+    }
+
+    @Override
     public List<Customer> findBlackAll() {
         return new ArrayList<>();
     }

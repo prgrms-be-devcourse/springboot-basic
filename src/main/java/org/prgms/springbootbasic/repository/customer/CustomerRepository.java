@@ -10,6 +10,7 @@ public interface CustomerRepository {
     Customer save(Customer customer);
     Optional<Customer> findById(UUID customerId);
     Optional<Customer> findByEmail(String email);
+    List<Customer> findAll();
     List<Customer> findBlackAll();
     Optional<Customer> deleteById(UUID customerId);
     int deleteAll();
