@@ -7,6 +7,7 @@ import com.prgrms.vouchermanager.exception.NotCorrectCommandException;
 import com.prgrms.vouchermanager.exception.NotCorrectFormException;
 import com.prgrms.vouchermanager.exception.NotCorrectIdException;
 import com.prgrms.vouchermanager.io.ConsolePrint;
+import com.prgrms.vouchermanager.io.ConsoleReader;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,23 +19,23 @@ import static com.prgrms.vouchermanager.message.ConsoleMessage.*;
 @Component
 public class CustomerExecutor {
 
+    private final ConsoleReader consoleReader;
     private final ConsolePrint consolePrint;
     private final CustomerController controller;
-    private final Scanner sc = new Scanner(System.in);
 
-    public CustomerExecutor(ConsolePrint consolePrint, CustomerController controller) {
+    public CustomerExecutor(ConsoleReader consoleReader, ConsolePrint consolePrint, CustomerController controller) {
+        this.consoleReader = consoleReader;
         this.consolePrint = consolePrint;
         this.controller = controller;
     }
 
     public void create() {
         consolePrint.printMessage(GET_CUSTOMER_NAME.getMessage());
-        String name = sc.nextLine();
+        String name = consoleReader.readString();
         consolePrint.printMessage(GET_CUSTOMER_YEAR.getMessage());
         int year = 0;
         try {
-            year = sc.nextInt();
-            sc.nextLine();
+            year = consoleReader.readInt();
         } catch (NumberFormatException e) {
             throw new NotCorrectFormException(String.valueOf(year));
         }
@@ -52,7 +53,7 @@ public class CustomerExecutor {
     public void delete() {
         consolePrint.printMessage(GET_CUSTOMER_ID.getMessage());
         try {
-            UUID id = UUID.fromString(sc.nextLine());
+            UUID id = UUID.fromString(consoleReader.readString());
             controller.delete(id);
         } catch (IllegalArgumentException e) {
             throw new NotCorrectIdException();
@@ -62,24 +63,23 @@ public class CustomerExecutor {
 
     public void update() {
         consolePrint.printMessage(SELECT_UPDATE_TARGET.getMessage());
-        String command = sc.nextLine();
+        String command = consoleReader.readString();
         try {
             switch (command) {
                 case "name" -> {
                     consolePrint.printMessage(GET_CUSTOMER_ID.getMessage());
-                    UUID id = UUID.fromString(sc.nextLine());
+                    UUID id = UUID.fromString(consoleReader.readString());
                     consolePrint.printMessage(GET_CUSTOMER_NAME.getMessage());
-                    String name = sc.nextLine();
+                    String name = consoleReader.readString();
                     controller.updateName(id, name);
                 }
                 case "year" -> {
                     consolePrint.printMessage(GET_CUSTOMER_ID.getMessage());
-                    UUID id = UUID.fromString(sc.nextLine());
+                    UUID id = UUID.fromString(consoleReader.readString());
                     consolePrint.printMessage(GET_CUSTOMER_YEAR.getMessage());
                     int year = 0;
                     try {
-                        year = sc.nextInt();
-                        sc.nextLine();
+                        year = consoleReader.readInt();
                         controller.updateYearOfBirth(id, year);
                     } catch (NumberFormatException e) {
                         throw new NotCorrectFormException(String.valueOf(year));
