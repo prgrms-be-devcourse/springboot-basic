@@ -103,7 +103,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAllBlackConsumer() {
+    public List<Customer> findAllBlackCustomer() {
         return jdbcTemplate.query("SELECT * FROM customers WHERE is_black_customer = true", customerRowMapper);
     }
 }

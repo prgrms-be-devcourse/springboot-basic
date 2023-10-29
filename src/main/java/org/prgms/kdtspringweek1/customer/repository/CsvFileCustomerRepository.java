@@ -77,7 +77,7 @@ public class CsvFileCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAllBlackConsumer() {
+    public List<Customer> findAllBlackCustomer() {
         return new ArrayList<>(customers.values()).stream()
                 .filter(Customer::getIsBlackCustomer)
                 .collect(Collectors.toList());
