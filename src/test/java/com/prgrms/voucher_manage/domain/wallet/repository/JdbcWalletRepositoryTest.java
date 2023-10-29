@@ -97,7 +97,7 @@ class JdbcWalletRepositoryTest {
         repository.save(wallet);
 
         //when
-        int delete = repository.deleteById(customer.getId(), voucher.getId());
+        int delete = repository.delete(wallet);
 
         //then
         assertThat(delete).isEqualTo(1);

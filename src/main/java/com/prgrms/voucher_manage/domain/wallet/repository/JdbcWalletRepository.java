@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.prgrms.voucher_manage.exception.ErrorMessage.CUSTOMER_NOT_EXIST;
@@ -21,7 +22,7 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public Wallet save(Wallet wallet) {
         String sql = "insert into wallet(voucher_id, customer_id) values (?,?)";
-        jdbcTemplate.update(sql, wallet.getVoucher_id(), wallet.getCustomer_id());
+        jdbcTemplate.update(sql, wallet.getVoucher_id().toString(), wallet.getCustomer_id().toString());
         return wallet;
     }
 
@@ -36,15 +37,25 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public int deleteById(UUID customerId, UUID voucherId) {
-        String sql = "delete from wallet where customer_id = ? and voucher_id = ?";
-        return jdbcTemplate.update(sql, customerId.toString(), voucherId.toString());
-    }
-
-    @Override
     public List<Wallet> findByVoucherId(UUID voucherId) {
         String sql = "select * from wallet where voucher_id = ?";
         return jdbcTemplate.query(sql, rowMapper, voucherId.toString());
+    }
+
+    @Override
+    public Optional<Wallet> findByIds(UUID customerId, UUID voucherId){
+        String sql = "select * from wallet where customer_id = ? and voucher_id = ?";
+        try{
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, customerId.toString(), voucherId.toString()));
+        } catch (Exception e){
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public int delete(Wallet wallet) {
+        String sql = "delete from wallet where customer_id = ? and voucher_id = ?";
+        return jdbcTemplate.update(sql, wallet.getCustomer_id().toString(), wallet.getVoucher_id().toString());
     }
 
     private static final RowMapper<Wallet> rowMapper = (resultSet, i) -> {
