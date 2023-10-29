@@ -23,15 +23,15 @@ public class VoucherService {
     }
 
     @Transactional
-    public void createFixedAmountVoucher(int amount) {
+    public Voucher createFixedAmountVoucher(int amount) {
         Voucher voucher = new FixedAmountVoucher(amount);
-        voucherRepository.save(voucher);
+        return voucherRepository.save(voucher);
     }
 
     @Transactional
-    public void createPercentDiscountVoucher(int percent) {
+    public Voucher createPercentDiscountVoucher(int percent) {
         Voucher voucher = new PercentDiscountVoucher(percent);
-        voucherRepository.save(voucher);
+        return voucherRepository.save(voucher);
     }
 
     public List<Voucher> getVouchers() {
@@ -43,13 +43,13 @@ public class VoucherService {
     }
 
     @Transactional
-    public void assignVoucherOwner(UUID voucherId, UUID customerId) {
+    public Voucher assignVoucherOwner(UUID voucherId, UUID customerId) {
         logger.debug("[VoucherService] Call assignVoucherOwner()");
 
         Voucher voucher = voucherRepository.findById(voucherId).orElseThrow();
         voucher.assigneOwner(customerId);
 
-        voucherRepository.update(voucher);
+        return voucherRepository.update(voucher);
     }
 
     public Voucher getVoucher(UUID voucherId) {
