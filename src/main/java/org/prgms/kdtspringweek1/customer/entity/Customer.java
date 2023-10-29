@@ -11,6 +11,10 @@ public class Customer {
         return new Customer(name);
     }
 
+    public static Customer createWithNameAndIsBlackCustomer(String name, boolean isBlackCustomer) {
+        return new Customer(name, isBlackCustomer);
+    }
+
     public static Customer createWithIdAndNameAndIsBlackCustomer(UUID customerId, String name, boolean isBlackCustomer) {
         return new Customer(customerId, name, isBlackCustomer);
     }
@@ -20,9 +24,10 @@ public class Customer {
         this.name = name;
     }
 
-    private Customer(UUID customerId, String name) {
-        this.customerId = customerId;
+    private Customer(String name, boolean isBlackCustomer) {
+        this.customerId = UUID.randomUUID();
         this.name = name;
+        this.isBlackCustomer = isBlackCustomer;
     }
 
     private Customer(UUID customerId, String name, boolean isBlackCustomer) {
