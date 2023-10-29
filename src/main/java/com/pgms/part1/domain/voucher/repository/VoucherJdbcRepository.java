@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
-@Profile("dev")
+@Profile({"dev", "test"})
 @Repository
 public class VoucherJdbcRepository implements VoucherRepository{
 

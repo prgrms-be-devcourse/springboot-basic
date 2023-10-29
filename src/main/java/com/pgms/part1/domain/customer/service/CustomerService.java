@@ -41,22 +41,24 @@ public class CustomerService {
                 .toList();
     }
 
-    public void addCustomer(CustomerCreateRequestDto dto){
+    public Customer addCustomer(CustomerCreateRequestDto dto){
         try{
             Customer customer = new CustomerBuilder().id(keyGenerator.getKey()).name(dto.name())
                     .email(dto.email()).build();
             customerRepository.addCustomer(customer);
             log.info("customer created -> {}", customer.getId());
+            return customer;
         }
         catch (Exception e){
             log.error(e.getMessage());
         }
+        return null;
     }
 
     public void updateCustomerName(Long id, String name){
         try{
             customerRepository.updateCustomerName(id, name);
-            log.info("{} customer name updated");
+            log.info("{} customer name updated", id);
         }
         catch (Exception e){
             log.error(e.getMessage());

@@ -4,8 +4,10 @@ import com.pgms.part1.domain.common.controller.CommonController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("!test")
 @Component
 public class ProgramRunner implements CommandLineRunner {
     private final Logger log = LoggerFactory.getLogger(ProgramRunner.class);

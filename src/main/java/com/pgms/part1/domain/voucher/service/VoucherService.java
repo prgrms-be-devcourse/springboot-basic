@@ -27,7 +27,7 @@ public class VoucherService {
         this.keyGenerator = keyGenerator;
     }
 
-    public void createVoucher(VoucherCreateRequestDto voucherCreateRequestDto, VoucherDiscountType voucherDiscountType) {
+    public Voucher createVoucher(VoucherCreateRequestDto voucherCreateRequestDto, VoucherDiscountType voucherDiscountType) {
         Voucher voucher = Voucher.newVocher(keyGenerator.getKey(), voucherCreateRequestDto.discount(), voucherDiscountType);
 
         try{
@@ -37,6 +37,7 @@ public class VoucherService {
         catch(Exception e){
             log.info(e.getMessage());
         }
+        return voucher;
     }
 
     @Transactional(readOnly = true)
