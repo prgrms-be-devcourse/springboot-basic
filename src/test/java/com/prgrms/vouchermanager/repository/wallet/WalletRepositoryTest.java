@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.repository.wallet;
 
+import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
@@ -26,8 +27,11 @@ import java.util.List;
 @SpringJUnitConfig
 class WalletRepositoryTest {
 
+    @Autowired
     private WalletRepository repository;
+    @Autowired
     private VoucherJdbcRepository voucherJdbcRepository;
+    @Autowired
     private CustomerRepository customerRepository;
     @Autowired
     private JdbcTemplate template;
@@ -42,29 +46,11 @@ class WalletRepositoryTest {
     private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
 
     @Configuration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .driverClassName("com.mysql.cj.jdbc.Driver")
-                    .url("jdbc:mysql://localhost:3306/voucher_manager?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8")
-                    .username("root")
-                    .password("suzzingV1999@")
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate() {
-            return new JdbcTemplate(dataSource());
-        }
+    static class TestConfig extends AppConfig {
     }
 
     @BeforeEach
     void beforeEach() {
-        repository = new WalletRepository(template);
-        voucherJdbcRepository = new VoucherJdbcRepository(template.getDataSource());
-        customerRepository = new CustomerRepository(template.getDataSource(), new BlacklistFileRepository("src/main/resources/customer_blacklist.csv"));
-
         voucherJdbcRepository.create(voucher1);
         voucherJdbcRepository.create(voucher2);
         customerRepository.create(customer1);

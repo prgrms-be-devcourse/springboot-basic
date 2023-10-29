@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.controller;
 
+import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
@@ -24,37 +25,22 @@ import java.util.List;
 @SpringJUnitConfig
 class VoucherControllerTest {
 
+    @Autowired
     private VoucherJdbcRepository repository;
+    @Autowired
     private VoucherService service;
     private VoucherController controller;
     @Autowired
     private JdbcTemplate template;
-    @Autowired
-    private DataSource dataSource;
+
     private final Voucher voucher = new PercentAmountVoucher(10);
 
     @Configuration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .driverClassName("com.mysql.cj.jdbc.Driver")
-                    .url("jdbc:mysql://localhost:3306/voucher_manager?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8")
-                    .username("root")
-                    .password("suzzingV1999@")
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate() {
-            return new JdbcTemplate(dataSource());
-        }
+    static class TestConfig extends AppConfig {
     }
 
     @BeforeEach
     void beforeEach() {
-        repository = new VoucherJdbcRepository(dataSource);
-        service = new VoucherService(repository);
         controller = new VoucherController(service);
 
         repository.create(voucher);
@@ -76,7 +62,7 @@ class VoucherControllerTest {
     @DisplayName("list")
     void list() {
         List<Voucher> list = controller.list();
-        Assertions.assertThat(list.size()).isEqualTo(4);
+        Assertions.assertThat(list.size()).isEqualTo(1);
     }
 
     @Test

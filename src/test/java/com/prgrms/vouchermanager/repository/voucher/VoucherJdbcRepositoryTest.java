@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.repository.voucher;
 
+import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
@@ -21,42 +22,21 @@ import java.util.List;
 
 @SpringJUnitConfig
 class VoucherJdbcRepositoryTest {
+    @Autowired
     private VoucherJdbcRepository repository;
     @Autowired
     private JdbcTemplate template;
-    @Autowired
-    private DataSource dataSource;
+
     private final Voucher voucher1 = new FixedAmountVoucher(20000);
     private final Voucher voucher2 = new PercentAmountVoucher(10);
     private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
 
-//    @Autowired
-//    public VoucherJdbcRepositoryTest(JdbcTemplate template, DataSource dataSource) {
-//        this.template = template;
-//        this.dataSource = dataSource;
-//    }
-
         @Configuration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .driverClassName("com.mysql.cj.jdbc.Driver")
-                    .url("jdbc:mysql://localhost:3306/voucher_manager?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8")
-                    .username("root")
-                    .password("suzzingV1999@")
-                    .build();
+        static class TestConfig extends AppConfig {
         }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate() {
-            return new JdbcTemplate(dataSource());
-        }
-    }
 
     @BeforeEach
     void beforeEach() {
-        this.repository = new VoucherJdbcRepository(dataSource);
         repository.create(voucher2);
     }
     @AfterEach
@@ -74,7 +54,7 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("list")
     void list() {
         List<Voucher> list = repository.findAll();
-        Assertions.assertThat(list.size()).isEqualTo(4);
+        Assertions.assertThat(list.size()).isEqualTo(1);
     }
 
     @Test
