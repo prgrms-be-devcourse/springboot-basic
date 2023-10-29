@@ -23,7 +23,6 @@ public class CustomerRepository {
     public CustomerRepository(DataSource dataSource, BlacklistRepository blacklistRepository) {
         jdbcTemplate = new JdbcTemplate(dataSource);
         this.blacklistRepository = blacklistRepository;
-        fileToDb();
     }
 
     public Customer create(Customer customer) {
@@ -57,18 +56,6 @@ public class CustomerRepository {
     public int delete(UUID id) {
         int update = jdbcTemplate.update(DELETE_CUSTOMER.getMessage(), id.toString().getBytes());
         return update;
-    }
-
-    private void fileToDb() {
-        List<Customer> blacklist = blacklistRepository.findBlacklist();
-        blacklist.forEach(customer -> {
-            jdbcTemplate.update(INSERT_CUSTOMER_IGNORE_DUPLICATE.getMessage(),
-                    customer.getId().toString().getBytes(),
-                    customer.getName(),
-                    customer.getYearOfBirth(),
-                    true,
-                    customer.getId().toString().getBytes());
-        });
     }
 
     private RowMapper<Customer> customerRowMapper() {

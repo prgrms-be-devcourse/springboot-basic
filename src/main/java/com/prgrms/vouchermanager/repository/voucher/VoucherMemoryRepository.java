@@ -1,9 +1,6 @@
 package com.prgrms.vouchermanager.repository.voucher;
 
-import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
-import com.prgrms.vouchermanager.domain.voucher.VoucherFactory;
-import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

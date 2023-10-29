@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanager.handler.executor;
 
-import com.prgrms.vouchermanager.controller.VoucherController;
+import com.prgrms.vouchermanager.controller.VoucherConsoleController;
+import com.prgrms.vouchermanager.controller.VoucherWebController;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.exception.EmptyListException;
@@ -12,7 +13,6 @@ import com.prgrms.vouchermanager.io.ConsoleReader;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
 
 import static com.prgrms.vouchermanager.message.ConsoleMessage.*;
@@ -22,9 +22,9 @@ public class VoucherExecutor {
 
     private final ConsoleReader consoleReader;
     private final ConsolePrint consolePrint;
-    private final VoucherController controller;
+    private final VoucherConsoleController controller;
 
-    public VoucherExecutor(ConsoleReader consoleReader, ConsolePrint consolePrint, VoucherController controller) {
+    public VoucherExecutor(ConsoleReader consoleReader, ConsolePrint consolePrint, VoucherConsoleController controller) {
         this.consoleReader = consoleReader;
         this.consolePrint = consolePrint;
         this.controller = controller;
@@ -39,9 +39,9 @@ public class VoucherExecutor {
     }
 
     public void list() throws EmptyListException {
-        List<Voucher> vouchers = controller.list();
+        List<Voucher> vouchers = controller.findAll();
         if(vouchers.isEmpty()) throw new EmptyListException(vouchers);
-        else consolePrint.printList(controller.list());
+        else consolePrint.printList(controller.findAll());
     }
 
     public void delete() {

@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanager.domain;
 
 import com.prgrms.vouchermanager.domain.voucher.*;
+import com.prgrms.vouchermanager.util.VoucherFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns: th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href = "/css/bootstrap.min.css" rel="stylesheet">
+    <title>Voucher list</title>
+</head>
+<body>
+
+<div class = "container" style = "max-width: 600px">
+    <div class = "py-5 text-center">
+        <h2>Voucher 목록</h2>
+    </div>
+
+    <div class = "row">
+        <div class = "col">
+            <button class = "btn btn-primary float-end"
+                    onclick = "location.href = 'createForm.html'"
+                    th:onclick="|location.href='@{/basic/vouchers/create}'|"
+                    type = "button">Voucher 등록</button>
+        </div>
+    </div>
+
+    <hr class = "my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Voucher 타입</th>
+                <th>할인 정보</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <td><a href = "voucher.html" th:href="@{/basic/vouchers/{voucherId}(voucherId=${voucher.id})}"
+                th:text="${voucher.id}">Voucher Id</a></td>
+                <td th:text = "${voucher.discount}">10000</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

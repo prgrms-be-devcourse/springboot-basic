@@ -29,7 +29,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     public VoucherJdbcRepository(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        fileToDb();
     }
 
     @Override
@@ -62,24 +61,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public int delete(UUID id) {
         return jdbcTemplate.update(DELETE_VOUCHER.getMessage(), id.toString().getBytes());
-    }
-
-    private void fileToDb() {
-        Map<UUID, Voucher> voucherMap = new HashMap<>();
-        String filePath = "src/main/resources/voucher_list.csv";
-        FileIO fileIO = new FileIO(filePath);
-        fileIO.fileToVoucherMap(voucherMap);
-        voucherMap
-                .values()
-                .stream()
-                .toList()
-                .forEach(voucher -> {
-                    jdbcTemplate.update(INSERT_VOUCHER_IGNORE_DUPLICATE.getMessage(),
-                            voucher.getId().toString().getBytes(),
-                            voucher instanceof FixedAmountVoucher ? "fixed" : "percent",
-                            voucher.getDiscount(),
-                            voucher.getId().toString().getBytes());
-                });
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

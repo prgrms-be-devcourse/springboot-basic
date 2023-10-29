@@ -13,23 +13,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 @SpringJUnitConfig
-class VoucherControllerTest {
+class VoucherConsoleControllerTest {
 
     @Autowired
     private VoucherJdbcRepository repository;
     @Autowired
     private VoucherService service;
-    private VoucherController controller;
+    private VoucherConsoleController controller;
     @Autowired
     private JdbcTemplate template;
 
@@ -41,7 +38,7 @@ class VoucherControllerTest {
 
     @BeforeEach
     void beforeEach() {
-        controller = new VoucherController(service);
+        controller = new VoucherConsoleController(service);
 
         repository.create(voucher);
     }
@@ -61,7 +58,7 @@ class VoucherControllerTest {
     @Test
     @DisplayName("list")
     void list() {
-        List<Voucher> list = controller.list();
+        List<Voucher> list = controller.findAll();
         Assertions.assertThat(list.size()).isEqualTo(1);
     }
 

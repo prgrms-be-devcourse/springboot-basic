@@ -3,8 +3,8 @@ package com.prgrms.vouchermanager.io;
 import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.*;
 import com.prgrms.vouchermanager.exception.FileIOException;
+import com.prgrms.vouchermanager.util.VoucherFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.Map;

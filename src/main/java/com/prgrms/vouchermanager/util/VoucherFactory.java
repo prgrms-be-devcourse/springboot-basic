@@ -1,5 +1,9 @@
-package com.prgrms.vouchermanager.domain.voucher;
+package com.prgrms.vouchermanager.util;
 
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

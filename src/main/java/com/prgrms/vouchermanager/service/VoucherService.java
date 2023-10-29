@@ -3,6 +3,8 @@ package com.prgrms.vouchermanager.service;
 import com.prgrms.vouchermanager.domain.voucher.*;
 import com.prgrms.vouchermanager.message.LogMessage;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
+import com.prgrms.vouchermanager.util.VoucherFactory;
+import com.prgrms.vouchermanager.util.VoucherTypeResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
