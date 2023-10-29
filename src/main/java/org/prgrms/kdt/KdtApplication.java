@@ -14,14 +14,14 @@ public class KdtApplication {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(KdtApplication.class, args);
         VoucherController voucherController = applicationContext.getBean(VoucherController.class);
 
-        // 등록된 bean의 이름을 get
-        String[] beanNames = applicationContext.getBeanDefinitionNames();
-
-        // bean 이름을 출력
-        for(String beanName : beanNames) {
-            System.out.println(beanName);
-        }
-        System.out.println();
+//        // 등록된 bean의 이름을 get
+//        String[] beanNames = applicationContext.getBeanDefinitionNames();
+//
+//        // bean 이름을 출력
+//        for(String beanName : beanNames) {
+//            System.out.println(beanName);
+//        }
+//        System.out.println();
 
         boolean isRepeat = true;
 

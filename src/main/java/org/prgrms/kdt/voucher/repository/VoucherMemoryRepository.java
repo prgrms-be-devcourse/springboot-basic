@@ -10,11 +10,11 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"local", "test"})
-public class MemoryVoucherRepository implements VoucherRepository {
+@Profile("local")
+public class VoucherMemoryRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
-    private static final Logger logger = LoggerFactory.getLogger(MemoryVoucherRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherMemoryRepository.class);
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

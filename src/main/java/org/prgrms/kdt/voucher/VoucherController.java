@@ -31,6 +31,7 @@ public class VoucherController {
     private final String FIXED = "fixed";
     private final String PERCENT = "percent";
     private final String BLACK = "black";
+    private final String WALLET = "wallet";
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     public VoucherController(InputHandler inputHandler, OutputHandler outputHandler, StartMenu startMenu, VoucherService voucherService, CustomerController customerController) {
@@ -58,6 +59,9 @@ public class VoucherController {
             case BLACK:
                 customerController.getBlackList();
                 break;
+            case WALLET:
+
+                break;
             default:
                 String errorMessage = EXCEPTION_VOUCHER_TYPE.getMessage();
                 logger.error(errorMessage);
@@ -67,7 +71,6 @@ public class VoucherController {
 
         return true;
     }
-
 
     private void createVoucher() throws IOException {
         while (true) {

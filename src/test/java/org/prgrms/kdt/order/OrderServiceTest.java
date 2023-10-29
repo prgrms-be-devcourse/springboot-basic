@@ -4,7 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.repository.MemoryVoucherRepository;
+import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,7 +26,7 @@ class OrderServiceTest {
     @DisplayName("오더가 생성되야한다. (stub)")
     void createOrder() {
         // Given
-        var voucherRepository = new MemoryVoucherRepository();
+        var voucherRepository = new VoucherMemoryRepository();
         var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
         voucherRepository.insert(fixedAmountVoucher);
         var sut = new OrderService(new VoucherService(voucherRepository), new OrderRepositoryStub());

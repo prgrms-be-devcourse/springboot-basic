@@ -5,11 +5,27 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final int percent;
-    private UUID customerId;
+    private UUID customerId = null;
 
     public PercentDiscountVoucher(UUID voucherId, int percent) {
         this.voucherId = voucherId;
         this.percent = percent;
+    }
+
+    public PercentDiscountVoucher(UUID voucherId, int percent, UUID customerId) {
+        this.voucherId = voucherId;
+        this.percent = percent;
+        this.customerId = customerId;
+    }
+
+    @Override
+    public long discount(long beforeDiscount) {
+        return beforeDiscount * (percent / 100);
+    }
+
+    @Override
+    public long getAmount() {
+        return 0;
     }
 
     @Override
@@ -18,8 +34,18 @@ public class PercentDiscountVoucher implements Voucher {
     }
 
     @Override
-    public long discount(long beforeDiscount) {
-        return beforeDiscount * (percent / 100);
+    public int getPercent() {
+        return percent;
+    }
+
+    @Override
+    public UUID getCustomerId() {
+        return null;
+    }
+
+    @Override
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
     }
 
     @Override

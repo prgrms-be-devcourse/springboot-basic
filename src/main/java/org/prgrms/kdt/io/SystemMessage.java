@@ -11,7 +11,8 @@ public enum SystemMessage {
     EXCEPTION_FIXED_AMOUNT_OVER("할인되는 비용이 너무 큽니다. 10만원 밑으로 설정해주세요."),
     EXCEPTION_PERCENT_MINUS("할인되는 퍼센트가 0보다 커야합니다."),
     EXCEPTION_PERCENT_OVER("할인되는 퍼센트가 100을 넘을 수 없습니다."),
-    EXCEPTION_FIND_VOUCHER(" -> 해당 id의 바우처를 찾을 수 없습니다.");
+    EXCEPTION_FIND_VOUCHER(" -> 해당 id의 바우처를 찾을 수 없습니다."),
+    EXCEPTION_VOUCHER_ROW_MAPPER("바우처의 ROW MAPPER 가 실패했습니다.");
 
     private final String message;
 
