@@ -5,6 +5,7 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final int percent;
+    private UUID customerId;
 
     public PercentDiscountVoucher(UUID voucherId, int percent) {
         this.voucherId = voucherId;
