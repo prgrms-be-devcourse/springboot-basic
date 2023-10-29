@@ -1,7 +1,9 @@
 package org.prgrms.kdt.customer;
 
 public enum CustomerMessage {
-    EXCEPTION_NOT_EXIST_CUSTOMER("존재하지 않는 회원입니다.");
+    EXCEPTION_NOT_EXIST_CUSTOMER("존재하지 않는 회원입니다."),
+    CREATE_CUSTOMER_NAME("생성할 회원의 이름을 입력해주세요."),
+    CREATE_CUSTOMER_EMAIL("생성할 회원의 이메일을 입력해주세요.");
 
     private final String message;
 

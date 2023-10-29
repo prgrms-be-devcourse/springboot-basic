@@ -1,6 +1,8 @@
 package org.prgrms.kdt.customer.repository;
 
 import org.prgrms.kdt.customer.Customer;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_VOUCHER_ROW_MAPPER;
+
 @Repository
 @Profile("dev")
 public class CustomerJdbcRepository implements CustomerRepository {
@@ -40,7 +44,26 @@ public class CustomerJdbcRepository implements CustomerRepository {
         var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     };
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
+        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        Integer amount = resultSet.getInt("amount");
+        Integer percent = resultSet.getInt("percent");
+        byte[] customerIdBytes = resultSet.getBytes("customer_id");
+        UUID customerId = null;
+        if (customerIdBytes != null) {
+            customerId = toUUID(customerIdBytes);
+        }
 
+        if (percent != 0) {
+            return new PercentDiscountVoucher(voucherId, percent, customerId);
+        }
+        if (amount != 0) {
+            return new FixedAmountVoucher(voucherId, amount, customerId);
+        }
+
+        logger.error("JdbcVoucherRepository RowMapper Error");
+        throw new RuntimeException(EXCEPTION_VOUCHER_ROW_MAPPER.getMessage());
+    };
     public CustomerJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
@@ -125,8 +148,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Voucher> findAllVoucher() {
-        return null;
+    public List<Voucher> findHaveVouchersById(UUID customerId) {
+        return jdbcTemplate.query("select * from wallets WHERE customer_id = UUID_TO_BIN(?)",
+                voucherRowMapper,
+                customerId.toString().getBytes());
     }
 
     @Override

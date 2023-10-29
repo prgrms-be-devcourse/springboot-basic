@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher.repository;
 
+import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
@@ -50,6 +51,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
         logger.error("JdbcVoucherRepository RowMapper Error");
         throw new RuntimeException(EXCEPTION_VOUCHER_ROW_MAPPER.getMessage());
     };
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
+        var customerName = resultSet.getString("name");
+        var email = resultSet.getString("email");
+        var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
+                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
+    };
 
     public VoucherJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.dataSource = dataSource;
@@ -66,6 +76,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
             logger.error("Got empty result", e);
             return Optional.empty();
         }
+    }
+
+    @Override
+    public Customer findOwnerById(UUID voucherId) {
+        return jdbcTemplate.queryForObject("select * from wallets WHERE voucher_id = UUID_TO_BIN(?)",
+                customerRowMapper,
+                voucherId.toString().getBytes());
     }
 
     @Override

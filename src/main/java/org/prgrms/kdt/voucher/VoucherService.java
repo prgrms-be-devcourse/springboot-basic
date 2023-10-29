@@ -1,5 +1,6 @@
 package org.prgrms.kdt.voucher;
 
+import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.voucher.Dto.FixedAmountVoucherDto;
 import org.prgrms.kdt.voucher.Dto.PercentDiscountVoucherDto;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
@@ -29,16 +30,6 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Voucher getVoucher(UUID voucherId) {
-        return voucherRepository
-                .findById(voucherId)
-                .orElseThrow(() -> {
-                    String errorMessage = MessageFormat.format( "{0}" + EXCEPTION_FIND_VOUCHER.getMessage(), voucherId);
-                    logger.error(errorMessage);
-                    return new RuntimeException(errorMessage);
-                });
-    }
-
     public void createVoucher(FixedAmountVoucherDto fixedAmountVoucherDto) {
         var voucher = new FixedAmountVoucher(fixedAmountVoucherDto.getVoucherId(), fixedAmountVoucherDto.getAmount());
         voucherRepository.save(voucher);
@@ -49,12 +40,26 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
+    public Voucher getVoucher(UUID voucherId) {
+        return voucherRepository
+                .findById(voucherId)
+                .orElseThrow(() -> {
+                    String errorMessage = MessageFormat.format( "{0}" + EXCEPTION_FIND_VOUCHER.getMessage(), voucherId);
+                    logger.error(errorMessage);
+                    return new RuntimeException(errorMessage);
+                });
+    }
+
     public List<Voucher> getAllVouchers() {
         var voucherList = voucherRepository.findAll();
         if (voucherList.isEmpty()) {
             System.out.println(VOUCHER_IS_EMPTY.getMessage());
         }
         return voucherList;
+    }
+
+    public Customer getOwner(UUID voucherId) {
+        return voucherRepository.findOwnerById(voucherId);
     }
 
     public void useVoucher(Voucher voucher) {

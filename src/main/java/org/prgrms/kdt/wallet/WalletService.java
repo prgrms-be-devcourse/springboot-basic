@@ -25,7 +25,7 @@ public class WalletService {
         validateCustomerExist(customerId);
         validateVoucherExist(voucherId);
 
-        Wallet wallet = new Wallet(customerId, voucherId);
+        Wallet wallet = new Wallet(UUID.randomUUID().toString(), customerId, voucherId);
         return walletRepository.save(wallet).getWalletId();
     }
 

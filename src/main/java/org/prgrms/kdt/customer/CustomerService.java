@@ -6,6 +6,7 @@ import org.prgrms.kdt.voucher.domain.Voucher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -16,11 +17,15 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    public Customer createCustomer(Customer customer) {
+        return customerRepository.save(customer);
+    }
+
     public List<Customer> getBlackList() {
         return customerRepository.findBlackList();
     }
 
-    public List<Voucher> getAllVoucher() {
-        return customerRepository.findAllVoucher();
+    public List<Voucher> getHaveVouchers(UUID customerId) {
+        return customerRepository.findHaveVouchersById(customerId);
     }
 }

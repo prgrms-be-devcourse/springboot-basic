@@ -1,6 +1,6 @@
 package org.prgrms.kdt;
 
-import org.prgrms.kdt.voucher.VoucherController;
+import org.prgrms.kdt.io.MenuController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -12,7 +12,7 @@ public class KdtApplication {
 
     public static void main(String[] args) throws IOException {
         ConfigurableApplicationContext applicationContext = SpringApplication.run(KdtApplication.class, args);
-        VoucherController voucherController = applicationContext.getBean(VoucherController.class);
+        MenuController menuController = applicationContext.getBean(MenuController.class);
 
 //        // 등록된 bean의 이름을 get
 //        String[] beanNames = applicationContext.getBeanDefinitionNames();
@@ -26,8 +26,7 @@ public class KdtApplication {
         boolean isRepeat = true;
 
         while (isRepeat) {
-            // 여기서 메뉴 입력에 따른 VoucherController / CustomerController 로 분배 ??
-            isRepeat = voucherController.startVoucherMenu();
+            isRepeat = menuController.startMenu();
         }
     }
 }

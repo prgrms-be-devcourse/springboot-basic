@@ -7,7 +7,11 @@ import java.util.List;
 
 public interface OutputHandler {
 
-    void outputSystemMessage(String message);
+    void outputString(String message);
+
+    void outputCustomer(Customer customer);
+
+    void outputVoucher(Voucher voucher);
 
     void outputVouchers(List<Voucher> voucherList);
 

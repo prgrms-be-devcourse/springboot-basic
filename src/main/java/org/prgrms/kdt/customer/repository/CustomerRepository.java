@@ -9,6 +9,8 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
+    List<Voucher> findHaveVouchersById(UUID customerId);
+
     List<Customer> findBlackList();
 
     Customer save(Customer customer);
@@ -26,6 +28,4 @@ public interface CustomerRepository {
     Optional<Customer> findByEmail(String email);
 
     void deleteAll();
-
-    List<Voucher> findAllVoucher();
 }

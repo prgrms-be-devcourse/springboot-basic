@@ -12,8 +12,18 @@ public class ConsoleOutputHandler implements OutputHandler{
     private static final String lineSeparator = System.lineSeparator();
 
     @Override
-    public void outputSystemMessage(String message) {
-        System.out.print(message + lineSeparator);
+    public void outputString(String string) {
+        System.out.print(string + lineSeparator);
+    }
+
+    @Override
+    public void outputCustomer(Customer customer) {
+        System.out.println(customer);
+    }
+
+    @Override
+    public void outputVoucher(Voucher voucher) {
+        System.out.println(voucher);
     }
 
     @Override
