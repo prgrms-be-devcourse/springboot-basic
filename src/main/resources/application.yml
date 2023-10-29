@@ -4,9 +4,9 @@ spring:
     active: prod
   datasource:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/voucher
+      url: jdbc:mysql://localhost:3000/vouchers
       username: root
-      password:
+      password: 1234
 
 ---
 # 현재 프로파일이 dev인 경우
