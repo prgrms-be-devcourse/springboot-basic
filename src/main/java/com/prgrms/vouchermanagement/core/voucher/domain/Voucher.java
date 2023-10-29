@@ -1,16 +1,17 @@
 package com.prgrms.vouchermanagement.core.voucher.domain;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Voucher {
 
-    private final String voucherID;
+    private final String id;
     private final String name;
     private final long amount;
     private final VoucherType voucherType;
 
     public Voucher(String name, long amount, String voucherType) {
-        this.voucherID = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         validateVoucherType(voucherType);
         this.voucherType = VoucherType.getType(voucherType);
@@ -47,15 +48,15 @@ public class Voucher {
         }
     }
 
-    public Voucher(String voucherID, String name, long amount, VoucherType voucherType) {
-        this.voucherID = voucherID;
+    public Voucher(String id, String name, long amount, VoucherType voucherType) {
+        this.id = id;
         this.name = name;
         this.amount = amount;
         this.voucherType = voucherType;
     }
 
-    public String getVoucherID() {
-        return voucherID;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -68,5 +69,18 @@ public class Voucher {
 
     public VoucherType getVoucherType() {
         return voucherType;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Voucher voucher = (Voucher) o;
+        return amount == voucher.amount && Objects.equals(name, voucher.name) && voucherType == voucher.voucherType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, amount, voucherType);
     }
 }
