@@ -17,10 +17,10 @@ import java.util.UUID;
 @Repository
 @Profile("prod")
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final String INSERT_QUERY = "INSERT INTO vouchers(voucher_id, discount_type, discount_value) VALUES(UUID_TO_BIN(?), ?, ?)";
+    private static final String INSERT = "INSERT INTO vouchers(voucher_id, discount_type, discount_value) VALUES(UUID_TO_BIN(?), ?, ?)";
     private static final String SELECT_ALL = "SELECT * FROM vouchers";
     private static final String FIND_BY_ID = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
-    private static final String UPDATE_QUERY = "UPDATE vouchers SET discount_value = ? WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String UPDATE = "UPDATE vouchers SET discount_value = ? WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String DELETE_ALL = "DELETE from vouchers";
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
@@ -39,7 +39,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher saveVoucher(Voucher voucher) {
-        jdbcTemplate.update(INSERT_QUERY,
+        jdbcTemplate.update(INSERT,
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getDiscountType().toString(),
                 voucher.getDiscountValue());
@@ -53,7 +53,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void updateVoucher(Voucher voucher) {
-        jdbcTemplate.update(UPDATE_QUERY,
+        jdbcTemplate.update(UPDATE,
                 voucher.getDiscountValue(),
                 voucher.getVoucherId().toString().getBytes());
     }

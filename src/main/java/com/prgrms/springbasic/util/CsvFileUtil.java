@@ -20,6 +20,9 @@ import java.util.stream.Stream;
 public class CsvFileUtil {
     private static final Logger log = LoggerFactory.getLogger(CsvFileUtil.class);
 
+    public CsvFileUtil() {
+    }
+
     public static void addObjectToFile(String filePath, String fieldToCsvString) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
             writer.write(fieldToCsvString);
