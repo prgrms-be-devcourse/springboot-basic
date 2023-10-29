@@ -34,13 +34,23 @@ public class DBCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findAll() {
         String sql = "SELECT * FROM CUSTOMERS";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getString(EMAIL), rs.getBoolean(IS_BLACK)));
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                new Customer(
+                        new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)),
+                        rs.getString(NAME),
+                        rs.getString(EMAIL),
+                        rs.getBoolean(IS_BLACK)));
     }
 
     @Override
     public List<Customer> findBlackAll() {
         String sql = "SELECT * FROM CUSTOMERS WHERE IS_BLACK = ?";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getString(EMAIL), rs.getBoolean(IS_BLACK)),
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                        new Customer(
+                                new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)),
+                                rs.getString(NAME),
+                                rs.getString(EMAIL),
+                                rs.getBoolean(IS_BLACK)),
                 true);
     }
 
@@ -48,8 +58,12 @@ public class DBCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
         String sql = "SELECT * FROM CUSTOMERS WHERE CUSTOMER_ID = UUID_TO_BIN(?)";
         try {
-            Customer customer = jdbcTemplate.queryForObject(sql,
-                    (rs, rowNum) -> new Customer(new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)), rs.getString(NAME), rs.getString(EMAIL), rs.getBoolean(IS_BLACK)),
+            Customer customer = jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
+                            new Customer(
+                                    new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)),
+                                    rs.getString(NAME),
+                                    rs.getString(EMAIL),
+                                    rs.getBoolean(IS_BLACK)),
                     customerId.toString());
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {

@@ -58,7 +58,11 @@ public class DBWalletRepository implements WalletRepository {
         String sql = "SELECT C.CUSTOMER_ID, NAME, IS_BLACK, EMAIL FROM CUSTOMERS C JOIN WALLET W ON W.CUSTOMER_ID = C.CUSTOMER_ID WHERE W.VOUCHER_ID = UUID_TO_BIN(?)";
         try {
             Customer customer = jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
-                            new Customer(new BinaryToUUIDConverter().run(rs.getBytes("C.CUSTOMER_ID")), rs.getString("NAME"), rs.getString("EMAIL"), rs.getBoolean("IS_BLACK")),
+                            new Customer(
+                                    new BinaryToUUIDConverter().run(rs.getBytes("C.CUSTOMER_ID")),
+                                    rs.getString("NAME"),
+                                    rs.getString("EMAIL"),
+                                    rs.getBoolean("IS_BLACK")),
                     voucherId.toString());
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
