@@ -35,7 +35,7 @@ class VoucherServiceTest {
 
         // then
         Assertions.assertEquals(10, voucher.getDiscount());
-        Assertions.assertEquals(VoucherDiscountType.FIXED_AMOUNT_DISCOUNT, voucher.getVoucherDiscountType());
+        Assertions.assertEquals(VoucherDiscountType.PERCENT_DISCOUNT, voucher.getVoucherDiscountType());
     }
 
     @Test
