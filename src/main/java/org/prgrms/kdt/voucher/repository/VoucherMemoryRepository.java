@@ -1,6 +1,5 @@
 package org.prgrms.kdt.voucher.repository;
 
-import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +15,6 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private static final Logger logger = LoggerFactory.getLogger(VoucherMemoryRepository.class);
-
-    @Override
-    public Customer findOwnerById(UUID voucherId) {
-        return null;
-    }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {

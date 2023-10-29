@@ -79,13 +79,6 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Customer findOwnerById(UUID voucherId) {
-        return jdbcTemplate.queryForObject("select * from wallets WHERE voucher_id = UUID_TO_BIN(?)",
-                customerRowMapper,
-                voucherId.toString().getBytes());
-    }
-
-    @Override
     public Voucher save(Voucher voucher) {
         String voucherType = voucher.getClass().getName();
         int update = 0;

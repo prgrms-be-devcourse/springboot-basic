@@ -10,7 +10,7 @@ public interface WalletRepository {
 
     List<Wallet> findByCustomerId(String customerId);
 
-    List<Wallet> findByVoucherId(String voucherId);
+    Optional<Wallet> findByVoucherId(String voucherId);
 
     void deleteByCustomerId(String customerId);
 }

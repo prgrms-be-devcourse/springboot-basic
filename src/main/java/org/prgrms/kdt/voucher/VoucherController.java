@@ -1,15 +1,16 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.io.InputHandler;
 import org.prgrms.kdt.io.OutputHandler;
 import org.prgrms.kdt.voucher.Dto.FixedAmountVoucherDto;
 import org.prgrms.kdt.voucher.Dto.PercentDiscountVoucherDto;
+import org.prgrms.kdt.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.prgrms.kdt.io.SystemMessage.EXCEPTION_NOT_EXIST_MENU;
@@ -71,8 +72,8 @@ public class VoucherController {
     private void getOwner() throws IOException {
         outputHandler.outputString(GET_OWNER.getMessage());
         UUID voucherId = UUID.fromString(inputHandler.inputString());
-        Customer customer = voucherService.getOwner(voucherId);
-        outputHandler.outputCustomer(customer);
+        Optional<Wallet> wallet = voucherService.getOwner(voucherId);
+        outputHandler.outputWallet(wallet);
     }
 
     private void createVoucher() throws IOException {

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.voucher.VoucherService;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
+import org.prgrms.kdt.wallet.WalletJdbcRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,9 +28,10 @@ class OrderServiceTest {
     void createOrder() {
         // Given
         var voucherRepository = new VoucherMemoryRepository();
+        var walletRepository = new WalletJdbcRepository();
         var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
         voucherRepository.save(fixedAmountVoucher);
-        var sut = new OrderService(new VoucherService(voucherRepository), new OrderRepositoryStub());
+        var sut = new OrderService(new VoucherService(voucherRepository, walletRepository), new OrderRepositoryStub());
 
         // When
         var order = sut.createOrder(UUID.randomUUID(), List.of(new OrderItem(UUID.randomUUID(), 200, 1)), fixedAmountVoucher.getVoucherId());

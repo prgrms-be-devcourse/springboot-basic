@@ -1,19 +1,20 @@
 package org.prgrms.kdt.voucher;
 
-import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.voucher.Dto.FixedAmountVoucherDto;
 import org.prgrms.kdt.voucher.Dto.PercentDiscountVoucherDto;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
+import org.prgrms.kdt.wallet.Wallet;
+import org.prgrms.kdt.wallet.WalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_FIND_VOUCHER;
@@ -23,11 +24,12 @@ import static org.prgrms.kdt.voucher.VoucherMessage.VOUCHER_IS_EMPTY;
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
-    private List<Voucher> voucherList = new ArrayList<>();
+    private final WalletRepository walletRepository;
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    public VoucherService(VoucherRepository voucherRepository, WalletRepository walletRepository) {
         this.voucherRepository = voucherRepository;
+        this.walletRepository = walletRepository;
     }
 
     public void createVoucher(FixedAmountVoucherDto fixedAmountVoucherDto) {
@@ -58,8 +60,8 @@ public class VoucherService {
         return voucherList;
     }
 
-    public Customer getOwner(UUID voucherId) {
-        return voucherRepository.findOwnerById(voucherId);
+    public Optional<Wallet> getOwner(UUID voucherId) {
+        return walletRepository.findByVoucherId(voucherId.toString());
     }
 
     public void useVoucher(Voucher voucher) {

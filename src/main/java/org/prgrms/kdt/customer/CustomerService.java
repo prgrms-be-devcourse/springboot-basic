@@ -2,7 +2,8 @@ package org.prgrms.kdt.customer;
 
 
 import org.prgrms.kdt.customer.repository.CustomerRepository;
-import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.wallet.Wallet;
+import org.prgrms.kdt.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.UUID;
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final WalletRepository walletRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, WalletRepository walletRepository) {
         this.customerRepository = customerRepository;
+        this.walletRepository = walletRepository;
     }
 
     public Customer createCustomer(Customer customer) {
@@ -25,7 +28,7 @@ public class CustomerService {
         return customerRepository.findBlackList();
     }
 
-    public List<Voucher> getHaveVouchers(UUID customerId) {
-        return customerRepository.findHaveVouchersById(customerId);
+    public List<Wallet> getHaveVouchers(UUID customerId) {
+        return walletRepository.findByCustomerId(customerId.toString());
     }
 }

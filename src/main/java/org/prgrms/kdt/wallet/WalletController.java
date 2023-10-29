@@ -63,9 +63,9 @@ public class WalletController {
     }
 
     private void addWallet() throws IOException {
-        outputHandler.outputString(INPUT_CUSTOMER_ID.getMessage());
+        outputHandler.outputString(ADD_CUSTOMER_ID.getMessage());
         String customerId = inputHandler.inputString();
-        outputHandler.outputString(INPUT_VOUCHER_ID.getMessage());
+        outputHandler.outputString(ADD_VOUCHER_ID.getMessage());
         String voucherId = inputHandler.inputString();
 
         walletService.addWallet(customerId, voucherId);
@@ -74,7 +74,7 @@ public class WalletController {
     }
 
     private void removeWalletByCustomerId() throws IOException {
-        outputHandler.outputString(INPUT_CUSTOMER_ID.getMessage());
+        outputHandler.outputString(REMOVE_CUSTOMER_ID.getMessage());
         String customerId = inputHandler.inputString();
 
         walletService.deleteByCustomerId(customerId);

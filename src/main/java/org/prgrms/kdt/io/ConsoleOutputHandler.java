@@ -2,9 +2,11 @@ package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.wallet.Wallet;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class ConsoleOutputHandler implements OutputHandler{
@@ -24,6 +26,23 @@ public class ConsoleOutputHandler implements OutputHandler{
     @Override
     public void outputVoucher(Voucher voucher) {
         System.out.println(voucher);
+    }
+
+    @Override
+    public void outputWallet(Optional<Wallet> wallet) {
+        System.out.println(wallet);
+    }
+
+    @Override
+    public void outputWallets(List<Wallet> walletList) {
+        StringBuilder sb = new StringBuilder();
+
+        walletList.forEach(wallet -> {
+            sb.append(wallet);
+            sb.append(lineSeparator);
+        });
+
+        System.out.println(sb.toString());
     }
 
     @Override

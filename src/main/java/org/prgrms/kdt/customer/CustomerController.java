@@ -2,7 +2,7 @@ package org.prgrms.kdt.customer;
 
 import org.prgrms.kdt.io.InputHandler;
 import org.prgrms.kdt.io.OutputHandler;
-import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,8 +12,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.prgrms.kdt.customer.CustomerMessage.CREATE_CUSTOMER_EMAIL;
-import static org.prgrms.kdt.customer.CustomerMessage.CREATE_CUSTOMER_NAME;
+import static org.prgrms.kdt.customer.CustomerMessage.*;
 import static org.prgrms.kdt.io.SystemMessage.EXCEPTION_NOT_EXIST_MENU;
 
 @Controller
@@ -84,9 +83,10 @@ public class CustomerController {
     }
 
     private void getHaveVouchers() throws IOException {
+        outputHandler.outputString(GET_HAVE_VOUCHERS.getMessage());
         UUID customerId = UUID.fromString(inputHandler.inputString());
-        List<Voucher> voucherList = customerService.getHaveVouchers(customerId);
-        outputHandler.outputVouchers(voucherList);
+        List<Wallet> walletList = customerService.getHaveVouchers(customerId);
+        outputHandler.outputWallets(walletList);
     }
 
     private void getBlackList() {
