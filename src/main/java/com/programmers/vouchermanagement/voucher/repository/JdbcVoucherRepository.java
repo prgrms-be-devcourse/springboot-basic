@@ -4,6 +4,7 @@ import com.programmers.vouchermanagement.global.common.JdbcRepositoryManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -55,7 +56,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject(READ_ONCE, voucherRowMapper, voucherId.toString()));
+
+        try {
+            Optional<Voucher> optionalVoucher = Optional.of(jdbcTemplate.queryForObject(READ_ONCE, voucherRowMapper, voucherId.toString()));
+            return optionalVoucher;
+
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
