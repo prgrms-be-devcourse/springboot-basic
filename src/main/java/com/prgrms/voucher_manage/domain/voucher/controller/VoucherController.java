@@ -5,7 +5,6 @@ import com.prgrms.voucher_manage.domain.voucher.dto.UpdateVoucherDto;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import com.prgrms.voucher_manage.domain.voucher.service.VoucherService;
-import com.prgrms.voucher_manage.exception.InvalidInputException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -16,6 +15,7 @@ import static com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher
 import static com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher.isInvalidPercent;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.PERCENT;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.INVALID_DISCOUNT_RANGE;
 
 @Controller
 @RequiredArgsConstructor
@@ -47,9 +47,9 @@ public class VoucherController {
 
     private static void validateVoucher(VoucherType voucherType, Long discountAmount) {
         if (voucherType == FIXED && isInvalidPrice(discountAmount)) {
-            throw new InvalidInputException("Invalid discount range.");
+            throw new IllegalArgumentException(INVALID_DISCOUNT_RANGE.getMessage());
         } else if (voucherType == PERCENT && isInvalidPercent(discountAmount)) {
-            throw new InvalidInputException("Invalid discount range.");
+            throw new IllegalArgumentException(INVALID_DISCOUNT_RANGE.getMessage());
         }
     }
 }

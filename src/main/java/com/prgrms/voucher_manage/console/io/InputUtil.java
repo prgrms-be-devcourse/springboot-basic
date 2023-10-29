@@ -1,6 +1,5 @@
 package com.prgrms.voucher_manage.console.io;
 
-import com.prgrms.voucher_manage.exception.InvalidInputException;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -19,7 +18,7 @@ public class InputUtil {
         System.out.print("> ");
         String value = br.readLine().strip();
         if (value.isBlank())
-            throw new InvalidInputException(EMPTY_INPUT_NOT_ALLOWED.getMessage());
+            throw new IllegalArgumentException(EMPTY_INPUT_NOT_ALLOWED.getMessage());
         return value;
     }
 
@@ -27,7 +26,7 @@ public class InputUtil {
         System.out.print("> ");
         String value = br.readLine().strip();
         if (value.isBlank())
-            throw new InvalidInputException(EMPTY_INPUT_NOT_ALLOWED.getMessage());
+            throw new IllegalArgumentException(EMPTY_INPUT_NOT_ALLOWED.getMessage());
         return Long.valueOf(value);
     }
 

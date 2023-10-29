@@ -10,7 +10,6 @@ import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import com.prgrms.voucher_manage.domain.wallet.controller.WalletController;
-import com.prgrms.voucher_manage.exception.InvalidInputException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +55,7 @@ public class ConsoleManager implements ApplicationRunner {
 
     public void selectMenu(MenuType menuType) throws Exception {
         if (menuType == null) {
-            throw new InvalidInputException(INVALID_COMMAND_INPUT.getMessage());
+            throw new IllegalArgumentException(INVALID_COMMAND_INPUT.getMessage());
         }
 
         switch (menuType) {
@@ -107,7 +106,7 @@ public class ConsoleManager implements ApplicationRunner {
     public void saveVoucher() throws Exception {
         VoucherType voucherType = VoucherType.matchVoucherType(ioManager.getVoucherType());
         if (voucherType == null) {
-            throw new InvalidInputException(INVALID_COMMAND_INPUT.getMessage());
+            throw new IllegalArgumentException(INVALID_COMMAND_INPUT.getMessage());
         }
         switch (voucherType) {
             case FIXED -> outputUtil.requestDiscountPriceInfo();
@@ -140,7 +139,7 @@ public class ConsoleManager implements ApplicationRunner {
     private CustomerType getCustomerType() throws IOException {
         CustomerType customerType = CustomerType.matchTypeByString(inputUtil.getStringInput());
         if (customerType == null) {
-            throw new InvalidInputException(INVALID_COMMAND_INPUT.getMessage());
+            throw new IllegalArgumentException(INVALID_COMMAND_INPUT.getMessage());
         }
         return customerType;
     }
