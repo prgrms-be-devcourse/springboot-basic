@@ -8,7 +8,7 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 public enum MenuType {
-    CREATE_VOUCHER("createVoucher"),
+    SAVE_VOUCHER("saveVoucher"),
     VOUCHER_LIST("voucherList"),
 
     FIND_VOUCHER("findVoucher"),
@@ -31,9 +31,9 @@ public enum MenuType {
 
     SAVE_WALLET("saveWallet"),
 
-    FIND_WALLET1("findWallet1"),
+    FIND_WALLET_VOUCHERS("findWalletVouchers"),
 
-    FIND_WALLET2("findWallet2"),
+    FIND_WALLET_CUSTOMERS("findWalletCustomers"),
 
     DELETE_WALLET("deleteWallet"),
 

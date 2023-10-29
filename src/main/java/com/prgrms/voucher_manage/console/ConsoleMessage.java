@@ -13,7 +13,15 @@ public enum ConsoleMessage {
     CUSTOMER_SAVE_NAME("저장할 회원의 이름을 입력해주세요."),
     CUSTOMER_UPDATE_NAME("업데이트할 회원의 이름을 입력해주세요."),
     CUSTOMER_UPDATE_ID("업데이트할 회원의 아이디를 입력해주세요."),
-    CUSTOMER_FIND_NAME("검색할 회원 이름을 입력해주세요.");
+    CUSTOMER_FIND_NAME("검색할 회원 이름을 입력해주세요."),
+
+    WALLET_SAVE_CUSTOMER_ID("지갑을 저장할 회원의 아이디를 입력해주세요."),
+    WALLET_SAVE_VOUCHER_ID("지갑에 저장할 쿠폰 아이디를 입력해주세요."),
+
+    WALLET_FIND_CUSTOMER_ID("쿠폰을 조회할 회원 아이디를 입력해주세요."),
+    WALLET_FIND_VOUCHER_ID("쿠폰 아이디를 입력해주세요."),
+    WALLET_DELETE_CUSTOMER_ID("삭제할 지갑의 회원 아이디를 입력해주세요"),
+    WALLET_DELETE_VOUCHER_ID("삭제할 지갑의 쿠폰 아이디를 입력해주세요");
 
 
     private final String message;

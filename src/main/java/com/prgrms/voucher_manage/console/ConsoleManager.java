@@ -9,6 +9,7 @@ import com.prgrms.voucher_manage.domain.customer.entity.CustomerType;
 import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
+import com.prgrms.voucher_manage.domain.wallet.controller.WalletController;
 import com.prgrms.voucher_manage.exception.InvalidInputException;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -24,7 +25,7 @@ import java.util.UUID;
 import static com.prgrms.voucher_manage.console.ConsoleMessage.*;
 import static com.prgrms.voucher_manage.console.MenuType.EXIT;
 import static com.prgrms.voucher_manage.console.MenuType.matchMenuType;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.INVALID_COMMAND_INPUT;
 
 @Component
 @RequiredArgsConstructor
@@ -34,6 +35,7 @@ public class ConsoleManager implements ApplicationRunner {
     private final InputUtil inputUtil;
     private final VoucherController voucherController;
     private final CustomerController customerController;
+    private final WalletController walletController;
     private static final Logger logger = LoggerFactory.getLogger(ConsoleManager.class);
 
     @Override
@@ -58,7 +60,7 @@ public class ConsoleManager implements ApplicationRunner {
         }
 
         switch (menuType) {
-            case CREATE_VOUCHER -> createVoucher();
+            case SAVE_VOUCHER -> saveVoucher();
             case VOUCHER_LIST -> printVouchers(voucherController.getVouchers());
             case FIND_VOUCHER -> findVoucher();
             case UPDATE_VOUCHER -> updateVoucher();
@@ -69,9 +71,40 @@ public class ConsoleManager implements ApplicationRunner {
             case ALL_CUSTOMERS -> printCustomers(customerController.getAllCustomers());
             case UPDATE_CUSTOMER -> updateCustomer();
             case FIND_CUSTOMER -> findCustomer();
+
+            case SAVE_WALLET -> saveWallet();
+            case FIND_WALLET_VOUCHERS -> findWalletVouchers();
+            case FIND_WALLET_CUSTOMERS -> findWalletCustomers();
+            case DELETE_WALLET -> deleteWallet();
+
         }
     }
-    public void createVoucher() throws Exception {
+
+    public void saveWallet(){
+        UUID customerId = ioManager.getUUID(WALLET_SAVE_CUSTOMER_ID);
+        UUID voucherId = ioManager.getUUID(WALLET_SAVE_VOUCHER_ID);
+        walletController.saveWallet(customerId, voucherId);
+    }
+
+    public void findWalletVouchers(){
+        UUID customerId = ioManager.getUUID(WALLET_FIND_CUSTOMER_ID);
+        List<Voucher> vouchers = walletController.findVouchers(customerId);
+        printVouchers(vouchers);
+    }
+
+    public void findWalletCustomers(){
+        UUID voucherId = ioManager.getUUID(WALLET_FIND_VOUCHER_ID);
+        List<Customer> customers = walletController.findCustomers(voucherId);
+        printCustomers(customers);
+    }
+
+    public void deleteWallet(){
+        UUID customerId = ioManager.getUUID(WALLET_DELETE_CUSTOMER_ID);
+        UUID voucherId = ioManager.getUUID(WALLET_DELETE_VOUCHER_ID);
+        walletController.deleteWallet(customerId, voucherId);
+    }
+
+    public void saveVoucher() throws Exception {
         VoucherType voucherType = VoucherType.matchVoucherType(ioManager.getVoucherType());
         if (voucherType == null) {
             throw new InvalidInputException(INVALID_COMMAND_INPUT.getMessage());
@@ -81,7 +114,7 @@ public class ConsoleManager implements ApplicationRunner {
             case PERCENT -> outputUtil.requestDiscountPercentInfo();
         }
         Long discountAmount = inputUtil.getLongInput();
-        voucherController.createVoucher(voucherType, discountAmount);
+        voucherController.saveVoucher(voucherType, discountAmount);
     }
 
     private void findVoucher() {
@@ -125,7 +158,7 @@ public class ConsoleManager implements ApplicationRunner {
         outputUtil.printCustomerSelect();
         CustomerType customerType = getCustomerType();
         String name = ioManager.getString(CUSTOMER_SAVE_NAME);
-        customerController.save(new Customer(name, customerType));
+        customerController.saveCustomer(new Customer(name, customerType));
     }
 
     public void findCustomer() throws IOException {
