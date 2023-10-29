@@ -1,22 +1,21 @@
-# 현재 default인 경우
 spring:
   profiles:
-    active: prod
+    active: default
   datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3000/vouchers
-      username: root
-      password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3000/vouchers
+    username: root
+    password: 1234
 
 ---
-# 현재 프로파일이 dev인 경우
+
 spring:
   profiles:
     active: dev
 
 ---
 
-#현재 프로파일이 local인 경우
+
 spring:
   profiles:
     active: local
