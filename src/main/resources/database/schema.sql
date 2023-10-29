@@ -1,4 +1,4 @@
-용CREATE DATABASE order_management;
+CREATE DATABASE order_management;
 USE order_management;
 CREATE TABLE customer
 (
