@@ -2,8 +2,6 @@ package com.zerozae.voucher.repository.voucher;
 
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -11,8 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Profile("dev")
-@Repository
+@Deprecated
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> vouchers;

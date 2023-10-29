@@ -7,7 +7,6 @@ import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.exception.ExceptionMessage;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -22,7 +21,6 @@ import java.util.UUID;
 import static com.zerozae.voucher.domain.voucher.VoucherType.FIXED;
 import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
-@Profile("prod")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
 

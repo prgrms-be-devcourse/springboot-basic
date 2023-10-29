@@ -7,8 +7,6 @@ import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.util.FileUtil;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
@@ -17,8 +15,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@Profile("file")
-@Repository
+@Deprecated
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final String FILE_PATH = System.getProperty("user.home") + "/voucher.csv";

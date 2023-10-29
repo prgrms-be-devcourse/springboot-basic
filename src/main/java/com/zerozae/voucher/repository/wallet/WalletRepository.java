@@ -2,7 +2,6 @@ package com.zerozae.voucher.repository.wallet;
 
 import com.zerozae.voucher.domain.wallet.Wallet;
 import com.zerozae.voucher.exception.ExceptionMessage;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,7 +14,6 @@ import java.util.UUID;
 
 import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
-@Profile("prod")
 @Repository
 public class WalletRepository {
 
