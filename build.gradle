@@ -19,7 +19,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
+    // jdbc
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // mysql
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.27'
+
+    // h2
+    testImplementation 'com.h2database:h2'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
 
