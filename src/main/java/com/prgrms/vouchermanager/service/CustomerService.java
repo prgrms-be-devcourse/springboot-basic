@@ -21,8 +21,8 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> blacklist() {
-        return blacklistRepository.blacklist();
+    public List<Customer> findBlacklist() {
+        return blacklistRepository.findBlacklist();
     }
 
     public Customer create(String name, int year) {

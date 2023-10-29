@@ -92,8 +92,8 @@ public class CustomerExecutor {
     }
 
     public void blackList() throws EmptyListException {
-        List<Customer> customers = controller.blacklist();
+        List<Customer> customers = controller.findBlacklist();
         if(customers.isEmpty()) throw new EmptyListException(customers);
-        else consolePrint.printBlacklist(controller.blacklist());
+        else consolePrint.printBlacklist(controller.findBlacklist());
     }
 }

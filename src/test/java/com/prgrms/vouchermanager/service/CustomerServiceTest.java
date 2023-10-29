@@ -68,7 +68,7 @@ class CustomerServiceTest {
     @Test
     @DisplayName("blacklist")
     void blacklist() {
-        List<Customer> blacklist = service.blacklist();
+        List<Customer> blacklist = service.findBlacklist();
 
         Assertions.assertThat(blacklist.size()).isEqualTo(3);
     }

@@ -15,8 +15,8 @@ public class CustomerController {
         this.service = service;
     }
 
-    public List<Customer> blacklist() {
-        return service.blacklist();
+    public List<Customer> findBlacklist() {
+        return service.findBlacklist();
     }
 
     public Customer create(String name, int year) { return service.create(name, year); };

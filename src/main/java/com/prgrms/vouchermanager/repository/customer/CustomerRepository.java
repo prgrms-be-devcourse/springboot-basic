@@ -60,7 +60,7 @@ public class CustomerRepository {
     }
 
     private void fileToDb() {
-        List<Customer> blacklist = blacklistRepository.blacklist();
+        List<Customer> blacklist = blacklistRepository.findBlacklist();
         blacklist.forEach(customer -> {
             jdbcTemplate.update(INSERT_CUSTOMER.getMessage(),
                     customer.getId().toString().getBytes(),

@@ -21,7 +21,7 @@ public class BlacklistFileRepository implements BlacklistRepository {
     }
 
     @Override
-    public List<Customer> blacklist() {
+    public List<Customer> findBlacklist() {
         return customerMap
                 .values()
                 .stream().toList();

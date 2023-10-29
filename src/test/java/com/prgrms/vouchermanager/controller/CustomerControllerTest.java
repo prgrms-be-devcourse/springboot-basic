@@ -69,7 +69,7 @@ class CustomerControllerTest {
     @Test
     @DisplayName("blacklist")
     void blacklist() {
-        List<Customer> blacklist = controller.blacklist();
+        List<Customer> blacklist = controller.findBlacklist();
 
         Assertions.assertThat(blacklist.size()).isEqualTo(3);
     }
