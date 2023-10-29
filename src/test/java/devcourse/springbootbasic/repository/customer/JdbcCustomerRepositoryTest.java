@@ -1,14 +1,13 @@
 package devcourse.springbootbasic.repository.customer;
 
+import devcourse.springbootbasic.JdbcRepositoryTest;
 import devcourse.springbootbasic.domain.customer.Customer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +17,10 @@ import static devcourse.springbootbasic.TestDataFactory.generateBlacklistCustome
 import static devcourse.springbootbasic.TestDataFactory.generateNotBlacklistCustomers;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Transactional
-@SpringBootTest
-class JdbcCustomerRepositoryTest {
+class JdbcCustomerRepositoryTest extends JdbcRepositoryTest {
 
     @Autowired
-    private JdbcCustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;

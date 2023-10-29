@@ -1,5 +1,6 @@
 package devcourse.springbootbasic.repository.voucher;
 
+import devcourse.springbootbasic.JdbcRepositoryTest;
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
@@ -8,10 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,12 +19,10 @@ import java.util.UUID;
 import static devcourse.springbootbasic.TestDataFactory.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Transactional
-@SpringBootTest
-class JdbcVoucherRepositoryTest {
+class JdbcVoucherRepositoryTest extends JdbcRepositoryTest {
 
     @Autowired
-    private JdbcVoucherRepository voucherRepository;
+    private VoucherRepository voucherRepository;
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired

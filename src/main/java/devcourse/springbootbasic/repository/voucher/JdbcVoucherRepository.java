@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-@Profile({"prod", "test"})
+@Profile("prod")
 @Repository
 @RequiredArgsConstructor
 public class JdbcVoucherRepository implements VoucherRepository {
