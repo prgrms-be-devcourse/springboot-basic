@@ -24,7 +24,7 @@ public class VoucherService {
     public void create(VoucherType voucherType, int discountDegree) {
         VoucherPolicy voucherPolicy = voucherType.create(discountDegree);
 
-        voucherRepository.create(voucherPolicy);
+        voucherRepository.save(voucherPolicy);
     }
 
     public List<VoucherPolicy> findAll(){

@@ -34,7 +34,7 @@ class VoucherMemoryRepositoryTest {
         UUID voucherId = UUID.randomUUID();
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(voucherId, 1000);
 
-        voucherMemoryRepository.create(fixedAmountVoucher);
+        voucherMemoryRepository.save(fixedAmountVoucher);
 
         Optional<VoucherPolicy> retrievedVoucher = voucherMemoryRepository.findById(voucherId);
         Optional<VoucherPolicy> randomRetrievedVoucher = voucherMemoryRepository.findById(UUID.randomUUID());
@@ -49,8 +49,8 @@ class VoucherMemoryRepositoryTest {
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 6000);
 
-        voucherMemoryRepository.create(percentDiscountVoucher);
-        voucherMemoryRepository.create(fixedAmountVoucher);
+        voucherMemoryRepository.save(percentDiscountVoucher);
+        voucherMemoryRepository.save(fixedAmountVoucher);
 
         assertThat(voucherMemoryRepository.findAll(), hasSize(2));
         assertThat(voucherMemoryRepository.findAll(), hasItem(percentDiscountVoucher));
@@ -62,19 +62,19 @@ class VoucherMemoryRepositoryTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 30);
 
-        this.voucherMemoryRepository.create(fixedAmountVoucher);
-        this.voucherMemoryRepository.create(percentDiscountVoucher);
+        this.voucherMemoryRepository.save(fixedAmountVoucher);
+        this.voucherMemoryRepository.save(percentDiscountVoucher);
 
         assertThat(voucherMemoryRepository.findAll(), hasSize(2));
         assertThrows(IllegalArgumentException.class,
-                () -> voucherMemoryRepository.create(new PercentDiscountVoucher(UUID.randomUUID(), 0)));
+                () -> voucherMemoryRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 0)));
     }
 
     @Test
     void deleteAllVouchersFromMemory() {
-        voucherMemoryRepository.create(new PercentDiscountVoucher(UUID.randomUUID(), 10));
-        voucherMemoryRepository.create(new PercentDiscountVoucher(UUID.randomUUID(), 20));
-        voucherMemoryRepository.create(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+        voucherMemoryRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 10));
+        voucherMemoryRepository.save(new PercentDiscountVoucher(UUID.randomUUID(), 20));
+        voucherMemoryRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 1000));
 
         voucherMemoryRepository.deleteAll();
 

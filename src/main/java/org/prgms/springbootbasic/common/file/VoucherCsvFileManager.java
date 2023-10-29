@@ -22,7 +22,7 @@ public class VoucherCsvFileManager {
     private static final String CSV_FIRST_LINE = "UUID,Type,DiscountValue";
     private static final int UUID_IDX = 0;
     private static final int TYPE_IDX = 1;
-    private static final int DISCOUNT_VALUE_IDX = 2;
+    private static final int DISCOUNT_DEGREE_IDX = 2;
 
     private final CsvFileTemplate csvFileTemplate;
 
@@ -55,7 +55,7 @@ public class VoucherCsvFileManager {
                             return new IllegalArgumentException("Invalid voucher type");
                         });
         return thisVoucherType.create(UUID.fromString(splitLine.get(UUID_IDX)),
-                Long.parseLong(splitLine.get(DISCOUNT_VALUE_IDX)));
+                Long.parseLong(splitLine.get(DISCOUNT_DEGREE_IDX)));
     }
 
     private String convertToString(VoucherPolicy voucherPolicy){

@@ -25,7 +25,7 @@ public class VoucherMemoryRepository implements VoucherRepository{
     }
 
     @Override
-    public VoucherPolicy create(VoucherPolicy voucherPolicy) {
+    public VoucherPolicy save(VoucherPolicy voucherPolicy) {
         mem.putIfAbsent(voucherPolicy.getVoucherId(), voucherPolicy);
         return voucherPolicy;
     }

@@ -37,7 +37,7 @@ public class VoucherCsvFileRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherPolicy create(VoucherPolicy voucherPolicy) {
+    public VoucherPolicy save(VoucherPolicy voucherPolicy) {
         vouchers.putIfAbsent(voucherPolicy.getVoucherId(), voucherPolicy);
         return voucherPolicy;
     }
@@ -55,7 +55,7 @@ public class VoucherCsvFileRepository implements VoucherRepository {
     @PostConstruct
     private void fileRead(){
         List<VoucherPolicy> voucherPolicies = voucherCsvFileManager.read();
-        voucherPolicies.forEach(this::create);
+        voucherPolicies.forEach(this::save);
     }
 
     @PreDestroy
