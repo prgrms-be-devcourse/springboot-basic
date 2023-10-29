@@ -1,6 +1,7 @@
 package org.prgms.springbootbasic.repository.customer;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.common.UtilMethod;
 import org.prgms.springbootbasic.domain.customer.Customer;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -98,7 +99,7 @@ public class CustomerDatabaseRepository implements CustomerRepository{
 
     private static RowMapper<Customer> mapToCustomer = (rs, rowNum) -> {
         String customerName = rs.getString("name");
-        UUID customerId = toUUID(rs.getBytes("customer_id"));
+        UUID customerId = UtilMethod.bytesToUUID(rs.getBytes("customer_id"));
         String email = rs.getString("email");
         LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
         LocalDateTime lastLoginAt = rs.getTimestamp("last_login_at") != null
@@ -107,10 +108,4 @@ public class CustomerDatabaseRepository implements CustomerRepository{
 
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt, isBlacked);
     };
-
-    private static UUID toUUID(byte[] customerId) {
-        ByteBuffer wrappedByte = ByteBuffer.wrap(customerId);
-
-        return new UUID(wrappedByte.getLong(), wrappedByte.getLong());
-    }
 }
