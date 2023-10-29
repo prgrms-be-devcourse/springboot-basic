@@ -10,10 +10,10 @@ public abstract class Voucher {
     protected final UUID id;
     protected final long discount;
 
-    public Voucher(long discount) {
+    protected Voucher(long discount) {
         this(UUID.randomUUID(), discount);
     }
-    public Voucher(UUID id, long discount) {
+    protected Voucher(UUID id, long discount) {
         this.id = id;
         this.discount = discount;
     }

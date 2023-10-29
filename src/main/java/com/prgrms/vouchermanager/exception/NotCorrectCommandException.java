@@ -3,9 +3,9 @@ package com.prgrms.vouchermanager.exception;
 import com.prgrms.vouchermanager.message.ConsoleMessage;
 import com.prgrms.vouchermanager.message.LogMessage;
 
-public class NotCorrectCommand extends MyException {
+public class NotCorrectCommandException extends MyException {
 
-    public NotCorrectCommand(String command) {
+    public NotCorrectCommandException(String command) {
         super(String.format(LogMessage.NOT_CORRECT_COMMAND.getMessage(), command));
     }
 

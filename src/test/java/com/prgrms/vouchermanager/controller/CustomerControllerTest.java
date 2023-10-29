@@ -1,7 +1,7 @@
 package com.prgrms.vouchermanager.controller;
 
 import com.prgrms.vouchermanager.domain.customer.Customer;
-import com.prgrms.vouchermanager.exception.NotCorrectId;
+import com.prgrms.vouchermanager.exception.NotCorrectIdException;
 import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import com.prgrms.vouchermanager.service.CustomerService;
@@ -101,7 +101,7 @@ class CustomerControllerTest {
     @Test
     @DisplayName("updateYearOfBirth - 존재하지 않는 아이디")
     void updateYearOfBirthFail() {
-        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectId.class, () -> {
+        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectIdException.class, () -> {
             Customer customer = controller.updateYearOfBirth(UUID.randomUUID(), 2000);
         });
     }
@@ -116,7 +116,7 @@ class CustomerControllerTest {
     @Test
     @DisplayName("updateName - 존재하지 않는 아이디")
     void updateNameFail() {
-        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectId.class, () -> {
+        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectIdException.class, () -> {
             Customer customer = controller.updateName(UUID.randomUUID(), "벤티");
         });
     }
@@ -130,7 +130,7 @@ class CustomerControllerTest {
     @Test
     @DisplayName("delete - 존재하지 않는 아이디")
     void deleteFail() {
-        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectId.class, () -> {
+        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectIdException.class, () -> {
             int delete = controller.delete(UUID.randomUUID());
         });
     }

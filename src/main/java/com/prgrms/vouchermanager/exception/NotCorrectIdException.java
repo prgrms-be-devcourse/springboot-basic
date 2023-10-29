@@ -2,9 +2,9 @@ package com.prgrms.vouchermanager.exception;
 
 import com.prgrms.vouchermanager.message.ConsoleMessage;
 
-public class NotCorrectId extends MyException {
+public class NotCorrectIdException extends MyException {
 
-    public NotCorrectId() {
+    public NotCorrectIdException() {
         super(String.format(ConsoleMessage.NOT_CORRECT_ID.getMessage()));
     }
 

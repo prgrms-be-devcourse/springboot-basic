@@ -1,6 +1,6 @@
 package com.prgrms.vouchermanager.handler;
 
-import com.prgrms.vouchermanager.exception.NotCorrectCommand;
+import com.prgrms.vouchermanager.exception.NotCorrectCommandException;
 import com.prgrms.vouchermanager.handler.executor.CustomerExecutor;
 import com.prgrms.vouchermanager.handler.executor.VoucherExecutor;
 import com.prgrms.vouchermanager.handler.executor.WalletExecutor;
@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
+
+import static com.prgrms.vouchermanager.message.ConsoleMessage.*;
 
 @Component
 @Slf4j
@@ -29,7 +31,7 @@ public class CommandHandler {
     }
 
     public boolean selectProgram() {
-        consolePrint.printProgramSelect();
+        consolePrint.printMessage(SELECT_PROGRAM.getMessage());
         String input = sc.nextLine();
         switch (input) {
             case "voucher" -> {
@@ -42,12 +44,12 @@ public class CommandHandler {
                 return runWalletProgram() != Command.EXIT;
             }
             case "exit" -> { return false; }
-            default -> throw new NotCorrectCommand(input);
+            default -> throw new NotCorrectCommandException(input);
         }
     }
 
-    public Command runVoucherProgram() throws NotCorrectCommand {
-        consolePrint.printVoucherFunctionSelect();
+    public Command runVoucherProgram() throws NotCorrectCommandException {
+        consolePrint.printMessage(SELECT_FUNCTION_VOUCHER.getMessage());
         String command = sc.nextLine();
         switch (command) {
             case "create" -> {
@@ -74,12 +76,12 @@ public class CommandHandler {
                 System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
                 return Command.EXIT;
             }
-            default -> throw new NotCorrectCommand(command);
+            default -> throw new NotCorrectCommandException(command);
         }
     }
 
-    public Command runCustomerProgram() throws NotCorrectCommand {
-        consolePrint.printCustomerFunctionSelect();
+    public Command runCustomerProgram() throws NotCorrectCommandException {
+        consolePrint.printMessage(SELECT_FUNCTION_CUSTOMER.getMessage());
         String command = sc.nextLine();
         switch (command) {
             case "create" -> {
@@ -110,12 +112,12 @@ public class CommandHandler {
                 System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
                 return Command.EXIT;
             }
-            default -> throw new NotCorrectCommand(command);
+            default -> throw new NotCorrectCommandException(command);
         }
     }
 
-    public Command runWalletProgram() throws NotCorrectCommand {
-        consolePrint.printWalletFunctionSelect();
+    public Command runWalletProgram() throws NotCorrectCommandException {
+        consolePrint.printMessage(SELECT_FUNCTION_WALLET.getMessage());
         String command = sc.nextLine();
         switch (command) {
             case "create" -> {
@@ -140,7 +142,7 @@ public class CommandHandler {
                 System.out.println(ConsoleMessage.FINISH_PROGRAM.getMessage());
                 return Command.EXIT;
             }
-            default -> throw new NotCorrectCommand(command);
+            default -> throw new NotCorrectCommandException(command);
         }
     }
 }

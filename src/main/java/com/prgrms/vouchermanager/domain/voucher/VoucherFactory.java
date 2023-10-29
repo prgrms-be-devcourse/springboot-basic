@@ -7,6 +7,9 @@ import java.util.UUID;
 
 @Component
 public class VoucherFactory {
+    private VoucherFactory() {
+    }
+
     public static Optional<Voucher> create(VoucherType voucherType, long discount) {
         if(voucherType == VoucherType.FIXED) {
             return Optional.of(new FixedAmountVoucher(discount));
