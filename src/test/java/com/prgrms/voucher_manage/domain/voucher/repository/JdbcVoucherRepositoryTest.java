@@ -13,6 +13,7 @@ import java.util.List;
 
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @JdbcTest
 @ActiveProfiles({"prod", "test"})
@@ -71,7 +72,8 @@ public class JdbcVoucherRepositoryTest {
         int delete = repository.deleteById(voucher.getId());
         //then
         assertThat(delete).isEqualTo(1);
-        assertThat(repository.findById(voucher.getId())).isEmpty();
+        RuntimeException e = assertThrows(RuntimeException.class, () -> repository.findById(voucher.getId()));
+        assertThat(e.getMessage()).isEqualTo("바우처가 존재하지 않습니다.");
     }
 
 
