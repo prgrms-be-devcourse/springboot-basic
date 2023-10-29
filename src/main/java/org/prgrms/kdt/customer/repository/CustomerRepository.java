@@ -11,11 +11,9 @@ public interface CustomerRepository {
 
     List<Customer> findBlackList();
 
-    Customer insert(Customer customer);
+    Customer save(Customer customer);
 
     Customer update(Customer customer);
-
-    // Customer save(Customer customer);
 
     int count();
 

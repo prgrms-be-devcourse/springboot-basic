@@ -7,7 +7,7 @@ public class Wallet {
     private final String customerId;
     private final String voucherId;
 
-    private Wallet(String customerId, String voucherId) {
+    Wallet(String customerId, String voucherId) {
         this.walletId = UUID.randomUUID().toString();
         this.customerId = customerId;
         this.voucherId = voucherId;

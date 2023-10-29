@@ -1,17 +1,17 @@
 package org.prgrms.kdt.io;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
-@Component
-public class StartMenu {
+@Controller
+public class MenuController {
 
     private static final String lineSeparator = System.lineSeparator();
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
 
-    public StartMenu(InputHandler inputHandler, OutputHandler outputHandler) {
+    public MenuController(InputHandler inputHandler, OutputHandler outputHandler) {
         this.inputHandler = inputHandler;
         this.outputHandler = outputHandler;
     }
@@ -31,8 +31,20 @@ public class StartMenu {
 
         outputHandler.outputSystemMessage(sb.toString());
 
-        var menu = inputHandler.inputString();
-        return menu;
+        return inputHandler.inputString();
     }
 
+    public String walletMenu() throws IOException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== Wallet Program ===");
+        sb.append(lineSeparator);
+        sb.append("[1] Type 'create' to create a new wallet.");
+        sb.append(lineSeparator);
+        sb.append("[2] Type 'remove' to remove a wallet.");
+        sb.append(lineSeparator);
+
+        outputHandler.outputSystemMessage(sb.toString());
+
+        return inputHandler.inputString();
+    }
 }

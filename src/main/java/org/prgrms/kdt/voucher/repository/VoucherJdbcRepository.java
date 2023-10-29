@@ -69,7 +69,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher insert(Voucher voucher) {
+    public Voucher save(Voucher voucher) {
         String voucherType = voucher.getClass().getName();
         int update = 0;
 

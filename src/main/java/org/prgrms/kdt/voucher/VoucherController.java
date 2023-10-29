@@ -2,11 +2,12 @@ package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.io.InputHandler;
 import org.prgrms.kdt.io.OutputHandler;
-import org.prgrms.kdt.io.StartMenu;
+import org.prgrms.kdt.io.MenuController;
 import org.prgrms.kdt.customer.CustomerController;
 import org.prgrms.kdt.voucher.Dto.FixedAmountVoucherDto;
 import org.prgrms.kdt.voucher.Dto.PercentDiscountVoucherDto;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.wallet.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,10 @@ public class VoucherController {
 
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
-    private final StartMenu startMenu;
+    private final MenuController menuController;
     private final VoucherService voucherService;
     private final CustomerController customerController;
+    private final WalletController walletController;
     private final String EXIT = "exit";
     private final String CREATE = "create";
     private final String LIST = "list";
@@ -35,16 +37,17 @@ public class VoucherController {
     private final String WALLET = "wallet";
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
-    public VoucherController(InputHandler inputHandler, OutputHandler outputHandler, StartMenu startMenu, VoucherService voucherService, CustomerController customerController) {
+    public VoucherController(InputHandler inputHandler, OutputHandler outputHandler, MenuController menuController, VoucherService voucherService, CustomerController customerController, WalletController walletController) {
         this.inputHandler = inputHandler;
         this.outputHandler = outputHandler;
-        this.startMenu = startMenu;
+        this.menuController = menuController;
         this.voucherService = voucherService;
         this.customerController = customerController;
+        this.walletController = walletController;
     }
 
     public boolean startVoucherMenu() throws IOException {
-        var menu = startMenu.startMenu();
+        String menu = menuController.startMenu();
 
         switch (menu) {
             case EXIT:
@@ -61,10 +64,10 @@ public class VoucherController {
                 customerController.getBlackList();
                 break;
             case WALLET:
-
+                walletController.walletMenu();
                 break;
             default:
-                String errorMessage = EXCEPTION_VOUCHER_TYPE.getMessage();
+                String errorMessage = EXCEPTION_NOT_EXIST_MENU.getMessage();
                 logger.error(errorMessage);
                 outputHandler.outputSystemMessage(errorMessage);
                 break;

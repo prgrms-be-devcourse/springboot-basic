@@ -10,7 +10,7 @@ public interface VoucherRepository {
 
   Optional<Voucher> findById(UUID voucherId);
 
-  Voucher insert(Voucher voucher);
+  Voucher save(Voucher voucher);
 
   List<Voucher> findAll();
 }

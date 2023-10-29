@@ -98,7 +98,7 @@ class CustomerJdbcRepositoryTest {
     public void testInsert() {
 
         try {
-            customerJdbcRepository.insert(newCustomer);
+            customerJdbcRepository.save(newCustomer);
         } catch (BadSqlGrammarException e) {
             e.getSQLException().getErrorCode();
         }

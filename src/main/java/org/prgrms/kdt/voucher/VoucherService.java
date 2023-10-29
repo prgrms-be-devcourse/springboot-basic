@@ -41,12 +41,12 @@ public class VoucherService {
 
     public void createVoucher(FixedAmountVoucherDto fixedAmountVoucherDto) {
         var voucher = new FixedAmountVoucher(fixedAmountVoucherDto.getVoucherId(), fixedAmountVoucherDto.getAmount());
-        voucherRepository.insert(voucher);
+        voucherRepository.save(voucher);
     }
 
     public void createVoucher(PercentDiscountVoucherDto percentDiscountVoucherDto) {
         var voucher = new PercentDiscountVoucher(percentDiscountVoucherDto.getVoucherId(), percentDiscountVoucherDto.getPercent());
-        voucherRepository.insert(voucher);
+        voucherRepository.save(voucher);
     }
 
     public List<Voucher> getAllVouchers() {

@@ -28,7 +28,7 @@ class OrderServiceTest {
         // Given
         var voucherRepository = new VoucherMemoryRepository();
         var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
-        voucherRepository.insert(fixedAmountVoucher);
+        voucherRepository.save(fixedAmountVoucher);
         var sut = new OrderService(new VoucherService(voucherRepository), new OrderRepositoryStub());
 
         // When

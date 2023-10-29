@@ -59,7 +59,7 @@ public class KdtSpringContextTests {
     public void testOrderService() {
         // Given
         var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
-        voucherRepository.insert(fixedAmountVoucher);
+        voucherRepository.save(fixedAmountVoucher);
 
         // When
         var order = orderService.createOrder(
