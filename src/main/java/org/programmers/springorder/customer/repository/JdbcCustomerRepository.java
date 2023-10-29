@@ -63,6 +63,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return customer;
     }
 
+    public void clear(){
+        jdbcTemplate.getJdbcOperations().update("delete from customers");
+    }
     private Map<String, Object> toParamMap(Customer customer) {
         return new HashMap<>() {{
             put("customerId", customer.getCustomerId().toString().getBytes());

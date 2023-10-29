@@ -80,6 +80,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 toParamMap(voucher));
     }
 
+    public void clear(){
+        jdbcTemplate.getJdbcOperations().update("delete from vouchers");
+    }
+
     private Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>() {{
             put("voucherId", voucher.getVoucherId().toString().getBytes());

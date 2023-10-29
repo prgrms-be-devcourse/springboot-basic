@@ -1,19 +1,21 @@
 package org.programmers.springorder.voucher.service;
 
 
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.config.Charset;
-import com.wix.mysql.config.MysqldConfig;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.programmers.springorder.config.jdbc.JdbcConfig;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
+import org.programmers.springorder.customer.repository.JdbcCustomerRepository;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.model.VoucherType;
+import org.programmers.springorder.voucher.repository.JdbcVoucherRepository;
 import org.programmers.springorder.voucher.repository.VoucherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,17 +28,11 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 class VoucherServiceTest {
-
-    static EmbeddedMysql embeddedMysql;
 
     @Configuration
     @ComponentScan(basePackageClasses = JdbcConfig.class)
@@ -53,28 +49,16 @@ class VoucherServiceTest {
     VoucherService voucherService;
 
 
-    @BeforeAll
-    static void setUp() {
-        MysqldConfig mysqldConfig = aMysqldConfig(v8_0_11)
-                .withCharset(Charset.UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqldConfig)
-                .addSchema("test_voucher", classPathScript("/schema.sql"))
-                .start();
-    }
 
     @AfterEach
-    void clear() {
-        embeddedMysql.executeScripts("test_voucher", List.of(() -> "delete from vouchers; delete from customers;"));
+    void clear(){
+        JdbcVoucherRepository jdbcVoucherRepository = (JdbcVoucherRepository) voucherRepository;
+        jdbcVoucherRepository.clear();
+        JdbcCustomerRepository jdbcCustomerRepository = (JdbcCustomerRepository) customerRepository;
+        jdbcCustomerRepository.clear();
+
     }
 
-    @AfterAll
-    static void finish() {
-        embeddedMysql.stop();
-    }
 
     @Test
     @DisplayName("모든 Voucher 리스트를 가져오는 Service 로직")

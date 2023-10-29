@@ -21,9 +21,9 @@ public class MemoryConfig {
     @Bean
     public DataSource dataSource() {
         var dataSource = DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:2215/test_voucher")
-                .username("test")
-                .password("test1234!")
+                .url("jdbc:mysql://localhost:3306/vouchers_test")
+                .username("root")
+                .password("1234")
                 .type(HikariDataSource.class)
                 .build();
         dataSource.setMaximumPoolSize(15);

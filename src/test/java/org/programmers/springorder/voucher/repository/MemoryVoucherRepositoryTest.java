@@ -1,13 +1,13 @@
 package org.programmers.springorder.voucher.repository;
 
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.config.Charset;
-import com.wix.mysql.config.MysqldConfig;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.programmers.springorder.config.memory.MemoryConfig;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
+import org.programmers.springorder.customer.repository.JdbcCustomerRepository;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.model.VoucherType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +20,12 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringJUnitConfig
 class MemoryVoucherRepositoryTest {
 
-    static EmbeddedMysql embeddedMysql;
 
     @Configuration
     @ComponentScan(basePackageClasses = MemoryConfig.class)
@@ -44,30 +39,11 @@ class MemoryVoucherRepositoryTest {
     CustomerRepository customerRepository;
 
 
-    @BeforeAll
-    static void setUp() {
-        MysqldConfig mysqldConfig = aMysqldConfig(v8_0_11)
-                .withCharset(Charset.UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqldConfig)
-                .addSchema("test_voucher", classPathScript("/schema.sql"))
-                .start();
-    }
-
-
-    @AfterAll
-    static void finish() {
-        embeddedMysql.stop();
-    }
 
     @AfterEach
-    void clear() {
-        ((MemoryVoucherRepository) voucherRepository).reset();
-        embeddedMysql.executeScripts("test_voucher", List.of(() -> "delete from customers;"));
-
+    void clear(){
+        ((MemoryVoucherRepository)voucherRepository).reset();
+        ((JdbcCustomerRepository) customerRepository).clear();
     }
 
     @Test

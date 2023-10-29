@@ -1,93 +1,38 @@
 package org.programmers.springorder.customer.repository;
 
-import com.wix.mysql.EmbeddedMysql;
-import com.wix.mysql.config.Charset;
-import com.wix.mysql.config.MysqldConfig;
-import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.programmers.springorder.config.jdbc.JdbcConfig;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static com.wix.mysql.EmbeddedMysql.anEmbeddedMysql;
-import static com.wix.mysql.ScriptResolver.classPathScript;
-import static com.wix.mysql.config.MysqldConfig.aMysqldConfig;
-import static com.wix.mysql.distribution.Version.v8_0_11;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
 class JdbcCustomerRepositoryTest {
 
-    static EmbeddedMysql embeddedMysql;
 
     @Configuration
-    static class Config{
-        @Bean
-        public DataSource dataSource(){
-            var dataSource = DataSourceBuilder.create()
-                    .url("jdbc:mysql://localhost:2215/test_voucher")
-                    .username("test")
-                    .password("test1234!")
-                    .type(HikariDataSource.class)
-                    .build();
-            dataSource.setMaximumPoolSize(1000);
-            dataSource.setMinimumIdle(100);
-            return dataSource;
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate(DataSource dataSource){
-            return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate){
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
-        }
-
-        @Bean
-        public CustomerRepository customerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate){
-            return new JdbcCustomerRepository(namedParameterJdbcTemplate);
-        }
-
-    }
-
-    @Autowired
-    CustomerRepository customerRepository;
-
-    @BeforeAll
-    static void setUp(){
-        MysqldConfig mysqldConfig = aMysqldConfig(v8_0_11)
-                .withCharset(Charset.UTF8)
-                .withPort(2215)
-                .withUser("test", "test1234!")
-                .withTimeZone("Asia/Seoul")
-                .build();
-        embeddedMysql = anEmbeddedMysql(mysqldConfig)
-                .addSchema("test_voucher", classPathScript("/schema.sql"))
-                .start();
-    }
+    @ComponentScan(basePackageClasses = JdbcConfig.class)
+    static class Config{ }
 
     @AfterEach
     void clear(){
-        embeddedMysql.executeScripts("test_voucher", List.of(() ->"delete from vouchers; delete from customers;"));
+        JdbcCustomerRepository jdbcCustomerRepository = (JdbcCustomerRepository) customerRepository;
+        jdbcCustomerRepository.clear();
     }
+    @Autowired
+    CustomerRepository customerRepository;
 
-    @AfterAll
-    static void finish(){
-        embeddedMysql.stop();
-    }
 
     @Test
     @DisplayName("회원 저장에 성공한다.")

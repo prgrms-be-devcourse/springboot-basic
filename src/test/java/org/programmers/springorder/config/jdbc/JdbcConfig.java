@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 
@@ -21,9 +23,9 @@ public class JdbcConfig {
     @Bean
     public DataSource dataSource() {
         var dataSource = DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:2215/test_voucher")
-                .username("test")
-                .password("test1234!")
+                .url("jdbc:mysql://localhost:3306/vouchers_test")
+                .username("root")
+                .password("1234")
                 .type(HikariDataSource.class)
                 .build();
         dataSource.setMaximumPoolSize(15);
@@ -61,5 +63,9 @@ public class JdbcConfig {
         return new VoucherService(voucherRepository, customerRepository);
     }
 
+    @Bean
+    public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
 
 }
