@@ -1,0 +1,12 @@
+[
+  {
+    "id": "bf095f82-7c2e-446d-9dd4-81a752bc7f8e",
+    "percent": 50,
+    "type": "PERCENT"
+  },
+  {
+    "amount": 1000,
+    "id": "b3f3d7c7-44b5-4d32-a442-d77c29ebac99",
+    "type": "FIXED"
+  }
+]

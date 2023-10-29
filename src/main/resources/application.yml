@@ -1,0 +1,31 @@
+application:
+  title: "voucher-management-system"
+  version: "1.0.0"
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3305/voucher_mgmt_system?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: uijin-mysql-pw
+
+file:
+  path:
+    blacklist: "src/main/resources/blacklist.csv"
+    voucher_data: "src/main/resources/voucher_data.json"
+---
+spring:
+  profiles:
+    active: "prod"
+---
+spring:
+  profiles:
+    active: "dev"
+---
+spring:
+  profiles:
+    active: "local"
+---
+spring:
+  profiles:
+    active: "debug"
