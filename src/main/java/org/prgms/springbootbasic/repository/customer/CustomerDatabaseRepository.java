@@ -3,6 +3,7 @@ package org.prgms.springbootbasic.repository.customer;
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.customer.Customer;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -29,7 +30,7 @@ public class CustomerDatabaseRepository implements CustomerRepository{
             jdbcTemplate.update("UPDATE customers SET name = :name WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                     toParamMap(customer));
         } else {
-            jdbcTemplate.update("INSERT INTO customers(customer_id, name, email) VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email)",
+            jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, is_blacked) VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email, :isBlacked)",
                     toParamMap(customer));
         }
 
@@ -38,18 +39,33 @@ public class CustomerDatabaseRepository implements CustomerRepository{
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
-        return Optional.ofNullable(
-                jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
-                        Collections.singletonMap("customerId", customerId.toString().getBytes()),
-                        Customer.class));
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject("SELECT * FROM customers WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+                            Collections.singletonMap("customerId", customerId.toString().getBytes()),
+                            mapToCustomer));
+        } catch (EmptyResultDataAccessException e) {
+            log.info("customerId에 해당하는 customer가 DB에 없음.");
+            return Optional.empty();
+        }
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
-        return Optional.ofNullable(
-                jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = :email",
-                        Collections.singletonMap("email", email),
-                        Customer.class));
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject("SELECT * FROM customers WHERE email = :email",
+                            Collections.singletonMap("email", email),
+                            mapToCustomer));
+        } catch (EmptyResultDataAccessException e) {
+            log.info("email에 해당하는 customer가 DB에 없음.");
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return jdbcTemplate.query("SELECT * FROM customers", mapToCustomer);
     }
 
     @Override
@@ -76,6 +92,7 @@ public class CustomerDatabaseRepository implements CustomerRepository{
             put("customerId", customer.getCustomerId().toString().getBytes());
             put("name", customer.getName());
             put("email", customer.getEmail());
+            put("isBlacked", customer.isBlacked());
         }};
     }
 
