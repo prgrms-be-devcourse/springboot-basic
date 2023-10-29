@@ -10,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class PercentDiscountVoucherTest {
     @Test
+    @DisplayName("[할인 비율]로 할인 쿠폰을 생성할 수 있다.")
     void 고정비율_할인쿠폰_생성_성공() {
         // 20% 할인 쿠폰 생성
         int discountPercent = 20;
@@ -24,7 +25,7 @@ class PercentDiscountVoucherTest {
     }
 
     @Test
-    @DisplayName("UUID 값와 함께 할인 쿠폰 생성 가능")
+    @DisplayName("[쿠폰 UUID, 할인 비율]로 할인 쿠폰 생성 가능")
     void 고정비율_할인쿠폰_생성_성공_2() {
         // 특정 UUID 값을 가진 20% 할인 쿠폰 생성
         UUID voucherId = UUID.randomUUID();
@@ -37,6 +38,43 @@ class PercentDiscountVoucherTest {
         assertThat(voucher.getType()).isEqualTo(VoucherType.PERCENT);
         // 3. 입력한 비율만큼 할인
         assertThat(voucher.getPercent()).isEqualTo(discountPercent);
+    }
+
+    @Test
+    @DisplayName("[할인 비율, 쿠폰 소지자 UUID]로 할인 쿠폰 생성 가능")
+    void 고정비율_할인쿠폰_생성_성공_3() {
+        // 특정 UUID 값을 가진 20% 할인 쿠폰 생성 + 쿠폰 소유자
+        UUID voucherId = UUID.randomUUID();
+        int discountPercent = 20;
+        UUID ownerId = UUID.randomUUID();
+        PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, discountPercent, ownerId);
+
+        // 1. 입력한 UUID가 할당
+        assertThat(voucher.getId()).isEqualTo(voucherId);
+        // 2. VoucherType은 자동으로 PERCENT
+        assertThat(voucher.getType()).isEqualTo(VoucherType.PERCENT);
+        // 3. 입력한 비율만큼 할인
+        assertThat(voucher.getPercent()).isEqualTo(discountPercent);
+        // 4. 입력한 쿠폰 소지자 할당
+        assertThat(voucher.getOwnerId()).isEqualTo(ownerId);
+    }
+
+    @Test
+    @DisplayName("[쿠폰 UUID, 할인 비율, 쿠폰 소지자 UUID]로 할인 쿠폰 생성 가능")
+    void 고정비율_할인쿠폰_생성_성공_4() {
+        // 쿠폰 소유자와 함께 20% 할인 쿠폰 생성
+        int discountPercent = 20;
+        UUID ownerId = UUID.randomUUID();
+        PercentDiscountVoucher voucher = new PercentDiscountVoucher(discountPercent, ownerId);
+
+        // 1. UUID가 자동으로 할당
+        assertThat(voucher.getId()).isNotNull();
+        // 2. VoucherType은 자동으로 PERCENT
+        assertThat(voucher.getType()).isEqualTo(VoucherType.PERCENT);
+        // 3. 입력한 비율만큼 할인
+        assertThat(voucher.getPercent()).isEqualTo(discountPercent);
+        // 4. 입력한 쿠폰 소지자 할당
+        assertThat(voucher.getOwnerId()).isEqualTo(ownerId);
     }
 
     @Test
