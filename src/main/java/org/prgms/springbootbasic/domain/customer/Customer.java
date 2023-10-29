@@ -4,15 +4,15 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Customer {
-    private UUID id;
+    private final UUID customerId;
     private String name;
-    private String email;
-    private LocalDateTime createdAt;
+    private final String email;
+    private final LocalDateTime createdAt;
     private LocalDateTime lastLoginAt;
     private boolean isBlacked;
 
-    public Customer(UUID id, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt, boolean isBlacked) {
-        this.id = id;
+    public Customer(UUID customerId, String name, String email, LocalDateTime createdAt, LocalDateTime lastLoginAt, boolean isBlacked) {
+        this.customerId = customerId;
         this.name = name;
         this.email = email;
         this.createdAt = createdAt;
@@ -20,10 +20,22 @@ public class Customer {
         this.isBlacked = isBlacked;
     }
 
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
-                "id=" + id +
+                "id=" + customerId +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", createdAt=" + createdAt +
