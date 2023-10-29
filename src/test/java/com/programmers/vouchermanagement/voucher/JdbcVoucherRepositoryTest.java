@@ -120,17 +120,17 @@ public class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("올바르지 않은 아이디는 Voucher 검색 시 빈 Optional 객체를 생성한다.")
+    @DisplayName("올바르지 않은 아이디는 Voucher 조회 시 빈 Optional 객체를 생성한다.")
     void failFindById() {
 
         // given
         Voucher voucher = new Voucher(UUID.randomUUID(), 10000L, VoucherType.FIXED, VoucherType.FIXED.getVoucherPolicy());
-
-        // when
         voucherRepository.save(voucher);
 
-        // then
+        // when
         Optional<Voucher> savedVoucher = voucherRepository.findById(UUID.randomUUID());
+
+        // then
         assertThat(savedVoucher.isPresent()).isEqualTo(false);
     }
 }
