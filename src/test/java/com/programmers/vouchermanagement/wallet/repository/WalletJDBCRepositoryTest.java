@@ -9,6 +9,7 @@ import com.programmers.vouchermanagement.voucher.repository.VoucherJDBCRepositor
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -35,6 +36,17 @@ class WalletJDBCRepositoryTest {
     @Autowired
     CustomerJDBCRepository customerJDBCRepository;
 
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @AfterAll
+    void init() {
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
+        jdbcTemplate.execute("TRUNCATE TABLE test.vouchers");
+        jdbcTemplate.execute("TRUNCATE TABLE test.ownership");
+        jdbcTemplate.execute("TRUNCATE TABLE test.customers");
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
+    }
     @Test
     @Order(1)
     @DisplayName("🆗 의존성 주입 테스트.")

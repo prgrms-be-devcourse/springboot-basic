@@ -2,10 +2,12 @@ package com.programmers.vouchermanagement.customer.repository;
 
 import com.programmers.vouchermanagement.TestConfig;
 import com.programmers.vouchermanagement.customer.domain.Customer;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -21,6 +23,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 class CustomerJDBCRepositoryTest {
     @Autowired
     CustomerJDBCRepository customerJDBCRepository;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @AfterAll
+    void init() {
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
+        jdbcTemplate.execute("TRUNCATE TABLE test.customers");
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
+    }
 
     @Test
     @DisplayName("🆗 블랙리스트를 조회할 수 있다. 단, 블랙 고객이 없는 경우 빈 list가 반환된다.")

@@ -3,10 +3,9 @@ package com.programmers.vouchermanagement.voucher.repository;
 import com.programmers.vouchermanagement.TestConfig;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -25,6 +24,16 @@ class VoucherJDBCRepositoryTest {
     private final static UUID NON_EXISTENT_VOUCHER_ID = UUID.randomUUID();
     @Autowired
     VoucherJDBCRepository voucherJDBCRepository;
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @AfterAll
+    void init() {
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
+        jdbcTemplate.execute("TRUNCATE TABLE test.vouchers");
+        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
+    }
 
     @Test
     @DisplayName("🆗 고정 금액 할인 바우처를 추가할 수 있다.")
