@@ -21,8 +21,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 
     private static final String SELECT_ALL_SQL = "SELECT * FROM customers";
-    private static final String SELECT_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)";
-    private static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (UUID_TO_BIN(?), ?, ?, ?)";
+    private static final String SELECT_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = ?";
+    private static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (?, ?, ?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
 
