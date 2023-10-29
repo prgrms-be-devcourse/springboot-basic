@@ -1,3 +1,5 @@
+CREATE DATABASE test;
+use test;
 CREATE TABLE customers
 (
     id    BINARY(16) PRIMARY KEY,
@@ -20,6 +22,8 @@ CREATE TABLE ownership
     customer_id BINARY(16),
     FOREIGN KEY (voucher_id) REFERENCES vouchers (id) ON DELETE CASCADE,
     FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE
-)
+);
+
+
 ## for init database
 SET FOREIGN_KEY_CHECKS = 0;TRUNCATE TABLE vouchers;TRUNCATE TABLE ownership;TRUNCATE TABLE customers;SET FOREIGN_KEY_CHECKS = 1;
