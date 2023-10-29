@@ -1,9 +1,9 @@
 package com.programmers.vouchermanagement.repository.voucher;
 
-import com.programmers.vouchermanagement.common.ErrorMessage;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
-import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import com.programmers.vouchermanagement.dto.VoucherDto;
+import com.programmers.vouchermanagement.utils.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,15 +11,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.io.*;
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("dev")
+@Profile("local")
 public class FileVoucherRepository implements VoucherRepository {
     private static final String CSV_SEPARATOR = ",";
 
@@ -42,45 +41,49 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findById(UUID id) {
+        return Optional.ofNullable(vouchers.get(id));
+    }
+
+    @Override
+    public Optional<Voucher> findByName(String name) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getName().equals(name))
+                .findFirst();
+    }
+
+    @Override
+    public List<Voucher> findByNameLike(String name) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getName().contains(name))
+                .toList();
+    }
+
+    @Override
     public Voucher save(Voucher voucher) {
         vouchers.put(voucher.getId(), voucher);
         updateFile();
         return voucher;
     }
 
-    public void readFile() {
-        String line;
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
-            while ((line = br.readLine()) != null) {
-                String[] strings = line.split(CSV_SEPARATOR);
-                Voucher voucher = VoucherFactory.createVoucher(
-                        UUID.fromString(strings[0]),
-                        strings[1],
-                        Float.parseFloat(strings[2]),
-                        VoucherType.valueOf(strings[3].toUpperCase()));
-                vouchers.put(voucher.getId(), voucher);
-            }
-        } catch (FileNotFoundException e) {
-            logger.warn(MessageFormat.format("{0} : {1}", ErrorMessage.FILE_NOT_FOUND_MESSAGE.getMessage(), csvFilePath));
-        } catch (IOException e) {
-            logger.error("Error occurred at FileReader: ", e);
-        }
+    @Override
+    public int delete(UUID id) {
+        Voucher voucher = vouchers.remove(id);
+        updateFile();
+        return voucher != null ? 1 : 0;
     }
 
-    public void updateFile() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFilePath))) {
-            vouchers.values().stream()
-                    .map(voucher -> voucher.joinInfo(CSV_SEPARATOR))
-                    .forEach(line -> {
-                        try {
-                            bw.write(line);
-                            bw.newLine();
-                        } catch (IOException e) {
-                            logger.error("Error occurred at FileWriter: ", e);
-                        }
-                    });
-        } catch (IOException e) {
-            logger.error("Error occurred af FileWriter: ", e);
-        }
+    public void readFile() {
+
+        final List<String> lines = CsvFileUtil.readCsvFile(csvFilePath);
+        lines.forEach(line -> {
+            String[] voucherInfo = line.split(CSV_SEPARATOR);
+            Voucher voucher = VoucherFactory.createVoucher(new VoucherDto.Create(voucherInfo));
+            vouchers.put(voucher.getId(), voucher);
+        });
+    }
+
+    private void updateFile() {
+        CsvFileUtil.updateCsvFile(csvFilePath, vouchers.values().stream().toList());
     }
 }

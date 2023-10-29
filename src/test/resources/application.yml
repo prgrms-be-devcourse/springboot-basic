@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    default: test
+---
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  config:
+    activate:
+      on-profile: test
+#  datasource:
+#    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+#    url: jdbc:tc:mysql:8.0.26://test_order_mgmt
+#    username: root
+#    password: test
+#    hikari:
+#      auto-commit: false
+#      connection-test-query: SELECT 1
+#      minimum-idle: 10
+#      maximum-pool-size: 50
+#      transaction-isolation: TRANSACTION_READ_UNCOMMITTED
+#      pool-name: pool-order_mgmt
