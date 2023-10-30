@@ -1,21 +1,20 @@
 package org.prgrms.prgrmsspring.domain.command;
 
-import org.prgrms.prgrmsspring.controller.ApplicationController;
-import org.prgrms.prgrmsspring.controller.VoucherController;
+import org.prgrms.prgrmsspring.console.ConsoleIOManager;
+import org.prgrms.prgrmsspring.console.VoucherConsole;
 
 import java.util.function.Consumer;
 
 public enum VoucherCommand implements Command {
-    CREATE("create a new voucher.", VoucherController::create),
-    UPDATE("update a voucher.", VoucherController::update),
-    DELETE("delete a voucher.", VoucherController::delete),
-    LIST("list vouchers.", VoucherController::list);
+    CREATE("create a new voucher.", VoucherConsole::create),
+    UPDATE("update a voucher.", VoucherConsole::update),
+    DELETE("delete a voucher.", VoucherConsole::delete),
+    LIST("list vouchers.", VoucherConsole::findAll);
 
     private final String document;
-    private final Consumer<VoucherController> consumer;
+    private final Consumer<VoucherConsole> consumer;
 
-
-    VoucherCommand(String document, Consumer<VoucherController> consumer) {
+    VoucherCommand(String document, Consumer<VoucherConsole> consumer) {
         this.document = document;
         this.consumer = consumer;
     }
@@ -30,7 +29,7 @@ public enum VoucherCommand implements Command {
     }
 
     @Override
-    public void run(ApplicationController controller) {
-        this.consumer.accept((VoucherController) controller);
+    public void run(ConsoleIOManager consoleIOManager) {
+        this.consumer.accept((VoucherConsole) consoleIOManager);
     }
 }

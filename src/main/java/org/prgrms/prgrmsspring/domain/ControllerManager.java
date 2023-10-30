@@ -1,5 +1,9 @@
 package org.prgrms.prgrmsspring.domain;
 
+import org.prgrms.prgrmsspring.console.ConsoleIOManager;
+import org.prgrms.prgrmsspring.console.CustomerConsole;
+import org.prgrms.prgrmsspring.console.VoucherConsole;
+import org.prgrms.prgrmsspring.console.WalletConsole;
 import org.prgrms.prgrmsspring.controller.ApplicationController;
 import org.prgrms.prgrmsspring.controller.CustomerController;
 import org.prgrms.prgrmsspring.controller.VoucherController;
@@ -15,19 +19,31 @@ import java.util.Optional;
 @Component
 public class ControllerManager {
     private final Map<Integer, ApplicationController> controllerMap = new HashMap<>();
+    private final Map<ApplicationController, ConsoleIOManager> consoleManagerMap = new HashMap<>();
 
     @Autowired
     public ControllerManager(CustomerController customerController,
                              VoucherController voucherController,
-                             WalletController walletController) {
+                             WalletController walletController,
+                             CustomerConsole customerConsole,
+                             VoucherConsole voucherConsole,
+                             WalletConsole walletConsole) {
         controllerMap.put(1, customerController);
         controllerMap.put(2, voucherController);
         controllerMap.put(3, walletController);
+        consoleManagerMap.put(customerController, customerConsole);
+        consoleManagerMap.put(voucherController, voucherConsole);
+        consoleManagerMap.put(walletController, walletConsole);
     }
 
     public ApplicationController getController(int modeNumber) {
         return Optional.ofNullable(controllerMap.get(modeNumber))
                 .orElseThrow(() -> new NotFoundException("Controller not found for mode number: " + modeNumber));
+    }
+
+
+    public ConsoleIOManager getConsoleIoManager(ApplicationController controller) {
+        return consoleManagerMap.get(controller);
     }
 
     public boolean isExit(int modeNumber) {

@@ -5,7 +5,6 @@ import org.prgrms.prgrmsspring.entity.wallet.Wallet;
 import org.prgrms.prgrmsspring.exception.DataAccessException;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
-import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,7 +17,6 @@ import java.util.UUID;
 
 import static org.prgrms.prgrmsspring.repository.Field.*;
 
-@Profile("prod")
 @Repository
 public class DBWalletRepository implements WalletRepository {
 

@@ -1,22 +1,22 @@
 package org.prgrms.prgrmsspring.domain.command;
 
-import org.prgrms.prgrmsspring.controller.ApplicationController;
-import org.prgrms.prgrmsspring.controller.CustomerController;
+import org.prgrms.prgrmsspring.console.ConsoleIOManager;
+import org.prgrms.prgrmsspring.console.CustomerConsole;
 
 import java.util.function.Consumer;
 
 public enum CustomerCommand implements Command {
-    CREATE("create a new customer", CustomerController::create),
-    UPDATE("update a customer", CustomerController::update),
-    DELETE("delete a customer", CustomerController::delete),
-    LIST("list all customers", CustomerController::findAll),
-    BLACK("list black customers", CustomerController::findAllBlackList);
+    CREATE("create a new customer", CustomerConsole::create),
+    UPDATE("update a customer", CustomerConsole::update),
+    DELETE("delete a customer", CustomerConsole::delete),
+    LIST("list all customers", CustomerConsole::findAll),
+    BLACK("list black customers", CustomerConsole::findAllBlackList);
 
 
     private final String document;
-    private final Consumer<CustomerController> consumer;
+    private final Consumer<CustomerConsole> consumer;
 
-    CustomerCommand(String document, Consumer<CustomerController> consumer) {
+    CustomerCommand(String document, Consumer<CustomerConsole> consumer) {
         this.document = document;
         this.consumer = consumer;
     }
@@ -27,7 +27,11 @@ public enum CustomerCommand implements Command {
     }
 
     @Override
-    public void run(ApplicationController controller) {
-        this.consumer.accept((CustomerController) controller);
+    public void run(ConsoleIOManager consoleIOManager) {
+        this.consumer.accept((CustomerConsole) consoleIOManager);
+    }
+
+    public Command[] test() {
+        return CustomerCommand.values();
     }
 }
