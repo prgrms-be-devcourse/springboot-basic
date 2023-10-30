@@ -8,12 +8,6 @@ public class UuidUtil {
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
     }
-    public static UUID intToUUID(int value) {
-        long mostSignificantBits = (value) & 0xFFFFFFFFL;
-        long leastSignificantBits = 0x5E05000000000000L;
-
-        return new UUID(mostSignificantBits, leastSignificantBits);
-    }
     public static UUID stringToUUID(String inputString) {
         try {
             return UUID.fromString(inputString);
