@@ -37,18 +37,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlack() {
-
-        List<Customer> customers = jdbcTemplate.query(READ_BLACK, customerRowMapper);
-
-        return customers;
+        return jdbcTemplate.query(READ_BLACK, customerRowMapper);
     }
 
     @Override
     public Optional<Customer> findById(UUID customerId) {
 
         try {
-            Optional<Customer> optionalCustomer = Optional.of(jdbcTemplate.queryForObject(READ_ONCE, customerRowMapper, customerId.toString()));
-            return optionalCustomer;
+            return Optional.of(jdbcTemplate.queryForObject(READ_ONCE, customerRowMapper, customerId.toString()));
 
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
