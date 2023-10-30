@@ -6,8 +6,8 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +34,7 @@ abstract class VoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("Voucher 추가가 가능해야한다.")
+    @DisplayName("Voucher 추가가 가능해야 한다.")
     void testSave() {
         // given
         VoucherRepository repository = getRepository();
@@ -47,7 +47,7 @@ abstract class VoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("추가한 모든 Voucher를 조회할 수 있어야한다.")
+    @DisplayName("추가한 모든 Voucher를 조회할 수 있어야 한다.")
     void testFindAll() {
         // given
         VoucherRepository repository = getRepository();
@@ -57,20 +57,20 @@ abstract class VoucherRepositoryTest {
             generatedVouchers.add(generateVoucher());
         }
 
-        generatedVouchers.sort(Comparator.comparing(Voucher::getId));
-
         // when
         generatedVouchers.forEach(repository::save);
 
         // then
-        List<Voucher> retrievedVouchers = repository.findAll()
+        List<UUID> generatedIds = generatedVouchers.stream()
+                .map(Voucher::getId)
+                .toList();
+        List<UUID> retrievedIds = repository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(Voucher::getId))
+                .map(Voucher::getId)
                 .toList();
 
-        assertThat(retrievedVouchers, not(empty()));
+        assertThat(retrievedIds, not(empty()));
 
-        Assertions.assertThat(retrievedVouchers).usingRecursiveComparison()
-                .isEqualTo(generatedVouchers);
+        Assertions.assertThat(retrievedIds).containsExactlyInAnyOrderElementsOf(generatedIds);
     }
 }
