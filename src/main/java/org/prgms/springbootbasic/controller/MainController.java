@@ -8,6 +8,7 @@ import org.prgms.springbootbasic.domain.customer.Customer;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.prgms.springbootbasic.service.CustomerService;
 import org.prgms.springbootbasic.service.VoucherService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 
 import java.util.InputMismatchException;
@@ -53,6 +54,9 @@ public class MainController {
                     throw new RuntimeException("Scanner is closed.");
                 } catch (IllegalArgumentException e) {
                     MainConsole.printArgException();
+                } catch (DataAccessException e) {
+                    log.error("Database error.");
+                    MainConsole.printRuntimeException();
                 } catch (RuntimeException e) {
                     MainConsole.printRuntimeException();
                 }
