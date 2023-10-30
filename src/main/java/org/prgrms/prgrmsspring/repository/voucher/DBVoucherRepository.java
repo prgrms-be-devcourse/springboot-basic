@@ -17,16 +17,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.prgrmsspring.repository.Field.*;
+
 @Profile("prod")
 @Primary
 @Repository
 public class DBVoucherRepository implements VoucherRepository {
 
     private final JdbcTemplate jdbcTemplate;
-
-    private static final String VOUCHER_ID = "VOUCHER_ID";
-    private static final String TYPE = "TYPE";
-    private static final String AMOUNT = "AMOUNT";
 
 
     public DBVoucherRepository(DataSource dataSource) {
@@ -48,8 +46,8 @@ public class DBVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         String sql = "SELECT * FROM VOUCHERS";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
-            VoucherType voucherType = VoucherType.from(rs.getString(TYPE));
-            return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID)), rs.getLong(AMOUNT));
+            VoucherType voucherType = VoucherType.from(rs.getString(TYPE.getFieldName()));
+            return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID.getFieldName())), rs.getLong(AMOUNT.getFieldName()));
         });
     }
 
@@ -58,8 +56,8 @@ public class DBVoucherRepository implements VoucherRepository {
         String sql = "SELECT * FROM VOUCHERS WHERE VOUCHER_ID = UUID_TO_BIN(?)";
         try {
             Voucher voucher = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
-                VoucherType voucherType = VoucherType.from(rs.getString(TYPE));
-                return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID)), rs.getLong(AMOUNT));
+                VoucherType voucherType = VoucherType.from(rs.getString(TYPE.getFieldName()));
+                return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID.getFieldName())), rs.getLong(AMOUNT.getFieldName()));
             }, voucherId.toString());
             return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {

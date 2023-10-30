@@ -15,17 +15,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.prgrmsspring.repository.Field.*;
+
 @Profile("prod")
 @Primary
 @Repository
 public class DBCustomerRepository implements CustomerRepository {
 
     private final JdbcTemplate jdbcTemplate;
-
-    private static final String CUSTOMER_ID = "CUSTOMER_ID";
-    private static final String NAME = "NAME";
-    private static final String IS_BLACK = "IS_BLACK";
-    private static final String EMAIL = "EMAIL";
 
     public DBCustomerRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -36,10 +33,10 @@ public class DBCustomerRepository implements CustomerRepository {
         String sql = "SELECT * FROM CUSTOMERS";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
                 new Customer(
-                        new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)),
-                        rs.getString(NAME),
-                        rs.getString(EMAIL),
-                        rs.getBoolean(IS_BLACK)));
+                        new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID.getFieldName())),
+                        rs.getString(NAME.getFieldName()),
+                        rs.getString(EMAIL.getFieldName()),
+                        rs.getBoolean(IS_BLACK.getFieldName())));
     }
 
     @Override
@@ -47,10 +44,10 @@ public class DBCustomerRepository implements CustomerRepository {
         String sql = "SELECT * FROM CUSTOMERS WHERE IS_BLACK = ?";
         return jdbcTemplate.query(sql, (rs, rowNum) ->
                         new Customer(
-                                new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)),
-                                rs.getString(NAME),
-                                rs.getString(EMAIL),
-                                rs.getBoolean(IS_BLACK)),
+                                new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID.getFieldName())),
+                                rs.getString(NAME.getFieldName()),
+                                rs.getString(EMAIL.getFieldName()),
+                                rs.getBoolean(IS_BLACK.getFieldName())),
                 true);
     }
 
@@ -60,10 +57,10 @@ public class DBCustomerRepository implements CustomerRepository {
         try {
             Customer customer = jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
                             new Customer(
-                                    new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID)),
-                                    rs.getString(NAME),
-                                    rs.getString(EMAIL),
-                                    rs.getBoolean(IS_BLACK)),
+                                    new BinaryToUUIDConverter().run(rs.getBytes(CUSTOMER_ID.getFieldName())),
+                                    rs.getString(NAME.getFieldName()),
+                                    rs.getString(EMAIL.getFieldName()),
+                                    rs.getBoolean(IS_BLACK.getFieldName())),
                     customerId.toString());
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {

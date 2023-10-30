@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.prgrms.prgrmsspring.repository.Field.*;
+
 @Profile("prod")
 @Primary
 @Repository
@@ -44,7 +46,7 @@ public class DBWalletRepository implements WalletRepository {
     @Override
     public List<UUID> findVoucherIdListByCustomerId(UUID customerId) {
         String sql = "SELECT VOUCHER_ID FROM WALLET WHERE CUSTOMER_ID = UUID_TO_BIN(?)";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> new BinaryToUUIDConverter().run(rs.getBytes("VOUCHER_ID")), customerId.toString());
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID.getFieldName())), customerId.toString());
     }
 
     @Override
@@ -60,9 +62,9 @@ public class DBWalletRepository implements WalletRepository {
             Customer customer = jdbcTemplate.queryForObject(sql, (rs, rowNum) ->
                             new Customer(
                                     new BinaryToUUIDConverter().run(rs.getBytes("C.CUSTOMER_ID")),
-                                    rs.getString("NAME"),
-                                    rs.getString("EMAIL"),
-                                    rs.getBoolean("IS_BLACK")),
+                                    rs.getString(NAME.getFieldName()),
+                                    rs.getString(EMAIL.getFieldName()),
+                                    rs.getBoolean(IS_BLACK.getFieldName())),
                     voucherId.toString());
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
