@@ -1,5 +1,8 @@
 package org.prgms.springbootbasic.common.console;
 
+import java.util.UUID;
+
+import static org.prgms.springbootbasic.common.UtilMethod.stringToUUID;
 import static org.prgms.springbootbasic.common.console.Console.consoleInput;
 
 public class WalletConsole {
@@ -14,16 +17,16 @@ public class WalletConsole {
         return consoleInput.next();
     }
 
-    public static String typeCustomerId(){
+    public static UUID typeCustomerId(){
         System.out.println("Type customer Id.");
 
-        return consoleInput.next();
+        return stringToUUID(consoleInput.next());
     }
 
-    public static String typeVoucherId(){
+    public static UUID typeVoucherId(){
         System.out.println("Type voucher Id.");
 
-        return consoleInput.next();
+        return stringToUUID(consoleInput.next());
     }
 
     public static void success(String command){

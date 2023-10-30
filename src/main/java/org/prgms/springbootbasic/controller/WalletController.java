@@ -1,7 +1,10 @@
 package org.prgms.springbootbasic.controller;
 
 import org.prgms.springbootbasic.common.console.WalletConsole;
+import org.prgms.springbootbasic.service.WalletService;
 import org.springframework.stereotype.Controller;
+
+import java.util.UUID;
 
 @Controller
 public class WalletController {
@@ -33,21 +36,21 @@ public class WalletController {
     }
 
     private void allocate(){
-        String customerId = WalletConsole.typeCustomerId();
-        String voucherId = WalletConsole.typeVoucherId();
+        UUID customerId = WalletConsole.typeCustomerId();
+        UUID voucherId = WalletConsole.typeVoucherId();
 
         walletService.allocate(customerId, voucherId);
     }
 
     private void delete(){
-        String customerId = WalletConsole.typeCustomerId();
-        String voucherId = WalletConsole.typeVoucherId();
+        UUID customerId = WalletConsole.typeCustomerId();
+        UUID voucherId = WalletConsole.typeVoucherId();
 
         walletService.delete(customerId, voucherId);
     }
 
     private void showCustomer(){
-        String customerId = WalletConsole.typeCustomerId();
+        UUID customerId = WalletConsole.typeCustomerId();
 
         walletService.showCustomer(customerId);
     }
