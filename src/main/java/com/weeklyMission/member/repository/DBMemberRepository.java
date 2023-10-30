@@ -69,14 +69,10 @@ public class DBMemberRepository implements MemberRepository{
         return Optional.ofNullable(member);
     }
 
-    public List<Member> findByIds(List<String> idList){
-        List<byte[]> idByteList = idList.stream()
-            .map(id -> id.toString().getBytes())
-            .toList();
-
+    public List<Member> findByIds(List<String> ids){
         List<Member> members = jdbcTemplate.query(
             "select * from members where member_id in (:memberIds)",
-            Collections.singletonMap("memberIds", idByteList), memberRowMapper);
+            Collections.singletonMap("memberIds", ids), memberRowMapper);
 
         return members;
     }

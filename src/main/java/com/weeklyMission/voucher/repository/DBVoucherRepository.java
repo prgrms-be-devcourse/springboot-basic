@@ -68,10 +68,10 @@ public class DBVoucherRepository implements VoucherRepository{
         return Optional.ofNullable(voucherId);
     }
 
-    public List<Voucher> findByIds(List<String> idList){
+    public List<Voucher> findByIds(List<String> ids){
         List<Voucher> vouchers = jdbcTemplate.query(
             "select * from voucher where voucher_id in (:voucherIds)",
-            Collections.singletonMap("voucherIds", idList), voucherRowMapper);
+            Collections.singletonMap("voucherIds", ids), voucherRowMapper);
 
         return vouchers;
     }
