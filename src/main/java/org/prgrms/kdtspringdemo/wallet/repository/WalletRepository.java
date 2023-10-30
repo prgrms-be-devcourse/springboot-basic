@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.wallet.repository;
 
-import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 
 import java.util.Optional;

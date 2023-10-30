@@ -1,7 +1,5 @@
 package org.prgrms.kdtspringdemo.voucher.repository;
 
-import org.prgrms.kdtspringdemo.customer.domain.Customer;
-import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.slf4j.Logger;
@@ -14,7 +12,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Optional;

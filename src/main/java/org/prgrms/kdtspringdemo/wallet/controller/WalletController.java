@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.wallet.controller;
 
-import org.prgrms.kdtspringdemo.customer.controller.CustomerController;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;

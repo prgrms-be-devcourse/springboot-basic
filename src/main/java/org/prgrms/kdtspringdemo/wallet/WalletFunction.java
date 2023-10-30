@@ -1,6 +1,5 @@
 package org.prgrms.kdtspringdemo.wallet;
 
-import org.prgrms.kdtspringdemo.voucher.controller.VoucherController;
 import org.prgrms.kdtspringdemo.wallet.controller.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

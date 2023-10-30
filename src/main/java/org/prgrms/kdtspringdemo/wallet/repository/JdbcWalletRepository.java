@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.wallet.repository;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +36,7 @@ public class JdbcWalletRepository implements WalletRepository{
         var vouchers = toVoucherList(jsonArray);
         return new Wallet(walletId, customerId, vouchers);
     };
+
     static List<UUID> toVoucherList(JsonArray jsonArray) {
         List<UUID> vouchers = new ArrayList<>();
         jsonArray.forEach(data -> {

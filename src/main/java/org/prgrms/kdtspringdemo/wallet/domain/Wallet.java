@@ -17,11 +17,9 @@ public class Wallet {
     public UUID getWalletId() {
         return walletId;
     }
-
     public UUID getCustomerId() {
         return customerId;
     }
-
     public List<UUID> getVouchers() {
         return vouchers;
     }
