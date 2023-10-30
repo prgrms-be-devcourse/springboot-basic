@@ -10,5 +10,6 @@ CREATE TABLE IF NOT EXISTS customers (
 
 CREATE TABLE IF NOT EXISTS vouchers (
     voucher_id BINARY(16) PRIMARY KEY,
-    discount_degree bigint NOT NULL
+    discount_degree bigint NOT NULL,
+    voucher_type varchar(64) NOT NULL
 );
