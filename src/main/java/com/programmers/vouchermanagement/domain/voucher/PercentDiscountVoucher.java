@@ -19,12 +19,8 @@ public class PercentDiscountVoucher extends Voucher {
         validateAmount(amount);
     }
 
-    public static PercentDiscountVoucher fixture() {
-        return new PercentDiscountVoucher(10L);
-    }
-
     private void validateAmount(long amount) {
-        if (amount < MIN_AMOUNT || MAX_AMOUNT > 100) {
+        if (amount < MIN_AMOUNT || amount > MAX_AMOUNT) {
             throw new IllegalArgumentException("Percent discount amount should be between 0 and 100");
         }
     }
