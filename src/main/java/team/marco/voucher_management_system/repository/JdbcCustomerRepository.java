@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -60,20 +61,24 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public int update(Customer customer) {
         return jdbcTemplate.update(
-                "UPDATE customer SET name = :name, email = :email, last_login_at = :lastLoginAt"
+                "UPDATE customer SET name = :name, last_login_at = :lastLoginAt"
                         + " WHERE id = UUID_TO_BIN(:id)",
                 customerToMap(customer));
     }
 
     @Override
     public Optional<Customer> findById(String id) {
-        Customer customer = jdbcTemplate.queryForObject(
-                "SELECT * FROM customer"
-                        + " WHERE id = UUID_TO_BIN(:id)",
-                Collections.singletonMap("id", id.getBytes()),
-                customerRowMapper);
+        try {
+            Customer customer = jdbcTemplate.queryForObject(
+                    "SELECT * FROM customer"
+                            + " WHERE id = UUID_TO_BIN(:id)",
+                    Collections.singletonMap("id", id.getBytes()),
+                    customerRowMapper);
 
-        return Optional.ofNullable(customer);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override

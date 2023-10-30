@@ -4,7 +4,6 @@ import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.controller.ConsoleCustomerController;
@@ -55,7 +54,7 @@ public class CommandCustomerApplication extends RunnableCommandApplication {
         } catch (DuplicateKeyException e) {
             logger.error(e.toString());
             Console.print("이미 존재하는 이메일 입니다.");
-        } catch (EmptyResultDataAccessException | NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
             logger.error(e.toString());
             Console.print("존재하지 않는 ID 입니다.");
         }
