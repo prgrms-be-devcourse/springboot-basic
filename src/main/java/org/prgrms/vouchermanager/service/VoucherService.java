@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VoucherService {
     private final VoucherRepository voucherRepository;
-    public List<Voucher> getAllVoucher(){
+    public List<Voucher> findAllVoucher(){
         return voucherRepository.findAll();
     }
     public Voucher createVoucher(Voucher voucher){

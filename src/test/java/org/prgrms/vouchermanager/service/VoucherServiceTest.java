@@ -78,7 +78,7 @@ class VoucherServiceTest {
 
             when(repository.findAll()).thenReturn(result);
 
-            List<Voucher> allVoucher = service.getAllVoucher();
+            List<Voucher> allVoucher = service.findAllVoucher();
 
             assertThat(result).isEqualTo(allVoucher);
             verify(repository).findAll();
