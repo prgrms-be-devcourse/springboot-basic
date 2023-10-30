@@ -1,13 +1,9 @@
-DROP TABLE voucher IF EXISTS voucher;
-
 CREATE TABLE voucher
 (
     id   BINARY(16)  PRIMARY KEY,
     type VARCHAR(16) NOT NULL,
     data INT         NOT NULL
-)
-
-DROP TABLE customer IF EXISTS customer;
+);
 
 CREATE TABLE customer
 (
@@ -18,8 +14,6 @@ CREATE TABLE customer
     created_at    datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP (6),
     CONSTRAINT unq_user_email UNIQUE (email)
 );
-
-DROP TABLE wallet IF EXISTS wallet;
 
 create table wallet
 (
