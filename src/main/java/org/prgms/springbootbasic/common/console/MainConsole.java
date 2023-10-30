@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.common;
+package org.prgms.springbootbasic.common.console;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.VoucherType;
@@ -6,15 +6,14 @@ import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.Scanner;
 
 import static org.prgms.springbootbasic.common.CommonConstant.INPUT_FIXED_AMOUNT_VOUCHER;
 import static org.prgms.springbootbasic.common.CommonConstant.INPUT_PERCENT_DISCOUNT_VOUCHER;
+import static org.prgms.springbootbasic.common.console.Console.consoleInput;
 
 @Component
 @Slf4j
-public class Console {
-    private static final Scanner consoleInput = new Scanner(System.in);
+public class MainConsole {
 
     public static String readCommand() {
         System.out.println("=== Voucher Program ===");
@@ -22,6 +21,7 @@ public class Console {
         System.out.println("Type 'create' to create a new voucher.");
         System.out.println("Type 'list' to list all vouchers.");
         System.out.println("Type 'black' to list customers blacked.");
+        System.out.println("Type 'wallet' to enter wallet service.");
 
         return consoleInput.next();
     }
