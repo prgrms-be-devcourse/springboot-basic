@@ -22,6 +22,6 @@ public class VoucherService {
         return voucherRepository.save(voucher);
     }
     public Optional<Voucher> findById(UUID voucherId){
-        return Optional.ofNullable(voucherRepository.findByID(voucherId).orElseThrow(NotExistVoucherException::new));
+        return voucherRepository.findByID(voucherId);
     }
 }

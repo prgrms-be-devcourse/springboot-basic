@@ -61,15 +61,6 @@ class VoucherServiceTest {
         }
 
         @Test
-        @DisplayName("없는 id로 조회 시 바우처 존재 예외가 터진다.")
-        void findByIdNotExists() {
-            Voucher fixedVoucher = VoucherData.getFixedVoucher();
-
-            Assertions.assertThrows(NotExistVoucherException.class, () ->
-                    service.findById(fixedVoucher.getVoucherId()));
-        }
-
-        @Test
         @DisplayName("모든 바우처를 조회할 수 있다")
         void findAll(){
             List<Voucher> result = new ArrayList<>();
