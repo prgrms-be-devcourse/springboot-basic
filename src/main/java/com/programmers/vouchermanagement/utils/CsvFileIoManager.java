@@ -23,10 +23,10 @@ public class CsvFileIoManager {
                 dataList.add(data);
             }
         } catch (FileNotFoundException e) {
-            throw new FileIOException("File not found. ");
+            throw new FileIOException("File not found.");
 
         } catch (IOException e) {
-            throw new FileIOException("File not read due to file issue. ");
+            throw new FileIOException("File not read due to file issue.");
         }
 
         return dataList;
@@ -40,7 +40,7 @@ public class CsvFileIoManager {
             bw.newLine();
 
         } catch (IOException e) {
-            throw new FileIOException("File not wrote due to file issue. ");
+            throw new FileIOException("File not wrote due to file issue.");
         }
     }
 
@@ -55,7 +55,7 @@ public class CsvFileIoManager {
             }
 
         } catch (IOException e) {
-            throw new FileIOException("File not updated due to file issue. ");
+            throw new FileIOException("File not updated due to file issue.");
         }
     }
 }
