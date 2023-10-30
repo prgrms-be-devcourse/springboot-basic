@@ -1,11 +1,10 @@
-package org.prgms.springbootbasic.repository;
+package org.prgms.springbootbasic.repository.voucher;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
 import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
-import org.prgms.springbootbasic.repository.voucher.VoucherCsvFileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -16,8 +15,8 @@ import java.util.UUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@ActiveProfiles("dev")
 @SpringBootTest
+@ActiveProfiles("test")
 class VoucherCsvFileRepositoryTest {
 
     @Autowired
@@ -49,8 +48,8 @@ class VoucherCsvFileRepositoryTest {
         voucherCsvFileRepository.save(percentDiscountVoucher);
 
         assertThat(voucherCsvFileRepository.findAll(), hasSize(2));
-        assertThat(voucherCsvFileRepository.findAll(), hasItem(fixedAmountVoucher));
-        assertThat(voucherCsvFileRepository.findAll(), hasItem(percentDiscountVoucher));
+        assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(fixedAmountVoucher)));
+        assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(percentDiscountVoucher)));
     }
 
     @Test
@@ -62,8 +61,8 @@ class VoucherCsvFileRepositoryTest {
         voucherCsvFileRepository.save(percentDiscountVoucher);
 
         assertThat(voucherCsvFileRepository.findAll(), hasSize(2));
-        assertThat(voucherCsvFileRepository.findAll(), hasItem(fixedAmountVoucher));
-        assertThat(voucherCsvFileRepository.findAll(), hasItem(percentDiscountVoucher));
+        assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(fixedAmountVoucher)));
+        assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(percentDiscountVoucher)));
         assertThat(voucherCsvFileRepository.findAll(),
                 not(hasItem(new FixedAmountVoucher(UUID.randomUUID(), 2000))));
     }

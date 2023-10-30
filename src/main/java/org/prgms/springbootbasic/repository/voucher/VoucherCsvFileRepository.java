@@ -9,11 +9,14 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"dev", "prod"})
+@Profile({"test"})
 @Primary
 @Slf4j
 public class VoucherCsvFileRepository implements VoucherRepository {

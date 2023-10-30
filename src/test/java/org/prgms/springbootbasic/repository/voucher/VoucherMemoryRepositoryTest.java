@@ -1,11 +1,10 @@
-package org.prgms.springbootbasic.repository;
+package org.prgms.springbootbasic.repository.voucher;
 
-import org.junit.jupiter.api.*;
-import org.prgms.springbootbasic.BasicApplication;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
 import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
-import org.prgms.springbootbasic.repository.voucher.VoucherMemoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
@@ -17,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringJUnitConfig(BasicApplication.class)
+@SpringJUnitConfig(VoucherMemoryRepository.class)
 @ActiveProfiles("local")
 class VoucherMemoryRepositoryTest {
 
@@ -53,8 +52,8 @@ class VoucherMemoryRepositoryTest {
         voucherMemoryRepository.save(fixedAmountVoucher);
 
         assertThat(voucherMemoryRepository.findAll(), hasSize(2));
-        assertThat(voucherMemoryRepository.findAll(), hasItem(percentDiscountVoucher));
-        assertThat(voucherMemoryRepository.findAll(), hasItem(fixedAmountVoucher));
+        assertThat(voucherMemoryRepository.findAll(), hasItem(samePropertyValuesAs(percentDiscountVoucher)));
+        assertThat(voucherMemoryRepository.findAll(), hasItem(samePropertyValuesAs(fixedAmountVoucher)));
     }
 
     @Test

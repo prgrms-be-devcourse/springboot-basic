@@ -66,13 +66,13 @@ public class MainController {
     }
 
     private void list(){
-        List<VoucherPolicy> voucherPolicies = voucherService.findAll(); // 뷰가 다른 클래스에 의존
+        List<VoucherPolicy> voucherPolicies = voucherService.findAll();
 
         Console.printList(voucherPolicies);
     }
 
     private void black(){
-        List<Customer> blacklist = customerService.findBlackAll(); // customerRepository에 의존
+        List<Customer> blacklist = customerService.findBlackAll();
 
         Console.printList(blacklist);
     }

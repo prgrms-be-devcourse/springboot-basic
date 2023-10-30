@@ -15,7 +15,7 @@ import static org.prgms.springbootbasic.common.CommonConstant.CSV_PATTERN;
 
 @Component
 @Slf4j
-@Profile({"dev", "prod"})
+@Profile({"test"})
 public class VoucherCsvFileManager {
     @Value("${basic.file.path}")
     private String FILE_PATH;

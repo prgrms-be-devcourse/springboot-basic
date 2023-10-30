@@ -5,11 +5,14 @@ import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile({"local", "test"})
+@Profile({"local"})
 @Slf4j
 public class VoucherMemoryRepository implements VoucherRepository{
     private final ConcurrentHashMap<UUID, VoucherPolicy> mem = new ConcurrentHashMap<>();
