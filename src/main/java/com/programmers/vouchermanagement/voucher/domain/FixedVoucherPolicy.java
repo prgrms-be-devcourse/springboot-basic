@@ -17,7 +17,7 @@ public class FixedVoucherPolicy implements VoucherPolicy {
     public void validateDiscount() {
 
         if (discount < MIN_FIXED_DISCOUNT) {
-            throw new IllegalDiscountException("Fixed discounts are available from 0. ");
+            throw new IllegalDiscountException("Fixed discounts are available from 0. Input : " + discount);
         }
     }
 

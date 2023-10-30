@@ -43,7 +43,7 @@ public class VoucherService {
     public VoucherResponseDto readVoucherById(UUID voucherId) {
 
         Voucher voucher = voucherRepository.findById(voucherId)
-                .orElseThrow(VoucherNotFoundException::new);
+                .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
         VoucherResponseDto voucherResponseDto = new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount());
 
@@ -53,7 +53,7 @@ public class VoucherService {
     public void updateVoucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
 
         voucherRepository.findById(voucherId)
-                .orElseThrow(VoucherNotFoundException::new);
+                .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
         Long discount = voucherRequestDto.getDiscount();
         VoucherType voucherType = VoucherType.getVoucherTypeByName(voucherRequestDto.getVoucherType());
@@ -69,7 +69,7 @@ public class VoucherService {
     public void removeVoucherById(UUID voucherId) {
 
         voucherRepository.findById(voucherId)
-                .orElseThrow(VoucherNotFoundException::new);
+                .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
         voucherRepository.deleteById(voucherId);
     }

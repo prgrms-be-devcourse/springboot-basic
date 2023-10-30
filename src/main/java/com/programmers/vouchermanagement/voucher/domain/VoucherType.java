@@ -12,7 +12,7 @@ public enum VoucherType {
     public static VoucherType getVoucherTypeByName(String name) {
         return Arrays.stream(VoucherType.values())
                 .filter(voucherType -> voucherType.getName().equalsIgnoreCase(name))
-                .findAny().orElseThrow(VoucherTypeNotFoundException::new);
+                .findAny().orElseThrow(() -> new VoucherTypeNotFoundException(name));
     }
 
     private String getName() {

@@ -28,13 +28,13 @@ public enum Command {
     public static Command getCommandByNumber(String commandNumber) {
         return Arrays.stream(Command.values())
                 .filter(command -> command.getCommandNumber().equals(commandNumber))
-                .findAny().orElseThrow(CommandNotFoundException::new);
+                .findAny().orElseThrow(() -> new CommandNotFoundException(commandNumber));
     }
 
     public static Command getCommandByName(String name) {
         return Arrays.stream(Command.values())
                 .filter(command -> command.getName().equalsIgnoreCase(name))
-                .findAny().orElseThrow(CommandNotFoundException::new);
+                .findAny().orElseThrow(() -> new CommandNotFoundException(name));
     }
 
     private String getName() {

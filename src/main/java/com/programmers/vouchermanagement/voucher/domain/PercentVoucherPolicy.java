@@ -18,7 +18,7 @@ public class PercentVoucherPolicy implements VoucherPolicy {
     public void validateDiscount() {
 
         if (discount > MAX_PERCENT_DISCOUNT || discount < MIN_PERCENT_DISCOUNT) {
-            throw new IllegalDiscountException("Percent discounts are available between 0 and 100. ");
+            throw new IllegalDiscountException("Percent discounts are available between 0 and 100. Input : " + discount);
         }
     }
 
