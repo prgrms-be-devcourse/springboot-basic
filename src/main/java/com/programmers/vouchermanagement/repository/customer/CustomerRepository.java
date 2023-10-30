@@ -18,5 +18,10 @@ public interface CustomerRepository {
 
     List<Customer> findAll(GetCustomersRequestDto request);
 
+    void update(Customer customer);
+
+    void deleteById(UUID id);
+
     void deleteAll();
+
 }

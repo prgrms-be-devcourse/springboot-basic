@@ -74,6 +74,16 @@ public class FileCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public void update(Customer customer) {
+        unsupported();
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        unsupported();
+    }
+
+    @Override
     public void deleteAll() {
         unsupported();
     }

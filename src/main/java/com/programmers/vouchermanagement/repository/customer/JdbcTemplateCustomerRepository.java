@@ -89,6 +89,24 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public void update(Customer customer) {
+        String sql = "UPDATE customers SET email = :email, blacklisted = :blacklisted WHERE id = :id";
+
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", customer.getId().toString())
+                .addValue("email", customer.getEmail())
+                .addValue("blacklisted", customer.isBlacklisted());
+
+        template.update(sql, params);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        String sql = "DELETE FROM customers WHERE id = :id";
+        template.update(sql, new MapSqlParameterSource("id", id.toString()));
+    }
+
+    @Override
     public void deleteAll() {
         String sql = "DELETE FROM customers";
         template.update(sql, new MapSqlParameterSource());

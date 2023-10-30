@@ -53,6 +53,10 @@ public class Customer {
         return new Customer(UUID.fromString(info.get("id")), info.get("email"), Boolean.parseBoolean(info.get("blacklisted")));
     }
 
+    public static Customer from(UUID id, String email, boolean blacklisted) {
+        return new Customer(id, email, blacklisted);
+    }
+
     private void validateEmail(String email) {
         String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
 
