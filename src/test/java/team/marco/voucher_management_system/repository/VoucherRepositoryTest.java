@@ -2,14 +2,13 @@ package team.marco.voucher_management_system.repository;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.in;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import team.marco.voucher_management_system.model.FixedAmountVoucher;
@@ -45,13 +44,20 @@ abstract class VoucherRepositoryTest {
             generatedVouchers.add(generateVoucher());
         }
 
+        generatedVouchers.sort(Comparator.comparing(Voucher::getId));
+
         // when
         generatedVouchers.forEach(repository::save);
 
         // then
-        List<Voucher> retrieveVouchers = repository.findAll();
+        List<Voucher> retrievedVouchers = repository.findAll()
+                .stream()
+                .sorted(Comparator.comparing(Voucher::getId))
+                .toList();
 
-        assertThat(retrieveVouchers, not(empty()));
-        assertThat(generatedVouchers, everyItem(is(in(retrieveVouchers))));
+        assertThat(retrievedVouchers, not(empty()));
+
+        Assertions.assertThat(retrievedVouchers).usingRecursiveComparison()
+                .isEqualTo(generatedVouchers);
     }
 }

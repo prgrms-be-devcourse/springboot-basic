@@ -10,22 +10,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.List;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import team.marco.voucher_management_system.configuration.PropertyConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import team.marco.voucher_management_system.configuration.TestPropertyConfiguration;
 import team.marco.voucher_management_system.model.Voucher;
 import team.marco.voucher_management_system.properties.FilePathProperties;
 
-@SpringBootTest(classes = PropertyConfiguration.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(OrderAnnotation.class)
+@SpringJUnitConfig(TestPropertyConfiguration.class)
 class JSONFileVoucherRepositoryTest extends VoucherRepositoryTest {
     private static final String SETUP_DATA;
 
@@ -45,20 +41,16 @@ class JSONFileVoucherRepositoryTest extends VoucherRepositoryTest {
         return new JSONFileVoucherRepository(filePathProperties);
     }
 
-    @BeforeAll
-    void setup() {
-        try (FileWriter fileWriter = new FileWriter(filePathProperties.voucherData())) {
-            fileWriter.write(SETUP_DATA);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+    @BeforeEach
+    void cleanup() {
+        writeJSONFile("[]");
     }
 
     @Test
-    @Order(Integer.MIN_VALUE)
     @DisplayName("레포지토리 생성 시 이전에 저장된 데이터를 로드해야한다.")
     void testLoad() {
         // given
+        writeJSONFile(SETUP_DATA);
 
         // when
         JSONFileVoucherRepository repository = getJSONFileRepository();
@@ -70,7 +62,6 @@ class JSONFileVoucherRepositoryTest extends VoucherRepositoryTest {
     }
 
     @Test
-    @Order(Integer.MAX_VALUE)
     @DisplayName("bean이 destroy될 때 추가한 Voucher를 파일로 저장하는 것이 가능해야한다.")
     void testSaveJSONFile() {
         // given
@@ -86,5 +77,13 @@ class JSONFileVoucherRepositoryTest extends VoucherRepositoryTest {
         List<Voucher> vouchersAfterDestroy = repositoryAfterDestroy.findAll();
 
         assertThat(vouchersAfterDestroy, hasItem(samePropertyValuesAs(generatedVoucher)));
+    }
+
+    private void writeJSONFile(String contents) {
+        try (FileWriter fileWriter = new FileWriter(filePathProperties.voucherData())) {
+            fileWriter.write(contents);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }
