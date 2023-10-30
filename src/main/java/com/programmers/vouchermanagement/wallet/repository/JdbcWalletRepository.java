@@ -44,18 +44,12 @@ public class JdbcWalletRepository implements WalletRepository {
 
     @Override
     public List<Wallet> findByCustomerId(UUID customerId) {
-
-        List<Wallet> wallets = jdbcTemplate.query(READ_CUSTOMER, walletRowMapper, customerId.toString());
-
-        return wallets;
+        return jdbcTemplate.query(READ_CUSTOMER, walletRowMapper, customerId.toString());
     }
 
     @Override
     public List<Wallet> findByVoucherId(UUID voucherId) {
-
-        List<Wallet> wallets = jdbcTemplate.query(READ_VOUCHER, walletRowMapper, voucherId.toString());
-
-        return wallets;
+        return jdbcTemplate.query(READ_VOUCHER, walletRowMapper, voucherId.toString());
     }
 
     @Override
