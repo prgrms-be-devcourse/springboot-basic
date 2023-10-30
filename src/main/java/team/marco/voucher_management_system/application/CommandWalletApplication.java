@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.controller.ConsoleWalletController;
 import team.marco.voucher_management_system.type_enum.WalletCommandType;
@@ -47,15 +48,15 @@ public class CommandWalletApplication extends RunnableCommandApplication {
         } catch (IllegalArgumentException e) {
             logger.warn(e.toString());
             Console.print(e.getMessage());
-        } catch (EmptyResultDataAccessException | NoSuchElementException e) {
-            logger.error(e.toString());
-            Console.print("존재하지 않는 ID 입니다.");
         } catch (DataAccessResourceFailureException e) {
             logger.error(e.toString());
             Console.print(e.getMessage());
         } catch (DuplicateKeyException e) {
             logger.error(e.toString());
             Console.print("이미 존재하는 쿠폰입니다.");
+        } catch (EmptyResultDataAccessException | NoSuchElementException | UncategorizedSQLException e) {
+            logger.error(e.toString());
+            Console.print("존재하지 않는 ID 입니다.");
         }
     }
 
