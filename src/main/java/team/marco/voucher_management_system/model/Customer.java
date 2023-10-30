@@ -82,7 +82,7 @@ public class Customer {
 
     private void validateEmail(String email) {
         if (!Pattern.matches(EMAIL_REGEX, email)) {
-            throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다..");
+            throw new IllegalArgumentException("이메일 형식이 올바르지 않습니다.");
         }
     }
 
