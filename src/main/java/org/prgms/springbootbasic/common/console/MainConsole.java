@@ -48,12 +48,6 @@ public class MainConsole {
         return consoleInput.nextLine();
     }
 
-    public static <T> void printList(Collection<T> collection) {
-        System.out.println();
-        collection.forEach(System.out::println);
-        System.out.println();
-    }
-
     public static void printArgException() {
         System.out.println("Invalid argument. Type command again.");
     }

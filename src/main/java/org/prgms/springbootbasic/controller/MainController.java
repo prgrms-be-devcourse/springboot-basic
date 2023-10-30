@@ -1,6 +1,7 @@
 package org.prgms.springbootbasic.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.common.console.Console;
 import org.prgms.springbootbasic.common.console.MainConsole;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.customer.Customer;
@@ -85,13 +86,13 @@ public class MainController {
     private void list(){
         List<VoucherPolicy> voucherPolicies = voucherService.findAll();
 
-        MainConsole.printList(voucherPolicies);
+        Console.printList(voucherPolicies);
     }
 
     private void black(){
         List<Customer> blacklist = customerService.findBlackAll();
 
-        MainConsole.printList(blacklist);
+        Console.printList(blacklist);
     }
 
     private void wallet(){
