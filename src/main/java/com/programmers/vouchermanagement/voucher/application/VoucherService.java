@@ -22,7 +22,7 @@ public class VoucherService {
     public void createVoucher(VoucherRequestDto voucherRequestDto) {
 
         Long discount = voucherRequestDto.getDiscount();
-        VoucherType voucherType = voucherRequestDto.getVoucherType();
+        VoucherType voucherType = VoucherType.getVoucherTypeByName(voucherRequestDto.getVoucherType());
 
         voucherRepository.save(new Voucher(UUID.randomUUID(), discount, voucherType, voucherType.getVoucherPolicy()));
     }
@@ -54,7 +54,7 @@ public class VoucherService {
                 .orElseThrow(VoucherNotFoundException::new);
 
         Long discount = voucherRequestDto.getDiscount();
-        VoucherType voucherType = voucherRequestDto.getVoucherType();
+        VoucherType voucherType = VoucherType.getVoucherTypeByName(voucherRequestDto.getVoucherType());
 
         voucherRepository.update(new Voucher(voucherId, discount, voucherType, voucherType.getVoucherPolicy()));
     }

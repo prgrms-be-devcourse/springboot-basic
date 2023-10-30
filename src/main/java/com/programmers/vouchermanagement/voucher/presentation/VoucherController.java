@@ -3,7 +3,6 @@ package com.programmers.vouchermanagement.voucher.presentation;
 import com.programmers.vouchermanagement.utils.ConsoleInputManager;
 import com.programmers.vouchermanagement.utils.ConsoleOutputManager;
 import com.programmers.vouchermanagement.voucher.application.VoucherService;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import com.programmers.vouchermanagement.exception.FileIOException;
@@ -37,20 +36,9 @@ public class VoucherController {
     public void createVoucher() {
 
         consoleOutputManager.printCreateVoucher();
+
         consoleOutputManager.printVoucherTypeMenu();
-
-        VoucherType voucherType;
-        String input = consoleInputManager.inputString();
-
-        try {
-            voucherType = VoucherType.getVoucherTypeByName(input);
-
-        } catch (VoucherTypeNotFoundException e) {
-            logger.error(e.getMessage() + "Console Input : " + input, e);
-
-            consoleOutputManager.printReturnMain(e.getMessage());
-            return;
-        }
+        String voucherType = consoleInputManager.inputString();
 
         consoleOutputManager.printDiscountRequest();
         Long discount = consoleInputManager.inputDiscount();
@@ -66,6 +54,12 @@ public class VoucherController {
 
         } catch (FileIOException e) {
             logger.error(e.getMessage(), e);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+            return;
+
+        } catch (VoucherTypeNotFoundException e) {
+            logger.error(e.getMessage() + "Console Input : " + voucherType, e);
 
             consoleOutputManager.printReturnMain(e.getMessage());
             return;
@@ -92,8 +86,8 @@ public class VoucherController {
     public void readVoucherById() {
 
         consoleOutputManager.printReadVoucherById();
-        consoleOutputManager.printGetVoucherId();
 
+        consoleOutputManager.printGetVoucherId();
         UUID voucherId = UUID.fromString(consoleInputManager.inputString());
 
         try {
@@ -112,24 +106,12 @@ public class VoucherController {
     public void updateVoucher() {
 
         consoleOutputManager.printUpdateVoucher();
-        consoleOutputManager.printGetVoucherId();
 
+        consoleOutputManager.printGetVoucherId();
         UUID voucherId = UUID.fromString(consoleInputManager.inputString());
 
         consoleOutputManager.printVoucherTypeMenu();
-
-        VoucherType voucherType;
-        String input = consoleInputManager.inputString();
-
-        try {
-            voucherType = VoucherType.getVoucherTypeByName(input);
-
-        } catch (VoucherTypeNotFoundException e) {
-            logger.error(e.getMessage() + "Console Input : " + input, e);
-
-            consoleOutputManager.printReturnMain(e.getMessage());
-            return;
-        }
+        String voucherType = consoleInputManager.inputString();
 
         consoleOutputManager.printDiscountRequest();
         Long discount = consoleInputManager.inputDiscount();
@@ -154,6 +136,12 @@ public class VoucherController {
 
             consoleOutputManager.printReturnMain(e.getMessage());
             return;
+
+        } catch (VoucherTypeNotFoundException e) {
+            logger.error(e.getMessage() + "Console Input : " + voucherType, e);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+            return;
         }
 
         consoleOutputManager.printSuccessUpdate();
@@ -175,7 +163,6 @@ public class VoucherController {
     public void removeVoucherById() {
 
         consoleOutputManager.printRemoveVoucherById();
-
         UUID voucherId = UUID.fromString(consoleInputManager.inputString());
 
         try {
