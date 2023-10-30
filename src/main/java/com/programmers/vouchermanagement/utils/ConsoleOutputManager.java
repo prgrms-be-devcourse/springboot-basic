@@ -42,7 +42,7 @@ public class ConsoleOutputManager {
     }
 
     public void printList() {
-        System.out.println("=== List All Vouchers ===");
+        System.out.println("=== List All Vouchers === \n");
     }
 
     public void printVoucherInfo(List<VoucherResponseDto> voucherResponseDtos) {
@@ -77,7 +77,7 @@ public class ConsoleOutputManager {
     }
 
     public void printBlackList() {
-        System.out.println("=== List All Blacklist Customers ===");
+        System.out.println("=== List All Blacklist Customers === \n");
     }
 
     public void printCustomerInfo(List<CustomerResponseDto> customerResponseDtos) {
