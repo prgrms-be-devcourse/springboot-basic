@@ -16,7 +16,7 @@ public class Customer {
     private static final String NAME_REGEX = "^[a-zA-Z가-힣]*$"; // 영어 또는 한글만 허용하는 정규식
     private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$"; // 이메일 형식을 검증하는 정규식
 
-private static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
+    private static final Pattern NAME_PATTERN = Pattern.compile(NAME_REGEX);
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     public Customer(UUID customerId, String name, String email) {
