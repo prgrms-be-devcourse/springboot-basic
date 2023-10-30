@@ -74,10 +74,10 @@ public class Console {
         }
     }
 
-    public String inputVoucherId() {
+    public UUID inputVoucherId() {
         printMessage(Message.INPUT_VOUCHER_ID);
         printPrompt();
-        return scanner.nextLine();
+        return UUID.fromString(scanner.nextLine());
     }
 
     /**
@@ -122,15 +122,15 @@ public class Console {
         return WalletMenuType.selectWalletMenu(scanner.nextLine());
     }
 
-    public String inputCustomerId() {
+    public UUID inputCustomerId() {
         printMessage(Message.INPUT_CUSTOMER_ID_MESSAGE);
         printPrompt();
-        return scanner.nextLine();
+        return UUID.fromString(scanner.nextLine());
     }
 
     public WalletRequestDto inputWalletInfo() {
-        UUID customerId = UUID.fromString(ExceptionHandler.input(this::inputCustomerId));
-        UUID voucherId = UUID.fromString(ExceptionHandler.input(this::inputVoucherId));
+        UUID customerId = ExceptionHandler.input(this::inputCustomerId);
+        UUID voucherId = ExceptionHandler.input(this::inputVoucherId);
         return new WalletRequestDto(customerId, voucherId);
     }
 }

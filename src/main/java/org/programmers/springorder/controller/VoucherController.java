@@ -50,14 +50,14 @@ public class VoucherController {
     }
 
     private void updateVoucher() {
-        UUID voucherId = UUID.fromString(console.inputVoucherId());
+        UUID voucherId = console.inputVoucherId();
         VoucherRequestDto request = console.inputVoucherInfo();
         voucherService.updateVoucher(voucherId, request);
         console.printMessage(Message.VOUCHER_UPDATED);
     }
 
     private void deleteVoucher() {
-        UUID voucherId = UUID.fromString(console.inputVoucherId());
+        UUID voucherId = console.inputVoucherId();
         voucherService.deleteVoucher(voucherId);
         console.printMessage(Message.VOUCHER_DELETED);
     }

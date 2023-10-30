@@ -46,7 +46,7 @@ public class WalletController {
     }
 
     private void checkVoucher() {
-        UUID customerId = UUID.fromString(console.inputCustomerId());
+        UUID customerId = console.inputCustomerId();
         console.showVoucherList(walletService.getVoucher(customerId));
     }
 
