@@ -20,7 +20,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
 
     public void createVoucher(CreateVoucherRequestDto request) {
-        Voucher voucher = VoucherFactory.create(request.getVoucherType(), request.getAmount());
+        Voucher voucher = VoucherFactory.create(request.type(), request.amount());
         voucherRepository.save(voucher);
     }
 

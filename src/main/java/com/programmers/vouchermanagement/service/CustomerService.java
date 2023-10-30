@@ -21,12 +21,12 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public void createCustomer(CreateCustomerRequestDto request) {
-        Optional<Customer> customer = customerRepository.findByEmail(request.getEmail());
+        Optional<Customer> customer = customerRepository.findByEmail(request.email());
         if (customer.isPresent()) {
             throw new IllegalArgumentException("Already exist customer");
         }
 
-        customerRepository.save(new Customer(request.getEmail()));
+        customerRepository.save(new Customer(request.email()));
     }
 
     @Transactional(readOnly = true)

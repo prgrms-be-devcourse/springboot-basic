@@ -21,10 +21,9 @@ public class VoucherShellController {
     public void create() {
         ConsoleInput consoleInput = new ConsoleInput();
 
-        CreateVoucherRequestDto request = CreateVoucherRequestDto.builder()
-                .voucherType(VoucherType.select(consoleInput.readVoucherTypeId()))
-                .amount(consoleInput.readAmount())
-                .build();
+        VoucherType type = VoucherType.select(consoleInput.readVoucherTypeId());
+        Long amount = consoleInput.readAmount();
+        CreateVoucherRequestDto request = new CreateVoucherRequestDto(type, amount);
 
         voucherService.createVoucher(request);
     }

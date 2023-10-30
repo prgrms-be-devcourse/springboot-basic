@@ -34,9 +34,7 @@ class CustomerServiceTest {
     void creatCustomer() {
         // given
         Customer newCustomer = new Customer("test@email.com", false);
-        CreateCustomerRequestDto request = CreateCustomerRequestDto.builder()
-                .email(newCustomer.getEmail())
-                .build();
+        CreateCustomerRequestDto request = new CreateCustomerRequestDto(newCustomer.getEmail());
         given(customerRepository.findByEmail(newCustomer.getEmail())).willReturn(Optional.empty());
 
         // when
@@ -53,9 +51,7 @@ class CustomerServiceTest {
         Customer newCustomer1 = new Customer("test@email.com", false);
         Customer newCustomer2 = new Customer("test@email.com", false);
 
-        CreateCustomerRequestDto request = CreateCustomerRequestDto.builder()
-                .email(newCustomer1.getEmail())
-                .build();
+        CreateCustomerRequestDto request = new CreateCustomerRequestDto(newCustomer1.getEmail());
 
         given(customerRepository.findByEmail(newCustomer2.getEmail())).willReturn(Optional.of(newCustomer1));
 

@@ -30,9 +30,9 @@ public class WalletService {
     }
 
     public void createWallet(CreateWalletRequestDto request) {
-        Customer customer = customerRepository.findById(request.getCustomerId())
+        Customer customer = customerRepository.findById(request.customerId())
                 .orElseThrow(() -> new IllegalArgumentException("Not found customer"));
-        Voucher voucher = voucherRepository.findById(request.getVoucherId())
+        Voucher voucher = voucherRepository.findById(request.voucherId())
                 .orElseThrow(() -> new IllegalArgumentException("Not found voucher"));
 
         boolean foundWallet = walletRepository.findByCustomerIdAndVoucherId(customer.getId(), voucher.getId()).isPresent();
