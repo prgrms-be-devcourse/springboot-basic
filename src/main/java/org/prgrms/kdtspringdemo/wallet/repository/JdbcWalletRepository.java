@@ -3,9 +3,6 @@ package org.prgrms.kdtspringdemo.wallet.repository;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 
-import org.prgrms.kdtspringdemo.customer.domain.Customer;
-import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,30 +23,28 @@ import java.util.UUID;
 @Repository
 @Profile("DB")
 public class JdbcWalletRepository implements WalletRepository{
-    private final Logger logger = LoggerFactory.getLogger(JdbcWalletRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(JdbcWalletRepository.class);
     private final JdbcTemplate jdbcTemplate;
+    private final Gson gson = new Gson();
     private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
         var walletId = toUUID(resultSet.getBytes("wallet_id"));
         var customerId = toUUID(resultSet.getBytes("customer_id"));
+        var stringVouchers = resultSet.getString("vouchers");
+        JsonArray jsonArray = new JsonArray();
+        jsonArray.add(stringVouchers);
 
-        return new Wallet(walletId, customerId);
+        var vouchers = toVoucherList(jsonArray);
+        return new Wallet(walletId, customerId, vouchers);
     };
 
-    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
-        var amount = Long.parseLong(resultSet.getString("amount"));
-        var voucherType = resultSet.getString("voucher_type");
-        var voucherId = toUUID(resultSet.getBytes("voucher_id"));
-
-        var voucherTypeEnum = VoucherTypeFunction.findByCode(voucherType);
-        return voucherTypeEnum.create(voucherId, amount);
-    };
-
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        var customerName = resultSet.getString("name");
-        var isBlack = Boolean.parseBoolean(resultSet.getString("is_black"));
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        return new Customer(customerId, customerName, isBlack);
-    };
+    static List<UUID> toVoucherList(JsonArray jsonArray) {
+        List<UUID> vouchers = new ArrayList<>();
+        jsonArray.forEach(data -> {
+            String stringUUID = data.toString();
+            if(stringUUID.length()>4) vouchers.add(UUID.fromString(stringUUID.substring(4, stringUUID.length()-4)));
+        });
+        return vouchers;
+    }
 
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
@@ -62,9 +57,10 @@ public class JdbcWalletRepository implements WalletRepository{
     }
     @Override
     public Wallet insert(Wallet wallet) {
-        var update = jdbcTemplate.update("INSERT INTO wallet(wallet_id, customer_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?))",
-                wallet.getWalletId().toString(),
-                wallet.getCustomerId().toString());
+        var update = jdbcTemplate.update("INSERT INTO wallet(wallet_id, customer_id, vouchers) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), ?)",
+                wallet.getWalletId().toString().getBytes(),
+                wallet.getCustomerId().toString().getBytes(),
+                gson.toJson(wallet.getVouchers()));
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
@@ -76,7 +72,7 @@ public class JdbcWalletRepository implements WalletRepository{
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from wallet WHERE wallet_id = UUID_TO_BIN(?)",
                     walletRowMapper,
-                    walletId.toString()));
+                    walletId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
@@ -84,51 +80,58 @@ public class JdbcWalletRepository implements WalletRepository{
     }
 
     @Override
-    public List<Wallet> findAll() {
-        return jdbcTemplate.query("select * from wallet", walletRowMapper);
-    }
-
-    @Override
-    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-        return jdbcTemplate.query("select voucher.voucher_id, voucher.voucher_type, voucher.amount from voucher inner join wallet_customer_voucher on voucher.voucher_id = wallet_customer_voucher.voucher_id WHERE wallet_customer_voucher.customer_id = UUID_TO_BIN(?)",
-                voucherRowMapper,
-                customerId.toString()
-        );
-    }
-
-    @Override
-    public void deleteVoucherByVoucherId(UUID customerId, UUID voucherId) {
-        var update = jdbcTemplate.update("DELETE from wallet_customer_voucher WHERE customer_id = UUID_TO_BIN(?) and voucher_id = UUID_TO_BIN(?)",
-                customerId.toString(),
-                voucherId.toString());
-        if(update != 1) {
-            throw new RuntimeException("Nothing was deleted");
+    public Optional<List<UUID>> findVouchersByCustomerId(UUID customerId) {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from wallet WHERE customer_id = UUID_TO_BIN(?)",
+                    walletRowMapper,
+                    customerId.toString().getBytes()).getVouchers());
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("Got empty result", e);
+            return Optional.empty();
         }
     }
 
     @Override
-    public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select c.customer_id, c.name, c.is_black from customers c inner join wallet_customer_voucher inter" +
-                        "on c.customer_id = inter.customer_id where inter.voucher_id = UUID_TO_BIN(?)",
-                customerRowMapper,
-                voucherId.toString()));
-    }
+    public List<UUID> deleteVoucherByVoucherId(UUID customerId, UUID voucherId) {
+        Wallet wallet = jdbcTemplate.queryForObject("select * from wallet WHERE customer_id = UUID_TO_BIN(?)",
+                walletRowMapper,
+                customerId.toString().getBytes());
 
-    @Override
-    public void deleteById(UUID walletId) {
-        jdbcTemplate.update("DELETE FROM wallet where wallet_id = UUID_TO_BIN(?)",
-                walletId.toString());
-    }
+        List<UUID> vouchers = wallet.getVouchers();
+        vouchers.remove(voucherId);
+        vouchers.stream().forEach(uuid -> logger.info(uuid.toString()));
 
-    @Override
-    public void addVoucherByCustomerId(UUID walletId, UUID customerId, UUID voucherId) {
-        var update = jdbcTemplate.update("INSERT INTO wallet_customer_voucher(wallet_id, customer_id, voucher_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))",
-                walletId.toString(),
-                customerId.toString(),
-                voucherId.toString());
+        var update = jdbcTemplate.update("UPDATE wallet SET vouchers = (?) WHERE wallet_id = UUID_TO_BIN(?)",
+                gson.toJson(vouchers),
+                wallet.getWalletId().toString().getBytes());
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
+        return vouchers;
+    }
+
+    @Override
+    public List<UUID> findCustomerByVoucherId(UUID voucherId) {
+        List<Wallet> walletList = jdbcTemplate.query("select * from wallet", walletRowMapper);
+        List<UUID> customers = new ArrayList<>();
+        walletList.stream()
+                .filter(wallet -> wallet.getVouchers().contains(voucherId))
+                .forEach(wallet -> customers.add(wallet.getCustomerId()));
+        return customers;
+    }
+
+    @Override
+    public List<UUID> addVoucherByCustomerId(UUID customerId, UUID voucherId) {
+        Wallet wallet = jdbcTemplate.queryForObject("select * from wallet where customer_id = UUID_TO_BIN(?)"
+                ,walletRowMapper,
+                customerId.toString().getBytes());
+        List<UUID> newVouchers = wallet.getVouchers();
+        newVouchers.add(voucherId);
+
+        jdbcTemplate.update("UPDATE wallet SET vouchers = (?) WHERE wallet_id = UUID_TO_BIN(?)",
+                gson.toJson(newVouchers),
+                wallet.getWalletId().toString().getBytes());
+        return newVouchers;
     }
 
     @Override
