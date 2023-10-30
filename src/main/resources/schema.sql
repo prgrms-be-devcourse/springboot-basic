@@ -13,3 +13,10 @@ CREATE TABLE IF NOT EXISTS vouchers (
     discount_degree bigint NOT NULL,
     voucher_type varchar(64) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS wallet (
+    customer_id BINARY(16) NOT NULL,
+    voucher_id BINARY(16) NOT NULL,
+    FOREIGN KEY (customer_id) references customers(customer_id),
+    FOREIGN KEY (voucher_id) references vouchers(voucher_id)
+);
