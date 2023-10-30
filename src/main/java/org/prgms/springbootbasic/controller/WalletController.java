@@ -52,12 +52,12 @@ public class WalletController {
     private void showCustomer(){
         UUID customerId = WalletConsole.typeCustomerId();
 
-        walletService.showCustomer(customerId);
+        walletService.showVouchersFromCustomer(customerId);
     }
 
     private void showVoucher(){
-        String voucherId = WalletConsole.typeVoucherId();
+        UUID voucherId = WalletConsole.typeVoucherId();
 
-        walletService.showVoucher(voucherId);
+        walletService.showCustomerFromVoucher(voucherId);
     }
 }
