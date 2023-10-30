@@ -1,10 +1,10 @@
 package team.marco.voucher_management_system.model;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.testcontainers.shaded.org.hamcrest.MatcherAssert.assertThat;
-import static org.testcontainers.shaded.org.hamcrest.Matchers.is;
-import static org.testcontainers.shaded.org.hamcrest.Matchers.not;
-import static org.testcontainers.shaded.org.hamcrest.Matchers.notNullValue;
 
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.DisplayName;
