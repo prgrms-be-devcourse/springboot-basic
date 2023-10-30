@@ -91,6 +91,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(DELETE_ONCE);
+        jdbcTemplate.update(DELETE_ONCE, voucherId.toString());
     }
 }
