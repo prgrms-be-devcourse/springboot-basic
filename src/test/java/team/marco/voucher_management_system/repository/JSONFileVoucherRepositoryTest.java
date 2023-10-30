@@ -19,12 +19,10 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import team.marco.voucher_management_system.configuration.PropertyConfiguration;
 import team.marco.voucher_management_system.model.Voucher;
 import team.marco.voucher_management_system.properties.FilePathProperties;
 
-@TestPropertySource("classpath:application.yml")
 @SpringBootTest(classes = PropertyConfiguration.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)

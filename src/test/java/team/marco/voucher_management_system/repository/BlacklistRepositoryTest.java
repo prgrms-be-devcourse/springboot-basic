@@ -14,12 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import team.marco.voucher_management_system.configuration.PropertyConfiguration;
 import team.marco.voucher_management_system.model.BlacklistUser;
 import team.marco.voucher_management_system.properties.FilePathProperties;
 
-@TestPropertySource("classpath:application.yml")
 @SpringBootTest(classes = {PropertyConfiguration.class, BlacklistRepository.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class BlacklistRepositoryTest {
