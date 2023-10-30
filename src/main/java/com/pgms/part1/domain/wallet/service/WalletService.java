@@ -27,15 +27,17 @@ public class WalletService {
         this.keyGenerator = keyGenerator;
     }
 
-    public void addWallet(WalletCreateRequestDto walletCreateRequestDto) {
+    public Wallet addWallet(WalletCreateRequestDto walletCreateRequestDto) {
         try{
             Wallet wallet = new Wallet(keyGenerator.getKey(), walletCreateRequestDto.voucherId(), walletCreateRequestDto.userId());
             walletRepository.addWallet(wallet);
             log.info("customer {} wallet adds voucher {}", walletCreateRequestDto.userId(), walletCreateRequestDto.voucherId());
+            return wallet;
         }
         catch (Exception e){
             log.error(e.getMessage());
         }
+        return null;
     }
 
     public void deleteWallet(Long walletId) {
