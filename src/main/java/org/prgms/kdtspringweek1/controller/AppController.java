@@ -61,7 +61,7 @@ public class AppController {
                 case DELETE_MY_WALLET -> deleteWallet();
                 case SEARCH_MY_CUSTOMERS -> getAllCustomersOwnedByVoucher();
             }
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             logger.error(e.getMessage());
             selectFunction();
@@ -74,250 +74,164 @@ public class AppController {
     }
 
     private void createVoucher() {
-        try {
-            consoleOutput.printVouchersToSelect();
-            switch (consoleInputConverter.getVoucherType()) {
-                case FIXED_AMOUNT -> {
-                    consoleOutput.printRequestMessageforDiscountValue();
-                    voucherService.registerVoucher(consoleInputConverter.getCreateVoucherRequestDto().toFixedAmountVoucher());
-                }
-                case PERCENT_DISCOUNT -> {
-                    consoleOutput.printRequestMessageforDiscountValue();
-                    voucherService.registerVoucher(consoleInputConverter.getCreateVoucherRequestDto().toPercentDiscountVoucher());
-                }
+        consoleOutput.printVouchersToSelect();
+        switch (consoleInputConverter.getVoucherType()) {
+            case FIXED_AMOUNT -> {
+                consoleOutput.printRequestMessageforDiscountValue();
+                voucherService.registerVoucher(consoleInputConverter.getCreateVoucherRequestDto().toFixedAmountVoucher());
             }
-            consoleOutput.printSuccessToCreate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-            createVoucher();
+            case PERCENT_DISCOUNT -> {
+                consoleOutput.printRequestMessageforDiscountValue();
+                voucherService.registerVoucher(consoleInputConverter.getCreateVoucherRequestDto().toPercentDiscountVoucher());
+            }
         }
+        consoleOutput.printSuccessToCreate();
         selectFunction();
     }
 
     private void getAllVouchers() {
-        try {
-            voucherService.searchAllVouchers()
-                    .forEach(FindVoucherResponseDto::printVoucherInfo);
-            consoleOutput.printSuccessToSearch();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        voucherService.searchAllVouchers()
+                .forEach(FindVoucherResponseDto::printVoucherInfo);
+        consoleOutput.printSuccessToSearch();
         selectFunction();
     }
 
     private void getVoucherById() {
-        try {
-            consoleOutput.printRequestMessageForVoucherId();
-            voucherService.searchVoucherById(consoleInputConverter.getId())
-                    .ifPresentOrElse(
-                            findVoucherResponseDto -> {
-                                findVoucherResponseDto.printVoucherInfo();
-                                consoleOutput.printSuccessToSearch();
-                            },
-                            consoleOutput::printValueNotFound
-                    );
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForVoucherId();
+        voucherService.searchVoucherById(consoleInputConverter.getId())
+                .ifPresentOrElse(
+                        findVoucherResponseDto -> {
+                            findVoucherResponseDto.printVoucherInfo();
+                            consoleOutput.printSuccessToSearch();
+                        },
+                        consoleOutput::printValueNotFound
+                );
         selectFunction();
     }
 
     private void updateVoucherInfo() {
-        try {
-            consoleOutput.printRequestMessageForVoucherId();
-            UUID voucherId = consoleInputConverter.getId();
-            consoleOutput.printVouchersToSelect();
-            switch (consoleInputConverter.getVoucherType()) {
-                case FIXED_AMOUNT -> {
-                    consoleOutput.printRequestMessageforDiscountValue();
-                    voucherService.update(consoleInputConverter.getUpdateVoucherRequestDto(voucherId).toFixedAmountVoucher());
-                }
-                case PERCENT_DISCOUNT -> {
-                    consoleOutput.printRequestMessageforDiscountValue();
-                    voucherService.update(consoleInputConverter.getUpdateVoucherRequestDto(voucherId).toPercentDiscountVoucher());
-                }
+        consoleOutput.printRequestMessageForVoucherId();
+        UUID voucherId = consoleInputConverter.getId();
+        consoleOutput.printVouchersToSelect();
+        switch (consoleInputConverter.getVoucherType()) {
+            case FIXED_AMOUNT -> {
+                consoleOutput.printRequestMessageforDiscountValue();
+                voucherService.update(consoleInputConverter.getUpdateVoucherRequestDto(voucherId).toFixedAmountVoucher());
             }
-            consoleOutput.printSuccessToUpdate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
+            case PERCENT_DISCOUNT -> {
+                consoleOutput.printRequestMessageforDiscountValue();
+                voucherService.update(consoleInputConverter.getUpdateVoucherRequestDto(voucherId).toPercentDiscountVoucher());
+            }
         }
+        consoleOutput.printSuccessToUpdate();
         selectFunction();
     }
 
     private void deleteVoucher() {
-        try {
-            consoleOutput.printRequestMessageForVoucherId();
-            voucherService.deleteVoucherById(consoleInputConverter.getId());
-            consoleOutput.printSuccessToDelete();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForVoucherId();
+        voucherService.deleteVoucherById(consoleInputConverter.getId());
+        consoleOutput.printSuccessToDelete();
         selectFunction();
     }
 
     private void deleteAllVouchers() {
-        try {
-            voucherService.deleteAllVouchers();
-            consoleOutput.printSuccessToDelete();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        voucherService.deleteAllVouchers();
+        consoleOutput.printSuccessToDelete();
         selectFunction();
     }
 
     private void createCustomer() {
-        try {
-            consoleOutput.printRequestMessageForName();
-            customerService.registerCustomer(Customer.createWithName(consoleInputConverter.getCustomerName()));
-            consoleOutput.printSuccessToCreate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForName();
+        customerService.registerCustomer(Customer.createWithName(consoleInputConverter.getCustomerName()));
+        consoleOutput.printSuccessToCreate();
         selectFunction();
     }
 
     private void getAllCustomers() {
-        try {
-            customerService.searchAllCustomers()
-                    .forEach(FindCustomerResponseDto::printCustomerInfo);
-            consoleOutput.printSuccessToSearch();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        customerService.searchAllCustomers()
+                .forEach(FindCustomerResponseDto::printCustomerInfo);
+        consoleOutput.printSuccessToSearch();
         selectFunction();
     }
 
     private void getCustomerById() {
-        try {
-            consoleOutput.printRequestMessageForCustomerId();
-            customerService.searchCustomerById(consoleInputConverter.getId())
-                    .ifPresentOrElse(
-                            findCustomerResponseDto -> {
-                                findCustomerResponseDto.printCustomerInfo();
-                                consoleOutput.printSuccessToSearch();
-                            },
-                            consoleOutput::printValueNotFound
-                    );
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForCustomerId();
+        customerService.searchCustomerById(consoleInputConverter.getId())
+                .ifPresentOrElse(
+                        findCustomerResponseDto -> {
+                            findCustomerResponseDto.printCustomerInfo();
+                            consoleOutput.printSuccessToSearch();
+                        },
+                        consoleOutput::printValueNotFound
+                );
         selectFunction();
     }
 
     private void updateCustomerInfo() {
-        try {
-            consoleOutput.printRequestMessageForCustomerId();
-            UUID customerId = consoleInputConverter.getId();
-            consoleOutput.printRequestMessageForName();
-            String name = consoleInputConverter.getCustomerName();
-            consoleOutput.printRequestMessageForIsBlackCustomer();
-            boolean isBlackCustomer = consoleInputConverter.getIsBlackCustomer();
-            customerService.update(new UpdateCustomerRequestDto(customerId, name, isBlackCustomer).toCustomer());
-            consoleOutput.printSuccessToUpdate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForCustomerId();
+        UUID customerId = consoleInputConverter.getId();
+        consoleOutput.printRequestMessageForName();
+        String name = consoleInputConverter.getCustomerName();
+        consoleOutput.printRequestMessageForIsBlackCustomer();
+        boolean isBlackCustomer = consoleInputConverter.getIsBlackCustomer();
+        customerService.update(new UpdateCustomerRequestDto(customerId, name, isBlackCustomer).toCustomer());
+        consoleOutput.printSuccessToUpdate();
         selectFunction();
     }
 
     private void deleteCustomer() {
-        try {
-            consoleOutput.printRequestMessageForCustomerId();
-            customerService.deleteCustomerById(consoleInputConverter.getId());
-            consoleOutput.printSuccessToDelete();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForCustomerId();
+        customerService.deleteCustomerById(consoleInputConverter.getId());
+        consoleOutput.printSuccessToDelete();
         selectFunction();
     }
 
     private void deleteAllCustomers() {
-        try {
-            customerService.deleteAllCustomers();
-            consoleOutput.printSuccessToDelete();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        customerService.deleteAllCustomers();
+        consoleOutput.printSuccessToDelete();
         selectFunction();
     }
 
     private void getAllBlackCustomers() {
-        try {
-            customerService.searchAllBlackCustomers()
-                    .forEach(FindCustomerResponseDto::printCustomerInfo);
-            consoleOutput.printSuccessToSearch();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        customerService.searchAllBlackCustomers()
+                .forEach(FindCustomerResponseDto::printCustomerInfo);
+        consoleOutput.printSuccessToSearch();
         selectFunction();
     }
 
     private void createWallet() {
-        try {
-            consoleOutput.printRequestMessageForCustomerId();
-            UUID customerId = consoleInputConverter.getId();
-            consoleOutput.printRequestMessageForVoucherId();
-            UUID voucherId = consoleInputConverter.getId();
-            walletService.registerWallet(Wallet.createWithVoucherIdAndCustomerId(voucherId, customerId));
-            consoleOutput.printSuccessToCreate();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForCustomerId();
+        UUID customerId = consoleInputConverter.getId();
+        consoleOutput.printRequestMessageForVoucherId();
+        UUID voucherId = consoleInputConverter.getId();
+        walletService.registerWallet(Wallet.createWithVoucherIdAndCustomerId(voucherId, customerId));
+        consoleOutput.printSuccessToCreate();
         selectFunction();
     }
 
     private void getAllVouchersOwnedByCustomer() {
-        try {
-            consoleOutput.printRequestMessageForCustomerId();
-            walletService.searchAllVouchersByCustomerId(consoleInputConverter.getId())
-                    .forEach(FindVoucherResponseDto::printVoucherInfo);
-            consoleOutput.printSuccessToSearch();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForCustomerId();
+        walletService.searchAllVouchersByCustomerId(consoleInputConverter.getId())
+                .forEach(FindVoucherResponseDto::printVoucherInfo);
+        consoleOutput.printSuccessToSearch();
         selectFunction();
     }
 
     private void deleteWallet() {
-        try {
-            consoleOutput.printRequestMessageForCustomerId();
-            UUID customerId = consoleInputConverter.getId();
-            consoleOutput.printRequestMessageForVoucherId();
-            UUID voucherId = consoleInputConverter.getId();
-            walletService.deleteWalletByVoucherIdAndCustomerId(voucherId, customerId);
-            consoleOutput.printSuccessToDelete();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForCustomerId();
+        UUID customerId = consoleInputConverter.getId();
+        consoleOutput.printRequestMessageForVoucherId();
+        UUID voucherId = consoleInputConverter.getId();
+        walletService.deleteWalletByVoucherIdAndCustomerId(voucherId, customerId);
+        consoleOutput.printSuccessToDelete();
         selectFunction();
     }
 
     private void getAllCustomersOwnedByVoucher() {
-        try {
-            consoleOutput.printRequestMessageForVoucherId();
-            walletService.searchAllCustomersByVoucherId(consoleInputConverter.getId())
-                    .forEach(FindCustomerResponseDto::printCustomerInfo);
-            consoleOutput.printSuccessToSearch();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
+        consoleOutput.printRequestMessageForVoucherId();
+        walletService.searchAllCustomersByVoucherId(consoleInputConverter.getId())
+                .forEach(FindCustomerResponseDto::printCustomerInfo);
+        consoleOutput.printSuccessToSearch();
         selectFunction();
     }
 }
