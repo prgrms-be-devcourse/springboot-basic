@@ -3,15 +3,13 @@ package com.prgrms.vouchermanager.controller;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.service.VoucherService;
+import com.prgrms.vouchermanager.util.VoucherFactory;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +37,27 @@ public class VoucherWebController {
         Voucher voucher = service.findById(voucherId);
         model.addAttribute("voucher", voucher);
         return "basic/voucher";
+    }
+
+    @GetMapping("/create")
+    public String createForm() {
+        return "basic/createForm";
+    }
+
+    @PostMapping("/create")
+    public String create(@RequestParam VoucherType voucherType,
+                         @RequestParam int discount,
+                         Model model) {
+
+        Voucher voucher = VoucherFactory.create(voucherType, discount).get();
+        service.create(voucherType, discount);
+        model.addAttribute("voucher", voucher);
+        return "basic/voucher";
+    }
+
+    @ModelAttribute("voucherType")
+    public VoucherType[] voucherTypes() {
+        return VoucherType.values();
     }
 
     @PostConstruct
