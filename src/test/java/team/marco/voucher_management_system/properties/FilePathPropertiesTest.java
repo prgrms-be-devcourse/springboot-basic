@@ -8,10 +8,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.test.context.SpringBootTest;
-import team.marco.voucher_management_system.configuration.PropertyConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import team.marco.voucher_management_system.configuration.TestPropertyConfiguration;
 
-@SpringBootTest(classes = PropertyConfiguration.class)
+@SpringJUnitConfig(classes = TestPropertyConfiguration.class)
 @EnableConfigurationProperties(FilePathProperties.class)
 public class FilePathPropertiesTest {
     @Autowired

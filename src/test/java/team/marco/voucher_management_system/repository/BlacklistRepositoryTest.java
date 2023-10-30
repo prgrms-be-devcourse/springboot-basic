@@ -13,13 +13,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import team.marco.voucher_management_system.configuration.PropertyConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import team.marco.voucher_management_system.configuration.TestPropertyConfiguration;
 import team.marco.voucher_management_system.model.BlacklistUser;
 import team.marco.voucher_management_system.properties.FilePathProperties;
 
-@SpringBootTest(classes = {PropertyConfiguration.class, BlacklistRepository.class})
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@SpringJUnitConfig(classes = {TestPropertyConfiguration.class, BlacklistRepository.class})
 class BlacklistRepositoryTest {
     private static final String SETUP_DATA = """
             id,name
