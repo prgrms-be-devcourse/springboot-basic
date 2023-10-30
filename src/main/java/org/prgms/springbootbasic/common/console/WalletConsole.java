@@ -10,8 +10,8 @@ public class WalletConsole {
         System.out.println("Welcome to our wallet service.");
         System.out.println("Type 'allocate' if you want to allocate voucher to a customer." );
         System.out.println("Type 'delete' if you want to delete voucher from a customer.");
-        System.out.println("Type 'showVoucher' to view customers with a voucher.");
-        System.out.println("Type 'showCustomer' to view vouchers that a customer has.");
+        System.out.println("Type 'showVoucherByCustomer' to view customers with a voucher.");
+        System.out.println("Type 'showCustomerByVoucher' to view vouchers that a customer has.");
 
         return consoleInput.next();
     }

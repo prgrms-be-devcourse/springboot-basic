@@ -14,8 +14,8 @@ import java.util.UUID;
 public class WalletController {
     private final String ALLOCATE = "allocate";
     private final String DELETE = "delete";
-    private final String SHOW_CUSTOMER = "showCustomer";
-    private final String SHOW_VOUCHER = "showVoucher";
+    private final String SHOW_CUSTOMER_BY_VOUCHER = "showVoucherByCustomer";
+    private final String SHOW_VOUCHER_BY_CUSTOMER = "showCustomerByVoucher";
 
     private final WalletService walletService;
 
@@ -34,8 +34,8 @@ public class WalletController {
         switch (command){
             case ALLOCATE -> allocate();
             case DELETE -> delete();
-            case SHOW_CUSTOMER -> showCustomer();
-            case SHOW_VOUCHER -> showVoucher();
+            case SHOW_CUSTOMER_BY_VOUCHER -> showVoucherByCustomer();
+            case SHOW_VOUCHER_BY_CUSTOMER -> showCustomerByVoucher();
         }
     }
 
@@ -53,14 +53,14 @@ public class WalletController {
         walletService.delete(customerId, voucherId);
     }
 
-    private void showCustomer(){
+    private void showVoucherByCustomer(){
         UUID customerId = WalletConsole.typeCustomerId();
         List<VoucherPolicy> vouchers = walletService.searchVouchersFromCustomer(customerId);
 
         Console.printList(vouchers);
     }
 
-    private void showVoucher(){
+    private void showCustomerByVoucher(){
         UUID voucherId = WalletConsole.typeVoucherId();
         List<Customer> customers = walletService.searchCustomerFromVoucher(voucherId);
 
