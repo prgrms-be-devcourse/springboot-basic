@@ -1,5 +1,6 @@
 package team.marco.voucher_management_system.repository;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.not;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import team.marco.voucher_management_system.model.FixedAmountVoucher;
@@ -41,9 +43,10 @@ abstract class VoucherRepositoryTest {
         Voucher voucher = generateVoucher();
 
         // when
-        repository.save(voucher);
+        ThrowingCallable targetMethod = () -> repository.save(voucher);
 
         // then
+        assertThatNoException().isThrownBy(targetMethod);
     }
 
     @Test
