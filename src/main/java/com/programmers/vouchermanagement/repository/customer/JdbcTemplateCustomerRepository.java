@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

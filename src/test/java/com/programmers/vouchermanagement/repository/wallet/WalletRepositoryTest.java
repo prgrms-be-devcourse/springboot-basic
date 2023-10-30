@@ -5,7 +5,7 @@ import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
-import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
 import com.programmers.vouchermanagement.dto.wallet.GetWalletsRequestDto;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;

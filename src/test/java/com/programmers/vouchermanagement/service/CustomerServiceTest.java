@@ -1,8 +1,9 @@
 package com.programmers.vouchermanagement.service;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.dto.customer.CreateCustomerRequestDto;
-import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.request.CreateCustomerRequestDto;
+import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.response.CustomerResponseDto;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,13 +76,11 @@ class CustomerServiceTest {
         given(customerRepository.findAll(any())).willReturn(mockCustomers);
 
         // when
-        List<Customer> customers = customerService.getCustomers(new GetCustomersRequestDto());
+        List<CustomerResponseDto> customers = customerService.getCustomers(new GetCustomersRequestDto());
 
         // then
         assertThat(customers).hasSize(2);
-        assertThat(customers).extracting(Customer::getEmail)
+        assertThat(customers).extracting(CustomerResponseDto::email)
                 .containsExactlyInAnyOrder(newCustomer1.getEmail(), newCustomer2.getEmail());
-        assertThat(customers).extracting(Customer::isBlacklisted)
-                .containsExactlyInAnyOrder(newCustomer1.isBlacklisted(), newCustomer2.isBlacklisted());
     }
 }

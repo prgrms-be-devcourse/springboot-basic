@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.dto.customer;
+package com.programmers.vouchermanagement.dto.customer.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

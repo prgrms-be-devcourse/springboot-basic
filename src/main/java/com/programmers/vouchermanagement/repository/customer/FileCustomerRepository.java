@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.config.properties.FileProperties;
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
 import com.programmers.vouchermanagement.util.CsvMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
