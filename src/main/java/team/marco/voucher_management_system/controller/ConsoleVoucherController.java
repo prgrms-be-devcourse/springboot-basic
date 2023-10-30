@@ -10,7 +10,6 @@ import team.marco.voucher_management_system.util.Console;
 @Controller
 public class ConsoleVoucherController {
     private static final String INFO_DELIMINATOR = MessageFormat.format("\n{0}\n", "-".repeat(42));
-    ;
 
     private final VoucherService voucherService;
 
