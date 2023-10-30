@@ -34,6 +34,8 @@ public class CommandMainApplication extends RunnableCommandApplication {
         } catch (Exception e) {
             logger.error(e.toString());
             Console.print("프로그램에 에러가 발생했습니다.");
+
+            runningFlag = false;
         }
     }
 
