@@ -55,7 +55,7 @@ public class MainController {
                 } catch (IllegalArgumentException e) {
                     MainConsole.printArgException();
                 } catch (DataAccessException e) {
-                    log.error("Database error.");
+                    log.error("Database error.", e);
                     MainConsole.printRuntimeException();
                 } catch (RuntimeException e) {
                     MainConsole.printRuntimeException();
