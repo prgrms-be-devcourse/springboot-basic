@@ -121,7 +121,7 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
             UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
             VoucherType type = VoucherType.valueOf(rs.getString("type"));
             Long amount = rs.getLong("amount");
-            Voucher voucher = VoucherFactory.create(voucherId, type, amount);
+            Voucher voucher = VoucherFactory.create(voucherId, amount, type);
 
             return new Wallet(id, customer, voucher, used);
         };
