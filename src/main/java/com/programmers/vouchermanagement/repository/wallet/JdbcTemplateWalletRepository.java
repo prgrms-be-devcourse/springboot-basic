@@ -68,6 +68,21 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
     }
 
     @Override
+    public Optional<Wallet> findByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        String sql = "SELECT * FROM wallets WHERE customer_id = :customerId AND voucher_id = :voucherId";
+
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("customerId", customerId.toString())
+                .addValue("voucherId", voucherId.toString());
+
+        try {
+            return Optional.ofNullable(template.queryForObject(sql, params, getWalletRowMapper()));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public List<Wallet> findAll(GetWalletsRequestDto request) {
         String sql = """
                 SELECT *

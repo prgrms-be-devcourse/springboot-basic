@@ -30,8 +30,15 @@ public class WalletService {
     }
 
     public void createWallet(CreateWalletRequestDto request) {
-        Customer customer = customerRepository.findById(request.getCustomerId()).orElseThrow(() -> new IllegalArgumentException("Not found customer"));
-        Voucher voucher = voucherRepository.findById(request.getVoucherId()).orElseThrow(() -> new IllegalArgumentException("Not found voucher"));
+        Customer customer = customerRepository.findById(request.getCustomerId())
+                .orElseThrow(() -> new IllegalArgumentException("Not found customer"));
+        Voucher voucher = voucherRepository.findById(request.getVoucherId())
+                .orElseThrow(() -> new IllegalArgumentException("Not found voucher"));
+
+        boolean foundWallet = walletRepository.findByCustomerIdAndVoucherId(customer.getId(), voucher.getId()).isPresent();
+        if (foundWallet) {
+            throw new IllegalArgumentException("Already exist wallet");
+        }
 
         walletRepository.save(new Wallet(customer, voucher));
     }
@@ -44,7 +51,7 @@ public class WalletService {
     public void deleteWallet(int id, UUID customerId) {
         Wallet wallet = walletRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Not found wallet"));
 
-        if(!wallet.getCustomer().getId().equals(customerId)) {
+        if (!wallet.getCustomer().getId().equals(customerId)) {
             throw new SecurityException("Forbidden");
         }
 

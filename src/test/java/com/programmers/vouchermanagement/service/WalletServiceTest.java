@@ -54,6 +54,8 @@ class WalletServiceTest {
 
         given(customerRepository.findById(mockCustomer.getId())).willReturn(Optional.of(mockCustomer));
         given(voucherRepository.findById(mockVoucher.getId())).willReturn(Optional.of(mockVoucher));
+        given(walletRepository.findByCustomerIdAndVoucherId(mockCustomer.getId(), mockVoucher.getId()))
+                .willReturn(Optional.empty());
 
         // when
         walletService.createWallet(request);
@@ -102,6 +104,29 @@ class WalletServiceTest {
         assertThatThrownBy(() -> walletService.createWallet(request))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("Not found voucher");
+    }
+
+    @Test
+    @DisplayName("중복된 고객-바우처 지갑은 생성할 수 없다.")
+    void createWallet_duplicatedConsumerAndVoucher_fail() {
+        // given
+        Customer mockCustomer = new Customer(UUID.randomUUID(), "test@email.com", false);
+        Voucher mockVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
+
+        CreateWalletRequestDto request = CreateWalletRequestDto.builder()
+                .customerId(mockCustomer.getId())
+                .voucherId(mockVoucher.getId())
+                .build();
+
+        given(customerRepository.findById(mockCustomer.getId())).willReturn(Optional.of(mockCustomer));
+        given(voucherRepository.findById(mockVoucher.getId())).willReturn(Optional.of(mockVoucher));
+        given(walletRepository.findByCustomerIdAndVoucherId(mockCustomer.getId(), mockVoucher.getId()))
+                .willReturn(Optional.of(new Wallet(mockCustomer, mockVoucher)));
+
+        // when & then
+        assertThatThrownBy(() -> walletService.createWallet(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Already exist wallet");
     }
 
     @Test
