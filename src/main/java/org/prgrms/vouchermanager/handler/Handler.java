@@ -213,7 +213,7 @@ public class Handler {
         output.outputWalletEmail();
         try{
             String email = input.inputCustomerEmail();
-            walletController.findByEmail(email);
+            walletController.findByEmail(email).orElseThrow(NotExistEmailException::new);
         }catch (IOException | NotExistEmailException e){
             log.error(e.getMessage());
         }

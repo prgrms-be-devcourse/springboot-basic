@@ -31,7 +31,7 @@ public class WalletService {
         return walletRepository.save(requestDto);
     }
     public Optional<Wallet> findByEmail(String email){
-        return Optional.ofNullable(walletRepository.findByEmail(email).orElseThrow(NotExistEmailException::new));
+        return walletRepository.findByEmail(email);
     }
 
     public Optional<Wallet> deleteByEmail(String email) {
