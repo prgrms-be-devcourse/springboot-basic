@@ -33,15 +33,18 @@ public class WalletService {
         UUID voucherId = walletRequestDto.getVoucherId();
 
         customerRepository.findById(customerId)
-                        .orElseThrow(CustomerNotFoundException::new);
+                        .orElseThrow(() -> new CustomerNotFoundException(customerId));
 
         voucherRepository.findById(voucherId)
-                        .orElseThrow(VoucherNotFoundException::new);
+                        .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
         walletRepository.save(new Wallet(UUID.randomUUID(), customerId, voucherId));
     }
 
     public List<VoucherResponseDto> readVouchersByCustomer(UUID customerId) {
+
+        customerRepository.findById(customerId)
+                .orElseThrow(() -> new CustomerNotFoundException(customerId));
 
         List<Wallet> wallets = walletRepository.findByCustomerId(customerId);
 
@@ -56,6 +59,9 @@ public class WalletService {
     }
 
     public List<CustomerResponseDto> readCustomersByVoucher(UUID voucherId) {
+
+        voucherRepository.findById(voucherId)
+                .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
         List<Wallet> wallets = walletRepository.findByVoucherId(voucherId);
 
@@ -72,7 +78,7 @@ public class WalletService {
     public void removeWalletsByCustomer(UUID customerId) {
 
         customerRepository.findById(customerId)
-                .orElseThrow(CustomerNotFoundException::new);
+                .orElseThrow(() -> new CustomerNotFoundException(customerId));
 
         walletRepository.deleteByCustomerId(customerId);
     }
