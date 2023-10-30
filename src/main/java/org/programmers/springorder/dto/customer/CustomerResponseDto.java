@@ -22,10 +22,11 @@ public class CustomerResponseDto {
 
     @Override
     public String toString() {
-        return "customerId : " + customerId + '\n' +
-                "name : " + name + '\n' +
-                "customerType : " + customerType + '\n' +
-                "==============================";
+        return "[" +
+                "ID: " + customerId +
+                ", NAME: " + name +
+                ", TYPE: " + customerType +
+                "]";
 
     }
 }

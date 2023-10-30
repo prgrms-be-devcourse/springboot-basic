@@ -26,9 +26,10 @@ public class VoucherResponseDto {
 
     @Override
     public String toString() {
-        return "ID : " + voucherId + '\n' +
-                "Type : " + voucherType + '\n' +
-                "Value : " + discountValue + '\n' +
-                "==============================";
+        return "[" +
+                "ID: " + voucherId +
+                ", Type: " + voucherType +
+                ", Value: " + discountValue +
+                "]";
     }
 }
