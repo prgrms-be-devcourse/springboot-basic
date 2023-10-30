@@ -1,0 +1,13 @@
+spring:
+  profiles:
+    active: test
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucher_management_system
+    username: root
+    password:
+
+file:
+  path:
+    blacklist: "src/test/resources/blacklist.csv"
+    voucher_data: "src/test/resources/voucher_data.json"
