@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanager.repository.voucher;
 
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.io.FileIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,5 +58,15 @@ public class VoucherFileRepository implements VoucherRepository {
     public int delete(UUID id) {
         vouchers.remove(id);
         return 1;
+    }
+
+    @Override
+    public List<Voucher> findByDate(int startYear, int startMonth, int endYear, int endMonth) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
     }
 }

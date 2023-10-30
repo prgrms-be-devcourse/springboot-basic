@@ -20,13 +20,12 @@
     <form action="voucher.html" th:action method="post">
         <div>
             <label>바우처 타입</label>
-            <label>
-                <select name="voucherType" multiple size = "2">
-                    <option th:each="type : ${voucherType}"
+                <select name="voucherType" aria-label= "Default select example">
+                    <option selected>바우처 선택</option>
+                    <option th:each="type : ${voucherTypes}"
                             th:value="${type}"
                             th:text="${type}"></option>
                 </select>
-            </label>
         </div>
         <div>
             <label for="discount">할인가격/할인율</label>

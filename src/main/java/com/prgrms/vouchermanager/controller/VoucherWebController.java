@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.UUID;
 
+
 @Controller
 @RequestMapping("/basic/vouchers")
 @RequiredArgsConstructor
@@ -62,7 +63,29 @@ public class VoucherWebController {
         return "basic/delete";
     }
 
-    @ModelAttribute("voucherType")
+    @GetMapping("/{voucherId}/findById")
+    public String findById(@PathVariable UUID voucherId, Model model) {
+        Voucher voucher = service.findById(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "basic/voucher";
+    }
+
+    @GetMapping("/findByCondition")
+    public String findByCondition(@RequestParam VoucherType voucherType,
+                                  @RequestParam int startYear,
+                                  @RequestParam int startMonth,
+                                  @RequestParam int endYear,
+                                  @RequestParam int endMonth,
+                                  Model model) {
+        log.info(voucherType.toString());
+        log.info(String.valueOf(startYear));
+        List<Voucher> vouchers
+                = service.findByCondition(voucherType, startYear, startMonth, endYear, endMonth);
+        model.addAttribute("vouchers", vouchers);
+        return "basic/vouchers";
+    }
+
+    @ModelAttribute("voucherTypes")
     public VoucherType[] voucherTypes() {
         return VoucherType.values();
     }

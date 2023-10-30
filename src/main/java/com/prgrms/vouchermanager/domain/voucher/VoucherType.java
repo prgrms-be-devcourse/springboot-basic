@@ -9,7 +9,8 @@ import java.util.stream.Stream;
 @Getter
 public enum VoucherType {
     FIXED("fixed"),
-    PERCENT("percent");
+    PERCENT("percent"),
+    BOTH("both");
 
     private final String label;
     private static final Map<String, VoucherType> BY_LABEL =

@@ -50,4 +50,13 @@ public class VoucherService {
     public int delete(UUID id) {
         return voucherRepository.delete(id);
     }
+
+    public List<Voucher> findByCondition(VoucherType voucherType, int startYear, int startMonth, int endYear, int endMonth) {
+        List<Voucher> byDate
+                = voucherRepository.findByDate(startYear, startMonth, endYear, endMonth);
+        List<Voucher> byType =
+                voucherRepository.findByVoucherType(voucherType);
+        byDate.retainAll(byType);
+        return byDate;
+    }
 }

@@ -3,6 +3,7 @@ package com.prgrms.vouchermanager.repository.voucher;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.io.FileIO;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +62,23 @@ public class VoucherJdbcRepository implements VoucherRepository {
     @Override
     public int delete(UUID id) {
         return jdbcTemplate.update(DELETE_VOUCHER.getMessage(), id.toString().getBytes());
+    }
+
+    @Override
+    public List<Voucher> findByDate(int startYear, int startMonth, int endYear, int endMonth) {
+        return jdbcTemplate.query(FIND_BY_DATE_VOUCHER.getMessage(),
+                voucherRowMapper(),
+                startYear,
+                startMonth,
+                endYear,
+                endMonth);
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return jdbcTemplate.query(FIND_BY_VOUCHER_TYPE_VOUCHER.getMessage(),
+                voucherRowMapper(),
+                voucherType.getLabel());
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

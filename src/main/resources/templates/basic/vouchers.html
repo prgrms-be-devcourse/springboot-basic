@@ -13,6 +13,15 @@
     </div>
 
     <div class = "row">
+
+<!--        <div class = "col">-->
+<!--            <input type="text" id="voucherId" name="voucherId" class="form-control"-->
+<!--                   placeholder="ID를 입력하세요">-->
+<!--            <button class = "btn btn-primary float-end"-->
+<!--                    onclick = "location.href = 'createForm.html'"-->
+<!--                    th:onclick="|location.href='@{/basic/vouchers/{voucherId}/findById(voucherId=${voucher.id})}'|"-->
+<!--                    type = "button">검색</button>-->
+<!--        </div>-->
         <div class = "col">
             <button class = "btn btn-primary float-end"
                     onclick = "location.href = 'createForm.html'"
@@ -40,6 +49,61 @@
             </tr>
             </tbody>
         </table>
+    </div>
+
+    <div class = "row">
+        <div class = "col">
+            <select name = "voucherType" aria-label = "Default select example">
+                    <option selected>바우처 선택</option>
+                    <option th:each="voucherType : ${voucherTypes}"
+                            th:value="${voucherType}"
+                            th:text="${voucherType}"></option>
+            </select>
+        </div>
+</div>
+
+<div class = "row">
+    <div class = "col">
+        <select class = "form-select" aria-label = "Default select example">
+            <option selected>시작연도</option>
+            <option th:each="year : ${#numbers.sequence(1999, 2023)}"
+                    th:value="${year}"
+                    th:text="${year}"></option>
+        </select>
+    </div>
+    <div class = "col">
+        <select class = "form-select" aria-label = "Default select example">
+            <option selected>시작월</option>
+            <option th:each="month : ${#numbers.sequence(1, 12)}"
+                    th:value="${month}"
+                    th:text="${month}"></option>
+        </select>
+    </div>
+
+    <div class = "col">
+        <select class = "form-select" aria-label = "Default select example">
+            <option selected>끝연도</option>
+            <option th:each="year : ${#numbers.sequence(1999, 2023)}"
+                    th:value="${year}"
+                    th:text="${year}"></option>
+        </select>
+    </div>
+    <div class = "col">
+        <select class = "form-select" aria-label = "Default select example">
+            <option selected>끝월</option>
+            <option th:each="month : ${#numbers.sequence(1, 12)}"
+                    th:value="${month}"
+                    th:text="${month}"></option>
+        </select>
+    </div>
+</div>
+    <div class = "row">
+        <div class = "col text-center">
+            <button class = "btn btn-primary"
+                    onclick = "location.href = 'createForm.html'"
+                    th:onclick="|location.href='@{/basic/vouchers/findByCondition}'|"
+                    type = "button">검색</button>
+        </div>
     </div>
 </div>
 
