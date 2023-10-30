@@ -6,6 +6,9 @@ import java.util.UUID;
 
 @Getter
 public class PercentDiscountVoucher extends Voucher {
+    private final long MIN_AMOUNT = 0L;
+    private final long MAX_AMOUNT = 100L;
+
     public PercentDiscountVoucher(long amount) {
         super(VoucherType.PERCENT_DISCOUNT, amount);
         validateAmount(amount);
@@ -21,7 +24,7 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     private void validateAmount(long amount) {
-        if (amount < 0 || amount > 100) {
+        if (amount < MIN_AMOUNT || MAX_AMOUNT > 100) {
             throw new IllegalArgumentException("Percent discount amount should be between 0 and 100");
         }
     }
