@@ -19,7 +19,7 @@ create table wallet
 (
     customer_id BINARY(16)    NOT NULL,
     voucher_id  BINARY(16)    NOT NULL,
-    FOREIGN KEY (customer_id) REFERENCES customer(id) ON DELETE CASCADE,
-    FOREIGN KEY (voucher_id)  REFERENCES voucher(id)  ON DELETE CASCADE,
+    FOREIGN KEY (customer_id) REFERENCES customer(id),
+    FOREIGN KEY (voucher_id)  REFERENCES voucher(id),
     PRIMARY KEY (customer_id, voucher_id)
 );
