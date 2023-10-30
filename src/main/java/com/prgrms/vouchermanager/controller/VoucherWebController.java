@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
@@ -47,12 +48,12 @@ public class VoucherWebController {
     @PostMapping("/create")
     public String create(@RequestParam VoucherType voucherType,
                          @RequestParam int discount,
+                         RedirectAttributes redirectAttributes,
                          Model model) {
-
-        Voucher voucher = VoucherFactory.create(voucherType, discount).get();
-        service.create(voucherType, discount);
+        Voucher voucher = service.create(voucherType, discount);
+        redirectAttributes.addAttribute("voucherId", voucher.getId());
         model.addAttribute("voucher", voucher);
-        return "basic/voucher";
+        return "redirect:/basic/vouchers/{voucherId}";
     }
 
     @ModelAttribute("voucherType")
@@ -60,11 +61,11 @@ public class VoucherWebController {
         return VoucherType.values();
     }
 
-    @PostConstruct
-    public void init() {
-        List<Voucher> list = service.findAll();
-        list.forEach(System.out::println);
-        service.create(VoucherType.FIXED, 20000);
-        service.create(VoucherType.PERCENT, 20);
-    }
+//    @PostConstruct
+//    public void init() {
+//        List<Voucher> list = service.findAll();
+//        list.forEach(System.out::println);
+//        service.create(VoucherType.FIXED, 20000);
+//        service.create(VoucherType.PERCENT, 20);
+//    }
 }
