@@ -31,5 +31,6 @@ public class WalletConsole {
 
     public static void success(String command){
         System.out.println("'" + command + "' command successfully executed.");
+        System.out.println();
     }
 }

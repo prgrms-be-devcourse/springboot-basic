@@ -5,7 +5,6 @@ import org.prgms.springbootbasic.domain.VoucherType;
 import org.springframework.stereotype.Component;
 
 import java.text.MessageFormat;
-import java.util.Collection;
 
 import static org.prgms.springbootbasic.common.CommonConstant.INPUT_FIXED_AMOUNT_VOUCHER;
 import static org.prgms.springbootbasic.common.CommonConstant.INPUT_PERCENT_DISCOUNT_VOUCHER;

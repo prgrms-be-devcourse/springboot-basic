@@ -1,9 +1,13 @@
 package org.prgms.springbootbasic.controller;
 
+import org.prgms.springbootbasic.common.console.Console;
 import org.prgms.springbootbasic.common.console.WalletConsole;
+import org.prgms.springbootbasic.domain.customer.Customer;
+import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.prgms.springbootbasic.service.WalletService;
 import org.springframework.stereotype.Controller;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -51,13 +55,15 @@ public class WalletController {
 
     private void showCustomer(){
         UUID customerId = WalletConsole.typeCustomerId();
+        List<VoucherPolicy> vouchers = walletService.searchVouchersFromCustomer(customerId);
 
-        walletService.showVouchersFromCustomer(customerId);
+        Console.printList(vouchers);
     }
 
     private void showVoucher(){
         UUID voucherId = WalletConsole.typeVoucherId();
+        List<Customer> customers = walletService.searchCustomerFromVoucher(voucherId);
 
-        walletService.showCustomerFromVoucher(voucherId);
+        Console.printList(customers);
     }
 }
