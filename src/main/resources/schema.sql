@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS customers
 (
     customer_id BINARY(16) PRIMARY KEY,
