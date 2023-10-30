@@ -62,4 +62,12 @@ public class VoucherService {
     public void removeAllVoucher() {
         voucherRepository.deleteAll();
     }
+
+    public void removeVoucherById(UUID voucherId) {
+
+        voucherRepository.findById(voucherId)
+                .orElseThrow(VoucherNotFoundException::new);
+
+        voucherRepository.deleteById(voucherId);
+    }
 }

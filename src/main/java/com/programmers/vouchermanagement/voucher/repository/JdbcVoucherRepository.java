@@ -22,7 +22,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String READ_ALL = "SELECT * FROM voucher";
     private static final String READ_ONCE = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String UPDATE = "UPDATE voucher SET discount = ?, voucher_type = ? WHERE voucher_id = UUID_TO_BIN(?)";
-    private static final String DELETE = "DELETE FROM voucher";
+    private static final String DELETE_ALL = "DELETE FROM voucher";
+    private static final String DELETE_ONCE = "DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, index) -> {
 
@@ -82,6 +83,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(DELETE);
+        jdbcTemplate.update(DELETE_ALL);
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update(DELETE_ONCE);
     }
 }

@@ -26,7 +26,6 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void save(Voucher voucher) {
-
         storage.put(voucher.getVoucherId(), voucher);
         csvFileIoManager.writeCsv(FILE, VoucherMapper.fromEntity(voucher));
     }
@@ -57,9 +56,19 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-
         storage.clear();
         csvFileIoManager.updateCsv(FILE, new ArrayList<>());
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        storage.remove(voucherId);
+
+        List<String> deleteCsv = storage.values()
+                .stream()
+                .map(VoucherMapper::fromEntity)
+                .toList();
+        csvFileIoManager.updateCsv(FILE, deleteCsv);
     }
 
     private Map<UUID, Voucher> addVoucherByFile(List<String> readCsv) {

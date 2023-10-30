@@ -171,4 +171,20 @@ public class VoucherController {
             consoleOutputManager.printReturnMain(e.getMessage());
         }
     }
+
+    public void removeVoucherById() {
+
+        consoleOutputManager.printRemoveVoucherById();
+
+        UUID voucherId = UUID.fromString(consoleInputManager.inputString());
+
+        try {
+            voucherService.removeVoucherById(voucherId);
+
+        } catch (VoucherNotFoundException e) {
+            logger.error(e.getMessage() + "Console Input : " + voucherId, e);
+
+            consoleOutputManager.printReturnMain(e.getMessage());
+        }
+    }
 }
