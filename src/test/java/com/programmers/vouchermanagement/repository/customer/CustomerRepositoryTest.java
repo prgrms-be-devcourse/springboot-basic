@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.repository.ContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class CustomerRepositoryTest {
+class CustomerRepositoryTest extends ContainerBaseTest {
 
     @Autowired
     private CustomerRepository customerRepository;

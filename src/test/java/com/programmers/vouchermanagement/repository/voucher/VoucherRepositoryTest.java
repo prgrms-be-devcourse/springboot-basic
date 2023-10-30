@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.repository.voucher;
 import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.repository.ContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class VoucherRepositoryTest {
+class VoucherRepositoryTest extends ContainerBaseTest {
 
     @Autowired
     private VoucherRepository voucherRepository;

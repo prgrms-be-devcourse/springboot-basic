@@ -7,6 +7,7 @@ import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
 import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
 import com.programmers.vouchermanagement.dto.wallet.GetWalletsRequestDto;
+import com.programmers.vouchermanagement.repository.ContainerBaseTest;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -23,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class WalletRepositoryTest {
+class WalletRepositoryTest extends ContainerBaseTest {
 
     @Autowired
     private WalletRepository walletRepository;
