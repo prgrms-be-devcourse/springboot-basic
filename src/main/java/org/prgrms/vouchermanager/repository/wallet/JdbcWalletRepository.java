@@ -20,12 +20,6 @@ import java.util.UUID;
 @Slf4j
 @Profile("jdbc")
 public class JdbcWalletRepository implements WalletRepository {
-    private final String INSERT_Wallet = "INSERT INTO wallet(customer_email, voucher_id) VALUES(?, UUID_TO_BIN(?))";
-    private final String SELECT_ALL = "select * from wallet";
-    private final String SELECT_BY_CUSTOMER = "select * from wallet where customer_email = ?";
-    private final String DELETE_BY_CUSTOMER = "delete from wallet where customer_email = ?";
-    private final String SELECT_BY_VOUCHER = "select * from wallet w join voucher v on w.voucher_id = v.id " +
-                                             "where v.voucher_type = ?";
     private final JdbcTemplate jdbcTemplate;
     public JdbcWalletRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -40,13 +34,13 @@ public class JdbcWalletRepository implements WalletRepository {
     public WalletRequestDto save(WalletRequestDto walletRequestDto) {
         String customerEmail = walletRequestDto.getCustomerEmail();
         UUID voucherId = walletRequestDto.getVoucher().getVoucherId();
-        jdbcTemplate.update(INSERT_Wallet, customerEmail, voucherId.toString());
+        jdbcTemplate.update("INSERT INTO wallet(customer_email, voucher_id) VALUES(?, UUID_TO_BIN(?))", customerEmail, voucherId.toString());
         return walletRequestDto;
     }
     @Override
     public Optional<Wallet> findByEmail(String email) {
         try{
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_CUSTOMER, walletRowMapper, email));
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from wallet where customer_email = ?", walletRowMapper, email));
         }catch (EmptyResultDataAccessException e){
             log.error("Not exists");
             return Optional.empty();
@@ -54,14 +48,15 @@ public class JdbcWalletRepository implements WalletRepository {
     }
     @Override
     public Optional<Wallet> deleteByEmail(String email) {
-        jdbcTemplate.update(DELETE_BY_CUSTOMER, email);
+        jdbcTemplate.update("delete from wallet where customer_email = ?", email);
         return findByEmail(email);
     }
     @Override
     public Optional<Wallet> findByVoucher(Voucher voucher) {
         MenuType type = voucher.getType();
         try{
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_VOUCHER, walletRowMapper, type.toString()));
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from wallet w join voucher v on w.voucher_id = v.id " +
+                    "where v.voucher_type = ?", walletRowMapper, type.toString()));
         }catch (EmptyResultDataAccessException e){
             log.error("Not exists");
             return Optional.empty();
