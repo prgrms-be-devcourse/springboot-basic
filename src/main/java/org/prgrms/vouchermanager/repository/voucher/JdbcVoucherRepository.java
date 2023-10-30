@@ -20,11 +20,6 @@ import java.util.*;
 @Profile("jdbc")
 //@RequiredArgsConstructor
 public class JdbcVoucherRepository implements VoucherRepository {
-    private final String INSERT_VOUCHER = "INSERT INTO voucher(id, amount, voucher_type) VALUES(UUID_TO_BIN(?), ?, ?)";
-    private final String SELECT_BY_ID = "select * from voucher where id = UUID_TO_BIN(?)";
-    private final String SELECT_ALL = "select * from voucher";
-    private final String DELETE_ALL = "delete from voucher";
-    private final String DELETE_BY_ID = "delete from voucher where id = UUID_TO_BIN(?)";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -47,14 +42,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
     };
     @Override
     public Voucher save(Voucher voucher) {
-        int update = jdbcTemplate.update(INSERT_VOUCHER, voucher.getVoucherId().toString(), voucher.getAmount(), voucher.getType().toString());
+        int update = jdbcTemplate.update("INSERT INTO voucher(id, amount, voucher_type) VALUES(UUID_TO_BIN(?), ?, ?)", voucher.getVoucherId().toString(), voucher.getAmount(), voucher.getType().toString());
         return voucher;
     }
 
     @Override
     public Optional<Voucher> findByID(UUID voucherId) {
         try{
-            return Optional.ofNullable(jdbcTemplate.queryForObject(SELECT_BY_ID, voucherRowMapper, voucherId.toString()));
+            return Optional.ofNullable(jdbcTemplate.queryForObject("select * from voucher where id = UUID_TO_BIN(?)", voucherRowMapper, voucherId.toString()));
         }catch (EmptyResultDataAccessException e){
             log.error("Not exist");
             return Optional.empty();
@@ -63,12 +58,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(SELECT_ALL, voucherRowMapper);
+        return jdbcTemplate.query("select * from voucher", voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> deleteById(UUID voucherId) {
-        jdbcTemplate.update(DELETE_BY_ID, voucherId.toString());
+        jdbcTemplate.update("delete from voucher where id = UUID_TO_BIN(?)", voucherId.toString());
         Optional<Voucher> voucher = findByID(voucherId);
         return voucher;
     }
