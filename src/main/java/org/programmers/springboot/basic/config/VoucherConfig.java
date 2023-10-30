@@ -5,18 +5,12 @@ import org.programmers.springboot.basic.domain.voucher.service.validate.FixedAmo
 import org.programmers.springboot.basic.domain.voucher.service.validate.PercentDiscountVoucherValidator;
 import org.programmers.springboot.basic.domain.voucher.service.validate.ValidateHandler;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@ComponentScan(basePackages = {
-        "org.programmers.springboot.basic",
-        "org.programmers.springboot.basic.domain.voucher.mapper",
-        "org.programmers.springboot.basic.domain.customer.mapper"
-})
 public class VoucherConfig {
 
     @Bean
