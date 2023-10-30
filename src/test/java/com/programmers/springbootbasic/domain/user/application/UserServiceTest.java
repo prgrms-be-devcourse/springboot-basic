@@ -1,6 +1,7 @@
 package com.programmers.springbootbasic.domain.user.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 import static org.mockito.Mockito.when;
 
 import com.programmers.springbootbasic.domain.user.domain.UserRepository;
@@ -41,7 +42,7 @@ class UserServiceTest {
         // then
         assertThat(result).hasSize(1);
         assertThat(result)
-            .extracting("name")
-            .containsExactlyInAnyOrder("user1");
+            .extracting("nickname", "blocked")
+            .containsExactlyInAnyOrder(tuple("user1", true));
     }
 }
