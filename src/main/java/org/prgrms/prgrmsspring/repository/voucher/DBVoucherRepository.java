@@ -6,7 +6,6 @@ import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.prgrms.prgrmsspring.exception.DataAccessException;
 import org.prgrms.prgrmsspring.exception.ExceptionMessage;
 import org.prgrms.prgrmsspring.utils.BinaryToUUIDConverter;
-import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +19,6 @@ import java.util.UUID;
 import static org.prgrms.prgrmsspring.repository.Field.*;
 
 @Profile("prod")
-@Primary
 @Repository
 public class DBVoucherRepository implements VoucherRepository {
 
