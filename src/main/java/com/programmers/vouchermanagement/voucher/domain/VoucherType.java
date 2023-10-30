@@ -6,14 +6,8 @@ import java.util.Arrays;
 
 public enum VoucherType {
 
-    FIXED(new FixedVoucherPolicy()),
-    PERCENT(new PercentVoucherPolicy());
-
-    private final VoucherPolicy voucherPolicy;
-
-    VoucherType(VoucherPolicy voucherPolicy) {
-        this.voucherPolicy = voucherPolicy;
-    }
+    FIXED,
+    PERCENT;
 
     public static VoucherType getVoucherTypeByName(String name) {
         return Arrays.stream(VoucherType.values())
@@ -23,9 +17,5 @@ public enum VoucherType {
 
     private String getName() {
         return this.name();
-    }
-
-    public VoucherPolicy getVoucherPolicy() {
-        return voucherPolicy;
     }
 }

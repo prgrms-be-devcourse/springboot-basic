@@ -7,7 +7,7 @@ import java.util.UUID;
 public class VoucherMapper {
 
     public static String fromEntity(Voucher voucher) {
-        return voucher.getVoucherId() + "," + voucher.getVoucherType() + "," + voucher.getDiscount();
+        return voucher.getVoucherId() + "," + voucher.getVoucherType() + "," + voucher.getVoucherPolicy().getDiscount();
     }
 
     public static Voucher toEntity(String[] voucherData) {
@@ -15,8 +15,9 @@ public class VoucherMapper {
         UUID voucherId = UUID.fromString(voucherData[0]);
         VoucherType voucherType = VoucherType.getVoucherTypeByName(voucherData[1].toLowerCase());
         Long discount = Long.parseLong(voucherData[2]);
+        VoucherPolicy voucherPolicy = VoucherPolicyMapper.toEntity(discount, voucherType);
 
-        Voucher voucher = new Voucher(voucherId, discount, voucherType, voucherType.getVoucherPolicy());
+        Voucher voucher = new Voucher(voucherId, voucherType, voucherPolicy);
 
         return voucher;
     }
