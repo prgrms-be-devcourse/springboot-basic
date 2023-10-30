@@ -18,10 +18,6 @@ public class VoucherController {
 
     private final VoucherService voucherService;
 
-//    public VoucherController(VoucherRepository voucherRepository) {
-//        this.voucherService = new VoucherService(voucherRepository);
-//    }
-
     public void create(MenuType menuType) {
         if(menuType == MenuType.FIXED){
             voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10, MenuType.FIXED));
