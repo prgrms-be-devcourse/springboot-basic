@@ -1,12 +1,12 @@
 package org.programmers.springboot.basic.domain.voucher.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class Voucher {
 
     private final UUID voucherId;
