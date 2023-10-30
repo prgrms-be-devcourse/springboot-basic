@@ -1,13 +1,9 @@
 package com.weeklyMission.wallet.service;
 
-import com.weeklyMission.member.domain.Member;
 import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.repository.DBMemberRepository;
-import com.weeklyMission.member.service.MemberService;
-import com.weeklyMission.voucher.domain.Voucher;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.repository.DBVoucherRepository;
-import com.weeklyMission.voucher.service.VoucherService;
 import com.weeklyMission.wallet.domain.Wallet;
 import com.weeklyMission.wallet.repository.WalletRepository;
 import java.util.List;
@@ -34,7 +30,7 @@ public class WalletService {
         walletRepository.save(wallet);
     }
 
-    public List<VoucherResponse> findByMemberId(String memberId){
+    public List<VoucherResponse> findByMember(String memberId){
         List<String> voucherIdList = walletRepository.findByMemberId(memberId).stream()
             .map(Wallet::voucherId)
             .toList();
@@ -44,7 +40,7 @@ public class WalletService {
             .toList();
     }
 
-    public List<MemberResponse> findByVoucherId(String voucherId){
+    public List<MemberResponse> findByVoucher(String voucherId){
         List<String> memberIdList = walletRepository.findByVoucherId(voucherId).stream()
             .map(Wallet::memberId)
             .toList();

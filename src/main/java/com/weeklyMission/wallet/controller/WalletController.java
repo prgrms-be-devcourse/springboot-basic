@@ -4,7 +4,6 @@ import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.wallet.service.WalletService;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -21,11 +20,11 @@ public class WalletController {
     }
 
     public List<VoucherResponse> findByMemberId(String memberId){
-        return walletService.findByMemberId(memberId);
+        return walletService.findByMember(memberId);
     }
 
     public List<MemberResponse> findByVoucherId(String voucherId){
-        return walletService.findByVoucherId(voucherId);
+        return walletService.findByVoucher(voucherId);
     }
 
     public void deleteById(String memberId, String voucherId){
