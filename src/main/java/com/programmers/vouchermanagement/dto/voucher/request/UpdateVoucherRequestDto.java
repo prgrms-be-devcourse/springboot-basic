@@ -1,14 +1,7 @@
 package com.programmers.vouchermanagement.dto.voucher.request;
 
-import lombok.*;
-
 import java.util.UUID;
 
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class UpdateVoucherRequestDto {
-    private UUID id;
-    private long amount;
+// PATCH
+public record UpdateVoucherRequestDto(UUID id, long amount) {
 }

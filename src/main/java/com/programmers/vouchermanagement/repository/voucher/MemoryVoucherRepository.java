@@ -44,7 +44,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void updateById(UUID id, Voucher voucher) {
+    public void update(Voucher voucher) {
         unsupported();
     }
 

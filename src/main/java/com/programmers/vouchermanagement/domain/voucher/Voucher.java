@@ -14,7 +14,8 @@ public abstract class Voucher {
     protected VoucherType type;
     protected long amount;
 
-    private Voucher() {}
+    private Voucher() {
+    }
 
     public Voucher(UUID id, VoucherType type, long amount) {
         this.id = id;
@@ -29,5 +30,9 @@ public abstract class Voucher {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public static Voucher from(UUID id, VoucherType type, long amount) {
+        return VoucherFactory.create(id, type, amount);
     }
 }

@@ -70,11 +70,11 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
 
     @Override
-    public void updateById(UUID id, Voucher voucher) {
+    public void update(Voucher voucher) {
         String sql = "UPDATE vouchers SET amount = :amount WHERE id = :id";
 
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("id", id.toString())
+                .addValue("id", voucher.getId().toString())
                 .addValue("amount", voucher.getAmount());
 
         template.update(sql, params);

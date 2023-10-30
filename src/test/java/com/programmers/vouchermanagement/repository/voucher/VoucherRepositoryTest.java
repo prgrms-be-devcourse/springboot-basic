@@ -104,7 +104,7 @@ class VoucherRepositoryTest {
 
         // when
         long newAmountValue = 2000L;
-        voucherRepository.updateById(savedVoucher.getId(), new FixedAmountVoucher(newAmountValue));
+        voucherRepository.update(new FixedAmountVoucher(savedVoucher.getId(), newAmountValue));
 
         // then
         Optional<Voucher> updatedVoucher = voucherRepository.findById(savedVoucher.getId());

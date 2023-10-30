@@ -11,7 +11,7 @@ public class VoucherFactory {
         };
     }
 
-    public static Voucher create(UUID id, Long amount, VoucherType type) {
+    public static Voucher create(UUID id, VoucherType type, Long amount) {
         return switch (type) {
             case FIXED_AMOUNT -> new FixedAmountVoucher(id, amount);
             case PERCENT_DISCOUNT -> new PercentDiscountVoucher(id, amount);
