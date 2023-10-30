@@ -56,6 +56,12 @@ public class VoucherWebController {
         return "redirect:/basic/vouchers/{voucherId}";
     }
 
+    @GetMapping("/{voucherId}/delete")
+    public String delete(@PathVariable UUID voucherId) {
+        service.delete(voucherId);
+        return "basic/delete";
+    }
+
     @ModelAttribute("voucherType")
     public VoucherType[] voucherTypes() {
         return VoucherType.values();

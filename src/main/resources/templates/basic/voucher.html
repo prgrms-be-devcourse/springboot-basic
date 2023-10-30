@@ -35,13 +35,13 @@
     <div class="row">
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
-                    onclick="location.href='editForm.html'"
-                    th:onclick="|location.href='@{/basic/items/{itemId}/
- edit(voucherId=${voucher.id})}'|" type="button">바우처 수정</button>
+                    onclick="location.href='delete.html'"
+                    th:onclick="|location.href='@{/basic/vouchers/{voucherId}/delete(voucherId=${voucher.id})}'|"
+                    type="button">바우처 삭제</button>
         </div>
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg"
-                    onclick="location.href='items.html'"
+                    onclick="location.href='vouchers.html'"
                     th:onclick="|location.href='@{/basic/vouchers}'|"
                     type="button">목록으로</button>
         </div>
