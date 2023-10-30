@@ -5,8 +5,7 @@ import com.programmers.vouchermanagement.infra.io.ConsoleOutput;
 import java.util.Arrays;
 
 public enum VoucherType {
-    FIXED_AMOUNT(1, "Fixed amount Voucher"),
-    PERCENT_DISCOUNT(2, "Percent discount Voucher");
+    FIXED_AMOUNT(1, "Fixed amount Voucher"), PERCENT_DISCOUNT(2, "Percent discount Voucher");
 
     private final int id;
     private final String description;
@@ -22,7 +21,7 @@ public enum VoucherType {
 
     public static void printAllDescriptionsToConsole() {
         for (VoucherType vt : VoucherType.values()) {
-            ConsoleOutput.println((vt.ordinal() + 1) + ". " + vt.description + (vt.isSameId(1) ? " (default)" : ""));
+            ConsoleOutput.println((vt.ordinal() + 1) + ". " + vt.description);
         }
     }
 
@@ -30,6 +29,7 @@ public enum VoucherType {
         return Arrays.stream(values())
                 .filter(vt -> vt.isSameId(id))
                 .findFirst()
-                .orElse(FIXED_AMOUNT);
+                .orElseThrow(() -> new IllegalArgumentException("Invalid voucher type id"));
     }
 }
+
