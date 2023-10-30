@@ -53,18 +53,14 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-
-        List<Voucher> vouchers = jdbcTemplate.query(READ_ALL, voucherRowMapper);
-
-        return vouchers;
+        return jdbcTemplate.query(READ_ALL, voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
 
         try {
-            Optional<Voucher> optionalVoucher = Optional.of(jdbcTemplate.queryForObject(READ_ONCE, voucherRowMapper, voucherId.toString()));
-            return optionalVoucher;
+            return Optional.of(jdbcTemplate.queryForObject(READ_ONCE, voucherRowMapper, voucherId.toString()));
 
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
