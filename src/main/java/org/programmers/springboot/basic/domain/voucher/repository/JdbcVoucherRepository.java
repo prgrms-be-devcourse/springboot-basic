@@ -3,10 +3,8 @@ package org.programmers.springboot.basic.domain.voucher.repository;
 import lombok.extern.slf4j.Slf4j;
 import org.programmers.springboot.basic.domain.voucher.entity.Voucher;
 import org.programmers.springboot.basic.domain.voucher.entity.VoucherType;
-import org.programmers.springboot.basic.domain.voucher.mapper.VoucherMapper;
+import org.programmers.springboot.basic.util.converter.UUIDConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,18 +18,24 @@ import java.util.UUID;
 
 @Slf4j
 @Repository
-@ComponentScan(basePackages = {"org.programmers.springboot.basic.domain.voucher.mapper"})
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final DataSource dataSource;
-    private final RowMapper<Voucher> voucherRowMapper;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public JdbcVoucherRepository(@Qualifier("mysqlDataSource") DataSource dataSource, VoucherMapper voucherMapper) {
+    public JdbcVoucherRepository(DataSource dataSource) {
         this.dataSource = dataSource;
-        this.voucherRowMapper = voucherMapper.voucherRowMapper();
         this.jdbcTemplate = new JdbcTemplate(this.dataSource);
+    }
+
+    private static RowMapper<Voucher> voucherRowMapper() {
+        return (rs, rowNum) -> {
+            UUID voucherId = UUIDConverter.toUUID(rs.getBytes("voucher_id"));
+            VoucherType voucherType = VoucherType.valueOfVoucherByValue(rs.getInt("voucher_type"));
+            Long discount = rs.getLong("discount");
+            return new Voucher(voucherId, voucherType, discount);
+        };
     }
 
     @Override
@@ -44,7 +48,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> get(UUID voucherId) {
         String sql = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
         try {
-            return Optional.ofNullable(this.jdbcTemplate.queryForObject(sql, voucherRowMapper, (Object) voucherId.toString().getBytes()));
+            return Optional.ofNullable(this.jdbcTemplate.queryForObject(sql, voucherRowMapper(), (Object) voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             log.warn("No voucher found for voucherId: {}", voucherId);
         } catch (DataAccessException e) {
@@ -57,7 +61,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Optional<Voucher> findByTypeNDiscount(VoucherType voucherType, Long discount) {
         String sql = "SELECT * FROM vouchers WHERE voucher_type = ? AND discount = ?";
         try {
-            return Optional.ofNullable(this.jdbcTemplate.queryForObject(sql, voucherRowMapper, voucherType.getValue(), discount));
+            return Optional.ofNullable(this.jdbcTemplate.queryForObject(sql, voucherRowMapper(), voucherType.getValue(), discount));
         } catch (EmptyResultDataAccessException e) {
             log.warn("No voucher found for voucherType {} and discount {}", voucherType, discount);
         } catch (DataAccessException e) {
@@ -69,7 +73,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> getAll() {
         String sql = "SELECT * FROM vouchers ORDER BY voucher_id";
-        return this.jdbcTemplate.query(sql, voucherRowMapper);
+        return this.jdbcTemplate.query(sql, voucherRowMapper());
     }
 
     @Override
