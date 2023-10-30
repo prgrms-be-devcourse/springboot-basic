@@ -69,7 +69,7 @@ class CustomerServiceTest {
     void getCustomers() {
         // given
         Customer newCustomer1 = new Customer("test1@email.com");
-        Customer newCustomer2 = new Customer("test2email.com");
+        Customer newCustomer2 = new Customer("test2@email.com");
 
         List<Customer> mockCustomers = Arrays.asList(newCustomer1, newCustomer2);
         given(customerRepository.findAll(any())).willReturn(mockCustomers);
