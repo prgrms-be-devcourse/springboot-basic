@@ -23,6 +23,7 @@ import team.marco.voucher_management_system.properties.FilePathProperties;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringJUnitConfig(TestPropertyConfiguration.class)
 class JSONFileVoucherRepositoryTest extends VoucherRepositoryTest {
+    private static final String EMPTY_DATA = "[]";
     private static final String SETUP_DATA;
 
     static {
@@ -43,7 +44,7 @@ class JSONFileVoucherRepositoryTest extends VoucherRepositoryTest {
 
     @BeforeEach
     void cleanup() {
-        writeJSONFile("[]");
+        writeJSONFile(EMPTY_DATA);
     }
 
     @Test
