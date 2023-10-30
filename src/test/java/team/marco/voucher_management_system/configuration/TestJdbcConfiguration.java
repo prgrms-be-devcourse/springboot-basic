@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import team.marco.voucher_management_system.repository.JdbcVoucherRepository;
 
 @TestConfiguration
 public class TestJdbcConfiguration {
@@ -30,10 +29,5 @@ public class TestJdbcConfiguration {
     @Bean
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
         return new NamedParameterJdbcTemplate(dataSource);
-    }
-
-    @Bean
-    public JdbcVoucherRepository jdbcVoucherRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        return new JdbcVoucherRepository(namedParameterJdbcTemplate);
     }
 }
