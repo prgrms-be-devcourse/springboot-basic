@@ -19,12 +19,12 @@ public class CommandLineView {
     private final TextIO textIO = TextIoFactory.getTextIO();
     private final TextTerminal<?> textTerminal = textIO.getTextTerminal();
 
-    public FunctionType getModeNumber() {
+    public int getModeNumber() {
         textTerminal.println("=== Voucher Program ===");
         for (FunctionType functionType : FunctionType.values()) {
             textTerminal.printf("Input %d to use Function %s\n", functionType.getModeNumber(), functionType.name());
         }
-        return FunctionType.from(inputModeNumber());
+        return inputModeNumber();
     }
 
     public <T> void printAll(List<T> list) {

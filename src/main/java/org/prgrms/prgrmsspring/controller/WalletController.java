@@ -7,10 +7,12 @@ import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 import org.prgrms.prgrmsspring.entity.wallet.Wallet;
 import org.prgrms.prgrmsspring.service.WalletService;
 import org.prgrms.prgrmsspring.view.CommandLineView;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.UUID;
 
+@Controller
 public class WalletController implements ApplicationController {
     private final CommandLineView commandLineView;
     private final WalletService walletService;
