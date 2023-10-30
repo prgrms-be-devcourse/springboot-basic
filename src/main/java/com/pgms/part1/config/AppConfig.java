@@ -20,7 +20,7 @@ public class AppConfig {
     }
 
     @Bean
-    @Primary
+//    @Primary
     public DataSource memoryDataSource(){
         return DataSourceBuilder.create()
                 .driverClassName("org.h2.Driver")
@@ -32,12 +32,13 @@ public class AppConfig {
     }
 
     @Bean
+    @Primary
     public DataSource dataSource(){
         return DataSourceBuilder.create()
                 .driverClassName("com.mysql.cj.jdbc.Driver")
-                .url("jdbc:mysql://localhost:3306")
+                .url("jdbc:mysql://localhost:3307/voucher_system?useSSL=false&allowPublicKeyRetrieval=true")
                 .username("root")
-                .password("root1234!")
+                .password("mypassword")
                 .type(HikariDataSource.class)
                 .build();
     }
