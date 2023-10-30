@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import team.marco.voucher_management_system.model.Voucher;
 
-@Profile("debug")
+@Profile({"debug", "test"})
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> voucherMap = new HashMap<>();
