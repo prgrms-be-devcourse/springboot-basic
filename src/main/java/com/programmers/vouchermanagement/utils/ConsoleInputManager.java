@@ -42,7 +42,7 @@ public class ConsoleInputManager {
 
         String input = scanner.nextLine();
 
-        while (!input.matches("[0-9A-Za-z]{8}-[0-9A-Za-z]{4}-4[0-9A-Za-z]{3}-[89ABab][0-9A-Za-z]{3}-[0-9A-Za-z]{12}")) {
+        while (!input.matches("[0-9A-Za-z]{8}-[0-9A-Za-z]{4}-[0-9A-Za-z]{4}-[0-9A-Za-z]{4}-[0-9A-Za-z]{12}")) {
 
             logger.warn("Invalid input uuid. Input : " + input);
 
