@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement;
 
+import com.programmers.vouchermanagement.customer.dto.CustomerResponseDto;
 import com.programmers.vouchermanagement.customer.presentation.CustomerController;
 import com.programmers.vouchermanagement.utils.Command;
 import com.programmers.vouchermanagement.exception.CommandNotFoundException;
@@ -140,7 +141,13 @@ public class VoucherManagementController implements CommandLineRunner {
                             voucherController.removeVoucherById(voucherId);
                         }
 
-                        case BLACKLIST -> customerController.readAllBlackList();
+                        case BLACKLIST -> {
+
+                            consoleOutputManager.printBlackList();
+
+                            List<CustomerResponseDto> customerResponseDtos = customerController.readAllBlackList();
+                            consoleOutputManager.printCustomerInfo(customerResponseDtos);
+                        }
 
                         case CREATE_WALLET -> walletController.createWallet();
 
