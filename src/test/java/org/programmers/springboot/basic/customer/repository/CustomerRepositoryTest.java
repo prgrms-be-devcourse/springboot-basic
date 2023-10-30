@@ -12,7 +12,6 @@ import org.programmers.springboot.basic.domain.customer.entity.Customer;
 import org.programmers.springboot.basic.domain.customer.entity.CustomerType;
 import org.programmers.springboot.basic.domain.customer.mapper.CustomerEntityMapper;
 import org.programmers.springboot.basic.domain.customer.mapper.CustomerEntityMapperImpl;
-import org.programmers.springboot.basic.domain.customer.mapper.CustomerMapper;
 import org.programmers.springboot.basic.domain.customer.repository.CustomerRepository;
 import org.programmers.springboot.basic.domain.customer.repository.JdbcCustomerRepository;
 import org.programmers.springboot.basic.domain.customer.service.validate.EmailValidator;
@@ -45,7 +44,6 @@ import static org.assertj.core.api.Assertions.assertThat;
         UUIDRandomGenerator.class,
         CustomerEntityMapperImpl.class,
         JdbcCustomerRepository.class,
-        CustomerMapper.class
 })
 @EnableConfigurationProperties(value = DataSourceProperties.class)
 @TestPropertySource(properties = {"spring.config.location=classpath:application-test.yaml"})

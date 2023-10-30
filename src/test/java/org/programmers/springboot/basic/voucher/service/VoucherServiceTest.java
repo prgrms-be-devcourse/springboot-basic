@@ -17,7 +17,6 @@ import org.programmers.springboot.basic.domain.voucher.exception.IllegalDiscount
 import org.programmers.springboot.basic.domain.voucher.exception.VoucherNotFoundException;
 import org.programmers.springboot.basic.domain.voucher.mapper.VoucherEntityMapper;
 import org.programmers.springboot.basic.domain.voucher.mapper.VoucherEntityMapperImpl;
-import org.programmers.springboot.basic.domain.voucher.mapper.VoucherMapper;
 import org.programmers.springboot.basic.domain.voucher.repository.JdbcVoucherRepository;
 import org.programmers.springboot.basic.domain.voucher.repository.VoucherRepository;
 import org.programmers.springboot.basic.domain.voucher.service.VoucherService;
@@ -47,7 +46,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
         UUIDRandomGenerator.class,
         VoucherEntityMapperImpl.class,
         JdbcVoucherRepository.class,
-        VoucherMapper.class,
         VoucherService.class,
         VoucherConfig.class
 })
@@ -121,9 +119,7 @@ public class VoucherServiceTest {
         String result = strVoucherId.substring(0, strVoucherId.length() - 1);
 
         VoucherRequestDto requestDtoB = voucherEntityMapper.entityToDtoWithUUID(result);
-        assertThatThrownBy(() -> {
-            voucherService.findById(requestDtoB);
-        }).isInstanceOf(VoucherNotFoundException.class)
+        assertThatThrownBy(() -> voucherService.findById(requestDtoB)).isInstanceOf(VoucherNotFoundException.class)
                 .hasMessageContaining("No matching vouchers found!");
     }
 
@@ -152,9 +148,7 @@ public class VoucherServiceTest {
     public void failValidationDiscount() {
 
         VoucherRequestDto requestDto = voucherEntityMapper.entityToDtoWithDetails(voucherType, -1L);
-        assertThatThrownBy(() -> {
-            voucherService.create(requestDto);
-        }).isInstanceOf(IllegalDiscountException.class)
+        assertThatThrownBy(() -> voucherService.create(requestDto)).isInstanceOf(IllegalDiscountException.class)
                 .hasMessageContaining("Illegal Discount value! Possible from 0.");
     }
 }

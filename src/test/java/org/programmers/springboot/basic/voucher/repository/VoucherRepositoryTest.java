@@ -13,7 +13,6 @@ import org.programmers.springboot.basic.domain.voucher.entity.Voucher;
 import org.programmers.springboot.basic.domain.voucher.entity.VoucherType;
 import org.programmers.springboot.basic.domain.voucher.mapper.VoucherEntityMapper;
 import org.programmers.springboot.basic.domain.voucher.mapper.VoucherEntityMapperImpl;
-import org.programmers.springboot.basic.domain.voucher.mapper.VoucherMapper;
 import org.programmers.springboot.basic.domain.voucher.repository.JdbcVoucherRepository;
 import org.programmers.springboot.basic.domain.voucher.repository.VoucherRepository;
 import org.programmers.springboot.basic.util.generator.UUIDGenerator;
@@ -44,7 +43,6 @@ import static org.assertj.core.api.Assertions.assertThat;
         UUIDRandomGenerator.class,
         VoucherEntityMapperImpl.class,
         JdbcVoucherRepository.class,
-        VoucherMapper.class
 })
 @EnableConfigurationProperties(value = DataSourceProperties.class)
 @TestPropertySource(properties = {"spring.config.location=classpath:application-test.yaml"})

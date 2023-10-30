@@ -6,7 +6,6 @@ import org.programmers.springboot.basic.config.DataSourceConfig;
 import org.programmers.springboot.basic.config.DataSourceProperties;
 import org.programmers.springboot.basic.config.VoucherConfig;
 import org.programmers.springboot.basic.domain.wallet.mapper.WalletEntityMapperImpl;
-import org.programmers.springboot.basic.domain.wallet.mapper.WalletMapper;
 import org.programmers.springboot.basic.domain.wallet.repository.JdbcWalletRepository;
 import org.programmers.springboot.basic.util.generator.UUIDRandomGenerator;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -29,7 +28,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
         UUIDRandomGenerator.class,
         WalletEntityMapperImpl.class,
         JdbcWalletRepository.class,
-        WalletMapper.class
 })
 @EnableConfigurationProperties(value = DataSourceProperties.class)
 @TestPropertySource(properties = {"spring.config.location=classpath:application-test.yaml"})

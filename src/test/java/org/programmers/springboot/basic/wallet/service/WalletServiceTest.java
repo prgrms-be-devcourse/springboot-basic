@@ -23,7 +23,6 @@ import org.programmers.springboot.basic.domain.wallet.dto.WalletRequestDto;
 import org.programmers.springboot.basic.domain.wallet.dto.WalletResponseDto;
 import org.programmers.springboot.basic.domain.wallet.mapper.WalletEntityMapper;
 import org.programmers.springboot.basic.domain.wallet.mapper.WalletEntityMapperImpl;
-import org.programmers.springboot.basic.domain.wallet.mapper.WalletMapper;
 import org.programmers.springboot.basic.domain.wallet.repository.JdbcWalletRepository;
 import org.programmers.springboot.basic.domain.wallet.repository.WalletRepository;
 import org.programmers.springboot.basic.domain.wallet.service.WalletService;
@@ -56,7 +55,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
         CustomerEntityMapperImpl.class,
         VoucherEntityMapperImpl.class,
         JdbcWalletRepository.class,
-        WalletMapper.class,
         WalletService.class,
         VoucherConfig.class
 })
@@ -106,9 +104,7 @@ public class WalletServiceTest {
     public void successFindVoucherListByEmail() {
 
         WalletRequestDto requestDto = walletEntityMapper.mapToDtoWithEmail(email);
-        assertThatThrownBy(() -> {
-             walletService.walletListByEmail(requestDto);
-        }).isInstanceOf(CustomerNotFoundException.class)
+        assertThatThrownBy(() -> walletService.walletListByEmail(requestDto)).isInstanceOf(CustomerNotFoundException.class)
                         .hasMessageContaining("No matching customers found!");
 
         CustomerRequestDto customerRequestDto = customerEntityMapper.mapToRequestDto(name, email);

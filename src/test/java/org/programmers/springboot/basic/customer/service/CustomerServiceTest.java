@@ -16,7 +16,6 @@ import org.programmers.springboot.basic.domain.customer.exception.DuplicateBlack
 import org.programmers.springboot.basic.domain.customer.exception.DuplicateEmailException;
 import org.programmers.springboot.basic.domain.customer.mapper.CustomerEntityMapper;
 import org.programmers.springboot.basic.domain.customer.mapper.CustomerEntityMapperImpl;
-import org.programmers.springboot.basic.domain.customer.mapper.CustomerMapper;
 import org.programmers.springboot.basic.domain.customer.repository.CustomerRepository;
 import org.programmers.springboot.basic.domain.customer.repository.JdbcCustomerRepository;
 import org.programmers.springboot.basic.domain.customer.service.CustomerService;
@@ -52,7 +51,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
         UUIDRandomGenerator.class,
         CustomerEntityMapperImpl.class,
         JdbcCustomerRepository.class,
-        CustomerMapper.class,
         CustomerService.class,
 })
 @EnableConfigurationProperties(value = DataSourceProperties.class)
@@ -106,9 +104,7 @@ public class CustomerServiceTest {
         customerService.create(requestDtoA);
 
         CustomerRequestDto requestDtoB = customerEntityMapper.mapToRequestDto("dev", email);
-        assertThatThrownBy(() -> {
-            customerService.create(requestDtoB);
-        }).isInstanceOf(DuplicateEmailException.class)
+        assertThatThrownBy(() -> customerService.create(requestDtoB)).isInstanceOf(DuplicateEmailException.class)
                 .hasMessageContaining("Duplicate Email already exists!");
     }
 
@@ -164,9 +160,7 @@ public class CustomerServiceTest {
         CustomerRequestDto requestDtoB = customerEntityMapper.mapToRequestDtoWithUUID(customerAId.toString());
         customerService.addBlackCustomer(requestDtoB);
 
-        assertThatThrownBy(() -> {
-            customerService.addBlackCustomer(requestDtoB);
-        }).isInstanceOf(DuplicateBlackCustomerException.class)
+        assertThatThrownBy(() -> customerService.addBlackCustomer(requestDtoB)).isInstanceOf(DuplicateBlackCustomerException.class)
                 .hasMessageContaining("Duplicate customer already exists in blacklist!");
     }
 
@@ -190,9 +184,7 @@ public class CustomerServiceTest {
     @DisplayName("존재하지 않는 email에 대한 find 로직 실패 검증")
     public void failFindByEmailByNonExist() {
 
-        assertThatThrownBy(() -> {
-            customerService.findByEmail("asdfasdf");
-        }).isInstanceOf(CustomerNotFoundException.class)
+        assertThatThrownBy(() -> customerService.findByEmail("asdfasdf")).isInstanceOf(CustomerNotFoundException.class)
                 .hasMessageContaining("No matching customers found!");
     }
 }
