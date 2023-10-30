@@ -5,6 +5,8 @@ import com.programmers.vouchermanagement.utils.Command;
 import com.programmers.vouchermanagement.exception.CommandNotFoundException;
 import com.programmers.vouchermanagement.utils.ConsoleInputManager;
 import com.programmers.vouchermanagement.utils.ConsoleOutputManager;
+import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
 import com.programmers.vouchermanagement.wallet.presentation.WalletController;
 import org.slf4j.Logger;
@@ -12,6 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Component
 public class VoucherManagementController implements CommandLineRunner {
@@ -54,40 +60,110 @@ public class VoucherManagementController implements CommandLineRunner {
                     command = Command.getCommandByNumber(input);
 
                 } catch (CommandNotFoundException e) {
-                    logger.error(e.getMessage() + "Console Input : " + input, e);
-
+                    logger.error(e.getMessage(), e);
                     consoleOutputManager.printEnterAgain(e.getMessage());
+
                     continue;
                 }
 
-                switch (command) {
+                try {
+                    switch (command) {
 
-                    case CREATE_VOUCHER -> voucherController.createVoucher();
+                        case CREATE_VOUCHER -> {
 
-                    case LIST_VOUCHER -> voucherController.readAllVoucher();
+                            consoleOutputManager.printCreateVoucher();
 
-                    case ONE_VOUCHER -> voucherController.readVoucherById();
+                            consoleOutputManager.printVoucherTypeMenu();
+                            String voucherType = consoleInputManager.inputString();
 
-                    case UPDATE_VOUCHER -> voucherController.updateVoucher();
+                            consoleOutputManager.printDiscountRequest();
+                            Long discount = consoleInputManager.inputDiscount();
 
-                    case DELETE_VOUCHER -> voucherController.removeAllVoucher();
+                            voucherController.createVoucher(new VoucherRequestDto(voucherType, discount));
 
-                    case DELETE_ONE_VOUCHER -> voucherController.removeVoucherById();
+                            consoleOutputManager.printSuccessCreation();
+                        }
 
-                    case BLACKLIST -> customerController.readAllBlackList();
+                        case LIST_VOUCHER -> {
 
-                    case CREATE_WALLET -> walletController.createWallet();
+                            consoleOutputManager.printList();
 
-                    case LIST_WALLET_VOUCHER -> walletController.readVouchersByCustomer();
+                            List<VoucherResponseDto> voucherResponseDtos = voucherController.readAllVoucher();
+                            consoleOutputManager.printVoucherInfo(voucherResponseDtos);
+                        }
 
-                    case LIST_WALLET_CUSTOMER -> walletController.readCustomersByVoucher();
+                        case ONE_VOUCHER -> {
 
-                    case DELETE_WALLET -> walletController.removeWalletsByCustomer();
+                            consoleOutputManager.printReadVoucherById();
 
-                    case EXIT -> {
-                        consoleOutputManager.printExit();
-                        chooseExit = true;
+                            consoleOutputManager.printGetVoucherId();
+                            UUID voucherId = consoleInputManager.inputUUID();
+
+                            VoucherResponseDto voucherResponseDto = voucherController.readVoucherById(voucherId);
+                            consoleOutputManager.printVoucherInfo(new ArrayList<>() {{
+                                add(voucherResponseDto);
+                            }});
+                        }
+
+                        case UPDATE_VOUCHER -> {
+
+                            consoleOutputManager.printUpdateVoucher();
+
+                            consoleOutputManager.printGetVoucherId();
+                            UUID voucherId = consoleInputManager.inputUUID();
+
+                            consoleOutputManager.printVoucherTypeMenu();
+                            String voucherType = consoleInputManager.inputString();
+
+                            consoleOutputManager.printDiscountRequest();
+                            Long discount = consoleInputManager.inputDiscount();
+
+                            voucherController.updateVoucher(voucherId, new VoucherRequestDto(voucherType, discount));
+
+                            consoleOutputManager.printSuccessUpdate();
+                        }
+
+                        case DELETE_VOUCHER -> {
+
+                            consoleOutputManager.printRemoveVoucher();
+
+                            voucherController.removeAllVoucher();
+                        }
+
+                        case DELETE_ONE_VOUCHER -> {
+
+                            consoleOutputManager.printRemoveVoucherById();
+
+                            consoleOutputManager.printGetVoucherId();
+                            UUID voucherId = consoleInputManager.inputUUID();
+
+                            voucherController.removeVoucherById(voucherId);
+                        }
+
+                        case BLACKLIST -> customerController.readAllBlackList();
+
+                        case CREATE_WALLET -> walletController.createWallet();
+
+                        case LIST_WALLET_VOUCHER -> walletController.readVouchersByCustomer();
+
+                        case LIST_WALLET_CUSTOMER -> walletController.readCustomersByVoucher();
+
+                        case DELETE_WALLET -> walletController.removeWalletsByCustomer();
+
+                        case EXIT -> {
+                            consoleOutputManager.printExit();
+                            chooseExit = true;
+                        }
                     }
+                } catch (RuntimeException e) {
+                    logger.error(e.getMessage(), e);
+                    consoleOutputManager.printReturnMain(e.getMessage());
+
+                } catch (Exception e) {
+                    logger.error(e.getMessage(), e);
+                    consoleOutputManager.printExceptionExit(e.getMessage());
+
+                    break;
                 }
             }
 
