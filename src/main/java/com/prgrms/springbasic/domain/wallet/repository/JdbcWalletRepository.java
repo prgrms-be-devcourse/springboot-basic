@@ -1,5 +1,7 @@
 package com.prgrms.springbasic.domain.wallet.repository;
 
+import com.prgrms.springbasic.domain.customer.entity.Customer;
+import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.domain.wallet.entity.Wallet;
 import com.prgrms.springbasic.util.UUIDUtils;
 import org.slf4j.Logger;
@@ -18,8 +20,8 @@ public class JdbcWalletRepository {
 
     private static final String INSERT_QUERY = "INSERT INTO wallet(wallet_id, customer_id, voucher_id) VALUES(UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))";
     private static final String FIND_BY_CUSTOMER_AND_VOUCHER_ID = "SELECT * FROM wallet WHERE customer_id = UUID_TO_BIN(?) AND voucher_id = UUID_TO_BIN(?)";
-    private static final String SELECT_WALLET_BY_CUSTOMER_ID = "SELECT * FROM wallet WHERE customer_id = UUID_TO_BIN(?)";
-    private static final String SELECT_WALLET_BY_VOUCHER_ID = "SELECT * FROM wallet WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String FIND_VOUCHERS_BY_CUSTOMER_ID = "SELECT V.voucher_id, V.discount_type, V.discount_value FROM wallet W JOIN vouchers V on W.voucher_id = V.voucher_id WHERE customer_id = UUID_TO_BIN(?)";
+    private static final String FIND_CUSTOMERS_BY_VOUCHER_ID = "SELECT C.customer_id, C.name, C.email FROM wallet W JOIN customers C on W.customer_id = C.customer_id WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String DELETE_WALLET = "DELETE from wallet WHERE wallet_id = ?";
     private static final Logger logger = LoggerFactory.getLogger(JdbcWalletRepository.class);
 
@@ -36,6 +38,20 @@ public class JdbcWalletRepository {
         return new Wallet(walletId, customer_id, voucher_id);
     };
 
+    private static final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
+        UUID voucherId = UUIDUtils.toUUID(resultSet.getBytes("voucher_id"));
+        String discountType = resultSet.getString("discount_type");
+        long discountValue = resultSet.getLong("discount_value");
+        return Voucher.createVoucher(voucherId, discountType, discountValue);
+    };
+
+    private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
+        UUID customerId = UUIDUtils.toUUID(resultSet.getBytes("customer_id"));
+        String customerName = resultSet.getString("name");
+        String email = resultSet.getString("email");
+        return new Customer(customerId, customerName, email);
+    };
+
     public Wallet saveWallet(Wallet wallet) {
         jdbcTemplate.update(INSERT_QUERY,
                 wallet.getWallet_id().toString().getBytes(),
@@ -44,12 +60,12 @@ public class JdbcWalletRepository {
         return wallet;
     }
 
-    public List<Wallet> findWalletsByCustomerId(UUID customerId) {
-        return jdbcTemplate.query(SELECT_WALLET_BY_CUSTOMER_ID, walletRowMapper, customerId.toString().getBytes());
+    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
+        return jdbcTemplate.query(FIND_VOUCHERS_BY_CUSTOMER_ID, voucherRowMapper, customerId.toString().getBytes());
     }
 
-    public List<Wallet> findWalletsByVoucherId(UUID voucherId) {
-        return jdbcTemplate.query(SELECT_WALLET_BY_VOUCHER_ID, walletRowMapper, voucherId.toString().getBytes());
+    public List<Customer> findCustomersByVoucherId(UUID voucherId) {
+        return jdbcTemplate.query(FIND_CUSTOMERS_BY_VOUCHER_ID, customerRowMapper, voucherId.toString().getBytes());
     }
 
     public Optional<Wallet> findWalletByCustomerAndVoucher(UUID customer_id, UUID voucher_id) {

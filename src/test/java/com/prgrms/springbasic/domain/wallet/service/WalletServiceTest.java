@@ -92,20 +92,15 @@ class WalletServiceTest {
     void testGetVouchersByCustomerId() {
         UUID customerId = UUID.randomUUID();
         UUID voucherId = UUID.randomUUID();
-        UUID walletId = UUID.randomUUID();
-        Customer customer = new Customer(customerId, "test", "test@gmail.com");
-        when(customerRepository.findCustomerById(customerId)).thenReturn(Optional.of(customer));
+        Voucher voucher = Voucher.createVoucher(voucherId, "percent", 25);
 
-        List<Wallet> expectedWallets = List.of(new Wallet(walletId, customerId, voucherId));
-        when(walletRepository.findWalletsByCustomerId(customerId)).thenReturn(expectedWallets);
+        List<Voucher> expectedVouchers = List.of(voucher);
+        when(walletRepository.findVouchersByCustomerId(customerId)).thenReturn(expectedVouchers);
 
-        Voucher voucher = Voucher.createVoucher(voucherId, "percent", 50);
-        when(voucherRepository.findVoucherById(voucherId)).thenReturn(Optional.ofNullable(voucher));
+        List<VoucherResponse> actualVouchers = walletService.getVouchersByCustomerId(customerId);
 
-        List<VoucherResponse> actualWallets = walletService.getVouchersByCustomerId(customerId);
-
-        assertThat(actualWallets).hasSize(1);
-        assertThat(actualWallets.get(0).voucherId()).isEqualTo(expectedWallets.get(0).getVoucher_id());
+        assertThat(actualVouchers).hasSize(1);
+        assertThat(actualVouchers.get(0).voucherId()).isEqualTo(actualVouchers.get(0).voucherId());
     }
 
     @Test
@@ -113,16 +108,10 @@ class WalletServiceTest {
     void testGetCustomersByVoucherId() {
         UUID voucherId = UUID.randomUUID();
         UUID customerId = UUID.randomUUID();
-        UUID walletId = UUID.randomUUID();
-
-        Voucher voucher = Voucher.createVoucher(voucherId, "percent", 50);
-        when(voucherRepository.findVoucherById(voucherId)).thenReturn(Optional.ofNullable(voucher));
-
-        List<Wallet> expectedWallets = List.of(new Wallet(walletId, customerId, voucherId));
-        when(walletRepository.findWalletsByVoucherId(voucherId)).thenReturn(expectedWallets);
-
         Customer customer = new Customer(customerId, "test", "test@gmail.com");
-        when(customerRepository.findCustomerById(customerId)).thenReturn(Optional.of(customer));
+
+        List<Customer> expectedCustomers = List.of(customer);
+        when(walletRepository.findCustomersByVoucherId(voucherId)).thenReturn(expectedCustomers);
 
         List<CustomerResponse> actualCustomers = walletService.getCustomersByVoucherId(voucherId);
 

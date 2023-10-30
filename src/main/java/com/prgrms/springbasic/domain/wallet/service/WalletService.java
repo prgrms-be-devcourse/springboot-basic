@@ -35,19 +35,17 @@ public class WalletService {
     }
 
     public List<VoucherResponse> getVouchersByCustomerId(UUID customerId) {
-        List<Wallet> wallets = jdbcWalletRepository.findWalletsByCustomerId(findCustomer(customerId).getCustomerId());
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customerId);
 
-        return wallets.stream()
-                .map(wallet -> findVoucher(wallet.getVoucher_id()))
+        return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
     }
 
     public List<CustomerResponse> getCustomersByVoucherId(UUID voucherId) {
-        List<Wallet> wallets = jdbcWalletRepository.findWalletsByVoucherId(findVoucher(voucherId).getVoucherId());
+        List<Customer> customers = jdbcWalletRepository.findCustomersByVoucherId(voucherId);
 
-        return wallets.stream()
-                .map(wallet -> findCustomer(wallet.getCustomer_id()))
+        return customers.stream()
                 .map(CustomerResponse::from)
                 .toList();
     }
