@@ -13,8 +13,4 @@ public class FixedAmountVoucher extends Voucher {
     public FixedAmountVoucher(UUID id, long amount) {
         super(id, VoucherType.FIXED_AMOUNT, amount);
     }
-
-    public static FixedAmountVoucher fixture() {
-        return new FixedAmountVoucher(1000L);
-    }
 }

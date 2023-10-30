@@ -194,11 +194,11 @@ class WalletRepositoryTest {
     }
 
     private Wallet getNewWallet() {
-        Customer newCustomer = Customer.fixture();
+        Customer newCustomer = new Customer("test@email.com", false);
         customerRepository.save(newCustomer);
         Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
 
-        Voucher newVoucher = FixedAmountVoucher.fixture();
+        Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
         Voucher savedVoucher = voucherRepository.findAll().get(0);
 

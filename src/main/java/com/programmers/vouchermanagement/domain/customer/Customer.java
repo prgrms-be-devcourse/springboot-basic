@@ -46,8 +46,4 @@ public class Customer {
 
         return new Customer(UUID.fromString(info.get("id")), info.get("email"), Boolean.parseBoolean(info.get("blacklisted")));
     }
-
-    public static Customer fixture() {
-        return new Customer("test@email.com", false);
-    }
 }

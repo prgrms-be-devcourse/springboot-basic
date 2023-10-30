@@ -25,7 +25,7 @@ class VoucherRepositoryTest {
     @DisplayName("바우처를 저장할 수 있다.")
     void save() {
         // given
-        Voucher newVoucher = FixedAmountVoucher.fixture();
+        Voucher newVoucher = new FixedAmountVoucher(1000L);
 
         // when
         voucherRepository.save(newVoucher);
@@ -40,8 +40,8 @@ class VoucherRepositoryTest {
     @DisplayName("바우처 목록을 저장할 수 있다.")
     void saveAll() {
         // given
-        Voucher newVoucher1 = FixedAmountVoucher.fixture();
-        Voucher newVoucher2 = PercentDiscountVoucher.fixture();
+        Voucher newVoucher1 = new FixedAmountVoucher(1000L);
+        Voucher newVoucher2 = new PercentDiscountVoucher(10L);
 
         // when
         voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
@@ -60,7 +60,7 @@ class VoucherRepositoryTest {
     @DisplayName("바우처를 아이디로 조회할 수 있다.")
     void findById() {
         // given
-        Voucher newVoucher = FixedAmountVoucher.fixture();
+        Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
 
         Voucher savedVoucher = voucherRepository.findAll().get(0);
@@ -78,8 +78,8 @@ class VoucherRepositoryTest {
     @DisplayName("모든 바우처를 조회할 수 있다.")
     void findAll() {
         // given
-        Voucher newVoucher1 = FixedAmountVoucher.fixture();
-        Voucher newVoucher2 = PercentDiscountVoucher.fixture();
+        Voucher newVoucher1 = new FixedAmountVoucher(1000L);
+        Voucher newVoucher2 = new PercentDiscountVoucher(10L);
         voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
 
         // when
@@ -97,7 +97,7 @@ class VoucherRepositoryTest {
     @DisplayName("바우처를 수정할 수 있다.")
     void update() {
         // given
-        Voucher newVoucher = FixedAmountVoucher.fixture();
+        Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
 
         Voucher savedVoucher = voucherRepository.findAll().get(0);
@@ -118,7 +118,7 @@ class VoucherRepositoryTest {
     @DisplayName("바우처를 아이디로 삭제할 수 있다.")
     void deleteById() {
         // given
-        Voucher newVoucher = FixedAmountVoucher.fixture();
+        Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
 
         Voucher savedVoucher = voucherRepository.findAll().get(0);
@@ -135,7 +135,7 @@ class VoucherRepositoryTest {
     @DisplayName("모든 바우처를 삭제할 수 있다.")
     void deleteAll() {
         // given
-        voucherRepository.saveAll(List.of(FixedAmountVoucher.fixture(), PercentDiscountVoucher.fixture()));
+        voucherRepository.saveAll(List.of(new FixedAmountVoucher(1000L), new PercentDiscountVoucher(10L)));
 
         // when
         voucherRepository.deleteAll();

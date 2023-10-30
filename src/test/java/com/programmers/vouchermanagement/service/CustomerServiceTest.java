@@ -32,7 +32,7 @@ class CustomerServiceTest {
     @DisplayName("고객을 생성할 수 있다.")
     void creatCustomer() {
         // given
-        Customer newCustomer = Customer.fixture();
+        Customer newCustomer = new Customer("test@email.com", false);
         CreateCustomerRequestDto request = CreateCustomerRequestDto.builder()
                 .email(newCustomer.getEmail())
                 .build();
@@ -49,8 +49,8 @@ class CustomerServiceTest {
     @DisplayName("이메일이 중복되는 고객을 생성할 수 없다.")
     void creatCustomer_duplicatedEmail_fail() {
         // given
-        Customer newCustomer1 = Customer.fixture();
-        Customer newCustomer2 = Customer.fixture();
+        Customer newCustomer1 = new Customer("test@email.com", false);
+        Customer newCustomer2 = new Customer("test@email.com", false);
 
         CreateCustomerRequestDto request = CreateCustomerRequestDto.builder()
                 .email(newCustomer1.getEmail())

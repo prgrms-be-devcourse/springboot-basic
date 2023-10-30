@@ -66,8 +66,8 @@ class VoucherServiceTest {
     void getVouchers() {
         // given
         List<Voucher> mockVouchers = Arrays.asList(
-                FixedAmountVoucher.fixture(),
-                PercentDiscountVoucher.fixture());
+                new FixedAmountVoucher(1000L),
+                new PercentDiscountVoucher(10L));
         given(voucherRepository.findAll()).willReturn(mockVouchers);
 
         // when

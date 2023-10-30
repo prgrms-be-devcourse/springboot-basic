@@ -2,15 +2,20 @@ package com.programmers.vouchermanagement.domain.voucher;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.UUID;
 
 @Getter
+@ToString
 @EqualsAndHashCode
 public abstract class Voucher {
     private UUID id;
-    protected final VoucherType type;
+    protected VoucherType type;
     protected long amount;
+
+    private Voucher() {
+    }
 
     public Voucher(UUID id, VoucherType type, long amount) {
         this.id = id;
@@ -25,10 +30,5 @@ public abstract class Voucher {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Voucher{id=" + id + ", amount=" + amount + ", type=" + type + '}';
     }
 }

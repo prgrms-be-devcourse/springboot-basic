@@ -24,7 +24,7 @@ class CustomerRepositoryTest {
     @DisplayName("고객을 저장할 수 있다.")
     void save() {
         // given
-        Customer newCustomer = Customer.fixture();
+        Customer newCustomer = new Customer("test@email.com", false);
 
         // when
         customerRepository.save(newCustomer);
@@ -59,7 +59,7 @@ class CustomerRepositoryTest {
     @DisplayName("고객을 아이디로 조회할 수 있다.")
     void findById() {
         // given
-        Customer newCustomer = Customer.fixture();
+        Customer newCustomer = new Customer("test@email.com", false);
         customerRepository.save(newCustomer);
 
         Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
