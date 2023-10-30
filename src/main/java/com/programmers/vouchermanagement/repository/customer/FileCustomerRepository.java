@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
 import com.programmers.vouchermanagement.util.CsvMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,7 @@ import java.util.stream.Stream;
 
 @Deprecated
 @Repository
+@Profile("file")
 @Slf4j
 public class FileCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> storage;

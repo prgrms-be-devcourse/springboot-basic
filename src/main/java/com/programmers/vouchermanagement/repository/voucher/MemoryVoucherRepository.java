@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Deprecated
 @Repository
-@Profile("local")
+@Profile("memory")
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage;
     private final IdProvider<UUID> idProvider;
