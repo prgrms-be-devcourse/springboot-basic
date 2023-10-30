@@ -14,8 +14,7 @@ public abstract class Voucher {
     protected VoucherType type;
     protected long amount;
 
-    private Voucher() {
-    }
+    private Voucher() {}
 
     public Voucher(UUID id, VoucherType type, long amount) {
         this.id = id;

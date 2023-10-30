@@ -1,8 +1,8 @@
 package com.programmers.vouchermanagement.controller;
 
-import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
-import com.programmers.vouchermanagement.dto.voucher.CreateVoucherRequestDto;
+import com.programmers.vouchermanagement.dto.voucher.request.CreateVoucherRequestDto;
+import com.programmers.vouchermanagement.dto.voucher.response.VoucherResponseDto;
 import com.programmers.vouchermanagement.infra.io.ConsoleInput;
 import com.programmers.vouchermanagement.infra.io.ConsoleOutput;
 import com.programmers.vouchermanagement.service.VoucherService;
@@ -31,8 +31,8 @@ public class VoucherShellController {
 
     @ShellMethod(key = "list")
     public void list() {
-        List<Voucher> vouchers = voucherService.getVouchers();
-        for (Voucher voucher : vouchers) {
+        List<VoucherResponseDto> vouchers = voucherService.getVouchers();
+        for (VoucherResponseDto voucher : vouchers) {
             ConsoleOutput.println(voucher.toString());
         }
     }

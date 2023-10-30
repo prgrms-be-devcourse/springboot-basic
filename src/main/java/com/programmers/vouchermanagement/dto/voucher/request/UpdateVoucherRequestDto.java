@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.dto.voucher;
+package com.programmers.vouchermanagement.dto.voucher.request;
 
 import lombok.*;
 

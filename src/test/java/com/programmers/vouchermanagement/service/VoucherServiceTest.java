@@ -4,7 +4,8 @@ import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
-import com.programmers.vouchermanagement.dto.voucher.CreateVoucherRequestDto;
+import com.programmers.vouchermanagement.dto.voucher.request.CreateVoucherRequestDto;
+import com.programmers.vouchermanagement.dto.voucher.response.VoucherResponseDto;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,13 +72,13 @@ class VoucherServiceTest {
         given(voucherRepository.findAll()).willReturn(mockVouchers);
 
         // when
-        List<Voucher> resultVouchers = voucherService.getVouchers();
+        List<VoucherResponseDto> resultVouchers = voucherService.getVouchers();
 
         // then
         assertThat(resultVouchers).hasSize(2);
-        assertThat(resultVouchers).extracting(Voucher::getType)
+        assertThat(resultVouchers).extracting(VoucherResponseDto::type)
                 .containsExactlyInAnyOrder(VoucherType.FIXED_AMOUNT, VoucherType.PERCENT_DISCOUNT);
-        assertThat(resultVouchers).extracting(Voucher::getAmount)
+        assertThat(resultVouchers).extracting(VoucherResponseDto::amount)
                 .containsExactlyInAnyOrder(1000L, 10L);
     }
 }
