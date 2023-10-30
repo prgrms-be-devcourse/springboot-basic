@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
@@ -21,6 +21,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
+    @Transactional(readOnly = true)
     public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
     }

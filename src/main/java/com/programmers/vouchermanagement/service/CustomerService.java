@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Transactional
+@RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
@@ -27,6 +27,7 @@ public class CustomerService {
         customerRepository.save(new Customer(request.getEmail()));
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> getCustomers(GetCustomersRequestDto request) {
         return customerRepository.findAll(request);
     }

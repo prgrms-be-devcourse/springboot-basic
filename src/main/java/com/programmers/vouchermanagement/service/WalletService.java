@@ -36,6 +36,7 @@ public class WalletService {
         walletRepository.save(new Wallet(customer, voucher));
     }
 
+    @Transactional(readOnly = true)
     public List<Wallet> getWallets(GetWalletsRequestDto request) {
         return walletRepository.findAll(request);
     }
