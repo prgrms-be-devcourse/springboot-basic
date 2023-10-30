@@ -1,7 +1,5 @@
 package org.prgms.springbootbasic.common.console;
 
-import java.text.MessageFormat;
-
 import static org.prgms.springbootbasic.common.console.Console.consoleInput;
 
 public class WalletConsole {
@@ -14,10 +12,6 @@ public class WalletConsole {
         System.out.println("Type 'showCustomer' to view vouchers that a customer has.");
 
         return consoleInput.next();
-    }
-
-    public static String allocateVoucher(){
-
     }
 
     public static String typeCustomerId(){
