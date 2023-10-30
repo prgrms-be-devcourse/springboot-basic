@@ -9,6 +9,7 @@ import com.programmers.vouchermanagement.utils.ConsoleOutputManager;
 import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
+import com.programmers.vouchermanagement.wallet.dto.WalletRequestDto;
 import com.programmers.vouchermanagement.wallet.presentation.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,13 +150,52 @@ public class VoucherManagementController implements CommandLineRunner {
                             consoleOutputManager.printCustomerInfo(customerResponseDtos);
                         }
 
-                        case CREATE_WALLET -> walletController.createWallet();
+                        case CREATE_WALLET -> {
 
-                        case LIST_WALLET_VOUCHER -> walletController.readVouchersByCustomer();
+                            consoleOutputManager.printCreateWallet();
 
-                        case LIST_WALLET_CUSTOMER -> walletController.readCustomersByVoucher();
+                            consoleOutputManager.printGetCustomerId();
+                            UUID customerId = consoleInputManager.inputUUID();
 
-                        case DELETE_WALLET -> walletController.removeWalletsByCustomer();
+                            consoleOutputManager.printGetVoucherId();
+                            UUID voucherId = consoleInputManager.inputUUID();
+
+                            walletController.createWallet(new WalletRequestDto(customerId, voucherId));
+
+                            consoleOutputManager.printSuccessCreation();
+                        }
+
+                        case LIST_WALLET_VOUCHER -> {
+
+                            consoleOutputManager.printReadVouchersByCustomer();
+
+                            consoleOutputManager.printGetCustomerId();
+                            UUID customerId = consoleInputManager.inputUUID();
+
+                            List<VoucherResponseDto> voucherResponseDtos = walletController.readVouchersByCustomer(customerId);
+                            consoleOutputManager.printVoucherInfo(voucherResponseDtos);
+                        }
+
+                        case LIST_WALLET_CUSTOMER -> {
+
+                            consoleOutputManager.printReadCustomersByVoucher();
+
+                            consoleOutputManager.printGetVoucherId();
+                            UUID voucherId = consoleInputManager.inputUUID();
+
+                            List<CustomerResponseDto> customerResponseDtos = walletController.readCustomersByVoucher(voucherId);
+                            consoleOutputManager.printCustomerInfo(customerResponseDtos);
+                        }
+
+                        case DELETE_WALLET -> {
+
+                            consoleOutputManager.printRemoveWallet();
+
+                            consoleOutputManager.printGetCustomerId();
+                            UUID customerId = consoleInputManager.inputUUID();
+
+                            walletController.removeWalletsByCustomer(customerId);
+                        }
 
                         case EXIT -> {
                             consoleOutputManager.printExit();
