@@ -2,7 +2,6 @@ package org.prgms.springbootbasic.common.console;
 
 import java.util.UUID;
 
-import static org.prgms.springbootbasic.common.UtilMethod.stringToUUID;
 import static org.prgms.springbootbasic.common.console.Console.consoleInput;
 
 public class WalletConsole {
@@ -20,13 +19,13 @@ public class WalletConsole {
     public static UUID typeCustomerId(){
         System.out.println("Type customer Id.");
 
-        return stringToUUID(consoleInput.next());
+        return UUID.fromString(consoleInput.next());
     }
 
     public static UUID typeVoucherId(){
         System.out.println("Type voucher Id.");
 
-        return stringToUUID(consoleInput.next());
+        return UUID.fromString(consoleInput.next());
     }
 
     public static void success(String command){

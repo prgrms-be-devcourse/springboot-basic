@@ -9,10 +9,4 @@ public class UtilMethod {
 
         return new UUID(wrappedByte.getLong(), wrappedByte.getLong());
     }
-
-    public static UUID stringToUUID(String str){
-        byte[] bytes = str.getBytes();
-
-        return bytesToUUID(bytes);
-    }
 }
