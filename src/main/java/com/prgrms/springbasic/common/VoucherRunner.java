@@ -31,7 +31,7 @@ public class VoucherRunner implements CommandLineRunner {
                     case EXIT -> isRunning = menuHandler.exit();
                 }
             } catch (Exception e) {
-                logger.warn(e.getMessage());
+                logger.info(e.getMessage());
             }
         }
     }

@@ -59,7 +59,7 @@ public class JdbcWalletRepository {
                     customer_id.toString().getBytes(),
                     voucher_id.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
-            logger.warn("Voucher not found", e);
+            logger.info("Voucher not found", e);
             return Optional.empty();
         }
     }

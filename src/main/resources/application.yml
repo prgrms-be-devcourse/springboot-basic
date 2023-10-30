@@ -8,7 +8,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/voucher_mgmt?useSSL=false
+    url: jdbc:mysql://localhost:3306/voucher_mgmt?useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: root1234!
   batch:
