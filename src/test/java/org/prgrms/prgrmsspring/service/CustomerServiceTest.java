@@ -112,10 +112,7 @@ class CustomerServiceTest {
     @Test
     void findAllCustomer() {
         //given
-        Customer customer1 = new Customer(UUID.randomUUID(), "customerNameFirst", "customer1@email.com", true);
-        Customer customer2 = new Customer(UUID.randomUUID(), "customerNameSecond", "customer2@email.com", false);
-        Customer customer3 = new Customer(UUID.randomUUID(), "customerNameThird", "customer3@email.com", false);
-        List<Customer> customers = List.of(customer1, customer2, customer3);
+        List<Customer> customers = createStubCustomers();
         customers.forEach(service::create);
 
         //when
@@ -140,11 +137,8 @@ class CustomerServiceTest {
     @Test
     void findAllBlack() {
         //given
-        Customer customer1 = new Customer(UUID.randomUUID(), "customerNameFirst", "customer1@email.com", true);
-        Customer customer2 = new Customer(UUID.randomUUID(), "customerNameSecond", "customer2@email.com", true);
-        Customer customer3 = new Customer(UUID.randomUUID(), "customerNameThird", "customer3@email.com", false);
-        List<Customer> customers = List.of(customer1, customer2, customer3);
-        List<Customer> blackCustomers = List.of(customer1, customer2);
+        List<Customer> customers = createStubCustomers();
+        List<Customer> blackCustomers = createStubBlackCustomers();
         customers.forEach(service::create);
 
         //when
@@ -160,9 +154,7 @@ class CustomerServiceTest {
     @Test
     void findAllBlackWhenEmpty() {
         //given
-        Customer notBlackCustomer1 = new Customer(UUID.randomUUID(), "customerName", "customer1@email.com", false);
-        Customer notBlackCustomer2 = new Customer(UUID.randomUUID(), "customerNameSecond", "customer2@email.com", false);
-        List<Customer> notBlackCustomers = List.of(notBlackCustomer1, notBlackCustomer2);
+        List<Customer> notBlackCustomers = createStubNotBlackCustomers();
         notBlackCustomers.forEach(service::create);
 
         //when
@@ -170,5 +162,24 @@ class CustomerServiceTest {
 
         //then
         assertThat(blackAll).isEmpty();
+    }
+
+    List<Customer> createStubCustomers() {
+        Customer customer1 = new Customer(UUID.randomUUID(), "customerNameFirst", "customer1@email.com", true);
+        Customer customer2 = new Customer(UUID.randomUUID(), "customerNameSecond", "customer2@email.com", false);
+        Customer customer3 = new Customer(UUID.randomUUID(), "customerNameThird", "customer3@email.com", false);
+        return List.of(customer1, customer2, customer3);
+    }
+
+    List<Customer> createStubBlackCustomers() {
+        Customer black1 = new Customer(UUID.randomUUID(), "customerNameSecond", "customer2@email.com", false);
+        Customer black2 = new Customer(UUID.randomUUID(), "customerNameThird", "customer3@email.com", false);
+        return List.of(black1, black2);
+    }
+
+    List<Customer> createStubNotBlackCustomers() {
+        Customer notBlack1 = new Customer(UUID.randomUUID(), "customerNameSecond", "customer2@email.com", true);
+        Customer notBlack2 = new Customer(UUID.randomUUID(), "customerNameThird", "customer3@email.com", true);
+        return List.of(notBlack1, notBlack2);
     }
 }

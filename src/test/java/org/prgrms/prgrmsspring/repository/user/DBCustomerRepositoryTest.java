@@ -33,10 +33,7 @@ class DBCustomerRepositoryTest {
     @Test
     void findAll() {
         //given
-        Customer customer1 = new Customer(UUID.randomUUID(), "testA", "testA@naver.com", false);
-        Customer customer2 = new Customer(UUID.randomUUID(), "testB", "testB@naver.com", true);
-        Customer customer3 = new Customer(UUID.randomUUID(), "testC", "testC@naver.com", true);
-        List<Customer> customers = List.of(customer1, customer2, customer3);
+        List<Customer> customers = createStubCustomers();
         customers.forEach(repository::insert);
 
         //when
@@ -51,11 +48,8 @@ class DBCustomerRepositoryTest {
     @Test
     void findBlackAll() {
         //given
-        Customer customer1 = new Customer(UUID.randomUUID(), "testA", "testA@naver.com", false);
-        Customer customer2 = new Customer(UUID.randomUUID(), "testB", "testB@naver.com", true);
-        Customer customer3 = new Customer(UUID.randomUUID(), "testC", "testC@naver.com", true);
-        List<Customer> customers = List.of(customer1, customer2, customer3);
-        List<Customer> blackCustomers = List.of(customer2, customer3);
+        List<Customer> customers = createStubCustomers();
+        List<Customer> blackCustomers = createStubBlackCustomers();
         customers.forEach(repository::insert);
 
         //when
@@ -211,5 +205,18 @@ class DBCustomerRepositoryTest {
         assertThatThrownBy(() -> repository.delete(customerId))
                 .isInstanceOf(DataAccessException.class)
                 .hasMessageContaining(ExceptionMessage.DELETE_QUERY_FAILED.getMessage());
+    }
+
+    List<Customer> createStubCustomers() {
+        Customer customer1 = new Customer(UUID.randomUUID(), "testA", "testA@naver.com", false);
+        Customer customer2 = new Customer(UUID.randomUUID(), "testB", "testB@naver.com", true);
+        Customer customer3 = new Customer(UUID.randomUUID(), "testC", "testC@naver.com", true);
+        return List.of(customer1, customer2, customer3);
+    }
+
+    List<Customer> createStubBlackCustomers() {
+        Customer customer1 = new Customer(UUID.randomUUID(), "testA", "testA@naver.com", true);
+        Customer customer2 = new Customer(UUID.randomUUID(), "testB", "testB@naver.com", true);
+        return List.of(customer1, customer2);
     }
 }

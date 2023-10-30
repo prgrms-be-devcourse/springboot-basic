@@ -63,10 +63,7 @@ class DBWalletRepositoryTest {
         UUID customerId = customer.getCustomerId();
         customerRepository.insert(customer);
 
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3000);
-        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
-        Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 35);
-        List<Voucher> vouchers = List.of(voucher1, voucher2, voucher3);
+        List<Voucher> vouchers = createStubVouchers();
         vouchers.forEach(voucherRepository::insert);
         vouchers.forEach(voucher -> walletRepository.allocateVoucherToCustomer(customerId, voucher.getVoucherId()));
 
@@ -87,10 +84,7 @@ class DBWalletRepositoryTest {
         UUID customerId = customer.getCustomerId();
         customerRepository.insert(customer);
 
-        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3000);
-        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
-        Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 35);
-        List<Voucher> vouchers = List.of(voucher1, voucher2, voucher3);
+        List<Voucher> vouchers = createStubVouchers();
         vouchers.forEach(voucherRepository::insert);
         vouchers.forEach(voucher -> walletRepository.allocateVoucherToCustomer(customerId, voucher.getVoucherId()));
 
@@ -124,5 +118,10 @@ class DBWalletRepositoryTest {
         assertThat(customerByVoucherId).contains(customer);
     }
 
-
+    List<Voucher> createStubVouchers() {
+        Voucher voucher1 = new FixedAmountVoucher(UUID.randomUUID(), 3000);
+        Voucher voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+        Voucher voucher3 = new PercentDiscountVoucher(UUID.randomUUID(), 35);
+        return List.of(voucher1, voucher2, voucher3);
+    }
 }
