@@ -3,7 +3,7 @@ package org.prgrms.vouchermanager.handler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.customer.Customer;
-import org.prgrms.vouchermanager.domain.customer.CustomerRequestDto;
+import org.prgrms.vouchermanager.domain.customer.CustomerRequest;
 import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
@@ -118,7 +118,7 @@ public class Handler {
             String email = input.inputCustomerEmail();
             output.outputCustomerisBlack();
             String isBlack = input.inputCustomerisBlack();
-            CustomerRequestDto requestDto = new CustomerRequestDto(name, email, toBooleanType(isBlack));
+            CustomerRequest requestDto = new CustomerRequest(name, email, toBooleanType(isBlack));
             customerController.create(requestDto);
         }catch (IOException e){
             log.error(e.getMessage());
