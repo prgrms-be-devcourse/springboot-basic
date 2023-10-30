@@ -9,9 +9,14 @@ import java.util.UUID;
 
 public interface CustomerRepository {
     void save(Customer customer);
+
     void saveAll(List<Customer> customers);
+
     Optional<Customer> findById(UUID id);
+
     Optional<Customer> findByEmail(String email);
+
     List<Customer> findAll(GetCustomersRequestDto request);
+
     void deleteAll();
 }
