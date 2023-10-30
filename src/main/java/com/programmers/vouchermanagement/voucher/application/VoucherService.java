@@ -31,10 +31,6 @@ public class VoucherService {
 
         List<Voucher> vouchers = voucherRepository.findAll();
 
-        if (vouchers.isEmpty()) {
-            throw new VoucherNotFoundException();
-        }
-
         List<VoucherResponseDto> voucherResponseDtos = vouchers.stream()
                 .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount()))
                 .toList();

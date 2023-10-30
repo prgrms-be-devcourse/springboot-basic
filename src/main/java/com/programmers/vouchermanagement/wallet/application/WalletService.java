@@ -8,7 +8,6 @@ import com.programmers.vouchermanagement.voucher.exception.VoucherNotFoundExcept
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import com.programmers.vouchermanagement.wallet.domain.Wallet;
 import com.programmers.vouchermanagement.wallet.dto.WalletRequestDto;
-import com.programmers.vouchermanagement.wallet.exception.WalletNotFoundException;
 import com.programmers.vouchermanagement.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
@@ -46,20 +45,12 @@ public class WalletService {
 
         List<Wallet> wallets = walletRepository.findByCustomerId(customerId);
 
-        if (wallets.isEmpty()) {
-            throw new WalletNotFoundException();
-        }
-
         List<VoucherResponseDto> voucherResponseDtos = wallets.stream()
                 .map(Wallet::getVoucherId)
                 .map(voucherRepository::findById)
                 .map(optionalVoucher -> optionalVoucher.orElseThrow(VoucherNotFoundException::new))
                 .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscount()))
                 .toList();
-
-        if (voucherResponseDtos.isEmpty()) {
-            throw new VoucherNotFoundException();
-        }
 
         return voucherResponseDtos;
     }
@@ -68,20 +59,12 @@ public class WalletService {
 
         List<Wallet> wallets = walletRepository.findByVoucherId(voucherId);
 
-        if (wallets.isEmpty()) {
-            throw new WalletNotFoundException();
-        }
-
         List<CustomerResponseDto> customerResponseDtos = wallets.stream()
                 .map(Wallet::getCustomerId)
                 .map(customerRepository::findById)
                 .map(optionalCustomer -> optionalCustomer.orElseThrow(CustomerNotFoundException::new))
                 .map(customer -> new CustomerResponseDto(customer.getCustomerId(), customer.getName(), customer.getCustomerType()))
                 .toList();
-
-        if (customerResponseDtos.isEmpty()) {
-            throw new CustomerNotFoundException();
-        }
 
         return customerResponseDtos;
     }
