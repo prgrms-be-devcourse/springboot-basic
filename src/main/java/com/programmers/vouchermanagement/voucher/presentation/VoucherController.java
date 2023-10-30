@@ -9,6 +9,7 @@ import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import com.programmers.vouchermanagement.exception.FileIOException;
 import com.programmers.vouchermanagement.voucher.exception.IllegalDiscountException;
 import com.programmers.vouchermanagement.voucher.exception.VoucherNotFoundException;
+import com.programmers.vouchermanagement.voucher.exception.VoucherNotUpdatedException;
 import com.programmers.vouchermanagement.voucher.exception.VoucherTypeNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -148,7 +149,7 @@ public class VoucherController {
             consoleOutputManager.printReturnMain(e.getMessage());
             return;
 
-        } catch (FileIOException e) {
+        } catch (FileIOException | VoucherNotUpdatedException e) {
             logger.error(e.getMessage(), e);
 
             consoleOutputManager.printReturnMain(e.getMessage());

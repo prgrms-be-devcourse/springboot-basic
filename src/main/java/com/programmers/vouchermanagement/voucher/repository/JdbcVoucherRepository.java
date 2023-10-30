@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.voucher.repository;
 import com.programmers.vouchermanagement.global.common.JdbcRepositoryManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.exception.VoucherNotUpdatedException;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -68,10 +69,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        jdbcTemplate.update(UPDATE,
+
+        int isUpdated = jdbcTemplate.update(UPDATE,
                 voucher.getDiscount(),
                 voucher.getVoucherType().toString(),
                 voucher.getVoucherId().toString());
+
+        if (isUpdated != 1) {
+            throw new VoucherNotUpdatedException();
+        }
     }
 
     @Override
