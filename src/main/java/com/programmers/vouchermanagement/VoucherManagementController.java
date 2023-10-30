@@ -72,6 +72,8 @@ public class VoucherManagementController implements CommandLineRunner {
 
                     case DELETE_VOUCHER -> voucherController.removeAllVoucher();
 
+                    case DELETE_ONE_VOUCHER -> voucherController.removeVoucherById();
+
                     case BLACKLIST -> customerController.readAllBlackList();
 
                     case CREATE_WALLET -> walletController.createWallet();

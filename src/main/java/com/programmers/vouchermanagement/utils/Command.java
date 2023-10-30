@@ -11,12 +11,13 @@ public enum Command {
     ONE_VOUCHER("3"),
     UPDATE_VOUCHER("4"),
     DELETE_VOUCHER("5"),
-    BLACKLIST("6"),
-    CREATE_WALLET("7"),
-    LIST_WALLET_VOUCHER("8"),
-    LIST_WALLET_CUSTOMER("9"),
-    DELETE_WALLET("10"),
-    EXIT("11");
+    DELETE_ONE_VOUCHER("6"),
+    BLACKLIST("7"),
+    CREATE_WALLET("8"),
+    LIST_WALLET_VOUCHER("9"),
+    LIST_WALLET_CUSTOMER("10"),
+    DELETE_WALLET("11"),
+    EXIT("12");
 
     private final String commandNumber;
 

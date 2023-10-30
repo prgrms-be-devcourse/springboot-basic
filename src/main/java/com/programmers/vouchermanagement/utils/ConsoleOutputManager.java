@@ -16,12 +16,13 @@ public class ConsoleOutputManager {
                 "Type 3 to find a voucher by id. \n" +
                 "Type 4 to update a voucher. \n" +
                 "Type 5 to delete all vouchers. \n" +
-                "Type 6 to list all blacklist customers. \n" +
-                "Type 7 to create a new wallet. \n" +
-                "Type 8 to find customer's vouchers. \n" +
-                "Type 9 to find voucher's customers. \n" +
-                "Type 10 to delete wallets by customer id. \n" +
-                "Type 11 to exit the program. \n");
+                "Type 6 to delete a voucher by id." +
+                "Type 7 to list all blacklist customers. \n" +
+                "Type 8 to create a new wallet. \n" +
+                "Type 9 to find customer's vouchers. \n" +
+                "Type 10 to find voucher's customers. \n" +
+                "Type 11 to delete wallets by customer id. \n" +
+                "Type 12 to exit the program. \n");
     }
 
     public void printCreateVoucher() {
@@ -70,6 +71,10 @@ public class ConsoleOutputManager {
 
     public void printRemoveVoucher() {
         System.out.println("=== Delete All Vouchers ===");
+    }
+
+    public void printRemoveVoucherById() {
+        System.out.println("=== Delete Voucher By Id ===");
     }
 
     public void printGetVoucherId() {
