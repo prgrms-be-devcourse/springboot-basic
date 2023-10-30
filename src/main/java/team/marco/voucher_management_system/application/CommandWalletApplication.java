@@ -3,7 +3,6 @@ package team.marco.voucher_management_system.application;
 import java.util.NoSuchElementException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.UncategorizedSQLException;
@@ -47,9 +46,6 @@ public class CommandWalletApplication extends RunnableCommandApplication {
             Console.print("숫자를 입력해 주세요.");
         } catch (IllegalArgumentException e) {
             logger.warn(e.toString());
-            Console.print(e.getMessage());
-        } catch (DataAccessResourceFailureException e) {
-            logger.error(e.toString());
             Console.print(e.getMessage());
         } catch (DuplicateKeyException e) {
             logger.error(e.toString());

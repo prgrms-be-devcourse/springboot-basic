@@ -2,6 +2,7 @@ package team.marco.voucher_management_system.application;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.controller.ConsoleBlacklistController;
 import team.marco.voucher_management_system.controller.ConsoleVoucherController;
@@ -31,11 +32,10 @@ public class CommandMainApplication extends RunnableCommandApplication {
     protected void start() {
         try {
             selectCommand();
+        } catch (CannotGetJdbcConnectionException e) {
+            errorHandler(e, "데이터베이스에 연결할 수 없습니다.");
         } catch (Exception e) {
-            logger.error(e.toString());
-            Console.print("프로그램에 에러가 발생했습니다.");
-
-            runningFlag = false;
+            errorHandler(e, "프로그램에 에러가 발생했습니다.");
         }
     }
 
@@ -77,6 +77,13 @@ public class CommandMainApplication extends RunnableCommandApplication {
             case CUSTOMER -> customerApplication.run();
             case WALLET -> walletApplication.run();
         }
+    }
+
+    private void errorHandler(Exception e, String message) {
+        logger.error(e.toString());
+        Console.print(message);
+
+        runningFlag = false;
     }
 
     @Override

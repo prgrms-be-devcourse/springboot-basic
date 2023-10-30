@@ -2,7 +2,7 @@ package team.marco.voucher_management_system.service;
 
 import java.util.List;
 import java.util.Optional;
-import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
 import org.springframework.stereotype.Service;
 import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.repository.JdbcCustomerRepository;
@@ -21,7 +21,7 @@ public class CustomerService {
         int insert = customerRepository.create(customer);
 
         if (insert != 1) {
-            throw new DataAccessResourceFailureException("고객을 추가하는 과정에서 오류가 발생했습니다.");
+            throw new DataSourceLookupFailureException("고객을 추가하는 과정에서 오류가 발생했습니다.");
         }
     }
 
@@ -39,7 +39,7 @@ public class CustomerService {
         int update = customerRepository.update(customer);
 
         if (update != 1) {
-            throw new DataAccessResourceFailureException("고객을 추가하는 과정에서 오류가 발생했습니다.");
+            throw new DataSourceLookupFailureException("고객을 추가하는 과정에서 오류가 발생했습니다.");
         }
     }
 
