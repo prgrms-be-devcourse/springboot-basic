@@ -22,8 +22,8 @@ abstract class VoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("Repository 반환 테스트")
-    void name() {
+    @DisplayName("Repository는 null일 수 없다.")
+    void testNonNullRepository() {
         // given
 
         // when
@@ -31,6 +31,19 @@ abstract class VoucherRepositoryTest {
 
         // then
         assertThat(repository, notNullValue());
+    }
+
+    @Test
+    @DisplayName("Voucher 추가가 가능해야한다.")
+    void testSave() {
+        // given
+        VoucherRepository repository = getRepository();
+        Voucher voucher = generateVoucher();
+
+        // when
+        repository.save(voucher);
+
+        // then
     }
 
     @Test
