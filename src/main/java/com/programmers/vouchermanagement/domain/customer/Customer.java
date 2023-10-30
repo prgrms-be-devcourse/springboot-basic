@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -18,15 +19,20 @@ public class Customer {
     private boolean blacklisted;
 
     public Customer(String email) {
+        validateEmail(email);
         this.email = email;
     }
 
     public Customer(String email, boolean blacklisted) {
+        validateEmail(email);
+
         this.email = email;
         this.blacklisted = blacklisted;
     }
 
     public Customer(UUID id, String email, boolean blacklisted) {
+        validateEmail(email);
+
         this.id = id;
         this.email = email;
         this.blacklisted = blacklisted;
@@ -45,5 +51,13 @@ public class Customer {
                 .collect(Collectors.toMap(i -> headers[i], i -> values[i]));
 
         return new Customer(UUID.fromString(info.get("id")), info.get("email"), Boolean.parseBoolean(info.get("blacklisted")));
+    }
+
+    private void validateEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@(.+)$";
+
+        if (!Pattern.matches(regex, email)) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
     }
 }
