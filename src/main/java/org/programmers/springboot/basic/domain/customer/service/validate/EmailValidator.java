@@ -7,11 +7,12 @@ import java.util.regex.Pattern;
 
 @Component
 public class EmailValidator {
+    
+    private static final String REGEX = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
+    private static final Pattern pattern = Pattern.compile(REGEX);
 
     public void validate(String email) {
 
-        String regex = "^[_a-z0-9-]+(.[_a-z0-9-]+)*@(?:\\w+\\.)+\\w+$";
-        Pattern pattern = Pattern.compile(regex);
         if (!pattern.matcher(email).matches()) {
             throw new IllegalEmailException();
         }
