@@ -11,48 +11,37 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoggerAspect {
 
-    @Before("execution(void org.programmers.springboot.basic..*Controller.*(..)) || " +
+    private static void logMethodCall(JoinPoint joinPoint) {
+        log.warn("'{}' method called in '{}'", joinPoint.getSignature().getName(), joinPoint.getSignature().getDeclaringTypeName());
+    }
+
+    @Pointcut("execution(void org.programmers.springboot.basic..*Controller.*(..)) || " +
             "execution(void org.programmers.springboot.basic..*Repository.*(..)) || " +
             "execution(void org.programmers.springboot.basic..*Mapper.*(..)) || " +
             "execution(void org.programmers.springboot.basic..*Service.*(..))")
-    public void logBefore(JoinPoint joinPoint) {
-        log.info("'{}' method called in {}", joinPoint.getSignature().getName(), joinPoint.getSignature().getDeclaringTypeName());
-    }
+    public void voidMethods() {}
 
-    @Around("execution(* org.programmers.springboot.basic..*Controller.*(..)) && !execution(void org.programmers.springboot.basic..*Controller.*(..))")
-    public Object logControllerWithResult(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("'{}' method called in {}", joinPoint.getSignature().getName(), joinPoint.getSignature().getDeclaringTypeName());
-        Object result = joinPoint.proceed();
-        log.info("After '{}' method called with result -> {}", joinPoint.getSignature().getName(), result.toString());
-        return result;
-    }
-
-    @Around("execution(* org.programmers.springboot.basic..*Repository.*(..)) && !execution(void org.programmers.springboot.basic..*Repository.*(..))")
-    public Object logRepositoryWithResult(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("'{}' method called in {}", joinPoint.getSignature().getName(), joinPoint.getSignature().getDeclaringTypeName());
-        Object result = joinPoint.proceed();
-        log.info("After '{}' method called with result -> {}", joinPoint.getSignature().getName(), result.toString());
-        return result;
-    }
-
-    @Around("execution(* org.programmers.springboot.basic..*Service.*(..)) && !execution(void org.programmers.springboot.basic..*Service.*(..))")
-    public Object logServiceWithResult(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("'{}' method called in {}", joinPoint.getSignature().getName(), joinPoint.getSignature().getDeclaringTypeName());
-        Object result = joinPoint.proceed();
-        log.info("After '{}' method called with result -> {}", joinPoint.getSignature().getName(), result.toString());
-        return result;
-    }
-
-    @Around("execution(* org.programmers.springboot.basic..*Mapper.*(..)) && !execution(void org.programmers.springboot.basic..*Mapper.*(..))")
-    public Object logMapperWithResult(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("'{}' method called in {}", joinPoint.getSignature().getName(), joinPoint.getSignature().getDeclaringTypeName());
-        Object result = joinPoint.proceed();
-        log.info("After '{}' method called with result -> {}", joinPoint.getSignature().getName(), result.toString());
-        return result;
-    }
+    @Pointcut("execution(* org.programmers.springboot.basic..*Controller.*(..)) && !voidMethods() ||" +
+            "execution(* org.programmers.springboot.basic..*Repository.*(..)) && ! voidMethods() || " +
+            "execution(* org.programmers.springboot.basic..*Service.*(..)) && ! voidMethods() || " +
+            "execution(* org.programmers.springboot.basic..*Mapper.*(..)) && ! voidMethods()")
+    public void nonVoidMethods() {}
 
     @Pointcut("execution(* org.programmers.springboot.basic..*.*(..))")
     public void allMethods() {}
+
+    @Before("voidMethods()")
+    public void logBefore(JoinPoint joinPoint) {
+        logMethodCall(joinPoint);
+    }
+
+    @Around("nonVoidMethods()")
+    public Object logAroundWithResult(ProceedingJoinPoint joinPoint) throws Throwable {
+        log.info("'{}' method called in {}", joinPoint.getSignature().getName(), joinPoint.getSignature().getDeclaringTypeName());
+        Object result = joinPoint.proceed();
+        log.info("After '{}' method called with result -> {}", joinPoint.getSignature().getName(), result != null ? result.toString() : "null");
+        return result;
+    }
 
     @AfterThrowing(pointcut = "allMethods()", throwing = "runtimeException")
     public void logException(RuntimeException runtimeException) {
