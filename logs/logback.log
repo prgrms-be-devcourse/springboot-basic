@@ -1280,3 +1280,50 @@ org.springframework.expression.spel.SpelEvaluationException: EL1008E: Property o
 [2023-10-31 10:44:08:4377][http-nio-8080-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
 [2023-10-31 10:44:18:14579][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 [2023-10-31 10:44:18:14589][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-31 10:45:49:1571][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 25004 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-31 10:45:49:1574][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-31 10:45:51:3543][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-10-31 10:45:51:3556][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:45:51:3559][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-10-31 10:45:51:3559][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-10-31 10:45:51:3691][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-10-31 10:45:51:3692][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2026 ms
+[2023-10-31 10:45:52:4337][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:45:52:4362][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-10-31 10:45:52:4375][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 3.763 seconds (process running for 5.441)
+[2023-10-31 10:45:54:5973][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-10-31 10:45:54:5973][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-10-31 10:45:54:5975][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+[2023-10-31 10:45:55:7840][http-nio-8080-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-10-31 10:45:56:8149][http-nio-8080-exec-2] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@569e83e4
+[2023-10-31 10:45:56:8151][http-nio-8080-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-10-31 10:49:22:213956][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-10-31 10:49:22:213965][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-31 10:49:27:1042][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 28300 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-31 10:49:27:1044][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-31 10:49:28:2187][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-10-31 10:49:28:2198][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:49:28:2202][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-10-31 10:49:28:2202][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-10-31 10:49:28:2303][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-10-31 10:49:28:2303][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1188 ms
+[2023-10-31 10:49:28:2778][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:49:28:2809][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-10-31 10:49:28:2824][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 2.443 seconds (process running for 3.346)
+[2023-10-31 10:49:36:9868][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-10-31 10:49:36:9868][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-10-31 10:49:36:9869][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[2023-10-31 10:50:00:1922][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 29208 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-31 10:50:00:1926][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-31 10:50:03:4908][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-10-31 10:50:03:4922][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:50:03:4925][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-10-31 10:50:03:4925][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-10-31 10:50:03:5064][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-10-31 10:50:03:5064][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3027 ms
+[2023-10-31 10:50:04:6156][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:50:04:6200][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-10-31 10:50:04:6214][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 5.114 seconds (process running for 6.998)
+[2023-10-31 10:50:12:14558][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-10-31 10:50:12:14558][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-10-31 10:50:12:14560][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms

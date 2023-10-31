@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Voucher</title>
+</head>
+<body>
+<h1>Create a Voucher</h1>
+<form th:action="@{/customers/create}" method="post">
+    <label for="menuType">Select Menu Type:</label>
+    <select id="menuType" name="menuType">
+        <option value="FIXED">Fixed</option>
+        <option value="PERCENT">Percent</option>
+    </select>
+    <br>
+    <button type="submit">Create Voucher</button>
+</form>
+</body>
+</html>

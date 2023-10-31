@@ -33,7 +33,7 @@
 </head>
 <body>
 <h1>Voucher List</h1>
-<a th:href="@{/create(method='get')}">Create Voucher</a>
+<a th:href="@{/customers/create(method='get')}">Create Voucher</a>
 
 <table>
     <tr>
@@ -41,7 +41,7 @@
         <th>Amount</th>
         <th>Menu Type</th>
     </tr>
-    <tr th:each="voucher : ${vouchers}">
+    <tr th:each="voucher : ${customers}">
         <td th:text="${voucher.getVoucherId()}"></td>
         <td th:text="${voucher.getAmount()}"></td>
         <td th:text="${voucher.getType()}"></td>

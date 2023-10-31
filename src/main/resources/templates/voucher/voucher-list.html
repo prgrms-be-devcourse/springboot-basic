@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Voucher List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<h1>Voucher List</h1>
+<a th:href="@{/vouchers/create(method='get')}">Create Voucher</a>
+
+<table>
+    <tr>
+        <th>Voucher ID</th>
+        <th>Amount</th>
+        <th>Menu Type</th>
+    </tr>
+    <tr th:each="voucher : ${vouchers}">
+        <td th:text="${voucher.getVoucherId()}"></td>
+        <td th:text="${voucher.getAmount()}"></td>
+        <td th:text="${voucher.getType()}"></td>
+    </tr>
+</table>
+</body>
+</html>
