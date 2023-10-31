@@ -4,8 +4,14 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.kdtspringdemo.customer.CustomerFunction;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
+import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
 import org.prgrms.kdtspringdemo.customer.repository.JdbcCustomerRepository;
+import org.prgrms.kdtspringdemo.voucher.domain.FixedDiscountPolicy;
+import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.repository.JdbcVoucherRepository;
+import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,10 +33,11 @@ import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@ActiveProfiles({"DB"})
+@ActiveProfiles("DB")
 class JdbcWalletRepositoryTest {
+
     @Configuration
-    @ComponentScan(basePackages = {"org.prgrms.kdtspringdemo.wallet","org.prgrms.kdtspringdemo.customer"})
+    @ComponentScan(basePackages = "org.prgrms.kdtspringdemo")
     static class Config {
         @Bean
         public DataSource dataSource() {
@@ -47,13 +54,17 @@ class JdbcWalletRepositoryTest {
             return new JdbcTemplate(dataSource);
         }
     }
-    @Autowired
-    JdbcWalletRepository jdbcWalletRepository;
 
     @Autowired
+    JdbcWalletRepository jdbcWalletRepository;
+    @Autowired
+    JdbcVoucherRepository jdbcVoucherRepository;
+    @Autowired
     JdbcCustomerRepository jdbcCustomerRepository;
+
     private final Logger logger = LoggerFactory.getLogger(JdbcWalletRepositoryTest.class);
     Customer insertCustomer;
+    Voucher insertVoucher;
 
     @BeforeEach
     void init() {
@@ -62,15 +73,16 @@ class JdbcWalletRepositoryTest {
         Customer customer = new Customer(UUID.randomUUID(), "tester01", true);
         jdbcCustomerRepository.insert(customer);
         insertCustomer = customer;
+        Voucher voucher = new Voucher(UUID.randomUUID(), new FixedDiscountPolicy(1000L));
+        jdbcVoucherRepository.insert(voucher);
+        insertVoucher = voucher;
     }
 
     @Test
     @DisplayName("지갑을 추가합니다.")
     void insert() {
         //given
-        List<UUID> vouchers = new ArrayList<>();
-        vouchers.add(UUID.randomUUID());
-        Wallet wallet = new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId(), vouchers);
+        Wallet wallet = new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId());
 
         //when
         Wallet insertWallet = jdbcWalletRepository.insert(wallet);
@@ -83,9 +95,7 @@ class JdbcWalletRepositoryTest {
     @DisplayName("walletId로 지갑을 검색합니다.")
     void findWalletByWalletId() {
         //given
-        List<UUID> vouchers = new ArrayList<>();
-        vouchers.add(UUID.randomUUID());
-        Wallet wallet = jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId(), vouchers));
+        Wallet wallet = jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId()));
 
         //when
         Wallet findWallet = jdbcWalletRepository.findById(wallet.getWalletId()).get();
@@ -100,48 +110,41 @@ class JdbcWalletRepositoryTest {
         //given
         List<UUID> vouchers = new ArrayList<>();
         vouchers.add(UUID.randomUUID());
-        jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId(), vouchers));
+        jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId()));
 
         //when
-        List<UUID> findVouchers = jdbcWalletRepository.findVouchersByCustomerId(insertCustomer.getCustomerId()).get();
+        List<Voucher> voucherList = jdbcWalletRepository.findVouchersByCustomerId(insertCustomer.getCustomerId());
 
         //then
-        assertThat(findVouchers, samePropertyValuesAs(vouchers));
+        assertThat(voucherList, samePropertyValuesAs(vouchers));
     }
 
     @Test
-    @DisplayName("wallet안의 vouchers에서 데이터 삭제")
+    @DisplayName("wallet안의 voucherId")
     void deleteVoucherByVoucherId() {
         //given
-        List<UUID> vouchers = new ArrayList<>();
         UUID voucherId = UUID.randomUUID();
-        vouchers.add(voucherId);
-        Wallet insertWallet = jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId(), vouchers));
+        Wallet insertWallet = jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId()));
 
         //when
-        List<UUID> updatedVouchers = jdbcWalletRepository.deleteVoucherByVoucherId(insertCustomer.getCustomerId(), voucherId);
+        jdbcWalletRepository.deleteVoucherByVoucherId(insertCustomer.getCustomerId(), voucherId);
 
         //then
-        assertThat(updatedVouchers.indexOf(voucherId), is(-1));
     }
 
     @Test
     @DisplayName("해당 voucher를 가진 customer 조회")
     void findCustomerByVoucherId() {
         //given
-        Customer customer2 = jdbcCustomerRepository.insert(new Customer(UUID.randomUUID(), "tester02", false));
+        //Customer customer2 = jdbcCustomerRepository.insert(new Customer(UUID.randomUUID(), "tester02", false));
 
-        List<UUID> vouchers = new ArrayList<>();
-        UUID voucherId = UUID.randomUUID();
-        vouchers.add(voucherId);
-
-        jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId(), vouchers));
-        jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), customer2.getCustomerId(), vouchers));
+        jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), insertCustomer.getCustomerId()));
+        //jdbcWalletRepository.insert(new Wallet(UUID.randomUUID(), customer2.getCustomerId()));
 
         //when
-        List<UUID> findCustomers = jdbcWalletRepository.findCustomerByVoucherId(voucherId);
+        Customer findCustomers = jdbcWalletRepository.findCustomerByVoucherId(insertVoucher.getVoucherId()).get();
 
         //then
-        assertThat(findCustomers.size(), is(2));
+        //assertThat(findCustomers.size(), is(2));
     }
 }

@@ -21,26 +21,24 @@ public class WalletService {
     }
 
     public Wallet create(UUID customerId) {
-        UUID walletId = UUID.randomUUID();
-        List<UUID> vouchers = new ArrayList<>();
-        Wallet wallet = new Wallet(walletId, customerId, vouchers);
+        Wallet wallet = new Wallet(UUID.randomUUID(), customerId);
         return walletRepository.insert(wallet);
     }
 
     public List<Voucher> findVouchersById(UUID customerId) {
-        List<UUID> vouchers = walletRepository.findVouchersByCustomerId(customerId).get();
-
-        List<Voucher> voucherList = new ArrayList<>();
-        vouchers.stream().forEach(uuid -> voucherList.add(voucherService.findById(uuid)));
-        return voucherList;
+        return walletRepository.findVouchersByCustomerId(customerId);
     }
 
-    public List<UUID> addVoucherByCustomerId(UUID customerId, UUID voucherId) {
-        return walletRepository.addVoucherByCustomerId(customerId, voucherId);
+    public void addVoucherByCustomerId(UUID walletId, UUID customerId, UUID voucherId) {
+        walletRepository.addVoucherByCustomerId(walletId, customerId, voucherId);
     }
 
     public void deleteVoucherByVoucherId(UUID customerId, UUID voucherId) {
         walletRepository.deleteVoucherByVoucherId(customerId, voucherId);
+    }
+
+    public List<Wallet> findAll() {
+        return walletRepository.findAll();
     }
 
     public void deleteAll() {

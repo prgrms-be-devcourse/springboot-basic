@@ -3,6 +3,7 @@ package org.prgrms.kdtspringdemo.wallet.controller;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.prgrms.kdtspringdemo.wallet.service.WalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,11 +38,13 @@ public class WalletController {
 
     public void insertVoucherByCustomerId() {
         try {
+            outputConsole.getWalletId();
+            UUID walletId = UUID.fromString(inputConsole.getString());
             outputConsole.getCustomerId();
             UUID customerId = UUID.fromString(inputConsole.getString());
             outputConsole.getVoucherId();
             UUID voucherId = UUID.fromString(inputConsole.getString());
-            walletService.addVoucherByCustomerId(customerId, voucherId);
+            walletService.addVoucherByCustomerId(walletId, customerId, voucherId);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -60,6 +63,11 @@ public class WalletController {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
+    }
+
+    public void printAllWallet() {
+        List<Wallet> walletList = walletService.findAll();
+        walletList.stream().forEach(outputConsole::printWallet);
     }
 
     public void endWalletMode() {

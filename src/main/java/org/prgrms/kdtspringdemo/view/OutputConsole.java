@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.view;
 
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -34,6 +35,7 @@ public class OutputConsole {
         System.out.println("Type findByCustomerId : findVouchers by customerId");
         System.out.println("Type deleteVoucher : deleteVoucher by customerId & voucherId");
         System.out.println("Type insertVoucher : insertVoucher by customerId & voucherId");
+        System.out.println("Type list : Wallet All List");
         System.out.print(start_string);
     }
 
@@ -52,6 +54,10 @@ public class OutputConsole {
 
     public void printCustomer(Customer customer) {
         System.out.println(customer.toString());
+    }
+
+    public void printWallet(Wallet wallet) {
+        System.out.println(wallet.toString());
     }
 
     public void getVoucherType() {
@@ -75,6 +81,12 @@ public class OutputConsole {
     public void getVoucherId() {
         System.out.println("==============================================");
         System.out.println("Enter Voucher Id");
+        System.out.print(start_string);
+    }
+
+    public void getWalletId() {
+        System.out.println("==============================================");
+        System.out.println("Enter Wallet Id");
         System.out.print(start_string);
     }
 
