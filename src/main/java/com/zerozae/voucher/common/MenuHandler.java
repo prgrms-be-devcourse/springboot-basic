@@ -65,7 +65,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             Long discount = consoleView.inputNumber();
 
-            VoucherCreateRequest voucherRequest = new VoucherCreateRequest(discount, voucherType);
+            VoucherCreateRequest voucherRequest = new VoucherCreateRequest(discount, voucherType.toString());
             consoleView.printSystemMessage(voucherController.createVoucher(voucherRequest).getMessage());
         }catch (ExceptionMessage e) {
             throw ExceptionMessage.error(e.getMessage());
@@ -143,7 +143,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             CustomerType customerType = CustomerType.of(consoleView.inputCustomerType());
 
-            CustomerCreateRequest customerRequest = new CustomerCreateRequest(customerName, customerType);
+            CustomerCreateRequest customerRequest = new CustomerCreateRequest(customerName, customerType.toString());
             consoleView.printSystemMessage(customerController.createCustomer(customerRequest).getMessage());
         }catch (ExceptionMessage e) {
             throw ExceptionMessage.error(e.getMessage());
@@ -227,7 +227,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             UUID voucherId = UUID.fromString(consoleView.inputUuid());
 
-            WalletCreateRequest walletRequest = new WalletCreateRequest(customerId, voucherId);
+            WalletCreateRequest walletRequest = new WalletCreateRequest(customerId.toString(), voucherId.toString());
             consoleView.printSystemMessage(walletController.createWallet(walletRequest).getMessage());
         }catch (Exception e) {
             throw ExceptionMessage.error(e.getMessage());

@@ -4,14 +4,16 @@ import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 public class CustomerResponse {
 
-    private String customerId;
+    private UUID customerId;
     private String customerName;
     private CustomerType customerType;
 
-    public CustomerResponse(String customerId, String customerName, CustomerType customerType) {
+    public CustomerResponse(UUID customerId, String customerName, CustomerType customerType) {
         this.customerId = customerId;
         this.customerName = customerName;
         this.customerType = customerType;
@@ -19,7 +21,7 @@ public class CustomerResponse {
 
     public static CustomerResponse toDto(Customer customer) {
         return new CustomerResponse(
-                customer.getCustomerId().toString(),
+                customer.getCustomerId(),
                 customer.getCustomerName(),
                 customer.getCustomerType()
         );
@@ -32,7 +34,7 @@ public class CustomerResponse {
                 회원 유형  : %s
                 
                 --------------------------------------
-                """.formatted(customerId, customerName, customerType);
+                """.formatted(customerId.toString(), customerName, customerType);
     }
 
 }

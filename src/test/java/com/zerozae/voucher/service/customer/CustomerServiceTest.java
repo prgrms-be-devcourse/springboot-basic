@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.zerozae.voucher.domain.customer.CustomerType.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -33,15 +34,15 @@ class CustomerServiceTest {
 
     @BeforeEach
     void setUp() {
-        normalCustomer = new Customer(UUID.randomUUID(), "고객1", CustomerType.NORMAL);
-        blackCustomer = new Customer(UUID.randomUUID(), "고객2", CustomerType.BLACKLIST);
+        normalCustomer = new Customer(UUID.randomUUID(), "고객1", NORMAL);
+        blackCustomer = new Customer(UUID.randomUUID(), "고객2", BLACKLIST);
     }
 
     @Test
     @DisplayName("회원 등록 메서드 호출 성공 테스트")
     void createCustomer_Success_Test() {
         // Given
-        CustomerCreateRequest customerRequest = new CustomerCreateRequest("고객1", CustomerType.NORMAL);
+        CustomerCreateRequest customerRequest = new CustomerCreateRequest("고객1", String.valueOf(NORMAL));
 
         when(customerRepository.save(any(Customer.class))).thenReturn(normalCustomer);
 
@@ -96,7 +97,7 @@ class CustomerServiceTest {
     @DisplayName("회원 중복 검사 예외 발생 테스트")
     void validateDuplicateCustomer_Test() {
         // Given
-        CustomerCreateRequest customerRequest = new CustomerCreateRequest("고객2", CustomerType.BLACKLIST);
+        CustomerCreateRequest customerRequest = new CustomerCreateRequest("고객2", String.valueOf(BLACKLIST));
 
         when(customerRepository.findAll()).thenReturn(List.of(blackCustomer));
 
@@ -182,7 +183,7 @@ class CustomerServiceTest {
     @DisplayName("회원 업데이트 호출 테스트")
     void updateCustomer_Success_Test() {
         // Given
-        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", CustomerType.BLACKLIST);
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", BLACKLIST);
         Customer customer = normalCustomer;
         when(customerRepository.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
 
@@ -198,7 +199,7 @@ class CustomerServiceTest {
     @DisplayName("회원 업데이트 실패 테스트")
     void updateCustomer_NotExistId_Failed_Test() {
         // Given
-        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", CustomerType.BLACKLIST);
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", BLACKLIST);
         UUID notExistId = UUID.randomUUID();
         when(customerRepository.findById(notExistId)).thenReturn(Optional.empty());
 

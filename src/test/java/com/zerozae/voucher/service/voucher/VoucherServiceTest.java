@@ -44,7 +44,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 등록 메서드 호출 성공 테스트")
     void createVoucher_Success_Test() {
         // Given
-        VoucherCreateRequest voucherRequest = new VoucherCreateRequest(10L, VoucherType.FIXED);
+        VoucherCreateRequest voucherRequest = new VoucherCreateRequest(10L, String.valueOf(VoucherType.FIXED));
 
         when(voucherRepository.save(any(Voucher.class))).thenReturn(fixedDiscountVoucher);
 

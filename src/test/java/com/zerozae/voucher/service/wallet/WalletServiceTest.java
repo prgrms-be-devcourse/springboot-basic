@@ -37,7 +37,7 @@ class WalletServiceTest {
     @DisplayName("지갑 생성 성공 테스트")
     void createWallet_Success_Test() {
         // Given
-        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId(), wallet.voucherId());
+        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId().toString(), wallet.voucherId().toString());
         when(walletRepository.save(any(Wallet.class))).thenReturn(wallet);
 
         // When
@@ -52,7 +52,7 @@ class WalletServiceTest {
     @DisplayName("지갑 생성 실패 (지갑이 이미 존재) 테스트")
     void createWallet_AlreadyExist_Failed_Test() {
         // Given
-        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId(), wallet.voucherId());
+        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId().toString(), wallet.voucherId().toString());
         when(walletRepository.findWallet(wallet.customerId(), wallet.voucherId())).thenReturn(Optional.of(wallet));
 
         // When & Then

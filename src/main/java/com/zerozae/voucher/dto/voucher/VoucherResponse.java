@@ -5,15 +5,17 @@ import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 public class VoucherResponse {
 
-    private String voucherId;
+    private UUID voucherId;
     private long discount;
     private VoucherType voucherType;
     private UseStatusType useStatusType;
 
-    public VoucherResponse(String voucherId, long discount, VoucherType voucherType, UseStatusType useStatusType) {
+    public VoucherResponse(UUID voucherId, long discount, VoucherType voucherType, UseStatusType useStatusType) {
         this.voucherId = voucherId;
         this.discount = discount;
         this.voucherType = voucherType;
@@ -22,7 +24,7 @@ public class VoucherResponse {
 
     public static VoucherResponse toDto(Voucher voucher) {
         return new VoucherResponse(
-                voucher.getVoucherId().toString(),
+                voucher.getVoucherId(),
                 voucher.getDiscount(),
                 voucher.getVoucherType(),
                 voucher.getUseStatusType());
@@ -36,6 +38,6 @@ public class VoucherResponse {
                 사용 여부   : %s
                 
                 --------------------------------------
-                """.formatted(voucherId, voucherType, discount, useStatusType.getDescription());
+                """.formatted(voucherId.toString(), voucherType, discount, useStatusType.getDescription());
     }
 }
