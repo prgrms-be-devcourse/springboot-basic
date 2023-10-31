@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <title>바우처 목록</title>
+</head>
+<body>
+<div class="container" style="max-width: 700px">
+    <div class="py-5 text-center">
+        <h2>바우처 목록</h2>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button class="btn btn-primary float-end"
+                    onclick="location.href='/vouchers/create-form'" type="button">바우처 등록
+            </button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Voucher ID</th>
+                <th>Discount Type</th>
+                <th>Discount Value</th>
+            </tr>
+            </thead>
+            <tbody th:each="voucher : ${vouchers}">
+            <tr>
+                <td><a th:href="@{'/vouchers/' + ${voucher.voucherId()}}" th:text="${voucher.voucherId()}">voucher id</a></td>
+                <td th:text="${voucher.discountType()}">테스트 상품1</td>
+                <td th:text="${voucher.discountValue()}">10000</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
