@@ -1,5 +1,6 @@
 package devcourse.springbootbasic.controller;
 
+import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.service.VoucherService;
@@ -43,5 +44,14 @@ public class VoucherViewController {
         voucherService.deleteVoucher(voucherId);
 
         return "redirect:/voucher";
+    }
+
+
+    @GetMapping("/detail/{id}")
+    public String showVoucherDetail(@PathVariable("id") String voucherId, Model model) {
+        Voucher voucher = voucherService.getVoucherById(UUID.fromString(voucherId));
+        model.addAttribute("voucher", new VoucherFindResponse(voucher));
+
+        return "voucher/voucher-detail";
     }
 }

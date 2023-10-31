@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>Voucher Detail</title>
+</head>
+<body class="container-fluid">
+<h1>Voucher Detail</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Voucher Details</h5>
+        <p class="card-text">ID: [[${voucher.id}]]</p>
+        <p class="card-text">Voucher Type: [[${voucher.voucherType}]]</p>
+        <p class="card-text">Discount Value: [[${voucher.discountValue}]]</p>
+        <p class="card-text">Customer ID: [[${voucher.customerId}]]</p>
+    </div>
+</div>
+
+<a th:href="@{/voucher}" class="btn btn-primary mt-2">Back to Voucher List</a>
+</body>
+</html>
