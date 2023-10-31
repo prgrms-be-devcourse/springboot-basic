@@ -1,5 +1,6 @@
 package org.prgrms.prgrmsspring.entity.voucher;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -7,11 +8,17 @@ public abstract class Voucher {
     protected final UUID voucherId;
     protected final long amount;
     protected final String type;
+    protected final LocalDateTime createTime;
 
-    protected Voucher(UUID voucherId, long amount, String type) {
+    protected Voucher(UUID voucherId, long amount, String type, LocalDateTime createTime) {
         this.voucherId = voucherId;
         this.amount = amount;
         this.type = type;
+        this.createTime = createTime;
+    }
+
+    protected Voucher(UUID voucherId, long amount, String type) {
+        this(voucherId, amount, type, LocalDateTime.now());
     }
 
     @Override
@@ -37,6 +44,20 @@ public abstract class Voucher {
 
     public String getType() {
         return type;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Voucher{" +
+                "voucherId=" + voucherId +
+                ", amount=" + amount +
+                ", type='" + type + '\'' +
+                ", createTime=" + createTime +
+                '}';
     }
 
     protected abstract long discount(long beforeDiscount);

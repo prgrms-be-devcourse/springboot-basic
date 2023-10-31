@@ -8,7 +8,8 @@ public enum Field {
     EMAIL("EMAIL"),
     VOUCHER_ID("VOUCHER_ID"),
     TYPE("TYPE"),
-    AMOUNT("AMOUNT");
+    AMOUNT("AMOUNT"),
+    CREATE_TIME("CREATE_TIME");
 
 
     private final String fieldName;

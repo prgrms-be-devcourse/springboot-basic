@@ -1,7 +1,9 @@
 package org.prgrms.prgrmsspring.repository.voucher;
 
+import org.prgrms.prgrmsspring.domain.VoucherType;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -18,4 +20,8 @@ public interface VoucherRepository {
     void delete(UUID voucherId);
 
     void clear();
+
+    List<Voucher> findBetweenDate(LocalDateTime begin, LocalDateTime end);
+
+    List<Voucher> findByType(VoucherType type);
 }

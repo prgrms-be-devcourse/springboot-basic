@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -31,8 +32,8 @@ public class DBVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher insert(Voucher voucher) {
-        String sql = "INSERT INTO VOUCHERS VALUES(UUID_TO_BIN(?), ?, ?)";
-        int insert = jdbcTemplate.update(sql, voucher.getVoucherId().toString(), voucher.getAmount(), voucher.getType());
+        String sql = "INSERT INTO VOUCHERS VALUES(UUID_TO_BIN(?), ?, ?, ?)";
+        int insert = jdbcTemplate.update(sql, voucher.getVoucherId().toString(), voucher.getAmount(), voucher.getType(), voucher.getCreateTime());
         if (insert != 1) {
             throw new DataAccessException(this.getClass() + " " + ExceptionMessage.INSERT_QUERY_FAILED.getMessage());
         }
@@ -44,7 +45,7 @@ public class DBVoucherRepository implements VoucherRepository {
         String sql = "SELECT * FROM VOUCHERS";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
             VoucherType voucherType = VoucherType.from(rs.getString(TYPE.getFieldName()));
-            return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID.getFieldName())), rs.getLong(AMOUNT.getFieldName()));
+            return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID.getFieldName())), rs.getLong(AMOUNT.getFieldName()), rs.getTimestamp(CREATE_TIME.getFieldName()).toLocalDateTime());
         });
     }
 
@@ -54,7 +55,7 @@ public class DBVoucherRepository implements VoucherRepository {
         try {
             Voucher voucher = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
                 VoucherType voucherType = VoucherType.from(rs.getString(TYPE.getFieldName()));
-                return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID.getFieldName())), rs.getLong(AMOUNT.getFieldName()));
+                return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID.getFieldName())), rs.getLong(AMOUNT.getFieldName()), rs.getTimestamp(CREATE_TIME.getFieldName()).toLocalDateTime());
             }, voucherId.toString());
             return Optional.ofNullable(voucher);
         } catch (EmptyResultDataAccessException e) {
@@ -88,5 +89,22 @@ public class DBVoucherRepository implements VoucherRepository {
     public void clear() {
         String sql = "DELETE FROM VOUCHERS";
         jdbcTemplate.update(sql);
+    }
+
+    @Override
+    public List<Voucher> findBetweenDate(LocalDateTime begin, LocalDateTime end) {
+        String sql = "SELECT * FROM VOUCHERS WHERE CREATE_TIME BETWEEN ? AND ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            VoucherType voucherType = VoucherType.from(rs.getString(TYPE.getFieldName()));
+            return voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID.getFieldName())), rs.getLong(AMOUNT.getFieldName()), rs.getTimestamp(CREATE_TIME.getFieldName()).toLocalDateTime());
+        }, begin, end);
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        String sql = "SELECT * FROM VOUCHERS WHERE TYPE = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) ->
+                        voucherType.constructVoucher(new BinaryToUUIDConverter().run(rs.getBytes(VOUCHER_ID.getFieldName())), rs.getLong(AMOUNT.getFieldName()), rs.getTimestamp(CREATE_TIME.getFieldName()).toLocalDateTime())
+                , voucherType.getTitle());
     }
 }
