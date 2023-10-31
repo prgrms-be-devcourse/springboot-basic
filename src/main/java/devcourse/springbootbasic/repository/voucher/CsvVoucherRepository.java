@@ -37,6 +37,16 @@ public class CsvVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAllWithFilter(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
+        return voucherDatabase.values()
+                .stream()
+                .filter(voucher -> voucherType == null || voucher.getVoucherType().equals(voucherType))
+                .filter(voucher -> startDate == null || voucher.getCreatedAt().isAfter(startDate.atStartOfDay()))
+                .filter(voucher -> endDate == null || voucher.getCreatedAt().isBefore(endDate.plusDays(1).atStartOfDay()))
+                .toList();
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return voucherDatabase.values()
                 .stream()

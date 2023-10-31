@@ -2,7 +2,9 @@ package devcourse.springbootbasic.repository.voucher;
 
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
+import devcourse.springbootbasic.domain.voucher.VoucherType;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -10,6 +12,8 @@ import java.util.UUID;
 public interface VoucherRepository {
 
     Voucher save(Voucher voucher);
+
+    List<Voucher> findAllWithFilter(VoucherType voucherType, LocalDate startDate, LocalDate endDate);
 
     List<Voucher> findAll();
 

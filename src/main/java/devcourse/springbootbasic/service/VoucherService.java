@@ -2,6 +2,7 @@ package devcourse.springbootbasic.service;
 
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.domain.voucher.Voucher;
+import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +26,13 @@ public class VoucherService {
 
     public List<VoucherFindResponse> findAllVouchers() {
         return voucherRepository.findAll()
+                .stream()
+                .map(VoucherFindResponse::new)
+                .toList();
+    }
+
+    public List<VoucherFindResponse> findAllVoucherWithSearchConditions(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
+        return voucherRepository.findAllWithFilter(voucherType, startDate, endDate)
                 .stream()
                 .map(VoucherFindResponse::new)
                 .toList();

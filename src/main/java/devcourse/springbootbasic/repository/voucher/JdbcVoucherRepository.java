@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Profile({"prod", "test"})
@@ -21,8 +23,35 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String VOUCHER_TYPE = "voucher_type";
     private static final String DISCOUNT_VALUE = "discount_value";
     private static final String CUSTOMER_ID = "customer_id";
+    private static final String CREATED_AT = "created_at";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Override
+    public List<Voucher> findAllWithFilter(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM voucher WHERE 1=1");
+
+        Map<String, Object> queryParams = new HashMap<>();
+
+        if (voucherType != null) {
+            queryBuilder.append(" AND voucher_type = :voucher_type");
+            queryParams.put("voucher_type", voucherType.toString());
+        }
+
+        if (startDate != null) {
+            queryBuilder.append(" AND created_at >= :start_date");
+            queryParams.put("start_date", startDate);
+        }
+
+        if (endDate != null) {
+            queryBuilder.append(" AND created_at <= :end_date");
+            queryParams.put("end_date", endDate);
+        }
+
+        String query = queryBuilder.toString();
+
+        return jdbcTemplate.query(query, queryParams, (rs, rowNum) -> mapVoucherFromResultSet(rs));
+    }
 
     @Override
     public List<Voucher> findAll() {

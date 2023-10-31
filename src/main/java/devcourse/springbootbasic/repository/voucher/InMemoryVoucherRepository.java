@@ -1,9 +1,11 @@
 package devcourse.springbootbasic.repository.voucher;
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
+import devcourse.springbootbasic.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +22,16 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     public Voucher save(Voucher voucher) {
         voucherDatabase.put(voucher.getId(), voucher);
         return voucher;
+    }
+
+    @Override
+    public List<Voucher> findAllWithFilter(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
+        return voucherDatabase.values()
+                .stream()
+                .filter(voucher -> voucherType == null || voucher.getVoucherType().equals(voucherType))
+                .filter(voucher -> startDate == null || voucher.getCreatedAt().isAfter(startDate.atStartOfDay()))
+                .filter(voucher -> endDate == null || voucher.getCreatedAt().isBefore(endDate.plusDays(1).atStartOfDay()))
+                .toList();
     }
 
     @Override
