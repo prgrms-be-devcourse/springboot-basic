@@ -1,5 +1,6 @@
 package team.marco.voucher_management_system.util;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.nio.ByteBuffer;
@@ -8,41 +9,45 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class UUIDUtilTest {
+
+    @DisplayName("바이트 배열을 UUID로 변환할 수 있다.")
     @Test
-    void 바이트_배열을_UUID로_변환() {
-        // uuid가 바이트 배열로 주어졌을 때
+    void bytesToUUID() {
+        // given
         UUID uuid = UUID.randomUUID();
         byte[] uuidBytes = toBytes(uuid);
 
-        // 바이트 배열을 UUID로 변환
+        // when
         UUID converted = UUIDUtil.bytesToUUID(uuidBytes);
 
-        // 변환 전 uuid를 반환
+        // then
         assertThat(converted).isEqualTo(uuid);
     }
 
+    @DisplayName("문자열을 UUID로 변환할 수 있다.")
     @Test
-    void 문자열을_UUID로_변환() {
-        // uuid가 문자열로 주어졌을 때
+    void stringToUUID() {
+        // given
         UUID uuid = UUID.randomUUID();
         String uuidString = uuid.toString();
 
-        // 문자열을 UUID로 변환
+        // when
         UUID converted = UUIDUtil.stringToUUID(uuidString);
 
-        // 변환 전 uuid를 반환
+        // then
         assertThat(converted).isEqualTo(uuid);
     }
 
+    @DisplayName("UUID를 바이트 배열로 변환할 수 있다.")
     @Test
-    void UUID를_바이트_배열로_변환() {
-        // uuid가 주어 졌을 때
+    void uuidToBytes() {
+        // given
         UUID uuid = UUID.randomUUID();
 
-        // UUID를 바이트 배열로 변환
+        // when
         byte[] converted = UUIDUtil.uuidToBytes(uuid);
 
-        // 변환 전 uuid를 반환
+        // then
         assertThat(converted).isEqualTo(toBytes(uuid));
     }
 
