@@ -26,8 +26,8 @@ class VoucherServiceTest {
     @Mock
     private VoucherRepository voucherRepository;
     private final List<Voucher> testVouchers = new ArrayList<>();
-    private final Voucher voucher1 = VoucherFactory.createVoucher(VoucherDto.of("voucher1", 1000, VoucherType.FIXED));
-    private final Voucher voucher2 = VoucherFactory.createVoucher(VoucherDto.of("voucher2", 99, VoucherType.PERCENTAGE));
+    private final Voucher voucher1 = VoucherFactory.createVoucher(new VoucherDto.CreateRequest("voucher1", 1000, VoucherType.FIXED));
+    private final Voucher voucher2 = VoucherFactory.createVoucher(new VoucherDto.CreateRequest("voucher2", 99, VoucherType.PERCENTAGE));
 
     @Test
     void 모든_바우처를_가져올_수_있다() {
@@ -71,7 +71,7 @@ class VoucherServiceTest {
     @Test
     void 새로운_바우처를_생성할_수_있다() {
         //given
-        final VoucherDto createRequestDto = VoucherDto.of("voucher", 999, VoucherType.FIXED);
+        final VoucherDto.CreateRequest createRequestDto = new VoucherDto.CreateRequest("voucher", 999, VoucherType.FIXED);
         final Voucher voucher = VoucherFactory.createVoucher(createRequestDto);
         doReturn(voucher).when(voucherRepository).save(any(Voucher.class));
 
@@ -85,7 +85,7 @@ class VoucherServiceTest {
     @Test
     void 바우처의_이름은_중복될_수_없다() {
         //given
-        final VoucherDto createRequestDto = VoucherDto.of("voucher1", 999, VoucherType.FIXED);
+        final VoucherDto.CreateRequest createRequestDto = new VoucherDto.CreateRequest("voucher1", 999, VoucherType.FIXED);
         doReturn(Optional.of(voucher1)).when(voucherRepository).findByName(voucher1.getName());
 
         //when&then

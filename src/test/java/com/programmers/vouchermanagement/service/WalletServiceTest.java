@@ -36,8 +36,8 @@ class WalletServiceTest {
     private final UUID customerId = UUID.randomUUID();
     private final UUID voucherId_1 = UUID.randomUUID();
     private final UUID voucherId_2 = UUID.randomUUID();
-    private final Voucher voucher = VoucherFactory.createVoucher(VoucherDto.of("voucher", 1000, VoucherType.FIXED));
-    private final Customer customer = new Customer(CustomerDto.of("user"));
+    private final Voucher voucher = VoucherFactory.createVoucher(new VoucherDto.CreateRequest("voucher", 1000, VoucherType.FIXED));
+    private final Customer customer = new Customer(new CustomerDto.CreateRequest("user"));
 
     @BeforeEach
     void setUp() {

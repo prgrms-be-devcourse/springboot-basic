@@ -3,15 +3,23 @@ package com.programmers.vouchermanagement.dto;
 import com.programmers.vouchermanagement.domain.customer.Customer;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-public record CustomerDto(UUID id, String name, LocalDateTime createdAt, boolean isBanned) {
+public class CustomerDto {
 
-    public static CustomerDto of(String name) {
-        return new CustomerDto(null, name, null, false);
+    public record CreateRequest(String name) {
     }
 
-    public static CustomerDto from(Customer customer) {
-        return new CustomerDto(customer.getId(), customer.getName(), customer.getCreatedAt(), customer.isBanned());
+    public static class Response {
+        private final String id;
+        private final String name;
+        private final LocalDateTime createdAt;
+        private final boolean isBanned;
+
+        public Response(Customer customer) {
+            this.id = customer.getId().toString();
+            this.name = customer.getName();
+            this.createdAt = customer.getCreatedAt();
+            this.isBanned = customer.isBanned();
+        }
     }
 }

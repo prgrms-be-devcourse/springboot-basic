@@ -4,23 +4,42 @@ import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-public record VoucherDto(UUID id,
-                         String name,
-                         float discountAmount,
-                         LocalDateTime createdAt,
-                         VoucherType voucherType) {
-    public static VoucherDto of(String voucherName, float discountAmount, VoucherType voucherType) {
-        return new VoucherDto(null, voucherName, discountAmount, null, voucherType);
+public class VoucherDto {
+    public record CreateRequest(String name, float discountAmount, VoucherType voucherType) {
     }
 
-    public static VoucherDto from(Voucher voucher) {
-        return new VoucherDto(
-                voucher.getId(),
-                voucher.getName(),
-                voucher.getDiscountAmount(),
-                voucher.getCreatedAt(),
-                voucher.getVoucherType());
+    public static class Response {
+        private final String id;
+        private final String name;
+        private final float discountAmount;
+        private final LocalDateTime createdAt;
+        private final VoucherType voucherType;
+
+        public Response(Voucher voucher) {
+            this.id = voucher.getId().toString();
+            this.name = voucher.getName();
+            this.discountAmount = voucher.getDiscountAmount();
+            this.createdAt = voucher.getCreatedAt();
+            this.voucherType = voucher.getVoucherType();
+        }
     }
 }
+//public record VoucherDto(UUID id,
+//                         String name,
+//                         float discountAmount,
+//                         LocalDateTime createdAt,
+//                         VoucherType voucherType) {
+//    public static VoucherDto of(String voucherName, float discountAmount, VoucherType voucherType) {
+//        return new VoucherDto(null, voucherName, discountAmount, null, voucherType);
+//    }
+//
+//    public static VoucherDto from(Voucher voucher) {
+//        return new VoucherDto(
+//                voucher.getId(),
+//                voucher.getName(),
+//                voucher.getDiscountAmount(),
+//                voucher.getCreatedAt(),
+//                voucher.getVoucherType());
+//    }
+//}

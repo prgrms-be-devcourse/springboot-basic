@@ -4,7 +4,6 @@ package com.programmers.vouchermanagement.repository.voucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
-import com.programmers.vouchermanagement.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -89,14 +88,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
-        VoucherDto voucherDto = new VoucherDto(
+        return VoucherFactory.createVoucher(
                 toUUID(resultSet.getBytes("id")),
                 resultSet.getString("name"),
                 resultSet.getFloat("discount_amount"),
                 resultSet.getTimestamp("created_at").toLocalDateTime(),
                 VoucherType.valueOf(resultSet.getString("voucher_type").toUpperCase())
         );
-        return VoucherFactory.createVoucher(voucherDto);
     }
 
     private UUID toUUID(byte[] bytes) {
