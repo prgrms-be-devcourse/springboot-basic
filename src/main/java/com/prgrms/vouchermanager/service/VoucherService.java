@@ -53,9 +53,10 @@ public class VoucherService {
         return voucherRepository.delete(id);
     }
 
-    public List<Voucher> findByCondition(VoucherType voucherType, int startYear, int startMonth, int endYear, int endMonth) {
-        String start = getYearAndMonth(startYear, startMonth);
-        String end = getYearAndMonth(endYear, endMonth);
+    public List<Voucher> findByCondition(VoucherFindByConditionRequest request) {
+        String start = getYearAndMonth(request.startYear(), request.startMonth());
+        String end = getYearAndMonth(request.endYear(), request.endMonth());
+        VoucherType voucherType = VoucherType.of(request.voucherType());
         List<Voucher> byDate
                 = voucherRepository.findByDate(start, end);
         log.info("byDate : " + byDate);

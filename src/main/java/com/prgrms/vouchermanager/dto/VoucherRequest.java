@@ -12,6 +12,16 @@ public class VoucherRequest {
         }
     }
 
+    public record VoucherFindByConditionRequest(String voucherType,
+                                                int startYear,
+                                                int startMonth,
+                                                int endYear,
+                                                int endMonth) {
+        @Builder
+        public VoucherFindByConditionRequest {
+        }
+    }
+
     public static VoucherCreateRequest toCreateVoucher(VoucherType voucherType, int discount) {
         return VoucherCreateRequest.builder()
                 .voucherType(voucherType.getLabel())

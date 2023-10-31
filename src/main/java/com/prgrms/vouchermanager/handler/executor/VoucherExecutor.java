@@ -1,11 +1,8 @@
 package com.prgrms.vouchermanager.handler.executor;
 
 import com.prgrms.vouchermanager.controller.VoucherConsoleController;
-import com.prgrms.vouchermanager.controller.VoucherWebController;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
-import com.prgrms.vouchermanager.dto.VoucherRequest;
-import com.prgrms.vouchermanager.dto.VoucherResponse;
 import com.prgrms.vouchermanager.exception.EmptyListException;
 import com.prgrms.vouchermanager.exception.NotCorrectFormException;
 import com.prgrms.vouchermanager.exception.NotCorrectIdException;
@@ -43,7 +40,7 @@ public class VoucherExecutor {
     }
 
     public void list() throws EmptyListException {
-        VoucherAllListResponse response = controller.findAll();
+        VoucherListResponse response = controller.findAll();
         List<Voucher> vouchers = response.vouchers();
         if(vouchers.isEmpty()) throw new EmptyListException(vouchers);
         else consolePrint.printList(vouchers);

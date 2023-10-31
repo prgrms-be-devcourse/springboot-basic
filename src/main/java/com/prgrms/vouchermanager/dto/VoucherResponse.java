@@ -15,9 +15,9 @@ public class VoucherResponse {
         }
     }
 
-    public record VoucherAllListResponse(List<Voucher> vouchers) {
+    public record VoucherListResponse(List<Voucher> vouchers) {
         @Builder
-        public VoucherAllListResponse {
+        public VoucherListResponse {
         }
     }
 

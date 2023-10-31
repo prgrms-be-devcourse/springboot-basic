@@ -1,17 +1,11 @@
 package com.prgrms.vouchermanager.controller;
 
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
-import com.prgrms.vouchermanager.domain.voucher.VoucherType;
-import com.prgrms.vouchermanager.dto.VoucherRequest;
-import com.prgrms.vouchermanager.dto.VoucherResponse;
 import com.prgrms.vouchermanager.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.List;
 import java.util.UUID;
 
 import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
@@ -27,9 +21,9 @@ public class VoucherConsoleController {
         return service.create(request);
     }
 
-    public VoucherAllListResponse findAll() {
+    public VoucherListResponse findAll() {
 
-        return new VoucherAllListResponse(service.findAll());
+        return new VoucherListResponse(service.findAll());
     }
 
     public VoucherDetailResponse findById(UUID id) {

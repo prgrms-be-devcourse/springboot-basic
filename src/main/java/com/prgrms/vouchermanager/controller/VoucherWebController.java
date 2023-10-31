@@ -2,11 +2,7 @@ package com.prgrms.vouchermanager.controller;
 
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
-import com.prgrms.vouchermanager.dto.VoucherRequest;
-import com.prgrms.vouchermanager.dto.VoucherResponse;
 import com.prgrms.vouchermanager.service.VoucherService;
-import com.prgrms.vouchermanager.util.VoucherFactory;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -30,7 +26,7 @@ public class VoucherWebController {
 
     @GetMapping
     public String vouchers(Model model) {
-        VoucherAllListResponse response = new VoucherAllListResponse(service.findAll());
+        VoucherListResponse response = new VoucherListResponse(service.findAll());
         model.addAttribute("vouchers", response);
         return "basic/vouchers";
     }
@@ -73,14 +69,10 @@ public class VoucherWebController {
     }
 
     @GetMapping("/findByCondition")
-    public String findByCondition(@RequestParam VoucherType voucherType,
-                                  @RequestParam int startYear,
-                                  @RequestParam int startMonth,
-                                  @RequestParam int endYear,
-                                  @RequestParam int endMonth,
+    public String findByCondition(@RequestBody VoucherFindByConditionRequest request,
                                   Model model) {
         List<Voucher> vouchers
-                = service.findByCondition(voucherType, startYear, startMonth, endYear, endMonth);
+                = service.findByCondition(request);
         model.addAttribute("vouchers", vouchers);
         return "basic/vouchers";
     }
