@@ -3,8 +3,6 @@ package com.programmers.vouchermanagement.voucher.domain;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-import com.programmers.vouchermanagement.util.Validator;
-
 public class Voucher {
     private final UUID voucherId;
     private final BigDecimal discountValue;
@@ -16,7 +14,7 @@ public class Voucher {
     }
 
     public Voucher(UUID voucherId, BigDecimal discountValue, VoucherType voucherType, UUID customerId) {
-        Validator.validateDiscountValue(discountValue, voucherType);
+        voucherType.validateDiscountValue(discountValue);
         this.voucherId = voucherId;
         this.voucherType = voucherType;
         this.discountValue = discountValue;

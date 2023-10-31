@@ -100,7 +100,7 @@ public class MenuHandler {
             }
             case REMOVE_VOUCHER -> {
                 VoucherCustomerRequest request = consoleManager.instructRequestVoucherCustomer();
-                voucherController.removeVoucherFromUser(request);
+                voucherController.removeVoucherFromCustomer(request);
             }
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
         }

@@ -37,7 +37,7 @@ public class CustomerController {
 
     public void findById(UUID customerId) {
         CustomerResponse customer = customerService.findById(customerId);
-        consoleManager.printReadCustomer(customer);
+        consoleManager.printFoundCustomer(customer);
     }
 
     public void update(UpdateCustomerRequest request) {

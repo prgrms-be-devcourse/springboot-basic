@@ -1,25 +1,37 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public enum VoucherType {
-    FIXED("1", "Fixed Amount"),
-    PERCENT("2", "Percent");
+    FIXED("1", "Fixed Amount", VoucherType::validateFixedAmount),
+    PERCENT("2", "Percent", VoucherType::validatePercent);
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
+
+    private static final int COMPARATOR_FLAG = 0;
+    private static final BigDecimal MAX_PERCENT = BigDecimal.valueOf(100);
+
+    private static final String INVALID_DISCOUNT_AMOUNT_MESSAGE =
+            "Input should be a number greater than 0";
+    private static final String INVALID_DISCOUNT_PERCENT_MESSAGE =
+            "Input should be a number greater than 0 and smaller than 100";
     private static final String INVALID_VOUCHER_TYPE_MESSAGE =
             "Voucher type should be either fixed amount or percent discount voucher.";
 
     private final String menuCode;
     private final String typeName;
+    private final Consumer<BigDecimal> validator;
 
-    VoucherType(String menuCode, String typeName) {
+    VoucherType(String menuCode, String typeName, Consumer<BigDecimal> validator) {
         this.menuCode = menuCode;
         this.typeName = typeName;
+        this.validator = validator;
     }
 
     public static VoucherType findVoucherTypeByName(String input) {
@@ -56,5 +68,23 @@ public enum VoucherType {
 
     public String displayTypeName() {
         return typeName;
+    }
+
+    public void validateDiscountValue(BigDecimal discountValue) {
+        validator.accept(discountValue);
+    }
+
+    private static void validateFixedAmount(BigDecimal discountAmount) {
+        if (discountAmount.compareTo(BigDecimal.ZERO) <= COMPARATOR_FLAG) {
+            logger.error(INVALID_DISCOUNT_AMOUNT_MESSAGE);
+            throw new IllegalArgumentException(INVALID_DISCOUNT_AMOUNT_MESSAGE);
+        }
+    }
+
+    private static void validatePercent(BigDecimal discountPercent) {
+        if (discountPercent.compareTo(BigDecimal.ZERO) <= COMPARATOR_FLAG || discountPercent.compareTo(MAX_PERCENT) > COMPARATOR_FLAG) {
+            logger.error(INVALID_DISCOUNT_PERCENT_MESSAGE);
+            throw new IllegalArgumentException(INVALID_DISCOUNT_PERCENT_MESSAGE);
+        }
     }
 }
