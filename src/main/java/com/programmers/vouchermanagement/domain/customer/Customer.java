@@ -12,13 +12,18 @@ public class Customer implements CsvConvertable {
     private final LocalDateTime createdAt;
     private boolean isBanned;
 
-    public Customer(CustomerDto.Create customerDto) {
-        if (customerDto.id == null) customerDto.id = UUID.randomUUID();
-        if (customerDto.createdAt == null) customerDto.createdAt = LocalDateTime.now();
-        this.id = customerDto.id;
-        this.name = customerDto.name;
-        this.createdAt = customerDto.createdAt;
-        this.isBanned = customerDto.isBanned;
+    public Customer(String[] customerInfo) {
+        this.id = UUID.fromString(customerInfo[0]);
+        this.name = customerInfo[1];
+        this.createdAt = LocalDateTime.parse(customerInfo[2]);
+        this.isBanned = Boolean.parseBoolean(customerInfo[3]);
+    }
+
+    public Customer(CustomerDto customerDto) {
+        this.id = customerDto.id() != null ? customerDto.id() : UUID.randomUUID();
+        this.name = customerDto.name();
+        this.createdAt = customerDto.createdAt() != null ? customerDto.createdAt() : LocalDateTime.now();
+        this.isBanned = customerDto.isBanned();
     }
 
     public UUID getId() {

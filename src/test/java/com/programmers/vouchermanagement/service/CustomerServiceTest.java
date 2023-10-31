@@ -24,10 +24,10 @@ class CustomerServiceTest {
     @Mock
     private CustomerRepository customerRepository;
     private final List<Customer> testCustomers = new ArrayList<>();
-    private final Customer customer1 = new Customer(new CustomerDto.Create("user1"));
-    private final Customer customer2 = new Customer(new CustomerDto.Create("user2"));
-    private final Customer customer3 = new Customer(new CustomerDto.Create("user3"));
-    private final Customer customer4 = new Customer(new CustomerDto.Create("user4"));
+    private final Customer customer1 = new Customer(CustomerDto.of("user1"));
+    private final Customer customer2 = new Customer(CustomerDto.of("user2"));
+    private final Customer customer3 = new Customer(CustomerDto.of("user3"));
+    private final Customer customer4 = new Customer(CustomerDto.of("user4"));
 
     @Test
     void 모든_고객을_가져올_수_있다() {
@@ -74,7 +74,7 @@ class CustomerServiceTest {
     void 원하는_이름으로_고객을_생성할_수_있다() {
         //given
         String name = "customName";
-        CustomerDto.Create customerDto = new CustomerDto.Create(name);
+        CustomerDto customerDto = CustomerDto.of(name);
         Customer customer = new Customer(customerDto);
         doReturn(customer).when(customerRepository).save(any(Customer.class));
         doReturn(Optional.empty()).when(customerRepository).findByName(name);
@@ -90,7 +90,7 @@ class CustomerServiceTest {
     void 고객의_이름은_중복될_수_없다() {
         //given
         String name = "customName";
-        CustomerDto.Create customerDto = new CustomerDto.Create(name);
+        CustomerDto customerDto = CustomerDto.of(name);
         Customer customer = new Customer(customerDto);
         doReturn(Optional.ofNullable(customer)).when(customerRepository).findByName(name);
 

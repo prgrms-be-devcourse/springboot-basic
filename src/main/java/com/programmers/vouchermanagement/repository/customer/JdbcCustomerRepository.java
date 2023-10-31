@@ -109,7 +109,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         final String name = resultSet.getString("name");
         final LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         final boolean isBanned = resultSet.getBoolean("is_banned");
-        return new Customer(new CustomerDto.Create(id, name, createdAt, isBanned));
+        return new Customer(new CustomerDto(id, name, createdAt, isBanned));
     }
 
     private UUID toUUID(byte[] bytes) {

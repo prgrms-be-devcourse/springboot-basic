@@ -23,14 +23,13 @@ public class VoucherFactory {
         };
     }
 
-    public static Voucher createVoucher(VoucherDto.CreateRequest createRequestDto) {
-        if (createRequestDto.voucherId == null) createRequestDto.voucherId = UUID.randomUUID();
-        if (createRequestDto.createdAt == null) createRequestDto.createdAt = LocalDateTime.now();
-        return switch (createRequestDto.voucherType) {
-            case FIXED ->
-                    new FixedAmountVoucher(createRequestDto.voucherId, createRequestDto.voucherName, createRequestDto.discountAmount, createRequestDto.createdAt);
+    public static Voucher createVoucher(VoucherDto voucherDto) {
+        final UUID voucherId = voucherDto.id() == null ? UUID.randomUUID() : voucherDto.id();
+        final LocalDateTime createdAt = voucherDto.createdAt() == null ? LocalDateTime.now() : voucherDto.createdAt();
+        return switch (voucherDto.voucherType()) {
+            case FIXED -> new FixedAmountVoucher(voucherId, voucherDto.name(), voucherDto.discountAmount(), createdAt);
             case PERCENTAGE ->
-                    new PercentDiscountVoucher(createRequestDto.voucherId, createRequestDto.voucherName, createRequestDto.discountAmount, createRequestDto.createdAt);
+                    new PercentDiscountVoucher(voucherId, voucherDto.name(), voucherDto.discountAmount(), createdAt);
         };
     }
 }

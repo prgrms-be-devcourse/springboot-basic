@@ -89,7 +89,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
-        VoucherDto.Create voucherDto = new VoucherDto.Create(
+        VoucherDto voucherDto = new VoucherDto(
                 toUUID(resultSet.getBytes("id")),
                 resultSet.getString("name"),
                 resultSet.getFloat("discount_amount"),

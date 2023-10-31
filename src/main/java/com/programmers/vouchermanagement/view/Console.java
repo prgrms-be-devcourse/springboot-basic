@@ -139,7 +139,7 @@ public class Console implements CommandLineRunner {
                 .withMinVal(DISCOUNT_AMOUNT_MIN_VALUE)
                 .read(VoucherMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE.getMessage());
 
-        Voucher voucher = voucherService.createVoucher(new VoucherDto.Create(voucherName, discountAmount, voucherType));
+        Voucher voucher = voucherService.createVoucher(VoucherDto.of(voucherName, discountAmount, voucherType));
         displayMessage(voucher.toString());
         displayMessage(VoucherMessage.VOUCHER_CREATED_MESSAGE.getMessage());
     }
@@ -174,7 +174,7 @@ public class Console implements CommandLineRunner {
 
     private void createCustomer() {
         String customerName = getName(CustomerMessage.INPUT_CUSTOMER_NAME_MESSAGE.getMessage());
-        Customer customer = customerService.createCustomer(new CustomerDto.Create(customerName));
+        Customer customer = customerService.createCustomer(CustomerDto.of(customerName));
         displayMessage(customer.toString());
         displayMessage(CustomerMessage.CUSTOMER_CREATED_MESSAGE.getMessage());
     }

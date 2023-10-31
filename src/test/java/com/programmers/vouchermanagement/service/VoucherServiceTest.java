@@ -26,8 +26,8 @@ class VoucherServiceTest {
     @Mock
     private VoucherRepository voucherRepository;
     private final List<Voucher> testVouchers = new ArrayList<>();
-    private final Voucher voucher1 = VoucherFactory.createVoucher(new VoucherDto.Create("voucher1", 1000, VoucherType.FIXED));
-    private final Voucher voucher2 = VoucherFactory.createVoucher(new VoucherDto.Create("voucher2", 99, VoucherType.PERCENTAGE));
+    private final Voucher voucher1 = VoucherFactory.createVoucher(VoucherDto.of("voucher1", 1000, VoucherType.FIXED));
+    private final Voucher voucher2 = VoucherFactory.createVoucher(VoucherDto.of("voucher2", 99, VoucherType.PERCENTAGE));
 
     @Test
     void 모든_바우처를_가져올_수_있다() {
@@ -71,12 +71,12 @@ class VoucherServiceTest {
     @Test
     void 새로운_바우처를_생성할_수_있다() {
         //given
-        final VoucherDto.Create createDto = new VoucherDto.Create("voucher", 999, VoucherType.FIXED);
-        final Voucher voucher = VoucherFactory.createVoucher(createDto);
+        final VoucherDto createRequestDto = VoucherDto.of("voucher", 999, VoucherType.FIXED);
+        final Voucher voucher = VoucherFactory.createVoucher(createRequestDto);
         doReturn(voucher).when(voucherRepository).save(any(Voucher.class));
 
         //when
-        final Voucher createdVoucher = voucherService.createVoucher(createDto);
+        final Voucher createdVoucher = voucherService.createVoucher(createRequestDto);
 
         //then
         assertThat(createdVoucher).isEqualTo(voucher);
@@ -85,11 +85,11 @@ class VoucherServiceTest {
     @Test
     void 바우처의_이름은_중복될_수_없다() {
         //given
-        final VoucherDto.Create createDto = new VoucherDto.Create("voucher1", 999, VoucherType.FIXED);
+        final VoucherDto createRequestDto = VoucherDto.of("voucher1", 999, VoucherType.FIXED);
         doReturn(Optional.of(voucher1)).when(voucherRepository).findByName(voucher1.getName());
 
         //when&then
-        assertThatThrownBy(() -> voucherService.createVoucher(createDto))
+        assertThatThrownBy(() -> voucherService.createVoucher(createRequestDto))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(ErrorMessage.VOUCHER_ALREADY_EXISTS_MESSAGE.getMessage());
     }

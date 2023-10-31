@@ -32,11 +32,11 @@ public class VoucherService {
         return voucherRepository.findByNameLike(name);
     }
 
-    public Voucher createVoucher(VoucherDto.Create createDto) {
-        voucherRepository.findByName(createDto.voucherName).ifPresent(voucher -> {
+    public Voucher createVoucher(VoucherDto voucherDto) {
+        voucherRepository.findByName(voucherDto.name()).ifPresent(voucher -> {
             throw new IllegalArgumentException(ErrorMessage.VOUCHER_ALREADY_EXISTS_MESSAGE.getMessage());
         });
-        Voucher voucher = VoucherFactory.createVoucher(createDto);
+        Voucher voucher = VoucherFactory.createVoucher(voucherDto);
         return voucherRepository.save(voucher);
     }
 

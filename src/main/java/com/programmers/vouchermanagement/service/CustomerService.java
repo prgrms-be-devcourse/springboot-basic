@@ -35,8 +35,8 @@ public class CustomerService {
         return customerRepository.findByNameLike(name);
     }
 
-    public Customer createCustomer(CustomerDto.Create customerDto) {
-        customerRepository.findByName(customerDto.name).ifPresent(customer -> {
+    public Customer createCustomer(CustomerDto customerDto) {
+        customerRepository.findByName(customerDto.name()).ifPresent(customer -> {
             throw new IllegalArgumentException(ErrorMessage.CUSTOMER_ALREADY_EXISTS_MESSAGE.getMessage());
         });
         Customer customer = new Customer(customerDto);
