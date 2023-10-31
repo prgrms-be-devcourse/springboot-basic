@@ -21,5 +21,21 @@ public class CustomerDto {
             this.createdAt = customer.getCreatedAt();
             this.isBanned = customer.isBanned();
         }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public LocalDateTime getCreatedAt() {
+            return createdAt;
+        }
+
+        public boolean isBanned() {
+            return isBanned;
+        }
     }
 }
