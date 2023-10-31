@@ -125,4 +125,26 @@ public class JdbcVoucherRepositoryTest {
         // then
         assertThat(savedVoucher.isPresent()).isEqualTo(false);
     }
+
+    @Test
+    @DisplayName("아이디로 Voucher를 삭제할 수 있다.")
+    void successDeleteById() {
+
+        // given
+        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
+        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT));
+        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED));
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
+
+        // when
+        voucherRepository.deleteById(voucher1.getVoucherId());
+
+        // then
+        List<Voucher> vouchers = voucherRepository.findAll();
+        assertThat(vouchers).hasSize(2)
+                .extracting(Voucher::getVoucherId)
+                .contains(voucher2.getVoucherId(), voucher3.getVoucherId());
+    }
 }
