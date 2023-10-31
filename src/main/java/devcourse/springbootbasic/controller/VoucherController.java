@@ -30,16 +30,16 @@ public class VoucherController {
         return new VoucherResponse(this.voucherService.createVoucher(voucherCreateRequest));
     }
 
-    public VoucherResponse updateDiscountValue(VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
-        return new VoucherResponse(this.voucherService.updateDiscountValue(voucherUpdateDiscountValueRequest));
+    public VoucherResponse updateDiscountValue(UUID voucherId, VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
+        return new VoucherResponse(this.voucherService.updateDiscountValue(voucherId, voucherUpdateDiscountValueRequest));
     }
 
     public VoucherResponse deleteVoucher(UUID voucherId) {
         return new VoucherResponse(this.voucherService.deleteVoucher(voucherId));
     }
 
-    public VoucherAssignResponse assignVoucherToCustomer(VoucherAssignRequest voucherAssignRequest) {
-        return this.walletService.assignVoucherToCustomer(voucherAssignRequest);
+    public VoucherAssignResponse assignVoucherToCustomer(UUID voucherId, VoucherAssignRequest voucherAssignRequest) {
+        return this.walletService.assignVoucherToCustomer(voucherId, voucherAssignRequest);
     }
 
     public VoucherAssignResponse unassignVoucherFromCustomer(UUID voucherId) {

@@ -72,13 +72,14 @@ class VoucherServiceTest {
     @DisplayName("바우처 할인 금액 수정 시 수정된 바우처를 반환합니다.")
     void testUpdateDiscountValue() {
         // Given
-        VoucherUpdateDiscountValueRequest updateRequest = new VoucherUpdateDiscountValueRequest(UUID.randomUUID(), 200);
+        UUID voucherId = UUIDUtil.generateRandomUUID();
+        VoucherUpdateDiscountValueRequest updateRequest = new VoucherUpdateDiscountValueRequest(200);
         Voucher existingVoucher = generateUnassignedVoucher(VoucherType.FIXED, 100);
-        when(voucherRepository.findById(updateRequest.getId())).thenReturn(Optional.of(existingVoucher));
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(existingVoucher));
         when(voucherRepository.update(any(Voucher.class))).thenReturn(true);
 
         // When
-        Voucher updatedVoucher = voucherService.updateDiscountValue(updateRequest);
+        Voucher updatedVoucher = voucherService.updateDiscountValue(voucherId, updateRequest);
 
         // Then
         assertThat(updatedVoucher.getDiscountValue()).isEqualTo(updateRequest.getDiscountValue());
@@ -88,11 +89,12 @@ class VoucherServiceTest {
     @DisplayName("바우처 할인 금액 수정 시 존재하지 않는 바우처를 수정하려고 하면 예외를 발생시킵니다.")
     void testUpdateDiscountValueFailNotFound() {
         // Given
-        VoucherUpdateDiscountValueRequest updateRequest = new VoucherUpdateDiscountValueRequest(UUID.randomUUID(), 200);
-        when(voucherRepository.findById(updateRequest.getId())).thenReturn(Optional.empty());
+        UUID voucherId = UUIDUtil.generateRandomUUID();
+        VoucherUpdateDiscountValueRequest updateRequest = new VoucherUpdateDiscountValueRequest(200);
+        when(voucherRepository.findById(voucherId)).thenReturn(Optional.empty());
 
         // When, Then
-        assertThatThrownBy(() -> voucherService.updateDiscountValue(updateRequest))
+        assertThatThrownBy(() -> voucherService.updateDiscountValue(voucherId, updateRequest))
                 .isInstanceOf(VoucherException.class)
                 .hasMessage(VoucherErrorMessage.NOT_FOUND.getMessage());
     }

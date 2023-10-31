@@ -85,7 +85,7 @@ public class FunctionHandler {
         UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
         long discountValue = consoleIOHandler.inputLongWithMessage(InputMessage.DISCOUNT_VALUE);
 
-        VoucherResponse voucher = voucherController.updateDiscountValue(new VoucherUpdateDiscountValueRequest(voucherId, discountValue));
+        VoucherResponse voucher = voucherController.updateDiscountValue(voucherId, new VoucherUpdateDiscountValueRequest(discountValue));
         log.info(String.format(ConsoleConstants.VOUCHER_UPDATE_MESSAGE, voucher.getId()));
     }
 
@@ -100,7 +100,7 @@ public class FunctionHandler {
         UUID voucherId = consoleIOHandler.inputUUIDWithMessage(InputMessage.VOUCHER_ID);
         UUID customerId = consoleIOHandler.inputUUIDWithMessage(InputMessage.CUSTOMER_ID);
 
-        VoucherAssignResponse voucher = voucherController.assignVoucherToCustomer(new VoucherAssignRequest(voucherId, customerId));
+        VoucherAssignResponse voucher = voucherController.assignVoucherToCustomer(voucherId, new VoucherAssignRequest(customerId));
         log.info(String.format(ConsoleConstants.VOUCHER_ASSIGN_MESSAGE, voucher.getVoucherId(), voucher.getCustomerId()));
     }
 

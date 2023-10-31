@@ -35,8 +35,8 @@ public class VoucherService {
     }
 
     @Transactional
-    public Voucher updateDiscountValue(VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
-        Voucher updatedDiscountVoucher = this.getVoucherById(voucherUpdateDiscountValueRequest.getId())
+    public Voucher updateDiscountValue(UUID voucherId, VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
+        Voucher updatedDiscountVoucher = this.getVoucherById(voucherId)
                 .updateDiscountValue(voucherUpdateDiscountValueRequest.getDiscountValue());
 
         return persist(updatedDiscountVoucher);

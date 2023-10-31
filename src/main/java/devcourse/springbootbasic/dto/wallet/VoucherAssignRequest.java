@@ -9,6 +9,5 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VoucherAssignRequest {
 
-    private final UUID voucherId;
     private final UUID customerId;
 }

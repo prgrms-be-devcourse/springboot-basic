@@ -23,8 +23,8 @@ public class WalletService {
     private final VoucherService voucherService;
 
     @Transactional
-    public VoucherAssignResponse assignVoucherToCustomer(VoucherAssignRequest voucherAssignRequest) {
-        Voucher voucher = voucherService.getVoucherById(voucherAssignRequest.getVoucherId());
+    public VoucherAssignResponse assignVoucherToCustomer(UUID voucherId, VoucherAssignRequest voucherAssignRequest) {
+        Voucher voucher = voucherService.getVoucherById(voucherId);
         Customer customer = customerService.getByCustomerId(voucherAssignRequest.getCustomerId());
         Voucher updatedVoucher = voucherService.assignVoucherToCustomer(voucher, customer);
 
