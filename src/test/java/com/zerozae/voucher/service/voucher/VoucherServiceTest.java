@@ -185,4 +185,32 @@ class VoucherServiceTest {
         });
         verify(voucherRepository, times(1)).findById(notExistId);
     }
+
+    @Test
+    @DisplayName("바우처 아이디로 삭제에 따른 지갑 삭제 호출 테스트")
+    void deleteVoucherByIdWithWallets_Success_Test(){
+        // Given
+        when(voucherRepository.findById(fixedDiscountVoucher.getVoucherId())).thenReturn(Optional.of(fixedDiscountVoucher));
+
+        // When
+        voucherService.deleteById(fixedDiscountVoucher.getVoucherId());
+
+        // Then
+        verify(voucherRepository).findById(fixedDiscountVoucher.getVoucherId());
+        verify(voucherRepository).deleteById(fixedDiscountVoucher.getVoucherId());
+        verify(walletRepository).deleteByVoucherId(fixedDiscountVoucher.getVoucherId());
+    }
+
+    @Test
+    @DisplayName("바우처 전체 삭제에 따른 지갑 삭제 호출 테스트")
+    void deleteAllVouchersWithWallets_Success_Test(){
+        // Given
+
+        // When
+        voucherService.deleteAll();
+
+        // Then
+        verify(voucherRepository).deleteAll();
+        verify(walletRepository).deleteAll();
+    }
 }
