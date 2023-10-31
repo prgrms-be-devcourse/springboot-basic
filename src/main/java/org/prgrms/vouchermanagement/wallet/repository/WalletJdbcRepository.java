@@ -18,30 +18,16 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class WalletDbRepository implements WalletRepository{
+public class WalletJdbcRepository implements WalletRepository{
 
-    private final String CREATE = "INSERT INTO wallet(customer_id, voucher_id) VALUES(UUID_TO_BIN(?), UUID_TO_BIN(?))";
-    private final String FINDVOUCHERS = "select v.voucher_id, v.discount_policy, v.amount FROM voucher v JOIN wallet w ON v.voucher_id = w.voucher_id WHERE w.customer_id = UUID_TO_BIN(?)";
-    private final String DELETE = "DELETE FROM wallet WHERE customer_id = UUID_TO_BIN(?)";
-    private final String FINDCUSTOMER = "SELECT c.customer_id, c.customer_name, c.customer_age FROM wallet w, customer c WHERE w.customer_id = c.customer_id AND w.voucher_id = UUID_TO_BIN(?)";
-
-    /*
-
-    SELECT v.voucher_id, v.discount_policy, v.amount
-    FROM wallet w, voucher v
-    WHERE w.voucher_id = v.voucher_id and w.customer_id = UUID_TO_BIN(?)
-
-    SELECT c.customer_id, c.customer_name, c.customer_age
-    FROM wallet w, customer c
-    WERE w.customer_id = c.customer_id AND w.voucher_id = UUID_TO_BIN(?)
-
-    select v.voucher_id, v.discount_policy, v.amount FROM voucher v JOIN wallet w ON v.voucher_id = w.voucher_id
-
-     */
+    private static final String CREATE = "INSERT INTO wallet(customer_id, voucher_id) VALUES(UUID_TO_BIN(?), UUID_TO_BIN(?))";
+    private static final String FINDVOUCHERS = "select v.voucher_id, v.discount_policy, v.amount FROM voucher v JOIN wallet w ON v.voucher_id = w.voucher_id WHERE w.customer_id = UUID_TO_BIN(?)";
+    private static final String DELETE = "DELETE FROM wallet WHERE customer_id = UUID_TO_BIN(?)";
+    private static final String FINDCUSTOMER = "SELECT c.customer_id, c.customer_name, c.customer_age FROM wallet w, customer c WHERE w.customer_id = c.customer_id AND w.voucher_id = UUID_TO_BIN(?)";
 
     private final JdbcTemplate jdbcTemplate;
 
-    public WalletDbRepository(JdbcTemplate jdbcTemplate) {
+    public WalletJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -52,11 +38,13 @@ public class WalletDbRepository implements WalletRepository{
 
         return jdbcTemplate.update(CREATE, customerId.toString().getBytes(), voucherId.toString().getBytes());
     }
+    //repository 메서드 추상화
 
     @Override
     public List<Voucher> findVouchers(UUID customerId) {
         return jdbcTemplate.query(FINDVOUCHERS, new Object[]{customerId.toString().getBytes()}, new VoucherRowMapper());
     }
+    //메서드명 자세하게
 
     @Override
     public int delete(UUID customerId) {
@@ -67,6 +55,7 @@ public class WalletDbRepository implements WalletRepository{
     public Customer findCustomer(UUID voucherId) {
         return jdbcTemplate.query(FINDCUSTOMER, new Object[]{voucherId.toString().getBytes()}, new CustomerRowMapper()).get(0);
     }
+    //null값 -> optional
 
     private class VoucherRowMapper implements RowMapper<Voucher> {
         @Override

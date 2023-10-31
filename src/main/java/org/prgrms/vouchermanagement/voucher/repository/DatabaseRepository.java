@@ -20,11 +20,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Profile("database")
 public class DatabaseRepository implements VoucherRepository {
-
-    private final String LOAD = "SELECT voucher_id, discount_policy, amount FROM voucher";
-    private final String CREATE = "INSERT INTO voucher(voucher_id, discount_policy, amount) VALUES(UUID_TO_BIN(?), (?), (?))";
-    private final String UPDATE_AMOUNT_BY_ID = "UPDATE voucher SET amount = ? WHERE voucher_id = UUID_TO_BIN(?)";
-    private final String DELETE_BY_ID = "DELETE FROM voucher";
+    private static final String LOAD = "SELECT voucher_id, discount_policy, amount FROM voucher";
+    private static final String CREATE = "INSERT INTO voucher(voucher_id, discount_policy, amount) VALUES(UUID_TO_BIN(?), (?), (?))";
+    private static final String UPDATE_AMOUNT_BY_ID = "UPDATE voucher SET amount = ? WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String DELETE_BY_ID = "DELETE FROM voucher";
 
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final JdbcTemplate jdbcTemplate;
