@@ -21,12 +21,6 @@ import study.dev.spring.voucher.domain.VoucherType;
 @Profile("prod")
 public class JdbcVoucherRepository implements VoucherRepository {
 
-	private static final String INSERT = "insert into Voucher VALUES (:uuid, :name, :voucherType, :discountAmount)";
-	private static final String DELETE_BY_ID = "delete from Voucher v where v.uuid = :uuid";
-	private static final String FIND_ALL = "select * from Voucher";
-	private static final String FIND_BY_ID = "select * from Voucher v where v.uuid = :uuid";
-	private static final String FIND_BY_IDS = "select * from Voucher v where v.uuid in (:ids)";
-
 	private final NamedParameterJdbcTemplate jdbcTemplate;
 	private final RowMapper<Voucher> rowMapper;
 
@@ -48,7 +42,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			.addValue("voucherType", voucher.getTypeName())
 			.addValue("discountAmount", voucher.getDiscountAmount());
 
-		jdbcTemplate.update(INSERT, paramSource);
+		jdbcTemplate.update(
+			"insert into Voucher VALUES (:uuid, :name, :voucherType, :discountAmount)",
+			paramSource
+		);
 		return voucher;
 	}
 
@@ -56,7 +53,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	public Optional<Voucher> findById(String uuid) {
 		try {
 			Voucher voucher = jdbcTemplate.queryForObject(
-				FIND_BY_ID,
+				"select * from Voucher v where v.uuid = :uuid",
 				Collections.singletonMap("uuid", uuid),
 				rowMapper
 			);
@@ -69,7 +66,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	@Override
 	public List<Voucher> findByIds(List<String> ids) {
 		return jdbcTemplate.query(
-			FIND_BY_IDS,
+			"select * from Voucher v where v.uuid in (:ids)",
 			Collections.singletonMap("ids", ids),
 			rowMapper
 		);
@@ -77,11 +74,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> findAll() {
-		return jdbcTemplate.query(FIND_ALL, rowMapper);
+		return jdbcTemplate.query(
+			"select * from Voucher",
+			rowMapper
+		);
 	}
 
 	@Override
 	public void deleteById(String uuid) {
-		jdbcTemplate.update(DELETE_BY_ID, Collections.singletonMap("uuid", uuid));
+		jdbcTemplate.update(
+			"delete from Voucher v where v.uuid = :uuid",
+			Collections.singletonMap("uuid", uuid)
+		);
 	}
 }

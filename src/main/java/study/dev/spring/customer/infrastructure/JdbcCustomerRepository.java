@@ -18,11 +18,6 @@ import study.dev.spring.customer.domain.CustomerRepository;
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
-	private static final String INSERT = "INSERT INTO Customer VALUES (:uuid, :name)";
-	private static final String FIND_ALL = "select * from Customer";
-	private static final String FIND_BY_ID = "select * from Customer c where c.uuid = :uuid";
-	private static final String FIND_BY_IDS = "select * from Customer c where c.uuid in(:ids)";
-
 	private static final String UUID = "uuid";
 	private static final String NAME = "name";
 	private static final String IDS = "ids";
@@ -44,7 +39,10 @@ public class JdbcCustomerRepository implements CustomerRepository {
 			.addValue(UUID, customer.getUuid())
 			.addValue(NAME, customer.getName());
 
-		jdbcTemplate.update(INSERT, parameterSource);
+		jdbcTemplate.update(
+			"INSERT INTO Customer VALUES (:uuid, :name)",
+			parameterSource
+		);
 		return customer;
 	}
 
@@ -52,7 +50,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	public Optional<Customer> findById(String uuid) {
 		try {
 			Customer customer = jdbcTemplate.queryForObject(
-				FIND_BY_ID,
+				"select * from Customer c where c.uuid = :uuid",
 				Collections.singletonMap(UUID, uuid),
 				rowMapper
 			);
@@ -64,13 +62,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findAll() {
-		return jdbcTemplate.query(FIND_ALL, rowMapper);
+		return jdbcTemplate.query(
+			"select * from Customer",
+			rowMapper
+		);
 	}
 
 	@Override
 	public List<Customer> findByIds(List<String> ids) {
 		return jdbcTemplate.query(
-			FIND_BY_IDS,
+			"select * from Customer c where c.uuid in(:ids)",
 			Collections.singletonMap(IDS, ids),
 			rowMapper
 		);

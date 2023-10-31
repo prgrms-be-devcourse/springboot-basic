@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import study.dev.spring.common.exception.GlobalException;
 import study.dev.spring.common.utils.FileUtils;
 import study.dev.spring.customer.application.BlackListRepository;
 import study.dev.spring.customer.application.dto.CustomerData;
 
-@Component
+@Repository
 public class FileBlackListRepository implements BlackListRepository {
 
 	private final FileUtils fileUtils;
