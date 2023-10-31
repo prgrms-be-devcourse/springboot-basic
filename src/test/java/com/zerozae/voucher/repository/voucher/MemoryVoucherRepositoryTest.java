@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.zerozae.voucher.domain.voucher.UseStatusType.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -126,13 +127,13 @@ class MemoryVoucherRepositoryTest {
     void updateVoucher_Success_Test() {
         // Given
         voucherRepository.save(fixedDiscountVoucher);
-        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(20L, UseStatusType.UNAVAILABLE);
+        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(20L, String.valueOf(UNAVAILABLE));
 
         // When
         voucherRepository.update(fixedDiscountVoucher.getVoucherId(), voucherUpdateRequest);
 
         // Then
         assertThat(fixedDiscountVoucher.getDiscount(), is(voucherUpdateRequest.getDiscount()));
-        assertThat(fixedDiscountVoucher.getUseStatusType(), is(voucherUpdateRequest.getUseStatusType()));
+        assertThat(fixedDiscountVoucher.getUseStatusType().toString(), is(voucherUpdateRequest.getUseStatusType()));
     }
 }

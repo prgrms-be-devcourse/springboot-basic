@@ -44,7 +44,7 @@ class VoucherTest {
         long newDiscount = 20L;
         UseStatusType newUseStatusType = UseStatusType.UNAVAILABLE;
 
-        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType);
+        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(newDiscount, String.valueOf(newUseStatusType));
 
         // When
         voucher.updateVoucherInfo(voucherUpdateRequest);
@@ -65,7 +65,7 @@ class VoucherTest {
         long newDiscount = -20L;
         UseStatusType newUseStatusType = UseStatusType.UNAVAILABLE;
 
-        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType);
+        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(newDiscount, String.valueOf(newUseStatusType));
 
         // When & Then
         assertThrows(ExceptionMessage.class, () -> {

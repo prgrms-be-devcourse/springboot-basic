@@ -211,4 +211,32 @@ class CustomerServiceTest {
         });
         verify(customerRepository, times(1)).findById(notExistId);
     }
+
+    @Test
+    @DisplayName("회원 아이디로 삭제에 따른 지갑 삭제 호출 테스트")
+    void deleteCustomerWithWallets_Success_Test() {
+        // Given
+        when(customerRepository.findById(normalCustomer.getCustomerId())).thenReturn(Optional.of(normalCustomer));
+
+        // When
+        customerService.deleteById(normalCustomer.getCustomerId());
+
+        // Then
+        verify(customerRepository).findById(normalCustomer.getCustomerId());
+        verify(customerRepository).delete(normalCustomer.getCustomerId());
+        verify(walletRepository).deleteByCustomerId(normalCustomer.getCustomerId());
+    }
+
+    @Test
+    @DisplayName("회원 전체 삭제에 따른 지갑 전체 삭제 호출 테스트")
+    void deleteAllCustomersWithWallets_Success_Test() {
+        // Given
+
+        // When
+        customerService.deleteAll();
+
+        // Then
+        verify(customerRepository).deleteAll();
+        verify(walletRepository).deleteAll();
+    }
 }

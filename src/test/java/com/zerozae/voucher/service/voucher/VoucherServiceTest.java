@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.zerozae.voucher.domain.voucher.UseStatusType.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -92,7 +93,7 @@ class VoucherServiceTest {
 
         // Then
         assertEquals(findVoucher.getDiscount(), fixedDiscountVoucher.getDiscount());
-        assertEquals(findVoucher.getVoucherId() , fixedDiscountVoucher.getVoucherId().toString());
+        assertEquals(findVoucher.getVoucherId() , fixedDiscountVoucher.getVoucherId());
     }
 
     @Test
@@ -158,7 +159,7 @@ class VoucherServiceTest {
     void updateVoucher_success_Test() {
         // Given
         UUID voucherId = fixedDiscountVoucher.getVoucherId();
-        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(20L, UseStatusType.UNAVAILABLE);
+        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(20L, String.valueOf(UNAVAILABLE));
 
         when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(fixedDiscountVoucher));
 
@@ -175,7 +176,7 @@ class VoucherServiceTest {
     void updateVoucher_NotExistVoucher_Failed_Test() {
         // Given
         UUID notExistId = UUID.randomUUID();
-        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(20L, UseStatusType.UNAVAILABLE);
+        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(20L, String.valueOf(UNAVAILABLE));
         when(voucherRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // When & Then

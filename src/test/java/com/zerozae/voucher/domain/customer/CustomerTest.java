@@ -53,7 +53,7 @@ class CustomerTest {
 
         String newUsername = "zerozae";
         CustomerType newCustomerType = CustomerType.NORMAL;
-        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, newCustomerType);
+        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, String.valueOf(newCustomerType));
 
         // When
         createdCustomer.updateCustomerInfo(customerRequest);
@@ -74,7 +74,7 @@ class CustomerTest {
 
         String newUsername = "";
         CustomerType newCustomerType = CustomerType.NORMAL;
-        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, newCustomerType);
+        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, String.valueOf(newCustomerType));
 
         // When & Then
         assertThrows(ExceptionMessage.class, () -> {

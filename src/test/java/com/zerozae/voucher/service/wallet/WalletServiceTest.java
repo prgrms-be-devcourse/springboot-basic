@@ -44,8 +44,8 @@ class WalletServiceTest {
         WalletResponse walletResponse = walletService.createWallet(walletRequest);
 
         // Then
-        assertEquals(walletRequest.getCustomerId(), walletResponse.getCustomerId());
-        assertEquals(walletRequest.getCustomerId(), walletResponse.getCustomerId());
+        assertEquals(walletRequest.getCustomerId(), walletResponse.getCustomerId().toString());
+        assertEquals(walletRequest.getCustomerId(), walletResponse.getCustomerId().toString());
     }
 
     @Test
