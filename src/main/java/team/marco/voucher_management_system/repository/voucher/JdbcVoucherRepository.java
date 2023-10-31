@@ -2,7 +2,7 @@ package team.marco.voucher_management_system.repository.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
@@ -15,7 +15,7 @@ import java.util.*;
 import static team.marco.voucher_management_system.util.UUIDUtil.bytesToUUID;
 import static team.marco.voucher_management_system.util.UUIDUtil.uuidToBytes;
 
-@Profile("prod")
+@Primary
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 
@@ -17,7 +16,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Profile("dev")
 @Repository
 public class JsonFileVoucherRepository implements VoucherRepository, DisposableBean {
     private final Map<Long, Voucher> voucherMap;
