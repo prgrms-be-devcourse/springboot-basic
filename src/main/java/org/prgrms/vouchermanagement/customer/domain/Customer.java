@@ -6,11 +6,13 @@ public class Customer {
     private final UUID userId;
     private final String userName;
     private final int userAge;
+    private final boolean isBlacked;
 
     public Customer(UUID userId, String userName, int userAge) {
         this.userId = userId;
         this.userName = userName;
         this.userAge = userAge;
+        this.isBlacked = false;
     }
 
     public UUID getUserId() {
@@ -23,5 +25,9 @@ public class Customer {
 
     public int getUserAge() {
         return userAge;
+    }
+
+    public boolean isBlacked() {
+        return isBlacked;
     }
 }

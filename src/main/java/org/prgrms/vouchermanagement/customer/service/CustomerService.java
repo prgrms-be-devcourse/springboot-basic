@@ -18,4 +18,8 @@ public class CustomerService {
     public List<Customer> showCustomerList() {
         return customerRepository.showCustomerList();
     }
+
+    public List<Customer> showBlackCustomerList() {
+        return customerRepository.showBlackCustomerList();
+    }
 }

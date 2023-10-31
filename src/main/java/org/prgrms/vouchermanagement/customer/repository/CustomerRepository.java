@@ -8,4 +8,6 @@ public interface CustomerRepository {
 
     List<Customer> showCustomerList();
 
+    List<Customer> showBlackCustomerList();
+
 }

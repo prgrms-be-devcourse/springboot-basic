@@ -22,6 +22,7 @@ import java.util.UUID;
 @Component
 public class Controller implements CommandLineRunner {
 
+    //frontcontroller 구분하여 반영하고 생각
     private final ConsoleInput consoleInput = new ConsoleInput();
     private final ConsoleOutput consoleOutput = new ConsoleOutput();
 
@@ -76,7 +77,7 @@ public class Controller implements CommandLineRunner {
     }
 
     private void showBlackList() {
-        List<BlackCustomer> blackList = blackCustomerService.getBlackList();
+        List<Customer> blackList = customerService.showBlackCustomerList();
         consoleOutput.printBlackList(blackList);
     }
 

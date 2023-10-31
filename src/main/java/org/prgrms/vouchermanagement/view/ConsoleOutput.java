@@ -1,6 +1,5 @@
 package org.prgrms.vouchermanagement.view;
 
-import org.prgrms.vouchermanagement.blackCustomer.domain.BlackCustomer;
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 
@@ -179,10 +178,10 @@ public class ConsoleOutput {
         printlnMessage("customerId : " + customer.getUserId() + ", name : " + customer.getUserName() + ", age : " + customer.getUserAge());
     }
 
-    public void printBlackList(List<BlackCustomer> blackList) {
+    public void printBlackList(List<Customer> blackList) {
         printMessage(showBlackList);
-        for(BlackCustomer blackCustomer : blackList) {
-            printlnMessage("customerId : " + blackCustomer.getCustomerId() + ", name : " + blackCustomer.getName() + ", age : " + blackCustomer.getAge());
+        for(Customer blackCustomer : blackList) {
+            printlnMessage("customerId : " + blackCustomer.getUserId() + ", name : " + blackCustomer.getUserName() + ", age : " + blackCustomer.getUserAge());
         }
     }
 

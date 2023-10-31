@@ -13,30 +13,25 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-public class CustomerDbRepository implements CustomerRepository{
+public class CustomerJdbcRepository implements CustomerRepository{
 
-    private final String LOAD = "SELECT customer_id, customer_name, customer_age FROM customer";
+    private static final String LOAD = "SELECT customer_id, customer_name, customer_age FROM customer";
+    private static final String BLACKLIST = "SELECT customer_id, customer_name, customer_age FROM customer WHERE black = true";
 
-    private final Map<UUID, Customer> storage = new ConcurrentHashMap<>();
     private final JdbcTemplate jdbcTemplate;
 
-    public CustomerDbRepository(JdbcTemplate jdbcTemplate) {
+    public CustomerJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public List<Customer> showCustomerList() {
-        load();
-
-        return storage.values().stream()
-                .toList();
+        return jdbcTemplate.query(LOAD, new CustomerRowMapper());
     }
 
-    private void load() {
-        List<Customer> customers = jdbcTemplate.query(LOAD, new CustomerDbRepository.CustomerRowMapper());
-        for (Customer customer : customers) {
-            storage.put(customer.getUserId(), customer);
-        }
+    @Override
+    public List<Customer> showBlackCustomerList() {
+        return jdbcTemplate.query(BLACKLIST, new CustomerRowMapper());
     }
 
     private class CustomerRowMapper implements RowMapper<Customer> {
