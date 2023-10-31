@@ -21,13 +21,10 @@ import java.util.UUID;
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final DataSource dataSource;
 
     @Autowired
     public JdbcCustomerRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
-        this.jdbcTemplate = new JdbcTemplate(this.dataSource);
-        System.out.println("datasource: " + this.dataSource.getClass().getName());
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     private static RowMapper<Customer> customerRowMapper() {

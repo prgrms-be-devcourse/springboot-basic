@@ -5,10 +5,7 @@ import org.programmers.springboot.basic.domain.customer.dto.CustomerRequestDto;
 import org.programmers.springboot.basic.domain.customer.dto.CustomerResponseDto;
 import org.programmers.springboot.basic.domain.customer.entity.Customer;
 import org.programmers.springboot.basic.domain.customer.entity.CustomerType;
-import org.programmers.springboot.basic.domain.customer.exception.BlackCustomerNotFoundException;
-import org.programmers.springboot.basic.domain.customer.exception.CustomerNotFoundException;
-import org.programmers.springboot.basic.domain.customer.exception.DuplicateBlackCustomerException;
-import org.programmers.springboot.basic.domain.customer.exception.DuplicateEmailException;
+import org.programmers.springboot.basic.domain.customer.exception.*;
 import org.programmers.springboot.basic.domain.customer.mapper.CustomerEntityMapper;
 import org.programmers.springboot.basic.domain.customer.repository.CustomerRepository;
 import org.programmers.springboot.basic.domain.customer.service.validate.EmailValidator;
@@ -39,9 +36,7 @@ public class CustomerService {
     public void create(CustomerRequestDto customerRequestDto) {
 
         String email = customerRequestDto.getEmail();
-
         emailValidator.validate(email);
-
         Customer customer = CustomerEntityMapper.INSTANCE.mapToEntityWithGeneratorForAllArgs(customerRequestDto, uuidGenerator);
 
         try {
@@ -118,6 +113,7 @@ public class CustomerService {
 
     public Customer findByEmail(String email) {
 
+        emailValidator.validate(email);
         return this.customerRepository.findByEmail(email)
                 .orElseThrow(() -> {
                     log.warn("No customer found for email: {}", email);
