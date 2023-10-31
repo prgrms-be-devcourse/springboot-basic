@@ -1,28 +1,93 @@
 package org.prgrms.vouchermanager.handler;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.h2.engine.Mode;
+import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
 import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
+import org.prgrms.vouchermanager.exception.NotExistEmailException;
+import org.prgrms.vouchermanager.exception.NotExistVoucherException;
+import org.prgrms.vouchermanager.service.CustomerService;
+import org.prgrms.vouchermanager.service.VoucherService;
 import org.prgrms.vouchermanager.service.WalletService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-@Component
+@Controller
 @RequiredArgsConstructor
+@Slf4j
 public class WalletController {
     private final WalletService service;
-    public WalletRequestDto createWallet(WalletRequestDto requestDto){
-        return service.createWallet(requestDto);
+    private final VoucherService voucherService;
+    private final CustomerService customerService;
+    @GetMapping("/wallets")
+    public String walletInit(){
+        return "wallet/wallet-home";
     }
-    public Optional<Wallet> findByEmail(String email){
-        return service.findByEmail(email);
+
+    @GetMapping("/wallets/create")
+    public String createForm(Model model) {
+        List<Voucher> vouchers = voucherService.findAllVoucher();
+        List<Customer> customers = customerService.findAll();
+        model.addAttribute("vouchers", vouchers);
+        model.addAttribute("customers", customers);
+        return "wallet/create-wallet";
     }
-    public Optional<Wallet> findByVoucher(Voucher voucher){
-        return service.findByVoucher(voucher);
+    @PostMapping("/wallets/create")
+    public String createWallet(@RequestParam("email") String email, @RequestParam("voucherId")UUID voucherId){
+        Voucher voucher = voucherService.findById(voucherId).orElseThrow(NotExistVoucherException::new);
+        WalletRequestDto request = WalletRequestDto.builder().customerEmail(email).voucher(voucher).build();
+        service.createWallet(request);
+        return "redirect:/wallets";
     }
-    public Optional<Wallet> deleteByEmail(String email){
-        return service.deleteByEmail(email);
+    @GetMapping("/wallets/find-wallet")
+    public String findByEmailForm(){
+        return "wallet/wallet-find";
+    }
+    @GetMapping("/wallets/find-wallet/result")
+    public String findByEmail(@RequestParam("email") String email, Model model){
+        Optional<Wallet> wallet = service.findByEmail(email);
+        model.addAttribute("wallet", wallet);
+        return "wallet/find-result";
+    }
+
+    @GetMapping("/wallets/find-voucher")
+    public String findByVoucherForm(Model model){
+        List<Voucher> allVoucher = voucherService.findAllVoucher();
+        model.addAttribute("vouchers", allVoucher);
+        return "wallet/find-by-voucher";
+    }
+    @GetMapping("/wallets/find-voucher/result")
+    public String findByVoucher(@RequestParam("voucherId") UUID voucherId, Model model){
+        Voucher voucher = voucherService.findById(voucherId).orElseThrow(NotExistVoucherException::new);
+        Optional<Wallet> wallet = service.findByVoucher(voucher);
+        model.addAttribute("wallet", wallet);
+        return "wallet/find-voucher-result";
+    }
+
+    @GetMapping("wallets/delete")
+    public String deleteForm(Model model){
+        List<Customer> customers = customerService.findAll();
+        model.addAttribute("customers", customers);
+        return "wallet/delete";
+    }
+    @PostMapping("wallets/delete")
+    public String deleteByEmail(@RequestParam("email") String email){
+        try{
+            service.deleteByEmail(email);
+        }catch (NotExistEmailException e){
+            return "지갑에선 존재하지 않는 고객의 이메일입니다";
+        }
+        return "redirect:/wallets";
     }
 }

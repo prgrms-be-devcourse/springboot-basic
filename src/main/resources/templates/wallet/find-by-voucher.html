@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Wallet by Email</title>
+</head>
+<body>
+<h2>Find Wallet by Email</h2>
+<form action="/wallets/find-voucher/result" method="get">
+    <label for="voucherSelect">Select Voucher:</label>
+    <select id="voucherSelect" name="voucherId">
+        <option value="">Select a voucher</option>
+        <th:block th:each="voucher : ${vouchers}">
+            <option th:value="${voucher.getVoucherId()}" th:text="${voucher.getVoucherId()}"></option>
+        </th:block>
+    </select>
+    <button type="submit">Search</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wallet Manager</title>
+</head>
+<body>
+<h2>Create Wallet</h2>
+<form action="/wallets/create" method="post">
+    <label for="customerSelect">Select Voucher:</label>
+    <select id="customerSelect" name="email">
+        <option value="">Select a Customer</option>
+        <th:block th:each="customer : ${customers}">
+            <option th:value="${customer.getEmail()}" th:text="${customer.getEmail()}"></option>
+        </th:block>
+    </select>
+
+    <label for="voucherSelect">Select Voucher:</label>
+    <select id="voucherSelect" name="voucherId">
+        <option value="">Select a Voucher</option>
+        <th:block th:each="voucher : ${vouchers}">
+            <option th:value="${voucher.getVoucherId()}" th:text="${voucher.getVoucherId()}"></option>
+        </th:block>
+    </select>
+
+    <button type="submit">Create</button>
+</form>
+</body>
+</html>
