@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>create customer</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/customers/create}" th:object="${customerDto}" method="post">
+        <div>
+            <label th:for="name">이름</label>
+            <input type = "text" th:field="*{name}">
+        </div>
+        <div>
+            <label th:for="email">email</label>
+            <input type = "text" th:field="*{email}">
+        </div>
+        <button type="submit">제출</button>
+    </form>
+</div>
+</body>
+</html>

@@ -2,8 +2,7 @@ package com.pgms.part1.domain.wallet.service;
 
 import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
 import com.pgms.part1.domain.customer.entity.Customer;
-import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
-import com.pgms.part1.domain.voucher.entity.Voucher;
+import com.pgms.part1.domain.voucher.dto.VoucherWalletResponseDtos;
 import com.pgms.part1.domain.wallet.dto.WalletCreateRequestDto;
 import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.domain.wallet.repository.WalletRepository;
@@ -56,12 +55,9 @@ public class WalletService {
     }
 
     @Transactional(readOnly = true)
-    public List<VoucherResponseDto> listVouchersByCustomer(Long customerId) {
-        List<Voucher> vouchersByCustomerId = walletRepository.findVouchersByCustomerId(customerId);
-        List<VoucherResponseDto> voucherResponseDtos = vouchersByCustomerId.stream().map(voucher ->
-                new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType())).toList();
-        if(voucherResponseDtos.size() == 0) throw new RuntimeException("no search result!!");
-        return voucherResponseDtos;
+    public List<VoucherWalletResponseDtos> listVouchersByCustomer(Long customerId) {
+        List<VoucherWalletResponseDtos> vouchersByCustomerId = walletRepository.findVouchersByCustomerId(customerId);
+        return vouchersByCustomerId;
     }
 
     @Transactional(readOnly = true)

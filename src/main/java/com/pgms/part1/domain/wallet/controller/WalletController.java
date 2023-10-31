@@ -2,7 +2,7 @@ package com.pgms.part1.domain.wallet.controller;
 
 import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
 import com.pgms.part1.domain.customer.service.CustomerService;
-import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
+import com.pgms.part1.domain.voucher.dto.VoucherWalletResponseDtos;
 import com.pgms.part1.domain.voucher.service.VoucherService;
 import com.pgms.part1.domain.wallet.dto.WalletCreateRequestDto;
 import com.pgms.part1.domain.wallet.service.WalletService;
@@ -60,8 +60,8 @@ public class WalletController {
     public void listVouchersByCustomer() {
         try {
             Long id = walletConsoleView.getCustomerId();
-            List<VoucherResponseDto> voucherResponseDtos = walletService.listVouchersByCustomer(id);
-            walletConsoleView.listVoucher(voucherResponseDtos);
+            List<VoucherWalletResponseDtos> voucherWalletResponseDtos = walletService.listVouchersByCustomer(id);
+            walletConsoleView.listVoucher(voucherWalletResponseDtos);
         } catch (Exception e) {
             walletConsoleView.error(e);
         }

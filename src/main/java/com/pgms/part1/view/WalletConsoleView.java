@@ -1,7 +1,7 @@
 package com.pgms.part1.view;
 
 import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
-import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
+import com.pgms.part1.domain.voucher.dto.VoucherWalletResponseDtos;
 import com.pgms.part1.domain.wallet.dto.WalletCreateRequestDto;
 import org.beryx.textio.TextIO;
 import org.beryx.textio.TextIoFactory;
@@ -77,7 +77,7 @@ public class WalletConsoleView extends CommonConsoleView{
         return id;
     }
 
-    public void listVoucher(List<VoucherResponseDto> voucherResponseDtos){
+    public void listVoucher(List<VoucherWalletResponseDtos> voucherResponseDtos){
         voucherResponseDtos.stream().forEach(v ->
                 System.out.println("ID: " + v.id() + " | Voucher Type: "
                         + v.voucherDiscountType().getDiscountType() + " | " + "Discount " + v.voucherDiscountType().getCalculateType() + ": " + v.discount())

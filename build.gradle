@@ -24,6 +24,7 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	compileOnly 'org.springframework.boot:spring-boot-devtools'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.hamcrest:hamcrest:2.2'

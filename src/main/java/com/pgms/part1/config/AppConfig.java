@@ -32,7 +32,7 @@ public class AppConfig {
     }
 
     @Bean
-    @Profile({"!test", "!dev"})
+    @Profile("prod")
     public DataSource dataSource(){
         return DataSourceBuilder.create()
                 .driverClassName("com.mysql.cj.jdbc.Driver")

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>customer detail</title>
+</head>
+<body>
+<table class="table table-striped">
+    <tbody>
+    <tr>
+        <th>바우처 아이디</th>
+        <th>할인률</th>
+        <th>바우처 타입</th>
+        <th>삭제</th>
+    </tr>
+    </tbody>
+    <tbody>
+    <tr th:each="voucher : ${vouchers}">
+        <td th:text="${voucher.id}"></td>
+        <td th:text="${voucher.discount}"></td>
+        <td th:text="${voucher.voucherDiscountType}"></td>
+        <td>
+            <a th:href="@{/customers/{customer_id}/wallets/{wallet_id}/delete (wallet_id=${voucher.wallet_id}, customer_id=${customer_id})}">삭제</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
