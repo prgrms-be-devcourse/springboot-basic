@@ -28,7 +28,7 @@ public class WalletController {
         return walletService.findByVoucher(voucherId);
     }
 
-    public void deleteById(String memberId, String voucherId){
-        walletService.deleteById(memberId, voucherId);
+    public void deleteById(WalletRequest wallet){
+        walletService.deleteById(wallet);
     }
 }

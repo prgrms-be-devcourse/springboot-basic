@@ -137,7 +137,7 @@ public class Client {
                 String memberId = consoleIOHandler.commandMemberId();
                 consoleIOHandler.printSuccessGetVoucherList(voucherController.findAll());
                 String voucherId = consoleIOHandler.commandVoucherId();
-                walletController.deleteById(memberId, voucherId);
+                walletController.deleteById(new WalletRequest(memberId, voucherId));
             }
             default -> {
                 throw new IncorrectInputException("function", function, "목록에 있는 것들 중 선택하세요.");
