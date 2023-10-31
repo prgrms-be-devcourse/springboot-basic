@@ -1,9 +1,7 @@
 package org.prgrms.vouchermanager;
 
-import org.prgrms.vouchermanager.handler.Handler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
@@ -11,10 +9,11 @@ import java.io.IOException;
 public class VouchermanagerApplication {
 
 	public static void main(String[] args) throws IOException {
+		SpringApplication.run(VouchermanagerApplication.class, args);
 
-		ConfigurableApplicationContext ac = SpringApplication.run(VouchermanagerApplication.class, args);
-		Handler voucherManager = ac.getBean(Handler.class);
-		voucherManager.init();
+//		ConfigurableApplicationContext ac = SpringApplication.run(VouchermanagerApplication.class, args);
+//		Handler voucherManager = ac.getBean(Handler.class);
+//		voucherManager.init();
 	}
 
 }

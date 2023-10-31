@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,19 +23,24 @@ public class VoucherController {
 
     private final VoucherService voucherService;
 
+    @GetMapping("/create")
+    public String createForm(){
+        return "create";
+    }
 
-    public void create(MenuType menuType) {
-
+    @PostMapping("/create")
+    public String create(@RequestParam("menuType") MenuType menuType) {
         if (menuType == MenuType.FIXED) {
             voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10, MenuType.FIXED));
         } else {
             voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10, MenuType.PERCENT));
         }
+        return "redirect:/vouchers";
     }
-    public List<Voucher> findAllVoucher() {
-        return voucherService.findAllVoucher();
-    }
-    public Optional<Voucher> findById(UUID voucherId){
-        return voucherService.findById(voucherId);
+    @GetMapping("/vouchers")
+    public String findAllVoucher(Model model) {
+        List<Voucher> vouchers = voucherService.findAllVoucher();
+        model.addAttribute("vouchers", vouchers);
+        return "voucher-list";
     }
 }
