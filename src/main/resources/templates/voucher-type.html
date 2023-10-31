@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Box Example</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <form th:action="@{/list/search/type}" method="post">
+        <div class="form-group">
+            <label for="discountType">Select Discount Type:</label>
+            <select class="form-control" id="discountType" name="discountType" style="width: 20%">
+                <option value="FixedAmount">Fixed Amount</option>
+                <option value="PercentDiscount">Percent Discount</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+</html>

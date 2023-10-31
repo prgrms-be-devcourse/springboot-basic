@@ -68,8 +68,11 @@ public class VoucherWebController implements ApplicationWebController {
         return "list-all";
     }
 
-    public List<Voucher> findByVoucherType(int modeNum) {
-        VoucherType voucherType = VoucherType.from(modeNum);
-        return voucherService.findByVoucherType(voucherType);
+    @PostMapping("/list/search/type")
+    public String findByVoucherType(@RequestParam String discountType, Model model) {
+        VoucherType voucherType = VoucherType.from(discountType);
+        List<Voucher> voucherList = voucherService.findByVoucherType(voucherType);
+        model.addAttribute("vouchers", voucherList);
+        return "list-all";
     }
 }
