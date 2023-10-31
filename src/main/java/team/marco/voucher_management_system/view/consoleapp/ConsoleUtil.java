@@ -1,11 +1,15 @@
 package team.marco.voucher_management_system.view.consoleapp;
 
+import team.marco.voucher_management_system.controller.voucher.VoucherResponse;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Objects;
+
+import static java.text.MessageFormat.format;
 
 public final class ConsoleUtil {
     private static final String INFO_DELIMINATOR = "\n";
@@ -60,5 +64,22 @@ public final class ConsoleUtil {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    public static void printVoucherList(List<VoucherResponse> vouchers) {
+        vouchers.stream().forEach(v -> {
+            printVoucher(v);
+            printSeparatorLine();
+        });
+    }
+
+    private static void printSeparatorLine() {
+        print("--------------------");
+    }
+
+    public static void printVoucher(VoucherResponse voucher) {
+        print(format("id   : {0}", voucher.getId()));
+        print(format("name : {0}", voucher.getName()));
+        print(format("code : {0}", voucher.getCode()));
     }
 }

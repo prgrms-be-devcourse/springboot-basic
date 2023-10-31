@@ -5,9 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.controller.customer.CustomerController;
 import team.marco.voucher_management_system.controller.voucher.VoucherController;
-import team.marco.voucher_management_system.view.consoleapp.ConsoleUtil;
+import team.marco.voucher_management_system.controller.voucher.VoucherCreateRequest;
 
 import java.io.UncheckedIOException;
+
+import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
+import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
+import static team.marco.voucher_management_system.view.consoleapp.ConsoleUtil.*;
 
 @Component
 public class ManagementApplication {
@@ -35,16 +39,16 @@ public class ManagementApplication {
     }
 
     public void selectCommand() {
-        ConsoleUtil.print("=== 관리자 페이지 ===");
+        print("=== 관리자 페이지 ===");
 
         for(ManagementCommandType type : ManagementCommandType.values()) {
-            ConsoleUtil.print(type.getInfo());
+            print(type.getInfo());
         }
 
-        ConsoleUtil.println();
+        println();
 
-        ConsoleUtil.print("Q. 이용하실 서비스를 선택해 주세요.(숫자)");
-        int input = ConsoleUtil.readInt();
+        print("Q. 이용하실 서비스를 선택해 주세요.(숫자)");
+        int input = readInt();
 
         ManagementCommandType commandType = ManagementCommandType.get(input);
         switch (commandType) {
@@ -64,20 +68,20 @@ public class ManagementApplication {
     }
 
     private void getVoucherInfo() {
-        ConsoleUtil.print("쿠폰 번호를 입력해 주세요.");
-        String voucherId = ConsoleUtil.readString();
+        print("쿠폰 번호를 입력해 주세요.");
+        String voucherId = readString();
 
-        ConsoleUtil.print(voucherController.getVoucherInfo(voucherId));
+        print(voucherController.getVoucher(voucherId));
     }
 
     private void createVoucher() {
         logger.info("Call createVoucher()");
 
-        ConsoleUtil.print("""
+        print("""
                 0: 고정 금액 할인 쿠폰
                 1: % 할인 쿠폰""");
 
-        int selected = ConsoleUtil.readInt();
+        int selected = readInt();
 
         switch (selected) {
             case 0 -> createFixedAmountVoucher();
@@ -89,31 +93,39 @@ public class ManagementApplication {
     private void createPercentDiscountVoucher() {
         logger.info("Call createPercentDiscountVoucher()");
 
-        ConsoleUtil.print("할인율을 입력해 주세요.");
-        int percent = ConsoleUtil.readInt();
+        print("할인율을 입력해 주세요.");
+        int percent = readInt();
 
-        voucherController.createPercentDiscountVoucher(percent);
+        VoucherCreateRequest request = new VoucherCreateRequest(PERCENT, percent);
+        voucherController.createVoucher(request);
+
+        println("쿠폰 생성이 완료되었습니다.");
     }
 
     private void createFixedAmountVoucher() {
         logger.info("Call createFixedAmountVoucher()");
 
-        ConsoleUtil.print("할인 금액을 입력해 주세요.");
-        int amount = ConsoleUtil.readInt();
+        print("할인 금액을 입력해 주세요.");
+        int amount = readInt();
 
-        voucherController.createFixedAmountVoucher(amount);
+        VoucherCreateRequest request = new VoucherCreateRequest(FIXED, amount);
+        voucherController.createVoucher(request);
+
+        println("쿠폰 생성이 완료되었습니다.");
     }
 
     private void getVoucherList() {
         logger.info("Call getVoucherList()");
 
-        ConsoleUtil.printStringList(voucherController.getVouchersInfo());
+        printVoucherList(voucherController.getVouchers());
+        println();
+        println("조회가 완료되었습니다.");
     }
 
     private void getBlacklist() {
         logger.info("Call getBlackListUsers()");
 
-        ConsoleUtil.printStringList(userController.getBlacklistInfo());
+        printStringList(userController.getBlacklistInfo());
     }
 
     private void close() {
@@ -122,19 +134,19 @@ public class ManagementApplication {
 
     private void handleException(Exception e) {
         if(e instanceof NumberFormatException) {
-            ConsoleUtil.print("숫자를 입력해 주세요.");
+            print("숫자를 입력해 주세요.");
             return;
         }
 
         if(e instanceof IllegalArgumentException) {
-            ConsoleUtil.print(e.getMessage());
+            print(e.getMessage());
             return;
         }
 
         logger.error(e.toString());
 
         String errorMessage = (e instanceof UncheckedIOException)? "파일을 처리하는 과정에서 에러가 발생했습니다." : "프로그램에 에러가 발생했습니다.";
-        ConsoleUtil.print(errorMessage);
+        print(errorMessage);
 
         isRunning = false;
 

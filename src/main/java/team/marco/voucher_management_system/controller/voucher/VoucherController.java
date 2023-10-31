@@ -17,13 +17,13 @@ public class VoucherController {
         voucherService.createVoucher(request.toServiceRequest());
     }
 
-    public String getVoucherInfo(String voucherId) {
-        return voucherService.getVoucher(Long.valueOf(voucherId)).toString();
+    public VoucherResponse getVoucher(String voucherId) {
+        return VoucherResponse.of(voucherService.getVoucher(Long.valueOf(voucherId)));
     }
 
-    public List<String> getVouchersInfo() {
+    public List<VoucherResponse> getVouchers() {
         return voucherService.getVouchers().stream()
-                .map(Object::toString)
+                .map(VoucherResponse::of)
                 .toList();
     }
 

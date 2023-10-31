@@ -60,16 +60,12 @@ public class WalletApplication {
         }
     }
 
-    private void registerVoucher(String customerId) {
-        ConsoleUtil.print("등록하실 쿠폰 번호를 입력해주세요.");
-        String voucherId = ConsoleUtil.readString();
-        voucherController.assignVoucherOwner(voucherId, customerId);
-
-        ConsoleUtil.print("쿠폰 등록이 완료되었습니다.");
+    private void getMyVouchers(String customerId) {
+        // TODO
     }
 
-    private void getMyVouchers(String customerId) {
-        ConsoleUtil.printStringList(voucherController.getVouchersInfo(customerId));
+    private void registerVoucher(String customerId) {
+        // TODO
     }
 
     private void removeVoucher() {
