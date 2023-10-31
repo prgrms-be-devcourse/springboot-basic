@@ -2,8 +2,6 @@ package org.prgms.kdtspringweek1.controller;
 
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
 import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 // 뷰 영역(console 패키지)에 컨트롤러가 포함되어 있어, 따로 빼주었습니다.
@@ -18,7 +16,6 @@ public class AppController {
     private final VoucherController voucherController;
     private final CustomerController customerController;
     private final WalletController walletController;
-    private final static Logger logger = LoggerFactory.getLogger(AppController.class);
 
     public AppController(ConsoleInputConverter consoleInputConverter, ConsoleOutput consoleOutput, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
         this.consoleInputConverter = consoleInputConverter;
@@ -34,19 +31,12 @@ public class AppController {
 
     private void selectFunction() {
         consoleOutput.printFunctionsToSelect();
-        try {
-            SelectFunctionTypeDto selectFunctionTypeDto = consoleInputConverter.getFunctionType();
-            switch (selectFunctionTypeDto.getType()) {
-                case "exit" -> exitVoucherProgram();
-                case "voucher" -> voucherController.selectVoucherFunction(selectFunctionTypeDto);
-                case "customer" -> customerController.selectCustomerFunction(selectFunctionTypeDto);
-                case "wallet" -> walletController.selectVoucherFunction(selectFunctionTypeDto);
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        } finally {
-            selectFunction();
+        SelectFunctionTypeDto selectFunctionTypeDto = consoleInputConverter.getFunctionType();
+        switch (selectFunctionTypeDto.getType()) {
+            case "exit" -> exitVoucherProgram();
+            case "voucher" -> voucherController.selectVoucherFunction(selectFunctionTypeDto);
+            case "customer" -> customerController.selectCustomerFunction(selectFunctionTypeDto);
+            case "wallet" -> walletController.selectVoucherFunction(selectFunctionTypeDto);
         }
     }
 

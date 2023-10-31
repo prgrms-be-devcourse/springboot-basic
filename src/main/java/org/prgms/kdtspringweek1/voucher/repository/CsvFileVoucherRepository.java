@@ -127,7 +127,7 @@ public class CsvFileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             logger.error("Fail to write file when updateVouchersInfoOnCsv");
-            throw new FileException(FileExceptionCode.FAIL_TO_UPDATE_DATA_ON_CSV);
+            throw new FileException(FileExceptionCode.FAIL_TO_UPDATE_DATA_ON_CSV); // 수정을 실패한 경우 롤백 처리 필요
         }
     }
 }
