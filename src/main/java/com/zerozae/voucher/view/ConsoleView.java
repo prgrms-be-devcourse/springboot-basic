@@ -1,8 +1,6 @@
 package com.zerozae.voucher.view;
 
 import com.zerozae.voucher.exception.ExceptionMessage;
-import com.zerozae.voucher.validator.InputValidator;
-import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +10,7 @@ import java.text.MessageFormat;
 import static com.zerozae.voucher.validator.InputValidator.*;
 import static java.lang.System.out;
 
-@Component
+@Deprecated
 public class ConsoleView implements Input, Output {
 
     private static final String INPUT_READ_EXCEPTION_MESSAGE = "입력을 읽을 때 오류가 발생했습니다.";

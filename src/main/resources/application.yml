@@ -10,3 +10,11 @@ spring:
     batch:
       jdbc:
         schema: classpath:schema.sql
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    cache: false
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true

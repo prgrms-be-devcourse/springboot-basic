@@ -16,13 +16,11 @@ import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
 import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.view.ConsoleView;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
-
-@Component
+@Deprecated
 public class MenuHandler {
 
     private final ConsoleView consoleView;
