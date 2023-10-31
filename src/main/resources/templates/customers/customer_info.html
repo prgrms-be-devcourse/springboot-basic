@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Customer Information</title>
+</head>
+<body>
+<h1>Customer Information</h1>
+
+<!-- Form to search for customers by voucherId -->
+<form action="/customers/voucher" method="get">
+  <label for="voucherId">Voucher ID:</label>
+  <input type="text" id="voucherId" name="voucherId" required>
+  <button type="submit">조회</button>
+</form>
+
+<!-- Customer information table -->
+<table>
+  <thead>
+  <tr>
+    <th>Customer ID</th>
+    <th>NAME</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="customerInfo : ${customerInfoList}">
+    <td th:text="${customerInfo.id}"></td>
+    <td th:text="${customerInfo.name}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
