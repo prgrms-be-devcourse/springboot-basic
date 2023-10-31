@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@Profile({"prod", "test"})
+@Profile({"web", "cli", "test"})
 @Repository
 @RequiredArgsConstructor
 public class JdbcVoucherRepository implements VoucherRepository {

@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: web
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/default_db?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=utf8&useSSL=true
@@ -10,10 +10,37 @@ spring:
     init:
       mode: always
   myapp:
-    execute-command-line-runner: true
     file-path:
       voucher: src/main/resources/voucher.csv
       customer: src/main/resources/customer.csv
 logging:
   level:
     org.springframework.core.LocalVariableTableParameterNameDiscoverer: error
+---
+spring:
+  myapp:
+    execute-command-line-runner: false
+  config:
+    activate:
+      on-profile: web
+---
+spring:
+  myapp:
+    execute-command-line-runner: true
+  config:
+    activate:
+      on-profile: cli
+---
+spring:
+  myapp:
+    execute-command-line-runner: true
+  config:
+    activate:
+      on-profile: file
+---
+spring:
+  myapp:
+    execute-command-line-runner: true
+  config:
+    activate:
+      on-profile: dev
