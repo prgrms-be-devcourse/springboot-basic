@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.controller;
+package com.programmers.vouchermanagement.controller.command;
 
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.voucher.request.CreateVoucherRequestDto;

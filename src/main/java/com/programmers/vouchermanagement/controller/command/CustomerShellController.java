@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.controller;
+package com.programmers.vouchermanagement.controller.command;
 
 import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
 import com.programmers.vouchermanagement.dto.customer.response.CustomerResponseDto;
