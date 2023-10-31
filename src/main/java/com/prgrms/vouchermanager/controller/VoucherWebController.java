@@ -2,6 +2,7 @@ package com.prgrms.vouchermanager.controller;
 
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
+import com.prgrms.vouchermanager.dto.VoucherRequest;
 import com.prgrms.vouchermanager.service.VoucherService;
 import com.prgrms.vouchermanager.util.VoucherFactory;
 import jakarta.annotation.PostConstruct;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
+
 
 @Controller
 @RequestMapping("/basic/vouchers")
@@ -22,10 +25,6 @@ import java.util.UUID;
 @Slf4j
 public class VoucherWebController {
     private final VoucherService service;
-
-    public Voucher create(VoucherType voucherType, long discount) {
-        return service.create(voucherType, discount);
-    }
 
     @GetMapping
     public String vouchers(Model model) {
@@ -47,11 +46,10 @@ public class VoucherWebController {
     }
 
     @PostMapping("/create")
-    public String create(@RequestParam VoucherType voucherType,
-                         @RequestParam int discount,
+    public String create(@RequestBody VoucherCreateRequest voucherCreateRequest,
                          RedirectAttributes redirectAttributes,
                          Model model) {
-        Voucher voucher = service.create(voucherType, discount);
+        Voucher voucher = service.create(voucherCreateRequest);
         redirectAttributes.addAttribute("voucherId", voucher.getId());
         model.addAttribute("voucher", voucher);
         return "redirect:/basic/vouchers/{voucherId}";

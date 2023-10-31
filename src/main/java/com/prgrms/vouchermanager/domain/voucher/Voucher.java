@@ -8,18 +8,18 @@ import java.util.UUID;
 @Getter
 public abstract class Voucher {
     protected final UUID id;
-    protected final long discount;
+    protected final int discount;
     protected VoucherType type;
     protected String date;
 
-    protected Voucher(long discount) {
+    protected Voucher(int discount) {
         this(UUID.randomUUID(), discount);
     }
-    protected Voucher(UUID id, long discount) {
+    protected Voucher(UUID id, int discount) {
         this.id = id;
         this.discount = discount;
     }
-    protected Voucher(UUID id, long discount, String date) {
+    protected Voucher(UUID id, int discount, String date) {
         this.id = id;
         this.discount = discount;
         this.date = date;

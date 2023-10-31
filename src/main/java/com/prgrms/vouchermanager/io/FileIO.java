@@ -77,7 +77,7 @@ public class FileIO {
     private void readVoucherFile(Map<UUID, Voucher> vouchers, String line) {
         String[] split = line.split(",");
         UUID id = UUID.fromString(split[0]);
-        long discount = Long.parseLong(split[2]);
+        int discount = Integer.parseInt(split[2]);
         VoucherType type = VoucherType.of(split[1]);//VoucherType 형태로 변경Voucher voucher = voucherFactory.create(type, discount);
 
         Voucher voucher = VoucherFactory.create(type, discount).get();

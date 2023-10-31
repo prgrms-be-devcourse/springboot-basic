@@ -4,6 +4,7 @@ import com.prgrms.vouchermanager.controller.VoucherConsoleController;
 import com.prgrms.vouchermanager.controller.VoucherWebController;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
+import com.prgrms.vouchermanager.dto.VoucherRequest;
 import com.prgrms.vouchermanager.exception.EmptyListException;
 import com.prgrms.vouchermanager.exception.NotCorrectFormException;
 import com.prgrms.vouchermanager.exception.NotCorrectIdException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
 import static com.prgrms.vouchermanager.message.ConsoleMessage.*;
 
 @Component
@@ -32,9 +34,9 @@ public class VoucherExecutor {
 
     public void create() {
         VoucherType voucherType = getVoucherType();
-        long discount = getVoucherDiscount(voucherType);
+        int discount = getVoucherDiscount(voucherType);
 
-        controller.create(voucherType, discount);
+        controller.create(new VoucherCreateRequest(voucherType.getLabel(), discount));
         consolePrint.printMessage(COMPLETE_CREATE_VOUCHER.getMessage());
     }
 

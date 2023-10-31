@@ -14,7 +14,7 @@ public class VoucherFactory {
     private VoucherFactory() {
     }
 
-    public static Optional<Voucher> create(VoucherType voucherType, long discount) {
+    public static Optional<Voucher> create(VoucherType voucherType, int discount) {
         if(voucherType == VoucherType.FIXED) {
             return Optional.of(new FixedAmountVoucher(discount));
         } else if(voucherType == VoucherType.PERCENT) {
@@ -23,7 +23,7 @@ public class VoucherFactory {
         return Optional.empty();
     }
 
-    public static Optional<Voucher> update(UUID id, VoucherType voucherType, long discount) {
+    public static Optional<Voucher> update(UUID id, VoucherType voucherType, int discount) {
         if(voucherType == VoucherType.FIXED) {
             return Optional.of(new FixedAmountVoucher(id, discount));
         } else if(voucherType == VoucherType.PERCENT) {

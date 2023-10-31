@@ -3,17 +3,17 @@ package com.prgrms.vouchermanager.domain.voucher;
 import java.util.UUID;
 
 public class PercentAmountVoucher extends Voucher {
-    public PercentAmountVoucher(long discount) {
+    public PercentAmountVoucher(int discount) {
         super(discount);
         super.type = VoucherType.PERCENT;
     }
 
-    public PercentAmountVoucher(UUID id, long discount) {
+    public PercentAmountVoucher(UUID id, int discount) {
         super(id, discount);
         super.type = VoucherType.PERCENT;
     }
 
-    public PercentAmountVoucher(UUID id, long discount, String date) {
+    public PercentAmountVoucher(UUID id, int discount, String date) {
         super(id, discount, date);
     }
 

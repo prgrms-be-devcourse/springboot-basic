@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanager.service;
 
 import com.prgrms.vouchermanager.domain.voucher.*;
+import com.prgrms.vouchermanager.dto.VoucherRequest;
 import com.prgrms.vouchermanager.message.LogMessage;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import com.prgrms.vouchermanager.util.VoucherFactory;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
 
 @Service
 @Slf4j
@@ -22,8 +25,8 @@ public class VoucherService {
         log.info(LogMessage.CHECK_VOUCHER_REPOSITORY.getMessage(), voucherRepository.getClass());
     }
 
-    public Voucher create(VoucherType voucherType, long discount) {
-        Voucher voucher = VoucherFactory.create(voucherType, discount).get();
+    public Voucher create(VoucherCreateRequest request) {
+        Voucher voucher = VoucherFactory.create(VoucherType.of(request.voucherType()), request.discount()).get();
         log.info(LogMessage.VOUCHER_INFO.getMessage(), voucher);
 
         voucherRepository.create(voucher);

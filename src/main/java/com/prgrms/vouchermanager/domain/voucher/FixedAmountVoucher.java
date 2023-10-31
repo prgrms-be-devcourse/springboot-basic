@@ -3,17 +3,17 @@ package com.prgrms.vouchermanager.domain.voucher;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
-    public FixedAmountVoucher(long discount) {
+    public FixedAmountVoucher(int discount) {
         super(discount);
         super.type = VoucherType.FIXED;
     }
 
-    public FixedAmountVoucher(UUID id, long discount) {
+    public FixedAmountVoucher(UUID id, int discount) {
         super(id, discount);
         super.type = VoucherType.FIXED;
     }
 
-    public FixedAmountVoucher(UUID id, long discount, String date) {
+    public FixedAmountVoucher(UUID id, int discount, String date) {
         super(id, discount, date);
     }
 
