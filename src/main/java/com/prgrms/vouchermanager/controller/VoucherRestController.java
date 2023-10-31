@@ -5,6 +5,8 @@ import com.prgrms.vouchermanager.dto.VoucherResponse;
 import com.prgrms.vouchermanager.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -20,28 +22,29 @@ public class VoucherRestController {
     private final VoucherService service;
 
     @GetMapping
-    public VoucherListResponse vouchers() {
-        return new VoucherListResponse(service.findAll());
+    public ResponseEntity<VoucherListResponse> vouchers() {
+        return new ResponseEntity<>(new VoucherListResponse(service.findAll()), HttpStatus.OK);
     }
 
     @GetMapping("/{voucherId}")
-    public VoucherDetailResponse voucher(@PathVariable UUID voucherId) {
-        return toDetailVoucher(service.findById(voucherId));
+    public ResponseEntity<VoucherDetailResponse> voucher(@PathVariable UUID voucherId) {
+        return new ResponseEntity<>(toDetailVoucher(service.findById(voucherId)), HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public VoucherDetailResponse create(@RequestBody VoucherCreateRequest voucherCreateRequest) {
+    public ResponseEntity<VoucherDetailResponse> create(@RequestBody VoucherCreateRequest voucherCreateRequest) {
         Voucher voucher = service.create(voucherCreateRequest);
-        return VoucherResponse.toDetailVoucher(voucher);
+        return new ResponseEntity<>(VoucherResponse.toDetailVoucher(voucher), HttpStatus.OK);
     }
 
     @GetMapping("/{voucherId}/delete")
-    public VoucherDeleteResponse delete(@PathVariable UUID voucherId) {
-        return new VoucherDeleteResponse(service.delete(voucherId));
+    public ResponseEntity<VoucherDeleteResponse> delete(@PathVariable UUID voucherId) {
+        return new ResponseEntity<>(new VoucherDeleteResponse(service.delete(voucherId)),
+                HttpStatus.OK);
     }
 
     @GetMapping("/findByCondition")
-    public VoucherListResponse findByCondition(@RequestBody VoucherFindByConditionRequest request) {
-        return new VoucherListResponse(service.findByCondition(request));
+    public ResponseEntity<VoucherListResponse> findByCondition(@RequestBody VoucherFindByConditionRequest request) {
+        return new ResponseEntity<>(new VoucherListResponse(service.findByCondition(request)), HttpStatus.OK);
     }
 }
