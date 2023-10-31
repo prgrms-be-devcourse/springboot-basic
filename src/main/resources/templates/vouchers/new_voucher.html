@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Voucher</title>
+</head>
+<body>
+<h1>Create Voucher</h1>
+<form action="/vouchers" method="post">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required><br><br>
+
+  <label for="voucherType">Voucher Type:</label>
+  <select id="voucherType" name="voucherType" required>
+    <option value="FIXED">고정</option>
+    <option value="PERCENT">퍼센트</option>
+  </select><br><br>
+
+  <label for="discountAmount">Discount Amount:</label>
+  <input type="number" id="discountAmount" name="discountAmount" required><br><br>
+
+  <button type="submit">Create Voucher</button>
+</form>
+</body>
+</html>
