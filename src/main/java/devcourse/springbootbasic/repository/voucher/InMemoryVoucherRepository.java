@@ -29,7 +29,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         return voucherDatabase.values()
                 .stream()
                 .filter(voucher -> voucherType == null || voucher.getVoucherType().equals(voucherType))
-                .filter(voucher -> startDate == null || voucher.getCreatedAt().isAfter(startDate.atStartOfDay()))
+                .filter(voucher -> startDate == null || voucher.getCreatedAt().isEqual(startDate.atStartOfDay()) || voucher.getCreatedAt().isAfter(startDate.atStartOfDay()))
                 .filter(voucher -> endDate == null || voucher.getCreatedAt().isBefore(endDate.plusDays(1).atStartOfDay()))
                 .toList();
     }
