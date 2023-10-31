@@ -2,7 +2,6 @@ package org.prgrms.vouchermanager.handler.wallet;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.h2.engine.Mode;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
@@ -12,13 +11,12 @@ import org.prgrms.vouchermanager.exception.NotExistVoucherException;
 import org.prgrms.vouchermanager.service.CustomerService;
 import org.prgrms.vouchermanager.service.VoucherService;
 import org.prgrms.vouchermanager.service.WalletService;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +24,7 @@ import java.util.UUID;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class WalletController {
+public class ApiWalletController {
     private final WalletService service;
     private final VoucherService voucherService;
     private final CustomerService customerService;

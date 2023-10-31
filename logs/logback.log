@@ -59,3 +59,23 @@
 [2023-11-01 00:49:37:2601871][http-nio-8080-exec-3] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
 [2023-11-01 00:53:05:2809224][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 [2023-11-01 00:53:05:2809235][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-01 01:35:07:961][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 8224 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-01 01:35:07:963][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-11-01 01:35:08:2110][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-11-01 01:35:08:2120][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-11-01 01:35:08:2122][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-11-01 01:35:08:2122][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-11-01 01:35:09:2214][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-11-01 01:35:09:2214][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1192 ms
+[2023-11-01 01:35:09:2683][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-11-01 01:35:09:2705][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-11-01 01:35:09:2713][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 2.299 seconds (process running for 3.307)
+[2023-11-01 01:35:14:7684][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-11-01 01:35:14:7685][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-11-01 01:35:14:7686][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[2023-11-01 01:35:16:9411][http-nio-8080-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-01 01:35:16:9777][http-nio-8080-exec-2] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@66cb8baa
+[2023-11-01 01:35:16:9780][http-nio-8080-exec-2] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-01 01:35:47:40227][http-nio-8080-exec-1] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-01 01:36:16:69932][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-01 01:36:16:69943][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

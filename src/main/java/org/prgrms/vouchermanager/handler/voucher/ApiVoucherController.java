@@ -1,6 +1,5 @@
 package org.prgrms.vouchermanager.handler.voucher;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.MenuType;
@@ -15,7 +14,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/vouchers")
 @RequiredArgsConstructor
-public class VoucherApiController {
+public class ApiVoucherController {
     private final VoucherService voucherService;
     @GetMapping("/")
     public List<Voucher> findAll(){
