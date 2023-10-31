@@ -1,5 +1,15 @@
 spring:
   profiles:
+    active: test
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+---
+
+spring:
+  profiles:
     active: production
 csv:
   file-path: D:\Users\programmers\vouchermanager\src\main\java\org\prgrms\vouchermanager\Repository\blacklist.csv

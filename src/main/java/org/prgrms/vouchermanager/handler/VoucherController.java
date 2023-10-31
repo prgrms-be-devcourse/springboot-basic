@@ -1,28 +1,35 @@
 package org.prgrms.vouchermanager.handler;
 
-import org.prgrms.vouchermanager.repository.MemoryVoucherRepository;
+import lombok.RequiredArgsConstructor;
+import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
-import org.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.prgrms.vouchermanager.service.VoucherService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class VoucherController {
 
-    VoucherService voucherService = new VoucherService(new MemoryVoucherRepository());
-    public void create(VoucherType voucherType) {
-        if(voucherType == VoucherType.FIXED)
-            voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10L));
-        else
-            voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10L));
-    }
+    private final VoucherService voucherService;
 
+    public void create(MenuType menuType) {
+        if(menuType == MenuType.FIXED){
+            voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10, MenuType.FIXED));
+        }
+        else{
+            voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10, MenuType.PERCENT));
+        }
+    }
     public List<Voucher> findAllVoucher() {
-        return voucherService.getAllVoucher();
+        return voucherService.findAllVoucher();
+    }
+    public Optional<Voucher> findById(UUID voucherId){
+        return voucherService.findById(voucherId);
     }
 }

@@ -2,6 +2,7 @@ package org.prgrms.vouchermanager.handler;
 
 import lombok.RequiredArgsConstructor;
 import org.prgrms.vouchermanager.domain.customer.Customer;
+import org.prgrms.vouchermanager.domain.customer.CustomerRequest;
 import org.prgrms.vouchermanager.service.CustomerService;
 import org.springframework.stereotype.Component;
 
@@ -11,11 +12,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerService service;
+
     public List<Customer> list() {
         return service.findAll();
     }
 
-    public Customer create(String customerName){
-        return service.createCustomer(customerName);
+    public Customer create(CustomerRequest requestDto){
+        return service.createCustomer(requestDto);
     }
 }
