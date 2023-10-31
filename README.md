@@ -57,7 +57,7 @@ Type **list** to list all vouchers.
 - Spring MVC를 적용해서 thymeleaf 템플릿을 설정하여 다음 기능을 지원하는 관리 페이지 개발
     - [x]  조회페이지
     - [ ]  상세페이지
-    - [ ]  입력페이지
+    - [x]  입력페이지
     - [ ]  삭제기능
 
 ** 바우처 서비스의 API 개발하기**

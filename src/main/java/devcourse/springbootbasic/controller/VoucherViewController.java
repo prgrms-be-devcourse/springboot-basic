@@ -1,11 +1,14 @@
 package devcourse.springbootbasic.controller;
 
+import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -25,4 +28,17 @@ public class VoucherViewController {
 
         return "voucher/voucher-list";
     }
+
+    @GetMapping("/create")
+    public String create() {
+        return "voucher/voucher-form";
+    }
+
+    @PostMapping("/create")
+    public String createVoucher(@ModelAttribute VoucherCreateRequest voucherCreateRequest) {
+        System.out.println("createVoucher");
+        this.voucherService.createVoucher(voucherCreateRequest);
+        return "redirect:/voucher";
+    }
+
 }

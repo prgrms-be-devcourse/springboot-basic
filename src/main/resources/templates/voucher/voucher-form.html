@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>Create Voucher</title>
+</head>
+<body class="container-fluid">
+<h1>Create Voucher</h1>
+
+<div class="form-container">
+    <form th:action="@{/voucher/create}" method="post">
+        <div class="mb-3">
+            <label for="voucherType" class="form-label">Voucher Type</label>
+            <select class="form-select" id="voucherType" name="voucherType">
+                <option value="FIXED">FIXED</option>
+                <option value="PERCENTAGE">PERCENTAGE</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="discountValue" class="form-label">Discount Value</label>
+            <input type="number" class="form-control" id="discountValue" name="discountValue" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Voucher</button>
+    </form>
+</div>
+</body>
+</html>
