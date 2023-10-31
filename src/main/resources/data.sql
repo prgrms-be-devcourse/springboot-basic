@@ -1,5 +1,5 @@
 create table vouchers(
-    id long,
+    id int,
     discount int,
     discount_type varchar(30),
     created_at datetime not null default current_timestamp,
@@ -8,7 +8,7 @@ create table vouchers(
 );
 
 create table customers(
-    id long,
+    id int,
     name varchar(50) not null,
     email varchar(50) not null,
     is_blocked bool not null default false,
@@ -18,9 +18,9 @@ create table customers(
 );
 
 create table wallets(
-    id long,
-    voucher_id long,
-    customer_id long,
+    id int,
+    voucher_id int,
+    customer_id int,
     created_at datetime not null default current_timestamp,
     updated_at datetime not null default current_timestamp on update current_timestamp,
     primary key(id)
