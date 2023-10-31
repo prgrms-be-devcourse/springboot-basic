@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>회원 상세페이지</h2>
+    </div>
+    <div>
+        <label for="customerId">회원 ID</label>
+        <input type="text" id="customerId" name="customerId" class="form-control" value="1"
+               th:value="${customer.customerId}" readonly>
+    </div>
+    </br>
+    <div>
+        <label for="customerName">회원 이름</label>
+        <input type="text" id="customerName" name="customerName" class="form-control" th:value="${customer.customerName}" readonly>
+    </div>
+    </br>
+    <div>
+        <label for="customerType">회원 타입</label>
+        <input type="text" id="customerType"  name="customerType" class="form-control" th:value="${customer.customerType}" readonly>
+    </div>
+    </br>
+    <hr class="my-4">
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:onclick="|location.href='@{/customers/updateForm/{customerId}(customerId=${customer.customerId})}'|">수정</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg" th:onclick="|location.href='@{/customers}'|" type="button">이전</button>
+            </div>
+        </div>
+        <br>
+        <form action="customers.html" th:action="@{/customers/{customerId}(customerId=${customer.customerId})}" th:method="delete">
+            <div class="col">
+                <button type="submit" class="w-100 btn btn-danger btn-lg">회원 삭제</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

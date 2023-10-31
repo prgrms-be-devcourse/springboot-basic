@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Voucher Create</title>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>회원 등록</h2>
+    </div>
+    <form th:action="@{/customers}" method="post">
+        <div class="mb-3">
+            <label for="customerName" class="form-label">회원 이름</label>
+            <input type="text" class="form-control" id="customerName" name="customerName">
+        </div>
+        <div>
+            <label for="customerType" class="form-label"></label>
+                <select class="form-select" id="customerType" name="customerType" required>
+                    <option selected value="">회원 타입을 선택해주세요.</option>
+                    <option value="NORMAL">일반 회원(NORMAL)</option>
+                    <option value="BLACKLIST">블랙리스트 회원(BLACKLIST)</option>
+                </select>
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/customers}'|" type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>
