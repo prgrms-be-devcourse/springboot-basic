@@ -65,15 +65,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteById(UUID voucher_id) {
-        jdbcTemplate.update(DELETE_BY_ID, voucher_id.toString().getBytes());
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update(DELETE_BY_ID, voucherId.toString().getBytes());
     }
 
     @Override
-    public Optional<Voucher> findVoucherById(UUID voucher_id) {
+    public Optional<Voucher> findVoucherById(UUID voucherId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID,
-                    voucherRowMapper, voucher_id.toString().getBytes()));
+                    voucherRowMapper, voucherId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.info("Voucher not found", e);
             return Optional.empty();

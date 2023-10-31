@@ -58,9 +58,9 @@ public class MenuHandler {
     }
 
     public void updateVoucher() {
-        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
+        UUID voucherId = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
         long discountValue = console.inputLong(ConsoleMessage.GET_FIXED_DISCOUNT_VALUE);
-        voucherController.updateVoucher(new UpdateVoucherRequest(voucher_id, discountValue));
+        voucherController.updateVoucher(new UpdateVoucherRequest(voucherId, discountValue));
     }
 
     public void deleteAllVoucher() {
@@ -87,27 +87,27 @@ public class MenuHandler {
 
     public void createWallet() {
         console.printConsoleMessage(ConsoleMessage.CREATE_WALLET);
-        UUID customer_id = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
-        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
-        walletController.createWallet(new WalletRequest(customer_id, voucher_id));
+        UUID customerId = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
+        UUID voucherId = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
+        walletController.createWallet(new WalletRequest(customerId, voucherId));
     }
 
     public void showAllCustomerVouchers() {
-        UUID customer_id = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
-        List<VoucherResponse> vouchers = walletController.findVouchersByCustomerId(customer_id);
+        UUID customerId = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
+        List<VoucherResponse> vouchers = walletController.findVouchersByCustomerId(customerId);
         console.printVouchers(vouchers);
     }
 
     public void showAllVoucherCustomers() {
-        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
-        List<CustomerResponse> customers = walletController.findCustomersByVoucherId(voucher_id);
+        UUID voucherId = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
+        List<CustomerResponse> customers = walletController.findCustomersByVoucherId(voucherId);
         console.printCustomers(customers);
     }
 
     public void deleteWallet() {
-        UUID customer_id = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
-        UUID voucher_id = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
-        walletController.deleteWallet(new WalletRequest(customer_id, voucher_id));
+        UUID customerId = console.inputUUID(ConsoleMessage.GET_CUSTOMER_ID);
+        UUID voucherId = console.inputUUID(ConsoleMessage.GET_VOUCHER_ID);
+        walletController.deleteWallet(new WalletRequest(customerId, voucherId));
     }
 
     private CreateVoucherRequest makeCreateVoucherRequest() {

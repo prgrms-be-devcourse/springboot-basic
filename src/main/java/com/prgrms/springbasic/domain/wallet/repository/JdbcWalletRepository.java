@@ -54,9 +54,9 @@ public class JdbcWalletRepository {
 
     public Wallet saveWallet(Wallet wallet) {
         jdbcTemplate.update(INSERT_QUERY,
-                wallet.getWallet_id().toString().getBytes(),
-                wallet.getCustomer_id().toString().getBytes(),
-                wallet.getVoucher_id().toString().getBytes());
+                wallet.getWalletId().toString().getBytes(),
+                wallet.getCustomerId().toString().getBytes(),
+                wallet.getVoucherId().toString().getBytes());
         return wallet;
     }
 
@@ -82,6 +82,6 @@ public class JdbcWalletRepository {
 
     public void deleteWallet(Wallet wallet) {
         jdbcTemplate.update(DELETE_WALLET,
-                wallet.getWallet_id().toString().getBytes());
+                wallet.getWalletId().toString().getBytes());
     }
 }

@@ -51,10 +51,10 @@ public class CustomerJdbcRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findCustomerById(UUID customer_id) {
+    public Optional<Customer> findCustomerById(UUID customerId) {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID,
-                    customerRowMapper, customer_id.toString().getBytes()));
+                    customerRowMapper, customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             logger.info("Customer not found");
             return Optional.empty();

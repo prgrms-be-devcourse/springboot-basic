@@ -68,9 +68,9 @@ class VoucherServiceTest {
     @DisplayName("voucher 업데이트 테스트")
     void updateVoucher() {
         UpdateVoucherRequest request = new UpdateVoucherRequest(UUID.randomUUID(), 50);
-        Voucher mockVoucher = Voucher.createVoucher(request.voucher_id(), "percent", 10);
+        Voucher mockVoucher = Voucher.createVoucher(request.voucherId(), "percent", 10);
 
-        when(voucherRepository.findVoucherById(request.voucher_id())).thenReturn(Optional.of(mockVoucher));
+        when(voucherRepository.findVoucherById(request.voucherId())).thenReturn(Optional.of(mockVoucher));
         voucherService.updateVoucher(request);
 
         verify(voucherRepository, times(1)).updateVoucher(mockVoucher);

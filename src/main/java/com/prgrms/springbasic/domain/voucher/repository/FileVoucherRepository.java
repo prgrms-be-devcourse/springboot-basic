@@ -55,13 +55,13 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void deleteById(UUID voucher_id) {
+    public void deleteById(UUID voucherId) {
 
     }
 
     @Override
-    public Optional<Voucher> findVoucherById(UUID voucher_id) {
-        return Optional.ofNullable(vouchers.get(voucher_id));
+    public Optional<Voucher> findVoucherById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
     }
 
     private static Map<UUID, Voucher> readVoucherFromFile(String filePath) {

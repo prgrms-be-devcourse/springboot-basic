@@ -57,8 +57,8 @@ class WalletServiceTest {
 
         WalletResponse response = walletService.saveWallet(new WalletRequest(customer.getCustomerId(), voucher.getVoucherId()));
 
-        assertThat(response.customer_id()).isEqualTo(customer.getCustomerId());
-        assertThat(response.voucher_id()).isEqualTo(voucher.getVoucherId());
+        assertThat(response.customerId()).isEqualTo(customer.getCustomerId());
+        assertThat(response.voucherId()).isEqualTo(voucher.getVoucherId());
     }
 
     @Test

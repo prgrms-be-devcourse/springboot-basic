@@ -11,6 +11,6 @@ public interface VoucherRepository {
     List<Voucher> findAll();
     void updateVoucher(Voucher voucher);
     void deleteAll();
-    void deleteById(UUID voucher_id);
-    Optional<Voucher> findVoucherById(UUID voucher_id);
+    void deleteById(UUID voucherId);
+    Optional<Voucher> findVoucherById(UUID voucherId);
 }

@@ -41,7 +41,7 @@ public class VoucherService {
 
     @Transactional
     public void updateVoucher(UpdateVoucherRequest request) {
-        Voucher voucher = voucherRepository.findVoucherById(request.voucher_id())
+        Voucher voucher = voucherRepository.findVoucherById(request.voucherId())
                 .orElseThrow(() -> new IllegalArgumentException("Voucher not found"));
         voucher.update(request.discountValue());
         voucherRepository.updateVoucher(voucher);
