@@ -1,105 +1,84 @@
-[2023-10-30 22:14:52:462][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest]: JdbcVoucherRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:53:643][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest
-[2023-10-30 22:14:53:1316][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 27024 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-30 22:14:53:1318][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-30 22:14:54:2305][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.465 seconds (process running for 3.435)
-[2023-10-30 22:14:54:2345][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-30 22:14:55:2945][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@709f0202
-[2023-10-30 22:14:55:2955][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-30 22:14:56:4265][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
-[2023-10-30 22:14:56:4279][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:56:4315][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-30 22:14:56:4382][main] ERROR o.p.v.r.c.JdbcCustomerRepository - Not exists
-[2023-10-30 22:14:56:4397][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:4760][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:4833][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:4896][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.VouchermanagerApplicationTests]: VouchermanagerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:4933][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.VouchermanagerApplicationTests
-[2023-10-30 22:14:57:4977][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:5022][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-30 22:14:57:5032][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:5038][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
-[2023-10-30 22:14:57:5067][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:14:57:5069][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:14:57:5080][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher]: findByVoucher does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:5083][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher
-[2023-10-30 22:14:57:5106][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:14:57:5133][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save]: save does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:5144][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save
-[2023-10-30 22:14:57:5168][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:14:57:5206][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:5211][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:5358][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:5412][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:14:57:5459][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-30 22:14:58:5488][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-30 22:17:21:644][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest]: JdbcVoucherRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:21:868][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest
-[2023-10-30 22:17:22:1447][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 23204 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-30 22:17:22:1448][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-30 22:17:23:2548][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.458 seconds (process running for 3.885)
-[2023-10-30 22:17:23:2584][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-30 22:17:23:3102][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1946384
-[2023-10-30 22:17:23:3112][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-30 22:17:25:4402][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
-[2023-10-30 22:17:25:4414][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:25:4454][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-30 22:17:25:4512][main] ERROR o.p.v.r.c.JdbcCustomerRepository - Not exists
-[2023-10-30 22:17:25:4528][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:25:4985][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:25:5078][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:25:5167][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.VouchermanagerApplicationTests]: VouchermanagerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:25:5203][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.VouchermanagerApplicationTests
-[2023-10-30 22:17:26:5254][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:26:5321][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-30 22:17:26:5341][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:26:5345][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
-[2023-10-30 22:17:26:5373][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:17:26:5377][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:17:26:5390][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher]: findByVoucher does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:26:5395][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher
-[2023-10-30 22:17:26:5410][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:17:26:5444][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save]: save does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:26:5447][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save
-[2023-10-30 22:17:26:5461][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:17:26:5488][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:26:5493][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:26:5644][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:26:5743][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:17:26:5793][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-30 22:17:26:5837][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
-[2023-10-30 22:20:42:424][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest]: JdbcVoucherRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:42:590][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepositoryTest
-[2023-10-30 22:20:43:1010][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Starting JdbcVoucherRepositoryTest using Java 17.0.6 with PID 25864 (started by dlswn in D:\Users\programmers\vouchermanager)
-[2023-10-30 22:20:43:1011][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - The following 1 profile is active: "jdbc"
-[2023-10-30 22:20:43:1874][main] INFO  o.p.v.r.v.JdbcVoucherRepositoryTest - Started JdbcVoucherRepositoryTest in 1.121 seconds (process running for 2.725)
-[2023-10-30 22:20:43:1910][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-[2023-10-30 22:20:44:2311][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6003ad65
-[2023-10-30 22:20:44:2319][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-[2023-10-30 22:20:45:3379][main] ERROR o.p.v.r.v.JdbcVoucherRepository - Not exist
-[2023-10-30 22:20:45:3394][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest]: JdbcCustomerRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:45:3429][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepositoryTest
-[2023-10-30 22:20:45:3487][main] ERROR o.p.v.r.c.JdbcCustomerRepository - Not exists
-[2023-10-30 22:20:45:3502][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.CustomerServiceTest]: CustomerServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:45:3843][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest]: VoucherServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:45:3903][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.VoucherServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:3959][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.VouchermanagerApplicationTests]: VouchermanagerApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:3991][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.VouchermanagerApplicationTests
-[2023-10-30 22:20:46:4022][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:4062][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
-[2023-10-30 22:20:46:4078][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:4082][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
-[2023-10-30 22:20:46:4109][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:20:46:4110][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:20:46:4121][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher]: findByVoucher does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:4124][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$findByVoucher
-[2023-10-30 22:20:46:4137][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:20:46:4166][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save]: save does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:4170][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$save
-[2023-10-30 22:20:46:4184][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
-[2023-10-30 22:20:46:4208][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest]: WalletServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:4213][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:4318][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$find]: find does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:4362][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.service.WalletServiceTest$create]: create does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-[2023-10-30 22:20:46:4408][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-[2023-10-30 22:20:46:4430][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-10-31 09:53:16:1105][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 5032 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-31 09:53:16:1110][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-31 09:53:17:2457][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-10-31 09:53:17:2497][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-10-31 09:53:17:2507][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-10-31 09:53:17:2507][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-10-31 09:53:18:2991][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-10-31 09:53:18:2992][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1822 ms
+[2023-10-31 09:53:18:3759][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-10-31 09:53:18:3782][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-10-31 09:53:18:3790][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 3.275 seconds (process running for 4.685)
+[2023-10-31 09:53:32:16931][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-10-31 09:53:32:16932][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-10-31 09:53:32:16934][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[2023-10-31 09:56:12:1295][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 1780 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-31 09:56:12:1303][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-31 09:56:14:2805][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-10-31 09:56:14:2814][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-10-31 09:56:14:2817][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-10-31 09:56:14:2818][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-10-31 09:56:14:2925][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-10-31 09:56:14:2926][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1533 ms
+[2023-10-31 09:56:14:3458][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-10-31 09:56:15:3482][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-10-31 09:56:15:3496][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 2.962 seconds (process running for 4.431)
+[2023-10-31 09:56:29:17556][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-10-31 09:56:29:17557][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-10-31 09:56:29:17558][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[2023-10-31 09:57:27:899][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 12164 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-31 09:57:27:903][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-31 09:57:28:2057][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-10-31 09:57:28:2066][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-10-31 09:57:28:2068][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-10-31 09:57:28:2068][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-10-31 09:57:28:2157][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-10-31 09:57:28:2157][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1188 ms
+[2023-10-31 09:57:28:2615][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-10-31 09:57:28:2643][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-10-31 09:57:28:2652][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 2.294 seconds (process running for 3.25)
+[2023-10-31 09:57:35:9727][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-10-31 09:57:35:9728][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-10-31 09:57:35:9728][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+[2023-10-31 09:59:10:1291][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 26708 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-31 09:59:10:1294][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-31 09:59:12:2809][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-10-31 09:59:12:2819][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-10-31 09:59:12:2820][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-10-31 09:59:12:2821][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-10-31 09:59:12:2920][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-10-31 09:59:12:2920][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1552 ms
+[2023-10-31 09:59:12:3437][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-10-31 09:59:12:3463][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-10-31 09:59:12:3473][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 2.961 seconds (process running for 4.247)
+[2023-10-31 09:59:13:3665][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-10-31 09:59:13:3666][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-10-31 09:59:13:3667][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[2023-10-31 10:04:10:1153][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 13564 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-31 10:04:10:1157][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-31 10:04:11:2539][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-10-31 10:04:11:2549][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:04:11:2550][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-10-31 10:04:11:2550][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-10-31 10:04:12:2644][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-10-31 10:04:12:2644][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1414 ms
+[2023-10-31 10:04:12:3092][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:04:12:3113][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-10-31 10:04:12:3122][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 2.619 seconds (process running for 3.914)
+[2023-10-31 10:04:15:5969][http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-10-31 10:04:15:5970][http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-10-31 10:04:15:5970][http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+[2023-10-31 10:06:16:1568][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 3284 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-10-31 10:06:16:1572][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
+[2023-10-31 10:06:17:3228][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+[2023-10-31 10:06:17:3240][main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:06:17:3244][main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[2023-10-31 10:06:17:3245][main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.13]
+[2023-10-31 10:06:18:3346][main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[2023-10-31 10:06:18:3347][main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1695 ms
+[2023-10-31 10:06:18:3982][main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+[2023-10-31 10:06:18:4010][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+[2023-10-31 10:06:18:4022][main] INFO  o.p.v.VouchermanagerApplication - Started VouchermanagerApplication in 3.253 seconds (process running for 5.395)
+[2023-10-31 10:06:18:4148][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2023-10-31 10:06:18:4148][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[2023-10-31 10:06:18:4149][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms

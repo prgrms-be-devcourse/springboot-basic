@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Voucher List</title>
+</head>
+<body>
+<h1>Voucher List</h1>
+<table>
+    <tr>
+        <th>Voucher ID</th>
+        <th>Menu Type</th>
+    </tr>
+    <tr th:each="voucher : ${vouchers}">
+        <td th:text="${voucher.id}"></td>
+        <td th:text="${voucher.menuType}"></td>
+    </tr>
+</table>
+</body>
+</html>
