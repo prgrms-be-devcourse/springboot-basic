@@ -61,8 +61,9 @@ public class VoucherService {
     }
 
     public VoucherResponse update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
-        voucherRepository.findById(voucherId).orElseThrow(() -> ExceptionMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
+        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> ExceptionMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.update(voucherId, voucherUpdateRequest);
+        return VoucherResponse.toDto(voucher);
     }
 
     public void deleteById(UUID voucherId) {

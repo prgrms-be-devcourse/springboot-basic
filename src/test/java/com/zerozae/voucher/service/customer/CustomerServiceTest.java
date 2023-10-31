@@ -185,7 +185,7 @@ class CustomerServiceTest {
     @DisplayName("회원 업데이트 호출 테스트")
     void updateCustomer_Success_Test() {
         // Given
-        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", BLACKLIST);
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", String.valueOf(BLACKLIST));
         Customer customer = normalCustomer;
         when(customerRepository.findById(customer.getCustomerId())).thenReturn(Optional.of(customer));
 
@@ -201,7 +201,7 @@ class CustomerServiceTest {
     @DisplayName("회원 업데이트 실패 테스트")
     void updateCustomer_NotExistId_Failed_Test() {
         // Given
-        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", BLACKLIST);
+        CustomerUpdateRequest updateRequest = new CustomerUpdateRequest("고객2", String.valueOf(BLACKLIST));
         UUID notExistId = UUID.randomUUID();
         when(customerRepository.findById(notExistId)).thenReturn(Optional.empty());
 
