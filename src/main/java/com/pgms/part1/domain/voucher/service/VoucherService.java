@@ -1,9 +1,8 @@
 package com.pgms.part1.domain.voucher.service;
 
-import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
+import com.pgms.part1.domain.voucher.dto.VoucherWebCreateRequestDto;
 import com.pgms.part1.domain.voucher.entity.Voucher;
-import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import com.pgms.part1.domain.voucher.repository.VoucherRepository;
 import com.pgms.part1.util.keygen.KeyGenerator;
 import org.slf4j.Logger;
@@ -27,8 +26,8 @@ public class VoucherService {
         this.keyGenerator = keyGenerator;
     }
 
-    public Voucher createVoucher(VoucherCreateRequestDto voucherCreateRequestDto, VoucherDiscountType voucherDiscountType) {
-        Voucher voucher = Voucher.newVocher(keyGenerator.getKey(), voucherCreateRequestDto.discount(), voucherDiscountType);
+    public Voucher createVoucher(VoucherWebCreateRequestDto voucherCreateRequestDto) {
+        Voucher voucher = Voucher.newVocher(keyGenerator.getKey(), voucherCreateRequestDto.discount(),  voucherCreateRequestDto.voucherDiscountType());
 
         try{
             voucherRepository.add(voucher);

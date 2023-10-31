@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>create voucher</title>
+</head>
+<body>
+<div style="width: 50%">
+  <form th:action="@{/vouchers/create}" method="post">
+    <div>
+      <label th:for="discount">할인률</label>
+      <input style="width: 400px; padding: 5px;" type = "number" name ="discount">
+    </div>
+    <br>
+    <div>
+      <label th:for="voucherDiscountType">할인 타입</label>
+      <input style="width: 400px; padding: 5px;" type = "text" name = "voucherDiscountType" placeholder="FIXED_AMOUNT_DISCOUNT 또는 PERCENT_DISCOUNT">
+    </div>
+    <button type="submit">제출</button>
+  </form>
+</div>
+</body>
+</html>

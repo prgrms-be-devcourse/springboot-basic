@@ -20,10 +20,13 @@
         <td th:text="${voucher.discount}"></td>
         <td th:text="${voucher.voucherDiscountType}"></td>
         <td>
-            <a th:href="@{/customers/{customer_id}/wallets/{wallet_id}/delete (wallet_id=${voucher.wallet_id}, customer_id=${customer_id})}">삭제</a>
+            <a th:href="@{/customers/{customer_id}/wallets/{wallet_id}/delete (wallet_id=${voucher.walletId}, customer_id=${customer_id})}">삭제</a>
         </td>
     </tr>
     </tbody>
 </table>
+<div>
+    <button type = "button" th:onclick="|location.href='/customers/${customer_id}/wallets/add'|">바우처 추가</button>
+</div>
 </body>
 </html>

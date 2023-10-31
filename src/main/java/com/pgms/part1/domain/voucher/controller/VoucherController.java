@@ -2,7 +2,6 @@ package com.pgms.part1.domain.voucher.controller;
 
 import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
-import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import com.pgms.part1.domain.voucher.service.VoucherService;
 import com.pgms.part1.view.VoucherConsoleView;
 import org.slf4j.Logger;
@@ -29,7 +28,6 @@ public class VoucherController {
         String command = voucherConsoleView.getMenu();
 
         switch (command) {
-            case "create" -> createVoucher();
             case "list" -> listVoucher();
             case "delete" -> deleteVoucher();
             case "exit" -> {return;}
@@ -45,21 +43,6 @@ public class VoucherController {
     private void deleteVoucher() {
         Long id = voucherConsoleView.deleteVoucher();
         voucherService.deleteVoucher(id);
-    }
-
-    public void createVoucher() {
-        VoucherCreateRequestDto voucherCreateRequestDto = voucherConsoleView.createVoucher();
-
-        if (!isDiscountAmount(voucherCreateRequestDto)) {
-            voucherConsoleView.error(new RuntimeException("Please Enter Again!!"));
-            log.warn("Invalid Create Input");
-            createVoucher();
-        }
-
-        switch (voucherCreateRequestDto.command()) {
-            case FIXED_VOUCHER_CREATE -> voucherService.createVoucher(voucherCreateRequestDto, VoucherDiscountType.FIXED_AMOUNT_DISCOUNT);
-            case PERCENT_VOUCHER_CREATE -> voucherService.createVoucher(voucherCreateRequestDto, VoucherDiscountType.PERCENT_DISCOUNT);
-        }
     }
 
     private boolean isDiscountAmount(VoucherCreateRequestDto voucherCreateRequestDto) {

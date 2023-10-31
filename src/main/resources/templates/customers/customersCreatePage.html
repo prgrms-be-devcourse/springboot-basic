@@ -6,14 +6,15 @@
 </head>
 <body>
 <div>
-    <form th:action="@{/customers/create}" th:object="${customerDto}" method="post">
+    <form th:action="@{/customers/create}" method="post">
         <div>
             <label th:for="name">이름</label>
-            <input type = "text" th:field="*{name}">
+            <input type = "text" style="width: 400px; padding: 5px;" name = "name">
         </div>
+        <br>
         <div>
             <label th:for="email">email</label>
-            <input type = "text" th:field="*{email}">
+            <input type = "text" style="width: 400px; padding: 5px;" name = "email">
         </div>
         <button type="submit">제출</button>
     </form>
