@@ -149,8 +149,10 @@ class JdbcVoucherRepositoryTest extends JdbcRepositoryTest {
 
         // Then
         Optional<Voucher> foundVoucher = voucherRepository.findById(voucherId);
-        assertThat(foundVoucher)
-                .isPresent()
-                .contains(savedVoucher);
+        assertThat(foundVoucher).isPresent();
+        assertThat(foundVoucher.get().getId()).isEqualTo(savedVoucher.getId());
+        assertThat(foundVoucher.get().getVoucherType()).isEqualTo(savedVoucher.getVoucherType());
+        assertThat(foundVoucher.get().getDiscountValue()).isEqualTo(savedVoucher.getDiscountValue());
+        assertThat(foundVoucher.get().getCustomerId()).isEqualTo(savedVoucher.getCustomerId());
     }
 }

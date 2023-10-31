@@ -5,6 +5,7 @@ import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.util.UUIDUtil;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class TestDataFactory {
@@ -18,10 +19,10 @@ public class TestDataFactory {
     }
 
     public static Voucher generateAssignedVoucher(VoucherType voucherType, long initialDiscountValue, UUID customerId) {
-        return Voucher.createVoucher(UUIDUtil.generateRandomUUID(), voucherType, initialDiscountValue, customerId);
+        return Voucher.createVoucher(UUIDUtil.generateRandomUUID(), voucherType, initialDiscountValue, customerId, LocalDateTime.now());
     }
 
     public static Voucher generateUnassignedVoucher(VoucherType voucherType, long initialDiscountValue) {
-        return Voucher.createVoucher(UUIDUtil.generateRandomUUID(), voucherType, initialDiscountValue, null);
+        return Voucher.createVoucher(UUIDUtil.generateRandomUUID(), voucherType, initialDiscountValue, null, LocalDateTime.now());
     }
 }

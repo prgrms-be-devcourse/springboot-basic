@@ -9,6 +9,8 @@ import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -20,7 +22,7 @@ import java.util.function.Function;
 @Repository
 public class CsvVoucherRepository implements VoucherRepository {
 
-    private static final String CSV_LINE_TEMPLATE = "%s,%s,%s,%d";
+    private static final String CSV_LINE_TEMPLATE = "%s,%s,%s,%d,%s";
     private final CsvFileHandler csvFileHandler;
     private final Map<UUID, Voucher> voucherDatabase = new ConcurrentHashMap<>();
 
@@ -73,8 +75,9 @@ public class CsvVoucherRepository implements VoucherRepository {
             VoucherType voucherType = VoucherType.valueOf(line[1]);
             UUID customerId = line[2].equals("null") ? null : UUIDUtil.stringToUUID(line[2]);
             long discountValue = Long.parseLong(line[3]);
+            LocalDateTime createdAt = LocalDateTime.parse(line[4]);
 
-            return Voucher.createVoucher(voucherId, voucherType, discountValue, customerId);
+            return Voucher.createVoucher(voucherId, voucherType, discountValue, customerId, createdAt);
         };
         List<Voucher> vouchers = csvFileHandler.readListFromCsv(parser, CSV_LINE_TEMPLATE);
 
@@ -88,7 +91,7 @@ public class CsvVoucherRepository implements VoucherRepository {
                 .toList();
         Function<Voucher, String> serializer = voucher
                 -> String.format(CSV_LINE_TEMPLATE,
-                voucher.getId(), voucher.getVoucherType(), voucher.getCustomerId(), voucher.getDiscountValue());
+                voucher.getId(), voucher.getVoucherType(), voucher.getCustomerId(), voucher.getDiscountValue(), voucher.getCreatedAt());
 
         csvFileHandler.writeListToCsv(vouchers, serializer);
     }

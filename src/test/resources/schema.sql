@@ -9,8 +9,9 @@ CREATE TABLE IF NOT EXISTS customer
 CREATE TABLE IF NOT EXISTS voucher
 (
     id             BINARY(16) PRIMARY KEY,
-    voucher_type   ENUM ('FIXED', 'PERCENT') NOT NULL,
-    discount_value BIGINT                    NOT NULL,
+    voucher_type   ENUM ('FIXED', 'PERCENT')           NOT NULL,
+    discount_value BIGINT                              NOT NULL,
     customer_id    BINARY(16),
+    created_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customer (id)
 );

@@ -92,8 +92,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         String query = """
-                        INSERT INTO voucher (id, voucher_type, discount_value, customer_id)
-                        VALUES (UUID_TO_BIN(:id), :voucher_type, :discount_value, UUID_TO_BIN(:customer_id))
+                        INSERT INTO voucher (id, voucher_type, discount_value, customer_id, created_at)
+                        VALUES (UUID_TO_BIN(:id), :voucher_type, :discount_value, UUID_TO_BIN(:customer_id), :created_at)
                 """;
 
         jdbcTemplate.update(query, mapVoucherParameters(voucher));
@@ -111,6 +111,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         } else {
             params.put(CUSTOMER_ID, null);
         }
+        params.put(CREATED_AT, voucher.getCreatedAt());
 
         return params;
     }
@@ -122,7 +123,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID customerId = rs.getBytes(CUSTOMER_ID) == null
                 ? null
                 : UUIDUtil.byteToUUID(rs.getBytes(CUSTOMER_ID));
+        LocalDateTime createdAt = rs.getTimestamp(CREATED_AT).toLocalDateTime();
 
-        return Voucher.createVoucher(id, voucherType, discountValue, customerId);
+        return Voucher.createVoucher(id, voucherType, discountValue, customerId, createdAt);
     }
 }

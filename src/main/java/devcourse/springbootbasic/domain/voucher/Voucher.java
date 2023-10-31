@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -18,21 +19,25 @@ public class Voucher {
     private long discountValue;
     @Builder.Default
     private UUID customerId = null;
+    @Builder.Default
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    public Voucher(UUID id, VoucherType voucherType, long discountValue, UUID customerId) {
+    public Voucher(UUID id, VoucherType voucherType, long discountValue, UUID customerId, LocalDateTime createdAt) {
         this.validateDiscountValue(voucherType, discountValue);
         this.id = id;
         this.voucherType = voucherType;
         this.discountValue = discountValue;
         this.customerId = customerId;
+        this.createdAt = createdAt;
     }
 
-    public static Voucher createVoucher(UUID uuid, VoucherType voucherType, long discountValue, UUID customerId) {
+    public static Voucher createVoucher(UUID uuid, VoucherType voucherType, long discountValue, UUID customerId, LocalDateTime createdAt) {
         return Voucher.builder()
                 .id(uuid)
                 .voucherType(voucherType)
                 .discountValue(discountValue)
                 .customerId(customerId)
+                .createdAt(createdAt)
                 .build();
     }
 
