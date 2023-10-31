@@ -1,7 +1,6 @@
 package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
-import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.zerozae.voucher.domain.customer.CustomerType.*;
+import static com.zerozae.voucher.domain.customer.CustomerType.BLACKLIST;
+import static com.zerozae.voucher.domain.customer.CustomerType.NORMAL;
 import static org.junit.jupiter.api.Assertions.*;
 
 

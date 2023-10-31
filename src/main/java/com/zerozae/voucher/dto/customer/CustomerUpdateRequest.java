@@ -1,6 +1,5 @@
 package com.zerozae.voucher.dto.customer;
 
-import com.zerozae.voucher.domain.customer.CustomerType;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;

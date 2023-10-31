@@ -1,6 +1,5 @@
 package com.zerozae.voucher.dto.voucher;
 
-import com.zerozae.voucher.domain.voucher.VoucherType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 

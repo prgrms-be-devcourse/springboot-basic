@@ -2,7 +2,6 @@ package com.zerozae.voucher.validator;
 
 import com.zerozae.voucher.exception.ExceptionMessage;
 
-import java.io.IOException;
 import java.util.UUID;
 
 

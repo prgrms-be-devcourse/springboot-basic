@@ -2,9 +2,9 @@ package com.zerozae.voucher.service.voucher;
 
 import com.zerozae.voucher.domain.voucher.FixedDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
-import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
+import com.zerozae.voucher.dto.voucher.VoucherCondition;
 import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
@@ -15,13 +15,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.zerozae.voucher.domain.voucher.UseStatusType.*;
+import static com.zerozae.voucher.domain.voucher.UseStatusType.UNAVAILABLE;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class VoucherServiceTest {
@@ -105,9 +105,7 @@ class VoucherServiceTest {
         when(voucherRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // When & Then
-        assertThrows(ExceptionMessage.class, () -> {
-            VoucherResponse findVoucher = voucherService.findById(notExistId);
-        });
+        assertThrows(ExceptionMessage.class, () -> voucherService.findById(notExistId));
         verify(voucherRepository, times(1)).findById(notExistId);
     }
 
@@ -134,9 +132,7 @@ class VoucherServiceTest {
         when(voucherRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // When
-        assertThrows(ExceptionMessage.class, () -> {
-            voucherService.deleteById(notExistId);
-        });
+        assertThrows(ExceptionMessage.class, () -> voucherService.deleteById(notExistId));
 
         // Then
         verify(voucherRepository, times(1)).findById(notExistId);
@@ -180,15 +176,13 @@ class VoucherServiceTest {
         when(voucherRepository.findById(notExistId)).thenReturn(Optional.empty());
 
         // When & Then
-        assertThrows(ExceptionMessage.class, () -> {
-            voucherService.update(notExistId, voucherUpdateRequest);
-        });
+        assertThrows(ExceptionMessage.class, () -> voucherService.update(notExistId, voucherUpdateRequest));
         verify(voucherRepository, times(1)).findById(notExistId);
     }
 
     @Test
     @DisplayName("바우처 아이디로 삭제에 따른 지갑 삭제 호출 테스트")
-    void deleteVoucherByIdWithWallets_Success_Test(){
+    void deleteVoucherByIdWithWallets_Success_Test() {
         // Given
         when(voucherRepository.findById(fixedDiscountVoucher.getVoucherId())).thenReturn(Optional.of(fixedDiscountVoucher));
 
@@ -203,7 +197,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처 전체 삭제에 따른 지갑 삭제 호출 테스트")
-    void deleteAllVouchersWithWallets_Success_Test(){
+    void deleteAllVouchersWithWallets_Success_Test() {
         // Given
 
         // When
@@ -212,5 +206,48 @@ class VoucherServiceTest {
         // Then
         verify(voucherRepository).deleteAll();
         verify(walletRepository).deleteAll();
+    }
+
+    @Test
+    @DisplayName("바우처 검색 조건(바우처 타입)에 따른 검색 테스트")
+    void findVoucherByVoucherTypeCondition_Success_Test() {
+        // Given
+        VoucherCondition voucherCondition = new VoucherCondition(String.valueOf(fixedDiscountVoucher.getVoucherType()), null);
+        when(voucherRepository.findByVoucherType(VoucherType.valueOf(voucherCondition.getVoucherType()))).thenReturn(List.of(fixedDiscountVoucher));
+
+        // When
+        voucherService.findVoucherByCondition(voucherCondition);
+
+        // Then
+        verify(voucherRepository).findByVoucherType(VoucherType.valueOf(voucherCondition.getVoucherType()));
+    }
+
+    @Test
+    @DisplayName("바우처 검색 조건(생성 날짜)에 따른 검색 테스트")
+    void findVoucherByCreatedAtCondition_Success_Test() {
+        // Given
+        VoucherCondition voucherCondition = new VoucherCondition(null, LocalDate.now().toString());
+        when(voucherRepository.findByCreatedAt(LocalDate.parse(voucherCondition.getCreatedAt()))).thenReturn(List.of(fixedDiscountVoucher, percentDiscountVoucher));
+
+        // When
+        voucherService.findVoucherByCondition(voucherCondition);
+
+        // Then
+        verify(voucherRepository).findByCreatedAt(LocalDate.now());
+    }
+
+    @Test
+    @DisplayName("바우처 검색 조건(생성 날짜)에 따른 검색 테스트")
+    void findVoucherByCondition_Success_Test() {
+        // Given
+        VoucherCondition voucherCondition = new VoucherCondition(fixedDiscountVoucher.getVoucherType().toString(), LocalDate.now().toString());
+        when(voucherRepository.findByTypeAndCreatedAt(VoucherType.valueOf(voucherCondition.getVoucherType()), LocalDate.parse(voucherCondition.getCreatedAt())))
+                .thenReturn(List.of(fixedDiscountVoucher));
+
+        // When
+        voucherService.findVoucherByCondition(voucherCondition);
+
+        // Then
+        verify(voucherRepository).findByTypeAndCreatedAt(VoucherType.valueOf(voucherCondition.getVoucherType()), LocalDate.parse(voucherCondition.getCreatedAt()));
     }
 }

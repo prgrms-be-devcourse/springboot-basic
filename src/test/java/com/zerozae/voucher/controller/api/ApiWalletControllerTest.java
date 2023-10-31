@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ApiWalletController.class)
-public class ApiWalletControllerTest {
+class ApiWalletControllerTest {
 
     @Autowired
     private MockMvc mvc;

@@ -2,7 +2,6 @@ package com.zerozae.voucher.repository.voucher;
 
 import com.zerozae.voucher.domain.voucher.FixedDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
-import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import org.junit.jupiter.api.AfterEach;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.zerozae.voucher.domain.voucher.UseStatusType.*;
+import static com.zerozae.voucher.domain.voucher.UseStatusType.UNAVAILABLE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
