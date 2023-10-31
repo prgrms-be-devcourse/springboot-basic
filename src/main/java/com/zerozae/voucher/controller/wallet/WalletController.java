@@ -29,8 +29,8 @@ public class WalletController {
 
     public Response createWallet(WalletCreateRequest walletRequest) {
         try {
-            customerService.findById(walletRequest.getCustomerId());
-            voucherService.findById(walletRequest.getVoucherId());
+            customerService.findById(UUID.fromString(walletRequest.getCustomerId()));
+            voucherService.findById(UUID.fromString(walletRequest.getVoucherId()));
             walletService.createWallet(walletRequest);
             return Response.success();
         }catch (Exception e) {
@@ -42,11 +42,11 @@ public class WalletController {
         try {
             customerService.findById(customerId);
             List<WalletResponse> wallets = walletService.findWalletByCustomerId(customerId);
-            List<VoucherResponse> customers = wallets.stream()
+            List<VoucherResponse> vouchers = wallets.stream()
                     .map(wallet -> voucherService.findById(wallet.getVoucherId()))
                     .toList();
 
-            return Response.success(customers);
+            return Response.success(vouchers);
         }catch (Exception e) {
             throw ExceptionMessage.error(e.getMessage());
         }
@@ -56,11 +56,11 @@ public class WalletController {
         try {
             voucherService.findById(voucherId);
             List<WalletResponse> wallets = walletService.findWalletByVoucherId(voucherId);
-            List<CustomerResponse> vouchers = wallets.stream()
+            List<CustomerResponse> customers = wallets.stream()
                     .map(wallet -> customerService.findById(wallet.getCustomerId()))
                     .toList();
 
-            return Response.success(vouchers);
+            return Response.success(customers);
         }catch (Exception e) {
             throw ExceptionMessage.error(e.getMessage());
         }

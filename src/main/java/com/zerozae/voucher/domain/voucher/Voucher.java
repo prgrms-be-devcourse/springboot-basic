@@ -31,7 +31,7 @@ public abstract class Voucher {
     public void updateVoucherInfo(VoucherUpdateRequest voucherUpdateRequest) {
         validateVoucherInfo(voucherUpdateRequest.getDiscount());
         this.discount = voucherUpdateRequest.getDiscount();
-        this.useStatusType = voucherUpdateRequest.getUseStatusType();
+        this.useStatusType = UseStatusType.of(voucherUpdateRequest.getUseStatusType());
     }
 
     public abstract void validateVoucherInfo(long discount);

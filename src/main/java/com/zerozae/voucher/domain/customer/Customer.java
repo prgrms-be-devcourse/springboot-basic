@@ -24,7 +24,7 @@ public class Customer {
     public void updateCustomerInfo(CustomerUpdateRequest customerRequest) {
         isValidCustomerName(customerRequest.getCustomerName());
         this.customerName = customerRequest.getCustomerName();
-        this.customerType = customerRequest.getCustomerType();
+        this.customerType = CustomerType.of(customerRequest.getCustomerType());
     }
 
     private void isValidCustomerName(String customerName) {

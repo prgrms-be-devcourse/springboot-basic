@@ -27,7 +27,7 @@ public class VoucherService {
     }
 
     public VoucherResponse createVoucher(VoucherCreateRequest voucherRequest) {
-        VoucherType voucherType = voucherRequest.getVoucherType();
+        VoucherType voucherType = VoucherType.of(voucherRequest.getVoucherType());
         try {
             Voucher voucher = switch (voucherType) {
                 case FIXED -> new FixedDiscountVoucher(voucherRequest.getDiscount());

@@ -126,7 +126,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             UseStatusType newUseStatusType = UseStatusType.of(consoleView.inputVoucherType());
 
-            VoucherUpdateRequest updateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType);
+            VoucherUpdateRequest updateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType.toString());
             consoleView.printSystemMessage(voucherController.updateVoucher(voucherId, updateRequest).getMessage());
         }catch (Exception e) {
             throw ExceptionMessage.error(e.getMessage());
@@ -188,7 +188,7 @@ public class MenuHandler {
             consoleView.printSystemMessage("회원 타입을 입력하세요.");
             consoleView.printPrompt();
             CustomerType newCustomerType = CustomerType.of(consoleView.inputCustomerType());
-            CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newCustomerName, newCustomerType);
+            CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newCustomerName, newCustomerType.toString());
 
             consoleView.printSystemMessage(customerController.updateCustomer(customerId, customerRequest).getMessage());
         }catch (Exception e) {
