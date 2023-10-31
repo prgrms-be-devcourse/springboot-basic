@@ -4,11 +4,11 @@ import java.util.UUID;
 
 public abstract class Voucher {
 
-    UUID voucherId;
+    String voucherId;
 
     long amount;
 
-    public abstract UUID getVoucherId();
+    public abstract String getVoucherId();
 
     public abstract long getAmount();
 

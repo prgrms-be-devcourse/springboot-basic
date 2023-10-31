@@ -5,7 +5,7 @@ import java.util.UUID;
 public class FixedAmountVoucher extends Voucher{
     private static final long MAX_FIXED_VOUCHER_AMOUNT = 10000;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+    public FixedAmountVoucher(String voucherId, long amount) {
         if(amount<0) {
             throw new IllegalArgumentException("음수는 될 수 없음");
         }
@@ -20,7 +20,7 @@ public class FixedAmountVoucher extends Voucher{
     }
 
     @Override
-    public UUID getVoucherId() {
+    public String getVoucherId() {
         return voucherId;
     }
 

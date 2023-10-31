@@ -29,7 +29,7 @@ class PercentDiscountVoucherTest {
     @DisplayName("할인 금액은 0이 될 수 없다.")
     void testWithZero() {
         assertThatThrownBy(() -> new PercentDiscountVoucher(UUID.randomUUID(), 0))
-            .isInstanceOf(ArithmeticException.class)
+            .isInstanceOf(IllegalArgumentException.class)
             .hasMessage("0이 될 수 없음");
     }
 

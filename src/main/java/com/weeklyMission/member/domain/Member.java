@@ -1,16 +1,10 @@
 package com.weeklyMission.member.domain;
 
-import java.util.UUID;
 
 public record Member(
-    Long voucherId,
+    String memberId,
     String name,
-    Integer age,
-    String reason
+    String email,
+    Integer age
 ) {
-
-    @Override
-    public String toString() {
-        return "이름: " + name + " 나이: " + age + " 사유: " + reason;
-    }
 }

@@ -10,13 +10,13 @@ import java.util.UUID;
 public enum VoucherFactory {
     Fixed("fixed"){
         @Override
-        public Voucher makeVoucher(UUID id, Integer amount) {
+        public Voucher makeVoucher(String id, long amount) {
             return new FixedAmountVoucher(id, amount);
         }
     },
     Percent("percent"){
         @Override
-        public Voucher makeVoucher(UUID id, Integer amount) {
+        public Voucher makeVoucher(String id, long amount) {
             return new PercentDiscountVoucher(id, amount);
         }
     };
@@ -38,7 +38,7 @@ public enum VoucherFactory {
         return this.type.equals(input);
     }
 
-    public abstract Voucher makeVoucher(UUID id, Integer amount);
+    public abstract Voucher makeVoucher(String id, long amount);
 
 
 }

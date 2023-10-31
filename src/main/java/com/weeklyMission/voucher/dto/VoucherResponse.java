@@ -1,17 +1,25 @@
 package com.weeklyMission.voucher.dto;
 
+import com.weeklyMission.common.ResponseInfo;
+import com.weeklyMission.voucher.domain.FixedAmountVoucher;
 import com.weeklyMission.voucher.domain.Voucher;
 import java.util.UUID;
 
 public record VoucherResponse(
-    UUID voucherId,
-    long amount) {
-    public VoucherResponse (Voucher voucher){
-        this(voucher.getVoucherId(), voucher.getAmount());
+    String voucherId,
+    String type,
+    long amount) implements ResponseInfo {
+    public static VoucherResponse of(Voucher voucher){
+        String type;
+        if (voucher instanceof FixedAmountVoucher){
+            type = "fixed";
+        }
+        else {
+            type = "percent";
+        }
+        return new VoucherResponse(voucher.getVoucherId(), type, voucher.getAmount());
     }
-
     @Override
-    public String toString() {
-        return voucherId + " voucher";
-    }
+    public String printInfo() {
+        return "VoucherId : " + voucherId + " Type : " + type + " Amount : " + amount;    }
 }

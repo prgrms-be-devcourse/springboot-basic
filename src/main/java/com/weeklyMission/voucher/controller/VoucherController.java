@@ -4,6 +4,7 @@ import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.service.VoucherService;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Controller;
 
 @Controller
@@ -16,10 +17,18 @@ public class VoucherController {
     }
 
     public VoucherResponse create(VoucherRequest voucher){
-        return voucherService.createVoucher(voucher);
+        return voucherService.save(voucher);
     }
 
-    public List<VoucherResponse> getVoucherList(){
-        return voucherService.getVoucherList();
+    public List<VoucherResponse> findAll(){
+        return voucherService.findAll();
+    }
+
+    public VoucherResponse findById(String id){
+        return voucherService.findById(id);
+    }
+
+    public void deleteById(String id){
+        voucherService.deleteById(id);
     }
 }
