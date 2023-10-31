@@ -34,7 +34,7 @@ public class VoucherController {
 
     public void findById(UUID voucherId) {
         VoucherResponse voucherResponse = voucherService.findById(voucherId);
-        consoleManager.printReadVoucher(voucherResponse);
+        consoleManager.printFoundVoucher(voucherResponse);
     }
 
     public void update(UpdateVoucherRequest request) {
@@ -57,7 +57,7 @@ public class VoucherController {
         consoleManager.printOwnedVouchers(customerId, vouchers);
     }
 
-    public void removeVoucherFromUser(VoucherCustomerRequest request) {
+    public void removeVoucherFromCustomer(VoucherCustomerRequest request) {
         voucherService.releaseFromCustomer(request);
         consoleManager.printDeleteResult();
     }
