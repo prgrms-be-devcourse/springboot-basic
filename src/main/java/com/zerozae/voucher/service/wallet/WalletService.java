@@ -32,6 +32,7 @@ public class WalletService {
         return WalletResponse.toDto(wallet);
     }
 
+    @Transactional(readOnly = true)
     public List<WalletResponse> findAllWallets(){
         return walletRepository.findAllWallets()
                 .stream()
