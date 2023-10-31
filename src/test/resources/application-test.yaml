@@ -1,8 +1,0 @@
-spring:
-  profiles:
-    active: default
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test_voucherManagement?serverTimeZone=Asia/Seoul
-    username: user
-    password: user1234

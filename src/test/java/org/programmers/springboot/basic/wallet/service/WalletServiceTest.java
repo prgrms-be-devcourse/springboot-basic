@@ -3,7 +3,9 @@ package org.programmers.springboot.basic.wallet.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.programmers.springboot.basic.DataSourceConfig;
+import org.programmers.springboot.basic.DataSourceProperty;
 import org.programmers.springboot.basic.aop.LoggerAspect;
 import org.programmers.springboot.basic.config.VoucherConfig;
 import org.programmers.springboot.basic.domain.customer.dto.CustomerRequestDto;
@@ -29,10 +31,10 @@ import org.programmers.springboot.basic.domain.wallet.repository.WalletRepositor
 import org.programmers.springboot.basic.domain.wallet.service.WalletService;
 import org.programmers.springboot.basic.util.generator.UUIDRandomGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.UUID;
@@ -40,6 +42,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+@ExtendWith(SpringExtension.class)
 @ComponentScan(
         basePackages = {"org.programmers.springboot.basic"},
         basePackageClasses = WalletService.class
@@ -58,10 +61,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
         CustomerService.class,
         VoucherService.class,
         VoucherConfig.class,
+        DataSourceProperty.class,
         DataSourceConfig.class
 })
-@TestPropertySource(properties = {"spring.config.location=classpath:application-test.yaml"})
-@SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class WalletServiceTest {
 
     @Autowired
@@ -85,6 +88,9 @@ public class WalletServiceTest {
     @Autowired
     private CustomerEntityMapper customerEntityMapper;
 
+    @Autowired
+    private DataSourceProperty dataSourceProperty;
+
     private final String name;
     private final String email;
 
@@ -103,6 +109,8 @@ public class WalletServiceTest {
     @Test
     @DisplayName("email에 대해 voucher list 조회 로직 성공 검증")
     public void successFindVoucherListByEmail() {
+
+        System.out.println("driverClassName: " + dataSourceProperty.getDriverClassName());
 
         WalletRequestDto requestDto = walletEntityMapper.mapToDtoWithEmail(email);
         assertThatThrownBy(() -> walletService.walletListByEmail(requestDto)).isInstanceOf(CustomerNotFoundException.class)

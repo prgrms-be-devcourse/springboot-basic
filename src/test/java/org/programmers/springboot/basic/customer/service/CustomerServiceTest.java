@@ -3,7 +3,9 @@ package org.programmers.springboot.basic.customer.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.programmers.springboot.basic.DataSourceConfig;
+import org.programmers.springboot.basic.DataSourceProperty;
 import org.programmers.springboot.basic.aop.LoggerAspect;
 import org.programmers.springboot.basic.domain.customer.dto.CustomerRequestDto;
 import org.programmers.springboot.basic.domain.customer.dto.CustomerResponseDto;
@@ -23,10 +25,10 @@ import org.programmers.springboot.basic.domain.voucher.service.VoucherService;
 import org.programmers.springboot.basic.util.generator.UUIDGenerator;
 import org.programmers.springboot.basic.util.generator.UUIDRandomGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.UUID;
@@ -35,6 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
+@ExtendWith(SpringExtension.class)
 @ComponentScan(
         basePackages = {"org.programmers.springboot.basic"},
         basePackageClasses = VoucherService.class
@@ -46,10 +49,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
         CustomerEntityMapperImpl.class,
         JdbcCustomerRepository.class,
         CustomerService.class,
+        DataSourceProperty.class,
         DataSourceConfig.class
 })
-@TestPropertySource(properties = {"spring.config.location=classpath:application-test.yaml"})
-@SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.properties")
 public class CustomerServiceTest {
 
     @Autowired
