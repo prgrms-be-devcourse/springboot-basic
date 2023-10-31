@@ -46,10 +46,9 @@ public class VoucherViewController {
         return "redirect:/voucher";
     }
 
-
     @GetMapping("/detail/{id}")
     public String showVoucherDetail(@PathVariable("id") String voucherId, Model model) {
-        Voucher voucher = voucherService.getVoucherById(UUID.fromString(voucherId));
+        Voucher voucher = voucherService.getVoucherById(UUIDUtil.stringToUUID(voucherId));
         model.addAttribute("voucher", new VoucherFindResponse(voucher));
 
         return "voucher/voucher-detail";
