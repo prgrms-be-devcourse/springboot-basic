@@ -9,6 +9,9 @@ public class Formatter {
     private static final String EMPTY = "";
     private static final String NO_CONTENT = "There is no %s stored yet!";
 
+    private Formatter() {
+    }
+
     private static final String CUSTOMER_PRESENTATION_FORMAT = """
             Customer ID : %s
             Customer Name : %s
