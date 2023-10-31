@@ -23,6 +23,26 @@ public class VoucherDto {
             this.createdAt = voucher.getCreatedAt();
             this.voucherType = voucher.getVoucherType();
         }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public float getDiscountAmount() {
+            return discountAmount;
+        }
+
+        public LocalDateTime getCreatedAt() {
+            return createdAt;
+        }
+
+        public VoucherType getVoucherType() {
+            return voucherType;
+        }
     }
 }
 //public record VoucherDto(UUID id,
