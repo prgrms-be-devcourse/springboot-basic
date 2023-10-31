@@ -44,7 +44,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         }
 
         if (endDate != null) {
-            queryBuilder.append(" AND created_at <= :end_date");
+            queryBuilder.append(" AND created_at < DATE_ADD(:end_date, INTERVAL 1 DAY)");
             queryParams.put("end_date", endDate);
         }
 
