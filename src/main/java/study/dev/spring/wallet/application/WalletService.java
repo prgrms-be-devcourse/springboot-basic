@@ -15,13 +15,13 @@ import study.dev.spring.wallet.domain.WalletRepository;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class WalletService {
 
 	private final WalletRepository walletRepository;
 	private final CustomerRepository customerRepository;
 	private final VoucherRepository voucherRepository;
 
+	@Transactional
 	public String addWallet(
 		String customerId,
 		String voucherId
@@ -33,6 +33,7 @@ public class WalletService {
 		return walletRepository.save(wallet).getUuid();
 	}
 
+	@Transactional
 	public boolean deleteByCustomer(String customerId) {
 		walletRepository.deleteByCustomerId(customerId);
 		return true;

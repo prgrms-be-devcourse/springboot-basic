@@ -17,7 +17,6 @@ import study.dev.spring.wallet.domain.WalletRepository;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class VoucherService {
 
 	private final VoucherRepository voucherRepository;
@@ -34,6 +33,7 @@ public class VoucherService {
 		voucherRepository.save(newVoucher);
 	}
 
+	@Transactional(readOnly = true)
 	public List<VoucherInfo> getAllVouchers() {
 		return voucherRepository.findAll()
 			.stream()
@@ -41,6 +41,7 @@ public class VoucherService {
 			.toList();
 	}
 
+	@Transactional(readOnly = true)
 	public List<VoucherInfo> getVouchersByCustomer(String customerId) {
 		List<String> voucherIds = walletRepository.findByCustomerId(customerId)
 			.stream()
