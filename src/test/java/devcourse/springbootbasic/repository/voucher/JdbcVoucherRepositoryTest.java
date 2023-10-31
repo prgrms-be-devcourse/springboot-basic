@@ -8,10 +8,13 @@ import devcourse.springbootbasic.repository.customer.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -50,6 +53,24 @@ class JdbcVoucherRepositoryTest extends JdbcRepositoryTest {
 
         // Then
         assertThat(vouchers).hasSize(2);
+    }
+
+    @ParameterizedTest
+    @MethodSource("devcourse.springbootbasic.TestDataFactory#searchConditionProvider")
+    @DisplayName("바우처 생성기간 및 특정 할인타입별 바우처를 조회할 수 있습니다.")
+    void testFindAllVoucherWithSearchConditions(VoucherType voucherType, LocalDate startDate, LocalDate endDate, int expectedSize) {
+        // Given
+        List<Voucher> voucherList = generateSampleVouchers();
+
+        for (Voucher voucher : voucherList) {
+            voucherRepository.save(voucher);
+        }
+
+        // When
+        List<Voucher> vouchers = voucherRepository.findAllWithFilter(voucherType, startDate, endDate);
+
+        // Then
+        assertThat(vouchers).hasSize(expectedSize);
     }
 
     @Test
