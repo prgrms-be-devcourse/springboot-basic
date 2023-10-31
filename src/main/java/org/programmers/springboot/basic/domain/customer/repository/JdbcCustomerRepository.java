@@ -2,9 +2,9 @@ package org.programmers.springboot.basic.domain.customer.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import org.programmers.springboot.basic.domain.customer.entity.Customer;
-import org.programmers.springboot.basic.domain.customer.mapper.CustomerMapper;
+import org.programmers.springboot.basic.domain.customer.entity.CustomerType;
+import org.programmers.springboot.basic.util.converter.UUIDConverter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,25 +21,39 @@ import java.util.UUID;
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Customer> customerRowMapper;
+    private final DataSource dataSource;
 
     @Autowired
-    public JdbcCustomerRepository(@Qualifier("mysqlDataSource") DataSource dataSource, CustomerMapper customerMapper) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-        this.customerRowMapper = customerMapper.customerRowMapper();
+    public JdbcCustomerRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.jdbcTemplate = new JdbcTemplate(this.dataSource);
+        System.out.println("datasource: " + this.dataSource.getClass().getName());
+    }
+
+    private static RowMapper<Customer> customerRowMapper() {
+        return (rs, rowNum) -> {
+            UUID customerId = UUIDConverter.toUUID(rs.getBytes("customer_id"));
+            String name = rs.getString("name");
+            String email = rs.getString("email");
+            CustomerType customerType = CustomerType.valueOf(rs.getInt("isBlack"));
+            return new Customer(customerId, name, email, customerType);
+        };
     }
 
     @Override
     public void add(final Customer customer) {
         String sql = "INSERT INTO customers (customer_id, name, email, isBlack) VALUES(UUID_TO_BIN(?), ?, ?, ?)";
-        this.jdbcTemplate.update(sql, customer.getCustomerId().toString().getBytes(), customer.getName(), customer.getEmail(), customer.getCustomerTypeValue());
+        this.jdbcTemplate.update(sql,
+                customer.getCustomerId().toString().getBytes(),
+                customer.getName(), customer.getEmail(),
+                customer.getCustomerTypeValue());
     }
 
     @Override
     public Optional<Customer> findByEmail(String email) {
         String sql = "SELECT * FROM customers WHERE email = ?";
         try {
-            return Optional.ofNullable(this.jdbcTemplate.queryForObject(sql, customerRowMapper, email));
+            return Optional.ofNullable(this.jdbcTemplate.queryForObject(sql, customerRowMapper(), email));
         } catch (EmptyResultDataAccessException e) {
             log.warn("No customer found for email: {}", email);
         } catch (DataAccessException e) {
@@ -52,7 +66,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID customerId) {
         String sql = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(?)";
         try {
-            return Optional.ofNullable(this.jdbcTemplate.queryForObject(sql, customerRowMapper, customerId.toString().getBytes()));
+            return Optional.ofNullable(this.jdbcTemplate.queryForObject(sql, customerRowMapper(), customerId.toString().getBytes()));
         } catch (EmptyResultDataAccessException e) {
             log.warn("No customer found for customerId: {}", customerId);
         } catch (DataAccessException e) {
@@ -64,13 +78,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> getAll() {
         String sql = "SELECT * FROM customers ORDER BY customer_id";
-        return this.jdbcTemplate.query(sql, customerRowMapper);
+        return this.jdbcTemplate.query(sql, customerRowMapper());
     }
 
     @Override
     public List<Customer> getBlack() {
         String sql = "SELECT * FROM customers WHERE isBlack = TRUE";
-        return this.jdbcTemplate.query(sql, customerRowMapper);
+        return this.jdbcTemplate.query(sql, customerRowMapper());
     }
 
     @Override
