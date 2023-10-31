@@ -14,12 +14,12 @@ import com.programmers.springbasic.controller.VoucherController;
 import com.programmers.springbasic.dto.CustomerDto;
 
 @Component
-public class GetCustomersByVoucher implements Command {
+public class GetCustomersByVoucherCommand implements Command {
 	private final VoucherController voucherController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public GetCustomersByVoucher(VoucherController voucherController, ConsoleInputHandler consoleInputHandler,
+	public GetCustomersByVoucherCommand(VoucherController voucherController, ConsoleInputHandler consoleInputHandler,
 		ConsoleOutputHandler consoleOutputHandler) {
 		this.voucherController = voucherController;
 		this.consoleInputHandler = consoleInputHandler;

@@ -10,7 +10,7 @@ import com.programmers.springbasic.command.voucher.DeleteVoucherCommand;
 import com.programmers.springbasic.command.voucher.GetAllVouchersCommand;
 import com.programmers.springbasic.command.voucher.GetVoucherDetailCommand;
 import com.programmers.springbasic.command.voucher.UpdateVoucherCommand;
-import com.programmers.springbasic.command.wallet.GetCustomersByVoucher;
+import com.programmers.springbasic.command.wallet.GetCustomersByVoucherCommand;
 
 public enum VoucherCommandType {
 	CREATE_VOUCHER("1", CreateVoucherCommand.class),
@@ -18,7 +18,7 @@ public enum VoucherCommandType {
 	GET_VOUCHER_DETAIL("3", GetVoucherDetailCommand.class),
 	UPDATE_VOUCHER("4", UpdateVoucherCommand.class),
 	DELETE_VOUCHER("5", DeleteVoucherCommand.class),
-	GET_CUSTOMERS_BY_VOUCHER("6", GetCustomersByVoucher.class),
+	GET_CUSTOMERS_BY_VOUCHER("6", GetCustomersByVoucherCommand.class),
 	RETURN_TO_MAIN("0", null);
 
 	private final String inputString;

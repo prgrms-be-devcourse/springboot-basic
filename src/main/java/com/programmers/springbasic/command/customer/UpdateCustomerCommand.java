@@ -17,7 +17,6 @@ public class UpdateCustomerCommand implements Command {
 
 	private final CustomerController customerController;
 	private final ConsoleInputHandler consoleInputHandler;
-
 	private final ConsoleOutputHandler consoleOutputHandler;
 
 	public UpdateCustomerCommand(CustomerController customerController, ConsoleInputHandler consoleInputHandler,
