@@ -32,8 +32,8 @@ public class VoucherConsoleController {
         return new VoucherAllListResponse(service.findAll());
     }
 
-    public Voucher findById(UUID id) {
-        return service.findById(id);
+    public VoucherDetailResponse findById(UUID id) {
+        return toDetailVoucher(service.findById(id));
     }
 
     public Voucher updateDiscount(UUID id, int discount) {

@@ -37,8 +37,10 @@ public class VoucherWebController {
 
     @GetMapping("/{voucherId}")
     public String voucher(@PathVariable UUID voucherId, Model model) {
-        Voucher voucher = service.findById(voucherId);
-        model.addAttribute("voucher", voucher);
+        VoucherDetailResponse response = toDetailVoucher(service.findById(voucherId));
+        model.addAttribute("voucherId", response.voucherId());
+        model.addAttribute("voucherType", response.voucherType());
+        model.addAttribute("voucherDiscount", response.discount());
         return "basic/voucher";
     }
 

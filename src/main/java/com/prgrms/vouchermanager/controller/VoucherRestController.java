@@ -27,8 +27,8 @@ public class VoucherRestController {
     }
 
     @GetMapping("/{voucherId}")
-    public Voucher voucher(@PathVariable UUID voucherId) {
-        return service.findById(voucherId);
+    public VoucherDetailResponse voucher(@PathVariable UUID voucherId) {
+        return toDetailVoucher(service.findById(voucherId));
     }
 
     @PostMapping("/create")
