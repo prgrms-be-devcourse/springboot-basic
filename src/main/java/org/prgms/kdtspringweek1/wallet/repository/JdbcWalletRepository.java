@@ -69,9 +69,7 @@ public class JdbcWalletRepository implements WalletRepository {
                 toParamMap(wallet));
         if (isInserted != 1) {
             logger.error(DataExceptionCode.FAIL_TO_INSERT.getMessage());
-            // 인터페이스사용하면서, jdbcexception은 구체 상황을 도출하고 있음.(세부사항을 숨기지 못하고 이씅ㅁ)
             throw new DataException(DataExceptionCode.FAIL_TO_INSERT);
-            // 저장실패만 알려주는 정도..
         }
 
         return wallet;
