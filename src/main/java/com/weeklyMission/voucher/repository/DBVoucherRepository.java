@@ -60,7 +60,7 @@ public class DBVoucherRepository implements VoucherRepository{
         Voucher voucherId;
         try{
             voucherId = jdbcTemplate.queryForObject(
-                "select * from voucher where voucher_id = :voucherId)",
+                "select * from voucher where voucher_id = :voucherId",
                 Collections.singletonMap("voucherId", id), voucherRowMapper);
         } catch (EmptyResultDataAccessException de){
             throw new NoSuchElementException("존재하지 않는 id 입니다.", de);
