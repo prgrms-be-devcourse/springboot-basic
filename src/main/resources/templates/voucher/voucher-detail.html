@@ -20,6 +20,14 @@
     </div>
 </div>
 
+<form th:action="@{'/voucher/updateDiscountValue/' + ${voucher.id}}" method="post">
+    <div class="mb-3">
+        <label for="newDiscountValue" class="form-label">New Discount Value</label>
+        <input type="number" class="form-control" id="newDiscountValue" name="discountValue" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Discount Value</button>
+</form>
+
 <a th:href="@{/voucher}" class="btn btn-primary mt-2">Back to Voucher List</a>
 </body>
 </html>

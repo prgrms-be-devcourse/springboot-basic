@@ -3,7 +3,9 @@ package devcourse.springbootbasic.controller;
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
+import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
 import devcourse.springbootbasic.service.VoucherService;
+import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,5 +54,15 @@ public class VoucherViewController {
         model.addAttribute("voucher", new VoucherFindResponse(voucher));
 
         return "voucher/voucher-detail";
+    }
+
+    @PostMapping("/updateDiscountValue/{id}")
+    public String updateDiscountValue(
+            @PathVariable("id") String voucherId,
+            @RequestParam("discountValue") long newDiscountValue
+    ) {
+        voucherService.updateDiscountValue(UUIDUtil.stringToUUID(voucherId), new VoucherUpdateDiscountValueRequest(newDiscountValue));
+
+        return "redirect:/voucher/detail/" + voucherId;
     }
 }
