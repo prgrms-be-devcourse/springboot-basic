@@ -10,27 +10,30 @@ class MenuTest {
 
     @Test
     @DisplayName("없는 메뉴 종류를 선택할 시 INCORRECT_MENU를 반환한다.")
-    void testFindMenuFailed_ReturnIncorrectMenu() {
+    void testFindMenuSuccessful_ReturnIncorrectMenu() {
         //given
-        final String desiredMenu = "Invalid";
+        String desiredMenu = "Invalid";
 
         //when
-        final Menu menu = Menu.findMenu(desiredMenu);
+        Menu menu = Menu.findMenu(desiredMenu);
 
         //then
-        assertThat(menu, is(Menu.INCORRECT_MENU));
+        assertThat(menu.isIncorrect(), is(true));
     }
 
     @Test
     @DisplayName("입력 받은 메뉴 번호에 맞는 메뉴를 반환한다.")
     void testFindMenuSuccessful() {
         //given
-        final String menuInput = "1";
+        String menuInput = "1";
+        String exit = "0";
 
         //when
-        final Menu menu = Menu.findMenu(menuInput);
+        Menu menu = Menu.findMenu(menuInput);
+        Menu exitMenu = Menu.findMenu(exit);
 
         //then
         assertThat(menu, is(Menu.VOUCHER));
+        assertThat(exitMenu.isExit(), is(true));
     }
 }
