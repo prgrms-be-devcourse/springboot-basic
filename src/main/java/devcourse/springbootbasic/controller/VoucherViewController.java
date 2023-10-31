@@ -22,7 +22,6 @@ public class VoucherViewController {
 
     @GetMapping()
     public String findAllVouchers(Model model) {
-        System.out.println("findAllVouchers");
         List<VoucherFindResponse> allVouchers = this.voucherService.findAllVouchers();
         model.addAttribute("vouchers", allVouchers);
 
@@ -36,7 +35,6 @@ public class VoucherViewController {
 
     @PostMapping("/create")
     public String createVoucher(@ModelAttribute VoucherCreateRequest voucherCreateRequest) {
-        System.out.println("createVoucher");
         this.voucherService.createVoucher(voucherCreateRequest);
         return "redirect:/voucher";
     }
