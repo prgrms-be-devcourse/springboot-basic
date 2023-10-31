@@ -5,6 +5,7 @@ import com.prgrms.vouchermanager.controller.VoucherWebController;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.dto.VoucherRequest;
+import com.prgrms.vouchermanager.dto.VoucherResponse;
 import com.prgrms.vouchermanager.exception.EmptyListException;
 import com.prgrms.vouchermanager.exception.NotCorrectFormException;
 import com.prgrms.vouchermanager.exception.NotCorrectIdException;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
+import static com.prgrms.vouchermanager.dto.VoucherResponse.*;
 import static com.prgrms.vouchermanager.message.ConsoleMessage.*;
 
 @Component
@@ -41,9 +43,10 @@ public class VoucherExecutor {
     }
 
     public void list() throws EmptyListException {
-        List<Voucher> vouchers = controller.findAll();
+        VoucherAllListResponse response = controller.findAll();
+        List<Voucher> vouchers = response.vouchers();
         if(vouchers.isEmpty()) throw new EmptyListException(vouchers);
-        else consolePrint.printList(controller.findAll());
+        else consolePrint.printList(vouchers);
     }
 
     public void delete() {

@@ -22,8 +22,8 @@ public class VoucherRestController {
     private final VoucherService service;
 
     @GetMapping
-    public List<Voucher> vouchers() {
-        return service.findAll();
+    public VoucherAllListResponse vouchers() {
+        return new VoucherAllListResponse(service.findAll());
     }
 
     @GetMapping("/{voucherId}")

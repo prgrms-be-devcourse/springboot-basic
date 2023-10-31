@@ -3,6 +3,7 @@ package com.prgrms.vouchermanager.controller;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.dto.VoucherRequest;
+import com.prgrms.vouchermanager.dto.VoucherResponse;
 import com.prgrms.vouchermanager.service.VoucherService;
 import com.prgrms.vouchermanager.util.VoucherFactory;
 import jakarta.annotation.PostConstruct;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
+import static com.prgrms.vouchermanager.dto.VoucherResponse.*;
 
 
 @Controller
@@ -28,8 +30,8 @@ public class VoucherWebController {
 
     @GetMapping
     public String vouchers(Model model) {
-        List<Voucher> vouchers = service.findAll();
-        model.addAttribute("vouchers", vouchers);
+        VoucherAllListResponse response = new VoucherAllListResponse(service.findAll());
+        model.addAttribute("vouchers", response);
         return "basic/vouchers";
     }
 

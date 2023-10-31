@@ -3,6 +3,7 @@ package com.prgrms.vouchermanager.controller;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.dto.VoucherRequest;
+import com.prgrms.vouchermanager.dto.VoucherResponse;
 import com.prgrms.vouchermanager.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
+import static com.prgrms.vouchermanager.dto.VoucherResponse.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,8 +27,9 @@ public class VoucherConsoleController {
         return service.create(request);
     }
 
-    public List<Voucher> findAll() {
-        return service.findAll();
+    public VoucherAllListResponse findAll() {
+
+        return new VoucherAllListResponse(service.findAll());
     }
 
     public Voucher findById(UUID id) {
