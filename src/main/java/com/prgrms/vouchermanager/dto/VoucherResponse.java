@@ -18,7 +18,12 @@ public class VoucherResponse {
     public record VoucherAllListResponse(List<Voucher> vouchers) {
         @Builder
         public VoucherAllListResponse {
+        }
+    }
 
+    public record VoucherDeleteResponse(int count) {
+        @Builder
+        public VoucherDeleteResponse {
         }
     }
 

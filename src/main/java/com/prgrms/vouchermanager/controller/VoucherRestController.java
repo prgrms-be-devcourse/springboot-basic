@@ -38,13 +38,8 @@ public class VoucherRestController {
     }
 
     @GetMapping("/{voucherId}/delete")
-    public int delete(@PathVariable UUID voucherId) {
-        return service.delete(voucherId);
-    }
-
-    @GetMapping("/{voucherId}/findById")
-    public Voucher findById(@PathVariable UUID voucherId) {
-        return service.findById(voucherId);
+    public VoucherDeleteResponse delete(@PathVariable UUID voucherId) {
+        return new VoucherDeleteResponse(service.delete(voucherId));
     }
 
     @GetMapping("/findByCondition")
