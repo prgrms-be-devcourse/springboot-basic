@@ -5,7 +5,7 @@ import org.prgrms.vouchermanagement.view.Command;
 import org.prgrms.vouchermanagement.view.ConsoleInput;
 import org.prgrms.vouchermanagement.view.ConsoleOutput;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
-import org.prgrms.vouchermanagement.wallet.service.WalletService;
+import org.prgrms.vouchermanagement.wallet.service.WalletMapperService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
@@ -15,12 +15,12 @@ import java.util.UUID;
 public class WalletController {
     private final ConsoleOutput consoleOutput;
     private final ConsoleInput consoleInput;
-    private final WalletService walletService;
+    private final WalletMapperService walletMapperService;
 
-    public WalletController(ConsoleOutput consoleOutput, ConsoleInput consoleInput, WalletService walletService) {
+    public WalletController(ConsoleOutput consoleOutput, ConsoleInput consoleInput, WalletMapperService walletMapperService) {
         this.consoleOutput = consoleOutput;
         this.consoleInput = consoleInput;
-        this.walletService = walletService;
+        this.walletMapperService = walletMapperService;
     }
 
     public void wallet() {
@@ -43,26 +43,26 @@ public class WalletController {
     private void createWallet() {
         consoleOutput.printCreateWalletMessage();
         WalletCreateInfo walletCreateInfo = consoleInput.createWalletInput();
-        walletService.create(walletCreateInfo);
+        walletMapperService.create(walletCreateInfo);
     }
 
     private void findVouchersByCustomerId() {
         consoleOutput.printAllVouchersByCustomerId();
         UUID customerId = consoleInput.findAllVouchersByCustomerId();
-        List<Voucher> voucherList = walletService.findVouchers(customerId);
+        List<Voucher> voucherList = walletMapperService.findVouchers(customerId);
         consoleOutput.printVouchers(voucherList);
     }
 
     private void deleteVoucherByCustomerId() {
         consoleOutput.printDeleteVoucherByCustomerId();
         UUID customerId = consoleInput.deleteVoucherByCustomerId();
-        walletService.delete(customerId);
+        walletMapperService.delete(customerId);
     }
 
     private void findCustomerByVoucherId() {
         consoleOutput.printCustomerByVoucherId();
         UUID voucherId = consoleInput.findCustomerByVoucherId();
-        consoleOutput.printCustomer(walletService.findCustomer(voucherId));
+        consoleOutput.printCustomer(walletMapperService.findCustomer(voucherId));
     }
 
 

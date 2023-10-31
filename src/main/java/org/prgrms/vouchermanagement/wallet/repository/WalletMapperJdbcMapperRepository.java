@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class WalletJdbcRepository implements WalletRepository{
+public class WalletMapperJdbcMapperRepository implements WalletMapperRepository {
 
     private static final String CREATE = "INSERT INTO wallet(customer_id, voucher_id) VALUES(UUID_TO_BIN(?), UUID_TO_BIN(?))";
     private static final String FINDVOUCHERS = "select v.voucher_id, v.discount_policy, v.amount FROM voucher v JOIN wallet w ON v.voucher_id = w.voucher_id WHERE w.customer_id = UUID_TO_BIN(?)";
@@ -27,7 +27,7 @@ public class WalletJdbcRepository implements WalletRepository{
 
     private final JdbcTemplate jdbcTemplate;
 
-    public WalletJdbcRepository(JdbcTemplate jdbcTemplate) {
+    public WalletMapperJdbcMapperRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

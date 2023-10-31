@@ -7,7 +7,7 @@ import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import java.util.List;
 import java.util.UUID;
 
-public interface WalletRepository {
+public interface WalletMapperRepository {
 
     int create(WalletCreateInfo walletCreateInfo);
 
