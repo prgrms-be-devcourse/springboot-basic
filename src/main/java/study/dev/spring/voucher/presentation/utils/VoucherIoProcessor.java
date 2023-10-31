@@ -1,4 +1,4 @@
-package study.dev.spring.voucher.presentation;
+package study.dev.spring.voucher.presentation.utils;
 
 import static study.dev.spring.voucher.presentation.constants.Message.*;
 
