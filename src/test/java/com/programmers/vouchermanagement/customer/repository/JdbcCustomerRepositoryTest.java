@@ -29,7 +29,6 @@ import org.testcontainers.utility.DockerImageName;
 
 import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
-import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.zaxxer.hikari.HikariDataSource;
 
 @SpringBootTest
