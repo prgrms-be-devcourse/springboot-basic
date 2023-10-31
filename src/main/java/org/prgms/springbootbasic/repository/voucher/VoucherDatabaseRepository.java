@@ -59,11 +59,8 @@ public class VoucherDatabaseRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
-        Optional<VoucherPolicy> deleteVoucher = findById(voucherId);
-
         jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
-                Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
-        return deleteVoucher;
+                Collections.singletonMap("voucherId", voucherId.toString().getBytes())); // 예외 명시적으로 던지기. update가 던져주는 예외는 이해하기 어려울 수도.
     }
 
     @Override

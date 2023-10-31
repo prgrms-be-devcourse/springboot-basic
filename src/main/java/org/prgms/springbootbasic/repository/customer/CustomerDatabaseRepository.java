@@ -75,8 +75,6 @@ public class CustomerDatabaseRepository implements CustomerRepository{
 
     @Override
     public void deleteById(UUID customerId) {
-        Optional<Customer> deleteCustomer = findById(customerId);
-
         jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", customerId.toString().getBytes()));
     }
