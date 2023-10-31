@@ -28,7 +28,7 @@ class VoucherDatabaseRepositoryTest {
     @BeforeEach
     void setUp() {
         setUpVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 40);
-        voucherDatabaseRepository.save(setUpVoucher);
+        voucherDatabaseRepository.upsert(setUpVoucher);
     }
 
     @AfterEach
@@ -40,7 +40,7 @@ class VoucherDatabaseRepositoryTest {
     void saveNewVoucherToDB() {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
 
-        voucherDatabaseRepository.save(fixedAmountVoucher);
+        voucherDatabaseRepository.upsert(fixedAmountVoucher);
 
         Optional<VoucherPolicy> retrievedVoucher = voucherDatabaseRepository.findById(fixedAmountVoucher.getVoucherId());
 
@@ -52,7 +52,7 @@ class VoucherDatabaseRepositoryTest {
     void updateVoucherInDB() {
         FixedAmountVoucher updateVoucher = new FixedAmountVoucher(setUpVoucher.getVoucherId(), 2000);
 
-        voucherDatabaseRepository.save(updateVoucher);
+        voucherDatabaseRepository.upsert(updateVoucher);
 
         Optional<VoucherPolicy> retrievedVoucher = voucherDatabaseRepository.findById(setUpVoucher.getVoucherId());
 
@@ -72,7 +72,7 @@ class VoucherDatabaseRepositoryTest {
     void findAllVouchersInDB() {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000);
 
-        voucherDatabaseRepository.save(fixedAmountVoucher);
+        voucherDatabaseRepository.upsert(fixedAmountVoucher);
 
         List<VoucherPolicy> vouchers = voucherDatabaseRepository.findAll();
 
@@ -83,12 +83,10 @@ class VoucherDatabaseRepositoryTest {
 
     @Test
     void deleteVoucherByIdInDB() {
-        Optional<VoucherPolicy> deleteVoucher = voucherDatabaseRepository.deleteById(setUpVoucher.getVoucherId());
+        voucherDatabaseRepository.deleteById(setUpVoucher.getVoucherId());
 
         List<VoucherPolicy> vouchers = voucherDatabaseRepository.findAll();
 
-        assertThat(deleteVoucher.isPresent(), is(true));
-        assertThat(deleteVoucher.get(), samePropertyValuesAs(setUpVoucher));
         assertThat(vouchers, hasSize(0));
     }
 
@@ -96,7 +94,7 @@ class VoucherDatabaseRepositoryTest {
     void deleteAllVouchersInDB() {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000);
 
-        voucherDatabaseRepository.save(fixedAmountVoucher);
+        voucherDatabaseRepository.upsert(fixedAmountVoucher);
         voucherDatabaseRepository.deleteAll();
 
         List<VoucherPolicy> vouchers = voucherDatabaseRepository.findAll();

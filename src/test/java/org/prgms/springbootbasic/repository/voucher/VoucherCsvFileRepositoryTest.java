@@ -31,7 +31,7 @@ class VoucherCsvFileRepositoryTest {
     void findVoucherByIdFromFile() {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
 
-        voucherCsvFileRepository.save(fixedAmountVoucher);
+        voucherCsvFileRepository.upsert(fixedAmountVoucher);
 
         Optional<VoucherPolicy> retrievedVoucher = voucherCsvFileRepository.findById(fixedAmountVoucher.getVoucherId());
 
@@ -44,8 +44,8 @@ class VoucherCsvFileRepositoryTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
 
-        voucherCsvFileRepository.save(fixedAmountVoucher);
-        voucherCsvFileRepository.save(percentDiscountVoucher);
+        voucherCsvFileRepository.upsert(fixedAmountVoucher);
+        voucherCsvFileRepository.upsert(percentDiscountVoucher);
 
         assertThat(voucherCsvFileRepository.findAll(), hasSize(2));
         assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(fixedAmountVoucher)));
@@ -57,8 +57,8 @@ class VoucherCsvFileRepositoryTest {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
         PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
 
-        voucherCsvFileRepository.save(fixedAmountVoucher);
-        voucherCsvFileRepository.save(percentDiscountVoucher);
+        voucherCsvFileRepository.upsert(fixedAmountVoucher);
+        voucherCsvFileRepository.upsert(percentDiscountVoucher);
 
         assertThat(voucherCsvFileRepository.findAll(), hasSize(2));
         assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(fixedAmountVoucher)));
@@ -71,7 +71,7 @@ class VoucherCsvFileRepositoryTest {
     void deleteVoucherById() {
         FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
 
-        voucherCsvFileRepository.save(fixedAmountVoucher);
+        voucherCsvFileRepository.upsert(fixedAmountVoucher);
 
         assertThat(voucherCsvFileRepository.findById(fixedAmountVoucher.getVoucherId()).isPresent(), is(true));
 
@@ -84,7 +84,7 @@ class VoucherCsvFileRepositoryTest {
 
     @Test
     void deleteAllVoucher() {
-        voucherCsvFileRepository.save(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+        voucherCsvFileRepository.upsert(new FixedAmountVoucher(UUID.randomUUID(), 1000));
 
         voucherCsvFileRepository.deleteAll();
 

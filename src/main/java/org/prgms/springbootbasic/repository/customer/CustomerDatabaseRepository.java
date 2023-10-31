@@ -23,7 +23,7 @@ public class CustomerDatabaseRepository implements CustomerRepository{
     }
 
     @Override
-    public Customer save(Customer customer) {
+    public Customer upsert(Customer customer) {
         Optional<Customer> foundCustomer = findById(customer.getCustomerId());
 
         if (foundCustomer.isPresent()){
@@ -74,12 +74,11 @@ public class CustomerDatabaseRepository implements CustomerRepository{
     }
 
     @Override
-    public Optional<Customer> deleteById(UUID customerId) {
+    public void deleteById(UUID customerId) {
         Optional<Customer> deleteCustomer = findById(customerId);
 
         jdbcTemplate.update("DELETE FROM customers WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", customerId.toString().getBytes()));
-        return deleteCustomer;
     }
 
     @Override

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Profile({"local"})
 public class CustomerMemoryRepository implements CustomerRepository { // 추후 구현
     @Override
-    public Customer save(Customer customer) {
+    public Customer upsert(Customer customer) {
         return null;
     }
 
@@ -38,8 +38,8 @@ public class CustomerMemoryRepository implements CustomerRepository { // 추후 
     }
 
     @Override
-    public Optional<Customer> deleteById(UUID customerId) {
-        return Optional.empty();
+    public void deleteById(UUID customerId) {
+
     }
 
     @Override

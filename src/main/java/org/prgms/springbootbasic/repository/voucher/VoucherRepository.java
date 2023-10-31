@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface VoucherRepository {
     Optional<VoucherPolicy> findById(UUID voucherId);
     List<VoucherPolicy> findAll();
-    VoucherPolicy save(VoucherPolicy voucherPolicy);
-    Optional<VoucherPolicy> deleteById(UUID voucherId);
+    VoucherPolicy upsert(VoucherPolicy voucherPolicy);
+    void deleteById(UUID voucherId);
     void deleteAll();
 }

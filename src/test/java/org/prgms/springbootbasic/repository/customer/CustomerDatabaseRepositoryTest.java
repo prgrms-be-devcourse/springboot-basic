@@ -33,7 +33,7 @@ class CustomerDatabaseRepositoryTest {
                 "test@gmail.com",
                 LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
 
-        customerRepository.save(setUpCustomer);
+        customerRepository.upsert(setUpCustomer);
     }
 
     @AfterEach
@@ -48,7 +48,7 @@ class CustomerDatabaseRepositoryTest {
                 "test2@gmail.com",
                 LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
 
-        customerRepository.save(customer);
+        customerRepository.upsert(customer);
         Optional<Customer> retrievedCustomer = customerRepository.findById(customer.getCustomerId());
 
         assertThat(retrievedCustomer.isPresent(), is(true));
@@ -61,7 +61,7 @@ class CustomerDatabaseRepositoryTest {
 
         Customer changedCustomer = customer.changeInfo("updated", customer.isBlacked());
 
-        customerRepository.save(changedCustomer);
+        customerRepository.upsert(changedCustomer);
 
         Optional<Customer> retrievedCustomer = customerRepository.findById(setUpCustomer.getCustomerId());
 
@@ -91,7 +91,7 @@ class CustomerDatabaseRepositoryTest {
 
     @Test
     void findAllCustomersInDB(){
-        customerRepository.save(new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", LocalDateTime.now()));
+        customerRepository.upsert(new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", LocalDateTime.now()));
 
         List<Customer> customers = customerRepository.findAll();
 
@@ -106,7 +106,7 @@ class CustomerDatabaseRepositoryTest {
                 LocalDateTime.now().truncatedTo(ChronoUnit.MILLIS));
 
         blackCustomer.changeInfo(blackCustomer.getName(), true);
-        customerRepository.save(blackCustomer);
+        customerRepository.upsert(blackCustomer);
 
         List<Customer> blackList = customerRepository.findBlackAll();
 
@@ -124,7 +124,7 @@ class CustomerDatabaseRepositoryTest {
 
     @Test
     void deleteAllCustomersInDB() {
-        customerRepository.save(new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", LocalDateTime.now()));
+        customerRepository.upsert(new Customer(UUID.randomUUID(), "test2", "test2@gmail.com", LocalDateTime.now()));
 
         customerRepository.deleteAll();
 

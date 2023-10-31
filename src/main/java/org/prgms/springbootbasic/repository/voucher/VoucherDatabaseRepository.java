@@ -24,7 +24,7 @@ public class VoucherDatabaseRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherPolicy save(VoucherPolicy voucher) {
+    public VoucherPolicy upsert(VoucherPolicy voucher) {
         Optional<VoucherPolicy> foundVoucher = findById(voucher.getVoucherId());
 
         if (foundVoucher.isPresent()){
@@ -58,7 +58,7 @@ public class VoucherDatabaseRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<VoucherPolicy> deleteById(UUID voucherId) {
+    public void deleteById(UUID voucherId) {
         Optional<VoucherPolicy> deleteVoucher = findById(voucherId);
 
         jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",

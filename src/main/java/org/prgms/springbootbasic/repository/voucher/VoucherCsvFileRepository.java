@@ -40,14 +40,18 @@ public class VoucherCsvFileRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherPolicy save(VoucherPolicy voucherPolicy) {
-        vouchers.putIfAbsent(voucherPolicy.getVoucherId(), voucherPolicy);
+    public VoucherPolicy upsert(VoucherPolicy voucherPolicy) {
+        if (Optional.ofNullable(vouchers.get(voucherPolicy.getVoucherId())).isPresent()) {
+            vouchers.replace(voucherPolicy.getVoucherId(), voucherPolicy);
+        } else {
+            vouchers.put(voucherPolicy.getVoucherId(), voucherPolicy);
+        }
         return voucherPolicy;
     }
 
     @Override
-    public Optional<VoucherPolicy> deleteById(UUID voucherId) {
-        return Optional.ofNullable(vouchers.remove(voucherId));
+    public void deleteById(UUID voucherId) {
+        vouchers.remove(voucherId);
     }
 
     @Override
@@ -58,7 +62,7 @@ public class VoucherCsvFileRepository implements VoucherRepository {
     @PostConstruct
     private void fileRead(){
         List<VoucherPolicy> voucherPolicies = voucherCsvFileManager.read();
-        voucherPolicies.forEach(this::save);
+        voucherPolicies.forEach(this::upsert);
     }
 
     @PreDestroy
