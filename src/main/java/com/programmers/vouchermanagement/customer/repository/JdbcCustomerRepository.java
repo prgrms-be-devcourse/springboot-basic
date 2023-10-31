@@ -37,11 +37,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private static Customer mapToCustomer(ResultSet resultSet) throws SQLException {
-        final UUID customer_id = UUIDConverter.from(resultSet.getBytes("customer_id"));
+        final UUID customerId = UUIDConverter.from(resultSet.getBytes("customer_id"));
         final String name = resultSet.getString("name");
         final String customerTypeName = resultSet.getString("customer_type");
         final CustomerType customerType = CustomerType.findCustomerType(customerTypeName);
-        return new Customer(customer_id, name, customerType);
+        return new Customer(customerId, name, customerType);
     }
 
     @Override
