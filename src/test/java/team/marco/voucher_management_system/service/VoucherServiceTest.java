@@ -3,17 +3,19 @@ package team.marco.voucher_management_system.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import team.marco.voucher_management_system.domain.voucher.FixedAmountVoucher;
-import team.marco.voucher_management_system.domain.voucher.PercentDiscountVoucher;
+import team.marco.voucher_management_system.controller.voucher.VoucherCreateRequest;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 import team.marco.voucher_management_system.repository.voucher.MemoryVoucherRepository;
 import team.marco.voucher_management_system.repository.voucher.VoucherRepository;
+import team.marco.voucher_management_system.service.voucher.VoucherCreateServiceRequest;
 import team.marco.voucher_management_system.service.voucher.VoucherService;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
+import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
 
 class VoucherServiceTest {
     private VoucherService voucherService;
@@ -30,37 +32,47 @@ class VoucherServiceTest {
     void 고정_할인_쿠폰_생성() {
         // 할인 금액이 주어 졌을 때
         int amount = 1000;
+        VoucherCreateServiceRequest request = new VoucherCreateServiceRequest(
+                FIXED,
+                amount,
+                Optional.empty(),
+                Optional.empty()
+        );
 
         // 고정 금액 쿠폰 생성 요청
-        Voucher returned = voucherService.createFixedAmountVoucher(amount);
+        Voucher returned = voucherService.createVoucher(request);
 
         // 1. 생성된 쿠폰이 FixedAmountVoucher 타입
-        assertThat(returned).isInstanceOf(FixedAmountVoucher.class);
+        assertThat(returned.getVoucherType()).isEqualTo(FIXED);
         // 2. 생성된 쿠폰의 할인 금액이 amount와 동일
-        FixedAmountVoucher voucher = (FixedAmountVoucher) returned;
-        assertThat(voucher.getAmount()).isEqualTo(amount);
+        assertThat(returned.getDiscountValue()).isEqualTo(amount);
     }
 
     @Test
     void 퍼센트_할인_쿠폰_생성() {
         // 할인율이 주어 졌을 때
         int percent = 10;
+        VoucherCreateServiceRequest request = new VoucherCreateServiceRequest(
+                PERCENT,
+                percent,
+                Optional.empty(),
+                Optional.empty()
+        );
 
         // % 금액 쿠폰 생성 요청
-        Voucher returned = voucherService.createPercentDiscountVoucher(percent);
+        Voucher returned = voucherService.createVoucher(request);
 
         // 1. 생성된 쿠폰이 PercentDiscountVoucher 타입
-        assertThat(returned).isInstanceOf(PercentDiscountVoucher.class);
+        assertThat(returned.getVoucherType()).isEqualTo(PERCENT);
         // 2. 생성된 쿠폰의 할인율이 percent와 동일
-        PercentDiscountVoucher voucher = (PercentDiscountVoucher) returned;
-        assertThat(voucher.getPercent()).isEqualTo(percent);
+        assertThat(returned.getDiscountValue()).isEqualTo(percent);
     }
 
     @Test
     void 전체_쿠폰_목록_조회() {
         // 리포지토리에 쿠폰 2개가 저장되어 있을 때
-        Voucher voucher = new FixedAmountVoucher(1000);
-        Voucher voucher2 = new PercentDiscountVoucher(10);
+        Voucher voucher = createFixedVoucher(1L, 1000);
+        Voucher voucher2 = createPercentVoucher(2L,10);
         voucherRepository.save(voucher);
         voucherRepository.save(voucher2);
 
@@ -74,8 +86,8 @@ class VoucherServiceTest {
     @Test
     void 쿠폰_목록_조회() {
         // 리포지토리에 쿠폰 2개가 저장되어 있을 때
-        Voucher voucher = new FixedAmountVoucher(1000);
-        Voucher voucher2 = new PercentDiscountVoucher(10);
+        Voucher voucher = createFixedVoucher(1L, 1000);
+        Voucher voucher2 = createPercentVoucher(2L, 10);
         voucherRepository.save(voucher);
         voucherRepository.save(voucher2);
 
@@ -87,42 +99,9 @@ class VoucherServiceTest {
     }
 
     @Test
-    void 특정_사용자의_쿠폰_목록_조회() {
-        // 쿠폰 소지자가 존재하는 쿠폰 저장
-        UUID customerId = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(1000, customerId);
-        voucherRepository.save(voucher);
-
-        // 쿠폰 소지자가 존재하지 않는 쿠폰 저장
-        Voucher voucher2 = new PercentDiscountVoucher(10);
-        voucherRepository.save(voucher2);
-
-        // 사용자 UUID로 쿠폰 목록 요청
-        List<Voucher> returned = voucherService.getVouchers(customerId);
-
-        // 쿠폰 목록의 크기가 1
-        assertThat(returned).hasSize(1);
-    }
-
-    @Test
-    void 쿠폰_소지자_할당() {
-        // 쿠폰 생성
-        Voucher voucher = new FixedAmountVoucher(1000);
-        voucherRepository.save(voucher);
-
-        // 쿠폰에 쿠폰 소지자 할당 요청
-        UUID customerId = UUID.randomUUID();
-        voucherService.assignVoucherOwner(voucher.getId(), customerId);
-
-        // 쿠폰 소지자가 할당한 소지자와 동일
-        Voucher returned = voucherRepository.findById(voucher.getId()).get();
-        assertThat(returned.getOwnerId()).isEqualTo(customerId);
-    }
-
-    @Test
     void 쿠폰_아이디로_조회() {
         // 쿠폰 생성
-        Voucher voucher = new FixedAmountVoucher(1000);
+        Voucher voucher = createFixedVoucher(1L, 1000);
         voucherRepository.save(voucher);
 
         // UUID로 쿠폰 조회
@@ -135,7 +114,7 @@ class VoucherServiceTest {
     @Test
     void 쿠폰_아이디로_삭제() {
         // 쿠폰 생성
-        Voucher voucher = new FixedAmountVoucher(1000);
+        Voucher voucher = createFixedVoucher(1L, 1000);
         voucherRepository.save(voucher);
 
         // UUID로 쿠폰 삭제
@@ -144,5 +123,21 @@ class VoucherServiceTest {
         // 쿠폰이 삭제됨
         List<Voucher> vouchers =  voucherRepository.findAll();
         assertThat(vouchers).hasSize(0);
+    }
+
+    private static VoucherCreateRequest createFixedVoucherRequest(int amount) {
+        return new VoucherCreateRequest(FIXED, amount);
+    }
+
+    private static VoucherCreateRequest createPercentVoucherRequest(int percent) {
+        return new VoucherCreateRequest(PERCENT, percent);
+    }
+
+    private static Voucher createFixedVoucher(Long id, int amount) {
+        return new Voucher.Builder(id, FIXED, amount).build();
+    }
+
+    private static Voucher createPercentVoucher(Long id, int percent) {
+        return new Voucher.Builder(id, PERCENT, percent).build();
     }
 }

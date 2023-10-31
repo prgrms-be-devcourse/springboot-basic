@@ -4,13 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import team.marco.voucher_management_system.domain.voucher.FixedAmountVoucher;
-import team.marco.voucher_management_system.domain.voucher.PercentDiscountVoucher;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 import team.marco.voucher_management_system.repository.voucher.VoucherRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class VoucherService {
@@ -23,14 +20,14 @@ public class VoucherService {
     }
 
     @Transactional
-    public Voucher createFixedAmountVoucher(int amount) {
-        Voucher voucher = new FixedAmountVoucher(amount);
-        return voucherRepository.save(voucher);
-    }
+    public Voucher createVoucher(VoucherCreateServiceRequest request) {
+        Long id = voucherRepository.findLatestVoucherId().orElse(1L);
 
-    @Transactional
-    public Voucher createPercentDiscountVoucher(int percent) {
-        Voucher voucher = new PercentDiscountVoucher(percent);
+        Voucher.Builder builder = new Voucher.Builder(id, request.getVoucherType(), request.getDiscountValue());
+        request.getCode().ifPresent(code -> builder.code(code));
+        request.getName().ifPresent(name -> builder.name(name));
+        Voucher voucher = builder.build();
+
         return voucherRepository.save(voucher);
     }
 
@@ -38,25 +35,11 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public List<Voucher> getVouchers(UUID customerId) {
-        return voucherRepository.findByOwner(customerId);
-    }
-
-    @Transactional
-    public Voucher assignVoucherOwner(UUID voucherId, UUID customerId) {
-        logger.debug("[VoucherService] Call assignVoucherOwner()");
-
-        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow();
-        voucher.assigneOwner(customerId);
-
-        return voucherRepository.update(voucher);
-    }
-
-    public Voucher getVoucher(UUID voucherId) {
+    public Voucher getVoucher(Long voucherId) {
         return voucherRepository.findById(voucherId).orElseThrow();
     }
 
-    public void deleteVoucher(UUID voucherId) {
+    public void deleteVoucher(Long voucherId) {
         voucherRepository.deleteById(voucherId);
     }
 }
