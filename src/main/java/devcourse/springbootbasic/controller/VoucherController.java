@@ -25,6 +25,7 @@ public class VoucherController {
     private final VoucherService voucherService;
     private final WalletService walletService;
 
+    // only command line use
     public List<VoucherFindResponse> findAllVouchers() {
         return this.voucherService.findAllVouchers();
     }
