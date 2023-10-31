@@ -32,6 +32,13 @@ public class WalletService {
         return WalletResponse.toDto(wallet);
     }
 
+    public List<WalletResponse> findAllWallets(){
+        return walletRepository.findAllWallets()
+                .stream()
+                .map(WalletResponse::toDto)
+                .toList();
+    }
+
     @Transactional(readOnly = true)
     public List<WalletResponse> findWalletByCustomerId(UUID customerId) {
         return walletRepository.findByCustomerId(customerId)

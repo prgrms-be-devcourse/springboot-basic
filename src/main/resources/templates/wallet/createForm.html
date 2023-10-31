@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Voucher Create</title>
+</head>
+<body>
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>지갑 등록</h2>
+    </div>
+
+    <form th:action="@{/wallets}" method="post">
+        <div class="mb-3">
+            <label for="customerId" class="form-label">회원 ID</label>
+            <input type="text" class="form-control" id="customerId" name="customerId" placeholder="등록할 회원 ID를 입력하세요." required>
+        </div>
+        <div class="mb-3">
+            <label for="voucherId" class="form-label">바우처 ID</label>
+            <input type="text" class="form-control" id="voucherId" name="voucherId" placeholder="등록할 바우처 ID를 입력하세요." required>
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">저장</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/wallets}'|" type="button">취소</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

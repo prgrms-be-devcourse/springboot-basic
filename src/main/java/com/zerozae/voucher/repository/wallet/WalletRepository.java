@@ -68,6 +68,13 @@ public class WalletRepository {
                 walletRowMapper);
     }
 
+    public List<Wallet> findAllWallets(){
+        return namedParameterJdbcTemplate.query(
+                "SELECT * FROM wallets WHERE deleted='N'",
+                walletRowMapper
+        );
+    }
+
     public void deleteByAllId(UUID customerId, UUID voucherId) {
         namedParameterJdbcTemplate.update(
                 "UPDATE wallets SET deleted = 'Y' WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)",
