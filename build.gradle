@@ -16,17 +16,15 @@ repositories {
 }
 
 dependencies {
-    api 'org.springframework.boot:spring-boot-starter:3.1.4'
-    api 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
-    api 'org.beryx:text-io:3.4.1'
+    implementation 'org.springframework.boot:spring-boot-starter:3.1.4'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'org.beryx:text-io:3.4.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.4'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-jdbc
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: '3.1.4'
-    // https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
-    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.1.0'
-    testImplementation "org.testcontainers:testcontainers:1.19.1"
-    testImplementation "org.testcontainers:mysql:1.19.1"
-    testImplementation "org.testcontainers:junit-jupiter:1.19.1"
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.1.4'
+    implementation 'com.mysql:mysql-connector-j:8.1.0'
+    testImplementation 'org.testcontainers:testcontainers:1.19.1'
+    testImplementation 'org.testcontainers:mysql:1.19.1'
+    testImplementation 'org.testcontainers:junit-jupiter:1.19.1'
 }
 
 test {
