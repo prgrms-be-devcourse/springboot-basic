@@ -1,5 +1,6 @@
 package devcourse.springbootbasic.controller;
 
+import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.dto.customer.CustomerFindResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
@@ -12,6 +13,7 @@ import devcourse.springbootbasic.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,9 +25,15 @@ public class VoucherController {
     private final VoucherService voucherService;
     private final WalletService walletService;
 
-    @GetMapping
     public List<VoucherFindResponse> findAllVouchers() {
         return this.voucherService.findAllVouchers();
+    }
+
+    @GetMapping
+    public List<VoucherFindResponse> findAllVouchersWithSearchConditions(@RequestParam(required = false) VoucherType voucherType,
+                                                                         @RequestParam(required = false) LocalDate startDate,
+                                                                         @RequestParam(required = false) LocalDate endDate) {
+        return this.voucherService.findAllVoucherWithSearchConditions(voucherType, startDate, endDate);
     }
 
     @PostMapping
