@@ -2,22 +2,45 @@ package org.prgrms.vouchermanagement.view;
 
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class ConsoleOutput {
 
     private static final String welcome = """
                             
             === Voucher Program ===
-            Type create to create a new voucher.
-            Type list to list all vouchers.
-            Type customer to list all customers
-            Type blacklist to list blackCustomer in blacklist
-            Type update to update voucher amount or percent
-            Type delete to delete all vouchers
-            Type wallet is new wallet mode
+            Type voucher to view voucher option.
+            Type customer to view customer option.
+            Type wallet to view wallet option.
             Type exit to exit the program.
+            """;
+
+    private static final String customerOption = """
+            
+            Type list to list all customers.
+            Type blacklist to list all black customers.
+            Type exit to exit customer option
+            """;
+
+    private static final String voucherOption = """
+            
+            Type create to create new voucher.
+            Type list to list all vouchers.
+            Type update to update voucher by voucherId.
+            Type delete to delete voucher by voucherId.
+            Type exit to exit customer option
+            """;
+
+    private static final String walletOption = """
+            
+            Type create to create new wallet.
+            Type list to list all wallet.
+            Type delete to delete wallet by customerId.
+            Type find to find customer by voucherId.
+            Type exit to exit customer option
             """;
 
     private static final String createVoucher = """
@@ -125,6 +148,18 @@ public class ConsoleOutput {
 
     public void printWelcomeMessage() {
         printMessage(welcome);
+    }
+
+    public void printCustomerOptionMessage() {
+        printMessage(customerOption);
+    }
+
+    public void printVoucherOptionMessage() {
+        printMessage(voucherOption);
+    }
+
+    public void printWalletOptionMessage() {
+        printMessage(walletOption);
     }
 
     public void printCreateVoucherMessage() {

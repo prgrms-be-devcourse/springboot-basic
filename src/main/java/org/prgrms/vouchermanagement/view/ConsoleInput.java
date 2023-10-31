@@ -1,14 +1,17 @@
 package org.prgrms.vouchermanagement.view;
 
+import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.dto.VoucherCreateInfo;
 import org.prgrms.vouchermanagement.dto.VoucherUpdateInfo;
 import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
 import org.prgrms.vouchermanagement.exception.InvalidInputException;
 import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
 import java.util.UUID;
 
+@Component
 public class ConsoleInput {
 
     private final Scanner scanner = new Scanner(System.in);
@@ -78,6 +81,14 @@ public class ConsoleInput {
             return PolicyStatus.valueOf(inputPolicy.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new InvalidInputException("잘못된 policy 입력입니다.");
+        }
+    }
+
+    private int validateAndConvertAge(String age) {
+        try {
+            return Integer.parseInt(age);
+        } catch (NumberFormatException e) {
+            throw new InvalidInputException("잘못된 age 입력입니다.");
         }
     }
 
