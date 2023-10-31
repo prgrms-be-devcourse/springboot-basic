@@ -1,6 +1,6 @@
 package org.prgrms.prgrmsspring.console;
 
-import org.prgrms.prgrmsspring.controller.VoucherController;
+import org.prgrms.prgrmsspring.controller.console.VoucherController;
 import org.prgrms.prgrmsspring.domain.command.Command;
 import org.prgrms.prgrmsspring.domain.command.VoucherCommand;
 import org.prgrms.prgrmsspring.entity.voucher.Voucher;

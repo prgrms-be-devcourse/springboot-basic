@@ -1,6 +1,6 @@
 package org.prgrms.prgrmsspring.console;
 
-import org.prgrms.prgrmsspring.controller.WalletController;
+import org.prgrms.prgrmsspring.controller.console.WalletController;
 import org.prgrms.prgrmsspring.domain.command.Command;
 import org.prgrms.prgrmsspring.domain.command.WalletCommand;
 import org.prgrms.prgrmsspring.dto.WalletDto;

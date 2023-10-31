@@ -1,4 +1,4 @@
-package org.prgrms.prgrmsspring.controller;
+package org.prgrms.prgrmsspring.controller.console;
 
 import org.prgrms.prgrmsspring.entity.user.Customer;
 import org.prgrms.prgrmsspring.service.CustomerService;

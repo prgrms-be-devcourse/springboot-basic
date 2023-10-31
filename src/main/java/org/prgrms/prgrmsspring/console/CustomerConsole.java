@@ -1,6 +1,6 @@
 package org.prgrms.prgrmsspring.console;
 
-import org.prgrms.prgrmsspring.controller.CustomerController;
+import org.prgrms.prgrmsspring.controller.console.CustomerController;
 import org.prgrms.prgrmsspring.domain.command.Command;
 import org.prgrms.prgrmsspring.domain.command.CustomerCommand;
 import org.prgrms.prgrmsspring.entity.user.Customer;

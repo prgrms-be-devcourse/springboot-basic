@@ -3,7 +3,7 @@ package org.prgrms.prgrmsspring;
 
 import lombok.RequiredArgsConstructor;
 import org.prgrms.prgrmsspring.console.ConsoleIOManager;
-import org.prgrms.prgrmsspring.controller.ApplicationController;
+import org.prgrms.prgrmsspring.controller.console.ApplicationController;
 import org.prgrms.prgrmsspring.domain.ControllerManager;
 import org.prgrms.prgrmsspring.view.CommandLineView;
 import org.springframework.boot.SpringApplication;
