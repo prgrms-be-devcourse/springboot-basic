@@ -10,43 +10,51 @@ import devcourse.springbootbasic.dto.wallet.VoucherAssignResponse;
 import devcourse.springbootbasic.service.VoucherService;
 import devcourse.springbootbasic.service.WalletService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Controller
+@RestController
+@RequestMapping("/api/v1/vouchers")
 @RequiredArgsConstructor
 public class VoucherController {
 
     private final VoucherService voucherService;
     private final WalletService walletService;
 
+    @GetMapping
     public List<VoucherFindResponse> findAllVouchers() {
         return this.voucherService.findAllVouchers();
     }
 
-    public VoucherResponse createVoucher(VoucherCreateRequest voucherCreateRequest) {
+    @PostMapping
+    public VoucherResponse createVoucher(@RequestBody VoucherCreateRequest voucherCreateRequest) {
         return new VoucherResponse(this.voucherService.createVoucher(voucherCreateRequest));
     }
 
-    public VoucherResponse updateDiscountValue(UUID voucherId, VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
+    @PatchMapping("/{voucherId}/discount-value")
+    public VoucherResponse updateDiscountValue(@PathVariable UUID voucherId, @RequestBody VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
         return new VoucherResponse(this.voucherService.updateDiscountValue(voucherId, voucherUpdateDiscountValueRequest));
     }
 
-    public VoucherResponse deleteVoucher(UUID voucherId) {
+    @DeleteMapping("/{voucherId}")
+    public VoucherResponse deleteVoucher(@PathVariable UUID voucherId) {
         return new VoucherResponse(this.voucherService.deleteVoucher(voucherId));
     }
 
-    public VoucherAssignResponse assignVoucherToCustomer(UUID voucherId, VoucherAssignRequest voucherAssignRequest) {
+    @PatchMapping("/{voucherId}/assign")
+    public VoucherAssignResponse assignVoucherToCustomer(@PathVariable UUID voucherId, @RequestBody VoucherAssignRequest voucherAssignRequest) {
         return this.walletService.assignVoucherToCustomer(voucherId, voucherAssignRequest);
     }
 
-    public VoucherAssignResponse unassignVoucherFromCustomer(UUID voucherId) {
+    @PatchMapping("/{voucherId}/unassign")
+    public VoucherAssignResponse unassignVoucherFromCustomer(@PathVariable UUID voucherId) {
         return this.walletService.unassignVoucherFromCustomer(voucherId);
     }
 
-    public CustomerFindResponse findCustomerByVoucherId(UUID voucherId) {
+    @GetMapping("/{voucherId}/customer")
+    public CustomerFindResponse findCustomerByVoucherId(@PathVariable UUID voucherId) {
         return this.walletService.findCustomerByVoucherId(voucherId);
     }
 }
