@@ -1,6 +1,7 @@
 package study.dev.spring.voucher.stub;
 
 import java.util.List;
+import java.util.UUID;
 
 import study.dev.spring.voucher.application.VoucherService;
 import study.dev.spring.voucher.application.dto.CreateVoucherRequest;
@@ -14,8 +15,8 @@ public class VoucherServiceStub extends VoucherService {
 	}
 
 	@Override
-	public void createVoucher(final CreateVoucherRequest request) {
-
+	public String createVoucher(final CreateVoucherRequest request) {
+		return UUID.randomUUID().toString();
 	}
 
 	@Override

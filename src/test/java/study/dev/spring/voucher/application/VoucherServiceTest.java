@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 import study.dev.spring.voucher.application.dto.CreateVoucherRequest;
@@ -38,12 +37,15 @@ class VoucherServiceTest {
 		//given
 		CreateVoucherRequest request = VoucherFixture.getCreateRequest();
 
+		Voucher voucher = VoucherFixture.getFixedVoucher();
+		given(voucherRepository.save(any(Voucher.class)))
+			.willReturn(voucher);
+
 		//when
-		Executable when = () -> voucherService.createVoucher(request);
+		String actual = voucherService.createVoucher(request);
 
 		//then
-		assertDoesNotThrow(when);
-		verify(voucherRepository, times(1)).save(any(Voucher.class));
+		assertThat(actual).isEqualTo(voucher.getUuid());
 	}
 
 	@Test
