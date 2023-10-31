@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
@@ -11,6 +12,7 @@ import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.consoleapp.menu.MenuHandler;
 
 @Component
+@Profile({"jdbc, dev, file"})
 public class ConsoleApp implements ApplicationRunner {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleApp.class);
     private static final String INCORRECT_MESSAGE = "%s is not an executable menu.";
