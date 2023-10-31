@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>바우처 상세페이지</h2>
+    </div>
+
+    <div>
+        <label for="voucherId">바우처 ID</label>
+        <input type="text" id="voucherId" name="voucherId" class="form-control" value="1"
+               th:value="${voucher.voucherId}" readonly>
+    </div>
+    </br>
+    <div>
+        <label for="voucherType">할인 방식</label>
+        <input type="text" id="voucherType" name="voucherType" class="form-control" th:value="${voucher.voucherType}" readonly>
+    </div>
+    </br>
+    <div>
+        <label for="discount">할인 고정 금액 / 비율</label>
+        <input type="number" id="discount"  name="discount" class="form-control" th:value="${voucher.discount}" readonly>
+
+    </div>
+    </br>
+    <div>
+        <label for="useStatusType">사용 여부</label>
+        <input type="text" id="useStatusType"  name="useStatusType" class="form-control" th:value="${voucher.useStatusType}" readonly>
+    </div>
+
+    <div>
+        <label for="createdAt">생성 날짜</label>
+        <input type="text" id="createdAt"  name="createdAt" class="form-control" th:value="${voucher.createdAt}" readonly>
+    </div>
+
+    <hr class="my-4">
+    <div class="col">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit" th:onclick="|location.href='@{/vouchers/update/{voucherId}(voucherId=${voucher.voucherId})}'|">수정</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg" th:onclick="|location.href='@{/vouchers}'|" type="button">이전</button>
+            </div>
+        </div>
+        <br>
+        <form action="vouchers.html" th:action="@{/vouchers/{voucherId}(voucherId=${voucher.voucherId})}" th:method="delete">
+            <div class="col">
+                <button type="submit" class="w-100 btn btn-danger btn-lg">바우처 삭제</button>
+            </div>
+        </form>
+    </div>
+
+</div> <!-- /container -->
+</body>
+</html>

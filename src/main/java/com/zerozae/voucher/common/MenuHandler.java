@@ -1,9 +1,9 @@
 package com.zerozae.voucher.common;
 
 import com.zerozae.voucher.common.response.Response;
-import com.zerozae.voucher.controller.customer.CustomerController;
-import com.zerozae.voucher.controller.voucher.VoucherController;
-import com.zerozae.voucher.controller.wallet.WalletController;
+import com.zerozae.voucher.controller.console.customer.CustomerController;
+import com.zerozae.voucher.controller.console.voucher.VoucherController;
+import com.zerozae.voucher.controller.console.wallet.WalletController;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.VoucherType;
