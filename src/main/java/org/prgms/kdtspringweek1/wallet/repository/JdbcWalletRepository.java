@@ -15,8 +15,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.*;
+
+import static org.prgms.kdtspringweek1.JdbcUtils.toUUID;
 
 @Repository
 @Profile({"default", "test"})
@@ -54,13 +55,6 @@ public class JdbcWalletRepository implements WalletRepository {
         return Customer.createWithIdAndNameAndIsBlackCustomer(customerId, name, isBlackCustomer);
     };
 
-    private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
-        UUID walletId = toUUID(resultSet.getBytes("wallet_id"));
-        UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
-        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
-        return Wallet.createWithWalledIdAndVoucherIdAndCustomerId(walletId, voucherId, customerId);
-    };
-
     private static Map<String, Object> toParamMap(Wallet wallet) {
         return new HashMap<>() {{
             put("walletId", wallet.getWalletId().toString().getBytes());
@@ -69,18 +63,15 @@ public class JdbcWalletRepository implements WalletRepository {
         }};
     }
 
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
     @Override
     public Wallet save(Wallet wallet) {
         int isInserted = jdbcTemplate.update("INSERT INTO wallets(wallet_id, voucher_id, customer_id) VALUES (UUID_TO_BIN(:walletId), UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId))",
                 toParamMap(wallet));
         if (isInserted != 1) {
             logger.error(DataExceptionCode.FAIL_TO_INSERT.getMessage());
+            // 인터페이스사용하면서, jdbcexception은 구체 상황을 도출하고 있음.(세부사항을 숨기지 못하고 이씅ㅁ)
             throw new DataException(DataExceptionCode.FAIL_TO_INSERT);
+            // 저장실패만 알려주는 정도..
         }
 
         return wallet;

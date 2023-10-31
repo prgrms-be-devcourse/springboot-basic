@@ -11,8 +11,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.nio.ByteBuffer;
 import java.util.*;
+
+import static org.prgms.kdtspringweek1.JdbcUtils.toUUID;
 
 @Repository
 @Profile({"default", "test"})
@@ -40,12 +41,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
             put("isBlackCustomer", customer.getIsBlackCustomer());
         }};
     }
-
-    private static UUID toUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
-
 
     @Override
     public Customer save(Customer customer) {
