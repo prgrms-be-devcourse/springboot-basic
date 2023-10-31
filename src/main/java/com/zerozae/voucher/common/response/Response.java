@@ -1,8 +1,9 @@
 package com.zerozae.voucher.common.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 
-
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
 public class Response<T> {
 
@@ -27,5 +28,8 @@ public class Response<T> {
     public static <T> Response<T> success(T data) {
         return new Response(true,  data);
     }
-}
 
+    public static Response failure(String message) {
+        return new Response(false, message);
+    }
+}
