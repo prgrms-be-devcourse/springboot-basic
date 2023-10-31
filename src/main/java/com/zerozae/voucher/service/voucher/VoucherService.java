@@ -9,6 +9,7 @@ import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.voucher.VoucherRepository;
+import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,10 +21,13 @@ import java.util.UUID;
 public class VoucherService {
 
     private static final String VOUCHER_NOT_FOUND_MESSAGE = "바우처가 존재하지 않습니다.";
-    private final VoucherRepository voucherRepository;
 
-    public VoucherService(VoucherRepository voucherRepository) {
+    private final VoucherRepository voucherRepository;
+    private final WalletRepository walletRepository;
+
+    public VoucherService(VoucherRepository voucherRepository, WalletRepository walletRepository) {
         this.voucherRepository = voucherRepository;
+        this.walletRepository = walletRepository;
     }
 
     public VoucherResponse createVoucher(VoucherCreateRequest voucherRequest) {
@@ -62,9 +66,11 @@ public class VoucherService {
     public void deleteById(UUID voucherId) {
         voucherRepository.findById(voucherId).orElseThrow(() -> ExceptionMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.deleteById(voucherId);
+        walletRepository.deleteByVoucherId(voucherId);
     }
 
     public void deleteAll() {
         voucherRepository.deleteAll();
+        walletRepository.deleteAll();
     }
 }

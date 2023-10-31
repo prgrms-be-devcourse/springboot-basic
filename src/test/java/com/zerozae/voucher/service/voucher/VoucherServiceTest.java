@@ -10,6 +10,7 @@ import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.voucher.VoucherRepository;
+import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,13 +26,15 @@ import static org.mockito.Mockito.*;
 class VoucherServiceTest {
 
     private final VoucherRepository voucherRepository;
+    private final WalletRepository walletRepository;
     private final VoucherService voucherService;
     private FixedDiscountVoucher fixedDiscountVoucher;
     private PercentDiscountVoucher percentDiscountVoucher;
 
     VoucherServiceTest() {
         this.voucherRepository = mock(VoucherRepository.class);
-        this.voucherService = new VoucherService(voucherRepository);
+        this.walletRepository = mock(WalletRepository.class);
+        this.voucherService = new VoucherService(voucherRepository, walletRepository);
     }
 
     @BeforeEach

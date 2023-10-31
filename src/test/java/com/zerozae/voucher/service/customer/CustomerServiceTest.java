@@ -1,13 +1,13 @@
 package com.zerozae.voucher.service.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
-import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.customer.CustomerRepository;
 import com.zerozae.voucher.repository.customer.MemoryCustomerRepository;
+import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,12 +24,14 @@ class CustomerServiceTest {
 
     private final CustomerRepository customerRepository;
     private final CustomerService customerService;
+    private final WalletRepository walletRepository;
     private Customer normalCustomer;
     private Customer blackCustomer;
 
     CustomerServiceTest() {
         this.customerRepository = mock(MemoryCustomerRepository.class);
-        this.customerService = new CustomerService(customerRepository);
+        this.walletRepository = mock(WalletRepository.class);
+        this.customerService = new CustomerService(customerRepository, walletRepository);
     }
 
     @BeforeEach

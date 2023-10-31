@@ -76,6 +76,20 @@ public class WalletRepository {
                         "voucherId", voucherId.toString().getBytes()));
     }
 
+    public void deleteByCustomerId(UUID customerId){
+        namedParameterJdbcTemplate.update(
+                "UPDATE wallets SET deleted = 'Y' WHERE customer_id = UUID_TO_BIN(:customerId)",
+                Map.of("customerId", customerId.toString().getBytes())
+        );
+    }
+
+    public void deleteByVoucherId(UUID voucherId){
+        namedParameterJdbcTemplate.update(
+                "UPDATE wallets SET deleted = 'Y' WHERE voucher_id = UUID_TO_BIN(:voucherId)",
+                Map.of("voucherId", voucherId.toString().getBytes())
+        );
+    }
+
     public void deleteAll(){
         namedParameterJdbcTemplate.getJdbcOperations().update("UPDATE wallets SET deleted = 'Y'");
     }
