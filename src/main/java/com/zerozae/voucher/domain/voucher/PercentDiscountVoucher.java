@@ -23,9 +23,10 @@ public class PercentDiscountVoucher extends Voucher {
         this.discount = discount;
         this.voucherType = VoucherType.PERCENT;
         this.useStatusType = UseStatusType.AVAILABLE;
+        this.createdAt = LocalDate.now();
     }
 
-    public PercentDiscountVoucher(UUID voucherId, Long discount, UseStatusType useStatusType, LocalDate createdAt) {
+    public PercentDiscountVoucher(UUID voucherId, long discount, UseStatusType useStatusType, LocalDate createdAt) {
         try {
             validateVoucherInfo(discount);
         }catch (ExceptionMessage e){

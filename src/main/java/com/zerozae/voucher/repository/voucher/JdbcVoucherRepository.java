@@ -151,6 +151,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .addValue("discount", voucher.getDiscount())
                 .addValue("voucherType", voucher.getVoucherType().toString())
                 .addValue("useStatusType", voucher.getUseStatusType().toString())
-                .addValue("createdAt", voucher.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                .addValue("createdAt", voucher.getCreatedAt());
     }
 }

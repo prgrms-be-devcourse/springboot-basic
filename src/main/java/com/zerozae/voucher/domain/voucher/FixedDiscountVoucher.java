@@ -22,6 +22,7 @@ public class FixedDiscountVoucher extends Voucher {
         this.discount = discount;
         this.voucherType = VoucherType.FIXED;
         this.useStatusType = UseStatusType.AVAILABLE;
+        this.createdAt = LocalDate.now();
     }
 
     public FixedDiscountVoucher(UUID voucherId, long discount, UseStatusType useStatusType, LocalDate createdAt) {
