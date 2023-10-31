@@ -86,9 +86,9 @@ public class VoucherService {
         }
     }
 
-    private void validateCustomerIdExisting(UUID voucherId) {
-        if (!customerRepository.existById(voucherId)) {
-            throw new NoSuchElementException("There is no voucher with %s".formatted(voucherId));
+    private void validateCustomerIdExisting(UUID customerId) {
+        if (!customerRepository.existById(customerId)) {
+            throw new NoSuchElementException("There is no customer with %s".formatted(customerId));
         }
     }
 }
