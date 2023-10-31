@@ -4,7 +4,9 @@ import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
+import devcourse.springbootbasic.dto.wallet.VoucherAssignRequest;
 import devcourse.springbootbasic.service.VoucherService;
+import devcourse.springbootbasic.service.WalletService;
 import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import java.util.UUID;
 public class VoucherViewController {
 
     private final VoucherService voucherService;
+    private final WalletService walletService;
 
     @GetMapping()
     public String findAllVouchers(Model model) {
@@ -62,6 +65,23 @@ public class VoucherViewController {
             @RequestParam("discountValue") long newDiscountValue
     ) {
         voucherService.updateDiscountValue(UUIDUtil.stringToUUID(voucherId), new VoucherUpdateDiscountValueRequest(newDiscountValue));
+
+        return "redirect:/voucher/detail/" + voucherId;
+    }
+
+    @PostMapping("/assignCustomerId/{id}")
+    public String assignCustomerId(
+            @PathVariable("id") String voucherId,
+            @RequestParam("customerId") UUID customerId
+    ) {
+        walletService.assignVoucherToCustomer(UUIDUtil.stringToUUID(voucherId), new VoucherAssignRequest(customerId));
+
+        return "redirect:/voucher/detail/" + voucherId;
+    }
+
+    @PostMapping("/unassignCustomerId/{id}")
+    public String unassignCustomerId(@PathVariable("id") String voucherId) {
+        walletService.unassignVoucherFromCustomer(UUIDUtil.stringToUUID(voucherId));
 
         return "redirect:/voucher/detail/" + voucherId;
     }

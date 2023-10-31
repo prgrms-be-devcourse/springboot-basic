@@ -59,6 +59,8 @@ Type **list** to list all vouchers.
     - [x]  상세페이지
     - [x]  입력페이지
     - [x]  삭제기능
+    - [x]  discount value 변경
+    - [x]  고객 할당 / 할당 해제
 
 ** 바우처 서비스의 API 개발하기**
 
