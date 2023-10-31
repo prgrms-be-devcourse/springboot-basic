@@ -10,7 +10,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import team.marco.voucher_management_system.model.Customer;
+import team.marco.voucher_management_system.domain.customer.Customer;
 
 import java.util.List;
 

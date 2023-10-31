@@ -3,11 +3,12 @@ package team.marco.voucher_management_system.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import team.marco.voucher_management_system.model.voucher.FixedAmountVoucher;
-import team.marco.voucher_management_system.model.voucher.PercentDiscountVoucher;
-import team.marco.voucher_management_system.model.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.FixedAmountVoucher;
+import team.marco.voucher_management_system.domain.voucher.PercentDiscountVoucher;
+import team.marco.voucher_management_system.domain.voucher.Voucher;
 import team.marco.voucher_management_system.repository.voucher.MemoryVoucherRepository;
 import team.marco.voucher_management_system.repository.voucher.VoucherRepository;
+import team.marco.voucher_management_system.service.voucher.VoucherService;
 
 import java.util.List;
 import java.util.UUID;

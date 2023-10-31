@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import team.marco.voucher_management_system.repository.custromer.BlacklistRepository;
 import team.marco.voucher_management_system.repository.custromer.CsvBlacklistRepository;
 import team.marco.voucher_management_system.repository.custromer.CustomerIdAndName;
+import team.marco.voucher_management_system.service.customer.BlacklistService;
 
 import java.util.List;
 

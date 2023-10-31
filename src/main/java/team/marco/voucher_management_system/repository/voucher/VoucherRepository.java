@@ -1,6 +1,6 @@
 package team.marco.voucher_management_system.repository.voucher;
 
-import team.marco.voucher_management_system.model.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;

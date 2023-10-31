@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import team.marco.voucher_management_system.model.Customer;
+import team.marco.voucher_management_system.domain.customer.Customer;
 import team.marco.voucher_management_system.repository.custromer.CustomerRepository;
+import team.marco.voucher_management_system.service.customer.CustomerService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

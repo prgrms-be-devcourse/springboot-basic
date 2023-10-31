@@ -1,12 +1,12 @@
-package team.marco.voucher_management_system.service;
+package team.marco.voucher_management_system.service.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import team.marco.voucher_management_system.model.voucher.FixedAmountVoucher;
-import team.marco.voucher_management_system.model.voucher.PercentDiscountVoucher;
-import team.marco.voucher_management_system.model.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.FixedAmountVoucher;
+import team.marco.voucher_management_system.domain.voucher.PercentDiscountVoucher;
+import team.marco.voucher_management_system.domain.voucher.Voucher;
 import team.marco.voucher_management_system.repository.voucher.VoucherRepository;
 
 import java.util.List;

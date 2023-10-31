@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.model.voucher;
+package team.marco.voucher_management_system.domain.voucher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import java.text.MessageFormat;
 import java.util.UUID;
 
 import static java.text.MessageFormat.format;
-import static team.marco.voucher_management_system.model.voucher.VoucherType.FIXED;
+import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 
 public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);

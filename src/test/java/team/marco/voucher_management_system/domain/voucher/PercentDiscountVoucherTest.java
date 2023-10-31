@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.model.voucher;
+package team.marco.voucher_management_system.domain.voucher;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

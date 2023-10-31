@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import team.marco.voucher_management_system.model.voucher.FixedAmountVoucher;
-import team.marco.voucher_management_system.model.voucher.PercentDiscountVoucher;
-import team.marco.voucher_management_system.model.voucher.Voucher;
-import team.marco.voucher_management_system.model.voucher.VoucherType;
+import team.marco.voucher_management_system.domain.voucher.FixedAmountVoucher;
+import team.marco.voucher_management_system.domain.voucher.PercentDiscountVoucher;
+import team.marco.voucher_management_system.domain.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.VoucherType;
 import team.marco.voucher_management_system.repository.custromer.CustomerRepository;
 
 import java.sql.ResultSet;

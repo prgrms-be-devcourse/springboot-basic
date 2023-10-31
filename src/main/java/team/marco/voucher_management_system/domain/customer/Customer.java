@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.model;
+package team.marco.voucher_management_system.domain.customer;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

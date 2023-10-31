@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.service;
+package team.marco.voucher_management_system.service.customer;
 
 import org.springframework.stereotype.Service;
 import team.marco.voucher_management_system.repository.custromer.BlacklistRepository;

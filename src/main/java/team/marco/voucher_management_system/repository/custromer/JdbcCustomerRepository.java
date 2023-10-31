@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import team.marco.voucher_management_system.model.Customer;
+import team.marco.voucher_management_system.domain.customer.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

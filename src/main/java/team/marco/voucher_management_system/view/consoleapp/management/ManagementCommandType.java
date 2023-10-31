@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.view.console.management;
+package team.marco.voucher_management_system.view.consoleapp.management;
 
 import java.util.Arrays;
 

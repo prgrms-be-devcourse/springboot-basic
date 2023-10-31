@@ -1,6 +1,5 @@
 package team.marco.voucher_management_system.repository.voucher;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,10 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
-import team.marco.voucher_management_system.model.Customer;
-import team.marco.voucher_management_system.model.voucher.FixedAmountVoucher;
-import team.marco.voucher_management_system.model.voucher.PercentDiscountVoucher;
-import team.marco.voucher_management_system.model.voucher.Voucher;
+import team.marco.voucher_management_system.domain.customer.Customer;
+import team.marco.voucher_management_system.domain.voucher.FixedAmountVoucher;
+import team.marco.voucher_management_system.domain.voucher.PercentDiscountVoucher;
+import team.marco.voucher_management_system.domain.voucher.Voucher;
 import team.marco.voucher_management_system.repository.custromer.JdbcCustomerRepository;
 
 import java.util.List;
@@ -47,7 +46,7 @@ class JdbcVoucherRepositoryTest {
         Voucher saved = voucherRepository.save(voucher);
 
         // 생성된 바우처 반환
-        Assertions.assertThat(saved).isEqualTo(voucher);
+        assertThat(saved).isEqualTo(voucher);
     }
 
     @Test
@@ -79,7 +78,7 @@ class JdbcVoucherRepositoryTest {
         Voucher found = voucherRepository.findById(voucher.getId()).get();
 
         // 저장한 쿠폰과 동일한 쿠폰 반환
-        Assertions.assertThat(found.getId()).isEqualTo(voucher.getId());
+        assertThat(found.getId()).isEqualTo(voucher.getId());
     }
 
     @Test
@@ -96,8 +95,8 @@ class JdbcVoucherRepositoryTest {
         List<Voucher> found = voucherRepository.findByOwner(customer.getId());
 
         // 저장한 쿠폰과 동일한 쿠폰 반환
-        Assertions.assertThat(found).hasSize(1);
-        Assertions.assertThat(found.get(0).getId()).isEqualTo(voucher.getId());
+        assertThat(found).hasSize(1);
+        assertThat(found.get(0).getId()).isEqualTo(voucher.getId());
     }
 
     @Test
@@ -115,8 +114,8 @@ class JdbcVoucherRepositoryTest {
         Voucher updated = voucherRepository.update(voucher);
 
         // 변경된 쿠폰 정보가 저장
-        Assertions.assertThat(updated.getId()).isEqualTo(voucher.getId());
-        Assertions.assertThat(updated.getOwnerId()).isEqualTo(customer.getId());
+        assertThat(updated.getId()).isEqualTo(voucher.getId());
+        assertThat(updated.getOwnerId()).isEqualTo(customer.getId());
     }
 
     @Test

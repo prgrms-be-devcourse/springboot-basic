@@ -1,9 +1,9 @@
 package team.marco.voucher_management_system.repository.voucher;
 
-import team.marco.voucher_management_system.model.voucher.FixedAmountVoucher;
-import team.marco.voucher_management_system.model.voucher.PercentDiscountVoucher;
-import team.marco.voucher_management_system.model.voucher.Voucher;
-import team.marco.voucher_management_system.model.voucher.VoucherType;
+import team.marco.voucher_management_system.domain.voucher.FixedAmountVoucher;
+import team.marco.voucher_management_system.domain.voucher.PercentDiscountVoucher;
+import team.marco.voucher_management_system.domain.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.VoucherType;
 
 import java.util.UUID;
 

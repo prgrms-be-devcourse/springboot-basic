@@ -1,10 +1,10 @@
-package team.marco.voucher_management_system.view.console;
+package team.marco.voucher_management_system.view.consoleapp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import team.marco.voucher_management_system.view.console.management.ManagementApplication;
-import team.marco.voucher_management_system.view.console.wallet.WalletApplication;
+import team.marco.voucher_management_system.view.consoleapp.management.ManagementApplication;
+import team.marco.voucher_management_system.view.consoleapp.wallet.WalletApplication;
 
 import java.io.UncheckedIOException;
 

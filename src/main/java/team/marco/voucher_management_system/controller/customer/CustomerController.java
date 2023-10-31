@@ -1,8 +1,8 @@
-package team.marco.voucher_management_system.controller;
+package team.marco.voucher_management_system.controller.customer;
 
 import org.springframework.stereotype.Controller;
-import team.marco.voucher_management_system.service.BlacklistService;
-import team.marco.voucher_management_system.service.CustomerService;
+import team.marco.voucher_management_system.service.customer.BlacklistService;
+import team.marco.voucher_management_system.service.customer.CustomerService;
 
 import java.util.List;
 import java.util.NoSuchElementException;

@@ -1,7 +1,7 @@
-package team.marco.voucher_management_system.controller;
+package team.marco.voucher_management_system.controller.voucher;
 
 import org.springframework.stereotype.Controller;
-import team.marco.voucher_management_system.service.VoucherService;
+import team.marco.voucher_management_system.service.voucher.VoucherService;
 
 import java.util.List;
 import java.util.UUID;
