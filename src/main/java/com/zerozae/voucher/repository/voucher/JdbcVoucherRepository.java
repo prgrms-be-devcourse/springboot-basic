@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,11 +31,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         long discount = resultSet.getLong("discount");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         UseStatusType useStatusType = UseStatusType.valueOf(resultSet.getString("use_status_type"));
+        LocalDate createdAt = resultSet.getTimestamp("created_at").toLocalDateTime().toLocalDate();
 
         if (voucherType.equals(FIXED)) {
-            return new FixedDiscountVoucher(voucherId, discount, useStatusType);
+            return new FixedDiscountVoucher(voucherId, discount, useStatusType, createdAt);
         } else {
-            return new PercentDiscountVoucher(voucherId, discount, useStatusType);
+            return new PercentDiscountVoucher(voucherId, discount, useStatusType, createdAt);
         }
     };
 
@@ -46,7 +48,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "insert into vouchers(voucher_id ,discount,voucher_type, use_status_type) values (UUID_TO_BIN(:voucherId), :discount, :voucherType, :useStatusType)";
+        String sql = "insert into vouchers(voucher_id ,discount,voucher_type, use_status_type, created_at) values (UUID_TO_BIN(:voucherId), :discount, :voucherType, :useStatusType, :createdAt)";
         int result = jdbcTemplate.update(
                 sql,
                 toParamMap(voucher));
@@ -148,6 +150,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .addValue("voucherId", voucher.getVoucherId().toString().getBytes())
                 .addValue("discount", voucher.getDiscount())
                 .addValue("voucherType", voucher.getVoucherType().toString())
-                .addValue("useStatusType", voucher.getUseStatusType().toString());
+                .addValue("useStatusType", voucher.getUseStatusType().toString())
+                .addValue("createdAt", voucher.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
     }
 }

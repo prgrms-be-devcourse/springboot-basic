@@ -104,10 +104,11 @@ public class FileVoucherRepository implements VoucherRepository {
             long discount = Long.parseLong(voucherInfo[1]);
             VoucherType voucherType = VoucherType.valueOf(voucherInfo[2]);
             UseStatusType useStatusType = UseStatusType.valueOf(voucherInfo[3]);
+            LocalDate createdAt = LocalDate.parse(voucherInfo[4]);
 
             Voucher voucher = switch (voucherType) {
-                case FIXED -> new FixedDiscountVoucher(voucherId, discount, useStatusType);
-                case PERCENT -> new PercentDiscountVoucher(voucherId, discount, useStatusType);
+                case FIXED -> new FixedDiscountVoucher(voucherId, discount, useStatusType, createdAt);
+                case PERCENT -> new PercentDiscountVoucher(voucherId, discount, useStatusType, createdAt);
             };
             loadedVouchers.put(voucherId, voucher);
         }

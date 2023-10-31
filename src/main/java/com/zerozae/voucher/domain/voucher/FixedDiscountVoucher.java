@@ -3,6 +3,7 @@ package com.zerozae.voucher.domain.voucher;
 import com.zerozae.voucher.exception.ExceptionMessage;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -23,7 +24,7 @@ public class FixedDiscountVoucher extends Voucher {
         this.useStatusType = UseStatusType.AVAILABLE;
     }
 
-    public FixedDiscountVoucher(UUID voucherId, long discount, UseStatusType useStatusType) {
+    public FixedDiscountVoucher(UUID voucherId, long discount, UseStatusType useStatusType, LocalDate createdAt) {
         try {
             validateVoucherInfo(discount);
         }catch (ExceptionMessage e){
@@ -33,6 +34,7 @@ public class FixedDiscountVoucher extends Voucher {
         this.discount = discount;
         this.voucherType = VoucherType.FIXED;
         this.useStatusType = useStatusType;
+        this.createdAt = createdAt;
     }
 
     @Override

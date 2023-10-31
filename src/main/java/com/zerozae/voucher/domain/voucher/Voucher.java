@@ -2,6 +2,7 @@ package com.zerozae.voucher.domain.voucher;
 
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -11,6 +12,7 @@ public abstract class Voucher {
     protected long discount;
     protected VoucherType voucherType;
     protected UseStatusType useStatusType;
+    protected LocalDate createdAt;
 
     public UUID getVoucherId() {
         return voucherId;
@@ -27,6 +29,11 @@ public abstract class Voucher {
     public UseStatusType getUseStatusType() {
         return useStatusType;
     }
+
+    public LocalDate getCreatedAt() {
+        return createdAt;
+    }
+
 
     public void updateVoucherInfo(VoucherUpdateRequest voucherUpdateRequest) {
         validateVoucherInfo(voucherUpdateRequest.getDiscount());
