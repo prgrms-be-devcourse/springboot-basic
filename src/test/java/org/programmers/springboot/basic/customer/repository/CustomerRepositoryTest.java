@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ComponentScan(
         basePackages = {"org.programmers.springboot.basic"},
@@ -179,5 +180,16 @@ public class CustomerRepositoryTest {
         customerRepository.delete(customer);
         list = customerRepository.getAll();
         assertThat(list.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("유효하지 않는 UUID 타입으로 인한 조회 실패 로직 검증")
+    public void failFindByInvalidUUID() {
+
+        assertThatThrownBy(() -> customerEntityMapper.mapToRequestDtoWithUUID("asdfasdfasdf"))
+                .isInstanceOf(IllegalArgumentException.class);
+
+        assertThatThrownBy(() -> customerRepository.findById(UUID.fromString("asdfasdfasdf")))
+                .isInstanceOf(IllegalArgumentException.class);
     }
 }
