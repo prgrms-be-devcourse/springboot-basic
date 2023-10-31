@@ -28,7 +28,6 @@ import java.util.UUID;
 public class JdbcWalletRepository implements WalletRepository{
     private final Logger logger = LoggerFactory.getLogger(JdbcWalletRepository.class);
     private final JdbcTemplate jdbcTemplate;
-    private final Gson gson = new Gson();
     private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
         var walletId = toUUID(resultSet.getBytes("wallet_id"));
         var customerId = toUUID(resultSet.getBytes("customer_id"));
@@ -64,8 +63,8 @@ public class JdbcWalletRepository implements WalletRepository{
     @Override
     public Wallet insert(Wallet wallet) {
         var update = jdbcTemplate.update("INSERT INTO wallet(wallet_id, customer_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?))",
-                wallet.getWalletId().toString().getBytes(),
-                wallet.getCustomerId().toString().getBytes());
+                wallet.getWalletId(),
+                wallet.getCustomerId());
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
@@ -85,10 +84,15 @@ public class JdbcWalletRepository implements WalletRepository{
     }
 
     @Override
+    public List<Wallet> findAll() {
+        return jdbcTemplate.query("select * from wallet", walletRowMapper);
+    }
+
+    @Override
     public List<Voucher> findVouchersByCustomerId(UUID customerId) {
-        return jdbcTemplate.query("select * from vouchers v inner join wallet_customer_voucher inter" +
-                        "on v.voucher_id = inter.voucher_id WHERE inter.customer_id = UUID_TO_BIN(?)",
-                voucherRowMapper
+        return jdbcTemplate.query("select voucher.voucher_id, voucher.voucher_type, voucher.amount from voucher inner join wallet_customer_voucher on voucher.voucher_id = wallet_customer_voucher.voucher_id WHERE wallet_customer_voucher.customer_id = UUID_TO_BIN(?)",
+                voucherRowMapper,
+                customerId.toString()
         );
     }
 
@@ -104,7 +108,7 @@ public class JdbcWalletRepository implements WalletRepository{
 
     @Override
     public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers c inner join wallet_customer_voucher inter" +
+        return Optional.ofNullable(jdbcTemplate.queryForObject("select c.customer_id, c.name, c.is_black from customers c inner join wallet_customer_voucher inter" +
                         "on c.customer_id = inter.customer_id where inter.voucher_id = UUID_TO_BIN(?)",
                 customerRowMapper,
                 voucherId.toString().getBytes()));

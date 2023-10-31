@@ -7,25 +7,22 @@ import org.prgrms.kdtspringdemo.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.List;
 
 @Service
 public class WalletService {
     private final WalletRepository walletRepository;
+    private final VoucherService voucherService;
 
-    public WalletService(WalletRepository walletRepository) {
+    public WalletService(WalletRepository walletRepository, VoucherService voucherService) {
         this.walletRepository = walletRepository;
+        this.voucherService = voucherService;
     }
 
     public Wallet create(UUID customerId) {
         Wallet wallet = new Wallet(UUID.randomUUID(), customerId);
         return walletRepository.insert(wallet);
-    }
-
-    public Optional<Wallet> findById(UUID walletId){
-        return walletRepository.findById(walletId);
     }
 
     public List<Voucher> findVouchersById(UUID customerId) {
@@ -42,10 +39,6 @@ public class WalletService {
 
     public List<Wallet> findAll() {
         return walletRepository.findAll();
-    }
-
-    public void deleteById(UUID walletId) {
-        walletRepository.deleteById(walletId);
     }
 
     public void deleteAll() {

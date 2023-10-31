@@ -12,6 +12,7 @@ public interface WalletRepository {
     Wallet insert(Wallet wallet);
     void addVoucherByCustomerId(UUID walletId, UUID customerId, UUID voucherId);
     Optional<Wallet> findById(UUID voucherId);
+    List<Wallet> findAll();
     List<Voucher> findVouchersByCustomerId(UUID customerId);
     void deleteVoucherByVoucherId(UUID customerId, UUID voucherId);
     Optional<Customer> findCustomerByVoucherId(UUID voucherId);
