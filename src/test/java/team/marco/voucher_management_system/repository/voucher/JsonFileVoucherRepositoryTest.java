@@ -1,9 +1,8 @@
 package team.marco.voucher_management_system.repository.voucher;
 
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ActiveProfiles;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 
 import java.util.List;
@@ -14,12 +13,12 @@ import static org.assertj.core.api.Assertions.*;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
 
-class MemoryVoucherRepositoryTest {
-    private MemoryVoucherRepository voucherRepository;
+@ActiveProfiles("test")
+class JsonFileVoucherRepositoryTest {
+    private JsonFileVoucherRepository fileVoucherRepository;
 
-    @BeforeEach
-    void setUp() {
-        voucherRepository = new MemoryVoucherRepository();
+    public JsonFileVoucherRepositoryTest() {
+        fileVoucherRepository = new JsonFileVoucherRepository("src/test/resources/test_voucher_data.json");
     }
 
     @DisplayName("바우처를 생성할 수 있다.")
@@ -28,7 +27,7 @@ class MemoryVoucherRepositoryTest {
         // 1,000원 할인 쿠폰 생성
         int amount = 1_000;
         Voucher voucher = createFixedVoucher(1L, amount);
-        Voucher saved = voucherRepository.save(voucher);
+        Voucher saved = fileVoucherRepository.save(voucher);
 
         // 생성된 바우처 반환
         assertThat(saved).isEqualTo(voucher);
@@ -40,14 +39,14 @@ class MemoryVoucherRepositoryTest {
         // 1,000원 할인 쿠폰, 10% 할인 쿠폰 생성
         int discountAmount = 1_000;
         Voucher voucher = createFixedVoucher(1L, discountAmount);
-        voucherRepository.save(voucher);
+        fileVoucherRepository.save(voucher);
 
         int percent = 10;
         Voucher voucher2 = createPercentVoucher(2L, percent);
-        voucherRepository.save(voucher2);
+        fileVoucherRepository.save(voucher2);
 
         // 전체 쿠폰 목록 조회
-        List<Voucher> vouchers = voucherRepository.findAll();
+        List<Voucher> vouchers = fileVoucherRepository.findAll();
 
         // 저장된 2개의 쿠폰이 조회
         assertThat(vouchers).hasSize(2);
@@ -58,11 +57,11 @@ class MemoryVoucherRepositoryTest {
     void findById() {
         // given
         Voucher voucher = createFixedVoucher(1L, 1000);
-        voucherRepository.save(voucher);
+        fileVoucherRepository.save(voucher);
         Long voucherId = voucher.getId();
 
         // when
-        Optional<Voucher> found = voucherRepository.findById(voucherId);
+        Optional<Voucher> found = fileVoucherRepository.findById(voucherId);
 
         // then
         assertThat(found.get()).isNotNull();
@@ -78,7 +77,7 @@ class MemoryVoucherRepositoryTest {
         Long randomId = -1L;
 
         // when
-        Optional<Voucher> found = voucherRepository.findById(randomId);
+        Optional<Voucher> found = fileVoucherRepository.findById(randomId);
 
         // then
         assertThat(found.isEmpty()).isTrue();
@@ -89,17 +88,17 @@ class MemoryVoucherRepositoryTest {
     void deleteById() {
         // given
         Voucher voucher = createFixedVoucher(1L, 1000);
-        voucherRepository.save(voucher);
+        fileVoucherRepository.save(voucher);
         Long voucherId = voucher.getId();
 
-        Optional<Voucher> before = voucherRepository.findById(voucherId);
+        Optional<Voucher> before = fileVoucherRepository.findById(voucherId);
         assertThatNoException().isThrownBy(before::get);
 
         // when
-        voucherRepository.deleteById(voucherId);
+        fileVoucherRepository.deleteById(voucherId);
 
         // then
-        Optional<Voucher> after = voucherRepository.findById(voucherId);
+        Optional<Voucher> after = fileVoucherRepository.findById(voucherId);
         assertThatThrownBy(after::get)
                 .isInstanceOf(NoSuchElementException.class);
     }
@@ -111,12 +110,12 @@ class MemoryVoucherRepositoryTest {
         Voucher voucher1 = createFixedVoucher(1L, 1000);
         Voucher voucher2 = createFixedVoucher(2L, 2000);
         Voucher voucher3 = createPercentVoucher(3L, 30);
-        voucherRepository.save(voucher1);
-        voucherRepository.save(voucher2);
-        voucherRepository.save(voucher3);
+        fileVoucherRepository.save(voucher1);
+        fileVoucherRepository.save(voucher2);
+        fileVoucherRepository.save(voucher3);
 
         // when
-        Optional<Long> latestId = voucherRepository.findLatestVoucherId();
+        Optional<Long> latestId = fileVoucherRepository.findLatestVoucherId();
 
         // then
         assertThat(latestId.isEmpty()).isFalse();
@@ -127,7 +126,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     void findLatestVoucherIdInEmpty() {
         // given when
-        Optional<Long> latestId = voucherRepository.findLatestVoucherId();
+        Optional<Long> latestId = fileVoucherRepository.findLatestVoucherId();
 
         // then
         assertThat(latestId.isEmpty()).isTrue();
@@ -140,4 +139,5 @@ class MemoryVoucherRepositoryTest {
     private static Voucher createPercentVoucher(Long id, int percent) {
         return new Voucher.Builder(id, PERCENT, percent).build();
     }
+
 }

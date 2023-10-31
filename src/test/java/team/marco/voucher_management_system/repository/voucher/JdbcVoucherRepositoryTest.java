@@ -7,16 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
 
-@Transactional
 @SpringBootTest
 @ActiveProfiles("prod")
 class JdbcVoucherRepositoryTest {
@@ -89,6 +88,35 @@ class JdbcVoucherRepositoryTest {
         // 쿠폰이 삭제됨
         List<Voucher> vouchers = voucherRepository.findAll();
         assertThat(vouchers).hasSize(0);
+    }
+
+    @DisplayName("저장된 쿠폰 id 중 최댓값을 구할 수 있다.")
+    @Test
+    void findLatestVoucherId() {
+        // given
+        Voucher voucher1 = createFixedVoucher(1L, 1000);
+        Voucher voucher2 = createFixedVoucher(2L, 2000);
+        Voucher voucher3 = createPercentVoucher(3L, 30);
+        voucherRepository.save(voucher1);
+        voucherRepository.save(voucher2);
+        voucherRepository.save(voucher3);
+
+        // when
+        Optional<Long> latestId = voucherRepository.findLatestVoucherId();
+
+        // then
+        assertThat(latestId.isEmpty()).isFalse();
+        assertThat(latestId.get()).isEqualTo(3L);
+    }
+
+    @DisplayName("저장된 쿠폰이 없는 경우 쿠폰 id 중 최댓값을 요청하면 빈 Optional을 반환한다.")
+    @Test
+    void findLatestVoucherIdInEmpty() {
+        // given when
+        Optional<Long> latestId = voucherRepository.findLatestVoucherId();
+
+        // then
+        assertThat(latestId.isEmpty()).isTrue();
     }
 
     private static Voucher createFixedVoucher(Long id, int amount) {
