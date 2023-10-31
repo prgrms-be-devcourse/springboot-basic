@@ -20,7 +20,7 @@ public class AppConfig {
     }
 
     @Bean
-    @Profile("test")
+    @Profile({"test","dev"})
     public DataSource memoryDataSource(){
         return DataSourceBuilder.create()
                 .driverClassName("org.h2.Driver")
@@ -32,7 +32,7 @@ public class AppConfig {
     }
 
     @Bean
-    @Profile("!test")
+    @Profile({"!test", "!dev"})
     public DataSource dataSource(){
         return DataSourceBuilder.create()
                 .driverClassName("com.mysql.cj.jdbc.Driver")
