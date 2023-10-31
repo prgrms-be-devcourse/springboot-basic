@@ -14,23 +14,18 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import com.programmers.vouchermanagement.configuration.TestConfig;
 import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
-@SpringJUnitConfig(TestConfig.class)
+@SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @ActiveProfiles("test")
 class FileVoucherRepositoryTest {
     @Autowired
@@ -45,7 +40,6 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("저장된 json파일을 성공적으로 읽고 로드한다.")
-    @Order(1)
     void testLoadingVoucherFileOnInit() {
         assertThat(fileProperties.getVoucherFilePath(), is("src/test/resources/voucher-test.json"));
         assertThat(voucherRepository, notNullValue());
@@ -53,10 +47,12 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("저장된 바우처가 없을 때 빈 리스트를 반환한다.")
-    @Order(2)
     void testListVoucherSuccessful_ReturnEmptyList() {
+        //given
+        voucherRepository.deleteAll();
+
         //when
-        final List<Voucher> vouchers = voucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
 
         //then
         assertThat(vouchers.isEmpty(), is(true));
@@ -64,13 +60,12 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("바우처 저장에 성공한다.")
-    @Order(3)
     void testVoucherCreationSuccessful() {
         //given
-        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
 
         //when
-        final Voucher createdVoucher = voucherRepository.save(voucher);
+        Voucher createdVoucher = voucherRepository.save(voucher);
 
         //then
         assertThat(createdVoucher, samePropertyValuesAs(voucher));
@@ -78,14 +73,13 @@ class FileVoucherRepositoryTest {
 
     @Test
     @DisplayName("추가적으로 바우처를 저장하고 저장된 바우처들의 리스트를 반환한다.")
-    @Order(4)
     void testListVoucherSuccessful_ReturnList() {
         //given
-        final Voucher additionalVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
+        Voucher additionalVoucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
         voucherRepository.save(additionalVoucher);
 
         //when
-        final List<Voucher> vouchers = voucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.findAll();
 
         //then
         assertThat(vouchers, hasSize(greaterThanOrEqualTo(1)));
@@ -95,7 +89,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("존재하지 않는 아이디 검색 시 빈 Optional을 반환한다")
     void testFindVoucherByIdSuccessful_ReturnEmptyOptional() {
         //when
-        final Optional<Voucher> foundVoucher = voucherRepository.findById(UUID.randomUUID());
+        Optional<Voucher> foundVoucher = voucherRepository.findById(UUID.randomUUID());
 
         //then
         assertThat(foundVoucher.isEmpty(), is(true));
@@ -105,11 +99,11 @@ class FileVoucherRepositoryTest {
     @DisplayName("아이디 검색으로 바우처 조회를 성공한다.")
     void testFindVoucherByIdSuccessful() {
         //given
-        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(40), VoucherType.PERCENT);
+        Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(40), VoucherType.PERCENT);
         voucherRepository.save(voucher);
 
         //when
-        final Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
+        Optional<Voucher> foundVoucher = voucherRepository.findById(voucher.getVoucherId());
 
         //then
         assertThat(foundVoucher.isEmpty(), is(false));
@@ -120,14 +114,14 @@ class FileVoucherRepositoryTest {
     @DisplayName("바우처 정보 수정을 성공한다.")
     void testVoucherUpdateSuccessful() {
         //given
-        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
         voucherRepository.save(voucher);
-        final Voucher foundVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
+        Voucher foundVoucher = voucherRepository.findById(voucher.getVoucherId()).get();
 
         //when
-        final Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), new BigDecimal(5000), voucher.getVoucherType());
+        Voucher updatedVoucher = new Voucher(voucher.getVoucherId(), new BigDecimal(5000), voucher.getVoucherType());
         voucherRepository.save(updatedVoucher);
-        final Voucher newlyFoundVoucher = voucherRepository.findById(foundVoucher.getVoucherId()).get();
+        Voucher newlyFoundVoucher = voucherRepository.findById(foundVoucher.getVoucherId()).get();
 
         //then
         assertThat(newlyFoundVoucher, samePropertyValuesAs(updatedVoucher));
@@ -137,7 +131,7 @@ class FileVoucherRepositoryTest {
     @DisplayName("바우처 삭제를 성공한다")
     void testDeleteVoucherSuccessful() {
         //given
-        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
+        Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(50), VoucherType.PERCENT);
         voucherRepository.save(voucher);
 
         //when

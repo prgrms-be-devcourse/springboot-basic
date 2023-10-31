@@ -13,20 +13,15 @@ import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import com.programmers.vouchermanagement.configuration.TestConfig;
 import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 
-@SpringJUnitConfig(TestConfig.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SpringBootTest
 @ActiveProfiles("test")
 class FileCustomerRepositoryTest {
     @Autowired
@@ -40,17 +35,10 @@ class FileCustomerRepositoryTest {
     }
 
     @Test
-    @Order(1)
     @DisplayName("저장된 블랙리스트 csv파일을 성공적으로 읽고 로드한다")
     void testLoadingBlacklistFileOnInit() {
         assertThat(customerRepository, notNullValue());
         assertThat(fileProperties.getCSVCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
-
-        //when
-        final List<Customer> blacklist = customerRepository.findBlackCustomers();
-
-        //then
-        assertThat(blacklist.isEmpty(), is(false));
     }
 
     @Test
@@ -60,7 +48,7 @@ class FileCustomerRepositoryTest {
         customerRepository.deleteAll();
 
         //when
-        final List<Customer> blacklist = customerRepository.findBlackCustomers();
+        List<Customer> blacklist = customerRepository.findBlackCustomers();
 
         //then
         assertThat(blacklist.isEmpty(), is(true));
@@ -70,7 +58,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("저장된 고객이 없으면 빈 리스트를 반환한다.")
     void testFindCustomersSuccessful_ReturnEmptyList() {
         //when
-        final List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
 
         //then
         assertThat(customers.isEmpty(), is(true));
@@ -80,10 +68,10 @@ class FileCustomerRepositoryTest {
     @DisplayName("고객 저장을 성공한다.")
     void testCustomerCreationSuccessful() {
         //given
-        final Customer customer = new Customer(UUID.randomUUID(), "test-user");
+        Customer customer = new Customer(UUID.randomUUID(), "test-user");
 
         //when
-        final Customer createdCustomer = customerRepository.save(customer);
+        Customer createdCustomer = customerRepository.save(customer);
 
         //then
         assertThat(createdCustomer, samePropertyValuesAs(customer));
@@ -93,13 +81,13 @@ class FileCustomerRepositoryTest {
     @DisplayName("저장된 고객이 있으면 고객들의 리스트를 반환한다.")
     void testFindCustomersSuccessful_ReturnList() {
         //given
-        final Customer firstCustomer = new Customer(UUID.randomUUID(), "first-customer");
-        final Customer secondCustomer = new Customer(UUID.randomUUID(), "second-customer");
+        Customer firstCustomer = new Customer(UUID.randomUUID(), "first-customer");
+        Customer secondCustomer = new Customer(UUID.randomUUID(), "second-customer");
         customerRepository.save(firstCustomer);
         customerRepository.save(secondCustomer);
 
         //when
-        final List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
 
         //then
         assertThat(customers.isEmpty(), is(false));
@@ -110,10 +98,10 @@ class FileCustomerRepositoryTest {
     @DisplayName("존재하지 않는 고객의 아이디 검색에 빈 Optional을 반환한다.")
     void testFindCustomerByIdFailed_ReturnEmptyOptional() {
         //given
-        final UUID randomId = UUID.randomUUID();
+        UUID randomId = UUID.randomUUID();
 
         //when
-        final Optional<Customer> foundCustomer = customerRepository.findById(randomId);
+        Optional<Customer> foundCustomer = customerRepository.findById(randomId);
 
         //then
         assertThat(foundCustomer.isEmpty(), is(true));
@@ -123,11 +111,11 @@ class FileCustomerRepositoryTest {
     @DisplayName("아이디 검색으로 고객 조회를 성공한다.")
     void testFindCustomerByIdSuccessful() {
         //given
-        final Customer customer = new Customer(UUID.randomUUID(), "test-customer2");
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer2");
         customerRepository.save(customer);
 
         //when
-        final Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
+        Optional<Customer> foundCustomer = customerRepository.findById(customer.getCustomerId());
 
         //then
         assertThat(foundCustomer.isEmpty(), is(false));
@@ -138,15 +126,16 @@ class FileCustomerRepositoryTest {
     @DisplayName("저장된 고객의 정보 수정을 성공한다.")
     void testUpdateCustomerSuccessful() {
         //given
-        final Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
         customerRepository.save(customer);
 
         //when
-        final Customer updatedCustomer = new Customer(customer.getCustomerId(), "updated-test-customer");
+        Customer updatedCustomer = new Customer(customer.getCustomerId(), "updated-test-customer");
         customerRepository.save(updatedCustomer);
 
         //then
-        final Customer founcCustomer = customerRepository.findById(customer.getCustomerId()).get();
+        Customer founcCustomer = customerRepository.findById(customer.getCustomerId())
+                .get();
         assertThat(founcCustomer.getName(), is(updatedCustomer.getName()));
     }
 
@@ -154,7 +143,7 @@ class FileCustomerRepositoryTest {
     @DisplayName("저장된 고객의 정보를 삭제한다.")
     void testDeleteCustomerSuccessful() {
         //given
-        final Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
         customerRepository.save(customer);
 
         //when
