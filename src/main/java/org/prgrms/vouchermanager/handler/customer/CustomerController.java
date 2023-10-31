@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanager.handler;
+package org.prgrms.vouchermanager.handler.customer;
 
 import lombok.RequiredArgsConstructor;
 import org.prgrms.vouchermanager.domain.customer.Customer;

@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanager.handler;
+package org.prgrms.vouchermanager.handler.voucher;
 
 import lombok.RequiredArgsConstructor;
 import org.prgrms.vouchermanager.domain.voucher.MenuType;

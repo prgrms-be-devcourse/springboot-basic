@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanager.handler;
+package org.prgrms.vouchermanager.handler.wallet;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
