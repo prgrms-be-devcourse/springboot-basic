@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th=http://www.thymeleaf.org>
+<html>
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -10,9 +10,33 @@
     <title>Voucher Mgmt</title>
 </head>
 <body>
-<h1 th:text=""></h1>
-<p>
-    <a th:href="@{www.naver.com}" th:text="hello world"></a>
-</p>
+<div class="container text-center">
+    <h1>
+        Voucher Management Program
+    </h1>
+    <div class="row align-items-center gap-5">
+        <div class="col card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">바우처 관리 메뉴</h5>
+                <p class="card-text">바우처 조회/등록/삭제를 위한 메뉴입니다.</p>
+                <a href="/voucher" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+        <div class="col card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">고객 관리 메뉴</h5>
+                <p class="card-text">고객 조회/등록/삭제를 위한 메뉴입니다.</p>
+                <a href="/customer" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+        <div class="col card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">지갑 관리 메뉴</h5>
+                <p class="card-text">고객-바우처 간의 연결관리 메뉴입니다.</p>
+                <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
