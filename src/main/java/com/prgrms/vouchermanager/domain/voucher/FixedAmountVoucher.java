@@ -13,6 +13,10 @@ public class FixedAmountVoucher extends Voucher {
         super.type = VoucherType.FIXED;
     }
 
+    public FixedAmountVoucher(UUID id, long discount, String date) {
+        super(id, discount, date);
+    }
+
     @Override
     public long discount(long beforeDiscount) {
         long afterDiscount = beforeDiscount - discount;

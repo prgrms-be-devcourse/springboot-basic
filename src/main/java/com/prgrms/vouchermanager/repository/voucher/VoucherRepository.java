@@ -16,7 +16,7 @@ public interface VoucherRepository {
 
     int delete(UUID id);
 
-    List<Voucher> findByDate(int startYear, int startMonth, int endYear, int endMonth);
+    List<Voucher> findByDate(String start, String end);
 
-    List<Voucher> findByVoucherType(VoucherType voucherType);
+    List<Voucher> findByDateAndVoucherType(VoucherType voucherType, String start, String end);
 }

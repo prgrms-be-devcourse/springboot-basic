@@ -4,13 +4,12 @@ import com.prgrms.vouchermanager.domain.voucher.*;
 import com.prgrms.vouchermanager.message.LogMessage;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import com.prgrms.vouchermanager.util.VoucherFactory;
-import com.prgrms.vouchermanager.util.VoucherTypeResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -52,11 +51,26 @@ public class VoucherService {
     }
 
     public List<Voucher> findByCondition(VoucherType voucherType, int startYear, int startMonth, int endYear, int endMonth) {
+        String start = getYearAndMonth(startYear, startMonth);
+        String end = getYearAndMonth(endYear, endMonth);
         List<Voucher> byDate
-                = voucherRepository.findByDate(startYear, startMonth, endYear, endMonth);
-        List<Voucher> byType =
-                voucherRepository.findByVoucherType(voucherType);
-        byDate.retainAll(byType);
-        return byDate;
+                = voucherRepository.findByDate(start, end);
+        log.info("byDate : " + byDate);
+        if(voucherType == VoucherType.BOTH) return byDate;
+
+        List<Voucher> byDateAndType =
+                voucherRepository.findByDateAndVoucherType(voucherType, start, end);
+        log.info("complete : " + byDateAndType.toString());
+        return byDateAndType;
+    }
+
+    private String getYearAndMonth(int year, int month) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMM");
+        Calendar date = Calendar.getInstance();
+        date.clear();
+
+        date.set(Calendar.YEAR, year);
+        date.set(Calendar.MONTH, month);
+        return format.format(date.getTime());
     }
 }

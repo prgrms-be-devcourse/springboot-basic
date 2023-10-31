@@ -77,8 +77,6 @@ public class VoucherWebController {
                                   @RequestParam int endYear,
                                   @RequestParam int endMonth,
                                   Model model) {
-        log.info(voucherType.toString());
-        log.info(String.valueOf(startYear));
         List<Voucher> vouchers
                 = service.findByCondition(voucherType, startYear, startMonth, endYear, endMonth);
         model.addAttribute("vouchers", vouchers);

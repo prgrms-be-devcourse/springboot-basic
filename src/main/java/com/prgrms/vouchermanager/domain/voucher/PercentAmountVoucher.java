@@ -13,6 +13,10 @@ public class PercentAmountVoucher extends Voucher {
         super.type = VoucherType.PERCENT;
     }
 
+    public PercentAmountVoucher(UUID id, long discount, String date) {
+        super(id, discount, date);
+    }
+
     @Override
     public long discount(long beforeDiscount) {
         long afterDiscount = beforeDiscount - beforeDiscount * (discount / 100);

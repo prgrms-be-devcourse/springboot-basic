@@ -18,13 +18,13 @@ public enum QueryMessage {
     FIND_BY_ID_VOUCHER("select * from vouchers where voucher_id = UUID_TO_BIN(?)"),
     FIND_BY_DATE_VOUCHER("""
             select * from vouchers
-            where year(create_date) >= ?
-            and year(create_date) <= ?
-            and month(create_date) >= ?
-            and month(create_date) <=?"""),
+            where strcmp(date_format(create_date, '%Y%m'), ?) >= 0
+            and strcmp(date_format(create_date, '%Y%m'), ?) <= 0"""),
     FIND_BY_VOUCHER_TYPE_VOUCHER("""
             select * from vouchers
-            where voucher_type = ?"""),
+            where voucher_type = ?
+            and strcmp(date_format(create_date, '%Y%m'), ?) >= 0
+            and strcmp(date_format(create_date, '%Y%m'), ?) <= 0"""),
     UPDATE_DISCOUNT_VOUCHER("update vouchers set discount=? where voucher_id=UUID_TO_BIN(?)"),
     DELETE_VOUCHER("delete from vouchers where voucher_id = UUID_TO_BIN(?)"),
     INSERT_VOUCHER_IGNORE_DUPLICATE("insert into vouchers(voucher_id, voucher_type, discount) values(UUID_TO_BIN(?), ?, ?) on duplicate key update voucher_id = UUID_TO_BIN(?)"),

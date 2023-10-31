@@ -49,12 +49,12 @@ public class VoucherMemoryRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByDate(int startYear, int startMonth, int endYear, int endMonth) {
+    public List<Voucher> findByDate(String start, String end) {
         return null;
     }
 
     @Override
-    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+    public List<Voucher> findByDateAndVoucherType(VoucherType voucherType, String start, String end) {
         return null;
     }
 }
