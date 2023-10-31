@@ -10,6 +10,7 @@ import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.exception.IncorrectInputException;
 import com.weeklyMission.wallet.controller.WalletController;
+import com.weeklyMission.wallet.dto.WalletRequest;
 import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -117,7 +118,7 @@ public class Client {
                 String memberId = consoleIOHandler.commandMemberId();
                 consoleIOHandler.printSuccessGetVoucherList(voucherController.findAll());
                 String voucherId = consoleIOHandler.commandVoucherId();
-                walletController.walletSave(memberId, voucherId);
+                walletController.walletSave(new WalletRequest(memberId, voucherId));
             }
             case CommandType.FINDMEMBER -> {
                 consoleIOHandler.printSuccessGetVoucherList(voucherController.findAll());

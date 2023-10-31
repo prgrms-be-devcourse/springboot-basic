@@ -5,6 +5,7 @@ import com.weeklyMission.member.repository.DBMemberRepository;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.repository.DBVoucherRepository;
 import com.weeklyMission.wallet.domain.Wallet;
+import com.weeklyMission.wallet.dto.WalletRequest;
 import com.weeklyMission.wallet.repository.WalletRepository;
 import java.util.List;
 import java.util.UUID;
@@ -25,9 +26,8 @@ public class WalletService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void save(String memberId, String voucherId){
-        Wallet wallet = new Wallet(UUID.randomUUID().toString(), memberId, voucherId);
-        walletRepository.save(wallet);
+    public void save(WalletRequest wallet){
+        walletRepository.save(wallet.toEntity());
     }
 
     public List<VoucherResponse> findByMember(String memberId){

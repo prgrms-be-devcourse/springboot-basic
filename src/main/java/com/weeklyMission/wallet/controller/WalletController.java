@@ -2,6 +2,7 @@ package com.weeklyMission.wallet.controller;
 
 import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.voucher.dto.VoucherResponse;
+import com.weeklyMission.wallet.dto.WalletRequest;
 import com.weeklyMission.wallet.service.WalletService;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -15,8 +16,8 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    public void walletSave(String memberId, String voucherId){
-        walletService.save(memberId, voucherId);
+    public void walletSave(WalletRequest wallet){
+        walletService.save(wallet);
     }
 
     public List<VoucherResponse> findByMemberId(String memberId){
