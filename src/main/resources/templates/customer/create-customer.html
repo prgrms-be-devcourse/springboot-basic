@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Create Voucher</title>
+    <meta charset="UTF-8">
+    <title>Create Customer</title>
 </head>
 <body>
-<h1>Create a Voucher</h1>
-<form th:action="@{/customers/create}" method="post">
-    <label for="menuType">Select Menu Type:</label>
-    <select id="menuType" name="menuType">
-        <option value="FIXED">Fixed</option>
-        <option value="PERCENT">Percent</option>
-    </select>
-    <br>
-    <button type="submit">Create Voucher</button>
+<h2>Create Customer</h2>
+<form action="/customers/create" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required><br>
+
+    <label for="isBlack">Blacklisted:</label>
+    <input type="checkbox" id="isBlack" name="isBlack"><br>
+
+    <button type="submit">Create</button>
 </form>
 </body>
 </html>

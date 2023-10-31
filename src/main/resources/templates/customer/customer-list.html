@@ -41,10 +41,11 @@
         <th>Amount</th>
         <th>Menu Type</th>
     </tr>
-    <tr th:each="voucher : ${customers}">
-        <td th:text="${voucher.getVoucherId()}"></td>
-        <td th:text="${voucher.getAmount()}"></td>
-        <td th:text="${voucher.getType()}"></td>
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.getCustomerId()}"></td>
+        <td th:text="${customer.getName()}"></td>
+        <td th:text="${customer.getEmail()}"></td>
+        <td th:text="${customer.getIsBlack()}"></td>
     </tr>
 </table>
 </body>

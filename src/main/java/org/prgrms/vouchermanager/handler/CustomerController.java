@@ -5,19 +5,34 @@ import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.customer.CustomerRequest;
 import org.prgrms.vouchermanager.service.CustomerService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Component
+@Controller
 @RequiredArgsConstructor
 public class CustomerController {
     private final CustomerService service;
 
-    public List<Customer> list() {
-        return service.findAll();
+    @GetMapping("/customers")
+    public String findAll(Model model) {
+        List<Customer> customers = service.findAll();
+        model.addAttribute("customers", customers);
+        return "customer/customer-list";
     }
 
-    public Customer create(CustomerRequest requestDto){
-        return service.createCustomer(requestDto);
+    @GetMapping("/customers/create")
+    public String createForm(){
+        return "customer/create-customer";
+    }
+    @PostMapping("/customers/create")
+    public String create(@ModelAttribute CustomerRequest customerRequest){
+        service.createCustomer(customerRequest);
+        return "redirect:/customers";
     }
 }
