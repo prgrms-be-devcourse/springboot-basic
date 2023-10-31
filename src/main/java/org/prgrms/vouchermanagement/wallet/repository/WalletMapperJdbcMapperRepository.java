@@ -15,6 +15,7 @@ import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -38,24 +39,21 @@ public class WalletMapperJdbcMapperRepository implements WalletMapperRepository 
 
         return jdbcTemplate.update(CREATE, customerId.toString().getBytes(), voucherId.toString().getBytes());
     }
-    //repository 메서드 추상화
 
     @Override
     public List<Voucher> findVouchers(UUID customerId) {
         return jdbcTemplate.query(FINDVOUCHERS, new Object[]{customerId.toString().getBytes()}, new VoucherRowMapper());
     }
-    //메서드명 자세하게
 
     @Override
     public int delete(UUID customerId) {
         return jdbcTemplate.update(DELETE, customerId.toString().getBytes());
     }
 
-    @Override
-    public Customer findCustomer(UUID voucherId) {
-        return jdbcTemplate.query(FINDCUSTOMER, new Object[]{voucherId.toString().getBytes()}, new CustomerRowMapper()).get(0);
+    public Optional<Customer> findCustomer(UUID voucherId) {
+        List<Customer> customers = jdbcTemplate.query(FINDCUSTOMER, new Object[]{voucherId.toString().getBytes()}, new CustomerRowMapper());
+        return customers.stream().findFirst();
     }
-    //null값 -> optional
 
     private class VoucherRowMapper implements RowMapper<Voucher> {
         @Override

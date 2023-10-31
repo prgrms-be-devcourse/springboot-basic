@@ -2,6 +2,7 @@ package org.prgrms.vouchermanagement.wallet.service;
 
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
+import org.prgrms.vouchermanagement.exception.LoadFailException;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.wallet.repository.WalletMapperRepository;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,8 @@ public class WalletMapperService {
     }
 
     public Customer findCustomer(UUID voucherId) {
-        return walletMapperRepository.findCustomer(voucherId);
+        return walletMapperRepository
+                .findCustomer(voucherId)
+                .orElseThrow(() -> new LoadFailException("찾을 수 없습니다."));
     }
 }

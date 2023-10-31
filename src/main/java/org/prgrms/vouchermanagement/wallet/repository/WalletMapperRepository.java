@@ -5,6 +5,7 @@ import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface WalletMapperRepository {
@@ -15,5 +16,5 @@ public interface WalletMapperRepository {
 
     int delete(UUID customerId);
 
-    Customer findCustomer(UUID voucherId);
+    Optional<Customer> findCustomer(UUID voucherId);
 }
