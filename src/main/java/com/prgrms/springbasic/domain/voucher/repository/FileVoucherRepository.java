@@ -55,6 +55,11 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteById(UUID voucher_id) {
+
+    }
+
+    @Override
     public Optional<Voucher> findVoucherById(UUID voucher_id) {
         return Optional.ofNullable(vouchers.get(voucher_id));
     }

@@ -51,4 +51,9 @@ public class VoucherService {
     public void deleteAll() {
         voucherRepository.deleteAll();
     }
+
+    @Transactional
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
 }

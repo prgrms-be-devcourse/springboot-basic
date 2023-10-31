@@ -22,6 +22,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String FIND_BY_ID = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String UPDATE = "UPDATE vouchers SET discount_value = ? WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String DELETE_ALL = "DELETE from vouchers";
+    private static final String DELETE_BY_ID = "DELETE from vouchers WHERE voucher_id = UUID_TO_BIN(?)";
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
     private final JdbcTemplate jdbcTemplate;
@@ -61,6 +62,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update(DELETE_ALL);
+    }
+
+    @Override
+    public void deleteById(UUID voucher_id) {
+        jdbcTemplate.update(DELETE_BY_ID, voucher_id.toString().getBytes());
     }
 
     @Override

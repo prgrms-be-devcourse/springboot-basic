@@ -38,6 +38,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public void deleteById(UUID voucher_id) {
+
+    }
+
+    @Override
     public Optional<Voucher> findVoucherById(UUID voucher_id) {
         return Optional.ofNullable(storage.get(voucher_id));
     }

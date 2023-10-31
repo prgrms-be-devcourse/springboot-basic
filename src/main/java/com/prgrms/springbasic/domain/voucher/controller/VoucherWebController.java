@@ -21,7 +21,7 @@ public class VoucherWebController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public String voucherList(Model model) {
         List<VoucherResponse> vouchers = voucherService.findAll();
         model.addAttribute("vouchers", vouchers);
@@ -36,14 +36,20 @@ public class VoucherWebController {
     @PostMapping("/create")
     public String create(@ModelAttribute CreateVoucherRequest createVoucherRequest) {
         voucherService.saveVoucher(createVoucherRequest);
-        return "redirect:/vouchers";
+        return "redirect:/vouchers/list";
     }
 
-    @GetMapping("/{voucherId}")
+    @GetMapping("/detail/{voucherId}")
     public String findVoucher(@PathVariable String voucherId, Model model) {
         VoucherResponse voucher = voucherService.findById(UUID.fromString(voucherId));
         model.addAttribute("voucher", voucher);
-        return "voucher/view";
+        return "voucher/detail";
+    }
+
+    @DeleteMapping("/delete/{voucherId}")
+    public String deleteVoucher(@PathVariable String voucherId) {
+        voucherService.deleteById(UUID.fromString(voucherId));
+        return "redirect:/vouchers/list";
     }
 
     @ModelAttribute("discountType")

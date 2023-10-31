@@ -5,6 +5,10 @@ repository:
 spring:
   profiles:
     active: prod
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

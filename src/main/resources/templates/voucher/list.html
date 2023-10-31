@@ -11,10 +11,9 @@
         <h2>바우처 목록</h2>
     </div>
     <div class="row">
-        <div class="col">
-            <button class="btn btn-primary float-end"
-                    onclick="location.href='/vouchers/create-form'" type="button">바우처 등록
-            </button>
+        <div class="col text-end">
+            <button class="btn btn-primary me-2" onclick="location.href='/vouchers/create-form'" type="button">바우처 등록</button>
+            <button class="btn btn-primary" onclick="location.href='/'" type="button">메인</button>
         </div>
     </div>
     <hr class="my-4">
@@ -29,9 +28,9 @@
             </thead>
             <tbody th:each="voucher : ${vouchers}">
             <tr>
-                <td><a th:href="@{'/vouchers/' + ${voucher.voucherId()}}" th:text="${voucher.voucherId()}">voucher id</a></td>
-                <td th:text="${voucher.discountType()}">테스트 상품1</td>
-                <td th:text="${voucher.discountValue()}">10000</td>
+                <td><a th:href="@{'/vouchers/detail/' + ${voucher.voucherId()}}" th:text="${voucher.voucherId()}"></a></td>
+                <td th:text="${voucher.discountType()}"></td>
+                <td th:text="${voucher.discountValue()}"></td>
             </tr>
             </tbody>
         </table>
