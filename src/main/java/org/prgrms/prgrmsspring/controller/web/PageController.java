@@ -21,4 +21,8 @@ public class PageController implements ApplicationWebController {
         return "list";
     }
 
+    @GetMapping("/list/search/date")
+    public String searchByDate() {
+        return "voucher-date";
+    }
 }

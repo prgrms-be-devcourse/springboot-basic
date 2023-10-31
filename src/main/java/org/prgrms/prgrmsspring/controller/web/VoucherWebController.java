@@ -59,8 +59,13 @@ public class VoucherWebController implements ApplicationWebController {
         return "voucher";
     }
 
-    public List<Voucher> findBetweenDate(LocalDateTime begin, LocalDateTime end) {
-        return voucherService.findBetweenDate(begin, end);
+    @PostMapping("/list/search/date")
+    public String findBetweenDate(@RequestParam LocalDateTime begin,
+                                  @RequestParam LocalDateTime end,
+                                  Model model) {
+        List<Voucher> voucherList = voucherService.findBetweenDate(begin, end);
+        model.addAttribute("vouchers", voucherList);
+        return "list-all";
     }
 
     public List<Voucher> findByVoucherType(int modeNum) {
