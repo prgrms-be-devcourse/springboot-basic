@@ -164,7 +164,7 @@ public class ConsoleManager {
             print(Formatter.formatNoContent(CONTENT_VOUCHER));
         }
 
-        voucherResponses.forEach(this::printReadVoucher);
+        voucherResponses.forEach(this::printFoundVoucher);
     }
 
     public void printReadAllCustomers(List<CustomerResponse> customerResponses) {
@@ -172,21 +172,21 @@ public class ConsoleManager {
             print(Formatter.formatNoContent(CONTENT_CUSTOMER));
         }
 
-        customerResponses.forEach(this::printReadCustomer);
+        customerResponses.forEach(this::printFoundCustomer);
     }
 
     public void printReadBlacklist(List<CustomerResponse> customerResponses) {
         if (customerResponses.isEmpty()) {
             print(Formatter.formatNoContent(CONTENT_BLACKLIST));
         }
-        customerResponses.forEach(this::printReadCustomer);
+        customerResponses.forEach(this::printFoundCustomer);
     }
 
-    public void printReadVoucher(VoucherResponse voucherResponse) {
+    public void printFoundVoucher(VoucherResponse voucherResponse) {
         print(Formatter.formatVoucher(voucherResponse));
     }
 
-    public void printReadCustomer(CustomerResponse customerResponse) {
+    public void printFoundCustomer(CustomerResponse customerResponse) {
         print(Formatter.formatCustomer(customerResponse));
     }
 
@@ -199,12 +199,12 @@ public class ConsoleManager {
         if (vouchers.isEmpty()) {
             print(NO_OWNED_VOUCHER);
         }
-        vouchers.forEach(this::printReadVoucher);
+        vouchers.forEach(this::printFoundVoucher);
     }
 
     public void printVoucherOwner(UUID voucherId, CustomerResponse customerResponse) {
         print(VOUCHER_OWNER_BELOW.formatted(voucherId));
-        printReadCustomer(customerResponse);
+        printFoundCustomer(customerResponse);
     }
 
     public void printDeleteResult() {
