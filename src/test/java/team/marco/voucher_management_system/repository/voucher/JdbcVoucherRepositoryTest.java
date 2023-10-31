@@ -85,7 +85,7 @@ class JdbcVoucherRepositoryTest {
     void 쿠폰_소지자_아이디로_조회_성공() {
         // 쿠폰 소지자와 함께 1,000원 할인 쿠폰 생성
         int discountAmount = 1_000;
-        Customer customer = new Customer("customer", "customer@gmail.com");
+        Customer customer = createCustomer("customer", "customer@gmail.com");
         customerRepository.insert(customer);
 
         Voucher voucher = new FixedAmountVoucher(discountAmount, customer.getId());
@@ -107,7 +107,7 @@ class JdbcVoucherRepositoryTest {
         voucherRepository.save(voucher);
 
         // 쿠폰 소지자 할당 (쿠폰 정보 수정)
-        Customer customer = new Customer("customer", "customer@gmail.com");
+        Customer customer = createCustomer("customer", "customer@gmail.com");
         customerRepository.insert(customer);
         voucher.assigneOwner(customer.getId());
 
@@ -131,6 +131,12 @@ class JdbcVoucherRepositoryTest {
         // 쿠폰이 삭제됨
         List<Voucher> vouchers = voucherRepository.findAll();
         assertThat(vouchers).hasSize(0);
+    }
+
+    private Customer createCustomer(String name, String email) {
+        return new Customer
+                .Builder(name, email)
+                .build();
     }
 
 }

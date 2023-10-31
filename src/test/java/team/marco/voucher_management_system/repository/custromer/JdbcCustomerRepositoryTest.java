@@ -39,7 +39,7 @@ class JdbcCustomerRepositoryTest {
         // 사용자 생성
         String name = "customer";
         String email = "customer@gmail.com";
-        Customer customer = new Customer(name, email);
+        Customer customer = createCustomer(name, email);
 
         Customer saved = customerRepository.insert(customer);
 
@@ -56,13 +56,13 @@ class JdbcCustomerRepositoryTest {
         // 사용자 생성
         String name = "customer";
         String email = "customer@gmail.com";
-        Customer customer = new Customer(name, email);
+        Customer customer = createCustomer(name, email);
         customerRepository.insert(customer);
 
         // 이미 존재하는 이메일과 함께 생성 시도
         String name2 = "customer2";
         String sameEmail = "customer@gmail.com";
-        Customer customer2 = new Customer(name2, sameEmail);
+        Customer customer2 = createCustomer(name2, sameEmail);
 
         // 에러 발생
         assertThrows(DuplicateKeyException.class,
@@ -72,8 +72,8 @@ class JdbcCustomerRepositoryTest {
     @Test
     void 전체_사용자_목록_조회_성공() {
         // 사용자 생성
-        Customer customer = new Customer("customer", "customer@gmail.com");
-        Customer customer2 = new Customer("customer2", "customer2@gmail.com");
+        Customer customer = createCustomer("customer", "customer@gmail.com");
+        Customer customer2 = createCustomer("customer2", "customer2@gmail.com");
         customerRepository.insert(customer);
         customerRepository.insert(customer2);
 
@@ -89,7 +89,7 @@ class JdbcCustomerRepositoryTest {
         // 사용자 생성
         String name = "customer";
         String email = "customer@gmail.com";
-        Customer customer = new Customer(name, email);
+        Customer customer = createCustomer(name, email);
         customerRepository.insert(customer);
 
         // 사용자 아이디로 조회
@@ -97,5 +97,11 @@ class JdbcCustomerRepositoryTest {
 
         // 저장한 사용자와 동일한 사용자 반환
         Assertions.assertThat(found.getId()).isEqualTo(customer.getId());
+    }
+
+    private Customer createCustomer(String name, String email) {
+        return new Customer
+                .Builder(name, email)
+                .build();
     }
 }

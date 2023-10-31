@@ -68,11 +68,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private Customer resultSetToCustomer(ResultSet resultSet) throws SQLException {
-        UUID customerId = bytesToUUID(resultSet.getBytes("customer_id"));
-        String customerName = resultSet.getString("name");
+        UUID id = bytesToUUID(resultSet.getBytes("customer_id"));
+        String name = resultSet.getString("name");
         String email = resultSet.getString("email");
         LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
-        return new Customer(customerId, customerName, email, createdAt);
+        return new Customer.Builder(name, email)
+                .id(id)
+                .createdAt(createdAt)
+                .build();
     }
 }

@@ -33,7 +33,7 @@ class CustomerServiceTest {
     @Test
     void 사용자_ID로_조회() {
         // 사용자 등록
-        Customer customer = new Customer("test", "test@gmail.com");
+        Customer customer = createCustomer("test", "test@gmail.com");
         customerRepository.insert(customer);
 
         // 사용자 조회
@@ -43,5 +43,11 @@ class CustomerServiceTest {
         assertThat(found.getId()).isEqualTo(customer.getId());
         assertThat(found.getName()).isEqualTo(customer.getName());
         assertThat(found.getEmail()).isEqualTo(customer.getEmail());
+    }
+
+    private Customer createCustomer(String name, String email) {
+        return new Customer
+                .Builder(name, email)
+                .build();
     }
 }
