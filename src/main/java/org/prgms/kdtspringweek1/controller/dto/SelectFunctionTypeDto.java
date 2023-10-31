@@ -5,29 +5,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public enum SelectFunctionTypeDto {
-    EXIT("exit"),
-    CREATE_VOUCHER("create voucher"),
-    LIST_VOUCHERS("list vouchers"),
-    SEARCH_VOUCHER("search voucher"),
-    UPDATE_VOUCHER("update voucher"),
-    DELETE_ALL_VOUCHERS("delete all vouchers"),
-    DELETE_VOUCHER("delete voucher"),
-    CREATE_CUSTOMER("create customer"),
-    LIST_CUSTOMERS("list customers"),
-    SEARCH_CUSTOMER("search customer"),
-    UPDATE_CUSTOMER("update customer"),
-    DELETE_ALL_CUSTOMERS("delete all customers"),
-    DELETE_CUSTOMER("delete customer"),
-    LIST_BLACK_CUSTOMERS("list black customers"),
-    CREATE_MY_WALLET("create my wallet"),
-    SEARCH_MY_VOUCHERS("search my vouchers"),
-    DELETE_MY_WALLET("delete my wallet"),
-    SEARCH_MY_CUSTOMERS("search my customers");
+    EXIT("exit", "exit"),
+    CREATE_VOUCHER("voucher", "create voucher"),
+    LIST_VOUCHERS("voucher", "list vouchers"),
+    SEARCH_VOUCHER("voucher", "search voucher"),
+    UPDATE_VOUCHER("voucher", "update voucher"),
+    DELETE_ALL_VOUCHERS("voucher", "delete all vouchers"),
+    DELETE_VOUCHER("voucher", "delete voucher"),
+    CREATE_CUSTOMER("customer", "create customer"),
+    LIST_CUSTOMERS("customer", "list customers"),
+    SEARCH_CUSTOMER("customer", "search customer"),
+    UPDATE_CUSTOMER("customer", "update customer"),
+    DELETE_ALL_CUSTOMERS("customer", "delete all customers"),
+    DELETE_CUSTOMER("customer", "delete customer"),
+    LIST_BLACK_CUSTOMERS("customer", "list black customers"),
+    CREATE_MY_WALLET("wallet", "create my wallet"),
+    SEARCH_MY_VOUCHERS("wallet", "search my vouchers"),
+    DELETE_MY_WALLET("wallet", "delete my wallet"),
+    SEARCH_MY_CUSTOMERS("wallet", "search my customers");
 
+    private String type;
     private String name;
     private final static Logger logger = LoggerFactory.getLogger(SelectFunctionTypeDto.class);
 
-    SelectFunctionTypeDto(String name) {
+    SelectFunctionTypeDto(String type, String name) {
+        this.type = type;
         this.name = name;
     }
 
@@ -43,5 +45,9 @@ public enum SelectFunctionTypeDto {
 
     public String getName() {
         return name;
+    }
+
+    public String getType() {
+        return type;
     }
 }
