@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>데브코스 바우처 관리 홈페이지</title>
+
+</head>
+<body>
+<div style="position: absolute; left: 50%; top: 30%; transform: translate(-50%, -50%);">
+    <div class="list-group text-center">
+        <p>사용할 기능을 클릭해주세요.</p>
+        <a th:href="@{/list/all}" class="list-group-item list-group-item-action col-sm-2">전체 바우처 조회</a>
+        <a href="#" class="list-group-item list-group-item-action col-sm-2">A third link item</a>
+        <a href="#" class="list-group-item list-group-item-action col-sm-2">A fourth link item</a>
+        <a href="#" class="list-group-item list-group-item-action col-sm-2">A fourth link item</a>
+    </div>
+</div>
+</body>
+
+</html>

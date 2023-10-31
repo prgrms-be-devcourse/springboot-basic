@@ -8,6 +8,8 @@ import org.prgrms.prgrmsspring.domain.ControllerManager;
 import org.prgrms.prgrmsspring.view.CommandLineView;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
@@ -19,6 +21,12 @@ public class PrgrmsSpringApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PrgrmsSpringApplication.class, args);
+    }
+
+    @Profile(value = "web")
+    @Bean
+    public ServletWebServerFactory servletTomcatServerContainer() {
+        return new TomcatServletWebServerFactory();
     }
 
     @Profile(value = "command")

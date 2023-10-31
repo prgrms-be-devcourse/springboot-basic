@@ -15,6 +15,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID voucherId, long amount, LocalDateTime dateTime) {
         super(voucherId, amount, VoucherType.PERCENT_DISCOUNT.getTitle(), dateTime);
+        if (amount < 0 || amount > 100) throw new IllegalArgumentException("비율 할인 금액은 0과 100 사이의 금액이어야 합니다.");
     }
 
     @Override
