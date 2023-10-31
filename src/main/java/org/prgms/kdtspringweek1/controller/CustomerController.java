@@ -2,8 +2,8 @@ package org.prgms.kdtspringweek1.controller;
 
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
 import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
-import org.prgms.kdtspringweek1.controller.dto.customerDto.FindCustomerResponseDto;
-import org.prgms.kdtspringweek1.controller.dto.customerDto.UpdateCustomerRequestDto;
+import org.prgms.kdtspringweek1.customer.service.dto.FindCustomerResponseDto;
+import org.prgms.kdtspringweek1.customer.service.dto.UpdateCustomerRequestDto;
 import org.prgms.kdtspringweek1.customer.entity.Customer;
 import org.prgms.kdtspringweek1.customer.service.CustomerService;
 import org.springframework.stereotype.Component;

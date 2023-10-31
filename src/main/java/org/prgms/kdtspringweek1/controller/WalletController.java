@@ -2,8 +2,8 @@ package org.prgms.kdtspringweek1.controller;
 
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
 import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
-import org.prgms.kdtspringweek1.controller.dto.customerDto.FindCustomerResponseDto;
-import org.prgms.kdtspringweek1.controller.dto.voucherDto.FindVoucherResponseDto;
+import org.prgms.kdtspringweek1.customer.service.dto.FindCustomerResponseDto;
+import org.prgms.kdtspringweek1.voucher.service.dto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.wallet.entity.Wallet;
 import org.prgms.kdtspringweek1.wallet.service.WalletService;
 import org.springframework.stereotype.Component;

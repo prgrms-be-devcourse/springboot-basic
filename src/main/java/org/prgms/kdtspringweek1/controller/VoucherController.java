@@ -2,7 +2,7 @@ package org.prgms.kdtspringweek1.controller;
 
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
 import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
-import org.prgms.kdtspringweek1.controller.dto.voucherDto.FindVoucherResponseDto;
+import org.prgms.kdtspringweek1.voucher.service.dto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
 
