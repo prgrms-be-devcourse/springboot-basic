@@ -3,10 +3,8 @@ package org.programmers.springboot.basic.customer.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.programmers.springboot.basic.DataSourceConfig;
 import org.programmers.springboot.basic.aop.LoggerAspect;
-import org.programmers.springboot.basic.config.DataSourceConfig;
-import org.programmers.springboot.basic.config.DataSourceProperties;
 import org.programmers.springboot.basic.domain.customer.dto.CustomerRequestDto;
 import org.programmers.springboot.basic.domain.customer.entity.Customer;
 import org.programmers.springboot.basic.domain.customer.entity.CustomerType;
@@ -19,33 +17,28 @@ import org.programmers.springboot.basic.domain.voucher.repository.JdbcVoucherRep
 import org.programmers.springboot.basic.util.generator.UUIDGenerator;
 import org.programmers.springboot.basic.util.generator.UUIDRandomGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(SpringExtension.class)
 @ComponentScan(
         basePackages = {"org.programmers.springboot.basic"},
         basePackageClasses = JdbcVoucherRepository.class
 )
 @ContextConfiguration(classes = {
         LoggerAspect.class,
-        DataSourceConfig.class,
-        DataSourceProperties.class,
         EmailValidator.class,
         UUIDRandomGenerator.class,
         CustomerEntityMapperImpl.class,
         JdbcCustomerRepository.class,
+        DataSourceConfig.class
 })
-@EnableConfigurationProperties(value = DataSourceProperties.class)
 @TestPropertySource(properties = {"spring.config.location=classpath:application-test.yaml"})
 @SpringBootTest
 public class CustomerRepositoryTest {

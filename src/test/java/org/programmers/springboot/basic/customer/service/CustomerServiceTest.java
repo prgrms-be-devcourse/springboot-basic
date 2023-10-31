@@ -3,10 +3,8 @@ package org.programmers.springboot.basic.customer.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.programmers.springboot.basic.DataSourceConfig;
 import org.programmers.springboot.basic.aop.LoggerAspect;
-import org.programmers.springboot.basic.config.DataSourceConfig;
-import org.programmers.springboot.basic.config.DataSourceProperties;
 import org.programmers.springboot.basic.domain.customer.dto.CustomerRequestDto;
 import org.programmers.springboot.basic.domain.customer.dto.CustomerResponseDto;
 import org.programmers.springboot.basic.domain.customer.entity.Customer;
@@ -14,6 +12,7 @@ import org.programmers.springboot.basic.domain.customer.entity.CustomerType;
 import org.programmers.springboot.basic.domain.customer.exception.CustomerNotFoundException;
 import org.programmers.springboot.basic.domain.customer.exception.DuplicateBlackCustomerException;
 import org.programmers.springboot.basic.domain.customer.exception.DuplicateEmailException;
+import org.programmers.springboot.basic.domain.customer.exception.IllegalEmailException;
 import org.programmers.springboot.basic.domain.customer.mapper.CustomerEntityMapper;
 import org.programmers.springboot.basic.domain.customer.mapper.CustomerEntityMapperImpl;
 import org.programmers.springboot.basic.domain.customer.repository.CustomerRepository;
@@ -24,12 +23,10 @@ import org.programmers.springboot.basic.domain.voucher.service.VoucherService;
 import org.programmers.springboot.basic.util.generator.UUIDGenerator;
 import org.programmers.springboot.basic.util.generator.UUIDRandomGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,22 +35,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 
-@ExtendWith(SpringExtension.class)
 @ComponentScan(
         basePackages = {"org.programmers.springboot.basic"},
         basePackageClasses = VoucherService.class
 )
 @ContextConfiguration(classes = {
         LoggerAspect.class,
-        DataSourceConfig.class,
-        DataSourceProperties.class,
         EmailValidator.class,
         UUIDRandomGenerator.class,
         CustomerEntityMapperImpl.class,
         JdbcCustomerRepository.class,
         CustomerService.class,
+        DataSourceConfig.class
 })
-@EnableConfigurationProperties(value = DataSourceProperties.class)
 @TestPropertySource(properties = {"spring.config.location=classpath:application-test.yaml"})
 @SpringBootTest
 public class CustomerServiceTest {
@@ -181,10 +175,18 @@ public class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("존재하지 않는 email에 대한 find 로직 실패 검증")
-    public void failFindByEmailByNonExist() {
+    @DisplayName("유효하지 않은 email 타입에 대한 find 로직 실패 검증")
+    public void failFindByEmailByNonValidExist() {
 
-        assertThatThrownBy(() -> customerService.findByEmail("asdfasdf")).isInstanceOf(CustomerNotFoundException.class)
+        assertThatThrownBy(() -> customerService.findByEmail("asdfasdf")).isInstanceOf(IllegalEmailException.class)
+                .hasMessageContaining("Illegal Email Type!");
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 email 값에 대한 find 로직 실패 검증")
+    public void failFindByEamilByNonExist() {
+
+        assertThatThrownBy(() -> customerService.findByEmail("ocard9611@gmail.com")).isInstanceOf(CustomerNotFoundException.class)
                 .hasMessageContaining("No matching customers found!");
     }
 }
