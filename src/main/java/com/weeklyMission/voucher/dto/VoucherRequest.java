@@ -8,15 +8,14 @@ import java.util.UUID;
 
 public record VoucherRequest(
     String type,
-    String id,
     int amount
 ) {
     public Voucher toEntity(){
         if(type.equals(VoucherType.Fixed.getType())){
-            return new FixedAmountVoucher(id, amount);
+            return new FixedAmountVoucher(UUID.randomUUID().toString(), amount);
         }
         else if(type.equals(VoucherType.Percent.getType())){
-            return new PercentDiscountVoucher(id, amount);
+            return new PercentDiscountVoucher(UUID.randomUUID().toString(), amount);
         }
         return null;
     }

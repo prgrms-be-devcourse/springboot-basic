@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 public class Client {
 
-    private final Logger logger = LoggerFactory.getLogger(Client.class);
     private final ConsoleIO consoleIOHandler;
     private final MemberController memberController;
     private final VoucherController voucherController;
@@ -58,12 +57,7 @@ public class Client {
         switch (function) {
             case CommandType.CREATE -> {
                 VoucherType voucherType = VoucherType.of(consoleIOHandler.printSelectVoucherType());
-                UUID uuid = UUID.randomUUID();
-                VoucherRequest voucherRequest = new VoucherRequest(voucherType.getType(),
-                    uuid.toString(), consoleIOHandler.printAmountCommand());
-                logger.info("UUID -> {}", uuid);
-                logger.info("toString -> {}", uuid.toString());
-
+                VoucherRequest voucherRequest = new VoucherRequest(voucherType.getType(),consoleIOHandler.printAmountCommand());
                 voucherController.create(voucherRequest);
                 consoleIOHandler.printSuccessCreate();
             }
@@ -91,7 +85,7 @@ public class Client {
         String function = consoleIOHandler.printSelectMemberFunction();
         switch (function){
             case CommandType.CREATE -> {
-                MemberRequest memberRequest = new MemberRequest(UUID.randomUUID().toString(), consoleIOHandler.nameCommand(), consoleIOHandler.emailCommand(), consoleIOHandler.ageCommand());
+                MemberRequest memberRequest = new MemberRequest(consoleIOHandler.nameCommand(), consoleIOHandler.emailCommand(), consoleIOHandler.ageCommand());
                 memberController.create(memberRequest);
                 consoleIOHandler.printSuccessCreate();
             }
