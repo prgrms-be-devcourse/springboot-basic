@@ -5,11 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import team.marco.voucher_management_system.domain.voucher.FixedAmountVoucher;
-import team.marco.voucher_management_system.domain.voucher.PercentDiscountVoucher;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 import team.marco.voucher_management_system.domain.voucher.VoucherType;
-import team.marco.voucher_management_system.repository.custromer.CustomerRepository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,44 +20,29 @@ import static team.marco.voucher_management_system.util.UUIDUtil.uuidToBytes;
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
 
-    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, amount, percent, owner_id) VALUES (?, ?, ?, ?, ?)";
+    private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, discount_value, code, name) VALUES (?, ?, ?, ?, ?)";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
-    private static final String SELECT_BY_OWNER_SQL = "SELECT * FROM vouchers WHERE owner_id = ?";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = ?";
-    private static final String UPDATE_BY_ID_SQL = "UPDATE vouchers SET amount = ?, percent = ?, owner_id = ? WHERE voucher_id = ?";
     private static final String DELETE_BY_ID_SQL = "DELETE From vouchers WHERE voucher_id = ?";
+    private static final String SELECT_MAXIMUM_ID = "SELECT v.voucher_id From vouchers v ORDER BY voucher_id DESC LIMIT 1";
+    private static final String SELECT_TOTAL_COUNTS = "SELECT count(*) From vouchers v";
 
     private final JdbcTemplate jdbcTemplate;
-    private final CustomerRepository customerRepository;
 
-    public JdbcVoucherRepository(JdbcTemplate jdbcTemplate, CustomerRepository customerRepository) {
+    public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.customerRepository = customerRepository;
     }
 
     @Override
     public Voucher save(Voucher voucher) {
         int update = 0;
-        switch (voucher.getType()) {
-            case FIXED -> {
-                FixedAmountVoucher amountVoucher = (FixedAmountVoucher) voucher;
-                update = jdbcTemplate.update(INSERT_SQL,
-                        uuidToBytes(voucher.getId()),
-                        voucher.getType().name(),
-                        amountVoucher.getAmount(),
-                        null,
-                        voucher.getOwnerId() == null ? null : uuidToBytes(voucher.getOwnerId()));
-            }
-            case PERCENT -> {
-                PercentDiscountVoucher percentVoucher = (PercentDiscountVoucher) voucher;
-                update = jdbcTemplate.update(INSERT_SQL,
-                        uuidToBytes(voucher.getId()),
-                        voucher.getType().name(),
-                        null,
-                        percentVoucher.getPercent(),
-                        voucher.getOwnerId() == null ? null : uuidToBytes(voucher.getOwnerId()));
-            }
-        }
+
+        update = jdbcTemplate.update(INSERT_SQL,
+                voucher.getId(),
+                voucher.getVoucherType().name(),
+                voucher.getDiscountValue(),
+                uuidToBytes(voucher.getCode()),
+                voucher.getName());
 
         if(update != 1) {
             logger.error("쿠폰을 추가하는 과정에서 오류가 발생했습니다.");
@@ -80,65 +62,35 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByOwner(UUID ownerId) {
-        List<Voucher> vouchers = new ArrayList<>();
-        jdbcTemplate.query(SELECT_BY_OWNER_SQL
-                , (resultSet, rowNum) -> vouchers.add(resultSetToVoucher(resultSet))
-                , uuidToBytes(ownerId));
-
-        return Collections.unmodifiableList(vouchers);
-    }
-
-    @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(Long voucherId) {
         return Optional.of(jdbcTemplate.queryForObject(SELECT_BY_ID_SQL
                 , (resultSet, rowNum) -> resultSetToVoucher(resultSet)
-                , uuidToBytes(voucherId)));
+                , voucherId));
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
-        int update = 0;
-        switch (voucher.getType()) {
-            case FIXED -> {
-                FixedAmountVoucher amountVoucher = (FixedAmountVoucher) voucher;
-                update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
-                        amountVoucher.getAmount(),
-                        null,
-                        amountVoucher.getOwnerId() != null ?  uuidToBytes(amountVoucher.getOwnerId()) : null,
-                        uuidToBytes(voucher.getId()));
-            }
-            case PERCENT -> {
-                PercentDiscountVoucher percentVoucher = (PercentDiscountVoucher) voucher;
-                update = jdbcTemplate.update(UPDATE_BY_ID_SQL,
-                        null,
-                        percentVoucher.getPercent(),
-                        percentVoucher.getOwnerId() != null ? uuidToBytes(percentVoucher.getOwnerId()) : null,
-                        uuidToBytes(voucher.getId()));
-            }
-        }
-
-        if(update != 1) {
-            logger.error("쿠폰을 변경하는 과정에서 오류가 발생했습니다.");
-            throw new RuntimeException("쿠폰을 변경하는 과정에서 오류가 발생했습니다.");
-        }
-
-        return voucher;
+    public void deleteById(Long voucherId) {
+        jdbcTemplate.update(DELETE_BY_ID_SQL, voucherId);
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
-        jdbcTemplate.update(DELETE_BY_ID_SQL, uuidToBytes(voucherId));
+    public Optional<Long> findLatestVoucherId() {
+        Long size = jdbcTemplate.queryForObject(SELECT_TOTAL_COUNTS, Long.class);
+        if(size == 0) return Optional.empty();
+
+        return Optional.of(jdbcTemplate.queryForObject(SELECT_MAXIMUM_ID, Long.class));
     }
 
     private Voucher resultSetToVoucher(ResultSet resultSet) throws SQLException {
-        UUID voucherId = bytesToUUID(resultSet.getBytes("voucher_id"));
+        Long voucherId = resultSet.getLong("voucher_id");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        Integer amount = resultSet.getInt("amount");
-        Integer percent = resultSet.getInt("percent");
-        UUID ownerId = bytesToUUID(resultSet.getBytes("owner_id"));
+        int discountValue = resultSet.getInt("discount_value");
+        UUID code = bytesToUUID(resultSet.getBytes("code"));
+        String name = resultSet.getString("name");
 
-        LoadedJsonVoucher jsonVoucher = new LoadedJsonVoucher(voucherId, voucherType, amount, percent, ownerId);
-        return jsonVoucher.jsonVoucherToVoucher();
+        return new Voucher.Builder(voucherId, voucherType, discountValue)
+                .code(code)
+                .name(name)
+                .build();
     }
 }

@@ -8,7 +8,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class CustomerTest {
 
-    @DisplayName("이름과 이메일로 사용자를 생성할 수 있다.")
+    @DisplayName("필수값(이름, 이메일)만으로 사용자를 생성할 수 있다.")
     @Test
     void createCustomerByBuilder() {
         // given

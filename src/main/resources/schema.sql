@@ -1,15 +1,9 @@
-SHOW DATABASES;
-
-# voucher_mgmt_system 데이터 베이스가 없다면 실행
-CREATE DATABASE voucher_mgmt_system;
+CREATE DATABASE IF NOT EXISTS voucher_mgmt_system;
 
 USE voucher_mgmt_system;
 
-SHOW tables;
-
-# vouchers, customers 테이블이 존재한다면 실행
-DROP TABLE vouchers;
-DROP TABLE customers;
+DROP TABLE IF EXISTS vouchers;
+DROP TABLE IF EXISTS customers;
 
 CREATE TABLE customers (
      customer_id  BINARY(16) NOT NULL,
@@ -26,15 +20,13 @@ INSERT INTO customers(customer_id, name, email) VALUES (UUID_TO_BIN(UUID()), '�
 INSERT INTO customers(customer_id, name, email) VALUES (UUID_TO_BIN(UUID()), '이세희', '이세희@gmail.com');
 
 CREATE TABLE `vouchers` (
-    voucher_id    BINARY(16) NOT NULL,
-    voucher_type  ENUM('FIXED','PERCENT') DEFAULT NULL,
-    amount        INTEGER DEFAULT NULL,
-    percent       INTEGER DEFAULT NULL,
-    owner_id      BINARY(16) DEFAULT NULL,
+    voucher_id      BIGINT NOT NULL,
+    voucher_type    ENUM('FIXED','PERCENT') NOT NULL,
+    discount_value  INTEGER NOT NULL,
+    code            BINARY(16) NOT NULL,
+    name            VARCHAR(50) DEFAULT NULL,
     CONSTRAINT pk_voucher_id PRIMARY KEY (voucher_id),
-    CONSTRAINT `fk_owner_id` FOREIGN KEY (owner_id) REFERENCES customers (customer_id),
-    CONSTRAINT `chk_amount` CHECK (((amount >= 100) and (amount <= 1000000))),
-    CONSTRAINT `chk_percent` CHECK (((percent > 0) and (percent <= 50)))
+    CONSTRAINT unq_code UNIQUE KEY (code)
 );
 
 

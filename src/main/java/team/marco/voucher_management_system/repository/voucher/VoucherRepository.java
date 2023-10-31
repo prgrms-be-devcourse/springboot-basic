@@ -4,20 +4,15 @@ import team.marco.voucher_management_system.domain.voucher.Voucher;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface VoucherRepository {
     Voucher save(Voucher voucher);
 
     List<Voucher> findAll();
 
-    List<Voucher> findByOwner(UUID ownerId);
+    Optional<Voucher> findById(Long voucherId);
 
-    Optional<Voucher> findById(UUID voucherId);
+    void deleteById(Long voucherId);
 
-    Voucher update(Voucher voucher);
-
-    void deleteById(UUID voucherId);
-
-
+    Optional<Long> findLatestVoucherId();
 }

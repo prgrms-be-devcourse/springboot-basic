@@ -4,16 +4,16 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Profile({"local", "debug"})
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
-    private final Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
+    private final Map<Long, Voucher> voucherMap = new ConcurrentHashMap<>();
 
     @Override
     public Voucher save(Voucher voucher) {
@@ -29,28 +29,20 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByOwner(UUID ownerId) {
-        return voucherMap.values().stream()
-                .filter(v -> v.getOwnerId() == ownerId)
-                .toList();
-    }
-
-    @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(Long voucherId) {
         if(voucherMap.containsKey(voucherId)) {
             return Optional.of(voucherMap.get(voucherId));
         } else return Optional.empty();
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
-        voucherMap.put(voucher.getId(), voucher);
-
-        return voucher;
+    public void deleteById(Long voucherId) {
+        voucherMap.remove(voucherId);
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
-        voucherMap.remove(voucherId);
+    public Optional<Long> findLatestVoucherId() {
+        return voucherMap.keySet().stream()
+                .max(Comparator.naturalOrder());
     }
 }

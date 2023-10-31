@@ -11,16 +11,16 @@ import team.marco.voucher_management_system.domain.voucher.Voucher;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Profile("dev")
 @Repository
 public class JsonFileVoucherRepository implements VoucherRepository, DisposableBean {
-    private final Map<UUID, Voucher> voucherMap;
+    private final Map<Long, Voucher> voucherMap;
     private final ObjectMapper objectMapper;
     private final File file;
 
@@ -31,22 +31,22 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
         voucherMap = loadVoucherMap();
     }
 
-    private Map<UUID, Voucher> loadVoucherMap() {
-        Map<UUID, Voucher> loadedVouchers = new ConcurrentHashMap<>();
+    private Map<Long, Voucher> loadVoucherMap() {
+        Map<Long, Voucher> loadedVouchers = new ConcurrentHashMap<>();
         if (!file.exists()) {
             return loadedVouchers;
         }
 
-        ObjectReader objectReader = objectMapper.readerForListOf(LoadedJsonVoucher.class);
-        List<LoadedJsonVoucher> jsonVouchers;
+        ObjectReader objectReader = objectMapper.readerForListOf(Voucher.class);
+        List<Voucher> vouchers;
 
         try {
-            jsonVouchers = objectReader.readValue(file);
+            vouchers = objectReader.readValue(file);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
 
-        jsonVouchers.forEach(data -> loadedVouchers.put(data.getId(), data.jsonVoucherToVoucher()));
+        vouchers.forEach(voucher -> loadedVouchers.put(voucher.getId(), voucher));
 
         return loadedVouchers;
     }
@@ -65,35 +65,28 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
     }
 
     @Override
-    public List<Voucher> findByOwner(UUID ownerId) {
-        return voucherMap.values().stream()
-                .filter(v -> v.getOwnerId() == ownerId)
-                .toList();
-    }
-
-    @Override
-    public Optional<Voucher> findById(UUID voucherId) {
+    public Optional<Voucher> findById(Long voucherId) {
         if(voucherMap.containsKey(voucherId)) {
             return Optional.of(voucherMap.get(voucherId));
         } else return Optional.empty();
     }
 
     @Override
-    public Voucher update(Voucher voucher) {
-        voucherMap.put(voucher.getId(), voucher);
-
-        return voucher;
+    public void deleteById(Long voucherId) {
+        voucherMap.remove(voucherId);
     }
 
     @Override
-    public void deleteById(UUID voucherId) {
-        voucherMap.remove(voucherId);
+    public Optional<Long> findLatestVoucherId() {
+        return voucherMap.keySet().stream()
+                .max(Comparator.naturalOrder());
     }
 
     @Override
     public void destroy() {
         try {
-            objectMapper.writeValue(file, voucherMap.values());
+            List<Voucher> vouchers = voucherMap.values().stream().toList();
+            objectMapper.writeValue(file, vouchers);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
