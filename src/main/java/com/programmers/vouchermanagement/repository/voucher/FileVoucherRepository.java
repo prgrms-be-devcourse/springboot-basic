@@ -2,7 +2,6 @@ package com.programmers.vouchermanagement.repository.voucher;
 
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
-import com.programmers.vouchermanagement.dto.VoucherDto;
 import com.programmers.vouchermanagement.utils.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -74,11 +73,10 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public void readFile() {
-
         final List<String> lines = CsvFileUtil.readCsvFile(csvFilePath);
         lines.forEach(line -> {
             String[] voucherInfo = line.split(CSV_SEPARATOR);
-            Voucher voucher = VoucherFactory.createVoucher(new VoucherDto.Create(voucherInfo));
+            Voucher voucher = VoucherFactory.createVoucher(voucherInfo);
             vouchers.put(voucher.getId(), voucher);
         });
     }
