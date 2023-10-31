@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EkZHHoeuB3wJrK6RBZjo9opKW–XXZiA-4Kt/6g8VBz8U8Un/6Z/hRTt8+pR6L4N2"
+          crossorigin="anonymous">
+    <title>Add Voucher</title>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Add Voucher</h1>
+    <form th:action="@{/voucher/add}" method="post">
+        <div class="mb-3">
+            <label for="voucherName" class="form-label">Voucher Name</label>
+            <input type="text" class="form-control" id="voucherName" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="discountAmount" class="form-label">Discount Amount</label>
+            <input type="number" class="form-control" id="discountAmount" name="discountAmount" required>
+        </div>
+        <div class="mb-3">
+            <label for="voucherType" class="form-label">Voucher Type</label>
+            <select class="form-select" id="voucherType" name="type" required>
+                <option value="fixed">Fixed</option>
+                <option value="percentage">Percentage</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Voucher</button>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-0b0XA2er5Ljn3jynM2FPejgUKGOsGmS4dmH/oULISMYKNGWzd5en0JRF3e5eak39"
+        crossorigin="anonymous"></script>
+</body>
+</html>
