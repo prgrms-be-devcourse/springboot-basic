@@ -1,7 +1,7 @@
 package org.prgms.kdtspringweek1.voucher.repository;
 
-import org.prgms.kdtspringweek1.exception.JdbcException;
-import org.prgms.kdtspringweek1.exception.JdbcExceptionCode;
+import org.prgms.kdtspringweek1.exception.DataException;
+import org.prgms.kdtspringweek1.exception.DataExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
@@ -64,8 +64,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int isInserted = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES (UUID_TO_BIN(:voucherId), :discountValue, :voucherType)",
                 toParamMap(voucher));
         if (isInserted != 1) {
-            logger.error(JdbcExceptionCode.FAIL_TO_INSERT.getMessage());
-            throw new JdbcException(JdbcExceptionCode.FAIL_TO_INSERT);
+            logger.error(DataExceptionCode.FAIL_TO_INSERT.getMessage());
+            throw new DataException(DataExceptionCode.FAIL_TO_INSERT);
         }
 
         return voucher;
@@ -93,8 +93,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int isUpdated = jdbcTemplate.update("UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 toParamMap(voucher));
         if (isUpdated != 1) {
-            logger.error(JdbcExceptionCode.FAIL_TO_UPDATE.getMessage());
-            throw new JdbcException(JdbcExceptionCode.FAIL_TO_UPDATE);
+            logger.error(DataExceptionCode.FAIL_TO_UPDATE.getMessage());
+            throw new DataException(DataExceptionCode.FAIL_TO_UPDATE);
         }
 
         return voucher;
@@ -111,8 +111,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()));
 
         if (isUpdated != 1) {
-            logger.error(JdbcExceptionCode.FAIL_TO_DELETE.getMessage());
-            throw new JdbcException(JdbcExceptionCode.FAIL_TO_DELETE);
+            logger.error(DataExceptionCode.FAIL_TO_DELETE.getMessage());
+            throw new DataException(DataExceptionCode.FAIL_TO_DELETE);
         }
     }
 }

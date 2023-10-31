@@ -1,6 +1,6 @@
 package org.prgms.kdtspringweek1.exception;
 
-public enum JdbcExceptionCode {
+public enum DataExceptionCode {
     FAIL_TO_INSERT("[System] 데이터 추가에 실패하였습니다."),
     FAIL_TO_SELECT("[System] 데이터 읽기에 실패하였습니다."),
     FAIL_TO_UPDATE("[System] 데이터 변경에 실패하였습니다."),
@@ -8,7 +8,7 @@ public enum JdbcExceptionCode {
 
     private String message;
 
-    JdbcExceptionCode(String message) {
+    DataExceptionCode(String message) {
         this.message = message;
     }
 

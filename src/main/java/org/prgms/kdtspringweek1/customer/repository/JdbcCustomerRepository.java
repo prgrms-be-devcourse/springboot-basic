@@ -1,8 +1,8 @@
 package org.prgms.kdtspringweek1.customer.repository;
 
 import org.prgms.kdtspringweek1.customer.entity.Customer;
-import org.prgms.kdtspringweek1.exception.JdbcException;
-import org.prgms.kdtspringweek1.exception.JdbcExceptionCode;
+import org.prgms.kdtspringweek1.exception.DataException;
+import org.prgms.kdtspringweek1.exception.DataExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -52,8 +52,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
         int isInserted = jdbcTemplate.update("INSERT INTO customers(customer_id, name, is_black_customer) VALUES (UUID_TO_BIN(:customerId), :name, :isBlackCustomer)",
                 toParamMap(customer));
         if (isInserted != 1) {
-            logger.error(JdbcExceptionCode.FAIL_TO_INSERT.getMessage());
-            throw new JdbcException(JdbcExceptionCode.FAIL_TO_INSERT);
+            logger.error(DataExceptionCode.FAIL_TO_INSERT.getMessage());
+            throw new DataException(DataExceptionCode.FAIL_TO_INSERT);
         }
 
         return customer;
@@ -81,8 +81,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
         int isUpdated = jdbcTemplate.update("UPDATE customers SET name = :name, is_black_customer = :isBlackCustomer WHERE customer_id = UUID_TO_BIN(:customerId)",
                 toParamMap(customer));
         if (isUpdated != 1) {
-            logger.error(JdbcExceptionCode.FAIL_TO_UPDATE.getMessage());
-            throw new JdbcException(JdbcExceptionCode.FAIL_TO_UPDATE);
+            logger.error(DataExceptionCode.FAIL_TO_UPDATE.getMessage());
+            throw new DataException(DataExceptionCode.FAIL_TO_UPDATE);
         }
 
         return customer;
@@ -99,8 +99,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 Collections.singletonMap("customerId", customerId.toString().getBytes()));
 
         if (isUpdated != 1) {
-            logger.error(JdbcExceptionCode.FAIL_TO_DELETE.getMessage());
-            throw new JdbcException(JdbcExceptionCode.FAIL_TO_DELETE);
+            logger.error(DataExceptionCode.FAIL_TO_DELETE.getMessage());
+            throw new DataException(DataExceptionCode.FAIL_TO_DELETE);
         }
     }
 

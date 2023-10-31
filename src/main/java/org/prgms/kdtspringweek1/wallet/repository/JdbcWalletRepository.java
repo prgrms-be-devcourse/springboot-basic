@@ -1,8 +1,8 @@
 package org.prgms.kdtspringweek1.wallet.repository;
 
 import org.prgms.kdtspringweek1.customer.entity.Customer;
-import org.prgms.kdtspringweek1.exception.JdbcException;
-import org.prgms.kdtspringweek1.exception.JdbcExceptionCode;
+import org.prgms.kdtspringweek1.exception.DataException;
+import org.prgms.kdtspringweek1.exception.DataExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
@@ -79,8 +79,8 @@ public class JdbcWalletRepository implements WalletRepository {
         int isInserted = jdbcTemplate.update("INSERT INTO wallets(wallet_id, voucher_id, customer_id) VALUES (UUID_TO_BIN(:walletId), UUID_TO_BIN(:voucherId), UUID_TO_BIN(:customerId))",
                 toParamMap(wallet));
         if (isInserted != 1) {
-            logger.error(JdbcExceptionCode.FAIL_TO_INSERT.getMessage());
-            throw new JdbcException(JdbcExceptionCode.FAIL_TO_INSERT);
+            logger.error(DataExceptionCode.FAIL_TO_INSERT.getMessage());
+            throw new DataException(DataExceptionCode.FAIL_TO_INSERT);
         }
 
         return wallet;
@@ -105,8 +105,8 @@ public class JdbcWalletRepository implements WalletRepository {
         );
 
         if (isUpdated != 1) {
-            logger.error(JdbcExceptionCode.FAIL_TO_DELETE.getMessage());
-            throw new JdbcException(JdbcExceptionCode.FAIL_TO_DELETE);
+            logger.error(DataExceptionCode.FAIL_TO_DELETE.getMessage());
+            throw new DataException(DataExceptionCode.FAIL_TO_DELETE);
         }
     }
 
