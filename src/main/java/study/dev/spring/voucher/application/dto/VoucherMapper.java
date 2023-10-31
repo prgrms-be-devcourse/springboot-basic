@@ -9,6 +9,7 @@ public final class VoucherMapper {
 
 	public static VoucherInfo toVoucherInfo(final Voucher voucher) {
 		return new VoucherInfo(
+			voucher.getUuid(),
 			voucher.getName(),
 			voucher.getTypeDescription(),
 			voucher.getDiscountAmount()

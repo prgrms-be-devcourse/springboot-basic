@@ -33,6 +33,6 @@ public final class VoucherFixture {
 	}
 
 	public static VoucherInfo getVoucherInfo() {
-		return new VoucherInfo("voucher", "정액 할인", 1000);
+		return new VoucherInfo("uuid", "voucher", "정액 할인", 1000);
 	}
 }
