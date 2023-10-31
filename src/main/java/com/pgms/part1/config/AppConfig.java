@@ -4,7 +4,7 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -20,7 +20,7 @@ public class AppConfig {
     }
 
     @Bean
-//    @Primary
+    @Profile("test")
     public DataSource memoryDataSource(){
         return DataSourceBuilder.create()
                 .driverClassName("org.h2.Driver")
@@ -32,7 +32,7 @@ public class AppConfig {
     }
 
     @Bean
-    @Primary
+    @Profile("!test")
     public DataSource dataSource(){
         return DataSourceBuilder.create()
                 .driverClassName("com.mysql.cj.jdbc.Driver")
