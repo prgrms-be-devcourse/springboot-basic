@@ -28,7 +28,10 @@ public class VoucherShellController {
         VoucherType type = VoucherType.select(consoleInput.readInt("👉Please enter a voucher type > ", "Invalid voucher type"));
         long amount = consoleInput.readLong("👉Please enter a amount > ", "Invalid amount");
 
-        CreateVoucherRequestDto request = new CreateVoucherRequestDto(type, amount);
+        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
+        request.setType(type);
+        request.setAmount(amount);
+
         voucherService.createVoucher(request);
 
         ConsoleOutput.println("✅Voucher created successfully");
@@ -59,8 +62,11 @@ public class VoucherShellController {
         UUID id = consoleInput.readUUID("👉Please enter a voucher id > ", "Invalid voucher id");
         long amount = consoleInput.readLong("👉Please enter a amount > ", "Invalid amount");
 
-        UpdateVoucherRequestDto request = new UpdateVoucherRequestDto(id, amount);
-        voucherService.updateVoucher(request);
+        //! 고민 - param id vs dto id
+        UpdateVoucherRequestDto request = new UpdateVoucherRequestDto();
+        request.setAmount(amount);
+
+        voucherService.updateVoucher(id, request);
 
         ConsoleOutput.println("✅Voucher updated successfully");
     }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<form th:action th:object="${request}" method="post">
+    <div>
+        <label for="type">Type:</label>
+        <select id="type" th:field="*{type}">
+            <option th:each="type : ${types}" th:value="${type}" th:text="${type}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="amount">Amount:</label>
+        <input id="amount" th:name="*{amount}" />
+    </div>
+
+    <div>
+        <button type="submit" th:onclick="|location.href='@{/voucher/create}'|">create</button>
+    </div>
+</form>
+</body>
+</html>

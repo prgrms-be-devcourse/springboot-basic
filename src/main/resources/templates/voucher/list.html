@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher : ${vouchers}">
+        <td th:text="${voucher.id}"></td>
+        <td th:text="${voucher.type}"></td>
+        <td th:text="${voucher.amount}"></td>
+        <td>
+            <div>
+                <button type="button" th:onclick="|location.href='@{|/voucher/${voucher.id}/update|}'|">update</button>
+                <form th:action="@{|/voucher/${voucher.id}/delete|}" method="post">
+                    <button type="submit">delete</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <button type="submit" th:onclick="|location.href='@{/voucher/create}'|">create</button>
+</div>
+</body>
+</html>

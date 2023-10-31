@@ -1,6 +1,10 @@
 package com.programmers.vouchermanagement.dto.voucher.request;
 
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import lombok.Data;
 
-public record CreateVoucherRequestDto(VoucherType type, Long amount) {
+@Data
+public class CreateVoucherRequestDto {
+    private VoucherType type;
+    private long amount;
 }

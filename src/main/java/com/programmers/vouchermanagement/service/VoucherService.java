@@ -20,7 +20,7 @@ public class VoucherService {
     private final VoucherRepository voucherRepository;
 
     public void createVoucher(CreateVoucherRequestDto request) {
-        Voucher voucher = VoucherFactory.create(request.type(), request.amount());
+        Voucher voucher = VoucherFactory.create(request.getType(), request.getAmount());
         voucherRepository.save(voucher);
     }
 
@@ -39,10 +39,10 @@ public class VoucherService {
         return VoucherResponseDto.from(voucher.getId(), voucher.getType(), voucher.getAmount());
     }
 
-    public void updateVoucher(UpdateVoucherRequestDto request) {
-        Voucher voucher = voucherRepository.findById(request.id())
+    public void updateVoucher(UUID id, UpdateVoucherRequestDto request) {
+        Voucher voucher = voucherRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Not found voucher"));
-        voucherRepository.update(Voucher.from(voucher.getId(), voucher.getType(), request.amount()));
+        voucherRepository.update(Voucher.from(voucher.getId(), voucher.getType(), request.getAmount()));
     }
 
     public void deleteVoucher(UUID id) {

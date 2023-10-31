@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<form th:action th:object="${request}" method="post">
+    <div>
+        <label for="id">ID</label>
+        <input id="id" th:field="${voucher.id}" readonly>
+    </div>
+    <div>
+        <label for="type">Type</label>
+        <input id="type" th:field="${voucher.type}" readonly>
+    </div>
+    <div>
+        <label for="amount">Amount</label>
+        <input id="amount" th:name="*{amount}" th:value="${voucher.amount}">
+    </div>
+    <div>
+        <button type="submit">update</button>
+    </div>
+</form>
+</body>
+</html>

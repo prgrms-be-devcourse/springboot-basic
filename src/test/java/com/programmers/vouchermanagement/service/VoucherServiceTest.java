@@ -33,7 +33,9 @@ class VoucherServiceTest {
     @DisplayName("FIXED_AMOUNT 바우처를 생성할 수 있다.")
     void createFixedAmountVoucher() {
         // given
-        CreateVoucherRequestDto request = new CreateVoucherRequestDto(VoucherType.FIXED_AMOUNT, 1000L);
+        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
+        request.setType(VoucherType.FIXED_AMOUNT);
+        request.setAmount(1000L);
 
         // when
         voucherService.createVoucher(request);
@@ -47,7 +49,9 @@ class VoucherServiceTest {
     @DisplayName("PERCENT_DISCOUNT 바우처를 생성할 수 있다.")
     void createPercentDiscountVoucher() {
         // given
-        CreateVoucherRequestDto request = new CreateVoucherRequestDto(VoucherType.PERCENT_DISCOUNT, 10L);
+        CreateVoucherRequestDto request = new CreateVoucherRequestDto();
+        request.setType(VoucherType.PERCENT_DISCOUNT);
+        request.setAmount(10L);
 
         // when
         voucherService.createVoucher(request);
@@ -70,9 +74,11 @@ class VoucherServiceTest {
 
         // then
         assertThat(resultVouchers).hasSize(2);
-        assertThat(resultVouchers).extracting(VoucherResponseDto::type)
+        assertThat(resultVouchers).extracting(VoucherResponseDto::getType)
                 .containsExactlyInAnyOrder(VoucherType.FIXED_AMOUNT, VoucherType.PERCENT_DISCOUNT);
-        assertThat(resultVouchers).extracting(VoucherResponseDto::amount)
+        assertThat(resultVouchers).extracting(VoucherResponseDto::getAmount)
                 .containsExactlyInAnyOrder(1000L, 10L);
     }
+
+    //TODO: 작성하지 않은 테스트 작성
 }
