@@ -4,14 +4,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -20,6 +16,9 @@ import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
@@ -30,230 +29,278 @@ import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
+@SpringBootTest
+@ActiveProfiles("test")
 class CustomerServiceTest {
+    @Autowired
     CustomerRepository customerRepository;
+    @Autowired
     VoucherRepository voucherRepository;
+    @Autowired
     CustomerService customerService;
 
     @BeforeEach
     void setUp() {
-        voucherRepository = mock(VoucherRepository.class);
-        customerRepository = mock(CustomerRepository.class);
-        customerService = new CustomerService(customerRepository, voucherRepository);
+        customerRepository.deleteAll();
+        voucherRepository.deleteAll();
     }
 
     @Test
     @DisplayName("저장된 블랙리스트가 없을 때 블랙리스트 조회 시 빈 리스트를 반환한다.")
     void testReadBlacklistSuccessful_ReturnEmptyList() {
-        //given
-        doReturn(Collections.emptyList()).when(customerRepository).findBlackCustomers();
-
         //when
         final List<CustomerResponse> blacklist = customerService.readBlacklist();
 
         //then
         assertThat(blacklist.isEmpty(), is(true));
-
-        //verify
-        verify(customerRepository).findBlackCustomers();
     }
 
     @Test
     @DisplayName("저장된 블랙리스트 조회에 성공한다.")
     void testReadBlacklistSuccessful_ReturnList() {
         //given
-        final Customer firstCustomer = new Customer(UUID.randomUUID(), "black 1", CustomerType.BLACK);
-        final Customer secondCustomer = new Customer(UUID.randomUUID(), "black 2", CustomerType.BLACK);
-        doReturn(List.of(firstCustomer, secondCustomer)).when(customerRepository).findBlackCustomers();
+        Customer firstCustomer = new Customer(UUID.randomUUID(), "black 1", CustomerType.BLACK);
+        Customer secondCustomer = new Customer(UUID.randomUUID(), "black 2", CustomerType.BLACK);
+        customerRepository.save(firstCustomer);
+        customerRepository.save(secondCustomer);
 
         //when
-        final List<CustomerResponse> blacklist = customerService.readBlacklist();
+        List<CustomerResponse> blacklist = customerService.readBlacklist();
 
         //then
         assertThat(blacklist, hasSize(2));
-
-        //verify
-        verify(customerRepository).findBlackCustomers();
     }
 
     @Test
     @DisplayName("고객 생성에 성공한다.")
     void testCustomerCreationSuccessful() {
         //given
-        final String name = "test-customer";
+        String name = "test-customer";
 
         //when
-        final CustomerResponse customerResponse = customerService.create(name);
+        CustomerResponse customer = customerService.create(name);
 
         //then
-        assertThat(customerResponse.name(), is(name));
-
-        //verify
-        verify(customerRepository).save(any(Customer.class));
+        assertThat(customer.name(), is(name));
+        Optional<Customer> createdCustomer = customerRepository.findById(customer.customerId());
+        assertThat(createdCustomer.isEmpty(), is(false));
     }
 
     @Test
     @DisplayName("이름이 너무 긴 고객 생성에 실패한다.")
     void testCustomerCreationFailed_ExcessiveNameLength() {
         //given
-        final String name = "test-customer-updated-excessive-name-length";
+        String name = "test-customer-updated-excessive-name-length";
 
-        //when & then
-        assertThatThrownBy(() -> customerService.create(name)).isInstanceOf(IllegalArgumentException.class);
+        //when
+        assertThatThrownBy(() -> customerService.create(name))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Name is too long.");
+
+        //then
+        Optional<Customer> createdCustomer = customerRepository.findAll()
+                .stream()
+                .filter(customer -> customer.getName().equals(name))
+                .findFirst();
+        assertThat(createdCustomer.isEmpty(), is(true));
     }
 
     @Test
     @DisplayName("저장된 고객이 없을 때 고객 전체 조회 시 빈 리스트를 반환한다.")
     void testListCustomersSuccessful_ReturnEmptyList() {
-        //given
-        doReturn(Collections.emptyList()).when(customerRepository).findAll();
-
         //when
-        final List<CustomerResponse> customers = customerService.findAll();
+        List<CustomerResponse> customers = customerService.findAll();
 
         //then
         assertThat(customers.isEmpty(), is(true));
-
-        //verify
-        verify(customerRepository).findAll();
     }
 
     @Test
     @DisplayName("저장된 고객 리스트를 읽는데 성공한다.")
     void testListCustomersSuccessful_ReturnList() {
         //given
-        final Customer firstCustomer = new Customer(UUID.randomUUID(), "test-customer1");
-        final Customer secondCustomer = new Customer(UUID.randomUUID(), "test-customer2");
-        doReturn(List.of(firstCustomer, secondCustomer)).when(customerRepository).findAll();
-
+        Customer firstCustomer = new Customer(UUID.randomUUID(), "test-customer1");
+        Customer secondCustomer = new Customer(UUID.randomUUID(), "test-customer2");
+        customerRepository.save(firstCustomer);
+        customerRepository.save(secondCustomer);
 
         //when
-        final List<CustomerResponse> customers = customerService.findAll();
+        List<CustomerResponse> customers = customerService.findAll();
 
         //then
-        assertThat(customers.isEmpty(), is(false));
         assertThat(customers, hasSize(2));
-
-        //verify
-        verify(customerRepository).findAll();
     }
 
     @Test
     @DisplayName("존재하지 않는 고객의 조회를 실패한다.")
     void testFindCustomerByIdFailed_NonExistentCustomer() {
         //given
-        doReturn(Optional.empty()).when(customerRepository).findById(any(UUID.class));
-        final UUID customerId = UUID.randomUUID();
+        UUID customerId = UUID.randomUUID();
 
-        //when & then
-        assertThatThrownBy(() -> customerService.findById(customerId)).isInstanceOf(NoSuchElementException.class);
-
-        //verify
-        verify(customerRepository).findById(customerId);
+        //when
+        assertThatThrownBy(() -> customerService.findById(customerId))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("There is no customer with " + customerId);
     }
 
     @Test
     @DisplayName("아이디로 고객 조회를 성공한다.")
     void testFindCustomerByIdSuccessful() {
         //given
-        final Customer customer = new Customer(UUID.randomUUID(), "test-customer");
-        doReturn(Optional.of(customer)).when(customerRepository).findById(any(UUID.class));
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
 
         //when
-        CustomerResponse customerResponse = customerService.findById(customer.getCustomerId());
+        CustomerResponse foundCustomer = customerService.findById(customer.getCustomerId());
 
         //then
-        assertThat(customerResponse, samePropertyValuesAs(CustomerResponse.from(customer)));
-
-        //verify
-        verify(customerRepository).findById(customer.getCustomerId());
+        assertThat(foundCustomer, samePropertyValuesAs(CustomerResponse.from(customer)));
     }
 
     @Test
     @DisplayName("존재하지 않는 고객의 정보 수정을 실패한다.")
     void testUpdateCustomerFailed_NonExistentCustomer() {
         //given
-        doReturn(false).when(customerRepository).existById(any(UUID.class));
+        UpdateCustomerRequest request = new UpdateCustomerRequest(UUID.randomUUID(), "test-customer", CustomerType.NORMAL);
 
-        //when & then
-        final UpdateCustomerRequest request = new UpdateCustomerRequest(UUID.randomUUID(), "test-customer", CustomerType.NORMAL);
-        assertThatThrownBy(() -> customerService.update(request)).isInstanceOf(NoSuchElementException.class);
+        //when
+        assertThatThrownBy(() -> customerService.update(request))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("There is no customer with " + request.customerId());
 
-        //verify
-        verify(customerRepository).existById(request.customerId());
+        //then
+        Optional<Customer> updatedCustomer = customerRepository.findById(request.customerId());
+        assertThat(updatedCustomer.isEmpty(), is(true));
     }
 
     @Test
     @DisplayName("너무 긴 이름으로 고객 정보 수정을 실패한다.")
     void testUpdateCustomerFailed_ExcessiveNameLength() {
         //given
-        final UpdateCustomerRequest request = new UpdateCustomerRequest(UUID.randomUUID(), "test-customer-updated-excessive-name-length", CustomerType.NORMAL);
-        doReturn(true).when(customerRepository).existById(any(UUID.class));
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
+        String longName = "test-customer-updated-excessive-name-length";
+        UpdateCustomerRequest request = new UpdateCustomerRequest(customer.getCustomerId(), longName, CustomerType.NORMAL);
 
-        //when & then
-        assertThatThrownBy(() -> customerService.update(request)).isInstanceOf(IllegalArgumentException.class);
+        //when
+        assertThatThrownBy(() -> customerService.update(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Name is too long.");
+
+        //then
+        Customer foundCustomer = customerRepository.findById(customer.getCustomerId())
+                .get();
+        assertThat(foundCustomer.getName(), not(longName));
     }
 
     @Test
     @DisplayName("고객 정보 수정을 성공한다.")
     void testUpdateCustomerSuccessful() {
         //given
-        final UpdateCustomerRequest request = new UpdateCustomerRequest(UUID.randomUUID(), "test-customer", CustomerType.NORMAL);
-        final Customer customer = new Customer(request.customerId(), request.name(), request.customerType());
-        doReturn(true).when(customerRepository).existById(any(UUID.class));
-        doReturn(customer).when(customerRepository).save(any(Customer.class));
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
+        UpdateCustomerRequest request = new UpdateCustomerRequest(customer.getCustomerId(), "updated-customer", CustomerType.NORMAL);
 
         //when
         CustomerResponse customerResponse = customerService.update(request);
 
         //then
-        assertThat(customerResponse, samePropertyValuesAs(CustomerResponse.from(customer)));
-
-        //verify
-        verify(customerRepository).save(any(Customer.class));
+        Customer updatedCustomer = customerRepository.findById(customer.getCustomerId())
+                .get();
+        assertThat(customerResponse, samePropertyValuesAs(CustomerResponse.from(updatedCustomer)));
     }
 
     @Test
     @DisplayName("존재하지 않는 고객의 삭제를 실패한다.")
     void testDeleteCustomerByIdFailed_NonExistentCustomer() {
         //given
-        doReturn(false).when(customerRepository).existById(any(UUID.class));
-        final UUID customerId = UUID.randomUUID();
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
+        UUID customerId = UUID.randomUUID();
+        int customerCount = customerRepository.findAll()
+                .size();
 
-        //when & then
-        assertThatThrownBy(() -> customerService.deleteById(customerId)).isInstanceOf(NoSuchElementException.class);
+        //when
+        assertThatThrownBy(() -> customerService.deleteById(customerId))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("There is no customer with " + customerId);
 
-        //verify
-        verify(customerRepository).existById(customerId);
+        //then
+        int countAfterDeletion = customerRepository.findAll()
+                .size();
+        assertThat(countAfterDeletion, is(customerCount));
     }
 
     @Test
     @DisplayName("고객 삭제를 성공한다.")
     void testDeleteCustomerByIdSuccessful() {
         //given
-        doReturn(true).when(customerRepository).existById(any(UUID.class));
-        final UUID customerId = UUID.randomUUID();
+        Customer customer = new Customer(UUID.randomUUID(), "test-customer");
+        customerRepository.save(customer);
+        int customerCount = customerRepository.findAll()
+                .size();
 
         //when
-        customerService.deleteById(customerId);
+        customerService.deleteById(customer.getCustomerId());
 
-        //verify
-        verify(customerRepository).deleteById(customerId);
+        //then
+        int countAfterDeletion = customerRepository.findAll()
+                .size();
+        assertThat(countAfterDeletion, is(customerCount - 1));
+    }
+
+    @Test
+    @DisplayName("없는 바우처의 주인 조회를 실패한다.")
+    void testFindByVoucherIdFailed_NonExistentVoucher() {
+        //given
+        UUID voucherId = UUID.randomUUID();
+
+        //when & then
+        assertThatThrownBy(() -> customerService.findByVoucherId(voucherId))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("There is no voucher with " + voucherId);
+    }
+
+    @Test
+    @DisplayName("바우처의 주인이 없을 경우 주인 조회를 실패한다.")
+    void testFindByVoucherIdFailed_VoucherNotOwned() {
+        //given
+        Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
+        voucherRepository.save(voucher);
+
+        //when & then
+        assertThatThrownBy(() -> customerService.findByVoucherId(voucher.getVoucherId()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("This voucher is not owned by any customer");
+    }
+
+    @Test
+    @DisplayName("바우처의 주인이 존재하지 않는 고객일 경우 주인 조회를 실패한다.")
+    void testFindByVoucherIdFailed_NonExistenceCustomer() {
+        //given
+        UUID customerId = UUID.randomUUID();
+        Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED, customerId);
+        voucherRepository.save(voucher);
+
+        //when & then
+        assertThatThrownBy(() -> customerService.findByVoucherId(voucher.getVoucherId()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("There is no customer with " + customerId);
     }
 
     @Test
     @DisplayName("특정 바우처를 보유한 고객 조회를 성공한다.")
     void testFindByVoucherId() {
         //given
-        final Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED, UUID.randomUUID());
-        final Customer customer = new Customer(voucher.getCustomerId(), "test-customer");
-        doReturn(Optional.of(voucher)).when(voucherRepository).findById(any(UUID.class));
-        doReturn(Optional.of(customer)).when(customerRepository).findById(any(UUID.class));
+        Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED, UUID.randomUUID());
+        voucherRepository.save(voucher);
+        Customer customer = new Customer(voucher.getCustomerId(), "test-customer");
+        customerRepository.save(customer);
 
         //when
-        CustomerResponse customerResponse = customerService.findByVoucherId(UUID.randomUUID());
+        CustomerResponse voucherOwner = customerService.findByVoucherId(voucher.getVoucherId());
 
         //then
-        assertThat(customerResponse, samePropertyValuesAs(CustomerResponse.from(customer)));
+        assertThat(voucherOwner, samePropertyValuesAs(CustomerResponse.from(customer)));
     }
 }
