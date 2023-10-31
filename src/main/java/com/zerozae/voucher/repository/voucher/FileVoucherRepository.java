@@ -8,6 +8,7 @@ import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.util.FileUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -66,6 +67,21 @@ public class FileVoucherRepository implements VoucherRepository {
         Voucher voucher = vouchers.get(voucherId);
         voucher.updateVoucherInfo(voucherUpdateRequest);
         fileUtil.updateFile(getVoucherInfo(voucher), voucherId, FILE_PATH);
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndCreatedAt(VoucherType voucherType, LocalDate createdAt) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDate createdAt) {
+        return null;
     }
 
     private String getVoucherInfo(Voucher voucher) {

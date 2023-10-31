@@ -4,6 +4,7 @@ import com.zerozae.voucher.domain.voucher.FixedDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
+import com.zerozae.voucher.dto.voucher.VoucherCondition;
 import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
@@ -13,6 +14,7 @@ import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -72,5 +74,22 @@ public class VoucherService {
     public void deleteAll() {
         voucherRepository.deleteAll();
         walletRepository.deleteAll();
+    }
+
+    public List<VoucherResponse> findVoucherByCondition(VoucherCondition condition) {
+        String voucherType = condition.getVoucherType();
+        String createdAt = condition.getCreatedAt();
+
+        List<Voucher> vouchers;
+        if (voucherType != null) {
+            if (createdAt != null) {
+                vouchers = voucherRepository.findByTypeAndCreatedAt(VoucherType.of(voucherType), LocalDate.parse(createdAt));
+            } else {
+                vouchers = voucherRepository.findByVoucherType(VoucherType.of(voucherType));
+            }
+        } else {
+            vouchers = voucherRepository.findByCreatedAt(LocalDate.parse(createdAt));
+        }
+        return vouchers.stream().map(VoucherResponse::toDto).toList();
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -107,6 +108,41 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw ExceptionMessage.error("바우처 업데이트에 실패했습니다.");
         }
     }
+
+    @Override
+    public List<Voucher> findByTypeAndCreatedAt(VoucherType voucherType, LocalDate createdAt) {
+        String sql = "select * from vouchers where voucher_type = :voucherType and created_at = :createdAt";
+        return jdbcTemplate.query(
+                sql,
+                Map.of(
+                        "voucherType", voucherType.toString(),
+                        "createdAt", createdAt.toString()
+                ),
+                voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByVoucherType(VoucherType voucherType) {
+        String sql = "select * from vouchers where voucher_type = :voucherType";
+        return jdbcTemplate.query(
+                sql,
+                Map.of(
+                        "voucherType", voucherType.toString()
+                ),
+                voucherRowMapper);
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDate createdAt) {
+        String sql = "select * from vouchers where created_at = :createdAt";
+        return jdbcTemplate.query(
+                sql,
+                Map.of(
+                        "createdAt", createdAt
+                ),
+                voucherRowMapper);
+    }
+
     private MapSqlParameterSource toParamMap(Voucher voucher) {
         return new MapSqlParameterSource()
                 .addValue("voucherId", voucher.getVoucherId().toString().getBytes())
