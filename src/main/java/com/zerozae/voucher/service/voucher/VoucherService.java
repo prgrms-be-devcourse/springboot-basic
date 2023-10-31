@@ -60,7 +60,7 @@ public class VoucherService {
         return VoucherResponse.toDto(voucher);
     }
 
-    public void update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
+    public VoucherResponse update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         voucherRepository.findById(voucherId).orElseThrow(() -> ExceptionMessage.error(VOUCHER_NOT_FOUND_MESSAGE));
         voucherRepository.update(voucherId, voucherUpdateRequest);
     }
