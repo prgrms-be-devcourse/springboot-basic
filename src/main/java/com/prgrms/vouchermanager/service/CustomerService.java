@@ -55,7 +55,7 @@ public class CustomerService {
     public int delete(UUID id) {
         int update = customerRepository.delete(id);
 
-        if(update == 0) throw new NotCorrectIdException();
+        if (update == 0) throw new NotCorrectIdException();
         return update;
     }
 }

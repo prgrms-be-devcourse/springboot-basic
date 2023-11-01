@@ -14,6 +14,7 @@ import java.util.UUID;
 @Repository
 public class BlacklistFileRepository implements BlacklistRepository {
     private final Map<UUID, Customer> customerMap = new HashMap<>();
+
     @Autowired
     public BlacklistFileRepository(@Value("${csv.blacklist}") String fileName) {
         FileIO fileIO = new FileIO(fileName);

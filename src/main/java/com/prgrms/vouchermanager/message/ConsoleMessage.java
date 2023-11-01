@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public enum ConsoleMessage {
     SELECT_PROGRAM("""
-    Select the program. voucher or customer or wallet?
-    If you want to exit, type exit."""),
+            Select the program. voucher or customer or wallet?
+            If you want to exit, type exit."""),
     COMPLETE_UPDATE_CUSTOMER("Update completed."),
     GET_CUSTOMER_ID("Type the customer ID."),
     GET_VOUCHER_ID("Type the voucher ID."),
@@ -57,6 +57,7 @@ public enum ConsoleMessage {
 
 
     private final String message;
+
     ConsoleMessage(String message) {
         this.message = message;
     }

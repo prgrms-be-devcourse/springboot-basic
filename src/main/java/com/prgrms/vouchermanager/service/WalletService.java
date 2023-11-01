@@ -3,10 +3,6 @@ package com.prgrms.vouchermanager.service;
 import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
-import com.prgrms.vouchermanager.dto.customer.CustomerResponse;
-import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
-import com.prgrms.vouchermanager.dto.wallet.WalletRequest;
-import com.prgrms.vouchermanager.dto.wallet.WalletResponse;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import com.prgrms.vouchermanager.repository.wallet.WalletRepository;
@@ -16,10 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.vouchermanager.dto.customer.CustomerResponse.*;
-import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
-import static com.prgrms.vouchermanager.dto.wallet.WalletRequest.*;
-import static com.prgrms.vouchermanager.dto.wallet.WalletResponse.*;
+import static com.prgrms.vouchermanager.dto.customer.CustomerResponse.CustomerDetailResponse;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.VoucherDetailResponse;
+import static com.prgrms.vouchermanager.dto.wallet.WalletRequest.WalletDetailRequest;
+import static com.prgrms.vouchermanager.dto.wallet.WalletResponse.WalletDetailResponse;
+import static com.prgrms.vouchermanager.dto.wallet.WalletResponse.toDetailWallet;
 import static com.prgrms.vouchermanager.service.VoucherService.getVoucherDetailResponses;
 
 @Service
@@ -70,7 +67,8 @@ public class WalletService {
     }
 
     public WalletDetailResponse findById(UUID walletId) {
-        return toDetailWallet(walletRepository.findById(walletId)); }
+        return toDetailWallet(walletRepository.findById(walletId));
+    }
 
     public List<VoucherDetailResponse> findByCustomerId(UUID id) {
         List<Wallet> walletList = walletRepository.findByCustomerId(id);

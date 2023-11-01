@@ -1,7 +1,7 @@
 package com.prgrms.vouchermanager.service;
 
-import com.prgrms.vouchermanager.domain.voucher.*;
-import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.message.LogMessage;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import com.prgrms.vouchermanager.util.VoucherFactory;
@@ -10,16 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.List;
+import java.util.UUID;
 
-import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
-import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.VoucherCreateRequest;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.VoucherFindByConditionRequest;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.VoucherDetailResponse;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.toDetailVoucher;
 
 @Service
 @Slf4j
 public class VoucherService {
 
     private final VoucherRepository voucherRepository;
+
     @Autowired
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
@@ -37,6 +42,7 @@ public class VoucherService {
     public VoucherDetailResponse findById(UUID id) {
         return toDetailVoucher(voucherRepository.findById(id));
     }
+
     public List<VoucherDetailResponse> findAll() {
         List<Voucher> vouchers = voucherRepository.findAll();
         return getVoucherDetailResponses(vouchers);
@@ -47,7 +53,7 @@ public class VoucherService {
         Voucher updateVoucher = VoucherFactory.update(id,
                         voucher.getType(),
                         discount)
-                        .get();
+                .get();
         return voucherRepository.updateDiscount(updateVoucher);
     }
 
@@ -61,7 +67,7 @@ public class VoucherService {
         VoucherType voucherType = VoucherType.of(request.voucherType());
         List<Voucher> byDate = voucherRepository.findByDate(start, end);
         log.info("byDate : " + byDate);
-        if(voucherType == VoucherType.BOTH) return getVoucherDetailResponses(byDate);
+        if (voucherType == VoucherType.BOTH) return getVoucherDetailResponses(byDate);
 
         List<Voucher> byDateAndType =
                 voucherRepository.findByDateAndVoucherType(voucherType, start, end);

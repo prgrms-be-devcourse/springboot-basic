@@ -5,8 +5,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.prgrms.vouchermanager.message.ConsoleMessage.*;
-
 @Component
 @Slf4j
 public class ConsolePrint {
@@ -16,7 +14,7 @@ public class ConsolePrint {
     }
 
     public void printList(List<?> list) {
-         list.forEach(component -> {
+        list.forEach(component -> {
             System.out.println(component);
             System.out.println("---------------");
         });

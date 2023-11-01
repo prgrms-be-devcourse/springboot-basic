@@ -14,6 +14,7 @@ public abstract class Voucher {
     protected Voucher(int discount) {
         this(UUID.randomUUID(), discount);
     }
+
     protected Voucher(UUID id, int discount) {
         this.id = id;
         this.discount = discount;

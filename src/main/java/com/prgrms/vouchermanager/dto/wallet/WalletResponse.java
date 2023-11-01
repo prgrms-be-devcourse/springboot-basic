@@ -3,7 +3,6 @@ package com.prgrms.vouchermanager.dto.wallet;
 import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
-import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
 import lombok.Builder;
 
 import java.util.List;

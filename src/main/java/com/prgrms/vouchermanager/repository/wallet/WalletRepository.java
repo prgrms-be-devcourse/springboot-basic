@@ -50,8 +50,8 @@ public class WalletRepository {
 
     private RowMapper<Wallet> walletRowMapper() {
         return (rs, rowNum) -> new Wallet(convertBytesToUUID(rs.getBytes("wallet_id")),
-                    convertBytesToUUID(rs.getBytes("voucher_id")),
-                    convertBytesToUUID(rs.getBytes("customer_id")));
+                convertBytesToUUID(rs.getBytes("voucher_id")),
+                convertBytesToUUID(rs.getBytes("customer_id")));
     }
 
     private UUID convertBytesToUUID(byte[] bytes) {

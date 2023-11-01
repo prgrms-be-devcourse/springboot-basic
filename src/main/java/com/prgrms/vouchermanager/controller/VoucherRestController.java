@@ -1,7 +1,5 @@
 package com.prgrms.vouchermanager.controller;
 
-import com.prgrms.vouchermanager.domain.voucher.Voucher;
-import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
 import com.prgrms.vouchermanager.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +10,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
-import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.VoucherCreateRequest;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.VoucherFindByConditionRequest;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.VoucherDeleteResponse;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.VoucherDetailResponse;
 
 @RestController
 @Slf4j

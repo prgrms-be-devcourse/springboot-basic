@@ -1,9 +1,7 @@
 package com.prgrms.vouchermanager.dto.voucher;
 
-import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import lombok.Builder;
-import lombok.Getter;
 
 public class VoucherRequest {
     public record VoucherCreateRequest(String voucherType, int discount) {

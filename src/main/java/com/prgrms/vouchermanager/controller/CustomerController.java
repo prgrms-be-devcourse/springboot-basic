@@ -19,7 +19,11 @@ public class CustomerController {
         return service.findBlacklist();
     }
 
-    public Customer create(String name, int year) { return service.create(name, year); };
+    public Customer create(String name, int year) {
+        return service.create(name, year);
+    }
+
+    ;
 
     public List<Customer> list() {
         return service.findAll();

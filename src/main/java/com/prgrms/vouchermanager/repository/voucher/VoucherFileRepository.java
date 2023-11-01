@@ -19,6 +19,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     private final Map<UUID, Voucher> vouchers = new HashMap<>();
     private final FileIO fileIO;
+
     @Autowired
     public VoucherFileRepository(@Value("${csv.voucher}") String fileName) {
         this.fileIO = new FileIO(fileName);

@@ -10,6 +10,7 @@ public class Customer {
     private final String name;
     private final int yearOfBirth;
     private final boolean isBlacklist;
+
     public Customer(UUID id, String name, int yearOfBirth, boolean isBlacklist) {
         this.id = id;
         this.name = name;

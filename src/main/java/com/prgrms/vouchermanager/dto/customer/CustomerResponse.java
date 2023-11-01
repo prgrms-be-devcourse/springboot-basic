@@ -1,10 +1,7 @@
 package com.prgrms.vouchermanager.dto.customer;
 
-import com.prgrms.vouchermanager.domain.voucher.Voucher;
-import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import lombok.Builder;
 
-import java.util.List;
 import java.util.UUID;
 
 

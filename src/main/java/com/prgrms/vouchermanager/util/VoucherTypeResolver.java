@@ -8,7 +8,7 @@ import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import java.util.Map;
 
 public class VoucherTypeResolver {
-    private static final Map<Class<? extends Voucher> , VoucherType> typeMap = Map.of(
+    private static final Map<Class<? extends Voucher>, VoucherType> typeMap = Map.of(
             FixedAmountVoucher.class, VoucherType.FIXED,
             PercentAmountVoucher.class, VoucherType.PERCENT
     );

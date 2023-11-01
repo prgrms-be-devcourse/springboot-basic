@@ -4,8 +4,6 @@ import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
-import com.prgrms.vouchermanager.io.FileIO;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,9 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static com.prgrms.vouchermanager.message.QueryMessage.*;
@@ -82,7 +78,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     private RowMapper<Voucher> voucherRowMapper() {
         return (rs, rowNum) -> {
-            if(rs.getString("voucher_type").equals("fixed")) {
+            if (rs.getString("voucher_type").equals("fixed")) {
                 return new FixedAmountVoucher(convertBytesToUUID(rs.getBytes("voucher_id")),
                         rs.getInt("discount"));
             } else {

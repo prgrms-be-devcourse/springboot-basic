@@ -1,7 +1,9 @@
 package com.prgrms.vouchermanager.io;
 
 import com.prgrms.vouchermanager.domain.customer.Customer;
-import com.prgrms.vouchermanager.domain.voucher.*;
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
+import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.exception.FileIOException;
 import com.prgrms.vouchermanager.util.VoucherFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +22,7 @@ public class FileIO {
     }
 
     public void updateFile(Map<UUID, Voucher> vouchers) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))){
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             vouchers.forEach((key, voucher) -> {
                 UUID id = voucher.getId();
                 String type = voucher instanceof FixedAmountVoucher ? "fixed" : "percent";
@@ -42,16 +44,16 @@ public class FileIO {
     }
 
     public void readCustomerFile(Map<UUID, Customer> customerMap) {
-            try (BufferedReader bf = new BufferedReader(new FileReader(filePath))){
-                String line = "";
-                while((line = bf.readLine()) != null) {
-                    putToCustomerMap(customerMap, line);
-                }
-            } catch (IOException e) {
-                RuntimeException ex = new FileIOException(e);
-                log.error(ex.getMessage());
-                throw ex;
+        try (BufferedReader bf = new BufferedReader(new FileReader(filePath))) {
+            String line = "";
+            while ((line = bf.readLine()) != null) {
+                putToCustomerMap(customerMap, line);
             }
+        } catch (IOException e) {
+            RuntimeException ex = new FileIOException(e);
+            log.error(ex.getMessage());
+            throw ex;
+        }
     }
 
     private void putToCustomerMap(Map<UUID, Customer> customerMap, String line) {
@@ -62,9 +64,9 @@ public class FileIO {
     }
 
     public void fileToVoucherMap(Map<UUID, Voucher> vouchers) {
-        try (BufferedReader bf = new BufferedReader(new FileReader(filePath))){
+        try (BufferedReader bf = new BufferedReader(new FileReader(filePath))) {
             String line = "";
-            while((line = bf.readLine()) != null) {
+            while ((line = bf.readLine()) != null) {
                 readVoucherFile(vouchers, line);
             }
         } catch (IOException e) {
