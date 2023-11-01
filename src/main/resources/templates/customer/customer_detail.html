@@ -26,7 +26,8 @@
                 <th>Name</th>
                 <th>Created At</th>
                 <th>Banned</th>
-                <th>Actions</th>
+                <th>Wallet</th>
+                <th>Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -36,6 +37,12 @@
                 <td th:text="${customer.name}"></td>
                 <td th:text="${customer.createdAt}"></td>
                 <td th:text="${customer.banned}"></td>
+                <td>
+                    <button type="button" class="btn btn-success btn-sm"
+                            th:onclick="goToWallet([[${customer.id}]])">
+                        Wallet
+                    </button>
+                </td>
                 <td>
                     <button type="button" class="btn btn-danger btn-sm"
                             th:onclick="deleteCustomer([[${customer.id}]])">
@@ -48,6 +55,10 @@
     </div>
 </div>
 <script>
+    function goToWallet(id) {
+        window.location.href = '/wallet?customerId=' + id;
+    }
+
     function deleteCustomer(id) {
         axios.delete('/customer/delete', {params: {id: id}})
             .then(function (response) {

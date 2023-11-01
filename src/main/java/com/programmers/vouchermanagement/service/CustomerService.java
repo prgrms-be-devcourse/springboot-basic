@@ -5,11 +5,13 @@ import com.programmers.vouchermanagement.dto.CustomerDto;
 import com.programmers.vouchermanagement.message.ErrorMessage;
 import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+@Transactional
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
@@ -29,6 +31,12 @@ public class CustomerService {
     public Customer findCustomerById(UUID id) {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
+    }
+
+    public String findCustomerNameById(UUID id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
+        return customer.getName();
     }
 
     public List<Customer> findCustomerByName(String name) {

@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.controller;
+package com.programmers.vouchermanagement.controller.web;
 
 import com.programmers.vouchermanagement.dto.VoucherDto;
 import com.programmers.vouchermanagement.service.VoucherService;
@@ -19,7 +19,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public String showAllVouchers(Model model) {
         final List<VoucherDto.Response> vouchers = voucherService.findAllVouchers().stream()
                 .map(VoucherDto.Response::new).toList();
@@ -34,17 +34,13 @@ public class VoucherController {
 
     @PostMapping("/add")
     public String createVoucher(@ModelAttribute VoucherDto.CreateRequest voucherDto) {
-        try {
-            voucherService.createVoucher(voucherDto);
-        } catch (Exception e) {
-            return "redirect:/voucher/add?error=" + e.getMessage();
-        }
+        voucherService.createVoucher(voucherDto);
         return "redirect:/voucher";
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteVoucher(@RequestParam("id") String id) {
-        voucherService.deleteVoucher(UUID.fromString(id));
+    public ResponseEntity<Void> deleteVoucher(@RequestParam String voucherId) {
+        voucherService.deleteVoucher(UUID.fromString(voucherId));
         return ResponseEntity.ok().build();
     }
 }

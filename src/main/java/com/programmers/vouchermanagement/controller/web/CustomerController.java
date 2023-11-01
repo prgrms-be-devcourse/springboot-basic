@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.controller;
+package com.programmers.vouchermanagement.controller.web;
 
 import com.programmers.vouchermanagement.dto.CustomerDto;
 import com.programmers.vouchermanagement.service.CustomerService;
@@ -19,7 +19,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @GetMapping("")
+    @GetMapping
     public String showAllCustomers(Model model) {
         final List<CustomerDto.Response> customers = customerService.findAllCustomers().stream()
                 .map(CustomerDto.Response::new).toList();
@@ -34,17 +34,13 @@ public class CustomerController {
 
     @PostMapping("/add")
     public String createVoucher(@ModelAttribute CustomerDto.CreateRequest customerDto) {
-        try {
-            customerService.createCustomer(customerDto);
-        } catch (Exception e) {
-            return "redirect:/customer/add?error=" + e.getMessage();
-        }
+        customerService.createCustomer(customerDto);
         return "redirect:/customer";
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> showAddCustomerForm(@RequestParam("id") String id) {
-        customerService.deleteCustomer(UUID.fromString(id));
+    public ResponseEntity<Void> showAddCustomerForm(@RequestParam String customerId) {
+        customerService.deleteCustomer(UUID.fromString(customerId));
         return ResponseEntity.ok().build();
     }
 }

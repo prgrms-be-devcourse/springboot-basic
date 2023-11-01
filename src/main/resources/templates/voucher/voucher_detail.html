@@ -14,7 +14,9 @@
 <body>
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h1>Voucher Details</h1>
+        <h1 th:if="${customerName != null and customerName != ''}" th:text="${customerName} + '\'s Wallet'">Voucher
+            Details</h1>
+        <h1 th:if="${customerName == null or customerName == ''}">Voucher Details</h1>
         <a href="/voucher/add" class="btn btn-primary">Add</a>
     </div>
     <div class="table-responsive">

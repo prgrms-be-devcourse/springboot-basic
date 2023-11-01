@@ -49,7 +49,7 @@ class VoucherServiceTest {
         doReturn(Optional.of(voucher1)).when(voucherRepository).findById(voucher1.getId());
 
         //when
-        final Voucher voucher = voucherService.findByVoucherId(voucher1.getId());
+        final Voucher voucher = voucherService.findVoucherById(voucher1.getId());
 
         //then
         assertThat(voucher).isEqualTo(voucher1);
@@ -62,7 +62,7 @@ class VoucherServiceTest {
         doReturn(singletonCustomers).when(voucherRepository).findByNameLike("2");
 
         //when
-        final List<Voucher> vouchers = voucherService.findByVoucherName("2");
+        final List<Voucher> vouchers = voucherService.findVoucherByName("2");
 
         //then
         assertThat(vouchers).hasSameSizeAs(singletonCustomers).contains(voucher2);
