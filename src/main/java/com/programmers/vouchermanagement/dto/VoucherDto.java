@@ -9,6 +9,12 @@ public class VoucherDto {
     public record CreateRequest(String name, float discountAmount, VoucherType voucherType) {
     }
 
+    public record GetRequest(String voucherId,
+                             VoucherType voucherType,
+                             LocalDateTime startDate,
+                             LocalDateTime endDate) {
+    }
+
     public static class Response {
         private final String id;
         private final String name;

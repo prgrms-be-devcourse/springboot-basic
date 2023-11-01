@@ -1,11 +1,15 @@
 package com.programmers.vouchermanagement.controller.rest;
 
+import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.VoucherDto;
 import com.programmers.vouchermanagement.service.VoucherService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,10 +30,21 @@ public class RestVoucherController {
 
     }
 
-    @GetMapping("/{voucherId}")
-    public ResponseEntity<VoucherDto.Response> searchVoucher(@PathVariable String voucherId) {
-        VoucherDto.Response voucher = new VoucherDto.Response(voucherService.findVoucherById(UUID.fromString(voucherId)));
-        return new ResponseEntity<>(voucher, HttpStatus.OK);
+    @GetMapping("/search")
+    public ResponseEntity<List<VoucherDto.Response>> searchVoucher(
+            @RequestParam(required = false) String voucherId,
+            @RequestParam(required = false) VoucherType voucherType,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        List<VoucherDto.Response> vouchers = new ArrayList<>();
+        if (voucherId != null) {
+            vouchers.add(new VoucherDto.Response(voucherService.findVoucherById(UUID.fromString(voucherId))));
+        } else {
+            vouchers = voucherService.findVoucherByTypeAndDates(voucherType, startDate, endDate).stream()
+                    .map(VoucherDto.Response::new).toList();
+        }
+        return new ResponseEntity<>(vouchers, HttpStatus.OK);
     }
 
     @PostMapping("/add")

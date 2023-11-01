@@ -29,6 +29,7 @@ public class WalletService {
     }
 
     public List<Voucher> findVoucherByCustomer(UUID customerId) {
+        checkCustomerExists(customerId);
         return walletRepository.findByCustomerId(customerId).stream()
                 .map(wallet -> voucherRepository.findById(wallet.getVoucherId())
                         .orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage() +
@@ -37,6 +38,7 @@ public class WalletService {
     }
 
     public List<Customer> findCustomerByVoucher(UUID voucherId) {
+        checkVoucherExists(voucherId);
         return walletRepository.findByVoucherId(voucherId).stream()
                 .map(wallet -> customerRepository.findById(wallet.getCustomerId())
                         .orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage() +
@@ -45,15 +47,30 @@ public class WalletService {
     }
 
     public Wallet giveVoucherToCustomer(UUID customerId, UUID voucherId) {
+        checkBothExists(customerId, voucherId);
         final boolean walletExists = walletRepository.existsByCustomerIdAndVoucherId(customerId, voucherId);
         if (walletExists) throw new NoSuchElementException(ErrorMessage.VOUCHER_ALREADY_EXISTS_MESSAGE.getMessage());
         return walletRepository.save(new Wallet(UUID.randomUUID(), customerId, voucherId));
     }
 
     public void deleteVoucherFromCustomer(UUID customerId, UUID voucherId) {
+        checkBothExists(customerId, voucherId);
         int affectedRow = walletRepository.delete(customerId, voucherId);
         if (affectedRow == 0) {
             throw new NoSuchElementException(ErrorMessage.WALLET_NOT_FOUND_MESSAGE.getMessage());
         }
+    }
+
+    private void checkVoucherExists(UUID voucherId) {
+        voucherRepository.findById(voucherId).orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage()));
+    }
+
+    private void checkCustomerExists(UUID customerId) {
+        customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
+    }
+
+    private void checkBothExists(UUID customerId, UUID voucherId) {
+        checkVoucherExists(voucherId);
+        checkCustomerExists(customerId);
     }
 }
