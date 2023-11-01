@@ -74,4 +74,37 @@ public class JdbcVoucherRepository implements VoucherRepository {
             voucher.getBenefitValue(),
             voucher.getId().toString());
     }
+
+    @Override
+    public List<Voucher> findByCriteria(VoucherCriteria criteria) {
+        String baseSql = String.format("SELECT * FROM %s", TABLE_NAME);
+
+        if (criteria.getStartDate() != null && criteria.getEndDate() != null
+            && criteria.getType() == null) {
+            baseSql += String.format(" WHERE %s >= '%s' AND %s < '%s'",
+                CREATED_AT,
+                criteria.getStartDate(),
+                CREATED_AT,
+                criteria.getEndDate());
+        }
+
+        if (criteria.getType() != null && criteria.getStartDate() == null
+            && criteria.getEndDate() == null) {
+            baseSql += String.format(" WHERE %s = '%s'", VOUCHER_TYPE, criteria.getType());
+        }
+
+        if (criteria.getType() != null && criteria.getStartDate() != null
+            && criteria.getEndDate() != null) {
+            baseSql += String.format(" WHERE %s = '%s' AND %s >= '%s' AND %s < '%s'",
+                VOUCHER_TYPE,
+                criteria.getType(),
+                CREATED_AT,
+                criteria.getStartDate(),
+                CREATED_AT,
+                criteria.getEndDate());
+        }
+
+        return jdbcTemplate.query(baseSql, voucherRowMapper);
+    }
+
 }

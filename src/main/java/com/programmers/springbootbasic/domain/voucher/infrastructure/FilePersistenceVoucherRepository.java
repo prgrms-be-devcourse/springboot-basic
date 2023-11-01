@@ -5,6 +5,7 @@ import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_FILE_P
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.infrastructure.dto.CsvVoucher;
+import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherCriteria;
 import com.programmers.springbootbasic.exception.exceptionClass.VoucherException;
 import com.programmers.springbootbasic.util.FileManager;
 import java.util.List;
@@ -78,5 +79,10 @@ public class FilePersistenceVoucherRepository implements VoucherRepository {
             csvVoucher -> csvVoucherHashMap.put(UUID.fromString(csvVoucher.getId()),
                 csvVoucher.toEntity()));
         return csvVoucherHashMap;
+    }
+
+    @Override
+    public List<Voucher> findByCriteria(VoucherCriteria criteria) {
+        return null;
     }
 }

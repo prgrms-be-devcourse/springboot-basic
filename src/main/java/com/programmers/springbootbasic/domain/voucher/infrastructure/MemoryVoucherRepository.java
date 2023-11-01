@@ -2,6 +2,7 @@ package com.programmers.springbootbasic.domain.voucher.infrastructure;
 
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
+import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherCriteria;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,5 +40,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public int update(Voucher voucher) {
         return vouchers.put(voucher.getId(), voucher) == null ? 0 : 1;
+    }
+
+    @Override
+    public List<Voucher> findByCriteria(VoucherCriteria criteria) {
+        return null;
     }
 }

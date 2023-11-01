@@ -4,11 +4,13 @@ import static com.programmers.springbootbasic.exception.ErrorCode.FAIL_TO_DELETE
 import static com.programmers.springbootbasic.exception.ErrorCode.FAIL_TO_UPDATE_VOUCHER;
 import static com.programmers.springbootbasic.exception.ErrorCode.NOT_FOUND_VOUCHER;
 
+import com.programmers.springbootbasic.common.TimeGenerator;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherIdGenerator;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVoucherRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.UpdateVoucherRequest;
+import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherCriteria;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherResponse;
 import com.programmers.springbootbasic.exception.exceptionClass.VoucherException;
 import java.util.List;
@@ -23,18 +25,21 @@ public class VoucherService {
     private static final int AFFECTED_ROW_ONE = 1;
     private final VoucherRepository voucherRepository;
     private final VoucherIdGenerator idGenerator;
+    private final TimeGenerator timeGenerator;
 
     public VoucherService(
         VoucherRepository voucherRepository,
-        VoucherIdGenerator idGenerator
+        VoucherIdGenerator idGenerator,
+        TimeGenerator timeGenerator
     ) {
         this.voucherRepository = voucherRepository;
         this.idGenerator = idGenerator;
+        this.timeGenerator = timeGenerator;
     }
 
     @Transactional
     public UUID create(CreateVoucherRequest request) {
-        Voucher voucher = request.toEntity(idGenerator.generate());
+        Voucher voucher = request.toEntity(idGenerator.generate(), timeGenerator.now());
         voucherRepository.save(voucher);
         return voucher.getId();
     }
@@ -65,12 +70,19 @@ public class VoucherService {
         Voucher exsistedVoucher = voucherRepository.findById(id)
             .orElseThrow(() -> new VoucherException(NOT_FOUND_VOUCHER));
 
-        var updatedVoucher = new Voucher(id, request.getVoucherType(), request.getBenefitValue());
+        var updatedVoucher = new Voucher(id, request.getVoucherType(), request.getBenefitValue(),
+            timeGenerator.now());
 
         if (voucherRepository.update(updatedVoucher) != AFFECTED_ROW_ONE) {
             throw new VoucherException(FAIL_TO_UPDATE_VOUCHER);
         }
         return updatedVoucher.getId();
+    }
+
+    public List<VoucherResponse> findByCriteria(VoucherCriteria voucherCriteria) {
+        return voucherRepository.findByCriteria(voucherCriteria).stream()
+            .map(VoucherResponse::of)
+            .toList();
     }
 
 }
