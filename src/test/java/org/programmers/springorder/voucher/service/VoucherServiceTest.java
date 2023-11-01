@@ -70,7 +70,7 @@ class VoucherServiceTest {
         voucherRepository.save(Voucher.toVoucher(uuids.get(3), 2000, VoucherType.FIXED));
 
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
-        List<UUID> rs = allVoucher.stream().map(VoucherResponseDto::getVoucherId).toList();
+        List<UUID> rs = allVoucher.stream().map(VoucherResponseDto::voucherId).toList();
 
         assertThat(allVoucher).hasSize(4);
         assertThat(rs.containsAll(uuids))
@@ -191,7 +191,7 @@ class VoucherServiceTest {
             List<VoucherResponseDto> customerOwnedVouchers = voucherService.getCustomerOwnedVouchers(customer.getCustomerId());
             List<UUID> foundVoucherId = customerOwnedVouchers
                     .stream()
-                    .map(VoucherResponseDto::getVoucherId)
+                    .map(VoucherResponseDto::voucherId)
                     .toList();
 
             assertThat(customerOwnedVouchers).hasSize(2);

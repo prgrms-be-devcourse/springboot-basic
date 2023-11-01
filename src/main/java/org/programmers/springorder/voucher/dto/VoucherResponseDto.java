@@ -5,23 +5,15 @@ import org.programmers.springorder.voucher.model.Voucher;
 import java.util.UUID;
 
 
-public class VoucherResponseDto{
-    private final UUID voucherId;
-    private final long discountValue;
-    private final String voucherType;
+public record VoucherResponseDto( UUID voucherId, long discountValue, String voucherType){
 
-    private VoucherResponseDto(Voucher voucher) {
-        this.voucherId = voucher.getVoucherId();
-        this.discountValue = voucher.getDiscountValue();
-        this.voucherType = voucher.getVoucherType().name();
-    }
+
 
     public static VoucherResponseDto of(Voucher voucher){
-        return new VoucherResponseDto(voucher);
-    }
-
-    public UUID getVoucherId() {
-        return voucherId;
+        return new VoucherResponseDto(
+                voucher.getVoucherId(),
+                voucher.getDiscountValue(),
+                voucher.getVoucherType().name());
     }
 
     @Override
