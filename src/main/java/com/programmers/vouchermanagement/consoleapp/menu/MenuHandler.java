@@ -65,11 +65,11 @@ public class MenuHandler {
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
                 CreateVoucherRequest createVoucherRequest = consoleManager.instructCreate();
-                VoucherResponse voucherResponse = voucherController.createVoucher(createVoucherRequest);
+                VoucherResponse voucherResponse = voucherController.create(createVoucherRequest);
                 consoleManager.printCreateResult(voucherResponse);
             }
             case LIST -> {
-                List<VoucherResponse> voucherResponses = voucherController.readAllVouchers();
+                List<VoucherResponse> voucherResponses = voucherController.readAll();
                 consoleManager.printReadAllVouchers(voucherResponses);
             }
             //TODO: customerDTO
