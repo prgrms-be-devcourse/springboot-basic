@@ -2,6 +2,7 @@ package com.programmers.springbootbasic.infrastructure.IO;
 
 import com.programmers.springbootbasic.domain.user.presentation.dto.CreateUserRequest;
 import com.programmers.springbootbasic.domain.userVoucherWallet.presentation.dto.CreateUserVoucherWalletRequest;
+import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherTypeEnum;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVoucherRequest;
 import com.programmers.springbootbasic.mediator.dto.UpdateVoucherMediatorRequest;
 import com.programmers.springbootbasic.util.Messages;
@@ -22,9 +23,9 @@ public class ConsoleInteractionAggregator {
     }
 
     public CreateVoucherRequest collectVoucherInput() {
-        String title = console.collectStringInput(Messages.VOUCHER_REGISTER_TYPE.getMessage());
+        String type = console.collectStringInput(Messages.VOUCHER_REGISTER_TYPE.getMessage());
         int amount = console.collectIntegerInput(Messages.VOUCHER_REGISTER_AMOUNT.getMessage());
-        return CreateVoucherRequest.of(title, amount);
+        return CreateVoucherRequest.of(VoucherTypeEnum.of(type), amount);
     }
 
     public CreateUserRequest collectUserInput() {
