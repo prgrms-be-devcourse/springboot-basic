@@ -11,6 +11,7 @@ public class VoucherCondition {
     private String voucherType;
 
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "날짜 형식은 yyyy-MM-dd 이어야 합니다.")
+    @Nullable
     private String createdAt;
 
     public VoucherCondition(String voucherType, String createdAt) {

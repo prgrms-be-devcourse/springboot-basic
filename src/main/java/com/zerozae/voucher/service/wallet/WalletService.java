@@ -23,7 +23,7 @@ public class WalletService {
     }
 
     public WalletResponse createWallet(WalletCreateRequest walletRequest) {
-        if(isAlreadyExistWallet(walletRequest)){
+        if(isAlreadyExistWallet(walletRequest)) {
             throw ExceptionMessage.error("이미 존재하는 지갑입니다.");
         }
         Wallet wallet = walletRequest.to();
@@ -33,7 +33,7 @@ public class WalletService {
     }
 
     @Transactional(readOnly = true)
-    public List<WalletResponse> findAllWallets(){
+    public List<WalletResponse> findAllWallets() {
         return walletRepository.findAllWallets()
                 .stream()
                 .map(WalletResponse::toDto)

@@ -28,25 +28,25 @@ public class WebVoucherController {
     private final VoucherService voucherService;
 
     @GetMapping("/createForm")
-    public String getCreateForm(){
+    public String getCreateForm() {
         return "/voucher/createForm";
     }
 
     @PostMapping
-    public String createVoucher(@ModelAttribute VoucherCreateRequest voucherRequest){
+    public String createVoucher(@ModelAttribute VoucherCreateRequest voucherRequest) {
         voucherService.createVoucher(voucherRequest);
         return "redirect:/vouchers";
     }
 
     @GetMapping
-    public String findAllVouchers(Model model){
+    public String findAllVouchers(Model model) {
         List<VoucherResponse> vouchers = voucherService.findAllVouchers();
         model.addAttribute("vouchers", vouchers);
         return "/voucher/vouchers";
     }
 
     @GetMapping("/{voucherId}")
-    public String voucherDetailPage(@PathVariable("voucherId") String voucherId, Model model){
+    public String voucherDetailPage(@PathVariable("voucherId") String voucherId, Model model) {
         validateInputUuid(voucherId);
         VoucherResponse voucher = voucherService.findById(UUID.fromString(voucherId));
         model.addAttribute("voucher", voucher);
@@ -54,7 +54,7 @@ public class WebVoucherController {
     }
 
     @GetMapping("/update/{voucherId}")
-    public String getUpdateForm(@PathVariable("voucherId") String voucherId, Model model){
+    public String getUpdateForm(@PathVariable("voucherId") String voucherId, Model model) {
         validateInputUuid(voucherId);
         VoucherResponse voucher = voucherService.findById(UUID.fromString(voucherId));
         model.addAttribute("voucher", voucher);
@@ -63,7 +63,7 @@ public class WebVoucherController {
 
     @PatchMapping("/{voucherId}")
     public String updateVoucher(@PathVariable("voucherId") String voucherId,
-                                @ModelAttribute VoucherUpdateRequest voucherUpdateRequest){
+                                @ModelAttribute VoucherUpdateRequest voucherUpdateRequest) {
 
         validateInputUuid(voucherId);
         voucherService.update(UUID.fromString(voucherId), voucherUpdateRequest);
@@ -71,7 +71,7 @@ public class WebVoucherController {
     }
 
     @DeleteMapping("/{voucherId}")
-    public String deleteVoucher(@PathVariable("voucherId") String voucherId){
+    public String deleteVoucher(@PathVariable("voucherId") String voucherId) {
         validateInputUuid(voucherId);
         voucherService.deleteById(UUID.fromString(voucherId));
         return "redirect:/vouchers";

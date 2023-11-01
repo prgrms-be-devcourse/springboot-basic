@@ -33,7 +33,7 @@ class MemoryCustomerRepositoryTest {
     }
 
     @AfterEach
-    void cleanUp(){
+    void cleanUp() {
         customerRepository.deleteAll();
     }
 

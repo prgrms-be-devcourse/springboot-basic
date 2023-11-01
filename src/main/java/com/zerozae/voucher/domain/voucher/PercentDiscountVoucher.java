@@ -16,7 +16,7 @@ public class PercentDiscountVoucher extends Voucher {
     public PercentDiscountVoucher(Long discount) {
         try {
             validateVoucherInfo(discount);
-        }catch (ExceptionMessage e){
+        }catch (ExceptionMessage e) {
             throw ExceptionMessage.error(e.getMessage());
         }
         this.voucherId = UUID.randomUUID();
@@ -29,7 +29,7 @@ public class PercentDiscountVoucher extends Voucher {
     public PercentDiscountVoucher(UUID voucherId, long discount, UseStatusType useStatusType, LocalDate createdAt) {
         try {
             validateVoucherInfo(discount);
-        }catch (ExceptionMessage e){
+        }catch (ExceptionMessage e) {
             throw ExceptionMessage.error(e.getMessage());
         }
         this.voucherId = voucherId;

@@ -16,7 +16,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.UUID;
 
-@Component
+@Deprecated
 public class FileUtil {
 
     private static final String TEMP = ".temp";

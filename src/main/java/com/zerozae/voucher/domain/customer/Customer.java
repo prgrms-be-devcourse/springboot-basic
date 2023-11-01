@@ -28,7 +28,7 @@ public class Customer {
     }
 
     private void isValidCustomerName(String customerName) {
-        if(customerName == null || customerName.isBlank()){
+        if(customerName == null || customerName.isBlank()) {
             throw ExceptionMessage.error("회원 이름은 필수 입력 입니다.");
         }
     }

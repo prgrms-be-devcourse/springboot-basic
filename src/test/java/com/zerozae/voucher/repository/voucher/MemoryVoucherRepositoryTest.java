@@ -28,13 +28,13 @@ class MemoryVoucherRepositoryTest {
     }
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         fixedDiscountVoucher = new FixedDiscountVoucher(10L);
         percentDiscountVoucher = new PercentDiscountVoucher(10L);
     }
 
     @AfterEach
-    void cleanUp(){
+    void cleanUp() {
         voucherRepository.deleteAll();
     }
 

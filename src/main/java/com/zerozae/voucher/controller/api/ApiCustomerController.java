@@ -39,7 +39,7 @@ public class ApiCustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity findCustomerById(@PathVariable("customerId") String customerId){
+    public ResponseEntity findCustomerById(@PathVariable("customerId") String customerId) {
         validateInputUuid(customerId);
         return new ResponseEntity(customerService.findById(UUID.fromString(customerId)), OK);
     }

@@ -37,7 +37,7 @@ public class CustomerService {
             Customer customer = customerRequest.to(UUID.randomUUID());
             customerRepository.save(customer);
             return CustomerResponse.toDto(customer);
-        }catch (ExceptionMessage e){
+        }catch (ExceptionMessage e) {
             throw ExceptionMessage.error(e.getMessage());
         }
     }

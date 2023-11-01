@@ -35,7 +35,7 @@ public class WalletRepository {
                 "INSERT INTO wallets(customer_id, voucher_id) VALUES(UUID_TO_BIN(:customerId), UUID_TO_BIN(:voucherId))",
                 toParamMap(wallet));
 
-        if(insert != 1){
+        if(insert != 1) {
             throw ExceptionMessage.error("저장에 실패했습니다.");
         }
         return wallet;
@@ -68,7 +68,7 @@ public class WalletRepository {
                 walletRowMapper);
     }
 
-    public List<Wallet> findAllWallets(){
+    public List<Wallet> findAllWallets() {
         return namedParameterJdbcTemplate.query(
                 "SELECT * FROM wallets WHERE deleted='N'",
                 walletRowMapper
@@ -83,21 +83,21 @@ public class WalletRepository {
                         "voucherId", voucherId.toString().getBytes()));
     }
 
-    public void deleteByCustomerId(UUID customerId){
+    public void deleteByCustomerId(UUID customerId) {
         namedParameterJdbcTemplate.update(
                 "UPDATE wallets SET deleted = 'Y' WHERE customer_id = UUID_TO_BIN(:customerId)",
                 Map.of("customerId", customerId.toString().getBytes())
         );
     }
 
-    public void deleteByVoucherId(UUID voucherId){
+    public void deleteByVoucherId(UUID voucherId) {
         namedParameterJdbcTemplate.update(
                 "UPDATE wallets SET deleted = 'Y' WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 Map.of("voucherId", voucherId.toString().getBytes())
         );
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         namedParameterJdbcTemplate.getJdbcOperations().update("UPDATE wallets SET deleted = 'Y'");
     }
 

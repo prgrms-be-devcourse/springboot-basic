@@ -2,11 +2,9 @@ package com.zerozae.voucher.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zerozae.voucher.domain.customer.Customer;
-import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
-import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

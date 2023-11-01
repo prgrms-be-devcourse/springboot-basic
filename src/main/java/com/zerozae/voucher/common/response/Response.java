@@ -11,7 +11,7 @@ public class Response<T> {
     private String message;
     private T data;
 
-    public Response(boolean isSuccess, String message){
+    public Response(boolean isSuccess, String message) {
         this.isSuccess = isSuccess;
         this.message = message;
     }

@@ -33,51 +33,51 @@ public class WebWalletController {
     private final VoucherService voucherService;
 
     @PostMapping
-    public String createWallet(@Valid @ModelAttribute WalletCreateRequest walletCreateRequest){
+    public String createWallet(@Valid @ModelAttribute WalletCreateRequest walletCreateRequest) {
         walletService.createWallet(walletCreateRequest);
         return "redirect:/wallets";
     }
 
     @GetMapping
-    public String findAllWallets(Model model){
+    public String findAllWallets(Model model) {
         List<WalletResponse> wallets = walletService.findAllWallets();
         model.addAttribute("wallets", wallets);
         return "/wallet/wallets";
     }
 
     @GetMapping("/createForm")
-    public String getCreateForm(){
+    public String getCreateForm() {
         return "/wallet/createForm";
     }
 
     @GetMapping("/customer/{customerId}")
-    public String getCustomerDetails(@PathVariable("customerId") String customerId, Model model){
+    public String getCustomerDetails(@PathVariable("customerId") String customerId, Model model) {
         CustomerResponse customer = validateCustomer(customerId);
         model.addAttribute("customer", customer);
         return "/wallet/customerDetails";
     }
 
     @GetMapping("/voucher/{voucherId}")
-    public String getVoucherDetails(@PathVariable("voucherId") String voucherId, Model model){
+    public String getVoucherDetails(@PathVariable("voucherId") String voucherId, Model model) {
         VoucherResponse voucher = validateVoucher(voucherId);
         model.addAttribute("voucher", voucher);
         return "wallet/voucherDetails";
     }
 
     @DeleteMapping("/{customerId}/{voucherId}")
-    public String deleteWallet(@PathVariable String customerId, @PathVariable String voucherId){
+    public String deleteWallet(@PathVariable String customerId, @PathVariable String voucherId) {
             validateCustomer(customerId);
             validateVoucher(voucherId);
             walletService.deleteWalletFromCustomer(UUID.fromString(customerId), UUID.fromString(voucherId));
             return "redirect:/wallets";
     }
 
-    private CustomerResponse validateCustomer(String customerId){
+    private CustomerResponse validateCustomer(String customerId) {
         validateInputUuid(customerId);
         return customerService.findById(UUID.fromString(customerId));
     }
 
-    private VoucherResponse validateVoucher(String voucherId){
+    private VoucherResponse validateVoucher(String voucherId) {
         validateInputUuid(voucherId);
         return voucherService.findById(UUID.fromString(voucherId));
     }
