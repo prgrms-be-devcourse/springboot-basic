@@ -21,14 +21,14 @@ class FileMemberRepositoryTest {
     FileMemberRepository fileMemberRepository;
 
     Member member;
-    UUID memberId;
+    String memberId;
 
     @BeforeAll
     void init() {
         fileMemberRepository = new FileMemberRepository("/src/test/resources/csv/blackListMember.csv");
         fileMemberRepository.init();
 
-        memberId = UUID.randomUUID();
+        memberId = UUID.randomUUID().toString();
         member = new Member(memberId, "김철수", "kig2454@gmail.com", 20);
     }
 

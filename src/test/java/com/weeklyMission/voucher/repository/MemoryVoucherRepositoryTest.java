@@ -23,7 +23,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("도서 저장 테스트")
     void testCreate(){
         //given
-        Voucher createVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1);
+        Voucher createVoucher = new FixedAmountVoucher(UUID.randomUUID().toString(), 1);
 
         //when
         Voucher getVoucher = memoryVoucherRepository.save(createVoucher);
@@ -36,8 +36,8 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("도서 전체 조회 테스트")
     void testGetList() {
         //given
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 50);
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 50);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID().toString(), 50);
+        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID().toString(), 50);
 
         //when
         memoryVoucherRepository.save(fixedAmountVoucher);
