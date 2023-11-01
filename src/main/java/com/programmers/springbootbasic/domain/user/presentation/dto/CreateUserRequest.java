@@ -2,11 +2,12 @@ package com.programmers.springbootbasic.domain.user.presentation.dto;
 
 import com.programmers.springbootbasic.domain.user.domain.entity.User;
 
+
 public class CreateUserRequest {
 
     private String nickname;
 
-    public CreateUserRequest(String nickname) {
+    private CreateUserRequest(String nickname) {
         this.nickname = nickname;
     }
 
