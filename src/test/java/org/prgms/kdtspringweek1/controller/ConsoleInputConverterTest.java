@@ -2,17 +2,16 @@ package org.prgms.kdtspringweek1.controller;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.kdtspringweek1.console.ScannerInput;
 import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;
 import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.SelectVoucherTypeDto;
 import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.*;
 
@@ -24,22 +23,16 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringJUnitConfig
+@ExtendWith(MockitoExtension.class)
 class ConsoleInputConverterTest {
 
-    @Configuration
-    static class Config {
-        @Bean
-        public ConsoleInputConverter consoleInputConverter() {
-            scannerInput = Mockito.mock(ScannerInput.class);
-            return new ConsoleInputConverter(scannerInput);
-        }
-    }
+    @InjectMocks
+    private ConsoleInputConverter consoleInputConverter;
 
-    private static ScannerInput scannerInput;
+    @Mock
+    private ScannerInput scannerInput;
+
     private static Random random = new Random();
-    @Autowired
-    ConsoleInputConverter consoleInputConverter;
 
     @Test
     @DisplayName("기능 입력 성공")
