@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import team.marco.voucher_management_system.controller.voucher.dto.VoucherResponse;
 import team.marco.voucher_management_system.service.voucher.VoucherService;
@@ -26,6 +27,20 @@ public class VoucherViewController {
         List<VoucherResponse> vouchers = voucherService.getVouchers().stream()
                 .map(VoucherResponse::of)
                 .toList();
+
+        model.addAttribute("vouchers", vouchers);
+
+        return "voucher/voucher_list";
+    }
+
+    @GetMapping("/{voucherId}")
+    public String deleteVoucher(@PathVariable Long voucherId, Model model) {
+        voucherService.deleteVoucher(voucherId);
+
+        List<VoucherResponse> vouchers = voucherService.getVouchers().stream()
+                .map(VoucherResponse::of)
+                .toList();
+
         model.addAttribute("vouchers", vouchers);
 
         return "voucher/voucher_list";
