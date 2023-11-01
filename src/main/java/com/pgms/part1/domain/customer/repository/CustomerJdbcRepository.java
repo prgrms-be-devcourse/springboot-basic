@@ -77,4 +77,10 @@ public class CustomerJdbcRepository implements CustomerRepository{
         String updateCustomerNameSql = "UPDATE CUSTOMERS SET is_blocked = true where id = ?";
         jdbcTemplate.update(updateCustomerNameSql, id);
     }
+
+    @Override
+    public int findCustomerByEmail(String email) {
+        String findCustomerByEmailSql = "SELECT count(*) FROM CUSTOMERS WHERE email = ?";
+        return jdbcTemplate.queryForObject(findCustomerByEmailSql, new Object[] {email}, Integer.class);
+    }
 }

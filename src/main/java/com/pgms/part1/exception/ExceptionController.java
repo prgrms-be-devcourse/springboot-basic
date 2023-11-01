@@ -21,4 +21,12 @@ public class ExceptionController {
         return mv;
     }
 
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handelCommonException(Exception e){
+        log.error("Error occurs {}", e.toString());
+
+        ModelAndView mv = new ModelAndView("error");
+        mv.addObject("message", e.getMessage());
+        return mv;
+    }
 }

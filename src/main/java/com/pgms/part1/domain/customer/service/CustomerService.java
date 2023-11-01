@@ -25,6 +25,10 @@ public class CustomerService {
         this.keyGenerator = keyGenerator;
     }
 
+    public boolean isEmailDuplicated(String email){
+        return customerRepository.findCustomerByEmail(email) > 0;
+    }
+
     @Transactional(readOnly = true)
     public List<CustomerResponseDto> listBlockedCustomers(){
         List<Customer> customers = customerRepository.listBlockedCustomers();
