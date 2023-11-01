@@ -79,19 +79,7 @@ public class VoucherService {
 
     @Transactional(readOnly = true)
     public List<VoucherResponse> findVoucherByCondition(VoucherCondition condition) {
-        String voucherType = condition.getVoucherType();
-        String createdAt = condition.getCreatedAt();
-
-        List<Voucher> vouchers;
-        if (voucherType != null) {
-            if (createdAt != null) {
-                vouchers = voucherRepository.findByTypeAndCreatedAt(VoucherType.of(voucherType), LocalDate.parse(createdAt));
-            } else {
-                vouchers = voucherRepository.findByVoucherType(VoucherType.of(voucherType));
-            }
-        } else {
-            vouchers = voucherRepository.findByCreatedAt(LocalDate.parse(createdAt));
-        }
+        List<Voucher> vouchers = voucherRepository.findVoucherByCondition(condition);
         return vouchers.stream().map(VoucherResponse::toDto).toList();
     }
 }

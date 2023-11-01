@@ -2,6 +2,7 @@ package com.zerozae.voucher.repository.voucher;
 
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
+import com.zerozae.voucher.dto.voucher.VoucherCondition;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 
 import java.time.LocalDate;
@@ -55,17 +56,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findByTypeAndCreatedAt(VoucherType voucherType, LocalDate createdAt) {
-        return null;
-    }
-
-    @Override
-    public List<Voucher> findByVoucherType(VoucherType voucherType) {
-        return null;
-    }
-
-    @Override
-    public List<Voucher> findByCreatedAt(LocalDate createdAt) {
+    public List<Voucher> findVoucherByCondition(VoucherCondition condition) {
         return null;
     }
 }
