@@ -23,8 +23,8 @@ public class VoucherRestController {
     }
 
     @GetMapping("/vouchers/search")
-    public List<VoucherResponseDto> findVouchersByFilter(@RequestParam String date,
-                                                         @RequestParam VoucherDiscountType type){
+    public List<VoucherResponseDto> findVouchersByFilter(@RequestParam(value = "date", required = false) String date,
+                                                         @RequestParam(value = "type", required = false) VoucherDiscountType type){
         return voucherService.findVouchersByCreatedDate(date, type);
     }
 
