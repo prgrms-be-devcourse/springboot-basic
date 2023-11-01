@@ -9,16 +9,18 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import com.programmers.vouchermanagement.configuration.profiles.FileEnabledCondition;
 import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.util.JSONFileManager;
 
 @Repository
-@Profile({"file", "test"})
+@Conditional(FileEnabledCondition.class)
 public class FileCustomerRepository implements CustomerRepository {
     private static final String CUSTOMER_ID_KEY = "customerId";
     private static final String NAME_KEY = "name";

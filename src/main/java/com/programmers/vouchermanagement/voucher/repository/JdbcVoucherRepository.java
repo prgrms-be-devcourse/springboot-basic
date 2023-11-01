@@ -11,18 +11,20 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.programmers.vouchermanagement.configuration.profiles.DBEnabledCondition;
 import com.programmers.vouchermanagement.util.UUIDConverter;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
 @Repository
-@Profile("jdbc")
+@Conditional(DBEnabledCondition.class)
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final int SINGLE_DATA_FLAG = 1;
 

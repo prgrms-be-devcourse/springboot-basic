@@ -10,16 +10,18 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import com.programmers.vouchermanagement.configuration.profiles.FileEnabledCondition;
 import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.util.JSONFileManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
 @Repository
-@Profile({"file", "test"})
+@Conditional(FileEnabledCondition.class)
 public class FileVoucherRepository implements VoucherRepository {
     //constants
     private static final String VOUCHER_ID_KEY = "voucher_id";

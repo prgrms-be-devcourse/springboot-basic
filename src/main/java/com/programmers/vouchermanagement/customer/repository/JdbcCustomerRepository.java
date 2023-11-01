@@ -10,19 +10,21 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.programmers.vouchermanagement.configuration.profiles.DBEnabledCondition;
 import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.util.UUIDConverter;
 
 @Repository
-@Profile("jdbc")
+@Conditional(DBEnabledCondition.class)
 public class JdbcCustomerRepository implements CustomerRepository {
     private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> mapToCustomer(resultSet);
     public static final int SINGLE_DATA_FLAG = 1;

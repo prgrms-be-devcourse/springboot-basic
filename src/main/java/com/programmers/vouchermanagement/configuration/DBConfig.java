@@ -4,15 +4,16 @@ import javax.sql.DataSource;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import com.programmers.vouchermanagement.configuration.profiles.DBEnabledCondition;
 import com.programmers.vouchermanagement.configuration.properties.datasource.DataSourceProperties;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
-@Profile("jdbc")
+@Conditional(DBEnabledCondition.class)
 public class DBConfig {
     @Bean
     public DataSource dataSource(DataSourceProperties dataSourceProperties) {
