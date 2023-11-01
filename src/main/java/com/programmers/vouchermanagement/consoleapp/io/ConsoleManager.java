@@ -1,21 +1,19 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
-import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
-
-import java.math.BigDecimal;
-import java.util.List;
-
-import org.beryx.textio.TextIO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import org.beryx.textio.TextIO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
 
 @Component
 public class ConsoleManager {
@@ -73,11 +71,10 @@ public class ConsoleManager {
                     return new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE);
                 });
 
-        String discountValueInput = textIO.newStringInputReader()
+        String discountValueStr = textIO.newStringInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
-        BigDecimal discountValue = new BigDecimal(discountValueInput);
-        Validator.validateDiscountValue(voucherType, discountValue);
-        return new CreateVoucherRequest(discountValue, voucherType);
+        Validator.validateDiscountValue(voucherType, discountValueStr);
+        return new CreateVoucherRequest(Long.parseLong(discountValueStr), voucherType);
     }
 
     public void printCreateResult(VoucherResponse voucherResponse) {
@@ -115,7 +112,7 @@ public class ConsoleManager {
                 .formatted(voucherResponse.getVoucherId(),
                         voucherResponse.getVoucherTypeName(),
                         voucherResponse.getDiscountValue() +
-                        (voucherResponse.isPercentVoucher() ? PERCENTAGE : EMPTY));
+                                (voucherResponse.isPercentVoucher() ? PERCENTAGE : EMPTY));
     }
 
     public void printExit() {
