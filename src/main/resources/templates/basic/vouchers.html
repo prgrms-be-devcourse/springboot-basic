@@ -33,10 +33,10 @@
             </thead>
             <tbody>
             <tr th:each="voucher : ${vouchers}">
-                <td><a th:href="@{/basic/vouchers/{voucherId}(voucherId=${voucher.id})}"
-                th:text="${voucher.id}">Voucher Id</a></td>
-                <td th:text="${voucher.type}">Voucher type</td>
-                <td th:text = "${voucher.discount}">10000</td>
+                <td><a th:href="@{/basic/vouchers/{voucherId}(voucherId=${voucher.voucherId()})}"
+                th:text="${voucher.voucherId()}">Voucher Id</a></td>
+                <td th:text="${voucher.voucherType()}">Voucher type</td>
+                <td th:text = "${voucher.discount()}">10000</td>
             </tr>
             </tbody>
         </table>

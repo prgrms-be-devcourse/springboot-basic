@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
 import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
@@ -26,17 +27,15 @@ public class VoucherWebController {
 
     @GetMapping
     public String vouchers(Model model) {
-        VoucherListResponse response = new VoucherListResponse(service.findAll());
-        model.addAttribute("vouchers", response.vouchers());
+        List<VoucherDetailResponse> response = service.findAll();
+        model.addAttribute("vouchers", response);
         return "basic/vouchers";
     }
 
     @GetMapping("/{voucherId}")
     public String voucher(@PathVariable UUID voucherId, Model model) {
-        VoucherDetailResponse response = toDetailVoucher(service.findById(voucherId));
-        model.addAttribute("voucherId", response.voucherId());
-        model.addAttribute("voucherType", response.voucherType());
-        model.addAttribute("voucherDiscount", response.discount());
+        VoucherDetailResponse response = service.findById(voucherId);
+        model.addAttribute("voucher", response);
         return "basic/voucher";
     }
 
@@ -49,8 +48,8 @@ public class VoucherWebController {
     public String create(@RequestBody VoucherCreateRequest voucherCreateRequest,
                          RedirectAttributes redirectAttributes,
                          Model model) {
-        Voucher voucher = service.create(voucherCreateRequest);
-        redirectAttributes.addAttribute("voucherId", voucher.getId());
+        VoucherDetailResponse response = service.create(voucherCreateRequest);
+        redirectAttributes.addAttribute("voucher", response.voucherId());
         return "redirect:/basic/vouchers/{voucherId}";
     }
 
@@ -62,7 +61,7 @@ public class VoucherWebController {
 
     @GetMapping("/{voucherId}/findById")
     public String findById(@PathVariable UUID voucherId, Model model) {
-        Voucher voucher = service.findById(voucherId);
+        VoucherDetailResponse voucher = service.findById(voucherId);
         model.addAttribute("voucher", voucher);
         return "basic/voucher";
     }
@@ -75,8 +74,7 @@ public class VoucherWebController {
                                   @RequestParam int endMonth,
                                   Model model) {
         VoucherFindByConditionRequest request = toConditionVoucher(voucherType, startYear, startMonth, endYear, endMonth);
-        List<Voucher> vouchers
-                = service.findByCondition(request);
+        List<VoucherDetailResponse> vouchers = service.findByCondition(request);
         log.info(vouchers.toString());
         model.addAttribute("vouchers", vouchers);
         return "basic/vouchers";

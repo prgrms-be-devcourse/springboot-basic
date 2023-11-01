@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanager.service;
 
 import com.prgrms.vouchermanager.domain.voucher.*;
+import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
 import com.prgrms.vouchermanager.message.LogMessage;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import com.prgrms.vouchermanager.util.VoucherFactory;
@@ -12,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
 
 @Service
 @Slf4j
@@ -24,19 +26,20 @@ public class VoucherService {
         log.info(LogMessage.CHECK_VOUCHER_REPOSITORY.getMessage(), voucherRepository.getClass());
     }
 
-    public Voucher create(VoucherCreateRequest request) {
+    public VoucherDetailResponse create(VoucherCreateRequest request) {
         Voucher voucher = VoucherFactory.create(VoucherType.of(request.voucherType()), request.discount()).get();
         log.info(LogMessage.VOUCHER_INFO.getMessage(), voucher);
 
-        voucherRepository.create(voucher);
-        return voucher;
+        Voucher createdVoucher = voucherRepository.create(voucher);
+        return toDetailVoucher(createdVoucher);
     }
 
-    public Voucher findById(UUID id) {
-        return voucherRepository.findById(id);
+    public VoucherDetailResponse findById(UUID id) {
+        return toDetailVoucher(voucherRepository.findById(id));
     }
-    public List<Voucher> findAll() {
-        return voucherRepository.findAll();
+    public List<VoucherDetailResponse> findAll() {
+        List<Voucher> vouchers = voucherRepository.findAll();
+        return getVoucherDetailResponses(vouchers);
     }
 
     public Voucher updateDiscount(UUID id, int discount) {
@@ -52,19 +55,29 @@ public class VoucherService {
         return voucherRepository.delete(id);
     }
 
-    public List<Voucher> findByCondition(VoucherFindByConditionRequest request) {
+    public List<VoucherDetailResponse> findByCondition(VoucherFindByConditionRequest request) {
         String start = getYearAndMonth(request.startYear(), request.startMonth());
         String end = getYearAndMonth(request.endYear(), request.endMonth());
         VoucherType voucherType = VoucherType.of(request.voucherType());
-        List<Voucher> byDate
-                = voucherRepository.findByDate(start, end);
+        List<Voucher> byDate = voucherRepository.findByDate(start, end);
         log.info("byDate : " + byDate);
-        if(voucherType == VoucherType.BOTH) return byDate;
+        if(voucherType == VoucherType.BOTH) return getVoucherDetailResponses(byDate);
 
         List<Voucher> byDateAndType =
                 voucherRepository.findByDateAndVoucherType(voucherType, start, end);
         log.info("complete : " + byDateAndType.toString());
-        return byDateAndType;
+        return getVoucherDetailResponses(byDateAndType);
+    }
+
+    private static List<VoucherDetailResponse> getVoucherDetailResponses(List<Voucher> byDate) {
+        return byDate.stream()
+                .map(voucher ->
+                        VoucherDetailResponse.builder()
+                                .voucherId(voucher.getId())
+                                .voucherType(voucher.getType())
+                                .discount(voucher.getDiscount())
+                                .build()
+                ).toList();
     }
 
     private String getYearAndMonth(int year, int month) {
