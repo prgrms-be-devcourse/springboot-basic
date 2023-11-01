@@ -6,7 +6,6 @@ import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,11 +48,6 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public void update(UUID voucherId, VoucherRequestDto voucherRequestDto) {
-
-    }
-
-    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try{
             List<CSVRecord> data = csvFileHandler.readCSV(filePath);
@@ -93,21 +87,6 @@ public class FileVoucherRepository implements VoucherRepository{
             logger.error(e.getMessage());
         }
         return voucherList;
-    }
-
-    @Override
-    public List<Voucher> findByPolicy(String policy) {
-        return null;
-    }
-
-    @Override
-    public List<Voucher> findUnallocatedVoucher() {
-        return null;
-    }
-
-    @Override
-    public void deleteById(UUID voucherId) {
-
     }
 
     @Override
