@@ -1,6 +1,7 @@
 package com.zerozae.voucher.common.advisor;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import java.util.Objects;
 
 @Slf4j
-@ControllerAdvice
+@ControllerAdvice(annotations = Controller.class)
 public class WebExceptionAdvisor {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
