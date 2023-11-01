@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.voucher.request.CreateVoucherRequestDto;
+import com.programmers.vouchermanagement.dto.voucher.request.UpdateVoucherRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.response.VoucherResponseDto;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -13,8 +14,10 @@ import org.mockito.Mockito;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.verify;
@@ -70,15 +73,82 @@ class VoucherServiceTest {
         given(voucherRepository.findAll()).willReturn(mockVouchers);
 
         // when
-        List<VoucherResponseDto> resultVouchers = voucherService.getVouchers();
+        List<VoucherResponseDto> vouchers = voucherService.getVouchers();
 
         // then
-        assertThat(resultVouchers).hasSize(2);
-        assertThat(resultVouchers).extracting(VoucherResponseDto::getType)
+        verify(voucherRepository).findAll();
+        assertThat(vouchers).hasSize(2);
+        assertThat(vouchers).extracting(VoucherResponseDto::getType)
                 .containsExactlyInAnyOrder(VoucherType.FIXED_AMOUNT, VoucherType.PERCENT_DISCOUNT);
-        assertThat(resultVouchers).extracting(VoucherResponseDto::getAmount)
+        assertThat(vouchers).extracting(VoucherResponseDto::getAmount)
                 .containsExactlyInAnyOrder(1000L, 10L);
     }
 
-    //TODO: 작성하지 않은 테스트 작성
+    @Test
+    @DisplayName("바우처의 아이디로 바우처를 조회할 수 있다.")
+    void getVoucher() {
+        // given
+        Voucher mockVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
+        given(voucherRepository.findById(mockVoucher.getId())).willReturn(java.util.Optional.of(mockVoucher));
+
+        // when
+        VoucherResponseDto voucher = voucherService.getVoucher(mockVoucher.getId());
+
+        // then
+        verify(voucherRepository).findById(mockVoucher.getId());
+        assertThat(voucher.getType()).isEqualTo(VoucherType.FIXED_AMOUNT);
+        assertThat(voucher.getAmount()).isEqualTo(1000L);
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 바우처의 아이디로 조회 요청 시 실패한다.")
+    void getVoucher_notFound_fail() {
+        // when & then
+        assertThatThrownBy(() -> voucherService.getVoucher(UUID.randomUUID()))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Not found voucher");
+    }
+
+    @Test
+    @DisplayName("바우처를 수정할 수 있다.")
+    void updateVoucher() {
+        // given
+        Voucher mockVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
+        given(voucherRepository.findById(mockVoucher.getId())).willReturn(java.util.Optional.of(mockVoucher));
+
+        UpdateVoucherRequestDto request = new UpdateVoucherRequestDto();
+        request.setAmount(2000L);
+
+        // when
+        voucherService.updateVoucher(mockVoucher.getId(), request);
+
+        // then
+        verify(voucherRepository).update(any(FixedAmountVoucher.class));
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 바우처의 아이디로 수정 요청 시 실패한다.")
+    void updateVoucher_notFound_fail() {
+        // given
+        UpdateVoucherRequestDto request = new UpdateVoucherRequestDto();
+        request.setAmount(2000L);
+
+        // when & then
+        assertThatThrownBy(() -> voucherService.updateVoucher(UUID.randomUUID(), request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("Not found voucher");
+    }
+
+    @Test
+    @DisplayName("바우처를 삭제할 수 있다.")
+    void deleteVoucher() {
+        // given
+        Voucher mockVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
+
+        // when
+        voucherService.deleteVoucher(mockVoucher.getId());
+
+        // then
+        verify(voucherRepository).deleteById(mockVoucher.getId());
+    }
 }
