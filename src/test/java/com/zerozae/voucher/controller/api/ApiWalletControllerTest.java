@@ -72,6 +72,20 @@ class ApiWalletControllerTest {
     }
 
     @Test
+    @DisplayName("지갑 생성 실패 테스트 - 유효하지 않은 UUID 입력")
+    void createWallet_InvalidUUID_Failed_Test() throws Exception {
+        // Given
+        WalletCreateRequest request = new WalletCreateRequest("12345678", voucher.getVoucherId().toString());
+
+        // When & Then
+        mvc.perform(post("/api/wallets")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+                .andExpect(jsonPath("$.message").value("올바른 UUID 형식이어야 합니다."))
+                .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
     @DisplayName("지갑 전체 조회 테스트")
     void findAllWallets_Success_Test() throws Exception {
         // Given

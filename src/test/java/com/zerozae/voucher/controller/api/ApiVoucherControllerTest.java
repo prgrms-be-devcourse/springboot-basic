@@ -5,6 +5,7 @@ import com.zerozae.voucher.domain.voucher.FixedDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
+import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherCondition;
 import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
@@ -44,13 +45,12 @@ class ApiVoucherControllerTest {
 
     private Voucher fixedDiscountVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, AVAILABLE, LocalDate.now());
     private Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20 , UNAVAILABLE, LocalDate.now());
-    private VoucherCreateRequest voucherCreateRequest;
+    private VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(fixedDiscountVoucher.getDiscount(), String.valueOf(fixedDiscountVoucher.getVoucherType()));;
 
     @Test
     @DisplayName("바우처 생성 테스트")
     void createVoucher_Success_Test() throws Exception {
         // Given
-        voucherCreateRequest = new VoucherCreateRequest(fixedDiscountVoucher.getDiscount(), String.valueOf(fixedDiscountVoucher.getVoucherType()));
         when(voucherService.createVoucher(voucherCreateRequest)).thenReturn(VoucherResponse.toDto(fixedDiscountVoucher));
 
         // When
@@ -61,6 +61,34 @@ class ApiVoucherControllerTest {
 
         // Then
         verify(voucherService).createVoucher(any(VoucherCreateRequest.class));
+    }
+
+    @Test
+    @DisplayName("바우처 생성 실패 - 잘못된 할인 정보 테스트")
+    void createVoucher_InvalidDiscount_Failed_Test() throws Exception {
+        // Given
+        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(0, String.valueOf(FIXED));
+
+        // When & Then
+        mvc.perform(post("/api/vouchers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(jsonPath("$.message").value("할인 정보는 필수 입력란이며 1이상의 값을 입력해주세요."))
+                .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
+    @DisplayName("바우처 생성 실패 - 타입 누락 테스트")
+    void createVoucher_EmptyVoucherType_Failed_Test() throws Exception {
+        // Given
+        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(10, null);
+
+        // When & Then
+        mvc.perform(post("/api/vouchers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(jsonPath("$.message").value("바우처의 타입은 필수 입력란입니다."))
+                .andExpect(jsonPath("$.success").value(false));
     }
 
     @Test
@@ -171,6 +199,34 @@ class ApiVoucherControllerTest {
 
         // Then
         verify(voucherService).update(any(UUID.class), any(VoucherUpdateRequest.class));
+    }
+
+    @Test
+    @DisplayName("바우처 업데이트 실패 - 잘못된 할인 정보 테스트")
+    void updateVoucher_InvalidDiscount_Failed_Test() throws Exception {
+        // Given
+        VoucherUpdateRequest invalidRequest = new VoucherUpdateRequest(0, String.valueOf(FIXED));
+
+        // When & Then
+        mvc.perform(patch("/api/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(jsonPath("$.message").value("할인 정보는 필수 입력란이며 1이상의 값을 입력해주세요."))
+                .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
+    @DisplayName("바우처 업데이트 실패 - 타입 누락 테스트")
+    void updateVoucher_EmptyVoucherType_Failed_Test() throws Exception {
+        // Given
+        VoucherUpdateRequest invalidRequest = new VoucherUpdateRequest(10, null);
+
+        // When & Then
+        mvc.perform(patch("/api/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(jsonPath("$.message").value("바우처의 타입은 필수 입력란입니다."))
+                .andExpect(jsonPath("$.success").value(false));
     }
 
     @Test

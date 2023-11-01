@@ -2,9 +2,11 @@ package com.zerozae.voucher.controller.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zerozae.voucher.domain.customer.Customer;
+import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerCreateRequest;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
+import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.service.customer.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,6 +62,34 @@ class ApiCustomerControllerTest {
     }
 
     @Test
+    @DisplayName("회원 생성 실패 테스트 - 이름 유효성 검사 실패")
+    void createCustomer_InvalidName_Failed_Test() throws Exception {
+        // Given
+        CustomerCreateRequest invalidRequest = new CustomerCreateRequest("a", String.valueOf(BLACKLIST));
+
+        // When & Then
+        mvc.perform(post("/api/customers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(jsonPath("$.message").value("회원 이름은 2자에서 15자 사이로 입력해주세요."))
+                .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
+    @DisplayName("회원 생성 실패 테스트 - 회원 타입 누락 실패")
+    void createCustomer_EmptyCustomerType_Failed_Test() throws Exception {
+        // Given
+        CustomerCreateRequest invalidRequest = new CustomerCreateRequest("customer", null);
+
+        // When & Then
+        mvc.perform(post("/api/customers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(jsonPath("$.message").value("회원 타입은 필수 입력란입니다."))
+                .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
     @DisplayName("회원 전체 조회 테스트")
     void findAllCustomers_Success_Test() throws Exception {
         // Given
@@ -112,6 +142,34 @@ class ApiCustomerControllerTest {
 
         // Then
         verify(customerService).update(any(UUID.class), any(CustomerUpdateRequest.class));
+    }
+
+    @Test
+    @DisplayName("회원 업데이트 실패 테스트 - 회원 타입 누락 실패")
+    void updateCustomer_EmptyCustomerType_Failed_Test() throws Exception {
+        // Given
+        CustomerUpdateRequest invalidRequest = new CustomerUpdateRequest("customer", null);
+
+        // When & Then
+        mvc.perform(patch("/api/customers/{customerId}", normalCustomer.getCustomerId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(jsonPath("$.message").value("회원 타입은 필수 입력란입니다."))
+                .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
+    @DisplayName("회원 업데이트 실패 테스트 - 이름 유효성 검사 실패")
+    void updateCustomer_InvalidName_Failed_Test() throws Exception {
+        // Given
+        CustomerUpdateRequest invalidRequest = new CustomerUpdateRequest("a", String.valueOf(BLACKLIST));
+
+        // When & Then
+        mvc.perform(patch("/api/customers/{customerId}", normalCustomer.getCustomerId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(invalidRequest)))
+                .andExpect(jsonPath("$.message").value("회원 이름은 2자에서 15자 사이로 입력해주세요."))
+                .andExpect(jsonPath("$.success").value(false));
     }
 
     @Test
