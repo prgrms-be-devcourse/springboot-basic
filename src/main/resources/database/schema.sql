@@ -3,20 +3,18 @@ USE order_management;
 CREATE TABLE customer
 (
     id         BINARY(16) PRIMARY KEY,
-    name       varchar(20) NOT NULL UNIQUE,
+    name       varchar(20) NOT NULL,
     created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    is_banned  boolean     NOT NULL DEFAULT FALSE,
-    CONSTRAINT unq_user_name UNIQUE (name)
+    is_banned  boolean     NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE voucher
 (
     id              BINARY(16) PRIMARY KEY,
-    name            varchar(20) NOT NULL UNIQUE,
+    name            varchar(20) NOT NULL,
     discount_amount float       NOT NULL DEFAULT FALSE,
     created_at      datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    voucher_type    varchar(20) NOT NULL,
-    CONSTRAINT unq_voucher_name UNIQUE (name)
+    voucher_type    varchar(20) NOT NULL
 );
 
 CREATE TABLE wallet
