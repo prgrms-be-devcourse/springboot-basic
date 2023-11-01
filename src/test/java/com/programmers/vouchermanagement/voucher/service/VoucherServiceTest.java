@@ -41,7 +41,7 @@ class VoucherServiceTest {
     @DisplayName("고정 할인 금액 바우처 객체를 생성할 수 있다.")
     void createFixedAmountVoucherSucceed() {
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(1000, VoucherType.FIXED);
-        voucherService.createVoucher(createVoucherRequest);
+        voucherService.create(createVoucherRequest);
 
         verify(voucherRepository, times(1)).save(any(Voucher.class));
     }
@@ -50,7 +50,7 @@ class VoucherServiceTest {
     @DisplayName("퍼센트 할인 바우처 객체를 생성할 수 있다.")
     void createPercentDiscountVoucherSucceed() {
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(100, VoucherType.PERCENT);
-        voucherService.createVoucher(createVoucherRequest);
+        voucherService.create(createVoucherRequest);
 
         verify(voucherRepository, times(1)).save(any(Voucher.class));
     }
@@ -58,7 +58,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("모든 바우처를 조회할 수 있다.")
     void readAllVouchersSucceed() {
-        voucherService.readAllVouchers();
+        voucherService.readAll();
 
         when(voucherRepository.findAll()).thenReturn(new ArrayList<>());
 
@@ -68,7 +68,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처를 id로 조회할 수 있다.")
     void readVoucherByIdSucceed() {
-        voucherService.readVoucherById(mockId);
+        voucherService.readById(mockId);
 
         when(voucherRepository.findById(mockId)).thenReturn(Optional.of(mockVoucher));
 
@@ -78,7 +78,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처를 id로 삭제할 수 있다.")
     void deleteVoucherSucceed() {
-        voucherService.deleteVoucher(mockId);
+        voucherService.delete(mockId);
 
         verify(voucherRepository, times(1)).delete(any(UUID.class));
     }
@@ -86,7 +86,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처를 업데이트할 수 있다.")
     void updateVoucherSucceed() {
-        voucherService.updateVoucher(new Voucher(UUID.randomUUID(), 100, VoucherType.FIXED));
+        voucherService.update(new Voucher(UUID.randomUUID(), 100, VoucherType.FIXED));
 
         verify(voucherRepository, times(1)).update(any(Voucher.class));
     }
