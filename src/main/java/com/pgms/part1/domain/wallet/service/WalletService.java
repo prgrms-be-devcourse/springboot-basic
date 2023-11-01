@@ -28,7 +28,15 @@ public class WalletService {
         this.keyGenerator = keyGenerator;
     }
 
+    public void isVoucherAlreadyOwned(Long customer_id, Long voucher_id){
+        walletRepository.findVouchersByCustomerId(customer_id).forEach(voucher -> {
+            if(voucher.id().equals(voucher_id))
+                throw new VoucherApplicationException(ErrorCode.VOUCHER_ALREADY_OWNED);
+        });
+    }
+
     public Wallet addWallet(WalletCreateRequestDto walletCreateRequestDto) {
+        isVoucherAlreadyOwned(walletCreateRequestDto.userId(), walletCreateRequestDto.voucherId());
         Wallet wallet = new Wallet(keyGenerator.getKey(), walletCreateRequestDto.voucherId(), walletCreateRequestDto.userId());
         walletRepository.addWallet(wallet);
         log.info("customer {} wallet adds voucher {}", walletCreateRequestDto.userId(), walletCreateRequestDto.voucherId());
