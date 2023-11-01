@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +43,8 @@ public class JdbcWalletRepository {
         UUID voucherId = UUIDUtils.toUUID(resultSet.getBytes("voucher_id"));
         String discountType = resultSet.getString("discount_type");
         long discountValue = resultSet.getLong("discount_value");
-        return Voucher.createVoucher(voucherId, discountType, discountValue);
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return Voucher.createVoucher(voucherId, discountType, discountValue, createdAt);
     };
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {

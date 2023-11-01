@@ -3,6 +3,7 @@ package com.prgrms.springbasic.domain.voucher.entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher extends Voucher {
@@ -10,11 +11,12 @@ public class PercentDiscountVoucher extends Voucher {
     private static final long MIN_PERCENT = 0L;
     private static final long MAX_PERCENT = 100L;
 
-    public PercentDiscountVoucher(UUID voucherId, DiscountType discountType, long discountValue) {
+    public PercentDiscountVoucher(UUID voucherId, DiscountType discountType, long discountValue, LocalDateTime createdAt) {
         checkValidation(discountValue);
         this.voucherId = voucherId;
         this.discountType = discountType;
         this.discountValue = discountValue;
+        this.createdAt = createdAt;
     }
 
     @Override

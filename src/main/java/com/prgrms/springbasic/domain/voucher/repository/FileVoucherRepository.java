@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -69,7 +70,8 @@ public class FileVoucherRepository implements VoucherRepository {
             UUID voucherId = UUID.fromString(parts[0]);
             String discountType = parts[1];
             long discountValue = Long.parseLong(parts[2]);
-            return Voucher.createVoucher(voucherId, discountType, discountValue);
+            LocalDateTime createdAt = LocalDateTime.parse(parts[3]);
+            return Voucher.createVoucher(voucherId, discountType, discountValue, createdAt);
         });
     }
 }

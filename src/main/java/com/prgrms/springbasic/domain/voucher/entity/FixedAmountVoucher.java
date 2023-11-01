@@ -3,16 +3,18 @@ package com.prgrms.springbasic.domain.voucher.entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
-    public FixedAmountVoucher(UUID voucherId, DiscountType discountType, long discountValue) {
+    public FixedAmountVoucher(UUID voucherId, DiscountType discountType, long discountValue, LocalDateTime createdAt) {
         checkValidation(discountValue);
         this.voucherId = voucherId;
         this.discountType = discountType;
         this.discountValue = discountValue;
+        this.createdAt = createdAt;
     }
 
     @Override

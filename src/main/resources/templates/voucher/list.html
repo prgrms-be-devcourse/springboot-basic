@@ -2,11 +2,11 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
     <title>바우처 목록</title>
 </head>
 <body>
-<div class="container" style="max-width: 700px">
+<div class="container" style="max-width: 900px">
     <div class="py-5 text-center">
         <h2>바우처 목록</h2>
     </div>
@@ -24,6 +24,7 @@
                 <th>Voucher ID</th>
                 <th>Discount Type</th>
                 <th>Discount Value</th>
+                <th>Created Date</th>
             </tr>
             </thead>
             <tbody th:each="voucher : ${vouchers}">
@@ -31,6 +32,7 @@
                 <td><a th:href="@{'/vouchers/detail/' + ${voucher.voucherId()}}" th:text="${voucher.voucherId()}"></a></td>
                 <td th:text="${voucher.discountType()}"></td>
                 <td th:text="${voucher.discountValue()}"></td>
+                <td th:text="${voucher.createdAt()}"></td>
             </tr>
             </tbody>
         </table>

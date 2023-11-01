@@ -8,6 +8,7 @@ import com.prgrms.springbasic.domain.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class VoucherService {
 
     @Transactional
     public VoucherResponse saveVoucher(CreateVoucherRequest request) {
-        Voucher voucher = voucherRepository.saveVoucher(Voucher.createVoucher(UUID.randomUUID(), request.discountType(), request.discountValue()));
+        Voucher voucher = voucherRepository.saveVoucher(Voucher.createVoucher(UUID.randomUUID(), request.discountType(), request.discountValue(), LocalDateTime.now()));
         return VoucherResponse.from(voucher);
     }
 

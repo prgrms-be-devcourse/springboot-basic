@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Repository
 @Profile("prod")
 public class JdbcVoucherRepository implements VoucherRepository {
-    private static final String INSERT = "INSERT INTO vouchers(voucher_id, discount_type, discount_value) VALUES(UUID_TO_BIN(?), ?, ?)";
+    private static final String INSERT = "INSERT INTO vouchers(voucher_id, discount_type, discount_value, created_at) VALUES(UUID_TO_BIN(?), ?, ?,?)";
     private static final String SELECT_ALL = "SELECT * FROM vouchers";
     private static final String FIND_BY_ID = "SELECT * FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String UPDATE = "UPDATE vouchers SET discount_value = ? WHERE voucher_id = UUID_TO_BIN(?)";
@@ -35,7 +36,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucherId = UUIDUtils.toUUID(resultSet.getBytes("voucher_id"));
         String discountType = resultSet.getString("discount_type");
         long discountValue = resultSet.getLong("discount_value");
-        return Voucher.createVoucher(voucherId, discountType, discountValue);
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return Voucher.createVoucher(voucherId, discountType, discountValue, createdAt);
     };
 
     @Override
@@ -43,7 +45,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(INSERT,
                 voucher.getVoucherId().toString().getBytes(),
                 voucher.getDiscountType().toString(),
-                voucher.getDiscountValue());
+                voucher.getDiscountValue(),
+                voucher.getCreatedAt());
         return voucher;
     }
 
