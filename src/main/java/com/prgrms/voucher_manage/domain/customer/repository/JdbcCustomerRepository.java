@@ -14,6 +14,7 @@ import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchTypeByString;
 import static com.prgrms.voucher_manage.exception.ErrorMessage.CUSTOMER_NOT_EXIST;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.CUSTOMER_UPDATE_FAILED;
 
 @Repository
 @RequiredArgsConstructor
@@ -52,9 +53,13 @@ public class JdbcCustomerRepository {
         return customer;
     }
 
-    public int update(UpdateCustomerDto dto) {
+    public void update(UpdateCustomerDto dto) {
         String sql = "update customer set name = ? where customer_id = ?";
-        return jdbcTemplate.update(sql, dto.name(), dto.id().toString());
+        try {
+            jdbcTemplate.update(sql, dto.name(), dto.id().toString());
+        } catch (Exception e) {
+            throw new RuntimeException(CUSTOMER_UPDATE_FAILED.getMessage());
+        }
     }
 
     private static final RowMapper<Customer> rowMapper = (resultSet, i) -> {

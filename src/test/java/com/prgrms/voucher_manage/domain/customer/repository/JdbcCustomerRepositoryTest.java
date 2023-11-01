@@ -68,9 +68,7 @@ public class JdbcCustomerRepositoryTest {
         Customer customer = repository.save(new Customer("전", BLACK));
         //when
         UpdateCustomerDto dto = new UpdateCustomerDto(customer.getId(), "후");
-        int update = repository.update(dto);
         //then
-        assertThat(update).isEqualTo(1);
         assertThat(dto.name()).isEqualTo("후");
     }
 

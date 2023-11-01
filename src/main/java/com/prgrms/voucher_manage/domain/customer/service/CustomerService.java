@@ -38,10 +38,7 @@ public class CustomerService {
     }
 
     public void update(UpdateCustomerDto dto) {
-        int result = repository.update(dto);
-        if (result != 1) {
-            throw new RuntimeException(CUSTOMER_UPDATE_FAILED.getMessage());
-        }
+        repository.update(dto);
     }
 
     public Customer findByName(String name) {
