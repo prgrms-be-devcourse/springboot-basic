@@ -18,7 +18,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer upsert(String name, String email){
+    public Customer upsert(String name, String email) {
         Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
 
         return this.customerRepository.upsert(customer);
