@@ -4,6 +4,7 @@ import com.weeklyMission.member.dto.MemberRequest;
 import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.service.MemberService;
 import com.weeklyMission.voucher.dto.VoucherResponse;
+import com.weeklyMission.voucher.service.VoucherService;
 import com.weeklyMission.wallet.service.WalletService;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -21,10 +22,13 @@ public class MemberViewController {
 
     private final WalletService walletService;
     private final MemberService memberService;
+    private final VoucherService voucherService;
 
-    public MemberViewController(WalletService walletService, MemberService memberService) {
+    public MemberViewController(WalletService walletService, MemberService memberService,
+        VoucherService voucherService) {
         this.walletService = walletService;
         this.memberService = memberService;
+        this.voucherService = voucherService;
     }
 
     @GetMapping("/createForm")
@@ -54,11 +58,20 @@ public class MemberViewController {
     }
 
     @GetMapping("/{memberId}/vouchers")
-    public String findGetVoucher(@PathVariable("memberId") String memberId, @RequestParam String name, Model model){
+    public String findGetVouchers(@PathVariable("memberId") String memberId, @RequestParam String name, Model model){
         List<VoucherResponse> voucherList = walletService.findByMember(memberId);
+        model.addAttribute("memberId", memberId);
         model.addAttribute("name", name);
         model.addAttribute("voucherList", voucherList);
         return "/members/members_voucherList";
+    }
+
+    @GetMapping("{memberId}/vouchers/{voucherId}")
+    public String findGetVoucherDetail(@PathVariable("memberId") String memberId, @PathVariable("voucherId") String voucherId, Model model){
+        VoucherResponse voucher = voucherService.findById(voucherId);
+        model.addAttribute("memberId", memberId);
+        model.addAttribute("voucher", voucher);
+        return "/members/members_voucherDetail";
     }
 
     @PostMapping("/{memberId}")

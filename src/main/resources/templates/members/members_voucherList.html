@@ -20,16 +20,13 @@
     <tbody>
     <tr th:each="voucher : ${voucherList}">
       <td>
-        <a th:href="@{'/vouchers/' + ${voucher.voucherId}}" th:text="${voucher.voucherId}"></a>
+        <a th:href="@{/members/{memberId}/vouchers/{voucherId} (memberId=${memberId}, voucherId=${voucher.voucherId})}" th:text="${voucher.voucherId}"></a>
       </td>
       <td th:text="${voucher.type}"></td>
       <td th:text="${voucher.amount}"></td>
     </tr>
     </tbody>
   </table>
-  <a th:href="@{/vouchers/createForm}">
-    <button class="btn btn-success">Create</button>
-  </a>
 </div>
 </body>
 </html>

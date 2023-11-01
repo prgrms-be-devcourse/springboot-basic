@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -54,5 +55,11 @@ public class WalletViewController {
     public String create(@ModelAttribute WalletRequest wallet){
         walletService.save(wallet);
         return "redirect:/";
+    }
+
+    @PostMapping("/{memberId}/{voucherId}")
+    public String delete(@PathVariable("memberId") String memberId, @PathVariable("voucherId") String voucherId){
+        walletService.deleteById(memberId, voucherId);
+        return "redirect:/members";
     }
 }
