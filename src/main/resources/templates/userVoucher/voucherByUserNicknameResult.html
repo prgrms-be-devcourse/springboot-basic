@@ -157,8 +157,7 @@
           <a th:href="@{'/voucher/' + ${voucher.getVoucherResponse().getId()}}" class="text-green-600 hover:text-green-900">View</a>
         </td>
         <td class="py-4 px-6">
-          <form th:action="@{'/userVoucher/delete/' + ${voucher.id}}" method="post" class="inline">
-            <input type="hidden" name="_method" value="delete" />
+          <form th:action="@{'/userVoucher/delete/' + ${voucher.id}}" th:method="delete" class="inline">
             <button type="submit" class="text-red-500 hover:text-red-700 bg-transparent p-0 border-none outline-none focus:outline-none">
               Delete
             </button>
