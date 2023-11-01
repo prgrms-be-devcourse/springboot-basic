@@ -73,7 +73,7 @@ class UserVoucherWalletServiceTest {
             Optional.of(new User(userId, existedNickname, false)));
         when(voucherRepository.findById(existedUUID)).thenReturn(
             Optional.of(
-                new Voucher(existedUUID, new FixedAmountVoucher(100), 100)
+                new Voucher(existedUUID, new FixedAmountVoucher(100), 100, timeGenerator.now())
             )
         );
         when(userVoucherWalletRepository.save(any()))
@@ -132,7 +132,7 @@ class UserVoucherWalletServiceTest {
         // given
         var existedUUID = UUID.randomUUID();
         when(voucherRepository.findById(existedUUID)).thenReturn(
-            Optional.of(new Voucher(existedUUID, new FixedAmountVoucher(100), 100))
+            Optional.of(new Voucher(existedUUID, new FixedAmountVoucher(100), 100, timeGenerator.now()))
         );
         when(userVoucherWalletRepository.findUserByVoucherId(existedUUID)).thenReturn(
             List.of(
@@ -154,7 +154,7 @@ class UserVoucherWalletServiceTest {
         // given
         var existedUUID = UUID.randomUUID();
         when(voucherRepository.findById(existedUUID)).thenReturn(
-            Optional.of(new Voucher(existedUUID, new FixedAmountVoucher(100), 100))
+            Optional.of(new Voucher(existedUUID, new FixedAmountVoucher(100), 100, timeGenerator.now()))
         );
         when(userVoucherWalletRepository.findUserByVoucherId(existedUUID)).thenReturn(
             List.of(
@@ -196,9 +196,9 @@ class UserVoucherWalletServiceTest {
         when(userVoucherWalletRepository.findVoucherByUserId(userId)).thenReturn(
             List.of(
                 new UserVoucherWalletWithVoucher(1L, new Voucher(UUID.randomUUID(),
-                    new FixedAmountVoucher(100), 100)),
+                    new FixedAmountVoucher(100), 100, timeGenerator.now())),
                 new UserVoucherWalletWithVoucher(2L, new Voucher(UUID.randomUUID(),
-                    new FixedAmountVoucher(100), 100))
+                    new FixedAmountVoucher(100), 100, timeGenerator.now()))
             )
         );
 

@@ -361,7 +361,7 @@ class JdbcUserVoucherWalletRepositoryTest {
 
     private Voucher saveVoucher(UUID id) {
         return voucherRepository.save(
-            new Voucher(id, new FixedAmountVoucher(100), 100)
+            new Voucher(id, new FixedAmountVoucher(100), 100, timeGenerator.now())
         );
     }
 

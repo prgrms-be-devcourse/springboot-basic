@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.programmers.springbootbasic.common.TimeGenerator;
+import com.programmers.springbootbasic.domain.TestTimeGenerator;
 import com.programmers.springbootbasic.domain.TestVoucherIdGenerator;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherIdGenerator;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherRepository;
@@ -34,6 +36,7 @@ class VoucherServiceTest {
     @Mock
     private VoucherRepository voucherRepository;
     private VoucherIdGenerator idGenerator;
+    private TimeGenerator timeGenerator = new TestTimeGenerator();
 
     @BeforeEach
     public void setUp() {
@@ -46,10 +49,10 @@ class VoucherServiceTest {
     @Test
     void success_create() {
         // given
-        CreateVoucherRequest request = CreateVoucherRequest.of(VoucherTypeEnum.FIXED.name(), 10);
+        CreateVoucherRequest request = CreateVoucherRequest.of(VoucherTypeEnum.FIXED, 10);
         when(voucherRepository.save(any(Voucher.class))).thenReturn(
             new Voucher(idGenerator.generate(), request.getVoucherType(),
-                request.getBenefitValue()));
+                request.getBenefitValue(), timeGenerator.now()));
 
         // when
         var result = voucherService.create(request);
@@ -64,8 +67,10 @@ class VoucherServiceTest {
         // given
         when(voucherRepository.findAll()).thenReturn(
             List.of(
-                new Voucher(idGenerator.generate(), VoucherTypeEnum.FIXED.getVoucherType(10), 10),
-                new Voucher(idGenerator.generate(), VoucherTypeEnum.PERCENT.getVoucherType(10), 10)
+                new Voucher(idGenerator.generate(), VoucherTypeEnum.FIXED.getVoucherType(10), 10,
+                    timeGenerator.now()),
+                new Voucher(idGenerator.generate(), VoucherTypeEnum.PERCENT.getVoucherType(10), 10,
+                    timeGenerator.now())
             )
         );
 
@@ -84,7 +89,7 @@ class VoucherServiceTest {
     void success_findById() {
         // given
         var voucher = new Voucher(idGenerator.generate(), VoucherTypeEnum.FIXED.getVoucherType(10),
-            10);
+            10, timeGenerator.now());
         when(voucherRepository.findById(idGenerator.generate())).thenReturn(
             java.util.Optional.of(voucher));
 
@@ -112,7 +117,7 @@ class VoucherServiceTest {
     void success_deleteById() {
         // given
         var voucher = new Voucher(idGenerator.generate(), VoucherTypeEnum.FIXED.getVoucherType(10),
-            10);
+            10, timeGenerator.now());
         when(voucherRepository.findById(voucher.getId())).thenReturn(Optional.of(voucher));
         when(voucherRepository.deleteById(voucher.getId())).thenReturn(1);
 
@@ -138,7 +143,7 @@ class VoucherServiceTest {
     void success_update() {
         // given
         var voucher = new Voucher(idGenerator.generate(), VoucherTypeEnum.FIXED.getVoucherType(10),
-            10);
+            10, timeGenerator.now());
         UpdateVoucherRequest request = new UpdateVoucherRequest(VoucherTypeEnum.PERCENT, 10);
         when(voucherRepository.findById(voucher.getId())).thenReturn(
             java.util.Optional.of(voucher));
