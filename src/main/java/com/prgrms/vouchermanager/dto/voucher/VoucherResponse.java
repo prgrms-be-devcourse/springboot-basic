@@ -4,7 +4,6 @@ import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import lombok.Builder;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -12,12 +11,6 @@ public class VoucherResponse {
     public record VoucherDetailResponse(UUID voucherId, VoucherType voucherType, int discount) {
         @Builder
         public VoucherDetailResponse {
-        }
-    }
-
-    public record VoucherListResponse(List<Voucher> vouchers) {
-        @Builder
-        public VoucherListResponse {
         }
     }
 

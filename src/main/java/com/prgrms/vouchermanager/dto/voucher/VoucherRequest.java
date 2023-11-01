@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanager.dto.voucher;
 
-import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import lombok.Builder;
 
 public class VoucherRequest {
@@ -18,13 +17,6 @@ public class VoucherRequest {
         @Builder
         public VoucherFindByConditionRequest {
         }
-    }
-
-    public static VoucherCreateRequest toCreateVoucher(VoucherType voucherType, int discount) {
-        return VoucherCreateRequest.builder()
-                .voucherType(voucherType.getLabel())
-                .discount(discount)
-                .build();
     }
 
     public static VoucherFindByConditionRequest toConditionVoucher(String voucherType, int startYear, int startMonth, int endYear, int endMonth) {
