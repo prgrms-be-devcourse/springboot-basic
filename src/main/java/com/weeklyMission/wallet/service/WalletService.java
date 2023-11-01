@@ -50,7 +50,7 @@ public class WalletService {
             .toList();
     }
 
-    public void deleteById(WalletRequest wallet){
-        walletRepository.deleteById(wallet.memberId(), wallet.voucherId());
+    public void deleteById(String memberId, String voucherId){
+        walletRepository.deleteById(memberId, voucherId);
     }
 }
