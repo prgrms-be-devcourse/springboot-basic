@@ -77,6 +77,7 @@ public class VoucherService {
         walletRepository.deleteAll();
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponse> findVoucherByCondition(VoucherCondition condition) {
         String voucherType = condition.getVoucherType();
         String createdAt = condition.getCreatedAt();
