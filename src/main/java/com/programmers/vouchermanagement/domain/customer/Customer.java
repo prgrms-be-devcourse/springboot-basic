@@ -57,8 +57,7 @@ public class Customer implements CsvConvertable {
         this.isBanned = false;
     }
 
-    @Override
-    public String toString() {
+    public String getDetailInfo() {
         return System.lineSeparator() +
                 "############# Customer #############" + System.lineSeparator() +
                 "Customer Id    : " + id + System.lineSeparator() +

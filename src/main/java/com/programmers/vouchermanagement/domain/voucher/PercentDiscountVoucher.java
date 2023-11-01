@@ -30,7 +30,7 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     @Override
-    public String toString() {
+    public String getDetailInfo() {
         return System.lineSeparator() +
                 "++++++ Percentage Discount voucher ++++++" + System.lineSeparator() +
                 "Voucher Id     : " + id + System.lineSeparator() +

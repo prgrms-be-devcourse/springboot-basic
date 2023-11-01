@@ -44,7 +44,6 @@ public abstract class Voucher implements CsvConvertable {
         }
         return name.contains(keyword);
     }
-
-    @Override
-    public abstract String joinInfo(String separator);
+    
+    public abstract String getDetailInfo();
 }

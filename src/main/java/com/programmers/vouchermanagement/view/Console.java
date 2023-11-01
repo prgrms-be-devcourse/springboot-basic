@@ -114,13 +114,13 @@ public class Console implements CommandLineRunner {
     //Voucher
     private void displayVoucherList() {
         voucherService.findAllVouchers()
-                .forEach(voucher -> displayMessage(voucher.toString()));
+                .forEach(voucher -> displayMessage(voucher.getDetailInfo()));
     }
 
     private void findVoucherById() {
         displayMessage(VoucherMessage.INPUT_VOUCHER_ID_MESSAGE.getMessage());
         Voucher voucher = voucherService.findVoucherById(getUUID());
-        displayMessage(voucher.toString());
+        displayMessage(voucher.getDetailInfo());
     }
 
     private void findVoucherByName() {
@@ -140,7 +140,7 @@ public class Console implements CommandLineRunner {
                 .read(VoucherMessage.INPUT_DISCOUNT_AMOUNT_MESSAGE.getMessage());
 
         Voucher voucher = voucherService.createVoucher(new VoucherDto.CreateRequest(voucherName, discountAmount, voucherType));
-        displayMessage(voucher.toString());
+        displayMessage(voucher.getDetailInfo());
         displayMessage(VoucherMessage.VOUCHER_CREATED_MESSAGE.getMessage());
     }
 
@@ -153,29 +153,29 @@ public class Console implements CommandLineRunner {
     //Customer
     private void displayCustomerList() {
         customerService.findAllCustomers()
-                .forEach(customer -> displayMessage(customer.toString()));
+                .forEach(customer -> displayMessage(customer.getDetailInfo()));
     }
 
     private void findCustomerById() {
         displayMessage(CustomerMessage.INPUT_CUSTOMER_ID_MESSAGE.getMessage());
         Customer customer = customerService.findCustomerById(getUUID());
-        displayMessage(customer.toString());
+        displayMessage(customer.getDetailInfo());
     }
 
     private void findCustomerByName() {
         displayMessage(CustomerMessage.INPUT_CUSTOMER_NAME_MESSAGE.getMessage());
-        customerService.findCustomerByName(getName()).forEach(customer -> displayMessage(customer.toString()));
+        customerService.findCustomerByName(getName()).forEach(customer -> displayMessage(customer.getDetailInfo()));
     }
 
     private void displayCustomerBlackList() {
         customerService.findBannedCustomers()
-                .forEach(customer -> displayMessage(customer.toString()));
+                .forEach(customer -> displayMessage(customer.getDetailInfo()));
     }
 
     private void createCustomer() {
         String customerName = getName(CustomerMessage.INPUT_CUSTOMER_NAME_MESSAGE.getMessage());
         Customer customer = customerService.createCustomer(new CustomerDto.CreateRequest(customerName));
-        displayMessage(customer.toString());
+        displayMessage(customer.getDetailInfo());
         displayMessage(CustomerMessage.CUSTOMER_CREATED_MESSAGE.getMessage());
     }
 
@@ -188,20 +188,20 @@ public class Console implements CommandLineRunner {
     private void findVoucherByCustomer() {
         displayMessage(CustomerMessage.INPUT_CUSTOMER_ID_MESSAGE.getMessage());
         walletService.findVoucherByCustomer(getUUID())
-                .forEach(voucher -> displayMessage(voucher.toString()));
+                .forEach(voucher -> displayMessage(voucher.getDetailInfo()));
     }
 
     private void findCustomerByVoucher() {
         displayMessage(VoucherMessage.INPUT_VOUCHER_ID_MESSAGE.getMessage());
         walletService.findCustomerByVoucher(getUUID())
-                .forEach(customer -> displayMessage(customer.toString()));
+                .forEach(customer -> displayMessage(customer.getDetailInfo()));
     }
 
     private void giveVoucherToCustomer() {
         displayMessage(CustomerMessage.GIVE_VOUCHER_TO_CUSTOMER_MESSAGE.getMessage());
         UUID customerId = getUUID(CustomerMessage.INPUT_CUSTOMER_ID_MESSAGE.getMessage());
         UUID voucherId = getUUID(VoucherMessage.INPUT_VOUCHER_ID_MESSAGE.getMessage());
-        displayMessage(walletService.giveVoucherToCustomer(customerId, voucherId).toString());
+        displayMessage(walletService.giveVoucherToCustomer(customerId, voucherId).getDetailInfo());
         displayMessage(WalletMessage.WALLET_GIVEN_SUCCESS_MESSAGE.getMessage());
     }
 
