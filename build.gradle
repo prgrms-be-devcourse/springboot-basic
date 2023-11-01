@@ -25,6 +25,7 @@ dependencies {
     testImplementation 'org.testcontainers:testcontainers:1.19.1'
     testImplementation 'org.testcontainers:mysql:1.19.1'
     testImplementation 'org.testcontainers:junit-jupiter:1.19.1'
+    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.4'
 }
 
 test {
