@@ -1,6 +1,15 @@
 server:
   shutdown: graceful
 spring:
+  profiles:
+    active: command
+    group:
+      tomcat:
+        - tomcat
+      command:
+        - command
+      test:
+        - test
   lifecycle:
     timeout-per-shutdown-phase: 10s
   datasource:

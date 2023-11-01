@@ -1,0 +1,6 @@
+spring:
+  config:
+    activate:
+      on-profile: command
+  main:
+    web-application-type: none
