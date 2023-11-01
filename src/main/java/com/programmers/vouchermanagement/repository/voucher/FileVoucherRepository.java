@@ -56,7 +56,7 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByNameLike(String name) {
         return vouchers.values().stream()
-                .filter(voucher -> voucher.getName().contains(name))
+                .filter(voucher -> voucher.containsName(name))
                 .toList();
     }
 
