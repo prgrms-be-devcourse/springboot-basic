@@ -1,5 +1,6 @@
 package com.weeklyMission.wallet.repository;
 
+import com.weeklyMission.exception.AlreadyExistsException;
 import com.weeklyMission.wallet.domain.Wallet;
 import java.nio.ByteBuffer;
 import java.util.Collections;
@@ -41,9 +42,18 @@ public class DBWalletRepository implements WalletRepository{
 
     @Override
     public void save(Wallet wallet) {
-        jdbcTemplate.update(
-            "INSERT INTO wallet (wallet_id, member_id, voucher_id) VALUES (:walletId, :memberId, :voucherId)",
-            toParamMap(wallet));
+        Boolean isExists = jdbcTemplate.queryForObject(
+            "select exists(select * from wallet where member_id = :memberId and voucher_id = :voucherId)",
+            toParamMap(wallet), Boolean.class);
+
+        if(isExists){
+            throw new AlreadyExistsException();
+        }
+        else{
+            jdbcTemplate.update(
+                "INSERT INTO wallet (wallet_id, member_id, voucher_id) VALUES (:walletId, :memberId, :voucherId)",
+                toParamMap(wallet));
+        }
     }
 
     @Override
@@ -63,7 +73,6 @@ public class DBWalletRepository implements WalletRepository{
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("memberId", memberId);
         paramMap.put("voucherId", voucherId);
-
         jdbcTemplate.update("delete from wallet where member_id = :memberId and voucher_id = :voucherId",
             paramMap);
     }
