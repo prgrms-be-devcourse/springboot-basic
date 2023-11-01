@@ -15,7 +15,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@Profile("prod")
+@Profile({"prod", "dev"})
 public class DBWalletRepository implements WalletRepository{
 
     private final NamedParameterJdbcTemplate jdbcTemplate;

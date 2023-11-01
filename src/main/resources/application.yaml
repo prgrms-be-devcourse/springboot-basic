@@ -1,6 +1,9 @@
 Spring:
   profiles:
     active: prod
+    group:
+      "dev": "dev, console"
+      "prod": "prod, web"
 
 ---
 spring:
