@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -87,18 +86,19 @@ public class VoucherJdbcRepository implements VoucherRepository{
             sql.append(" where");
 
             if(date != null){
-                parameterList.add(LocalDate.parse(date));
-                sql.append(" created_at = ?");
+                parameterList.add(date);
+                sql.append(" DATE(created_at) =?");
                 isFirstParameter = false;
             }
             if(type != null){
                 if(!isFirstParameter)
                     sql.append(" and");
-                parameterList.add(type);
+                parameterList.add(type.toString());
                 sql.append(" discount_type = ?");
             }
         }
 
-        return jdbcTemplate.query(sql.toString(), parameterList.toArray(), (resultSet, i) -> mapVoucher(resultSet));
+        List<Voucher> query = jdbcTemplate.query(sql.toString(), parameterList.toArray(), (resultSet, i) -> mapVoucher(resultSet));
+        return query;
     }
 }
