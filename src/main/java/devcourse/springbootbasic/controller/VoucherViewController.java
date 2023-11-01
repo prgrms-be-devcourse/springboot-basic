@@ -45,7 +45,6 @@ public class VoucherViewController {
 
     @PostMapping("/delete/{voucherId}")
     public String deleteVoucher(@PathVariable UUID voucherId) {
-        System.out.println("voucherId = " + voucherId);
         voucherService.deleteVoucher(voucherId);
 
         return "redirect:/voucher";
