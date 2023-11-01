@@ -3,6 +3,8 @@ package com.programmers.vouchermanagement.consoleapp.menu;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 
+import java.util.List;
+
 import org.beryx.textio.mock.MockTextTerminal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,10 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
+import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 
 @SpringBootTest
 @ActiveProfiles("test")
 class MenuHandlerTest {
+    @Autowired
+    VoucherRepository voucherRepository;
     @Autowired
     MockTextTerminal textTerminal;
     @Autowired
@@ -23,7 +28,7 @@ class MenuHandlerTest {
     MenuHandler menuHandler;
 
     @Test
-    @DisplayName("exit을 입력할 시 해당 뷰를 출력하고 시스템을 종료한다.")
+    @DisplayName("exit을 입력할 시 종료 뷰를 출력한다.")
     void testHandleMenuFalse_Exit() {
         //when
         menuHandler.handleMenu(Menu.EXIT);
@@ -34,7 +39,7 @@ class MenuHandlerTest {
     }
 
     @Test
-    @DisplayName("잘못된 메뉴를 입력하면 해당 뷰를 출력하지만 시스템은 계속 된다.")
+    @DisplayName("잘못된 메뉴를 입력하면 해당 뷰를 출력한다.")
     void testHandleMenuTrue_IncorrectMenu() {
         //when
         menuHandler.handleMenu(Menu.INCORRECT_MENU);
@@ -44,5 +49,76 @@ class MenuHandlerTest {
         assertThat(output, containsString("""
                 Such input is incorrect.
                 Please input a correct command carefully."""));
+    }
+
+    @Test
+    @DisplayName("없는 바우처 메뉴를 선택 시 해당 뷰를 출력한다.")
+    void testExecuteVoucherMenu_IncorrectMenu() {
+        //given
+        textTerminal.getInputs()
+                .add("9");
+
+        //when
+        menuHandler.handleMenu(Menu.VOUCHER);
+        String output = textTerminal.getOutput();
+
+        //then
+        assertThat(output, containsString("""
+                Such input is incorrect.
+                Please input a correct command carefully."""));
+    }
+
+    @Test
+    @DisplayName("맞는 바우처 메뉴를 선택 시 해당 뷰를 출력한다.")
+    void testExecuteVoucherMenu_CorrectMenu() {
+        //given
+        textTerminal.getInputs()
+                .addAll(List.of("1", "1", "10000"));
+
+        //when
+        menuHandler.handleMenu(Menu.VOUCHER);
+        String output = textTerminal.getOutput();
+
+        //then
+        assertThat(output, containsString("successfully saved."));
+
+        //clean
+        voucherRepository.deleteAll();
+    }
+
+    @Test
+    @DisplayName("없는 고객 메뉴를 선택 시 해당 뷰를 출력한다.")
+    void testExecuteCustomerMenu_IncorrectMenu() {
+        //given
+        textTerminal.getInputs()
+                .add("9");
+
+        //when
+        menuHandler.handleMenu(Menu.CUSTOMER);
+        String output = textTerminal.getOutput();
+
+        //then
+        assertThat(output, containsString("""
+                Such input is incorrect.
+                Please input a correct command carefully."""));
+    }
+
+    @Test
+    @DisplayName("맞는 고객 메뉴를 선택 시 해당 뷰를 출력한다.")
+    void testExecuteCustomerMenu_CorrectMenu() {
+        //given
+        textTerminal.getInputs()
+                .add("6");
+
+        //when
+        menuHandler.handleMenu(Menu.CUSTOMER);
+        String output = textTerminal.getOutput();
+
+        //then
+        assertThat(output, containsString("Customer ID :"));
+        assertThat(output, containsString("Customer Name :"));
+
+        //clean
+        voucherRepository.deleteAll();
     }
 }
