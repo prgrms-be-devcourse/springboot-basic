@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Wallet</title>
+  <!-- Bootstrap CSS link (you should have Bootstrap included in your project) -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-4 text-center">Create Wallet</h1>
+  <div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+      <form th:action="@{/wallet}" th:object="${wallet}" method="post">
+        <div class="form-group">
+          <label for="memberId">Member ID:</label>
+          <select id="memberId" class="form-control" th:field="*{memberId}">
+            <option th:each="member : ${memberList}" th:value="${member.memberId}" th:text="${member.name}"></option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="voucherId">Voucher ID:</label>
+          <select id="voucherId" class="form-control" th:field="*{voucherId}">
+            <option th:each="voucherId : ${voucherList}" th:value="${voucherId}" th:text="${voucherId}"></option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
