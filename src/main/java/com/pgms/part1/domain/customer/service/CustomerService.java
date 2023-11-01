@@ -33,7 +33,7 @@ public class CustomerService {
     }
 
     public void isCustomerExist(Long id){
-        customerRepository.findCustomerById(id);
+        customerRepository.findCustomerById(id).orElseThrow(() -> new VoucherApplicationException(ErrorCode.CUSTOMER_NOT_EXIST));
     }
 
     public void isEmailNull(String email){

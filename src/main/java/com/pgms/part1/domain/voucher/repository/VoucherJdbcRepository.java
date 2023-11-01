@@ -3,7 +3,10 @@ package com.pgms.part1.domain.voucher.repository;
 import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import com.pgms.part1.domain.wallet.entity.Wallet;
+import com.pgms.part1.exception.ErrorCode;
+import com.pgms.part1.exception.VoucherApplicationException;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Profile({"dev", "test"})
 @Repository
@@ -54,5 +58,18 @@ public class VoucherJdbcRepository implements VoucherRepository{
         return jdbcTemplate.query(
                 String.format("SELECT * FROM VOUCHERS WHERE id IN (%s)", inSql), ids,
                 (resultSet, i) -> mapVoucher(resultSet));
+    }
+
+    @Override
+    public Optional<Voucher> findVoucherById(Long id) {
+        String findVoucherByIdSql = "SELECT * FROM vouchers WHERE id = ?";
+        Voucher voucher;
+        try{
+            voucher = jdbcTemplate.queryForObject(findVoucherByIdSql, new Object[] {id}, (resultSet, i) ->
+                    mapVoucher(resultSet));
+        } catch(EmptyResultDataAccessException e){
+            throw new VoucherApplicationException(ErrorCode.VOUCHER_NOT_EXIST);
+        }
+        return Optional.ofNullable(voucher);
     }
 }
