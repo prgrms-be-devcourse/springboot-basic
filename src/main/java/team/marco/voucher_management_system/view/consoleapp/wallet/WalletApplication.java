@@ -7,6 +7,8 @@ import team.marco.voucher_management_system.controller.customer.CustomerControll
 import team.marco.voucher_management_system.controller.voucher.VoucherController;
 import team.marco.voucher_management_system.view.consoleapp.ConsoleUtil;
 
+import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.*;
+
 @Component
 public class WalletApplication {
     private static final Logger logger = LoggerFactory.getLogger(WalletApplication.class);
@@ -23,11 +25,11 @@ public class WalletApplication {
     }
 
     public void run() {
-        ConsoleUtil.print("지갑 서비스를 이용하기 위해 사용자의 아이디를 입력해주세요.");
+        ConsoleUtil.print(CUSTOMER_ID_REQUEST);
         String customerId = ConsoleUtil.readString();
 
         if(!customerController.isExistCustomer(customerId)) {
-            throw new IllegalArgumentException("올바른 사용자 아이디가 아닙니다.");
+            throw new IllegalArgumentException(CUSTOMER_ID_INVALID);
         }
 
         while (isRunning) {
@@ -40,7 +42,7 @@ public class WalletApplication {
     }
 
     private void selectCommand(String customerId) {
-        ConsoleUtil.print("=== 지갑 페이지 ===");
+        ConsoleUtil.print(WALLET_HEADER);
 
         for(WalletCommandType type : WalletCommandType.values()) {
             ConsoleUtil.print(type.getInfo());
@@ -48,7 +50,7 @@ public class WalletApplication {
 
         ConsoleUtil.println();
 
-        ConsoleUtil.print("Q. 이용하실 서비스를 선택해 주세요.(숫자)");
+        ConsoleUtil.print(SELECT_SERVICE);
         int input = ConsoleUtil.readInt();
 
         WalletCommandType commandType = WalletCommandType.get(input);
@@ -69,11 +71,11 @@ public class WalletApplication {
     }
 
     private void removeVoucher() {
-        ConsoleUtil.print("제거할 쿠폰 번호를 입력해주세요.");
+        ConsoleUtil.print(VOUCHER_ID_REQUEST);
         String voucherId = ConsoleUtil.readString();
         voucherController.deleteVoucher(voucherId);
 
-        ConsoleUtil.print("쿠폰 삭제가 완료되었습니다.");
+        ConsoleUtil.print(VOUCHER_DELETE_COMPLETE);
     }
 
     private void backToMainApplication() {
@@ -82,7 +84,7 @@ public class WalletApplication {
 
     private void handleException(Exception e) {
         if(e instanceof NumberFormatException) {
-            ConsoleUtil.print("숫자를 입력해 주세요.");
+            ConsoleUtil.print(NUMBER_REQUIRED);
             return;
         }
 

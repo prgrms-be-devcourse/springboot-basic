@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.text.MessageFormat.format;
+import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.INQUIRY_COMPLETE;
+import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.WRONG_INPUT;
 
 public final class ConsoleUtil {
     private static final String INFO_DELIMINATOR = "\n";
@@ -39,7 +41,7 @@ public final class ConsoleUtil {
             ConsoleUtil.println(joinedString);
         }
 
-        ConsoleUtil.println("조회가 완료되었습니다.");
+        ConsoleUtil.println(INQUIRY_COMPLETE);
     }
 
     public static String readString() {
@@ -48,7 +50,7 @@ public final class ConsoleUtil {
         System.out.println();
 
         if (Objects.isNull(input)) {
-            throw new RuntimeException("입력 과정에서 오류가 발생했습니다.");
+            throw new RuntimeException(WRONG_INPUT);
         }
 
         return input;
@@ -67,7 +69,7 @@ public final class ConsoleUtil {
     }
 
     public static void printVoucherList(List<VoucherResponse> vouchers) {
-        vouchers.stream().forEach(v -> {
+        vouchers.forEach(v -> {
             printVoucher(v);
             printSeparatorLine();
         });

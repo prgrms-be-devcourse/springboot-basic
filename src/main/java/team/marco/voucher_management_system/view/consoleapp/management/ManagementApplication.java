@@ -11,6 +11,7 @@ import java.io.UncheckedIOException;
 
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
+import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.*;
 import static team.marco.voucher_management_system.view.consoleapp.ConsoleUtil.*;
 
 @Component
@@ -39,7 +40,7 @@ public class ManagementApplication {
     }
 
     public void selectCommand() {
-        print("=== 관리자 페이지 ===");
+        print(MANAGEMENT_HEADER);
 
         for(ManagementCommandType type : ManagementCommandType.values()) {
             print(type.getInfo());
@@ -47,7 +48,7 @@ public class ManagementApplication {
 
         println();
 
-        print("Q. 이용하실 서비스를 선택해 주세요.(숫자)");
+        print(SELECT_SERVICE);
         int input = readInt();
 
         ManagementCommandType commandType = ManagementCommandType.get(input);
@@ -68,50 +69,50 @@ public class ManagementApplication {
     }
 
     private void getVoucherInfo() {
-        print("쿠폰 번호를 입력해 주세요.");
+        print(VOUCHER_ID_REQUEST);
         String voucherId = readString();
 
-        print(voucherController.getVoucher(voucherId));
+        printVoucher(voucherController.getVoucher(voucherId));
+        println();
+        println(INQUIRY_COMPLETE);
     }
 
     private void createVoucher() {
         logger.info("Call createVoucher()");
 
-        print("""
-                0: 고정 금액 할인 쿠폰
-                1: % 할인 쿠폰""");
+        print(VOUCHER_MANUAL);
 
         int selected = readInt();
 
         switch (selected) {
-            case 0 -> createFixedAmountVoucher();
-            case 1 -> createPercentDiscountVoucher();
-            default -> throw new IllegalArgumentException("올바르지 않은 입력입니다.");
+            case 1 -> createFixedAmountVoucher();
+            case 2 -> createPercentDiscountVoucher();
+            default -> throw new IllegalArgumentException(WRONG_INPUT);
         }
     }
 
     private void createPercentDiscountVoucher() {
         logger.info("Call createPercentDiscountVoucher()");
 
-        print("할인율을 입력해 주세요.");
+        print(DISCOUNT_PERCENT_REQUEST);
         int percent = readInt();
 
         VoucherCreateRequest request = new VoucherCreateRequest(PERCENT, percent);
         voucherController.createVoucher(request);
 
-        println("쿠폰 생성이 완료되었습니다.");
+        println(VOUCHER_CREATE_COMPLETE);
     }
 
     private void createFixedAmountVoucher() {
         logger.info("Call createFixedAmountVoucher()");
 
-        print("할인 금액을 입력해 주세요.");
+        print(DISCOUNT_AMOUNT_REQUEST);
         int amount = readInt();
 
         VoucherCreateRequest request = new VoucherCreateRequest(FIXED, amount);
         voucherController.createVoucher(request);
 
-        println("쿠폰 생성이 완료되었습니다.");
+        println(VOUCHER_CREATE_COMPLETE);
     }
 
     private void getVoucherList() {
@@ -119,7 +120,7 @@ public class ManagementApplication {
 
         printVoucherList(voucherController.getVouchers());
         println();
-        println("조회가 완료되었습니다.");
+        println(INQUIRY_COMPLETE);
     }
 
     private void getBlacklist() {
@@ -134,7 +135,7 @@ public class ManagementApplication {
 
     private void handleException(Exception e) {
         if(e instanceof NumberFormatException) {
-            print("숫자를 입력해 주세요.");
+            print(NUMBER_REQUIRED);
             return;
         }
 
@@ -145,7 +146,7 @@ public class ManagementApplication {
 
         logger.error(e.toString());
 
-        String errorMessage = (e instanceof UncheckedIOException)? "파일을 처리하는 과정에서 에러가 발생했습니다." : "프로그램에 에러가 발생했습니다.";
+        String errorMessage = (e instanceof UncheckedIOException)? FILE_ERROR : PROGRAM_ERROR;
         print(errorMessage);
 
         isRunning = false;

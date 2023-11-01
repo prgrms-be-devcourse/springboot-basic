@@ -8,6 +8,8 @@ import team.marco.voucher_management_system.view.consoleapp.wallet.WalletApplica
 
 import java.io.UncheckedIOException;
 
+import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.*;
+
 @Component
 public class VoucherApplication {
     private static final Logger logger = LoggerFactory.getLogger(VoucherApplication.class);
@@ -34,7 +36,7 @@ public class VoucherApplication {
     }
 
     public void selectService() {
-        ConsoleUtil.print("=== 메인 페이지 ===");
+        ConsoleUtil.print(MAIN_HEADER);
 
         for(ServiceType type : ServiceType.values()) {
             ConsoleUtil.print(type.getInfo());
@@ -42,7 +44,7 @@ public class VoucherApplication {
 
         ConsoleUtil.println();
 
-        ConsoleUtil.print("Q. 이용하실 서비스를 선택해 주세요. (숫자)");
+        ConsoleUtil.print(SELECT_SERVICE);
         int input = ConsoleUtil.readInt();
 
         ServiceType type = ServiceType.get(input);
@@ -64,12 +66,12 @@ public class VoucherApplication {
         logger.info("Call close()");
 
         isRunning = false;
-        ConsoleUtil.print("프로그램이 종료되었습니다.");
+        ConsoleUtil.print(PROGRAM_EXIT);
     }
 
     private void handleException(Exception e) {
         if(e instanceof NumberFormatException) {
-            ConsoleUtil.print("숫자를 입력해 주세요.");
+            ConsoleUtil.print(NUMBER_REQUIRED);
             return;
         }
 
@@ -80,7 +82,7 @@ public class VoucherApplication {
 
         logger.error(e.toString());
 
-        String errorMessage = (e instanceof UncheckedIOException)? "파일을 처리하는 과정에서 에러가 발생했습니다." : "프로그램에 에러가 발생했습니다.";
+        String errorMessage = (e instanceof UncheckedIOException)? FILE_ERROR : PROGRAM_ERROR;
         ConsoleUtil.print(errorMessage);
 
         isRunning = false;
