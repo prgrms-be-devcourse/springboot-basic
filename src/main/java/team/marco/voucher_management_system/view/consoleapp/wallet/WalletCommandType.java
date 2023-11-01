@@ -3,13 +3,13 @@ package team.marco.voucher_management_system.view.consoleapp.wallet;
 import java.util.Arrays;
 
 public enum WalletCommandType {
-    REGISTER(1, "쿠폰 등록"),
-    LIST(2, "나의 쿠폰 목록 조회"),
-    REMOVE(3, "쿠폰 삭제"),
-    BACK(4, "메인 페이지로 돌아가기");
+    BACK(1, "메인 페이지로 돌아가기"),
+    REGISTER(2, "쿠폰 등록"),
+    LIST(3, "나의 쿠폰 목록 조회"),
+    REMOVE(4, "쿠폰 삭제");
 
-    private int num;
-    private String description;
+    private final int num;
+    private final String description;
 
     WalletCommandType(int num, String description) {
         this.num = num;
