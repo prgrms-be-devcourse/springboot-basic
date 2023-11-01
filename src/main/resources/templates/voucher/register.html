@@ -11,7 +11,7 @@
 
       if (type === 'FIXED') {
         benefitInput.setAttribute('min', '1');
-        benefitInput.removeAttribute('max');
+        benefitInput.setAttribute('max', '2147483647');
       } else if (type === 'PERCENT') {
         benefitInput.setAttribute('min', '1');
         benefitInput.setAttribute('max', '100');
