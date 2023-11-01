@@ -2,10 +2,9 @@ package com.weeklyMission.member.dto;
 
 import com.weeklyMission.common.ResponseInfo;
 import com.weeklyMission.member.domain.Member;
-import java.util.UUID;
 
 public record MemberResponse(
-    String id,
+    String memberId,
     String name,
     String email,
     Integer age
@@ -17,5 +16,5 @@ public record MemberResponse(
 
     @Override
     public String printInfo() {
-        return "MemberId : " + id + " Name : " + name + " Email : " + email + " age : " + age;    }
+        return "MemberId : " + memberId + " Name : " + name + " Email : " + email + " age : " + age;    }
 }
