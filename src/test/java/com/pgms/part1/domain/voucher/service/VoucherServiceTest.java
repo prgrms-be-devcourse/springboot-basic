@@ -2,7 +2,6 @@ package com.pgms.part1.domain.voucher.service;
 
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
 import com.pgms.part1.domain.voucher.dto.VoucherWebCreateRequestDto;
-import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,26 +22,26 @@ class VoucherServiceTest {
     private VoucherService voucherService;
 
     @Test
-    void vocher_생성_성공(){
+    void voucher_생성_성공(){
         // given
-        VoucherWebCreateRequestDto voucherCreateRequestDto = new VoucherWebCreateRequestDto(1, VoucherDiscountType.FIXED_AMOUNT_DISCOUNT);
+        VoucherWebCreateRequestDto voucherCreateRequestDto = new VoucherWebCreateRequestDto(10, VoucherDiscountType.FIXED_AMOUNT_DISCOUNT);
 
         // when
-        Voucher voucher = voucherService.createVoucher(voucherCreateRequestDto);
+        VoucherResponseDto voucher = voucherService.createVoucher(voucherCreateRequestDto);
 
         // then
-        Assertions.assertEquals(10, voucher.getDiscount());
-        Assertions.assertEquals(VoucherDiscountType.PERCENT_DISCOUNT, voucher.getVoucherDiscountType());
+        Assertions.assertEquals(10, voucher.discount());
+        Assertions.assertEquals(VoucherDiscountType.FIXED_AMOUNT_DISCOUNT, voucher.voucherDiscountType());
     }
 
     @Test
-    void vocher_삭제_성공(){
+    void voucher_삭제_성공(){
         // given
         VoucherWebCreateRequestDto voucherCreateRequestDto = new VoucherWebCreateRequestDto(1, VoucherDiscountType.FIXED_AMOUNT_DISCOUNT);
-        Voucher voucher = voucherService.createVoucher(voucherCreateRequestDto);
+        VoucherResponseDto voucher = voucherService.createVoucher(voucherCreateRequestDto);
 
         // when
-        voucherService.deleteVoucher(voucher.getId());
+        voucherService.deleteVoucher(voucher.id());
 
         // then
         List<VoucherResponseDto> voucherResponseDtos = voucherService.listVoucher();
@@ -50,12 +49,12 @@ class VoucherServiceTest {
     }
 
     @Test
-    void vocher_전체_리스트_조회(){
+    void voucher_전체_리스트_조회(){
         // given
         VoucherWebCreateRequestDto voucherCreateRequestDto = new VoucherWebCreateRequestDto(1, VoucherDiscountType.FIXED_AMOUNT_DISCOUNT);
-        Voucher voucher1 = voucherService.createVoucher(voucherCreateRequestDto);
-        Voucher voucher2 = voucherService.createVoucher(voucherCreateRequestDto);
-        Voucher voucher3 = voucherService.createVoucher(voucherCreateRequestDto);
+        VoucherResponseDto voucher1 = voucherService.createVoucher(voucherCreateRequestDto);
+        VoucherResponseDto voucher2 = voucherService.createVoucher(voucherCreateRequestDto);
+        VoucherResponseDto voucher3 = voucherService.createVoucher(voucherCreateRequestDto);
 
         // when
         List<VoucherResponseDto> voucherResponseDtos = voucherService.listVoucher();
