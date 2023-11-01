@@ -3,6 +3,8 @@ package com.weeklyMission.member.controller;
 import com.weeklyMission.member.dto.MemberRequest;
 import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.service.MemberService;
+import com.weeklyMission.voucher.dto.VoucherResponse;
+import com.weeklyMission.wallet.service.WalletService;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,14 +13,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/members")
 public class MemberViewController {
 
+    private final WalletService walletService;
     private final MemberService memberService;
 
-    public MemberViewController(MemberService memberService) {
+    public MemberViewController(WalletService walletService, MemberService memberService) {
+        this.walletService = walletService;
         this.memberService = memberService;
     }
 
@@ -41,16 +46,19 @@ public class MemberViewController {
         return "/members/memberList";
     }
 
-    @GetMapping("/findForm")
-    public String findByIdForm(){
-        return "/members/findForm";
-    }
-
     @GetMapping("/{memberId}")
     public String findById(@PathVariable("memberId") String id, Model model){
         MemberResponse member = memberService.findById(id);
         model.addAttribute("member", member);
         return "/members/memberInfo";
+    }
+
+    @GetMapping("/{memberId}/vouchers")
+    public String findGetVoucher(@PathVariable("memberId") String memberId, @RequestParam String name, Model model){
+        List<VoucherResponse> voucherList = walletService.findByMember(memberId);
+        model.addAttribute("name", name);
+        model.addAttribute("voucherList", voucherList);
+        return "/members/members_voucherList";
     }
 
     @PostMapping("/{memberId}")
