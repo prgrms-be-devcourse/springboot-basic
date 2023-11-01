@@ -45,6 +45,8 @@ public class WalletService {
     }
 
     public Wallet giveVoucherToCustomer(UUID customerId, UUID voucherId) {
+        final boolean walletExists = walletRepository.existsByCustomerIdAndVoucherId(customerId, voucherId);
+        if (walletExists) throw new NoSuchElementException(ErrorMessage.VOUCHER_ALREADY_EXISTS_MESSAGE.getMessage());
         return walletRepository.save(new Wallet(UUID.randomUUID(), customerId, voucherId));
     }
 
