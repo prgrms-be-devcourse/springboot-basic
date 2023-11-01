@@ -38,8 +38,19 @@
             <label for="age"><strong>Age:</strong></label>
             <span th:text="${member.age}" class="form-control" id="age" readonly></span>
           </div>
-          <button type="submit" class="btn btn-danger btn-block">Delete</button>
+          <div class="row">
+            <div class="col-md-6">
+              <button type="submit" class="btn btn-danger btn-block">Delete</button>
+            </div>
+          </div>
         </form>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <a th:href="@{/members/{memberId}/vouchers(memberId=${member.memberId}, name = ${member.name})}">
+              <button class="btn btn-primary btn-block">Get Join Vouchers</button>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>

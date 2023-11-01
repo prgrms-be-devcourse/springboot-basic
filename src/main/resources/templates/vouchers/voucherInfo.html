@@ -34,8 +34,19 @@
             <label for="amount"><strong>Amount:</strong></label>
             <span th:text="${voucher.amount}" class="form-control" id="amount" readonly></span>
           </div>
-          <button type="submit" class="btn btn-danger btn-block">Delete</button>
+          <div class="row">
+            <div class="col-md-6">
+              <button type="submit" class="btn btn-danger btn-block">Delete</button>
+            </div>
+          </div>
         </form>
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <a th:href="@{/vouchers/{voucherId}/members(voucherId=${voucher.voucherId()})}">
+              <button class="btn btn-primary btn-block">Get Join Members</button>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
