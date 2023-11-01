@@ -25,14 +25,14 @@ public class VoucherMVCController {
     @PostMapping
     public String create(CreateVoucherRequest createVoucherRequest) {
         voucherService.create(createVoucherRequest);
-        return "redirect:/customers";
+        return "redirect:/vouchers";
     }
 
     @GetMapping
     public String viewVouchersPage(Model model) {
         List<VoucherResponse> vouchers = voucherService.readAll();
         model.addAttribute("vouchers", vouchers);
-        return "view/customers";
+        return "views/vouchers";
     }
 
     @GetMapping("/{voucherId}")
@@ -40,27 +40,27 @@ public class VoucherMVCController {
         try {
             VoucherResponse voucher = voucherService.readById(voucherId);
             model.addAttribute("vouchers", List.of(voucher));
-            return "view/customers";
+            return "views/vouchers";
         } catch (RuntimeException e) {
-            return "view/404";
+            return "views/404";
         }
     }
 
     @DeleteMapping("/{voucherId}")
     public String delete(@PathVariable("voucherId") UUID voucherId) {
         voucherService.delete(voucherId);
-        return "redirect:/customers";
+        return "redirect:/vouchers";
     }
 
     @DeleteMapping
     public String deleteAll() {
         voucherService.deleteAll();
-        return "redirect:/customers";
+        return "redirect:/vouchers";
     }
 
     @PutMapping
     public String update(Voucher voucher) {
         voucherService.update(voucher);
-        return "redirect:/customers";
+        return "redirect:/vouchers";
     }
 }
