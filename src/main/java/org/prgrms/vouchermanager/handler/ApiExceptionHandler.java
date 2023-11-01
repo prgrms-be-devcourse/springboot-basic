@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(NotExistEmailException.class)
-    public ApiResponse errorHandler(NotExistEmailException e){
+    @ExceptionHandler(RuntimeException.class)
+    public ApiResponse errorHandler(RuntimeException e){
         return ApiResponse.error(e.getMessage());
     }
 }
