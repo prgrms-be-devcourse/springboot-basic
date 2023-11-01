@@ -2,7 +2,6 @@ package org.prgrms.vouchermanager.handler.wallet;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,21 +10,17 @@ import org.prgrms.vouchermanager.domain.wallet.Wallet;
 import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
 import org.prgrms.vouchermanager.service.VoucherService;
 import org.prgrms.vouchermanager.service.WalletService;
-import org.prgrms.vouchermanager.testdata.CustomerData;
 import org.prgrms.vouchermanager.testdata.WalletData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,9 +30,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(ApiWalletApiController.class)
+@WebMvcTest(ApiWalletController.class)
 @Slf4j
-class ApiWalletApiControllerTest {
+class ApiWalletControllerTest {
     @MockBean
     private WalletService service;
     @MockBean

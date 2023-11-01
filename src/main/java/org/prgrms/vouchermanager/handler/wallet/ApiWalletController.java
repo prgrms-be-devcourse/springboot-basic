@@ -1,15 +1,10 @@
 package org.prgrms.vouchermanager.handler.wallet;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.common.ApiResponse;
-import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
-import org.prgrms.vouchermanager.domain.voucher.MenuType;
-import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.ApiWalletRequestDto;
-import org.prgrms.vouchermanager.domain.wallet.Wallet;
 import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
 import org.prgrms.vouchermanager.service.VoucherService;
 import org.prgrms.vouchermanager.service.WalletService;
@@ -22,7 +17,7 @@ import java.util.UUID;
 @RequestMapping("/api/wallets")
 @RequiredArgsConstructor
 @Slf4j
-public class ApiWalletApiController {
+public class ApiWalletController {
     private final WalletService walletService;
     private final VoucherService voucherService;
     @PostMapping("/create")
