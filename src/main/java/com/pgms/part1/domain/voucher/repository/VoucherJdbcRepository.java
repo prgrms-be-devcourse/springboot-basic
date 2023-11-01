@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -71,5 +73,32 @@ public class VoucherJdbcRepository implements VoucherRepository{
             throw new VoucherApplicationException(ErrorCode.VOUCHER_NOT_EXIST);
         }
         return Optional.ofNullable(voucher);
+    }
+
+    @Override
+    public List<Voucher> findVoucherByFilter(String date, VoucherDiscountType type) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM vouchers");
+
+        List<Object> parameterList = new ArrayList<>();
+
+        boolean isFirstParameter = true;
+
+        if(date != null || type != null){
+            sql.append(" where");
+
+            if(date != null){
+                parameterList.add(LocalDate.parse(date));
+                sql.append(" created_at = ?");
+                isFirstParameter = false;
+            }
+            if(type != null){
+                if(!isFirstParameter)
+                    sql.append(" and");
+                parameterList.add(type);
+                sql.append(" discount_type = ?");
+            }
+        }
+
+        return jdbcTemplate.query(sql.toString(), parameterList.toArray(), (resultSet, i) -> mapVoucher(resultSet));
     }
 }
