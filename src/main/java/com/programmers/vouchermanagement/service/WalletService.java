@@ -10,12 +10,14 @@ import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 public class WalletService {
     private final VoucherRepository voucherRepository;
     private final CustomerRepository customerRepository;
@@ -46,6 +48,7 @@ public class WalletService {
                 .toList();
     }
 
+    @Transactional(readOnly = false)
     public Wallet giveVoucherToCustomer(UUID customerId, UUID voucherId) {
         checkBothExists(customerId, voucherId);
         final boolean walletExists = walletRepository.existsByCustomerIdAndVoucherId(customerId, voucherId);
@@ -53,6 +56,7 @@ public class WalletService {
         return walletRepository.save(new Wallet(UUID.randomUUID(), customerId, voucherId));
     }
 
+    @Transactional(readOnly = false)
     public void deleteVoucherFromCustomer(UUID customerId, UUID voucherId) {
         checkBothExists(customerId, voucherId);
         int affectedRow = walletRepository.delete(customerId, voucherId);

@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
@@ -65,7 +64,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    @Transactional
     public Customer save(Customer customer) {
         String sql = "INSERT INTO customer (id, name, created_at, is_banned) VALUES (UUID_TO_BIN(:id), :name, :createdAt, :isBanned)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -79,7 +77,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    @Transactional
     public Customer update(Customer customer) {
         String sql = "UPDATE customer SET name = :name, created_at = :createdAt, is_banned = :isBanned WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -93,7 +90,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    @Transactional
     public int delete(UUID id) {
         String sql = "DELETE FROM customer WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()

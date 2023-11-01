@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-@Transactional
 @Service
+@Transactional(readOnly = true)
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
@@ -43,6 +43,7 @@ public class CustomerService {
         return customerRepository.findByNameLike(name);
     }
 
+    @Transactional(readOnly = false)
     public Customer createCustomer(CustomerDto.CreateRequest customerDto) {
         customerRepository.findByName(customerDto.name()).ifPresent(customer -> {
             throw new IllegalArgumentException(ErrorMessage.CUSTOMER_ALREADY_EXISTS_MESSAGE.getMessage());
@@ -51,6 +52,7 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
+    @Transactional(readOnly = false)
     public Customer banCustomer(UUID id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
@@ -58,6 +60,7 @@ public class CustomerService {
         return customerRepository.update(customer);
     }
 
+    @Transactional(readOnly = false)
     public Customer unbanCustomer(UUID id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
@@ -65,6 +68,7 @@ public class CustomerService {
         return customerRepository.update(customer);
     }
 
+    @Transactional(readOnly = false)
     public void deleteCustomer(UUID id) {
         int affectedRow = customerRepository.delete(id);
         if (affectedRow == 0) {
