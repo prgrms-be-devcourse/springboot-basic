@@ -14,13 +14,13 @@ import java.util.List;
 public class ApiCustomerController {
     private final CustomerService customerService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<Customer> findAll() {
         List<Customer> customers = customerService.findAll();
         return customers;
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public Customer createCustomer(@RequestBody CustomerRequest request){
         return customerService.createCustomer(request);
     }
