@@ -29,7 +29,7 @@ public class CustomerService {
 
     public void isEmailDuplicated(String email){
         if(customerRepository.findCustomerByEmail(email) > 0)
-            throw new VoucherApplicationException(ErrorCode.CUSTOMER_DUPLICATED);
+            throw new VoucherApplicationException(ErrorCode.CUSTOMER_ALREADY_EXIST);
     }
 
     public void isCustomerExist(Long id){

@@ -30,6 +30,7 @@
 </head>
 <body>
 <div class="container">
+    <a href="/customers" class="btn btn-primary mb-3">Customer Page로</a>
     <h1>Customer Detail</h1>
     <table class="table table-striped">
         <thead>
@@ -53,7 +54,7 @@
         </tbody>
     </table>
     <div>
-        <button type="button" onclick="location.href='/customers/' + ${customer_id} + '/wallets/add'" class="btn btn-primary">바우처 추가</button>
+        <button type="button" th:onclick="|location.href='/customers/${customer_id}/wallets/add'|" class="btn btn-primary">바우처 추가</button>
     </div>
 </div>
 </body>
