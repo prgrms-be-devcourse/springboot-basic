@@ -69,7 +69,7 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<List<Voucher>> findAll() {
+    public List<Voucher> findAll() {
         List<Voucher> voucherList = new ArrayList<>();
         try {
             List<CSVRecord> data = csvFileHandler.readCSV(filePath);
@@ -82,11 +82,11 @@ public class FileVoucherRepository implements VoucherRepository{
                 Voucher voucher = voucherTypeFunction.create(voucherId, amount);
                 voucherList.add(voucher);
             });
-            return Optional.of(voucherList);
+            return voucherList;
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        return Optional.of(voucherList);
+        return voucherList;
     }
 
     @Override

@@ -10,3 +10,9 @@ spring:
     url: jdbc:mysql://localhost:3306/kdt?serverTimezone=UTC&characterEncoding=UTF-8   # 데이터베이스 URL
     username: test                      # 데이터베이스 사용자 이름
     password: test1234!                       # 데이터베이스 비밀번호
+
+  thymeleaf:
+    suffix: .html
+    cache: false
+    enabled: true
+    prefix: classpath:/templates/

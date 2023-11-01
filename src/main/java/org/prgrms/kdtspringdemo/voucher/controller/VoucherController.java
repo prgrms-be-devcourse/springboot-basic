@@ -35,11 +35,10 @@ public class VoucherController {
     public void createVoucher() {
         try {
             VoucherTypeFunction voucherType = findVoucherType();
-            UUID voucherId = UUID.randomUUID();
             outputConsole.getVoucherAmount();
             long amount = Long.parseLong(inputConsole.getString());
 
-            voucherService.createVoucher(voucherType, voucherId, amount);
+            voucherService.createVoucher(voucherType, amount);
         } catch (NumberFormatException e) {
             logger.error("올바른 숫자 형식이 아닙니다.");
         } catch (IOException e) {
@@ -50,7 +49,7 @@ public class VoucherController {
     }
 
     public void showAllVouchers() {
-        List<Voucher> voucherList = voucherService.findAll().get();
+        List<Voucher> voucherList = voucherService.findAll();
         voucherList.forEach(voucher -> outputConsole.printVoucher(voucher));
     }
 

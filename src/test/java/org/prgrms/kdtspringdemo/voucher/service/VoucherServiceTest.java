@@ -75,14 +75,13 @@ class VoucherServiceTest {
     void createVoucher() {
         //given
         VoucherTypeFunction voucherType = VoucherTypeFunction.PERCENT_DISCOUNT_POLICY;
-        UUID voucherId = UUID.randomUUID();
         long amount = 20L;
 
         //when
-        Voucher createdVoucher = voucherService.createVoucher(voucherType, voucherId, amount);
+        Voucher createdVoucher = voucherService.createVoucher(voucherType, amount);
 
         //then
-        assertThat(createdVoucher.getVoucherId(), is(voucherId));
+        //assertThat(createdVoucher.getVoucherId(), is(voucherId));
         assertThat(createdVoucher.getVoucherPolicy(), instanceOf(PercentDiscountPolicy.class));
     }
 
@@ -90,11 +89,11 @@ class VoucherServiceTest {
     @DisplayName("바우처 리스트를 반환합니다.")
     void getVoucherList() {
         //given
-        voucherService.createVoucher(VoucherTypeFunction.PERCENT_DISCOUNT_POLICY, UUID.randomUUID(), 20L);
-        voucherService.createVoucher(VoucherTypeFunction.FIXED_DISCOUNT_POLICY, UUID.randomUUID(), 400L);
+        voucherService.createVoucher(VoucherTypeFunction.PERCENT_DISCOUNT_POLICY,20L);
+        voucherService.createVoucher(VoucherTypeFunction.FIXED_DISCOUNT_POLICY, 400L);
 
         //when
-        List<Voucher> voucherList = voucherService.findAll().get();
+        List<Voucher> voucherList = voucherService.findAll();
 
         //then
         assertThat(voucherList.size(), is(2));
@@ -104,7 +103,7 @@ class VoucherServiceTest {
     @DisplayName("voucherId 로 바우처를 반환합니다.")
     void getVoucher() {
         //given
-        Voucher createdVoucher = voucherService.createVoucher(VoucherTypeFunction.FIXED_DISCOUNT_POLICY, UUID.randomUUID(), 2000L);
+        Voucher createdVoucher = voucherService.createVoucher(VoucherTypeFunction.FIXED_DISCOUNT_POLICY, 2000L);
 
         //when
         Voucher voucher = voucherService.findById(createdVoucher.getVoucherId());

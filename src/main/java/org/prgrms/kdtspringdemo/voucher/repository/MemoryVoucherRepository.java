@@ -29,9 +29,9 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<List<Voucher>> findAll() {
+    public List<Voucher> findAll() {
         List<Voucher> voucherList = storage.values().stream().toList();
-        return Optional.ofNullable(voucherList);
+        return voucherList;
     }
 
     @Override

@@ -71,7 +71,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<List<Voucher>> findAll() {
-        return Optional.of(jdbcTemplate.query("select * from voucher", voucherRowMapper));
+    public List<Voucher> findAll() {
+        return jdbcTemplate.query("select * from voucher", voucherRowMapper);
     }
 }

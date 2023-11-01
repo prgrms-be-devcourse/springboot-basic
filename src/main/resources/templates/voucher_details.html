@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Voucher Details</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-5">Voucher Details</h1>
+
+    <h2 class="mt-3">Voucher Information</h2>
+    <table class="table">
+        <tr>
+            <th>Voucher ID:</th>
+            <td th:text="${voucher.voucherId}">Voucher ID</td>
+        </tr>
+        <tr>
+            <th>Voucher Policy:</th>
+            <td th:text="${voucher.voucherPolicy.voucherType}">Voucher Policy</td>
+        </tr>
+    </table>
+
+    <a class="btn btn-primary" th:href="@{/vouchers}">Back to Voucher List</a>
+</div>
+
+<!-- Include Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

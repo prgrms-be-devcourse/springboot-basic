@@ -25,14 +25,15 @@ public class VoucherService {
         return VoucherTypeFunction.findByCode(type);
     }
 
-    public Voucher createVoucher(VoucherTypeFunction voucherType, UUID voucherId, long amount) {
+    public Voucher createVoucher(VoucherTypeFunction voucherType, long amount) {
+        UUID voucherId = UUID.randomUUID();
         Voucher voucher = voucherType.create(voucherId, amount);
         voucherRepository.insert(voucher);
         return voucher;
     }
 
-    public Optional<List<Voucher>> findAll() {
-        return Optional.of(voucherRepository.findAll().get());
+    public List<Voucher> findAll() {
+        return voucherRepository.findAll();
     }
 
     public Voucher findById(UUID voucherId) {
