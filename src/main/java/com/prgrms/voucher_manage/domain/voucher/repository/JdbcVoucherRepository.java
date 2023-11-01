@@ -62,10 +62,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Long amount = resultSet.getLong("amount");
         String type = resultSet.getString("type");
 
-        return getVoucher(voucherId, amount, type);
+        return createVoucher(voucherId, amount, type);
     };
 
-    private static Voucher getVoucher(UUID voucherId, Long amount, String type) {
+    private static Voucher createVoucher(UUID voucherId, Long amount, String type) {
         VoucherType voucherType = VoucherType.matchVoucherType(type);
         if (voucherType == VoucherType.FIXED) {
             return new FixedAmountVoucher(voucherId, amount);

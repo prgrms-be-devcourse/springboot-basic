@@ -10,6 +10,7 @@ import java.util.Arrays;
 public enum CustomerType {
     BLACK("black", "B"),
     NORMAL("normal", "N");
+    
     private final String label;
     private final String data;
 
