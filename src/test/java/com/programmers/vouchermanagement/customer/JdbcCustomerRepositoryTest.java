@@ -1,14 +1,18 @@
 package com.programmers.vouchermanagement.customer;
 
+import com.programmers.vouchermanagement.VoucherManagementApplication;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.customer.repository.JdbcCustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.ConfigDataApplicationContextInitializer;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +20,9 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.*;
 
-@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@ContextConfiguration(classes = { VoucherManagementApplication.class },
+        initializers = ConfigDataApplicationContextInitializer.class)
 public class JdbcCustomerRepositoryTest {
 
     @Autowired
