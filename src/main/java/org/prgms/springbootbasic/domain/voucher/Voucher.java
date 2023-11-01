@@ -12,7 +12,7 @@ public class Voucher {
     private final VoucherPolicy voucherPolicy;
 
     public Voucher(UUID voucherId, long discountDegree, VoucherPolicy voucherPolicy) {
-        if (voucherPolicy instanceof PercentDiscountVoucher) {
+        if (voucherPolicy instanceof PercentDiscountPolicy) {
             if (discountDegree <= 0 || discountDegree > 100) {
                 log.error("percent value is out of range.");
                 throw new OutOfRangeException("percent value is out of range.");
@@ -30,6 +30,10 @@ public class Voucher {
 
     public long getDiscountDegree() {
         return discountDegree;
+    }
+
+    public VoucherPolicy getVoucherPolicy() {
+        return voucherPolicy;
     }
 
     public long discount(long beforeDiscount){
