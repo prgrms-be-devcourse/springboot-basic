@@ -13,7 +13,7 @@ public class ExceptionController {
 
     @ExceptionHandler(VoucherApplicationException.class)
     public ModelAndView handelVoucherApplicationException(VoucherApplicationException e){
-        log.error("Error occurs {}", e.toString());
+        log.warn("Error occurs {}", e.toString());
 
         ModelAndView mv = new ModelAndView("error");
         mv.addObject("message", e.getErrorCode().getMessage());

@@ -3,7 +3,10 @@ package com.pgms.part1.domain.customer.repository;
 import com.pgms.part1.domain.customer.entity.Customer;
 import com.pgms.part1.domain.customer.entity.CustomerBuilder;
 import com.pgms.part1.domain.wallet.entity.Wallet;
+import com.pgms.part1.exception.ErrorCode;
+import com.pgms.part1.exception.VoucherApplicationException;
 import org.springframework.context.annotation.Primary;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Primary
 @Repository
@@ -82,5 +86,18 @@ public class CustomerJdbcRepository implements CustomerRepository{
     public int findCustomerByEmail(String email) {
         String findCustomerByEmailSql = "SELECT count(*) FROM CUSTOMERS WHERE email = ?";
         return jdbcTemplate.queryForObject(findCustomerByEmailSql, new Object[] {email}, Integer.class);
+    }
+
+    @Override
+    public Optional<Customer> findCustomerById(Long id) {
+        String findCustomerByIdSql = "SELECT * FROM CUSTOMERS WHERE id = ?";
+        Customer customer;
+        try{
+            customer = jdbcTemplate.queryForObject(findCustomerByIdSql, new Object[] {id}, (resultSet, i) ->
+                    mapCustomer(resultSet));
+        } catch(EmptyResultDataAccessException e){
+            throw new VoucherApplicationException(ErrorCode.CUSTOMER_NOT_EXIST);
+        }
+        return Optional.ofNullable(customer);
     }
 }

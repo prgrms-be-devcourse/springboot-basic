@@ -32,6 +32,15 @@ public class CustomerService {
             throw new VoucherApplicationException(ErrorCode.CUSTOMER_DUPLICATED);
     }
 
+    public void isCustomerExist(Long id){
+        customerRepository.findCustomerById(id);
+    }
+
+    public void isEmailNull(String email){
+        if(email == null)
+            throw new VoucherApplicationException(ErrorCode.INVALID_INPUT_DATA);
+    }
+
     @Transactional(readOnly = true)
     public List<CustomerResponseDto> listBlockedCustomers(){
         List<Customer> customers = customerRepository.listBlockedCustomers();
@@ -49,6 +58,7 @@ public class CustomerService {
     }
 
     public Customer addCustomer(CustomerCreateRequestDto dto){
+        isEmailNull(dto.email());
         isEmailDuplicated(dto.email());
         Customer customer = new CustomerBuilder().id(keyGenerator.getKey()).name(dto.name())
                 .email(dto.email()).build();
@@ -63,14 +73,14 @@ public class CustomerService {
     }
 
     public void updateCustomerBlocked(Long id){
+        isCustomerExist(id);
         customerRepository.updateCustomerBlocked(id);
         log.info("{} customer blocked updated", id);
     }
 
     public void deleteCustomer(Long id){
+        isCustomerExist(id);
         customerRepository.deleteCustomer(id);
         log.info("{} customer deleted", id);
     }
-
-    // todo 이메일 예외처리 (중복, null 체크, 양식 체크)
 }
