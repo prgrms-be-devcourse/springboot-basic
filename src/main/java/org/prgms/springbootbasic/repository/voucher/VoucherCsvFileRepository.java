@@ -2,6 +2,7 @@ package org.prgms.springbootbasic.repository.voucher;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.common.file.VoucherCsvFileManager;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Primary
 @Slf4j
 public class VoucherCsvFileRepository implements VoucherRepository {
-    private final ConcurrentHashMap<UUID, VoucherPolicy> vouchers = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
     private final VoucherCsvFileManager voucherCsvFileManager;
 
     public VoucherCsvFileRepository(VoucherCsvFileManager voucherCsvFileManager) {
@@ -30,23 +31,23 @@ public class VoucherCsvFileRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<VoucherPolicy> findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(vouchers.get(voucherId));
     }
 
     @Override
-    public List<VoucherPolicy> findAll() {
+    public List<Voucher> findAll() {
         return new ArrayList<>(vouchers.values());
     }
 
     @Override
-    public VoucherPolicy upsert(VoucherPolicy voucherPolicy) {
-        if (Optional.ofNullable(vouchers.get(voucherPolicy.getVoucherId())).isPresent()) {
-            vouchers.replace(voucherPolicy.getVoucherId(), voucherPolicy);
+    public Voucher upsert(Voucher voucher) {
+        if (Optional.ofNullable(vouchers.get(voucher.getVoucherId())).isPresent()) {
+            vouchers.replace(voucher.getVoucherId(), voucher);
         } else {
-            vouchers.put(voucherPolicy.getVoucherId(), voucherPolicy);
+            vouchers.put(voucher.getVoucherId(), voucher);
         }
-        return voucherPolicy;
+        return voucher;
     }
 
     @Override
@@ -61,7 +62,7 @@ public class VoucherCsvFileRepository implements VoucherRepository {
 
     @PostConstruct
     private void fileRead(){
-        List<VoucherPolicy> voucherPolicies = voucherCsvFileManager.read();
+        List<Voucher> voucherPolicies = voucherCsvFileManager.read();
         voucherPolicies.forEach(this::upsert);
     }
 

@@ -3,8 +3,9 @@ package org.prgms.springbootbasic.repository.voucher;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
-import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
+import org.prgms.springbootbasic.domain.voucher.FixedAmountPolicy;
+import org.prgms.springbootbasic.domain.voucher.PercentDiscountPolicy;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,10 +25,10 @@ class VoucherDatabaseRepositoryTest {
     @Autowired
     private VoucherDatabaseRepository voucherDatabaseRepository;
 
-    private PercentDiscountVoucher setUpVoucher;
+    private Voucher setUpVoucher;
     @BeforeEach
     void setUp() {
-        setUpVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 40);
+        setUpVoucher = new Voucher(UUID.randomUUID(), 40, new PercentDiscountPolicy());
         voucherDatabaseRepository.upsert(setUpVoucher);
     }
 
@@ -38,67 +39,74 @@ class VoucherDatabaseRepositoryTest {
 
     @Test
     void saveNewVoucherToDB() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 1000, new FixedAmountPolicy());
 
-        voucherDatabaseRepository.upsert(fixedAmountVoucher);
+        voucherDatabaseRepository.upsert(fixedVoucher);
 
-        Optional<VoucherPolicy> retrievedVoucher = voucherDatabaseRepository.findById(fixedAmountVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherDatabaseRepository.findById(fixedVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isPresent(), is(true));
-        assertThat(retrievedVoucher.get(), samePropertyValuesAs(fixedAmountVoucher));
+        compareVoucher(retrievedVoucher.get(), fixedVoucher);
     }
 
     @Test
     void updateVoucherInDB() {
-        FixedAmountVoucher updateVoucher = new FixedAmountVoucher(setUpVoucher.getVoucherId(), 2000);
+        Voucher updateVoucher = new Voucher(setUpVoucher.getVoucherId(), 2000, new FixedAmountPolicy());
 
         voucherDatabaseRepository.upsert(updateVoucher);
 
-        Optional<VoucherPolicy> retrievedVoucher = voucherDatabaseRepository.findById(setUpVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherDatabaseRepository.findById(setUpVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isPresent(), is(true));
-        assertThat(retrievedVoucher.get(), samePropertyValuesAs(updateVoucher));
+        compareVoucher(retrievedVoucher.get(), updateVoucher);
     }
 
     @Test
     void findVoucherByIdInDB() {
-        Optional<VoucherPolicy> retrievedVoucher = voucherDatabaseRepository.findById(setUpVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherDatabaseRepository.findById(setUpVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isPresent(), is(true));
-        assertThat(retrievedVoucher.get(), samePropertyValuesAs(setUpVoucher));
+        compareVoucher(retrievedVoucher.get(), setUpVoucher);
     }
 
     @Test
     void findAllVouchersInDB() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000);
+        Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 3000, new FixedAmountPolicy());
 
-        voucherDatabaseRepository.upsert(fixedAmountVoucher);
+        voucherDatabaseRepository.upsert(fixedVoucher);
 
-        List<VoucherPolicy> vouchers = voucherDatabaseRepository.findAll();
+        List<Voucher> vouchers = voucherDatabaseRepository.findAll();
+        List<UUID> voucherUUIDs = vouchers.stream().map(Voucher::getVoucherId).toList();
 
         assertThat(vouchers, hasSize(2));
-        assertThat(vouchers, hasItem(samePropertyValuesAs(fixedAmountVoucher)));
-        assertThat(vouchers, hasItem(samePropertyValuesAs(setUpVoucher)));
+        assertThat(voucherUUIDs, hasItem(fixedVoucher.getVoucherId()));
+        assertThat(voucherUUIDs, hasItem(setUpVoucher.getVoucherId()));
     }
 
     @Test
     void deleteVoucherByIdInDB() {
         voucherDatabaseRepository.deleteById(setUpVoucher.getVoucherId());
 
-        List<VoucherPolicy> vouchers = voucherDatabaseRepository.findAll();
+        List<Voucher> vouchers = voucherDatabaseRepository.findAll();
 
         assertThat(vouchers, hasSize(0));
     }
 
     @Test
     void deleteAllVouchersInDB() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 3000);
+        Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 3000, new FixedAmountPolicy());
 
-        voucherDatabaseRepository.upsert(fixedAmountVoucher);
+        voucherDatabaseRepository.upsert(fixedVoucher);
         voucherDatabaseRepository.deleteAll();
 
-        List<VoucherPolicy> vouchers = voucherDatabaseRepository.findAll();
+        List<Voucher> vouchers = voucherDatabaseRepository.findAll();
 
         assertThat(vouchers.size(), is(0));
+    }
+
+    private void compareVoucher(Voucher v1, Voucher v2){
+        assertThat(v1.getVoucherId(), is(v2.getVoucherId()));
+        assertThat(v1.getDiscountDegree(), is(v2.getDiscountDegree()));
+        assertThat(v1.getVoucherPolicy().getClass().getSimpleName(), is(v2.getVoucherPolicy().getClass().getSimpleName()));
     }
 }

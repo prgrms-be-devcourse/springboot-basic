@@ -19,11 +19,11 @@ public class Console { // Console이 common인가? MVC 생각하며 고민하자
 
     public static String readCommand() {
         System.out.println("=== Voucher Program ===");
-        System.out.println("Type 'exit' to exit the program.");
         System.out.println("Type 'create' to create a new voucher.");
         System.out.println("Type 'list' to list all vouchers.");
         System.out.println("Type 'black' to list customers blacked.");
         System.out.println("Type 'wallet' to enter wallet service.");
+        System.out.println("Type 'exit' to exit the program.");
 
         return consoleInput.next();
     }

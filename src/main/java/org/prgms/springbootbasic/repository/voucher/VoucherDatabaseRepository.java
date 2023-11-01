@@ -2,6 +2,7 @@ package org.prgms.springbootbasic.repository.voucher;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.VoucherType;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -16,7 +17,7 @@ import static org.prgms.springbootbasic.common.UtilMethod.bytesToUUID;
 @Repository
 @Slf4j
 @Profile({"dev", "prod"})
-public class VoucherDatabaseRepository implements VoucherRepository {
+public class VoucherDatabaseRepository implements VoucherRepository { // 네이밍 고민
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public VoucherDatabaseRepository(NamedParameterJdbcTemplate jdbcTemplate) {
@@ -24,8 +25,8 @@ public class VoucherDatabaseRepository implements VoucherRepository {
     }
 
     @Override
-    public VoucherPolicy upsert(VoucherPolicy voucher) {
-        Optional<VoucherPolicy> foundVoucher = findById(voucher.getVoucherId());
+    public Voucher upsert(Voucher voucher) {
+        Optional<Voucher> foundVoucher = findById(voucher.getVoucherId()); // 재사용 지양
 
         if (foundVoucher.isPresent()){
             jdbcTemplate.update("UPDATE vouchers SET discount_degree = :discountDegree, voucher_type = :voucherType WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
@@ -40,7 +41,7 @@ public class VoucherDatabaseRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<VoucherPolicy> findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject("SELECT * FROM vouchers WHERE voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
@@ -53,7 +54,7 @@ public class VoucherDatabaseRepository implements VoucherRepository {
     }
 
     @Override
-    public List<VoucherPolicy> findAll() {
+    public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM vouchers", mapToVoucher);
     }
 
@@ -68,15 +69,15 @@ public class VoucherDatabaseRepository implements VoucherRepository {
         jdbcTemplate.update("DELETE FROM vouchers", Collections.emptyMap());
     }
 
-    private static Map<String, Object> toParamMap(VoucherPolicy voucher) {
+    private static Map<String, Object> toParamMap(Voucher voucher) {
         return new HashMap<>(){{
             put("voucherId", voucher.getVoucherId().toString().getBytes());
             put("discountDegree", voucher.getDiscountDegree());
-            put("voucherType", voucher.getClass().getSimpleName());
+            put("voucherType", voucher.getVoucherPolicy().getClass().getSimpleName());
         }};
     }
 
-    private static RowMapper<VoucherPolicy> mapToVoucher = (rs, rowNum) -> {
+    private static RowMapper<Voucher> mapToVoucher = (rs, rowNum) -> {
         UUID voucherId = bytesToUUID(rs.getBytes("voucher_id"));
         long discountDegree = rs.getLong("discount_degree");
         String voucherTypeString = rs.getString("voucher_type");
@@ -84,8 +85,9 @@ public class VoucherDatabaseRepository implements VoucherRepository {
                 .filter(vt -> vt.getDisplayName().equals(voucherTypeString))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("해당 VoucherType이 존재하지 않음."));
+        VoucherPolicy voucherPolicy = voucherType.create();
 
-        return voucherType.create(voucherId, discountDegree);
+        return new Voucher(voucherId, discountDegree, voucherPolicy);
     };
 
 

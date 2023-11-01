@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.common.console.Console;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.customer.Customer;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.prgms.springbootbasic.service.CustomerService;
 import org.prgms.springbootbasic.service.VoucherService;
@@ -97,9 +98,9 @@ public class MainController {
     }
 
     private void list(){
-        List<VoucherPolicy> voucherPolicies = voucherService.findAll();
+        List<Voucher> vouchers = voucherService.findAll();
 
-        Console.printList(voucherPolicies);
+        Console.printList(vouchers);
     }
 
     private void black(){
@@ -146,7 +147,7 @@ public class MainController {
 
     private void showVoucherByCustomer(){
         UUID customerId = typeCustomerId();
-        List<VoucherPolicy> vouchers = walletService.searchVouchersFromCustomer(customerId);
+        List<Voucher> vouchers = walletService.searchVouchersFromCustomer(customerId);
 
         Console.printList(vouchers);
     }

@@ -3,6 +3,7 @@ package org.prgms.springbootbasic.repository.wallet;
 import org.prgms.springbootbasic.common.UtilMethod;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.customer.Customer;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,6 +22,8 @@ public class WalletDatabaseRepository implements WalletRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
+
     @Override
     public void allocateVoucherById(UUID customerId, UUID voucherId) {
         jdbcTemplate.update("INSERT INTO wallet VALUES (UNHEX(REPLACE(:customerId, '-', '')), UNHEX(REPLACE(:voucherId, '-', '')))",
@@ -34,7 +37,7 @@ public class WalletDatabaseRepository implements WalletRepository {
     }
 
     @Override
-    public List<VoucherPolicy> searchVouchersByCustomerId(UUID customerId) {
+    public List<Voucher> searchVouchersByCustomerId(UUID customerId) {
         return jdbcTemplate.query("SELECT v.voucher_id, v.discount_degree, v.voucher_type " +
                 "FROM vouchers v JOIN wallet w ON v.voucher_id = w.voucher_id " +
                 "WHERE w.customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
@@ -58,7 +61,8 @@ public class WalletDatabaseRepository implements WalletRepository {
             put("voucherId", voucherId.toString().getBytes());
         }};
     }
-    private static RowMapper<VoucherPolicy> mapToVoucher = (rs, rowNum) -> {
+
+    private static RowMapper<Voucher> mapToVoucher = (rs, rowNum) -> {
         UUID voucherId = bytesToUUID(rs.getBytes("voucher_id"));
         long discountDegree = rs.getLong("discount_degree");
         String voucherTypeString = rs.getString("voucher_type");
@@ -66,8 +70,9 @@ public class WalletDatabaseRepository implements WalletRepository {
                 .filter(vt -> vt.getDisplayName().equals(voucherTypeString))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("해당 VoucherType이 존재하지 않음."));
+        VoucherPolicy voucherPolicy = voucherType.create();
 
-        return voucherType.create(voucherId, discountDegree);
+        return new Voucher(voucherId, discountDegree, voucherPolicy);
     };
 
     private static RowMapper<Customer> mapToCustomer = (rs, rowNum) -> {

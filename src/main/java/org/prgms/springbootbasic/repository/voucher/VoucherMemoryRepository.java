@@ -1,6 +1,7 @@
 package org.prgms.springbootbasic.repository.voucher;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
@@ -15,26 +16,26 @@ import java.util.concurrent.ConcurrentHashMap;
 @Profile({"local"})
 @Slf4j
 public class VoucherMemoryRepository implements VoucherRepository{
-    private final ConcurrentHashMap<UUID, VoucherPolicy> vouchers = new ConcurrentHashMap<>();
+    private final ConcurrentHashMap<UUID, Voucher> vouchers = new ConcurrentHashMap<>();
 
     @Override
-    public Optional<VoucherPolicy> findById(UUID voucherId) {
+    public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(vouchers.get(voucherId));
     }
 
     @Override
-    public List<VoucherPolicy> findAll() {
+    public List<Voucher> findAll() {
         return new ArrayList<>(vouchers.values());
     }
 
     @Override
-    public VoucherPolicy upsert(VoucherPolicy voucherPolicy) {
-        if (Optional.ofNullable(vouchers.get(voucherPolicy.getVoucherId())).isPresent()) {
-            vouchers.replace(voucherPolicy.getVoucherId(), voucherPolicy);
+    public Voucher upsert(Voucher voucher) {
+        if (Optional.ofNullable(vouchers.get(voucher.getVoucherId())).isPresent()) {
+            vouchers.replace(voucher.getVoucherId(), voucher);
         } else {
-            vouchers.put(voucherPolicy.getVoucherId(), voucherPolicy);
+            vouchers.put(voucher.getVoucherId(), voucher);
         }
-        return voucherPolicy;
+        return voucher;
     }
 
     @Override

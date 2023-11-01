@@ -2,13 +2,15 @@ package org.prgms.springbootbasic.repository.voucher;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
-import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
+import org.prgms.springbootbasic.domain.voucher.FixedAmountPolicy;
+import org.prgms.springbootbasic.domain.voucher.PercentDiscountPolicy;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,65 +31,77 @@ class VoucherCsvFileRepositoryTest {
 
     @Test
     void findVoucherByIdFromFile() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 1000, new FixedAmountPolicy());
 
-        voucherCsvFileRepository.upsert(fixedAmountVoucher);
+        voucherCsvFileRepository.upsert(fixedVoucher);
 
-        Optional<VoucherPolicy> retrievedVoucher = voucherCsvFileRepository.findById(fixedAmountVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherCsvFileRepository.findById(fixedVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isPresent(), is(true));
-        assertThat(retrievedVoucher.get(), samePropertyValuesAs(fixedAmountVoucher));
+        compareVoucher(retrievedVoucher.get(), fixedVoucher);
     }
 
     @Test
     void findAllVoucherFromFile() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+        Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 1000, new FixedAmountPolicy());
+        Voucher percentVoucher = new Voucher(UUID.randomUUID(), 10, new PercentDiscountPolicy());
 
-        voucherCsvFileRepository.upsert(fixedAmountVoucher);
-        voucherCsvFileRepository.upsert(percentDiscountVoucher);
+        voucherCsvFileRepository.upsert(fixedVoucher);
+        voucherCsvFileRepository.upsert(percentVoucher);
 
-        assertThat(voucherCsvFileRepository.findAll(), hasSize(2));
-        assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(fixedAmountVoucher)));
-        assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(percentDiscountVoucher)));
+        List<Voucher> vouchers = voucherCsvFileRepository.findAll();
+        List<UUID> voucherUUIDs = vouchers.stream().map(Voucher::getVoucherId).toList();
+
+        assertThat(vouchers, hasSize(2));
+        assertThat(voucherUUIDs, hasItem(fixedVoucher.getVoucherId()));
+        assertThat(voucherUUIDs, hasItem(percentVoucher.getVoucherId()));
     }
 
     @Test
     void createVoucherToFile() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 2000);
-        PercentDiscountVoucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20);
+        Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 2000, new FixedAmountPolicy());
+        Voucher percentVoucher = new Voucher(UUID.randomUUID(), 20, new PercentDiscountPolicy());
 
-        voucherCsvFileRepository.upsert(fixedAmountVoucher);
-        voucherCsvFileRepository.upsert(percentDiscountVoucher);
+        voucherCsvFileRepository.upsert(fixedVoucher);
+        voucherCsvFileRepository.upsert(percentVoucher);
 
-        assertThat(voucherCsvFileRepository.findAll(), hasSize(2));
-        assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(fixedAmountVoucher)));
-        assertThat(voucherCsvFileRepository.findAll(), hasItem(samePropertyValuesAs(percentDiscountVoucher)));
-        assertThat(voucherCsvFileRepository.findAll(),
-                not(hasItem(new FixedAmountVoucher(UUID.randomUUID(), 2000))));
+        List<Voucher> vouchers = voucherCsvFileRepository.findAll();
+        List<UUID> voucherUUIDs = vouchers.stream().map(Voucher::getVoucherId).toList();
+
+        assertThat(vouchers, hasSize(2));
+        assertThat(voucherUUIDs, hasItem(fixedVoucher.getVoucherId()));
+        assertThat(voucherUUIDs, hasItem(percentVoucher.getVoucherId()));
+        assertThat(vouchers,
+                not(hasItem(samePropertyValuesAs(new Voucher(UUID.randomUUID(), 2000, new FixedAmountPolicy())))));
     }
 
     @Test
     void deleteVoucherById() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 1000);
+        Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 1000, new FixedAmountPolicy());
 
-        voucherCsvFileRepository.upsert(fixedAmountVoucher);
+        voucherCsvFileRepository.upsert(fixedVoucher);
 
-        assertThat(voucherCsvFileRepository.findById(fixedAmountVoucher.getVoucherId()).isPresent(), is(true));
+        assertThat(voucherCsvFileRepository.findById(fixedVoucher.getVoucherId()).isPresent(), is(true));
 
         voucherCsvFileRepository.deleteById(UUID.randomUUID());
         assertThat(voucherCsvFileRepository.findAll(), hasSize(1));
 
-        voucherCsvFileRepository.deleteById(fixedAmountVoucher.getVoucherId());
+        voucherCsvFileRepository.deleteById(fixedVoucher.getVoucherId());
         assertThat(voucherCsvFileRepository.findAll(), hasSize(0));
     }
 
     @Test
     void deleteAllVoucher() {
-        voucherCsvFileRepository.upsert(new FixedAmountVoucher(UUID.randomUUID(), 1000));
+        voucherCsvFileRepository.upsert(new Voucher(UUID.randomUUID(), 1000, new FixedAmountPolicy()));
 
         voucherCsvFileRepository.deleteAll();
 
         assertThat(voucherCsvFileRepository.findAll(), hasSize(0));
+    }
+
+    private void compareVoucher(Voucher v1, Voucher v2){
+        assertThat(v1.getVoucherId(), is(v2.getVoucherId()));
+        assertThat(v1.getDiscountDegree(), is(v2.getDiscountDegree()));
+        assertThat(v1.getVoucherPolicy().getClass().getSimpleName(), is(v2.getVoucherPolicy().getClass().getSimpleName()));
     }
 }

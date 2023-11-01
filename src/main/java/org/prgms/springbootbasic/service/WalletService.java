@@ -24,7 +24,7 @@ public class WalletService {
         walletRepository.deleteVoucherById(customerId, voucherId);
     }
 
-    public List<VoucherPolicy> searchVouchersFromCustomer(UUID customerId){
+    public List<Voucher> searchVouchersFromCustomer(UUID customerId){
         return walletRepository.searchVouchersByCustomerId(customerId);
     }
 
