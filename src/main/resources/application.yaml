@@ -1,7 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/
+    username: root
+    password: 20231028
+
 file:
   resources:
     path: src/main/resources/
-    build-path: build/resources/main/
 
   domains:
     customer:

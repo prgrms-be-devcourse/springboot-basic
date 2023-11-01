@@ -1,0 +1,4 @@
+spring:
+  thymeleaf:
+    excluded-view-names: "views/*"
+    prefix: "/WEB-INF/"
