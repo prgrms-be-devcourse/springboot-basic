@@ -35,16 +35,10 @@ public class VoucherService {
     }
 
     public void updateVoucher(UpdateVoucherDto dto) {
-        int update = voucherRepository.update(dto.of());
-        if (update != 1) {
-            throw new RuntimeException(VOUCHER_UPDATE_FAILED.getMessage());
-        }
+        voucherRepository.update(dto.of());
     }
 
     public void deleteVoucher(UUID voucherId) {
-        int delete = voucherRepository.deleteById(voucherId);
-        if (delete != 1) {
-            throw new RuntimeException(VOUCHER_DELETE_FAILED.getMessage());
-        }
+        voucherRepository.deleteById(voucherId);
     }
 }

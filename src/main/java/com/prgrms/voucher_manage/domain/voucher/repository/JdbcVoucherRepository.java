@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.voucher_manage.exception.ErrorMessage.VOUCHER_NOT_EXISTS;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -45,15 +45,23 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public int update(Voucher voucher) {
+    public void update(Voucher voucher) {
         String sql = "update voucher set amount = ? where voucher_id = ?";
-        return jdbcTemplate.update(sql, voucher.getDiscountAmount(), voucher.getId().toString());
+        try {
+            jdbcTemplate.update(sql, voucher.getDiscountAmount(), voucher.getId().toString());
+        } catch (Exception e){
+            throw new RuntimeException(VOUCHER_UPDATE_FAILED.getMessage());
+        }
     }
 
     @Override
-    public int deleteById(UUID voucherId) {
+    public void deleteById(UUID voucherId) {
         String sql = "delete from voucher where voucher_id = ?";
-        return jdbcTemplate.update(sql, voucherId.toString());
+        try{
+            jdbcTemplate.update(sql, voucherId.toString());
+        } catch (Exception e){
+            throw new RuntimeException(VOUCHER_DELETE_FAILED.getMessage());
+        }
     }
 
     private static final RowMapper<Voucher> rowMapper = (resultSet, i) -> {

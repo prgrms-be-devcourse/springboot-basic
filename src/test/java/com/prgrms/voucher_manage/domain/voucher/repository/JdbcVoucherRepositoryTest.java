@@ -69,9 +69,8 @@ public class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = saveVoucher();
         //when
-        int delete = repository.deleteById(voucher.getId());
+        repository.deleteById(voucher.getId());
         //then
-        assertThat(delete).isEqualTo(1);
         RuntimeException e = assertThrows(RuntimeException.class, () -> repository.findById(voucher.getId()));
         assertThat(e.getMessage()).isEqualTo("바우처가 존재하지 않습니다.");
     }
@@ -84,9 +83,8 @@ public class JdbcVoucherRepositoryTest {
         Voucher voucher = saveVoucher();
         //when
         Voucher updatedVoucher = new FixedAmountVoucher(voucher.getId(), 2000L);
-        int update = repository.update(updatedVoucher);
+        repository.update(updatedVoucher);
         //then
-        assertThat(update).isEqualTo(1);
         assertThat(updatedVoucher.getDiscountAmount()).isEqualTo(2000L);
 
     }

@@ -13,7 +13,7 @@ public interface VoucherRepository {
 
     Voucher findById(UUID voucherId);
 
-    int update(Voucher voucher);
+    void update(Voucher voucher);
 
-    int deleteById(UUID voucherId);
+    void deleteById(UUID voucherId);
 }

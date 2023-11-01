@@ -15,5 +15,5 @@ public interface WalletRepository {
 
     List<Wallet> findByVoucherId(UUID voucherId);
 
-    int delete(Wallet wallet);
+    void delete(Wallet wallet);
 }

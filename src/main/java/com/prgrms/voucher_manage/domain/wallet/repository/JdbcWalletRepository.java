@@ -2,7 +2,6 @@ package com.prgrms.voucher_manage.domain.wallet.repository;
 
 import com.prgrms.voucher_manage.domain.wallet.entity.Wallet;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,6 +11,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static com.prgrms.voucher_manage.exception.ErrorMessage.CUSTOMER_NOT_EXIST;
+import static com.prgrms.voucher_manage.exception.ErrorMessage.WALLET_DELETE_FAILED;
 
 @Repository
 @RequiredArgsConstructor
@@ -52,9 +52,13 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
-    public int delete(Wallet wallet) {
+    public void delete(Wallet wallet) {
         String sql = "delete from wallet where customer_id = ? and voucher_id = ?";
-        return jdbcTemplate.update(sql, wallet.getCustomer_id().toString(), wallet.getVoucher_id().toString());
+        try {
+            jdbcTemplate.update(sql, wallet.getCustomer_id().toString(), wallet.getVoucher_id().toString());
+        } catch (Exception e) {
+            throw new RuntimeException(WALLET_DELETE_FAILED.getMessage());
+        }
     }
 
     private static final RowMapper<Wallet> rowMapper = (resultSet, i) -> {
