@@ -10,6 +10,7 @@ public enum ConsoleMessage {
     COMPLETE_UPDATE_CUSTOMER("Update completed."),
     GET_CUSTOMER_ID("Type the customer ID."),
     GET_VOUCHER_ID("Type the voucher ID."),
+    GET_WALLET_ID("Type the wallet ID."),
     COMPLETE_DELETE_CUSTOMER("Delete completed."),
     FINISH_PROGRAM("Exit the program."),
 

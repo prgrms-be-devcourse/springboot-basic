@@ -31,6 +31,11 @@ public class WalletService {
         return wallet;
     }
 
+    public List<Wallet> findAll() {
+        return walletRepository.findAll();
+    }
+
+    public Wallet findById(UUID walletId) { return walletRepository.findById(walletId); }
     public List<Voucher> findByCustomerId(UUID id) {
         List<Wallet> walletList = walletRepository.findByCustomerId(id);
         List<Voucher> voucherList = new ArrayList<>();
@@ -53,7 +58,7 @@ public class WalletService {
         return customerList;
     }
 
-    public int delete(UUID customerId, UUID voucherId) {
-        return walletRepository.delete(customerId, voucherId);
+    public int delete(UUID walletId) {
+        return walletRepository.delete(walletId);
     }
 }

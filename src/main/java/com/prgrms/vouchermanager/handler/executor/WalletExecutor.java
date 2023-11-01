@@ -70,11 +70,9 @@ public class WalletExecutor {
 
     public void delete() {
         try {
-            consolePrint.printMessage(GET_CUSTOMER_ID.getMessage());
-            UUID customerId = UUID.fromString(consoleReader.readString());
-            consolePrint.printMessage(GET_VOUCHER_ID.getMessage());
-            UUID voucherId = UUID.fromString(consoleReader.readString());
-            controller.delete(customerId, voucherId);
+            consolePrint.printMessage(GET_WALLET_ID.getMessage());
+            UUID walletId = UUID.fromString(consoleReader.readString());
+            controller.delete(walletId);
         } catch (IllegalArgumentException e) {
             throw new NotCorrectIdException();
         }

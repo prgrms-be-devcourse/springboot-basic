@@ -9,7 +9,7 @@
             max-width: 560px;
         }
     </style>
-    <title>Voucher</title>
+    <title>Wallet</title>
 </head>
 <body>
 <div class="container">
@@ -17,32 +17,30 @@
         <h2>지갑 정보</h2>
     </div>
     <div>
+        <label for="walletId">지갑 Id</label>
+        <input type="text" id="walletId" name="type" class = "form-control"
+               th:value = "${walletId}" readonly>
+    </div>
+    <div>
         <label for="voucherId">바우처 Id</label>
         <input type="text" id="voucherId" name="voucherId" class="form-control"
-               value="1" th:value="${voucherId}" readonly>
+               th:value="${voucherId}" readonly>
     </div>
     <div>
-        <label for="voucherType">바우처 타입</label>
-        <input type="text" id="voucherType" name="type" class = "form-control"
-               value="fixed" th:value = "${voucherType}" readonly>
-    </div>
-    <div>
-        <label for="voucherDiscount">할인 정보</label>
-        <input type="text" id="voucherDiscount" name="voucherDiscount" class="form-control"
-               value="상품A" th:value="${voucherDiscount}" readonly>
+        <label for="customerId">고객 Id</label>
+        <input type="text" id="customerId" name="type" class = "form-control"
+               th:value = "${customerId}" readonly>
     </div>
     <hr class="my-4">
     <div class="row">
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
-                    onclick="location.href='delete.html'"
-                    th:onclick="|location.href='@{/basic/vouchers/{voucherId}/delete(voucherId=${voucher.id})}'|"
-                    type="button">바우처 삭제</button>
+                    th:onclick="|location.href='@{/basic/wallets/{walletId}/delete(walletId=${walletId})}'|"
+                    type="button">지갑 삭제</button>
         </div>
         <div class="col">
             <button class="w-100 btn btn-secondary btn-lg"
-                    onclick="location.href='vouchers.html'"
-                    th:onclick="|location.href='@{/basic/vouchers}'|"
+                    th:onclick="|location.href='@{/basic/wallets}'|"
                     type="button">목록으로</button>
         </div>
     </div>

@@ -27,6 +27,14 @@ public class WalletRepository {
         return wallet;
     }
 
+    public List<Wallet> findAll() {
+        return template.query(LIST_WALLET.getMessage(), walletRowMapper());
+    }
+
+    public Wallet findById(UUID walletId) {
+        return template.queryForObject(FIND_BY_WALLET_ID.getMessage(), walletRowMapper(), walletId.toString().getBytes());
+    }
+
     public List<Wallet> findByCustomerId(UUID id) {
         return template.query(FIND_BY_CUSTOMER_ID_WALLET.getMessage(), walletRowMapper(), id.toString().getBytes());
     }
@@ -35,10 +43,9 @@ public class WalletRepository {
         return template.query(FIND_BY_VOUCHER_ID_WALLET.getMessage(), walletRowMapper(), id.toString().getBytes());
     }
 
-    public int delete(UUID customerId, UUID voucherId) {
+    public int delete(UUID walletId) {
         return template.update(DELETE_WALLET.getMessage(),
-                customerId.toString().getBytes(),
-                voucherId.toString().getBytes());
+                walletId.toString().getBytes());
     }
 
     private RowMapper<Wallet> walletRowMapper() {

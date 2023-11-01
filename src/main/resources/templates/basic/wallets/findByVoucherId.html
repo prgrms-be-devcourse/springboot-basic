@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang = "ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+    <title>Find by voucher id</title>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>바우처 id 입력</h2>
+    </div>
+    <h4 class="mb-3"></h4>
+        <div>
+            <label for="voucherId">바우처 id</label>
+            <input type="text" id="voucherId" name="voucherId" class="form-control"
+                   placeholder="바우처 id를 입력하세요">
+        </div>
+
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg"
+                        th:onclick="searchByVoucherId()">검색</button>
+            </div>
+            <div class="col">
+                <button class="w-100 btn btn-secondary btn-lg"
+                        th:onclick="|location.href='@{/basic/wallets}'|"
+                        type="button">취소</button>
+            </div>
+        </div>
+</div> <!-- /container -->
+<script>
+    function searchByVoucherId() {
+        var voucherId = document.getElementById('voucherId').value;
+        window.location.href = '/basic/wallets/' + voucherId + '/findByVoucherId';
+    }
+</script>
+</body>
+</html>

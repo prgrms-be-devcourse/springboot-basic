@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns: th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href = "/css/bootstrap.min.css" rel="stylesheet">
+    <title>Voucher list</title>
+</head>
+<body>
+
+<div class = "container" style = "max-width: 600px">
+    <div class = "py-5 text-center">
+        <h2>보유한 바우처 목록</h2>
+    </div>
+
+    <hr class = "my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>바우처 ID</th>
+                <th>Voucher 타입</th>
+                <th>할인 정보</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <td th:text="${voucher.id}"></td>
+                <td th:text="${voucher.type}"></td>
+                <td th:text = "${voucher.discount}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class = "col text-center">
+        <button class = "btn btn-primary"
+                th:onclick="|location.href='@{/basic/wallets}'|"
+                type = "button">목록</button>
+    </div>
+</div>
+
+</body>
+</html>

@@ -30,9 +30,11 @@ public enum QueryMessage {
     INSERT_VOUCHER_IGNORE_DUPLICATE("insert into vouchers(voucher_id, voucher_type, discount) values(UUID_TO_BIN(?), ?, ?) on duplicate key update voucher_id = UUID_TO_BIN(?)"),
 
     INSERT_WALLET("insert into wallets(wallet_id, voucher_id, customer_id) values(UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))"),
+    LIST_WALLET("select * from wallets"),
+    FIND_BY_WALLET_ID("select * from wallets where wallet_id = UUID_TO_BIN(?)"),
     FIND_BY_CUSTOMER_ID_WALLET("select * from wallets where customer_id = UUID_TO_BIN(?)"),
     FIND_BY_VOUCHER_ID_WALLET("select * from wallets where voucher_id = UUID_TO_BIN(?)"),
-    DELETE_WALLET("delete from wallets where customer_id = UUID_TO_BIN(?) and voucher_id = UUID_TO_BIN(?)");
+    DELETE_WALLET("delete from wallets where wallet_id = UUID_TO_BIN(?)");
 
     private final String message;
 

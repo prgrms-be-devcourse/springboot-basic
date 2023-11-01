@@ -32,13 +32,25 @@
             </thead>
             <tbody>
             <tr th:each="wallet : ${wallets}">
-                <td><a th:href="@{/basic/wallets/{walletId}(walletId=${wallet.id})}"
+                <td><a th:href="@{/basic/wallets/{walletId}(walletId=${wallet.walletId})}"
                        th:text="${wallet.walletId}">Wallet Id</a></td>
                 <td th:text="${wallet.customerId}">Customer Id</td>
                 <td th:text = "${wallet.voucherId}">Voucher Id</td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div class = "row">
+        <div class = "col">
+            <button class = "btn btn-primary float-end"
+                    th:onclick="|location.href='@{/basic/wallets/findByVoucherId}'|"
+                    type = "button">바우처 id로 고객 조회</button>
+        </div>
+        <div class = "col">
+            <button class = "btn btn-primary float-end"
+                    th:onclick="|location.href='@{/basic/wallets/findByCustomerId}'|"
+                    type = "button">고객 id로 바우처 조회</button>
+        </div>
     </div>
 </div>
 

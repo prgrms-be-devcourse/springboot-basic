@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns: th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href = "/css/bootstrap.min.css" rel="stylesheet">
+    <title>Voucher list</title>
+</head>
+<body>
+
+<div class = "container" style = "max-width: 600px">
+    <div class = "py-5 text-center">
+        <h2>바우처를 보유한 고객 목록</h2>
+    </div>
+
+    <hr class = "my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>고객 ID</th>
+                <th>이름</th>
+                <th>출생연도</th>
+                <th>블랙리스트 여부</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+                <td th:text="${customer.id}"></td>
+                <td th:text="${customer.name}"></td>
+                <td th:text = "${customer.yearOfBirth}"></td>
+                <td th:text = "${customer.isBlacklist}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class = "col text-center">
+        <button class = "btn btn-primary"
+                th:onclick="|location.href='@{/basic/wallets}'|"
+                type = "button">목록</button>
+    </div>
+</div>
+
+</body>
+</html>

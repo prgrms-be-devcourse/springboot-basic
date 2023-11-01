@@ -51,7 +51,6 @@ public class VoucherWebController {
                          Model model) {
         Voucher voucher = service.create(voucherCreateRequest);
         redirectAttributes.addAttribute("voucherId", voucher.getId());
-        model.addAttribute("voucher", voucher);
         return "redirect:/basic/vouchers/{voucherId}";
     }
 
