@@ -48,8 +48,11 @@ public class VoucherViewController {
     @GetMapping("/{voucherId}/update")
     public String updateVoucher(@PathVariable UUID voucherId, Model model) {
         VoucherResponseDto voucher = voucherService.getVoucher(voucherId);
+        UpdateVoucherRequestDto request = new UpdateVoucherRequestDto();
+        request.setAmount(voucher.getAmount());
+
         model.addAttribute("voucher", voucher);
-        model.addAttribute("request", new UpdateVoucherRequestDto());
+        model.addAttribute("request", request);
         return "voucher/update";
     }
 
