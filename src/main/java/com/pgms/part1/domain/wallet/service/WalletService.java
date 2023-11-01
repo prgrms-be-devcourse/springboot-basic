@@ -6,6 +6,8 @@ import com.pgms.part1.domain.voucher.dto.VoucherWalletResponseDtos;
 import com.pgms.part1.domain.wallet.dto.WalletCreateRequestDto;
 import com.pgms.part1.domain.wallet.entity.Wallet;
 import com.pgms.part1.domain.wallet.repository.WalletRepository;
+import com.pgms.part1.exception.ErrorCode;
+import com.pgms.part1.exception.VoucherApplicationException;
 import com.pgms.part1.util.keygen.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,31 +29,15 @@ public class WalletService {
     }
 
     public Wallet addWallet(WalletCreateRequestDto walletCreateRequestDto) {
-        try{
-            Wallet wallet = new Wallet(keyGenerator.getKey(), walletCreateRequestDto.voucherId(), walletCreateRequestDto.userId());
-            walletRepository.addWallet(wallet);
-            log.info("customer {} wallet adds voucher {}", walletCreateRequestDto.userId(), walletCreateRequestDto.voucherId());
-            return wallet;
-        }
-        catch (Exception e){
-            log.error(e.getMessage());
-        }
-        return null;
+        Wallet wallet = new Wallet(keyGenerator.getKey(), walletCreateRequestDto.voucherId(), walletCreateRequestDto.userId());
+        walletRepository.addWallet(wallet);
+        log.info("customer {} wallet adds voucher {}", walletCreateRequestDto.userId(), walletCreateRequestDto.voucherId());
+        return wallet;
     }
 
     public void deleteWallet(Long walletId) {
-        try{
-            walletRepository.deleteWallet(walletId);
-            log.info("wallet {} is deleted", walletId);
-        }
-        catch (Exception e){
-            log.error(e.getMessage());
-        }
-    }
-
-    private static void isWalletExist(List<Wallet> walletByCustomerId) {
-        if(walletByCustomerId.size() == 0)
-            throw new RuntimeException("no voucher or customer for it");
+        walletRepository.deleteWallet(walletId);
+        log.info("wallet {} is deleted", walletId);
     }
 
     @Transactional(readOnly = true)
@@ -65,7 +51,7 @@ public class WalletService {
         List<Customer> customersByVoucherId = walletRepository.findCustomersByVoucherId(voucherId);
         List<CustomerResponseDto> customerResponseDtos = customersByVoucherId.stream().map(customer ->
                 new CustomerResponseDto(customer.getId(), customer.getName(), customer.getEmail(), customer.getBlocked())).toList();
-        if(customersByVoucherId.size() == 0) throw new RuntimeException("no search result!!");
+        if(customersByVoucherId.size() == 0) throw new VoucherApplicationException(ErrorCode.CUSTOMER_NOT_EXIST);
         return customerResponseDtos;
     }
 }
