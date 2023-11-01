@@ -4,7 +4,8 @@ import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_VOUCHE
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
+import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherTypeEnum;
+import com.programmers.springbootbasic.exception.exceptionClass.MenuException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,11 +15,11 @@ class CreateVoucherRequestTest {
     @Test
     void success_of() {
         // given
-        String stringVoucherType = "FIXED";
+        VoucherTypeEnum voucherType = VoucherTypeEnum.FIXED;
         Integer benefitValue = 100;
 
         // when
-        CreateVoucherRequest request = CreateVoucherRequest.of(stringVoucherType, benefitValue);
+        CreateVoucherRequest request = CreateVoucherRequest.of(voucherType, benefitValue);
 
         // then
         assertThat(request.getVoucherType()).isNotNull();
@@ -33,8 +34,10 @@ class CreateVoucherRequestTest {
         Integer benefitValue = 100;
 
         // then
-        assertThatThrownBy(() -> CreateVoucherRequest.of(invalidStringVoucherType, benefitValue))
-            .isInstanceOf(CustomException.class)
+        assertThatThrownBy(
+            () -> CreateVoucherRequest.of(VoucherTypeEnum.of(invalidStringVoucherType),
+                benefitValue))
+            .isInstanceOf(MenuException.class)
             .hasMessageContaining(INVALID_VOUCHER.getMessage());
     }
 }
