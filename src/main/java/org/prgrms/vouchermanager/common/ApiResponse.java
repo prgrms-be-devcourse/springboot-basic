@@ -5,12 +5,8 @@ public record ApiResponse(
         String message,
         Object data
 ) {
-    public static ApiResponse success(String message, Object data) {
-        return new ApiResponse(ApiStatus.SUCCESS, message, data);
-    }
-
-    public static ApiResponse success(String message) {
-        return new ApiResponse(ApiStatus.SUCCESS, message, null);
+    public static ApiResponse success(Object data) {
+        return new ApiResponse(ApiStatus.SUCCESS, "", data);
     }
 
     public static ApiResponse error(String message) {

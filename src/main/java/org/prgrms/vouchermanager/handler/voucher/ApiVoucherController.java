@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.handler.voucher;
 
 import lombok.RequiredArgsConstructor;
+import org.prgrms.vouchermanager.common.ApiResponse;
 import org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
@@ -17,15 +18,15 @@ import java.util.UUID;
 public class ApiVoucherController {
     private final VoucherService voucherService;
     @GetMapping("/")
-    public List<Voucher> findAll(){
-        return voucherService.findAllVoucher();
+    public ApiResponse findAll(){
+        return ApiResponse.success(voucherService.findAllVoucher());
     }
     @PostMapping("/create")
-    public Voucher createVoucher(@RequestBody MenuType menuType){
+    public ApiResponse createVoucher(@RequestBody MenuType menuType){
         if (menuType == MenuType.FIXED) {
-            return voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10, MenuType.FIXED));
+            return ApiResponse.success(voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10, MenuType.FIXED)));
         } else {
-            return voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10, MenuType.PERCENT));
+            return ApiResponse.success(voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10, MenuType.PERCENT)));
         }
     }
 }

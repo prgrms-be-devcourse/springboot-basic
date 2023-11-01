@@ -24,7 +24,7 @@ import java.util.UUID;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class ApiWalletController {
+public class WebWalletController {
     private final WalletService service;
     private final VoucherService voucherService;
     private final CustomerService customerService;

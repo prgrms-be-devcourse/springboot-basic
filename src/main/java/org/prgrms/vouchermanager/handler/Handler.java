@@ -29,7 +29,7 @@
 //
 //    private final WebVoucherController voucherController;
 //    private final WebCustomerController customerController;
-//    private final ApiWalletController walletController;
+//    private final WebWalletController walletController;
 //    private boolean continueOrNot = true;
 //    public void init() throws IOException {
 //        while(continueOrNot){

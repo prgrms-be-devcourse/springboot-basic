@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.handler.customer;
 
 import lombok.RequiredArgsConstructor;
+import org.prgrms.vouchermanager.common.ApiResponse;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.customer.CustomerRequest;
 import org.prgrms.vouchermanager.service.CustomerService;
@@ -15,13 +16,12 @@ public class ApiCustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public List<Customer> findAll() {
-        List<Customer> customers = customerService.findAll();
-        return customers;
+    public ApiResponse findAll() {
+        return ApiResponse.success(customerService.findAll());
     }
 
     @PostMapping
-    public Customer createCustomer(@RequestBody CustomerRequest request){
-        return customerService.createCustomer(request);
+    public ApiResponse createCustomer(@RequestBody CustomerRequest request){
+        return ApiResponse.success(customerService.createCustomer(request));
     }
 }
