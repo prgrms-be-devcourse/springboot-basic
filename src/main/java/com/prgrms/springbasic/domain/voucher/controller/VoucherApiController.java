@@ -31,6 +31,15 @@ public class VoucherApiController {
         return ResponseEntity.ok(voucher);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<VoucherResponse>> findByCondition(
+            @RequestParam(value = "createdAt", required = false) String createdAt,
+            @RequestParam(value = "discountType", required = false) String discountType
+    ) {
+        List<VoucherResponse> vouchers = voucherService.findByCondition(createdAt, discountType);
+        return ResponseEntity.ok(vouchers);
+    }
+
     @PostMapping
     public ResponseEntity<VoucherResponse> create(@RequestBody CreateVoucherRequest request) {
         VoucherResponse voucher = voucherService.saveVoucher(request);

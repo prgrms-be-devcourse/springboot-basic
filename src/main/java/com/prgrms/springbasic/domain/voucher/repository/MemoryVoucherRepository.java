@@ -1,9 +1,11 @@
 package com.prgrms.springbasic.domain.voucher.repository;
 
+import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,5 +47,20 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findVoucherById(UUID voucherId) {
         return Optional.ofNullable(storage.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDate date) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByDiscountType(DiscountType discountType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAtAndDiscountType(LocalDate date, DiscountType discountType) {
+        return null;
     }
 }

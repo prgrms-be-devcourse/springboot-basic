@@ -9,7 +9,13 @@ public enum DiscountType {
     ;
 
     public static DiscountType find(String type) {
-        return DiscountType.valueOf(type.toUpperCase());
+        String upperCase = type.toUpperCase();
+        for (DiscountType discountType : values()) {
+            if (discountType.name().equals(upperCase)) {
+                return discountType;
+            }
+        }
+        throw new IllegalArgumentException("Invalid DiscountType : " + type);
     }
 
     public static List<String> allowedDiscountTypes() {
