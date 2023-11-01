@@ -2,7 +2,7 @@ package com.programmers.springbootbasic.mediator.provider;
 
 import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_MENU;
 
-import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
+import com.programmers.springbootbasic.exception.exceptionClass.MenuException;
 import com.programmers.springbootbasic.mediator.ConsoleRequest;
 import com.programmers.springbootbasic.mediator.requestGenerator.MenuRequestGenerator;
 import java.util.List;
@@ -22,6 +22,6 @@ public class MenuRequestProvider {
             .filter(menuRequestGenerator -> menuRequestGenerator.getMenuCommand().equals(menuName))
             .findFirst()
             .map(MenuRequestGenerator::generateRequest)
-            .orElseThrow(() -> new CustomException(INVALID_MENU));
+            .orElseThrow(() -> new MenuException(INVALID_MENU));
     }
 }

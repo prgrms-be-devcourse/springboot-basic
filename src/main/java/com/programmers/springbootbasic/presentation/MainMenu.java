@@ -2,7 +2,7 @@ package com.programmers.springbootbasic.presentation;
 
 import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_MENU;
 
-import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
+import com.programmers.springbootbasic.exception.exceptionClass.MenuException;
 import com.programmers.springbootbasic.mediator.ConsoleRequest;
 import com.programmers.springbootbasic.mediator.ConsoleResponse;
 import java.util.function.BiFunction;
@@ -53,6 +53,6 @@ public enum MainMenu {
                     return menuCommand.execute(controllerAdapter);
                 }
             })
-            .orElseThrow(() -> new CustomException(INVALID_MENU));
+            .orElseThrow(() -> new MenuException(INVALID_MENU));
     }
 }

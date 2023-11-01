@@ -3,7 +3,6 @@ package com.programmers.springbootbasic.util;
 
 import static com.programmers.springbootbasic.exception.ErrorCode.FILE_IO_ERROR;
 
-import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
 import com.programmers.springbootbasic.exception.exceptionClass.FileIOException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -47,7 +46,7 @@ public class CsvManager implements FileManager {
                 resultList.add(obj);
             }
         } catch (IOException | ReflectiveOperationException e) {
-            throw new CustomException(FILE_IO_ERROR);
+            throw new FileIOException(FILE_IO_ERROR);
         }
 
         return resultList;

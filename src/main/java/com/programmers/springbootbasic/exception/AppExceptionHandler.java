@@ -2,7 +2,7 @@ package com.programmers.springbootbasic.exception;
 
 import static com.programmers.springbootbasic.exception.ErrorCode.DATABASE_ERROR;
 
-import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
+import com.programmers.springbootbasic.exception.exceptionClass.MenuException;
 import com.programmers.springbootbasic.exception.exceptionClass.FileIOException;
 import com.programmers.springbootbasic.exception.exceptionClass.SystemException;
 import com.programmers.springbootbasic.exception.exceptionClass.UserException;
@@ -44,7 +44,7 @@ public class AppExceptionHandler {
             requestProcessor.sendResponse(
                 ConsoleResponse.createNoBodyResponse(e.getMessage())
             );
-        } catch (CustomException e) {
+        } catch (MenuException e) {
             logger.error(String.format("Custom Error : %s", e.getMessage()));
             requestProcessor.sendResponse(
                 ConsoleResponse.createNoBodyResponse(e.getMessage())
