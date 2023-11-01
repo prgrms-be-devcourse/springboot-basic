@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanager.handler.wallet;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.common.ApiResponse;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/wallets")
 @RequiredArgsConstructor
+@Slf4j
 public class ApiWalletApiController {
     private final WalletService walletService;
 
@@ -23,16 +25,12 @@ public class ApiWalletApiController {
 
     @GetMapping("/{email}")
     public ApiResponse findByEmail(@PathVariable String email) {
+        log.info(walletService.findByEmail(email).toString());
         return ApiResponse.success(walletService.findByEmail(email));
     }
 
     @DeleteMapping("/delete/{email}")
     public ApiResponse deleteByEmail(@PathVariable String email) {
         return ApiResponse.success(walletService.deleteByEmail(email));
-    }
-
-    @GetMapping("/{voucher}")
-    public ApiResponse findByVoucher(@PathVariable Voucher voucher) {
-        return ApiResponse.success(walletService.findByVoucher(voucher));
     }
 }

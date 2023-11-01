@@ -21,7 +21,6 @@ import java.util.UUID;
 @Profile("jdbc")
 public class JdbcWalletRepository implements WalletRepository {
     private final JdbcTemplate jdbcTemplate;
-    String ex = "INSERT INTO wallet(customer_email, voucher_id) VALUES(?, UUID_TO_BIN(?))";
 
     public JdbcWalletRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);

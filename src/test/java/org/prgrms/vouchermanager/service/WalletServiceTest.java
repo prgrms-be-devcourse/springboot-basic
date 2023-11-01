@@ -74,9 +74,9 @@ class WalletServiceTest {
             Customer customer = CustomerData.getCustomer();
             when(walletRepository.findByEmail(any(String.class))).thenReturn(Optional.of(wallet));
 
-            Optional<Wallet> wallet1 = service.findByEmail("example@naver.com");
+            Wallet wallet1 = service.findByEmail("example@naver.com");
 
-            assertThat(wallet1).contains(wallet);
+            assertThat(wallet1).isEqualTo(wallet);
             verify(walletRepository).findByEmail(any(String.class));
         }
         @Test

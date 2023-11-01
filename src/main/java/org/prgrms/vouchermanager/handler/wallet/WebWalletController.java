@@ -54,7 +54,7 @@ public class WebWalletController {
     }
     @GetMapping("/wallets/find-wallet/result")
     public String findByEmail(@RequestParam("email") String email, Model model){
-        Optional<Wallet> wallet = service.findByEmail(email);
+        Wallet wallet = service.findByEmail(email);
         model.addAttribute("wallet", wallet);
         return "wallet/find-result";
     }
