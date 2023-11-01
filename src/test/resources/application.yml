@@ -4,6 +4,3 @@ spring:
     url: jdbc:mysql://localhost:3306/voucher_test
     username: root
     password: lyon0627@
-
-command-line-runner:
-  run: false

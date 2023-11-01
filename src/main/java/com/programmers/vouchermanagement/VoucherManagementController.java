@@ -13,7 +13,6 @@ import com.programmers.vouchermanagement.wallet.dto.WalletRequestDto;
 import com.programmers.vouchermanagement.wallet.presentation.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -32,9 +31,6 @@ public class VoucherManagementController implements CommandLineRunner {
     private final CustomerController customerController;
     private final WalletController walletController;
 
-    @Value("${command-line-runner.run}")
-    private boolean isRunning;
-
     public VoucherManagementController(ConsoleInputManager consoleInputManager, ConsoleOutputManager consoleOutputManager, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
         this.consoleInputManager = consoleInputManager;
         this.consoleOutputManager = consoleOutputManager;
@@ -46,175 +42,173 @@ public class VoucherManagementController implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        if (isRunning) {
-            logger.info("Start Voucher Program.");
+        logger.info("Start Voucher Program.");
 
-            boolean chooseExit = false;
+        boolean chooseExit = false;
 
-            while (!chooseExit) {
+        while (!chooseExit) {
 
-                consoleOutputManager.printCommandMenu();
+            consoleOutputManager.printCommandMenu();
 
-                Command command;
-                String input = consoleInputManager.inputString();
+            Command command;
+            String input = consoleInputManager.inputString();
 
-                try {
-                    command = Command.getCommandByNumber(input);
+            try {
+                command = Command.getCommandByNumber(input);
 
-                } catch (CommandNotFoundException e) {
-                    logger.error(e.getMessage(), e);
-                    consoleOutputManager.printEnterAgain(e.getMessage());
+            } catch (CommandNotFoundException e) {
+                logger.error(e.getMessage(), e);
+                consoleOutputManager.printEnterAgain(e.getMessage());
 
-                    continue;
-                }
-
-                try {
-                    switch (command) {
-
-                        case CREATE_VOUCHER -> {
-
-                            consoleOutputManager.printCreateVoucher();
-
-                            consoleOutputManager.printVoucherTypeMenu();
-                            String voucherType = consoleInputManager.inputString();
-
-                            consoleOutputManager.printDiscountRequest();
-                            Long discount = consoleInputManager.inputDiscount();
-
-                            voucherController.createVoucher(new VoucherRequestDto(voucherType, discount));
-
-                            consoleOutputManager.printSuccessCreation();
-                        }
-
-                        case LIST_VOUCHER -> {
-
-                            consoleOutputManager.printList();
-
-                            List<VoucherResponseDto> voucherResponseDtos = voucherController.readAllVoucher();
-                            consoleOutputManager.printVoucherInfo(voucherResponseDtos);
-                        }
-
-                        case ONE_VOUCHER -> {
-
-                            consoleOutputManager.printReadVoucherById();
-
-                            consoleOutputManager.printGetVoucherId();
-                            UUID voucherId = consoleInputManager.inputUUID();
-
-                            VoucherResponseDto voucherResponseDto = voucherController.readVoucherById(voucherId);
-                            consoleOutputManager.printVoucherInfo(new ArrayList<>() {{
-                                add(voucherResponseDto);
-                            }});
-                        }
-
-                        case UPDATE_VOUCHER -> {
-
-                            consoleOutputManager.printUpdateVoucher();
-
-                            consoleOutputManager.printGetVoucherId();
-                            UUID voucherId = consoleInputManager.inputUUID();
-
-                            consoleOutputManager.printVoucherTypeMenu();
-                            String voucherType = consoleInputManager.inputString();
-
-                            consoleOutputManager.printDiscountRequest();
-                            Long discount = consoleInputManager.inputDiscount();
-
-                            voucherController.updateVoucher(voucherId, new VoucherRequestDto(voucherType, discount));
-
-                            consoleOutputManager.printSuccessUpdate();
-                        }
-
-                        case DELETE_VOUCHER -> {
-
-                            consoleOutputManager.printRemoveVoucher();
-
-                            voucherController.removeAllVoucher();
-                        }
-
-                        case DELETE_ONE_VOUCHER -> {
-
-                            consoleOutputManager.printRemoveVoucherById();
-
-                            consoleOutputManager.printGetVoucherId();
-                            UUID voucherId = consoleInputManager.inputUUID();
-
-                            voucherController.removeVoucherById(voucherId);
-                        }
-
-                        case BLACKLIST -> {
-
-                            consoleOutputManager.printBlackList();
-
-                            List<CustomerResponseDto> customerResponseDtos = customerController.readAllBlackList();
-                            consoleOutputManager.printCustomerInfo(customerResponseDtos);
-                        }
-
-                        case CREATE_WALLET -> {
-
-                            consoleOutputManager.printCreateWallet();
-
-                            consoleOutputManager.printGetCustomerId();
-                            UUID customerId = consoleInputManager.inputUUID();
-
-                            consoleOutputManager.printGetVoucherId();
-                            UUID voucherId = consoleInputManager.inputUUID();
-
-                            walletController.createWallet(new WalletRequestDto(customerId, voucherId));
-
-                            consoleOutputManager.printSuccessCreation();
-                        }
-
-                        case LIST_WALLET_VOUCHER -> {
-
-                            consoleOutputManager.printReadVouchersByCustomer();
-
-                            consoleOutputManager.printGetCustomerId();
-                            UUID customerId = consoleInputManager.inputUUID();
-
-                            List<VoucherResponseDto> voucherResponseDtos = walletController.readVouchersByCustomer(customerId);
-                            consoleOutputManager.printVoucherInfo(voucherResponseDtos);
-                        }
-
-                        case LIST_WALLET_CUSTOMER -> {
-
-                            consoleOutputManager.printReadCustomersByVoucher();
-
-                            consoleOutputManager.printGetVoucherId();
-                            UUID voucherId = consoleInputManager.inputUUID();
-
-                            List<CustomerResponseDto> customerResponseDtos = walletController.readCustomersByVoucher(voucherId);
-                            consoleOutputManager.printCustomerInfo(customerResponseDtos);
-                        }
-
-                        case DELETE_WALLET -> {
-
-                            consoleOutputManager.printRemoveWallet();
-
-                            consoleOutputManager.printGetCustomerId();
-                            UUID customerId = consoleInputManager.inputUUID();
-
-                            walletController.removeWalletsByCustomer(customerId);
-                        }
-
-                        case EXIT -> {
-                            consoleOutputManager.printExit();
-                            chooseExit = true;
-                        }
-                    }
-                } catch (RuntimeException e) {
-                    logger.error(e.getMessage(), e);
-                    consoleOutputManager.printReturnMain(e.getMessage());
-
-                } catch (Exception e) {
-                    logger.error(e.getMessage(), e);
-                    consoleOutputManager.printExceptionExit(e.getMessage());
-
-                    break;
-                }
+                continue;
             }
 
-            logger.info("Exit Voucher Program.");
+            try {
+                switch (command) {
+
+                    case CREATE_VOUCHER -> {
+
+                        consoleOutputManager.printCreateVoucher();
+
+                        consoleOutputManager.printVoucherTypeMenu();
+                        String voucherType = consoleInputManager.inputString();
+
+                        consoleOutputManager.printDiscountRequest();
+                        Long discount = consoleInputManager.inputDiscount();
+
+                        voucherController.createVoucher(new VoucherRequestDto(voucherType, discount));
+
+                        consoleOutputManager.printSuccessCreation();
+                    }
+
+                    case LIST_VOUCHER -> {
+
+                        consoleOutputManager.printList();
+
+                        List<VoucherResponseDto> voucherResponseDtos = voucherController.readAllVoucher();
+                        consoleOutputManager.printVoucherInfo(voucherResponseDtos);
+                    }
+
+                    case ONE_VOUCHER -> {
+
+                        consoleOutputManager.printReadVoucherById();
+
+                        consoleOutputManager.printGetVoucherId();
+                        UUID voucherId = consoleInputManager.inputUUID();
+
+                        VoucherResponseDto voucherResponseDto = voucherController.readVoucherById(voucherId);
+                        consoleOutputManager.printVoucherInfo(new ArrayList<>() {{
+                            add(voucherResponseDto);
+                        }});
+                    }
+
+                    case UPDATE_VOUCHER -> {
+
+                        consoleOutputManager.printUpdateVoucher();
+
+                        consoleOutputManager.printGetVoucherId();
+                        UUID voucherId = consoleInputManager.inputUUID();
+
+                        consoleOutputManager.printVoucherTypeMenu();
+                        String voucherType = consoleInputManager.inputString();
+
+                        consoleOutputManager.printDiscountRequest();
+                        Long discount = consoleInputManager.inputDiscount();
+
+                        voucherController.updateVoucher(voucherId, new VoucherRequestDto(voucherType, discount));
+
+                        consoleOutputManager.printSuccessUpdate();
+                    }
+
+                    case DELETE_VOUCHER -> {
+
+                        consoleOutputManager.printRemoveVoucher();
+
+                        voucherController.removeAllVoucher();
+                    }
+
+                    case DELETE_ONE_VOUCHER -> {
+
+                        consoleOutputManager.printRemoveVoucherById();
+
+                        consoleOutputManager.printGetVoucherId();
+                        UUID voucherId = consoleInputManager.inputUUID();
+
+                        voucherController.removeVoucherById(voucherId);
+                    }
+
+                    case BLACKLIST -> {
+
+                        consoleOutputManager.printBlackList();
+
+                        List<CustomerResponseDto> customerResponseDtos = customerController.readAllBlackList();
+                        consoleOutputManager.printCustomerInfo(customerResponseDtos);
+                    }
+
+                    case CREATE_WALLET -> {
+
+                        consoleOutputManager.printCreateWallet();
+
+                        consoleOutputManager.printGetCustomerId();
+                        UUID customerId = consoleInputManager.inputUUID();
+
+                        consoleOutputManager.printGetVoucherId();
+                        UUID voucherId = consoleInputManager.inputUUID();
+
+                        walletController.createWallet(new WalletRequestDto(customerId, voucherId));
+
+                        consoleOutputManager.printSuccessCreation();
+                    }
+
+                    case LIST_WALLET_VOUCHER -> {
+
+                        consoleOutputManager.printReadVouchersByCustomer();
+
+                        consoleOutputManager.printGetCustomerId();
+                        UUID customerId = consoleInputManager.inputUUID();
+
+                        List<VoucherResponseDto> voucherResponseDtos = walletController.readVouchersByCustomer(customerId);
+                        consoleOutputManager.printVoucherInfo(voucherResponseDtos);
+                    }
+
+                    case LIST_WALLET_CUSTOMER -> {
+
+                        consoleOutputManager.printReadCustomersByVoucher();
+
+                        consoleOutputManager.printGetVoucherId();
+                        UUID voucherId = consoleInputManager.inputUUID();
+
+                        List<CustomerResponseDto> customerResponseDtos = walletController.readCustomersByVoucher(voucherId);
+                        consoleOutputManager.printCustomerInfo(customerResponseDtos);
+                    }
+
+                    case DELETE_WALLET -> {
+
+                        consoleOutputManager.printRemoveWallet();
+
+                        consoleOutputManager.printGetCustomerId();
+                        UUID customerId = consoleInputManager.inputUUID();
+
+                        walletController.removeWalletsByCustomer(customerId);
+                    }
+
+                    case EXIT -> {
+                        consoleOutputManager.printExit();
+                        chooseExit = true;
+                    }
+                }
+            } catch (RuntimeException e) {
+                logger.error(e.getMessage(), e);
+                consoleOutputManager.printReturnMain(e.getMessage());
+
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+                consoleOutputManager.printExceptionExit(e.getMessage());
+
+                break;
+            }
         }
+
+        logger.info("Exit Voucher Program.");
     }
 }
