@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,10 +30,10 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         Voucher newVoucher = new FixedAmountVoucher(1000L);
 
         // when
-        voucherRepository.save(newVoucher);
+        UUID generatedId = voucherRepository.save(newVoucher);
 
         // then
-        Voucher savedVoucher = voucherRepository.findAll().get(0);
+        Voucher savedVoucher = voucherRepository.findById(generatedId).get();
         assertThat(savedVoucher.getType()).isEqualTo(newVoucher.getType());
         assertThat(savedVoucher.getAmount()).isEqualTo(newVoucher.getAmount());
     }

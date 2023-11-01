@@ -22,9 +22,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
-        voucher.setId(idProvider.generateId());
+    public UUID save(Voucher voucher) {
+        UUID id = idProvider.generateId();
+        voucher.setId(id);
         storage.put(voucher.getId(), voucher);
+        return id;
     }
 
     @Override
