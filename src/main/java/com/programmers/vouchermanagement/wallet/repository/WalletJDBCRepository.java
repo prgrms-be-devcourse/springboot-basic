@@ -62,8 +62,8 @@ public class WalletJDBCRepository implements WalletRepository {
     public void delete(UUID voucherId) {
         int update = jdbcTemplate.update(DELETE_OWNERSHIP, domainMapper.uuidToParamMap(voucherId));
         if (update != UPDATE_ONE_FLAG) {
-            logger.error(NOT_FOUND_VOUCHER_ALLOCATION_INFORMATION);
-            throw new RuntimeException(NOT_FOUND_VOUCHER_ALLOCATION_INFORMATION);
+            logger.error(NOT_FOUND_VOUCHER_ALLOCATION);
+            throw new RuntimeException(NOT_FOUND_VOUCHER_ALLOCATION);
         }
     }
 

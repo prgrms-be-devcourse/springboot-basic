@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static com.programmers.vouchermanagement.constant.Message.NOT_FOUND_VOUCHER_ALLOCATION_INFORMATION;
+import static com.programmers.vouchermanagement.constant.Message.NOT_FOUND_VOUCHER_ALLOCATION;
 
 @Service
 public class WalletService {
@@ -30,8 +30,8 @@ public class WalletService {
     public Customer readCustomerByVoucherId(UUID voucherId) {
         return walletRepository.findCustomerByVoucherId(voucherId).orElseThrow(
                 () -> {
-                    logger.error(NOT_FOUND_VOUCHER_ALLOCATION_INFORMATION);
-                    return new NoSuchElementException(NOT_FOUND_VOUCHER_ALLOCATION_INFORMATION);
+                    logger.error(NOT_FOUND_VOUCHER_ALLOCATION);
+                    return new NoSuchElementException(NOT_FOUND_VOUCHER_ALLOCATION);
                 }
         );
     }
