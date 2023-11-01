@@ -19,23 +19,23 @@
     <div>
         <label for="walletId">지갑 Id</label>
         <input type="text" id="walletId" name="type" class = "form-control"
-               th:value = "${walletId}" readonly>
+               th:value = "${wallet.walletId()}" readonly>
     </div>
     <div>
         <label for="voucherId">바우처 Id</label>
         <input type="text" id="voucherId" name="voucherId" class="form-control"
-               th:value="${voucherId}" readonly>
+               th:value="${wallet.voucherId()}" readonly>
     </div>
     <div>
         <label for="customerId">고객 Id</label>
         <input type="text" id="customerId" name="type" class = "form-control"
-               th:value = "${customerId}" readonly>
+               th:value = "${wallet.customerId()}" readonly>
     </div>
     <hr class="my-4">
     <div class="row">
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
-                    th:onclick="|location.href='@{/basic/wallets/{walletId}/delete(walletId=${walletId})}'|"
+                    th:onclick="|location.href='@{/basic/wallets/{walletId}/delete(walletId=${wallet.walletId()})}'|"
                     type="button">지갑 삭제</button>
         </div>
         <div class="col">

@@ -69,8 +69,8 @@ public class VoucherService {
         return getVoucherDetailResponses(byDateAndType);
     }
 
-    private static List<VoucherDetailResponse> getVoucherDetailResponses(List<Voucher> byDate) {
-        return byDate.stream()
+    static List<VoucherDetailResponse> getVoucherDetailResponses(List<Voucher> list) {
+        return list.stream()
                 .map(voucher ->
                         VoucherDetailResponse.builder()
                                 .voucherId(voucher.getId())

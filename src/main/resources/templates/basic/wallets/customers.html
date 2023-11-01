@@ -25,10 +25,10 @@
             </thead>
             <tbody>
             <tr th:each="customer : ${customers}">
-                <td th:text="${customer.id}"></td>
-                <td th:text="${customer.name}"></td>
-                <td th:text = "${customer.yearOfBirth}"></td>
-                <td th:text = "${customer.isBlacklist}"></td>
+                <td th:text="${customer.customerId()}"></td>
+                <td th:text="${customer.name()}"></td>
+                <td th:text = "${customer.yearOfBirth()}"></td>
+                <td th:text = "${customer.isBlacklist()}"></td>
             </tr>
             </tbody>
         </table>

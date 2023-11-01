@@ -3,6 +3,10 @@ package com.prgrms.vouchermanager.service;
 import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
+import com.prgrms.vouchermanager.dto.customer.CustomerResponse;
+import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
+import com.prgrms.vouchermanager.dto.wallet.WalletRequest;
+import com.prgrms.vouchermanager.dto.wallet.WalletResponse;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import com.prgrms.vouchermanager.repository.wallet.WalletRepository;
@@ -11,6 +15,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.prgrms.vouchermanager.dto.customer.CustomerResponse.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
+import static com.prgrms.vouchermanager.dto.wallet.WalletRequest.*;
+import static com.prgrms.vouchermanager.dto.wallet.WalletResponse.*;
+import static com.prgrms.vouchermanager.service.VoucherService.getVoucherDetailResponses;
 
 @Service
 public class WalletService {
@@ -25,18 +35,44 @@ public class WalletService {
         this.voucherRepository = voucherRepository;
     }
 
-    public Wallet create(UUID customerId, UUID voucherId) {
-        Wallet wallet = new Wallet(voucherId, customerId);
-        walletRepository.create(wallet);
-        return wallet;
+    public WalletDetailResponse create(WalletDetailRequest request) {
+        Wallet wallet = new Wallet(request.voucherId(), request.customerId());
+        Wallet createdWallet = walletRepository.create(wallet);
+        return toDetailWallet(createdWallet);
     }
 
-    public List<Wallet> findAll() {
-        return walletRepository.findAll();
+    public List<WalletDetailResponse> findAll() {
+        List<Wallet> wallets = walletRepository.findAll();
+        return getWalletDetailResponses(wallets);
     }
 
-    public Wallet findById(UUID walletId) { return walletRepository.findById(walletId); }
-    public List<Voucher> findByCustomerId(UUID id) {
+    private static List<WalletDetailResponse> getWalletDetailResponses(List<Wallet> list) {
+        return list.stream()
+                .map(wallet ->
+                        WalletDetailResponse.builder()
+                                .walletId(wallet.getWalletId())
+                                .voucherId(wallet.getVoucherId())
+                                .customerId(wallet.getCustomerId())
+                                .build())
+                .toList();
+    }
+
+    private static List<CustomerDetailResponse> getCustomerDetailResponses(List<Customer> list) {
+        return list.stream()
+                .map(customer ->
+                        CustomerDetailResponse.builder()
+                                .customerId(customer.getId())
+                                .name(customer.getName())
+                                .yearOfBirth(customer.getYearOfBirth())
+                                .isBlacklist(customer.isBlacklist())
+                                .build())
+                .toList();
+    }
+
+    public WalletDetailResponse findById(UUID walletId) {
+        return toDetailWallet(walletRepository.findById(walletId)); }
+
+    public List<VoucherDetailResponse> findByCustomerId(UUID id) {
         List<Wallet> walletList = walletRepository.findByCustomerId(id);
         List<Voucher> voucherList = new ArrayList<>();
 
@@ -44,10 +80,10 @@ public class WalletService {
             UUID voucherId = wallet.getVoucherId();
             voucherList.add(voucherRepository.findById(voucherId));
         });
-        return voucherList;
+        return getVoucherDetailResponses(voucherList);
     }
 
-    public List<Customer> findByVoucherId(UUID id) {
+    public List<CustomerDetailResponse> findByVoucherId(UUID id) {
         List<Wallet> walletList = walletRepository.findByVoucherId(id);
         List<Customer> customerList = new ArrayList<>();
 
@@ -55,7 +91,7 @@ public class WalletService {
             UUID customerId = wallet.getCustomerId();
             customerList.add(customerRepository.findById(customerId));
         });
-        return customerList;
+        return getCustomerDetailResponses(customerList);
     }
 
     public int delete(UUID walletId) {

@@ -24,9 +24,9 @@
             </thead>
             <tbody>
             <tr th:each="voucher : ${vouchers}">
-                <td th:text="${voucher.id}"></td>
-                <td th:text="${voucher.type}"></td>
-                <td th:text = "${voucher.discount}"></td>
+                <td th:text="${voucher.voucherId()}"></td>
+                <td th:text="${voucher.voucherType()}"></td>
+                <td th:text = "${voucher.discount()}"></td>
             </tr>
             </tbody>
         </table>
