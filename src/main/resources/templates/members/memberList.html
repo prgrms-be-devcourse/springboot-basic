@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Member List</title>
+  <!-- Bootstrap CSS link (you should have Bootstrap included in your project) -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-4 text-center">Member List</h1>
+  <table class="table table-bordered table-striped mt-4">
+    <thead class="thead-dark">
+    <tr>
+      <th>Member ID</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Age</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="member : ${memberList}">
+      <td>
+        <a th:href="@{'/members/' + ${member.memberId}}" th:text="${member.memberId}"></a>
+      </td>
+      <td th:text="${member.name}"></td>
+      <td th:text="${member.email}"></td>
+      <td th:text="${member.age}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <a th:href="@{/members/createForm}">
+    <button class="btn btn-success">Create</button>
+  </a>
+</div>
+</body>
+</html>

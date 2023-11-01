@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Member Info</title>
+  <!-- Bootstrap CSS link (you should have Bootstrap included in your project) -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Custom styles */
+    .info-container {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+<div class="container mt-5">
+  <h1 class="text-center">Member Info</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="info-container">
+        <form th:action="@{/members/{memberId}(memberId=${member.memberId})}" th:object="${member}" method="post">
+          <div class="form-group">
+            <label for="memberId"><strong>Member ID:</strong></label>
+            <span th:text="${member.memberId}" class="form-control" id="memberId" readonly></span>
+          </div>
+          <div class="form-group">
+            <label for="name"><strong>Name:</strong></label>
+            <span th:text="${member.name}" class="form-control" id="name" readonly></span>
+          </div>
+          <div class="form-group">
+            <label for="email"><strong>Email:</strong></label>
+            <span th:text="${member.email}" class="form-control" id="email" readonly></span>
+          </div>
+          <div class="form-group">
+            <label for="age"><strong>Age:</strong></label>
+            <span th:text="${member.age}" class="form-control" id="age" readonly></span>
+          </div>
+          <button type="submit" class="btn btn-danger btn-block">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
