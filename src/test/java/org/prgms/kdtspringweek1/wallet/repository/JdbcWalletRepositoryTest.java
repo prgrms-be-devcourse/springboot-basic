@@ -5,6 +5,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.kdtspringweek1.customer.entity.Customer;
 import org.prgms.kdtspringweek1.customer.repository.JdbcCustomerRepository;
+import org.prgms.kdtspringweek1.exception.DataException;
+import org.prgms.kdtspringweek1.exception.DataExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
@@ -20,9 +22,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @Transactional
 @SpringBootTest
@@ -93,6 +97,22 @@ class JdbcWalletRepositoryTest {
 
         // then
         assertThat(jdbcWalletRepository.findAllCustomersByVoucherId(voucher.getVoucherId()), hasSize(beforeDelete - 1));
+    }
+
+    @Test
+    @DisplayName("특정 고객이 가진 특정 바우처에 해당하는 지갑 삭제 실패 - 고객이 존재하지 않는 경우")
+    void Fail_DeleteByVoucherIdAndCustomerId_NotExistingVoucher() {
+        // given
+        Voucher voucher = saveVoucher();
+        Customer customer = saveCustomer();
+
+        // when
+        DataException exception = assertThrows(DataException.class, () -> {
+            jdbcWalletRepository.deleteByVoucherIdAndCustomerId(voucher.getVoucherId(), customer.getCustomerId());
+        });
+
+        // then
+        assertThat(exception.getMessage(), is(DataExceptionCode.FAIL_TO_DELETE.getMessage()));
     }
 
     @Test

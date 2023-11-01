@@ -3,6 +3,8 @@ package org.prgms.kdtspringweek1.voucher.repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgms.kdtspringweek1.exception.DataException;
+import org.prgms.kdtspringweek1.exception.DataExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.PercentDiscountVoucher;
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.samePropertyValuesAs;
@@ -100,6 +103,29 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 정보 수정 실패 - 존재하지 않는 바우처인 경우")
+    void Fail_Update_NotExistingCustomer() {
+        // given
+        Voucher voucher = createVoucher();
+        Voucher voucherToUpdate;
+        if (voucher.getVoucherType() == VoucherType.FIXED_AMOUNT) {
+            voucherToUpdate = FixedAmountVoucher.createWithIdAndAmount(voucher.getVoucherId(), 600);
+        } else if (voucher.getVoucherType() == VoucherType.PERCENT_DISCOUNT) {
+            voucherToUpdate = PercentDiscountVoucher.createWithIdAndPercent(voucher.getVoucherId(), 60);
+        } else {
+            voucherToUpdate = null;
+        }
+
+        // when
+        DataException exception = assertThrows(DataException.class, () -> {
+            jdbcVoucherRepository.update(voucherToUpdate);
+        });
+
+        // then
+        assertThat(exception.getMessage(), is(DataExceptionCode.FAIL_TO_UPDATE.getMessage()));
+    }
+
+    @Test
     @DisplayName("모든 바우처 삭제 성공")
     void Success_DeleteAll() {
         // given
@@ -124,6 +150,29 @@ class JdbcVoucherRepositoryTest {
 
         // then
         assertTrue(jdbcVoucherRepository.findById(voucher.getVoucherId()).isEmpty());
+    }
+
+    @Test
+    @DisplayName("바우처 정보 삭제 실패 - 존재하지 않는 바우처인 경우")
+    void Fail_Delete_NotExistingCustomer() {
+        // given
+        Voucher voucher = createVoucher();
+        Voucher voucherToUpdate;
+        if (voucher.getVoucherType() == VoucherType.FIXED_AMOUNT) {
+            voucherToUpdate = FixedAmountVoucher.createWithIdAndAmount(voucher.getVoucherId(), 600);
+        } else if (voucher.getVoucherType() == VoucherType.PERCENT_DISCOUNT) {
+            voucherToUpdate = PercentDiscountVoucher.createWithIdAndPercent(voucher.getVoucherId(), 60);
+        } else {
+            voucherToUpdate = null;
+        }
+
+        // when
+        DataException exception = assertThrows(DataException.class, () -> {
+            jdbcVoucherRepository.deleteById(voucher.getVoucherId());
+        });
+
+        // then
+        assertThat(exception.getMessage(), is(DataExceptionCode.FAIL_TO_DELETE.getMessage()));
     }
 
     private Voucher createVoucher() {

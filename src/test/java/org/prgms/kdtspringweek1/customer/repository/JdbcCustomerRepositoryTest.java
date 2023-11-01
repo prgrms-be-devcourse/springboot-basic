@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgms.kdtspringweek1.customer.entity.Customer;
+import org.prgms.kdtspringweek1.exception.DataException;
+import org.prgms.kdtspringweek1.exception.DataExceptionCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,11 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Transactional
+@Transactional // 원자성 보장을 위해 사용하긴 하지만, 중첩되는 경우 기본적인 전략이 부모 트랜잭션을 따라가게 된다. 실제 프로덕션 코드에도 영향을 미칠 수 있어 주의할 필요가 있다.
 @SpringBootTest
 class JdbcCustomerRepositoryTest {
 
@@ -91,6 +95,22 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Test
+    @DisplayName("고객 정보 수정 실패 - 존재하지 않는 고객인 경우")
+    void Fail_Update_NotExistingCustomer() {
+        // given
+        Customer customer = Customer.createWithName("최정은");
+        Customer customerToUpdate = Customer.createWithIdAndNameAndIsBlackCustomer(customer.getCustomerId(), "ChoiJeongeun", false);
+
+        // when
+        DataException exception = assertThrows(DataException.class, () -> {
+            jdbcCustomerRepository.update(customerToUpdate);
+        });
+
+        // then
+        assertThat(exception.getMessage(), is(DataExceptionCode.FAIL_TO_UPDATE.getMessage()));
+    }
+
+    @Test
     @DisplayName("모든 고객 삭제 성공")
     void Success_DeleteAll() {
         // given
@@ -115,6 +135,22 @@ class JdbcCustomerRepositoryTest {
 
         // then
         assertTrue(jdbcCustomerRepository.findById(customer.getCustomerId()).isEmpty());
+    }
+
+    @Test
+    @DisplayName("고객 정보 삭제 실패 - 존재하지 않는 고객인 경우")
+    void Fail_Delete_NotExistingCustomer() {
+        // given
+        Customer customer = Customer.createWithName("최정은");
+        Customer customerToUpdate = Customer.createWithIdAndNameAndIsBlackCustomer(customer.getCustomerId(), "ChoiJeongeun", false);
+
+        // when
+        DataException exception = assertThrows(DataException.class, () -> {
+            jdbcCustomerRepository.deleteById(customer.getCustomerId());
+        });
+
+        // then
+        assertThat(exception.getMessage(), is(DataExceptionCode.FAIL_TO_DELETE.getMessage()));
     }
 
     @Test
