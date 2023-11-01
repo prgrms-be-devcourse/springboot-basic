@@ -5,6 +5,8 @@ import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
+import com.prgrms.vouchermanager.dto.voucher.VoucherRequest;
+import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
 import com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -20,6 +22,9 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.util.List;
+
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
 
 @SpringJUnitConfig
 class VoucherServiceTest {
@@ -50,17 +55,21 @@ class VoucherServiceTest {
     @Test
     @DisplayName("create")
     void create() {
-        Voucher voucher = service.create(VoucherType.FIXED, 20000);
+        VoucherCreateRequest request = VoucherCreateRequest.builder()
+                .voucherType("fixed")
+                .discount(20000)
+                .build();
+        VoucherDetailResponse response = service.create(request);
 
-        Assertions.assertThat(voucher.getDiscount()).isEqualTo(20000);
-        Assertions.assertThat(voucher instanceof FixedAmountVoucher).isTrue();
+        Assertions.assertThat(response.discount()).isEqualTo(20000);
+        Assertions.assertThat(response.voucherType()).isEqualTo(VoucherType.FIXED);
     }
 
     @Test
     @DisplayName("list")
     void list() {
-        List<Voucher> list = service.findAll();
-        Assertions.assertThat(list.size()).isEqualTo(1);
+        List<VoucherDetailResponse> responses = service.findAll();
+        Assertions.assertThat(responses.size()).isEqualTo(1);
     }
 
     @Test

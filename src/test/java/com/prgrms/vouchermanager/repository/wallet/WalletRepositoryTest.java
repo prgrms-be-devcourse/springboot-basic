@@ -100,7 +100,7 @@ class WalletRepositoryTest {
     @Test
     @DisplayName("delete")
     void delete() {
-        int delete = repository.delete(wallet1.getCustomerId(), wallet1.getVoucherId());
+        int delete = repository.delete(wallet1.getWalletId());
         Assertions.assertThat(delete).isEqualTo(1);
     }
 }

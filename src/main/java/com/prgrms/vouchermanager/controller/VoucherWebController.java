@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanager.controller;
 
-import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.service.VoucherService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
 import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
@@ -29,19 +27,19 @@ public class VoucherWebController {
     public String vouchers(Model model) {
         List<VoucherDetailResponse> response = service.findAll();
         model.addAttribute("vouchers", response);
-        return "basic/vouchers";
+        return "basic/vouchers/vouchers";
     }
 
     @GetMapping("/{voucherId}")
     public String voucher(@PathVariable UUID voucherId, Model model) {
         VoucherDetailResponse response = service.findById(voucherId);
         model.addAttribute("voucher", response);
-        return "basic/voucher";
+        return "basic/vouchers/voucher";
     }
 
     @GetMapping("/create")
     public String createForm() {
-        return "basic/createForm";
+        return "basic/vouchers/createForm";
     }
 
     @PostMapping("/create")
@@ -56,7 +54,7 @@ public class VoucherWebController {
     @GetMapping("/{voucherId}/delete")
     public String delete(@PathVariable UUID voucherId) {
         service.delete(voucherId);
-        return "basic/delete";
+        return "basic/vouchers/delete";
     }
 
     @GetMapping("/{voucherId}/findById")

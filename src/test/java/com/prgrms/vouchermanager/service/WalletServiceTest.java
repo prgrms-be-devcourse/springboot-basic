@@ -6,6 +6,10 @@ import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
+import com.prgrms.vouchermanager.dto.customer.CustomerResponse;
+import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
+import com.prgrms.vouchermanager.dto.wallet.WalletRequest;
+import com.prgrms.vouchermanager.dto.wallet.WalletResponse;
 import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository;
@@ -24,6 +28,11 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
 import java.util.List;
+
+import static com.prgrms.vouchermanager.dto.customer.CustomerResponse.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
+import static com.prgrms.vouchermanager.dto.wallet.WalletRequest.*;
+import static com.prgrms.vouchermanager.dto.wallet.WalletResponse.*;
 
 @SpringJUnitConfig
 class WalletServiceTest {
@@ -71,34 +80,46 @@ class WalletServiceTest {
     @Test
     @DisplayName("create")
     void create() {
-        Wallet createWallet = service.create(customer1.getId(), voucher2.getId());
+        WalletDetailRequest request = WalletDetailRequest.builder()
+                .voucherId(voucher2.getId())
+                .customerId(customer1.getId())
+                .build();
+        WalletDetailResponse response = service.create(request);
 
-        Assertions.assertThat(createWallet.getVoucherId()).isEqualTo(voucher2.getId());
-        Assertions.assertThat(createWallet.getCustomerId()).isEqualTo(customer1.getId());
+        Assertions.assertThat(response.voucherId()).isEqualTo(voucher2.getId());
+        Assertions.assertThat(response.customerId()).isEqualTo(customer1.getId());
     }
 
     @Test
     @DisplayName("findByCustomerId")
     void findByCustomerId() {
-        Wallet createWallet = service.create(customer1.getId(), voucher2.getId());
-        List<Voucher> voucherList = service.findByCustomerId(createWallet.getCustomerId());
+        WalletDetailRequest request = WalletDetailRequest.builder()
+                .voucherId(voucher2.getId())
+                .customerId(customer1.getId())
+                .build();
+        WalletDetailResponse response = service.create(request);
+        List<VoucherDetailResponse> responses = service.findByCustomerId(response.customerId());
 
-        Assertions.assertThat(voucherList.size()).isEqualTo(2);
+        Assertions.assertThat(responses.size()).isEqualTo(2);
     }
 
     @Test
     @DisplayName("findByVoucherId")
     void findByVoucherId() {
-        Wallet createWallet = service.create(customer1.getId(), voucher2.getId());
-        List<Customer> customerList = service.findByVoucherId(createWallet.getVoucherId());
+        WalletDetailRequest request = WalletDetailRequest.builder()
+                .voucherId(voucher2.getId())
+                .customerId(customer1.getId())
+                .build();
+        WalletDetailResponse response = service.create(request);
+        List<CustomerDetailResponse> responses = service.findByVoucherId(request.voucherId());
 
-        Assertions.assertThat(customerList.size()).isEqualTo(1);
+        Assertions.assertThat(responses.size()).isEqualTo(1);
     }
 
     @Test
     @DisplayName("delete")
     void delete() {
-        int delete = service.delete(wallet1.getCustomerId(), wallet1.getVoucherId());
+        int delete = service.delete(wallet1.getWalletId());
         Assertions.assertThat(delete).isEqualTo(1);
     }
 }
