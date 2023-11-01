@@ -2,7 +2,7 @@ package com.programmers.springbootbasic.domain.voucher.domain.VoucherType;
 
 import static com.programmers.springbootbasic.exception.ErrorCode.INVALID_VOUCHER;
 
-import com.programmers.springbootbasic.exception.exceptionClass.CustomException;
+import com.programmers.springbootbasic.exception.exceptionClass.VoucherException;
 import java.util.function.Function;
 
 public enum VoucherTypeEnum {
@@ -23,7 +23,7 @@ public enum VoucherTypeEnum {
         try {
             return VoucherTypeEnum.valueOf(voucherType.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new CustomException(INVALID_VOUCHER);
+            throw new VoucherException(INVALID_VOUCHER);
         }
     }
 }
