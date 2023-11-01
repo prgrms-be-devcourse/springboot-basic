@@ -34,7 +34,7 @@ public class VoucherService {
     }
 
     public VoucherResponseDto createVoucher(VoucherWebCreateRequestDto voucherCreateRequestDto) {
-        Voucher voucher = Voucher.newVocher(keyGenerator.getKey(), voucherCreateRequestDto.discount(),  voucherCreateRequestDto.voucherDiscountType());
+        Voucher voucher = Voucher.newVocher(keyGenerator.getKey(), voucherCreateRequestDto.getDiscount(),  voucherCreateRequestDto.getVoucherDiscountType());
 
         voucherRepository.add(voucher);
         log.info("Voucher {} added", voucher.getId());

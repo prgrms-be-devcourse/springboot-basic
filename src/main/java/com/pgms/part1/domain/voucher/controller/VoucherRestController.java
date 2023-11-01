@@ -4,6 +4,7 @@ import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
 import com.pgms.part1.domain.voucher.dto.VoucherWebCreateRequestDto;
 import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import com.pgms.part1.domain.voucher.service.VoucherService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class VoucherRestController {
     }
 
     @PostMapping("/vouchers")
-    public VoucherResponseDto createVoucher(VoucherWebCreateRequestDto voucherWebCreateRequestDto){
+    public VoucherResponseDto createVoucher(@Validated @RequestBody VoucherWebCreateRequestDto voucherWebCreateRequestDto){
         return voucherService.createVoucher(voucherWebCreateRequestDto);
     }
 

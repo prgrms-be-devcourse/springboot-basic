@@ -29,7 +29,7 @@ public class EnumNamepattenValidator implements ConstraintValidator<EnumNamePatt
     @Override
     public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
         if(value == null) {
-            throw new VoucherApplicationException(ErrorCode.INVALID_INPUT_DATA);
+            return false;
         }
         Matcher matcher = pattern.matcher(value.name());
         return matcher.matches();
