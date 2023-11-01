@@ -31,9 +31,7 @@ public class VoucherService {
     }
 
     public Voucher findVoucher(UUID voucherId) {
-        return voucherRepository
-                .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(VOUCHER_NOT_EXISTS.getMessage()));
+        return voucherRepository.findById(voucherId);
     }
 
     public void updateVoucher(UpdateVoucherDto dto) {

@@ -11,7 +11,7 @@ public interface VoucherRepository {
 
     List<Voucher> findAll();
 
-    Optional<Voucher> findById(UUID voucherId);
+    Voucher findById(UUID voucherId);
 
     int update(Voucher voucher);
 

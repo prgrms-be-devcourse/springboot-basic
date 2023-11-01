@@ -42,7 +42,7 @@ public class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = saveVoucher();
         //when
-        Voucher foundVoucher = repository.findById(voucher.getId()).orElse(null);
+        Voucher foundVoucher = repository.findById(voucher.getId());
         //then
         assertThat(foundVoucher).isNotNull();
         assertThat(foundVoucher.getId()).isEqualTo(voucher.getId());

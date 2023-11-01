@@ -9,6 +9,7 @@ import java.util.List;
 
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.PERCENT;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MemoryVoucherRepositoryTest {
     private final MemoryVoucherRepository repository = new MemoryVoucherRepository();
@@ -32,7 +33,7 @@ public class MemoryVoucherRepositoryTest {
         //given
         Voucher voucher = saveVoucher();
         //when
-        Voucher foundVoucher = repository.findById(voucher.getId()).orElse(null);
+        Voucher foundVoucher = repository.findById(voucher.getId());
         //then
         assertThat(foundVoucher).isNotNull();
         assertThat(foundVoucher.getId()).isEqualTo(voucher.getId());
@@ -64,7 +65,8 @@ public class MemoryVoucherRepositoryTest {
         int delete = repository.deleteById(voucher.getId());
         //then
         assertThat(delete).isEqualTo(1);
-        assertThat(repository.findById(voucher.getId())).isEmpty();
+        RuntimeException e = assertThrows(RuntimeException.class, () -> repository.findById(voucher.getId()));
+        assertThat(e.getMessage()).isEqualTo("바우처가 존재하지 않습니다.");
     }
 
 
