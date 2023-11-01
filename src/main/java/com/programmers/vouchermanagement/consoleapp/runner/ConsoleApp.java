@@ -15,7 +15,7 @@ import com.programmers.vouchermanagement.consoleapp.menu.MenuHandler;
 @Profile({"jdbc, dev, file"})
 public class ConsoleApp implements ApplicationRunner {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleApp.class);
-    private static final String INCORRECT_MESSAGE = "%s is not an executable menu.";
+    private static final String INCORRECT_MESSAGE = "Selected menu is not an executable menu.";
 
     private final MenuHandler menuHandler;
     private final ConsoleManager consoleManager;
@@ -41,7 +41,7 @@ public class ConsoleApp implements ApplicationRunner {
         }
 
         if (menu.isIncorrect()) {
-            logger.error(INCORRECT_MESSAGE.formatted(menu.name()));
+            logger.error(INCORRECT_MESSAGE);
         }
 
         return true;
