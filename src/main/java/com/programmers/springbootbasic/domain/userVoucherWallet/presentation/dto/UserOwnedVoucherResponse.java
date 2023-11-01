@@ -25,4 +25,12 @@ public class UserOwnedVoucherResponse {
             %s
             """.formatted(id, voucherResponse);
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public VoucherResponse getVoucherResponse() {
+        return voucherResponse;
+    }
 }

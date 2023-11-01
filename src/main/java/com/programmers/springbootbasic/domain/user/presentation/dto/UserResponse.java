@@ -38,4 +38,8 @@ public class UserResponse {
     public int hashCode() {
         return Objects.hash(nickname);
     }
+
+    public String getNickname() {
+        return nickname;
+    }
 }
