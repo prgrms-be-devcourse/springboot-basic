@@ -3,26 +3,26 @@ package com.programmers.springbootbasic.domain.voucher.presentation.dto;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherType;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherTypeEnum;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class CreateVoucherRequest {
 
-    private final VoucherType voucherType;
-    private final Integer benefitValue;
+    private VoucherType voucherType;
+    private Integer benefitValue;
 
-    private CreateVoucherRequest(VoucherType voucherType, Integer benefitValue) {
-        this.voucherType = voucherType;
+    private CreateVoucherRequest(VoucherTypeEnum voucherType, Integer benefitValue) {
+        this.voucherType = voucherType.getVoucherType(benefitValue);
         this.benefitValue = benefitValue;
     }
 
-    public static CreateVoucherRequest of(String stringVoucherType, Integer benefitValue) {
-        VoucherTypeEnum voucherEnum = VoucherTypeEnum.of(stringVoucherType);
-        VoucherType voucherType = voucherEnum.getVoucherType(benefitValue);
-        return new CreateVoucherRequest(voucherType, benefitValue);
+    // TODO: String 으로 받을지 Enum 으로 받을지는 고민해보자.
+    public static CreateVoucherRequest of(VoucherTypeEnum stringVoucherType, Integer benefitValue) {
+        return new CreateVoucherRequest(stringVoucherType, benefitValue);
     }
 
-    public Voucher toEntity(UUID id) {
-        return new Voucher(id, voucherType, benefitValue);
+    public Voucher toEntity(UUID id, LocalDateTime createdAt) {
+        return new Voucher(id, voucherType, benefitValue, createdAt);
     }
 
     public VoucherType getVoucherType() {
