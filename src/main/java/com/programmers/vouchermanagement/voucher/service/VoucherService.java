@@ -1,14 +1,17 @@
 package com.programmers.vouchermanagement.voucher.service;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import static com.programmers.vouchermanagement.constant.Message.NOT_FOUND_VOUCHER;
 
 @Service
 public class VoucherService {
@@ -36,8 +39,11 @@ public class VoucherService {
                 .toList();
     }
 
-    public void readById(UUID voucherId) {
-        voucherRepository.findById(voucherId);
+    public VoucherResponse readById(UUID voucherId) {
+        Voucher voucher = voucherRepository
+                .findById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER));
+        return VoucherResponse.from(voucher);
     }
 
     public void delete(UUID voucherId) {
