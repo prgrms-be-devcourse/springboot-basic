@@ -7,9 +7,8 @@ import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.Voucher
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.infrastructure.dto.UserVoucherWalletWithUser;
 import com.programmers.springbootbasic.domain.voucher.infrastructure.dto.UserVoucherWalletWithVoucher;
+import com.programmers.springbootbasic.util.SqlConverter;
 import java.sql.PreparedStatement;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -29,7 +28,7 @@ public class JdbcUserVoucherWalletRepository implements UserVoucherWalletReposit
             rs.getLong("id"),
             rs.getLong("user_id"),
             UUID.fromString(rs.getString("voucher_id")),
-            toLocalDateTime(rs.getString("created_at"))
+            SqlConverter.toLocalDateTime(rs.getString("created_at"))
         );
 
     public JdbcUserVoucherWalletRepository(JdbcTemplate jdbcTemplate) {
@@ -94,7 +93,8 @@ public class JdbcUserVoucherWalletRepository implements UserVoucherWalletReposit
                     UUID.fromString(rs.getString("voucher_id")),
                     VoucherTypeEnum.of(rs.getString("voucher_type"))
                         .getVoucherType(rs.getInt("benefit_value")),
-                    rs.getInt("benefit_value")
+                    rs.getInt("benefit_value"),
+                    SqlConverter.toLocalDateTime(rs.getString("created_at"))
                 )
             );
 
@@ -125,10 +125,5 @@ public class JdbcUserVoucherWalletRepository implements UserVoucherWalletReposit
                 WHERE uvw.voucher_id = ?
                 """,
             voucherWalletJoinRowMapper, voucherId.toString());
-    }
-
-    private LocalDateTime toLocalDateTime(String dateTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return LocalDateTime.parse(dateTime, formatter);
     }
 }

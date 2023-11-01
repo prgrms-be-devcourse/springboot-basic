@@ -3,6 +3,8 @@ package com.programmers.springbootbasic.domain.voucher.infrastructure;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherRepository;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherTypeEnum;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
+import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherCriteria;
+import com.programmers.springbootbasic.util.SqlConverter;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -17,6 +19,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String ID = "id";
     private static final String VOUCHER_TYPE = "voucher_type";
     private static final String BENEFIT_VALUE = "benefit_value";
+    private static final String CREATED_AT = "created_at";
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Voucher> voucherRowMapper =
@@ -24,7 +27,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
             UUID.fromString(rs.getString(ID)),
             VoucherTypeEnum.of(rs.getString(VOUCHER_TYPE))
                 .getVoucherType(rs.getInt(BENEFIT_VALUE)),
-            rs.getInt(BENEFIT_VALUE)
+            rs.getInt(BENEFIT_VALUE),
+            SqlConverter.toLocalDateTime(rs.getString(CREATED_AT))
         );
 
     public JdbcVoucherRepository(JdbcTemplate jdbcTemplate) {
@@ -34,11 +38,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         jdbcTemplate.update(
-            String.format("INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)", TABLE_NAME, ID,
-                VOUCHER_TYPE, BENEFIT_VALUE),
+            String.format("INSERT INTO %s (%s, %s, %s, %s) VALUES (?, ?, ?, ?)", TABLE_NAME, ID,
+                VOUCHER_TYPE, BENEFIT_VALUE, CREATED_AT),
             voucher.getId().toString(),
             voucher.getVoucherType().getVoucherTypeName(),
-            voucher.getBenefitValue());
+            voucher.getBenefitValue(),
+            voucher.getCreatedAt().toString());
         return voucher;
     }
 
