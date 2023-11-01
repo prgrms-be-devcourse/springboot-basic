@@ -15,10 +15,10 @@ import java.util.*;
 import static org.prgms.springbootbasic.common.UtilMethod.bytesToUUID;
 
 @Repository
-public class WalletDatabaseRepository implements WalletRepository {
+public class WalletJdbcRepository implements WalletRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public WalletDatabaseRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public WalletJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -85,5 +85,6 @@ public class WalletDatabaseRepository implements WalletRepository {
         boolean isBlacked = rs.getBoolean("is_blacked");
 
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt, isBlacked);
-    };
+    }; // static 메서드의 위치 조정.
+
 }

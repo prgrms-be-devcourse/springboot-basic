@@ -20,29 +20,29 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @ActiveProfiles("dev")
-class VoucherDatabaseRepositoryTest {
+class VoucherJdbcRepositoryTest {
     @Autowired
-    private VoucherDatabaseRepository voucherDatabaseRepository;
+    private VoucherJdbcRepository voucherJdbcRepository;
 
     private Voucher setUpVoucher;
     @BeforeEach
     void setUp() {
         setUpVoucher = new Voucher(UUID.randomUUID(), 40, new PercentDiscountPolicy());
-        voucherDatabaseRepository.upsert(setUpVoucher);
+        voucherJdbcRepository.upsert(setUpVoucher);
     }
 
     @AfterEach
     void clean() {
-        voucherDatabaseRepository.deleteAll();
+        voucherJdbcRepository.deleteAll();
     }
 
     @Test
     void saveNewVoucherToDB() {
         Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 1000, new FixedAmountPolicy());
 
-        voucherDatabaseRepository.upsert(fixedVoucher);
+        voucherJdbcRepository.upsert(fixedVoucher);
 
-        Optional<Voucher> retrievedVoucher = voucherDatabaseRepository.findById(fixedVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJdbcRepository.findById(fixedVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isPresent(), is(true));
         compareVoucher(retrievedVoucher.get(), fixedVoucher);
@@ -52,9 +52,9 @@ class VoucherDatabaseRepositoryTest {
     void updateVoucherInDB() {
         Voucher updateVoucher = new Voucher(setUpVoucher.getVoucherId(), 2000, new FixedAmountPolicy());
 
-        voucherDatabaseRepository.upsert(updateVoucher);
+        voucherJdbcRepository.upsert(updateVoucher);
 
-        Optional<Voucher> retrievedVoucher = voucherDatabaseRepository.findById(setUpVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJdbcRepository.findById(setUpVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isPresent(), is(true));
         compareVoucher(retrievedVoucher.get(), updateVoucher);
@@ -62,7 +62,7 @@ class VoucherDatabaseRepositoryTest {
 
     @Test
     void findVoucherByIdInDB() {
-        Optional<Voucher> retrievedVoucher = voucherDatabaseRepository.findById(setUpVoucher.getVoucherId());
+        Optional<Voucher> retrievedVoucher = voucherJdbcRepository.findById(setUpVoucher.getVoucherId());
 
         assertThat(retrievedVoucher.isPresent(), is(true));
         compareVoucher(retrievedVoucher.get(), setUpVoucher);
@@ -72,9 +72,9 @@ class VoucherDatabaseRepositoryTest {
     void findAllVouchersInDB() {
         Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 3000, new FixedAmountPolicy());
 
-        voucherDatabaseRepository.upsert(fixedVoucher);
+        voucherJdbcRepository.upsert(fixedVoucher);
 
-        List<Voucher> vouchers = voucherDatabaseRepository.findAll();
+        List<Voucher> vouchers = voucherJdbcRepository.findAll();
         List<UUID> voucherUUIDs = vouchers.stream().map(Voucher::getVoucherId).toList();
 
         assertThat(vouchers, hasSize(2));
@@ -84,9 +84,9 @@ class VoucherDatabaseRepositoryTest {
 
     @Test
     void deleteVoucherByIdInDB() {
-        voucherDatabaseRepository.deleteById(setUpVoucher.getVoucherId());
+        voucherJdbcRepository.deleteById(setUpVoucher.getVoucherId());
 
-        List<Voucher> vouchers = voucherDatabaseRepository.findAll();
+        List<Voucher> vouchers = voucherJdbcRepository.findAll();
 
         assertThat(vouchers, hasSize(0));
     }
@@ -95,10 +95,10 @@ class VoucherDatabaseRepositoryTest {
     void deleteAllVouchersInDB() {
         Voucher fixedVoucher = new Voucher(UUID.randomUUID(), 3000, new FixedAmountPolicy());
 
-        voucherDatabaseRepository.upsert(fixedVoucher);
-        voucherDatabaseRepository.deleteAll();
+        voucherJdbcRepository.upsert(fixedVoucher);
+        voucherJdbcRepository.deleteAll();
 
-        List<Voucher> vouchers = voucherDatabaseRepository.findAll();
+        List<Voucher> vouchers = voucherJdbcRepository.findAll();
 
         assertThat(vouchers.size(), is(0));
     }

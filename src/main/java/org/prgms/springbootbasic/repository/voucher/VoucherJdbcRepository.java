@@ -17,10 +17,10 @@ import static org.prgms.springbootbasic.common.UtilMethod.bytesToUUID;
 @Repository
 @Slf4j
 @Profile({"dev", "prod"})
-public class VoucherDatabaseRepository implements VoucherRepository { // 네이밍 고민
+public class VoucherJdbcRepository implements VoucherRepository { // 네이밍 고민
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public VoucherDatabaseRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public VoucherJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

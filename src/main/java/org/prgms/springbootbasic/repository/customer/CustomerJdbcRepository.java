@@ -15,10 +15,10 @@ import java.util.*;
 @Repository
 @Slf4j
 @Profile({"dev", "prod"})
-public class CustomerDatabaseRepository implements CustomerRepository{
+public class CustomerJdbcRepository implements CustomerRepository{
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public CustomerDatabaseRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public CustomerJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

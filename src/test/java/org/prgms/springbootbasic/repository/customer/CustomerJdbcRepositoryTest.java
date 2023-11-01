@@ -20,7 +20,10 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest
 @ActiveProfiles("dev")
-class CustomerDatabaseRepositoryTest {
+class CustomerJdbcRepositoryTest { // @Transactional은 위험할 수 있다. "A"CID. 트랜잭션은 전파 전략이 부모 레벨을 따라간다. 상위도 롤백될 가능성이. 테스트가 부모, 운영 코드가 자식. 트랜잭션 처리 공부.
+    // 즉, 테스트에서 @Transactional을 사용하고, 운영 코드에서도 @Transactional을 사용한다면 기본 전파 전략에 따라 테스트 @Transactional을 우선시한다.
+    // 하지만 이를 인지하고 잘 사용한다면 @Transactional을 사용해도 괜찮다.
+
     @Autowired
     private CustomerRepository customerRepository;
 
