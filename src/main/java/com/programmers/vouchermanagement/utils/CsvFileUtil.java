@@ -32,7 +32,7 @@ public class CsvFileUtil {
     public static <T extends CsvConvertable> void updateCsvFile(String filePath, List<T> items) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             items.stream()
-                    .map(voucher -> voucher.joinInfo(","))
+                    .map(item -> item.joinInfo(","))
                     .forEach(line -> {
                         try {
                             bw.write(line);
