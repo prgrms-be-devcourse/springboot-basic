@@ -1,5 +1,6 @@
 package com.zerozae.voucher.dto.voucher;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
@@ -34,6 +35,7 @@ public class VoucherResponse {
                 voucher.getCreatedAt());
     }
 
+    @JsonIgnore
     public String getInfo() {
         return """
                 바우처 번호  : %s

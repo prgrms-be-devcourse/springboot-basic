@@ -1,5 +1,6 @@
 package com.zerozae.voucher.dto.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zerozae.voucher.domain.customer.Customer;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import lombok.Getter;
@@ -27,6 +28,7 @@ public class CustomerResponse {
         );
     }
 
+    @JsonIgnore
     public String getInfo() {
         return """
                 회원 번호  : %s

@@ -62,12 +62,12 @@ public class ApiVoucherController {
     public ResponseEntity deleteVoucherById(@PathVariable("voucherId") String voucherId) {
         validateInputUuid(voucherId);
         voucherService.deleteById(UUID.fromString(voucherId));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("완료 되었습니다.");
     }
 
     @DeleteMapping
     public ResponseEntity deleteAllVouchers() {
         voucherService.deleteAll();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("완료 되었습니다.");
     }
 }

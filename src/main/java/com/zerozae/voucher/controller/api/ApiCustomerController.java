@@ -50,19 +50,19 @@ public class ApiCustomerController {
 
         validateInputUuid(customerId);
         customerService.update(UUID.fromString(customerId), customerUpdateRequest);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("완료 되었습니다.");
     }
 
     @DeleteMapping("/{customerId}")
     public ResponseEntity deleteCustomerById(@PathVariable("customerId") String customerId) {
         validateInputUuid(customerId);
         customerService.deleteById(UUID.fromString(customerId));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("완료 되었습니다.");
     }
 
     @DeleteMapping
     public ResponseEntity deleteAllCustomers() {
         customerService.deleteAll();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("완료 되었습니다.");
     }
 }

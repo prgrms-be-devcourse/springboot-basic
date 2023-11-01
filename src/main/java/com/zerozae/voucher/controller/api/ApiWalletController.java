@@ -71,7 +71,7 @@ public class ApiWalletController {
         validateCustomer(customerId);
         validateVoucher(voucherId);
         walletService.deleteWalletFromCustomer(UUID.fromString(customerId), UUID.fromString(voucherId));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("완료 되었습니다.");
     }
 
     private CustomerResponse validateCustomer(String customerId) {
