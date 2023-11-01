@@ -69,7 +69,7 @@ public class OutputUtil {
 
     public void printCustomerInfo(Customer customer) {
         System.out.println(MessageFormat.format("\nCustomer id: {0} \nCustomer name: {1}\nCustomer type: {2}"
-                , customer.getId(), customer.getName(), customer.getType().getLabel()));
+                , customer.getId(), customer.getName(), customer.getType().toString()));
     }
 
     public void printMessage(String message) {
