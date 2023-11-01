@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanager.dto;
+package com.prgrms.vouchermanager.dto.voucher;
 
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
@@ -26,6 +26,16 @@ public class VoucherRequest {
         return VoucherCreateRequest.builder()
                 .voucherType(voucherType.getLabel())
                 .discount(discount)
+                .build();
+    }
+
+    public static VoucherFindByConditionRequest toConditionVoucher(String voucherType, int startYear, int startMonth, int endYear, int endMonth) {
+        return VoucherFindByConditionRequest.builder()
+                .voucherType(voucherType)
+                .startYear(startYear)
+                .startMonth(startMonth)
+                .endYear(endYear)
+                .endMonth(endMonth)
                 .build();
     }
 }

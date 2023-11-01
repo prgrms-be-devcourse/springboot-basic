@@ -8,8 +8,8 @@ import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
-import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
-import static com.prgrms.vouchermanager.dto.VoucherResponse.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
 
 @Controller
 @RequiredArgsConstructor

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns: th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href = "/css/bootstrap.min.css" rel="stylesheet">
+    <title>Wallet list</title>
+</head>
+<body>
+
+<div class = "container" style = "max-width: 600px">
+    <div class = "py-5 text-center">
+        <h2>지갑 목록</h2>
+    </div>
+
+    <div class = "row">
+        <div class = "col">
+            <button class = "btn btn-primary float-end"
+                    th:onclick="|location.href='@{/basic/wallets/create}'|"
+                    type = "button">지갑 등록</button>
+        </div>
+    </div>
+
+    <hr class = "my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>고객 id</th>
+                <th>바우처 id</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="wallet : ${wallets}">
+                <td><a th:href="@{/basic/wallets/{walletId}(walletId=${wallet.id})}"
+                       th:text="${wallet.walletId}">Wallet Id</a></td>
+                <td th:text="${wallet.customerId}">Customer Id</td>
+                <td th:text = "${wallet.voucherId}">Voucher Id</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

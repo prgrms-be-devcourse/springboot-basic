@@ -1,4 +1,4 @@
-package com.prgrms.vouchermanager.dto;
+package com.prgrms.vouchermanager.dto.voucher;
 
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;

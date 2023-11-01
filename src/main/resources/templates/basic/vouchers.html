@@ -13,15 +13,6 @@
     </div>
 
     <div class = "row">
-
-<!--        <div class = "col">-->
-<!--            <input type="text" id="voucherId" name="voucherId" class="form-control"-->
-<!--                   placeholder="ID를 입력하세요">-->
-<!--            <button class = "btn btn-primary float-end"-->
-<!--                    onclick = "location.href = 'createForm.html'"-->
-<!--                    th:onclick="|location.href='@{/basic/vouchers/{voucherId}/findById(voucherId=${voucher.id})}'|"-->
-<!--                    type = "button">검색</button>-->
-<!--        </div>-->
         <div class = "col">
             <button class = "btn btn-primary float-end"
                     onclick = "location.href = 'createForm.html'"
@@ -42,7 +33,7 @@
             </thead>
             <tbody>
             <tr th:each="voucher : ${vouchers}">
-                <td><a href = "voucher.html" th:href="@{/basic/vouchers/{voucherId}(voucherId=${voucher.id})}"
+                <td><a th:href="@{/basic/vouchers/{voucherId}(voucherId=${voucher.id})}"
                 th:text="${voucher.id}">Voucher Id</a></td>
                 <td th:text="${voucher.type}">Voucher type</td>
                 <td th:text = "${voucher.discount}">10000</td>
@@ -55,9 +46,12 @@
         <div class = "col">
             <select name = "voucherType" aria-label = "Default select example">
                     <option selected>바우처 선택</option>
-                    <option th:each="voucherType : ${voucherTypes}"
-                            th:value="${voucherType}"
-                            th:text="${voucherType}"></option>
+                    <option th:value="fixed"
+                            th:text="fixed"></option>
+                    <option th:value="percent"
+                            th:text="percent"></option>
+                    <option th:value="both"
+                            th:text="both"></option>
             </select>
         </div>
 </div>

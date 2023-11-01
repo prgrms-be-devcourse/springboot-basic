@@ -1,7 +1,6 @@
 package com.prgrms.vouchermanager.service;
 
 import com.prgrms.vouchermanager.domain.voucher.*;
-import com.prgrms.vouchermanager.dto.VoucherRequest;
 import com.prgrms.vouchermanager.message.LogMessage;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import com.prgrms.vouchermanager.util.VoucherFactory;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
 
 @Service
 @Slf4j

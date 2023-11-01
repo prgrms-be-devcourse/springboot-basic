@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
-import static com.prgrms.vouchermanager.dto.VoucherResponse.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
 import static com.prgrms.vouchermanager.message.ConsoleMessage.*;
 
 @Component

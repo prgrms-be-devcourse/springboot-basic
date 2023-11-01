@@ -14,7 +14,7 @@
 <body>
 <div class="container">
     <div class="py-5 text-center">
-        <h2>바우처 정보</h2>
+        <h2>지갑 정보</h2>
     </div>
     <div>
         <label for="voucherId">바우처 Id</label>
@@ -22,13 +22,13 @@
                value="1" th:value="${voucherId}" readonly>
     </div>
     <div>
-        <label for="type">바우처 타입</label>
-        <input type="text" id="type" name="type" class = "form-control"
+        <label for="voucherType">바우처 타입</label>
+        <input type="text" id="voucherType" name="type" class = "form-control"
                value="fixed" th:value = "${voucherType}" readonly>
     </div>
     <div>
-        <label for="discount">할인 정보</label>
-        <input type="text" id="discount" name="discount" class="form-control"
+        <label for="voucherDiscount">할인 정보</label>
+        <input type="text" id="voucherDiscount" name="voucherDiscount" class="form-control"
                value="상품A" th:value="${voucherDiscount}" readonly>
     </div>
     <hr class="my-4">
@@ -36,7 +36,7 @@
         <div class="col">
             <button class="w-100 btn btn-primary btn-lg"
                     onclick="location.href='delete.html'"
-                    th:onclick="|location.href='@{/basic/vouchers/{voucherId}/delete(voucherId=${voucherId})}'|"
+                    th:onclick="|location.href='@{/basic/vouchers/{voucherId}/delete(voucherId=${voucher.id})}'|"
                     type="button">바우처 삭제</button>
         </div>
         <div class="col">

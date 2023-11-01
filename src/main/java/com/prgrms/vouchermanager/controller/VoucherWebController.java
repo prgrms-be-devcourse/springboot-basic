@@ -13,8 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.vouchermanager.dto.VoucherRequest.*;
-import static com.prgrms.vouchermanager.dto.VoucherResponse.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
 
 
 @Controller
@@ -27,7 +27,7 @@ public class VoucherWebController {
     @GetMapping
     public String vouchers(Model model) {
         VoucherListResponse response = new VoucherListResponse(service.findAll());
-        model.addAttribute("vouchers", response);
+        model.addAttribute("vouchers", response.vouchers());
         return "basic/vouchers";
     }
 
@@ -69,10 +69,16 @@ public class VoucherWebController {
     }
 
     @GetMapping("/findByCondition")
-    public String findByCondition(@RequestBody VoucherFindByConditionRequest request,
+    public String findByCondition(@RequestParam String voucherType,
+                                  @RequestParam int startYear,
+                                  @RequestParam int startMonth,
+                                  @RequestParam int endYear,
+                                  @RequestParam int endMonth,
                                   Model model) {
+        VoucherFindByConditionRequest request = toConditionVoucher(voucherType, startYear, startMonth, endYear, endMonth);
         List<Voucher> vouchers
                 = service.findByCondition(request);
+        log.info(vouchers.toString());
         model.addAttribute("vouchers", vouchers);
         return "basic/vouchers";
     }
@@ -81,12 +87,4 @@ public class VoucherWebController {
     public VoucherType[] voucherTypes() {
         return VoucherType.values();
     }
-
-//    @PostConstruct
-//    public void init() {
-//        List<Voucher> list = service.findAll();
-//        list.forEach(System.out::println);
-//        service.create(VoucherType.FIXED, 20000);
-//        service.create(VoucherType.PERCENT, 20);
-//    }
 }
