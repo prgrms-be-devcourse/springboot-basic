@@ -2,30 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>customer 바우처 추가</title>
+    <title>Customer 바우처 추가</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin-top: 50px;
+            border: 1px solid #e5e5e5;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .table {
+            background-color: #ffffff;
+        }
+    </style>
 </head>
 <body>
-<form th:action="@{/customers/wallets/add}" method="post">
-    <input type="hidden" th:name="userId" th:value="${userId}" />
-    <table class="table table-striped">
-        <tbody>
-        <tr>
-            <th>바우처 아이디</th>
-            <th>바우처 할인율</th>
-            <th>바우처 타입</th>
-            <th>선택</th>
-        </tr>
-        </tbody>
-        <tbody>
-        <tr th:each="voucher : ${vouchers}">
-            <td th:text="${voucher.id}"></td>
-            <td th:text="${voucher.discount}"></td>
-            <td th:text="${voucher.voucherDiscountType}"></td>
-            <td><input type="radio" th:value="${voucher.id}" th:name="voucherId"></td>
-        </tr>
-        </tbody>
-    </table>
-    <button type="submit">제출</button>
-</form>
+<div class="container">
+    <h1>Customer 바우처 추가</h1>
+    <form th:action="@{/customers/wallets/add}" method="post">
+        <input type="hidden" th:name="userId" th:value="${userId}" />
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>바우처 아이디</th>
+                <th>바우처 할인율</th>
+                <th>바우처 타입</th>
+                <th>선택</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <td th:text="${voucher.id}"></td>
+                <td th:text="${voucher.discount}"></td>
+                <td th:text="${voucher.voucherDiscountType}"></td>
+                <td>
+                    <input type="radio" th:value="${voucher.id}" th:name="voucherId">
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">제출</button>
+    </form>
+</div>
 </body>
 </html>

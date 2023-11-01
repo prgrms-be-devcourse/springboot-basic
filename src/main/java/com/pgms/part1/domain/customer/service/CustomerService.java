@@ -5,6 +5,8 @@ import com.pgms.part1.domain.customer.dto.CustomerResponseDto;
 import com.pgms.part1.domain.customer.entity.Customer;
 import com.pgms.part1.domain.customer.entity.CustomerBuilder;
 import com.pgms.part1.domain.customer.repository.CustomerRepository;
+import com.pgms.part1.exception.ErrorCode;
+import com.pgms.part1.exception.VoucherApplicationException;
 import com.pgms.part1.util.keygen.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,8 +27,9 @@ public class CustomerService {
         this.keyGenerator = keyGenerator;
     }
 
-    public boolean isEmailDuplicated(String email){
-        return customerRepository.findCustomerByEmail(email) > 0;
+    public void isEmailDuplicated(String email){
+        if(customerRepository.findCustomerByEmail(email) > 0)
+            throw new VoucherApplicationException(ErrorCode.CUSTOMER_DUPLICATED);
     }
 
     @Transactional(readOnly = true)
@@ -46,47 +49,27 @@ public class CustomerService {
     }
 
     public Customer addCustomer(CustomerCreateRequestDto dto){
-        try{
-            Customer customer = new CustomerBuilder().id(keyGenerator.getKey()).name(dto.name())
-                    .email(dto.email()).build();
-            customerRepository.addCustomer(customer);
-            log.info("customer created -> {}", customer.getId());
-            return customer;
-        }
-        catch (Exception e){
-            log.error(e.getMessage());
-        }
-        return null;
+        isEmailDuplicated(dto.email());
+        Customer customer = new CustomerBuilder().id(keyGenerator.getKey()).name(dto.name())
+                .email(dto.email()).build();
+        customerRepository.addCustomer(customer);
+        log.info("customer created -> {}", customer.getId());
+        return customer;
     }
 
     public void updateCustomerName(Long id, String name){
-        try{
-            customerRepository.updateCustomerName(id, name);
-            log.info("{} customer name updated", id);
-        }
-        catch (Exception e){
-            log.error(e.getMessage());
-        }
+        customerRepository.updateCustomerName(id, name);
+        log.info("{} customer name updated", id);
     }
 
     public void updateCustomerBlocked(Long id){
-        try{
-            customerRepository.updateCustomerBlocked(id);
-            log.info("{} customer blocked updated", id);
-        }
-        catch (Exception e){
-            log.error(e.getMessage());
-        }
+        customerRepository.updateCustomerBlocked(id);
+        log.info("{} customer blocked updated", id);
     }
 
     public void deleteCustomer(Long id){
-        try{
-            customerRepository.deleteCustomer(id);
-            log.info("{} customer deleted", id);
-        }
-        catch (Exception e){
-            log.error(e.getMessage());
-        }
+        customerRepository.deleteCustomer(id);
+        log.info("{} customer deleted", id);
     }
 
     // todo 이메일 예외처리 (중복, null 체크, 양식 체크)
