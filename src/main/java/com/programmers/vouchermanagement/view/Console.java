@@ -119,13 +119,13 @@ public class Console implements CommandLineRunner {
 
     private void findVoucherById() {
         displayMessage(VoucherMessage.INPUT_VOUCHER_ID_MESSAGE.getMessage());
-        Voucher voucher = voucherService.findByVoucherId(getUUID());
+        Voucher voucher = voucherService.findVoucherById(getUUID());
         displayMessage(voucher.toString());
     }
 
     private void findVoucherByName() {
         displayMessage(VoucherMessage.INPUT_VOUCHER_NAME_MESSAGE.getMessage());
-        voucherService.findByVoucherName(getName()).forEach(voucher -> displayMessage(voucher.toString()));
+        voucherService.findVoucherByName(getName()).forEach(voucher -> displayMessage(voucher.toString()));
     }
 
     private void createVoucher() {

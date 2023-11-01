@@ -23,12 +23,12 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
-    public Voucher findByVoucherId(UUID id) {
+    public Voucher findVoucherById(UUID id) {
         return voucherRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage()));
     }
 
-    public List<Voucher> findByVoucherName(String name) {
+    public List<Voucher> findVoucherByName(String name) {
         return voucherRepository.findByNameLike(name);
     }
 
