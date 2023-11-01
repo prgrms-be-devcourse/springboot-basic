@@ -1,5 +1,6 @@
 package com.weeklyMission.member.repository;
 
+import com.weeklyMission.exception.AlreadyExistsException;
 import com.weeklyMission.member.domain.Member;
 import java.nio.ByteBuffer;
 import java.util.Collections;
@@ -46,10 +47,19 @@ public class DBMemberRepository implements MemberRepository{
 
     @Override
     public Member save(Member member) {
-        jdbcTemplate.update(
-            "INSERT INTO members (member_id, name, email, age) VALUES (:memberId, :name, :email, :age)",
-            toParamMap(member));
-        return member;
+        Boolean isEmailPresent = jdbcTemplate.queryForObject(
+            "select exists(select * from members where email = :email)",
+            toParamMap(member), Boolean.class);
+
+        if(isEmailPresent){
+            throw new AlreadyExistsException();
+        }
+        else{
+            jdbcTemplate.update(
+                "INSERT INTO members (member_id, name, email, age) VALUES (:memberId, :name, :email, :age)",
+                toParamMap(member));
+            return member;
+        }
     }
 
     @Override
