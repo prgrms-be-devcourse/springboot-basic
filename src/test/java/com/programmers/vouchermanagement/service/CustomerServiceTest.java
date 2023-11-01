@@ -103,7 +103,7 @@ class CustomerServiceTest {
     @Test
     void 존재하지_않는_고객을_삭제할_수_없다() {
         //given
-        doReturn(0).when(customerRepository).delete(any(UUID.class));
+        doReturn(Optional.empty()).when(customerRepository).findById(any(UUID.class));
 
         //when&then
         assertThatThrownBy(() -> customerService.deleteCustomer(UUID.randomUUID()))

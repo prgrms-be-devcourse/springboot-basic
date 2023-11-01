@@ -49,10 +49,8 @@ public class VoucherService {
 
     @Transactional(readOnly = false)
     public void deleteVoucher(UUID id) {
-        int affectedRow = voucherRepository.delete(id);
-        if (affectedRow == 0) {
-            throw new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage());
-        }
+        voucherRepository.findById(id).orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage()));
+        voucherRepository.delete(id);
     }
 
     public List<Voucher> findVoucherByTypeAndDates(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {

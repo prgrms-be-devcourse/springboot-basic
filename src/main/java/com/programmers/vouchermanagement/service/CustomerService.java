@@ -70,9 +70,8 @@ public class CustomerService {
 
     @Transactional(readOnly = false)
     public void deleteCustomer(UUID id) {
-        int affectedRow = customerRepository.delete(id);
-        if (affectedRow == 0) {
-            throw new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
-        }
+        customerRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
+        customerRepository.delete(id);
     }
 }

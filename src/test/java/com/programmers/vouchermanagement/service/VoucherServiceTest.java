@@ -97,7 +97,7 @@ class VoucherServiceTest {
     @Test
     void 존재하지_않는_바우처를_삭제할_수_없다() {
         //given
-        doReturn(0).when(voucherRepository).delete(any(UUID.class));
+        doReturn(Optional.empty()).when(voucherRepository).findById(any(UUID.class));
 
         //when&then
         assertThatThrownBy(() -> voucherService.deleteVoucher(UUID.randomUUID()))

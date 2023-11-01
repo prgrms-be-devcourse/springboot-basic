@@ -4,8 +4,6 @@ import com.programmers.vouchermanagement.domain.customer.Customer;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
 import com.programmers.vouchermanagement.message.ErrorMessage;
-import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
-import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,38 +17,34 @@ import java.util.UUID;
 @Service
 @Transactional(readOnly = true)
 public class WalletService {
-    private final VoucherRepository voucherRepository;
-    private final CustomerRepository customerRepository;
+    private final VoucherService voucherService;
+    private final CustomerService customerService;
     private final WalletRepository walletRepository;
     private final Logger logger = LoggerFactory.getLogger(WalletService.class);
 
-    public WalletService(VoucherRepository voucherRepository, CustomerRepository customerRepository, WalletRepository walletRepository) {
-        this.voucherRepository = voucherRepository;
-        this.customerRepository = customerRepository;
+    public WalletService(VoucherService voucherService, CustomerService customerService, WalletRepository walletRepository) {
+        this.voucherService = voucherService;
+        this.customerService = customerService;
         this.walletRepository = walletRepository;
     }
 
     public List<Voucher> findVoucherByCustomer(UUID customerId) {
-        checkCustomerExists(customerId);
+        customerService.findCustomerById(customerId);
         return walletRepository.findByCustomerId(customerId).stream()
-                .map(wallet -> voucherRepository.findById(wallet.getVoucherId())
-                        .orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage() +
-                                ":" + wallet.getVoucherId())))
+                .map(wallet -> voucherService.findVoucherById(wallet.getVoucherId()))
                 .toList();
     }
 
     public List<Customer> findCustomerByVoucher(UUID voucherId) {
-        checkVoucherExists(voucherId);
+        voucherService.findVoucherById(voucherId);
         return walletRepository.findByVoucherId(voucherId).stream()
-                .map(wallet -> customerRepository.findById(wallet.getCustomerId())
-                        .orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage() +
-                                ":" + wallet.getCustomerId())))
+                .map(wallet -> customerService.findCustomerById(wallet.getCustomerId()))
                 .toList();
     }
 
     @Transactional(readOnly = false)
     public Wallet giveVoucherToCustomer(UUID customerId, UUID voucherId) {
-        checkBothExists(customerId, voucherId);
+        checkBothIdExists(customerId, voucherId);
         final boolean walletExists = walletRepository.existsByCustomerIdAndVoucherId(customerId, voucherId);
         if (walletExists) throw new NoSuchElementException(ErrorMessage.VOUCHER_ALREADY_EXISTS_MESSAGE.getMessage());
         return walletRepository.save(new Wallet(UUID.randomUUID(), customerId, voucherId));
@@ -58,23 +52,14 @@ public class WalletService {
 
     @Transactional(readOnly = false)
     public void deleteVoucherFromCustomer(UUID customerId, UUID voucherId) {
-        checkBothExists(customerId, voucherId);
-        int affectedRow = walletRepository.delete(customerId, voucherId);
-        if (affectedRow == 0) {
-            throw new NoSuchElementException(ErrorMessage.WALLET_NOT_FOUND_MESSAGE.getMessage());
-        }
+        checkBothIdExists(customerId, voucherId);
+        final boolean walletExists = walletRepository.existsByCustomerIdAndVoucherId(customerId, voucherId);
+        if (!walletExists) throw new NoSuchElementException(ErrorMessage.WALLET_NOT_FOUND_MESSAGE.getMessage());
+        walletRepository.delete(customerId, voucherId);
     }
 
-    private void checkVoucherExists(UUID voucherId) {
-        voucherRepository.findById(voucherId).orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage()));
-    }
-
-    private void checkCustomerExists(UUID customerId) {
-        customerRepository.findById(customerId).orElseThrow(() -> new NoSuchElementException(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage()));
-    }
-
-    private void checkBothExists(UUID customerId, UUID voucherId) {
-        checkVoucherExists(voucherId);
-        checkCustomerExists(customerId);
+    private void checkBothIdExists(UUID customerId, UUID voucherId) {
+        customerService.findCustomerById(customerId);
+        voucherService.findVoucherById(voucherId);
     }
 }

@@ -7,8 +7,6 @@ import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
 import com.programmers.vouchermanagement.dto.CustomerDto;
 import com.programmers.vouchermanagement.dto.VoucherDto;
-import com.programmers.vouchermanagement.repository.customer.CustomerRepository;
-import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
 import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +15,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.doReturn;
@@ -29,9 +30,9 @@ class WalletServiceTest {
     @Mock
     private WalletRepository walletRepository;
     @Mock
-    private CustomerRepository customerRepository;
+    private CustomerService customerService;
     @Mock
-    private VoucherRepository voucherRepository;
+    private VoucherService voucherService;
     private final List<Wallet> testWallets = new ArrayList<>();
     private final UUID customerId = UUID.randomUUID();
     private final UUID voucherId_1 = UUID.randomUUID();
@@ -49,8 +50,8 @@ class WalletServiceTest {
     void 고객ID로_고객의_바우처를_가져올_수_있다() {
         //given
         doReturn(testWallets).when(walletRepository).findByCustomerId(customerId);
-        doReturn(Optional.of(voucher)).when(voucherRepository).findById(voucherId_1);
-        doReturn(Optional.of(voucher)).when(voucherRepository).findById(voucherId_2);
+        doReturn(voucher).when(voucherService).findVoucherById(voucherId_1);
+        doReturn(voucher).when(voucherService).findVoucherById(voucherId_2);
 
         //when
         final List<Voucher> vouchers = walletService.findVoucherByCustomer(customerId);
@@ -64,7 +65,7 @@ class WalletServiceTest {
         //given
         doReturn(Collections.singletonList(new Wallet(UUID.randomUUID(), customerId, voucherId_1)))
                 .when(walletRepository).findByVoucherId(voucherId_1);
-        doReturn(Optional.of(customer)).when(customerRepository).findById(customerId);
+        doReturn(customer).when(customerService).findCustomerById(customerId);
 
         //when
         final List<Customer> customers = walletService.findCustomerByVoucher(voucherId_1);
