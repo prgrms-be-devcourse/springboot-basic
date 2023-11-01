@@ -2,7 +2,6 @@ package org.prgms.springbootbasic.repository.wallet;
 
 import org.prgms.springbootbasic.domain.customer.Customer;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
-import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 
 import java.util.List;
 import java.util.UUID;

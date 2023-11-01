@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.prgms.springbootbasic.domain.voucher.FixedAmountPolicy;
 import org.prgms.springbootbasic.domain.voucher.PercentDiscountPolicy;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
-import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;

@@ -1,7 +1,6 @@
 package org.prgms.springbootbasic.repository.voucher;
 
 import org.prgms.springbootbasic.domain.voucher.Voucher;
-import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 
 import java.util.List;
 import java.util.Optional;

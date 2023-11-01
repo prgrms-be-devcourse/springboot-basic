@@ -1,7 +1,7 @@
 package org.prgms.springbootbasic.service;
 
 import org.prgms.springbootbasic.domain.customer.Customer;
-import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 
