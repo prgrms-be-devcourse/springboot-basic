@@ -26,7 +26,6 @@ public class WalletService {
 
     public WalletRequestDto createWallet(WalletRequestDto requestDto){
         String customerEmail = requestDto.getCustomerEmail();
-        requestDto.getVoucher().getVoucherId();
         customerRepository.findByEmail(customerEmail).orElseThrow(NotExistEmailException::new);
         return walletRepository.save(requestDto);
     }
