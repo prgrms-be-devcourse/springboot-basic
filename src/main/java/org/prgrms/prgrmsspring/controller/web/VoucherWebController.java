@@ -6,7 +6,6 @@ import org.prgrms.prgrmsspring.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -52,8 +51,8 @@ public class VoucherWebController implements ApplicationWebController {
         return "list-all";
     }
 
-    @GetMapping("/voucher/{voucherId}")
-    public String findById(@PathVariable UUID voucherId, Model model) {
+    @GetMapping("/voucher")
+    public String findByIdFromRequest(@RequestParam UUID voucherId, Model model) {
         Voucher voucher = voucherService.findById(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher";
@@ -74,5 +73,12 @@ public class VoucherWebController implements ApplicationWebController {
         List<Voucher> voucherList = voucherService.findByVoucherType(voucherType);
         model.addAttribute("vouchers", voucherList);
         return "list-all";
+    }
+
+    @GetMapping("/list/search/id")
+    public String listAllIdList(Model model) {
+        List<UUID> voucherIdList = voucherService.findAll().stream().map(Voucher::getVoucherId).toList();
+        model.addAttribute("voucherIdList", voucherIdList);
+        return "voucher-id";
     }
 }

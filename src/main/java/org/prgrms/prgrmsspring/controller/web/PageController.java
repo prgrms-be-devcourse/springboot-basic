@@ -30,4 +30,5 @@ public class PageController implements ApplicationWebController {
     public String searchByType() {
         return "voucher-type";
     }
+
 }

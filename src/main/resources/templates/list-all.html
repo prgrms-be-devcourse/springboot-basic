@@ -30,7 +30,7 @@
             <tbody>
             <tr th:each="voucher : ${vouchers}">
                 <td style="width: 30%">
-                    <a th:href="@{'/voucher/' + ${voucher.voucherId}}">
+                    <a th:href="@{'/voucher?voucherId=' + ${voucher.voucherId}}">
                         <span th:text="${voucher.voucherId}"></span>
                     </a>
                 </td>
