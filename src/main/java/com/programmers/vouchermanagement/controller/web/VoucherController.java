@@ -40,6 +40,7 @@ public class VoucherController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteVoucher(@RequestParam String voucherId) {
+        System.out.println("voucherId = " + voucherId);
         voucherService.deleteVoucher(UUID.fromString(voucherId));
         return ResponseEntity.ok().build();
     }

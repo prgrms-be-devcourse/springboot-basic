@@ -53,21 +53,24 @@
             </tbody>
         </table>
     </div>
+    <div class="text-end">
+        <a href="/" class="btn btn-info">Home</a>
+    </div>
 </div>
 <script>
     function goToWallet(id) {
         window.location.href = '/wallet?customerId=' + id;
     }
 
-    function deleteCustomer(id) {
-        axios.delete('/customer/delete', {params: {id: id}})
+    function deleteCustomer(customerId) {
+        axios.delete('/customer/delete', {params: {customerId: customerId}})
             .then(function (response) {
-                alert('아이템이 삭제되었습니다.');
+                alert('고객이 삭제되었습니다.');
                 console.log('Item deleted successfully');
                 window.location.reload();
             })
             .catch(function (error) {
-                alert('아이템 삭제에 실패하였습니다.')
+                alert('고객 삭제에 실패하였습니다.')
                 console.error('Error deleting item', error);
             });
     }

@@ -17,7 +17,7 @@
         <h1 th:if="${customerName != null and customerName != ''}" th:text="${customerName} + '\'s Wallet'">Voucher
             Details</h1>
         <h1 th:if="${customerName == null or customerName == ''}">Voucher Details</h1>
-        <a href="/voucher/add" class="btn btn-primary">Add</a>
+        <a href="/voucher/add" class="btn btn-primary" th:if="${customerName == null or customerName == ''}">Add</a>
     </div>
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
@@ -29,7 +29,7 @@
                 <th>Discount Amount</th>
                 <th>Type</th>
                 <th>Created At</th>
-                <th>Actions</th>
+                <th>Delete</th>
             </tr>
             </thead>
             <tbody>
@@ -49,18 +49,21 @@
             </tr>
             </tbody>
         </table>
+        <div class="text-end">
+            <a href="/" class="btn btn-info">Home</a>
+        </div>
     </div>
 </div>
 <script>
-    function deleteVoucher(id) {
-        axios.delete('/voucher/delete', {params: {id: id}})
+    function deleteVoucher(voucherId) {
+        axios.delete('/voucher/delete', {params: {voucherId: voucherId}})
             .then(function (response) {
-                alert('아이템이 삭제되었습니다.');
+                alert('바우처가 삭제되었습니다.');
                 console.log('Item deleted successfully');
                 window.location.reload();
             })
             .catch(function (error) {
-                alert('아이템 삭제에 실패하였습니다.')
+                alert('바우처 삭제에 실패하였습니다.')
                 console.error('Error deleting item', error);
             });
     }
