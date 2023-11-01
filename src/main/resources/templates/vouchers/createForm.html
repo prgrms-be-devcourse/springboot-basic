@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Voucher</title>
+  <!-- Bootstrap CSS link (you should have Bootstrap included in your project) -->
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-4 text-center">Create Voucher</h1>
+  <div class="row mt-4">
+    <div class="col-md-6 offset-md-3">
+      <form th:action="@{/vouchers}" th:object="${voucher}" method="post">
+        <div class="form-group">
+          <label for="type">Type:</label>
+          <select id="type" class="form-control" th:field="*{type}">
+            <option th:each="voucherType : ${voucherTypeList}" th:value="${voucherType}" th:text="${voucherType}">Type 1</option>
+            <!-- Add more options as needed -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount:</label>
+          <input type="text" id="amount" class="form-control" th:field="*{amount}"
+                 placeholder="Enter voucher amount"/>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Create</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
