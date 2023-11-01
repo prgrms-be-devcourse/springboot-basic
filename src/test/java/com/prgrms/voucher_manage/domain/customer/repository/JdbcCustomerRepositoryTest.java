@@ -71,7 +71,7 @@ public class JdbcCustomerRepositoryTest {
         int update = repository.update(dto);
         //then
         assertThat(update).isEqualTo(1);
-        assertThat(dto.getName()).isEqualTo("후");
+        assertThat(dto.name()).isEqualTo("후");
     }
 
     @Test

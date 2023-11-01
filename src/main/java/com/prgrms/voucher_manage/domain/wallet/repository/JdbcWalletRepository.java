@@ -15,7 +15,6 @@ import static com.prgrms.voucher_manage.exception.ErrorMessage.CUSTOMER_NOT_EXIS
 
 @Repository
 @RequiredArgsConstructor
-@Profile("prod")
 public class JdbcWalletRepository implements WalletRepository {
     private final JdbcTemplate jdbcTemplate;
 

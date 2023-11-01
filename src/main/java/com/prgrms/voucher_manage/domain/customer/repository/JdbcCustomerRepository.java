@@ -54,7 +54,7 @@ public class JdbcCustomerRepository {
 
     public int update(UpdateCustomerDto dto) {
         String sql = "update customer set name = ? where customer_id = ?";
-        return jdbcTemplate.update(sql, dto.getName(), dto.getId().toString());
+        return jdbcTemplate.update(sql, dto.name(), dto.id().toString());
     }
 
     private static final RowMapper<Customer> rowMapper = (resultSet, i) -> {
