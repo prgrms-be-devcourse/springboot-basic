@@ -1,27 +1,19 @@
 package com.programmers.vouchermanagement.consoleapp.menu;
 
-import java.util.List;
+import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.controller.CustomerController;
-import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
+import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 
 @Component
 public class MenuHandler {
-    private static final Logger logger = LoggerFactory.getLogger(MenuHandler.class);
-
-    //messages
-    private static final String INCORRECT_MESSAGE =
-            "This menu is not executable.";
-    //---
-
     private final ConsoleManager consoleManager;
     private final VoucherController voucherController;
     private final CustomerController customerController;
@@ -32,51 +24,85 @@ public class MenuHandler {
         this.customerController = customerController;
     }
 
-    public boolean handleMenu() {
-        Menu menu = selectMenu();
-
+    public void handleMenu(Menu menu) {
         try {
             executeMenu(menu);
         } catch (RuntimeException e) {
             consoleManager.printException(e);
         }
-
-        return isValidMenu(menu);
-    }
-
-    private Menu selectMenu() {
-        return consoleManager.selectMenu();
-    }
-
-    private boolean isValidMenu(Menu menu) {
-        if (menu.isExit()) {
-            return false;
-        }
-
-        if (menu.isIncorrect()) {
-            logger.error(INCORRECT_MESSAGE);
-        }
-
-        return true;
     }
 
     private void executeMenu(Menu menu) {
         switch (menu) {
             case EXIT -> consoleManager.printExit();
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
+            case VOUCHER -> executeVoucherMenu();
+            case CUSTOMER -> executeCustomerMenu();
+        }
+    }
+
+    private void executeVoucherMenu() {
+        VoucherMenu voucherMenu = consoleManager.selectVoucherMenu();
+        switch (voucherMenu) {
             case CREATE -> {
-                CreateVoucherRequest createVoucherRequest = consoleManager.instructCreate();
-                VoucherResponse voucherResponse = voucherController.create(createVoucherRequest);
-                consoleManager.printCreateResult(voucherResponse);
+                CreateVoucherRequest request = consoleManager.instructCreateVoucher();
+                voucherController.create(request);
             }
-            case LIST -> {
-                List<VoucherResponse> voucherResponses = voucherController.readAllVouchers();
-                consoleManager.printReadAllVouchers(voucherResponses);
+            case LIST -> voucherController.readAllVouchers();
+            case SEARCH -> {
+                UUID voucherId = consoleManager.instructFindVoucher();
+                voucherController.findById(voucherId);
             }
-            case BLACKLIST -> {
-                List<CustomerResponse> customerResponses = customerController.readBlacklist();
-                consoleManager.printReadBlacklist(customerResponses);
+            case UPDATE -> {
+                UpdateVoucherRequest request = consoleManager.instructUpdateVoucher();
+                voucherController.update(request);
             }
+            case DELETE -> {
+                UUID voucherId = consoleManager.instructFindVoucher();
+                voucherController.deleteById(voucherId);
+            }
+            case GRANT -> {
+                VoucherCustomerRequest request = consoleManager.instructRequestVoucherCustomer();
+                voucherController.grantToCustomer(request);
+            }
+            case SEARCH_OWNER -> {
+                UUID voucherId = consoleManager.instructFindVoucher();
+                customerController.findVoucherOwner(voucherId);
+            }
+            case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
+        }
+    }
+
+    private void executeCustomerMenu() {
+        CustomerMenu customerMenu = consoleManager.selectCustomerMenu();
+        switch (customerMenu) {
+            case CREATE -> {
+                String name = consoleManager.instructCreateCustomer();
+                customerController.create(name);
+            }
+            case LIST -> customerController.readAllCustomers();
+            case SEARCH -> {
+                UUID customerId = consoleManager.instructFindCustomer();
+                customerController.findById(customerId);
+            }
+            case UPDATE -> {
+                UpdateCustomerRequest updateCustomerRequest = consoleManager.instructUpdateCustomer();
+                customerController.update(updateCustomerRequest);
+            }
+            case BLACKLIST -> customerController.readBlacklist();
+            case DELETE -> {
+                UUID customerId = consoleManager.instructFindCustomer();
+                customerController.deleteById(customerId);
+            }
+            case SEARCH_VOUCHERS -> {
+                UUID customerId = consoleManager.instructFindCustomer();
+                voucherController.searchOwnedVouchers(customerId);
+            }
+            case REMOVE_VOUCHER -> {
+                VoucherCustomerRequest request = consoleManager.instructRequestVoucherCustomer();
+                voucherController.removeVoucherFromCustomer(request);
+            }
+            case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
         }
     }
 }

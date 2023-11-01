@@ -5,7 +5,8 @@ file:
 
   domains:
     customer:
-      file-name: blacklist.csv
+      csv-file-name: blacklist.csv
+      json-file-name: customer.json
 
     voucher:
       file-name: voucher.json

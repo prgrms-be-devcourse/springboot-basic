@@ -1,53 +1,59 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Function;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.programmers.vouchermanagement.configuration.properties.AppProperties;
+import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
+import com.programmers.vouchermanagement.util.JSONFileManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
 @Repository
-@Profile({"prod", "test"})
+@Profile({"file", "test"})
 public class FileVoucherRepository implements VoucherRepository {
-    private static final Logger logger = LoggerFactory.getLogger(FileVoucherRepository.class);
-
     //constants
     private static final String VOUCHER_ID_KEY = "voucher_id";
     private static final String DISCOUNT_VALUE_KEY = "discount_value";
     private static final String VOUCHER_TYPE_KEY = "voucher_type";
-    private static final String FILE_EXCEPTION = "Error raised while opening the file.";
+    private static final String CUSTOMER_ID_KEY = "customer_id";
 
-    //messages
-    private static final String IO_EXCEPTION_LOG_MESSAGE = "Error raised while reading vouchers";
-    private static final String INVALID_VOUCHER_TYPE_MESSAGE = "Voucher type should be either fixed amount or percent discount voucher.";
-    private static final String NO_VOUCHER_STORED = "No Voucher is stored yet!";
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
     private final String filePath;
+    private final JSONFileManager<UUID, Voucher> jsonFileManager;
     private final Map<UUID, Voucher> vouchers;
 
-    public FileVoucherRepository(AppProperties appProperties) {
-        this.filePath = appProperties.getVoucherFilePath();
+    private final Function<Map, Voucher> objectToVoucher = (voucherObject) -> {
+        UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get(VOUCHER_ID_KEY)));
+        BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
+        String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
+        VoucherType voucherType = VoucherType.findVoucherTypeByName(voucherTypeName);
+        String customerIdString = String.valueOf(voucherObject.get(CUSTOMER_ID_KEY));
+        UUID customerId = customerIdString.equals("null") ? null : UUID.fromString(customerIdString);
+        return new Voucher(voucherId, discountValue, voucherType, customerId);
+    };
+    private final Function<Voucher, HashMap<String, Object>> voucherToObject = (voucher) -> {
+        HashMap<String, Object> voucherObject = new HashMap<>();
+        voucherObject.put(VOUCHER_ID_KEY, voucher.getVoucherId().toString());
+        voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue().toString());
+        voucherObject.put(VOUCHER_TYPE_KEY, voucher.getVoucherType().name());
+        voucherObject.put(CUSTOMER_ID_KEY, voucher.getCustomerId());
+        return voucherObject;
+    };
+
+    public FileVoucherRepository(FileProperties fileProperties, @Qualifier("voucher") JSONFileManager<UUID, Voucher> jsonFileManager) {
+        this.filePath = fileProperties.getVoucherFilePath();
+        this.jsonFileManager = jsonFileManager;
         this.vouchers = new HashMap<>();
-        loadFile();
+        loadVouchersFromJSON();
     }
 
     @Override
@@ -65,65 +71,35 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findByCustomerId(UUID customerId) {
+        return vouchers.values()
+                .stream()
+                .filter(voucher -> Objects.equals(voucher.getCustomerId(), customerId))
+                .toList();
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        vouchers.remove(voucherId);
+    }
+
+    @Override
     @Profile("test")
     public void deleteAll() {
         vouchers.clear();
     }
 
-    private void loadFile() {
-        try {
-            File file = new File(filePath);
-            Map[] voucherObjects = objectMapper.readValue(file, Map[].class);
-            loadVouchers(voucherObjects);
-        } catch (MismatchedInputException e) {
-            logger.debug(NO_VOUCHER_STORED);
-        } catch (IOException e) {
-            logger.error(IO_EXCEPTION_LOG_MESSAGE);
-            throw new UncheckedIOException(e);
-        }
+    private void loadVouchersFromJSON() {
+        List<Voucher> loadedVouchers = jsonFileManager.loadFile(filePath, objectToVoucher);
+        loadedVouchers.forEach(voucher -> vouchers.put(voucher.getVoucherId(), voucher));
     }
 
-    private void loadVouchers(Map[] voucherObjects) {
-        Arrays.stream(voucherObjects).forEach(voucherObject -> {
-            Voucher voucher = objectToVoucher(voucherObject);
-            vouchers.put(voucher.getVoucherId(), voucher);
-        });
-    }
-
-    private Voucher objectToVoucher(Map voucherObject) {
-        UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get(VOUCHER_ID_KEY)));
-        BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
-        String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
-        VoucherType voucherType = VoucherType.findVoucherType(voucherTypeName)
-                .orElseThrow(() -> {
-                    logger.error(INVALID_VOUCHER_TYPE_MESSAGE);
-                    return new NoSuchElementException(INVALID_VOUCHER_TYPE_MESSAGE);
-                });
-        return new Voucher(voucherId, discountValue, voucherType);
-    }
-
-    public void saveFile() {
-        try (FileWriter fileWriter = new FileWriter(filePath)) {
-            List<HashMap<String, Object>> voucherObjects = new ArrayList<>();
-            if (!vouchers.isEmpty()) {
-                vouchers.values().forEach(voucher -> {
-                    HashMap<String, Object> voucherObject = voucherToObject(voucher);
-                    voucherObjects.add(voucherObject);
-                });
-            }
-            String jsonStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(voucherObjects);
-            fileWriter.write(jsonStr);
-            fileWriter.flush();
-        } catch (Exception e) {
-            throw new RuntimeException(FILE_EXCEPTION);
-        }
-    }
-
-    private HashMap<String, Object> voucherToObject(Voucher voucher) {
-        HashMap<String, Object> voucherObject = new HashMap<>();
-        voucherObject.put(VOUCHER_ID_KEY, voucher.getVoucherId().toString());
-        voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue().toString());
-        voucherObject.put(VOUCHER_TYPE_KEY, voucher.getVoucherType().name());
-        return voucherObject;
+    private void saveFile() {
+        jsonFileManager.saveFile(filePath, vouchers, voucherToObject);
     }
 }

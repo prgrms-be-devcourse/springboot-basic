@@ -1,0 +1,13 @@
+[ {
+  "customerType" : "NORMAL",
+  "customerId" : "b39e5b4e-a2a7-418e-bd31-c97f1b25a770",
+  "name" : "test-user"
+}, {
+  "customerType" : "BLACK",
+  "customerId" : "e8d88c24-668c-4b65-a658-44303bfbb805",
+  "name" : "테스트"
+}, {
+  "customerType" : "BLACK",
+  "customerId" : "9b46f523-03d4-41b2-a68e-0666f21c6f7d",
+  "name" : "익명테스트"
+} ]

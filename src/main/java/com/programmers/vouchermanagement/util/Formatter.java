@@ -9,9 +9,13 @@ public class Formatter {
     private static final String EMPTY = "";
     private static final String NO_CONTENT = "There is no %s stored yet!";
 
-    private static final String CUSTOMER_PRESENTAITON_FORMAT = """
+    private Formatter() {
+    }
+
+    private static final String CUSTOMER_PRESENTATION_FORMAT = """
             Customer ID : %s
             Customer Name : %s
+            This Customer is %s Customer.
             -------------------------""";
     private static final String VOUCHER_PRESENTATION_FORMAT = """
             Voucher ID : %s
@@ -26,8 +30,8 @@ public class Formatter {
     }
 
     public static String formatCustomer(CustomerResponse customerResponse) {
-        return CUSTOMER_PRESENTAITON_FORMAT
-                .formatted(customerResponse.customerId(), customerResponse.name());
+        return CUSTOMER_PRESENTATION_FORMAT
+                .formatted(customerResponse.customerId(), customerResponse.name(), customerResponse.customerType().name());
     }
 
     public static String formatVoucher(VoucherResponse voucherResponse) {
