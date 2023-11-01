@@ -19,9 +19,9 @@ import java.util.UUID;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public void createVoucher(CreateVoucherRequestDto request) {
+    public UUID createVoucher(CreateVoucherRequestDto request) {
         Voucher voucher = VoucherFactory.create(request.getType(), request.getAmount());
-        voucherRepository.save(voucher);
+        return voucherRepository.save(voucher);
     }
 
     @Transactional(readOnly = true)
