@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+    <title>바우처 수정</title>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>바우처 등록 폼</h2>
+    </div>
+    <h4 class="mb-3">바우처 입력</h4>
+    <form th:action="@{/vouchers/update}" th:method="patch">
+        <div>
+            <label for="voucherId">Discount Value</label>
+            <input type="text" id="voucherId" th:value="${voucher.voucherId()}" name="voucherId" class="form-control" readonly>
+        </div>
+        <div>
+            <label for="discountType">Discount Type</label>
+            <input type="text" th:value="${voucher.discountType()}" id="discountType" class="form-control" readonly>
+        </div>
+        <div>
+            <label for="discountValue">Discount Value</label>
+            <input type="text" id="discountValue" th:value="${voucher.discountValue()}" name="discountValue"
+                   class="form-control">
+        </div>
+        <hr class="my-4">
+        <div class="row">
+            <div class="col">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">바우처 수정</button>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

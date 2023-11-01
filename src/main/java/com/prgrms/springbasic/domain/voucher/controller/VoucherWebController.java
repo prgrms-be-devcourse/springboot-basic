@@ -1,6 +1,7 @@
 package com.prgrms.springbasic.domain.voucher.controller;
 
 import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
+import com.prgrms.springbasic.domain.voucher.dto.UpdateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import com.prgrms.springbasic.domain.voucher.service.VoucherService;
@@ -36,6 +37,19 @@ public class VoucherWebController {
     @PostMapping("/create")
     public String create(@ModelAttribute CreateVoucherRequest createVoucherRequest) {
         voucherService.saveVoucher(createVoucherRequest);
+        return "redirect:/vouchers/list";
+    }
+
+    @GetMapping("/update/{voucherId}")
+    public String updateForm(@PathVariable String voucherId, Model model) {
+        VoucherResponse voucher = voucherService.findById(UUID.fromString(voucherId));
+        model.addAttribute("voucher", voucher);
+        return "voucher/update_form";
+    }
+
+    @PatchMapping("/update")
+    public String update(@ModelAttribute UpdateVoucherRequest updateVoucherRequest) {
+        voucherService.updateVoucher(updateVoucherRequest);
         return "redirect:/vouchers/list";
     }
 
