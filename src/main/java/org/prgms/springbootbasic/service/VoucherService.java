@@ -23,7 +23,7 @@ public class VoucherService {
         return VoucherType.getTypeFromSeq(voucherSeq);
     }
 
-    public void create(VoucherType voucherType, int discountDegree) {
+    public void upsert(VoucherType voucherType, int discountDegree) {
         VoucherPolicy voucherPolicy = voucherType.create();
         Voucher voucher = new Voucher(UUID.randomUUID(), discountDegree, voucherPolicy);
 

@@ -19,8 +19,10 @@ public class Console { // Console이 common인가? MVC 생각하며 고민하자
 
     public static String readCommand() {
         System.out.println("=== Voucher Program ===");
-        System.out.println("Type 'create' to create a new voucher.");
-        System.out.println("Type 'list' to list all vouchers.");
+        System.out.println("Type 'createVoucher' to create a new voucher.");
+        System.out.println("Type 'createCustomer' to create a new customer.");
+        System.out.println("Type 'listVoucher' to list all vouchers.");
+        System.out.println("Type 'listCustomer' to list all customers.");
         System.out.println("Type 'black' to list customers blacked.");
         System.out.println("Type 'wallet' to enter wallet service.");
         System.out.println("Type 'exit' to exit the program.");
@@ -28,13 +30,22 @@ public class Console { // Console이 common인가? MVC 생각하며 고민하자
         return consoleInput.next();
     }
 
-    public static int selectCreateType() {
+    public static int selectPolicyType() {
         System.out.println();
         System.out.println("Which voucher would you like to create? Just type number.");
-        System.out.println(MessageFormat.format("{0}. FixedAmountVoucher", INPUT_FIXED_AMOUNT_VOUCHER));
-        System.out.println(MessageFormat.format("{0}. PercentDiscountVoucher", INPUT_PERCENT_DISCOUNT_VOUCHER));
+        System.out.println(MessageFormat.format("{0}. with fixed amount discount policy", INPUT_FIXED_AMOUNT_VOUCHER));
+        System.out.println(MessageFormat.format("{0}. with percent discount policy", INPUT_PERCENT_DISCOUNT_VOUCHER));
 
         return consoleInput.nextInt();
+    }
+
+    public static String putCustomerInfo() {
+        ignoreLine();
+
+        System.out.println();
+        System.out.println("Please enter the name and email of the customer you want to create, separated by a space on a single line.");
+
+        return consoleInput.nextLine();
     }
 
     public static int putDiscountDegree(VoucherType type) {
@@ -58,7 +69,7 @@ public class Console { // Console이 common인가? MVC 생각하며 고민하자
         System.out.println("Invalid input or system error. redirect to beginning.");
     }
 
-    public static String readWalletCommand(){ // MVC 제대로 알아옴!! Controller 중재. 뷰와 모델은 컨트롤러 모름. 콘솔이 도메인(Wallet)을 알고 있다. 수정. Console이 두개일 이유도 없다.
+    public static String readWalletCommand() {
         System.out.println();
         System.out.println("Welcome to our wallet service.");
         System.out.println("Type 'allocate' if you want to allocate voucher to a customer." );

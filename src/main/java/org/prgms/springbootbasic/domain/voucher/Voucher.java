@@ -39,4 +39,13 @@ public class Voucher {
     public long discount(long beforeDiscount){
         return voucherPolicy.discount(beforeDiscount, this.discountDegree);
     }
+
+    @Override
+    public String toString() {
+        return "Voucher{" +
+                "voucherId=" + voucherId +
+                ", discountDegree=" + discountDegree +
+                ", voucherPolicy=" + voucherPolicy.getClass().getSimpleName() + "@" + voucherPolicy.hashCode() +
+                '}';
+    }
 }
