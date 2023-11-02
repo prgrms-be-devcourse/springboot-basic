@@ -17,6 +17,7 @@ public class JdbcWalletRepository implements WalletRepository {
     private static final String CREATE = "INSERT INTO wallet(wallet_id, customer_id, voucher_id) VALUES(UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))";
     private static final String READ_CUSTOMER = "SELECT * FROM wallet WHERE customer_id = UUID_TO_BIN(?)";
     private static final String READ_VOUCHER = "SELECT * FROM wallet WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String READ_ALL = "SELECT * FROM wallet";
     private static final String DELETE = "DELETE FROM wallet WHERE customer_id = UUID_TO_BIN(?)";
 
     private static final RowMapper<Wallet> walletRowMapper = (resultSet, index) -> {
@@ -55,5 +56,10 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public void deleteByCustomerId(UUID customerId) {
         jdbcTemplate.update(DELETE, customerId.toString());
+    }
+
+    @Override
+    public List<Wallet> findAll() {
+        return jdbcTemplate.query(READ_ALL, walletRowMapper);
     }
 }
