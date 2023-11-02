@@ -20,6 +20,10 @@
             <th>Voucher Policy:</th>
             <td th:text="${voucher.voucherPolicy.voucherType}">Voucher Policy</td>
         </tr>
+        <tr>
+            <th>Discount Amount:</th>
+            <td th:text="${voucher.voucherPolicy.amount}">Discount Amount</td>
+        </tr>
     </table>
 
     <a class="btn btn-primary" th:href="@{/vouchers}">Back to Voucher List</a>
