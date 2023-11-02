@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.util;
 
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 public class Formatter {
@@ -23,8 +24,6 @@ public class Formatter {
             Discount Amount : %s
             -------------------------""";
 
-    //messages
-
     public static String formatNoContent(String contentType) {
         return NO_CONTENT.formatted(contentType);
     }
@@ -36,9 +35,16 @@ public class Formatter {
 
     public static String formatVoucher(VoucherResponse voucherResponse) {
         return VOUCHER_PRESENTATION_FORMAT
-                .formatted(voucherResponse.getVoucherId(),
-                        voucherResponse.getVoucherTypeName(),
-                        voucherResponse.getDiscountValue() +
-                        (voucherResponse.isPercentVoucher() ? PERCENTAGE : EMPTY));
+                .formatted(voucherResponse.voucherId(),
+                        voucherResponse.voucherType(),
+                        voucherResponse.discountValue() +
+                        markPercentage(voucherResponse.voucherType()));
+    }
+
+    private static String markPercentage(VoucherType voucherType) {
+        if (voucherType.isPercent()) {
+            return PERCENTAGE;
+        }
+        return EMPTY;
     }
 }
