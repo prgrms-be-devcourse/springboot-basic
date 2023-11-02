@@ -47,11 +47,10 @@ public class Voucher {
         return this.voucherType.calculate(beforeDiscount, this.discountValue);
     }
 
-    public Voucher update(VoucherType voucherType, long discountValue) {
+    public void update(VoucherType voucherType, long discountValue) {
         validateDiscountRange(voucherType, discountValue);
         this.discountValue = discountValue;
         this.voucherType = voucherType;
-        return this;
     }
 
     public String getVoucherIdToString() {
