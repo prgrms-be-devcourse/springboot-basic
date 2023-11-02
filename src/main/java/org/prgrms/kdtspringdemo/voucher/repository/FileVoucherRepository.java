@@ -96,6 +96,11 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByPolicy(String policy) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findUnallocatedVoucher() {
         return null;
     }

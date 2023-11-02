@@ -41,6 +41,11 @@ public class MemoryVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findByPolicy(String policy) {
+        return null;
+    }
+
+    @Override
     public List<Voucher> findUnallocatedVoucher() {
         return null;
     }
