@@ -5,19 +5,16 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.prgms.vouchermanager.repository.customer.CustomerQueryType.INSERT;
 import static com.prgms.vouchermanager.repository.wallet.WalletQueryType.*;
 
 
@@ -69,6 +66,11 @@ public class JdbcWalletRepository implements WalletRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Wallet> findAll() {
+        return template.query(SELECT_ALL.getQuery(), walletRowMapper());
     }
 
     @Transactional
