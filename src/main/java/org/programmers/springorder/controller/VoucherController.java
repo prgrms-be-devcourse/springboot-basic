@@ -21,21 +21,20 @@ public class VoucherController {
     }
 
     public void run() {
-        boolean isRunning = true;
+        VoucherMenuType menu;
+        do {
+            menu = ExceptionHandler.input(console::inputVoucherMenu);
+            handleMenu(menu);
+        } while (!menu.isBack());
+    }
 
-        while (isRunning) {
-            VoucherMenuType menu = ExceptionHandler.input(console::inputVoucherMenu);
-
-            switch (menu) {
-                case CREATE -> createVoucher();
-                case LIST -> getVoucherList();
-                case UPDATE -> ExceptionHandler.process(VoucherController::updateVoucher, this);
-                case DELETE -> ExceptionHandler.process(VoucherController::deleteVoucher, this);
-                case BACK -> {
-                    isRunning = false;
-                    console.printMessage(Message.BACK_TO_MENU_MESSAGE);
-                }
-            }
+    private void handleMenu(VoucherMenuType menu) {
+        switch (menu) {
+            case CREATE -> createVoucher();
+            case LIST -> getVoucherList();
+            case UPDATE -> ExceptionHandler.process(VoucherController::updateVoucher, this);
+            case DELETE -> ExceptionHandler.process(VoucherController::deleteVoucher, this);
+            case BACK -> console.back();
         }
     }
 

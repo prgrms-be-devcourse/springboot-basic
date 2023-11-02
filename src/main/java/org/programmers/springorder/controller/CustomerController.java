@@ -20,19 +20,18 @@ public class CustomerController {
     }
 
     public void run() {
-        boolean isRunning = true;
+        CustomerMenuType menu;
+        do {
+            menu = ExceptionHandler.input(console::inputCustomerMenu);
+            handleMenu(menu);
+        } while (!menu.isBack());
+    }
 
-        while (isRunning) {
-            CustomerMenuType menu = ExceptionHandler.input(console::inputCustomerMenu);
-
-            switch (menu) {
-                case CREATE -> createCustomer();
-                case BLACK -> printBlackList();
-                case BACK -> {
-                    isRunning = false;
-                    console.printMessage(Message.BACK_TO_MENU_MESSAGE);
-                }
-            }
+    private void handleMenu(CustomerMenuType menu) {
+        switch (menu) {
+            case CREATE -> createCustomer();
+            case BLACK -> printBlackList();
+            case BACK -> console.back();
         }
     }
 

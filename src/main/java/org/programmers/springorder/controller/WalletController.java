@@ -22,21 +22,20 @@ public class WalletController {
     }
 
     public void run() {
-        boolean isRunning = true;
+        WalletMenuType menu;
+        do {
+            menu = ExceptionHandler.input(console::inputWalletMenu);
+            handleMenu(menu);
+        } while (!menu.isBack());
+    }
 
-        while (isRunning) {
-            WalletMenuType menu = ExceptionHandler.input(console::inputWalletMenu);
-
-            switch (menu) {
-                case ASSIGN -> ExceptionHandler.process(WalletController::assignVoucher, this);
-                case VOUCHER -> ExceptionHandler.process(WalletController::checkVoucher, this);
+    private void handleMenu(WalletMenuType menu) {
+        switch (menu) {
+            case ASSIGN -> ExceptionHandler.process(WalletController::assignVoucher, this);
+            case VOUCHER -> ExceptionHandler.process(WalletController::checkVoucher, this);
 //                case DELETE -> deleteVoucher();
 //                case CUSTOMER -> checkCusomter();
-                case BACK -> {
-                    isRunning = false;
-                    console.printMessage(Message.BACK_TO_MENU_MESSAGE);
-                }
-            }
+            case BACK -> console.back();
         }
     }
 
