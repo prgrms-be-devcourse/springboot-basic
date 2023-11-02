@@ -33,7 +33,7 @@ public class CustomerFileManager {
             String str;
             while ((str = br.readLine()) != null) {
                 Customer customer = stringToCustomer(str);
-                customers.put(customer.getCustomerId(), customer);
+                customers.put(customer.getId(), customer);
             }
         } catch (IOException e) {
             logger.warn(IO_EXCEPTION);
@@ -60,7 +60,7 @@ public class CustomerFileManager {
     }
 
     private String customerToString(Customer customer) {
-        return customer.getCustomerId().toString() + COMMA_SEPARATOR
+        return customer.getId().toString() + COMMA_SEPARATOR
                 + customer.getName() + COMMA_SEPARATOR
                 + customer.isBlack();
     }

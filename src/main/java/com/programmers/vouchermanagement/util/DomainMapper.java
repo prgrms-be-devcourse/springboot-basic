@@ -44,7 +44,7 @@ public class DomainMapper {
 
     public Map<String, Object> customerToParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put(ID_KEY, customer.getCustomerId().toString().getBytes());
+        paramMap.put(ID_KEY, customer.getId().toString().getBytes());
         paramMap.put(NAME_KEY, customer.getName());
         paramMap.put(BLACK_KEY, customer.isBlack());
         return paramMap;

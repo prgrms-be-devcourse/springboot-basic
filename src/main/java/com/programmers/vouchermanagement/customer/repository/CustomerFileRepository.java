@@ -20,7 +20,7 @@ public class CustomerFileRepository implements CustomerRepository {
 
     @Override
     public void save(Customer customer) {
-        customerFileManager.customers.put(customer.getCustomerId(), customer);
+        customerFileManager.customers.put(customer.getId(), customer);
         customerFileManager.saveFile();
     }
 
