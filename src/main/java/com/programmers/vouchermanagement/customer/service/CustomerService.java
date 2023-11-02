@@ -23,6 +23,14 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
+    public List<CustomerDto> readAll() {
+        List<Customer> customers = customerRepository.findAll();
+        if (customers.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return customers.stream().map(CustomerDto::from).toList();
+    }
+
     public List<CustomerDto> readAllBlackCustomer() {
         List<Customer> blacklist = customerRepository.findAllBlackCustomer();
         if (blacklist.isEmpty()) {
