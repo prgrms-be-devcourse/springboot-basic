@@ -6,7 +6,7 @@
 //import org.prgrms.vouchermanager.domain.customer.CustomerRequest;
 //import org.prgrms.vouchermanager.domain.voucher.MenuType;
 //import org.prgrms.vouchermanager.domain.voucher.Voucher;
-//import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
+//import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
 //import org.prgrms.vouchermanager.exception.InputValueException;
 //import org.prgrms.vouchermanager.exception.NotExistEmailException;
 //import org.prgrms.vouchermanager.exception.NotExistVoucherException;
@@ -201,7 +201,7 @@
 //            output.outputVoucherId();
 //            String  voucherId = input.inputWalletVoucher();
 //            Optional<Voucher> voucher = voucherController.findById(UuidUtil.stringToUUID(voucherId));
-//            WalletRequestDto dto = WalletRequestDto.builder().customerEmail(email).voucher(voucher.get()).build();
+//            WalletRequest dto = WalletRequest.builder().customerEmail(email).voucher(voucher.get()).build();
 //            walletController.createWallet(dto);
 //        }catch (IOException | NotExistEmailException e){
 //            log.error(e.getMessage());

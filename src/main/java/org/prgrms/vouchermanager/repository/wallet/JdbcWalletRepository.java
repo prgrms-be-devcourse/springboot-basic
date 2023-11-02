@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
+import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
 import org.prgrms.vouchermanager.util.UuidUtil;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,11 +32,11 @@ public class JdbcWalletRepository implements WalletRepository {
         return new Wallet(walletId, customerEmail, voucherId);
     };
     @Override
-    public WalletRequestDto save(WalletRequestDto walletRequestDto) {
-        String customerEmail = walletRequestDto.getCustomerEmail();
-        UUID voucherId = walletRequestDto.getVoucher().getVoucherId();
+    public WalletRequest save(WalletRequest walletRequest) {
+        String customerEmail = walletRequest.getCustomerEmail();
+        UUID voucherId = walletRequest.getVoucher().getVoucherId();
         jdbcTemplate.update("INSERT INTO wallet(customer_email, voucher_id) VALUES(?, UUID_TO_BIN(?))", customerEmail, voucherId.toString());
-        return walletRequestDto;
+        return walletRequest;
     }
     @Override
     public Optional<Wallet> findByEmail(String email) {

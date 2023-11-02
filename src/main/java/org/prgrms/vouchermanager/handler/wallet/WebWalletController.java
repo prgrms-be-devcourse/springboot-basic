@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
+import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
 import org.prgrms.vouchermanager.exception.NotExistEmailException;
 import org.prgrms.vouchermanager.exception.NotExistVoucherException;
 import org.prgrms.vouchermanager.service.CustomerService;
@@ -44,7 +44,7 @@ public class WebWalletController {
     @PostMapping("/wallets/create")
     public String createWallet(@RequestParam("email") String email, @RequestParam("voucherId")UUID voucherId){
         Voucher voucher = voucherService.findById(voucherId).orElseThrow(NotExistVoucherException::new);
-        WalletRequestDto request = WalletRequestDto.builder().customerEmail(email).voucher(voucher).build();
+        WalletRequest request = WalletRequest.builder().customerEmail(email).voucher(voucher).build();
         service.createWallet(request);
         return "redirect:/wallets";
     }

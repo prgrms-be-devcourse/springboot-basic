@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
+import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
 import org.prgrms.vouchermanager.exception.NotExistEmailException;
 import org.prgrms.vouchermanager.exception.NotExistVoucherException;
 import org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepository;
@@ -48,19 +48,19 @@ class WalletServiceTest {
         @Test
         @DisplayName("지갑 dto를 받아 저장할 수 있다")
         void createWallet() {
-            WalletRequestDto wallet = WalletData.getWalletDto();
+            WalletRequest wallet = WalletData.getWalletDto();
             when(customerRepository.findByEmail(any(String.class))).thenReturn(Optional.of(CustomerData.getCustomer()));
-            when(walletRepository.save(any(WalletRequestDto.class))).thenReturn(wallet);
+            when(walletRepository.save(any(WalletRequest.class))).thenReturn(wallet);
 
-            WalletRequestDto wallet1 = service.createWallet(wallet);
+            WalletRequest wallet1 = service.createWallet(wallet);
 
             assertThat(wallet).isEqualTo(wallet1);
-            verify(walletRepository).save(any(WalletRequestDto.class));
+            verify(walletRepository).save(any(WalletRequest.class));
         }
         @Test
         @DisplayName("존재하지 않는 고객을 지갑에 저장하면 예외가 발생한다.")
         void createWalletNoCustomer() {
-            WalletRequestDto wallet = WalletData.getWalletDto();
+            WalletRequest wallet = WalletData.getWalletDto();
             Assertions.assertThrows(NotExistEmailException.class, () -> service.createWallet(wallet));
         }
     }

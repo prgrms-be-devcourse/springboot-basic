@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.prgrms.vouchermanager.domain.wallet.ApiWalletRequestDto;
+import org.prgrms.vouchermanager.domain.wallet.ApiWalletRequest;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
+import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
 import org.prgrms.vouchermanager.service.VoucherService;
 import org.prgrms.vouchermanager.service.WalletService;
 import org.prgrms.vouchermanager.testdata.WalletData;
@@ -43,9 +43,9 @@ class ApiWalletControllerTest {
     @Test
     @DisplayName("지갑 생성 api 호출에 성공한다")
     public void create() throws Exception {
-        WalletRequestDto walletDto = WalletData.getWalletDto();
-        ApiWalletRequestDto apiDto = ApiWalletRequestDto.builder().customerEmail(walletDto.getCustomerEmail()).voucherId(walletDto.getVoucher().getVoucherId()).build();
-        when(service.createWallet(any(WalletRequestDto.class))).thenReturn(walletDto);
+        WalletRequest walletDto = WalletData.getWalletDto();
+        ApiWalletRequest apiDto = ApiWalletRequest.builder().customerEmail(walletDto.getCustomerEmail()).voucherId(walletDto.getVoucher().getVoucherId()).build();
+        when(service.createWallet(any(WalletRequest.class))).thenReturn(walletDto);
         when(voucherService.findById(any(UUID.class))).thenReturn(Optional.ofNullable(walletDto.getVoucher()));
         mvc.perform(post("/api/wallets/create")
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)

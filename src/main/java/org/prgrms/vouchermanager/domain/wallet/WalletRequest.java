@@ -2,12 +2,12 @@ package org.prgrms.vouchermanager.domain.wallet;
 
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.UUID;
+import org.prgrms.vouchermanager.domain.voucher.Voucher;
 
 @Data
 @Builder
-public class ApiWalletRequestDto {
+public class WalletRequest {
     private final String customerEmail;
-    private final UUID voucherId;
+    private final Voucher voucher;
+
 }

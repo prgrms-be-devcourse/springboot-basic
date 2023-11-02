@@ -1,13 +1,12 @@
 package org.prgrms.vouchermanager.repository.wallet;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
+import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
 import org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepository;
 import org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepository;
 import org.prgrms.vouchermanager.testdata.CustomerData;
@@ -40,7 +39,7 @@ class JdbcWalletRepositoryTest {
         void findByEmail() {
             Customer customer = jdbcCustomerRepository.save(CustomerData.getCustomer());
             Voucher voucher = jdbcVoucherRepository.save(VoucherData.getFixedVoucher());
-            WalletRequestDto dto = WalletRequestDto.builder()
+            WalletRequest dto = WalletRequest.builder()
                     .customerEmail(customer.getEmail())
                     .voucher(voucher).build();
             jdbcWalletRepository.save(dto);
@@ -65,7 +64,7 @@ class JdbcWalletRepositoryTest {
         void findByVoucherExist() {
             Customer customer = jdbcCustomerRepository.save(CustomerData.getCustomer());
             Voucher voucher = jdbcVoucherRepository.save(VoucherData.getFixedVoucher());
-            WalletRequestDto dto = WalletRequestDto.builder()
+            WalletRequest dto = WalletRequest.builder()
                     .customerEmail(customer.getEmail())
                     .voucher(voucher).build();
             jdbcWalletRepository.save(dto);
@@ -93,7 +92,7 @@ class JdbcWalletRepositoryTest {
         void deleteByEmail(){
             Customer customer = jdbcCustomerRepository.save(CustomerData.getCustomer());
             Voucher voucher = jdbcVoucherRepository.save(VoucherData.getFixedVoucher());
-            WalletRequestDto dto = WalletRequestDto.builder()
+            WalletRequest dto = WalletRequest.builder()
                     .customerEmail(customer.getEmail())
                     .voucher(voucher).build();
             jdbcWalletRepository.save(dto);

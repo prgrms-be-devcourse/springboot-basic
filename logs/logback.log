@@ -493,7 +493,7 @@
 [2023-11-02 02:34:16:9011][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
 [2023-11-02 02:34:16:9068][http-nio-8080-exec-1] ERROR o.p.v.handler.ApiExceptionHandler - argument type mismatch
 Controller [org.prgrms.vouchermanager.handler.wallet.ApiWalletController]
-Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequestDto)] with argument values:
+Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequest)] with argument values:
  [0] [type=org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher] [value=FixedAmountVoucher(voucherId=248f91c8-397d-4272-a67c-9d6ffb9e1fad, amount=10, menuType=FIXED)] 
 [2023-11-02 02:39:36:596][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 9572 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
 [2023-11-02 02:39:36:598][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
@@ -511,7 +511,7 @@ Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.voucherma
 [2023-11-02 02:39:41:4866][http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
 [2023-11-02 02:39:41:4914][http-nio-8080-exec-2] ERROR o.p.v.handler.ApiExceptionHandler - argument type mismatch
 Controller [org.prgrms.vouchermanager.handler.wallet.ApiWalletController]
-Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequestDto)] with argument values:
+Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequest)] with argument values:
  [0] [type=org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher] [value=FixedAmountVoucher(voucherId=248f91c8-397d-4272-a67c-9d6ffb9e1fad, amount=10, menuType=FIXED)] 
 [2023-11-02 02:40:03:727][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 3484 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
 [2023-11-02 02:40:03:729][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
@@ -529,7 +529,7 @@ Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.voucherma
 [2023-11-02 02:40:08:5482][http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
 [2023-11-02 02:40:08:5533][http-nio-8080-exec-2] ERROR o.p.v.handler.ApiExceptionHandler - argument type mismatch
 Controller [org.prgrms.vouchermanager.handler.wallet.ApiWalletController]
-Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequestDto)] with argument values:
+Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequest)] with argument values:
  [0] [type=org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher] [value=FixedAmountVoucher(voucherId=248f91c8-397d-4272-a67c-9d6ffb9e1fad, amount=10, menuType=FIXED)] 
 [2023-11-02 02:48:26:594][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 13240 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
 [2023-11-02 02:48:26:595][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
@@ -545,7 +545,7 @@ Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.voucherma
 [2023-11-02 02:48:38:12998][http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 [2023-11-02 02:48:38:12999][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
 [2023-11-02 02:48:38:12999][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
-[2023-11-02 02:48:38:13045][http-nio-8080-exec-1] ERROR o.p.v.handler.ApiExceptionHandler - Required request body is missing: public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequestDto)
+[2023-11-02 02:48:38:13045][http-nio-8080-exec-1] ERROR o.p.v.handler.ApiExceptionHandler - Required request body is missing: public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequest)
 [2023-11-02 02:54:08:588][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 17228 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
 [2023-11-02 02:54:08:589][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
 [2023-11-02 02:54:09:1489][main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
@@ -562,7 +562,7 @@ Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.voucherma
 [2023-11-02 02:54:13:5793][http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
 [2023-11-02 02:54:13:5844][http-nio-8080-exec-1] ERROR o.p.v.handler.ApiExceptionHandler - argument type mismatch
 Controller [org.prgrms.vouchermanager.handler.wallet.ApiWalletController]
-Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequestDto)] with argument values:
+Method [public org.prgrms.vouchermanager.common.ApiResponse org.prgrms.vouchermanager.handler.wallet.ApiWalletController.createWallet(org.prgrms.vouchermanager.domain.wallet.WalletRequest)] with argument values:
  [0] [type=org.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher] [value=FixedAmountVoucher(voucherId=248f91c8-397d-4272-a67c-9d6ffb9e1fad, amount=10, menuType=FIXED)] 
 [2023-11-02 02:56:50:663][main] INFO  o.p.v.VouchermanagerApplication - Starting VouchermanagerApplication using Java 17.0.6 with PID 21716 (D:\Users\programmers\vouchermanager\target\classes started by dlswn in D:\Users\programmers\vouchermanager)
 [2023-11-02 02:56:50:666][main] INFO  o.p.v.VouchermanagerApplication - The following 1 profile is active: "jdbc"
@@ -1169,3 +1169,5 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 [2023-11-02 03:23:55:3404][main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
 [2023-11-02 03:23:55:3408][main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
 [2023-11-02 03:23:55:3442][main] INFO  o.p.v.h.w.ApiWalletApiControllerTest - Started ApiWalletApiControllerTest in 2.307 seconds (process running for 3.733)
+[2023-11-02 03:25:42:305894][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-02 03:25:42:305900][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
