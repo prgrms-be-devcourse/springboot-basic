@@ -1,12 +1,14 @@
 package com.programmers.vouchermanagement.customer.service;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CreateCustomerRequest;
 import com.programmers.vouchermanagement.customer.dto.CustomerDto;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -14,6 +16,11 @@ public class CustomerService {
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
+    }
+
+    public void create(CreateCustomerRequest createCustomerRequest) {
+        Customer customer = new Customer(UUID.randomUUID(), createCustomerRequest.name(), createCustomerRequest.isBlack());
+        customerRepository.save(customer);
     }
 
     public List<CustomerDto> readAllBlackCustomer() {
