@@ -41,7 +41,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public void validateVoucherInfo(long discount) {
-        if(discount < MINIMUM_DISCOUNT || discount > MAXIMUM_DISCOUNT) {
+        if(discount <= MINIMUM_DISCOUNT || discount > MAXIMUM_DISCOUNT) {
             throw ExceptionMessage.error("비율할인 바우처의 할인 정보는 1 ~ 100 값만 입력해야 합니다.");
         }
     }

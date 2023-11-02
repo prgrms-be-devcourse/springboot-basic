@@ -103,8 +103,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int result = jdbcTemplate.update(
                 sql,
                 Map.of(
-                        "discount", voucherUpdateRequest.getDiscount(),
-                        "useStatusType", voucherUpdateRequest.getUseStatusType().toString(),
+                        "discount", voucherUpdateRequest.discount(),
+                        "useStatusType", voucherUpdateRequest.useStatusType().toString(),
                         "voucherId", voucherId.toString().getBytes()));
 
         if(result != 1) {

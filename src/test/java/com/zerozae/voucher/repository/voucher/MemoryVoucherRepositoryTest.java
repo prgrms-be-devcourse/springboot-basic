@@ -132,7 +132,7 @@ class MemoryVoucherRepositoryTest {
         voucherRepository.update(fixedDiscountVoucher.getVoucherId(), voucherUpdateRequest);
 
         // Then
-        assertThat(fixedDiscountVoucher.getDiscount(), is(voucherUpdateRequest.getDiscount()));
-        assertThat(fixedDiscountVoucher.getUseStatusType().toString(), is(voucherUpdateRequest.getUseStatusType()));
+        assertThat(fixedDiscountVoucher.getDiscount(), is(voucherUpdateRequest.discount()));
+        assertThat(fixedDiscountVoucher.getUseStatusType().toString(), is(voucherUpdateRequest.useStatusType()));
     }
 }

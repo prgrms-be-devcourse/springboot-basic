@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.Length;
 
 import java.util.UUID;
 
-@Getter
 public record CustomerCreateRequest(
         @Pattern(regexp = "^[a-zA-Z가-힣]*$", message = "회원 이름은 알파벳과 한글만 포함해야 합니다.") @Length(min = 2, max = 15, message = "회원 이름은 2자에서 15자 사이로 입력해주세요.") String customerName,
         @NotNull(message = "회원 타입은 필수 입력란입니다.") String customerType) {

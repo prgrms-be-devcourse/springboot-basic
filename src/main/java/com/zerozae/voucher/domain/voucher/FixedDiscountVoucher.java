@@ -40,8 +40,8 @@ public class FixedDiscountVoucher extends Voucher {
 
     @Override
     public void validateVoucherInfo(long discount) {
-        if(discount < MINIMUM_DISCOUNT) {
-            throw ExceptionMessage.error("고정할인 바우처의 할인 정보는 음수값을 입력할 수 없습니다.");
+        if(discount <= MINIMUM_DISCOUNT) {
+            throw ExceptionMessage.error("고정할인 바우처의 할인 정보는 1이상의 값만을 입력할 수 없습니다.");
         }
     }
 }

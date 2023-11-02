@@ -66,7 +66,7 @@ class ApiVoucherControllerTest {
     @DisplayName("바우처 생성 실패 - 잘못된 할인 정보 테스트")
     void createVoucher_InvalidDiscount_Failed_Test() throws Exception {
         // Given
-        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(0, String.valueOf(FIXED));
+        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(0L, String.valueOf(FIXED));
 
         // When & Then
         mvc.perform(post("/api/v1/vouchers")
@@ -80,7 +80,7 @@ class ApiVoucherControllerTest {
     @DisplayName("바우처 생성 실패 - 타입 누락 테스트")
     void createVoucher_EmptyVoucherType_Failed_Test() throws Exception {
         // Given
-        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(10, null);
+        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(10L, null);
 
         // When & Then
         mvc.perform(post("/api/v1/vouchers")
@@ -183,8 +183,8 @@ class ApiVoucherControllerTest {
         Voucher newVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, UNAVAILABLE, LocalDate.now());
         Voucher updatedVoucher = new FixedDiscountVoucher(
                 newVoucher.getVoucherId(),
-                voucherUpdateRequest.getDiscount(),
-                UseStatusType.valueOf(voucherUpdateRequest.getUseStatusType()),
+                voucherUpdateRequest.discount(),
+                UseStatusType.valueOf(voucherUpdateRequest.useStatusType()),
                 newVoucher.getCreatedAt());
 
         VoucherResponse voucherResponse = VoucherResponse.toDto(updatedVoucher);

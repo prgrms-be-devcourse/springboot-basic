@@ -53,7 +53,7 @@ public class WebVoucherController {
         return "/voucher/voucherDetail";
     }
 
-    @GetMapping("/update/{voucherId}")
+    @GetMapping("/updateForm/{voucherId}")
     public String getUpdateForm(@PathVariable("voucherId") String voucherId, Model model) {
         validateInputUuid(voucherId);
         VoucherResponse voucher = voucherService.findById(UUID.fromString(voucherId));

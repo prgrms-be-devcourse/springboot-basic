@@ -1,7 +1,6 @@
 package com.zerozae.voucher.controller.api;
 
 import com.zerozae.voucher.domain.voucher.UseStatusType;
-import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherCondition;
 import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
@@ -57,7 +56,7 @@ public class ApiVoucherController {
     @PatchMapping("/{voucherId}")
     public ResponseEntity<VoucherResponse> updateVoucher(@PathVariable("voucherId") String voucherId, @Valid @RequestBody VoucherUpdateRequest voucherUpdateRequest) {
         validateInputUuid(voucherId);
-        UseStatusType.of(voucherUpdateRequest.getUseStatusType());
+        UseStatusType.of(voucherUpdateRequest.useStatusType());
         return ResponseEntity.status(OK).body(voucherService.update(UUID.fromString(voucherId), voucherUpdateRequest));
     }
 
