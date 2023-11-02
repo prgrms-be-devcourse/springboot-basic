@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.controller.api;
 
 import com.programmers.vouchermanagement.dto.voucher.request.CreateVoucherRequestDto;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.request.UpdateVoucherRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.response.VoucherResponseDto;
 import com.programmers.vouchermanagement.service.VoucherService;
@@ -26,8 +27,8 @@ public class VoucherApiController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<VoucherResponseDto>> getVouchers() {
-        return ResponseEntity.ok(voucherService.getVouchers());
+    public ResponseEntity<List<VoucherResponseDto>> getVouchers(@ModelAttribute GetVouchersRequestDto request) {
+        return ResponseEntity.ok(voucherService.getVouchers(request));
     }
 
     @GetMapping("/{id}")

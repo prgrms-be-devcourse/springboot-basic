@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.voucher.request.CreateVoucherRequestDto;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.request.UpdateVoucherRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.response.VoucherResponseDto;
 import com.programmers.vouchermanagement.repository.voucher.VoucherRepository;
@@ -70,13 +71,13 @@ class VoucherServiceTest {
         List<Voucher> mockVouchers = Arrays.asList(
                 new FixedAmountVoucher(1000L),
                 new PercentDiscountVoucher(10L));
-        given(voucherRepository.findAll()).willReturn(mockVouchers);
+        given(voucherRepository.findAll(new GetVouchersRequestDto())).willReturn(mockVouchers);
 
         // when
-        List<VoucherResponseDto> vouchers = voucherService.getVouchers();
+        List<VoucherResponseDto> vouchers = voucherService.getVouchers(new GetVouchersRequestDto());
 
         // then
-        verify(voucherRepository).findAll();
+        verify(voucherRepository).findAll(new GetVouchersRequestDto());
         assertThat(vouchers).hasSize(2);
         assertThat(vouchers).extracting(VoucherResponseDto::getType)
                 .containsExactlyInAnyOrder(VoucherType.FIXED_AMOUNT, VoucherType.PERCENT_DISCOUNT);

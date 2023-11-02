@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.repository.voucher;
 import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import com.programmers.vouchermanagement.repository.ContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +50,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
 
         // then
-        List<Voucher> savedVouchers = voucherRepository.findAll();
+        List<Voucher> savedVouchers = voucherRepository.findAll(new GetVouchersRequestDto());
 
         assertThat(savedVouchers).hasSize(2);
         assertThat(savedVouchers).extracting(Voucher::getType)
@@ -65,7 +66,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
 
-        Voucher savedVoucher = voucherRepository.findAll().get(0);
+        Voucher savedVoucher = voucherRepository.findAll(new GetVouchersRequestDto()).get(0);
 
         // when
         Optional<Voucher> foundVoucher = voucherRepository.findById(savedVoucher.getId());
@@ -85,7 +86,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
 
         // when
-        List<Voucher> foundVouchers = voucherRepository.findAll();
+        List<Voucher> foundVouchers = voucherRepository.findAll(new GetVouchersRequestDto());
 
         // then
         assertThat(foundVouchers).hasSize(2);
@@ -102,7 +103,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
 
-        Voucher savedVoucher = voucherRepository.findAll().get(0);
+        Voucher savedVoucher = voucherRepository.findAll(new GetVouchersRequestDto()).get(0);
 
         // when
         long newAmountValue = 2000L;
@@ -123,7 +124,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
 
-        Voucher savedVoucher = voucherRepository.findAll().get(0);
+        Voucher savedVoucher = voucherRepository.findAll(new GetVouchersRequestDto()).get(0);
 
         // when
         voucherRepository.deleteById(savedVoucher.getId());
@@ -143,7 +144,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         voucherRepository.deleteAll();
 
         // then
-        List<Voucher> foundVouchers = voucherRepository.findAll();
+        List<Voucher> foundVouchers = voucherRepository.findAll(new GetVouchersRequestDto());
         assertThat(foundVouchers).isEmpty();
     }
 }

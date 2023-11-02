@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.repository.voucher;
 
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import com.programmers.vouchermanagement.util.IdProvider;
 import com.programmers.vouchermanagement.util.UuidProvider;
 import org.springframework.context.annotation.Profile;
@@ -40,7 +41,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<Voucher> findAll(GetVouchersRequestDto request) {
         return storage.values().stream()
                 .collect(Collectors.toList());
     }

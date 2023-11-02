@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.controller.command;
 
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.voucher.request.CreateVoucherRequestDto;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.request.UpdateVoucherRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.response.VoucherResponseDto;
 import com.programmers.vouchermanagement.infra.io.ConsoleInput;
@@ -39,7 +40,7 @@ public class VoucherShellController {
 
     @ShellMethod(key = "list")
     public void list() {
-        List<VoucherResponseDto> vouchers = voucherService.getVouchers();
+        List<VoucherResponseDto> vouchers = voucherService.getVouchers(new GetVouchersRequestDto());
         for (VoucherResponseDto voucher : vouchers) {
             ConsoleOutput.println(voucher.toString());
         }

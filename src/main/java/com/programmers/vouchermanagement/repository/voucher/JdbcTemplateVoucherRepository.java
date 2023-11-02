@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.repository.voucher;
 
 import com.programmers.vouchermanagement.domain.voucher.*;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -67,9 +68,27 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        String sql = "SELECT * FROM vouchers";
-        return template.query(sql, getVoucherRowMapper());
+    public List<Voucher> findAll(GetVouchersRequestDto request) {
+        String sql = "SELECT * FROM vouchers WHERE 1 = 1";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        if (request.getType() != null) {
+            sql += " AND type = :type";
+            params.addValue("type", request.getType().toString());
+        }
+
+        if (request.getMinCreatedAt() != null) {
+            sql += " AND created_at >= :createdAt";
+            params.addValue("createdAt", request.getMinCreatedAt().toString());
+
+        }
+
+        if (request.getMaxCreatedAt() != null) {
+            sql += " AND created_at <= :createdAt";
+            params.addValue("createdAt", request.getMaxCreatedAt().toString());
+        }
+
+        return template.query(sql, params, getVoucherRowMapper());
     }
 
 

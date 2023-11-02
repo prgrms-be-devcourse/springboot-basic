@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.repository.voucher;
 
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public interface VoucherRepository {
 
     Optional<Voucher> findById(UUID id);
 
-    List<Voucher> findAll();
+    List<Voucher> findAll(GetVouchersRequestDto request);
 
     void update(Voucher voucher);
 

@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.controller.view;
 
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.voucher.request.CreateVoucherRequestDto;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.request.UpdateVoucherRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.response.VoucherResponseDto;
 import com.programmers.vouchermanagement.service.VoucherService;
@@ -26,8 +27,9 @@ public class VoucherViewController {
     }
 
     @GetMapping()
-    public String getVouchers(Model model) {
-        List<VoucherResponseDto> vouchers = voucherService.getVouchers();
+    public String getVouchers(@ModelAttribute GetVouchersRequestDto request, Model model) {
+        System.out.println(request);
+        List<VoucherResponseDto> vouchers = voucherService.getVouchers(request);
         model.addAttribute("vouchers", vouchers);
         return "voucher/list";
     }
