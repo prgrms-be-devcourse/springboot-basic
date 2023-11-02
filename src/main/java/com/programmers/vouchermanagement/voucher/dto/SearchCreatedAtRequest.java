@@ -2,5 +2,7 @@ package com.programmers.vouchermanagement.voucher.dto;
 
 import java.time.LocalDate;
 
-public record SearchCreatedAtRequest(LocalDate startDate, LocalDate endDate) {
+import jakarta.validation.constraints.NotNull;
+
+public record SearchCreatedAtRequest(@NotNull LocalDate startDate, @NotNull LocalDate endDate) {
 }

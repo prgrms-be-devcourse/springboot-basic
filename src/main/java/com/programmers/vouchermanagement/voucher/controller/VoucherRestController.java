@@ -54,7 +54,7 @@ public class VoucherRestController {
     }
 
     @GetMapping("/creation-date")
-    public List<VoucherResponse> findByCreatedAt(SearchCreatedAtRequest request) {
+    public List<VoucherResponse> findByCreatedAt(@Valid SearchCreatedAtRequest request) {
         return voucherService.findByCreatedAt(request);
     }
 }
