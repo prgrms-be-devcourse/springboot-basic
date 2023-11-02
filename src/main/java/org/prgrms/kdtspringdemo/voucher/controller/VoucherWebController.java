@@ -43,6 +43,7 @@ public class VoucherWebController {
 
     @GetMapping("/{voucherId}/delete")
     public String deleteVoucher(@PathVariable UUID voucherId) {
+        voucherService.deleteById(voucherId);
         return "redirect:/vouchers";
     }
 

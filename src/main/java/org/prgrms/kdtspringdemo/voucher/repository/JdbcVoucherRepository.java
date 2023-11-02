@@ -74,4 +74,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findAll() {
         return jdbcTemplate.query("select * from voucher", voucherRowMapper);
     }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        jdbcTemplate.update("delete from wallet_customer_voucher where voucher_id = UUID_TO_BIN(?)",
+                voucherId.toString());
+        jdbcTemplate.update("delete from voucher where voucher_id = UUID_TO_BIN(?)",
+                voucherId.toString());
+    }
 }

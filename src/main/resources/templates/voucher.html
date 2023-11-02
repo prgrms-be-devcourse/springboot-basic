@@ -40,6 +40,7 @@
         <tr>
             <th>Voucher ID</th>
             <th>Voucher Policy</th>
+            <th>Discount Amount</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -47,6 +48,7 @@
         <tr th:each="voucher : ${voucherList}">
             <td th:text="${voucher.voucherId}">Voucher ID</td>
             <td th:text="${voucher.voucherPolicy.voucherType}">Voucher Policy</td>
+            <td th:text="${voucher.voucherPolicy.amount}">Discount Amount</td>
             <td>
                 <a th:href="@{'/vouchers/' + ${voucher.voucherId}}">Details</a>
                 <a th:href="@{'/vouchers/' + ${voucher.voucherId} + '/edit'}">Edit</a>

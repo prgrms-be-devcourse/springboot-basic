@@ -90,6 +90,11 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public void deleteById(UUID voucherId) {
+
+    }
+
+    @Override
     public void deleteAll() {
 
     }
