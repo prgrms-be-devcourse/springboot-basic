@@ -29,11 +29,7 @@ public class CustomerWebController {
         List<Customer> customerList = customerService.findAll();
         List<CustomerViewDto> customerViewDtos = new ArrayList<>();
         customerList.stream().forEach(customer -> customerViewDtos.add(new CustomerViewDto(customer)));
-        List<Customer> noneHaveWalletCustomers = customerService.findNoneHaveWalletCustomer();
-
         model.addAttribute("customerList", customerViewDtos);
-        model.addAttribute("customers", noneHaveWalletCustomers);
-
         return "customer";
     }
 
@@ -43,13 +39,6 @@ public class CustomerWebController {
         if(customer!=null) walletService.create(customer.getCustomerId());
         return "redirect:/customers";
     }
-
-    @GetMapping("/{customerId}/createWallet")
-    public String createWalletForCustomer(@PathVariable UUID customerId) {
-        walletService.create(customerId);
-        return "redirect:/customers";
-    }
-
 
     @GetMapping("/{customerId}/delete")
     public String deleteVoucher(@PathVariable UUID customerId) {

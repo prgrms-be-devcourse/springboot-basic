@@ -12,6 +12,5 @@ public interface CustomerRepository {
     void deleteAll();
     void deleteById(UUID customerId);
     List<Customer> findAll();
-    List<Customer> findNotHaveWalletCustomers();
-    List<Customer> getAllBlackList();
+    List<Customer> getAllBlackList() throws IOException;
 }
