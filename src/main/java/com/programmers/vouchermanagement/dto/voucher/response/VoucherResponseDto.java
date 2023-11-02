@@ -20,6 +20,22 @@ public class VoucherResponseDto {
         this.createdAt = createdAt;
     }
 
+    @Override
+    public String toString() {
+        return String.format(
+                """
+                --------------------------------
+                Voucher
+                ID: %s
+                Type: %s
+                Amount: %d
+                CreatedAt: %s
+                --------------------------------
+                """,
+                id, type, amount, createdAt
+        );
+    }
+
     public static VoucherResponseDto from(UUID id, VoucherType type, long amount, LocalDateTime createdAt) {
         return new VoucherResponseDto(id, type, amount, createdAt);
     }

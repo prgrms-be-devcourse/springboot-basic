@@ -91,8 +91,6 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             params.addValue("maxCreatedAt", request.getMaxCreatedAt().toString());
         }
 
-        System.out.println(sql);
-
         return template.query(sql, params, getVoucherRowMapper());
     }
 

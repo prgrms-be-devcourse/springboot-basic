@@ -2,13 +2,11 @@ package com.programmers.vouchermanagement.domain.voucher;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
-@ToString
 @EqualsAndHashCode
 public abstract class Voucher {
     private UUID id;
