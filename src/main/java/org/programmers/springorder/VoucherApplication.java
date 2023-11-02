@@ -1,7 +1,6 @@
 package org.programmers.springorder;
 
 import org.programmers.springorder.console.Console;
-import org.programmers.springorder.constant.Message;
 import org.programmers.springorder.controller.CustomerController;
 import org.programmers.springorder.controller.VoucherController;
 import org.programmers.springorder.controller.WalletController;
@@ -33,21 +32,19 @@ public class VoucherApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        boolean isRunning = true;
-
-        while (isRunning) {
-            MenuType menu = ExceptionHandler.input(console::inputMenu);
-
-            switch (menu) {
-                case EXIT -> {
-                    isRunning = false;
-                    console.printMessage(Message.EXIT_PROGRAM_MESSAGE);
-                }
-                case VOUCHER -> voucherController.run();
-                case CUSTOMER -> customerController.run();
-                case WALLET -> walletController.run();
-            }
-        }
+        MenuType menu;
+        do {
+            menu = ExceptionHandler.input(console::inputMenu);
+            handleMenu(menu);
+        } while (!menu.isExit());
     }
 
+    private void handleMenu(MenuType menu) {
+        switch (menu) {
+            case EXIT -> console.exit();
+            case VOUCHER -> voucherController.run();
+            case CUSTOMER -> customerController.run();
+            case WALLET -> walletController.run();
+        }
+    }
 }

@@ -28,4 +28,7 @@ public enum WalletMenuType {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_VALUE_MESSAGE));
     }
 
+    public boolean isBack() {
+        return this == BACK;
+    }
 }

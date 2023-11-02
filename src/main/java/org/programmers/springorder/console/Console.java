@@ -38,6 +38,9 @@ public class Console {
         printMessage(Message.EXIT_PROGRAM_MESSAGE);
     }
 
+    public void back() {
+        printMessage(Message.BACK_TO_MENU_MESSAGE);
+    }
 
     /**
      * Voucher

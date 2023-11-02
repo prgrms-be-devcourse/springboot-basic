@@ -28,4 +28,7 @@ public enum VoucherMenuType {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_VALUE_MESSAGE));
     }
 
+    public boolean isBack() {
+        return this == BACK;
+    }
 }
