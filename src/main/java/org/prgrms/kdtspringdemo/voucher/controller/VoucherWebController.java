@@ -21,9 +21,15 @@ public class VoucherWebController {
     }
 
     @GetMapping
-    public String listVouchers(Model model) {
-        List<Voucher> voucherList = voucherService.findAll();
-        model.addAttribute("voucherList", voucherList);
+    public String getAllVouchers(@RequestParam(name = "policy", required = false) String policy, Model model) {
+        List<Voucher> vouchers;
+        if (policy != null && !policy.isEmpty()) {
+            vouchers = voucherService.findByPolicy(policy);
+        } else {
+            vouchers = voucherService.findAll();
+        }
+
+        model.addAttribute("vouchers", vouchers);
         return "voucher";
     }
 

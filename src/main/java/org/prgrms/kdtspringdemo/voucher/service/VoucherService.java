@@ -41,6 +41,10 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public List<Voucher> findByPolicy(String policy) {
+        return voucherRepository.findByPolicy(policy);
+    }
+
     public List<Voucher> findUnallocatedVoucher() {
         return voucherRepository.findUnallocatedVoucher();
     }

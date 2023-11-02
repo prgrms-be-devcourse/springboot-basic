@@ -30,8 +30,20 @@
 </nav>
 
 <div class="container">
-
     <h1 class="mt-5">Voucher Management</h1>
+
+    <!-- Filter by Policy Dropdown Form -->
+    <form th:action="@{/vouchers}" method="get">
+        <div class="form-group">
+            <label for="policyFilter">Filter by Policy:</label>
+            <select class="form-control" id="policyFilter" name="policy">
+                <option value="">All Policies</option>
+                <option value="fixedDiscount">Fixed Discount</option>
+                <option value="percentDiscount">Percent Discount</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply Filter</button>
+    </form>
 
     <!-- Voucher List -->
     <h2 class="mt-3">All Vouchers</h2>
@@ -45,7 +57,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="voucher : ${voucherList}">
+        <tr th:each="voucher : ${vouchers}">
             <td th:text="${voucher.voucherId}">Voucher ID</td>
             <td th:text="${voucher.voucherPolicy.voucherType}">Voucher Policy</td>
             <td th:text="${voucher.voucherPolicy.amount}">Discount Amount</td>
@@ -74,7 +86,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Create</button>
     </form>
-
 </div>
 
 <!-- Include Bootstrap JS -->

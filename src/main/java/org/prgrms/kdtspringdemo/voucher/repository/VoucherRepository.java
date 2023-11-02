@@ -12,6 +12,7 @@ public interface VoucherRepository {
     void update(UUID voucherId, VoucherRequestDto voucherRequestDto);
     Optional<Voucher> findById(UUID voucherId);
     List<Voucher> findAll();
+    List<Voucher> findByPolicy(String policy);
     List<Voucher> findUnallocatedVoucher();
     void deleteById(UUID voucherId);
     void deleteAll();
