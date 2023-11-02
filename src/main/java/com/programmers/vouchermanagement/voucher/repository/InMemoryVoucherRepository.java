@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,14 @@ public class InMemoryVoucherRepository implements VoucherRepository {
         return vouchers.values()
                 .stream()
                 .filter(voucher -> voucher.isSameType(voucherType))
+                .toList();
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return vouchers.values()
+                .stream()
+                .filter(voucher -> voucher.isCreatedInBetween(startDateTime, endDateTime))
                 .toList();
     }
 

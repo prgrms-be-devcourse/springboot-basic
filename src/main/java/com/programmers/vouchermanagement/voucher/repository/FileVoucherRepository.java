@@ -85,6 +85,14 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCreatedAt(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        return vouchers.values()
+                .stream()
+                .filter(voucher -> voucher.isCreatedInBetween(startDateTime, endDateTime))
+                .toList();
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(vouchers.get(voucherId));
     }

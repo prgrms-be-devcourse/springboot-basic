@@ -61,6 +61,15 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByCreatedAt(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        String findByCreatedAtSQL = "SELECT * FROM vouchers WHERE created_at BETWEEN :startDate AND :endDate";
+        Map<String, Object> parameterMap = new HashMap<>();
+        parameterMap.put("startDate", startDateTime);
+        parameterMap.put("endDate", endDateTime);
+        return namedParameterJdbcTemplate.query(findByCreatedAtSQL, Collections.unmodifiableMap(parameterMap), voucherRowMapper);
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         String findByIdSQL = "SELECT * FROM vouchers WHERE voucher_id=UUID_TO_BIN(:voucherId)";
         Map<String, Object> parameterMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());

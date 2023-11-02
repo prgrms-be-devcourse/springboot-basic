@@ -1,5 +1,7 @@
 package com.programmers.vouchermanagement.voucher.service;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -11,6 +13,7 @@ import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.SearchCreatedAtRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
@@ -41,6 +44,16 @@ public class VoucherService {
 
     public List<VoucherResponse> findByType(VoucherType voucherType) {
         List<Voucher> vouchers = voucherRepository.findByType(voucherType);
+        return vouchers.stream()
+                .map(VoucherResponse::from)
+                .toList();
+    }
+
+    public List<VoucherResponse> findByCreatedAt(SearchCreatedAtRequest request) {
+        validateDateRange(request);
+        LocalDateTime startDateTime = request.startDate().atStartOfDay();
+        LocalDateTime endDateTime = request.endDate().atTime(LocalTime.MAX);
+        List<Voucher> vouchers = voucherRepository.findByCreatedAt(startDateTime, endDateTime);
         return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
@@ -109,6 +122,12 @@ public class VoucherService {
     private void validateCustomerIdExisting(UUID customerId) {
         if (!customerRepository.existById(customerId)) {
             throw new NoSuchElementException("There is no customer with %s".formatted(customerId));
+        }
+    }
+
+    private void validateDateRange(SearchCreatedAtRequest request) {
+        if (request.endDate().isBefore(request.startDate())) {
+            throw new IllegalArgumentException("The end date should be at least equal to the start date.");
         }
     }
 }
