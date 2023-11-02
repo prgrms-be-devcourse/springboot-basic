@@ -5,8 +5,8 @@ import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.customer.Customer;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.service.CustomerService;
+import org.prgms.springbootbasic.service.CustomerVoucherManagementService;
 import org.prgms.springbootbasic.service.VoucherService;
-import org.prgms.springbootbasic.service.WalletService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -36,12 +36,12 @@ public class MainController {
 
     private final VoucherService voucherService;
     private final CustomerService customerService;
-    private final WalletService walletService;
+    private final CustomerVoucherManagementService managementService;
 
-    public MainController(VoucherService voucherService, CustomerService customerService, WalletService walletService) {
+    public MainController(VoucherService voucherService, CustomerService customerService, CustomerVoucherManagementService managementService) {
         this.voucherService = voucherService;
         this.customerService = customerService;
-        this.walletService = walletService;
+        this.managementService = managementService;
     }
 
     public void run() {
@@ -166,26 +166,26 @@ public class MainController {
         UUID customerId = typeCustomerId();
         UUID voucherId = typeVoucherId();
 
-        walletService.allocate(customerId, voucherId);
+        managementService.allocate(customerId, voucherId);
     }
 
     private void delete() {
         UUID customerId = typeCustomerId();
         UUID voucherId = typeVoucherId();
 
-        walletService.delete(customerId, voucherId);
+        managementService.delete(customerId, voucherId);
     }
 
     private void showVoucherByCustomer() {
         UUID customerId = typeCustomerId();
-        List<Voucher> vouchers = walletService.searchVouchersFromCustomer(customerId);
+        List<Voucher> vouchers = managementService.searchVouchersFromCustomer(customerId);
 
         printList(vouchers);
     }
 
     private void showCustomerByVoucher() {
         UUID voucherId = typeVoucherId();
-        List<Customer> customers = walletService.searchCustomerFromVoucher(voucherId);
+        List<Customer> customers = managementService.searchCustomerFromVoucher(voucherId);
 
         printList(customers);
     }

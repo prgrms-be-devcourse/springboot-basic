@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.repository.wallet;
+package org.prgms.springbootbasic.repository.customervouchermanagement;
 
 import org.prgms.springbootbasic.common.UtilMethod;
 import org.prgms.springbootbasic.domain.VoucherType;
@@ -15,10 +15,10 @@ import java.util.*;
 import static org.prgms.springbootbasic.common.UtilMethod.bytesToUUID;
 
 @Repository
-public class WalletJdbcRepository implements WalletRepository {
+public class CustomerVoucherManagementJdbcRepository implements CustomerVoucherManagementRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    public WalletJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+    public CustomerVoucherManagementJdbcRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -26,21 +26,22 @@ public class WalletJdbcRepository implements WalletRepository {
 
     @Override
     public void allocateVoucherById(UUID customerId, UUID voucherId) {
-        jdbcTemplate.update("INSERT INTO wallet VALUES (UNHEX(REPLACE(:customerId, '-', '')), UNHEX(REPLACE(:voucherId, '-', '')))",
+        jdbcTemplate.update("INSERT INTO customers_vouchers VALUES (UNHEX(REPLACE(:customerId, '-', '')), UNHEX(REPLACE(:voucherId, '-', '')))",
                 toParamMap(customerId, voucherId));
     }
 
     @Override
     public void deleteVoucherById(UUID customerId, UUID voucherId) {
-        jdbcTemplate.update("DELETE FROM wallet WHERE customer_id = UNHEX(REPLACE(:customerId, '-', '')) AND voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
+        jdbcTemplate.update("DELETE FROM customers_vouchers " +
+                        "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', '')) AND voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 toParamMap(customerId, voucherId));
     }
 
     @Override
     public List<Voucher> searchVouchersByCustomerId(UUID customerId) {
         return jdbcTemplate.query("SELECT v.voucher_id, v.discount_degree, v.voucher_type " +
-                "FROM vouchers v JOIN wallet w ON v.voucher_id = w.voucher_id " +
-                "WHERE w.customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+                        "FROM vouchers v JOIN customers_vouchers w ON v.voucher_id = w.voucher_id " +
+                        "WHERE w.customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                 Collections.singletonMap("customerId", customerId.toString().getBytes()),
                 mapToVoucher);
     }
@@ -49,7 +50,7 @@ public class WalletJdbcRepository implements WalletRepository {
     public List<Customer> searchCustomersByVoucherId(UUID voucherId) {
         return jdbcTemplate.query("SELECT c.customer_id, c.name, c.email, c.last_login_at, c.created_at, c.is_blacked " +
                         "FROM customers c " +
-                        "JOIN wallet w ON c.customer_id = w.customer_id " +
+                        "JOIN customers_vouchers w ON c.customer_id = w.customer_id " +
                         "WHERE w.voucher_id = UUID_TO_BIN(:voucherId)",
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                 mapToCustomer);

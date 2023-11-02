@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS vouchers (
     voucher_type varchar(64) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS wallet (
+CREATE TABLE IF NOT EXISTS customers_vouchers ( -- 이 이름이 맞는지? 이건 wallet이라기 보다는 그냥 고객-바우처 매핑 테이블인데?
     customer_id BINARY(16) NOT NULL,
     voucher_id BINARY(16) NOT NULL,
     FOREIGN KEY (customer_id) references customers(customer_id),
