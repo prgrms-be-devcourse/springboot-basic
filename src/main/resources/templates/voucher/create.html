@@ -2,6 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <style>
+        .error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        p {
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
 <form th:action th:object="${request}" method="post">
@@ -13,7 +22,8 @@
     </div>
     <div>
         <label for="amount">Amount:</label>
-        <input id="amount" th:field="*{amount}" />
+        <input id="amount" th:field="*{amount}" th:class="${#fields.hasErrors('amount') ? 'error' : ''}" />
+        <p class="error" th:if="${#fields.hasErrors('amount')}">Invalid value</p>
     </div>
 
     <div>

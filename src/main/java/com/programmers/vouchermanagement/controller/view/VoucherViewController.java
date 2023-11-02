@@ -6,9 +6,11 @@ import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestD
 import com.programmers.vouchermanagement.dto.voucher.request.UpdateVoucherRequestDto;
 import com.programmers.vouchermanagement.dto.voucher.response.VoucherResponseDto;
 import com.programmers.vouchermanagement.service.VoucherService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,7 +30,6 @@ public class VoucherViewController {
 
     @GetMapping()
     public String getVouchers(@ModelAttribute GetVouchersRequestDto request, Model model) {
-        System.out.println(request);
         List<VoucherResponseDto> vouchers = voucherService.getVouchers(request);
         model.addAttribute("vouchers", vouchers);
         return "voucher/list";
@@ -42,7 +43,12 @@ public class VoucherViewController {
     }
 
     @PostMapping("/create")
-    public String createVoucher(@ModelAttribute CreateVoucherRequestDto request) {
+    public String createVoucher(@Valid @ModelAttribute("request") CreateVoucherRequestDto request, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "voucher/create";
+        }
+
         voucherService.createVoucher(request);
         return "redirect:/voucher";
     }
@@ -59,7 +65,15 @@ public class VoucherViewController {
     }
 
     @PostMapping("/{voucherId}/update")
-    public String updateVoucher(@PathVariable UUID voucherId, @ModelAttribute UpdateVoucherRequestDto request) {
+    public String updateVoucher(@PathVariable UUID voucherId, @Valid @ModelAttribute("request") UpdateVoucherRequestDto request, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            VoucherResponseDto voucher = voucherService.getVoucher(voucherId);
+            model.addAttribute("voucher", voucher);
+            model.addAttribute("request", request);
+            return "voucher/update";
+        }
+
         voucherService.updateVoucher(voucherId, request);
         return "redirect:/voucher";
     }

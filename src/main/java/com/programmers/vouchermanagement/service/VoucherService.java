@@ -36,13 +36,13 @@ public class VoucherService {
     @Transactional(readOnly = true)
     public VoucherResponseDto getVoucher(UUID id) {
         Voucher voucher = voucherRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Not found voucher"));
+                .orElseThrow(() -> new IllegalStateException("Not found voucher"));
         return VoucherResponseDto.from(voucher.getId(), voucher.getType(), voucher.getAmount(), voucher.getCreatedAt());
     }
 
     public void updateVoucher(UUID id, UpdateVoucherRequestDto request) {
         Voucher voucher = voucherRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Not found voucher"));
+                .orElseThrow(() -> new IllegalStateException("Not found voucher"));
         voucherRepository.update(Voucher.from(voucher.getId(), voucher.getType(), request.getAmount(), voucher.getCreatedAt()));
     }
 

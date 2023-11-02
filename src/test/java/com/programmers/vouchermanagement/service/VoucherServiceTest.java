@@ -106,7 +106,7 @@ class VoucherServiceTest {
     void getVoucher_notFound_fail() {
         // when & then
         assertThatThrownBy(() -> voucherService.getVoucher(UUID.randomUUID()))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Not found voucher");
     }
 
@@ -136,7 +136,7 @@ class VoucherServiceTest {
 
         // when & then
         assertThatThrownBy(() -> voucherService.updateVoucher(UUID.randomUUID(), request))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(IllegalStateException.class)
                 .hasMessage("Not found voucher");
     }
 
