@@ -16,6 +16,8 @@ public class FixedAmountVoucher extends Voucher {
         long afterDiscount = beforeDiscount - discount;
         return afterDiscount < 0 ? 0 : afterDiscount;
     }
+
+    @Override
     public String toString() {
         return """
                 Id : %s

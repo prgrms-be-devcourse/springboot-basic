@@ -1,10 +1,10 @@
 package com.prgrms.vouchermanager.io;
 
-import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
-import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
-import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.customer.Customer;
+import com.prgrms.vouchermanager.domain.voucher.*;
 import com.prgrms.vouchermanager.exception.FileIOException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.util.Map;
@@ -12,23 +12,15 @@ import java.util.UUID;
 
 @Slf4j
 public class FileIO {
-    private final BufferedReader bf;
     private final String filePath;
+
 
     public FileIO(String filePath) {
         this.filePath = filePath;
-        try {
-            bf = new BufferedReader(new FileReader(filePath));
-        } catch (FileNotFoundException e) {
-            FileIOException ex = new FileIOException(this);
-            log.error(ex.getMessage());
-            throw ex;
-        }
     }
 
     public void updateFile(Map<UUID, Voucher> vouchers) {
-        try {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(filePath));
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))){
             vouchers.forEach((key, voucher) -> {
                 UUID id = voucher.getId();
                 String type = voucher instanceof FixedAmountVoucher ? "fixed" : "percent";
@@ -42,7 +34,6 @@ public class FileIO {
                     throw ex;
                 }
             });
-            bw.close();
         } catch (IOException e) {
             RuntimeException ex = new FileIOException(this);
             log.error(ex.getMessage());
@@ -50,44 +41,46 @@ public class FileIO {
         }
     }
 
-    public void fileToCustomerMap(Map<UUID, com.prgrms.vouchermanager.domain.customer.Customer> customerMap) {
-        String line = "";
-
-        while(true) {
-            try {
-                if ((line = bf.readLine()) == null) break;
+    public void readCustomerFile(Map<UUID, Customer> customerMap) {
+            try (BufferedReader bf = new BufferedReader(new FileReader(filePath))){
+                String line = "";
+                while((line = bf.readLine()) != null) {
+                    putToCustomerMap(customerMap, line);
+                }
             } catch (IOException e) {
-                RuntimeException ex = new FileIOException(bf);
+                RuntimeException ex = new FileIOException(e);
                 log.error(ex.getMessage());
                 throw ex;
             }
-            String[] split = line.split(",");
-            com.prgrms.vouchermanager.domain.customer.Customer customer
-                    = new com.prgrms.vouchermanager.domain.customer.Customer(UUID.fromString(split[0]), split[1], Integer.parseInt(split[2]), true);
-            customerMap.put(UUID.fromString(split[0]), customer);
-        }
+    }
+
+    private void putToCustomerMap(Map<UUID, Customer> customerMap, String line) {
+        String[] split = line.split(",");
+        Customer customer
+                = new Customer(UUID.fromString(split[0]), split[1], Integer.parseInt(split[2]), true);
+        customerMap.put(UUID.fromString(split[0]), customer);
     }
 
     public void fileToVoucherMap(Map<UUID, Voucher> vouchers) {
-        String line = "";
-
-        while(true) {
-            try {
-                if ((line = bf.readLine()) == null) break;
-            } catch (IOException e) {
-                RuntimeException ex = new FileIOException(bf);
-                log.error(ex.getMessage());
-                throw ex;
+        try (BufferedReader bf = new BufferedReader(new FileReader(filePath))){
+            String line = "";
+            while((line = bf.readLine()) != null) {
+                readVoucherFile(vouchers, line);
             }
-            String[] split = line.split(",");
-            Voucher voucher = null;
-            UUID id = UUID.fromString(split[0]);
-            long discount = Long.parseLong(split[2]);
-
-            if(split[1].equals("fixed")) voucher = new FixedAmountVoucher(id, discount);
-            else if(split[1].equals("percent")) voucher = new PercentAmountVoucher(id, discount);
-
-            vouchers.put(id, voucher);
+        } catch (IOException e) {
+            RuntimeException ex = new FileIOException(e);
+            log.error(ex.getMessage());
+            throw ex;
         }
+    }
+
+    private void readVoucherFile(Map<UUID, Voucher> vouchers, String line) {
+        String[] split = line.split(",");
+        UUID id = UUID.fromString(split[0]);
+        long discount = Long.parseLong(split[2]);
+        VoucherType type = VoucherType.of(split[1]);//VoucherType 형태로 변경Voucher voucher = voucherFactory.create(type, discount);
+
+        Voucher voucher = VoucherFactory.create(type, discount).get();
+        vouchers.put(id, voucher);
     }
 }

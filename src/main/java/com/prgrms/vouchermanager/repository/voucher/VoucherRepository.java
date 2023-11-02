@@ -7,11 +7,11 @@ import java.util.UUID;
 
 public interface VoucherRepository {
     Voucher create(Voucher voucher);
-    List<Voucher> list();
+    List<Voucher> findAll();
 
-    public Voucher findById(UUID id);
+    Voucher findById(UUID id);
 
-    void updateDiscount(UUID id, int discount);
+    Voucher updateDiscount(Voucher updateVoucher);
 
     int delete(UUID id);
 }

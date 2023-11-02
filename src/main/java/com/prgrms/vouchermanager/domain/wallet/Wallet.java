@@ -11,9 +11,7 @@ public class Wallet {
     private final UUID customerId;
 
     public Wallet(UUID voucherId, UUID customerId) {
-        this.walletId = UUID.randomUUID();
-        this.voucherId = voucherId;
-        this.customerId = customerId;
+        this(UUID.randomUUID(), voucherId, customerId);
     }
 
     public Wallet(UUID walletId, UUID voucherId, UUID customerId) {

@@ -4,24 +4,28 @@ import com.prgrms.vouchermanager.controller.VoucherController;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.exception.EmptyListException;
-import com.prgrms.vouchermanager.exception.NotCorrectForm;
-import com.prgrms.vouchermanager.exception.NotCorrectId;
-import com.prgrms.vouchermanager.exception.NotCorrectScope;
+import com.prgrms.vouchermanager.exception.NotCorrectFormException;
+import com.prgrms.vouchermanager.exception.NotCorrectIdException;
+import com.prgrms.vouchermanager.exception.NotCorrectScopeException;
 import com.prgrms.vouchermanager.io.ConsolePrint;
+import com.prgrms.vouchermanager.io.ConsoleReader;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
+import static com.prgrms.vouchermanager.message.ConsoleMessage.*;
+
 @Component
 public class VoucherExecutor {
 
+    private final ConsoleReader consoleReader;
     private final ConsolePrint consolePrint;
     private final VoucherController controller;
-    private final Scanner sc = new Scanner(System.in);
 
-    public VoucherExecutor(ConsolePrint consolePrint, VoucherController controller) {
+    public VoucherExecutor(ConsoleReader consoleReader, ConsolePrint consolePrint, VoucherController controller) {
+        this.consoleReader = consoleReader;
         this.consolePrint = consolePrint;
         this.controller = controller;
     }
@@ -31,44 +35,43 @@ public class VoucherExecutor {
         long discount = getVoucherDiscount(voucherType);
 
         controller.create(voucherType, discount);
-        consolePrint.printCompleteCreate();
+        consolePrint.printMessage(COMPLETE_CREATE_VOUCHER.getMessage());
     }
 
     public void list() throws EmptyListException {
         List<Voucher> vouchers = controller.list();
         if(vouchers.isEmpty()) throw new EmptyListException(vouchers);
-        else consolePrint.printVoucherList(controller.list());
+        else consolePrint.printList(controller.list());
     }
 
     public void delete() {
-        consolePrint.printGetVoucherId();
+        consolePrint.printMessage(GET_VOUCHER_ID.getMessage());
         try {
-            UUID id = UUID.fromString(sc.nextLine());
+            UUID id = UUID.fromString(consoleReader.readString());
             controller.delete(id);
         } catch (IllegalArgumentException e) {
-            throw new NotCorrectId();
+            throw new NotCorrectIdException();
         }
-        consolePrint.printCompleteDelete();
+        consolePrint.printMessage(COMPLETE_DELETE_CUSTOMER.getMessage());
     }
 
     public void update() {
-        consolePrint.printGetVoucherId();
-        UUID id = UUID.fromString(sc.nextLine());
-        consolePrint.printGetCustomerYear();
+        consolePrint.printMessage(GET_VOUCHER_ID.getMessage());
+        UUID id = UUID.fromString(consoleReader.readString());
+        consolePrint.printMessage(GET_CUSTOMER_YEAR.getMessage());
         int discount = 0;
         try {
-            discount = sc.nextInt();
-            sc.nextLine();
+            discount = consoleReader.readInt();
             controller.updateDiscount(id, discount);
         } catch (NumberFormatException e) {
-            throw new NotCorrectForm(String.valueOf(discount));
+            throw new NotCorrectFormException(String.valueOf(discount));
         }
-        consolePrint.printCompleteUpdate();
+        consolePrint.printMessage(COMPLETE_UPDATE_CUSTOMER.getMessage());
     }
 
-    public VoucherType getVoucherType() throws NotCorrectForm {
-        consolePrint.printGetVoucherType();
-        String type = sc.nextLine();
+    public VoucherType getVoucherType() throws NotCorrectFormException {
+        consolePrint.printMessage(GET_VOUCHER_TYPE.getMessage());
+        String type = consoleReader.readString();
 
         try {
             if (type.equals("fixed")) {
@@ -76,15 +79,15 @@ public class VoucherExecutor {
             } else if (type.equals("percent")) {
                 return VoucherType.PERCENT;
             } else {
-                throw new NotCorrectForm(type);
+                throw new NotCorrectFormException(type);
             }
-        } catch (NotCorrectForm e) {
-            throw new NotCorrectForm(type);
+        } catch (NotCorrectFormException e) {
+            throw new NotCorrectFormException(type);
         }
     }
 
-    private long getVoucherDiscount(VoucherType type) throws NotCorrectScope, NotCorrectForm {
-        long discount = 0;
+    private int getVoucherDiscount(VoucherType type) throws NotCorrectScopeException, NotCorrectFormException {
+        int discount = 0;
         try {
             if (type == VoucherType.FIXED) {
                 discount = getFixedDiscount();
@@ -92,27 +95,35 @@ public class VoucherExecutor {
                 discount = getPercentDiscount();
             }
         } catch (NumberFormatException e) {
-            throw new NotCorrectForm(String.valueOf(discount));
-        } catch (NotCorrectScope e) {
-            throw new NotCorrectScope(discount);
+            throw new NotCorrectFormException(String.valueOf(discount));
+        } catch (NotCorrectScopeException e) {
+            throw new NotCorrectScopeException(discount);
         }
 
         return discount;
     }
 
-    private long getPercentDiscount() throws NotCorrectScope {
-        long discount;
-        consolePrint.printGetDiscountPercent();
-        discount = Long.parseLong(sc.nextLine());
-        if(discount < 0 || discount > 100) throw new NotCorrectScope(discount);
-        return discount;
+    private int getPercentDiscount() throws NotCorrectScopeException {
+        int discount = 0;
+        try {
+            consolePrint.printMessage(GET_DISCOUNT_PERCENT.getMessage());
+            discount = consoleReader.readInt();
+            if (discount < 0 || discount > 100) throw new NotCorrectScopeException(discount);
+            return discount;
+        } catch (NumberFormatException e) {
+            throw new NotCorrectFormException(String.valueOf(discount));
+        }
     }
 
-    private long getFixedDiscount() throws NotCorrectScope {
-        long discount;
-        consolePrint.printGetDiscountAmount();
-        discount = Long.parseLong(sc.nextLine());
-        if(discount < 0) throw new NotCorrectScope(discount);
-        return discount;
+    private int getFixedDiscount() throws NotCorrectScopeException {
+        int discount = 0;
+        try {
+            consolePrint.printMessage(GET_DISCOUNT_AMOUNT.getMessage());
+            discount = consoleReader.readInt();
+            if (discount < 0) throw new NotCorrectScopeException(discount);
+            return discount;
+        } catch (NumberFormatException e) {
+            throw new NotCorrectFormException(String.valueOf(discount));
+        }
     }
 }

@@ -13,7 +13,7 @@ class BlacklistFileRepositoryTest {
     @Test
     @DisplayName("블랙리스트 조회")
     void blackList() {
-        List<Customer> blacklist = repository.blacklist();
+        List<Customer> blacklist = repository.findBlacklist();
         Assertions.assertThat(blacklist.size()).isEqualTo(3);
     }
 }

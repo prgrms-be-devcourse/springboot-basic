@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.controller;
 
+import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
@@ -16,48 +17,30 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.UUID;
 
 @SpringJUnitConfig
 class VoucherControllerTest {
 
+    @Autowired
     private VoucherJdbcRepository repository;
+    @Autowired
     private VoucherService service;
     private VoucherController controller;
     @Autowired
     private JdbcTemplate template;
-    @Autowired
-    private DataSource dataSource;
+
     private final Voucher voucher = new PercentAmountVoucher(10);
 
     @Configuration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .driverClassName("com.mysql.cj.jdbc.Driver")
-                    .url("jdbc:mysql://localhost:3306/voucher_manager?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8")
-                    .username("root")
-                    .password("suzzingV1999@")
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate() {
-            return new JdbcTemplate(dataSource());
-        }
+    static class TestConfig extends AppConfig {
     }
 
     @BeforeEach
     void beforeEach() {
-        repository = new VoucherJdbcRepository(dataSource);
-        service = new VoucherService(repository);
         controller = new VoucherController(service);
 
         repository.create(voucher);
@@ -79,16 +62,13 @@ class VoucherControllerTest {
     @DisplayName("list")
     void list() {
         List<Voucher> list = controller.list();
-        Assertions.assertThat(list.size()).isEqualTo(4);
+        Assertions.assertThat(list.size()).isEqualTo(1);
     }
 
     @Test
     @DisplayName("updateDiscount")
     void updateDiscount() {
-        controller.updateDiscount(voucher.getId(), 20);
-        Voucher updateVoucher = template.queryForObject("select * from vouchers where voucher_id=UUID_TO_BIN(?)",
-                voucherRowMapper(),
-                voucher.getId().toString().getBytes());
+        Voucher updateVoucher = controller.updateDiscount(voucher.getId(), 20);
         Assertions.assertThat(updateVoucher.getDiscount()).isEqualTo(20);
     }
 
@@ -97,24 +77,5 @@ class VoucherControllerTest {
     void delete() {
         int delete = controller.delete(voucher.getId());
         Assertions.assertThat(delete).isEqualTo(1);
-    }
-
-    private RowMapper<Voucher> voucherRowMapper() {
-        return (rs, rowNum) -> {
-            if(rs.getString("voucher_type").equals("fixed")) {
-                return new FixedAmountVoucher(convertBytesToUUID(rs.getBytes("voucher_id")),
-                        rs.getInt("discount"));
-            } else {
-                return new PercentAmountVoucher(convertBytesToUUID(rs.getBytes("voucher_id")),
-                        rs.getInt("discount"));
-            }
-        };
-    }
-
-    private UUID convertBytesToUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        long high = byteBuffer.getLong();
-        long low = byteBuffer.getLong();
-        return new UUID(high, low);
     }
 }

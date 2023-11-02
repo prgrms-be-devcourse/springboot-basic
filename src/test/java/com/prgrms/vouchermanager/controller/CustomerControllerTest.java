@@ -1,7 +1,8 @@
 package com.prgrms.vouchermanager.controller;
 
+import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.customer.Customer;
-import com.prgrms.vouchermanager.exception.NotCorrectId;
+import com.prgrms.vouchermanager.exception.NotCorrectIdException;
 import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import com.prgrms.vouchermanager.service.CustomerService;
@@ -23,39 +24,22 @@ import java.util.UUID;
 
 @SpringJUnitConfig
 class CustomerControllerTest {
-
-    private CustomerRepository customerRepository;
-    private BlacklistFileRepository blacklistFileRepository;
+    @Autowired
     private CustomerService service;
     private CustomerController controller;
     @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
     private JdbcTemplate template;
-    @Autowired private DataSource dataSource;
+
     private final Customer customer2 = new Customer("종려", 1990);
 
     @Configuration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .driverClassName("com.mysql.cj.jdbc.Driver")
-                    .url("jdbc:mysql://localhost:3306/voucher_manager?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8")
-                    .username("root")
-                    .password("suzzingV1999@")
-                    .build();
-        }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate() {
-            return new JdbcTemplate(dataSource());
-        }
+    static class TestConfig extends AppConfig {
     }
 
     @BeforeEach
     void beforeEach() {
-        blacklistFileRepository = new BlacklistFileRepository("src/main/resources/customer_blacklist.csv");
-        customerRepository = new CustomerRepository(dataSource, new BlacklistFileRepository("src/main/resources/customer_blacklist.csv"));
-        service = new CustomerService(blacklistFileRepository, customerRepository);
         controller = new CustomerController(service);
 
         customerRepository.create(customer2);
@@ -69,7 +53,7 @@ class CustomerControllerTest {
     @Test
     @DisplayName("blacklist")
     void blacklist() {
-        List<Customer> blacklist = controller.blacklist();
+        List<Customer> blacklist = controller.findBlacklist();
 
         Assertions.assertThat(blacklist.size()).isEqualTo(3);
     }
@@ -88,7 +72,7 @@ class CustomerControllerTest {
     void list() {
         List<Customer> list = controller.list();
 
-        Assertions.assertThat(list.size()).isEqualTo(4);
+        Assertions.assertThat(list.size()).isEqualTo(1);
     }
 
     @Test
@@ -101,7 +85,7 @@ class CustomerControllerTest {
     @Test
     @DisplayName("updateYearOfBirth - 존재하지 않는 아이디")
     void updateYearOfBirthFail() {
-        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectId.class, () -> {
+        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectIdException.class, () -> {
             Customer customer = controller.updateYearOfBirth(UUID.randomUUID(), 2000);
         });
     }
@@ -116,7 +100,7 @@ class CustomerControllerTest {
     @Test
     @DisplayName("updateName - 존재하지 않는 아이디")
     void updateNameFail() {
-        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectId.class, () -> {
+        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectIdException.class, () -> {
             Customer customer = controller.updateName(UUID.randomUUID(), "벤티");
         });
     }
@@ -130,7 +114,7 @@ class CustomerControllerTest {
     @Test
     @DisplayName("delete - 존재하지 않는 아이디")
     void deleteFail() {
-        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectId.class, () -> {
+        org.junit.jupiter.api.Assertions.assertThrows(NotCorrectIdException.class, () -> {
             int delete = controller.delete(UUID.randomUUID());
         });
     }

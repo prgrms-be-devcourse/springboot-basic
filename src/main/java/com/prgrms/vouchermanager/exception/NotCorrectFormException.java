@@ -3,8 +3,8 @@ package com.prgrms.vouchermanager.exception;
 import com.prgrms.vouchermanager.message.ConsoleMessage;
 import com.prgrms.vouchermanager.message.LogMessage;
 
-public class NotCorrectForm extends MyException {
-    public NotCorrectForm(String command) {
+public class NotCorrectFormException extends MyException {
+    public NotCorrectFormException(String command) {
         super(String.format(LogMessage.NOT_CORRECT_FORM.getMessage(), command));
     }
 

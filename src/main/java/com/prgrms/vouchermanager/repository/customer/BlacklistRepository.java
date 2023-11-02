@@ -5,5 +5,5 @@ import com.prgrms.vouchermanager.domain.customer.Customer;
 import java.util.List;
 
 public interface BlacklistRepository {
-    List<Customer> blacklist();
+    List<Customer> findBlacklist();
 }

@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.io;
 
+import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
@@ -17,7 +18,7 @@ import java.util.UUID;
 class FileIOTest {
 
     private final Map<UUID, Voucher> voucherMap = new HashMap<>();
-    private final Map<UUID, com.prgrms.vouchermanager.domain.customer.Customer> customerMap = new HashMap<>();
+    private final Map<UUID, Customer> customerMap = new HashMap<>();
     private final String filePathV = "src/main/resources/voucher_list.csv";
     private final FileIO fileIoV = new FileIO(filePathV);
     private final String filePathC = "src/main/resources/customer_blacklist.csv";
@@ -60,7 +61,7 @@ class FileIOTest {
     @Test
     @DisplayName("file to customerMap")
     void fileToCustomerMap() {
-        fileIoC.fileToCustomerMap(customerMap);
+        fileIoC.readCustomerFile(customerMap);
 
         Assertions.assertThat(customerMap.size()).isEqualTo(3);
     }

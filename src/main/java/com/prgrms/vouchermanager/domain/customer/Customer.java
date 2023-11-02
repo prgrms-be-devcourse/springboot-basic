@@ -18,12 +18,10 @@ public class Customer {
     }
 
     public Customer(String name, int yearOfBirth) {
-        this.id = UUID.randomUUID();
-        this.name = name;
-        this.yearOfBirth = yearOfBirth;
-        this.isBlacklist = false;
+        this(UUID.randomUUID(), name, yearOfBirth, false);
     }
 
+    @Override
     public String toString() {
         return """
                 Id : %s

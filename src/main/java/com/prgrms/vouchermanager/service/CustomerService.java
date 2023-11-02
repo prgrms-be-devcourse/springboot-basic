@@ -1,7 +1,7 @@
 package com.prgrms.vouchermanager.service;
 
 import com.prgrms.vouchermanager.domain.customer.Customer;
-import com.prgrms.vouchermanager.exception.NotCorrectId;
+import com.prgrms.vouchermanager.exception.NotCorrectIdException;
 import com.prgrms.vouchermanager.repository.customer.BlacklistRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -21,8 +21,8 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> blacklist() {
-        return blacklistRepository.blacklist();
+    public List<Customer> findBlacklist() {
+        return blacklistRepository.findBlacklist();
     }
 
     public Customer create(String name, int year) {
@@ -32,7 +32,7 @@ public class CustomerService {
         return customer;
     }
 
-    public List<Customer> list() {
+    public List<Customer> findAll() {
         return customerRepository.list();
     }
 
@@ -40,7 +40,7 @@ public class CustomerService {
         try {
             return customerRepository.updateYearOfBirth(id, year);
         } catch (EmptyResultDataAccessException e) {
-            throw new NotCorrectId();
+            throw new NotCorrectIdException();
         }
     }
 
@@ -48,14 +48,14 @@ public class CustomerService {
         try {
             return customerRepository.updateName(id, name);
         } catch (EmptyResultDataAccessException e) {
-            throw new NotCorrectId();
+            throw new NotCorrectIdException();
         }
     }
 
     public int delete(UUID id) {
         int update = customerRepository.delete(id);
 
-        if(update == 0) throw new NotCorrectId();
+        if(update == 0) throw new NotCorrectIdException();
         return update;
     }
 }

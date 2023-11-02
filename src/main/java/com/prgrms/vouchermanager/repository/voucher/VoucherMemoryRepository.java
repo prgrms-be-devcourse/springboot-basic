@@ -1,6 +1,9 @@
 package com.prgrms.vouchermanager.repository.voucher;
 
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.VoucherFactory;
+import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -21,7 +24,8 @@ public class VoucherMemoryRepository implements VoucherRepository {
         return voucher;
     }
 
-    public List<Voucher> list() {
+    @Override
+    public List<Voucher> findAll() {
         return vouchers
                 .values()
                 .stream()
@@ -30,16 +34,19 @@ public class VoucherMemoryRepository implements VoucherRepository {
 
     @Override
     public Voucher findById(UUID id) {
-        return null;
+        return vouchers.get(id);
     }
 
     @Override
-    public void updateDiscount(UUID id, int discount) {
+    public Voucher updateDiscount(Voucher updateVoucher) {
+        vouchers.computeIfPresent(updateVoucher.getId(), (k, v) -> updateVoucher);
 
+        return updateVoucher;
     }
 
     @Override
     public int delete(UUID id) {
-        return 0;
+        vouchers.remove(id);
+        return 1;
     }
 }

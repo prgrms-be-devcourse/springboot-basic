@@ -4,6 +4,7 @@ import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.io.FileIO;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -31,6 +32,7 @@ public class VoucherJdbcRepository implements VoucherRepository {
         fileToDb();
     }
 
+    @Override
     public Voucher create(Voucher voucher) {
         jdbcTemplate.update(INSERT_VOUCHER.getMessage(),
                 voucher.getId().toString().getBytes(),
@@ -39,18 +41,25 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return voucher;
     }
 
-    public List<Voucher> list() {
+    @Override
+    public List<Voucher> findAll() {
         return jdbcTemplate.query(LIST_VOUCHER.getMessage(), voucherRowMapper());
     }
 
+    @Override
     public Voucher findById(UUID id) {
         return jdbcTemplate.queryForObject(FIND_BY_ID_VOUCHER.getMessage(), voucherRowMapper(), id.toString().getBytes());
     }
 
-    public void updateDiscount(UUID id, int discount) {
-        jdbcTemplate.update(UPDATE_DISCOUNT_VOUCHER.getMessage(), discount, id.toString().getBytes());
+    @Override
+    public Voucher updateDiscount(Voucher updateVoucher) {
+        jdbcTemplate.update(UPDATE_DISCOUNT_VOUCHER.getMessage(),
+                updateVoucher.getDiscount(),
+                updateVoucher.getId().toString().getBytes());
+        return findById(updateVoucher.getId());
     }
 
+    @Override
     public int delete(UUID id) {
         return jdbcTemplate.update(DELETE_VOUCHER.getMessage(), id.toString().getBytes());
     }
@@ -64,7 +73,13 @@ public class VoucherJdbcRepository implements VoucherRepository {
                 .values()
                 .stream()
                 .toList()
-                .forEach(this::create);
+                .forEach(voucher -> {
+                    jdbcTemplate.update(INSERT_VOUCHER_IGNORE_DUPLICATE.getMessage(),
+                            voucher.getId().toString().getBytes(),
+                            voucher instanceof FixedAmountVoucher ? "fixed" : "percent",
+                            voucher.getDiscount(),
+                            voucher.getId().toString().getBytes());
+                });
     }
 
     private RowMapper<Voucher> voucherRowMapper() {

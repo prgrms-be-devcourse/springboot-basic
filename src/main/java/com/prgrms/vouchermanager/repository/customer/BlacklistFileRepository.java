@@ -17,11 +17,11 @@ public class BlacklistFileRepository implements BlacklistRepository {
     @Autowired
     public BlacklistFileRepository(@Value("${csv.blacklist}") String fileName) {
         FileIO fileIO = new FileIO(fileName);
-        fileIO.fileToCustomerMap(customerMap);
+        fileIO.readCustomerFile(customerMap);
     }
 
     @Override
-    public List<Customer> blacklist() {
+    public List<Customer> findBlacklist() {
         return customerMap
                 .values()
                 .stream().toList();

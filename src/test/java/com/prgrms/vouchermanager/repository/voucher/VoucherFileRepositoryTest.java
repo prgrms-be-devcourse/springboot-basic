@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.repository.voucher;
 
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.assertj.core.api.Assertions;
@@ -17,10 +18,13 @@ class VoucherFileRepositoryTest {
 
     private VoucherFileRepository repository;
     private final String filePath = "src/main/resources/voucher_list.csv";
+    private final Voucher voucher1 = new FixedAmountVoucher(20000);
+    private final Voucher voucher2 = new PercentAmountVoucher(10);
 
     @BeforeEach
     void setup() {
         repository = new VoucherFileRepository(filePath);
+        repository.create(voucher2);
     }
 
     @AfterEach
@@ -35,18 +39,41 @@ class VoucherFileRepositoryTest {
     }
 
     @Test
-    @DisplayName("바우처 생성")
-    void createTest() {
-        PercentAmountVoucher voucher = new PercentAmountVoucher(20);
-        Voucher createVoucher = repository.create(voucher);
-
-        Assertions.assertThat(createVoucher).isEqualTo(voucher);
+    @DisplayName("create")
+    void create() {
+        Voucher createVoucher = repository.create(voucher1);
+        Assertions.assertThat(createVoucher).isSameAs(voucher1);
     }
 
     @Test
-    @DisplayName("바우처 목록")
-    void listTest() {
-        List<Voucher> list = repository.list();
-        Assertions.assertThat(list.size()).isEqualTo(3);
+    @DisplayName("list")
+    void list() {
+        List<Voucher> list = repository.findAll();
+        Assertions.assertThat(list.size()).isEqualTo(4);
+    }
+
+    @Test
+    @DisplayName("findById")
+    void findById() {
+        Voucher voucher = repository.create(voucher1);
+        Voucher findVoucher = repository.findById(voucher.getId());
+
+        Assertions.assertThat(findVoucher.getDiscount()).isEqualTo(voucher.getDiscount());
+        Assertions.assertThat(findVoucher).isInstanceOf(FixedAmountVoucher.class);
+    }
+
+    @Test
+    @DisplayName("updateDiscount")
+    void updateDiscount() {
+        Voucher voucher = new PercentAmountVoucher(voucher2.getId(), 20);
+        Voucher updateVoucher = repository.updateDiscount(voucher);
+        Assertions.assertThat(updateVoucher.getDiscount()).isEqualTo(20);
+    }
+
+    @Test
+    @DisplayName("delete")
+    void delete() {
+        repository.delete(voucher2.getId());
+        Assertions.assertThat(repository.findAll().size()).isEqualTo(3);
     }
 }

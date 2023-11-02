@@ -1,6 +1,9 @@
 package com.prgrms.vouchermanager.repository.voucher;
 
+import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
+import com.prgrms.vouchermanager.domain.voucher.VoucherFactory;
+import com.prgrms.vouchermanager.domain.voucher.VoucherType;
 import com.prgrms.vouchermanager.io.FileIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +27,7 @@ public class VoucherFileRepository implements VoucherRepository {
         fileIO.fileToVoucherMap(vouchers);
     }
 
+    @Override
     public Voucher create(Voucher voucher) {
         vouchers.put(voucher.getId(), voucher);
 
@@ -31,7 +35,8 @@ public class VoucherFileRepository implements VoucherRepository {
         return voucher;
     }
 
-    public List<Voucher> list() {
+    @Override
+    public List<Voucher> findAll() {
         return vouchers
                 .values()
                 .stream()
@@ -40,16 +45,20 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public Voucher findById(UUID id) {
-        return null;
+        return vouchers.get(id);
     }
 
     @Override
-    public void updateDiscount(UUID id, int discount) {
+    public Voucher updateDiscount(Voucher updateVoucher) {
+        vouchers.computeIfPresent(updateVoucher.getId(), (k, v) -> updateVoucher);
 
+        fileIO.updateFile(vouchers);
+        return updateVoucher;
     }
 
     @Override
     public int delete(UUID id) {
-        return 0;
+        vouchers.remove(id);
+        return 1;
     }
 }

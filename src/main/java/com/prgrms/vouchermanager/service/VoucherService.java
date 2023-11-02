@@ -1,8 +1,6 @@
 package com.prgrms.vouchermanager.service;
 
-import com.prgrms.vouchermanager.domain.voucher.Voucher;
-import com.prgrms.vouchermanager.domain.voucher.VoucherFactory;
-import com.prgrms.vouchermanager.domain.voucher.VoucherType;
+import com.prgrms.vouchermanager.domain.voucher.*;
 import com.prgrms.vouchermanager.message.LogMessage;
 import com.prgrms.vouchermanager.repository.voucher.VoucherRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +29,17 @@ public class VoucherService {
         return voucher;
     }
 
-    public List<Voucher> list() {
-        return voucherRepository.list();
+    public List<Voucher> findAll() {
+        return voucherRepository.findAll();
     }
 
-    public void updateDiscount(UUID id, int discount) {
-        voucherRepository.updateDiscount(id, discount);
+    public Voucher updateDiscount(UUID id, int discount) {
+        Voucher voucher = voucherRepository.findById(id);
+        Voucher updateVoucher = VoucherFactory.update(id,
+                        VoucherTypeResolver.resolve(voucher),
+                        discount)
+                        .get();
+        return voucherRepository.updateDiscount(updateVoucher);
     }
 
     public int delete(UUID id) {

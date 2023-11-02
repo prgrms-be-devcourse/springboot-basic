@@ -17,6 +17,7 @@ public class PercentAmountVoucher extends Voucher {
         return afterDiscount < 0 ? 0 : afterDiscount;
     }
 
+    @Override
     public String toString() {
         return """
                 Id : %s

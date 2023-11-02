@@ -1,5 +1,6 @@
 package com.prgrms.vouchermanager.repository.voucher;
 
+import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
@@ -13,53 +14,29 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.UUID;
 
 
 @SpringJUnitConfig
 class VoucherJdbcRepositoryTest {
+    @Autowired
     private VoucherJdbcRepository repository;
     @Autowired
     private JdbcTemplate template;
-    @Autowired
-    private DataSource dataSource;
+
     private final Voucher voucher1 = new FixedAmountVoucher(20000);
     private final Voucher voucher2 = new PercentAmountVoucher(10);
     private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
 
-//    @Autowired
-//    public VoucherJdbcRepositoryTest(JdbcTemplate template, DataSource dataSource) {
-//        this.template = template;
-//        this.dataSource = dataSource;
-//    }
-
         @Configuration
-    static class TestConfig {
-        @Bean
-        public DataSource dataSource() {
-            return DataSourceBuilder.create()
-                    .driverClassName("com.mysql.cj.jdbc.Driver")
-                    .url("jdbc:mysql://localhost:3306/voucher_manager?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8")
-                    .username("root")
-                    .password("suzzingV1999@")
-                    .build();
+        static class TestConfig extends AppConfig {
         }
-
-        @Bean
-        public JdbcTemplate jdbcTemplate() {
-            return new JdbcTemplate(dataSource());
-        }
-    }
 
     @BeforeEach
     void beforeEach() {
-        this.repository = new VoucherJdbcRepository(dataSource);
         repository.create(voucher2);
     }
     @AfterEach
@@ -76,8 +53,8 @@ class VoucherJdbcRepositoryTest {
     @Test
     @DisplayName("list")
     void list() {
-        List<Voucher> list = repository.list();
-        Assertions.assertThat(list.size()).isEqualTo(4);
+        List<Voucher> list = repository.findAll();
+        Assertions.assertThat(list.size()).isEqualTo(1);
     }
 
     @Test
@@ -93,10 +70,8 @@ class VoucherJdbcRepositoryTest {
     @Test
     @DisplayName("updateDiscount")
     void updateDiscount() {
-        repository.updateDiscount(voucher2.getId(), 20);
-        Voucher updateVoucher = template.queryForObject("select * from vouchers where voucher_id=UUID_TO_BIN(?)",
-                voucherRowMapper(),
-                voucher2.getId().toString().getBytes());
+        Voucher voucher = new PercentAmountVoucher(voucher2.getId(), 20);
+        Voucher updateVoucher = repository.updateDiscount(voucher);
         Assertions.assertThat(updateVoucher.getDiscount()).isEqualTo(20);
     }
 
@@ -104,24 +79,5 @@ class VoucherJdbcRepositoryTest {
     @DisplayName("delete")
     void delete() {
         Assertions.assertThat(repository.delete(voucher2.getId())).isEqualTo(1);
-    }
-
-    private RowMapper<Voucher> voucherRowMapper() {
-        return (rs, rowNum) -> {
-            if(rs.getString("voucher_type").equals("fixed")) {
-                return new FixedAmountVoucher(convertBytesToUUID(rs.getBytes("voucher_id")),
-                        rs.getInt("discount"));
-            } else {
-                return new PercentAmountVoucher(convertBytesToUUID(rs.getBytes("voucher_id")),
-                        rs.getInt("discount"));
-            }
-        };
-    }
-
-    private UUID convertBytesToUUID(byte[] bytes) {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        long high = byteBuffer.getLong();
-        long low = byteBuffer.getLong();
-        return new UUID(high, low);
     }
 }
