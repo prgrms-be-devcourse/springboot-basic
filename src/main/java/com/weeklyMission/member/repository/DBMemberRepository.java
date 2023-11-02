@@ -52,7 +52,7 @@ public class DBMemberRepository implements MemberRepository{
             toParamMap(member), Boolean.class);
 
         if(isEmailPresent){
-            throw new AlreadyExistsException();
+            throw new AlreadyExistsException("이미 회원가입 한 이메일입니다.");
         }
         else{
             jdbcTemplate.update(

@@ -47,7 +47,7 @@ public class DBWalletRepository implements WalletRepository{
             toParamMap(wallet), Boolean.class);
 
         if(isExists){
-            throw new AlreadyExistsException();
+            throw new AlreadyExistsException("이미 바우처를 갖고있습니다.");
         }
         else{
             jdbcTemplate.update(
