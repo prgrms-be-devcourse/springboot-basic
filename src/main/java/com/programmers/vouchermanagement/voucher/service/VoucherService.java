@@ -59,14 +59,14 @@ public class VoucherService {
     public void grantToCustomer(VoucherCustomerRequest request) {
         validateCustomerIdExisting(request.customerId());
         VoucherResponse foundVoucher = findById(request.voucherId());
-        Voucher voucher = new Voucher(request.voucherId(), foundVoucher.getDiscountValue(), foundVoucher.getVoucherType(), request.customerId());
+        Voucher voucher = new Voucher(request.voucherId(), foundVoucher.discountValue(), foundVoucher.voucherType(), request.customerId());
         voucherRepository.save(voucher);
     }
 
     public void releaseFromCustomer(VoucherCustomerRequest request) {
         validateCustomerIdExisting(request.customerId());
         VoucherResponse foundVoucher = findById(request.voucherId());
-        Voucher voucher = new Voucher(foundVoucher.getVoucherId(), foundVoucher.getDiscountValue(), foundVoucher.getVoucherType());
+        Voucher voucher = new Voucher(foundVoucher.voucherId(), foundVoucher.discountValue(), foundVoucher.voucherType());
         voucherRepository.save(voucher);
     }
 

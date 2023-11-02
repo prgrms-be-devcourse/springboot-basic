@@ -152,7 +152,7 @@ public class ConsoleManager {
     }
 
     public void printSaveVoucherResult(VoucherResponse voucherResponse) {
-        print(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_VOUCHER, voucherResponse.getVoucherId()));
+        print(CREATE_SUCCESS_MESSAGE.formatted(CONTENT_VOUCHER, voucherResponse.voucherId()));
     }
 
     public void printSaveCustomerResult(CustomerResponse customerResponse) {

@@ -58,7 +58,7 @@ class VoucherControllerTest {
         //then
         UUID createdCVoucherId = voucherService.readAllVouchers()
                 .stream()
-                .map(VoucherResponse::getVoucherId)
+                .map(VoucherResponse::voucherId)
                 .findFirst()
                 .orElse(UUID.randomUUID());
         assertThat(output, containsString(createdCVoucherId.toString()));
@@ -93,7 +93,7 @@ class VoucherControllerTest {
         //then
         UUID foundVoucherId = voucherService.readAllVouchers()
                 .stream()
-                .map(VoucherResponse::getVoucherId)
+                .map(VoucherResponse::voucherId)
                 .findFirst()
                 .orElse(UUID.randomUUID());
         assertThat(output, containsString("Voucher ID : " + foundVoucherId));
@@ -120,7 +120,7 @@ class VoucherControllerTest {
         //given
         CreateVoucherRequest createRequest = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
         VoucherResponse voucher = voucherService.create(createRequest);
-        UpdateVoucherRequest updateRequest = new UpdateVoucherRequest(voucher.getVoucherId(), new BigDecimal(20000), VoucherType.FIXED);
+        UpdateVoucherRequest updateRequest = new UpdateVoucherRequest(voucher.voucherId(), new BigDecimal(20000), VoucherType.FIXED);
 
         //when
         voucherController.update(updateRequest);
@@ -139,7 +139,7 @@ class VoucherControllerTest {
         VoucherResponse voucher = voucherService.create(createRequest);
 
         //when
-        voucherController.deleteById(voucher.getVoucherId());
+        voucherController.deleteById(voucher.voucherId());
         String output = textTerminal.getOutput();
 
         //then
@@ -154,7 +154,7 @@ class VoucherControllerTest {
         VoucherResponse voucher = voucherService.create(createRequest);
         Customer customer = new Customer(UUID.randomUUID(), "test-customer");
         customerRepository.save(customer);
-        VoucherCustomerRequest request = new VoucherCustomerRequest(voucher.getVoucherId(), customer.getCustomerId());
+        VoucherCustomerRequest request = new VoucherCustomerRequest(voucher.voucherId(), customer.getCustomerId());
 
         //when
         voucherController.grantToCustomer(request);

@@ -59,7 +59,7 @@ class VoucherServiceTest {
         VoucherResponse voucher = voucherService.create(request);
 
         //then
-        Voucher createdVoucher = voucherRepository.findById(voucher.getVoucherId())
+        Voucher createdVoucher = voucherRepository.findById(voucher.voucherId())
                 .get();
         assertThat(VoucherResponse.from(createdVoucher), samePropertyValuesAs(voucher));
     }
@@ -90,7 +90,7 @@ class VoucherServiceTest {
         VoucherResponse voucher = voucherService.create(request);
 
         //then
-        Voucher createdVoucher = voucherRepository.findById(voucher.getVoucherId())
+        Voucher createdVoucher = voucherRepository.findById(voucher.voucherId())
                 .get();
         assertThat(VoucherResponse.from(createdVoucher), samePropertyValuesAs(voucher));
     }
