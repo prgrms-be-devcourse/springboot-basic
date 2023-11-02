@@ -36,13 +36,15 @@ class VoucherServiceTest {
     @Mock
     private VoucherRepository voucherRepository;
     private VoucherIdGenerator idGenerator;
-    private TimeGenerator timeGenerator = new TestTimeGenerator();
+    private TimeGenerator timeGenerator;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         this.idGenerator = new TestVoucherIdGenerator();
         ReflectionTestUtils.setField(voucherService, "idGenerator", idGenerator);
+        this.timeGenerator = new TestTimeGenerator();
+        ReflectionTestUtils.setField(voucherService, "timeGenerator", timeGenerator);
     }
 
     @DisplayName("유효한 정보의 바우처를 생성 할 수 있다.")
