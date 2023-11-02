@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.voucher.service;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,13 +21,13 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
+    public VoucherDto create(CreateVoucherRequest createVoucherRequest) {
         Voucher voucher = new Voucher(UUID.randomUUID(), createVoucherRequest.discountValue(), createVoucherRequest.voucherType());
         voucherRepository.save(voucher);
-        return VoucherResponse.from(voucher);
+        return VoucherDto.from(voucher);
     }
 
-    public List<VoucherResponse> readAll() {
+    public List<VoucherDto> readAll() {
         List<Voucher> vouchers = voucherRepository.findAll();
 
         if (vouchers.isEmpty()) {
@@ -35,15 +35,15 @@ public class VoucherService {
         }
 
         return vouchers.stream()
-                .map(VoucherResponse::from)
+                .map(VoucherDto::from)
                 .toList();
     }
 
-    public VoucherResponse readById(UUID voucherId) {
+    public VoucherDto readById(UUID voucherId) {
         Voucher voucher = voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER));
-        return VoucherResponse.from(voucher);
+        return VoucherDto.from(voucher);
     }
 
     public void delete(UUID voucherId) {

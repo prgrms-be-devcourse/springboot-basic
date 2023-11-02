@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.wallet.service;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.programmers.vouchermanagement.wallet.repository.WalletRepository;
 import org.slf4j.Logger;
@@ -36,10 +36,10 @@ public class WalletService {
         });
     }
 
-    public List<VoucherResponse> readAllVoucherByCustomerId(UUID customerId) {
+    public List<VoucherDto> readAllVoucherByCustomerId(UUID customerId) {
         List<Voucher> vouchers = walletRepository.findAllVoucherByCustomerId(customerId);
         if (vouchers.isEmpty()) return Collections.emptyList();
-        return vouchers.stream().map(VoucherResponse::from).toList();
+        return vouchers.stream().map(VoucherDto::from).toList();
     }
 
     public void deleteVoucherFromCustomer(UUID voucherId) {

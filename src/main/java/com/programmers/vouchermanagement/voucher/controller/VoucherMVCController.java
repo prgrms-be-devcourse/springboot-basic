@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.voucher.controller;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -30,7 +30,7 @@ public class VoucherMVCController {
 
     @GetMapping
     public String viewVouchersPage(Model model) {
-        List<VoucherResponse> vouchers = voucherService.readAll();
+        List<VoucherDto> vouchers = voucherService.readAll();
         model.addAttribute("vouchers", vouchers);
         return "views/vouchers";
     }
@@ -38,7 +38,7 @@ public class VoucherMVCController {
     @GetMapping("/{voucherId}")
     public String readById(@PathVariable("voucherId") UUID voucherId, Model model) {
         try {
-            VoucherResponse voucher = voucherService.readById(voucherId);
+            VoucherDto voucher = voucherService.readById(voucherId);
             model.addAttribute("vouchers", List.of(voucher));
             return "views/vouchers";
         } catch (RuntimeException e) {

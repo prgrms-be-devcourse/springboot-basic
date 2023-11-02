@@ -5,7 +5,7 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,15 +77,15 @@ public class ConsoleManager {
         return new CreateVoucherRequest(Long.parseLong(discountValueStr), voucherType);
     }
 
-    public void printCreateResult(VoucherResponse voucherResponse) {
-        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.voucherId()));
+    public void printCreateResult(VoucherDto voucher) {
+        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucher.voucherId()));
     }
 
-    public void printReadAllVouchers(List<VoucherResponse> voucherResponses) {
-        if (voucherResponses.isEmpty()) {
+    public void printReadAllVouchers(List<VoucherDto> vouchers) {
+        if (vouchers.isEmpty()) {
             textIO.getTextTerminal().println(NO_CONTENT.formatted("voucher"));
         }
-        voucherResponses.forEach(voucherResponse -> textIO.getTextTerminal().println(formatVoucherDTO(voucherResponse)));
+        vouchers.forEach(voucher -> textIO.getTextTerminal().println(formatVoucherDTO(voucher)));
     }
 
     public void printReadBlacklist(List<Customer> customerResponses) {
@@ -103,16 +103,16 @@ public class ConsoleManager {
                 .formatted(customer.getCustomerId(), customer.getName());
     }
 
-    private String formatVoucherDTO(VoucherResponse voucherResponse) {
+    private String formatVoucherDTO(VoucherDto voucher) {
         return """
                 Voucher ID : %s
                 Voucher Type : %s Discount Voucher
                 Discount Amount : %s
                 -------------------------"""
-                .formatted(voucherResponse.voucherId(),
-                        voucherResponse.voucherTypeName(),
-                        voucherResponse.discountValue() +
-                                (voucherResponse.isPercent() ? PERCENTAGE : EMPTY));
+                .formatted(voucher.voucherId(),
+                        voucher.voucherTypeName(),
+                        voucher.discountValue() +
+                                (voucher.isPercent() ? PERCENTAGE : EMPTY));
     }
 
     public void printExit() {

@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.voucher.controller;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -23,13 +23,13 @@ public class VoucherController {
 
     @PostMapping
     @ResponseBody
-    public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
+    public VoucherDto create(CreateVoucherRequest createVoucherRequest) {
         return voucherService.create(createVoucherRequest);
     }
 
     @GetMapping
     @ResponseBody
-    public List<VoucherResponse> readAll() {
+    public List<VoucherDto> readAll() {
         return voucherService.readAll();
     }
 
