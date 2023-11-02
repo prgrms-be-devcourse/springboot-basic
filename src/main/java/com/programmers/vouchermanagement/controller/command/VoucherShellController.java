@@ -36,6 +36,7 @@ public class VoucherShellController {
         voucherService.createVoucher(request);
 
         ConsoleOutput.println("✅Voucher created successfully");
+        consoleInput.close();
     }
 
     @ShellMethod(key = "list")
@@ -54,6 +55,7 @@ public class VoucherShellController {
         VoucherResponseDto voucher = voucherService.getVoucher(id);
 
         ConsoleOutput.println(voucher.toString());
+        consoleInput.close();
     }
 
     @ShellMethod(key = "update")
@@ -70,6 +72,7 @@ public class VoucherShellController {
         voucherService.updateVoucher(id, request);
 
         ConsoleOutput.println("✅Voucher updated successfully");
+        consoleInput.close();
     }
 
     @ShellMethod(key = "delete")
@@ -80,5 +83,6 @@ public class VoucherShellController {
         voucherService.deleteVoucher(id);
 
         ConsoleOutput.println("✅Voucher deleted successfully");
+        consoleInput.close();
     }
 }

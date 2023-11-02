@@ -36,4 +36,8 @@ public class ConsoleInput {
             throw new IllegalArgumentException(errorMessage);
         }
     }
+
+    public void close() {
+        scanner.close();
+    }
 }
