@@ -1,4 +1,4 @@
-package com.pgms.part1.util;
+package com.pgms.part1.util.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

@@ -1,7 +1,7 @@
 package com.pgms.part1.domain.voucher.dto;
 
 import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
-import com.pgms.part1.util.EnumNamePattern;
+import com.pgms.part1.util.validator.EnumNamePattern;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

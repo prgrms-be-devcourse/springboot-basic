@@ -1,4 +1,4 @@
-package com.pgms.part1.util;
+package com.pgms.part1.util.validator;
 
 import com.pgms.part1.exception.ErrorCode;
 import com.pgms.part1.exception.VoucherApplicationException;
