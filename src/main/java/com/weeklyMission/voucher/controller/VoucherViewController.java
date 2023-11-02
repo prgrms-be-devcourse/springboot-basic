@@ -10,6 +10,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,12 +41,15 @@ public class VoucherViewController {
 
     @GetMapping("/createForm")
     public String createForm(Model model){
-        model.addAttribute("voucher", new VoucherRequest(null, 0));
+        model.addAttribute("voucher", new VoucherRequest());
         return "/vouchers/createForm";
     }
 
     @PostMapping
-    public String create(@ModelAttribute VoucherRequest voucher){
+    public String create(@Validated @ModelAttribute("voucher") VoucherRequest voucher, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "vouchers/createForm";
+        }
         voucherService.save(voucher);
         return "redirect:/vouchers";
     }

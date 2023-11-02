@@ -6,6 +6,12 @@
   <!-- Bootstrap CSS link (you should have Bootstrap included in your project) -->
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -15,15 +21,15 @@
       <form th:action="@{/members}" th:object="${member}" method="post">
         <div class="form-group">
           <label for="name">Name:</label>
-          <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Enter member name" />
+          <input type="text" id="name" class="form-control" th:field="*{name}" th:errorclass="field-error" placeholder="Enter member name" />
         </div>
         <div class="form-group">
           <label for="email">Email:</label>
-          <input type="text" id="email" class="form-control" th:field="*{email}" placeholder="Enter member email" />
+          <input type="text" id="email" class="form-control" th:field="*{email}" th:errorclass="field-error" placeholder="Enter member email" />
         </div>
         <div class="form-group">
           <label for="age">Age:</label>
-          <input type="text" id="age" class="form-control" th:field="*{age}" placeholder="Enter member age" />
+          <input type="text" id="age" class="form-control" th:field="*{age}" th:errorclass="field-error" placeholder="Enter member age" />
         </div>
         <button type="submit" class="btn btn-primary btn-block">Create</button>
       </form>

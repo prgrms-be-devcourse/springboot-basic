@@ -6,6 +6,12 @@
   <!-- Bootstrap CSS link (you should have Bootstrap included in your project) -->
   <link rel="stylesheet"
         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -22,7 +28,7 @@
         </div>
         <div class="form-group">
           <label for="amount">Amount:</label>
-          <input type="text" id="amount" class="form-control" th:field="*{amount}"
+          <input type="text" id="amount" class="form-control" th:field="*{amount}" th:errorclass="field-error"
                  placeholder="Enter voucher amount"/>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Create</button>
