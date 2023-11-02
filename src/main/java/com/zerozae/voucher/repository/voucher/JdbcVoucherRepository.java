@@ -118,19 +118,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
         StringBuilder sql = new StringBuilder("SELECT * FROM vouchers WHERE 1=1");
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
 
-        if (condition.createdAt() == null && condition.voucherType() == null) {
+        if (condition.startCreatedAt() == null && condition.voucherType() == null) {
             return jdbcTemplate.query(sql.toString(), voucherRowMapper);
         }
 
-        if (condition.createdAt() != null) {
+        if (condition.startCreatedAt() != null) {
             if(condition.endCreatedAt() != null) {
                 sql.append(" AND DATE(created_at) BETWEEN :createdAt AND :createdAt");
                 mapSqlParameterSource
-                        .addValue("createdAt", LocalDate.parse(condition.createdAt()))
+                        .addValue("createdAt", LocalDate.parse(condition.startCreatedAt()))
                         .addValue("createdAt", LocalDate.parse(condition.endCreatedAt()));
             }else {
                 sql.append(" AND DATE(created_at) = :createdAt");
-                mapSqlParameterSource.addValue("createdAt", LocalDate.parse(condition.createdAt()));
+                mapSqlParameterSource.addValue("createdAt", LocalDate.parse(condition.startCreatedAt()));
             }
         }
 
