@@ -3,6 +3,7 @@ package org.programmers.springorder.repository.customer;
 import org.programmers.springorder.constant.ErrorMessage;
 import org.programmers.springorder.model.customer.Customer;
 import org.programmers.springorder.model.customer.CustomerType;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -43,10 +44,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Customer save(Customer customer) {
+    public Customer insert(Customer customer) {
         int update = jdbcTemplate.update(INSERT_CUSTOMER, toParamMap(customer));
         if (update != 1) {
-            throw new RuntimeException(ErrorMessage.ERROR_IN_SAVE_CUSTOMER);
+            throw new DataAccessException(ErrorMessage.ERROR_IN_SAVE_CUSTOMER) {
+            };
         }
         return customer;
     }

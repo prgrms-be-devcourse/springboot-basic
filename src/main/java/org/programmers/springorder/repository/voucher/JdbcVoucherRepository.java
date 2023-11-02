@@ -3,6 +3,7 @@ package org.programmers.springorder.repository.voucher;
 import org.programmers.springorder.constant.ErrorMessage;
 import org.programmers.springorder.model.voucher.Voucher;
 import org.programmers.springorder.model.voucher.VoucherType;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -46,10 +47,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher insert(Voucher voucher) {
         int update = jdbcTemplate.update(INSERT_VOUCHER, toParamMap(voucher));
         if (update != 1) {
-            throw new RuntimeException(ErrorMessage.ERROR_IN_SAVE_VOUCHER);
+            throw new DataAccessException(ErrorMessage.ERROR_IN_SAVE_CUSTOMER) {
+            };
         }
         return voucher;
     }
