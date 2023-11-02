@@ -9,6 +9,7 @@ import java.util.UUID;
 public interface CustomerVoucherManagementRepository {
     void allocateVoucherById(UUID customerId, UUID voucherId);
     void deleteVoucherById(UUID customerId, UUID voucherId);
+    void deleteAll();
     List<Voucher> searchVouchersByCustomerId(UUID customerId);
     List<Customer> searchCustomersByVoucherId(UUID voucherId);
 }

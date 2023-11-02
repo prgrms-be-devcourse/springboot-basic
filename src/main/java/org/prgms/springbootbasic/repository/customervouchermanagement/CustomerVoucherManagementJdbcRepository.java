@@ -22,8 +22,6 @@ public class CustomerVoucherManagementJdbcRepository implements CustomerVoucherM
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
-
     @Override
     public void allocateVoucherById(UUID customerId, UUID voucherId) {
         jdbcTemplate.update("INSERT INTO customers_vouchers VALUES (UNHEX(REPLACE(:customerId, '-', '')), UNHEX(REPLACE(:voucherId, '-', '')))",
@@ -35,6 +33,11 @@ public class CustomerVoucherManagementJdbcRepository implements CustomerVoucherM
         jdbcTemplate.update("DELETE FROM customers_vouchers " +
                         "WHERE customer_id = UNHEX(REPLACE(:customerId, '-', '')) AND voucher_id = UNHEX(REPLACE(:voucherId, '-', ''))",
                 toParamMap(customerId, voucherId));
+    }
+
+    @Override
+    public void deleteAll() {
+        jdbcTemplate.update("DELETE FROM customers_vouchers", Collections.emptyMap());
     }
 
     @Override
@@ -54,13 +57,6 @@ public class CustomerVoucherManagementJdbcRepository implements CustomerVoucherM
                         "WHERE w.voucher_id = UUID_TO_BIN(:voucherId)",
                 Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                 mapToCustomer);
-    }
-
-    private Map<String, Object> toParamMap(UUID customerId, UUID voucherId){
-        return new HashMap<>(){{
-            put("customerId", customerId.toString().getBytes());
-            put("voucherId", voucherId.toString().getBytes());
-        }};
     }
 
     private static RowMapper<Voucher> mapToVoucher = (rs, rowNum) -> {
@@ -87,5 +83,12 @@ public class CustomerVoucherManagementJdbcRepository implements CustomerVoucherM
 
         return new Customer(customerId, customerName, email, lastLoginAt, createdAt, isBlacked);
     }; // static 메서드의 위치 조정.
+
+    private Map<String, Object> toParamMap(UUID customerId, UUID voucherId){
+        return new HashMap<>(){{
+            put("customerId", customerId.toString().getBytes());
+            put("voucherId", voucherId.toString().getBytes());
+        }};
+    }
 
 }
