@@ -25,10 +25,12 @@ public class CustomerFileRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findAll() {
+        return customerFileManager.customers.values().stream().toList();
+    }
+
+    @Override
     public List<Customer> findAllBlackCustomer() {
-        return customerFileManager.customers.values()
-                .stream()
-                .filter(Customer::isBlack)
-                .toList();
+        return customerFileManager.customers.values().stream().filter(Customer::isBlack).toList();
     }
 }
