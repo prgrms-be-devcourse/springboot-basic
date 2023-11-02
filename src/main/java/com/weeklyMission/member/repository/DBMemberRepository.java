@@ -80,6 +80,7 @@ public class DBMemberRepository implements MemberRepository{
     }
 
     public List<Member> findByIds(List<String> ids){
+        ids.add("dummy");
         List<Member> members = jdbcTemplate.query(
             "select * from members where member_id in (:memberIds)",
             Collections.singletonMap("memberIds", ids), memberRowMapper);

@@ -7,8 +7,8 @@ import com.weeklyMission.voucher.repository.DBVoucherRepository;
 import com.weeklyMission.wallet.domain.Wallet;
 import com.weeklyMission.wallet.dto.WalletRequest;
 import com.weeklyMission.wallet.repository.WalletRepository;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,21 +31,23 @@ public class WalletService {
     }
 
     public List<VoucherResponse> findByMember(String memberId){
-        List<String> voucherIdList = walletRepository.findByMemberId(memberId).stream()
+        List<String> voucherIdList = new ArrayList<>(walletRepository.findByMemberId(memberId).stream()
             .map(Wallet::voucherId)
-            .toList();
+            .toList());
 
-        return voucherRepository.findByIds(voucherIdList).stream()
+        return voucherRepository.findByIds(voucherIdList)
+            .stream()
             .map(VoucherResponse::of)
             .toList();
     }
 
     public List<MemberResponse> findByVoucher(String voucherId){
-        List<String> memberIdList = walletRepository.findByVoucherId(voucherId).stream()
+        List<String> memberIdList = new ArrayList<>(walletRepository.findByVoucherId(voucherId).stream()
             .map(Wallet::memberId)
-            .toList();
+            .toList());
 
-        return memberRepository.findByIds(memberIdList).stream()
+        return memberRepository.findByIds(memberIdList)
+            .stream()
             .map(MemberResponse::of)
             .toList();
     }

@@ -69,6 +69,7 @@ public class DBVoucherRepository implements VoucherRepository{
     }
 
     public List<Voucher> findByIds(List<String> ids){
+        ids.add("dummy");
         List<Voucher> vouchers = jdbcTemplate.query(
             "select * from voucher where voucher_id in (:voucherIds)",
             Collections.singletonMap("voucherIds", ids), voucherRowMapper);
