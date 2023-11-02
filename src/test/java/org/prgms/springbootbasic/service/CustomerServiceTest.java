@@ -11,6 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,7 +28,7 @@ class CustomerServiceTest {
     private CustomerRepository customerRepository;
 
     @Test
-    @DisplayName("CustomerService 내 upsert 동작 확인")
+    @DisplayName("upsert가 제대로 동작하는지 확인")
     void upsertCustomer() {
         Customer customer = new Customer(UUID.randomUUID(), "name", "email", LocalDateTime.now());
 
@@ -41,7 +42,23 @@ class CustomerServiceTest {
     }
 
     @Test
-    @DisplayName("CustomerService 내 findAll 동작 확인")
+    @DisplayName("findById로 제대로 고객을 가져오는지 확인")
+    void findById(){
+        UUID customerId = UUID.randomUUID();
+        Customer customer = new Customer(customerId, "name", "email", LocalDateTime.now());
+
+        when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
+
+        Optional<Customer> retrievedCustomer = customerService.findById(customerId);
+        Optional<Customer> noCustomer = customerService.findById(UUID.randomUUID());
+
+        assertThat(retrievedCustomer.isPresent()).isTrue();
+        assertThat(retrievedCustomer.get()).isEqualTo(customer);
+        assertThat(noCustomer.isPresent()).isFalse();
+    }
+
+    @Test
+    @DisplayName("findAll로 모든 고객을 가져오는지 확인")
     void findAllCustomers() {
         when(customerRepository.findAll())
                 .thenReturn(List.of(new Customer(UUID.randomUUID(), "c1", "cmail1", LocalDateTime.now()),

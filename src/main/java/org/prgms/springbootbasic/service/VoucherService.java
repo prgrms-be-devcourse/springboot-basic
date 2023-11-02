@@ -8,6 +8,7 @@ import org.prgms.springbootbasic.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -28,6 +29,10 @@ public class VoucherService {
         Voucher voucher = new Voucher(UUID.randomUUID(), discountDegree, voucherPolicy);
 
         voucherRepository.upsert(voucher);
+    }
+
+    public Optional<Voucher> findById(UUID voucherId){
+        return voucherRepository.findById(voucherId);
     }
 
     public List<Voucher> findAll(){
