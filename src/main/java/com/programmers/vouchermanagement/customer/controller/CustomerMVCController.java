@@ -25,8 +25,16 @@ public class CustomerMVCController {
         return "redirect:/customers/blacklist";
     }
 
+    @GetMapping
+    public String readAll(Model model) {
+        model.addAttribute("list-title", "all");
+        model.addAttribute("customers", customerService.readAll());
+        return "views/customers";
+    }
+
     @GetMapping("/blacklist")
     public String readAllBlackCustomer(Model model) {
+        model.addAttribute("list-title", "blacklist");
         model.addAttribute("customers", customerService.readAllBlackCustomer());
         return "views/customers";
     }
