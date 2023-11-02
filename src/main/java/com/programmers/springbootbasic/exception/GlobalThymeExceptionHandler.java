@@ -16,4 +16,11 @@ public class GlobalThymeExceptionHandler {
         model.addAttribute("message", ex.getMessage());
         return "customError";
     }
+
+    @ExceptionHandler({
+        Exception.class,
+    })
+    public String handleException() {
+        return "defaultError";
+    }
 }
