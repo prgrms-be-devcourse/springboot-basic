@@ -16,25 +16,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerViewController {
     private final CustomerService customerService;
-    @GetMapping("customer/new")
+    @GetMapping("customers/new")
     public String createForm(){
         return "customer/createCustomer";
     }
 
-    @PostMapping("customer/new")
+    @PostMapping("customers/new")
     public String createCustomer(@ModelAttribute CreateCustomerDto dto){
         customerService.save(dto);
         return "redirect:/customer/list";
     }
 
-    @GetMapping("customer/list")
+    @GetMapping("customers")
     public String getAllCustomers(Model model){
         List<Customer> customers = customerService.getAllCustomers();
         model.addAttribute("customers", customers);
         return "customer/customerList";
     }
 
-    @GetMapping("customer/list/black")
+    @GetMapping("customers/black")
     public String getBlackCustomers(Model model){
         List<Customer> blackCustomers = customerService.getBlackCustomers();
         model.addAttribute("blackCustomers", blackCustomers);

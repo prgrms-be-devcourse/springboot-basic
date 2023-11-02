@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.voucher.service;
 
-import com.prgrms.voucher_manage.domain.voucher.dto.CreateVoucherDto;
-import com.prgrms.voucher_manage.domain.voucher.dto.UpdateVoucherDto;
+import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherDto;
+import com.prgrms.voucher_manage.domain.voucher.controller.dto.UpdateVoucherDto;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.repository.VoucherRepository;
 import lombok.RequiredArgsConstructor;

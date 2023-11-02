@@ -1,4 +1,4 @@
-package com.prgrms.voucher_manage.domain.voucher.dto;
+package com.prgrms.voucher_manage.domain.voucher.controller.dto;
 
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
