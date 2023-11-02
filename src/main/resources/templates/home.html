@@ -4,6 +4,33 @@
   <meta charset="UTF-8">
   <title>Home</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .bg-center {
+      background-position: center; /* 배경 이미지가 섹션의 가운데에 오도록 설정 */
+    }
+    .bg-no-repeat {
+      background-repeat: no-repeat; /* 배경 이미지가 반복되지 않도록 설정 */
+    }
+    .bg-gray-700 {
+      background-color: #4a5568; /* 회색 톤 배경 설정, 여기서는 Tailwind CSS의 gray-700에 해당하는 색상 코드를 사용 */
+    }
+    .bg-blend-multiply {
+      background-blend-mode: multiply; /* 배경 이미지와 배경색이 blend mode multiply로 혼합되도록 설정 */
+    }
+    /* bg-'/mycode.avif' 라는 클래스명은 유효하지 않습니다. CSS에서 이미지 경로는 스타일 속성 안에서 정의되어야 합니다. */
+    .bg-image {
+      background-image: url('/mycode.avif'); /* 배경 이미지 설정, 경로를 올바르게 지정해야 함 */
+    }
+    /* 클래스들을 조합하여 <section> 태그에 적용 */
+    section.bg-center.bg-no-repeat.bg-image.bg-gray-700.bg-blend-multiply {
+      width: 100%; /* 너비를 화면 너비에 맞게 조정 */
+      height: 100vh; /* 높이를 화면 높이에 맞게 조정 */
+      background-image: url('/mycode.avif'); /* 배경 이미지 설정 */
+      background-size: cover; /* 배경 이미지가 부모 요소에 꽉 차도록 설정 */
+      background-position: center; /* 배경 이미지를 중앙에 위치 */
+      background-repeat: no-repeat; /* 배경 이미지 반복 없음 */
+    }
+  </style>
 </head>
 <body>
 <nav class="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900">
@@ -115,54 +142,24 @@
 </nav>
 <script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
 
-<br>
-
-<iframe class="w-full" width="560" height="315" src="https://www.youtube.com/embed/lZhIwxv75dE?start=12&autoplay=1&mute=0"
-        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-<br>
-<br>
-
-<div class="container mx-auto p-4">
-  <!-- Grid 시작 -->
-  <div class="grid md:grid-cols-3 gap-4">
-
-    <!-- 첫 번째 카드 -->
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
-      <a href="/voucher/vouchers">
-        <div class="p-5">
-          <h3 class="text-gray-900 text-xl font-medium mb-2">전체 바우처 조회</h3>
-          <p class="text-gray-600">바우처 등록, 수정 및 삭제를 관리할 수 있는 곳입니다.</p>
-        </div>
+<section class="bg-center bg-no-repeat bg-image bg-gray-700 bg-blend-multiply">
+  <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
+    <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">This is Voucher management system</h1>
+    <p class="mb-2 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Thanks to visit here</p>
+    <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Made By HappyJamy</p>
+    <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+      <a href="user/register" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+        Get started
+        <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+        </svg>
+      </a>
+      <a href="voucher/vouchers" class="inline-flex justify-center hover:text-gray-900 items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
+        See Vouchers
       </a>
     </div>
-
-    <!-- 두 번째 카드 -->
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
-      <a href="/user">
-        <div class="p-5">
-          <h3 class="text-gray-900 text-xl font-medium mb-2">차단 유저 조회</h3>
-          <p class="text-gray-600">차단 된 유저들의 목록을 조회 할 수 있습니다.</p>
-        </div>
-      </a>
-    </div>
-
-    <!-- 세 번째 카드 -->
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 ease-in-out">
-      <a href="/userVoucher/voucherByUser">
-        <div class="p-5">
-          <h3 class="text-gray-900 text-xl font-medium mb-2">내 바우처 찾기</h3>
-          <p class="text-gray-600">사용자의 바우처를 조회 할 수 있습니다.</p>
-        </div>
-      </a>
-    </div>
-
   </div>
-  <!-- Grid 끝 -->
-</div>
-
-
-
+</section>
 </body>
 </html>
 
