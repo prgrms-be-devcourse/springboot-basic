@@ -34,6 +34,11 @@ public class ConsoleInput {
         return new VoucherCreateInfo(policy, amountOrPercent);
     }
 
+    public UUID deleteVoucherInput() {
+        consoleOutput.getInput();
+        return UUID.fromString(scanner.nextLine());
+    }
+
     public VoucherUpdateInfo updateVoucherInput() {
         consoleOutput.getInput();
         UUID voucherId = UUID.fromString(scanner.nextLine());

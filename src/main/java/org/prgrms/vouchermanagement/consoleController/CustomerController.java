@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement.controller;
+package org.prgrms.vouchermanagement.consoleController;
 
 import org.prgrms.vouchermanagement.customer.domain.Customer;
 import org.prgrms.vouchermanagement.customer.service.CustomerService;

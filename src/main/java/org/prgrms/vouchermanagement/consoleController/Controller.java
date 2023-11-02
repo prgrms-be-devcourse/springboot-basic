@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement.controller;
+package org.prgrms.vouchermanagement.consoleController;
 
 import org.prgrms.vouchermanagement.view.Command;
 import org.prgrms.vouchermanagement.view.ConsoleInput;
