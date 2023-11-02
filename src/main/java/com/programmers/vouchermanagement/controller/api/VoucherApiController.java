@@ -27,7 +27,7 @@ public class VoucherApiController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<VoucherResponseDto>> getVouchers(@RequestBody GetVouchersRequestDto request) {
+    public ResponseEntity<List<VoucherResponseDto>> getVouchers(@ModelAttribute GetVouchersRequestDto request) {
         return ResponseEntity.ok(voucherService.getVouchers(request));
     }
 
