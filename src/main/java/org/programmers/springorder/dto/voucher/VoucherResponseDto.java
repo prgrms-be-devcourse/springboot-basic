@@ -24,6 +24,14 @@ public class VoucherResponseDto {
         return voucherId;
     }
 
+    public long getDiscountValue() {
+        return discountValue;
+    }
+
+    public String getVoucherType() {
+        return voucherType;
+    }
+
     @Override
     public String toString() {
         return "[" +
