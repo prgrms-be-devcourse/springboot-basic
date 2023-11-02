@@ -23,7 +23,7 @@ public class CustomerService {
     @Transactional
     public Customer createCustomer(CustomerRequestDto customerRequestDto) {
         Customer customer = Customer.of(UUID.randomUUID(), customerRequestDto);
-        customerRepository.save(customer);
+        customerRepository.insert(customer);
         return customer;
     }
 

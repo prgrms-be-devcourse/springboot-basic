@@ -37,8 +37,8 @@ class JdbcVoucherRepositoryTest {
         Voucher percentVoucher = Voucher.toVoucher(percentVoucherId, 10, VoucherType.PERCENT);
 
         // when
-        voucherRepository.save(fixedVoucher);
-        voucherRepository.save(percentVoucher);
+        voucherRepository.insert(fixedVoucher);
+        voucherRepository.insert(percentVoucher);
 
         Voucher findFixedVoucher = voucherRepository.findById(fixedVoucherId).get();
         Voucher findPercentVoucher = voucherRepository.findById(percentVoucherId).get();
@@ -54,8 +54,8 @@ class JdbcVoucherRepositoryTest {
         // given
         Voucher voucher1 = Voucher.toVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED);
         Voucher voucher2 = Voucher.toVoucher(UUID.randomUUID(), 10, VoucherType.PERCENT);
-        voucherRepository.save(voucher1);
-        voucherRepository.save(voucher2);
+        voucherRepository.insert(voucher1);
+        voucherRepository.insert(voucher2);
 
         // when
         List<Voucher> voucherList = voucherRepository.findAll();
@@ -70,7 +70,7 @@ class JdbcVoucherRepositoryTest {
         // given
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-        voucherRepository.save(voucher);
+        voucherRepository.insert(voucher);
 
         // when
         Optional<Voucher> findVoucher = voucherRepository.findById(voucherId);
@@ -86,7 +86,7 @@ class JdbcVoucherRepositoryTest {
         // given
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-        voucherRepository.save(voucher);
+        voucherRepository.insert(voucher);
 
         // when
         voucher.update(VoucherType.PERCENT, 10);
@@ -103,7 +103,7 @@ class JdbcVoucherRepositoryTest {
         // given
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-        voucherRepository.save(voucher);
+        voucherRepository.insert(voucher);
 
         // when
         voucherRepository.deleteById(voucherId);

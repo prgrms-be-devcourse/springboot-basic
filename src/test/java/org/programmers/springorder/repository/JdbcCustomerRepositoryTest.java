@@ -37,7 +37,7 @@ class JdbcCustomerRepositoryTest {
         Customer customer = Customer.toCustomer(customerId, customerName, customerType);
 
         // when
-        customerRepository.save(customer);
+        customerRepository.insert(customer);
         Customer findCustomer = customerRepository.findById(customerId).get();
 
         // then
@@ -49,7 +49,7 @@ class JdbcCustomerRepositoryTest {
     void findAll() {
         // given
         Customer customer = Customer.toCustomer(UUID.randomUUID(), "홍길동", CustomerType.NORMAL);
-        customerRepository.save(customer);
+        customerRepository.insert(customer);
 
         // when
         List<Customer> customerList = customerRepository.findAll();
@@ -64,8 +64,8 @@ class JdbcCustomerRepositoryTest {
         // given
         Customer customer1 = Customer.toCustomer(UUID.randomUUID(), "홍길동", CustomerType.NORMAL);
         Customer customer2 = Customer.toCustomer(UUID.randomUUID(), "세종대왕", CustomerType.BLACK);
-        customerRepository.save(customer1);
-        customerRepository.save(customer2);
+        customerRepository.insert(customer1);
+        customerRepository.insert(customer2);
 
         // when
         List<Customer> blacklist = customerRepository.findAllBlackList();
@@ -80,7 +80,7 @@ class JdbcCustomerRepositoryTest {
         // given
         UUID customerId = UUID.randomUUID();
         Customer customer = Customer.toCustomer(customerId, "홍길동", CustomerType.NORMAL);
-        customerRepository.save(customer);
+        customerRepository.insert(customer);
 
         // when
         Optional<Customer> findCustomer = customerRepository.findById(customerId);

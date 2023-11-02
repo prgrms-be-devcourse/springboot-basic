@@ -56,8 +56,8 @@ class VoucherServiceTest {
         Voucher voucher1 = Voucher.toVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED);
         Voucher voucher2 = Voucher.toVoucher(UUID.randomUUID(), 10, VoucherType.PERCENT);
 
-        voucherRepository.save(voucher1);
-        voucherRepository.save(voucher2);
+        voucherRepository.insert(voucher1);
+        voucherRepository.insert(voucher2);
 
         // when
         List<VoucherResponseDto> voucherList = voucherService.getAllVoucher();
@@ -84,7 +84,7 @@ class VoucherServiceTest {
         // given
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-        voucherRepository.save(voucher);
+        voucherRepository.insert(voucher);
 
         VoucherRequestDto updatedRequestDto = new VoucherRequestDto(10, VoucherType.PERCENT);
 
@@ -104,7 +104,7 @@ class VoucherServiceTest {
         // given
         UUID voucherId = UUID.randomUUID();
         Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-        voucherRepository.save(voucher);
+        voucherRepository.insert(voucher);
 
         // when
         voucherService.deleteVoucher(voucherId);

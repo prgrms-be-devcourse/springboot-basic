@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface CustomerRepository {
 
-    Customer save(Customer customer);   // 회원 저장
+    Customer insert(Customer customer);   // 회원 저장
 
     List<Customer> findAll();   // 전체 회원 조회
 
