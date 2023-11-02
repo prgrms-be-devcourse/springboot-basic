@@ -3,6 +3,8 @@ package com.programmers.vouchermanagement.voucher.controller;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,7 @@ public class VoucherRestController {
     }
 
     @PostMapping
-    public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
+    public VoucherResponse create(@Valid CreateVoucherRequest createVoucherRequest) {
         return voucherService.create(createVoucherRequest);
     }
 
