@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,5 +41,12 @@ public class CustomerViewController {
         List<Customer> blackCustomers = customerService.getBlackCustomers();
         model.addAttribute("blackCustomers", blackCustomers);
         return "customer/blackCustomerList";
+    }
+
+    @GetMapping("customers/{customerId}")
+    public String getCustomer(@PathVariable UUID customerId, Model model){
+        Customer customer = customerService.findById(customerId);
+        model.addAttribute("customer", customer);
+        return "customer/getCustomer";
     }
 }
