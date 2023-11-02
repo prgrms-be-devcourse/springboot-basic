@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>Voucher Management Application</title>
+</head>
+<body class="container-fluid">
+    <h1>Create Voucher</h1>
+    <form th:action="@{/voucher}" method="post">
+        <div class="mb-3">
+            <label for="voucherType" class="form-label">Type</label>
+            <select id="voucherType" name="voucherType" class="form-select">
+                <option selected>Open this select menu</option>
+                <option value="FIXED">FIXED</option>
+                <option value="PERCENT">PERCENT</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="discount" class="form-label">Discount</label>
+            <input type="number" class="form-control" id="discount" name="discount">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
+</html>
