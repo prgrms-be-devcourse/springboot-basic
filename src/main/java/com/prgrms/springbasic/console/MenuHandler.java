@@ -1,4 +1,4 @@
-package com.prgrms.springbasic.common;
+package com.prgrms.springbasic.console;
 
 import com.prgrms.springbasic.domain.customer.controller.CustomerController;
 import com.prgrms.springbasic.domain.customer.dto.CreateCustomerRequest;

@@ -1,4 +1,4 @@
-package com.prgrms.springbasic.common;
+package com.prgrms.springbasic.console;
 
 import java.util.Arrays;
 import java.util.List;

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -42,15 +43,13 @@ public class VoucherService {
 
     @Transactional(readOnly = true)
     public VoucherResponse findById(UUID voucherId) {
-        Voucher voucher = voucherRepository.findVoucherById(voucherId)
-                .orElseThrow(() -> new IllegalArgumentException("Voucher not found"));
+        Voucher voucher = findVoucher(voucherId);
         return VoucherResponse.from(voucher);
     }
 
     @Transactional
     public void updateVoucher(UpdateVoucherRequest request) {
-        Voucher voucher = voucherRepository.findVoucherById(request.voucherId())
-                .orElseThrow(() -> new IllegalArgumentException("Voucher not found"));
+        Voucher voucher = findVoucher(request.voucherId());
         voucher.update(request.discountValue());
         voucherRepository.updateVoucher(voucher);
     }
@@ -62,7 +61,8 @@ public class VoucherService {
 
     @Transactional
     public void deleteById(UUID voucherId) {
-        voucherRepository.deleteById(voucherId);
+        Voucher voucher = findVoucher(voucherId);
+        voucherRepository.deleteById(voucher.getVoucherId());
     }
 
     @Transactional(readOnly = true)
@@ -76,10 +76,15 @@ public class VoucherService {
                 vouchers = voucherRepository.findByCreatedAt(LocalDate.parse(date));
             }
         } else {
-            logger.info("No voucher found");
+            logger.info("Voucher list is empty");
         }
         return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
+    }
+
+    private Voucher findVoucher(UUID voucherId) {
+        return voucherRepository.findVoucherById(voucherId)
+                .orElseThrow(() -> new NoSuchElementException("Voucher not found"));
     }
 }

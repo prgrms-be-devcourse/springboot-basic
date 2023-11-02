@@ -1,4 +1,4 @@
-package com.prgrms.springbasic.common;
+package com.prgrms.springbasic.console;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
