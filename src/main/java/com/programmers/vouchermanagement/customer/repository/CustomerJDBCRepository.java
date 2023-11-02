@@ -12,8 +12,7 @@ import java.util.List;
 
 import static com.programmers.vouchermanagement.constant.Constant.UPDATE_ONE_FLAG;
 import static com.programmers.vouchermanagement.constant.Message.NOT_INSERTED;
-import static com.programmers.vouchermanagement.customer.repository.CustomerQuery.FIND_ALL_BLACK_CUSTOMER;
-import static com.programmers.vouchermanagement.customer.repository.CustomerQuery.INSERT;
+import static com.programmers.vouchermanagement.customer.repository.CustomerQuery.*;
 
 @Repository
 @Profile("jdbc")
@@ -38,5 +37,10 @@ public class CustomerJDBCRepository implements CustomerRepository {
             logger.error(NOT_INSERTED);
             throw new RuntimeException(NOT_INSERTED);
         }
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return jdbcTemplate.query(FIND_ALL, domainMapper.customerRowMapper);
     }
 }
