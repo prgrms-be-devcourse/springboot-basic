@@ -10,6 +10,7 @@ import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.util.FileUtil;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -95,7 +96,7 @@ public class FileVoucherRepository implements VoucherRepository {
             long discount = Long.parseLong(voucherInfo[1]);
             VoucherType voucherType = VoucherType.valueOf(voucherInfo[2]);
             UseStatusType useStatusType = UseStatusType.valueOf(voucherInfo[3]);
-            LocalDate createdAt = LocalDate.parse(voucherInfo[4]);
+            LocalDateTime createdAt = LocalDateTime.parse(voucherInfo[4]);
 
             Voucher voucher = switch (voucherType) {
                 case FIXED -> new FixedDiscountVoucher(voucherId, discount, useStatusType, createdAt);

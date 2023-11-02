@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS vouchers (
       discount BIGINT NOT NULL,
       voucher_type ENUM('FIXED', 'PERCENT') NOT NULL,
       use_status_type VARCHAR(255) NOT NULL,
-      created_at DATE NOT NULL
+      created_at DATETIME NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS wallets (

@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,7 +52,7 @@ class ApiWalletControllerTest {
     VoucherService voucherService;
 
     private Customer customer = new Customer(UUID.randomUUID(), "customer", BLACKLIST);
-    private Voucher voucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, AVAILABLE, LocalDate.now());
+    private Voucher voucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, AVAILABLE, LocalDateTime.now());
     private Wallet wallet = new Wallet(customer.getCustomerId(), voucher.getVoucherId());
 
     @Test

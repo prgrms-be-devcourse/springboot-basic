@@ -19,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.UUID;
 
@@ -42,8 +44,8 @@ class ApiVoucherControllerTest {
     @MockBean
     private VoucherService voucherService;
 
-    private Voucher fixedDiscountVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, AVAILABLE, LocalDate.now());
-    private Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20 , UNAVAILABLE, LocalDate.now());
+    private Voucher fixedDiscountVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, AVAILABLE, LocalDateTime.now());
+    private Voucher percentDiscountVoucher = new PercentDiscountVoucher(UUID.randomUUID(), 20 , UNAVAILABLE, LocalDateTime.now());
     private VoucherCreateRequest voucherCreateRequest = new VoucherCreateRequest(fixedDiscountVoucher.getDiscount(), String.valueOf(fixedDiscountVoucher.getVoucherType()));;
 
     @Test
@@ -118,6 +120,8 @@ class ApiVoucherControllerTest {
     void findVoucherById_Success_Test() throws Exception {
         // Given
         when(voucherService.findById(fixedDiscountVoucher.getVoucherId())).thenReturn(VoucherResponse.toDto(fixedDiscountVoucher));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+        LocalDateTime expectedDateTime = LocalDateTime.parse(fixedDiscountVoucher.getCreatedAt().toString(), formatter);
 
         // When
         mvc.perform(get("/api/v1/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
@@ -127,7 +131,7 @@ class ApiVoucherControllerTest {
                 .andExpect(jsonPath("$.discount").value(fixedDiscountVoucher.getDiscount()))
                 .andExpect(jsonPath("$.voucherType").value(fixedDiscountVoucher.getVoucherType().toString()))
                 .andExpect(jsonPath("$.useStatusType").value(fixedDiscountVoucher.getUseStatusType().toString()))
-                .andExpect(jsonPath("$.createdAt").value(fixedDiscountVoucher.getCreatedAt().toString()));
+                .andExpect(jsonPath("$.createdAt").value(expectedDateTime.format(formatter)));
 
         // Then
         verify(voucherService).findById(any(UUID.class));
@@ -137,7 +141,7 @@ class ApiVoucherControllerTest {
     @DisplayName("조건(생성 날짜)으로 바우처 검색하기")
     void findVoucherByCreatedAt_Success_Test() throws Exception {
         // Given
-        VoucherCondition condition = new VoucherCondition(null, LocalDate.now().toString());
+        VoucherCondition condition = new VoucherCondition(null, null, LocalDate.now().toString(), null);
         List<VoucherResponse> vouchers = List.of(
                 VoucherResponse.toDto(fixedDiscountVoucher),
                 VoucherResponse.toDto(percentDiscountVoucher));
@@ -158,7 +162,7 @@ class ApiVoucherControllerTest {
     @DisplayName("조건(바우처 타입)으로 바우처 검색하기")
     void findVoucherByVoucherType_Success_Test() throws Exception {
         // Given
-        VoucherCondition condition = new VoucherCondition(String.valueOf(FIXED), null);
+        VoucherCondition condition = new VoucherCondition(String.valueOf(FIXED), null, null , null);
         List<VoucherResponse> vouchers = List.of(
                 VoucherResponse.toDto(fixedDiscountVoucher),
                 VoucherResponse.toDto(percentDiscountVoucher));
@@ -176,11 +180,54 @@ class ApiVoucherControllerTest {
     }
 
     @Test
+    @DisplayName("조건(날짜 범위)으로 바우처 검색하기")
+    void findVoucherByCreatedAtRange_Success_Test() throws Exception {
+        // Given
+        VoucherCondition condition = new VoucherCondition(null, null, "2023-11-01", "2023-11-02");
+        List<VoucherResponse> vouchers = List.of(
+                VoucherResponse.toDto(new FixedDiscountVoucher(UUID.randomUUID(), 1, AVAILABLE, LocalDateTime.of(2023, 11, 1, 10, 30))),
+                VoucherResponse.toDto(new FixedDiscountVoucher(UUID.randomUUID(), 1, AVAILABLE, LocalDateTime.of(2023, 11, 2, 10, 30))));
+        when(voucherService.findVoucherByCondition(condition)).thenReturn(vouchers);
+
+        // When
+        mvc.perform(get("/api/v1/vouchers/condition")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(condition)))
+                .andExpect(status().isOk());
+
+        // Then
+        verify(voucherService).findVoucherByCondition(any(VoucherCondition.class));
+    }
+
+    @Test
+    @DisplayName("조건(할인 정보)으로 바우처 검색하기")
+    void findVoucherByDiscount_Success_Test() throws Exception {
+        // Given
+        VoucherCondition condition = new VoucherCondition(null, 10L, null, null);
+        List<VoucherResponse> vouchers = List.of(
+                VoucherResponse.toDto(fixedDiscountVoucher),
+                VoucherResponse.toDto(percentDiscountVoucher)
+        );
+        when(voucherService.findVoucherByCondition(condition)).thenReturn(vouchers);
+
+        // When
+        mvc.perform(get("/api/v1/vouchers/condition")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(condition)))
+                .andExpect(status().isOk());
+
+        // Then
+        verify(voucherService).findVoucherByCondition(any(VoucherCondition.class));
+    }
+
+    @Test
     @DisplayName("바우처 업데이트 테스트")
     void voucherUpdate_Success_Test() throws Exception {
         // Given
         VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(30, String.valueOf(AVAILABLE));
-        Voucher newVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, UNAVAILABLE, LocalDate.now());
+        Voucher newVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, UNAVAILABLE, LocalDateTime.now());
         Voucher updatedVoucher = new FixedDiscountVoucher(
                 newVoucher.getVoucherId(),
                 voucherUpdateRequest.discount(),

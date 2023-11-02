@@ -16,10 +16,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.zerozae.voucher.domain.voucher.UseStatusType.AVAILABLE;
 import static com.zerozae.voucher.domain.voucher.UseStatusType.UNAVAILABLE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -212,7 +214,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 검색 조건(바우처 타입)에 따른 검색 테스트")
     void findVoucherByVoucherTypeCondition_Success_Test() {
         // Given
-        VoucherCondition voucherCondition = new VoucherCondition(String.valueOf(fixedDiscountVoucher.getVoucherType()), null);
+        VoucherCondition voucherCondition = new VoucherCondition(String.valueOf(fixedDiscountVoucher.getVoucherType()), null, null ,null);
         when(voucherRepository.findVoucherByCondition(voucherCondition)).thenReturn(List.of(fixedDiscountVoucher));
 
         // When
@@ -226,7 +228,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 검색 조건(생성 날짜)에 따른 검색 테스트")
     void findVoucherByCreatedAtCondition_Success_Test() {
         // Given
-        VoucherCondition voucherCondition = new VoucherCondition(null, LocalDate.now().toString());
+        VoucherCondition voucherCondition = new VoucherCondition(null, null, LocalDate.now().toString(), null);
         when(voucherRepository.findVoucherByCondition(voucherCondition)).thenReturn(List.of(fixedDiscountVoucher, percentDiscountVoucher));
 
         // When
@@ -237,10 +239,42 @@ class VoucherServiceTest {
     }
 
     @Test
-    @DisplayName("바우처 검색 조건(생성 날짜)에 따른 검색 테스트")
+    @DisplayName("바우처 검색 조건(생성 날짜, 바우처 타입)에 따른 검색 테스트")
     void findVoucherByCondition_Success_Test() {
         // Given
-        VoucherCondition voucherCondition = new VoucherCondition(fixedDiscountVoucher.getVoucherType().toString(), LocalDate.now().toString());
+        VoucherCondition voucherCondition = new VoucherCondition(fixedDiscountVoucher.getVoucherType().toString(), null, LocalDate.now().toString(), null);
+        when(voucherRepository.findVoucherByCondition(voucherCondition)).thenReturn(List.of(fixedDiscountVoucher));
+
+        // When
+        voucherService.findVoucherByCondition(voucherCondition);
+
+        // Then
+        verify(voucherRepository).findVoucherByCondition(voucherCondition);
+    }
+
+    @Test
+    @DisplayName("바우처 검색 조건(생성 날짜 범위)에 따른 검색 테스트")
+    void findVoucherByCreatedAtRangeCondition_Success_Test() {
+        // Given
+        VoucherCondition voucherCondition = new VoucherCondition(null, null, "2023-11-01", "2023-11-02");
+        Voucher firstVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, AVAILABLE, LocalDateTime.of(2023, 11, 1, 10, 30));
+        Voucher secondVoucher = new FixedDiscountVoucher(UUID.randomUUID(), 10, AVAILABLE, LocalDateTime.of(2023, 11, 2, 10, 30));
+
+        List<Voucher> vouchers = List.of(firstVoucher, secondVoucher);
+        when(voucherRepository.findVoucherByCondition(voucherCondition)).thenReturn(vouchers);
+
+        // When
+        voucherService.findVoucherByCondition(voucherCondition);
+
+        // Then
+        verify(voucherRepository).findVoucherByCondition(voucherCondition);
+    }
+
+    @Test
+    @DisplayName("바우처 검색 조건(할인 정보)에 따른 검색 테스트")
+    void findVoucherByDiscountCondition_Success_Test() {
+        // Given
+        VoucherCondition voucherCondition = new VoucherCondition(null, 10L, null, null);
         when(voucherRepository.findVoucherByCondition(voucherCondition)).thenReturn(List.of(fixedDiscountVoucher));
 
         // When

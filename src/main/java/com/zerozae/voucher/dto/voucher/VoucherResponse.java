@@ -7,6 +7,7 @@ import com.zerozae.voucher.domain.voucher.VoucherType;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -16,9 +17,9 @@ public class VoucherResponse {
     private long discount;
     private VoucherType voucherType;
     private UseStatusType useStatusType;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
-    public VoucherResponse(UUID voucherId, long discount, VoucherType voucherType, UseStatusType useStatusType, LocalDate createdAt) {
+    public VoucherResponse(UUID voucherId, long discount, VoucherType voucherType, UseStatusType useStatusType, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.discount = discount;
         this.voucherType = voucherType;
