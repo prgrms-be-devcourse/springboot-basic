@@ -26,7 +26,7 @@ public class WebExceptionAdvisor {
     @ExceptionHandler(Exception.class)
     public String handleException(Model model, Exception e) {
         model.addAttribute("error", e.getMessage());
-        log.warn("ErrorMessage = {}", e.getMessage());
+        log.error("ErrorMessage = {}", e.getMessage());
         return "/error";
     }
 }

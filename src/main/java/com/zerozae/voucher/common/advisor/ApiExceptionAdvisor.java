@@ -24,7 +24,7 @@ public class ApiExceptionAdvisor {
 
     @ExceptionHandler(Exception.class)
     public Response exceptionMessage(Exception e){
-        log.warn("Error Message ={}", e.getMessage());
+        log.error("Error Message ={}", e.getMessage());
         return getFailureResponse(e.getMessage());
     }
 
