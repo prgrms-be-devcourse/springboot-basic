@@ -4,9 +4,11 @@ import devcourse.springbootbasic.commandline.constant.InputMessage;
 import devcourse.springbootbasic.commandline.console.input.ConsoleInput;
 import devcourse.springbootbasic.commandline.console.output.ConsoleOutput;
 import devcourse.springbootbasic.exception.InputException;
+import devcourse.springbootbasic.util.UUIDUtil;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Function;
 
 import static devcourse.springbootbasic.exception.InputErrorMessage.NOT_NUMBER;
@@ -35,16 +37,25 @@ public class ConsoleIOHandler {
         return getInputWithPrint();
     }
 
-    public int inputIntWithMessage(InputMessage inputMessage) {
-        this.printQuestionMessage(inputMessage.getMessage());
-
-        return getParseInputWithPrint(Integer::parseInt);
-    }
-
     public long inputLongWithMessage(InputMessage inputMessage) {
         this.printQuestionMessage(inputMessage.getMessage());
 
         return getParseInputWithPrint(Long::parseLong);
+    }
+
+
+    public boolean inputBooleanWithMessage(InputMessage inputMessage) {
+        this.printQuestionMessage(inputMessage.getMessage());
+
+        String input = getInputWithPrint();
+        return input.equalsIgnoreCase("y");
+    }
+
+    public UUID inputUUIDWithMessage(InputMessage inputMessage) {
+        this.printQuestionMessage(inputMessage.getMessage());
+
+        String input = getInputWithPrint();
+        return UUIDUtil.stringToUUID(input);
     }
 
     private <T> T getParseInputWithPrint(Function<String, T> parseFunction) {

@@ -1,6 +1,5 @@
 package devcourse.springbootbasic.commandline.function;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Arrays;
@@ -10,19 +9,26 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public enum Function {
 
-    EXIT("exit", "Type exit to exit the program.", FunctionHandler::exit),
-    CREATE_VOUCHER("create", "Type create to create a new voucher.", FunctionHandler::createVoucher),
-    LIST_VOUCHERS("list", "Type list to list all vouchers.", FunctionHandler::listAllVouchers),
-    LIST_BLACKLISTED_CUSTOMERS("blacklist", "Type blacklist to list all blacklisted customers.", FunctionHandler::findAllBlacklistedCustomers);
+    CREATE_VOUCHER("1", "Create a new voucher.", FunctionHandler::createVoucher),
+    LIST_VOUCHERS("2", "List all vouchers.", FunctionHandler::listAllVouchers),
+    UPDATE_VOUCHER_DISCOUNT_VALUE("3", "Update discount value of a voucher.", FunctionHandler::updateDiscountValue),
+    DELETE_VOUCHER("4", "Delete a voucher.", FunctionHandler::deleteVoucher),
+    CREATE_CUSTOMER("5", "Create a new customer.", FunctionHandler::createCustomer),
+    LIST_BLACKLISTED_CUSTOMERS("6", "List all blacklisted customers.", FunctionHandler::findAllBlacklistedCustomers),
+    UPDATE_BLACKLIST_STATUS("7", "Update blacklist status of a customer.", FunctionHandler::updateBlacklistStatus),
+    ASSIGN_VOUCHER_TO_CUSTOMER("8", "Assign a voucher to a customer.", FunctionHandler::assignVoucherToCustomer),
+    LIST_VOUCHERS_BY_CUSTOMER_ID("9", "List vouchers by customer id.", FunctionHandler::listVouchersByCustomerId),
+    UNASSIGN_VOUCHER_FROM_CUSTOMER("10", "Unassign a voucher from a customer.", FunctionHandler::unassignVoucherFromCustomer),
+    FIND_CUSTOMER_BY_VOUCHER_ID("11", "Find customer by voucher id.", FunctionHandler::findCustomerByVoucherId),
+    EXIT("0", "Exit the program.", FunctionHandler::exit);
 
-    private final String functionString;
-    @Getter
+    private final String code;
     private final String description;
     private final Consumer<FunctionHandler> functionConsumer;
 
-    public static Optional<Function> fromString(String functionString) {
+    public static Optional<Function> fromCode(String functionString) {
         return Arrays.stream(values())
-                .filter(function -> function.functionString.equalsIgnoreCase(functionString.trim()))
+                .filter(function -> function.code.equalsIgnoreCase(functionString.trim()))
                 .findFirst();
     }
 
@@ -32,6 +38,6 @@ public enum Function {
 
     @Override
     public String toString() {
-        return this.getDescription();
+        return this.code + ". " + this.description;
     }
 }

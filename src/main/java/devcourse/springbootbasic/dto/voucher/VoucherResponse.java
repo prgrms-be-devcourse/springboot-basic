@@ -1,18 +1,16 @@
-package devcourse.springbootbasic.dto;
+package devcourse.springbootbasic.dto.voucher;
 
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import lombok.Getter;
 
-import java.util.UUID;
-
 @Getter
-public class VoucherCreateResponse {
+public class VoucherResponse {
 
-    private final UUID id;
+    private final String id;
 
-    public VoucherCreateResponse(Voucher voucher) {
-        this.id = voucher.getId();
+    public VoucherResponse(Voucher voucher) {
+        this.id = voucher.getId().toString();
     }
 
     @Override

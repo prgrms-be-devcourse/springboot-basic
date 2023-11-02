@@ -1,4 +1,4 @@
-package devcourse.springbootbasic.dto;
+package devcourse.springbootbasic.dto.voucher;
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
 import devcourse.springbootbasic.domain.voucher.VoucherType;
@@ -12,9 +12,9 @@ public class VoucherCreateRequest {
     private final VoucherType voucherType;
     private final long discountValue;
 
-    public Voucher toEntity() {
+    public Voucher toEntity(UUID voucherId) {
         return Voucher.builder()
-                .id(UUID.randomUUID())
+                .id(voucherId)
                 .voucherType(voucherType)
                 .discountValue(discountValue)
                 .build();
