@@ -20,12 +20,15 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(PolicyStatus policy, long amountOrPercent) {
+    public Voucher createVoucher(PolicyStatus policy, long amountOrPercent) {
         UUID voucherId = UUID.randomUUID();
-
         DiscountPolicy discountPolicy = getDiscountPolicy(policy, amountOrPercent);
-
         voucherRepository.create(voucherId, discountPolicy);
+        return new Voucher(voucherId, discountPolicy);
+    }
+
+    public Voucher findVoucher(UUID voucherId) {
+        return voucherRepository.findById(voucherId);
     }
 
     public List<Voucher> voucherLists() {
@@ -36,11 +39,15 @@ public class VoucherService {
         voucherRepository.update(voucherId, amountOrPercent);
     }
 
-    public void deleteVoucher() {
-        voucherRepository.deleteAll();
+    public Voucher deleteVoucher(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId);
+        voucherRepository.delete(voucherId);
+        return voucher;
     }
 
-
+    public List<Voucher> findVouchersByPolicy(PolicyStatus policy) {
+        return voucherRepository.findVoucherByPolicy(policy);
+    }
 
     private DiscountPolicy getDiscountPolicy(PolicyStatus policy, long amountOrPercent) {
         DiscountPolicy discountPolicy = null;

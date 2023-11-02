@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement.controller;
+package org.prgrms.vouchermanagement.consoleController;
 
 import org.prgrms.vouchermanagement.dto.VoucherCreateInfo;
 import org.prgrms.vouchermanagement.dto.VoucherUpdateInfo;
@@ -10,6 +10,7 @@ import org.prgrms.vouchermanagement.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -61,7 +62,8 @@ public class VoucherController {
 
     private void deleteVoucher() {
         consoleOutput.printDeleteVoucherMessage();
-        voucherService.deleteVoucher();
+        UUID voucherId = consoleInput.deleteVoucherInput();
+        voucherService.deleteVoucher(voucherId);
     }
 
 

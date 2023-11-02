@@ -2,6 +2,7 @@ package org.prgrms.vouchermanagement.voucher.repository;
 
 import org.prgrms.vouchermanagement.voucher.policy.DiscountPolicy;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
+import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +14,9 @@ public interface VoucherRepository {
 
      void update(UUID voucherId, long amount);
 
-     int deleteAll();
+     int delete(UUID voucherId);
 
-     Voucher getById(UUID voucherId);
+     Voucher findById(UUID voucherId);
+
+     List<Voucher> findVoucherByPolicy(PolicyStatus policy);
 }
