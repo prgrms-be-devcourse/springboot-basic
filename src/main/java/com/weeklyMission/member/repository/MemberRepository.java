@@ -13,5 +13,7 @@ public interface MemberRepository {
 
     Optional<Member> findById(String id);
 
+    List<Member> findByIds(List<String> ids);
+
     void deleteById(String id);
 }
