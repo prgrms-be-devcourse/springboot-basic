@@ -4,6 +4,8 @@ Spring:
     group:
       "dev": "dev, console"
       "prod": "prod, web"
+  messages:
+    basename: messages, errors
 
 ---
 spring:
