@@ -16,7 +16,7 @@ import static com.programmers.vouchermanagement.customer.repository.CustomerQuer
 import static com.programmers.vouchermanagement.customer.repository.CustomerQuery.INSERT;
 
 @Repository
-@Primary
+@Profile("jdbc")
 public class CustomerJDBCRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerJDBCRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
