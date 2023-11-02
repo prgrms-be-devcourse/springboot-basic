@@ -27,6 +27,11 @@ public class CustomerInMemoryRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findAll() {
+        return customers.values().stream().toList();
+    }
+
+    @Override
     public List<Customer> findAllBlackCustomer() {
         return customers.values()
                 .stream()
