@@ -10,7 +10,7 @@ public class VoucherWebCreateRequestDto {
     @EnumNamePattern(regexp = "FIXED_AMOUNT_DISCOUNT|PERCENT_DISCOUNT", enumClass = VoucherDiscountType.class)
     private VoucherDiscountType voucherDiscountType;
 
-    public VoucherWebCreateRequestDto() {
+    private VoucherWebCreateRequestDto() {
     }
 
     public VoucherWebCreateRequestDto(Integer discount, VoucherDiscountType voucherDiscountType) {
