@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,5 +88,17 @@ public class WebVoucherController {
     String delete(@PathVariable String id) {
         voucherService.deleteById(UUID.fromString(id));
         return "redirect:/admin/vouchers";
+    }
+
+    @ExceptionHandler
+    String ExceedVoucherPercent(InputMismatchException e, Model model) {
+        model.addAttribute("code", e.getMessage());
+        return "voucher_exception.html";
+    }
+
+    @ExceptionHandler
+    String CommonException(Exception e, Model model) {
+        model.addAttribute("code", "잘못된 접근입니다.");
+        return "voucher_exception.html";
     }
 }
