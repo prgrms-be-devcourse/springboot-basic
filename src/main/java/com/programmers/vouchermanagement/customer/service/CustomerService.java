@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.customer.service;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CustomerDto;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,11 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> readAllBlackCustomer() {
+    public List<CustomerDto> readAllBlackCustomer() {
         List<Customer> blacklist = customerRepository.findAllBlackCustomer();
         if (blacklist.isEmpty()) {
             return Collections.emptyList();
         }
-        return blacklist;
+        return blacklist.stream().map(CustomerDto::from).toList();
     }
 }

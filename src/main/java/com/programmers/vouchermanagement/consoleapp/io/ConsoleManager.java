@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
-import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CustomerDto;
 import com.programmers.vouchermanagement.util.Validator;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
@@ -78,7 +78,7 @@ public class ConsoleManager {
     }
 
     public void printCreateResult(VoucherDto voucher) {
-        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucher.voucherId()));
+        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucher.id()));
     }
 
     public void printReadAllVouchers(List<VoucherDto> vouchers) {
@@ -88,19 +88,19 @@ public class ConsoleManager {
         vouchers.forEach(voucher -> textIO.getTextTerminal().println(formatVoucherDTO(voucher)));
     }
 
-    public void printReadBlacklist(List<Customer> customerResponses) {
-        if (customerResponses.isEmpty()) {
+    public void printReadBlacklist(List<CustomerDto> customers) {
+        if (customers.isEmpty()) {
             textIO.getTextTerminal().println(NO_CONTENT.formatted("black customer"));
         }
-        customerResponses.forEach(customerResponse -> textIO.getTextTerminal().println(formatCustomer(customerResponse)));
+        customers.forEach(customer -> textIO.getTextTerminal().println(formatCustomer(customer)));
     }
 
-    private String formatCustomer(Customer customer) {
+    private String formatCustomer(CustomerDto customer) {
         return """
                 Customer ID : %s
                 Customer Name : %s
                 -------------------------"""
-                .formatted(customer.getCustomerId(), customer.getName());
+                .formatted(customer.id(), customer.name());
     }
 
     private String formatVoucherDTO(VoucherDto voucher) {
@@ -109,7 +109,7 @@ public class ConsoleManager {
                 Voucher Type : %s Discount Voucher
                 Discount Amount : %s
                 -------------------------"""
-                .formatted(voucher.voucherId(),
+                .formatted(voucher.id(),
                         voucher.voucherTypeName(),
                         voucher.discountValue() +
                                 (voucher.isPercent() ? PERCENTAGE : EMPTY));

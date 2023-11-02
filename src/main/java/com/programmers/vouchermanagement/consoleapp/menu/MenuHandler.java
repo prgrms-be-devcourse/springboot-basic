@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.consoleapp.menu;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.controller.CustomerController;
-import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CustomerDto;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
@@ -69,13 +69,13 @@ public class MenuHandler {
                 consoleManager.printCreateResult(voucher);
             }
             case LIST -> {
-                List<VoucherDto> voucher = voucherController.readAll();
-                consoleManager.printReadAllVouchers(voucher);
+                List<VoucherDto> vouchers = voucherController.readAll();
+                consoleManager.printReadAllVouchers(vouchers);
             }
             //TODO: customerDTO
             case BLACKLIST -> {
-                List<Customer> customerResponses = customerController.readAllBlackCustomer();
-                consoleManager.printReadBlacklist(customerResponses);
+                List<CustomerDto> blackCustomers = customerController.readAllBlackCustomer();
+                consoleManager.printReadBlacklist(blackCustomers);
             }
         }
     }

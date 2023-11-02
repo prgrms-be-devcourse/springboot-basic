@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.customer.controller;
 
-import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CustomerDto;
 import com.programmers.vouchermanagement.customer.service.CustomerService;
 import org.springframework.stereotype.Controller;
 
@@ -14,7 +14,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    public List<Customer> readAllBlackCustomer() {
+    public List<CustomerDto> readAllBlackCustomer() {
         return customerService.readAllBlackCustomer();
     }
 }
