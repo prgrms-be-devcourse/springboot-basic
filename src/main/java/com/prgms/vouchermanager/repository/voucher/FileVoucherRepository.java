@@ -2,12 +2,15 @@ package com.prgms.vouchermanager.repository.voucher;
 
 
 import com.prgms.vouchermanager.domain.voucher.Voucher;
+import com.prgms.vouchermanager.domain.voucher.VoucherType;
 import com.prgms.vouchermanager.util.file.FileManager;
 import jakarta.annotation.PreDestroy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("file")
@@ -56,6 +59,21 @@ public class FileVoucherRepository implements VoucherRepository {
     public void deleteAll() {
         vouchers.clear();
     }
+
+    @Override
+    public List<Voucher> findByDate(LocalDateTime startTime, LocalDateTime endTime) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getCreatedAt().isAfter(startTime) && voucher.getCreatedAt().isBefore(endTime))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getVoucherType().equals(VoucherType.FIXED_AMOUNT))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
 
     @PreDestroy
     public void saveRepository() {

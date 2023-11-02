@@ -1,17 +1,20 @@
 package com.prgms.vouchermanager.repository.voucher;
 
 import com.prgms.vouchermanager.domain.voucher.Voucher;
+import com.prgms.vouchermanager.domain.voucher.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("memory")
-public class MemoryVoucherRepository implements VoucherRepository{
+public class MemoryVoucherRepository implements VoucherRepository {
 
-    private final Map<UUID,Voucher>vouchers;
+    private final Map<UUID, Voucher> vouchers;
 
     public MemoryVoucherRepository() {
         this.vouchers = new ConcurrentHashMap<>();
@@ -45,6 +48,21 @@ public class MemoryVoucherRepository implements VoucherRepository{
     @Override
     public void deleteAll() {
         vouchers.clear();
+    }
+
+
+    @Override
+    public List<Voucher> findByType(VoucherType type) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getVoucherType().equals(VoucherType.FIXED_AMOUNT))
+                .collect(Collectors.toUnmodifiableList());
+    }
+
+    @Override
+    public List<Voucher> findByDate(LocalDateTime startTime, LocalDateTime endTime) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getCreatedAt().isAfter(startTime) && voucher.getCreatedAt().isBefore(endTime))
+                .collect(Collectors.toUnmodifiableList());
     }
 
     @Override
