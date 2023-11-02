@@ -82,10 +82,11 @@ public class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = saveVoucher();
         //when
-        Voucher updatedVoucher = new FixedAmountVoucher(voucher.getId(), 2000L);
-        repository.update(updatedVoucher);
+        Voucher updateVoucher = new FixedAmountVoucher(voucher.getId(), 2000L);
+        repository.update(updateVoucher);
+        Voucher updatedVoucher = repository.findById(voucher.getId());
         //then
-        assertThat(updatedVoucher.getDiscountAmount()).isEqualTo(2000L);
+        assertThat(updatedVoucher.getDiscountAmount()).isEqualTo(updateVoucher.getDiscountAmount());
 
     }
 

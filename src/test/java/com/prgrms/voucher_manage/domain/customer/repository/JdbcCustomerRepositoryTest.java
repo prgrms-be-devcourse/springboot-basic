@@ -1,6 +1,6 @@
 package com.prgrms.voucher_manage.domain.customer.repository;
 
-import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,7 +54,7 @@ public class JdbcCustomerRepositoryTest {
         Customer customer = new Customer("와", BLACK);
         repository.save(customer);
         //when
-        Customer foundCustomer = repository.findByName("와").orElse(null);
+        Customer foundCustomer = repository.findByName("와");
 
         //then
         assertThat(foundCustomer).isNotNull();
@@ -67,9 +67,12 @@ public class JdbcCustomerRepositoryTest {
         //given
         Customer customer = repository.save(new Customer("전", BLACK));
         //when
-        UpdateCustomerDto dto = new UpdateCustomerDto(customer.getId(), "후");
+        UpdateCustomerDto updateDto = new UpdateCustomerDto(customer.getId(), "후");
+        repository.update(updateDto);
+        Customer updatedCustomer = repository.findById(customer.getId());
+
         //then
-        assertThat(dto.name()).isEqualTo("후");
+        assertThat(updatedCustomer.getName()).isEqualTo(updateDto.name());
     }
 
     @Test
