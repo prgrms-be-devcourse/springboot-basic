@@ -7,14 +7,9 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-
-public class WalletCreateRequest {
-
-    @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", message = "올바른 UUID 형식이어야 합니다.")
-    private String customerId;
-
-    @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", message = "올바른 UUID 형식이어야 합니다.")
-    private String voucherId;
+public record WalletCreateRequest(
+        @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", message = "올바른 UUID 형식이어야 합니다.") String customerId,
+        @Pattern(regexp = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", message = "올바른 UUID 형식이어야 합니다.") String voucherId) {
 
     public WalletCreateRequest(String customerId, String voucherId) {
         this.customerId = customerId;

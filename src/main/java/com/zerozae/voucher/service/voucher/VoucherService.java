@@ -14,7 +14,6 @@ import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,11 +32,11 @@ public class VoucherService {
     }
 
     public VoucherResponse createVoucher(VoucherCreateRequest voucherRequest) {
-        VoucherType voucherType = VoucherType.of(voucherRequest.getVoucherType());
+        VoucherType voucherType = VoucherType.of(voucherRequest.voucherType());
         try {
             Voucher voucher = switch (voucherType) {
-                case FIXED -> new FixedDiscountVoucher(voucherRequest.getDiscount());
-                case PERCENT ->  new PercentDiscountVoucher(voucherRequest.getDiscount());
+                case FIXED -> new FixedDiscountVoucher(voucherRequest.discount());
+                case PERCENT ->  new PercentDiscountVoucher(voucherRequest.discount());
             };
             voucherRepository.save(voucher);
             return VoucherResponse.toDto(voucher);

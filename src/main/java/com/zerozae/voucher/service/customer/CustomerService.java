@@ -84,7 +84,7 @@ public class CustomerService {
     private void validateDuplicateCustomer(CustomerCreateRequest customerRequest) {
         Optional<Customer> findCustomer = customerRepository.findAll()
                 .stream()
-                .filter(customer -> customer.getCustomerName().equals(customerRequest.getCustomerName()))
+                .filter(customer -> customer.getCustomerName().equals(customerRequest.customerName()))
                 .findAny();
 
         if(findCustomer.isPresent()) {

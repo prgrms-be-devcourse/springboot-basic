@@ -66,7 +66,7 @@ public class WalletService {
     }
 
     private boolean isAlreadyExistWallet(WalletCreateRequest walletRequest) {
-        Optional<Wallet> wallet = walletRepository.findWallet(UUID.fromString(walletRequest.getCustomerId()), UUID.fromString(walletRequest.getVoucherId()));
+        Optional<Wallet> wallet = walletRepository.findWallet(UUID.fromString(walletRequest.customerId()), UUID.fromString(walletRequest.voucherId()));
         return wallet.isPresent();
     }
 }
