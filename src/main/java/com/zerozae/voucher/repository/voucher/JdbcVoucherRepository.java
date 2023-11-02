@@ -105,7 +105,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 sql,
                 Map.of(
                         "discount", voucherUpdateRequest.discount(),
-                        "useStatusType", voucherUpdateRequest.useStatusType().toString(),
+                        "useStatusType", UseStatusType.of(voucherUpdateRequest.useStatusType()).toString(),
                         "voucherId", voucherId.toString().getBytes()));
 
         if(result != 1) {

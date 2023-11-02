@@ -56,7 +56,6 @@ public class ApiVoucherController {
     @PatchMapping("/{voucherId}")
     public ResponseEntity<VoucherResponse> updateVoucher(@PathVariable("voucherId") String voucherId, @Valid @RequestBody VoucherUpdateRequest voucherUpdateRequest) {
         validateInputUuid(voucherId);
-        UseStatusType.of(voucherUpdateRequest.useStatusType());
         return ResponseEntity.status(OK).body(voucherService.update(UUID.fromString(voucherId), voucherUpdateRequest));
     }
 
