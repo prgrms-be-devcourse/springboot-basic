@@ -37,10 +37,10 @@ public class WalletWebController {
         List<Voucher> vouchers = walletService.findVouchersById(wallet.getCustomerId());
         WalletDetailsDto walletDetailsDto = new WalletDetailsDto(walletId, wallet.getCustomerId(), vouchers);
 
-        List<Voucher> allVouchers = voucherService.findAll();
+        List<Voucher> unallocatedVouchers = voucherService.findUnallocatedVoucher();
 
         model.addAttribute("wallet", walletDetailsDto);
-        model.addAttribute("voucherList", allVouchers);
+        model.addAttribute("voucherList", unallocatedVouchers);
         model.addAttribute("addVoucherToWalletDto", new AddVoucherToWalletDto());
         return "wallet_details";
     }

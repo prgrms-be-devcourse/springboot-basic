@@ -76,6 +76,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findUnallocatedVoucher() {
+        return jdbcTemplate.query("SELECT voucher.voucher_id, voucher.voucher_type, voucher.amount FROM voucher LEFT JOIN wallet_customer_voucher ON voucher.voucher_id = wallet_customer_voucher.voucher_id WHERE wallet_customer_voucher.voucher_id IS NULL",
+                voucherRowMapper);
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
         jdbcTemplate.update("delete from wallet_customer_voucher where voucher_id = UUID_TO_BIN(?)",
                 voucherId.toString());

@@ -36,6 +36,10 @@ public class VoucherService {
         return voucherRepository.findAll();
     }
 
+    public List<Voucher> findUnallocatedVoucher() {
+        return voucherRepository.findUnallocatedVoucher();
+    }
+
     public Voucher findById(UUID voucherId) {
         return voucherRepository
                 .findById(voucherId)
