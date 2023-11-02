@@ -1,4 +1,4 @@
-package com.programmers.springbootbasic.thyme;
+package com.programmers.springbootbasic.exception;
 
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;

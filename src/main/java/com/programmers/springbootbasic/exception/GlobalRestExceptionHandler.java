@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice(assignableTypes = VoucherRestController.class)
-public class GlobalRestException {
+public class GlobalRestExceptionHandler {
 
     @ExceptionHandler({
         CustomException.class,
