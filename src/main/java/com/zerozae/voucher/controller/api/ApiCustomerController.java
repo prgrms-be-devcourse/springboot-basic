@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/customers")
+@RequestMapping("/api/v1/customers")
 public class ApiCustomerController {
 
     private final CustomerService customerService;

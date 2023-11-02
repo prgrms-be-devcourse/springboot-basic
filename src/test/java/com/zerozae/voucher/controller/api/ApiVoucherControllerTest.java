@@ -53,7 +53,7 @@ class ApiVoucherControllerTest {
         when(voucherService.createVoucher(voucherCreateRequest)).thenReturn(VoucherResponse.toDto(fixedDiscountVoucher));
 
         // When
-        mvc.perform(post("/api/vouchers")
+        mvc.perform(post("/api/v1/vouchers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voucherCreateRequest)))
                 .andExpect(status().isCreated());
@@ -69,7 +69,7 @@ class ApiVoucherControllerTest {
         VoucherCreateRequest invalidRequest = new VoucherCreateRequest(0, String.valueOf(FIXED));
 
         // When & Then
-        mvc.perform(post("/api/vouchers")
+        mvc.perform(post("/api/v1/vouchers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
@@ -83,7 +83,7 @@ class ApiVoucherControllerTest {
         VoucherCreateRequest invalidRequest = new VoucherCreateRequest(10, null);
 
         // When & Then
-        mvc.perform(post("/api/vouchers")
+        mvc.perform(post("/api/v1/vouchers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
@@ -100,7 +100,7 @@ class ApiVoucherControllerTest {
         when(voucherService.findAllVouchers()).thenReturn(vouchers);
 
         // When
-        mvc.perform(get("/api/vouchers")
+        mvc.perform(get("/api/v1/vouchers")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].voucherId").value(fixedDiscountVoucher.getVoucherId().toString()))
@@ -120,7 +120,7 @@ class ApiVoucherControllerTest {
         when(voucherService.findById(fixedDiscountVoucher.getVoucherId())).thenReturn(VoucherResponse.toDto(fixedDiscountVoucher));
 
         // When
-        mvc.perform(get("/api/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
+        mvc.perform(get("/api/v1/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.voucherId").value(fixedDiscountVoucher.getVoucherId().toString()))
@@ -144,7 +144,7 @@ class ApiVoucherControllerTest {
         when(voucherService.findVoucherByCondition(condition)).thenReturn(vouchers);
 
         // When
-        mvc.perform(get("/api/vouchers/condition")
+        mvc.perform(get("/api/v1/vouchers/condition")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(condition)))
@@ -165,7 +165,7 @@ class ApiVoucherControllerTest {
         when(voucherService.findVoucherByCondition(condition)).thenReturn(List.of(vouchers.get(0)));
 
         // When
-        mvc.perform(get("/api/vouchers/condition")
+        mvc.perform(get("/api/v1/vouchers/condition")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(condition)))
@@ -191,7 +191,7 @@ class ApiVoucherControllerTest {
         when(voucherService.update(newVoucher.getVoucherId(), voucherUpdateRequest)).thenReturn(voucherResponse);
 
         // When
-        mvc.perform(patch("/api/vouchers/{voucherId}", newVoucher.getVoucherId())
+        mvc.perform(patch("/api/v1/vouchers/{voucherId}", newVoucher.getVoucherId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(voucherUpdateRequest)))
                 .andExpect(status().isOk());
@@ -207,7 +207,7 @@ class ApiVoucherControllerTest {
         VoucherUpdateRequest invalidRequest = new VoucherUpdateRequest(0, String.valueOf(FIXED));
 
         // When & Then
-        mvc.perform(patch("/api/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
+        mvc.perform(patch("/api/v1/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
@@ -221,7 +221,7 @@ class ApiVoucherControllerTest {
         VoucherUpdateRequest invalidRequest = new VoucherUpdateRequest(10, null);
 
         // When & Then
-        mvc.perform(patch("/api/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
+        mvc.perform(patch("/api/v1/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
@@ -234,7 +234,7 @@ class ApiVoucherControllerTest {
         // Given
 
         // When
-        mvc.perform(delete("/api/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId()))
+        mvc.perform(delete("/api/v1/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId()))
                 .andExpect(status().isOk());
 
         // Then
@@ -247,7 +247,7 @@ class ApiVoucherControllerTest {
         // Given
 
         // When
-        mvc.perform(delete("/api/vouchers"))
+        mvc.perform(delete("/api/v1/vouchers"))
                 .andExpect(status().isOk());
 
         // Then

@@ -50,7 +50,7 @@ class ApiCustomerControllerTest {
         when(customerService.createCustomer(request)).thenReturn(response);
 
         // When
-        mvc.perform(post("/api/customers")
+        mvc.perform(post("/api/v1/customers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
@@ -66,7 +66,7 @@ class ApiCustomerControllerTest {
         CustomerCreateRequest invalidRequest = new CustomerCreateRequest("a", String.valueOf(BLACKLIST));
 
         // When & Then
-        mvc.perform(post("/api/customers")
+        mvc.perform(post("/api/v1/customers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
@@ -80,7 +80,7 @@ class ApiCustomerControllerTest {
         CustomerCreateRequest invalidRequest = new CustomerCreateRequest("customer", null);
 
         // When & Then
-        mvc.perform(post("/api/customers")
+        mvc.perform(post("/api/v1/customers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
@@ -97,7 +97,7 @@ class ApiCustomerControllerTest {
         when(customerService.findAllCustomers()).thenReturn(customers);
 
         // When
-        mvc.perform(get("/api/customers")
+        mvc.perform(get("/api/v1/customers")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].customerId").value(normalCustomer.getCustomerId().toString()))
@@ -115,7 +115,7 @@ class ApiCustomerControllerTest {
         when(customerService.findById(normalCustomer.getCustomerId())).thenReturn(CustomerResponse.toDto(normalCustomer));
 
         // When
-        mvc.perform(get("/api/customers/{customerId}", normalCustomer.getCustomerId())
+        mvc.perform(get("/api/v1/customers/{customerId}", normalCustomer.getCustomerId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customerId").value(normalCustomer.getCustomerId().toString()))
@@ -133,7 +133,7 @@ class ApiCustomerControllerTest {
         CustomerUpdateRequest request = new CustomerUpdateRequest("updateCustomer", String.valueOf(BLACKLIST));
 
         // When
-        mvc.perform(patch("/api/customers/{customerId}", normalCustomer.getCustomerId())
+        mvc.perform(patch("/api/v1/customers/{customerId}", normalCustomer.getCustomerId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk());
@@ -149,7 +149,7 @@ class ApiCustomerControllerTest {
         CustomerUpdateRequest invalidRequest = new CustomerUpdateRequest("customer", null);
 
         // When & Then
-        mvc.perform(patch("/api/customers/{customerId}", normalCustomer.getCustomerId())
+        mvc.perform(patch("/api/v1/customers/{customerId}", normalCustomer.getCustomerId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
@@ -163,7 +163,7 @@ class ApiCustomerControllerTest {
         CustomerUpdateRequest invalidRequest = new CustomerUpdateRequest("a", String.valueOf(BLACKLIST));
 
         // When & Then
-        mvc.perform(patch("/api/customers/{customerId}", normalCustomer.getCustomerId())
+        mvc.perform(patch("/api/v1/customers/{customerId}", normalCustomer.getCustomerId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
@@ -176,7 +176,7 @@ class ApiCustomerControllerTest {
         // Given
 
         // When
-        mvc.perform(delete("/api/customers/{customerId}", blackCustomer.getCustomerId())
+        mvc.perform(delete("/api/v1/customers/{customerId}", blackCustomer.getCustomerId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -190,7 +190,7 @@ class ApiCustomerControllerTest {
         // Given
 
         // When
-        mvc.perform(delete("/api/customers")
+        mvc.perform(delete("/api/v1/customers")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 

@@ -62,7 +62,7 @@ class ApiWalletControllerTest {
         when(walletService.createWallet(request)).thenReturn(WalletResponse.toDto(wallet));
 
         // When
-        mvc.perform(post("/api/wallets")
+        mvc.perform(post("/api/v1/wallets")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
@@ -78,7 +78,7 @@ class ApiWalletControllerTest {
         WalletCreateRequest request = new WalletCreateRequest("12345678", voucher.getVoucherId().toString());
 
         // When & Then
-        mvc.perform(post("/api/wallets")
+        mvc.perform(post("/api/v1/wallets")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().is4xxClientError())
@@ -95,7 +95,7 @@ class ApiWalletControllerTest {
         when(walletService.findAllWallets()).thenReturn(wallets);
 
         // When
-        mvc.perform(get("/api/wallets")
+        mvc.perform(get("/api/v1/wallets")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].customerId").value(customer.getCustomerId().toString()))
@@ -119,7 +119,7 @@ class ApiWalletControllerTest {
         when(voucherService.findById(any(UUID.class))).thenReturn(voucherResponse);
 
         // When
-        mvc.perform(get("/api/wallets/customer/{customerId}", customerId)
+        mvc.perform(get("/api/v1/wallets/customer/{customerId}", customerId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -143,7 +143,7 @@ class ApiWalletControllerTest {
         when(customerService.findById(any(UUID.class))).thenReturn(customerResponse);
 
         // When
-        mvc.perform(get("/api/wallets/voucher/{voucherId}", voucherId)
+        mvc.perform(get("/api/v1/wallets/voucher/{voucherId}", voucherId)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
@@ -158,7 +158,7 @@ class ApiWalletControllerTest {
         // Given
 
         // When
-        mvc.perform(delete("/api/wallets/{customerId}/{voucherId}", customer.getCustomerId(), voucher.getVoucherId())
+        mvc.perform(delete("/api/v1/wallets/{customerId}/{voucherId}", customer.getCustomerId(), voucher.getVoucherId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 

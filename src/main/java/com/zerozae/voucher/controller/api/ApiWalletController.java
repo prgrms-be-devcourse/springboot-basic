@@ -27,7 +27,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/wallets")
+@RequestMapping("/api/v1/wallets")
 public class ApiWalletController {
 
     private final WalletService walletService;
