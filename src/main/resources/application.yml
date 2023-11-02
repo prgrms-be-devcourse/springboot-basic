@@ -1,6 +1,4 @@
 spring:
-  main:
-    web-application-type: none
   profiles:
     active: prod
   datasource:
