@@ -1,5 +1,6 @@
 package com.prgrms.voucher_manage.domain.customer.controller;
 
+import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.entity.CustomerType;
@@ -16,7 +17,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     public void saveCustomer(String name, CustomerType type) {
-        customerService.save(new Customer(name, type));
+        customerService.save(new CreateCustomerDto(name, type));
     }
 
     public List<Customer> getAllCustomers() {

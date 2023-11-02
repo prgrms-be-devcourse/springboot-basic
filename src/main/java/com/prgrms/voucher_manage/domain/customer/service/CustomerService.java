@@ -1,5 +1,6 @@
 package com.prgrms.voucher_manage.domain.customer.service;
 
+import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.repository.JdbcCustomerRepository;
@@ -33,8 +34,8 @@ public class CustomerService {
         return repository.findByType(BLACK.getData());
     }
 
-    public Customer save(Customer customer) {
-        return repository.save(customer);
+    public Customer save(CreateCustomerDto dto) {
+        return repository.save(new Customer(dto.name(), dto.type()));
     }
 
     public void update(UpdateCustomerDto dto) {
