@@ -36,11 +36,11 @@ public class JdbcCustomerRepository implements CustomerRepository {
     };
 
     private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerIdToString());
-            put("customerName", customer.getName());
-            put("customerType", customer.getCustomerTypeName());
-        }};
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("customerId", customer.getCustomerIdToString());
+        paramMap.put("customerName", customer.getName());
+        paramMap.put("customerType", customer.getCustomerTypeName());
+        return paramMap;
     }
 
     @Override
