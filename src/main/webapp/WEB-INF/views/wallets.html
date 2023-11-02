@@ -11,6 +11,29 @@
 </head>
 <body class="container-fluid">
 <h1>wallets</h1>
+<h2>Voucher Allocation</h2>
+<form th:action="@{/wallets}" method="post">
+    <div class="mb-3">Customer</div>
+    <div class="mb-3">
+        <select class="form-select" aria-label="Customer">
+            <option selected>Please Select Customer.</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+    <div class="mb-3">Voucher</div>
+    <div class="mb-3">
+        <select class="form-select" aria-label="Voucher">
+            <option selected>Please Select Voucher.</option>
+            <option value="1">One</option>
+            <option value="2">Two</option>
+            <option value="3">Three</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+<h2>Voucher Ownership</h2>
 <table class="table table-striped table-hover">
     <thead>
     <tr>
