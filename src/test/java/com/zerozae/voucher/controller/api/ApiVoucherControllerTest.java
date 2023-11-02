@@ -66,21 +66,21 @@ class ApiVoucherControllerTest {
     @DisplayName("바우처 생성 실패 - 잘못된 할인 정보 테스트")
     void createVoucher_InvalidDiscount_Failed_Test() throws Exception {
         // Given
-        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(0L, String.valueOf(FIXED));
+        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(0, String.valueOf(FIXED));
 
         // When & Then
         mvc.perform(post("/api/v1/vouchers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.message").value("할인 정보는 필수 입력란이며 1이상의 값을 입력해주세요."));
+                .andExpect(jsonPath("$.message").value("할인 정보는 1이상의 숫자값을 입력해야 합니다."));
     }
 
     @Test
     @DisplayName("바우처 생성 실패 - 타입 누락 테스트")
     void createVoucher_EmptyVoucherType_Failed_Test() throws Exception {
         // Given
-        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(10L, null);
+        VoucherCreateRequest invalidRequest = new VoucherCreateRequest(10, null);
 
         // When & Then
         mvc.perform(post("/api/v1/vouchers")
@@ -211,7 +211,7 @@ class ApiVoucherControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.message").value("할인 정보는 필수 입력란이며 1이상의 값을 입력해주세요."));
+                .andExpect(jsonPath("$.message").value("할인 정보는 1이상의 숫자값을 입력해야 합니다."));
     }
 
     @Test
