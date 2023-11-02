@@ -63,8 +63,8 @@ public class JdbcWalletRepository implements WalletRepository{
     @Override
     public Wallet insert(Wallet wallet) {
         var update = jdbcTemplate.update("INSERT INTO wallet(wallet_id, customer_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?))",
-                wallet.getWalletId(),
-                wallet.getCustomerId());
+                wallet.getWalletId().toString(),
+                wallet.getCustomerId().toString());
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
@@ -76,7 +76,7 @@ public class JdbcWalletRepository implements WalletRepository{
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject("select * from wallet WHERE wallet_id = UUID_TO_BIN(?)",
                     walletRowMapper,
-                    walletId.toString().getBytes()));
+                    walletId.toString()));
         } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
@@ -99,8 +99,8 @@ public class JdbcWalletRepository implements WalletRepository{
     @Override
     public void deleteVoucherByVoucherId(UUID customerId, UUID voucherId) {
         var update = jdbcTemplate.update("DELETE from wallet_customer_voucher WHERE customer_id = UUID_TO_BIN(?) and voucher_id = UUID_TO_BIN(?)",
-                customerId.toString().getBytes(),
-                voucherId.toString().getBytes());
+                customerId.toString(),
+                voucherId.toString());
         if(update != 1) {
             throw new RuntimeException("Nothing was deleted");
         }
@@ -111,7 +111,7 @@ public class JdbcWalletRepository implements WalletRepository{
         return Optional.ofNullable(jdbcTemplate.queryForObject("select c.customer_id, c.name, c.is_black from customers c inner join wallet_customer_voucher inter" +
                         "on c.customer_id = inter.customer_id where inter.voucher_id = UUID_TO_BIN(?)",
                 customerRowMapper,
-                voucherId.toString().getBytes()));
+                voucherId.toString()));
     }
 
     @Override
@@ -123,9 +123,9 @@ public class JdbcWalletRepository implements WalletRepository{
     @Override
     public void addVoucherByCustomerId(UUID walletId, UUID customerId, UUID voucherId) {
         var update = jdbcTemplate.update("INSERT INTO wallet_customer_voucher(wallet_id, customer_id, voucher_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))",
-                walletId.toString().getBytes(),
-                customerId.toString().getBytes(),
-                voucherId.toString().getBytes());
+                walletId.toString(),
+                customerId.toString(),
+                voucherId.toString());
         if(update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }

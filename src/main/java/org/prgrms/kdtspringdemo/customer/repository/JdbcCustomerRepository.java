@@ -53,8 +53,8 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<List<Customer>> findAll() {
-        return Optional.ofNullable(jdbcTemplate.query("select * from customers", customerRowMapper));
+    public List<Customer> findAll() {
+        return jdbcTemplate.query("select * from customers", customerRowMapper);
     }
 
     @Override
@@ -63,7 +63,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<List<Customer>> getAllBlackList() throws IOException {
-        return Optional.of(jdbcTemplate.query("select * from customers where is_black = ?", customerRowMapper,true));
+    public void deleteById(UUID customerId) {
+        jdbcTemplate.update("DELETE FROM customers where customer_id = UUID_TO_BIN(?)",
+                customerId.toString());
+        jdbcTemplate.update("DELETE FROM wallet where customer_id = UUID_TO_BIN(?)",
+                customerId.toString());
+    }
+
+    @Override
+    public List<Customer> getAllBlackList() {
+        return jdbcTemplate.query("select * from customers where is_black = ?", customerRowMapper,true);
     }
 }

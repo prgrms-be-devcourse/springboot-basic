@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringdemo.customer.controller;
 
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
+import org.prgrms.kdtspringdemo.customer.domain.dto.CustomerRequestDto;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
@@ -34,7 +35,7 @@ public class CustomerController {
             outputConsole.getCustomerIsBlack();
             Boolean isBlack = Boolean.parseBoolean(inputConsole.getString());
 
-            customerService.insert(new Customer(customerId, name, isBlack));
+            customerService.insert(new CustomerRequestDto(name, isBlack));
             walletService.create(customerId); // 고객 생성 시 지갑 자동 생성
         } catch (IOException e) {
             logger.error(e.getMessage());
@@ -44,7 +45,7 @@ public class CustomerController {
     }
 
     public void printAllCustomers() {
-        List<Customer> customerList = customerService.findAll().get();
+        List<Customer> customerList = customerService.findAll();
         customerList.stream().forEach(customer -> outputConsole.printCustomer(customer));
     }
     public void printAllBlackListCustomer() throws IOException {

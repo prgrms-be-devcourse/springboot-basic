@@ -35,12 +35,17 @@ public class FileCustomerRepository implements CustomerRepository{
     }
 
     @Override
-    public Optional<List<Customer>> findAll() {
-        return Optional.empty();
+    public void deleteById(UUID customerId) {
+
     }
 
     @Override
-    public Optional<List<Customer>> getAllBlackList() throws IOException {
+    public List<Customer> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<Customer> getAllBlackList() throws IOException {
         List<Customer> customerList = new ArrayList<>();
 
         List<CSVRecord> data = csvFileHandler.readCSV(blackListFilePath);
@@ -54,6 +59,6 @@ public class FileCustomerRepository implements CustomerRepository{
                     Customer customer = new Customer(customerId, name, isBlack);
                     customerList.add(customer);
                 });
-        return Optional.of(customerList);
+        return customerList;
     }
 }
