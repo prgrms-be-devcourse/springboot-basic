@@ -43,11 +43,13 @@ public class WalletService {
         return walletRepository.save(wallet);
     }
 
+    @Transactional(readOnly = true)
     public List<Wallet> findWalletsByCustomerEmail(WalletServiceRequestDto walletServiceRequestDto) {
         Customer customer = findCustomer(walletServiceRequestDto.getEmail());
         return walletRepository.findByCustomerEmail(customer.getEmail());
     }
 
+    @Transactional(readOnly = true)
     public List<Wallet> findWalletsByVoucherId(WalletServiceRequestDto walletServiceRequestDto) {
         Voucher voucher = findVoucher(walletServiceRequestDto.getVoucherId());
         return walletRepository.findByVoucherId(voucher.getVoucherId());

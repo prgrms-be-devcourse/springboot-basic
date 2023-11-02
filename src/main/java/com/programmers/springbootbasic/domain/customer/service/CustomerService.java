@@ -20,10 +20,12 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
     private final UUIDValueStrategy uuidValueStrategy;
 
+    @Transactional(readOnly = true)
     public List<Customer> findAllCustomer() {
         return customerRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> findAllBlacklistCustomer() {
         return customerRepository.findBlacklist();
     }

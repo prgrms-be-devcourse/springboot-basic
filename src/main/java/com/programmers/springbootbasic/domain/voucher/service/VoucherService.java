@@ -22,6 +22,7 @@ public class VoucherService {
     private final UUIDValueStrategy uuidValueStrategy;
     private final LocalDateValueStrategy localDateValueStrategy;
 
+    @Transactional(readOnly = true)
     public List<Voucher> findAllVouchers() {
         return voucherRepository.findAll();
     }
@@ -34,6 +35,7 @@ public class VoucherService {
         return voucherRepository.save(voucher);
     }
 
+    @Transactional(readOnly = true)
     public Voucher findVoucherById(VoucherServiceRequestDto voucherServiceRequestDto) {
         return voucherRepository.findById(voucherServiceRequestDto.getVoucherId()).orElseThrow(() -> {
             log.warn(ErrorMsg.VOUCHER_NOT_FOUND.getMessage());
@@ -41,6 +43,7 @@ public class VoucherService {
         });
     }
 
+    @Transactional(readOnly = true)
     public List<Voucher> findVouchersByType(VoucherServiceRequestDto voucherServiceRequestDto) {
         if (!VoucherType.predictVoucherTypeNumber(voucherServiceRequestDto.getVoucherType())) {
             throw new IllegalArgumentException(ErrorMsg.WRONG_VOUCHER_TYPE_NUMBER.getMessage());
@@ -48,6 +51,7 @@ public class VoucherService {
         return voucherRepository.findByVoucherType(voucherServiceRequestDto.getVoucherType());
     }
 
+    @Transactional(readOnly = true)
     public List<Voucher> findVouchersByDate(VoucherServiceRequestDto voucherServiceRequestDto) {
         return voucherRepository.findByDate(voucherServiceRequestDto.getDate());
     }
