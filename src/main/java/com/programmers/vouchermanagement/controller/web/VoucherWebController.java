@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.controller.view;
+package com.programmers.vouchermanagement.controller.web;
 
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.voucher.request.CreateVoucherRequestDto;
@@ -19,7 +19,7 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/voucher")
 @RequiredArgsConstructor
-public class VoucherViewController {
+public class VoucherWebController {
 
     private final VoucherService voucherService;
 
