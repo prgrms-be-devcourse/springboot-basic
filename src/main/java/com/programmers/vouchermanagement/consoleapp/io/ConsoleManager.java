@@ -78,7 +78,7 @@ public class ConsoleManager {
     }
 
     public void printCreateResult(VoucherResponse voucherResponse) {
-        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.getVoucherId()));
+        textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucherResponse.voucherId()));
     }
 
     public void printReadAllVouchers(List<VoucherResponse> voucherResponses) {
@@ -109,10 +109,10 @@ public class ConsoleManager {
                 Voucher Type : %s Discount Voucher
                 Discount Amount : %s
                 -------------------------"""
-                .formatted(voucherResponse.getVoucherId(),
-                        voucherResponse.getVoucherTypeName(),
-                        voucherResponse.getDiscountValue() +
-                                (voucherResponse.isPercentVoucher() ? PERCENTAGE : EMPTY));
+                .formatted(voucherResponse.voucherId(),
+                        voucherResponse.voucherTypeName(),
+                        voucherResponse.discountValue() +
+                                (voucherResponse.isPercent() ? PERCENTAGE : EMPTY));
     }
 
     public void printExit() {
