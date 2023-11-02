@@ -10,6 +10,7 @@ public interface VoucherRepository {
     Voucher insert(Voucher voucher);
     Optional<Voucher> findById(UUID voucherId);
     List<Voucher> findAll();
+    List<Voucher> findUnallocatedVoucher();
     void deleteById(UUID voucherId);
     void deleteAll();
 }

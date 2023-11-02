@@ -90,6 +90,11 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public List<Voucher> findUnallocatedVoucher() {
+        return null;
+    }
+
+    @Override
     public void deleteById(UUID voucherId) {
 
     }
