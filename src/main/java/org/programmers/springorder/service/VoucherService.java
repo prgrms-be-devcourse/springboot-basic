@@ -31,6 +31,7 @@ public class VoucherService {
         return voucher;
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponseDto> getAllVoucher() {
         return voucherRepository.findAll()
                 .stream()
@@ -38,6 +39,7 @@ public class VoucherService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public Voucher findById(UUID voucherId) {
         return voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.VOUCHER_ID_NOT_EXIST_MESSAGE));
@@ -61,6 +63,7 @@ public class VoucherService {
         voucherRepository.assignVoucherToCustomer(customerId, voucherId);
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponseDto> getVoucherByCustomerId(UUID customerId) {
         return voucherRepository.findAll()
                 .stream()
