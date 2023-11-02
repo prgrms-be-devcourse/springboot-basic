@@ -10,7 +10,7 @@ import static com.programmers.vouchermanagement.constant.Message.NOT_DELETED;
 import static com.programmers.vouchermanagement.constant.Message.NOT_UPDATED;
 
 @Repository
-@Profile("dev")
+@Profile("memory")
 public class VoucherInMemoryRepository implements VoucherRepository {
     private final Map<UUID, Voucher> vouchers;
 
