@@ -34,9 +34,8 @@
     <hr class="my-4">
     <div class="row">
         <div class="col">
-            <button class="w-100 btn btn-primary btn-lg"
-                    onclick="location.href='editForm.html'" type="button">수정
-            </button>
+            <a class="w-100 btn btn-primary btn-lg" th:href="@{/vouchers/update/{voucherId}(voucherId=${voucher.voucherId()})}">수정</a>
+
         </div>
         <div class="col">
             <form th:action="@{/vouchers/delete/{voucherId}(voucherId=${voucher.voucherId()})}" th:method="delete">

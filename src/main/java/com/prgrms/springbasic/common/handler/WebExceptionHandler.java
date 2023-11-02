@@ -1,5 +1,6 @@
 package com.prgrms.springbasic.common.handler;
 
+import com.prgrms.springbasic.common.exception.DuplicateResourceException;
 import com.prgrms.springbasic.common.exception.InvalidValueException;
 import com.prgrms.springbasic.common.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,12 @@ public class WebExceptionHandler {
 
     @ExceptionHandler(InvalidValueException.class)
     public String handleInvalidTypeException(InvalidValueException ex, Model model) {
+        model.addAttribute(ERROR, ex.getMessage());
+        return ERROR;
+    }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public String handleDuplicateResourceException(DuplicateResourceException ex, Model model) {
         model.addAttribute(ERROR, ex.getMessage());
         return ERROR;
     }

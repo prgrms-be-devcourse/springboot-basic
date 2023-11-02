@@ -1,5 +1,6 @@
 package com.prgrms.springbasic.domain.customer.service;
 
+import com.prgrms.springbasic.common.exception.DuplicateResourceException;
 import com.prgrms.springbasic.domain.customer.dto.CreateCustomerRequest;
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.customer.entity.Customer;
@@ -22,7 +23,7 @@ public class CustomerService {
     @Transactional
     public CustomerResponse createCustomer(CreateCustomerRequest request) {
         if (isEmailAlreadyExists(request.email())) {
-            throw new IllegalArgumentException("Email already exists: " + request.email());
+            throw new DuplicateResourceException("Email already exists: " + request.email());
         }
         Customer customer = new Customer(UUID.randomUUID(), request.name(), request.email());
         return CustomerResponse.from(customerRepository.save(customer));
