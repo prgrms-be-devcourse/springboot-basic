@@ -25,7 +25,7 @@ public class VoucherApiController {
         voucherService.createVoucher(voucherRequestDto);
     }
 
-    @GetMapping
+    @GetMapping("list")
     public List<VoucherResponseDto> readAllVoucher() {
         return voucherService.readAllVoucher();
     }
