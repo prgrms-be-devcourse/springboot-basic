@@ -15,6 +15,10 @@ public class Voucher {
         this(voucherId, LocalDateTime.now(), discountValue, voucherType, null);
     }
 
+    public Voucher(UUID voucherId, BigDecimal discountValue, VoucherType voucherType, UUID customerId) {
+        this(voucherId, LocalDateTime.now(), discountValue, voucherType, customerId);
+    }
+
     public Voucher(UUID voucherId, LocalDateTime createdAt, BigDecimal discountValue, VoucherType voucherType, UUID customerId) {
         voucherType.validateDiscountValue(discountValue);
         this.voucherId = voucherId;
@@ -46,5 +50,9 @@ public class Voucher {
 
     public boolean isOwned() {
         return this.customerId != null;
+    }
+
+    public boolean isSameType(VoucherType voucherType) {
+        return this.voucherType == voucherType;
     }
 }
