@@ -116,6 +116,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public List<Voucher> findVoucherByCondition(VoucherCondition condition) {
         StringBuilder sql = new StringBuilder("select * from vouchers where ");
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+
+        if (condition.createdAt() == null && condition.voucherType() == null) {
+            return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
+        }
+
         if(condition.voucherType() != null) {
             if(condition.createdAt() != null) {
                 sql.append("voucher_type = :voucherType and created_at = :createdAt");
