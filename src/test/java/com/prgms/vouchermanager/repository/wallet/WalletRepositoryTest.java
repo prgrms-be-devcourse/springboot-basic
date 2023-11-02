@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,7 +36,7 @@ public class WalletRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 100000);
+        Voucher voucher = new FixedAmountVoucher(id, 100000, LocalDateTime.now());
         Customer customer = new Customer(null, "ko", "kp@naver.com", true);
         voucherRepository.save(voucher);
         Customer savedCustomer = customerRepository.save(customer);
@@ -56,7 +57,7 @@ public class WalletRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 100000);
+        Voucher voucher = new FixedAmountVoucher(id, 100000, LocalDateTime.now());
         Customer customer = new Customer(null, "ko", "kp@naver.com", true);
         Wallet wallet = new Wallet(10L, 1214L, UUID.randomUUID()); //존재하지 않는 참조데이터
 
@@ -75,7 +76,7 @@ public class WalletRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 100000);
+        Voucher voucher = new FixedAmountVoucher(id, 100000, LocalDateTime.now());
         Customer customer = new Customer(10L, "ko", "kp@naver.com", true);
         voucherRepository.save(voucher);
         customerRepository.save(customer);
@@ -88,13 +89,14 @@ public class WalletRepositoryTest {
         //then
         Assertions.assertThat(wallets).isNotNull();
     }
+
     @Test
     @DisplayName("customer_id에 해당하는 쿠폰 조회에 실패한다.")
     void findByCustomerIdFail() {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 100000);
+        Voucher voucher = new FixedAmountVoucher(id, 100000, LocalDateTime.now());
         Customer customer = new Customer(10L, "ko", "kp@naver.com", true);
         voucherRepository.save(voucher);
         customerRepository.save(customer);
@@ -114,7 +116,7 @@ public class WalletRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 100000);
+        Voucher voucher = new FixedAmountVoucher(id, 100000, LocalDateTime.now());
         Customer customer = new Customer(10L, "ko", "kp@naver.com", true);
         voucherRepository.save(voucher);
         customerRepository.save(customer);
@@ -136,7 +138,7 @@ public class WalletRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 100000);
+        Voucher voucher = new FixedAmountVoucher(id, 100000, LocalDateTime.now());
         Customer customer = new Customer(10L, "ko", "kp@naver.com", true);
         voucherRepository.save(voucher);
         customerRepository.save(customer);
@@ -156,7 +158,7 @@ public class WalletRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 100000);
+        Voucher voucher = new FixedAmountVoucher(id, 100000, LocalDateTime.now());
         Customer customer = new Customer(10L, "ko", "kp@naver.com", true);
         voucherRepository.save(voucher);
         customerRepository.save(customer);

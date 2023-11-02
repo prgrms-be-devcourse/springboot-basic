@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,7 +29,7 @@ public class VoucherRepositoryTest {
 
         //given
 
-        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100000);
+        Voucher voucher = new FixedAmountVoucher(UUID.randomUUID(), 100000, null);
 
         //when
         Voucher savedVoucher = voucherRepository.save(voucher);
@@ -43,8 +44,8 @@ public class VoucherRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher1 = new FixedAmountVoucher(id, 100000);
-        Voucher voucher2 = new PercentDiscountVoucher(id, 10);
+        Voucher voucher1 = new FixedAmountVoucher(id, 100000, null);
+        Voucher voucher2 = new PercentDiscountVoucher(id, 10, null);
 
         //when
         voucherRepository.save(voucher1);
@@ -60,9 +61,9 @@ public class VoucherRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 100000);
+        Voucher voucher = new FixedAmountVoucher(id, 100000, LocalDateTime.now());
         Voucher savedVoucher = voucherRepository.save(voucher);
-        Voucher updatedVoucher = new FixedAmountVoucher(savedVoucher.getId(), 9999);
+        Voucher updatedVoucher = new FixedAmountVoucher(savedVoucher.getId(), 9999, LocalDateTime.now());
 
         //when
         voucherRepository.update(updatedVoucher);
@@ -82,7 +83,7 @@ public class VoucherRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 100000);
+        Voucher voucher = new FixedAmountVoucher(id, 100000, LocalDateTime.now());
 
         Voucher savedCustomer = voucherRepository.save(voucher);
 
@@ -128,7 +129,7 @@ public class VoucherRepositoryTest {
 
         //given
         UUID id = UUID.randomUUID();
-        voucherRepository.save(new FixedAmountVoucher(id, 1000));
+        voucherRepository.save(new FixedAmountVoucher(id, 1000, LocalDateTime.now()));
         //when
         voucherRepository.deleteById(id);
         Optional<Voucher> findById = voucherRepository.findById(id);

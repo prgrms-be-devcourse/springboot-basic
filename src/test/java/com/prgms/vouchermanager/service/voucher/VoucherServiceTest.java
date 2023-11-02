@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,8 +38,8 @@ class VoucherServiceTest {
         CreateVoucherDto dto = new CreateVoucherDto(99, 2);
         UUID id = UUID.randomUUID();
         Voucher result = dto.getVoucherType() == 1 ?
-                new FixedAmountVoucher(id, dto.getValue()) :
-                new PercentDiscountVoucher(id, dto.getValue());
+                new FixedAmountVoucher(id, dto.getValue(), LocalDateTime.now()) :
+                new PercentDiscountVoucher(id, dto.getValue(), LocalDateTime.now());
 
         when(voucherRepository.save(any(Voucher.class))).thenReturn(result);
         //when
@@ -81,7 +82,7 @@ class VoucherServiceTest {
     void findByIdVoucherSuccess() {
         //given
         UUID id = UUID.randomUUID();
-        Voucher voucher = new FixedAmountVoucher(id, 1000);
+        Voucher voucher = new FixedAmountVoucher(id, 1000, LocalDateTime.now());
         when(voucherRepository.findById(id)).thenReturn(Optional.ofNullable(voucher));
 
         //when
@@ -106,7 +107,7 @@ class VoucherServiceTest {
     @DisplayName("service의 findAll()을 성공적으로 실행해서 필요 데이터를 가져올 수 있다.")
     void findAllSuccess() {
         //given
-        List<Voucher> vouchers = List.of(new FixedAmountVoucher(UUID.randomUUID(), 100), new PercentDiscountVoucher(UUID.randomUUID(), 22));
+        List<Voucher> vouchers = List.of(new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now()), new PercentDiscountVoucher(UUID.randomUUID(), 22, LocalDateTime.now()));
         when(voucherRepository.findAll()).thenReturn(vouchers);
 
         //when
