@@ -18,7 +18,7 @@ import java.util.*;
 import static com.programmers.vouchermanagement.constant.Message.*;
 
 @Repository
-@Profile("prod")
+@Profile("file")
 public class VoucherFileRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(VoucherFileRepository.class);
 
