@@ -115,6 +115,12 @@ public class JdbcWalletRepository implements WalletRepository{
     }
 
     @Override
+    public void deleteById(UUID walletId) {
+        jdbcTemplate.update("DELETE FROM wallet where wallet_id = UUID_TO_BIN(?)",
+                walletId.toString());
+    }
+
+    @Override
     public void addVoucherByCustomerId(UUID walletId, UUID customerId, UUID voucherId) {
         var update = jdbcTemplate.update("INSERT INTO wallet_customer_voucher(wallet_id, customer_id, voucher_id) VALUES (UUID_TO_BIN(?), UUID_TO_BIN(?), UUID_TO_BIN(?))",
                 walletId.toString().getBytes(),

@@ -46,6 +46,10 @@ public class WalletService {
         return walletRepository.findAll();
     }
 
+    public void deleteById(UUID walletId) {
+        walletRepository.deleteById(walletId);
+    }
+
     public void deleteAll() {
         walletRepository.deleteAll();
     }

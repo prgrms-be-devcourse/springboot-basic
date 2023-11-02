@@ -63,22 +63,11 @@ public class WalletWebController {
         return "redirect:/wallets/{walletId}";
     }
 
-//    @PostMapping("/create")
-//    public String createVoucher(@ModelAttribute VoucherRequestDto voucherRequestDto) {
-//        VoucherTypeFunction voucherType = VoucherTypeFunction.findByCode(voucherRequestDto.getVoucherPolicy());
-//
-//        if (voucherType == VoucherTypeFunction.PERCENT_DISCOUNT_POLICY) {
-//            // If percentDiscount is selected, validate the amount
-//            walletService.createVoucher(voucherType, voucherRequestDto.getPercentage());
-//            if (voucherRequestDto.getAmount() < 1 || voucherRequestDto.getAmount() > 100) {
-//                // Handle invalid amount (e.g., show an error message)
-//                return "redirect:/vouchers"; // Redirect back to the create page
-//            }
-//        }
-//
-//        walletService.createVoucher(voucherType, voucherRequestDto.getAmount());
-//        return "redirect:/vouchers";
-//    }
+    @GetMapping("/{walletId}/delete")
+    public String deleteById(@PathVariable UUID walletId) {
+        walletService.deleteById(walletId);
+        return "redirect:/wallets";
+    }
 
     @GetMapping("/{walletId}/delete/{voucherId}")
     public String deleteVoucher(@PathVariable UUID walletId, @PathVariable UUID voucherId) {
