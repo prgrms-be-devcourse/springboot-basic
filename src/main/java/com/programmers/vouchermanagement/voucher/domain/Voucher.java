@@ -57,10 +57,6 @@ public class Voucher {
     }
 
     public boolean isCreatedInBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        if (createdAt.compareTo(startDateTime) != 1 && createdAt.compareTo(endDateTime) != -1) {
-            return true;
-        }
-
-        return false;
+        return !createdAt.isBefore(startDateTime) && !createdAt.isAfter(endDateTime);
     }
 }
