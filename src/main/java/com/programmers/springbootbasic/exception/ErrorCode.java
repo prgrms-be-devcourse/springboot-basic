@@ -10,6 +10,7 @@ public enum ErrorCode {
     INVALID_FIXED_VOUCHER_BENEFIT("고정 할인 금액은 0원 이상이어야 합니다.", HttpStatus.BAD_REQUEST),
     INVALID_PERCENT_VOUCHER_BENEFIT("비율 할인 금액은 0% 이상 100% 이하여야 합니다.", HttpStatus.BAD_REQUEST),
     INVALID_FILE_PATH("올바르지 않은 파일 경로입니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    INVALID_INPUT("올바르지 않은 입력입니다.", HttpStatus.BAD_REQUEST),
     EXIT("시스템을 종료합니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     NOT_FOUND_VOUCHER("바우처를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_USER("사용자를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),

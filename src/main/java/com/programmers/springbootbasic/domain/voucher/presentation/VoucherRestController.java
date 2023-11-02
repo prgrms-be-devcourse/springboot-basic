@@ -5,6 +5,7 @@ import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVou
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.UpdateVoucherRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherCriteria;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherResponse;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.context.annotation.Profile;
@@ -41,7 +42,7 @@ public class VoucherRestController {
 
     @GetMapping("/vouchers/search")
     public List<VoucherResponse> getVouchersByCriteria(
-        @ModelAttribute VoucherCriteria criteria
+        @Valid @ModelAttribute VoucherCriteria criteria
     ) {
         return voucherService.findByCriteria(criteria);
     }
