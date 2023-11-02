@@ -61,7 +61,7 @@ public class VoucherService {
     }
 
     @Transactional(readOnly = true)
-    public List<VoucherResponseDto> findVouchersByCreatedDate(String date, VoucherDiscountType type) {
+    public List<VoucherResponseDto> findVouchersByCreatedDateAndType(String date, VoucherDiscountType type) {
         isValidDateForm(date);
 
         List<Voucher> vouchers = voucherRepository.findVoucherByFilter(date, type);

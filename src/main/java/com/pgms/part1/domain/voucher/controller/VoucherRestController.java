@@ -4,7 +4,7 @@ import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
 import com.pgms.part1.domain.voucher.dto.VoucherWebCreateRequestDto;
 import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import com.pgms.part1.domain.voucher.service.VoucherService;
-import org.springframework.validation.annotation.Validated;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,11 +26,11 @@ public class VoucherRestController {
     @GetMapping("/vouchers/search")
     public List<VoucherResponseDto> findVouchersByFilter(@RequestParam(value = "date", required = false) String date,
                                                          @RequestParam(value = "type", required = false) VoucherDiscountType type){
-        return voucherService.findVouchersByCreatedDate(date, type);
+        return voucherService.findVouchersByCreatedDateAndType(date, type);
     }
 
     @PostMapping("/vouchers")
-    public VoucherResponseDto createVoucher(@Validated @RequestBody VoucherWebCreateRequestDto voucherWebCreateRequestDto){
+    public VoucherResponseDto createVoucher(@Valid @RequestBody VoucherWebCreateRequestDto voucherWebCreateRequestDto){
         return voucherService.createVoucher(voucherWebCreateRequestDto);
     }
 

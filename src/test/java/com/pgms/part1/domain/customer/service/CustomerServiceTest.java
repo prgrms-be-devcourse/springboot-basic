@@ -66,10 +66,12 @@ class CustomerServiceTest {
     @Test
     void customer_전체_리스트_조회_성공(){
         // given
-        CustomerCreateRequestDto customerCreateRequestDto = new CustomerCreateRequestDto("test", "test");
-        Customer customer1 = customerService.addCustomer(customerCreateRequestDto);
-        Customer customer2 = customerService.addCustomer(customerCreateRequestDto);
-        Customer customer3 = customerService.addCustomer(customerCreateRequestDto);
+        CustomerCreateRequestDto customerCreateRequestDto1 = new CustomerCreateRequestDto("test", "test1");
+        Customer customer1 = customerService.addCustomer(customerCreateRequestDto1);
+        CustomerCreateRequestDto customerCreateRequestDto2 = new CustomerCreateRequestDto("test", "test2");
+        Customer customer2 = customerService.addCustomer(customerCreateRequestDto2);
+        CustomerCreateRequestDto customerCreateRequestDto3 = new CustomerCreateRequestDto("test", "test3");
+        Customer customer3 = customerService.addCustomer(customerCreateRequestDto3);
 
         // when
         List<CustomerResponseDto> customerResponseDtos = customerService.listCustomers();
