@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Wallet</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<h1>Create Wallet</h1>
+
+<form action="/wallet/create" method="post">
+  <label for="customerId">Customer ID:</label>
+  <input type="text" id="customerId" name="customerId" required>
+  <br>
+
+  <label for="voucherId">Voucher ID:</label>
+  <input type="text" id="voucherId" name="voucherId" required>
+  <br>
+
+  <button type="submit" class="btn btn-primary">Create Wallet</button>
+  <a href="/wallet/wallet-home">
+    <button type="button" class="btn btn-secondary">Go To Main Page</button>
+  </a>
+</form>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
