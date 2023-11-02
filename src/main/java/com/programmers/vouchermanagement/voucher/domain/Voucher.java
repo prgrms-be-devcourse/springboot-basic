@@ -55,4 +55,12 @@ public class Voucher {
     public boolean isSameType(VoucherType voucherType) {
         return this.voucherType == voucherType;
     }
+
+    public boolean isCreatedInBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        if (createdAt.compareTo(startDateTime) != 1 && createdAt.compareTo(endDateTime) != -1) {
+            return true;
+        }
+
+        return false;
+    }
 }
