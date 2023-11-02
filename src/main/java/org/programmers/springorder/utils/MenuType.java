@@ -26,4 +26,8 @@ public enum MenuType {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_VALUE_MESSAGE));
     }
+
+    public boolean isExit() {
+        return this == EXIT;
+    }
 }

@@ -34,6 +34,11 @@ public class Console {
         return MenuType.selectMenu(scanner.nextLine());
     }
 
+    public void exit() {
+        printMessage(Message.EXIT_PROGRAM_MESSAGE);
+    }
+
+
     /**
      * Voucher
      */
