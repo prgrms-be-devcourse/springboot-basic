@@ -5,6 +5,12 @@
   <title>Create Wallet</title>
   <!-- Bootstrap CSS link (you should have Bootstrap included in your project) -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -12,6 +18,11 @@
   <div class="row mt-4">
     <div class="col-md-6 offset-md-3">
       <form th:action="@{/wallet}" th:object="${wallet}" method="post">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+          <p class="field-error" th:each="err: ${#fields.globalErrors()}" th:text="${err}"></p>
+        </div>
+
         <div class="form-group">
           <label for="memberId">Member ID:</label>
           <select id="memberId" class="form-control" th:field="*{memberId}">

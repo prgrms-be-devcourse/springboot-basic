@@ -22,14 +22,17 @@
         <div class="form-group">
           <label for="name">Name:</label>
           <input type="text" id="name" class="form-control" th:field="*{name}" th:errorclass="field-error" placeholder="Enter member name" />
+          <div class="field-error" th:errors="*{name}"></div>
         </div>
         <div class="form-group">
           <label for="email">Email:</label>
           <input type="text" id="email" class="form-control" th:field="*{email}" th:errorclass="field-error" placeholder="Enter member email" />
+          <div class="field-error" th:errors="*{email}"></div>
         </div>
         <div class="form-group">
           <label for="age">Age:</label>
           <input type="text" id="age" class="form-control" th:field="*{age}" th:errorclass="field-error" placeholder="Enter member age" />
+          <div class="field-error" th:errors="*{age}"></div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Create</button>
       </form>
