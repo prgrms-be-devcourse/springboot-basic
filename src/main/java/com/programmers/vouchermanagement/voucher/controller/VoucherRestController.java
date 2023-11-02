@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.dto.SearchCreatedAtRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
 
@@ -48,5 +49,10 @@ public class VoucherRestController {
     public List<VoucherResponse> findByType(@PathVariable String typeName) {
         VoucherType voucherType = VoucherType.findVoucherTypeByName(typeName);
         return voucherService.findByType(voucherType);
+    }
+
+    @GetMapping("/creation-date")
+    public List<VoucherResponse> findByCreatedAt(SearchCreatedAtRequest request) {
+        return voucherService.findByCreatedAt(request);
     }
 }
