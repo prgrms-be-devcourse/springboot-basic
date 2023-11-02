@@ -79,13 +79,18 @@ public class FileRepository implements VoucherRepository{
     }
 
     @Override
-    public int deleteAll() {
+    public int delete(UUID voucherId) {
 
         return 0;
     }
 
     @Override
-    public Voucher getById(UUID voucherId) {
+    public Voucher findById(UUID voucherId) {
         return storage.get(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findVoucherByPolicy(PolicyStatus policy) {
+        return null;
     }
 }

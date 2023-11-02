@@ -2,6 +2,7 @@ package org.prgrms.vouchermanagement.voucher.repository;
 
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.policy.DiscountPolicy;
+import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -35,13 +36,18 @@ public class MemoryRepository implements VoucherRepository{
     }
 
     @Override
-    public int deleteAll() {
+    public int delete(UUID voucherId) {
 
         return 0;
     }
 
     @Override
-    public Voucher getById(UUID voucherId) {
+    public Voucher findById(UUID voucherId) {
         return storage.get(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findVoucherByPolicy(PolicyStatus policy) {
+        return null;
     }
 }

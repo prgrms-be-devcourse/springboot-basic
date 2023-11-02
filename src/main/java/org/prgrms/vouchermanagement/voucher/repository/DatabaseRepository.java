@@ -1,11 +1,14 @@
 package org.prgrms.vouchermanagement.voucher.repository;
 
+import org.prgrms.vouchermanagement.exception.LoadFailException;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.policy.DiscountPolicy;
 import org.prgrms.vouchermanagement.voucher.policy.FixedAmountVoucher;
 import org.prgrms.vouchermanagement.voucher.policy.PercentDiscountVoucher;
 import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
+import org.prgrms.vouchermanagement.wallet.repository.WalletMapperJdbcMapperRepository;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -22,16 +25,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DatabaseRepository implements VoucherRepository {
     private static final String LOAD = "SELECT voucher_id, discount_policy, amount FROM voucher";
     private static final String CREATE = "INSERT INTO voucher(voucher_id, discount_policy, amount) VALUES(UUID_TO_BIN(?), (?), (?))";
+    private static final String FIND_BY_ID = "SELECT voucher_id, discount_policy, amount FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String UPDATE_AMOUNT_BY_ID = "UPDATE voucher SET amount = ? WHERE voucher_id = UUID_TO_BIN(?)";
-    private static final String DELETE_BY_ID = "DELETE FROM voucher";
+    private static final String DELETE_BY_ID = "DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String FIND_BY_POLICY = "SELECT voucher_id, discount_policy, amount FROM voucher WHERE discount_policy = ?";
 
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final JdbcTemplate jdbcTemplate;
 
     public DatabaseRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-
-        load();
     }
 
     //create
@@ -40,52 +42,39 @@ public class DatabaseRepository implements VoucherRepository {
         String policy = String.valueOf(discountPolicy.getPolicyStatus());
         long amount = discountPolicy.getAmountOrPercent();
 
-        int rowsAffected = jdbcTemplate.update(CREATE, voucherId.toString().getBytes(), policy, amount);
-
-        Voucher voucher = new Voucher(voucherId, discountPolicy);
-        storage.put(voucherId, voucher);
-
-        return rowsAffected;
+        return jdbcTemplate.update(CREATE, voucherId.toString().getBytes(), policy, amount);
     }
 
     //read
     @Override
     public List<Voucher> voucherLists() {
-        return storage.values().stream()
-                .toList();
+        return jdbcTemplate.query(LOAD, new VoucherRowMapper());
     }
 
     //update
     public void update(UUID voucherId, long amountOrPercent) {
         jdbcTemplate.update(UPDATE_AMOUNT_BY_ID, amountOrPercent, voucherId.toString().getBytes());
-
-        Voucher findVoucher = storage.get(voucherId);
-        PolicyStatus policy = findVoucher.getDiscountPolicy().getPolicyStatus();
-
-        DiscountPolicy discountPolicy = getPolicy(policy, amountOrPercent);
-
-        Voucher updateVoucher = new Voucher(voucherId, discountPolicy);
-        storage.put(voucherId, updateVoucher);
     }
 
     //delete
     @Override
-    public int deleteAll() {
-        int rowsAffected = jdbcTemplate.update(DELETE_BY_ID);
-        storage.clear();
-        return rowsAffected;
+    public int delete(UUID voucherId) {
+        return jdbcTemplate.update(DELETE_BY_ID, voucherId.toString().getBytes());
+    }
+
+    //find
+    @Override
+    public Voucher findById(UUID voucherId) {
+        try {
+            return jdbcTemplate.queryForObject(FIND_BY_ID, new Object[]{voucherId.toString().getBytes()}, new VoucherRowMapper());
+        } catch (EmptyResultDataAccessException e) {
+            throw new LoadFailException("찾을 수 없습니다.");
+        }
     }
 
     @Override
-    public Voucher getById(UUID voucherId) {
-        return storage.get(voucherId);
-    }
-
-    private void load() {
-        List<Voucher> vouchers = jdbcTemplate.query(LOAD, new VoucherRowMapper());
-        for (Voucher voucher : vouchers) {
-            storage.put(voucher.getVoucherId(), voucher);
-        }
+    public List<Voucher> findVoucherByPolicy(PolicyStatus policy) {
+        return jdbcTemplate.query(FIND_BY_POLICY, new VoucherRowMapper(), policy.name());
     }
 
     //load 역할
