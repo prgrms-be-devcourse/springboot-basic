@@ -40,6 +40,12 @@ public abstract class Voucher {
         this.createdAt = createdAt;
     }
 
+    public Voucher(VoucherType type, long amount, LocalDateTime createdAt) {
+        this.type = type;
+        this.amount = amount;
+        this.createdAt = createdAt;
+    }
+
     public void setId(UUID id) {
         this.id = id;
     }

@@ -20,6 +20,11 @@ public class PercentDiscountVoucher extends Voucher {
         validateAmount(amount);
     }
 
+    public PercentDiscountVoucher(long amount, LocalDateTime createdAt) {
+        super(VoucherType.PERCENT_DISCOUNT, amount, createdAt);
+        validateAmount(amount);
+    }
+
     public PercentDiscountVoucher(UUID id, long amount, LocalDateTime createdAt) {
         super(id, VoucherType.PERCENT_DISCOUNT, amount, createdAt);
         validateAmount(amount);

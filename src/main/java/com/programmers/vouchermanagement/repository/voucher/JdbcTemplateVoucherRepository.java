@@ -29,12 +29,13 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     @Override
     public UUID save(Voucher voucher) {
         UUID id = UUID.randomUUID();
-        String sql = "INSERT INTO vouchers (id, type, amount) VALUES (:id, :type, :amount)";
+        String sql = "INSERT INTO vouchers (id, type, amount, created_at) VALUES (:id, :type, :amount, :createdAt)";
 
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("id", id.toString())
+                .addValue("id", (voucher.getId() != null) ? voucher.getId().toString() : id.toString())
                 .addValue("type", voucher.getType().toString())
-                .addValue("amount", voucher.getAmount());
+                .addValue("amount", voucher.getAmount())
+                .addValue("createdAt", (voucher.getCreatedAt() != null) ? voucher.getCreatedAt() : LocalDateTime.now());
 
         template.update(sql, params);
 
@@ -43,12 +44,14 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
 
     @Override
     public void saveAll(List<Voucher> vouchers) {
-        String sql = "INSERT INTO vouchers (type, amount) VALUES (:type, :amount)";
+        String sql = "INSERT INTO vouchers (id, type, amount, created_at) VALUES (:id, :type, :amount, :createdAt)";
 
         template.batchUpdate(sql, vouchers.stream()
                 .map(voucher -> new MapSqlParameterSource()
+                        .addValue("id", (voucher.getId() != null) ? voucher.getId().toString() : UUID.randomUUID().toString())
                         .addValue("type", voucher.getType().toString())
-                        .addValue("amount", voucher.getAmount()))
+                        .addValue("amount", voucher.getAmount())
+                        .addValue("createdAt", (voucher.getCreatedAt() != null) ? voucher.getCreatedAt() : LocalDateTime.now()))
                 .toArray(SqlParameterSource[]::new));
     }
 
@@ -78,15 +81,17 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         }
 
         if (request.getMinCreatedAt() != null) {
-            sql += " AND created_at >= :createdAt";
-            params.addValue("createdAt", request.getMinCreatedAt().toString());
+            sql += " AND created_at >= :minCreatedAt";
+            params.addValue("minCreatedAt", request.getMinCreatedAt().toString());
 
         }
 
         if (request.getMaxCreatedAt() != null) {
-            sql += " AND created_at <= :createdAt";
-            params.addValue("createdAt", request.getMaxCreatedAt().toString());
+            sql += " AND created_at <= :maxCreatedAt";
+            params.addValue("maxCreatedAt", request.getMaxCreatedAt().toString());
         }
+
+        System.out.println(sql);
 
         return template.query(sql, params, getVoucherRowMapper());
     }

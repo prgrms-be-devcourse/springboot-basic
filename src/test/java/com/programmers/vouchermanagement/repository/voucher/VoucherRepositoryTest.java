@@ -3,6 +3,7 @@ package com.programmers.vouchermanagement.repository.voucher;
 import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import com.programmers.vouchermanagement.repository.ContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -94,6 +96,55 @@ class VoucherRepositoryTest extends ContainerBaseTest {
                 .containsExactlyInAnyOrder(newVoucher1.getType(), newVoucher2.getType());
         assertThat(foundVouchers).extracting(Voucher::getAmount)
                 .containsExactlyInAnyOrder(newVoucher1.getAmount(), newVoucher2.getAmount());
+    }
+
+    @Test
+    @DisplayName("요청한 타입의 바우처들만 조회할 수 있다.")
+    void findAll_filterByType() {
+        // given
+        Voucher newVoucher1 = new FixedAmountVoucher(1000L);
+        Voucher newVoucher2 = new PercentDiscountVoucher(10L);
+        voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
+
+        VoucherType type = VoucherType.FIXED_AMOUNT;
+        GetVouchersRequestDto request = new GetVouchersRequestDto();
+        request.setType(type);
+
+        // when
+        List<Voucher> foundVouchers = voucherRepository.findAll(request);
+
+        // then
+        assertThat(foundVouchers).hasSize(1);
+        assertThat(foundVouchers).extracting(Voucher::getType).containsExactlyInAnyOrder(type);
+    }
+
+    @Test
+    @DisplayName("요청한 범위 내의 생성된 바우처들만 조회할 수 있다.")
+    void findAll_rangeCreatedAt() {
+        // given
+        LocalDateTime createdAt1 = LocalDateTime.of(2023, 11, 1, 0, 0, 0);
+        LocalDateTime createdAt2 = LocalDateTime.of(2023, 11, 2, 0, 0, 0);
+        LocalDateTime createdAt3 = LocalDateTime.of(2023, 11, 3, 0, 0, 0);
+        Voucher newVoucher1 = new FixedAmountVoucher(1000L, createdAt1);
+        Voucher newVoucher2 = new PercentDiscountVoucher(10L, createdAt2);
+        Voucher newVoucher3 = new PercentDiscountVoucher(10L, createdAt3);
+        voucherRepository.saveAll(List.of(newVoucher1, newVoucher2, newVoucher3));
+
+        LocalDateTime minCreatedAt = LocalDateTime.of(2023, 11, 2, 0, 0, 0);
+        LocalDateTime maxCreatedAt = LocalDateTime.of(2023, 11, 2, 23, 59, 59);
+        GetVouchersRequestDto request = new GetVouchersRequestDto();
+        request.setMinCreatedAt(minCreatedAt);
+        request.setMaxCreatedAt(maxCreatedAt);
+
+        // when
+        List<Voucher> foundVouchers = voucherRepository.findAll(request);
+
+        // then
+        assertThat(foundVouchers).hasSize(1);
+        assertThat(foundVouchers).allSatisfy(voucher -> {
+            assertThat(voucher.getCreatedAt()).isAfterOrEqualTo(minCreatedAt);
+            assertThat(voucher.getCreatedAt()).isBeforeOrEqualTo(maxCreatedAt);
+        });
     }
 
     @Test
