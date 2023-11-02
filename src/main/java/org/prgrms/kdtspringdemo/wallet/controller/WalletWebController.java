@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringdemo.wallet.controller;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.prgrms.kdtspringdemo.wallet.domain.dto.AddVoucherToWalletDto;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +37,10 @@ public class WalletWebController {
     public String viewWallet(@PathVariable UUID walletId, Model model) {
         Wallet wallet = walletService.findById(walletId).orElse(null);
         List<Voucher> vouchers = walletService.findVouchersById(wallet.getCustomerId());
-        WalletDetailsDto walletDetailsDto = new WalletDetailsDto(walletId, wallet.getCustomerId(), vouchers);
+        List<VoucherViewDto> voucherViewDtos = new ArrayList<>();
+        vouchers.stream().forEach(voucher -> voucherViewDtos.add(new VoucherViewDto(voucher)));
+
+        WalletDetailsDto walletDetailsDto = new WalletDetailsDto(walletId, wallet.getCustomerId(), voucherViewDtos);
 
         List<Voucher> unallocatedVouchers = voucherService.findUnallocatedVoucher();
 

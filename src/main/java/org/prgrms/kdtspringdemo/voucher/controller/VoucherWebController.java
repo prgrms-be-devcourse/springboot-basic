@@ -3,11 +3,13 @@ package org.prgrms.kdtspringdemo.voucher.controller;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,14 +31,17 @@ public class VoucherWebController {
             vouchers = voucherService.findAll();
         }
 
-        model.addAttribute("vouchers", vouchers);
+        List<VoucherViewDto> voucherViewDtos = new ArrayList<>();
+        vouchers.stream().forEach(voucher -> voucherViewDtos.add(new VoucherViewDto(voucher)));
+
+        model.addAttribute("vouchers", voucherViewDtos);
         return "voucher";
     }
 
     @GetMapping("/{voucherId}")
     public String viewVoucher(@PathVariable UUID voucherId, Model model) {
-        Voucher voucher = voucherService.findById(voucherId);
-        model.addAttribute("voucher", voucher);
+        VoucherViewDto voucherViewDto = new VoucherViewDto(voucherService.findById(voucherId));
+        model.addAttribute("voucher", voucherViewDto);
         return "voucher_details";
     }
 

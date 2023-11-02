@@ -1,6 +1,7 @@
 package org.prgrms.kdtspringdemo.wallet.domain.dto;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -8,9 +9,9 @@ import java.util.UUID;
 public class WalletDetailsDto {
     private UUID walletId;
     private UUID customerId;
-    private List<Voucher> voucherList;
+    private List<VoucherViewDto> voucherList;
 
-    public WalletDetailsDto(UUID walletId, UUID customerId, List<Voucher> voucherList) {
+    public WalletDetailsDto(UUID walletId, UUID customerId, List<VoucherViewDto> voucherList) {
         this.walletId = walletId;
         this.customerId = customerId;
         this.voucherList = voucherList;
@@ -32,11 +33,11 @@ public class WalletDetailsDto {
         this.customerId = customerId;
     }
 
-    public List<Voucher> getVoucherList() {
+    public List<VoucherViewDto> getVoucherList() {
         return voucherList;
     }
 
-    public void setVoucherList(List<Voucher> voucherList) {
+    public void setVoucherList(List<VoucherViewDto> voucherList) {
         this.voucherList = voucherList;
     }
 }
