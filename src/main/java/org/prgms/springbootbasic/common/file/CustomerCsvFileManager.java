@@ -13,7 +13,7 @@ import java.util.UUID;
 import static org.prgms.springbootbasic.common.CommonConstant.CSV_PATTERN;
 
 @Component
-@Profile({"dev", "prod"})
+@Profile({"test"})
 @Slf4j
 public class CustomerCsvFileManager {
     private static final String BLACK_PATH = "./src/main/resources/customer_blacklist.csv";
@@ -31,10 +31,10 @@ public class CustomerCsvFileManager {
 
 
     public List<Customer> readBlack(){
-        return csvFileTemplate.read(BLACK_PATH, this::lineToBlack);
+        return csvFileTemplate.read(BLACK_PATH, this::convertToBlack);
     }
 
-    private Customer lineToBlack(String line){
+    private Customer convertToBlack(String line){
         log.debug("line = {}", line);
 
         List<String> csvFields =

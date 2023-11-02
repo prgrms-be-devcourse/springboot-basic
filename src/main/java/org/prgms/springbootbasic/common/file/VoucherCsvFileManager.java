@@ -2,7 +2,9 @@ package org.prgms.springbootbasic.common.file;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.VoucherType;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
@@ -14,13 +16,14 @@ import static org.prgms.springbootbasic.common.CommonConstant.CSV_PATTERN;
 
 @Component
 @Slf4j
-@Profile({"dev", "prod"})
-public class VoucherCsvFileManager { // CsvFileManager 하나로 합쳐서. domain은 최대한 순수하게 유지. 외부 의존성이 들어간다? 이게 도메인에 들어가면 변경이 취약. -> 분리
-    private static final String FILE_PATH = "./src/main/resources/voucher.csv";
+@Profile({"test"})
+public class VoucherCsvFileManager {
+    @Value("${basic.file.path}")
+    private String FILE_PATH;
     private static final String CSV_FIRST_LINE = "UUID,Type,DiscountValue";
     private static final int UUID_IDX = 0;
     private static final int TYPE_IDX = 1;
-    private static final int DISCOUNT_VALUE_IDX = 2;
+    private static final int DISCOUNT_DEGREE_IDX = 2;
 
     private final CsvFileTemplate csvFileTemplate;
 
@@ -28,15 +31,15 @@ public class VoucherCsvFileManager { // CsvFileManager 하나로 합쳐서. doma
         this.csvFileTemplate = csvFileTemplate;
     }
 
-    public List<VoucherPolicy> read(){
-        return csvFileTemplate.read(FILE_PATH, this::lineToVoucher);
+    public List<Voucher> read(){
+        return csvFileTemplate.read(FILE_PATH, this::convertToVoucher);
     }
 
-    public void write(List<VoucherPolicy> voucherPolicies){
-        csvFileTemplate.write(FILE_PATH, voucherPolicies, this::voucherToString, CSV_FIRST_LINE);
+    public void write(List<Voucher> voucherPolicies){
+        csvFileTemplate.write(FILE_PATH, voucherPolicies, this::convertToString, CSV_FIRST_LINE);
     }
 
-    private VoucherPolicy lineToVoucher(String line){
+    private Voucher convertToVoucher(String line){
         log.debug("line = {}", line);
 
         List<String> splitLine = Arrays.stream(line.split(CSV_PATTERN))
@@ -44,32 +47,31 @@ public class VoucherCsvFileManager { // CsvFileManager 하나로 합쳐서. doma
                 .toList();
         VoucherType[] voucherTypes = VoucherType.values();
 
-        for (VoucherType type : voucherTypes) {
-            String voucherType = type.getDisplayName();
-            String curStringType = splitLine.get(TYPE_IDX);
+        VoucherType thisVoucherType =
+                Arrays.stream(voucherTypes)
+                        .filter(type -> type.getDisplayName().equals(splitLine.get(TYPE_IDX)))
+                        .findAny()
+                        .orElseThrow(() -> {
+                            log.error("Invalid voucher type.");
+                            return new IllegalArgumentException("Invalid voucher type");
+                        });
 
-            if (curStringType.equals(voucherType)) {
-                log.info("This voucher type is {}", voucherType);
+        VoucherPolicy voucherPolicy = thisVoucherType.create();
+        UUID voucherId = UUID.fromString(splitLine.get(UUID_IDX));
+        long discountDegree = Long.parseLong(splitLine.get(DISCOUNT_DEGREE_IDX));
 
-                return type.create(
-                        UUID.fromString(splitLine.get(UUID_IDX)),
-                        Long.parseLong(splitLine.get(DISCOUNT_VALUE_IDX))
-                );
-            }
-        }
-
-        log.error("Invalid voucher type.");
-        throw new IllegalArgumentException("Invalid voucher type.");
+        return new Voucher(voucherId, discountDegree, voucherPolicy);
     }
 
-    private String voucherToString(VoucherPolicy voucherPolicy){
+    private String convertToString(Voucher voucher){ // 외부에 도메인을 맞추면 안됨. -> DB 의존적 클래스랑 실제 내부 도메인 분리.
+        // 이거를 위해서 VoucherPolicy가 getter를 들고있는게 말이 안됨. 얘를 도메인에 맞춰야지 얘때문에 도메인이 망가지면 안된다.
         StringBuilder sb = new StringBuilder();
 
-        sb.append(voucherPolicy.getVoucherId());
+        sb.append(voucher.getVoucherId());
         sb.append(",");
-        sb.append(voucherPolicy.getClass().getSimpleName());
+        sb.append(voucher.getVoucherPolicy().getClass().getSimpleName());
         sb.append(",");
-        sb.append(voucherPolicy.getDiscountAmount());
+        sb.append(voucher.getDiscountDegree());
         sb.append(System.lineSeparator());
 
         return sb.toString();

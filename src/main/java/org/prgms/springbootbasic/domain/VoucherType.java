@@ -2,26 +2,28 @@ package org.prgms.springbootbasic.domain;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.prgms.springbootbasic.domain.voucher.FixedAmountVoucher;
-import org.prgms.springbootbasic.domain.voucher.PercentDiscountVoucher;
+import org.prgms.springbootbasic.domain.voucher.FixedAmountPolicy;
+import org.prgms.springbootbasic.domain.voucher.PercentDiscountPolicy;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 
-import java.util.UUID;
-import java.util.function.BiFunction;
+import java.util.function.Supplier;
+
+import static org.prgms.springbootbasic.common.CommonConstant.INPUT_FIXED_AMOUNT_VOUCHER;
+import static org.prgms.springbootbasic.common.CommonConstant.INPUT_PERCENT_DISCOUNT_VOUCHER;
 
 @Slf4j
 public enum VoucherType {
-    FIXED_AMOUNT(1, FixedAmountVoucher::new, "FixedAmountVoucher"),
-    PERCENT_DISCOUNT(2, PercentDiscountVoucher::new, "PercentDiscountVoucher");
+    FIXED_AMOUNT(INPUT_FIXED_AMOUNT_VOUCHER, FixedAmountPolicy::new, "FixedAmountPolicy"),
+    PERCENT_DISCOUNT(INPUT_PERCENT_DISCOUNT_VOUCHER, PercentDiscountPolicy::new, "PercentDiscountPolicy");
 
     private final int seq;
-    private final BiFunction<UUID, Long, VoucherPolicy> biFunction;
+    private final Supplier<VoucherPolicy> createVoucherPolicy;
     @Getter
     private final String displayName;
 
-    VoucherType(int seq, BiFunction<UUID, Long, VoucherPolicy> biFunction, String displayName) {
+    VoucherType(int seq, Supplier<VoucherPolicy> createVoucherPolicy, String displayName) {
         this.seq = seq;
-        this.biFunction = biFunction;
+        this.createVoucherPolicy = createVoucherPolicy;
         this.displayName = displayName;
     }
 
@@ -36,11 +38,7 @@ public enum VoucherType {
         throw new IllegalArgumentException("Invalid seq");
     }
 
-    public VoucherPolicy create(long discountDegree){
-        return this.biFunction.apply(UUID.randomUUID(), discountDegree);
-    }
-
-    public VoucherPolicy create(UUID uuid, long discountDegree){
-        return this.biFunction.apply(uuid, discountDegree);
+    public VoucherPolicy create(){
+        return this.createVoucherPolicy.get();
     }
 }

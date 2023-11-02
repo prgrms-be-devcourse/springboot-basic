@@ -2,11 +2,14 @@ package org.prgms.springbootbasic.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.VoucherType;
+import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
-import org.prgms.springbootbasic.repository.VoucherRepository;
+import org.prgms.springbootbasic.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -21,13 +24,18 @@ public class VoucherService {
         return VoucherType.getTypeFromSeq(voucherSeq);
     }
 
-    public void create(VoucherType voucherType, int discountDegree) {
-        VoucherPolicy voucherPolicy = voucherType.create(discountDegree); // 생성 비즈니스 로직이 있다.
+    public void upsert(VoucherType voucherType, int discountDegree) {
+        VoucherPolicy voucherPolicy = voucherType.create();
+        Voucher voucher = new Voucher(UUID.randomUUID(), discountDegree, voucherPolicy);
 
-        voucherRepository.create(voucherPolicy);
+        voucherRepository.upsert(voucher);
     }
 
-    public List<VoucherPolicy> findAll(){
+    public Optional<Voucher> findById(UUID voucherId){
+        return voucherRepository.findById(voucherId);
+    }
+
+    public List<Voucher> findAll(){
         return voucherRepository.findAll();
     }
 }
