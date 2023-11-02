@@ -1,8 +1,8 @@
 package org.prgrms.kdtspringdemo.voucher.service;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
 import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +26,27 @@ public class VoucherService {
         return VoucherTypeFunction.findByCode(type);
     }
 
-    public Voucher createVoucher(VoucherTypeFunction voucherType, UUID voucherId, long amount) {
+    public Voucher createVoucher(VoucherTypeFunction voucherType, long amount) {
+        UUID voucherId = UUID.randomUUID();
         Voucher voucher = voucherType.create(voucherId, amount);
         voucherRepository.insert(voucher);
         return voucher;
     }
 
-    public Optional<List<Voucher>> findAll() {
-        return Optional.of(voucherRepository.findAll().get());
+    public void updateVoucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
+        voucherRepository.update(voucherId, voucherRequestDto);
+    }
+
+    public List<Voucher> findAll() {
+        return voucherRepository.findAll();
+    }
+
+    public List<Voucher> findByPolicy(String policy) {
+        return voucherRepository.findByPolicy(policy);
+    }
+
+    public List<Voucher> findUnallocatedVoucher() {
+        return voucherRepository.findUnallocatedVoucher();
     }
 
     public Voucher findById(UUID voucherId) {
@@ -45,7 +58,11 @@ public class VoucherService {
                 });
     }
 
-    public void endVoucherService() {
-        System.exit(0);
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
+    public void deleteAll() {
+        voucherRepository.deleteAll();
     }
 }

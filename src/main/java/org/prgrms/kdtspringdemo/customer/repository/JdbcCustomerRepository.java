@@ -39,23 +39,45 @@ public class JdbcCustomerRepository implements CustomerRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    @Override
     public Customer insert(Customer customer) {
         var update = jdbcTemplate.update("INSERT INTO customers(customer_id, name, is_black) VALUES (UUID_TO_BIN(?), ?, ?)",
                 customer.getCustomerId().toString().getBytes(),
                 customer.getName(),
                 customer.isBlack());
         if(update != 1) {
+            logger.info("Nothing was inserted");
             throw new RuntimeException("Nothing was inserted");
         }
         return customer;
     }
 
+    @Override
+    public List<Customer> findAll() {
+        return jdbcTemplate.query("select * from customers", customerRowMapper);
+    }
+
+    @Override
+    public List<Customer> findNotHaveWalletCustomers() {
+        return jdbcTemplate.query("SELECT c.customer_id, c.name, c.is_black FROM customers c LEFT JOIN wallet w ON c.customer_id = w.customer_id WHERE w.customer_id IS NULL",
+                customerRowMapper);
+    }
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers");
     }
 
     @Override
-    public Optional<List<Customer>> getAllBlackList() throws IOException {
-        return Optional.of(jdbcTemplate.query("select * from customers where is_black = ?", customerRowMapper,true));
+    public void deleteById(UUID customerId) {
+        jdbcTemplate.update("DELETE FROM customers where customer_id = UUID_TO_BIN(?)",
+                customerId.toString());
+        jdbcTemplate.update("DELETE FROM wallet where customer_id = UUID_TO_BIN(?)",
+                customerId.toString());
+    }
+
+    @Override
+    public List<Customer> getAllBlackList() {
+        return jdbcTemplate.query("select * from customers where is_black = ?", customerRowMapper,true);
     }
 }

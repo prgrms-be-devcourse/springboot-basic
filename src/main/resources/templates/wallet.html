@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Wallet Management</title>
+    <!-- Include Bootstrap CSS (you may need to adjust the path) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <!-- Add a Brand or Logo -->
+        <a class="navbar-brand" th:href="@{/vouchers}">고객 바우처 관리 시스템</a>
+
+        <!-- Create a navigation menu -->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/vouchers}">Voucher Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/wallets}">Wallet Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/customers}">Customer Management</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="mt-5">Wallet Management</h1>
+
+    <!-- Wallet List -->
+    <h2 class="mt-3">All Wallets</h2>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>Wallet ID</th>
+            <th>Customer ID</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="wallet : ${walletList}">
+            <td th:text="${wallet.walletId}">Wallet ID</td>
+            <td th:text="${wallet.customerId}">Customer ID</td>
+            <td>
+                <a th:href="@{'/wallets/' + ${wallet.walletId}}">Details</a>
+                <a th:href="@{'/wallets/' + ${wallet.walletId} + '/delete'}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Include Bootstrap JS (you may need to adjust the path) -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

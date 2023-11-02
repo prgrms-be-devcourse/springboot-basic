@@ -6,6 +6,7 @@ import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +20,7 @@ import java.util.*;
 
 @Repository
 @Profile("dev")
-@PropertySource(value = "classpath:application_prod.yml")
+@PropertySource("classpath=application.yml")
 public class FileVoucherRepository implements VoucherRepository{
     private CsvFileHandler csvFileHandler;
     @Value("${voucher_file}")
@@ -48,6 +49,11 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
+    public void update(UUID voucherId, VoucherRequestDto voucherRequestDto) {
+
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         try{
             List<CSVRecord> data = csvFileHandler.readCSV(filePath);
@@ -69,7 +75,7 @@ public class FileVoucherRepository implements VoucherRepository{
     }
 
     @Override
-    public Optional<List<Voucher>> findAll() {
+    public List<Voucher> findAll() {
         List<Voucher> voucherList = new ArrayList<>();
         try {
             List<CSVRecord> data = csvFileHandler.readCSV(filePath);
@@ -82,10 +88,30 @@ public class FileVoucherRepository implements VoucherRepository{
                 Voucher voucher = voucherTypeFunction.create(voucherId, amount);
                 voucherList.add(voucher);
             });
-            return Optional.of(voucherList);
+            return voucherList;
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
-        return Optional.of(voucherList);
+        return voucherList;
+    }
+
+    @Override
+    public List<Voucher> findByPolicy(String policy) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findUnallocatedVoucher() {
+        return null;
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 }

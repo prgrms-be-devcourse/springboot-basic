@@ -18,4 +18,10 @@ public class Voucher {
     public VoucherPolicy getVoucherPolicy() {
         return voucherPolicy;
     }
+
+    public String toString() {
+        return "=======================\n"+
+                "voucherId : "+voucherId+"\n"+
+                "voucherPolicy : "+voucherPolicy.getVoucherType()+"\n";
+    }
 }

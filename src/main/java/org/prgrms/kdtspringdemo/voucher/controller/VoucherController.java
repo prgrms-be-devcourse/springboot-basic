@@ -3,7 +3,6 @@ package org.prgrms.kdtspringdemo.voucher.controller;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.slf4j.Logger;
@@ -36,11 +35,10 @@ public class VoucherController {
     public void createVoucher() {
         try {
             VoucherTypeFunction voucherType = findVoucherType();
-            UUID voucherId = UUID.randomUUID();
             outputConsole.getVoucherAmount();
             long amount = Long.parseLong(inputConsole.getString());
 
-            voucherService.createVoucher(voucherType, voucherId, amount);
+            voucherService.createVoucher(voucherType, amount);
         } catch (NumberFormatException e) {
             logger.error("올바른 숫자 형식이 아닙니다.");
         } catch (IOException e) {
@@ -51,13 +49,12 @@ public class VoucherController {
     }
 
     public void showAllVouchers() {
-        List<Voucher> voucherList = voucherService.findAll().get();
+        List<Voucher> voucherList = voucherService.findAll();
         voucherList.forEach(voucher -> outputConsole.printVoucher(voucher));
     }
 
-    public void endProgram() {
-        voucherService.endVoucherService();
+    public void endVoucherMode() {
+        outputConsole.printVoucherModeEnd();
     }
-
 
 }
