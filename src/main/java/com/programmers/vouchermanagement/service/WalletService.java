@@ -5,8 +5,6 @@ import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
 import com.programmers.vouchermanagement.message.ErrorMessage;
 import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +18,6 @@ public class WalletService {
     private final VoucherService voucherService;
     private final CustomerService customerService;
     private final WalletRepository walletRepository;
-    private final Logger logger = LoggerFactory.getLogger(WalletService.class);
 
     public WalletService(VoucherService voucherService, CustomerService customerService, WalletRepository walletRepository) {
         this.voucherService = voucherService;

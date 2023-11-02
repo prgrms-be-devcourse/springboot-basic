@@ -63,18 +63,15 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByTypeAndDates(String voucherType, LocalDate startDate, LocalDate endDate) {
         Stream<Voucher> voucherStream = vouchers.values().stream();
-
         if (voucherType != null && !voucherType.isBlank()) {
             voucherStream = voucherStream.filter(voucher -> voucherType.equals(voucher.getVoucherType().toString()));
         }
-
         if (startDate != null && endDate != null) {
             voucherStream = voucherStream.filter(voucher ->
                     !voucher.getCreatedAt().isBefore(startDate.atStartOfDay()) &&
                             !voucher.getCreatedAt().isAfter(endDate.atTime(23, 59, 59))
             );
         }
-
         return voucherStream.toList();
     }
 

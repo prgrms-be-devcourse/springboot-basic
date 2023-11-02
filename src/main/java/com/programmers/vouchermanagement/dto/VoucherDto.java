@@ -51,21 +51,3 @@ public class VoucherDto {
         }
     }
 }
-//public record VoucherDto(UUID id,
-//                         String name,
-//                         float discountAmount,
-//                         LocalDateTime createdAt,
-//                         VoucherType voucherType) {
-//    public static VoucherDto of(String voucherName, float discountAmount, VoucherType voucherType) {
-//        return new VoucherDto(null, voucherName, discountAmount, null, voucherType);
-//    }
-//
-//    public static VoucherDto from(Voucher voucher) {
-//        return new VoucherDto(
-//                voucher.getId(),
-//                voucher.getName(),
-//                voucher.getDiscountAmount(),
-//                voucher.getCreatedAt(),
-//                voucher.getVoucherType());
-//    }
-//}
