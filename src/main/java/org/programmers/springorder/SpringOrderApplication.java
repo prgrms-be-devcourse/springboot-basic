@@ -7,11 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class SpringOrderApplication {
-	private static final Logger log = LoggerFactory.getLogger(SpringOrderApplication.class);
 
-	public static void main(String[] args) {
-		log.info("Voucher 관리 애플리케이션 구동");
-		SpringApplication.run(SpringOrderApplication.class, args).close();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpringOrderApplication.class, args);
+    }
 
 }
