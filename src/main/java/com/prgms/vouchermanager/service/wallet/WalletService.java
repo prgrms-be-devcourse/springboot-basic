@@ -26,7 +26,7 @@ public class WalletService {
     public Wallet save(CreateWalletDto dto) {
 
         try {
-            return walletRepository.save(new Wallet(null,dto.getCustomerId(), dto.getVoucherId()));
+            return walletRepository.save(new Wallet(null, dto.getCustomerId(), dto.getVoucherId()));
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityViolationException(INVALID_WALLET_INFO.getMessage());
         }
@@ -37,8 +37,8 @@ public class WalletService {
 
         try {
             walletRepository.deleteByCustomerId(customerId);
-        } catch (EmptyResultDataAccessException e){
-            throw new EmptyResultDataAccessException(INVALID_CUSTOMER_ID.getMessage(),0);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EmptyResultDataAccessException(INVALID_CUSTOMER_ID.getMessage(), 0);
         }
     }
 
@@ -48,7 +48,7 @@ public class WalletService {
         try {
             return walletRepository.findByCustomerId(customerId);
         } catch (EmptyResultDataAccessException e) {
-            throw new EmptyResultDataAccessException(INVALID_CUSTOMER_ID.getMessage(),0);
+            throw new EmptyResultDataAccessException(INVALID_CUSTOMER_ID.getMessage(), 0);
         }
     }
 
@@ -56,6 +56,10 @@ public class WalletService {
 
     public Wallet findByVoucherId(UUID voucherId) {
 
-        return walletRepository.findByVoucherId(voucherId).orElseThrow(() -> new EmptyResultDataAccessException(INVALID_VOUCHER_ID.getMessage(),0));
+        return walletRepository.findByVoucherId(voucherId).orElseThrow(() -> new EmptyResultDataAccessException(INVALID_VOUCHER_ID.getMessage(), 0));
+    }
+
+    public List<Wallet> findAll() {
+        return walletRepository.findAll();
     }
 }
