@@ -10,12 +10,12 @@ import org.springframework.stereotype.Controller;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
+public class VoucherConsoleController {
     private final Console console;
 
     private final VoucherService voucherService;
 
-    public VoucherController(Console console, VoucherService voucherService) {
+    public VoucherConsoleController(Console console, VoucherService voucherService) {
         this.console = console;
         this.voucherService = voucherService;
     }
