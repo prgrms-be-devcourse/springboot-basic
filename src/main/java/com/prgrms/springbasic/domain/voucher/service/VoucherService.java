@@ -1,5 +1,6 @@
 package com.prgrms.springbasic.domain.voucher.service;
 
+import com.prgrms.springbasic.common.exception.ResourceNotFoundException;
 import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.UpdateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
@@ -15,7 +16,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 
 @Service
@@ -66,14 +66,13 @@ public class VoucherService {
     }
 
     @Transactional(readOnly = true)
-    public List<VoucherResponse> findByCondition(String date, String discountType) {
+    public List<VoucherResponse> findByCondition(LocalDate date, String discountType) {
         List<Voucher> vouchers = new ArrayList<>();
         if (date != null) {
-            LocalDate localDate = LocalDate.parse(date);
             if (discountType != null) {
-                vouchers = voucherRepository.findByCreatedAtAndDiscountType(localDate, DiscountType.find(discountType));
+                vouchers = voucherRepository.findByCreatedAtAndDiscountType(date, DiscountType.find(discountType));
             } else {
-                vouchers = voucherRepository.findByCreatedAt(LocalDate.parse(date));
+                vouchers = voucherRepository.findByCreatedAt(date);
             }
         } else {
             logger.info("Voucher list is empty");
@@ -85,6 +84,6 @@ public class VoucherService {
 
     private Voucher findVoucher(UUID voucherId) {
         return voucherRepository.findVoucherById(voucherId)
-                .orElseThrow(() -> new NoSuchElementException("Voucher not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Voucher not found for ID : " + voucherId));
     }
 }

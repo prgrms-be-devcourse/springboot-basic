@@ -4,9 +4,11 @@ import com.prgrms.springbasic.domain.voucher.dto.CreateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.UpdateVoucherRequest;
 import com.prgrms.springbasic.domain.voucher.dto.VoucherResponse;
 import com.prgrms.springbasic.domain.voucher.service.VoucherService;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,7 +35,7 @@ public class VoucherApiController {
 
     @GetMapping("/search")
     public ResponseEntity<List<VoucherResponse>> findByCondition(
-            @RequestParam(value = "createdAt", required = false) String createdAt,
+            @RequestParam(value = "createdAt", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate createdAt,
             @RequestParam(value = "discountType", required = false) String discountType
     ) {
         List<VoucherResponse> vouchers = voucherService.findByCondition(createdAt, discountType);

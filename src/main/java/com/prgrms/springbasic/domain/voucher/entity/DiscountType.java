@@ -1,5 +1,7 @@
 package com.prgrms.springbasic.domain.voucher.entity;
 
+import com.prgrms.springbasic.common.exception.InvalidValueException;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public enum DiscountType {
                 return discountType;
             }
         }
-        throw new IllegalArgumentException("Invalid DiscountType : " + type);
+        throw new InvalidValueException("Invalid DiscountType. Inserted type : " + type);
     }
 
     public static List<String> allowedDiscountTypes() {

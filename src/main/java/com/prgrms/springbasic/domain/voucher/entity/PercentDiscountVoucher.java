@@ -1,5 +1,6 @@
 package com.prgrms.springbasic.domain.voucher.entity;
 
+import com.prgrms.springbasic.common.exception.InvalidValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +29,7 @@ public class PercentDiscountVoucher extends Voucher {
     private static void checkValidation(long discountValue) {
         if (discountValue < MIN_PERCENT || discountValue > MAX_PERCENT) {
             logger.error("The percentage should be between 1 and 100. Inserted discount value : {}", discountValue);
-            throw new IllegalArgumentException("The percentage should be between 1 and 100.");
+            throw new InvalidValueException("The percentage should be between 1 and 100.");
         }
     }
 

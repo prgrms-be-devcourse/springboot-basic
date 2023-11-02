@@ -1,5 +1,6 @@
 package com.prgrms.springbasic.domain.voucher.entity;
 
+import com.prgrms.springbasic.common.exception.InvalidValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class FixedAmountVoucher extends Voucher {
     private static void checkValidation(long discountValue) {
         if (discountValue < 0) {
             logger.warn("discount value should be positive. Inserted discount value : {}", discountValue);
-            throw new IllegalArgumentException("discount value should be positive");
+            throw new InvalidValueException("Fixed discount value should be positive");
         }
     }
 
