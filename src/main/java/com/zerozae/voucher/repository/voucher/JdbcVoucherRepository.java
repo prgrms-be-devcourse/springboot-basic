@@ -114,19 +114,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findVoucherByCondition(VoucherCondition condition) {
-        StringBuilder sql = new StringBuilder("select * from vouchers");
+        StringBuilder sql = new StringBuilder("select * from vouchers where ");
         MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
         if(condition.getVoucherType() != null) {
             if(condition.getCreatedAt() != null) {
-                sql.append(" where voucher_type = :voucherType and created_at = :createdAt");
+                sql.append("voucher_type = :voucherType and created_at = :createdAt");
                 mapSqlParameterSource.addValue("voucherType", VoucherType.of(condition.getVoucherType()))
                                      .addValue("createdAt", LocalDate.parse(condition.getCreatedAt()));
             } else {
-                sql.append(" where voucher_type = :voucherType");
+                sql.append("voucher_type = :voucherType");
                 mapSqlParameterSource.addValue("voucherType", VoucherType.of(condition.getVoucherType()));
             }
         }else {
-            sql.append(" where created_at = :createdAt");
+            sql.append("created_at = :createdAt");
             mapSqlParameterSource.addValue("createdAt", condition.getCreatedAt());
         }
         return jdbcTemplate.query(sql.toString(), mapSqlParameterSource, voucherRowMapper);
