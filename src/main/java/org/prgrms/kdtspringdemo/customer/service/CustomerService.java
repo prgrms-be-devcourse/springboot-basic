@@ -28,6 +28,10 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
+    public List<Customer> findNoneHaveWalletCustomer() {
+        return customerRepository.findNotHaveWalletCustomers();
+    }
+
     public List<Customer> getBlackListCustomers() throws IOException {
         return customerRepository.getAllBlackList();
     }

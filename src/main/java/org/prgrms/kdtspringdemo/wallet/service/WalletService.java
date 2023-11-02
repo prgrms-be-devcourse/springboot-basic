@@ -14,11 +14,9 @@ import java.util.List;
 @Service
 public class WalletService {
     private final WalletRepository walletRepository;
-    private final VoucherService voucherService;
 
-    public WalletService(WalletRepository walletRepository, VoucherService voucherService) {
+    public WalletService(WalletRepository walletRepository) {
         this.walletRepository = walletRepository;
-        this.voucherService = voucherService;
     }
 
     public Wallet create(UUID customerId) {
