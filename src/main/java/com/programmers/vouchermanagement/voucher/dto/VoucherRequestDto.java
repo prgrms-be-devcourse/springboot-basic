@@ -1,18 +1,16 @@
 package com.programmers.vouchermanagement.voucher.dto;
 
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-
 public class VoucherRequestDto {
 
-    private final VoucherType voucherType;
+    private final String voucherType;
     private final Long discount;
 
-    public VoucherRequestDto(VoucherType voucherType, Long discount) {
+    public VoucherRequestDto(String voucherType, Long discount) {
         this.voucherType = voucherType;
         this.discount = discount;
     }
 
-    public VoucherType getVoucherType() {
+    public String getVoucherType() {
         return voucherType;
     }
 

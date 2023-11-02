@@ -6,26 +6,16 @@ import java.util.Arrays;
 
 public enum VoucherType {
 
-    FIXED(new FixedVoucherPolicy()),
-    PERCENT(new PercentVoucherPolicy());
-
-    private final VoucherPolicy voucherPolicy;
-
-    VoucherType(VoucherPolicy voucherPolicy) {
-        this.voucherPolicy = voucherPolicy;
-    }
+    FIXED,
+    PERCENT;
 
     public static VoucherType getVoucherTypeByName(String name) {
         return Arrays.stream(VoucherType.values())
-                .filter(voucherType -> voucherType.getLowerCaseName().equals(name))
-                .findAny().orElseThrow(VoucherTypeNotFoundException::new);
+                .filter(voucherType -> voucherType.getName().equalsIgnoreCase(name))
+                .findAny().orElseThrow(() -> new VoucherTypeNotFoundException(name));
     }
 
-    public String getLowerCaseName() {
-        return this.name().toLowerCase();
-    }
-
-    public VoucherPolicy getVoucherPolicy() {
-        return voucherPolicy;
+    private String getName() {
+        return this.name();
     }
 }

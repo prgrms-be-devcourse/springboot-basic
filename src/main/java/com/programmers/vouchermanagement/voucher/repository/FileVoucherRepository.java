@@ -1,62 +1,88 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
+import com.programmers.vouchermanagement.utils.CsvFileIoManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.exception.FileIOException;
 import com.programmers.vouchermanagement.voucher.mapper.VoucherMapper;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("default")
+@Profile("file")
 public class FileVoucherRepository implements VoucherRepository {
 
     private static final File FILE = new File(System.getProperty("user.dir") + "/src/main/resources/data.csv");
 
+    private final CsvFileIoManager csvFileIoManager;
+    private final Map<UUID, Voucher> storage;
+
+    public FileVoucherRepository(CsvFileIoManager csvFileIoManager) {
+        this.csvFileIoManager = csvFileIoManager;
+        this.storage = addVoucherByFile(csvFileIoManager.readCsv(FILE));
+    }
+
     @Override
     public void save(Voucher voucher) {
-
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE, true))) {
-
-            String voucherData = VoucherMapper.fromEntity(voucher);
-
-            bw.write(voucherData);
-            bw.newLine();
-
-            bw.flush();
-
-        } catch (IOException e) {
-            throw new FileIOException("Voucher not saved due to file issue. ");
-        }
+        storage.put(voucher.getVoucherId(), voucher);
+        csvFileIoManager.writeCsv(FILE, VoucherMapper.fromEntity(voucher));
     }
 
     @Override
     public List<Voucher> findAll() {
+        return storage.values()
+                .stream()
+                .toList();
+    }
 
-        List<Voucher> vouchers = new ArrayList<>();
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(storage.get(voucherId));
+    }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(FILE))) {
+    @Override
+    public void update(Voucher voucher) {
 
-            String data;
+        storage.put(voucher.getVoucherId(), voucher);
 
-            while ((data = br.readLine()) != null) {
+        List<String> updateCsv = storage.values()
+                .stream()
+                .map(VoucherMapper::fromEntity)
+                .toList();
+        csvFileIoManager.updateCsv(FILE, updateCsv);
+    }
 
-                String[] singleData = data.split(",");
+    @Override
+    public void deleteAll() {
+        storage.clear();
+        csvFileIoManager.updateCsv(FILE, new ArrayList<>());
+    }
 
-                Voucher voucher = VoucherMapper.toEntity(singleData);
-                vouchers.add(voucher);
-            }
+    @Override
+    public void deleteById(UUID voucherId) {
+        storage.remove(voucherId);
 
-        } catch (FileNotFoundException e) {
-            throw new FileIOException("File not found. ");
+        List<String> deleteCsv = storage.values()
+                .stream()
+                .map(VoucherMapper::fromEntity)
+                .toList();
+        csvFileIoManager.updateCsv(FILE, deleteCsv);
+    }
 
-        } catch (IOException e) {
-            throw new FileIOException("Voucher not read due to file issue. ");
+    private Map<UUID, Voucher> addVoucherByFile(List<String> readCsv) {
+
+        Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
+
+        for (String data : readCsv) {
+
+            String[] splitData = data.split(",");
+
+            Voucher voucher = VoucherMapper.toEntity(splitData);
+            storage.put(voucher.getVoucherId(), voucher);
         }
 
-        return vouchers;
+        return storage;
     }
 }
