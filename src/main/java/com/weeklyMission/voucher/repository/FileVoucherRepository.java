@@ -1,5 +1,6 @@
 package com.weeklyMission.voucher.repository;
 
+import com.weeklyMission.client.VoucherType;
 import com.weeklyMission.voucher.domain.FixedAmountVoucher;
 import com.weeklyMission.voucher.domain.Voucher;
 import jakarta.annotation.PostConstruct;
@@ -89,6 +90,16 @@ public class FileVoucherRepository implements VoucherRepository{
             return Optional.of(storage.get(id));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByIds(List<String> ids) {
+        return null;
     }
 
     @Override

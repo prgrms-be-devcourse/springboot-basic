@@ -1,5 +1,6 @@
 package com.weeklyMission.voucher.repository;
 
+import com.weeklyMission.client.VoucherType;
 import com.weeklyMission.voucher.domain.Voucher;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,16 @@ public class MemoryVoucherRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(String id) {
         return Optional.of(storage.get(id));
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByIds(List<String> ids) {
+        return null;
     }
 
     @Override

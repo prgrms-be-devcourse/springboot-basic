@@ -1,5 +1,6 @@
 package com.weeklyMission.voucher.repository;
 
+import com.weeklyMission.client.VoucherType;
 import com.weeklyMission.voucher.domain.FixedAmountVoucher;
 import com.weeklyMission.voucher.domain.Voucher;
 import java.nio.ByteBuffer;
@@ -68,6 +69,13 @@ public class DBVoucherRepository implements VoucherRepository{
         return Optional.ofNullable(voucherId);
     }
 
+    @Override
+    public List<Voucher> findByType(VoucherType type){
+        return jdbcTemplate.query("select * from voucher where type = :type",
+                Collections.singletonMap("type", type.getType()), voucherRowMapper);
+    }
+
+    @Override
     public List<Voucher> findByIds(List<String> ids){
         ids.add("dummy");
         List<Voucher> vouchers = jdbcTemplate.query(
