@@ -21,7 +21,7 @@ import java.util.UUID;
 @Repository
 public class FileCustomerRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(CustomerRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
     private final Console console;
     @Value(("${customerListFilePath}"))
     private String filePath;
