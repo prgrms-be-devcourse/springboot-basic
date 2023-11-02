@@ -34,25 +34,10 @@ public class VoucherWebController {
         return "voucher_details";
     }
 
-    @GetMapping("/create")
-    public String createVoucherForm(Model model) {
-        return "create_voucher";
-    }
-
     @PostMapping("/create")
     public String createVoucher(@ModelAttribute VoucherRequestDto voucherRequestDto) {
-        VoucherTypeFunction voucherType = VoucherTypeFunction.findByCode(voucherRequestDto.getVoucherPolicy());
-
-        if (voucherType == VoucherTypeFunction.PERCENT_DISCOUNT_POLICY) {
-            // If percentDiscount is selected, validate the amount
-            voucherService.createVoucher(voucherType, voucherRequestDto.getPercentage());
-            if (voucherRequestDto.getAmount() < 1 || voucherRequestDto.getAmount() > 100) {
-                // Handle invalid amount (e.g., show an error message)
-                return "redirect:/vouchers"; // Redirect back to the create page
-            }
-        }
-
-        voucherService.createVoucher(voucherType, voucherRequestDto.getAmount());
+        VoucherTypeFunction voucherTypeFunction = VoucherTypeFunction.findByCode(voucherRequestDto.getVoucherPolicy());
+        voucherService.createVoucher(voucherTypeFunction, voucherRequestDto.getAmount());
         return "redirect:/vouchers";
     }
 
