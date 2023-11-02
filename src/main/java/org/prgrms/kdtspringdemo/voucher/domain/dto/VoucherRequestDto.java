@@ -7,15 +7,19 @@ import java.util.UUID;
 public class VoucherRequestDto {
     private String voucherPolicy;
     private Long amount;
-    private Long percentage;
     public String getVoucherPolicy() {
         return voucherPolicy;
     }
+
+    public void setVoucherPolicy(String voucherPolicy) {
+        this.voucherPolicy = voucherPolicy;
+    }
+
     public Long getAmount() {
         return amount;
     }
 
-    public Long getPercentage() {
-        return percentage;
+    public void setAmount(Long amount) {
+        this.amount = amount;
     }
 }

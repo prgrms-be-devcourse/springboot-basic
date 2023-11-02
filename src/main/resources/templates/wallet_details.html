@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Wallet Details</title>
+    <!-- Include Bootstrap CSS (you may need to adjust the path) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <!-- Add a Brand or Logo -->
+        <a class="navbar-brand" th:href="@{/vouchers}">고객 바우처 관리 시스템</a>
+
+        <!-- Create a navigation menu -->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/vouchers}">Voucher Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/wallets}">Wallet Management</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/customers}">Customer Management</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1 class="mt-5">Wallet Details</h1>
+    <table class="table">
+        <tbody>
+        <tr>
+            <th>Wallet ID</th>
+            <td th:text="${wallet.walletId}">Wallet ID</td>
+        </tr>
+        <tr>
+            <th>Customer ID</th>
+            <td th:text="${wallet.customerId}">Customer ID</td>
+        </tr>
+        <tr>
+            <th>Vouchers</th>
+            <td>
+                <ul>
+                    <li th:each="voucher : ${wallet.voucherList}">
+                        <span th:text="${voucher}"></span>
+                        <a th:href="@{'/wallets/' + ${wallet.customerId} + '/delete/' + ${voucher.voucherId}}"
+                           class="btn btn-danger btn-sm ml-2">Delete</a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Add Voucher to Wallet</h2>
+    <form th:action="@{'/wallets/' + ${walletId} + '/addVoucher'}" method="post" th:object="${addVoucherToWalletDto}">
+        <div class="form-group">
+            <label for="selectedVoucherId">Select a Voucher</label>
+            <select class="form-control" id="selectedVoucherId" name="selectedVoucherId">
+                <option value="">-- Select a Voucher --</option>
+                <th:block th:each="voucher : ${voucherList}">
+                    <option th:value="${voucher.voucherId}" th:text="${voucher.voucherId}"></option>
+                </th:block>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Voucher</button>
+    </form>
+
+
+    <div style="margin-top: 10px;"></div>
+
+    <a class="btn btn-primary" th:href="@{/wallets}">Back to Wallet List</a>
+</div>
+
+<!-- Include Bootstrap JS (you may need to adjust the path) -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
