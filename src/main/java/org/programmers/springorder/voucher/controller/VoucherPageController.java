@@ -1,10 +1,12 @@
 package org.programmers.springorder.voucher.controller;
 
+import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -28,5 +30,12 @@ public class VoucherPageController {
     public String getNewVoucherPage(){
         return "new-voucher";
     }
+
+    @PostMapping("/vouchers")
+    public String createVoucher(VoucherRequestDto voucherRequestDto) {
+        voucherService.save(voucherRequestDto);
+        return "redirect:vouchers";
+    }
+
 }
 
