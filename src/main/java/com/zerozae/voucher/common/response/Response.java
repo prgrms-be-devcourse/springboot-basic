@@ -28,8 +28,4 @@ public class Response<T> {
     public static <T> Response<T> success(T data) {
         return new Response(true,  data);
     }
-
-    public static Response failure(String message) {
-        return new Response(false, message);
-    }
 }

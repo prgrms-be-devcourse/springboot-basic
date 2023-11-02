@@ -15,7 +15,7 @@ import java.util.Objects;
 public class WebExceptionAdvisor {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String handleValidationException(Model model, MethodArgumentNotValidException ex) {
+    public String handleMethodArgumentNotValidException(Model model, MethodArgumentNotValidException ex) {
         BindingResult bindingResult = ex.getBindingResult();
         String errorMessage = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
         model.addAttribute("error", errorMessage);
