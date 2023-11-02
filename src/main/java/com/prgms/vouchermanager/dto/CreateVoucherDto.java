@@ -3,11 +3,11 @@ package com.prgms.vouchermanager.dto;
 public class CreateVoucherDto {
 
     private final long value;
-    private final int VoucherType;
+    private final int voucherType;
 
     public CreateVoucherDto(long value, int voucherType) {
         this.value = value;
-        this.VoucherType = voucherType;
+        this.voucherType = voucherType;
     }
 
     public long getValue() {
@@ -15,6 +15,6 @@ public class CreateVoucherDto {
     }
 
     public int getVoucherType() {
-        return VoucherType;
+        return voucherType;
     }
 }

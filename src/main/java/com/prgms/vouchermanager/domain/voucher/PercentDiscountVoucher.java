@@ -1,5 +1,6 @@
 package com.prgms.vouchermanager.domain.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
@@ -10,9 +11,12 @@ public class PercentDiscountVoucher implements Voucher {
 
     private final VoucherType type;
 
-    public PercentDiscountVoucher(UUID id, long percent) {
+    private LocalDateTime createdAt;
+
+    public PercentDiscountVoucher(UUID id, long percent, LocalDateTime createdAt) {
         this.id = id;
         this.percent = percent;
+        this.createdAt = createdAt;
         type = VoucherType.PERCENT_DISCOUNT;
     }
 
@@ -31,14 +35,18 @@ public class PercentDiscountVoucher implements Voucher {
         return VoucherType.PERCENT_DISCOUNT;
     }
 
-
+    @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
     @Override
     public String toString() {
-        return "{" +
+        return "PercentDiscountVoucher{" +
                 "id=" + id +
                 ", percent=" + percent +
                 ", type=" + type +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
