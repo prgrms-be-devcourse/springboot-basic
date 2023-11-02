@@ -17,7 +17,7 @@ public class Customer {
         this.black = black;
     }
 
-    public UUID getCustomerId() {
+    public UUID getId() {
         return id;
     }
 
