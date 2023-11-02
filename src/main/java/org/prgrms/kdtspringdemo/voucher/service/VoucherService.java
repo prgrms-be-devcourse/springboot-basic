@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.voucher.service;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
 import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,10 @@ public class VoucherService {
         Voucher voucher = voucherType.create(voucherId, amount);
         voucherRepository.insert(voucher);
         return voucher;
+    }
+
+    public void updateVoucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
+        voucherRepository.update(voucherId, voucherRequestDto);
     }
 
     public List<Voucher> findAll() {

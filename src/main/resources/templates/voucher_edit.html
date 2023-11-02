@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Edit Voucher</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+<div class="container">
+
+    <h1 class="mt-5">Edit Voucher</h1>
+
+    <form th:action="@{'/vouchers/' + ${voucherId} + '/edit'}" method="post">
+        <div class="form-group">
+            <label for="voucherPolicy">Voucher Policy</label>
+            <select class="form-control" id="voucherPolicy" name="voucherPolicy">
+                <option value="fixedDiscount" th:selected="${voucher.voucherPolicy == 'fixeddiscount'}">Fixed Discount</option>
+                <option value="percentDiscount" th:selected="${voucher.voucherPolicy == 'percentdiscount'}">Percent Discount</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">Amount</label>
+            <input type="text" class="form-control" id="amount" name="amount" th:value="${voucher.amount}">
+        </div>
+
+        <button type="submit" class="btn btn-warning mr-2">Save Changes</button>
+    </form>
+
+    <div style="margin-top: 10px;"></div>
+
+    <a class="btn btn-secondary" th:href="@{'/vouchers/' + ${voucherId}}">Cancel</a>
+</div>
+
+<!-- Include Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

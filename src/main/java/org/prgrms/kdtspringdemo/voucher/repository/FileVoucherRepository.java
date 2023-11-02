@@ -6,6 +6,7 @@ import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,6 +46,11 @@ public class FileVoucherRepository implements VoucherRepository{
         }
 
         return voucher;
+    }
+
+    @Override
+    public void update(UUID voucherId, VoucherRequestDto voucherRequestDto) {
+
     }
 
     @Override
