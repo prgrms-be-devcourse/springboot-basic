@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-@Profile({"file"})
+@Profile("file")
 public class CustomerFileRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerFileRepository.class);
     private final CustomerFileManager customerFileManager;
