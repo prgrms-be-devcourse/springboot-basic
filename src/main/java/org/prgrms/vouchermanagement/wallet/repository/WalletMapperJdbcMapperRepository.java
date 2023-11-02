@@ -7,6 +7,7 @@ import org.prgrms.vouchermanagement.voucher.policy.DiscountPolicy;
 import org.prgrms.vouchermanagement.voucher.policy.FixedAmountVoucher;
 import org.prgrms.vouchermanagement.voucher.policy.PercentDiscountVoucher;
 import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
+import org.prgrms.vouchermanagement.wallet.domain.WalletMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -25,6 +26,7 @@ public class WalletMapperJdbcMapperRepository implements WalletMapperRepository 
     private static final String FINDVOUCHERS = "select v.voucher_id, v.discount_policy, v.amount FROM voucher v JOIN wallet w ON v.voucher_id = w.voucher_id WHERE w.customer_id = UUID_TO_BIN(?)";
     private static final String DELETE = "DELETE FROM wallet WHERE customer_id = UUID_TO_BIN(?)";
     private static final String FINDCUSTOMER = "SELECT c.customer_id, c.customer_name, c.customer_age FROM wallet w, customer c WHERE w.customer_id = c.customer_id AND w.voucher_id = UUID_TO_BIN(?)";
+    private static final String FINDALL = "SELECT customer_id, voucher_id FROM wallet";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -45,6 +47,10 @@ public class WalletMapperJdbcMapperRepository implements WalletMapperRepository 
         return jdbcTemplate.query(FINDVOUCHERS, new Object[]{customerId.toString().getBytes()}, new VoucherRowMapper());
     }
 
+    public List<WalletMapper> findAll() {
+        return jdbcTemplate.query(FINDALL, new WalletRowMapper());
+    }
+
     @Override
     public int delete(UUID customerId) {
         return jdbcTemplate.update(DELETE, customerId.toString().getBytes());
@@ -53,6 +59,16 @@ public class WalletMapperJdbcMapperRepository implements WalletMapperRepository 
     public Optional<Customer> findCustomer(UUID voucherId) {
         List<Customer> customers = jdbcTemplate.query(FINDCUSTOMER, new Object[]{voucherId.toString().getBytes()}, new CustomerRowMapper());
         return customers.stream().findFirst();
+    }
+
+    private class WalletRowMapper implements RowMapper<WalletMapper> {
+        @Override
+        public WalletMapper mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+            UUID customerId = toUUID(resultSet.getBytes("customer_id"));
+            UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+
+            return new WalletMapper(customerId, voucherId);
+        }
     }
 
     private class VoucherRowMapper implements RowMapper<Voucher> {

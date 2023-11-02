@@ -1,4 +1,4 @@
-package org.prgrms.vouchermanagement.controller;
+package org.prgrms.vouchermanagement.consoleController;
 
 import org.prgrms.vouchermanagement.dto.WalletCreateInfo;
 import org.prgrms.vouchermanagement.view.Command;
@@ -27,7 +27,7 @@ public class WalletController {
         boolean notExitCommand = true;
 
         while (notExitCommand) {
-            consoleOutput.printWalletMessage();
+            consoleOutput.printWalletOptionMessage();
             Command command = consoleInput.commandInput();
 
             switch (command) {
