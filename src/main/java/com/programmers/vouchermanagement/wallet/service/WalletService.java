@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.wallet.service;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.dto.CustomerDto;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
@@ -29,11 +30,12 @@ public class WalletService {
         walletRepository.save(ownership);
     }
 
-    public Customer readCustomerByVoucherId(UUID voucherId) {
-        return walletRepository.findCustomerByVoucherId(voucherId).orElseThrow(() -> {
+    public CustomerDto readCustomerByVoucherId(UUID voucherId) {
+        Customer customer = walletRepository.findCustomerByVoucherId(voucherId).orElseThrow(() -> {
             logger.error(NOT_FOUND_VOUCHER_ALLOCATION);
             return new NoSuchElementException(NOT_FOUND_VOUCHER_ALLOCATION);
         });
+        return CustomerDto.from(customer);
     }
 
     public List<VoucherDto> readAllVoucherByCustomerId(UUID customerId) {
