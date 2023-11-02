@@ -20,6 +20,7 @@ public class Formatter {
             -------------------------""";
     private static final String VOUCHER_PRESENTATION_FORMAT = """
             Voucher ID : %s
+            Creation Datetime : %s
             Voucher Type : %s Discount Voucher
             Discount Amount : %s
             -------------------------""";
@@ -36,6 +37,7 @@ public class Formatter {
     public static String formatVoucher(VoucherResponse voucherResponse) {
         return VOUCHER_PRESENTATION_FORMAT
                 .formatted(voucherResponse.voucherId(),
+                        voucherResponse.createdAt(),
                         voucherResponse.voucherType(),
                         voucherResponse.discountValue() +
                         markPercentage(voucherResponse.voucherType()));

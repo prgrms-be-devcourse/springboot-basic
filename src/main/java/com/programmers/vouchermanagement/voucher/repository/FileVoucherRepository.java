@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 public class FileVoucherRepository implements VoucherRepository {
     //constants
     private static final String VOUCHER_ID_KEY = "voucher_id";
+    private static final String VOUCHER_CREATED_AT_KEY = "created_at";
     private static final String DISCOUNT_VALUE_KEY = "discount_value";
     private static final String VOUCHER_TYPE_KEY = "voucher_type";
     private static final String CUSTOMER_ID_KEY = "customer_id";
@@ -35,16 +37,18 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private final Function<Map, Voucher> objectToVoucher = (voucherObject) -> {
         UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get(VOUCHER_ID_KEY)));
+        LocalDateTime createdAt = LocalDateTime.parse(String.valueOf(voucherObject.get(VOUCHER_CREATED_AT_KEY)));
         BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
         String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
         VoucherType voucherType = VoucherType.findVoucherTypeByName(voucherTypeName);
         String customerIdString = String.valueOf(voucherObject.get(CUSTOMER_ID_KEY));
         UUID customerId = customerIdString.equals("null") ? null : UUID.fromString(customerIdString);
-        return new Voucher(voucherId, discountValue, voucherType, customerId);
+        return new Voucher(voucherId, createdAt, discountValue, voucherType, customerId);
     };
     private final Function<Voucher, HashMap<String, Object>> voucherToObject = (voucher) -> {
         HashMap<String, Object> voucherObject = new HashMap<>();
         voucherObject.put(VOUCHER_ID_KEY, voucher.getVoucherId().toString());
+        voucherObject.put(VOUCHER_CREATED_AT_KEY, voucher.getCreatedAt());
         voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue().toString());
         voucherObject.put(VOUCHER_TYPE_KEY, voucher.getVoucherType().name());
         voucherObject.put(CUSTOMER_ID_KEY, voucher.getCustomerId());

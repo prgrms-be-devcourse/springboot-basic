@@ -1,21 +1,24 @@
 package com.programmers.vouchermanagement.voucher.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Voucher {
     private final UUID voucherId;
+    private final LocalDateTime createdAt;
     private final BigDecimal discountValue;
     private final VoucherType voucherType;
     private final UUID customerId;
 
     public Voucher(UUID voucherId, BigDecimal discountValue, VoucherType voucherType) {
-        this(voucherId, discountValue, voucherType, null);
+        this(voucherId, LocalDateTime.now(), discountValue, voucherType, null);
     }
 
-    public Voucher(UUID voucherId, BigDecimal discountValue, VoucherType voucherType, UUID customerId) {
+    public Voucher(UUID voucherId, LocalDateTime createdAt, BigDecimal discountValue, VoucherType voucherType, UUID customerId) {
         voucherType.validateDiscountValue(discountValue);
         this.voucherId = voucherId;
+        this.createdAt = createdAt;
         this.voucherType = voucherType;
         this.discountValue = discountValue;
         this.customerId = customerId;
@@ -23,6 +26,10 @@ public class Voucher {
 
     public UUID getVoucherId() {
         return voucherId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public BigDecimal getDiscountValue() {
