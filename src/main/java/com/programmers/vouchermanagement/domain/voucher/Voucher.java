@@ -14,31 +14,31 @@ public abstract class Voucher {
     protected long amount;
     protected LocalDateTime createdAt;
 
-    public Voucher(UUID id, VoucherType type, long amount, LocalDateTime createdAt) {
+    protected Voucher(UUID id, VoucherType type, long amount, LocalDateTime createdAt) {
         this.id = id;
         this.type = type;
         this.amount = amount;
         this.createdAt = createdAt;
     }
 
-    public Voucher(VoucherType type, long amount) {
+    protected Voucher(VoucherType type, long amount) {
         this.type = type;
         this.amount = amount;
     }
 
-    public Voucher(UUID id, VoucherType type, long amount) {
+    protected Voucher(UUID id, VoucherType type, long amount) {
         this.id = id;
         this.type = type;
         this.amount = amount;
     }
 
-    public Voucher(UUID id, long amount, LocalDateTime createdAt) {
+    protected Voucher(UUID id, long amount, LocalDateTime createdAt) {
         this.id = id;
         this.amount = amount;
         this.createdAt = createdAt;
     }
 
-    public Voucher(VoucherType type, long amount, LocalDateTime createdAt) {
+    protected Voucher(VoucherType type, long amount, LocalDateTime createdAt) {
         this.type = type;
         this.amount = amount;
         this.createdAt = createdAt;
