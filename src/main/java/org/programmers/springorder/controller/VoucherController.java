@@ -24,7 +24,7 @@ public class VoucherController {
         boolean isRunning = true;
 
         while (isRunning) {
-            VoucherMenuType menu = ExceptionHandler.input(Console::inputVoucherMenu);
+            VoucherMenuType menu = ExceptionHandler.input(console::inputVoucherMenu);
 
             switch (menu) {
                 case CREATE -> createVoucher();

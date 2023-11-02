@@ -36,7 +36,7 @@ public class VoucherApplication implements CommandLineRunner {
         boolean isRunning = true;
 
         while (isRunning) {
-            MenuType menu = ExceptionHandler.input(Console::inputMenu);
+            MenuType menu = ExceptionHandler.input(console::inputMenu);
 
             switch (menu) {
                 case EXIT -> {

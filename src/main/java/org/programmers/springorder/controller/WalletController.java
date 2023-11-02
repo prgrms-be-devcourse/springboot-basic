@@ -12,6 +12,7 @@ import java.util.UUID;
 
 @Controller
 public class WalletController {
+
     private final Console console;
     private final WalletService walletService;
 
@@ -24,7 +25,7 @@ public class WalletController {
         boolean isRunning = true;
 
         while (isRunning) {
-            WalletMenuType menu = ExceptionHandler.input(Console::inputWalletMenu);
+            WalletMenuType menu = ExceptionHandler.input(console::inputWalletMenu);
 
             switch (menu) {
                 case ASSIGN -> ExceptionHandler.process(WalletController::assignVoucher, this);

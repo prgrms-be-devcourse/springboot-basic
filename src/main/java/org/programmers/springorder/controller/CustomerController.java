@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 public class CustomerController {
+
     private final Console console;
     private final CustomerService customerService;
 
@@ -22,7 +23,7 @@ public class CustomerController {
         boolean isRunning = true;
 
         while (isRunning) {
-            CustomerMenuType menu = ExceptionHandler.input(Console::inputCustomerMenu);
+            CustomerMenuType menu = ExceptionHandler.input(console::inputCustomerMenu);
 
             switch (menu) {
                 case CREATE -> createCustomer();

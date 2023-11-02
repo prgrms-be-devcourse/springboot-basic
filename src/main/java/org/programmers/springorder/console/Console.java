@@ -20,15 +20,15 @@ public class Console {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void printMessage(String message) {
+    public void printMessage(String message) {
         System.out.println(message);
     }
 
-    private static void printPrompt() {
+    private void printPrompt() {
         System.out.print("> ");
     }
 
-    public static MenuType inputMenu() {
+    public MenuType inputMenu() {
         printMessage(Message.MENU_SELECT_MESSAGE);
         printPrompt();
         return MenuType.selectMenu(scanner.nextLine());
@@ -37,7 +37,7 @@ public class Console {
     /**
      * Voucher
      */
-    public static VoucherMenuType inputVoucherMenu() {
+    public VoucherMenuType inputVoucherMenu() {
         printMessage(Message.VOUCHER_MENU_SELECT_MESSAGE);
         printPrompt();
         return VoucherMenuType.selectVoucherMenu(scanner.nextLine());
@@ -83,7 +83,7 @@ public class Console {
     /**
      * Customer
      */
-    public static CustomerMenuType inputCustomerMenu() {
+    public CustomerMenuType inputCustomerMenu() {
         printMessage(Message.CUSTOMER_MENU_SELECT_MESSAGE);
         printPrompt();
         return CustomerMenuType.selectCustomerMenu(scanner.nextLine());
@@ -116,7 +116,7 @@ public class Console {
     /**
      * Wallet
      */
-    public static WalletMenuType inputWalletMenu() {
+    public WalletMenuType inputWalletMenu() {
         printMessage(Message.WALLET_MENU_SELECT_MESSAGE);
         printPrompt();
         return WalletMenuType.selectWalletMenu(scanner.nextLine());
