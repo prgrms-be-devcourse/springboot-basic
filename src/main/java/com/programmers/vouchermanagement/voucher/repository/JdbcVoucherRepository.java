@@ -24,6 +24,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String CREATE = "INSERT INTO voucher(voucher_id, discount, voucher_type, created_at) VALUES(UUID_TO_BIN(?), (?), (?), (?))";
     private static final String READ_ALL = "SELECT * FROM voucher";
     private static final String READ_ONCE = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
+    private static final String READ_CONDITION = "SELECT * FROM voucher WHERE created_at >= (?) AND voucher_type = (?)";
     private static final String UPDATE = "UPDATE voucher SET discount = ?, voucher_type = ? WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String DELETE_ALL = "DELETE FROM voucher";
     private static final String DELETE_ONCE = "DELETE FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
@@ -91,5 +92,10 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         jdbcTemplate.update(DELETE_ONCE, voucherId.toString());
+    }
+
+    @Override
+    public List<Voucher> findAllByCreatedAtAndVoucherType(LocalDateTime createdAt, VoucherType voucherType) {
+        return jdbcTemplate.query(READ_CONDITION, voucherRowMapper, createdAt, voucherType);
     }
 }

@@ -74,4 +74,15 @@ public class VoucherService {
 
         voucherRepository.deleteById(voucherId);
     }
+
+    public List<VoucherResponseDto> readAllVoucherByCreatedAtAndType(LocalDateTime createdAt, VoucherType voucherType) {
+
+        List<Voucher> vouchers = voucherRepository.findAllByCreatedAtAndVoucherType(createdAt, voucherType);
+
+        List<VoucherResponseDto> voucherResponseDtos = vouchers.stream()
+                .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount(), voucher.getCreatedAt()))
+                .toList();
+
+        return voucherResponseDtos;
+    }
 }

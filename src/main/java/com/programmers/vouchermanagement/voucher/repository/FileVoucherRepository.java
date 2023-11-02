@@ -2,11 +2,13 @@ package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.utils.CsvFileIoManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.mapper.VoucherMapper;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -62,6 +64,7 @@ public class FileVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteById(UUID voucherId) {
+
         storage.remove(voucherId);
 
         List<String> deleteCsv = storage.values()
@@ -69,6 +72,15 @@ public class FileVoucherRepository implements VoucherRepository {
                 .map(VoucherMapper::fromEntity)
                 .toList();
         csvFileIoManager.updateCsv(FILE, deleteCsv);
+    }
+
+    @Override
+    public List<Voucher> findAllByCreatedAtAndVoucherType(LocalDateTime createdAt, VoucherType voucherType) {
+        return storage.values()
+                .stream()
+                .filter(voucher -> voucher.getCreatedAt().isAfter(createdAt))
+                .filter(voucher -> voucher.getVoucherType().equals(voucherType))
+                .toList();
     }
 
     private Map<UUID, Voucher> addVoucherByFile(List<String> readCsv) {

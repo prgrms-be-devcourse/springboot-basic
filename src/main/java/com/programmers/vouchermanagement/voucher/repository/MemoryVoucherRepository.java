@@ -1,9 +1,11 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,5 +48,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         storage.remove(voucherId);
+    }
+
+    @Override
+    public List<Voucher> findAllByCreatedAtAndVoucherType(LocalDateTime createdAt, VoucherType voucherType) {
+        return storage.values()
+                .stream()
+                .filter(voucher -> voucher.getCreatedAt().isAfter(createdAt))
+                .filter(voucher -> voucher.getVoucherType().equals(voucherType))
+                .toList();
     }
 }
