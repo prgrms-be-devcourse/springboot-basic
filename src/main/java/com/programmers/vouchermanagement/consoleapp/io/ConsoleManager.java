@@ -100,11 +100,9 @@ public class ConsoleManager {
     }
 
     public CreateVoucherRequest instructCreateVoucher() {
-        String voucherTypeCode = read(VOUCHER_TYPE_INPUT);
-        VoucherType voucherType = VoucherType.findVoucherTypeByCode(voucherTypeCode);
-
+        String voucherType = read(VOUCHER_TYPE_INPUT);
         String discountValueInput = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
-        BigDecimal discountValue = new BigDecimal(discountValueInput);
+        long discountValue = Long.parseLong(discountValueInput);
         return new CreateVoucherRequest(discountValue, voucherType);
     }
 

@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -30,7 +31,8 @@ public class VoucherService {
     }
 
     public VoucherResponse create(CreateVoucherRequest request) {
-        Voucher voucher = new Voucher(UUID.randomUUID(), request.discountValue(), request.voucherType());
+        VoucherType voucherType = findVoucherType(request.voucherType());
+        Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(request.discountValue()), voucherType);
         voucherRepository.save(voucher);
         return VoucherResponse.from(voucher);
     }
@@ -111,6 +113,14 @@ public class VoucherService {
         return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
+    }
+
+    private VoucherType findVoucherType(String voucherType) {
+        try {
+            return VoucherType.findVoucherTypeByCode(voucherType);
+        } catch (IllegalArgumentException exception) {
+            return VoucherType.findVoucherTypeByName(voucherType);
+        }
     }
 
     private void validateVoucherIdExisting(UUID voucherId) {

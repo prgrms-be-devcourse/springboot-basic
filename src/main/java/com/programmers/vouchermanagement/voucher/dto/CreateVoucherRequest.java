@@ -1,8 +1,7 @@
 package com.programmers.vouchermanagement.voucher.dto;
 
-import java.math.BigDecimal;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-
-public record CreateVoucherRequest(BigDecimal discountValue, VoucherType voucherType) {
+public record CreateVoucherRequest(@Positive long discountValue, @NotBlank String voucherType) {
 }
