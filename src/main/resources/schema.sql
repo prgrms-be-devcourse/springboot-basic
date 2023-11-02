@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS vouchers
 (
-    id     CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-    type   VARCHAR(255) NOT NULL,
-    amount BIGINT       NOT NULL
+    id         CHAR(36) PRIMARY KEY  DEFAULT (UUID()),
+    type       VARCHAR(255) NOT NULL,
+    amount     BIGINT       NOT NULL,
+    created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS customers

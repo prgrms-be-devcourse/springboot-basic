@@ -28,7 +28,7 @@ public class VoucherService {
     public List<VoucherResponseDto> getVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
         return vouchers.stream()
-                .map(voucher -> VoucherResponseDto.from(voucher.getId(), voucher.getType(), voucher.getAmount()))
+                .map(voucher -> VoucherResponseDto.from(voucher.getId(), voucher.getType(), voucher.getAmount(), voucher.getCreatedAt()))
                 .toList();
     }
 
@@ -36,13 +36,13 @@ public class VoucherService {
     public VoucherResponseDto getVoucher(UUID id) {
         Voucher voucher = voucherRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Not found voucher"));
-        return VoucherResponseDto.from(voucher.getId(), voucher.getType(), voucher.getAmount());
+        return VoucherResponseDto.from(voucher.getId(), voucher.getType(), voucher.getAmount(), voucher.getCreatedAt());
     }
 
     public void updateVoucher(UUID id, UpdateVoucherRequestDto request) {
         Voucher voucher = voucherRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Not found voucher"));
-        voucherRepository.update(Voucher.from(voucher.getId(), voucher.getType(), request.getAmount()));
+        voucherRepository.update(Voucher.from(voucher.getId(), voucher.getType(), request.getAmount(), voucher.getCreatedAt()));
     }
 
     public void deleteVoucher(UUID id) {

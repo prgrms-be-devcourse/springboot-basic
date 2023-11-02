@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -136,7 +137,8 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
             UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
             VoucherType type = VoucherType.valueOf(rs.getString("type"));
             Long amount = rs.getLong("amount");
-            Voucher voucher = VoucherFactory.create(voucherId, type, amount);
+            LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+            Voucher voucher = VoucherFactory.create(voucherId, type, amount, createdAt);
 
             return new Wallet(id, customer, voucher, used);
         };

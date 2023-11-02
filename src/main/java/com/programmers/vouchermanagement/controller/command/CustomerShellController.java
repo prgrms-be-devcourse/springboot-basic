@@ -17,7 +17,8 @@ public class CustomerShellController {
 
     @ShellMethod(key = "blacklist")
     public void blacklist() {
-        GetCustomersRequestDto request = new GetCustomersRequestDto(true);
+        GetCustomersRequestDto request = new GetCustomersRequestDto();
+        request.setBlacklisted(true);
 
         List<CustomerResponseDto> customers = customerService.getCustomers(request);
 

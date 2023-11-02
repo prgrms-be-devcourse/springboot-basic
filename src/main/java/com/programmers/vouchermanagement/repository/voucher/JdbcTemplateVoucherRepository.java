@@ -1,9 +1,6 @@
 package com.programmers.vouchermanagement.repository.voucher;
 
-import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
-import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
-import com.programmers.vouchermanagement.domain.voucher.Voucher;
-import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import com.programmers.vouchermanagement.domain.voucher.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,6 +11,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -103,12 +101,9 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             UUID id = UUID.fromString(rs.getString("id"));
             VoucherType type = VoucherType.valueOf(rs.getString("type"));
             long amount = rs.getLong("amount");
+            LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
-            return switch (type) {
-                case FIXED_AMOUNT -> new FixedAmountVoucher(id, amount);
-                case PERCENT_DISCOUNT -> new PercentDiscountVoucher(id, amount);
-                default -> throw new IllegalArgumentException("Unknown VoucherType: " + type);
-            };
+            return VoucherFactory.create(id, type, amount, createdAt);
         };
     }
 }

@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.domain.voucher;
 
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -16,6 +17,11 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID id, long amount) {
         super(id, VoucherType.PERCENT_DISCOUNT, amount);
+        validateAmount(amount);
+    }
+
+    public PercentDiscountVoucher(UUID id, long amount, LocalDateTime createdAt) {
+        super(id, VoucherType.PERCENT_DISCOUNT, amount, createdAt);
         validateAmount(amount);
     }
 

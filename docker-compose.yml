@@ -9,5 +9,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: app
+      TZ: Asia/Seoul
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql

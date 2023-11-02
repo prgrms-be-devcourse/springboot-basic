@@ -1,14 +1,8 @@
 package com.programmers.vouchermanagement.dto.customer.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 public class GetCustomersRequestDto {
     private Boolean blacklisted;
 }

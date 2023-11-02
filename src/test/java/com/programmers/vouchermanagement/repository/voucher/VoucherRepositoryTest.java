@@ -106,7 +106,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
 
         // when
         long newAmountValue = 2000L;
-        voucherRepository.update(new FixedAmountVoucher(savedVoucher.getId(), newAmountValue));
+        voucherRepository.update(new FixedAmountVoucher(savedVoucher.getId(), newAmountValue, savedVoucher.getCreatedAt()));
 
         // then
         Optional<Voucher> updatedVoucher = voucherRepository.findById(savedVoucher.getId());

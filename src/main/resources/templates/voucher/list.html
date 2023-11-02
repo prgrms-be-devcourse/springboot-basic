@@ -10,6 +10,7 @@
         <th>ID</th>
         <th>Type</th>
         <th>Amount</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -17,6 +18,7 @@
         <td th:text="${voucher.id}"></td>
         <td th:text="${voucher.type}"></td>
         <td th:text="${voucher.amount}"></td>
+        <td th:text="${voucher.createdAt}"></td>
         <td>
             <div>
                 <button type="button" th:onclick="|location.href='@{|/voucher/${voucher.id}/update|}'|">update</button>
