@@ -11,6 +11,21 @@
 </head>
 <body class="container-fluid">
 <h1>Vouchers</h1>
+<h2>New Voucher</h2>
+<form th:action="@{/vouchers}" method="post">
+    <div class="input-group mb-3">
+        <select class="form-select" aria-label="Voucher Type">
+            <option selected>Voucher Type</option>
+            <option value="FIXED">Fixed</option>
+            <option value="PERCENT">Percent</option>
+        </select>
+        <input type="number" class="form-control" placeholder="Discount Value" min="0"
+               aria-label="Discount Value">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+<h2>Voucher List</h2>
 <table class="table table-striped table-hover">
     <thead>
     <tr>
