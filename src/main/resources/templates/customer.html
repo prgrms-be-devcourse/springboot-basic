@@ -73,6 +73,34 @@
         <button type="submit" class="btn btn-primary">Add Customer</button>
     </form>
 
+    <!--None Have Wallet Customers-->
+    <h2 class="mt-5">Customers : None Have Wallet</h2>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th>Customer ID</th>
+            <th>Name</th>
+            <th>Is Black</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="customer : ${customers}">
+            <tr>
+                <td th:text="${customer.customerId}">Customer ID</td>
+                <td th:text="${customer.name}">Name</td>
+                <td th:text="${customer.isBlack}">Is Black</td>
+                <td>
+                    <a th:href="@{'/customers/' + ${customer.customerId} + '/createWallet'}">
+                        <button class="btn btn-primary">Create Wallet</button>
+                    </a>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+
+
 </div>
 
 <!-- Include Bootstrap JS -->

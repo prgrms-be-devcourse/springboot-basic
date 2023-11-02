@@ -58,6 +58,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
+    public List<Customer> findNotHaveWalletCustomers() {
+        return jdbcTemplate.query("SELECT c.customer_id, c.name, c.is_black FROM customers c LEFT JOIN wallet w ON c.customer_id = w.customer_id WHERE w.customer_id IS NULL",
+                customerRowMapper);
+    }
+
+    @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers");
     }
