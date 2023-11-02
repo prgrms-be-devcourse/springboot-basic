@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
-@Profile("prod")
+@Profile("dev")
 @Repository
 public class FileVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> store = new ConcurrentHashMap<>();
@@ -62,7 +62,7 @@ public class FileVoucherRepository implements VoucherRepository {
             String type = split[0];
             UUID uuid = UUID.fromString(split[1]);
             long value = Long.parseLong(split[2]);
-            VoucherType voucherType = VoucherType.of(type);
+            VoucherType voucherType = VoucherType.from(type);
             Voucher voucher = voucherType.constructVoucher(uuid, value);
             voucherList.add(voucher);
         });
@@ -84,7 +84,7 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public List<String> convertObjectListsToFileStrings(Collection<Voucher> voucherList) {
-        return voucherList.stream().map(voucher -> VoucherType.of(voucher).getTitle() + CSV_SEPARATOR + voucher.getVoucherId() + CSV_SEPARATOR + voucher.getAmount())
+        return voucherList.stream().map(voucher -> VoucherType.from(voucher).getTitle() + CSV_SEPARATOR + voucher.getVoucherId() + CSV_SEPARATOR + voucher.getAmount())
                 .toList();
     }
 
@@ -103,5 +103,29 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(store.get(voucherId));
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        findById(voucher.getVoucherId()).ifPresentOrElse(
+                existingVoucher -> {
+                    delete(existingVoucher.getVoucherId());
+                    insert(voucher);
+                },
+                () -> {
+                    throw new NotFoundException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage());
+                }
+        );
+        return voucher;
+    }
+
+    @Override
+    public void delete(UUID voucherId) {
+        store.remove(voucherId);
+    }
+
+    @Override
+    public void clear() {
+        store.clear();
     }
 }

@@ -31,21 +31,21 @@ public enum VoucherType {
         return title;
     }
 
-    public static VoucherType of(String typeValue) {
+    public static VoucherType from(String typeValue) {
         return Arrays.stream(VoucherType.values())
                 .filter(v -> v.title.equals(typeValue))
                 .findAny()
                 .orElseThrow(() -> new NotFoundException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage()));
     }
 
-    public static VoucherType of(Voucher voucher) {
+    public static VoucherType from(Voucher voucher) {
         return Arrays.stream(VoucherType.values())
                 .filter(v -> v.checkInstanceOf.test(voucher))
                 .findAny()
                 .orElseThrow(() -> new NotFoundException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage()));
     }
 
-    public static VoucherType of(int inputModeNum) {
+    public static VoucherType from(int inputModeNum) {
         return Arrays.stream(VoucherType.values())
                 .filter(v -> v.modeNumber == inputModeNum)
                 .findAny()
