@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static org.prgms.springbootbasic.common.console.Console.*;
+import static org.prgms.springbootbasic.console.Console.*;
 
 @Controller
 @Slf4j
