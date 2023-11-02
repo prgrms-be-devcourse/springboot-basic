@@ -45,8 +45,8 @@ public class VoucherService {
 
     @Transactional
     public void updateVoucher(UUID voucherId, VoucherRequestDto voucherDto) {
-        Voucher voucher = this.findById(voucherId)
-                .update(voucherDto.getVoucherType(), voucherDto.getDiscountValue());
+        Voucher voucher = this.findById(voucherId);
+        voucher.update(voucherDto.getVoucherType(), voucherDto.getDiscountValue());
         voucherRepository.update(voucher);
     }
 

@@ -63,9 +63,7 @@ public class Console {
         printMessage(discountValueMessage);
         printPrompt();
 
-        long discountValue = Long.parseLong(scanner.nextLine());
-        voucherType.validateDiscountRange(voucherType, discountValue);
-        return discountValue;
+        return Long.parseLong(scanner.nextLine());
     }
 
     public VoucherRequestDto inputVoucherInfo() {

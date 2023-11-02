@@ -39,7 +39,7 @@ public class VoucherController {
     }
 
     private void createVoucher() {
-        VoucherRequestDto request = console.inputVoucherInfo();
+        VoucherRequestDto request = ExceptionHandler.input(console::inputVoucherInfo);
         voucherService.createVoucher(request);
         console.printMessage(Message.VOUCHER_REGISTERED);
     }

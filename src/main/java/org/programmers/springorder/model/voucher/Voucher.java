@@ -4,7 +4,6 @@ import org.programmers.springorder.dto.voucher.VoucherRequestDto;
 
 import java.util.UUID;
 
-import static org.programmers.springorder.model.voucher.VoucherType.validateDiscountRange;
 
 public class Voucher {
     private final UUID voucherId;
@@ -48,7 +47,6 @@ public class Voucher {
     }
 
     public void update(VoucherType voucherType, long discountValue) {
-        validateDiscountRange(voucherType, discountValue);
         this.discountValue = discountValue;
         this.voucherType = voucherType;
     }

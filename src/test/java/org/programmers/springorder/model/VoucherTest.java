@@ -47,10 +47,10 @@ class VoucherTest {
         Voucher voucher = Voucher.toVoucher(voucherId, discountValue, voucherType);
 
         // when
-        Voucher updatedVoucher = voucher.update(VoucherType.PERCENT, 20);
+        voucher.update(VoucherType.PERCENT, 20);
 
         // then
-        assertThat(updatedVoucher.getVoucherType()).isEqualTo(VoucherType.PERCENT);
-        assertThat(updatedVoucher.getDiscountValue()).isEqualTo(20);
+        assertThat(voucher.getVoucherType()).isEqualTo(VoucherType.PERCENT);
+        assertThat(voucher.getDiscountValue()).isEqualTo(20);
     }
 }
