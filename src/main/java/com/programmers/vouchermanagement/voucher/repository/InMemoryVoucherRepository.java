@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
 @Repository
 @Profile("dev")
@@ -30,6 +31,14 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return vouchers.values().stream().toList();
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return vouchers.values()
+                .stream()
+                .filter(voucher -> voucher.isSameType(voucherType))
+                .toList();
     }
 
     @Override

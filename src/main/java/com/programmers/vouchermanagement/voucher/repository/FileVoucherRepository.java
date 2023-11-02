@@ -77,6 +77,14 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return vouchers.values()
+                .stream()
+                .filter(voucher -> voucher.isSameType(voucherType))
+                .toList();
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(vouchers.get(voucherId));
     }

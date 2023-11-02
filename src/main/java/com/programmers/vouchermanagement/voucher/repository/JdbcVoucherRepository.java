@@ -54,6 +54,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        String findByTypeSQL = "SELECT * FROM vouchers WHERE voucher_type=(:voucherType)";
+        Map<String, Object> parameterMap = Collections.singletonMap("voucherType", voucherType.name());
+        return namedParameterJdbcTemplate.query(findByTypeSQL, parameterMap, voucherRowMapper);
+    }
+
+    @Override
     public Optional<Voucher> findById(UUID voucherId) {
         String findByIdSQL = "SELECT * FROM vouchers WHERE voucher_id=UUID_TO_BIN(:voucherId)";
         Map<String, Object> parameterMap = Collections.singletonMap("voucherId", voucherId.toString().getBytes());
