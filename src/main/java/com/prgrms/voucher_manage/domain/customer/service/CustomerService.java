@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.customer.service;
 
 import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerDto;
-import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.repository.JdbcCustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class CustomerService {
     }
 
     public List<Customer> getBlackCustomers() {
-        List<Customer> customers = repository.findAll();
+        List<Customer> customers = repository.findByType(BLACK.getData());
         if (customers.isEmpty()) {
             throw new RuntimeException(BLACK_CUSTOMER_NOT_EXIST.getMessage());
         }
@@ -43,14 +43,10 @@ public class CustomerService {
     }
 
     public Customer findByName(String name) {
-        return repository
-                .findByName(name)
-                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_EXIST.getMessage()));
+        return repository.findByName(name);
     }
 
     public Customer findById(UUID voucherId) {
-        return repository
-                .findById(voucherId)
-                .orElseThrow(() -> new RuntimeException(CUSTOMER_NOT_EXIST.getMessage()));
+        return repository.findById(voucherId);
     }
 }

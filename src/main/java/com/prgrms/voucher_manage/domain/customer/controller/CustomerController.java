@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.customer.controller;
 
 import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerDto;
-import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.entity.CustomerType;
 import com.prgrms.voucher_manage.domain.customer.service.CustomerService;

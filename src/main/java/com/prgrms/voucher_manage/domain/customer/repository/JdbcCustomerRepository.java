@@ -1,6 +1,6 @@
 package com.prgrms.voucher_manage.domain.customer.repository;
 
-import com.prgrms.voucher_manage.domain.customer.dto.UpdateCustomerDto;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchTypeByString;
@@ -28,15 +27,19 @@ public class JdbcCustomerRepository {
         return jdbcTemplate.query(sql, rowMapper);
     }
 
-    public Optional<Customer> findById(UUID id) {
+    public Customer findById(UUID id) {
         String sql = "select * from customer where customer_id = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id.toString()));
+        try {
+            return jdbcTemplate.queryForObject(sql, rowMapper, id.toString());
+        } catch (Exception e){
+            throw new RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
+        }
     }
 
-    public Optional<Customer> findByName(String name) {
+    public Customer findByName(String name) {
         String sql = "select * from customer where name = ?";
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, name));
+            return jdbcTemplate.queryForObject(sql, rowMapper, name);
         } catch (Exception e) {
             throw new RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
         }

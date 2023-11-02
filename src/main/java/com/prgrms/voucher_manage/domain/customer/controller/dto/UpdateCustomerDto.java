@@ -1,4 +1,4 @@
-package com.prgrms.voucher_manage.domain.customer.dto;
+package com.prgrms.voucher_manage.domain.customer.controller.dto;
 
 import java.util.UUID;
 
