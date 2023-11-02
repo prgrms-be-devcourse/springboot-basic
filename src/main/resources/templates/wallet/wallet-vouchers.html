@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <title>Voucher Management Application</title>
+</head>
+<body class="container-fluid">
+    <h1>Voucher List</h1>
+    <table class="table table-hover table-striped">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Type</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Created At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
+                <td th:text="*{voucherId}"></td>
+                <td th:text="*{voucherType}"></td>
+                <td th:text="*{discount}"></td>
+                <td th:text="*{createdAt}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <form th:action="@{'/wallet/vouchers/' + ${customerId}}" method="post">
+            <button type="submit" class="btn btn-danger">Delete Vouchers</button>
+        </form>
+    </div>
+</body>
+</html>

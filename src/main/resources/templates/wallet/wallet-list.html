@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <title>Voucher Management Application</title>
+</head>
+<body class="container-fluid">
+<h1>Wallet List</h1>
+<table class="table table-hover table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Wallet ID</th>
+        <th scope="col">Customer ID</th>
+        <th scope="col">Voucher ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="wallet : ${wallets}" th:object="${wallet}">
+        <td th:text="*{walletId}"></td>
+        <td>
+            <a th:href="@{'/wallet/vouchers/' + ${wallet.customerId}}"><span th:text="*{customerId}"></span></a>
+        </td>
+        <td>
+            <a th:href="@{'/wallet/customers/' + ${wallet.voucherId}}"><span th:text="*{voucherId}"></span></a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+    <a th:href="@{/wallet/new}" class="btn btn-primary me-md-2" type="button">Add Wallet</a>
+</div>
+</body>
+</html>
