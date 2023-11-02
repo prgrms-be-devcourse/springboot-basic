@@ -28,6 +28,12 @@ public class CustomerController {
         customerService.create(createCustomerRequest);
     }
 
+    @GetMapping
+    @ResponseBody
+    public List<CustomerDto> readAll() {
+        return customerService.readAll();
+    }
+
     @GetMapping("/blacklist")
     @ResponseBody
     public List<CustomerDto> readAllBlackCustomer() {
