@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
@@ -42,6 +44,8 @@ public class FileManager {
     public Map<UUID, Voucher> readVoucherCsv() {
         Map<UUID, Voucher> voucherMap = new ConcurrentHashMap<>();
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(voucherListPath)))) {
             String line = "";
             br.readLine();
@@ -51,10 +55,11 @@ public class FileManager {
                 UUID id = UUID.fromString(split[0]);
                 Long value = Long.parseLong(split[1]);
                 VoucherType voucherType = valueOf(split[2]);
+                LocalDateTime createdAt = LocalDateTime.now();
                 if (voucherType == VoucherType.FIXED_AMOUNT) {
-                    voucherMap.put(id, new FixedAmountVoucher(id, value));
+                    voucherMap.put(id, new FixedAmountVoucher(id, value, createdAt));
                 } else if (voucherType == VoucherType.PERCENT_DISCOUNT) {
-                    voucherMap.put(id, new PercentDiscountVoucher(id, value));
+                    voucherMap.put(id, new PercentDiscountVoucher(id, value, createdAt));
                 }
             }
         } catch (IOException e) {
@@ -101,3 +106,4 @@ public class FileManager {
     }
 
 }
+
