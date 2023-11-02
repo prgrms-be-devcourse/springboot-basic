@@ -47,4 +47,20 @@ public class VoucherWebController {
         return "redirect:/vouchers";
     }
 
+    @GetMapping("/{voucherId}/edit")
+    public String editVoucher(@PathVariable UUID voucherId, Model model) {
+        Voucher voucher = voucherService.findById(voucherId);
+        VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucher.getVoucherPolicy().getVoucherType(), voucher.getVoucherPolicy().getAmount());
+
+        model.addAttribute("voucher", voucherRequestDto);
+        return "voucher_edit"; // 바우처 정보 수정 페이지로 이동
+    }
+
+    @PostMapping("/{voucherId}/edit")
+    public String editVoucher(@PathVariable UUID voucherId, @ModelAttribute VoucherRequestDto voucherRequestDto) {
+        voucherService.updateVoucher(voucherId, voucherRequestDto);
+        return "redirect:/vouchers/" + voucherId;
+    }
+
+
 }

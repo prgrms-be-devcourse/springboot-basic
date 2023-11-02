@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.voucher.repository;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,17 @@ public class JdbcVoucherRepository implements VoucherRepository {
             throw new RuntimeException("Nothing was inserted");
         }
         return voucher;
+    }
+
+    @Override
+    public void update(UUID voucherId, VoucherRequestDto voucherRequestDto) {
+        var update = jdbcTemplate.update("UPDATE voucher SET voucher_type = ?, amount = ? WHERE voucher_id = UUID_TO_BIN(?)",
+                voucherRequestDto.getVoucherPolicy(),
+                voucherRequestDto.getAmount(),
+                voucherId.toString());
+        if(update != 1) {
+            throw new RuntimeException("Nothing was inserted");
+        }
     }
 
     @Override
