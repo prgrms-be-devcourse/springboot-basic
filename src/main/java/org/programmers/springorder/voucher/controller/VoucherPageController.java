@@ -24,5 +24,9 @@ public class VoucherPageController {
         return "vouchers";
     }
 
+    @GetMapping("/new-voucher")
+    public String getNewVoucherPage(){
+        return "new-voucher";
+    }
 }
 
