@@ -4,6 +4,7 @@ import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.VoucherType;
 import com.zerozae.voucher.dto.voucher.VoucherCondition;
 import com.zerozae.voucher.dto.voucher.VoucherCreateRequest;
+import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.service.voucher.VoucherService;
 import jakarta.validation.Valid;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.zerozae.voucher.validator.InputValidator.validateInputUuid;
@@ -32,43 +34,43 @@ public class ApiVoucherController {
     private final VoucherService voucherService;
 
     @PostMapping
-    public ResponseEntity createVoucher(@Valid @RequestBody VoucherCreateRequest voucherCreateRequest) {
-        return new ResponseEntity(voucherService.createVoucher(voucherCreateRequest), CREATED);
+    public ResponseEntity<VoucherResponse> createVoucher(@Valid @RequestBody VoucherCreateRequest voucherCreateRequest) {
+        return ResponseEntity.status(CREATED).body(voucherService.createVoucher(voucherCreateRequest));
     }
 
     @GetMapping
-    public ResponseEntity findAllVouchers() {
-        return new ResponseEntity(voucherService.findAllVouchers(), OK);
+    public ResponseEntity<List<VoucherResponse>> findAllVouchers() {
+        return ResponseEntity.status(OK).body(voucherService.findAllVouchers());
     }
 
     @GetMapping("/{voucherId}")
-    public ResponseEntity findVoucherById(@PathVariable("voucherId") String voucherId) {
+    public ResponseEntity<VoucherResponse> findVoucherById(@PathVariable("voucherId") String voucherId) {
         validateInputUuid(voucherId);
-        return new ResponseEntity(voucherService.findById(UUID.fromString(voucherId)), OK);
+        return ResponseEntity.status(OK).body(voucherService.findById(UUID.fromString(voucherId)));
     }
 
     @GetMapping("/condition")
-    public ResponseEntity findVoucherByCondition(@Valid @RequestBody VoucherCondition condition) {
-        return new ResponseEntity(voucherService.findVoucherByCondition(condition), OK);
+    public ResponseEntity<List<VoucherResponse>> findVoucherByCondition(@Valid @RequestBody VoucherCondition condition) {
+        return ResponseEntity.status(OK).body(voucherService.findVoucherByCondition(condition));
     }
 
     @PatchMapping("/{voucherId}")
-    public ResponseEntity updateVoucher(@PathVariable("voucherId") String voucherId, @Valid @RequestBody VoucherUpdateRequest voucherUpdateRequest) {
+    public ResponseEntity<VoucherResponse> updateVoucher(@PathVariable("voucherId") String voucherId, @Valid @RequestBody VoucherUpdateRequest voucherUpdateRequest) {
         validateInputUuid(voucherId);
         UseStatusType.of(voucherUpdateRequest.getUseStatusType());
-        return new ResponseEntity(voucherService.update(UUID.fromString(voucherId), voucherUpdateRequest), OK);
+        return ResponseEntity.status(OK).body(voucherService.update(UUID.fromString(voucherId), voucherUpdateRequest));
     }
 
     @DeleteMapping("/{voucherId}")
-    public ResponseEntity deleteVoucherById(@PathVariable("voucherId") String voucherId) {
+    public ResponseEntity<String> deleteVoucherById(@PathVariable("voucherId") String voucherId) {
         validateInputUuid(voucherId);
         voucherService.deleteById(UUID.fromString(voucherId));
-        return ResponseEntity.ok("완료 되었습니다.");
+        return ResponseEntity.status(OK).body("완료 되었습니다.");
     }
 
     @DeleteMapping
-    public ResponseEntity deleteAllVouchers() {
+    public ResponseEntity<String> deleteAllVouchers() {
         voucherService.deleteAll();
-        return ResponseEntity.ok("완료 되었습니다.");
+        return ResponseEntity.status(OK).body("완료 되었습니다.");
     }
 }

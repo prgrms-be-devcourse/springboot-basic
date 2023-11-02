@@ -1,5 +1,6 @@
 package com.zerozae.voucher.controller.api;
 
+import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
@@ -35,43 +36,43 @@ public class ApiWalletController {
     private final VoucherService voucherService;
 
     @PostMapping
-    public ResponseEntity createWallet(@Valid @RequestBody WalletCreateRequest walletCreateRequest) {
-        return new ResponseEntity(walletService.createWallet(walletCreateRequest), CREATED);
+    public ResponseEntity<WalletResponse> createWallet(@Valid @RequestBody WalletCreateRequest walletCreateRequest) {
+        return ResponseEntity.status(CREATED).body(walletService.createWallet(walletCreateRequest));
     }
 
     @GetMapping
-    public ResponseEntity findAllWallets() {
-        return new ResponseEntity(walletService.findAllWallets(), OK);
+    public ResponseEntity<List<WalletResponse>> findAllWallets() {
+        return ResponseEntity.status(OK).body(walletService.findAllWallets());
     }
 
     @GetMapping("/customer/{customerId}")
-    public ResponseEntity findWalletsByCustomerId(@PathVariable("customerId") String customerId) {
+    public ResponseEntity<List<VoucherResponse>> findWalletsByCustomerId(@PathVariable("customerId") String customerId) {
         validateCustomer(customerId);
         List<WalletResponse> wallets = walletService.findWalletByCustomerId(UUID.fromString(customerId));
         List<VoucherResponse> vouchers = wallets.stream()
                 .map(wallet -> voucherService.findById(wallet.getVoucherId()))
                 .toList();
 
-        return new ResponseEntity(vouchers, OK);
+        return ResponseEntity.status(OK).body(vouchers);
     }
 
     @GetMapping("/voucher/{voucherId}")
-    public ResponseEntity findWalletsByVoucherId(@PathVariable("voucherId") String voucherId) {
+    public ResponseEntity<List<CustomerResponse>> findWalletsByVoucherId(@PathVariable("voucherId") String voucherId) {
         validateVoucher(voucherId);
         List<WalletResponse> wallets = walletService.findWalletByVoucherId(UUID.fromString(voucherId));
         List<CustomerResponse> customers = wallets.stream()
                 .map(wallet -> customerService.findById(wallet.getCustomerId()))
                 .toList();
 
-        return new ResponseEntity(customers, OK);
+        return ResponseEntity.status(OK).body(customers);
     }
 
     @DeleteMapping("/{customerId}/{voucherId}")
-    public ResponseEntity deleteWallet(@PathVariable("customerId") String customerId, @PathVariable("voucherId") String voucherId) {
+    public ResponseEntity<String> deleteWallet(@PathVariable("customerId") String customerId, @PathVariable("voucherId") String voucherId) {
         validateCustomer(customerId);
         validateVoucher(voucherId);
         walletService.deleteWalletFromCustomer(UUID.fromString(customerId), UUID.fromString(voucherId));
-        return ResponseEntity.ok("완료 되었습니다.");
+        return ResponseEntity.status(OK).body("완료 되었습니다.");
     }
 
     private CustomerResponse validateCustomer(String customerId) {
