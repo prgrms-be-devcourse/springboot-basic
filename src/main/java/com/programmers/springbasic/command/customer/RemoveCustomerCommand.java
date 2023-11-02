@@ -1,6 +1,6 @@
 package com.programmers.springbasic.command.customer;
 
-import static com.programmers.springbasic.constants.MessageConstants.*;
+import static com.programmers.springbasic.console.constants.MessageConstants.*;
 
 import java.util.UUID;
 

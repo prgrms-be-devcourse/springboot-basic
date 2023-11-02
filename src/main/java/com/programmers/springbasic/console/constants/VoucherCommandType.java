@@ -1,4 +1,4 @@
-package com.programmers.springbasic.constants;
+package com.programmers.springbasic.console.constants;
 
 import static com.programmers.springbasic.constants.ErrorCode.*;
 
