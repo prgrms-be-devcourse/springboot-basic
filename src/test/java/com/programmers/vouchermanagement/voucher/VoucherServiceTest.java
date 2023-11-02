@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,9 +37,9 @@ public class VoucherServiceTest {
     void successReadAllVoucher() {
 
         // given
-        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
-        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT));
-        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED));
+        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
+        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT), LocalDateTime.now());
+        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED), LocalDateTime.now());
         List<Voucher> vouchers = new ArrayList<>() {{
             add(voucher1);
             add(voucher2);

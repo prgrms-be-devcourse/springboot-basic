@@ -11,7 +11,8 @@ DROP TABLE IF EXISTS voucher;
 CREATE TABLE IF NOT EXISTS voucher (
     voucher_id BINARY(16) PRIMARY KEY,
     discount BIGINT,
-    voucher_type ENUM('FIXED', 'PERCENT')
+    voucher_type ENUM('FIXED', 'PERCENT'),
+    created_at datetime(6)
 );
 
 DROP TABLE IF EXISTS wallet;

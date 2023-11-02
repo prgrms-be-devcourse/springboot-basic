@@ -52,7 +52,7 @@ public class WalletService {
                 .map(Wallet::getVoucherId)
                 .map(voucherRepository::findById)
                 .map(optionalVoucher -> optionalVoucher.orElseThrow(VoucherNotFoundException::new))
-                .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount()))
+                .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount(), voucher.getCreatedAt()))
                 .toList();
 
         return voucherResponseDtos;

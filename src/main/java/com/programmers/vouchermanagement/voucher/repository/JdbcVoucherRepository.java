@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Profile("default")
 public class JdbcVoucherRepository implements VoucherRepository {
 
-    private static final String CREATE = "INSERT INTO voucher(voucher_id, discount, voucher_type) VALUES(UUID_TO_BIN(?), (?), (?))";
+    private static final String CREATE = "INSERT INTO voucher(voucher_id, discount, voucher_type, created_at) VALUES(UUID_TO_BIN(?), (?), (?), (?))";
     private static final String READ_ALL = "SELECT * FROM voucher";
     private static final String READ_ONCE = "SELECT * FROM voucher WHERE voucher_id = UUID_TO_BIN(?)";
     private static final String UPDATE = "UPDATE voucher SET discount = ?, voucher_type = ? WHERE voucher_id = UUID_TO_BIN(?)";
@@ -33,8 +34,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
         Long discount = resultSet.getLong("discount");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         VoucherPolicy voucherPolicy = VoucherPolicyMapper.toEntity(discount, voucherType);
+        LocalDateTime createdAt = JdbcRepositoryManager.timestampToLocalDateTime(resultSet.getTimestamp("created_at"));
 
-        return new Voucher(voucherId, voucherType, voucherPolicy);
+        return new Voucher(voucherId, voucherType, voucherPolicy, createdAt);
     };
 
     private final JdbcTemplate jdbcTemplate;
@@ -48,7 +50,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         jdbcTemplate.update(CREATE,
                 voucher.getVoucherId().toString(),
                 voucher.getVoucherPolicy().getDiscount(),
-                voucher.getVoucherType().toString());
+                voucher.getVoucherType().toString(),
+                voucher.getCreatedAt());
     }
 
     @Override

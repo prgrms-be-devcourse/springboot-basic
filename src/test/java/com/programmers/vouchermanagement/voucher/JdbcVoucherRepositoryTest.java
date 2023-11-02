@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +43,7 @@ public class JdbcVoucherRepositoryTest {
     void successSave() {
 
         // given
-        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
 
         // when
         voucherRepository.save(voucher);
@@ -61,9 +62,9 @@ public class JdbcVoucherRepositoryTest {
     void successFindAll() {
 
         // given
-        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
-        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT));
-        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED));
+        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
+        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT), LocalDateTime.now());
+        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED), LocalDateTime.now());
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
         voucherRepository.save(voucher3);
@@ -82,11 +83,11 @@ public class JdbcVoucherRepositoryTest {
     void successUpdate() {
 
         // given
-        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
         voucherRepository.save(voucher);
 
         // when
-        Voucher newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT));
+        Voucher newVoucher = new Voucher(voucher.getVoucherId(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT), LocalDateTime.now());
         voucherRepository.update(newVoucher);
 
         // then
@@ -102,9 +103,9 @@ public class JdbcVoucherRepositoryTest {
     void successDeleteAll() {
 
         // given
-        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
-        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT));
-        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED));
+        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
+        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT), LocalDateTime.now());
+        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED), LocalDateTime.now());
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
         voucherRepository.save(voucher3);
@@ -122,7 +123,7 @@ public class JdbcVoucherRepositoryTest {
     void failFindById() {
 
         // given
-        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
         voucherRepository.save(voucher);
 
         // when
@@ -137,9 +138,9 @@ public class JdbcVoucherRepositoryTest {
     void successDeleteById() {
 
         // given
-        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
-        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT));
-        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED));
+        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
+        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT), LocalDateTime.now());
+        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED), LocalDateTime.now());
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
         voucherRepository.save(voucher3);

@@ -8,6 +8,7 @@ import com.programmers.vouchermanagement.voucher.mapper.VoucherPolicyMapper;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public class VoucherService {
         VoucherType voucherType = VoucherType.getVoucherTypeByName(voucherRequestDto.getVoucherType());
         VoucherPolicy voucherPolicy = VoucherPolicyMapper.toEntity(discount, voucherType);
 
-        voucherRepository.save(new Voucher(UUID.randomUUID(), voucherType, voucherPolicy));
+        voucherRepository.save(new Voucher(UUID.randomUUID(), voucherType, voucherPolicy, LocalDateTime.now()));
     }
 
     public List<VoucherResponseDto> readAllVoucher() {
@@ -34,7 +35,7 @@ public class VoucherService {
         List<Voucher> vouchers = voucherRepository.findAll();
 
         List<VoucherResponseDto> voucherResponseDtos = vouchers.stream()
-                .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount()))
+                .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount(), voucher.getCreatedAt()))
                 .toList();
 
         return voucherResponseDtos;
@@ -45,21 +46,21 @@ public class VoucherService {
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
-        VoucherResponseDto voucherResponseDto = new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount());
+        VoucherResponseDto voucherResponseDto = new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount(), voucher.getCreatedAt());
 
         return voucherResponseDto;
     }
 
     public void updateVoucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
 
-        voucherRepository.findById(voucherId)
+        Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new VoucherNotFoundException(voucherId));
 
         Long discount = voucherRequestDto.getDiscount();
         VoucherType voucherType = VoucherType.getVoucherTypeByName(voucherRequestDto.getVoucherType());
         VoucherPolicy voucherPolicy = VoucherPolicyMapper.toEntity(discount, voucherType);
 
-        voucherRepository.update(new Voucher(voucherId, voucherType, voucherPolicy));
+        voucherRepository.update(new Voucher(voucherId, voucherType, voucherPolicy, voucher.getCreatedAt()));
     }
 
     public void removeAllVoucher() {

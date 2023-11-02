@@ -22,6 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,7 +52,7 @@ public class WalletServiceTest {
 
         // given
         UUID customerId = UUID.randomUUID();
-        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
         when(customerRepository.findById(customerId)).thenThrow(new CustomerNotFoundException());
 //        when(voucherRepository.findById(voucher.getVoucherId())).thenReturn(Optional.of(voucher));
 
@@ -81,9 +82,9 @@ public class WalletServiceTest {
 
         // given
         Customer customer = new Customer(UUID.randomUUID(), "김뫄뫄", CustomerType.BLACK);
-        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
-        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT));
-        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED));
+        Voucher voucher1 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
+        Voucher voucher2 = new Voucher(UUID.randomUUID(), VoucherType.PERCENT, VoucherPolicyMapper.toEntity(80L, VoucherType.PERCENT), LocalDateTime.now());
+        Voucher voucher3 = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(500L, VoucherType.FIXED), LocalDateTime.now());
         List<Wallet> wallets = new ArrayList<>() {{
             add(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher1.getVoucherId()));
             add(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher2.getVoucherId()));
@@ -109,7 +110,7 @@ public class WalletServiceTest {
     void successReadCustomersByVoucher() {
 
         // given
-        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED));
+        Voucher voucher = new Voucher(UUID.randomUUID(), VoucherType.FIXED, VoucherPolicyMapper.toEntity(10000L, VoucherType.FIXED), LocalDateTime.now());
         Customer customer1 = new Customer(UUID.randomUUID(), "김뫄뫄", CustomerType.BLACK);
         Customer customer2 = new Customer(UUID.randomUUID(), "이롸롸", CustomerType.BLACK);
         Customer customer3 = new Customer(UUID.randomUUID(), "최뭐뭐", CustomerType.BLACK);
