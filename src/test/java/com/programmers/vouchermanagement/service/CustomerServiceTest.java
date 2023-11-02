@@ -58,6 +58,29 @@ class CustomerServiceTest {
     }
 
     @Test
+    void ID로_고객_이름을_가져올_수_있다() {
+        //given
+        doReturn(Optional.ofNullable(customer1)).when(customerRepository).findById(customer1.getId());
+
+        //when
+        final String customerName = customerService.findCustomerNameById(customer1.getId());
+
+        //then
+        assertThat(customerName).isEqualTo(customer1.getName());
+    }
+
+    @Test
+    void 존재하지_않는_ID로_고객을_가져올_수_없다() {
+        //given
+        doReturn(Optional.empty()).when(customerRepository).findById(customer1.getId());
+
+        //when&then
+        assertThatThrownBy(() -> customerService.findCustomerById(customer1.getId()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
+    }
+
+    @Test
     void 이름에_특정문자열이_포함된_고객을_가져올_수_있다() {
         //given
         final List<Customer> singletonCustomers = Collections.singletonList(customer2);
@@ -107,6 +130,50 @@ class CustomerServiceTest {
 
         //when&then
         assertThatThrownBy(() -> customerService.deleteCustomer(UUID.randomUUID()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
+    }
+
+    @Test
+    void 고객을_정지_시킬_수_있다() {
+        //given
+        doReturn(Optional.ofNullable(customer1)).when(customerRepository).findById(any(UUID.class));
+        Customer bannedCustomer = new Customer(customer1.getId(), customer1.getName(), customer1.getCreatedAt(), true);
+        doReturn(bannedCustomer).when(customerRepository).update(customer1);
+
+        //when
+        final Customer customer = customerService.banCustomer(customer1.getId());
+
+        //then
+        assertThat(customer).isEqualTo(bannedCustomer);
+    }
+
+    @Test
+    void 고객을_정지_해제할_수_있다() {
+        //given
+        Customer bannedCustomer = new Customer(customer1.getId(), customer1.getName(), customer1.getCreatedAt(), true);
+        doReturn(Optional.ofNullable(bannedCustomer)).when(customerRepository).findById(any(UUID.class));
+        doReturn(customer1).when(customerRepository).update(bannedCustomer);
+
+        //when
+        final Customer customer = customerService.unbanCustomer(bannedCustomer.getId());
+
+        //then
+        assertThat(customer).isEqualTo(customer1);
+    }
+
+    @Test
+    void 존재하지_않는_고객을_정지_또는_정지_해제할_수_없다() {
+        //given
+        doReturn(Optional.empty()).when(customerRepository).findById(any(UUID.class));
+
+        //when&then
+        assertThatThrownBy(() -> customerService.banCustomer(UUID.randomUUID()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
+
+        //when&then
+        assertThatThrownBy(() -> customerService.unbanCustomer(UUID.randomUUID()))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
     }

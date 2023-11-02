@@ -46,13 +46,24 @@ class VoucherServiceTest {
     @Test
     void ID로_바우처를_가져올_수_있다() {
         //given
-        doReturn(Optional.of(voucher1)).when(voucherRepository).findById(voucher1.getId());
+        doReturn(Optional.ofNullable(voucher1)).when(voucherRepository).findById(voucher1.getId());
 
         //when
         final Voucher voucher = voucherService.findVoucherById(voucher1.getId());
 
         //then
         assertThat(voucher).isEqualTo(voucher1);
+    }
+
+    @Test
+    void 존재하지_않는_ID로_바우처를_가져올_수_없다() {
+        //given
+        doReturn(Optional.empty()).when(voucherRepository).findById(voucher1.getId());
+
+        //when&then
+        assertThatThrownBy(() -> voucherService.findVoucherById(voucher1.getId()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage());
     }
 
     @Test
@@ -86,7 +97,7 @@ class VoucherServiceTest {
     void 바우처의_이름은_중복될_수_없다() {
         //given
         final VoucherDto.CreateRequest createRequestDto = new VoucherDto.CreateRequest("voucher1", 999, VoucherType.FIXED);
-        doReturn(Optional.of(voucher1)).when(voucherRepository).findByName(voucher1.getName());
+        doReturn(Optional.ofNullable(voucher1)).when(voucherRepository).findByName(voucher1.getName());
 
         //when&then
         assertThatThrownBy(() -> voucherService.createVoucher(createRequestDto))
@@ -103,5 +114,18 @@ class VoucherServiceTest {
         assertThatThrownBy(() -> voucherService.deleteVoucher(UUID.randomUUID()))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage());
+    }
+
+    @Test
+    void 바우처의_타입과_유효기간으로_바우처를_검색할_수_있다() {
+        //given
+        final List<Voucher> singletonVouchers = Collections.singletonList(voucher1);
+        doReturn(singletonVouchers).when(voucherRepository).findByTypeAndDates(any(String.class), any(), any());
+
+        //when
+        final List<Voucher> vouchers = voucherService.findVoucherByTypeAndDates(VoucherType.FIXED, null, null);
+
+        //then
+        assertThat(vouchers).hasSameSizeAs(singletonVouchers).contains(voucher1);
     }
 }

@@ -7,6 +7,7 @@ import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.domain.wallet.Wallet;
 import com.programmers.vouchermanagement.dto.CustomerDto;
 import com.programmers.vouchermanagement.dto.VoucherDto;
+import com.programmers.vouchermanagement.message.ErrorMessage;
 import com.programmers.vouchermanagement.repository.wallet.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.mockito.Mockito.doReturn;
 
@@ -73,5 +72,27 @@ class WalletServiceTest {
         //then
         assertThat(customers).contains(customer);
         assertThat(customers.size()).isEqualTo(1);
+    }
+
+    @Test
+    void 같은_고객에게_같은_바우처를_두_번_지급할_수_없다() {
+        //given
+        doReturn(true).when(walletRepository).existsByCustomerIdAndVoucherId(customerId, voucherId_1);
+
+        //when&then
+        assertThatThrownBy(() -> walletService.giveVoucherToCustomer(customerId, voucherId_1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(ErrorMessage.VOUCHER_ALREADY_EXISTS_MESSAGE.getMessage());
+    }
+
+    @Test
+    void 존재하지_않는_지갑_데이터를_삭제할_수_없다() {
+        //given
+        doReturn(false).when(walletRepository).existsByCustomerIdAndVoucherId(customerId, voucherId_1);
+
+        //when&then
+        assertThatThrownBy(() -> walletService.deleteVoucherFromCustomer(customerId, voucherId_1))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(ErrorMessage.WALLET_NOT_FOUND_MESSAGE.getMessage());
     }
 }
