@@ -1,9 +1,9 @@
 package com.weeklyMission.wallet.service;
 
 import com.weeklyMission.member.dto.MemberResponse;
-import com.weeklyMission.member.repository.DBMemberRepository;
+import com.weeklyMission.member.repository.MemberRepository;
 import com.weeklyMission.voucher.dto.VoucherResponse;
-import com.weeklyMission.voucher.repository.DBVoucherRepository;
+import com.weeklyMission.voucher.repository.VoucherRepository;
 import com.weeklyMission.wallet.domain.Wallet;
 import com.weeklyMission.wallet.dto.WalletRequest;
 import com.weeklyMission.wallet.repository.WalletRepository;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 public class WalletService {
 
     private final WalletRepository walletRepository;
-    private final DBMemberRepository memberRepository;
-    private final DBVoucherRepository voucherRepository;
+    private final MemberRepository memberRepository;
+    private final VoucherRepository voucherRepository;
 
     public WalletService(WalletRepository walletRepository,
-        DBMemberRepository memberRepository,
-        DBVoucherRepository voucherRepository) {
+        MemberRepository memberRepository,
+        VoucherRepository voucherRepository) {
         this.walletRepository = walletRepository;
         this.memberRepository = memberRepository;
         this.voucherRepository = voucherRepository;
