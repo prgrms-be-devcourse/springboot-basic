@@ -69,8 +69,8 @@ class ApiCustomerControllerTest {
         mvc.perform(post("/api/customers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(jsonPath("$.message").value("회원 이름은 2자에서 15자 사이로 입력해주세요."))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message").value("회원 이름은 2자에서 15자 사이로 입력해주세요."));
     }
 
     @Test
@@ -83,8 +83,8 @@ class ApiCustomerControllerTest {
         mvc.perform(post("/api/customers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(jsonPath("$.message").value("회원 타입은 필수 입력란입니다."))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message").value("회원 타입은 필수 입력란입니다."));
     }
 
     @Test
@@ -152,8 +152,8 @@ class ApiCustomerControllerTest {
         mvc.perform(patch("/api/customers/{customerId}", normalCustomer.getCustomerId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(jsonPath("$.message").value("회원 타입은 필수 입력란입니다."))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message").value("회원 타입은 필수 입력란입니다."));
     }
 
     @Test
@@ -166,8 +166,8 @@ class ApiCustomerControllerTest {
         mvc.perform(patch("/api/customers/{customerId}", normalCustomer.getCustomerId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(jsonPath("$.message").value("회원 이름은 2자에서 15자 사이로 입력해주세요."))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message").value("회원 이름은 2자에서 15자 사이로 입력해주세요."));
     }
 
     @Test

@@ -72,8 +72,8 @@ class ApiVoucherControllerTest {
         mvc.perform(post("/api/vouchers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(jsonPath("$.message").value("할인 정보는 필수 입력란이며 1이상의 값을 입력해주세요."))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message").value("할인 정보는 필수 입력란이며 1이상의 값을 입력해주세요."));
     }
 
     @Test
@@ -86,8 +86,8 @@ class ApiVoucherControllerTest {
         mvc.perform(post("/api/vouchers")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(jsonPath("$.message").value("바우처의 타입은 필수 입력란입니다."))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message").value("바우처의 타입은 필수 입력란입니다."));
     }
 
     @Test
@@ -210,8 +210,8 @@ class ApiVoucherControllerTest {
         mvc.perform(patch("/api/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(jsonPath("$.message").value("할인 정보는 필수 입력란이며 1이상의 값을 입력해주세요."))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message").value("할인 정보는 필수 입력란이며 1이상의 값을 입력해주세요."));
     }
 
     @Test
@@ -224,8 +224,8 @@ class ApiVoucherControllerTest {
         mvc.perform(patch("/api/vouchers/{voucherId}", fixedDiscountVoucher.getVoucherId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(invalidRequest)))
-                .andExpect(jsonPath("$.message").value("바우처의 타입은 필수 입력란입니다."))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message").value("바우처의 타입은 필수 입력란입니다."));
     }
 
     @Test

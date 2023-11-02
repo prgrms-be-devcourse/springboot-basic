@@ -213,13 +213,13 @@ class VoucherServiceTest {
     void findVoucherByVoucherTypeCondition_Success_Test() {
         // Given
         VoucherCondition voucherCondition = new VoucherCondition(String.valueOf(fixedDiscountVoucher.getVoucherType()), null);
-        when(voucherRepository.findByVoucherType(VoucherType.valueOf(voucherCondition.getVoucherType()))).thenReturn(List.of(fixedDiscountVoucher));
+        when(voucherRepository.findVoucherByCondition(voucherCondition)).thenReturn(List.of(fixedDiscountVoucher));
 
         // When
         voucherService.findVoucherByCondition(voucherCondition);
 
         // Then
-        verify(voucherRepository).findByVoucherType(VoucherType.valueOf(voucherCondition.getVoucherType()));
+        verify(voucherRepository).findVoucherByCondition(voucherCondition);
     }
 
     @Test
@@ -227,13 +227,13 @@ class VoucherServiceTest {
     void findVoucherByCreatedAtCondition_Success_Test() {
         // Given
         VoucherCondition voucherCondition = new VoucherCondition(null, LocalDate.now().toString());
-        when(voucherRepository.findByCreatedAt(LocalDate.parse(voucherCondition.getCreatedAt()))).thenReturn(List.of(fixedDiscountVoucher, percentDiscountVoucher));
+        when(voucherRepository.findVoucherByCondition(voucherCondition)).thenReturn(List.of(fixedDiscountVoucher, percentDiscountVoucher));
 
         // When
         voucherService.findVoucherByCondition(voucherCondition);
 
         // Then
-        verify(voucherRepository).findByCreatedAt(LocalDate.now());
+        verify(voucherRepository).findVoucherByCondition(voucherCondition);
     }
 
     @Test
@@ -241,13 +241,12 @@ class VoucherServiceTest {
     void findVoucherByCondition_Success_Test() {
         // Given
         VoucherCondition voucherCondition = new VoucherCondition(fixedDiscountVoucher.getVoucherType().toString(), LocalDate.now().toString());
-        when(voucherRepository.findByTypeAndCreatedAt(VoucherType.valueOf(voucherCondition.getVoucherType()), LocalDate.parse(voucherCondition.getCreatedAt())))
-                .thenReturn(List.of(fixedDiscountVoucher));
+        when(voucherRepository.findVoucherByCondition(voucherCondition)).thenReturn(List.of(fixedDiscountVoucher));
 
         // When
         voucherService.findVoucherByCondition(voucherCondition);
 
         // Then
-        verify(voucherRepository).findByTypeAndCreatedAt(VoucherType.valueOf(voucherCondition.getVoucherType()), LocalDate.parse(voucherCondition.getCreatedAt()));
+        verify(voucherRepository).findVoucherByCondition(voucherCondition);
     }
 }

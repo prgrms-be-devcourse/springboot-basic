@@ -81,8 +81,8 @@ class ApiWalletControllerTest {
         mvc.perform(post("/api/wallets")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-                .andExpect(jsonPath("$.message").value("올바른 UUID 형식이어야 합니다."))
-                .andExpect(jsonPath("$.success").value(false));
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.message").value("올바른 UUID 형식이어야 합니다."));
     }
 
     @Test
