@@ -25,7 +25,7 @@ public class VoucherService {
 
     @Transactional
     public Voucher createVoucher(VoucherRequestDto voucherDto) {
-        Voucher voucher = Voucher.of(UUID.randomUUID(), voucherDto);
+        Voucher voucher = Voucher.of(voucherDto);
         voucherRepository.insert(voucher);
         log.info("등록된 Voucher => ID: {}, type: {}, value: {}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscountValue());
         return voucher;

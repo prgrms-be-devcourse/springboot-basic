@@ -25,7 +25,12 @@ public class Customer {
         this.customerType = customerRequestDto.getCustomerType();
     }
 
-    public static Customer of(UUID customerId, CustomerRequestDto customerRequestDto) {
+    private static UUID generateUUID() {
+        return UUID.randomUUID();
+    }
+
+    public static Customer of(CustomerRequestDto customerRequestDto) {
+        UUID customerId = generateUUID();
         return new Customer(customerId, customerRequestDto);
     }
 

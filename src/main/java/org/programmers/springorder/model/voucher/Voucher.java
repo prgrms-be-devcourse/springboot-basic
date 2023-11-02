@@ -26,7 +26,12 @@ public class Voucher {
         this.voucherType = voucherRequestDto.getVoucherType();
     }
 
-    public static Voucher of(UUID voucherId, VoucherRequestDto requestDto) {
+    private static UUID generateUUID() {
+        return UUID.randomUUID();
+    }
+
+    public static Voucher of(VoucherRequestDto requestDto) {
+        UUID voucherId = generateUUID();
         return new Voucher(voucherId, requestDto);
     }
 
