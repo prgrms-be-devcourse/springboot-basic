@@ -22,7 +22,7 @@ public abstract class Voucher {
         else if(voucherDiscountType.equals(VoucherDiscountType.FIXED_AMOUNT_DISCOUNT)){
             return new FixedAmountDiscountVoucher(id, discount);
         }
-        else throw new RuntimeException("Voucher Type Error!!");
+        else throw new VoucherApplicationException(ErrorCode.INVALID_INPUT_DATA);
     }
 
     private static void isDiscountValid(Integer discount, VoucherDiscountType voucherDiscountType){
