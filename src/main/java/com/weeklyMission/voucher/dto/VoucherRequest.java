@@ -23,10 +23,13 @@ public class VoucherRequest{
     private Integer amount;
 
     public Voucher toEntity(){
-        if(type.equals(VoucherType.Fixed.getType())){
+        VoucherType voucherType = VoucherType.of(type);
+        String type = voucherType.getType();
+
+        if(VoucherType.Fixed.getType().equals(type)){
             return new FixedAmountVoucher(UUID.randomUUID().toString(), amount);
         }
-        else if(type.equals(VoucherType.Percent.getType())){
+        else if(VoucherType.Percent.getType().equals(type)){
             return new PercentDiscountVoucher(UUID.randomUUID().toString(), amount);
         }
         return null;

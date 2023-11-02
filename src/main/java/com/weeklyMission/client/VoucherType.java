@@ -2,7 +2,9 @@ package com.weeklyMission.client;
 
 import com.weeklyMission.exception.IncorrectInputException;
 import java.util.Arrays;
+import lombok.Getter;
 
+@Getter
 public enum VoucherType {
     Fixed("fixed"),
     Percent("percent");
@@ -22,9 +24,5 @@ public enum VoucherType {
 
     private boolean isEquals(String input){
         return this.type.equals(input);
-    }
-
-    public String getType(){
-        return this.type;
     }
 }
