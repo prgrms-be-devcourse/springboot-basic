@@ -1,5 +1,6 @@
 package com.weeklyMission.wallet.controller;
 
+import com.weeklyMission.exception.AlreadyExistsException;
 import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.service.MemberService;
 import com.weeklyMission.voucher.dto.VoucherResponse;
@@ -9,6 +10,8 @@ import com.weeklyMission.wallet.service.WalletService;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,8 +55,15 @@ public class WalletViewController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute WalletRequest wallet){
-        walletService.save(wallet);
+    public String create(@ModelAttribute("wallet") WalletRequest wallet, BindingResult bindingResult){
+
+        try{
+            walletService.save(wallet);
+        } catch(AlreadyExistsException e){
+            bindingResult.addError(new ObjectError("wallet", null, null, e.getMessage()));
+            return "/wallet/createForm";
+        }
+
         return "redirect:/";
     }
 
