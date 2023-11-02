@@ -54,8 +54,8 @@ public class VoucherService {
     }
 
     public List<Voucher> findVoucherByTypeAndDates(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
-        if (startDate == null) startDate = LocalDate.of(0, 1, 1);
-        if (endDate == null) endDate = LocalDate.of(9999, 12, 31);
+        if (startDate == null) startDate = LocalDate.MIN;
+        if (endDate == null) endDate = LocalDate.MAX;
         String typeStr = (voucherType != null) ? voucherType.toString() : "";
         return voucherRepository.findByTypeAndDates(typeStr, startDate, endDate);
     }
