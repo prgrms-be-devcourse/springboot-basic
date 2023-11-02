@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Component
@@ -121,5 +120,10 @@ public class Console {
 
     public void showCustomer(CustomerResponseDto customer) {
         printMessage(customer.toString());
+    }
+
+    public String chooseMedia() {
+        printMessage(Message.CHOOSING_MEDIA);
+        return input.getInput();
     }
 }
