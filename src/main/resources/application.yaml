@@ -4,6 +4,10 @@ spring:
     username: root
     password: 20231028
 
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
 file:
   resources:
     path: src/main/resources/
