@@ -2,6 +2,8 @@ package com.programmers.springbasic.repository.voucher;
 
 import static com.programmers.springbasic.constants.ErrorCode.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +28,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> {
 		UUID id = UUID.fromString(rs.getString("voucher_id"));
 		String type = rs.getString("voucher_type");
+		LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
 		if (VoucherType.PERCENT_DISCOUNT.name().equals(type)) {
-			return new PercentDiscountVoucher(id, rs.getLong("percent"));
+			return new PercentDiscountVoucher(id, rs.getLong("percent"), createdAt);
 		} else if (VoucherType.FIXED_AMOUNT.name().equals(type)) {
-			return new FixedAmountVoucher(id, rs.getLong("amount"));
+			return new FixedAmountVoucher(id, rs.getLong("amount"), createdAt);
 		}
 
 		throw new IllegalArgumentException(INVALID_VOUCHER_TYPE.getMessage());
@@ -42,7 +45,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public Voucher insert(Voucher voucher) {
-		String sql = "INSERT INTO voucher (voucher_id, voucher_type, percent, amount) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO voucher (voucher_id, voucher_type, percent, amount, created_at) VALUES (?, ?, ?, ?, ?)";
 
 		Long percentValue = null;
 		Long amountValue = null;
@@ -53,7 +56,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			amountValue = voucher.getDiscountValue();
 		}
 
-		jdbcTemplate.update(sql, voucher.getVoucherId(), voucher.getVoucherType().name(), percentValue, amountValue);
+		jdbcTemplate.update(sql, voucher.getVoucherId(), voucher.getVoucherType().name(), percentValue, amountValue, voucher.getCreatedAt());
 		return voucher;
 	}
 
@@ -101,6 +104,30 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		Object[] params = voucherIds.toArray();
 
 		return jdbcTemplate.query(sql, voucherRowMapper, params);
+	}
+
+	@Override
+	public List<Voucher> findByCriteria(LocalDateTime startDate, LocalDateTime endDate, VoucherType voucherType) {
+		StringBuilder sql = new StringBuilder("SELECT * FROM voucher WHERE 1=1");
+
+		List<Object> params = new ArrayList<>();
+
+		if (startDate != null) {
+			sql.append(" AND created_at >= ?");
+			params.add(startDate);
+		}
+
+		if (endDate != null) {
+			sql.append(" AND created_at <= ?");
+			params.add(endDate);
+		}
+
+		if (voucherType != null) {
+			sql.append(" AND voucher_type = ?");
+			params.add(voucherType.toString());
+		}
+
+		return jdbcTemplate.query(sql.toString(), voucherRowMapper, params.toArray());
 	}
 
 }

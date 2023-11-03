@@ -1,5 +1,6 @@
 package com.programmers.springbasic.repository.voucher;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.springbasic.entity.voucher.Voucher;
+import com.programmers.springbasic.entity.voucher.VoucherType;
 import com.programmers.springbasic.utils.FileUtils;
 import com.programmers.springbasic.utils.mapper.VoucherCsvFileMapper;
 
@@ -80,6 +82,11 @@ public class FileVoucherRepository implements VoucherRepository {
 			.map(storage::get)
 			.filter(Objects::nonNull)
 			.toList();
+	}
+
+	@Override
+	public List<Voucher> findByCriteria(LocalDateTime startDate, LocalDateTime endDate, VoucherType voucherType) {
+		return null;
 	}
 
 }
