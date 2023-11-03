@@ -86,7 +86,7 @@ class VoucherServiceTest {
         assertThat(beforeSaveVoucher).hasSize(0);
 
         //when
-        voucherService.save(requestDto);
+        voucherService.saveNewVoucher(requestDto);
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
 
         //then
@@ -110,7 +110,7 @@ class VoucherServiceTest {
             //when
             voucherRepository.save(voucher);
             customerRepository.insert(customer);
-            voucherService.update(voucherId, customerId);
+            voucherService.allocateVoucher(voucherId, customerId);
 
             //then
             Voucher voucherWithOwner = voucherRepository.findById(voucherId).get();
@@ -132,7 +132,7 @@ class VoucherServiceTest {
             customerRepository.insert(customer);
 
             //then
-            Assertions.assertThatThrownBy(() -> voucherService.update(voucherId, UUID.randomUUID()))
+            Assertions.assertThatThrownBy(() -> voucherService.allocateVoucher(voucherId, UUID.randomUUID()))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("해당 고객을 찾을 수 없습니다.");
 
@@ -152,7 +152,7 @@ class VoucherServiceTest {
             customerRepository.insert(customer);
 
             //then
-            Assertions.assertThatThrownBy(() -> voucherService.update(UUID.randomUUID(), customerId))
+            Assertions.assertThatThrownBy(() -> voucherService.allocateVoucher(UUID.randomUUID(), customerId))
                     .isInstanceOf(RuntimeException.class)
                     .hasMessage("해당 바우처를 찾을 수 없습니다.");
 

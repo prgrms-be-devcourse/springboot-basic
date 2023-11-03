@@ -69,7 +69,7 @@ class CustomerServiceTest {
             //when
             voucherRepository.save(voucher);
             customerRepository.insert(customer);
-            voucherService.update(voucherId, customerId);
+            voucherService.allocateVoucher(voucherId, customerId);
 
             UUID customerId1 = customerService.findOwnerOfVoucher(voucherId).getCustomerId();
 
@@ -88,7 +88,7 @@ class CustomerServiceTest {
             //when
             voucherRepository.save(voucher);
             customerRepository.insert(customer);
-            voucherService.update(voucherId, customerId);
+            voucherService.allocateVoucher(voucherId, customerId);
 
             assertThatThrownBy(() -> customerService.findOwnerOfVoucher(UUID.randomUUID()))
                     .isInstanceOf(RuntimeException.class)
@@ -107,7 +107,7 @@ class CustomerServiceTest {
             //when
             voucherRepository.save(voucher);
             customerRepository.insert(customer);
-//            voucherService.update(voucherId, customerId);
+//            voucherService.allocateVoucher(voucherId, customerId);
 
             assertThatThrownBy(() -> customerService.findOwnerOfVoucher(voucherId))
                     .isInstanceOf(RuntimeException.class)

@@ -26,13 +26,13 @@ public class VoucherConsoleController {
 
     public void createVoucher() {
         VoucherRequestDto request = console.inputVoucherInfo();
-        voucherService.save(request);
+        voucherService.saveNewVoucher(request);
         console.printMessage(Message.VOUCHER_REGISTERED);
     }
 
     public void giveVoucher(){
         GiveVoucherRequestDto requestDto = console.giveVoucherInfo();
-        voucherService.update(requestDto.getVoucherId(), requestDto.getCustomerId());
+        voucherService.allocateVoucher(requestDto.getVoucherId(), requestDto.getCustomerId());
         console.printMessage(Message.VOUCHER_ALLOCATED);
     }
 
