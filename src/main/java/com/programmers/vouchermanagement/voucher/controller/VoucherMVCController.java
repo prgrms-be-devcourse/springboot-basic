@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.voucher.controller;
 
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
@@ -22,10 +21,15 @@ public class VoucherMVCController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public String create(CreateVoucherRequest createVoucherRequest) {
         voucherService.create(createVoucherRequest);
         return "redirect:/vouchers";
+    }
+
+    @GetMapping("/new")
+    public String ViewCreatePage(Model model) {
+        return "views/voucher-new";
     }
 
     @GetMapping
@@ -39,8 +43,8 @@ public class VoucherMVCController {
     public String readById(@PathVariable("voucherId") UUID voucherId, Model model) {
         try {
             VoucherDto voucher = voucherService.readById(voucherId);
-            model.addAttribute("vouchers", List.of(voucher));
-            return "views/vouchers";
+            model.addAttribute("voucher", voucher);
+            return "views/voucher-detail";
         } catch (RuntimeException e) {
             return "views/404";
         }
@@ -58,9 +62,21 @@ public class VoucherMVCController {
         return "redirect:/vouchers";
     }
 
-    @PutMapping
-    public String update(Voucher voucher) {
-        voucherService.update(voucher);
+    @PutMapping("/update/{voucherId}")
+    public String update(@PathVariable("voucherId") UUID voucherId, CreateVoucherRequest createVoucherRequest) {
+        voucherService.update(voucherId, createVoucherRequest);
         return "redirect:/vouchers";
+    }
+    //TODO: check id
+
+    @GetMapping("/update/{voucherId}")
+    public String viewUpdatePage(@PathVariable("voucherId") UUID voucherId, Model model) {
+        try {
+            VoucherDto voucher = voucherService.readById(voucherId);
+            model.addAttribute("voucher", voucher);
+            return "views/voucher-update";
+        } catch (RuntimeException e) {
+            return "views/404";
+        }
     }
 }
