@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanagement.core.voucher.service;
 
-import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreateRequest;
 import com.prgrms.vouchermanagement.core.voucher.domain.Voucher;
 import com.prgrms.vouchermanagement.core.voucher.dto.VoucherDto;
 import com.prgrms.vouchermanagement.core.voucher.repository.VoucherRepository;
@@ -21,11 +20,11 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void createVoucher(VoucherCreateRequest voucherCreateRequest) {
-        voucherRepository.save(Mapper.toVoucher(voucherCreateRequest));
+    public void create(VoucherDto voucherDto) {
+        voucherRepository.save(Mapper.toVoucher(voucherDto));
     }
 
-    public List<VoucherDto> findAllVoucher() {
+    public List<VoucherDto> findAll() {
         List<Voucher> voucherList = voucherRepository.findAll();
         return voucherList.stream()
                 .map(it -> new VoucherDto(it.getId(), it.getName(), it.getAmount(), it.getVoucherType()))
