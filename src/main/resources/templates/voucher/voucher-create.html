@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Home</title>
+</head>
+<body class="container-fluid">
+<h1>Voucher Create</h1>
+<form th:action="@{/voucher}" method="post">
+    <div class="mb-3">
+        <label for="discountValue" class="form-label">Discount Value</label>
+        <input type="number" name="discountValue" class="form-control" id="discountValue" placeholder="Discount Value"/>
+    </div>
+    <div class="mb-3">
+        <label for="voucherType" class="form-label">Voucher Type</label>
+        <select name="voucherType" class="form-select" id="voucherType">
+            <option th:each="type : ${T(org.prgms.kdtspringweek1.voucher.entity.VoucherType).values()}"
+                    th:value="${type}" th:text="${type.getName()}"></option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a th:href="@{/vouchers}" class="btn btn-primary">List Voucher</a>
+</form>
+</body>
+</html>
