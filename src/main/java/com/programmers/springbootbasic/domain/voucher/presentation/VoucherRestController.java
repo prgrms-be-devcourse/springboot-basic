@@ -30,7 +30,7 @@ public class VoucherRestController {
         this.voucherService = voucherService;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public void createVoucher(@RequestBody CreateVoucherRequest request) {
         voucherService.create(request);
     }
