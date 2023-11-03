@@ -32,10 +32,10 @@ public class CustomerMVCController {
         return "views/customers";
     }
 
-    @GetMapping("/blocklist")
-    public String readBlocklist(Model model) {
-        model.addAttribute("list-title", "blocklist");
-        model.addAttribute("customers", customerService.readBlocklist());
-        return "customer/customers";
+    @GetMapping("/blacklist")
+    public String readAllBlackCustomer(Model model) {
+        model.addAttribute("list-title", "blacklist");
+        model.addAttribute("customers", customerService.readAllBlackCustomer());
+        return "views/customers";
     }
 }

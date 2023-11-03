@@ -31,8 +31,8 @@ public class CustomerService {
         return customers.stream().map(CustomerDto::from).toList();
     }
 
-    public List<CustomerDto> readBlocklist() {
-        List<Customer> blacklist = customerRepository.findBlocklist();
+    public List<CustomerDto> readAllBlackCustomer() {
+        List<Customer> blacklist = customerRepository.findAllBlackCustomer();
         if (blacklist.isEmpty()) {
             return Collections.emptyList();
         }

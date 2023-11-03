@@ -30,7 +30,7 @@ public class CustomerFileRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findBlocklist() {
+    public List<Customer> findAllBlackCustomer() {
         return customerFileManager.customers.values().stream().filter(Customer::isBlack).toList();
     }
 }
