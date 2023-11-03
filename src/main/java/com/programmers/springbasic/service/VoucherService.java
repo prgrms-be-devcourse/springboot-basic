@@ -2,6 +2,7 @@ package com.programmers.springbasic.service;
 
 import static com.programmers.springbasic.constants.ErrorCode.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -9,8 +10,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.programmers.springbasic.dto.CustomerDto;
-import com.programmers.springbasic.dto.VoucherDto;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
+import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
 import com.programmers.springbasic.entity.voucher.PercentDiscountVoucher;
@@ -35,34 +36,34 @@ public class VoucherService {
 		this.walletRepository = walletRepository;
 	}
 
-	public List<VoucherDto> getVouchers() {
-		List<Voucher> vouchers = voucherRepository.findAll();
+	public List<VoucherResponse> getVouchers(LocalDateTime startDate, LocalDateTime endDate, VoucherType voucherType) {
+		List<Voucher> vouchers = voucherRepository.findByCriteria(startDate, endDate, voucherType);
 		return vouchers.stream()
-			.map(VoucherDto::from)
+			.map(VoucherResponse::from)
 			.toList();
 	}
 
-	public VoucherDto createVoucher(VoucherType voucherType, long discountValue) {
+	public VoucherResponse createVoucher(VoucherType voucherType, long discountValue) {
 		Voucher voucher = switch (voucherType) {
-			case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), discountValue);
-			case PERCENT_DISCOUNT -> new PercentDiscountVoucher(UUID.randomUUID(), discountValue);
+			case FIXED_AMOUNT -> new FixedAmountVoucher(UUID.randomUUID(), discountValue, LocalDateTime.now());
+			case PERCENT_DISCOUNT -> new PercentDiscountVoucher(UUID.randomUUID(), discountValue, LocalDateTime.now());
 		};
 		voucherRepository.insert(voucher);
-		return VoucherDto.from(voucher);
+		return VoucherResponse.from(voucher);
 	}
 
-	public VoucherDto getVoucherDetail(UUID voucherId) {
+	public VoucherResponse getVoucherDetail(UUID voucherId) {
 		Voucher voucher = voucherRepository.findById(voucherId)
 			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
-		return VoucherDto.from(voucher);
+		return VoucherResponse.from(voucher);
 	}
 
-	public VoucherDto updateVoucher(UUID uuid, long newDiscountValue) {
+	public VoucherResponse updateVoucher(UUID uuid, long newDiscountValue) {
 		Voucher voucher = voucherRepository.findById(uuid)
 			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
 		voucher.changeDiscountValue(newDiscountValue);
 		voucherRepository.update(voucher);
-		return VoucherDto.from(voucher);
+		return VoucherResponse.from(voucher);
 	}
 
 	public void deleteVoucher(UUID voucherId) {
@@ -71,7 +72,7 @@ public class VoucherService {
 		voucherRepository.deleteById(voucher.getVoucherId());
 	}
 
-	public List<CustomerDto> getCustomersByVoucher(UUID voucherId) {
+	public List<CustomerResponse> getCustomersByVoucher(UUID voucherId) {
 		Voucher voucher = voucherRepository.findById(voucherId)
 			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
 
@@ -79,7 +80,7 @@ public class VoucherService {
 
 		List<Customer> customers = customerRepository.findAllById(customerIds);
 		return customers.stream()
-			.map(CustomerDto::from)
+			.map(CustomerResponse::from)
 			.toList();
 	}
 
