@@ -1,9 +1,7 @@
 package com.prgrms.vouchermanager.service;
 
-import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.exception.NotCorrectIdException;
-import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -11,17 +9,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.util.List;
 import java.util.UUID;
 
-@SpringJUnitConfig
+@SpringBootTest
 class CustomerServiceTest {
     @Autowired
     private CustomerService service;
@@ -33,10 +27,6 @@ class CustomerServiceTest {
     private final Customer customer1 = new Customer("스카라무슈", 1995);
     private final Customer customer2 = new Customer("종려", 1990);
     private final static String DELETE_CUSTOMERS_QUERY = "delete from customers;";
-
-    @Configuration
-    static class TestConfig extends AppConfig {
-    }
 
     @BeforeEach
     void beforeEach() {

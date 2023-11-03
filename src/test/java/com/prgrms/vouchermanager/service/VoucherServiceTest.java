@@ -1,12 +1,8 @@
 package com.prgrms.vouchermanager.service;
 
-import com.prgrms.vouchermanager.AppConfig;
-import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.voucher.VoucherType;
-import com.prgrms.vouchermanager.dto.voucher.VoucherRequest;
-import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
 import com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -14,19 +10,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.ActiveProfiles;
 
-import javax.sql.DataSource;
 import java.util.List;
 
-import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.*;
-import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherRequest.VoucherCreateRequest;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.VoucherDetailResponse;
 
-@SpringJUnitConfig
+@SpringBootTest
+@ActiveProfiles("jdbc")
 class VoucherServiceTest {
 
     @Autowired
@@ -37,10 +31,6 @@ class VoucherServiceTest {
     private JdbcTemplate template;
     private final Voucher voucher = new PercentAmountVoucher(10);
     private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
-
-    @Configuration
-    static class TestConfig extends AppConfig {
-    }
 
     @BeforeEach
     void beforeEach() {

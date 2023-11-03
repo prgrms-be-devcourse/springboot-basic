@@ -1,12 +1,10 @@
 package com.prgrms.vouchermanager.repository.wallet;
 
-import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
-import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository;
 import org.assertj.core.api.Assertions;
@@ -15,16 +13,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.util.List;
 
-@SpringJUnitConfig
+@SpringBootTest
 class WalletRepositoryTest {
 
     @Autowired
@@ -44,10 +38,6 @@ class WalletRepositoryTest {
     private final static String DELETE_WALLETS_QUERY = "delete from wallets;";
     private final static String DELETE_CUSTOMERS_QUERY = "delete from customers;";
     private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
-
-    @Configuration
-    static class TestConfig extends AppConfig {
-    }
 
     @BeforeEach
     void beforeEach() {

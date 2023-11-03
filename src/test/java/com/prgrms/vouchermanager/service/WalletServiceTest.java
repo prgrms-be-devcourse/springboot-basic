@@ -1,16 +1,10 @@
 package com.prgrms.vouchermanager.service;
 
-import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.customer.Customer;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
 import com.prgrms.vouchermanager.domain.wallet.Wallet;
-import com.prgrms.vouchermanager.dto.customer.CustomerResponse;
-import com.prgrms.vouchermanager.dto.voucher.VoucherResponse;
-import com.prgrms.vouchermanager.dto.wallet.WalletRequest;
-import com.prgrms.vouchermanager.dto.wallet.WalletResponse;
-import com.prgrms.vouchermanager.repository.customer.BlacklistFileRepository;
 import com.prgrms.vouchermanager.repository.customer.CustomerRepository;
 import com.prgrms.vouchermanager.repository.voucher.VoucherJdbcRepository;
 import com.prgrms.vouchermanager.repository.wallet.WalletRepository;
@@ -20,21 +14,17 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.util.List;
 
-import static com.prgrms.vouchermanager.dto.customer.CustomerResponse.*;
-import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.*;
-import static com.prgrms.vouchermanager.dto.wallet.WalletRequest.*;
-import static com.prgrms.vouchermanager.dto.wallet.WalletResponse.*;
+import static com.prgrms.vouchermanager.dto.customer.CustomerResponse.CustomerDetailResponse;
+import static com.prgrms.vouchermanager.dto.voucher.VoucherResponse.VoucherDetailResponse;
+import static com.prgrms.vouchermanager.dto.wallet.WalletRequest.WalletDetailRequest;
+import static com.prgrms.vouchermanager.dto.wallet.WalletResponse.WalletDetailResponse;
 
-@SpringJUnitConfig
+@SpringBootTest
 class WalletServiceTest {
     @Autowired
     private WalletRepository repository;
@@ -55,9 +45,6 @@ class WalletServiceTest {
     private final static String DELETE_CUSTOMERS_QUERY = "delete from customers;";
     private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
 
-    @Configuration
-    static class TestConfig extends AppConfig {
-    }
 
     @BeforeEach
     void beforeEach() {

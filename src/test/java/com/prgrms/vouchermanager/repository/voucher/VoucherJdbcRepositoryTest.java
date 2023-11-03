@@ -1,6 +1,5 @@
 package com.prgrms.vouchermanager.repository.voucher;
 
-import com.prgrms.vouchermanager.AppConfig;
 import com.prgrms.vouchermanager.domain.voucher.FixedAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.PercentAmountVoucher;
 import com.prgrms.vouchermanager.domain.voucher.Voucher;
@@ -10,17 +9,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 
-@SpringJUnitConfig
+@SpringBootTest
 class VoucherJdbcRepositoryTest {
     @Autowired
     private VoucherJdbcRepository repository;
@@ -31,18 +26,16 @@ class VoucherJdbcRepositoryTest {
     private final Voucher voucher2 = new PercentAmountVoucher(10);
     private final static String DELETE_VOUCHERS_QUERY = "delete from vouchers;";
 
-        @Configuration
-        static class TestConfig extends AppConfig {
-        }
-
     @BeforeEach
     void beforeEach() {
         repository.create(voucher2);
     }
+
     @AfterEach
     void afterEach() {
         template.execute(DELETE_VOUCHERS_QUERY);
     }
+
     @Test
     @DisplayName("create")
     void create() {
