@@ -1,6 +1,9 @@
 voucher_file: src/main/resources/csvFiles/voucherList.csv
 blackList_file: src/main/resources/csvFiles/customer_blacklist.csv
 
+server:
+  port: 8090
+
 spring:
   profiles:
     active: DB
