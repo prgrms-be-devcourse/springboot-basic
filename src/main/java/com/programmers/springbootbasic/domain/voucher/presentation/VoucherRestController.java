@@ -58,7 +58,7 @@ public class VoucherRestController {
     }
 
     @PutMapping("/{id}")
-    public void updateVoucher(@PathVariable UUID id, UpdateVoucherRequest request) {
+    public void updateVoucher(@PathVariable UUID id, @RequestBody UpdateVoucherRequest request) {
         voucherService.update(id, request);
     }
 }
