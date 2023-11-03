@@ -1,0 +1,27 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Home</title>
+</head>
+<body class="container-fluid">
+<h1>Vouchers</h1>
+<h2>New Voucher</h2>
+<form th:action="@{/vouchers/new}" method="post">
+    <div class="input-group mb-3">
+        <select class="form-select" aria-label="Voucher Type" name="voucherType">
+            <option value="FIXED">Fixed</option>
+            <option value="PERCENT">Percent</option>
+        </select>
+        <input type="number" class="form-control" placeholder="Discount Value" min="0"
+               aria-label="Discount Value" name="discountValue">
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+</body>
+</html>
