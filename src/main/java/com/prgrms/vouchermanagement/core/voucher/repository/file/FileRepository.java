@@ -44,4 +44,9 @@ public class FileRepository implements VoucherRepository {
     public Optional<Voucher> findById(String id) {
         return Optional.empty();
     }
+
+    @Override
+    public List<Voucher> findAllByIds(List<String> idList) {
+        return null;
+    }
 }

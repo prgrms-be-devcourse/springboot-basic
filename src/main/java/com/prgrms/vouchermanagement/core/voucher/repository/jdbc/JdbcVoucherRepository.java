@@ -1,15 +1,16 @@
 package com.prgrms.vouchermanagement.core.voucher.repository.jdbc;
 
+import com.prgrms.vouchermanagement.core.customer.domain.Customer;
 import com.prgrms.vouchermanagement.core.voucher.domain.Voucher;
 import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 import com.prgrms.vouchermanagement.core.voucher.repository.VoucherRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Profile("prod")
 @Repository
@@ -54,8 +55,28 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(String id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from vouchers where id = ?",
+        List<Voucher> vouchers = jdbcTemplate.query("select * from vouchers where id = ?",
                 voucherRowMapper,
-                id));
+                id);
+        if (vouchers.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(vouchers.get(0));
+    }
+
+    @Override
+    public List<Voucher> findAllByIds(List<String> idList) {
+        if (idList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        StringJoiner joiner = new StringJoiner(",", "(", ")");
+        for (int i = 0; i < idList.size(); i++) {
+            joiner.add("?");
+        }
+
+        String sql = "SELECT * FROM vouchers WHERE id IN " + joiner.toString();
+
+        return jdbcTemplate.query(sql, idList.toArray(), voucherRowMapper);
     }
 }
