@@ -2,13 +2,16 @@ package org.programmers.springorder.voucher.controller;
 
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
+import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class VoucherPageController {
@@ -33,8 +36,15 @@ public class VoucherPageController {
 
     @PostMapping("/vouchers")
     public String createVoucher(VoucherRequestDto voucherRequestDto) {
-        voucherService.save(voucherRequestDto);
+        voucherService.saveNewVoucher(voucherRequestDto);
         return "redirect:vouchers";
+    }
+
+    @GetMapping("/vouchers/{voucherId}")
+    public String getVoucherDetail(@PathVariable UUID voucherId, Model model){
+        Voucher voucher = voucherService.getVoucherById(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "voucher-detail";
     }
 
 }
