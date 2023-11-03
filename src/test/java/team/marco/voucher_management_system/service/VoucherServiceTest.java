@@ -3,7 +3,7 @@ package team.marco.voucher_management_system.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import team.marco.voucher_management_system.controller.voucher.VoucherCreateRequest;
+import team.marco.voucher_management_system.controller.voucher.dto.VoucherCreateRequest;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 import team.marco.voucher_management_system.repository.voucher.MemoryVoucherRepository;
 import team.marco.voucher_management_system.repository.voucher.VoucherRepository;

@@ -1,6 +1,8 @@
 package team.marco.voucher_management_system.controller.voucher;
 
 import org.springframework.stereotype.Controller;
+import team.marco.voucher_management_system.controller.voucher.dto.VoucherCreateRequest;
+import team.marco.voucher_management_system.controller.voucher.dto.VoucherResponse;
 import team.marco.voucher_management_system.service.voucher.VoucherService;
 
 import java.util.List;

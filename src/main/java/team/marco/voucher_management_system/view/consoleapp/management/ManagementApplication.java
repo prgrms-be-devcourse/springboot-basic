@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.controller.customer.CustomerController;
 import team.marco.voucher_management_system.controller.voucher.VoucherController;
-import team.marco.voucher_management_system.controller.voucher.VoucherCreateRequest;
+import team.marco.voucher_management_system.controller.voucher.dto.VoucherCreateRequest;
 
 import java.io.UncheckedIOException;
 

@@ -1,6 +1,6 @@
 package team.marco.voucher_management_system.view.consoleapp;
 
-import team.marco.voucher_management_system.controller.voucher.VoucherResponse;
+import team.marco.voucher_management_system.controller.voucher.dto.VoucherResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
