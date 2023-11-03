@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer 페이지</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="p-5 mb-5 text-center</> bg-light">
+    <h1 class="mb-3">Customer</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <button type="button" id="create-btn"
+                    th:onclick="|location.href='@{/customers/new-customer}'|"
+                    class="btn btn-primary"
+                    style="float: right;">등록
+            </button>
+        </div>
+    </div>
+    <br/>
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>TYPE</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}" th:object="${customer}">
+                <td th:text="*{customerId}" }>Customer ID</td>
+                <td th:text="*{name}" }>Customer Name</td>
+                <td th:text="*{customerType}" }>Customer Type</td>
+                <td><a th:href="@{/customers/{id}(id=*{customerId})}" class="btn btn-light">상세 보기</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
