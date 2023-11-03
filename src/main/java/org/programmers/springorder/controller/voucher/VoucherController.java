@@ -1,4 +1,4 @@
-package org.programmers.springorder.controller;
+package org.programmers.springorder.controller.voucher;
 
 import org.programmers.springorder.console.Console;
 import org.programmers.springorder.constant.Message;

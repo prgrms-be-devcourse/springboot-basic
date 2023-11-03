@@ -1,4 +1,4 @@
-package org.programmers.springorder.controller;
+package org.programmers.springorder.controller.voucher;
 
 import org.programmers.springorder.dto.voucher.VoucherRequestDto;
 import org.programmers.springorder.dto.voucher.VoucherResponseDto;

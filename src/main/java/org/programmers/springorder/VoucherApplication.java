@@ -2,8 +2,8 @@ package org.programmers.springorder;
 
 import org.programmers.springorder.console.Console;
 import org.programmers.springorder.controller.CustomerController;
-import org.programmers.springorder.controller.VoucherController;
 import org.programmers.springorder.controller.WalletController;
+import org.programmers.springorder.controller.voucher.VoucherController;
 import org.programmers.springorder.utils.ExceptionHandler;
 import org.programmers.springorder.utils.MenuType;
 import org.springframework.boot.CommandLineRunner;
