@@ -1,17 +1,17 @@
 package com.programmers.springbasic.entity.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
-
-import com.programmers.springbasic.entity.customer.Customer;
 
 public abstract class Voucher {
 	protected final UUID voucherId;
 	protected final VoucherType voucherType;
-	protected Customer customer;
+	protected final LocalDateTime createdAt;
 
-	protected Voucher(UUID voucherId, VoucherType voucherType) {
+	protected Voucher(UUID voucherId, VoucherType voucherType, LocalDateTime createdAt) {
 		this.voucherId = voucherId;
 		this.voucherType = voucherType;
+		this.createdAt = createdAt;
 	}
 
 	public UUID getVoucherId() {
@@ -20,6 +20,10 @@ public abstract class Voucher {
 
 	public VoucherType getVoucherType() {
 		return voucherType;
+	}
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
 	}
 
 	public abstract long getDiscountValue();

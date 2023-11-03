@@ -1,5 +1,7 @@
 package com.programmers.springbasic.utils.mapper;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -24,7 +26,8 @@ public class VoucherCsvFileMapper {
 			return String.join(DELIMITER,
 				entry.getKey().toString(),
 				voucher.getVoucherType().toString(),
-				String.valueOf(voucher.getDiscountValue()));
+				String.valueOf(voucher.getDiscountValue()),
+				voucher.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 		}).toList();
 	}
 
@@ -34,13 +37,15 @@ public class VoucherCsvFileMapper {
 				String[] parts = line.split(DELIMITER);
 				UUID id = UUID.fromString(parts[0]);
 				VoucherType type = VoucherType.valueOf(parts[1]);
+				LocalDateTime createdAt = LocalDateTime.parse(parts[3],
+					DateTimeFormatter.ISO_LOCAL_DATE_TIME); 
 
 				if (type == VoucherType.FIXED_AMOUNT) {
 					long amount = Long.parseLong(parts[2]);
-					return new FixedAmountVoucher(id, amount);
+					return new FixedAmountVoucher(id, amount, createdAt);
 				} else if (type == VoucherType.PERCENT_DISCOUNT) {
 					long percent = Long.parseLong(parts[2]);
-					return new PercentDiscountVoucher(id, percent);
+					return new PercentDiscountVoucher(id, percent, createdAt);
 				}
 				return null;
 			})
