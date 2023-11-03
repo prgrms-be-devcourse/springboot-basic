@@ -19,13 +19,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
-import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
 import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.repository.customer.BlacklistCustomerRepository;
 import com.programmers.springbasic.repository.customer.CustomerRepository;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
+import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.repository.voucher.VoucherRepository;
 import com.programmers.springbasic.repository.wallet.WalletRepository;
 

@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -20,14 +19,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
-import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
 import com.programmers.springbasic.entity.voucher.PercentDiscountVoucher;
 import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.entity.voucher.VoucherType;
 import com.programmers.springbasic.repository.customer.CustomerRepository;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
+import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.repository.voucher.VoucherRepository;
 import com.programmers.springbasic.repository.wallet.WalletRepository;
 
@@ -61,7 +60,7 @@ class VoucherServiceTest {
 
 	@Test
 	void 바우처_목록을_조회한다() {
-		List<Voucher> vouchers = Arrays.asList(voucher1,voucher2);
+		List<Voucher> vouchers = Arrays.asList(voucher1, voucher2);
 		when(voucherRepository.findByCriteria(null, null, null)).thenReturn(vouchers);
 
 		List<VoucherResponse> response = voucherService.getVouchers(null, null, null);

@@ -34,7 +34,8 @@ class PercentDiscountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long invalidPercent = 110;
 
-		assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(voucherId, invalidPercent, LocalDateTime.now()));
+		assertThrows(IllegalArgumentException.class,
+			() -> new PercentDiscountVoucher(voucherId, invalidPercent, LocalDateTime.now()));
 	}
 
 	@Test
