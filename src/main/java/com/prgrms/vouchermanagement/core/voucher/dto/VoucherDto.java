@@ -4,13 +4,19 @@ import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 
 public class VoucherDto {
 
-    private final String id;
+    private String id;
     private final String name;
     private final long amount;
     private final VoucherType voucherType;
 
     public VoucherDto(String id, String name, long amount, VoucherType voucherType) {
         this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.voucherType = voucherType;
+    }
+
+    public VoucherDto(String name, long amount, VoucherType voucherType) {
         this.name = name;
         this.amount = amount;
         this.voucherType = voucherType;
