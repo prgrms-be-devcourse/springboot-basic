@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.voucher.controller;
 
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
@@ -51,10 +50,10 @@ public class VoucherController {
         voucherService.deleteAll();
     }
 
-    @PutMapping
+    @PutMapping("/{voucherId}")
     @ResponseBody
-    public void update(Voucher voucher) {
-        voucherService.update(voucher);
+    public void update(@PathVariable("voucherId") UUID voucherId, CreateVoucherRequest createVoucherRequest) {
+        voucherService.update(voucherId, createVoucherRequest);
     }
 
 }
