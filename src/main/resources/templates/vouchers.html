@@ -45,7 +45,7 @@
         <tbody>
         <tr th:each="voucher, i: ${voucherList}" th:object="${voucher}">
             <td th:text="${i.index + 1}"></td>
-            <th th:text="*{voucherId()}"></th>
+            <th><a th:text="*{voucherId()}" th:href="@{/vouchers/{voucherId}(voucherId=*{voucherId()})}"></a></th>
             <td th:text="*{voucherType()}"></td>
             <td th:text="*{discountValue()}"></td>
         </tr>
