@@ -27,7 +27,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAllBlackCustomer() {
+    public List<Customer> findBlocklist() {
         return jdbcTemplate.query(FIND_ALL_BLACK_CUSTOMER, domainMapper.customerRowMapper);
     }
 

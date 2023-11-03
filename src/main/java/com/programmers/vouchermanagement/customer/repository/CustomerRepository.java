@@ -9,5 +9,5 @@ public interface CustomerRepository {
 
     List<Customer> findAll();
 
-    List<Customer> findAllBlackCustomer();
+    List<Customer> findBlocklist();
 }

@@ -34,9 +34,9 @@ public class CustomerController {
         return customerService.readAll();
     }
 
-    @GetMapping("/blacklist")
+    @GetMapping("/blocklist")
     @ResponseBody
-    public List<CustomerDto> readAllBlackCustomer() {
-        return customerService.readAllBlackCustomer();
+    public List<CustomerDto> readBlocklist() {
+        return customerService.readBlocklist();
     }
 }

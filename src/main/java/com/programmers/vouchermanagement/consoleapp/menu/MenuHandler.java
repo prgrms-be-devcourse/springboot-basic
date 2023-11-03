@@ -74,7 +74,7 @@ public class MenuHandler {
             }
             //TODO: customerDTO
             case BLACKLIST -> {
-                List<CustomerDto> blackCustomers = customerController.readAllBlackCustomer();
+                List<CustomerDto> blackCustomers = customerController.readBlocklist();
                 consoleManager.printReadBlacklist(blackCustomers);
             }
         }

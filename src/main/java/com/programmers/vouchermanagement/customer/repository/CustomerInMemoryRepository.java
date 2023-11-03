@@ -32,7 +32,7 @@ public class CustomerInMemoryRepository implements CustomerRepository {
     }
 
     @Override
-    public List<Customer> findAllBlackCustomer() {
+    public List<Customer> findBlocklist() {
         return customers.values()
                 .stream()
                 .filter(Customer::isBlack)

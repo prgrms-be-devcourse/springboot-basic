@@ -40,7 +40,7 @@ class CustomerJDBCRepositoryTest {
         customerJDBCRepository.save(new Customer(UUID.randomUUID(), "고객1", false));
         customerJDBCRepository.save(new Customer(UUID.randomUUID(), "고객2", true));
         customerJDBCRepository.save(new Customer(UUID.randomUUID(), "고객3", false));
-        List<Customer> customers = customerJDBCRepository.findAllBlackCustomer();
+        List<Customer> customers = customerJDBCRepository.findBlocklist();
         assertThat(customers.isEmpty()).isFalse();
         assertThat(customers.stream().filter(customer -> !customer.isBlack()).toList()).isEmpty();
     }
