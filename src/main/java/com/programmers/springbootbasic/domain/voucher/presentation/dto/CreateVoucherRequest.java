@@ -3,12 +3,15 @@ package com.programmers.springbootbasic.domain.voucher.presentation.dto;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherType;
 import com.programmers.springbootbasic.domain.voucher.domain.VoucherType.VoucherTypeEnum;
 import com.programmers.springbootbasic.domain.voucher.domain.entity.Voucher;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class CreateVoucherRequest {
 
+    @NotNull
     private VoucherType voucherType;
+    @NotNull
     private Integer benefitValue;
 
     private CreateVoucherRequest(VoucherTypeEnum voucherType, Integer benefitValue) {
