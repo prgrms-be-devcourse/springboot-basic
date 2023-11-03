@@ -19,23 +19,28 @@ public class CustomerMVCController {
         this.customerService = customerService;
     }
 
-    @PostMapping
+    @PostMapping("/new")
     public String create(CreateCustomerRequest createCustomerRequest) {
         customerService.create(createCustomerRequest);
-        return "redirect:/customers/blacklist";
+        return "redirect:/customers";
+    }
+
+    @GetMapping("/new")
+    public String viewCreatePage() {
+        return "customer/customer-new";
     }
 
     @GetMapping
     public String readAll(Model model) {
-        model.addAttribute("list-title", "all");
+        model.addAttribute("mode", "all");
         model.addAttribute("customers", customerService.readAll());
-        return "views/customers";
+        return "customer/customers";
     }
 
     @GetMapping("/blacklist")
     public String readAllBlackCustomer(Model model) {
-        model.addAttribute("list-title", "blacklist");
+        model.addAttribute("mode", "blacklist");
         model.addAttribute("customers", customerService.readAllBlackCustomer());
-        return "views/customers";
+        return "customer/customers";
     }
 }
