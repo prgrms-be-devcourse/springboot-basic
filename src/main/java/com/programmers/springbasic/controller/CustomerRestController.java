@@ -20,6 +20,8 @@ import com.programmers.springbasic.repository.dto.customer.UpdateCustomerRequest
 import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.service.CustomerService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/customers")
 public class CustomerRestController {
@@ -37,7 +39,7 @@ public class CustomerRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<CustomerResponse> createCustomer(@RequestBody CreateCustomerRequest request) {
+	public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
 		CustomerResponse customerResponse = customerService.createCustomer(request.name(), request.name());
 		return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
 	}
@@ -56,7 +58,7 @@ public class CustomerRestController {
 
 	@PatchMapping("/{customerId}")
 	public ResponseEntity<CustomerResponse> updateCustomer(@PathVariable UUID customerId,
-		@RequestBody UpdateCustomerRequest request) {
+		@Valid @RequestBody UpdateCustomerRequest request) {
 		CustomerResponse updatedCustomer = customerService.updateCustomer(customerId, request.nameToUpdate());
 		return ResponseEntity.ok(updatedCustomer);
 	}

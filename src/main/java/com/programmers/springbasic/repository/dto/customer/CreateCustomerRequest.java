@@ -1,4 +1,10 @@
 package com.programmers.springbasic.repository.dto.customer;
 
-public record CreateCustomerRequest(String name, String email) {
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record CreateCustomerRequest(
+	@NotBlank String name,
+	@NotBlank @Email String email
+) {
 }

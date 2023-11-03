@@ -1,4 +1,6 @@
 package com.programmers.springbasic.repository.dto.customer;
 
-public record UpdateCustomerRequest(String nameToUpdate) {
+import jakarta.validation.constraints.NotBlank;
+
+public record UpdateCustomerRequest(@NotBlank String nameToUpdate) {
 }

@@ -23,6 +23,8 @@ import com.programmers.springbasic.repository.dto.voucher.UpdateVoucherRequest;
 import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.service.VoucherService;
 
+import jakarta.validation.Valid;
+
 @RequestMapping("/api/v1/vouchers")
 @RestController
 public class VoucherRestController {
@@ -34,7 +36,7 @@ public class VoucherRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<VoucherResponse> createVoucher(@RequestBody CreateVoucherRequest request) {
+	public ResponseEntity<VoucherResponse> createVoucher(@Valid @RequestBody CreateVoucherRequest request) {
 		VoucherResponse voucher = voucherService.createVoucher(request.voucherType(), request.discountValue());
 		return new ResponseEntity<>(voucher, HttpStatus.CREATED);
 	}
@@ -56,7 +58,7 @@ public class VoucherRestController {
 
 	@PutMapping("/{voucherId}")
 	public ResponseEntity<VoucherResponse> updateVoucher(@PathVariable UUID voucherId,
-		@RequestBody UpdateVoucherRequest request) {
+		@Valid @RequestBody UpdateVoucherRequest request) {
 		VoucherResponse updatedVoucher = voucherService.updateVoucher(voucherId, request.newDiscountValue());
 		return ResponseEntity.ok(updatedVoucher);
 	}
