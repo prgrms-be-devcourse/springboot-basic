@@ -29,6 +29,7 @@
         </tbody>
     </table>
     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a th:href="@{/wallet}" class="btn btn-primary me-md-2" type="button">Wallet List</a>
         <form th:action="@{'/wallet/vouchers/' + ${customerId}}" method="post">
             <button type="submit" class="btn btn-danger">Delete Vouchers</button>
         </form>

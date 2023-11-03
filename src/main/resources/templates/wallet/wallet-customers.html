@@ -9,22 +9,25 @@
     <title>Voucher Management Application</title>
 </head>
 <body class="container-fluid">
-<h1>Customer List</h1>
-<table class="table table-hover table-striped">
-    <thead>
-    <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Name</th>
-        <th scope="col">Type</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="customer : ${customers}" th:object="${customer}">
-        <td th:text="*{customerId}"></td>
-        <td th:text="*{name}"></td>
-        <td th:text="*{customerType}"></td>
-    </tr>
-    </tbody>
-</table>
+    <h1>Customer List</h1>
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customers}" th:object="${customer}">
+            <td th:text="*{customerId}"></td>
+            <td th:text="*{name}"></td>
+            <td th:text="*{customerType}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a th:href="@{/wallet}" class="btn btn-primary me-md-2" type="button">Wallet List</a>
+    </div>
 </body>
 </html>
