@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>고객 상세 정보</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <!-- 목록으로 돌아가기 버튼 -->
+    <div class="row mb-4">
+        <div class="col">
+            <a href="/customer-list" class="btn btn-secondary">목록으로 돌아가기</a>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">고객 상세 정보</h4>
+                </div>
+                <div class="card-body" id="customerDetails">
+                    <!-- API 호출 결과가 여기에 표시됨 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 보유한 바우처 목록을 표시할 섹션 -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">보유한 바우처 목록</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table" id="customerVouchers">
+                        <!-- 바우처 목록이 여기에 표시됨 -->
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 바우처 할당 섹션 -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">바우처 할당</h4>
+                </div>
+                <div class="card-body">
+                    <!-- 바우처 선택 드롭다운 -->
+                    <div class="form-group">
+                        <label for="voucherSelect">바우처 선택:</label>
+                        <select class="form-control" id="voucherSelect">
+                            <!-- 서버에서 받아온 바우처 목록이 여기에 표시됨 -->
+                        </select>
+                    </div>
+                    <!-- 할당 버튼 -->
+                    <button class="btn btn-primary" onclick="assignVoucher()">할당하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    // 전역 변수로 고객 ID 저장
+    let globalCustomerId = null;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const customerId = /*[[${customerId}]]*/ 'defaultId';
+        globalCustomerId = customerId;
+
+        // 고객 상세 정보 가져오기
+        fetch('/api/v1/customers/' + customerId)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 고객 상세 정보 표시
+                const detailsDiv = document.getElementById('customerDetails');
+                detailsDiv.innerHTML = `
+                    <p><strong>ID:</strong> ${data.id}</p>
+                    <p><strong>Name:</strong> ${data.name}</p>
+                    <p><strong>Email:</strong> ${data.email}</p>
+                `;
+
+                // 고객이 보유한 바우처 목록 가져오기
+                return fetch('/api/v1/customers/' + customerId + '/vouchers');
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(vouchers => {
+                // 바우처 목록 표시
+                const vouchersTable = document.getElementById('customerVouchers');
+                vouchersTable.innerHTML = `
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Discount Value</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${vouchers.map(voucher =>
+                    `<tr>
+                                <td>${voucher.voucherType}</td>
+                                <td>${voucher.discountValue}</td>
+                                <td><button class="btn btn-danger" onclick="removeVoucher('${customerId}', '${voucher.voucherId}')">삭제</button></td>
+                            </tr>`
+                ).join('')}
+                    </tbody>
+                `;
+
+                // 사용 가능한 바우처 목록 가져오기
+                return fetch('/api/v1/vouchers');
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(vouchers => {
+                // 사용 가능한 바우처를 드롭다운 목록에 추가
+                const voucherSelect = document.getElementById('voucherSelect');
+                vouchers.forEach(voucher => {
+                    const option = document.createElement('option');
+                    option.value = voucher.voucherId;
+                    option.textContent = `${voucher.voucherType} - ${voucher.discountValue}`;
+                    voucherSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                alert("고객 상세 정보 표시 중 문제가 발생했습니다");
+            });
+    });
+
+    function removeVoucher(customerId, voucherId) {
+        fetch('/api/v1/customers/' + customerId + '/vouchers/' + voucherId, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok. Status: ' + response.status);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            alert("바우처 삭제 중 문제가 발생했습니다");
+        });
+    }
+
+    // 바우처 할당 함수
+    function assignVoucher() {
+        const customerId = globalCustomerId;
+        const voucherId = document.getElementById('voucherSelect').value;
+        // 바우처 할당을 위한 API 요청
+        fetch('/api/v1/customers/' + customerId + '/vouchers/' + voucherId, {
+            method: 'POST'
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok. Status: ' + response.status);
+            }
+            location.reload();
+        })
+        .catch(error => {
+            alert("바우처 할당 중 문제가 발생했습니다");
+        });
+    }
+
+    function handleError(message) {
+        alert("바우처 생성 중 문제가 발생했습니다");
+    }
+</script>
+
+<!-- Bootstrap JavaScript -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
