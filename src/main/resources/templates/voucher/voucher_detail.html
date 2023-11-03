@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layouts/layout}">
+
+<th:block layout:fragment="content">
+    <div class="row main-head ">
+        <div class="col-12 main-title ">
+            # 쿠폰 목록
+        </div>
+    </div>
+    <div class="row ">
+        <div class="table-responsive portlet">
+            <table class="table table-sm table-hover tb-success">
+                <tr class="center">
+                    <th>ID</th>
+                    <th>쿠폰명</th>
+                    <th>쿠폰 코드</th>
+                </tr>
+                    <tr>
+                        <td th:text="${voucher.id}"></td>
+                        <td th:text="${voucher.name}"></td>
+                        <td th:text="${voucher.code}"></td>
+                    </tr>
+            </table>
+        </div>
+    </div>
+</th:block>
+</html>

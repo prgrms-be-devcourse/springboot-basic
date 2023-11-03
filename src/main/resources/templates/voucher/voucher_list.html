@@ -28,7 +28,9 @@
                                 </form>
                             </th>
                             <td th:text="${voucher.id}"></td>
-                            <td th:text="${voucher.name}"></td>
+                            <td>
+                                <a th:href="@{/vouchers/{voucherId}(voucherId = ${voucher.id})}" th:text="${voucher.name}"></a>
+                            </td>
                             <td th:text="${voucher.code}"></td>
                         </tr>
                     </th:block>
