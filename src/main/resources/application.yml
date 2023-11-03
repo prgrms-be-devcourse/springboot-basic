@@ -14,6 +14,8 @@ spring:
     check-template-location: false
     enabled: true
 
+  mvc.hiddenmethod.filter.enabled: true
+
 file:
   path:
     blacklist: "src/main/resources/data/blacklist.csv"

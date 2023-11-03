@@ -14,16 +14,23 @@
             <div class="table-responsive portlet">
                 <table class="table table-sm table-hover tb-success">
                     <tr class="center">
+                        <th></th>
                         <th>ID</th>
                         <th>쿠폰명</th>
                         <th>쿠폰 코드</th>
                     </tr>
                     <th:block th:each="voucher : ${vouchers}">
-                    <tr>
-                        <td th:text="${voucher.id}"></td>
-                        <td th:text="${voucher.name}"></td>
-                        <td th:text="${voucher.code}"></td>
-                    </tr>
+                        <tr>
+                            <th>
+                                <form th:action="@{'/vouchers/' + ${voucher.id}}" method="post">
+                                    <input type="hidden" name="_method" value="DELETE" />
+                                    <button type="submit"> X </button>
+                                </form>
+                            </th>
+                            <td th:text="${voucher.id}"></td>
+                            <td th:text="${voucher.name}"></td>
+                            <td th:text="${voucher.code}"></td>
+                        </tr>
                     </th:block>
                 </table>
             </div>
