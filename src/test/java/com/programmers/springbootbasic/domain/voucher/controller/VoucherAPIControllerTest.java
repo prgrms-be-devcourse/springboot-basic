@@ -113,7 +113,7 @@ class VoucherAPIControllerTest {
     void testFindVouchersByDateSuccess() throws Exception {
         // Arrange
         given(voucherService.findVouchersByDate(any(VoucherServiceRequestDto.class))).willReturn(List.of(VOUCHER));
-        var get = get("/api/vouchers/date/" + VOUCHER_CREATE_DATE);
+        var get = get("/api/vouchers").param("date", VOUCHER_CREATE_DATE.toString());
         // Act & Assert
         mvc.perform(get)
                 .andExpect(status().isOk())
@@ -139,7 +139,7 @@ class VoucherAPIControllerTest {
     void testFindVouchersByTypeSuccess() throws Exception {
         // Arrange
         given(voucherService.findVouchersByType(any(VoucherServiceRequestDto.class))).willReturn(List.of(VOUCHER));
-        var get = get("/api/vouchers/type/" + VOUCHER_TYPE);
+        var get = get("/api/vouchers").param("type", String.valueOf(VOUCHER_TYPE));
         // Act & Assert
         mvc.perform(get)
                 .andExpect(status().isOk())
