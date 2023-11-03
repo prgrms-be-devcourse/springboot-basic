@@ -28,6 +28,14 @@ public class CustomerService {
     }
 
     @Transactional(readOnly = true)
+    public List<CustomerResponseDto> getAllCustomer() {
+        return customerRepository.findAll()
+                .stream()
+                .map(CustomerResponseDto::of)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
     public List<CustomerResponseDto> getBlackList() {
         return customerRepository.findAllBlackList()
                 .stream()
@@ -40,4 +48,11 @@ public class CustomerService {
         return customerRepository.findById(customerId)
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.CUSTOMER_ID_NOT_EXIST_MESSAGE));
     }
+
+    @Transactional
+    public void deleteCustomer(UUID customerId) {
+        this.findById(customerId);
+        customerRepository.deleteById(customerId);
+    }
+
 }
