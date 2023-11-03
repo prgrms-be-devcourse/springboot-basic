@@ -35,7 +35,13 @@ public class CustomerService {
     }
 
     public Customer save(CreateCustomerDto dto) {
-        return repository.save(new Customer(dto.name(), dto.type()));
+        Customer customer = new Customer(dto.name(), dto.type());
+        try {
+            repository.findByName(customer.getName());
+        } catch (Exception e){
+            repository.save(customer);
+        }
+        throw new RuntimeException(CUSTOMER_ALREADY_EXISTS.getMessage());
     }
 
     public void update(UpdateCustomerDto dto) {
