@@ -25,6 +25,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private static final String SELECT_BLACKLIST_CUSTOMER = "SELECT * FROM customers where customer_type = 'BLACK'";
     private static final String SELECT_CUSTOMER_BY_ID = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
     private static final String DELETE_ALL_CUSTOMER = "DELETE FROM customers";
+    private static final String DELETE_CUSTOMER_BY_ID = "DELETE FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
 
 
     public JdbcCustomerRepository(DataSource dataSource) {
@@ -80,6 +81,12 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update(DELETE_ALL_CUSTOMER, Collections.emptyMap());
+    }
+
+    @Override
+    public void deleteById(UUID customerId) {
+        Map<String, Object> param = Map.of("customerId", customerId.toString());
+        jdbcTemplate.update(DELETE_CUSTOMER_BY_ID, param);
     }
 
 }

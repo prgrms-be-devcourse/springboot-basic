@@ -18,4 +18,7 @@ public interface CustomerRepository {
     Optional<Customer> findById(UUID customerId);  // 아이디로 회원 조회
 
     void deleteAll();   // 전체 회원 삭제
+
+    void deleteById(UUID customerId);
+
 }
