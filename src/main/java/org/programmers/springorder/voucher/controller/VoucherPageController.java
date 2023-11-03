@@ -42,7 +42,7 @@ public class VoucherPageController {
 
     @GetMapping("/vouchers/{voucherId}")
     public String getVoucherDetail(@PathVariable UUID voucherId, Model model){
-        Voucher voucher = voucherService.getVoucherById(voucherId);
+        VoucherResponseDto voucher = voucherService.getVoucherById(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher-detail";
     }
