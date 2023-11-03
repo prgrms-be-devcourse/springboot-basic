@@ -3,8 +3,11 @@ package org.programmers.springorder.dto.voucher;
 import org.programmers.springorder.model.voucher.VoucherType;
 
 public class VoucherRequestDto {
-    private final long discountValue;
-    private final VoucherType voucherType;
+    private long discountValue;
+    private VoucherType voucherType;
+
+    public VoucherRequestDto() {
+    }
 
     public VoucherRequestDto(long discountValue, VoucherType voucherType) {
         this.discountValue = discountValue;
@@ -18,6 +21,14 @@ public class VoucherRequestDto {
 
     public VoucherType getVoucherType() {
         return voucherType;
+    }
+
+    public void setDiscountValue(long discountValue) {
+        this.discountValue = discountValue;
+    }
+
+    public void setVoucherType(VoucherType voucherType) {
+        this.voucherType = voucherType;
     }
 
     private void validateDiscountRange() {
