@@ -23,4 +23,16 @@ public class FindVoucherResponseDto {
         System.out.println(MessageFormat.format("Voucher Id: {0}", voucherId));
         System.out.println(MessageFormat.format("Discount: {0}", discountValue));
     }
+
+    public UUID getVoucherId() {
+        return voucherId;
+    }
+
+    public long getDiscountValue() {
+        return discountValue;
+    }
+
+    public VoucherType getVoucherType() {
+        return voucherType;
+    }
 }
