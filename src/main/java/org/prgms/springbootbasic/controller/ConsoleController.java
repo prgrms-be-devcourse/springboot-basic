@@ -20,7 +20,7 @@ import static org.prgms.springbootbasic.console.Console.*;
 
 @Controller
 @Slf4j
-public class MainController {
+public class ConsoleController {
     private static final String EXIT = "exit";
     private static final String LIST_VOUCHER = "listVoucher";
     private static final String LIST_CUSTOMER = "listCustomer";
@@ -38,7 +38,7 @@ public class MainController {
     private final CustomerService customerService;
     private final CustomerVoucherManagementService managementService;
 
-    public MainController(VoucherService voucherService, CustomerService customerService, CustomerVoucherManagementService managementService) {
+    public ConsoleController(VoucherService voucherService, CustomerService customerService, CustomerVoucherManagementService managementService) {
         this.voucherService = voucherService;
         this.customerService = customerService;
         this.managementService = managementService;
