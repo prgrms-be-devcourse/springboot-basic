@@ -121,7 +121,7 @@ class WalletServiceTest {
             when(customerRepository.findByEmail(any(String.class))).thenReturn(Optional.of(customer));
             when(walletRepository.deleteByEmail(any(String.class))).thenReturn(Optional.of(wallet));
 
-            Wallet result = service.deleteByEmail("123@naver.com");
+            Optional<Wallet> result = service.deleteByEmail("123@naver.com");
 
             assertThat(result).isEqualTo(wallet);
             verify(customerRepository).findByEmail(any(String.class));

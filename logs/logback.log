@@ -40,3 +40,133 @@
 [2023-11-03 15:07:42:5876][main] INFO  o.p.v.h.w.ApiWalletControllerTest - Started ApiWalletControllerTest in 0.521 seconds (process running for 6.942)
 [2023-11-03 15:07:43:6264][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 [2023-11-03 15:07:43:6279][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-03 16:15:00:448][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:15:00:652][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:15:00:776][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:15:00:779][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:15:00:1099][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 25228 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:15:00:1100][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:15:02:2840][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.001 seconds (process running for 3.561)
+[2023-11-03 16:15:02:2894][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:15:03:3333][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3af236d0
+[2023-11-03 16:15:03:3335][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-03 16:15:04:4355][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:15:04:4357][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:15:04:4441][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-03 16:15:04:4453][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-03 16:15:41:426][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:15:41:583][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:15:41:706][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:15:41:709][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:15:41:1055][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 23388 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:15:41:1056][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:15:43:2887][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.113 seconds (process running for 3.552)
+[2023-11-03 16:15:43:2934][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:15:44:3385][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6bf570c
+[2023-11-03 16:15:44:3387][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-03 16:15:45:4364][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:15:45:4464][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-03 16:15:45:4476][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-03 16:16:57:434][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:16:57:617][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:16:57:752][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:16:57:756][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:16:58:1140][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 22512 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:16:58:1142][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:16:59:2957][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.126 seconds (process running for 3.637)
+[2023-11-03 16:16:59:3005][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:17:00:3455][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6bf570c
+[2023-11-03 16:17:00:3456][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-03 16:17:01:4439][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:17:01:4441][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:17:01:4520][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-03 16:17:01:4530][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-03 16:17:20:417][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:17:20:606][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:17:21:727][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:17:21:733][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:17:21:1078][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 17724 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:17:21:1079][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:17:23:2773][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.984 seconds (process running for 3.41)
+[2023-11-03 16:17:23:2816][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:17:23:3280][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@482ba4b1
+[2023-11-03 16:17:23:3283][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-03 16:17:24:4288][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:17:24:4374][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-03 16:17:24:4386][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-03 16:18:58:386][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:18:58:592][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:18:59:716][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:18:59:721][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:18:59:1037][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 14720 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:18:59:1038][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:19:01:2758][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 1.976 seconds (process running for 3.345)
+[2023-11-03 16:19:01:2797][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:19:01:3211][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3af236d0
+[2023-11-03 16:19:01:3214][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-03 16:19:02:4134][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:19:02:4216][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-03 16:19:02:4225][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-03 16:19:55:418][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:19:55:619][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:19:55:744][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:19:55:750][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:19:56:1077][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 11460 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:19:56:1078][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:19:57:2897][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.084 seconds (process running for 3.56)
+[2023-11-03 16:19:57:2942][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:19:58:3410][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@23564dd2
+[2023-11-03 16:19:58:3411][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-03 16:19:59:4416][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:19:59:4417][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:19:59:4489][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-03 16:19:59:4502][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-03 16:20:30:426][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:20:30:621][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:20:30:745][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:20:30:749][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:20:31:1070][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 22980 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:20:31:1071][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:20:32:2863][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.05 seconds (process running for 3.512)
+[2023-11-03 16:20:32:2912][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:20:33:3339][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3af236d0
+[2023-11-03 16:20:33:3341][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-03 16:20:34:4361][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:20:34:4456][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-03 16:20:34:4471][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-03 16:21:46:439][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:21:46:617][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:21:46:757][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:21:46:764][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:21:47:1094][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 19600 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:21:47:1095][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:21:49:2930][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.096 seconds (process running for 3.643)
+[2023-11-03 16:21:49:2981][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:21:52:437][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:21:52:623][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:21:52:753][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:21:52:759][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:21:52:1069][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 21712 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:21:52:1070][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:21:54:2854][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.037 seconds (process running for 3.555)
+[2023-11-03 16:21:54:2903][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:21:55:3360][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6bf570c
+[2023-11-03 16:21:55:3363][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-03 16:21:56:4344][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:21:56:4346][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:21:56:4423][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-03 16:21:56:4436][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[2023-11-03 16:22:12:514][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest]: JdbcWalletRepositoryTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:22:12:724][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest
+[2023-11-03 16:22:12:901][main] INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete]: delete does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+[2023-11-03 16:22:12:907][main] INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration org.prgrms.vouchermanager.VouchermanagerApplication for test class org.prgrms.vouchermanager.repository.wallet.JdbcWalletRepositoryTest$delete
+[2023-11-03 16:22:13:1299][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Starting JdbcWalletRepositoryTest using Java 17.0.6 with PID 20276 (started by dlswn in D:\Users\programmers\vouchermanager)
+[2023-11-03 16:22:13:1300][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - The following 1 profile is active: "jdbc"
+[2023-11-03 16:22:15:3185][main] INFO  o.p.v.r.w.JdbcWalletRepositoryTest - Started JdbcWalletRepositoryTest in 2.2 seconds (process running for 3.94)
+[2023-11-03 16:22:15:3232][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[2023-11-03 16:22:15:3687][main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1471b98d
+[2023-11-03 16:22:15:3689][main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[2023-11-03 16:22:16:4764][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:22:16:4766][main] ERROR o.p.v.r.wallet.JdbcWalletRepository - Not exists
+[2023-11-03 16:22:16:4841][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[2023-11-03 16:22:16:4853][SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

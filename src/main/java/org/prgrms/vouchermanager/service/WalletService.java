@@ -19,27 +19,21 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class WalletService {
-    private final JdbcVoucherRepository voucherRepository;
     private final JdbcWalletRepository walletRepository;
     private final JdbcCustomerRepository customerRepository;
 
     public WalletRequest createWallet(WalletRequest requestDto) {
-        String customerEmail = requestDto.getCustomerEmail();
-        customerRepository.findByEmail(customerEmail).orElseThrow(NotExistEmailException::new);
+        customerRepository.findByEmail(requestDto.getCustomerEmail()).orElseThrow(NotExistEmailException::new);
+        walletRepository.findByVoucher(requestDto.getVoucher()).orElseThrow(NotExistVoucherException::new);
         return walletRepository.save(requestDto);
     }
-//    public Optional<Wallet> findByEmail(String email) {
-//        return Optional.ofNullable(walletRepository.findByEmail(email).orElseThrow(NotExistEmailException::new));
-//    }
-
     public Wallet findByEmail(String email) {
-        Wallet wallet = walletRepository.findByEmail(email).orElseThrow(NotExistEmailException::new);
-        return wallet;
+        return walletRepository.findByEmail(email).orElseThrow(NotExistEmailException::new);
     }
 
-    public Wallet deleteByEmail(String email) {
+    public Optional<Wallet> deleteByEmail(String email) {
         customerRepository.findByEmail(email).orElseThrow(NotExistEmailException::new);
-        return walletRepository.deleteByEmail(email).orElseThrow(FailToDeleteException::new);
+        return walletRepository.deleteByEmail(email);
     }
 
     public Wallet findByVoucher(Voucher voucher) {

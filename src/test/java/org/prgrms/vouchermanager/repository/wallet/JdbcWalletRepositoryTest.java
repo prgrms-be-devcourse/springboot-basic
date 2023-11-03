@@ -102,5 +102,21 @@ class JdbcWalletRepositoryTest {
 
             assertThat(wallet).isEmpty();
         }
+        @Test
+        @DisplayName("없는 고객의 이메일을 해당 고객의 바우처를 제거할 수 있다.")
+        void deleteByEmailNotExist(){
+            Customer customer = jdbcCustomerRepository.save(CustomerData.getCustomer());
+            Voucher voucher = jdbcVoucherRepository.save(VoucherData.getFixedVoucher());
+            WalletRequest dto = WalletRequest.builder()
+                    .customerEmail(customer.getEmail())
+                    .voucher(voucher).build();
+            jdbcWalletRepository.save(dto);
+
+            Optional<Wallet> wallet1 = jdbcWalletRepository.deleteByEmail(customer.getEmail());
+            Optional<Wallet> wallet = jdbcWalletRepository.findByEmail(customer.getEmail());
+
+            assertThat(wallet).isEmpty();
+            assertThat(wallet1).isEmpty();
+        }
     }
 }
