@@ -9,29 +9,47 @@
     <title>Voucher Management Application</title>
 </head>
 <body class="container-fluid">
-<h1>Wallet List</h1>
-<table class="table table-hover table-striped">
-    <thead>
-    <tr>
-        <th scope="col">Wallet ID</th>
-        <th scope="col">Customer ID</th>
-        <th scope="col">Voucher ID</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="wallet : ${wallets}" th:object="${wallet}">
-        <td th:text="*{walletId}"></td>
-        <td>
-            <a th:href="@{'/wallet/vouchers/' + ${wallet.customerId}}"><span th:text="*{customerId}"></span></a>
-        </td>
-        <td>
-            <a th:href="@{'/wallet/customers/' + ${wallet.voucherId}}"><span th:text="*{voucherId}"></span></a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<div class="d-grid gap-2 d-md-flex justify-content-md-start">
-    <a th:href="@{/wallet/new}" class="btn btn-primary me-md-2" type="button">Add Wallet</a>
-</div>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand">Voucher Management Application</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/voucher">Voucher List</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/wallet">Wallet List</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h1>Wallet List</h1>
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Wallet ID</th>
+            <th scope="col">Customer ID</th>
+            <th scope="col">Voucher ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="wallet : ${wallets}" th:object="${wallet}">
+            <td th:text="*{walletId}"></td>
+            <td>
+                <a th:href="@{'/wallet/vouchers/' + ${wallet.customerId}}"><span th:text="*{customerId}"></span></a>
+            </td>
+            <td>
+                <a th:href="@{'/wallet/customers/' + ${wallet.voucherId}}"><span th:text="*{voucherId}"></span></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a th:href="@{/wallet/new}" class="btn btn-primary me-md-2" type="button">Add Wallet</a>
+    </div>
 </body>
 </html>
