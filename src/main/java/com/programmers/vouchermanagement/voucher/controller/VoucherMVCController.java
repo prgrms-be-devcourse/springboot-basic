@@ -24,7 +24,7 @@ public class VoucherMVCController {
     @PostMapping("/new")
     public String create(CreateVoucherRequest createVoucherRequest) {
         voucherService.create(createVoucherRequest);
-        return "redirect:voucher/vouchers";
+        return "redirect:/vouchers";
     }
 
     @GetMapping("/new")
@@ -53,19 +53,19 @@ public class VoucherMVCController {
     @DeleteMapping("/{voucherId}")
     public String delete(@PathVariable("voucherId") UUID voucherId) {
         voucherService.delete(voucherId);
-        return "redirect:voucher/vouchers";
+        return "redirect:/vouchers";
     }
 
     @DeleteMapping
     public String deleteAll() {
         voucherService.deleteAll();
-        return "redirect:voucher/vouchers";
+        return "redirect:/vouchers";
     }
 
     @PutMapping("/update/{voucherId}")
     public String update(@PathVariable("voucherId") UUID voucherId, CreateVoucherRequest createVoucherRequest) {
         voucherService.update(voucherId, createVoucherRequest);
-        return "redirect:voucher/vouchers";
+        return "redirect:/vouchers";
     }
     //TODO: check id
 
