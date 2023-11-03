@@ -10,22 +10,22 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.controller.CustomerController;
-import com.programmers.springbasic.controller.VoucherController;
-import com.programmers.springbasic.dto.VoucherDto;
+import com.programmers.springbasic.controller.CustomerRestController;
+import com.programmers.springbasic.controller.VoucherRestController;
+import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 
 @Component
 public class AssignVoucherToCustomerCommand implements Command {
 
-	private final CustomerController customerController;
-	private final VoucherController voucherController;
+	private final CustomerRestController customerRestController;
+	private final VoucherRestController voucherRestController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public AssignVoucherToCustomerCommand(CustomerController customerController, VoucherController voucherController,
+	public AssignVoucherToCustomerCommand(CustomerRestController customerRestController, VoucherRestController voucherRestController,
 		ConsoleInputHandler consoleInputHandler, ConsoleOutputHandler consoleOutputHandler) {
-		this.customerController = customerController;
-		this.voucherController = voucherController;
+		this.customerRestController = customerRestController;
+		this.voucherRestController = voucherRestController;
 		this.consoleInputHandler = consoleInputHandler;
 		this.consoleOutputHandler = consoleOutputHandler;
 	}
@@ -35,12 +35,12 @@ public class AssignVoucherToCustomerCommand implements Command {
 		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID customerId = consoleInputHandler.readUUID();
 
-		List<VoucherDto> vouchers = voucherController.getVouchers();
+		List<VoucherResponse> vouchers = voucherRestController.getVouchers(null, null, null).getBody();
 		consoleOutputHandler.printList(vouchers);
 
 		consoleOutputHandler.print(VOUCHER_ID_PROMPT);
 		UUID voucherId = consoleInputHandler.readUUID();
 
-		customerController.assignVoucherToCustomer(customerId, voucherId);
+		customerRestController.assignVoucherToCustomer(customerId, voucherId);
 	}
 }

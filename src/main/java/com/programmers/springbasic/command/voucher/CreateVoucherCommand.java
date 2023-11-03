@@ -7,19 +7,20 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.controller.VoucherController;
+import com.programmers.springbasic.controller.VoucherRestController;
+import com.programmers.springbasic.repository.dto.voucher.CreateVoucherRequest;
 import com.programmers.springbasic.entity.voucher.VoucherType;
 
 @Component
 public class CreateVoucherCommand implements Command {
 
-	private final VoucherController voucherController;
+	private final VoucherRestController voucherRestController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public CreateVoucherCommand(VoucherController voucherController, ConsoleInputHandler consoleInputHandler,
+	public CreateVoucherCommand(VoucherRestController voucherRestController, ConsoleInputHandler consoleInputHandler,
 		ConsoleOutputHandler consoleOutputHandler) {
-		this.voucherController = voucherController;
+		this.voucherRestController = voucherRestController;
 		this.consoleInputHandler = consoleInputHandler;
 		this.consoleOutputHandler = consoleOutputHandler;
 	}
@@ -32,12 +33,12 @@ public class CreateVoucherCommand implements Command {
 			case FIXED_AMOUNT -> {
 				consoleOutputHandler.print(AMOUNT_PROMPT);
 				long amount = consoleInputHandler.readLong();
-				voucherController.createVoucher(voucherType, amount);
+				voucherRestController.createVoucher(new CreateVoucherRequest(voucherType, amount));
 			}
 			case PERCENT_DISCOUNT -> {
 				consoleOutputHandler.print(PERCENT_PROMPT);
 				long percent = consoleInputHandler.readLong();
-				voucherController.createVoucher(voucherType, percent);
+				voucherRestController.createVoucher(new CreateVoucherRequest(voucherType, percent));
 			}
 		}
 	}

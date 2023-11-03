@@ -9,18 +9,18 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.controller.CustomerController;
+import com.programmers.springbasic.controller.CustomerRestController;
 
 @Component
 public class RemoveCustomerCommand implements Command {
 
-	private final CustomerController customerController;
+	private final CustomerRestController customerRestController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public RemoveCustomerCommand(CustomerController customerController, ConsoleInputHandler consoleInputHandler,
+	public RemoveCustomerCommand(CustomerRestController customerRestController, ConsoleInputHandler consoleInputHandler,
 		ConsoleOutputHandler consoleOutputHandler) {
-		this.customerController = customerController;
+		this.customerRestController = customerRestController;
 		this.consoleInputHandler = consoleInputHandler;
 		this.consoleOutputHandler = consoleOutputHandler;
 	}
@@ -29,6 +29,6 @@ public class RemoveCustomerCommand implements Command {
 	public void execute() {
 		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
-		customerController.removeCustomer(uuidInput);
+		customerRestController.removeCustomer(uuidInput);
 	}
 }

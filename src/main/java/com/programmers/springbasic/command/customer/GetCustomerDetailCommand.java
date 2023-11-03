@@ -9,19 +9,19 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.controller.CustomerController;
-import com.programmers.springbasic.dto.CustomerDto;
+import com.programmers.springbasic.controller.CustomerRestController;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
 
 @Component
 public class GetCustomerDetailCommand implements Command {
 
-	private final CustomerController customerController;
+	private final CustomerRestController customerRestController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public GetCustomerDetailCommand(CustomerController customerController, ConsoleInputHandler consoleInputHandler,
+	public GetCustomerDetailCommand(CustomerRestController customerRestController, ConsoleInputHandler consoleInputHandler,
 		ConsoleOutputHandler consoleOutputHandler) {
-		this.customerController = customerController;
+		this.customerRestController = customerRestController;
 		this.consoleInputHandler = consoleInputHandler;
 		this.consoleOutputHandler = consoleOutputHandler;
 	}
@@ -30,7 +30,7 @@ public class GetCustomerDetailCommand implements Command {
 	public void execute() {
 		consoleOutputHandler.print(CUSTOMER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
-		CustomerDto customer = customerController.getCustomerById(uuidInput);
+		CustomerResponse customer = customerRestController.getCustomerById(uuidInput).getBody();
 		consoleOutputHandler.printWithLineBreak(customer);
 	}
 }

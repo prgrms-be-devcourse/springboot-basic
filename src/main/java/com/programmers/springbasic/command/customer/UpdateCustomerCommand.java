@@ -9,19 +9,20 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.controller.CustomerController;
-import com.programmers.springbasic.dto.CustomerDto;
+import com.programmers.springbasic.controller.CustomerRestController;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
+import com.programmers.springbasic.repository.dto.customer.UpdateCustomerRequest;
 
 @Component
 public class UpdateCustomerCommand implements Command {
 
-	private final CustomerController customerController;
+	private final CustomerRestController customerRestController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public UpdateCustomerCommand(CustomerController customerController, ConsoleInputHandler consoleInputHandler,
+	public UpdateCustomerCommand(CustomerRestController customerRestController, ConsoleInputHandler consoleInputHandler,
 		ConsoleOutputHandler consoleOutputHandler) {
-		this.customerController = customerController;
+		this.customerRestController = customerRestController;
 		this.consoleInputHandler = consoleInputHandler;
 		this.consoleOutputHandler = consoleOutputHandler;
 	}
@@ -32,7 +33,7 @@ public class UpdateCustomerCommand implements Command {
 		UUID uuidInput = consoleInputHandler.readUUID();
 		consoleOutputHandler.print(NAME_PROMPT);
 		String nameInput = consoleInputHandler.readString();
-		CustomerDto updatedCustomer = customerController.updateCustomer(uuidInput, nameInput);
+		CustomerResponse updatedCustomer = customerRestController.updateCustomer(uuidInput, new UpdateCustomerRequest(nameInput)).getBody();
 		consoleOutputHandler.printWithLineBreak(updatedCustomer);
 	}
 }
