@@ -40,10 +40,10 @@
                 <td th:text="${voucher.id}"></td>
                 <td th:text="${voucher.type}"></td>
                 <td th:text="${voucher.discountAmount}"></td>
-                <!--            <td>-->
-                <!--                <a href="#" th:href="@{/items/{id}/edit (id=${item.id})}" class="btn btn-primary"-->
-                <!--                   role="button">수정</a>-->
-                <!--            </td>-->
+                <td>
+                    <a th:href="@{'/vouchers/'+${voucher.id}}" class="btn btn-primary"
+                       role="button">조회</a>
+                </td>
             </tr>
             </tbody>
         </table>

@@ -26,7 +26,7 @@ public class CustomerViewController {
     @PostMapping("customers/new")
     public String createCustomer(@ModelAttribute CreateCustomerDto dto){
         customerService.save(dto);
-        return "redirect:/customer/list";
+        return "redirect:/customers";
     }
 
     @GetMapping("customers")

@@ -5,8 +5,7 @@ import com.prgrms.voucher_manage.domain.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -32,5 +31,12 @@ public class VoucherViewController {
         Voucher voucher = voucherService.findVoucher(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher/getVoucher";
+    }
+
+
+    @GetMapping("vouchers/delete/{voucherId}")
+    public String deleteVoucher(@PathVariable UUID voucherId){
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:/vouchers";
     }
 }

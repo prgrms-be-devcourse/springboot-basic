@@ -19,11 +19,21 @@
         .text-center {
             margin-top: 50px;
         }
+        .button-container {
+            margin-bottom: 20px;
+            margin-left: 500px;
+            margin-right: auto;
+            display: flex;
+            justify-content: center;
+        }
 
     </style>
 </head>
 <body>
 <h1 class="text-center mb-5">회원 조회</h1>
+<div class="button-container"> <!-- 여기에 패딩을 추가 -->
+    <a type="button" class="btn btn-outline-info" th:href="@{'/customers/new'}">회원 추가하기</a>
+</div>
 <div class="container">
     <div class="customer-table">
         <table class="table table-striped table-hover">
@@ -40,10 +50,10 @@
                 <td th:text="${customer.id}"></td>
                 <td th:text="${customer.name}"></td>
                 <td th:text="${customer.type}"></td>
-                <!--            <td>-->
-                <!--                <a href="#" th:href="@{/items/{id}/edit (id=${item.id})}" class="btn btn-primary"-->
-                <!--                   role="button">수정</a>-->
-                <!--            </td>-->
+                <td>
+                    <a th:href="@{'/customers/'+${customer.id}}" class="btn btn-primary"
+                       role="button">조회</a>
+                </td>
             </tr>
             </tbody>
         </table>

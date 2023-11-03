@@ -40,10 +40,10 @@
         <td th:text="${customer.id}"></td>
         <td th:text="${customer.name}"></td>
         <td th:text="${customer.type}"></td>
-        <!--            <td>-->
-        <!--                <a href="#" th:href="@{/items/{id}/edit (id=${item.id})}" class="btn btn-primary"-->
-        <!--                   role="button">수정</a>-->
-        <!--            </td>-->
+        <td>
+          <a th:href="@{'/customers/update/'+${customer.id}}" class="btn btn-primary"
+             role="button">수정</a>
+        </td>
       </tr>
       </tbody>
     </table>
