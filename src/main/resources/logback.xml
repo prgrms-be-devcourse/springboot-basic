@@ -35,18 +35,6 @@
     </springProfile>
 
     <springProfile name="dev">
-        <logger level="warn" name="${PACKAGE_NAME}">
-            <appender-ref ref="ROLLING_FILE"/>
-        </logger>
-    </springProfile>
-
-    <springProfile name="local">
-        <logger level="info" name="${PACKAGE_NAME}">
-            <appender-ref ref="CONSOLE"/>
-        </logger>
-    </springProfile>
-
-    <springProfile name="debug">
         <logger level="debug" name="${PACKAGE_NAME}">
             <appender-ref ref="CONSOLE"/>
         </logger>
