@@ -99,4 +99,25 @@ class JdbcVoucherRepositoryTest {
         assertThat(findVoucher.get().equals(voucher), is(true));
     }
 
+    @DisplayName("id 값들에 해당하는 Voucher를 모두 조회할 수 있다.")
+    @Test
+    void testFindAllByIds() {
+        // given
+        String uuid1 = UUID.randomUUID().toString();
+        String uuid2 = UUID.randomUUID().toString();
+        String uuid3 = UUID.randomUUID().toString();
+        Voucher voucher1 = new Voucher(uuid1, "voucher1", 1000, VoucherType.FIXED);
+        Voucher voucher2 = new Voucher(uuid2, "voucher2", 2000, VoucherType.FIXED);
+        Voucher voucher3 = new Voucher(uuid3, "voucher3", 3000, VoucherType.FIXED);
+
+        jdbcVoucherRepository.save(voucher1);
+        jdbcVoucherRepository.save(voucher2);
+        jdbcVoucherRepository.save(voucher3);
+
+        // when
+        List<Voucher> voucherList = jdbcVoucherRepository.findAllByIds(List.of(uuid1, uuid2));
+
+        // then
+        assertThat(voucherList.containsAll(List.of(voucher1, voucher2)), is(true));
+    }
 }
