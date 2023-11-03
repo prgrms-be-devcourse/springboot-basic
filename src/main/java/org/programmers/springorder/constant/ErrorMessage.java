@@ -6,6 +6,7 @@ public class ErrorMessage {
     }
 
     public static final String VOUCHER_NOT_EXIST_MESSAGE = "등록된 바우처가 존재하지 않습니다.";
+    public static final String VOUCHER_TYPE_NOT_EXIST_MESSAGE = "타입의 바우처가 존재하지 않습니다.";
     public static final String VOUCHER_ID_NOT_EXIST_MESSAGE = "바우처 ID가 존재하지 않습니다.";
     public static final String CUSTOMER_ID_NOT_EXIST_MESSAGE = "고객 ID가 존재하지 않습니다.";
     public static final String ERROR_IN_SAVE_VOUCHER = "바우처 저장 중 오류가 발생했습니다.";
