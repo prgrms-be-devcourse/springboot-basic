@@ -221,4 +221,7 @@ gradle-app.setting
 # Log file
 *.log
 
+# Docker file
+**/docker/db/mysql/data/
+
 # End of https://www.toptal.com/developers/gitignore/api/macos,java,windows,visualstudiocode,intellij+all,gradle
