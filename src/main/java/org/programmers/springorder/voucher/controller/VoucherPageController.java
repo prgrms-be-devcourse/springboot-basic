@@ -2,10 +2,10 @@ package org.programmers.springorder.voucher.controller;
 
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
-import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,10 +42,15 @@ public class VoucherPageController {
 
     @GetMapping("/vouchers/{voucherId}")
     public String getVoucherDetail(@PathVariable UUID voucherId, Model model){
-        VoucherResponseDto voucher = voucherService.getVoucherById(voucherId);
-        model.addAttribute("voucher", voucher);
-        return "voucher-detail";
+            VoucherResponseDto voucher = voucherService.getVoucherById(voucherId);
+            model.addAttribute("voucher", voucher);
+            return "voucher-detail";
     }
 
+    @DeleteMapping("/vouchers/{voucherId}")
+    public String deleteVoucher(@PathVariable UUID voucherId){
+        voucherService.deleteVoucher(voucherId);
+        return "redirect:vouchers";
+    }
 }
 
