@@ -1,6 +1,7 @@
 package com.prgrms.vouchermanagement.core.customer.domain;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class Customer {
 
@@ -10,6 +11,12 @@ public class Customer {
 
     public Customer(String id, String name, String email) {
         this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+
+    public Customer(String name, String email) {
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.email = email;
     }
@@ -31,11 +38,11 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return Objects.equals(id, customer.id);
+        return Objects.equals(name, customer.name) && Objects.equals(email, customer.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(name, email);
     }
 }
