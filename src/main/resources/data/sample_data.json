@@ -1,0 +1,16 @@
+[
+  {
+    "code": "5e144cb9-b51c-4b10-97f4-f2402479ae06",
+    "discountValue": 1000,
+    "id": 2,
+    "name": "1,000원 할인 쿠폰",
+    "voucherType": "FIXED"
+  },
+  {
+    "code": "6bfbb93a-0337-4d1e-bb39-d761052b321a",
+    "discountValue": 60,
+    "id": 3,
+    "name": "60% 할인 쿠폰",
+    "voucherType": "PERCENT"
+  }
+]
