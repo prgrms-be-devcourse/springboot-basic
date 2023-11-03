@@ -75,7 +75,19 @@ class VoucherServiceTest {
         // then
         assertThatThrownBy(() -> voucherService.findById(findVoucherId))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("입력한 바우처 ID가 존재하지 않습니다.");
+                .hasMessage("바우처 ID가 존재하지 않습니다.");
+    }
+
+    @Test
+    @DisplayName("해당 타입의 바우처가 존재하지 않으면, 에러 메시지를 띄운다.")
+    void findByTypeFail() {
+        // given
+        VoucherType findVoucherType = VoucherType.FIXED;
+
+        // then
+        assertThatThrownBy(() -> voucherService.findByType(findVoucherType))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(findVoucherType.name() + "타입의 바우처가 존재하지 않습니다.");
     }
 
     @Test

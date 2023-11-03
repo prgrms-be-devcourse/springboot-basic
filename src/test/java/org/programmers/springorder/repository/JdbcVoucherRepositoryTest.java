@@ -81,6 +81,24 @@ class JdbcVoucherRepositoryTest {
     }
 
     @Test
+    @DisplayName("바우처 Type으로 조회에 성공한다.")
+    void findByType() {
+        // given
+        Voucher voucher1 = Voucher.toVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED);
+        Voucher voucher2 = Voucher.toVoucher(UUID.randomUUID(), 10, VoucherType.PERCENT);
+        voucherRepository.insert(voucher1);
+        voucherRepository.insert(voucher2);
+
+        // when
+        List<Voucher> findVouchers = voucherRepository.findByType(VoucherType.FIXED);
+        Voucher voucher = findVouchers.get(0);
+
+        // then
+        assertThat(findVouchers).hasSize(1);
+        assertThat(voucher.getVoucherType()).isEqualTo(VoucherType.FIXED);
+    }
+
+    @Test
     @DisplayName("바우처 수정에 성공한다.")
     void update() {
         // given
