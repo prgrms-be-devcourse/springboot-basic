@@ -7,8 +7,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.StringJoiner;
 
 @Profile("prod")
 @Repository
@@ -41,9 +43,13 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     @Override
     public Optional<Customer> findById(String id) {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("select * from customers where id = ?",
+        List<Customer> customers = jdbcTemplate.query("select * from customers where id = ?",
                 customerRowMapper,
-                id));
+                id);
+        if (customers.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(customers.get(0));
     }
 
     @Override
@@ -63,6 +69,22 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         jdbcTemplate.update("DELETE FROM customers");
+    }
+
+    @Override
+    public List<Customer> findAllByIds(List<String> idList) {
+        if (idList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        StringJoiner joiner = new StringJoiner(",", "(", ")");
+        for (int i = 0; i < idList.size(); i++) {
+            joiner.add("?");
+        }
+
+        String sql = "SELECT * FROM customers WHERE id IN " + joiner.toString();
+
+        return jdbcTemplate.query(sql, idList.toArray(), customerRowMapper);
     }
 
 }

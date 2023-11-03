@@ -44,4 +44,11 @@ public interface CustomerRepository {
      */
     void deleteAll();
 
+    /**
+     * id에 해당하는 모든 고객 삭제
+     *
+     * @param customerIdList
+     * @return
+     */
+    List<Customer> findAllByIds(List<String> customerIdList);
 }
