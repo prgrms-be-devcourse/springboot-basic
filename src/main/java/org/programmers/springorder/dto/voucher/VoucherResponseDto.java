@@ -1,6 +1,7 @@
 package org.programmers.springorder.dto.voucher;
 
 import org.programmers.springorder.model.voucher.Voucher;
+import org.programmers.springorder.model.voucher.VoucherType;
 
 import java.util.UUID;
 
@@ -8,12 +9,12 @@ import java.util.UUID;
 public class VoucherResponseDto {
     private final UUID voucherId;
     private final long discountValue;
-    private final String voucherType;
+    private final VoucherType voucherType;
 
     private VoucherResponseDto(Voucher voucher) {
         this.voucherId = voucher.getVoucherId();
         this.discountValue = voucher.getDiscountValue();
-        this.voucherType = voucher.getVoucherType().name();
+        this.voucherType = voucher.getVoucherType();
     }
 
     public static VoucherResponseDto of(Voucher voucher) {
@@ -28,7 +29,7 @@ public class VoucherResponseDto {
         return discountValue;
     }
 
-    public String getVoucherType() {
+    public VoucherType getVoucherType() {
         return voucherType;
     }
 
