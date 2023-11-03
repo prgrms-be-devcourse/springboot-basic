@@ -21,7 +21,7 @@ public class JdbcWalletRepository implements WalletRepository {
     @Override
     public Wallet save(Wallet wallet) {
         String sql = "insert into wallet(voucher_id, customer_id) values (?,?)";
-        jdbcTemplate.update(sql, wallet.getVoucher_id().toString(), wallet.getCustomer_id().toString());
+        jdbcTemplate.update(sql, wallet.getVoucherId().toString(), wallet.getCustomerId().toString());
         return wallet;
     }
 
@@ -55,7 +55,7 @@ public class JdbcWalletRepository implements WalletRepository {
     public void delete(Wallet wallet) {
         String sql = "delete from wallet where customer_id = ? and voucher_id = ?";
         try {
-            jdbcTemplate.update(sql, wallet.getCustomer_id().toString(), wallet.getVoucher_id().toString());
+            jdbcTemplate.update(sql, wallet.getCustomerId().toString(), wallet.getVoucherId().toString());
         } catch (Exception e) {
             throw new RuntimeException(WALLET_DELETE_FAILED.getMessage());
         }

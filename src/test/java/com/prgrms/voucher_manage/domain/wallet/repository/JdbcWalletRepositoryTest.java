@@ -35,8 +35,8 @@ class JdbcWalletRepositoryTest {
         repository.save(wallet);
         //then
         assertThat(wallet).isNotNull();
-        assertThat(customer.getId()).isEqualTo(wallet.getCustomer_id());
-        assertThat(voucher.getId()).isEqualTo(wallet.getVoucher_id());
+        assertThat(customer.getId()).isEqualTo(wallet.getCustomerId());
+        assertThat(voucher.getId()).isEqualTo(wallet.getVoucherId());
     }
 
     @Test
@@ -58,7 +58,7 @@ class JdbcWalletRepositoryTest {
         List<Wallet> wallets = repository.findByCustomerId(customer.getId());
         //then
         assertThat(wallets.size()).isEqualTo(2);
-        assertThat(List.of(wallet1.getVoucher_id(), wallet2.getVoucher_id()))
+        assertThat(List.of(wallet1.getVoucherId(), wallet2.getVoucherId()))
                 .containsOnly(voucher1.getId(), voucher2.getId());
     }
 
@@ -82,7 +82,7 @@ class JdbcWalletRepositoryTest {
 
         //then
         assertThat(wallets.size()).isEqualTo(2);
-        assertThat(List.of(wallet1.getCustomer_id(), wallet2.getCustomer_id()))
+        assertThat(List.of(wallet1.getCustomerId(), wallet2.getCustomerId()))
                 .containsOnly(customer1.getId(), customer2.getId());
     }
 

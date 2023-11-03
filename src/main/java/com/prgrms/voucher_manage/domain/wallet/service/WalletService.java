@@ -23,7 +23,7 @@ public class WalletService {
     private final CustomerService customerService;
 
     public Wallet save(Wallet wallet) {
-        if (walletRepository.findByIds(wallet.getCustomer_id(), wallet.getVoucher_id()).isPresent())
+        if (walletRepository.findByIds(wallet.getCustomerId(), wallet.getVoucherId()).isPresent())
             throw new RuntimeException(WALLET_ALREADY_EXISTS.getMessage());
         return walletRepository.save(wallet);
     }
@@ -34,7 +34,7 @@ public class WalletService {
             throw new RuntimeException(WALLET_CUSTOMER_NOT_EXISTS.getMessage());
 
         return wallets.stream()
-                .map(w -> voucherService.findVoucher(w.getVoucher_id()))
+                .map(w -> voucherService.findVoucher(w.getVoucherId()))
                 .collect(Collectors.toList());
     }
 
@@ -44,12 +44,12 @@ public class WalletService {
             throw new RuntimeException(WALLET_VOUCHER_NOT_EXISTS.getMessage());
 
         return wallets.stream()
-                .map(w -> customerService.findById(w.getCustomer_id()))
+                .map(w -> customerService.findById(w.getCustomerId()))
                 .collect(Collectors.toList());
     }
 
     public void delete(Wallet wallet) {
-        if (walletRepository.findByIds(wallet.getCustomer_id(), wallet.getVoucher_id()).isEmpty())
+        if (walletRepository.findByIds(wallet.getCustomerId(), wallet.getVoucherId()).isEmpty())
             throw new RuntimeException(WALLET_DELETE_NOT_EXISTS.getMessage());
         walletRepository.delete(wallet);
     }

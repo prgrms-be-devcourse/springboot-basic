@@ -1,12 +1,11 @@
-package com.prgrms.voucher_manage.domain.customer.service;
+package com.prgrms.voucher_manage.domain.voucher.service;
 
 import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherDto;
 import com.prgrms.voucher_manage.domain.voucher.controller.dto.UpdateVoucherDto;
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
-import com.prgrms.voucher_manage.domain.voucher.repository.JdbcVoucherRepository;
-import com.prgrms.voucher_manage.domain.voucher.service.VoucherService;
+import com.prgrms.voucher_manage.domain.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +24,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class VoucherServiceTest {
     @Mock
-    private JdbcVoucherRepository repository;
+    private VoucherRepository repository;
 
     @InjectMocks
     private VoucherService service;
