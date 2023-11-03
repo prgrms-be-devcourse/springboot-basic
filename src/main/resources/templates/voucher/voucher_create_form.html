@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher 생성</title>
+</head>
+<body>
+<h1>쿠폰 생성</h1>
+<form th:action="@{/vouchers}" method="post">
+    <div>
+        <label for="voucherType">쿠폰 유형 : </label>
+        <select id="voucherType" name="voucherType">
+            <option value="FIXED"> $ 할인 쿠폰 </option>
+            <option value="PERCENT"> % 할인 쿠폰</option>
+        </select>
+    </div>
+    <div>
+        <label for="discountValue">할인 금액 또는 할인율 : </label>
+        <input type="number" id="discountValue" name="discountValue" required>
+    </div>
+    <div>
+        <button type="submit">쿠폰 생성</button>
+    </div>
+</form>
+</body>
+</html>

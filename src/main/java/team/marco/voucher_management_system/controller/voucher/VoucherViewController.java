@@ -4,15 +4,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import team.marco.voucher_management_system.controller.voucher.dto.VoucherResponse;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.VoucherType;
+import team.marco.voucher_management_system.service.voucher.VoucherCreateServiceRequest;
 import team.marco.voucher_management_system.service.voucher.VoucherService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/vouchers")
@@ -42,6 +42,32 @@ public class VoucherViewController {
         model.addAttribute("voucher", voucher);
 
         return "voucher/voucher_detail";
+    }
+
+    @GetMapping("/create")
+    public String findVoucherCreateForm() {
+        return "voucher/voucher_create_form";
+    }
+
+    @PostMapping()
+    public String createVoucher(@RequestParam("voucherType") String voucherType,
+                                @RequestParam("discountValue") int discountValue,
+                                Model model) {
+        logger.info("createVoucher!");
+        voucherService.createVoucher(new VoucherCreateServiceRequest(
+                VoucherType.valueOf(voucherType),
+                discountValue,
+                Optional.empty(),
+                Optional.empty())
+        );
+
+        List<VoucherResponse> vouchers = voucherService.getVouchers().stream()
+                .map(VoucherResponse::of)
+                .toList();
+
+        model.addAttribute("vouchers", vouchers);
+
+        return "voucher/voucher_list";
     }
 
     @DeleteMapping("/{voucherId}")
