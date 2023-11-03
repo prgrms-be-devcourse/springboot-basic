@@ -4,6 +4,7 @@ import com.programmers.springbootbasic.domain.voucher.application.VoucherService
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVoucherRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.UpdateVoucherRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherResponse;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.context.annotation.Profile;
@@ -34,12 +35,12 @@ public class VoucherThymeController {
     }
 
     @PostMapping("/register")
-    public String createVoucher(@ModelAttribute CreateVoucherRequest request, Model model) {
+    public String createVoucher(@Valid @ModelAttribute CreateVoucherRequest request, Model model) {
         voucherService.create(request);
         model.addAttribute("voucherType", request.getVoucherType().getVoucherTypeName());
         model.addAttribute("benefit", request.getBenefitValue());
 
-        return "voucher/registerationComplete";
+        return "voucher/registrationComplete";
     }
 
     @GetMapping("/vouchers")

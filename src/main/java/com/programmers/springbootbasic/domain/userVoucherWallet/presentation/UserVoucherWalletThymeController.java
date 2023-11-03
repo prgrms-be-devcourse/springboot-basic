@@ -5,6 +5,7 @@ import com.programmers.springbootbasic.domain.userVoucherWallet.application.User
 import com.programmers.springbootbasic.domain.userVoucherWallet.presentation.dto.CreateUserVoucherWalletRequest;
 import com.programmers.springbootbasic.domain.userVoucherWallet.presentation.dto.UserOwnedVoucherResponse;
 import com.programmers.springbootbasic.domain.voucher.application.VoucherService;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Controller;
@@ -40,11 +41,11 @@ public class UserVoucherWalletThymeController {
 
     @PostMapping("/register")
     public String registerUserVoucher(
-        @ModelAttribute CreateUserVoucherWalletRequest request, Model model
+        @Valid @ModelAttribute CreateUserVoucherWalletRequest request, Model model
     ) {
         Long id = userVoucherWalletService.create(request);
         model.addAttribute("id", id);
-        return "userVoucher/registerationComplete";
+        return "userVoucher/registrationComplete";
     }
 
     @DeleteMapping ("/delete/{id}")
