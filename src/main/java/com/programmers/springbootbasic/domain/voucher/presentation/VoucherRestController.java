@@ -1,12 +1,12 @@
 package com.programmers.springbootbasic.domain.voucher.presentation;
 
+import com.programmers.springbootbasic.common.dto.BaseListResponse;
 import com.programmers.springbootbasic.domain.voucher.application.VoucherService;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVoucherRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.UpdateVoucherRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherCriteria;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherResponse;
 import jakarta.validation.Valid;
-import java.util.List;
 import java.util.UUID;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,20 +31,20 @@ public class VoucherRestController {
     }
 
     @PostMapping
-    public void createVoucher(@RequestBody CreateVoucherRequest request) {
-        voucherService.create(request);
+    public UUID createVoucher(@Valid @RequestBody CreateVoucherRequest request) {
+        return voucherService.create(request);
     }
 
     @GetMapping("/vouchers")
-    public List<VoucherResponse> getAllVouchers() {
-        return voucherService.findAll();
+    public BaseListResponse<VoucherResponse> getAllVouchers() {
+        return BaseListResponse.from(voucherService.findAll());
     }
 
     @GetMapping("/vouchers/search")
-    public List<VoucherResponse> getVouchersByCriteria(
+    public BaseListResponse<VoucherResponse> getVouchersByCriteria(
         @Valid @ModelAttribute VoucherCriteria criteria
     ) {
-        return voucherService.findByCriteria(criteria);
+        return BaseListResponse.from(voucherService.findByCriteria(criteria));
     }
 
     @GetMapping("/{id}")
