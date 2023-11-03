@@ -8,8 +8,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     function redirectToUserVoucherPage() {
-      const voucherId = document.querySelector('input[name="voucherId"]:checked').value;
-      if (voucherId) {
+      const selectedVoucherElement = document.querySelector('input[name="voucherId"]:checked');
+
+      // 선택된 요소가 있을 때만 값을 가져옵니다.
+      if (selectedVoucherElement) {
+        const voucherId = selectedVoucherElement.value;
         window.location.href = "/userVoucher/userByVoucher/" + voucherId;
       } else {
         alert("바우처 ID를 선택해주세요!");

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script th:inline="javascript">
-    function updateBenefitConstraints() {
+    window.onload = function updateBenefitConstraints() {
       let type = document.getElementById('voucherType').value;
       let benefitInput = document.getElementById('benefit');
 
@@ -17,11 +17,6 @@
         benefitInput.setAttribute('max', '100');
       }
     }
-
-    // 페이지 로딩 시 초기 제약 설정
-    window.onload = function() {
-      updateBenefitConstraints();
-    };
   </script>
 </head>
 <body class="bg-gray-100">

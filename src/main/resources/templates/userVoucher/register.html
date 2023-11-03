@@ -8,6 +8,7 @@
     document.addEventListener('DOMContentLoaded', function () {
       document.getElementById('voucherForm').addEventListener('submit', function (event) {
         const radios = document.getElementsByName('voucherId');
+        const nickname = document.getElementById('nickname').value;
         let isSelected = false;
         for (const radio of radios) {
           if (radio.checked) {
@@ -17,7 +18,11 @@
         }
         if (!isSelected) {
           event.preventDefault();
-          alert('Please select a Voucher!');
+          alert('바우처 아이디를 선택하세요!');
+        }
+        if (nickname.trim() === '') {
+          event.preventDefault();
+          alert('닉네임을 입력하세요!');
         }
       });
     });

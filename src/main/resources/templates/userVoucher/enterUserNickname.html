@@ -6,8 +6,10 @@
   <script>
     function redirectToVoucherPage() {
       const userNickname = document.getElementById("userNickname").value;
-      if (userNickname) {
+      if (userNickname.trim()) {
         window.location.href = "/userVoucher/voucherByUser/" + userNickname;
+      } else {
+        alert("닉네임을 입력해주세요!");
       }
     }
   </script>
