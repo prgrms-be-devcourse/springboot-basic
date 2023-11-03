@@ -19,8 +19,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.programmers.springbasic.dto.CustomerDto;
-import com.programmers.springbasic.dto.VoucherDto;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
+import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
 import com.programmers.springbasic.entity.voucher.Voucher;
@@ -54,7 +54,7 @@ class CustomerServiceTest {
 		customerId = UUID.randomUUID();
 		voucherId = UUID.randomUUID();
 		customer = new Customer(customerId, "홍길동", "hong@example.com", LocalDateTime.now());
-		voucher = new FixedAmountVoucher(voucherId, 10);
+		voucher = new FixedAmountVoucher(voucherId, 10, LocalDateTime.now());
 	}
 
 	@Test
@@ -62,7 +62,7 @@ class CustomerServiceTest {
 		List<Customer> blacklistCustomers = List.of(customer);
 		when(blacklistCustomerRepository.getBlacklistCustomers()).thenReturn(blacklistCustomers);
 
-		List<CustomerDto> result = customerService.getBlacklistCustomers();
+		List<CustomerResponse> result = customerService.getBlacklistCustomers();
 
 		assertThat(result, hasSize(1));
 	}
@@ -75,9 +75,9 @@ class CustomerServiceTest {
 		Customer customer = new Customer(UUID.randomUUID(), name, email, now);
 		when(customerRepository.insert(ArgumentMatchers.any(Customer.class))).thenReturn(customer);
 
-		CustomerDto result = customerService.createCustomer(name, email);
+		CustomerResponse result = customerService.createCustomer(name, email);
 
-		assertThat(result, is(CustomerDto.from(customer)));
+		assertThat(result, is(CustomerResponse.from(customer)));
 	}
 
 	@Test
@@ -85,7 +85,7 @@ class CustomerServiceTest {
 		List<Customer> customers = List.of(customer);
 		when(customerRepository.findAll()).thenReturn(customers);
 
-		List<CustomerDto> result = customerService.getAllCustomers();
+		List<CustomerResponse> result = customerService.getAllCustomers();
 
 		assertThat(result, hasSize(1));
 	}
@@ -94,7 +94,7 @@ class CustomerServiceTest {
 	void 아이디로_고객을_조회한다() {
 		when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
-		CustomerDto result = customerService.getCustomerById(customerId);
+		CustomerResponse result = customerService.getCustomerById(customerId);
 
 		assertThat(result.id(), is(customerId));
 	}
@@ -111,7 +111,7 @@ class CustomerServiceTest {
 		String newName = "새로운홍길동";
 		when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 
-		CustomerDto result = customerService.updateCustomer(customerId, newName);
+		CustomerResponse result = customerService.updateCustomer(customerId, newName);
 
 		assertThat(result.name(), is(newName));
 	}
@@ -128,7 +128,7 @@ class CustomerServiceTest {
 		when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
 		doNothing().when(customerRepository).deleteById(customerId);
 
-		CustomerDto result = customerService.removeCustomer(customerId);
+		CustomerResponse result = customerService.removeCustomer(customerId);
 
 		assertThat(result.id(), is(customerId));
 	}
@@ -157,7 +157,7 @@ class CustomerServiceTest {
 		when(walletRepository.findVoucherIdsByCustomerId(customerId)).thenReturn(List.of(voucherId));
 		when(voucherRepository.findAllById(List.of(voucherId))).thenReturn(List.of(voucher));
 
-		List<VoucherDto> result = customerService.getVouchersByCustomer(customerId);
+		List<VoucherResponse> result = customerService.getVouchersByCustomer(customerId);
 
 		assertThat(result, hasSize(1));
 		assertThat(result.get(0).voucherId(), is(voucherId));

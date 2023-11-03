@@ -2,6 +2,7 @@ package com.programmers.springbasic.entity.voucher;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ class FixedAmountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long amount = 100;
 
-		FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount);
+		FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, amount, LocalDateTime.now());
 
 		assertEquals(voucherId, voucher.getVoucherId());
 		assertEquals(amount, voucher.getDiscountValue());
@@ -24,7 +25,8 @@ class FixedAmountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long invalidAmount = 0;
 
-		assertThrows(IllegalArgumentException.class, () -> new FixedAmountVoucher(voucherId, invalidAmount));
+		assertThrows(IllegalArgumentException.class,
+			() -> new FixedAmountVoucher(voucherId, invalidAmount, LocalDateTime.now()));
 	}
 
 	@Test
@@ -32,7 +34,7 @@ class FixedAmountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long initialAmount = 100;
 		long newAmount = 150;
-		FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, initialAmount);
+		FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, initialAmount, LocalDateTime.now());
 
 		voucher.changeDiscountValue(newAmount);
 
@@ -44,7 +46,7 @@ class FixedAmountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long initialAmount = 100;
 		long invalidAmount = -50;
-		FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, initialAmount);
+		FixedAmountVoucher voucher = new FixedAmountVoucher(voucherId, initialAmount, LocalDateTime.now());
 
 		assertThrows(IllegalArgumentException.class, () -> voucher.changeDiscountValue(invalidAmount));
 	}

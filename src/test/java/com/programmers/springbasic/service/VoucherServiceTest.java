@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -19,8 +20,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import com.programmers.springbasic.dto.CustomerDto;
-import com.programmers.springbasic.dto.VoucherDto;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
+import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
 import com.programmers.springbasic.entity.voucher.PercentDiscountVoucher;
@@ -52,19 +53,33 @@ class VoucherServiceTest {
 	void setUp() {
 		MockitoAnnotations.openMocks(this);
 		voucherId = UUID.randomUUID();
-		voucher1 = new FixedAmountVoucher(voucherId, 100);
-		voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 10);
+		voucher1 = new FixedAmountVoucher(voucherId, 100, LocalDateTime.now());
+		voucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 10, LocalDateTime.now());
 		customerId = UUID.randomUUID();
 		customer = new Customer(customerId, "홍길동", "hong@example.com", LocalDateTime.now());
 	}
 
 	@Test
 	void 바우처_목록을_조회한다() {
-		when(voucherRepository.findAll()).thenReturn(Arrays.asList(voucher1, voucher2));
+		List<Voucher> vouchers = Arrays.asList(voucher1,voucher2);
+		when(voucherRepository.findByCriteria(null, null, null)).thenReturn(vouchers);
 
-		List<VoucherDto> vouchers = voucherService.getVouchers();
+		List<VoucherResponse> response = voucherService.getVouchers(null, null, null);
 
-		assertThat(vouchers, hasSize(2));
+		assertThat(response, hasSize(2));
+	}
+
+	@Test
+	void 날짜와_타입으로_조회시_조건에_맞는_바우처_목록을_반환한다() {
+		LocalDateTime startDate = LocalDateTime.now().minusDays(5);
+		LocalDateTime endDate = LocalDateTime.now();
+		VoucherType voucherType = VoucherType.FIXED_AMOUNT;
+		List<Voucher> vouchers = Collections.singletonList(voucher1);
+		when(voucherRepository.findByCriteria(startDate, endDate, voucherType)).thenReturn(vouchers);
+
+		List<VoucherResponse> voucherResponses = voucherService.getVouchers(startDate, endDate, voucherType);
+
+		assertThat(voucherResponses.size(), is(1));
 	}
 
 	@Test
@@ -72,7 +87,7 @@ class VoucherServiceTest {
 		VoucherType voucherType = VoucherType.FIXED_AMOUNT;
 		long discountValue = 500;
 
-		VoucherDto result = voucherService.createVoucher(voucherType, discountValue);
+		VoucherResponse result = voucherService.createVoucher(voucherType, discountValue);
 
 		assertThat(result.discountValue(), equalTo(discountValue));
 		assertThat(result.voucherType(), equalTo(voucherType));
@@ -82,7 +97,7 @@ class VoucherServiceTest {
 	void 아이디로_바우처를_조회한다() {
 		when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher1));
 
-		VoucherDto result = voucherService.getVoucherDetail(voucherId);
+		VoucherResponse result = voucherService.getVoucherDetail(voucherId);
 
 		assertThat(result.voucherId(), equalTo(voucherId));
 		assertThat(result.discountValue(), equalTo(100L));
@@ -114,7 +129,7 @@ class VoucherServiceTest {
 		when(customerRepository.findAllById(Collections.singletonList(customerId))).thenReturn(
 			Collections.singletonList(customer));
 
-		List<CustomerDto> customers = voucherService.getCustomersByVoucher(voucherId);
+		List<CustomerResponse> customers = voucherService.getCustomersByVoucher(voucherId);
 
 		assertThat(customers, is(notNullValue()));
 		assertThat(customers, hasSize(1));
@@ -126,7 +141,7 @@ class VoucherServiceTest {
 		long newDiscountValue = 50;
 		when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher1));
 
-		VoucherDto result = voucherService.updateVoucher(voucherId, newDiscountValue);
+		VoucherResponse result = voucherService.updateVoucher(voucherId, newDiscountValue);
 
 		assertThat(result.discountValue(), equalTo(newDiscountValue));
 	}

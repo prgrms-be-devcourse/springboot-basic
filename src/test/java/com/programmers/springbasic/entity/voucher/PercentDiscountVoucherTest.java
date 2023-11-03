@@ -2,6 +2,7 @@ package com.programmers.springbasic.entity.voucher;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ class PercentDiscountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long percent = 50;
 
-		PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, percent);
+		PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, percent, LocalDateTime.now());
 
 		assertEquals(voucherId, voucher.getVoucherId());
 		assertEquals(percent, voucher.getDiscountValue());
@@ -24,7 +25,8 @@ class PercentDiscountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long invalidPercent = -10;
 
-		assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(voucherId, invalidPercent));
+		assertThrows(IllegalArgumentException.class,
+			() -> new PercentDiscountVoucher(voucherId, invalidPercent, LocalDateTime.now()));
 	}
 
 	@Test
@@ -32,7 +34,7 @@ class PercentDiscountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long invalidPercent = 110;
 
-		assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(voucherId, invalidPercent));
+		assertThrows(IllegalArgumentException.class, () -> new PercentDiscountVoucher(voucherId, invalidPercent, LocalDateTime.now()));
 	}
 
 	@Test
@@ -40,7 +42,7 @@ class PercentDiscountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long initialPercent = 20;
 		long newPercent = 30;
-		PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, initialPercent);
+		PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, initialPercent, LocalDateTime.now());
 
 		voucher.changeDiscountValue(newPercent);
 
@@ -52,7 +54,7 @@ class PercentDiscountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long initialPercent = 20;
 		long invalidPercent = -10;
-		PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, initialPercent);
+		PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, initialPercent, LocalDateTime.now());
 
 		assertThrows(IllegalArgumentException.class, () -> voucher.changeDiscountValue(invalidPercent));
 	}
@@ -62,7 +64,7 @@ class PercentDiscountVoucherTest {
 		UUID voucherId = UUID.randomUUID();
 		long initialPercent = 20;
 		long invalidPercent = 150;
-		PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, initialPercent);
+		PercentDiscountVoucher voucher = new PercentDiscountVoucher(voucherId, initialPercent, LocalDateTime.now());
 
 		assertThrows(IllegalArgumentException.class, () -> voucher.changeDiscountValue(invalidPercent));
 	}
