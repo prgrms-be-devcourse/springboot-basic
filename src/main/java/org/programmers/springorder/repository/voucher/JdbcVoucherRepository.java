@@ -23,6 +23,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String INSERT_VOUCHER = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
     private static final String SELECT_ALL_VOUCHER = "SELECT * FROM vouchers";
     private static final String SELECT_VOUCHER_BY_ID = "SELECT * FROM vouchers WHERE voucher_Id = UUID_TO_BIN(:voucherId)";
+    private static final String SELECT_VOUCHER_BY_TYPE = "SELECT * FROM vouchers WHERE voucher_type = :voucherType";
     private static final String UPDATE_VOUCHER = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String DELETE_ALL_VOUCHER = "DELETE FROM vouchers";
     private static final String DELETE_VOUCHER_BY_ID = "DELETE FROM vouchers WHERE voucher_Id = UUID_TO_BIN(:voucherId)";
@@ -73,6 +74,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        Map<String, Object> param = Map.of("voucherType", voucherType.toString());
+        return jdbcTemplate.query(SELECT_VOUCHER_BY_TYPE, param, voucherRowMapper);
     }
 
     @Override

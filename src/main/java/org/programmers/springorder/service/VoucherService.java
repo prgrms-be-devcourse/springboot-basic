@@ -4,6 +4,7 @@ import org.programmers.springorder.constant.ErrorMessage;
 import org.programmers.springorder.dto.voucher.VoucherRequestDto;
 import org.programmers.springorder.dto.voucher.VoucherResponseDto;
 import org.programmers.springorder.model.voucher.Voucher;
+import org.programmers.springorder.model.voucher.VoucherType;
 import org.programmers.springorder.repository.voucher.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,6 +44,17 @@ public class VoucherService {
     public Voucher findById(UUID voucherId) {
         return voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.VOUCHER_ID_NOT_EXIST_MESSAGE));
+    }
+
+    @Transactional(readOnly = true)
+    public List<VoucherResponseDto> findByType(VoucherType voucherType) {
+        List<Voucher> vouchers = voucherRepository.findByType(voucherType);
+        if (vouchers.isEmpty()) {
+            throw new IllegalArgumentException(voucherType.name() + ErrorMessage.VOUCHER_TYPE_NOT_EXIST_MESSAGE);
+        }
+        return vouchers.stream()
+                .map(VoucherResponseDto::of)
+                .toList();
     }
 
     @Transactional
