@@ -12,6 +12,7 @@ public class GlobalThymeExceptionHandler {
         CustomException.class,
     })
     public String handleUserException(CustomException ex, Model model) {
+        System.out.println("GlobalThymeExceptionHandler.handleUserException");
         model.addAttribute("error", ex.getErrorCode().getHttpStatus());
         model.addAttribute("message", ex.getMessage());
         return "customError";
