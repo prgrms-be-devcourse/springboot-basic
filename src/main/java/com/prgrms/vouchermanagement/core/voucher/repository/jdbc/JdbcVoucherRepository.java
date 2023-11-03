@@ -1,12 +1,10 @@
 package com.prgrms.vouchermanagement.core.voucher.repository.jdbc;
 
-import com.prgrms.vouchermanagement.core.customer.domain.Customer;
 import com.prgrms.vouchermanagement.core.voucher.domain.Voucher;
 import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 import com.prgrms.vouchermanagement.core.voucher.repository.VoucherRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
