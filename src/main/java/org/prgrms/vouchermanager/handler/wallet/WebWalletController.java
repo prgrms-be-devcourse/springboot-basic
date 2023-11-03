@@ -43,7 +43,7 @@ public class WebWalletController {
     }
     @PostMapping("/wallets/create")
     public String createWallet(@RequestParam("email") String email, @RequestParam("voucherId")UUID voucherId){
-        Voucher voucher = voucherService.findById(voucherId).orElseThrow(NotExistVoucherException::new);
+        Voucher voucher = voucherService.findById(voucherId);
         WalletRequest request = WalletRequest.builder().customerEmail(email).voucher(voucher).build();
         service.createWallet(request);
         return "redirect:/wallets";
@@ -67,8 +67,8 @@ public class WebWalletController {
     }
     @GetMapping("/wallets/find-voucher/result")
     public String findByVoucher(@RequestParam("voucherId") UUID voucherId, Model model){
-        Voucher voucher = voucherService.findById(voucherId).orElseThrow(NotExistVoucherException::new);
-        Optional<Wallet> wallet = service.findByVoucher(voucher);
+        Voucher voucher = voucherService.findById(voucherId);
+        Wallet wallet = service.findByVoucher(voucher);
         model.addAttribute("wallet", wallet);
         return "wallet/find-voucher-result";
     }

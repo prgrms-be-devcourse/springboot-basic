@@ -23,18 +23,17 @@ public class ApiWalletController {
     @PostMapping("/create")
     public ApiResponse createWallet(@RequestBody ApiWalletRequest request) {
         UUID voucherId = request.getVoucherId();
-        Optional<Voucher> voucher = voucherService.findById(voucherId);
-        WalletRequest dto = WalletRequest.builder().customerEmail(request.getCustomerEmail()).voucher(voucher.get()).build();
+        Voucher voucher = voucherService.findById(voucherId);
+        WalletRequest dto = WalletRequest.builder().customerEmail(request.getCustomerEmail()).voucher(voucher).build();
         return ApiResponse.success(walletService.createWallet(dto));
     }
 
     @GetMapping("/{email}")
     public ApiResponse findByEmail(@PathVariable String email) {
-        log.info(walletService.findByEmail(email).toString());
         return ApiResponse.success(walletService.findByEmail(email));
     }
 
-    @DeleteMapping("/delete/{email}")
+    @PostMapping("/delete/{email}")
     public ApiResponse deleteByEmail(@PathVariable String email) {
         return ApiResponse.success(walletService.deleteByEmail(email));
     }

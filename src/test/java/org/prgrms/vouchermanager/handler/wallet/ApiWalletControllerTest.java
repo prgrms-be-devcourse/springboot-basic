@@ -46,7 +46,7 @@ class ApiWalletControllerTest {
         WalletRequest walletDto = WalletData.getWalletDto();
         ApiWalletRequest apiDto = ApiWalletRequest.builder().customerEmail(walletDto.getCustomerEmail()).voucherId(walletDto.getVoucher().getVoucherId()).build();
         when(service.createWallet(any(WalletRequest.class))).thenReturn(walletDto);
-        when(voucherService.findById(any(UUID.class))).thenReturn(Optional.ofNullable(walletDto.getVoucher()));
+        when(voucherService.findById(any(UUID.class))).thenReturn(walletDto.getVoucher());
         mvc.perform(post("/api/wallets/create")
                 .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
                 .content(asJsonString(apiDto)))

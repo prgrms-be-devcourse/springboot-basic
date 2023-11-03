@@ -95,9 +95,9 @@ class WalletServiceTest {
             when(voucherRepository.findByID(any(UUID.class))).thenReturn(Optional.of(voucher));
             when(walletRepository.findByVoucher(any(Voucher.class))).thenReturn(Optional.of(wallet));
 
-            Optional<Wallet> result = service.findByVoucher(voucher);
+            Wallet result = service.findByVoucher(voucher);
 
-            assertThat(result).contains(wallet);
+            assertThat(result).isEqualTo(wallet);
             verify(walletRepository).findByVoucher(any(Voucher.class));
         }
         @Test
@@ -121,9 +121,9 @@ class WalletServiceTest {
             when(customerRepository.findByEmail(any(String.class))).thenReturn(Optional.of(customer));
             when(walletRepository.deleteByEmail(any(String.class))).thenReturn(Optional.of(wallet));
 
-            Optional<Wallet> result = service.deleteByEmail("123@naver.com");
+            Wallet result = service.deleteByEmail("123@naver.com");
 
-            assertThat(result).contains(wallet);
+            assertThat(result).isEqualTo(wallet);
             verify(customerRepository).findByEmail(any(String.class));
             verify(walletRepository).deleteByEmail(any(String.class));
         }

@@ -6,7 +6,7 @@ public record ApiResponse(
         Object data
 ) {
     public static ApiResponse success(Object data) {
-        return new ApiResponse(ApiStatus.SUCCESS, "", data);
+        return new ApiResponse(ApiStatus.SUCCESS, "Success", data);
     }
 
     public static ApiResponse error(String message) {

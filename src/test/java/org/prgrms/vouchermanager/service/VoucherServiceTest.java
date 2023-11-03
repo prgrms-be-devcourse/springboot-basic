@@ -54,9 +54,9 @@ class VoucherServiceTest {
             Voucher fixedVoucher = VoucherData.getFixedVoucher();
             when(repository.findByID(any(UUID.class))).thenReturn(Optional.of(fixedVoucher));
 
-            Optional<Voucher> voucher = service.findById(fixedVoucher.getVoucherId());
+            Voucher voucher = service.findById(fixedVoucher.getVoucherId());
 
-            assertThat(voucher).contains(fixedVoucher);
+            assertThat(voucher).isEqualTo(fixedVoucher);
             verify(repository).findByID(any());
         }
 
