@@ -62,6 +62,11 @@ public class CsvFileVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findVouchersByVoucherType(String voucherType) {
+        return null;
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         vouchers.put(voucher.getVoucherId(), voucher);
         updateVouchersInfoOnCsv();

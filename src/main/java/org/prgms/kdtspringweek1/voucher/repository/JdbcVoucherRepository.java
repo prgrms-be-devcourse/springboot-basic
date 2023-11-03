@@ -85,6 +85,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findVouchersByVoucherType(String voucherType) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = :voucherType", Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
+    }
+
+    @Override
     public Voucher update(Voucher voucher) {
         int isUpdated = jdbcTemplate.update("UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)",
                 toParamMap(voucher));
