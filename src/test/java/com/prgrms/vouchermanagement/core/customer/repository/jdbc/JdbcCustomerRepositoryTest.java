@@ -86,6 +86,8 @@ class JdbcCustomerRepositoryTest {
         assertThat(findCustomer.get().equals(customer), is(true));
     }
 
+
+
     @DisplayName("Customer를 전체 조회할 수 있다.")
     @Test
     void testFindAll() {
@@ -141,6 +143,28 @@ class JdbcCustomerRepositoryTest {
 
         // then
         assertThat(customerList.size(), is(0));
+    }
+
+    @DisplayName("id 값들에 해당하는 Customer를 모두 조회할 수 있다.")
+    @Test
+    void testFindAllByIds() {
+        // given
+        String uuid1 = UUID.randomUUID().toString();
+        String uuid2 = UUID.randomUUID().toString();
+        String uuid3 = UUID.randomUUID().toString();
+        Customer customer1 = new Customer(uuid1, "customer1", "customer1@email.com");
+        Customer customer2 = new Customer(uuid2, "customer2", "customer2@email.com");
+        Customer customer3 = new Customer(uuid3, "customer3", "customer3@email.com");
+
+        jdbcCustomerRepository.save(customer1);
+        jdbcCustomerRepository.save(customer2);
+        jdbcCustomerRepository.save(customer3);
+
+        // when
+        List<Customer> voucherList = jdbcCustomerRepository.findAllByIds(List.of(uuid1, uuid2));
+
+        // then
+        assertThat(voucherList.containsAll(List.of(customer1, customer2)), is(true));
     }
 
 }
