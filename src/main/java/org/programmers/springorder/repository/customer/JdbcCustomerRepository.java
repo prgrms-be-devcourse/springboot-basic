@@ -12,15 +12,18 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.*;
 
+import static org.programmers.springorder.utils.UUIDUtil.toUUID;
+import static org.programmers.springorder.utils.UUIDUtil.uuidToBytes;
+
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private static final String INSERT_CUSTOMER = "INSERT INTO customers(customer_id, customer_name, customer_type) VALUES(:customerId, :customerName, :customerType)";
+    private static final String INSERT_CUSTOMER = "INSERT INTO customers(customer_id, customer_name, customer_type) VALUES (UUID_TO_BIN(:customerId), :customerName, :customerType)";
     private static final String SELECT_ALL_CUSTOMER = "SELECT * FROM customers";
     private static final String SELECT_BLACKLIST_CUSTOMER = "SELECT * FROM customers where customer_type = 'BLACK'";
-    private static final String SELECT_CUSTOMER_BY_ID = "SELECT * FROM customers WHERE customer_id = :customerId";
+    private static final String SELECT_CUSTOMER_BY_ID = "SELECT * FROM customers WHERE customer_id = UUID_TO_BIN(:customerId)";
     private static final String DELETE_ALL_CUSTOMER = "DELETE FROM customers";
 
 
@@ -29,7 +32,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private final RowMapper<Customer> customerRowMapper = (resultSet, rowNum) -> {
-        UUID customerId = UUID.fromString(resultSet.getString("customer_id"));
+        UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String customerName = resultSet.getString("customer_name");
         CustomerType customerType = CustomerType.valueOf(resultSet.getString("customer_type"));
         return Customer.toCustomer(customerId, customerName, customerType);
@@ -37,7 +40,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private Map<String, Object> toParamMap(Customer customer) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("customerId", customer.getCustomerIdToString());
+        paramMap.put("customerId", uuidToBytes(customer.getCustomerIdToString()));
         paramMap.put("customerName", customer.getName());
         paramMap.put("customerType", customer.getCustomerTypeName());
         return paramMap;
@@ -66,7 +69,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public Optional<Customer> findById(UUID customerId) {
         try {
-            Map<String, Object> param = Map.of("customerId", customerId);
+            Map<String, Object> param = Map.of("customerId", customerId.toString());
             Customer customer = jdbcTemplate.queryForObject(SELECT_CUSTOMER_BY_ID, param, customerRowMapper);
             return Optional.ofNullable(customer);
         } catch (EmptyResultDataAccessException e) {
