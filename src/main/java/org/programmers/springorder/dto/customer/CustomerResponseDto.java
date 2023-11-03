@@ -20,6 +20,18 @@ public class CustomerResponseDto {
         return new CustomerResponseDto(customer);
     }
 
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getCustomerType() {
+        return customerType;
+    }
+
     @Override
     public String toString() {
         return "[" +
