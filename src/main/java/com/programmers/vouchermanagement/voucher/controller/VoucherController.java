@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.controller;
 
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
@@ -65,5 +66,11 @@ public class VoucherController {
         LocalDateTime fromDateTime = LocalDateTime.of(from, LocalTime.of(0, 0, 0));
         LocalDateTime toDateTime = LocalDateTime.of(to, LocalTime.of(23, 59, 59));
         return voucherService.readAllByCreatedAt(fromDateTime, toDateTime);
+    }
+
+    @GetMapping("type/{type}")
+    @ResponseBody
+    public List<VoucherDto> readAllByType(@PathVariable("type") VoucherType type) {
+        return voucherService.readAllByType(type);
     }
 }
