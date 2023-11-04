@@ -1,4 +1,4 @@
-package org.programmers.springorder.controller;
+package org.programmers.springorder.controller.customer;
 
 import org.programmers.springorder.dto.customer.CustomerRequestDto;
 import org.programmers.springorder.dto.customer.CustomerResponseDto;
