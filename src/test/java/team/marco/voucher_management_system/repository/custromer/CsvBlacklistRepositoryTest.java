@@ -2,7 +2,6 @@ package team.marco.voucher_management_system.repository.custromer;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
@@ -10,9 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static team.marco.voucher_management_system.util.UUIDUtil.stringToUUID;
 
-@ActiveProfiles("test")
 class CsvBlacklistRepositoryTest {
-
     private CsvBlacklistRepository csvBlacklistRepository;
 
     public CsvBlacklistRepositoryTest() {

@@ -2,7 +2,6 @@ package team.marco.voucher_management_system.repository.voucher;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.test.context.ActiveProfiles;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 
 import java.util.List;
@@ -13,7 +12,6 @@ import static org.assertj.core.api.Assertions.*;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
 
-@ActiveProfiles("test")
 class JsonFileVoucherRepositoryTest {
     private JsonFileVoucherRepository fileVoucherRepository;
 

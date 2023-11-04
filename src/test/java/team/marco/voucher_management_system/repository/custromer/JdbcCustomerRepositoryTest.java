@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 import team.marco.voucher_management_system.domain.customer.Customer;
 
 import java.util.List;
@@ -17,9 +16,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Transactional
 @SpringBootTest
-@ActiveProfiles("prod")
+@ActiveProfiles("test")
 class JdbcCustomerRepositoryTest {
     @Autowired
     private JdbcCustomerRepository customerRepository;

@@ -6,16 +6,6 @@ spring:
   profiles:
     active: "prod"
 
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/voucher_mgmt_system?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: root
-    password: wtwt
-
-  sql:
-    init:
-      mode: always
-
   thymeleaf:
     cache: false
     check-template-location: false
@@ -32,11 +22,29 @@ file:
 spring:
   profiles:
     active: "prod"
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3305/voucher_mgmt_system?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: uijin-mysql-pw
 ---
 spring:
   profiles:
     active: "dev"
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3305/voucher_mgmt_system?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: uijin-mysql-pw
 ---
 spring:
   profiles:
     active: "test"
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3305/test_voucher_mgmt_system?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: uijin-mysql-pw

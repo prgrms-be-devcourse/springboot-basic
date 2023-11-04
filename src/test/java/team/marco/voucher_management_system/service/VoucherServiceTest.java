@@ -3,10 +3,13 @@ package team.marco.voucher_management_system.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import team.marco.voucher_management_system.controller.voucher.dto.VoucherCreateRequest;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 import team.marco.voucher_management_system.domain.voucher.VoucherType;
-import team.marco.voucher_management_system.repository.voucher.MemoryVoucherRepository;
 import team.marco.voucher_management_system.repository.voucher.VoucherRepository;
 import team.marco.voucher_management_system.service.voucher.VoucherCreateServiceRequest;
 import team.marco.voucher_management_system.service.voucher.VoucherService;
@@ -17,15 +20,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
 
+@SpringBootTest
+@ActiveProfiles("test")
 class VoucherServiceTest {
+    @Autowired
     private VoucherService voucherService;
+
+    @Autowired
     private VoucherRepository voucherRepository;
 
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
     @BeforeEach
-    @DisplayName("각 테스트는 빈 메모리 저장소를 가지고 테스트를 시작합니다.")
-    void VoucherService_초기화() {
-        voucherRepository = new MemoryVoucherRepository();
-        voucherService = new VoucherService(voucherRepository);
+    void setUp() {
+        String query = "DELETE FROM vouchers";
+        jdbcTemplate.update(query);
     }
 
     @Test
