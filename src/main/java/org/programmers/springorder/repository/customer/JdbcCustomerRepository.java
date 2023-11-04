@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.*;
 
-import static org.programmers.springorder.utils.UUIDUtil.toUUID;
-import static org.programmers.springorder.utils.UUIDUtil.uuidToBytes;
+import static org.programmers.springorder.global.utils.UUIDUtil.toUUID;
+import static org.programmers.springorder.global.utils.UUIDUtil.uuidToBytes;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {

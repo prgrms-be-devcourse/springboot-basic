@@ -5,7 +5,7 @@ import org.programmers.springorder.constant.MenuType;
 import org.programmers.springorder.controller.WalletController;
 import org.programmers.springorder.controller.customer.CustomerController;
 import org.programmers.springorder.controller.voucher.VoucherController;
-import org.programmers.springorder.utils.ExceptionHandler;
+import org.programmers.springorder.global.handler.ExceptionHandler;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;

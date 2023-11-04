@@ -6,8 +6,8 @@ import org.programmers.springorder.dto.customer.CustomerResponseDto;
 import org.programmers.springorder.dto.voucher.VoucherRequestDto;
 import org.programmers.springorder.dto.voucher.VoucherResponseDto;
 import org.programmers.springorder.dto.wallet.WalletRequestDto;
+import org.programmers.springorder.global.handler.ExceptionHandler;
 import org.programmers.springorder.model.voucher.VoucherType;
-import org.programmers.springorder.utils.ExceptionHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -4,8 +4,8 @@ import org.programmers.springorder.console.Console;
 import org.programmers.springorder.constant.Message;
 import org.programmers.springorder.constant.VoucherMenuType;
 import org.programmers.springorder.dto.voucher.VoucherRequestDto;
+import org.programmers.springorder.global.handler.ExceptionHandler;
 import org.programmers.springorder.service.VoucherService;
-import org.programmers.springorder.utils.ExceptionHandler;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;

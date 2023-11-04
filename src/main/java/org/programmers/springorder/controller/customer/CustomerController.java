@@ -4,8 +4,8 @@ import org.programmers.springorder.console.Console;
 import org.programmers.springorder.constant.CustomerMenuType;
 import org.programmers.springorder.constant.Message;
 import org.programmers.springorder.dto.customer.CustomerRequestDto;
+import org.programmers.springorder.global.handler.ExceptionHandler;
 import org.programmers.springorder.service.CustomerService;
-import org.programmers.springorder.utils.ExceptionHandler;
 import org.springframework.stereotype.Controller;
 
 @Controller

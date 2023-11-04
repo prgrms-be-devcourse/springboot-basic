@@ -1,4 +1,4 @@
-package org.programmers.springorder.utils;
+package org.programmers.springorder.global.utils;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
