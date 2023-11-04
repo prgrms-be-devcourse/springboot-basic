@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -57,8 +58,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        if (!voucherFileManager.vouchers.isEmpty())
-            voucherFileManager.vouchers.clear();
+        if (!voucherFileManager.vouchers.isEmpty()) voucherFileManager.vouchers.clear();
         voucherFileManager.saveFile();
     }
 
@@ -67,5 +67,10 @@ public class VoucherFileRepository implements VoucherRepository {
         Optional.ofNullable(voucherFileManager.vouchers.get(voucher.voucherId())).orElseThrow(() -> new RuntimeException(NOT_UPDATED));
         voucherFileManager.vouchers.put(voucher.voucherId(), voucher);
         voucherFileManager.saveFile();
+    }
+
+    @Override
+    public List<Voucher> findAllByType(VoucherType voucherType) {
+        return voucherFileManager.vouchers.values().stream().filter(voucher -> voucher.voucherType().equals(voucherType)).toList();
     }
 }
