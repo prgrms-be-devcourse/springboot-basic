@@ -3,7 +3,7 @@ package org.programmers.springboot.basic.domain.voucher.exception;
 public class VoucherValidatorNotFoundException extends RuntimeException {
 
     public VoucherValidatorNotFoundException() {
-        super("Exception Occurred: No matching validator found!");
+        super("No matching validator found!");
     }
 
     @Override

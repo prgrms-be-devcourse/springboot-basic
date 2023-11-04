@@ -1,9 +1,9 @@
 package org.programmers.springboot.basic.domain.customer.exception;
 
-public class CustomerNotFoundException extends RuntimeException {
+public class DuplicateEmailException extends RuntimeException {
 
-    public CustomerNotFoundException() {
-        super("No matching customers found!");
+    public DuplicateEmailException() {
+        super("Duplicate Email already exists!");
     }
 
     @Override
