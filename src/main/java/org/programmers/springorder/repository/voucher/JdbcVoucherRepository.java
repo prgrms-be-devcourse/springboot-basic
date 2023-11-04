@@ -3,6 +3,7 @@ package org.programmers.springorder.repository.voucher;
 import org.programmers.springorder.constant.ErrorMessage;
 import org.programmers.springorder.model.voucher.Voucher;
 import org.programmers.springorder.model.voucher.VoucherType;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,6 +17,7 @@ import static org.programmers.springorder.utils.UUIDUtil.toUUID;
 import static org.programmers.springorder.utils.UUIDUtil.uuidToBytes;
 
 @Repository
+@Primary
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -23,7 +25,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String INSERT_VOUCHER = "INSERT INTO vouchers(voucher_id, discount_value, voucher_type) VALUES(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
     private static final String SELECT_ALL_VOUCHER = "SELECT * FROM vouchers";
     private static final String SELECT_VOUCHER_BY_ID = "SELECT * FROM vouchers WHERE voucher_Id = UUID_TO_BIN(:voucherId)";
-    private static final String SELECT_VOUCHER_BY_TYPE = "SELECT * FROM vouchers WHERE voucher_type = :voucherType";
     private static final String UPDATE_VOUCHER = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String DELETE_ALL_VOUCHER = "DELETE FROM vouchers";
     private static final String DELETE_VOUCHER_BY_ID = "DELETE FROM vouchers WHERE voucher_Id = UUID_TO_BIN(:voucherId)";
@@ -54,7 +55,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     public Voucher insert(Voucher voucher) {
         int update = jdbcTemplate.update(INSERT_VOUCHER, toParamMap(voucher));
         if (update != 1) {
-            throw new DataAccessException(ErrorMessage.ERROR_IN_SAVE_CUSTOMER) {
+            throw new DataAccessException(ErrorMessage.ERROR_IN_SAVE_VOUCHER) {
             };
         }
         return voucher;
@@ -74,12 +75,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
-    }
-
-    @Override
-    public List<Voucher> findByType(VoucherType voucherType) {
-        Map<String, Object> param = Map.of("voucherType", voucherType.toString());
-        return jdbcTemplate.query(SELECT_VOUCHER_BY_TYPE, param, voucherRowMapper);
     }
 
     @Override

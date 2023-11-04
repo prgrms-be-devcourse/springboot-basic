@@ -48,7 +48,10 @@ public class VoucherService {
 
     @Transactional(readOnly = true)
     public List<VoucherResponseDto> findByType(VoucherType voucherType) {
-        List<Voucher> vouchers = voucherRepository.findByType(voucherType);
+        List<Voucher> vouchers = voucherRepository.findAll().stream()
+                .filter(voucher -> voucher.getVoucherType() == voucherType)
+                .toList();
+
         if (vouchers.isEmpty()) {
             throw new IllegalArgumentException(voucherType.name() + ErrorMessage.VOUCHER_TYPE_NOT_EXIST_MESSAGE);
         }
