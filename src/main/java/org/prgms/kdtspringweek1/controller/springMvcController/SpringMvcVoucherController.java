@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.springMvcController;
+package org.prgms.kdtspringweek1.controller.springMvcController;
 
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
 import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;

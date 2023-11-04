@@ -1,6 +1,6 @@
 package org.prgms.kdtspringweek1;
 
-import org.prgms.kdtspringweek1.consoleController.AppController;
+import org.prgms.kdtspringweek1.controller.consoleController.AppController;
 import org.prgms.kdtspringweek1.exception.FileExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

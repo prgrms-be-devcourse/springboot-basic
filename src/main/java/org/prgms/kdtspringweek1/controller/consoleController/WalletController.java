@@ -1,7 +1,7 @@
-package org.prgms.kdtspringweek1.consoleController;
+package org.prgms.kdtspringweek1.controller.consoleController;
 
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
-import org.prgms.kdtspringweek1.consoleController.dto.SelectFunctionTypeDto;
+import org.prgms.kdtspringweek1.controller.consoleController.dto.SelectFunctionTypeDto;
 import org.prgms.kdtspringweek1.customer.service.dto.FindCustomerResponseDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.wallet.entity.Wallet;
