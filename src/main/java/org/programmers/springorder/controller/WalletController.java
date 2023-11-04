@@ -33,8 +33,6 @@ public class WalletController {
         switch (menu) {
             case ASSIGN -> ExceptionHandler.process(WalletController::assignVoucher, this);
             case VOUCHER -> ExceptionHandler.process(WalletController::checkVoucher, this);
-//                case DELETE -> deleteVoucher();
-//                case CUSTOMER -> checkCusomter();
             case BACK -> console.back();
         }
     }
@@ -48,14 +46,6 @@ public class WalletController {
     private void checkVoucher() {
         UUID customerId = console.inputCustomerId();
         console.showVoucherList(walletService.getVoucher(customerId));
-    }
-
-    private void deleteVoucher() {  // TODO: 시간 관계상 리뷰 받고 구현하기
-
-    }
-
-    private void checkCusomter() {  // TODO: 시간 관계상 리뷰 받고 구현하기
-
     }
 
 }
