@@ -2,7 +2,7 @@ package org.prgrms.vouchermanager.repository.wallet;
 
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
+import org.prgrms.vouchermanager.dto.WalletRequest;
 
 import java.util.Optional;
 

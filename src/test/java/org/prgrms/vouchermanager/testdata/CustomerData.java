@@ -2,7 +2,7 @@ package org.prgrms.vouchermanager.testdata;
 
 
 import org.prgrms.vouchermanager.domain.customer.Customer;
-import org.prgrms.vouchermanager.domain.customer.CustomerRequest;
+import org.prgrms.vouchermanager.dto.CustomerRequest;
 
 import java.util.UUID;
 

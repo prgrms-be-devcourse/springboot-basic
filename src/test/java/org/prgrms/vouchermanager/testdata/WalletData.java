@@ -1,7 +1,7 @@
 package org.prgrms.vouchermanager.testdata;
 
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
+import org.prgrms.vouchermanager.dto.WalletRequest;
 
 import java.util.UUID;
 

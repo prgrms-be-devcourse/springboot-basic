@@ -5,9 +5,6 @@ import lombok.Data;
 
 import java.util.UUID;
 
-@Data
-@Builder
-public class ApiWalletRequest {
-    private final String customerEmail;
-    private final UUID voucherId;
+
+public record ApiWalletRequest(String customerEmail, UUID voucherId) {
 }

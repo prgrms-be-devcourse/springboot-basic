@@ -11,6 +11,7 @@ public class VouchermanagerApplication {
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(VouchermanagerApplication.class, args);
 
+
 //		ConfigurableApplicationContext ac = SpringApplication.run(VouchermanagerApplication.class, args);
 //		Handler voucherManager = ac.getBean(Handler.class);
 //		voucherManager.init();

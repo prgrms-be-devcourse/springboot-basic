@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
+import org.prgrms.vouchermanager.dto.WalletRequest;
 import org.prgrms.vouchermanager.exception.NotExistEmailException;
 import org.prgrms.vouchermanager.exception.NotExistVoucherException;
 import org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepository;
@@ -95,9 +95,9 @@ class WalletServiceTest {
             when(voucherRepository.findByID(any(UUID.class))).thenReturn(Optional.of(voucher));
             when(walletRepository.findByVoucher(any(Voucher.class))).thenReturn(Optional.of(wallet));
 
-            Wallet result = service.findByVoucher(voucher);
+            WalletRequest walletRequest = service.findByVoucher(voucher);
 
-            assertThat(result).isEqualTo(wallet);
+            assertThat(walletRequest.customerEmail()).isEqualTo(wallet.getCustomerEmail());
             verify(walletRepository).findByVoucher(any(Voucher.class));
         }
         @Test
@@ -121,9 +121,9 @@ class WalletServiceTest {
             when(customerRepository.findByEmail(any(String.class))).thenReturn(Optional.of(customer));
             when(walletRepository.deleteByEmail(any(String.class))).thenReturn(Optional.of(wallet));
 
-            Optional<Wallet> result = service.deleteByEmail("123@naver.com");
+            WalletRequest walletRequest = service.deleteByEmail("123@naver.com");
 
-            assertThat(result).isEqualTo(wallet);
+            assertThat(walletRequest.customerEmail()).isEqualTo(wallet.getCustomerEmail());
             verify(customerRepository).findByEmail(any(String.class));
             verify(walletRepository).deleteByEmail(any(String.class));
         }

@@ -3,10 +3,10 @@
 //import lombok.RequiredArgsConstructor;
 //import lombok.extern.slf4j.Slf4j;
 //import org.prgrms.vouchermanager.domain.customer.Customer;
-//import org.prgrms.vouchermanager.domain.customer.CustomerRequest;
+//import org.prgrms.vouchermanager.dto.CustomerRequest;
 //import org.prgrms.vouchermanager.domain.voucher.MenuType;
 //import org.prgrms.vouchermanager.domain.voucher.Voucher;
-//import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
+//import org.prgrms.vouchermanager.dto.WalletRequest;
 //import org.prgrms.vouchermanager.exception.InputValueException;
 //import org.prgrms.vouchermanager.exception.NotExistEmailException;
 //import org.prgrms.vouchermanager.exception.NotExistVoucherException;

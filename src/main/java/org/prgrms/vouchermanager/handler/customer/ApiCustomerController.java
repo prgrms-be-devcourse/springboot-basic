@@ -1,10 +1,11 @@
 package org.prgrms.vouchermanager.handler.customer;
 
 import lombok.RequiredArgsConstructor;
-import org.prgrms.vouchermanager.common.ApiResponse;
 import org.prgrms.vouchermanager.domain.customer.Customer;
-import org.prgrms.vouchermanager.domain.customer.CustomerRequest;
+import org.prgrms.vouchermanager.dto.CustomerRequest;
 import org.prgrms.vouchermanager.service.CustomerService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,12 +17,12 @@ public class ApiCustomerController {
     private final CustomerService customerService;
 
     @GetMapping
-    public ApiResponse findAll() {
-        return ApiResponse.success(customerService.findAll());
+    public ResponseEntity<List<CustomerRequest>> findAll() {
+        return new ResponseEntity<List<CustomerRequest>>(customerService.findAll(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ApiResponse createCustomer(@RequestBody CustomerRequest request){
-        return ApiResponse.success(customerService.createCustomer(request));
+    public ResponseEntity<CustomerRequest> createCustomer(@RequestBody CustomerRequest request){
+        return new ResponseEntity<CustomerRequest>(customerService.createCustomer(request), HttpStatus.OK);
     }
 }

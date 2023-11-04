@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.prgrms.vouchermanager.domain.wallet.ApiWalletRequest;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
+import org.prgrms.vouchermanager.dto.WalletRequest;
 import org.prgrms.vouchermanager.service.VoucherService;
 import org.prgrms.vouchermanager.service.WalletService;
 import org.prgrms.vouchermanager.testdata.WalletData;
@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;

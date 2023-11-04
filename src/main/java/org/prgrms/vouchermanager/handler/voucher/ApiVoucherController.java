@@ -7,6 +7,8 @@ import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.prgrms.vouchermanager.domain.voucher.PercentDiscountVoucher;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.service.VoucherService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +20,15 @@ import java.util.UUID;
 public class ApiVoucherController {
     private final VoucherService voucherService;
     @GetMapping("/")
-    public ApiResponse findAll(){
-        return ApiResponse.success(voucherService.findAllVoucher());
+    public ResponseEntity<List<Voucher>> findAll(){
+        return new ResponseEntity<List<Voucher>>(voucherService.findAllVoucher(),HttpStatus.OK);
     }
     @PostMapping("/create")
-    public ApiResponse createVoucher(@RequestBody MenuType menuType){
+    public ResponseEntity<Voucher> createVoucher(@RequestBody MenuType menuType){
         if (menuType == MenuType.FIXED) {
-            return ApiResponse.success(voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10, MenuType.FIXED)));
+            return new ResponseEntity<Voucher>(voucherService.createVoucher(new FixedAmountVoucher(UUID.randomUUID(), 10, MenuType.FIXED)), HttpStatus.OK);
         } else {
-            return ApiResponse.success(voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10, MenuType.PERCENT)));
+            return new ResponseEntity<Voucher>(voucherService.createVoucher(new PercentDiscountVoucher(UUID.randomUUID(), 10, MenuType.PERCENT)), HttpStatus.OK);
         }
     }
 }

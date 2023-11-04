@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
+import org.prgrms.vouchermanager.dto.WalletRequest;
 import org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepository;
 import org.prgrms.vouchermanager.repository.voucher.JdbcVoucherRepository;
 import org.prgrms.vouchermanager.testdata.CustomerData;
@@ -39,9 +39,7 @@ class JdbcWalletRepositoryTest {
         void findByEmail() {
             Customer customer = jdbcCustomerRepository.save(CustomerData.getCustomer());
             Voucher voucher = jdbcVoucherRepository.save(VoucherData.getFixedVoucher());
-            WalletRequest dto = WalletRequest.builder()
-                    .customerEmail(customer.getEmail())
-                    .voucher(voucher).build();
+            WalletRequest dto = new WalletRequest(customer.getEmail(), voucher);
             jdbcWalletRepository.save(dto);
 
             Optional<Wallet> wallet = jdbcWalletRepository.findByEmail(customer.getEmail());
@@ -64,9 +62,7 @@ class JdbcWalletRepositoryTest {
         void findByVoucherExist() {
             Customer customer = jdbcCustomerRepository.save(CustomerData.getCustomer());
             Voucher voucher = jdbcVoucherRepository.save(VoucherData.getFixedVoucher());
-            WalletRequest dto = WalletRequest.builder()
-                    .customerEmail(customer.getEmail())
-                    .voucher(voucher).build();
+            WalletRequest dto = new WalletRequest(customer.getEmail(), voucher);
             jdbcWalletRepository.save(dto);
 
             Optional<Wallet> wallet = jdbcWalletRepository.findByVoucher(voucher);
@@ -92,9 +88,7 @@ class JdbcWalletRepositoryTest {
         void deleteByEmail(){
             Customer customer = jdbcCustomerRepository.save(CustomerData.getCustomer());
             Voucher voucher = jdbcVoucherRepository.save(VoucherData.getFixedVoucher());
-            WalletRequest dto = WalletRequest.builder()
-                    .customerEmail(customer.getEmail())
-                    .voucher(voucher).build();
+            WalletRequest dto = new WalletRequest(customer.getEmail(), voucher);
             jdbcWalletRepository.save(dto);
 
             jdbcWalletRepository.deleteByEmail(customer.getEmail());
@@ -107,9 +101,7 @@ class JdbcWalletRepositoryTest {
         void deleteByEmailNotExist(){
             Customer customer = jdbcCustomerRepository.save(CustomerData.getCustomer());
             Voucher voucher = jdbcVoucherRepository.save(VoucherData.getFixedVoucher());
-            WalletRequest dto = WalletRequest.builder()
-                    .customerEmail(customer.getEmail())
-                    .voucher(voucher).build();
+            WalletRequest dto = new WalletRequest(customer.getEmail(), voucher);
             jdbcWalletRepository.save(dto);
 
             Optional<Wallet> wallet1 = jdbcWalletRepository.deleteByEmail(customer.getEmail());

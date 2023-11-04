@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.prgrms.vouchermanager.dto.CustomerRequest;
 import org.prgrms.vouchermanager.repository.customer.MemoryCustomerRepository;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.testdata.CustomerData;
@@ -32,9 +33,9 @@ class CustomerServiceTest {
         Customer customer = CustomerData.getCustomer();
         when(repository.save(any(Customer.class))).thenReturn(customer);
 
-        Customer customer1 = service.createCustomer(CustomerData.getCustomerDto());
+        CustomerRequest customer1 = service.createCustomer(CustomerData.getCustomerDto());
 
-        assertThat(customer.getName()).isEqualTo(customer1.getName());
+        assertThat(customer.getName()).isEqualTo(customer1.name());
         verify(repository).save(any(Customer.class));
     }
 
@@ -46,9 +47,9 @@ class CustomerServiceTest {
         result.add(customer);
         when(repository.findAll()).thenReturn(result);
 
-        List<Customer> all = service.findAll();
+        List<CustomerRequest> all = service.findAll();
 
-        assertThat(all.get(0)).isEqualTo(result.get(0));
+        assertThat(all.get(0).name()).isEqualTo(result.get(0).getName());
         verify(repository).findAll();
 
     }

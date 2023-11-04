@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgrms.vouchermanager.domain.voucher.MenuType;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
+import org.prgrms.vouchermanager.dto.WalletRequest;
 import org.prgrms.vouchermanager.util.UuidUtil;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;

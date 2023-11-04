@@ -2,12 +2,14 @@ package org.prgrms.vouchermanager.handler.wallet;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.prgrms.vouchermanager.common.ApiResponse;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.ApiWalletRequest;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequest;
+import org.prgrms.vouchermanager.domain.wallet.Wallet;
+import org.prgrms.vouchermanager.dto.WalletRequest;
 import org.prgrms.vouchermanager.service.VoucherService;
 import org.prgrms.vouchermanager.service.WalletService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -21,20 +23,20 @@ public class ApiWalletController {
     private final WalletService walletService;
     private final VoucherService voucherService;
     @PostMapping("/create")
-    public ApiResponse createWallet(@RequestBody ApiWalletRequest request) {
-        UUID voucherId = request.getVoucherId();
+    public ResponseEntity<WalletRequest> createWallet(@RequestBody ApiWalletRequest request) {
+        UUID voucherId = request.voucherId();
         Voucher voucher = voucherService.findById(voucherId);
-        WalletRequest dto = WalletRequest.builder().customerEmail(request.getCustomerEmail()).voucher(voucher).build();
-        return ApiResponse.success(walletService.createWallet(dto));
+        WalletRequest dto = new WalletRequest(request.customerEmail(),voucher);
+        return new ResponseEntity<WalletRequest>(walletService.createWallet(dto), HttpStatus.OK);
     }
 
     @GetMapping("/{email}")
-    public ApiResponse findByEmail(@PathVariable String email) {
-        return ApiResponse.success(walletService.findByEmail(email));
+    public ResponseEntity<WalletRequest> findByEmail(@PathVariable String email) {
+        return new ResponseEntity<WalletRequest>(walletService.findByEmail(email), HttpStatus.OK);
     }
 
     @PostMapping("/delete/{email}")
-    public ApiResponse deleteByEmail(@PathVariable String email) {
-        return ApiResponse.success(walletService.deleteByEmail(email));
+    public ResponseEntity<WalletRequest> deleteByEmail(@PathVariable String email) {
+        return new ResponseEntity<WalletRequest>(walletService.deleteByEmail(email), HttpStatus.OK);
     }
 }
