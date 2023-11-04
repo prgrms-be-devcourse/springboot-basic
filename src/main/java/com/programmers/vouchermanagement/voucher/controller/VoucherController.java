@@ -7,6 +7,9 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,4 +59,11 @@ public class VoucherController {
         voucherService.update(voucherId, createVoucherRequest);
     }
 
+    @GetMapping("/datetime")
+    @ResponseBody
+    public List<VoucherDto> readAllByCreatedAt(@RequestParam(name = "from") LocalDate from, @RequestParam(name = "to") LocalDate to) {
+        LocalDateTime fromDateTime = LocalDateTime.of(from, LocalTime.of(0, 0, 0));
+        LocalDateTime toDateTime = LocalDateTime.of(to, LocalTime.of(23, 59, 59));
+        return voucherService.readAllByCreatedAt(fromDateTime, toDateTime);
+    }
 }
