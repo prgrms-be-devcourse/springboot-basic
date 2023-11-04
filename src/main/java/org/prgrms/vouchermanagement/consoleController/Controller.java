@@ -4,9 +4,11 @@ import org.prgrms.vouchermanagement.view.Command;
 import org.prgrms.vouchermanagement.view.ConsoleInput;
 import org.prgrms.vouchermanagement.view.ConsoleOutput;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("console")
 public class Controller implements CommandLineRunner {
 
     private final ConsoleInput consoleInput = new ConsoleInput();

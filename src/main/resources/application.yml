@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: database
+    active: database, web
 
 ---
 spring:

@@ -4,6 +4,7 @@ import org.prgrms.vouchermanagement.exception.InvalidInputException;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
 import org.prgrms.vouchermanagement.voucher.service.VoucherService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,8 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@Profile("web")
 @RequestMapping("/voucher")
 public class VoucherWebController {
+
+    //api path
 
     private final VoucherService voucherService;
 
@@ -43,6 +47,8 @@ public class VoucherWebController {
         return "voucher/find";
     }
 
+    //Request Param
+    //추가해야 할 부분 -> update 한 번 고민해보기, 유효성 검사, Rest 알아보자
     @PostMapping("/find")
     public String findVoucher(@RequestParam("voucherId") String uuid, Model model) {
         UUID voucherId =  UUID.fromString(uuid);
@@ -71,6 +77,8 @@ public class VoucherWebController {
         voucherService.deleteVoucher(voucherId);
         return "redirect:/voucher/delete";
     }
+
+    //유효성 검사(null check)
 
     private PolicyStatus validateAndConvertPolicy(String inputPolicy) {
         try {
