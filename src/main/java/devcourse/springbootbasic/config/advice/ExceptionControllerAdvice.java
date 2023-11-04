@@ -1,6 +1,5 @@
-package devcourse.springbootbasic;
+package devcourse.springbootbasic.config.advice;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +22,5 @@ public class ExceptionControllerAdvice {
         log.error(ex.getMessage());
         ErrorMessage errorMessage = new ErrorMessage(ex.getClass().getSimpleName(), ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
-    }
-
-    @Getter
-    private static final class ErrorMessage {
-        private final String error;
-        private final String message;
-
-        ErrorMessage(String error, String message) {
-            this.error = error;
-            this.message = message;
-        }
     }
 }

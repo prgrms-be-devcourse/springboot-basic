@@ -1,4 +1,4 @@
-package devcourse.springbootbasic;
+package devcourse.springbootbasic.config;
 
 import devcourse.springbootbasic.commandline.console.ConsoleIOHandler;
 import devcourse.springbootbasic.commandline.console.input.ConsoleInput;
