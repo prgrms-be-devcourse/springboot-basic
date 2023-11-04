@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Voucher Management Admin - Voucher Detail</title>
+</head>
+<body>
+    <div>
+        <header>
+            <h1>Voucher Detail</h1>
+        </header>
+        <div class="voucher-detail" th:object="${voucher}" >
+            <form method="post">
+                <div th:if="${voucher?.voucherId}">
+                    Voucher ID : <span th:text="*{voucherId}" ></span>
+                </div>
+                <div th:if="${voucher?.createdAt}">
+                    Creation Datetime : <span th:text="*{createdAt}"></span>
+                </div>
+                <div th:if="${voucher?.discountValue}">
+                    <label for="discount-value">Discount Value</label>
+                    <input th:value="*{discountValue}"
+                       type="text"
+                       id="discount-value"
+                       class="discount-value"
+                    />
+                </div>
+                <div th:unless="${voucher?.discountValue}">
+                    <label for="discount-value-input">Discount Value</label>
+                    <input
+                       type="text"
+                       id="discount-value-input"
+                       class="discount-value editable"
+                       placeholder="Please input the discount value"
+                    />
+                </div>
+                <div th:if="${voucher?.voucherType}">
+                    Current Voucher Type : <span th:text="*{voucherType.displayTypeName}" ></span> Discount Voucher
+                </div>
+                <label for="voucher-type-selection">Voucher Type To Be Saved</label><br/>
+                <select class="form-select" id="voucher-type-selection">
+                    <option th:each="voucherType : ${T(com.programmers.vouchermanagement.voucher.domain.VoucherType).values()}"
+                            th:value="${voucherType}" th:text="${voucherType.displayTypeName}"></option>
+                </select>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
