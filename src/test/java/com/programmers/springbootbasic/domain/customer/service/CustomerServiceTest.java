@@ -5,7 +5,6 @@ import com.programmers.springbootbasic.domain.customer.dto.CustomerRequestDto;
 import com.programmers.springbootbasic.domain.customer.entity.Customer;
 import com.programmers.springbootbasic.domain.customer.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.customer.repository.CustomerRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,12 +30,8 @@ class CustomerServiceTest {
     private CustomerService customerService;
     @Mock
     private CustomerRepository customerRepository;
+    @Mock
     private final UUIDValueStrategy uuidValueStrategy = () -> CUSTOMER_ID;
-
-    @BeforeEach
-    void init() {
-        customerService = new CustomerService(customerRepository, uuidValueStrategy);
-    }
 
     @Test
     void testCreateCustomerSuccess() {

@@ -7,7 +7,6 @@ import com.programmers.springbootbasic.domain.voucher.entity.FixedAmountVoucher;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.exception.ErrorMsg;
 import com.programmers.springbootbasic.domain.voucher.repository.VoucherRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,13 +34,10 @@ class VoucherServiceTest {
     private VoucherService voucherService;
     @Mock
     private VoucherRepository voucherRepository;
+    @Mock
     private final UUIDValueStrategy uuidValueStrategy = () -> VOUCHER_ID;
+    @Mock
     private final LocalDateValueStrategy localDateValueStrategy = () -> CREATED_DATE;
-
-    @BeforeEach
-    void init() {
-        voucherService = new VoucherService(voucherRepository, uuidValueStrategy, localDateValueStrategy);
-    }
 
     @Test
     void testCreateVoucherSuccess() {
