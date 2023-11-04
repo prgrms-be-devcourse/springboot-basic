@@ -1,0 +1,66 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Home</title>
+</head>
+<body class="container-fluid">
+<h1>Search Wallet By Customer Id</h1>
+<form th:action="@{/customer/wallets}" method="get">
+    <div class="mb-3">
+        <label for="customerId" class="form-label">Customer Id</label>
+        <input type="text" name="customerId" class="form-control" id="customerId" placeholder="Customer Id"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<h1>Search Wallet By Voucher Id</h1>
+<form th:action="@{/voucher/wallets}" method="get">
+    <div class="mb-3">
+        <label for="voucherId" class="form-label">Voucher Id</label>
+        <input type="text" name="voucherId" class="form-control" id="voucherId" placeholder="Voucher Id"/>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<h1>Search Result</h1>
+<table class="table table-striped table-hover">
+    <tbody>
+    <tr th:if="${vouchers != null}">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Voucher Type</th>
+            <th scope="col">Discount Value</th>
+        </tr>
+        </thead>
+        <tr th:each="voucher : ${vouchers}">
+            <td th:text="${voucher.voucherId}"></td>
+            <td th:text="${voucher.voucherType.name}"></td>
+            <td th:text="${voucher.discountValue}"></td>
+        </tr>
+    </tr>
+    <tr th:if="${customers != null}">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Is Black Customer</th>
+        </tr>
+        </thead>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.getCustomerId()}"></td>
+            <td th:text="${customer.getName()}"></td>
+            <td th:text="${customer.getIsBlackCustomer()}"></td>
+        </tr>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/wallet-create}" class="btn btn-primary">Create Wallet</a>
+<a th:href="@{/wallet-delete}" class="btn btn-primary">Delete Wallet</a>
+</body>
+</html>
