@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Voucher Management Admin - Vouchers</title>
+</head>
+<body>
+    <div class="voucher-page-container">
+        <header>
+            <h1>All Vouchers</h1>
+        </header>
+        <div class="vouchers-container">
+            <div class="voucher-item-header">
+                <div class="voucher-item-description">
+                    <span>Voucher ID</span>
+                    <span>Creation Datetime</span>
+                    <span>Discount Value</span>
+                    <span>Voucher Type</span>
+                </div>
+                <button class="voucher-add-button">Add New Voucher</button>
+            </div>
+            <div th:each="voucher : ${vouchers}" th:object="${voucher}" class="voucher-items">
+                <div class="voucher-item">
+                    <span th:text="*{voucherId}" ></span>
+                    <span th:text="*{createdAt}" ></span>
+                    <span th:text="*{discountValue}" ></span>
+                    <span th:text="*{voucherType}" ></span>
+                </div>
+                <button class="voucher-detail-btn">
+                    <a th:href="@{/vouchers/{id}(id=*{voucherId})}">
+                        View Detail
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
