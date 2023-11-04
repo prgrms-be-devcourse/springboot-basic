@@ -27,7 +27,7 @@ public class CustomerJdbcRepository implements CustomerRepository{
         Optional<Customer> foundCustomer = findById(customer.getCustomerId());
 
         if (foundCustomer.isPresent()){
-            jdbcTemplate.update("UPDATE customers SET name = :name WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
+            jdbcTemplate.update("UPDATE customers SET name = :name, is_blacked = :isBlacked WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                     toParamMap(customer));
         } else {
             jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, is_blacked) VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email, :isBlacked)",

@@ -62,7 +62,7 @@ class CustomerJdbcRepositoryTest { // @Transactional은 위험할 수 있다. "A
     void updateExistingCustomerInDB() {
         Customer customer = customerRepository.findById(setUpCustomer.getCustomerId()).orElseThrow(EntityNotFoundException::new);
 
-        Customer changedCustomer = customer.changeInfo("updated", customer.isBlacked());
+        Customer changedCustomer = customer.changeInfo("updated", true);
 
         customerRepository.upsert(changedCustomer);
 
