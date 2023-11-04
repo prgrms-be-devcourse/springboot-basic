@@ -20,9 +20,16 @@
                     <span>Discount Value</span>
                     <span>Voucher Type</span>
                 </div>
-                <button class="voucher-add-button">Add New Voucher</button>
+                <button class="voucher-add-button"
+                        onclick="location.href='/vouchers/create'"
+                >
+                    Add New Voucher
+                </button>
             </div>
-            <div th:each="voucher : ${vouchers}" th:object="${voucher}" class="voucher-items">
+            <div th:each="voucher : ${vouchers}"
+                 th:object="${voucher}"
+                 class="voucher-items"
+            >
                 <div class="voucher-item">
                     <span th:text="*{voucherId}" ></span>
                     <span th:text="*{createdAt}" ></span>
