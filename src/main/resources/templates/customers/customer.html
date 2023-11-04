@@ -5,72 +5,86 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/styles/common.css}">
+    <link rel="stylesheet" th:href="@{/styles/detail.css}">
     <title>customer Management Admin - Customer Detail</title>
 </head>
 <body>
-<div>
+<div class="customer-detail-container">
     <header>
         <h1>Customer Detail</h1>
     </header>
     <div class="customer-detail">
         <div>
-            <button onclick="location.href='/customers'">
+            <button onclick="location.href='/customers'" class="back-to-list-button">
                 Back To List
             </button>
         </div>
-        <div>
-            <form th:action="@{${customer?.customerId == null ? '/customers/create' : '/customers/update'}}"
-                  th:object="${customer}"
-                  method="post">
-                <div th:if="${customer?.customerId}">
-                    <label for="customer-id">Customer ID</label>
-                    <input th:value="${customer.customerId}"
-                           th:field="*{customerId}"
-                           id="customer-id"
-                           readonly
-                           type="text"/>
-                </div>
-                <div th:if="${customer?.name}">
-                    <label for="customer-name">Customer Name</label>
-                    <input th:value="${customer.name}"
-                           th:field="*{name}"
-                           type="text"
-                           id="customer-name"
-                           class="customer-name"
-                    />
-                </div>
-                <div th:unless="${customer?.name}">
-                    <label for="customer-name-input">Customer Name</label>
-                    <input th:unless="${customer?.name}"
-                           th:field="*{name}"
-                           type="text"
-                           id="customer-name-input"
-                           class="customer-name editable"
-                           placeholder="Please input the name"
-                    />
-                </div>
-                <div th:if="${customer?.customerType}">
-                    This customer is <span th:text="${customer.customerType.name}" ></span> customer.
-                </div>
-                <label for="customer-type-selection">Customer Type To Be Saved</label><br/>
-                <select class="form-select" id="customer-type-selection" name="customerType">
-                    <option th:each="customerType : ${T(com.programmers.vouchermanagement.customer.domain.CustomerType).values()}"
-                            th:field="*{customerType}"
-                            th:value="${customerType}" th:text="${customerType.name}"></option>
-                </select>
-                <button type="submit">
-                    <span>Save Changes</span>
-                </button>
-            </form>
-            <form th:if="${customer?.customerId != null}"
-                  th:object="${customer}"
-                  th:action="@{/customers/{customerId}/delete(customerId=*{customerId})}"
-                  method="post"
-            >
-                <button type="submit">
-                    Delete Customer
-                </button>
-            </form>
+        <div class="customer-detail-box-wrapper">
+            <div class="customer-detail-box">
+                <form th:action="@{${customer?.customerId == null ? '/customers/create' : '/customers/update'}}"
+                      th:object="${customer}"
+                      class="customer-detail-form"
+                      method="post">
+                    <div th:if="${customer?.customerId}">
+                        <label for="customer-id">Customer ID</label>
+                        <input th:value="${customer.customerId}"
+                               th:field="*{customerId}"
+                               id="customer-id"
+                               readonly
+                               type="text"/>
+                    </div>
+                    <div th:if="${customer?.name}">
+                        <label for="customer-name">Customer Name</label>
+                        <input th:value="${customer.name}"
+                               th:field="*{name}"
+                               type="text"
+                               id="customer-name"
+                               class="customer-name"
+                        />
+                    </div>
+                    <div th:unless="${customer?.name}">
+                        <label for="customer-name-input">Customer Name</label>
+                        <input th:unless="${customer?.name}"
+                               th:field="*{name}"
+                               type="text"
+                               id="customer-name-input"
+                               class="customer-name editable"
+                               placeholder="Please input the name"
+                        />
+                    </div>
+                    <div th:if="${customer?.customerType}">
+                        This customer is
+                        <strong>
+                            <span th:text="${customer.customerType.name}" ></span>
+                        </strong>
+                        customer.
+                    </div>
+                    <div>
+                        <label for="customer-type-selection">Customer Type To Be Saved</label>
+                        <select class="form-select" id="customer-type-selection" name="customerType">
+                            <option th:each="customerType : ${T(com.programmers.vouchermanagement.customer.domain.CustomerType).values()}"
+                                    th:field="*{customerType}"
+                                    th:value="${customerType}" th:text="${customerType.name}"></option>
+                        </select>
+                    </div>
+                    <div class="button-wrapper">
+                        <button type="submit">
+                            <span>Save Changes</span>
+                        </button>
+                    </div>
+                </form>
+                <form th:if="${customer?.customerId != null}"
+                      th:object="${customer}"
+                      th:action="@{/customers/{customerId}/delete(customerId=*{customerId})}"
+                      class="delete-form"
+                      method="post"
+                >
+                    <button class="delete" type="submit">
+                        Delete Customer
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </div>

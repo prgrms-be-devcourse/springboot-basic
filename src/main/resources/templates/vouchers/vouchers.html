@@ -5,6 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/styles/common.css}">
+    <link rel="stylesheet" th:href="@{/styles/list.css}">
     <title>Voucher Management Admin - Vouchers</title>
 </head>
 <body>
@@ -12,13 +14,20 @@
         <header>
             <h1>All Vouchers</h1>
         </header>
+        <div class="back-to-home-button-wrapper">
+            <button class="back-to-home-button"
+                    onclick="location.href='/'"
+            >
+                Back To Home
+            </button>
+        </div>
         <div class="vouchers-container">
             <div class="voucher-item-header">
                 <div class="voucher-item-description">
-                    <span>Voucher ID</span>
-                    <span>Creation Datetime</span>
-                    <span>Discount Value</span>
-                    <span>Voucher Type</span>
+                    <span class="voucher-id">Voucher ID</span>
+                    <span class="created-at">Creation Datetime</span>
+                    <span class="discount-value">Discount Value</span>
+                    <span class="voucher-type">Voucher Type</span>
                 </div>
                 <button class="voucher-add-button"
                         onclick="location.href='/vouchers/create'"
@@ -26,28 +35,23 @@
                     Add New Voucher
                 </button>
             </div>
-            <div th:each="voucher : ${vouchers}"
-                 th:object="${voucher}"
-                 class="voucher-items"
-            >
-                <div class="voucher-item">
-                    <span th:text="*{voucherId}" ></span>
-                    <span th:text="*{createdAt}" ></span>
-                    <span th:text="*{discountValue}" ></span>
-                    <span th:text="*{voucherType}" ></span>
-                </div>
-                <button class="voucher-detail-btn">
-                    <a th:href="@{/vouchers/{id}(id=*{voucherId})}">
-                        View Detail
-                    </a>
-                </button>
-            </div>
-            <div>
-                <button class="back-to-home-button"
-                        onclick="location.href='/'"
+            <div class="voucher-items">
+                <div th:each="voucher : ${vouchers}"
+                     th:object="${voucher}"
+                     class="voucher-item"
                 >
-                    Back To Home
-                </button>
+                    <div class="voucher-item-detail">
+                        <span th:text="*{voucherId}" class="voucher-id"></span>
+                        <span th:text="*{createdAt}" class="created-at"></span>
+                        <span th:text="*{discountValue}" class="discount-value"></span>
+                        <span th:text="*{voucherType}" class="voucher-type"></span>
+                    </div>
+                    <button class="voucher-detail-btn">
+                        <a th:href="@{/vouchers/{id}(id=*{voucherId})}">
+                            View Detail
+                        </a>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

@@ -5,6 +5,8 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" th:href="@{/styles/common.css}">
+    <link rel="stylesheet" th:href="@{/styles/list.css}">
     <title>customer Management Admin - Customers</title>
 </head>
 <body>
@@ -12,12 +14,19 @@
     <header>
         <h1>All Customers</h1>
     </header>
+    <div>
+        <button class="back-to-home-button"
+                onclick="location.href='/'"
+        >
+            Back To Home
+        </button>
+    </div>
     <div class="customers-container">
         <div class="customer-item-header">
             <div class="customer-item-description">
-                <span>Customer ID</span>
-                <span>Customer Name</span>
-                <span>Customer Type</span>
+                <span class="customer-id">Customer ID</span>
+                <span class="customer-name">Customer Name</span>
+                <span class="customer-type">Customer Type</span>
             </div>
             <button class="customer-add-button"
                     onclick="location.href='/customers/create'"
@@ -25,27 +34,22 @@
                 Add New Customer
             </button>
         </div>
-        <div th:each="customer : ${customers}"
-             th:object="${customer}"
-             class="customer-items"
-        >
-            <div class="customer-item">
-                <span th:text="*{customerId}" ></span>
-                <span th:text="*{name}" ></span>
-                <span th:text="*{customerType}" ></span>
-            </div>
-            <button class="customer-detail-btn">
-                <a th:href="@{/customers/{id}(id=*{customerId})}">
-                    View Detail
-                </a>
-            </button>
-        </div>
-        <div>
-            <button class="back-to-home-button"
-                    onclick="location.href='/'"
+        <div class="customer-items">
+            <div th:each="customer : ${customers}"
+                 th:object="${customer}"
+                 class="customer-item"
             >
-                Back To Home
-            </button>
+                <div class="customer-item-detail">
+                    <span th:text="*{customerId}" class="customer-id"></span>
+                    <span th:text="*{name}" class="customer-name"></span>
+                    <span th:text="*{customerType}" class="customer-type"></span>
+                </div>
+                <button class="customer-detail-btn">
+                    <a th:href="@{/customers/{id}(id=*{customerId})}">
+                        View Detail
+                    </a>
+                </button>
+            </div>
         </div>
     </div>
 </div>

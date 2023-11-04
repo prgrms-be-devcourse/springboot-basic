@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Playpen+Sans:wght@400;600&display=swap');
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 #eaf6f6; }
+}
+
+body {
+    box-sizing: border-box;
+    font-family: 'Playpen Sans', cursive;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+button {
+    font-family: 'Playpen Sans', cursive;
+    padding: 1rem 0.5rem;
+    background-color: #ccf5f5;
+    border: 2px solid #ccf5f5;
+    border-radius: 10px;
+    margin-right: 0.5rem;
+    transition: transform 0.5s ease;
+    cursor: pointer;
+    &:hover {
+        animation: pulse 1s;
+        box-shadow: 0 0 0 50px transparent;
+        transform: translateY(-0.4rem) scale(1.05);
+        font-weight: 600;
+        color: black;
+    }
+}
+
+a {
+    text-decoration-line: none;
+    color: #556175;
+}

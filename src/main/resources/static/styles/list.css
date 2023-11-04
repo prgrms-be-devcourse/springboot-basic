@@ -1,0 +1,79 @@
+.voucher-page-container, .customer-page-container {
+}
+
+.voucher-page-container header, .customer-page-container header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4rem;
+    font-size: 1.4rem;
+}
+
+.vouchers-container, .customers-container {
+    font-size: 1.1rem;
+}
+
+.voucher-item-header, .customer-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    border-bottom: 2px solid #383841;
+    padding-bottom: 0.7rem;
+    margin-bottom: 1.5rem;
+}
+
+.voucher-item-description, .customer-item-description, .voucher-item-detail, .customer-item-detail {
+    flex: 1;
+    display: flex;
+}
+
+.voucher-id, .customer-id {
+    flex: 2 1 0;
+    text-align: center;
+}
+
+.created-at {
+    flex: 1 1 0;
+}
+
+.discount-value, .customer-name {
+    flex: 1 1 0;
+    text-align: center;
+}
+
+.voucher-type, .customer-type{
+    flex: 1 1 0;
+    text-align: center;
+}
+
+.voucher-items, .customer-items {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.voucher-item, .customer-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #555562;
+    padding-bottom: 0.7rem;
+}
+
+.voucher-item-detail {
+    margin-right: 1rem;
+}
+
+.customer-item-detail {
+    margin-right: 1.3rem;
+}
+
+.voucher-detail-btn, .customer-detail-btn {
+    padding: 1.3rem 0.5rem;
+}
+
+.back-to-home-button {
+    padding: 1.5rem 0.7rem;
+    font-weight: 600;
+}
