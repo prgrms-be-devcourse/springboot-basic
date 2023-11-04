@@ -2,15 +2,18 @@ version: '3'
 services:
   db:
     image: mysql:latest
-    restart: always
-    container_name: devcourse
+    container_name: voucher
     environment:
       MYSQL_DATABASE: voucher_mgmt
       MYSQL_ROOT_HOST: '%'
       MYSQL_ROOT_PASSWORD: 1234
       TZ: 'Asia/Seoul'
+      LANG: C.UTF_8
     ports:
-      - "3306:3306"
+      - "13306:3306"
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
     volumes:
       - ./db/mysql/data:/var/lib/mysql
       - ./db/mysql/config:/etc/mysql/conf.d

@@ -4,7 +4,7 @@ spring:
     active: default
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/voucher_mgmt?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:13306/voucher_mgmt?createDatabaseIfNotExist=true
     username: root
     password: 1234
 
