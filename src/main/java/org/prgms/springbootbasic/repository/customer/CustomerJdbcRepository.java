@@ -102,6 +102,6 @@ public class CustomerJdbcRepository implements CustomerRepository{
                 ? rs.getTimestamp("last_login_at").toLocalDateTime() : null;
         boolean isBlacked = rs.getBoolean("is_blacked");
 
-        return new Customer(customerId, customerName, email, lastLoginAt, createdAt, isBlacked);
+        return new Customer(customerId, customerName, email, createdAt, lastLoginAt, isBlacked);
     };
 }
