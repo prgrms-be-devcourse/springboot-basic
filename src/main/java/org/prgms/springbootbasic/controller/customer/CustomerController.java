@@ -7,10 +7,7 @@ import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.CustomerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
 import java.util.UUID;
@@ -25,8 +22,22 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @GetMapping("/create")
+    public String showCreatePage() {
+        return "customer/customer-create";
+    }
+
+    @PostMapping("/create")
+    public String create(CustomerRequestDto customerRequestDto) {
+        log.info(String.valueOf(customerRequestDto));
+
+        customerService.insert(customerRequestDto.name(), customerRequestDto.email());
+
+        return "redirect:/";
+    }
+
     @GetMapping("/{customerId}")
-    public String detail(@PathVariable("customerId") String customerId, Model model){
+    public String showDetail(@PathVariable("customerId") String customerId, Model model) {
         UUID customerUUID = UUID.fromString(customerId);
 
         Customer customer = customerService.findById(customerUUID)
@@ -37,7 +48,7 @@ public class CustomerController {
     }
 
     @PostMapping("/{customerId}")
-    public String update(@PathVariable String customerId, CustomerRequestDto requestDto){
+    public String update(@PathVariable String customerId, CustomerRequestDto requestDto) {
         UUID customerUUID = UUID.fromString(customerId);
         String name = requestDto.name();
         String isBlackedStr = requestDto.isBlacked();
@@ -46,6 +57,13 @@ public class CustomerController {
         log.info("customerId = {}, name = {}, isBlacked = {}", customerId, name, isBlacked);
 
         customerService.update(customerUUID, name, isBlacked);
+
+        return "redirect:/";
+    }
+
+    @DeleteMapping("/{customerId}")
+    public String delete(@PathVariable String customerId) {
+        customerService.deleteById(UUID.fromString(customerId));
 
         return "redirect:/";
     }
