@@ -44,6 +44,17 @@ public class VoucherApiController {
         return new BaseResponse<>(vouchers);
     }
 
+    @PostMapping("/vouchers/{voucherId}")
+    public BaseResponse<String> updateVoucher(@PathVariable UUID voucherId, @RequestBody UpdateVoucherReq request) {
+        try {
+            service.updateVoucher(voucherId, request);
+        } catch (Exception e){
+            return new BaseResponse<>(e.getMessage());
+        }
+        return new BaseResponse<>();
+    }
+
+
 
     @DeleteMapping("/vouchers/{voucherId}")
     public BaseResponse<String> deleteVoucher(@PathVariable UUID voucherId){

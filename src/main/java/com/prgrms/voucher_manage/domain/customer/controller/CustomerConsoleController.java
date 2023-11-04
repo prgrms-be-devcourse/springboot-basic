@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-public class CustomerController {
+public class CustomerConsoleController {
     private final CustomerService customerService;
 
     public void saveCustomer(String name, CustomerType type) {

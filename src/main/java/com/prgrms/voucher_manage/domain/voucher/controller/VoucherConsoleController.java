@@ -19,7 +19,7 @@ import static com.prgrms.voucher_manage.exception.ErrorMessage.INVALID_DISCOUNT_
 
 @Controller
 @RequiredArgsConstructor
-public class VoucherController {
+public class VoucherConsoleController {
     private final VoucherService voucherService;
 
     public void saveVoucher(VoucherType voucherType, Long discountAmount) {
@@ -38,7 +38,7 @@ public class VoucherController {
     public void updateVoucher(UUID voucherId, Long discountAmount) {
         VoucherType type = voucherService.findVoucher(voucherId).getType();
         validateVoucher(type, discountAmount);
-        voucherService.updateVoucher(new UpdateVoucherReq(voucherId, type, discountAmount));
+        voucherService.updateVoucher(voucherId, new UpdateVoucherReq(type, discountAmount));
     }
 
     public void deleteVoucher(UUID voucherId) {

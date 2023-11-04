@@ -38,8 +38,8 @@ public class VoucherService {
         return voucherRepository.findById(voucherId);
     }
 
-    public void updateVoucher(UpdateVoucherReq dto) {
-        voucherRepository.update(getVoucherEntity(dto.id(), dto.type(), dto.discountAmount()));
+    public void updateVoucher(UUID voucherId, UpdateVoucherReq dto) {
+        voucherRepository.update(getVoucherEntity(voucherId, dto.type(), dto.discountAmount()));
     }
 
     public void deleteVoucher(UUID voucherId) {

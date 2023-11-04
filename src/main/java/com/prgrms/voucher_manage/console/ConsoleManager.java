@@ -3,10 +3,10 @@ package com.prgrms.voucher_manage.console;
 import com.prgrms.voucher_manage.console.io.IOManager;
 import com.prgrms.voucher_manage.console.io.InputUtil;
 import com.prgrms.voucher_manage.console.io.OutputUtil;
-import com.prgrms.voucher_manage.domain.customer.controller.CustomerController;
+import com.prgrms.voucher_manage.domain.customer.controller.CustomerConsoleController;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.entity.CustomerType;
-import com.prgrms.voucher_manage.domain.voucher.controller.VoucherController;
+import com.prgrms.voucher_manage.domain.voucher.controller.VoucherConsoleController;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import com.prgrms.voucher_manage.domain.wallet.controller.WalletController;
@@ -32,8 +32,8 @@ public class ConsoleManager implements ApplicationRunner {
     private final IOManager ioManager;
     private final OutputUtil outputUtil;
     private final InputUtil inputUtil;
-    private final VoucherController voucherController;
-    private final CustomerController customerController;
+    private final VoucherConsoleController voucherController;
+    private final CustomerConsoleController customerController;
     private final WalletController walletController;
     private static final Logger logger = LoggerFactory.getLogger(ConsoleManager.class);
 
