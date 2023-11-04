@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.voucher.service;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
@@ -75,4 +76,7 @@ public class VoucherService {
         voucherRepository.update(voucher);
     }
 
+    public List<VoucherDto> readAllByType(VoucherType type) {
+        return voucherRepository.findAllByType(type).stream().map(VoucherDto::from).toList();
+    }
 }
