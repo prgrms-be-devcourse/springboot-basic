@@ -3,11 +3,18 @@ application:
   version: "1.0.0"
 
 spring:
+  profiles:
+    active: "prod"
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/voucher_mgmt_system?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: wtwt
+
+  sql:
+    init:
+      mode: always
 
   thymeleaf:
     cache: false
