@@ -1,10 +1,12 @@
 package team.marco.voucher_management_system.controller.voucher;
 
+import jakarta.annotation.Nullable;
 import org.springframework.web.bind.annotation.*;
 import team.marco.voucher_management_system.controller.ApiResponse;
 import team.marco.voucher_management_system.controller.voucher.dto.VoucherCreateRequest;
 import team.marco.voucher_management_system.controller.voucher.dto.VoucherResponse;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.VoucherType;
 import team.marco.voucher_management_system.service.voucher.VoucherService;
 
 import java.util.List;
@@ -19,10 +21,18 @@ public class VoucherApiController {
     }
 
     @GetMapping
-    public ApiResponse<List<VoucherResponse>> findAllVouchers() {
+    public ApiResponse<List<VoucherResponse>> findAllVouchers(@Nullable @RequestParam VoucherType voucherType) {
+        if(voucherType != null) {
+            List<VoucherResponse> vouchers = voucherService.getVouchersByVoucherType(voucherType).stream()
+                    .map(VoucherResponse::of)
+                    .toList();
+
+            return ApiResponse.ok(vouchers);
+        }
+
         List<VoucherResponse> vouchers = voucherService.getVouchers().stream()
-                .map(VoucherResponse::of)
-                .toList();
+                    .map(VoucherResponse::of)
+                    .toList();
 
         return ApiResponse.ok(vouchers);
     }
@@ -33,10 +43,6 @@ public class VoucherApiController {
 
         return ApiResponse.ok(voucher);
     }
-
-    /**
-     *  TODO 조건별 조회기능 (바우처 생성기간 및 특정 할인 타입별)
-     */
 
     @PostMapping
     public ApiResponse<VoucherResponse> createVoucher(@RequestBody VoucherCreateRequest request) {

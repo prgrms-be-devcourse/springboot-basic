@@ -53,6 +53,23 @@ class MemoryVoucherRepositoryTest {
         assertThat(vouchers).hasSize(2);
     }
 
+    @DisplayName("특정 쿠폰 종류에 해당하는 쿠폰 목록을 조회할 수 있습니다.")
+    @Test
+    void findAllByVoucherType() {
+        // given
+        Voucher fixedVoucher = createFixedVoucher(1L, 1000);
+        voucherRepository.save(fixedVoucher);
+
+        Voucher percentVoucher = createPercentVoucher(2L, 10);
+        voucherRepository.save(percentVoucher);
+
+        // when
+        List<Voucher> found = voucherRepository.findAllByVoucherType(FIXED);
+
+        // then
+        assertThat(found).hasSize(1);
+    }
+
     @DisplayName("쿠폰 id로 쿠폰을 검색할 수 있다.")
     @Test
     void findById() {

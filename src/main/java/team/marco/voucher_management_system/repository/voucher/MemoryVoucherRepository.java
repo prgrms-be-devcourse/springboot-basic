@@ -2,6 +2,7 @@ package team.marco.voucher_management_system.repository.voucher;
 
 import org.springframework.stereotype.Repository;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.VoucherType;
 
 import java.util.Comparator;
 import java.util.List;
@@ -27,6 +28,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
+    public List<Voucher> findAllByVoucherType(VoucherType type) {
+        return voucherMap.values().stream()
+                .filter(v -> isSameType(type, v))
+                .toList();
+    }
+
+    @Override
     public Optional<Voucher> findById(Long voucherId) {
         if(voucherMap.containsKey(voucherId)) {
             return Optional.of(voucherMap.get(voucherId));
@@ -42,5 +50,9 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public Optional<Long> findLatestVoucherId() {
         return voucherMap.keySet().stream()
                 .max(Comparator.naturalOrder());
+    }
+
+    private static boolean isSameType(VoucherType type, Voucher v) {
+        return v.getVoucherType() == type;
     }
 }

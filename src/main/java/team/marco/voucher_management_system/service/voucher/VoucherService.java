@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.VoucherType;
 import team.marco.voucher_management_system.repository.voucher.VoucherRepository;
 
 import java.util.List;
@@ -33,6 +34,9 @@ public class VoucherService {
 
     public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
+    }
+    public List<Voucher> getVouchersByVoucherType(VoucherType type) {
+        return voucherRepository.findAllByVoucherType(type);
     }
 
     public Voucher getVoucher(Long voucherId) {

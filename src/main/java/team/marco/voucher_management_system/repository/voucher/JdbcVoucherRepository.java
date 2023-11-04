@@ -22,6 +22,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final String INSERT_SQL = "INSERT INTO vouchers(voucher_id, voucher_type, discount_value, code, name) VALUES (?, ?, ?, ?, ?)";
     private static final String SELECT_ALL_SQL = "SELECT * FROM vouchers";
+    private static final String SELECT_ALL_BY_TYPE_SQL = "SELECT * FROM vouchers WHERE voucher_type = ?";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM vouchers WHERE voucher_id = ?";
     private static final String DELETE_BY_ID_SQL = "DELETE From vouchers WHERE voucher_id = ?";
     private static final String SELECT_MAXIMUM_ID = "SELECT v.voucher_id From vouchers v ORDER BY voucher_id DESC LIMIT 1";
@@ -57,6 +58,16 @@ public class JdbcVoucherRepository implements VoucherRepository {
         List<Voucher> vouchers = new ArrayList<>();
         jdbcTemplate.query(SELECT_ALL_SQL
                 , (resultSet, rowNum) -> vouchers.add(resultSetToVoucher(resultSet)));
+
+        return Collections.unmodifiableList(vouchers);
+    }
+
+    @Override
+    public List<Voucher> findAllByVoucherType(VoucherType type) {
+        List<Voucher> vouchers = new ArrayList<>();
+        jdbcTemplate.query(SELECT_ALL_BY_TYPE_SQL
+                , (resultSet, rowNum) -> vouchers.add(resultSetToVoucher(resultSet))
+                , type.name());
 
         return Collections.unmodifiableList(vouchers);
     }

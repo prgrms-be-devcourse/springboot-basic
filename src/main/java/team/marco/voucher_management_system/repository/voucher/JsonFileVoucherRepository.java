@@ -6,6 +6,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.VoucherType;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,6 +64,13 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
     }
 
     @Override
+    public List<Voucher> findAllByVoucherType(VoucherType type) {
+        return voucherMap.values().stream()
+                .filter(v -> isSameType(type, v))
+                .toList();
+    }
+
+    @Override
     public Optional<Voucher> findById(Long voucherId) {
         if(voucherMap.containsKey(voucherId)) {
             return Optional.of(voucherMap.get(voucherId));
@@ -88,5 +96,9 @@ public class JsonFileVoucherRepository implements VoucherRepository, DisposableB
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    private static boolean isSameType(VoucherType type, Voucher v) {
+        return v.getVoucherType() == type;
     }
 }

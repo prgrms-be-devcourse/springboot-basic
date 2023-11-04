@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import team.marco.voucher_management_system.controller.voucher.dto.VoucherCreateRequest;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
+import team.marco.voucher_management_system.domain.voucher.VoucherType;
 import team.marco.voucher_management_system.repository.voucher.MemoryVoucherRepository;
 import team.marco.voucher_management_system.repository.voucher.VoucherRepository;
 import team.marco.voucher_management_system.service.voucher.VoucherCreateServiceRequest;
@@ -89,6 +90,23 @@ class VoucherServiceTest {
 
         // 쿠폰 목록의 크기가 2
         assertThat(returned).hasSize(2);
+    }
+
+    @DisplayName("특정 쿠폰 유형에 해당하는 쿠폰 목록을 조회할 수 있습니다.")
+    @Test
+    void getVouchersByVoucherType() {
+        // given
+        VoucherType voucherType = FIXED;
+        Voucher fixedVoucher = createFixedVoucher(1L, 1000);
+        Voucher percentVoucher = createPercentVoucher(2L, 10);
+        voucherRepository.save(fixedVoucher);
+        voucherRepository.save(percentVoucher);
+
+        // when
+        List<Voucher> found = voucherService.getVouchersByVoucherType(voucherType);
+
+        // then
+        assertThat(found).hasSize(1);
     }
 
     @Test
