@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="customerFragment(customers)">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">고객 ID</th>
+            <th scope="col">이름</th>
+            <th scope="col">이메일</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="customer : ${customers}" th:object="${customer}">
+            <th scope="row" style="cursor: pointer" th:data-customer-id="*{getCustomerId()}" id="customer-row" th:text="*{getCustomerId()}" onclick="detailCustomerButton(this)"></th>
+            <td th:text="*{getName()}"></td>
+            <td th:text="*{getEmail()}"></td>
+            <td><button type="button" id="delete-customer" th:data-customer-id="*{getCustomerId()}"
+                        class="btn btn-outline-danger align-items-end" onclick="deleteCustomerButton(this)">delete</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="button" id="create-customer" class="btn btn-outline-primary align-items-end">create</button>
+
+    <script>
+        const createCustomerButton = document.querySelector("#create-customer");
+
+        createCustomerButton.addEventListener("click",
+            () => window.location.href = "/customers/create");
+        const deleteCustomerButton = (button) => {
+            if (confirm("정말 삭제합니까?")) {
+                const customerId = button.getAttribute("data-customer-id");
+
+                window.location.href = "/customers/delete/" + customerId;
+            }
+        };
+
+        const detailCustomerButton = (button) => {
+            const customerId = button.getAttribute("data-customer-id");
+
+            window.location.href = "/customers/" + customerId;
+        }
+    </script>
+</div>
+</html>

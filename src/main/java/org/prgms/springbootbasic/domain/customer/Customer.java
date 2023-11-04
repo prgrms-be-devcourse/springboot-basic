@@ -40,6 +40,14 @@ public class Customer {
         return email;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getLastLoginAt() {
+        return lastLoginAt;
+    }
+
     public boolean isBlacked() {
         return isBlacked;
     }

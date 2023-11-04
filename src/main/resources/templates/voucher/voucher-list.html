@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="voucherFragment(vouchers)">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">바우처 ID</th>
+            <th scope="col">할인 정도</th>
+            <th scope="col">할인 정책</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
+            <th scope="row" style="cursor: pointer" th:data-voucher-id="*{getVoucherId()}" id="voucher-row" th:text="*{getVoucherId()}" onclick="detailVoucherButton(this)"></th>
+            <td th:text="*{getDiscountDegree()}"></td>
+            <td th:text="*{getVoucherPolicy().getClass().getSimpleName()}"></td>
+            <td><button type="button" id="delete-voucher" th:data-voucher-id="*{getVoucherId()}"
+                        class="btn btn-outline-danger align-items-end" onclick="deleteVoucherButton(this)">delete</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <button type="button" id="create-voucher" class="btn btn-outline-primary align-items-end">create</button>
+
+    <script>
+        const createVoucherButton = document.querySelector("#create-voucher");
+
+        createVoucherButton.addEventListener("click",
+            () => window.location.href = "/vouchers/create");
+        const deleteVoucherButton = (button) => {
+            if (confirm("정말 삭제합니까?")) {
+                const voucherId = button.getAttribute("data-voucher-id");
+                window.location.href = "/vouchers/delete/" + voucherId;
+            }
+        };
+
+        const detailVoucherButton = (button) => {
+            const voucherId = button.getAttribute("data-voucher-id");
+
+            window.location.href = "/vouchers/" + voucherId;
+        }
+    </script>
+</div>
+</html>
