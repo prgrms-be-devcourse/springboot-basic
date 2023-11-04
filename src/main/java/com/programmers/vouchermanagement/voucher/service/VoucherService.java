@@ -41,6 +41,18 @@ public class VoucherService {
                 .toList();
     }
 
+    public List<VoucherDto> readAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
+        List<Voucher> vouchers = voucherRepository.findAllByCreatedAt(from, to);
+
+        if (vouchers.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return vouchers.stream()
+                .map(VoucherDto::from)
+                .toList();
+    }
+
     public VoucherDto readById(UUID voucherId) {
         Voucher voucher = voucherRepository
                 .findById(voucherId)
