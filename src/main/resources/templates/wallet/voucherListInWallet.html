@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body class="container mt-5">
+<div>
+    <h2 class="text-center">Customer Information</h2>
+    <table class="table table-bordered">
+        <thead class="table-light">
+        <tr>
+            <th>Customer ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>CustomerType</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${customer.getCustomerId()}"></td>
+            <td th:text="${customer.getName()}"></td>
+            <td th:text="${customer.getEmail().getEmail()}"></td>
+            <td th:text="${customer.getCustomerType()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<br>
+<div>
+    <h3 class="text-center">Voucher List</h3>
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>Voucher Id</th>
+            <th>Voucher Type</th>
+            <th>Discount</th>
+            <th>Created At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher : ${vouchers}">
+            <td th:text="${voucher.getVoucherId()}"></td>
+            <td th:text="${voucher.getVoucherType()}"></td>
+            <td th:text="${voucher.getDiscount()}"></td>
+            <td th:text="${voucher.getCreatedAt()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<form th:action="@{/}" th:method="GET" class="mb-3">
+    <button type="submit" class="btn btn-secondary">Home</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
