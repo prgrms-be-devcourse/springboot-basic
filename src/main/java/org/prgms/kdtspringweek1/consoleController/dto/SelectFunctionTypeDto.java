@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.controller.dto;
+package org.prgms.kdtspringweek1.consoleController.dto;
 
 import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.slf4j.Logger;

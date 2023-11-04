@@ -1,7 +1,7 @@
-package org.prgms.kdtspringweek1.controller;
+package org.prgms.kdtspringweek1.consoleController;
 
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
-import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
+import org.prgms.kdtspringweek1.consoleController.dto.SelectFunctionTypeDto;
 import org.springframework.stereotype.Component;
 
 // 뷰 영역(console 패키지)에 컨트롤러가 포함되어 있어, 따로 빼주었습니다.

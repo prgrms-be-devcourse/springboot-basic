@@ -1,8 +1,7 @@
-package org.prgms.kdtspringweek1.controller;
+package org.prgms.kdtspringweek1.consoleController;
 
 import org.prgms.kdtspringweek1.console.ConsoleInput;
-import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;
-import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
+import org.prgms.kdtspringweek1.consoleController.dto.SelectFunctionTypeDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.SelectVoucherTypeDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.UpdateVoucherRequestDto;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
