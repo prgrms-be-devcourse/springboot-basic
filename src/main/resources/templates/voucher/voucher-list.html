@@ -34,14 +34,14 @@
     <tbody>
     <tr th:each="voucher: ${vouchers}">
         <td>
-            <a th:href="'/voucher/detail/'+${voucher.id}" th:text="${voucher.id}"
+            <a th:href="'/voucher/'+${voucher.id}" th:text="${voucher.id}"
                style="text-decoration:none; color: inherit;"></a>
         </td>
         <td th:text="${voucher.voucherType}"></td>
         <td th:text="${voucher.discountValue}"></td>
         <td th:text="${voucher.customerId}"></td>
         <td>
-            <form th:action="@{'/voucher/delete/' + ${voucher.id}}" method="post">
+            <form th:action="@{'/voucher/' + ${voucher.id} + '/delete'}" method="post">
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
         </td>

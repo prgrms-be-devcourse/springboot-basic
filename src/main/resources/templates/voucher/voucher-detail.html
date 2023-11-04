@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<form th:action="@{'/voucher/updateDiscountValue/' + ${voucher.id}}" method="post">
+<form th:action="@{'/voucher/' + ${voucher.id} + '/updateDiscountValue'}" method="post">
     <div class="mb-3">
         <label for="newDiscountValue" class="form-label">New Discount Value</label>
         <input type="number" class="form-control" id="newDiscountValue" name="discountValue" required>
@@ -28,7 +28,7 @@
     <button type="submit" class="btn btn-primary">Update Discount Value</button>
 </form>
 
-<form th:action="@{'/voucher/assignCustomerId/' + ${voucher.id}}" method="post">
+<form th:action="@{'/voucher/' + ${voucher.id} + '/assignCustomerId'}" method="post">
     <div class="mb-3">
         <label for="assignCustomerId" class="form-label">Assign Customer ID</label>
         <input type="text" class="form-control" id="assignCustomerId" name="customerId" required>
@@ -36,7 +36,7 @@
     <button type="submit" class="btn btn-success">Assign Customer ID</button>
 </form>
 
-<form th:action="@{'/voucher/unassignCustomerId/' + ${voucher.id}}" method="post">
+<form th:action="@{'/voucher/' + ${voucher.id} + '/unassignCustomerId'}" method="post">
     <button type="submit" class="btn btn-danger">Unassign Customer ID</button>
 </form>
 

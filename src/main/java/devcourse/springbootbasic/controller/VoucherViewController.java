@@ -24,7 +24,7 @@ public class VoucherViewController {
     private final VoucherService voucherService;
     private final WalletService walletService;
 
-    @GetMapping()
+    @GetMapping
     public String findAllVouchers(Model model) {
         List<VoucherFindResponse> allVouchers = this.voucherService.findAllVouchers();
         model.addAttribute("vouchers", allVouchers);
@@ -43,14 +43,14 @@ public class VoucherViewController {
         return "redirect:/voucher";
     }
 
-    @PostMapping("/delete/{voucherId}")
-    public String deleteVoucher(@PathVariable UUID voucherId) {
-        voucherService.deleteVoucher(voucherId);
+    @PostMapping("/{id}/delete")
+    public String deleteVoucher(@PathVariable("id") String voucherId) {
+        voucherService.deleteVoucher(UUIDUtil.stringToUUID(voucherId));
 
         return "redirect:/voucher";
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/{id}")
     public String showVoucherDetail(@PathVariable("id") String voucherId, Model model) {
         Voucher voucher = voucherService.getVoucherById(UUIDUtil.stringToUUID(voucherId));
         model.addAttribute("voucher", new VoucherFindResponse(voucher));
@@ -58,30 +58,30 @@ public class VoucherViewController {
         return "voucher/voucher-detail";
     }
 
-    @PostMapping("/updateDiscountValue/{id}")
+    @PostMapping("/{id}/updateDiscountValue")
     public String updateDiscountValue(
             @PathVariable("id") String voucherId,
             @RequestParam("discountValue") long newDiscountValue
     ) {
         voucherService.updateDiscountValue(UUIDUtil.stringToUUID(voucherId), new VoucherUpdateDiscountValueRequest(newDiscountValue));
 
-        return "redirect:/voucher/detail/" + voucherId;
+        return "redirect:/voucher/" + voucherId;
     }
 
-    @PostMapping("/assignCustomerId/{id}")
+    @PostMapping("/{id}/assignCustomerId")
     public String assignCustomerId(
             @PathVariable("id") String voucherId,
             @RequestParam("customerId") UUID customerId
     ) {
         walletService.assignVoucherToCustomer(UUIDUtil.stringToUUID(voucherId), new VoucherAssignRequest(customerId));
 
-        return "redirect:/voucher/detail/" + voucherId;
+        return "redirect:/voucher/" + voucherId;
     }
 
-    @PostMapping("/unassignCustomerId/{id}")
+    @PostMapping("/{id}/unassignCustomerId")
     public String unassignCustomerId(@PathVariable("id") String voucherId) {
         walletService.unassignVoucherFromCustomer(UUIDUtil.stringToUUID(voucherId));
 
-        return "redirect:/voucher/detail/" + voucherId;
+        return "redirect:/voucher/" + voucherId;
     }
 }
