@@ -48,7 +48,7 @@ public class FileVoucherRepository implements VoucherRepository {
     private final Function<Voucher, HashMap<String, Object>> voucherToObject = (voucher) -> {
         HashMap<String, Object> voucherObject = new HashMap<>();
         voucherObject.put(VOUCHER_ID_KEY, voucher.getVoucherId().toString());
-        voucherObject.put(VOUCHER_CREATED_AT_KEY, voucher.getCreatedAt());
+        voucherObject.put(VOUCHER_CREATED_AT_KEY, voucher.getCreatedAt().toString());
         voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue().toString());
         voucherObject.put(VOUCHER_TYPE_KEY, voucher.getVoucherType().name());
         voucherObject.put(CUSTOMER_ID_KEY, voucher.getCustomerId());
