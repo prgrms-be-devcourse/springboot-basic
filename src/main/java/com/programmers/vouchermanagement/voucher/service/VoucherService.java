@@ -6,6 +6,7 @@ import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -22,7 +23,8 @@ public class VoucherService {
     }
 
     public VoucherDto create(CreateVoucherRequest createVoucherRequest) {
-        Voucher voucher = new Voucher(UUID.randomUUID(), createVoucherRequest.discountValue(), createVoucherRequest.voucherType());
+        //TODO: now? DB vs Application
+        Voucher voucher = new Voucher(UUID.randomUUID(), createVoucherRequest.discountValue(), createVoucherRequest.voucherType(), LocalDateTime.now());
         voucherRepository.save(voucher);
         return VoucherDto.from(voucher);
     }
@@ -55,7 +57,9 @@ public class VoucherService {
     }
 
     public void update(UUID voucherId, CreateVoucherRequest createVoucherRequest) {
-        Voucher voucher = new Voucher(voucherId, createVoucherRequest.discountValue(), createVoucherRequest.voucherType());
+        // TODO: modify code format
+        VoucherDto voucherDto = readById(voucherId);
+        Voucher voucher = new Voucher(voucherId, createVoucherRequest.discountValue(), createVoucherRequest.voucherType(), voucherDto.createdAt());
         voucherRepository.update(voucher);
     }
 
