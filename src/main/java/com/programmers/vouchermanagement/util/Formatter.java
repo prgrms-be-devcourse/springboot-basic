@@ -38,7 +38,7 @@ public class Formatter {
         return VOUCHER_PRESENTATION_FORMAT
                 .formatted(voucherResponse.voucherId(),
                         voucherResponse.createdAt(),
-                        voucherResponse.voucherType(),
+                        voucherResponse.voucherType().displayTypeName(),
                         voucherResponse.discountValue() +
                         markPercentage(voucherResponse.voucherType()));
     }
