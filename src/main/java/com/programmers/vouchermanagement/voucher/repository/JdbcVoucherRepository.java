@@ -127,7 +127,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         final LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         final BigDecimal discountValue = resultSet.getBigDecimal("discount_value");
         final String voucherTypeName = resultSet.getString("voucher_type");
-        final VoucherType voucherType = VoucherType.findVoucherTypeByName(voucherTypeName);
+        final VoucherType voucherType = VoucherType.findVoucherType(voucherTypeName);
         byte[] idBytes = resultSet.getBytes("customer_id");
         final UUID customerId = idBytes != null ? UUIDConverter.from(idBytes) : null;
         return new Voucher(voucherId, createdAt, discountValue, voucherType, customerId);

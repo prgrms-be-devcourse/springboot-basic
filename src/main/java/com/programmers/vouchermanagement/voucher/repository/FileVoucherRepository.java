@@ -40,7 +40,7 @@ public class FileVoucherRepository implements VoucherRepository {
         LocalDateTime createdAt = LocalDateTime.parse(String.valueOf(voucherObject.get(VOUCHER_CREATED_AT_KEY)));
         BigDecimal discountValue = new BigDecimal(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
         String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
-        VoucherType voucherType = VoucherType.findVoucherTypeByName(voucherTypeName);
+        VoucherType voucherType = VoucherType.findVoucherType(voucherTypeName);
         String customerIdString = String.valueOf(voucherObject.get(CUSTOMER_ID_KEY));
         UUID customerId = customerIdString.equals("null") ? null : UUID.fromString(customerIdString);
         return new Voucher(voucherId, createdAt, discountValue, voucherType, customerId);

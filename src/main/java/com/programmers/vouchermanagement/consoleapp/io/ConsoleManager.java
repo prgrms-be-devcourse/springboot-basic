@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,7 +13,6 @@ import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.util.Formatter;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherCustomerRequest;

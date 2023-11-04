@@ -57,7 +57,7 @@ public class VoucherRestController {
     @GetMapping("/type/{typeName}")
     @ResponseStatus(HttpStatus.OK)
     public List<VoucherResponse> findByType(@PathVariable String typeName) {
-        VoucherType voucherType = VoucherType.findVoucherTypeByName(typeName);
+        VoucherType voucherType = VoucherType.findVoucherType(typeName);
         return voucherService.findByType(voucherType);
     }
 

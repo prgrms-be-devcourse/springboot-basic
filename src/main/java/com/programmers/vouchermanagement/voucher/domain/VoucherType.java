@@ -34,7 +34,15 @@ public enum VoucherType {
         this.validator = validator;
     }
 
-    public static VoucherType findVoucherTypeByName(String input) {
+    public static VoucherType findVoucherType(String input) {
+        try {
+            return VoucherType.findVoucherTypeByCode(input);
+        } catch (IllegalArgumentException exception) {
+            return VoucherType.findVoucherTypeByName(input);
+        }
+    }
+
+    private static VoucherType findVoucherTypeByName(String input) {
         return Arrays.stream(VoucherType.values())
                 .filter(menu -> menu.isMatchingName(input))
                 .findFirst()
@@ -44,7 +52,7 @@ public enum VoucherType {
                 });
     }
 
-    public static VoucherType findVoucherTypeByCode(String input) {
+    private static VoucherType findVoucherTypeByCode(String input) {
         return Arrays.stream(VoucherType.values())
                 .filter(menu -> menu.isMatchingCode(input))
                 .findFirst()
