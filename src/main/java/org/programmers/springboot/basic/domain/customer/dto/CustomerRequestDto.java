@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Builder
 @Getter
-public class CustomerResponseDto {
+public class CustomerRequestDto {
 
     private final UUID customerId;
     private final String name;
@@ -29,15 +29,5 @@ public class CustomerResponseDto {
     @Override
     public String toString() {
         return super.toString();
-    }
-
-    public String printCustomerInfo() {
-        return String.format("""
-                customerId: %s
-                email: %s
-                name: %s
-                customerType: %s
-                ---------------------------------
-                """, customerId.toString(), email, name, customerType);
     }
 }
