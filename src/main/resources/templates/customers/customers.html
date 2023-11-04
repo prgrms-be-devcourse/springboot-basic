@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>customer Management Admin - Customers</title>
+</head>
+<body>
+<div class="customer-page-container">
+    <header>
+        <h1>All Customers</h1>
+    </header>
+    <div class="customers-container">
+        <div class="customer-item-header">
+            <div class="customer-item-description">
+                <span>Customer ID</span>
+                <span>Customer Name</span>
+                <span>Customer Type</span>
+            </div>
+            <button class="customer-add-button"
+                    onclick="location.href='/customers/create'"
+            >
+                Add New Customer
+            </button>
+        </div>
+        <div th:each="customer : ${customers}"
+             th:object="${customer}"
+             class="customer-items"
+        >
+            <div class="customer-item">
+                <span th:text="*{customerId}" ></span>
+                <span th:text="*{name}" ></span>
+                <span th:text="*{customerType}" ></span>
+            </div>
+            <button class="customer-detail-btn">
+                <a th:href="@{/customers/{id}(id=*{customerId})}">
+                    View Detail
+                </a>
+            </button>
+        </div>
+        <div>
+            <button class="back-to-home-button"
+                    onclick="location.href='/'"
+            >
+                Back To Home
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
