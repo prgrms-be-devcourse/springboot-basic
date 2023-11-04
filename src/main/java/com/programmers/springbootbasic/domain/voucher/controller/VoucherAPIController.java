@@ -6,13 +6,13 @@ import com.programmers.springbootbasic.domain.voucher.dto.VoucherControllerRespo
 import com.programmers.springbootbasic.domain.voucher.dto.VoucherServiceRequestDto;
 import com.programmers.springbootbasic.domain.voucher.entity.Voucher;
 import com.programmers.springbootbasic.domain.voucher.service.VoucherService;
+import jakarta.annotation.Nullable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 
@@ -27,8 +27,8 @@ public class VoucherAPIController {
     public CommonResult<String> createVoucher(
             @RequestBody VoucherControllerRequestDto voucherControllerRequestDto) {
         voucherService.createVoucher(VoucherServiceRequestDto.builder()
-                .voucherType(Integer.parseInt(voucherControllerRequestDto.getVoucherType()))
-                .value(Long.parseLong(voucherControllerRequestDto.getValue()))
+                .voucherType(voucherControllerRequestDto.getVoucherType())
+                .value(voucherControllerRequestDto.getValue())
                 .build());
         return CommonResult.getSuccessResult();
     }
@@ -47,23 +47,26 @@ public class VoucherAPIController {
             @RequestBody VoucherControllerRequestDto voucherControllerRequestDto) {
         voucherService.updateVoucher(VoucherServiceRequestDto.builder()
                 .voucherId(UUID.fromString(voucherControllerRequestDto.getVoucherId()))
-                .value(Long.parseLong(voucherControllerRequestDto.getValue()))
+                .value(voucherControllerRequestDto.getValue())
                 .build());
         return CommonResult.getSuccessResult();
     }
 
     @GetMapping
     public CommonResult<List<VoucherControllerResponseDto>> findVouchersBy(
-            @RequestParam Optional<String> type, @RequestParam Optional<String> date) {
-        List<Voucher> result = type.map(typeStr -> voucherService.findVouchersByType(
-                        VoucherServiceRequestDto.builder()
-                                .voucherType(Integer.parseInt(typeStr))
-                                .build()))
-                .orElseGet(() -> date.map(dateStr -> voucherService.findVouchersByDate(
-                                VoucherServiceRequestDto.builder()
-                                        .date(LocalDate.parse(dateStr))
-                                        .build()))
-                        .orElseGet(voucherService::findAllVouchers));
+            @RequestParam @Nullable String type, @Nullable @RequestParam String date) {
+        List<Voucher> result;
+        if (type != null) {
+            result = voucherService.findVouchersByType(VoucherServiceRequestDto.builder()
+                    .voucherType(Integer.parseInt(type))
+                    .build());
+        } else if (date != null) {
+            result = voucherService.findVouchersByDate(VoucherServiceRequestDto.builder()
+                    .date(LocalDate.parse(date))
+                    .build());
+        } else {
+            result = voucherService.findAllVouchers();
+        }
         return CommonResult.getListResult(result.stream()
                 .map(VoucherControllerResponseDto::of)
                 .toList());

@@ -7,6 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class VoucherControllerRequestDto {
     private final String voucherId;
-    private final String value;
-    private final String voucherType;
+    private final long value;
+    private final int voucherType;
 }

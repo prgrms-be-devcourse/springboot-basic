@@ -45,8 +45,8 @@ public class VoucherWebController {
     public String createVoucher(VoucherControllerRequestDto voucherControllerRequestDto, Model model) {
         try {
             voucherService.createVoucher(VoucherServiceRequestDto.builder()
-                    .voucherType(Integer.parseInt(voucherControllerRequestDto.getVoucherType()))
-                    .value(Long.parseLong(voucherControllerRequestDto.getValue()))
+                    .voucherType(voucherControllerRequestDto.getVoucherType())
+                    .value(voucherControllerRequestDto.getValue())
                     .build());
             return "redirect:/";
         } catch (Exception e) {
@@ -75,7 +75,7 @@ public class VoucherWebController {
         try {
             voucherService.updateVoucher(VoucherServiceRequestDto.builder()
                     .voucherId(UUID.fromString(voucherControllerRequestDto.getVoucherId()))
-                    .value(Long.parseLong(voucherControllerRequestDto.getValue()))
+                    .value(voucherControllerRequestDto.getValue())
                     .build());
             return "redirect:/";
         } catch (Exception e) {
