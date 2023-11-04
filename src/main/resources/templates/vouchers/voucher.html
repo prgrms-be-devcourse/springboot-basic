@@ -13,7 +13,9 @@
             <h1>Voucher Detail</h1>
         </header>
         <div class="voucher-detail">
-            <form th:action="@{/vouchers/update}" th:object="${voucher}" method="post">
+            <form th:action="@{${voucher?.voucherId == null ? '/vouchers/create' : '/vouchers/update'}}"
+                  th:object="${voucher}"
+                  method="post">
                 <div th:if="${voucher?.voucherId}">
                     <label for="voucher-id">Voucher ID</label>
                     <input th:value="${voucher.voucherId}"
