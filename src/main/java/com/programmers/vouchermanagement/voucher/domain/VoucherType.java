@@ -56,10 +56,7 @@ public enum VoucherType {
         return Arrays.stream(VoucherType.values())
                 .filter(menu -> menu.isMatchingCode(input))
                 .findFirst()
-                .orElseThrow(() -> {
-                    logger.error(INVALID_VOUCHER_TYPE_MESSAGE);
-                    return new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE);
-                });
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     private boolean isMatchingName(String input) {
