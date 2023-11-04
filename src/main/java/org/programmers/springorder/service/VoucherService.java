@@ -77,7 +77,7 @@ public class VoucherService {
 
     @Transactional(readOnly = true)
     public List<VoucherResponseDto> getVoucherByCustomerId(UUID customerId) {
-        return voucherRepository.findAll()
+        return voucherRepository.findByCustomerId(customerId)
                 .stream()
                 .map(VoucherResponseDto::of)
                 .toList();
