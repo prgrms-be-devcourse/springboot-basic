@@ -1,5 +1,5 @@
 package org.programmers.springboot.basic.domain.voucher.service.validate;
 
-public interface ValidateHandler {
+public interface VoucherValidationStrategy {
     void validate(Long discount);
 }
