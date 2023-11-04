@@ -8,29 +8,8 @@
     <title>Spring Boot Basic 과제 홈 페이지</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<header>
-    <div class="px-3 py-2 border-bottom">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-                    <li class="d-flex align-items-center justify-content-center">
-                        <a href="/" class="nav-link text-dark">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"/></svg>
-                            <h4>Home</h4>
-                        </a>
-                    </li>
-                    <li class="d-flex align-items-center justify-content-center">
-                        <a th:href="@{wallet}" class="nav-link text-dark">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24"><path d="M22 4h-20c-1.104 0-2 .896-2 2v12c0 1.104.896 2 2 2h20c1.104 0 2-.896 2-2v-12c0-1.104-.896-2-2-2zm-12.816 11.214c-.474-1.641-1.155-3.036-2.048-4.18l-.037-.107c0-.092.074-.178.182-.178h2.081c.123 0 .218.05.29.145.988 1.356 1.663 2.796 2.02 4.319h-2.488zm2.6-.279c-.296-1.155-.77-2.26-1.429-3.315.151-.82.229-1.657.246-2.506.787 1.267 1.412 2.472 1.881 3.627-.185.743-.413 1.474-.698 2.194zm1.908 2.065c-.151-2.472-1.183-5.212-3.086-8.214h2.427c1.705 2.346 2.918 5.234 3.175 8.214h-2.516zm2.646-.469c-.251-2.081-.915-4.096-2.003-6.044-.095-1.122-.29-2.204-.591-3.259-.029-.116.054-.228.172-.228h2.003c.156 0 .301.106.34.257.43 1.523.642 3.103.642 4.743 0 1.579-.19 3.086-.563 4.531z"/></svg>
-                            <h4>Wallet Management</h4>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
 <body class="p-3 m-0 border-0 bd-example m-0 border-0">
+    <div th:replace="header :: header"></div>
     <br />
     <ul class="nav nav-tabs">
         <li class="nav-item">
