@@ -38,7 +38,7 @@ public class ModeController {
         this.outputHandler = outputHandler;
     }
 
-    public boolean modeList() throws IOException {
+    public boolean modeStart() throws IOException {
         String menu = modeSelect();
 
         switch (menu) {
@@ -53,7 +53,7 @@ public class ModeController {
                 break;
             case MODE_EXIT:
                 outputHandler.outputString(EXIT_PROGRAM.getMessage());
-                return false;
+                return false; // 프로그램 종료
             default:
                 String errorMessage = EXCEPTION_NOT_EXIST_MENU.getMessage();
                 logger.error(errorMessage);
@@ -61,7 +61,7 @@ public class ModeController {
                 break;
         }
 
-        return true;
+        return true; // 프로그램 유지
     }
 
     private String modeSelect() throws IOException {

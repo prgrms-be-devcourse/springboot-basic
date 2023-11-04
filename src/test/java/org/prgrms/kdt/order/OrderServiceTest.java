@@ -2,7 +2,9 @@ package org.prgrms.kdt.order;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgrms.kdt.voucher.VoucherService;
+import org.prgrms.kdt.voucher.service.FixedAmountVoucherService;
+import org.prgrms.kdt.voucher.service.PercentDiscountVoucherService;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
 import org.prgrms.kdt.wallet.WalletJdbcRepository;
@@ -30,6 +32,8 @@ class OrderServiceTest {
         var voucherRepository = new VoucherMemoryRepository();
         var walletRepository = new WalletJdbcRepository();
         var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        FixedAmountVoucherService fixedAmountVoucherService = new FixedAmountVoucherService();
+        PercentDiscountVoucherService percentDiscountVoucherService = new PercentDiscountVoucherService();
         voucherRepository.save(fixedAmountVoucher);
         var sut = new OrderService(new VoucherService(voucherRepository, walletRepository), new OrderRepositoryStub());
 

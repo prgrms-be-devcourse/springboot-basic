@@ -1,9 +1,5 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.service;
 
-import org.prgrms.kdt.voucher.Dto.FixedAmountVoucherDto;
-import org.prgrms.kdt.voucher.Dto.PercentDiscountVoucherDto;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.wallet.Wallet;
@@ -25,21 +21,20 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
     private final WalletRepository walletRepository;
+    private final FixedAmountVoucherService fixedAmountVoucherService;
+    private final PercentDiscountVoucherService percentDiscountVoucherService;
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
-    public VoucherService(VoucherRepository voucherRepository, WalletRepository walletRepository) {
+    public VoucherService(
+            VoucherRepository voucherRepository,
+            WalletRepository walletRepository,
+            FixedAmountVoucherService fixedAmountVoucherService,
+            PercentDiscountVoucherService percentDiscountVoucherService
+    ) {
         this.voucherRepository = voucherRepository;
         this.walletRepository = walletRepository;
-    }
-
-    public void createVoucher(FixedAmountVoucherDto fixedAmountVoucherDto) {
-        var voucher = new FixedAmountVoucher(fixedAmountVoucherDto.getVoucherId(), fixedAmountVoucherDto.getAmount());
-        voucherRepository.save(voucher);
-    }
-
-    public void createVoucher(PercentDiscountVoucherDto percentDiscountVoucherDto) {
-        var voucher = new PercentDiscountVoucher(percentDiscountVoucherDto.getVoucherId(), percentDiscountVoucherDto.getPercent());
-        voucherRepository.save(voucher);
+        this.fixedAmountVoucherService = fixedAmountVoucherService;
+        this.percentDiscountVoucherService = percentDiscountVoucherService;
     }
 
     public Voucher getVoucher(UUID voucherId) {

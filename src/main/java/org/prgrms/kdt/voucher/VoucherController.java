@@ -2,8 +2,9 @@ package org.prgrms.kdt.voucher;
 
 import org.prgrms.kdt.io.InputHandler;
 import org.prgrms.kdt.io.OutputHandler;
-import org.prgrms.kdt.voucher.Dto.FixedAmountVoucherDto;
-import org.prgrms.kdt.voucher.Dto.PercentDiscountVoucherDto;
+import org.prgrms.kdt.voucher.service.FixedAmountVoucherService;
+import org.prgrms.kdt.voucher.service.PercentDiscountVoucherService;
+import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.wallet.Wallet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ public class VoucherController {
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
     private final VoucherService voucherService;
+    private final FixedAmountVoucherService fixedAmountVoucherService;
+    private final PercentDiscountVoucherService percentDiscountVoucherService;
 
     private final String CREATE = "create";
     private final String OWNER = "owner";
@@ -31,10 +34,18 @@ public class VoucherController {
     private static final String lineSeparator = System.lineSeparator();
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
-    public VoucherController(InputHandler inputHandler, OutputHandler outputHandler, VoucherService voucherService) {
+    public VoucherController(
+            InputHandler inputHandler,
+            OutputHandler outputHandler,
+            VoucherService voucherService,
+            FixedAmountVoucherService fixedAmountVoucherService,
+            PercentDiscountVoucherService percentDiscountVoucherService
+    ) {
         this.inputHandler = inputHandler;
         this.outputHandler = outputHandler;
         this.voucherService = voucherService;
+        this.fixedAmountVoucherService = fixedAmountVoucherService;
+        this.percentDiscountVoucherService = percentDiscountVoucherService;
     }
 
     public void voucherMenu() throws IOException {
@@ -42,7 +53,7 @@ public class VoucherController {
 
         switch (menu) {
             case CREATE:
-                createVoucher();
+                voucherAdd();
                 break;
             case OWNER:
                 getOwner();
@@ -73,7 +84,7 @@ public class VoucherController {
         outputHandler.outputWallet(wallet);
     }
 
-    private void createVoucher() throws IOException {
+    private void voucherAdd() throws IOException {
         while (true) {
             outputHandler.outputString(CREATE_VOUCHER_TYPE.getMessage());
             var createVoucherType = inputHandler.inputString();
@@ -81,7 +92,7 @@ public class VoucherController {
             var isRepeat = true;
 
             if (createVoucherType.equals(FIXED)) {
-                isRepeat = createFixedAmountVoucher();
+                isRepeat = fixedAmountVoucherAdd();
                 if(!isRepeat)
                     break;
             } else if (createVoucherType.equals(PERCENT)) {
@@ -96,57 +107,17 @@ public class VoucherController {
         }
     }
 
-    private boolean createFixedAmountVoucher() throws IOException {
+    private boolean fixedAmountVoucherAdd() throws IOException {
         outputHandler.outputString(CREATE_FIXED_VOUCHER.getMessage());
-
-        var amount = 0;
-        while (true) {
-            amount = inputHandler.inputInt();
-
-            if (amount <= 0) {
-                String errorMessage = EXCEPTION_FIXED_AMOUNT_MINUS.getMessage();
-                logger.error(errorMessage);
-                outputHandler.outputString(errorMessage);
-                continue;
-            }
-            if (amount >= 100_000) {
-                String errorMessage = EXCEPTION_FIXED_AMOUNT_OVER.getMessage();
-                logger.error(errorMessage);
-                outputHandler.outputString(errorMessage);
-                continue;
-            }
-            break;
-        }
-
-        var fixedAmountVoucherDto = new FixedAmountVoucherDto(UUID.randomUUID(), amount);
-        voucherService.createVoucher(fixedAmountVoucherDto);
-        return false;
+        var amount = inputHandler.inputInt();
+        fixedAmountVoucherService.createFixedAmountVoucher(amount);
+        return true;
     }
 
     private boolean percentDiscountVoucherAdd() throws IOException {
         outputHandler.outputString(CREATE_PERCENT_VOUCHER.getMessage());
-
-        var percent = 0;
-        while (true) {
-            percent = inputHandler.inputInt();
-
-            if (percent <= 0) {
-                String errorMessage = EXCEPTION_PERCENT_MINUS.getMessage();
-                logger.error(errorMessage);
-                outputHandler.outputString(errorMessage);
-                continue;
-            }
-            if (percent >= 100) {
-                String errorMessage = EXCEPTION_PERCENT_OVER.getMessage();
-                logger.error(errorMessage);
-                outputHandler.outputString(errorMessage);
-                continue;
-            }
-            break;
-        }
-
-        var percentDiscountVoucherDto = new PercentDiscountVoucherDto(UUID.randomUUID(), percent);
-        voucherService.createVoucher(percentDiscountVoucherDto);
-        return false;
+        var percent = inputHandler.inputInt();
+        percentDiscountVoucherService.createPercentDiscountVoucher(percent);
+        return true;
     }
 }
