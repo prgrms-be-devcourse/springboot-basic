@@ -31,4 +31,25 @@ public class MemoryVoucherRepository implements VoucherRepository {
         logger.info("Success to findAllVouchers");
         return allVouchers;
     }
+
+    @Override
+    public Optional<Voucher> findById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public Voucher update(Voucher voucher) {
+        vouchers.put(voucher.getVoucherId(), voucher);
+        return voucher;
+    }
+
+    @Override
+    public void deleteAll() {
+        vouchers.clear();
+    }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+        vouchers.remove(voucherId);
+    }
 }

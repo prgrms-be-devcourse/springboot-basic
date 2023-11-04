@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long amount;
+    private final long discountValue;
     private final static VoucherType voucherType = VoucherType.FIXED_AMOUNT;
     private final static Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
@@ -20,22 +20,22 @@ public class FixedAmountVoucher implements Voucher {
         return new FixedAmountVoucher(voucherId, amount);
     }
 
-    private FixedAmountVoucher(long amount) {
+    private FixedAmountVoucher(long discountValue) {
         // 해당 유효성 검사를 생성자가 아닌 다른 곳에서 구현한다면,
         // validate 호출 후 생성자를 다시 호출하게 되므로, 제 3자의 입장에서 유효성 검사를 빼먹을 수 있기에
         // 생성에 대한 유효성 검사를 생성 시에 같이 해주는 것이 좋다.
-        if (amount > 0) {
+        if (discountValue > 0) {
             this.voucherId = UUID.randomUUID();
-            this.amount = amount;
+            this.discountValue = discountValue;
         } else {
-            logger.debug("Fail to create {} -> {} amount", VoucherType.FIXED_AMOUNT.getName(), amount);
+            logger.debug("Fail to create {} -> {} amount", VoucherType.FIXED_AMOUNT.getName(), discountValue);
             throw new IllegalArgumentException(InputExceptionCode.INVALID_FIXED_AMOUNT.getMessage());
         }
     }
 
-    private FixedAmountVoucher(UUID voucherId, long amount) {
+    private FixedAmountVoucher(UUID voucherId, long discountValue) {
         this.voucherId = voucherId;
-        this.amount = amount;
+        this.discountValue = discountValue;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class FixedAmountVoucher implements Voucher {
     public String toString() {
         return "FixedAmountVoucher{" +
                 "voucherId=" + voucherId +
-                ", amount=" + amount +
+                ", amount=" + discountValue +
                 '}';
     }
 
@@ -58,6 +58,6 @@ public class FixedAmountVoucher implements Voucher {
 
     @Override
     public long getDiscountValue() {
-        return amount;
+        return discountValue;
     }
 }

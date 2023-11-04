@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
-    private final long percent;
+    private final long discountValue;
     private final static VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
     private final static Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
@@ -20,19 +20,19 @@ public class PercentDiscountVoucher implements Voucher {
         return new PercentDiscountVoucher(voucherId, percent);
     }
 
-    private PercentDiscountVoucher(long percent) {
-        if (percent > 0 && percent <= 100) {
+    private PercentDiscountVoucher(long discountValue) {
+        if (discountValue > 0 && discountValue <= 100) {
             this.voucherId = UUID.randomUUID();
-            this.percent = percent;
+            this.discountValue = discountValue;
         } else {
-            logger.debug("Fail to create {} -> {} percent", VoucherType.PERCENT_DISCOUNT.getName(), percent);
+            logger.debug("Fail to create {} -> {} percent", VoucherType.PERCENT_DISCOUNT.getName(), discountValue);
             throw new IllegalArgumentException(InputExceptionCode.INVALID_PERCENT_DISCOUNT.getMessage());
         }
     }
 
-    private PercentDiscountVoucher(UUID voucherId, long percent) {
+    private PercentDiscountVoucher(UUID voucherId, long discountValue) {
         this.voucherId = voucherId;
-        this.percent = percent;
+        this.discountValue = discountValue;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PercentDiscountVoucher implements Voucher {
     public String toString() {
         return "PercentDiscountVoucher{" +
                 "voucherId=" + voucherId +
-                ", percent=" + percent +
+                ", percent=" + discountValue +
                 '}';
     }
 
@@ -55,6 +55,6 @@ public class PercentDiscountVoucher implements Voucher {
 
     @Override
     public long getDiscountValue() {
-        return percent;
+        return discountValue;
     }
 }

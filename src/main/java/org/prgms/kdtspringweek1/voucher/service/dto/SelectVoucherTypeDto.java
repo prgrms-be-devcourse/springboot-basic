@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.console.dto;
+package org.prgms.kdtspringweek1.voucher.service.dto;
 
 import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
@@ -31,5 +31,9 @@ public enum SelectVoucherTypeDto {
                     logger.debug("Invalid Voucher Type -> {}", num);
                     return new IllegalArgumentException(InputExceptionCode.INVALID_VOUCHER_TYPE.getMessage());
                 }).voucherType;
+    }
+
+    public long getNum() {
+        return num;
     }
 }

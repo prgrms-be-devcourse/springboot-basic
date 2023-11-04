@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.console.dto;
+package org.prgms.kdtspringweek1.voucher.service.dto;
 
 import org.prgms.kdtspringweek1.voucher.entity.Voucher;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;

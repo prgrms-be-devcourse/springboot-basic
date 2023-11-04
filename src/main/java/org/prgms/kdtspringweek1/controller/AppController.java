@@ -1,31 +1,28 @@
 package org.prgms.kdtspringweek1.controller;
 
-import org.prgms.kdtspringweek1.console.ConsoleInput;
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
-import org.prgms.kdtspringweek1.customer.CustomerService;
-import org.prgms.kdtspringweek1.console.dto.FindCustomerResponseDto;
-import org.prgms.kdtspringweek1.console.dto.CreateVoucherRequestDto;
-import org.prgms.kdtspringweek1.console.dto.FindVoucherResponseDto;
-import org.prgms.kdtspringweek1.voucher.service.VoucherService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
 import org.springframework.stereotype.Component;
 
 // 뷰 영역(console 패키지)에 컨트롤러가 포함되어 있어, 따로 빼주었습니다.
 // 기존에, 입출력 관련 기능들이 컨트롤러에 명시적으로 드러나 있어, 콘솔 입출력의 경우 따로 클래스를 두어 구현
+// 프론트 컨트롤러 패턴 적용
+// 1. AppController에서 각 도메인 별 컨트롤러로 분기하도록 하였습니다. -> 각 요청을 적절한 컨트롤러로 위임하는 요청 분배 역할을 가집니다.
+// 2. try catch와 같은 중복 사항을 AppController에서 처리하도록 하였습니다.
 @Component
 public class AppController {
-    private final ConsoleInput consoleInput;
+    private final ConsoleInputConverter consoleInputConverter;
     private final ConsoleOutput consoleOutput;
-    private final VoucherService voucherService;
-    private final CustomerService customerService;
-    private final static Logger logger = LoggerFactory.getLogger(AppController.class);
+    private final VoucherController voucherController;
+    private final CustomerController customerController;
+    private final WalletController walletController;
 
-    public AppController(ConsoleInput consoleInput, ConsoleOutput consoleOutput, VoucherService voucherService, CustomerService customerService) {
-        this.consoleInput = consoleInput;
+    public AppController(ConsoleInputConverter consoleInputConverter, ConsoleOutput consoleOutput, VoucherController voucherController, CustomerController customerController, WalletController walletController) {
+        this.consoleInputConverter = consoleInputConverter;
         this.consoleOutput = consoleOutput;
-        this.voucherService = voucherService;
-        this.customerService = customerService;
+        this.voucherController = voucherController;
+        this.customerController = customerController;
+        this.walletController = walletController;
     }
 
     public void startVoucherProgram() {
@@ -34,68 +31,17 @@ public class AppController {
 
     private void selectFunction() {
         consoleOutput.printFunctionsToSelect();
-        try {
-            switch (consoleInput.getFunctionType()) {
-                case EXIT -> exitVoucherProgram();
-                case CREATE -> createVoucher();
-                case LIST -> getAllVouchers();
-                case BLACK_LIST -> getAllBlackCustomers();
-            }
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-            selectFunction();
+        SelectFunctionTypeDto selectFunctionTypeDto = consoleInputConverter.getFunctionType();
+        switch (selectFunctionTypeDto.getType()) {
+            case "exit" -> exitVoucherProgram();
+            case "voucher" -> voucherController.selectVoucherFunction(selectFunctionTypeDto);
+            case "customer" -> customerController.selectCustomerFunction(selectFunctionTypeDto);
+            case "wallet" -> walletController.selectVoucherFunction(selectFunctionTypeDto);
         }
     }
 
     private void exitVoucherProgram() {
         consoleOutput.printExitMessage();
         System.exit(0);
-    }
-
-    private void createVoucher() {
-        consoleOutput.printVouchersToSelect();
-        try {
-            switch (consoleInput.getVoucherType()) {
-                case FIXED_AMOUNT -> {
-                    consoleOutput.printRequestMessageToDecideFixedAmount();
-                    voucherService.registerVoucher(new CreateVoucherRequestDto(consoleInput.getDiscountValue()).toFixedAmountVoucher());
-                }
-                case PERCENT_DISCOUNT -> {
-                    consoleOutput.printRequestMessageToDecidePercentDiscount();
-                    voucherService.registerVoucher(new CreateVoucherRequestDto(consoleInput.getDiscountValue()).toPercentDiscountVoucher());
-                }
-            }
-            consoleOutput.printSuccessToCreateVoucher();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-            createVoucher();
-        }
-        selectFunction();
-    }
-
-    private void getAllVouchers() {
-        try {
-            voucherService.searchAllVouchers()
-                    .forEach(FindVoucherResponseDto::printVoucherInfo);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
-        consoleOutput.printSuccessToSearchVouchers();
-        selectFunction();
-    }
-
-    private void getAllBlackCustomers() {
-        try {
-            customerService.searchAllBlackCustomers()
-                    .forEach(FindCustomerResponseDto::printCustomerInfo);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            logger.error(e.getMessage());
-        }
-        consoleOutput.printSuccessToSearchBlackCustomers();
-        selectFunction();
     }
 }
