@@ -2,6 +2,7 @@ package org.prgms.springbootbasic.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.customer.Customer;
+import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.repository.customer.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,17 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer upsert(String name, String email) {
+    public Customer insert(String name, String email) {
         Customer customer = new Customer(UUID.randomUUID(), name, email, LocalDateTime.now());
 
         return this.customerRepository.upsert(customer);
+    }
+
+    public Customer update(UUID customerId, String name, boolean isBlacked) {
+        Customer customer = findById(customerId).orElseThrow(EntityNotFoundException::new);
+        Customer updatedCustomer = customer.changeInfo(name, isBlacked);
+
+        return customerRepository.upsert(updatedCustomer);
     }
 
     public Optional<Customer> findById(UUID customerId){

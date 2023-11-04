@@ -28,15 +28,32 @@ class CustomerServiceTest {
     private CustomerRepository customerRepository;
 
     @Test
-    @DisplayName("upsert가 제대로 동작하는지 확인")
-    void upsertCustomer() {
+    @DisplayName("insert가 제대로 동작하는지 확인")
+    void insertCustomer() {
         Customer customer = new Customer(UUID.randomUUID(), "name", "email", LocalDateTime.now());
 
         when(customerRepository.upsert(any())).thenReturn(customer);
 
-        Customer createdCustomer = customerService.upsert("name", "email");
+        Customer createdCustomer = customerService.insert("name", "email");
 
         assertThat(createdCustomer).isEqualTo(customer);
+
+        verify(customerRepository).upsert(any());
+    }
+
+    @Test
+    @DisplayName("update가 제대로 동작하는지 확인")
+    void updateCustomer() {
+        UUID customerId = UUID.randomUUID();
+        Customer customer = new Customer(customerId, "name", "email", LocalDateTime.now());
+        Customer customer2 = new Customer(customerId, "name2", "email2", LocalDateTime.now());
+
+        when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
+        when(customerRepository.upsert(any())).thenReturn(customer2);
+
+        Customer updatedCustomer = customerService.update(customerId, "name2", true);
+
+        assertThat(updatedCustomer).isEqualTo(customer2);
 
         verify(customerRepository).upsert(any());
     }
