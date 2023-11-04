@@ -13,6 +13,24 @@
             margin: 0 50px;
         }
     </style>
+
+    <script>
+        function deleteVoucher(voucherId) {
+            if (confirm("게시물을 삭제하시겠습니까?")) {
+                fetch(`/vouchers/${voucherId}`, {
+                    method: 'POST',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("게시물이 성공적으로 삭제되었습니다.");
+                            location.replace("/vouchers");
+                        } else {
+                            alert("게시물 삭제에 실패했습니다.");
+                        }
+                    })
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -39,6 +57,7 @@
             <th scope="col">VoucherId</th>
             <th scope="col">VoucherType</th>
             <th scope="col">discountValue</th>
+            <th scope="col">delete</th>
         </tr>
         </thead>
         <tbody>
@@ -46,6 +65,7 @@
             <th th:text="${voucher.voucherId}"></th>
             <td th:text="${voucher.voucherType}"></td>
             <td th:text="${voucher.discountValue}"></td>
+            <td><button type="submit" th:onclick="deleteVoucher([[${voucher.voucherId}]])" class="btn btn-primary">delete</button></td>
         </tr>
         </tbody>
     </table>
