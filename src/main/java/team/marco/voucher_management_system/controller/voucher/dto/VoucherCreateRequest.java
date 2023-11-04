@@ -3,8 +3,6 @@ package team.marco.voucher_management_system.controller.voucher.dto;
 import team.marco.voucher_management_system.domain.voucher.VoucherType;
 import team.marco.voucher_management_system.service.voucher.VoucherCreateServiceRequest;
 
-import java.util.Optional;
-
 public class VoucherCreateRequest {
     private VoucherType voucherType;
     private int discountValue;
@@ -17,10 +15,7 @@ public class VoucherCreateRequest {
     public VoucherCreateServiceRequest toServiceRequest() {
         return new VoucherCreateServiceRequest(
                 voucherType,
-                discountValue,
-                Optional.empty(),
-                Optional.empty()
-        );
+                discountValue);
     }
 
     public VoucherType getVoucherType() {

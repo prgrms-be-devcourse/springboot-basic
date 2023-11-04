@@ -11,11 +11,18 @@ public class VoucherCreateServiceRequest {
     private Optional<UUID> code;
     private Optional<String> name;
 
-    public VoucherCreateServiceRequest(VoucherType voucherType, int discountValue, Optional<UUID> code, Optional<String> name) {
+    public VoucherCreateServiceRequest(VoucherType voucherType, int discountValue, UUID code, String name) {
         this.voucherType = voucherType;
         this.discountValue = discountValue;
-        this.code = code;
-        this.name = name;
+        this.code = Optional.ofNullable(code);
+        this.name = Optional.ofNullable(name);
+    }
+
+    public VoucherCreateServiceRequest(VoucherType voucherType, int discountValue) {
+        this.voucherType = voucherType;
+        this.discountValue = discountValue;
+        this.code = Optional.empty();
+        this.name = Optional.empty();
     }
 
     public VoucherType getVoucherType() {

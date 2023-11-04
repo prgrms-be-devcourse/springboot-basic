@@ -1,7 +1,5 @@
 package team.marco.voucher_management_system.controller.voucher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,12 +10,10 @@ import team.marco.voucher_management_system.service.voucher.VoucherCreateService
 import team.marco.voucher_management_system.service.voucher.VoucherService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/vouchers")
 public class VoucherViewController {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherViewController.class);
     private final VoucherService voucherService;
 
     public VoucherViewController(VoucherService voucherService) {
@@ -26,11 +22,7 @@ public class VoucherViewController {
 
     @GetMapping()
     public String findAllVouchers(Model model) {
-        List<VoucherResponse> vouchers = voucherService.getVouchers().stream()
-                .map(VoucherResponse::of)
-                .toList();
-
-        model.addAttribute("vouchers", vouchers);
+        getVouchersAndAddToModel(model);
 
         return "voucher/voucher_list";
     }
@@ -53,19 +45,14 @@ public class VoucherViewController {
     public String createVoucher(@RequestParam("voucherType") String voucherType,
                                 @RequestParam("discountValue") int discountValue,
                                 Model model) {
-        logger.info("createVoucher!");
+        if (isNotPositive(discountValue)) throw new IllegalArgumentException("할인 금액 또는 할인율은 양수입니다.");
+
         voucherService.createVoucher(new VoucherCreateServiceRequest(
                 VoucherType.valueOf(voucherType),
-                discountValue,
-                Optional.empty(),
-                Optional.empty())
+                discountValue)
         );
 
-        List<VoucherResponse> vouchers = voucherService.getVouchers().stream()
-                .map(VoucherResponse::of)
-                .toList();
-
-        model.addAttribute("vouchers", vouchers);
+        getVouchersAndAddToModel(model);
 
         return "voucher/voucher_list";
     }
@@ -74,12 +61,23 @@ public class VoucherViewController {
     public String deleteVoucher(@PathVariable Long voucherId, Model model) {
         voucherService.deleteVoucher(voucherId);
 
-        List<VoucherResponse> vouchers = voucherService.getVouchers().stream()
-                .map(VoucherResponse::of)
-                .toList();
-
-        model.addAttribute("vouchers", vouchers);
+        getVouchersAndAddToModel(model);
 
         return "voucher/voucher_list";
+    }
+
+    private void getVouchersAndAddToModel(Model model) {
+        List<VoucherResponse> vouchers = vouchersToVoucherResponses(voucherService.getVouchers());
+        model.addAttribute("vouchers", vouchers);
+    }
+
+    private List<VoucherResponse> vouchersToVoucherResponses(List<Voucher> vouchers) {
+        return vouchers.stream()
+                .map(VoucherResponse::of)
+                .toList();
+    }
+
+    private static boolean isNotPositive(int discountValue) {
+        return discountValue <= 0;
     }
 }
