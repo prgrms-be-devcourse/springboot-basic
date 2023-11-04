@@ -62,9 +62,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{customerId}")
-    public String delete(@PathVariable String customerId) {
+    public void delete(@PathVariable String customerId) {
         customerService.deleteById(UUID.fromString(customerId));
-
-        return "redirect:/";
     }
 }

@@ -28,8 +28,12 @@
             () => window.location.href = "/vouchers/create");
         const deleteVoucherButton = (button) => {
             if (confirm("정말 삭제합니까?")) {
-                const voucherId = button.getAttribute("data-voucher-id");
-                window.location.href = "/vouchers/delete/" + voucherId;
+                const customerId = button.getAttribute("data-voucher-id");
+
+                fetch("/customers/" + customerId, { method: "DELETE" })
+                    .then(() => {
+                        window.location.href = "/";
+                    });
             }
         };
 
