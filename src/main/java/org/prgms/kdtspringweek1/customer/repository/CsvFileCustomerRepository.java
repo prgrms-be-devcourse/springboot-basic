@@ -22,7 +22,7 @@ public class CsvFileCustomerRepository implements CustomerRepository {
     private File customerInfoCsv;
     @Value("${spring.file.customer.path}")
     private String customerInfoCsvPath;
-    private final static Logger logger = LoggerFactory.getLogger(CsvFileCustomerRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(CsvFileCustomerRepository.class);
 
     @PostConstruct
     private void init() {

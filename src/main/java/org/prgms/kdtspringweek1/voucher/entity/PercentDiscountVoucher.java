@@ -9,8 +9,8 @@ import java.util.UUID;
 public class PercentDiscountVoucher implements Voucher {
     private final UUID voucherId;
     private final long discountValue;
-    private final static VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
-    private final static Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
+    private static final VoucherType voucherType = VoucherType.PERCENT_DISCOUNT;
+    private static final Logger logger = LoggerFactory.getLogger(PercentDiscountVoucher.class);
 
     public static PercentDiscountVoucher createWithPercent(long percent) {
         return new PercentDiscountVoucher(percent);

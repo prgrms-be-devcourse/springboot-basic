@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 @Profile("!test")
 public class AppCommandLineRunner implements CommandLineRunner {
 
-    private final AppController appController;
     private boolean shouldExit = false;
-    private final static Logger logger = LoggerFactory.getLogger(AppCommandLineRunner.class);
+    private final AppController appController;
+    private static final Logger logger = LoggerFactory.getLogger(AppCommandLineRunner.class);
 
     public AppCommandLineRunner(AppController appController) {
         this.appController = appController;

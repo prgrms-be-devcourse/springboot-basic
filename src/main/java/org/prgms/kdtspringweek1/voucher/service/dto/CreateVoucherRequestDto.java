@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 public class CreateVoucherRequestDto {
     private long discountValue;
     private String voucherType;
-    private final static Logger logger = LoggerFactory.getLogger(CreateVoucherRequestDto.class);
+    private static final Logger logger = LoggerFactory.getLogger(CreateVoucherRequestDto.class);
 
     public long getDiscountValue() {
         return discountValue;

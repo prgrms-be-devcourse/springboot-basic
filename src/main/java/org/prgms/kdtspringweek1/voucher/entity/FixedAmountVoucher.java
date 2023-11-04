@@ -9,8 +9,8 @@ import java.util.UUID;
 public class FixedAmountVoucher implements Voucher {
     private final UUID voucherId;
     private final long discountValue;
-    private final static VoucherType voucherType = VoucherType.FIXED_AMOUNT;
-    private final static Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
+    private static final VoucherType voucherType = VoucherType.FIXED_AMOUNT;
+    private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
     public static FixedAmountVoucher createWithAmount(long amount) {
         return new FixedAmountVoucher(amount);

@@ -26,7 +26,7 @@ public enum SelectFunctionTypeDto {
 
     private String type;
     private String name;
-    private final static Logger logger = LoggerFactory.getLogger(SelectFunctionTypeDto.class);
+    private static final Logger logger = LoggerFactory.getLogger(SelectFunctionTypeDto.class);
 
     SelectFunctionTypeDto(String type, String name) {
         this.type = type;

@@ -10,7 +10,7 @@ public enum VoucherType {
 
     private String name;
     private String unit;
-    private final static Logger logger = LoggerFactory.getLogger(VoucherType.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherType.class);
 
 
     VoucherType(String name, String unit) {
