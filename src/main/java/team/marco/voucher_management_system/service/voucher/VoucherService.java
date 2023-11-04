@@ -21,7 +21,7 @@ public class VoucherService {
 
     @Transactional
     public Voucher createVoucher(VoucherCreateServiceRequest request) {
-        Long latestId = voucherRepository.findLatestVoucherId().orElse(1L);
+        Long latestId = voucherRepository.findLatestVoucherId().orElse(0L);
 
         Voucher.Builder builder = new Voucher.Builder(latestId + 1, request.getVoucherType(), request.getDiscountValue());
         request.getCode().ifPresent(code -> builder.code(code));
