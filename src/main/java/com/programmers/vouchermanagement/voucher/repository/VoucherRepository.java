@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,4 +22,6 @@ public interface VoucherRepository {
     void deleteAll();
 
     void update(Voucher voucher);
+
+    List<Voucher> findAllByType(VoucherType voucherType);
 }
