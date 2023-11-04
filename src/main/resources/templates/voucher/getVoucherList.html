@@ -52,7 +52,7 @@
                 <td th:text="${voucher.type}"></td>
                 <td th:text="${voucher.discountAmount}"></td>
                 <td>
-                    <a th:href="@{'/vouchers/'+${voucher.id}}" class="btn btn-primary"
+                    <a th:href="@{'/vouchers/get/'+${voucher.id}}" class="btn btn-primary"
                        role="button">조회</a>
                 </td>
             </tr>

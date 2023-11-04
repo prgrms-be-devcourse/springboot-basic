@@ -41,10 +41,6 @@
                 <td th:text="${voucher.type}"></td>
                 <td th:text="${voucher.discountAmount}"></td>
                 <td>
-                    <a th:href="@{'/vouchers/update'+${voucher.id}}" class="btn btn-primary"
-                       role="button">수정</a>
-                </td>
-                <td>
                     <a th:href="@{'/vouchers/delete/'+${voucher.id}}" class="btn btn-danger"
                        role="button">삭제</a>
                 </td>
@@ -54,7 +50,7 @@
         <div class="row justify-content-start">
             <div class="col-auto">
                 <a class="btn btn-secondary"
-                   th:href="${'/vouchers'}">뒤로 가기</a>
+                   th:href="${'/vouchers/get'}">뒤로 가기</a>
             </div>
         </div>
     </div>

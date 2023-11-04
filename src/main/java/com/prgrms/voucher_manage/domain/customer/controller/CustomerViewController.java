@@ -26,24 +26,24 @@ public class CustomerViewController {
     @PostMapping("customers/new")
     public String createCustomer(@ModelAttribute CreateCustomerDto dto){
         customerService.save(dto);
-        return "redirect:/customers";
+        return "redirect:/customers/get";
     }
 
-    @GetMapping("customers")
+    @GetMapping("customers/get")
     public String getAllCustomers(Model model){
         List<Customer> customers = customerService.getAllCustomers();
         model.addAttribute("customers", customers);
         return "customer/customerList";
     }
 
-    @GetMapping("customers/black")
+    @GetMapping("customers/get/black")
     public String getBlackCustomers(Model model){
         List<Customer> blackCustomers = customerService.getBlackCustomers();
         model.addAttribute("blackCustomers", blackCustomers);
         return "customer/blackCustomerList";
     }
 
-    @GetMapping("customers/{customerId}")
+    @GetMapping("customers/get/{customerId}")
     public String getCustomer(@PathVariable UUID customerId, Model model){
         Customer customer = customerService.findById(customerId);
         model.addAttribute("customer", customer);

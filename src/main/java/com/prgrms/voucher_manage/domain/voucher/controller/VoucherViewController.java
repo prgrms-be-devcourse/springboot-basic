@@ -26,10 +26,10 @@ public class VoucherViewController {
     @PostMapping("vouchers/new")
     public String createVoucher(@ModelAttribute CreateVoucherDto dto){
         voucherService.createVoucher(dto);
-        return "redirect:/vouchers";
+        return "redirect:/vouchers/get";
     }
 
-    @GetMapping("vouchers")
+    @GetMapping("vouchers/get")
     public String getVouchers(Model model){
         List<Voucher> vouchers = voucherService.getVouchers();
         model.addAttribute("vouchers", vouchers);
@@ -40,7 +40,7 @@ public class VoucherViewController {
         return "voucher/getVoucherList";
     }
 
-    @GetMapping("vouchers/{voucherId}")
+    @GetMapping("vouchers/get/{voucherId}")
     public String getVoucher(@PathVariable UUID voucherId, Model model){
         Voucher voucher = voucherService.findVoucher(voucherId);
         model.addAttribute("voucher", voucher);
@@ -50,6 +50,6 @@ public class VoucherViewController {
     @GetMapping("vouchers/delete/{voucherId}")
     public String deleteVoucher(@PathVariable UUID voucherId){
         voucherService.deleteVoucher(voucherId);
-        return "redirect:/vouchers";
+        return "redirect:/vouchers/get";
     }
 }

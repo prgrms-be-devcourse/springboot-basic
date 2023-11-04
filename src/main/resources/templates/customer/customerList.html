@@ -52,7 +52,7 @@
                 <td th:text="${customer.name}"></td>
                 <td th:text="${customer.type}"></td>
                 <td>
-                    <a th:href="@{'/customers/'+${customer.id}}" class="btn btn-primary"
+                    <a th:href="@{'/customers/get/'+${customer.id}}" class="btn btn-primary"
                        role="button">조회</a>
                 </td>
             </tr>
