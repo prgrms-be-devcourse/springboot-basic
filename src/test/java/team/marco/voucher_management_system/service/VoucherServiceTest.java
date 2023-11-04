@@ -11,7 +11,6 @@ import team.marco.voucher_management_system.service.voucher.VoucherCreateService
 import team.marco.voucher_management_system.service.voucher.VoucherService;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
@@ -34,10 +33,7 @@ class VoucherServiceTest {
         int amount = 1000;
         VoucherCreateServiceRequest request = new VoucherCreateServiceRequest(
                 FIXED,
-                amount,
-                Optional.empty(),
-                Optional.empty()
-        );
+                amount);
 
         // 고정 금액 쿠폰 생성 요청
         Voucher returned = voucherService.createVoucher(request);
@@ -54,10 +50,7 @@ class VoucherServiceTest {
         int percent = 10;
         VoucherCreateServiceRequest request = new VoucherCreateServiceRequest(
                 PERCENT,
-                percent,
-                Optional.empty(),
-                Optional.empty()
-        );
+                percent);
 
         // % 금액 쿠폰 생성 요청
         Voucher returned = voucherService.createVoucher(request);
