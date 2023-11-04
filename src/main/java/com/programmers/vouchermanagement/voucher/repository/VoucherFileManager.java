@@ -6,19 +6,23 @@ import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.vouchermanagement.constant.Message.*;
 
 @Component
+@Profile("file")
 public class VoucherFileManager {
     static final String VOUCHER_TYPE_KEY = "voucher_type";
+    static final String CREATED_AT_KEY = "created_at";
     private static final Logger logger = LoggerFactory.getLogger(VoucherFileManager.class);
     private static final String VOUCHER_ID_KEY = "voucher_id";
     private static final String DISCOUNT_VALUE_KEY = "discount_value";
@@ -59,7 +63,9 @@ public class VoucherFileManager {
                     logger.error(INVALID_VOUCHER_TYPE);
                     return new NoSuchElementException(INVALID_VOUCHER_TYPE);
                 });
-        return new Voucher(voucherId, discountValue, voucherType);
+        //TODO: check save format
+        LocalDateTime createdAt = (LocalDateTime) voucherObject.get(CREATED_AT_KEY);
+        return new Voucher(voucherId, discountValue, voucherType, createdAt);
     }
 
     public void saveFile() {
@@ -84,6 +90,7 @@ public class VoucherFileManager {
         voucherObject.put(VOUCHER_ID_KEY, voucher.voucherId().toString());
         voucherObject.put(DISCOUNT_VALUE_KEY, voucher.discountValue());
         voucherObject.put(VOUCHER_TYPE_KEY, voucher.voucherType().name());
+        voucherObject.put(CREATED_AT_KEY, voucher.createdAt().toString());
         return voucherObject;
     }
 }
