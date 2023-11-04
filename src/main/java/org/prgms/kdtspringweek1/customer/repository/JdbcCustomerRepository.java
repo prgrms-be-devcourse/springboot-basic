@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static org.prgms.kdtspringweek1.JdbcUtils.toUUID;
+import static org.prgms.kdtspringweek1.UuidUtils.toUUID;
 
 @Repository
 @Profile({"default", "test"})
