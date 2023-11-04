@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("local")
@@ -63,7 +64,9 @@ public class CsvFileVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findVouchersByVoucherType(String voucherType) {
-        return null;
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getVoucherType().getName().equals(voucherType))
+                .collect(Collectors.toList());
     }
 
     @Override
