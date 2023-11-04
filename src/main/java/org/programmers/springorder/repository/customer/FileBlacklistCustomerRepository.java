@@ -19,14 +19,14 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class FileCustomerRepository {
+public class FileBlacklistCustomerRepository {
 
-    private final Logger logger = LoggerFactory.getLogger(FileCustomerRepository.class);
+    private final Logger logger = LoggerFactory.getLogger(FileBlacklistCustomerRepository.class);
     private final Console console;
     @Value(("${customerListFilePath}"))
     private String filePath;
 
-    public FileCustomerRepository(Console console) {
+    public FileBlacklistCustomerRepository(Console console) {
         this.console = console;
     }
 
