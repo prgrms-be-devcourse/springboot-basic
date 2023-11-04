@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>상세 페이지</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="p-3 m-0 border-0 bd-example m-0 border-0">
+    <div th:replace="header :: header"></div>
+    <form action="#" method="post">
+        <div class="mb-3">
+            <label for="customer-id" class="form-label">고객 ID</label>
+            <input readonly type="text" class="form-control" id="customer-id" th:name="customerId" th:value="${customer.getCustomerId()}">
+        </div>
+        <div class="mb-3">
+            <label for="customer-email" class="form-label">Email 주소</label>
+            <input readonly type="email" class="form-control" id="customer-email" th:name="email" th:value="${customer.getEmail()}">
+        </div>
+        <div class="mb-3">
+            <label for="customer-name" class="form-label">성함</label>
+            <input type="text" class="form-control" th:name="name" id="customer-name" th:value="${customer.getName()}">
+        </div>
+        <div class="mb-3">
+            <label for="customer-created-at" class="form-label">생성 일자</label>
+            <input readonly type="text" class="form-control" th:name="createdAt" id="customer-created-at"
+                   th:value="${#temporals.format(customer.getCreatedAt(), 'yyyy-MM-dd HH:mm:ss:SSS')}">
+        </div>
+        <div class="mb-3">
+            <label for="customer-login-at" class="form-label">마지막 로그인 일시</label>
+            <input readonly type="text" class="form-control" th:name="lastLoginAt" id="customer-login-at"
+                   th:value="${#temporals.format(customer.getLastLoginAt(), 'yyyy-MM-dd HH:mm:ss:SSS')}">
+        </div>
+        <div class="mb-3">
+            <p>블랙 여부</p>
+            <label>
+                <input type="radio" th:name="isBlacked" value="true" th:checked="${customer.isBlacked() == true}">
+                True
+            </label>
+            <label>
+                <input type="radio" th:name="isBlacked" value="false" th:checked="${customer.isBlacked() == false}">
+                False
+            </label>
+        </div>
+
+        <div class="d-flex justify-content-end ">
+            <button type="submit" class="btn btn-outline-primary m-1">Submit</button>
+            <button type="reset" class="btn btn-outline-warning m-1">Clear</button>
+            <button type="button" th:data-customer-id="${customer.getCustomerId()}" class="btn btn-outline-danger m-1" onclick="deleteCustomerButton(this)">Delete</button>
+            <button type="button" class="btn btn-outline-dark m-1" onclick="history.back()">Cancel</button>
+        </div>
+    </form>
+</body>
+<script>
+    const deleteCustomerButton = (button) => {
+        if (confirm("정말 삭제합니까?")) {
+            const customerId = button.getAttribute("data-customer-id");
+
+            window.location.href = "/customers/delete/" + customerId;
+        }
+    };
+</script>
+</html>

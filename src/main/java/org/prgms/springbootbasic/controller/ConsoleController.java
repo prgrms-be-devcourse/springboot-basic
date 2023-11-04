@@ -119,7 +119,7 @@ public class ConsoleController {
         String name = info[0];
         String email = info[1];
 
-        customerService.upsert(name, email);
+        customerService.insert(name, email);
     }
 
     private void listVoucher() {
