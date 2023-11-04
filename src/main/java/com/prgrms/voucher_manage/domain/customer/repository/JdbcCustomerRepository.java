@@ -1,6 +1,5 @@
 package com.prgrms.voucher_manage.domain.customer.repository;
 
-import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerDto;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchTypeByString;
 import static com.prgrms.voucher_manage.base.ErrorMessage.CUSTOMER_NOT_EXIST;
 import static com.prgrms.voucher_manage.base.ErrorMessage.CUSTOMER_UPDATE_FAILED;
+import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchTypeByString;
 
 @Repository
 @RequiredArgsConstructor
@@ -56,10 +55,10 @@ public class JdbcCustomerRepository {
         return customer;
     }
 
-    public void update(UpdateCustomerDto dto) {
+    public void update(Customer customer) {
         String sql = "update customer set name = ? where customer_id = ?";
         try {
-            jdbcTemplate.update(sql, dto.name(), dto.id().toString());
+            jdbcTemplate.update(sql, customer.getName(), customer.getId().toString());
         } catch (Exception e) {
             throw new RuntimeException(CUSTOMER_UPDATE_FAILED.getMessage());
         }

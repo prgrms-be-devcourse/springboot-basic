@@ -1,6 +1,6 @@
 package com.prgrms.voucher_manage.domain.customer.controller;
 
-import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerDto;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerReq;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class CustomerViewController {
     }
 
     @PostMapping("customers/new")
-    public String createCustomer(@ModelAttribute CreateCustomerDto dto){
+    public String createCustomer(@ModelAttribute CreateCustomerReq dto){
         customerService.save(dto);
         return "redirect:/customers/get";
     }

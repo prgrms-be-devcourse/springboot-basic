@@ -72,7 +72,7 @@ public class JdbcVoucherRepositoryTest {
         repository.deleteById(voucher.getId());
         //then
         RuntimeException e = assertThrows(RuntimeException.class, () -> repository.findById(voucher.getId()));
-        assertThat(e.getMessage()).isEqualTo("바우처가 존재하지 않습니다.");
+        assertThat(e.getMessage()).isEqualTo("해당 아이디를 가진 바우처가 존재하지 않습니다.");
     }
 
 

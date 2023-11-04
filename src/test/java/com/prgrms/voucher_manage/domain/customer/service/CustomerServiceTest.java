@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.customer.service;
 
-import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerDto;
-import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerDto;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerReq;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerReq;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.repository.JdbcCustomerRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +30,7 @@ public class CustomerServiceTest {
     @DisplayName("생성된 회원을 반환 받을 수 있다.")
     void createCustomer(){
         Customer customer = new Customer("까마귀", BLACK);
-        CreateCustomerDto customerDto = new CreateCustomerDto("까마귀", BLACK);
+        CreateCustomerReq customerDto = new CreateCustomerReq("까마귀", BLACK);
 
         when(repository.save(any(Customer.class))).thenReturn(customer);
         Customer savedCustomer = service.save(customerDto);
@@ -42,7 +42,7 @@ public class CustomerServiceTest {
     @DisplayName("회원 아이디로 회원을 반환받을 수 있다.")
     void findCustomerById(){
         Customer customer = new Customer("까마귀", BLACK);
-        CreateCustomerDto customerDto = new CreateCustomerDto("까마귀", BLACK);
+        CreateCustomerReq customerDto = new CreateCustomerReq("까마귀", BLACK);
 
         when(repository.save(any(Customer.class))).thenReturn(customer);
         Customer savedCustomer = service.save(customerDto);
@@ -56,7 +56,7 @@ public class CustomerServiceTest {
     @DisplayName("회원 이름으로 회원을 반환 받을 수 있다.")
     void findCustomerByName(){
         Customer customer = new Customer("까마귀", BLACK);
-        CreateCustomerDto customerDto = new CreateCustomerDto("까마귀", BLACK);
+        CreateCustomerReq customerDto = new CreateCustomerReq("까마귀", BLACK);
 
         when(repository.save(any(Customer.class))).thenReturn(customer);
         Customer savedCustomer = service.save(customerDto);
@@ -69,11 +69,11 @@ public class CustomerServiceTest {
     @DisplayName("회원 이름을 변경할 수 있다.")
     void update() {
         Customer customer = new Customer("까마귀", BLACK);
-        UpdateCustomerDto dto = new UpdateCustomerDto(customer.getId(), "갈매기");
+        UpdateCustomerReq dto = new UpdateCustomerReq("갈매기");
 
         when(repository.findById(any())).thenReturn(new Customer(dto.name(), BLACK));
 
-        service.update(dto);
+        service.update(customer.getId(), dto);
 
         Customer updatedCustomer = service.findById(customer.getId());
 

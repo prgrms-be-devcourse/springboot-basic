@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.customer.service;
 
-import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerDto;
-import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerDto;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerReq;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerReq;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.repository.JdbcCustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +34,21 @@ public class CustomerService {
         return repository.findByType(BLACK.getData());
     }
 
-    public Customer save(CreateCustomerDto dto) {
+    public Customer save(CreateCustomerReq dto) {
         return repository.save(new Customer(dto.name(), dto.type()));
     }
 
-    public void update(UpdateCustomerDto dto) {
-        repository.update(dto);
+    public void update(UUID customerId, UpdateCustomerReq dto) {
+        Customer customer = getCustomerIfExists(customerId);
+        repository.update(new Customer(customerId, dto.name(), customer.getType()));
+    }
+
+    public Customer getCustomerIfExists(UUID customerId){
+        Customer customer = repository.findById(customerId);
+        if (customer == null){
+            throw new RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
+        }
+        return customer;
     }
 
     public Customer findByName(String name) {

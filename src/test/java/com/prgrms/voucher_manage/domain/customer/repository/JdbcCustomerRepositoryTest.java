@@ -1,6 +1,6 @@
 package com.prgrms.voucher_manage.domain.customer.repository;
 
-import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerDto;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerReq;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,8 +67,8 @@ public class JdbcCustomerRepositoryTest {
         //given
         Customer customer = repository.save(new Customer("전", BLACK));
         //when
-        UpdateCustomerDto updateDto = new UpdateCustomerDto(customer.getId(), "후");
-        repository.update(updateDto);
+        UpdateCustomerReq updateDto = new UpdateCustomerReq("후");
+        repository.update(new Customer(customer.getId(), updateDto.name(), customer.getType() ));
         Customer updatedCustomer = repository.findById(customer.getId());
 
         //then
