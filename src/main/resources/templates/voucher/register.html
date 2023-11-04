@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Create Voucher</title>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script th:inline="javascript">
+    window.onload = function updateBenefitConstraints() {
+      let type = document.getElementById('voucherType').value;
+      let benefitInput = document.getElementById('benefit');
+
+      if (type === 'FIXED') {
+        benefitInput.setAttribute('min', '1');
+        benefitInput.setAttribute('max', '2147483647');
+      } else if (type === 'PERCENT') {
+        benefitInput.setAttribute('min', '1');
+        benefitInput.setAttribute('max', '100');
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-100">
+<nav class="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900">
+  <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+    <a href="/" class="flex items-center">
+      <img src="/hug.png" class="h-8 mr-3" alt="Flowbite Logo" />
+      <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Voucher Management System</span>
+    </a>
+
+    <button data-collapse-toggle="mega-menu-full" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mega-menu-full" aria-expanded="false">
+      <span class="sr-only">Open main menu</span>
+      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+      </svg>
+    </button>
+
+    <div id="mega-menu-full" class="items-center justify-between font-medium hidden w-full md:flex md:w-auto md:order-1">
+      <ul class="flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li>
+          <a href="/" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Home</a>
+        </li>
+        <li>
+          <button id="mega-menu-full-dropdown-button" data-collapse-toggle="mega-menu-full-dropdown" class="flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-900 rounded md:w-auto hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">
+            User
+            <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg></button>
+        </li>
+        <li>
+          <button id="mega-menu-full-dropdown-button2" data-collapse-toggle="mega-menu-full-dropdown2" class="flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-900 rounded md:w-auto hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">Voucher <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+          </svg></button>
+        </li>
+        <li>
+          <button id="mega-menu-full-dropdown-button3" data-collapse-toggle="mega-menu-full-dropdown3" class="flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-900 rounded md:w-auto hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">User's Voucher <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+          </svg></button>
+        </li>
+      </ul>
+    </div>
+    <div class="flex items-center md:order-2">
+      <a href="/user/register" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign up</a>
+    </div>
+  </div>
+  <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-sm bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
+    <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
+      <ul>
+        <li>
+          <a href="/user" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">블랙리스트 유저 조회</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">차단 된 악성 유저 리스트를 조회 할 수 있습니다.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/register" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">유저 등록</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">회원 가입을 진행 할 수 있습니다.</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="mega-menu-full-dropdown2" class="hidden mt-1 border-gray-200 shadow-sm bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
+    <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
+      <ul>
+        <li>
+          <a href="/voucher/vouchers" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">전체 바우처 조회</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">현재 등록 되어 있는 모든 바우처를 조회 할 수 있습니다.
+              해당 페이지에서 바우처 수정,삭제가 가능합니다.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/voucher/register" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">바우처 등록</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">새로운 바우처를 등록 할 수 있습니다.</span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  <div id="mega-menu-full-dropdown3" class="hidden mt-1 border-gray-200 shadow-sm bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
+    <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
+      <ul>
+        <li>
+          <a href="/userVoucher/register" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">개인 바우처 등록</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">내 바우처를 등록 할 수 있습니다.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/userVoucher/voucherByUser" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">유저 닉네임으로 소유한 바우처 찾기</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">가입 된 유저의 닉네임으로 해당 유저가 소유한 바우처를 조회 할 수 있습니다.
+            해당 페이지에서 개인이 소유한 바우처 삭제가 가능합니다.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/userVoucher/userByVoucher" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">바우처 ID로 유저 찾기</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">바우처 ID로 해당 바우처를 소유한 유저의 리스트를 조회 할 수 있습니다.</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
+
+<div class="container mx-auto p-8">
+  <div class="max-w-md mx-auto bg-white rounded-lg overflow-hidden md:max-w-lg">
+    <div class="md:flex">
+      <div class="w-full p-5">
+        <h1 class="text-2xl font-bold text-center text-gray-800 mb-4">Create New Voucher</h1>
+        <p class="text-s font-light text-center mb-4 text-gray-800">새로운 Voucher를 등록해보세요.</p>
+        <form th:action="@{/voucher/register}" th:method="post">
+          <div class="mb-4">
+            <label for="voucherType" class="block text-gray-600 text-sm font-semibold mb-2">Voucher Type</label>
+            <div class="relative">
+              <select id="voucherType" name="voucherType" required onchange="updateBenefitConstraints()" class="block appearance-none w-full bg-gray-100 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                <option value="FIXED">FIXED</option>
+                <option value="PERCENT">PERCENT</option>
+              </select>
+              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path d="M5.66 6.36a.5.5 0 011 .04l4.5 4.9a.5.5 0 01-.72.68l-4.5-4.9a.5.5 0 01.22-.72z"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="benefit" class="block text-gray-600 text-sm font-semibold mb-2">Benefit</label>
+            <input type="number" id="benefit" name="benefitValue" required class="bg-gray-100 rounded border border-gray-200 leading-normal resize-none w-full h-10 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"/>
+          </div>
+          <div class="flex items-center justify-between">
+            <input type="submit" value="Register Voucher" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
+</body>
+</html>

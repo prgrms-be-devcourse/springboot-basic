@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Vouchers of User</title>
+  <!-- Include Tailwind CSS from CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<nav class="bg-white border-gray-200 dark:border-gray-600 dark:bg-gray-900">
+  <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
+    <a href="/" class="flex items-center">
+      <img src="/hug.png" class="h-8 mr-3" alt="Flowbite Logo" />
+      <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Voucher Management System</span>
+    </a>
+
+    <button data-collapse-toggle="mega-menu-full" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mega-menu-full" aria-expanded="false">
+      <span class="sr-only">Open main menu</span>
+      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+      </svg>
+    </button>
+
+    <div id="mega-menu-full" class="items-center justify-between font-medium hidden w-full md:flex md:w-auto md:order-1">
+      <ul class="flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+        <li>
+          <a href="/" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Home</a>
+        </li>
+        <li>
+          <button id="mega-menu-full-dropdown-button" data-collapse-toggle="mega-menu-full-dropdown" class="flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-900 rounded md:w-auto hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">
+            User
+            <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg></button>
+        </li>
+        <li>
+          <button id="mega-menu-full-dropdown-button2" data-collapse-toggle="mega-menu-full-dropdown2" class="flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-900 rounded md:w-auto hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">Voucher <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+          </svg></button>
+        </li>
+        <li>
+          <button id="mega-menu-full-dropdown-button3" data-collapse-toggle="mega-menu-full-dropdown3" class="flex items-center justify-between w-full py-2 pl-3 pr-4  text-gray-900 rounded md:w-auto hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">User's Voucher <svg class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+          </svg></button>
+        </li>
+      </ul>
+    </div>
+    <div class="flex items-center md:order-2">
+      <a href="/user/register" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 mr-1 md:mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign up</a>
+    </div>
+  </div>
+  <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-sm bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
+    <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
+      <ul>
+        <li>
+          <a href="/user" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">블랙리스트 유저 조회</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">차단 된 악성 유저 리스트를 조회 할 수 있습니다.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/user/register" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">유저 등록</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">회원 가입을 진행 할 수 있습니다.</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div id="mega-menu-full-dropdown2" class="hidden mt-1 border-gray-200 shadow-sm bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
+    <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
+      <ul>
+        <li>
+          <a href="/voucher/vouchers" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">전체 바우처 조회</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">현재 등록 되어 있는 모든 바우처를 조회 할 수 있습니다.
+              해당 페이지에서 바우처 수정,삭제가 가능합니다.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/voucher/register" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">바우처 등록</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">새로운 바우처를 등록 할 수 있습니다.</span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+  <div id="mega-menu-full-dropdown3" class="hidden mt-1 border-gray-200 shadow-sm bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
+    <div class="grid max-w-screen-xl px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
+      <ul>
+        <li>
+          <a href="/userVoucher/register" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">개인 바우처 등록</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">내 바우처를 등록 할 수 있습니다.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/userVoucher/voucherByUser" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">유저 닉네임으로 소유한 바우처 찾기</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">가입 된 유저의 닉네임으로 해당 유저가 소유한 바우처를 조회 할 수 있습니다.
+            해당 페이지에서 개인이 소유한 바우처 삭제가 가능합니다.</span>
+          </a>
+        </li>
+        <li>
+          <a href="/userVoucher/userByVoucher" class="block p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+            <div class="font-semibold">바우처 ID로 유저 찾기</div>
+            <span class="text-sm text-gray-500 dark:text-gray-400">바우처 ID로 해당 바우처를 소유한 유저의 리스트를 조회 할 수 있습니다.</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</nav>
+
+<div class="container mx-auto my-6 p-8 bg-white rounded shadow-lg">
+  <h1 class="text-2xl font-bold text-gray-800 mb-4">Vouchers of <span th:text="${userNickname}" class="text-indigo-600"></span></h1>
+  <p class="text-sm text-gray-600 mb-6">해당 유저가 가지고 있는 바우처 목록입니다.</p>
+
+  <!-- Voucher List Table -->
+  <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+      <tr>
+        <th scope="col" class="py-3 px-6">
+          User Voucher Id
+        </th>
+        <th scope="col" class="py-3 px-6">
+          Voucher UUID
+        </th>
+        <th scope="col" class="py-3 px-6">
+          Voucher Type
+        </th>
+        <th scope="col" class="py-3 px-6">
+          Benefit
+        </th>
+        <th scope="col" class="py-3 px-6">
+          Details
+        </th>
+        <th scope="col" class="py-3 px-6">
+          Del
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Repeat for each voucher -->
+      <tr th:each="voucher : ${vouchers}" class="bg-white border-b">
+        <td class="py-4 px-6" th:text="${voucher.id}">Voucher ID</td>
+        <td class="py-4 px-6" th:text="${voucher.voucherResponse.id}">Voucher UUID</td>
+        <td class="py-4 px-6" th:text="${voucher.voucherResponse.voucherType}">Voucher Type</td>
+        <td class="py-4 px-6" th:text="${voucher.voucherResponse.benefitValue}">Benefit</td>
+        <!-- View Details Button -->
+        <td class="py-4 px-6">
+          <a th:href="@{'/voucher/' + ${voucher.getVoucherResponse().getId()}}" class="text-green-600 hover:text-green-900">View</a>
+        </td>
+        <td class="py-4 px-6">
+          <form th:action="@{'/userVoucher/delete/' + ${voucher.id}}" th:method="delete" class="inline">
+            <button type="submit" class="text-red-500 hover:text-red-700 bg-transparent p-0 border-none outline-none focus:outline-none">
+              Delete
+            </button>
+          </form>
+        </td>
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- 데이터가 없을 때 -->
+  <div th:if="${vouchers.isEmpty()}" class="flex justify-center items-center mt-4">
+    <p class="text-lg text-gray-400">No Vouchers.</p>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js"></script>
+</body>
+</html>

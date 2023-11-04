@@ -1,0 +1,24 @@
+server:
+  shutdown: graceful
+spring:
+  profiles:
+    active: command
+    group:
+      tomcat:
+        - tomcat
+      command:
+        - command
+      test:
+        - test
+  lifecycle:
+    timeout-per-shutdown-phase: 10s
+  datasource:
+    url: jdbc:mysql://${HOST}/spring_basic
+    username: ${USERNAME}
+    password: ${PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+file:
+  user:
+    path: blacklist.csv
+  voucher:
+    path: voucher.csv
