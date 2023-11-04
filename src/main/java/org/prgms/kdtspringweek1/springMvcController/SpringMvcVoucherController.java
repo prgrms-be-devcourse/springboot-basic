@@ -1,6 +1,7 @@
 package org.prgms.kdtspringweek1.springMvcController;
 
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
+import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.SelectVoucherTypeDto;
 import org.springframework.web.bind.annotation.*;

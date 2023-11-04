@@ -1,6 +1,7 @@
 package org.prgms.kdtspringweek1.thymeleafController;
 
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
+import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.FindVoucherResponseDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

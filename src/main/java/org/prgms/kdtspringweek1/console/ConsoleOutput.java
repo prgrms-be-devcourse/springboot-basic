@@ -40,9 +40,9 @@ public class ConsoleOutput {
     public void printVouchersToSelect() {
         System.out.println("""
                 --------------------------------------------------
-                voucher 종류를 선택하여 정수로 입력해주세요.
-                1. FixedAmountVoucher
-                2. PercentDiscountVoucher"""
+                voucher 종류를 선택하여 문자열로 입력해주세요.
+                1. fixed amount voucher
+                2. percent discount voucher"""
         );
     }
 

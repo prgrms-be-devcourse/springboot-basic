@@ -21,7 +21,7 @@
         <label for="voucherType" class="form-label">Voucher Type</label>
         <select name="voucherType" class="form-select" id="voucherType">
             <option th:each="type : ${T(org.prgms.kdtspringweek1.voucher.entity.VoucherType).values()}"
-                    th:value="${type}" th:text="${type.getName()}"></option>
+                    th:value="${type.getName()}" th:text="${type.getName()}"></option>
         </select>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>

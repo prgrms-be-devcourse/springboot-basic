@@ -27,8 +27,12 @@ public class ConsoleInputConverter {
         return SelectVoucherTypeDto.getVoucherTypeByNum(Long.parseLong(consoleInput.getInput()));
     }
 
-    public CreateVoucherRequestDto getCreateVoucherRequestDto() {
-        return new CreateVoucherRequestDto(Long.parseLong(consoleInput.getInput()));
+    public String getVoucherTypeString() {
+        return consoleInput.getInput();
+    }
+
+    public long getDiscountValue() {
+        return Long.parseLong(consoleInput.getInput());
     }
 
     public UUID getId() {

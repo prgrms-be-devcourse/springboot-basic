@@ -2,6 +2,7 @@ package org.prgms.kdtspringweek1.controller;
 
 import org.prgms.kdtspringweek1.console.ConsoleOutput;
 import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
+import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
 import org.springframework.stereotype.Component;
@@ -33,16 +34,10 @@ public class VoucherController {
 
     private void createVoucher() {
         consoleOutput.printVouchersToSelect();
-        switch (consoleInputConverter.getVoucherType()) {
-            case FIXED_AMOUNT -> {
-                consoleOutput.printRequestMessageforDiscountValue();
-                voucherService.registerVoucher(consoleInputConverter.getCreateVoucherRequestDto().toFixedAmountVoucher());
-            }
-            case PERCENT_DISCOUNT -> {
-                consoleOutput.printRequestMessageforDiscountValue();
-                voucherService.registerVoucher(consoleInputConverter.getCreateVoucherRequestDto().toPercentDiscountVoucher());
-            }
-        }
+        String voucherType = consoleInputConverter.getVoucherTypeString();
+        consoleOutput.printRequestMessageforDiscountValue();
+        long discountValue = consoleInputConverter.getDiscountValue();
+        voucherService.registerVoucher(new CreateVoucherRequestDto(discountValue, voucherType).toVoucher());
         consoleOutput.printSuccessToCreate();
     }
 

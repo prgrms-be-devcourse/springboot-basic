@@ -110,11 +110,15 @@ class ConsoleInputConverterTest {
     @DisplayName("바우처 할인 값 입력 성공")
     void Success_GetCreateVoucherRequestDto() {
         // given
-        String input = String.valueOf(random.nextLong(Long.MAX_VALUE) + 1);
-        when(scannerInput.getInput()).thenReturn(input);
+        String discountValue = String.valueOf(random.nextLong(Long.MAX_VALUE) + 1);
+        String voucherType = Arrays.stream(VoucherType.values())
+                .skip(random.nextInt(VoucherType.values().length))
+                .findFirst()
+                .map(VoucherType::getName)
+                .orElse(null);
 
         // when
-        CreateVoucherRequestDto createVoucherRequestDto = consoleInputConverter.getCreateVoucherRequestDto();
+        CreateVoucherRequestDto createVoucherRequestDto = new CreateVoucherRequestDto(Long.parseLong(discountValue), voucherType);;
 
         // then
         assertThat(createVoucherRequestDto.getDiscountValue(), greaterThan(0L));
@@ -124,12 +128,16 @@ class ConsoleInputConverterTest {
     @DisplayName("바우처 할인 값 입력 실패 - 0이하의 값을 입력한 경우")
     void Fail_GetCreateVoucherRequestDto_ZeroOrLess() {
         // given
-        String input = String.valueOf(-1 * random.nextLong(Long.MAX_VALUE));
-        when(scannerInput.getInput()).thenReturn(input);
+        String discountValue = String.valueOf(-1 * random.nextLong(Long.MAX_VALUE));
+        String voucherType = Arrays.stream(VoucherType.values())
+                .skip(random.nextInt(VoucherType.values().length))
+                .findFirst()
+                .map(VoucherType::getName)
+                .orElse(null);
 
         // when
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            consoleInputConverter.getCreateVoucherRequestDto();
+            new CreateVoucherRequestDto(Long.parseLong(discountValue), voucherType);
         });
 
         // then
