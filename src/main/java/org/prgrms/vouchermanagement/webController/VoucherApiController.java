@@ -15,16 +15,14 @@ import java.util.UUID;
 @RequestMapping("/api/v1/voucher")
 public class VoucherApiController {
 
+    // REST에 대해 알아보자
+
     private final VoucherService voucherService;
 
     public VoucherApiController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/list")
-    public List<Voucher> voucherList() {
-        return voucherService.voucherLists();
-    }
 
     @PostMapping
     public Voucher createVoucher(@RequestBody VoucherCreateInfo voucherCreateInfo) {
@@ -34,11 +32,15 @@ public class VoucherApiController {
         return voucherService.createVoucher(policy, amountOrPercent);
     }
 
+    //중계만 -> 서비스에 위임 or 동적 쿼리
     @GetMapping
     public List<Voucher> findVouchers(
             @RequestParam(name = "voucherId", required = false) String voucherId,
-            @RequestParam(name = "policy", required = false) String policy) {
+            @RequestParam(name = "policy", required = false) String policy
+    ) {
 
+        //voucherCreateInfo를 사용
+        //mvc와 엮어서
         List<Voucher> vouchers = new ArrayList<>();
 
         if (voucherId != null && policy != null) {
@@ -54,7 +56,10 @@ public class VoucherApiController {
         } else if (policy != null) {
             // policy만 제공된 경우
             PolicyStatus getPolicy = validateAndConvertPolicy(policy);
-            vouchers = voucherService.findVouchersByPolicy(getPolicy);
+            return voucherService.findVouchersByPolicy(getPolicy);
+        } else {
+            //검색 조건이 없는 경우 -> 전체 조회
+            return voucherService.voucherLists();
         }
 
         return vouchers;
