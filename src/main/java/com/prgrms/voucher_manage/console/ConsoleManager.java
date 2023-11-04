@@ -24,7 +24,7 @@ import java.util.UUID;
 import static com.prgrms.voucher_manage.console.ConsoleMessage.*;
 import static com.prgrms.voucher_manage.console.MenuType.EXIT;
 import static com.prgrms.voucher_manage.console.MenuType.matchMenuType;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.INVALID_COMMAND_INPUT;
+import static com.prgrms.voucher_manage.base.ErrorMessage.INVALID_COMMAND_INPUT;
 
 @Component
 @RequiredArgsConstructor

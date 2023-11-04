@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.BLACK;
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.NORMAL;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
+import static com.prgrms.voucher_manage.base.ErrorMessage.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

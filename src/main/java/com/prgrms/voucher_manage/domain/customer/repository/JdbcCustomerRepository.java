@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.matchTypeByString;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.CUSTOMER_NOT_EXIST;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.CUSTOMER_UPDATE_FAILED;
+import static com.prgrms.voucher_manage.base.ErrorMessage.CUSTOMER_NOT_EXIST;
+import static com.prgrms.voucher_manage.base.ErrorMessage.CUSTOMER_UPDATE_FAILED;
 
 @Repository
 @RequiredArgsConstructor

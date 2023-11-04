@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.BLACK;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
+import static com.prgrms.voucher_manage.base.ErrorMessage.*;
 
 @Service
 @RequiredArgsConstructor

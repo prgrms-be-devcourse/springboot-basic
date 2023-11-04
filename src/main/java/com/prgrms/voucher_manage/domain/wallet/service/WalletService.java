@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
+import static com.prgrms.voucher_manage.base.ErrorMessage.*;
 
 @Service
 @RequiredArgsConstructor

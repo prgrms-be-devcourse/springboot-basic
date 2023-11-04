@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
+import static com.prgrms.voucher_manage.base.ErrorMessage.*;
 
 
 @Service
@@ -39,12 +39,22 @@ public class VoucherService {
     }
 
     public void updateVoucher(UUID voucherId, UpdateVoucherReq dto) {
-        voucherRepository.update(getVoucherEntity(voucherId, dto.type(), dto.discountAmount()));
+        Voucher voucher = getVoucherIfExists(voucherId);
+        voucherRepository.update(getVoucherEntity(voucherId, voucher.getType(), dto.discountAmount()));
     }
 
     public void deleteVoucher(UUID voucherId) {
+        getVoucherIfExists(voucherId);
         voucherRepository.deleteById(voucherId);
     }
+
+    public Voucher getVoucherIfExists(UUID voucherId){
+        Voucher voucher = voucherRepository.findById(voucherId);
+        if (voucher==null)
+            throw new RuntimeException(VOUCHER_NOT_EXISTS.getMessage());
+        return voucher;
+    }
+
     public Voucher getVoucherEntity(UUID id, VoucherType type, Long discountAmount){
         if (type == FIXED) {
             return new FixedAmountVoucher(id, discountAmount);

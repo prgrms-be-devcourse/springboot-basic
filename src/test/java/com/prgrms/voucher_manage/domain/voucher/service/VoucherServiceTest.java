@@ -72,7 +72,7 @@ public class VoucherServiceTest {
     @DisplayName("바우처 금액을 변경할 수 있다.")
     void update(){
         Voucher voucher = new FixedAmountVoucher(1000L);
-        UpdateVoucherReq updateDto= new UpdateVoucherReq(FIXED, 2000L);
+        UpdateVoucherReq updateDto= new UpdateVoucherReq(2000L);
 
         when(repository.findById(any())).thenReturn(new FixedAmountVoucher(voucher.getId(), updateDto.discountAmount()));
         Voucher updatedVoucher = service.findVoucher(voucher.getId());

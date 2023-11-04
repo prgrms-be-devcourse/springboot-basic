@@ -15,7 +15,7 @@ import static com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher
 import static com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher.isInvalidPercent;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.PERCENT;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.INVALID_DISCOUNT_RANGE;
+import static com.prgrms.voucher_manage.base.ErrorMessage.INVALID_DISCOUNT_RANGE;
 
 @Controller
 @RequiredArgsConstructor
@@ -38,7 +38,7 @@ public class VoucherConsoleController {
     public void updateVoucher(UUID voucherId, Long discountAmount) {
         VoucherType type = voucherService.findVoucher(voucherId).getType();
         validateVoucher(type, discountAmount);
-        voucherService.updateVoucher(voucherId, new UpdateVoucherReq(type, discountAmount));
+        voucherService.updateVoucher(voucherId, new UpdateVoucherReq(discountAmount));
     }
 
     public void deleteVoucher(UUID voucherId) {
