@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.voucher.service;
 
-import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherDto;
-import com.prgrms.voucher_manage.domain.voucher.controller.dto.UpdateVoucherDto;
+import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherReq;
+import com.prgrms.voucher_manage.domain.voucher.controller.dto.UpdateVoucherReq;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.repository.VoucherRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
 public class VoucherService {
     private final VoucherRepository voucherRepository;
 
-    public Voucher createVoucher(CreateVoucherDto dto) {
+    public Voucher createVoucher(CreateVoucherReq dto) {
         return voucherRepository.save(dto.of());
     }
 
@@ -34,7 +34,7 @@ public class VoucherService {
         return voucherRepository.findById(voucherId);
     }
 
-    public void updateVoucher(UpdateVoucherDto dto) {
+    public void updateVoucher(UpdateVoucherReq dto) {
         voucherRepository.update(dto.of());
     }
 

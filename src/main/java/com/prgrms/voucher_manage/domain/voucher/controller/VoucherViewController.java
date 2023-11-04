@@ -1,6 +1,6 @@
 package com.prgrms.voucher_manage.domain.voucher.controller;
 
-import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherDto;
+import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherReq;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class VoucherViewController {
     }
 
     @PostMapping("vouchers/new")
-    public String createVoucher(@ModelAttribute CreateVoucherDto dto){
+    public String createVoucher(@ModelAttribute CreateVoucherReq dto){
         voucherService.createVoucher(dto);
         return "redirect:/vouchers/get";
     }

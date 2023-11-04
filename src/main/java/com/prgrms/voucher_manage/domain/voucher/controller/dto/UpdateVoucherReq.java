@@ -4,20 +4,22 @@ import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 
-public record CreateVoucherDto(
+
+public record UpdateVoucherReq(
+    UUID id,
     VoucherType type,
     Long discountAmount
 )
 {
     public Voucher of() {
         if (type == FIXED) {
-            return new FixedAmountVoucher(discountAmount);
+            return new FixedAmountVoucher(id, discountAmount);
         }
-        return new PercentDiscountVoucher(discountAmount);
+        return new PercentDiscountVoucher(id, discountAmount);
     }
 }

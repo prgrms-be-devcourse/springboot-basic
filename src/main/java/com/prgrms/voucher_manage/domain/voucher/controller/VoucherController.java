@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.voucher.controller;
 
-import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherDto;
-import com.prgrms.voucher_manage.domain.voucher.controller.dto.UpdateVoucherDto;
+import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherReq;
+import com.prgrms.voucher_manage.domain.voucher.controller.dto.UpdateVoucherReq;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import com.prgrms.voucher_manage.domain.voucher.service.VoucherService;
@@ -24,7 +24,7 @@ public class VoucherController {
 
     public void saveVoucher(VoucherType voucherType, Long discountAmount) {
         validateVoucher(voucherType, discountAmount);
-        voucherService.createVoucher(new CreateVoucherDto(voucherType, discountAmount));
+        voucherService.createVoucher(new CreateVoucherReq(voucherType, discountAmount));
     }
 
     public List<Voucher> getVouchers() {
@@ -38,7 +38,7 @@ public class VoucherController {
     public void updateVoucher(UUID voucherId, Long discountAmount) {
         VoucherType type = voucherService.findVoucher(voucherId).getType();
         validateVoucher(type, discountAmount);
-        voucherService.updateVoucher(new UpdateVoucherDto(voucherId, type, discountAmount));
+        voucherService.updateVoucher(new UpdateVoucherReq(voucherId, type, discountAmount));
     }
 
     public void deleteVoucher(UUID voucherId) {

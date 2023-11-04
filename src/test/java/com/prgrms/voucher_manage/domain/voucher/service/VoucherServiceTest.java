@@ -1,7 +1,7 @@
 package com.prgrms.voucher_manage.domain.voucher.service;
 
-import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherDto;
-import com.prgrms.voucher_manage.domain.voucher.controller.dto.UpdateVoucherDto;
+import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherReq;
+import com.prgrms.voucher_manage.domain.voucher.controller.dto.UpdateVoucherReq;
 import com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
@@ -33,7 +33,7 @@ public class VoucherServiceTest {
     @DisplayName("바우처를 생성하여 반환받을 수 있다.")
     void createVoucher(){
         Voucher voucher = new FixedAmountVoucher(1000L);
-        CreateVoucherDto createDto = new CreateVoucherDto(FIXED, 1000L);
+        CreateVoucherReq createDto = new CreateVoucherReq(FIXED, 1000L);
 
         when(repository.save(any())).thenReturn(voucher);
         Voucher fixedAmountVoucher = service.createVoucher(createDto);
@@ -57,7 +57,7 @@ public class VoucherServiceTest {
     @DisplayName("바우처 아이디로 바우처를 반환받을 수 있다.")
     void findVoucherById(){
         Voucher voucher = new FixedAmountVoucher(1000L);
-        CreateVoucherDto createDto = new CreateVoucherDto(FIXED, 1000L);
+        CreateVoucherReq createDto = new CreateVoucherReq(FIXED, 1000L);
 
         when(repository.save(any(FixedAmountVoucher.class))).thenReturn(voucher);
         Voucher savedVoucher = service.createVoucher(createDto);
@@ -72,7 +72,7 @@ public class VoucherServiceTest {
     @DisplayName("바우처 금액을 변경할 수 있다.")
     void update(){
         Voucher voucher = new FixedAmountVoucher(1000L);
-        UpdateVoucherDto updateDto= new UpdateVoucherDto(voucher.getId(), FIXED, 2000L);
+        UpdateVoucherReq updateDto= new UpdateVoucherReq(voucher.getId(), FIXED, 2000L);
 
         when(repository.findById(any())).thenReturn(new FixedAmountVoucher(updateDto.id(), updateDto.discountAmount()));
         Voucher updatedVoucher = service.findVoucher(voucher.getId());
