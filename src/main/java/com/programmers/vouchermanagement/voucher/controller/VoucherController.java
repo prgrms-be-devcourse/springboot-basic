@@ -38,8 +38,8 @@ public class VoucherController {
 
     @GetMapping("/{voucherId}")
     @ResponseBody
-    public void readById(@PathVariable("voucherId") UUID voucherId) {
-        voucherService.readById(voucherId);
+    public VoucherDto readById(@PathVariable("voucherId") UUID voucherId) {
+        return voucherService.readById(voucherId);
     }
 
     @DeleteMapping("/{voucherId}")
