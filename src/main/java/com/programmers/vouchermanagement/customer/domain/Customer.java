@@ -10,6 +10,12 @@ public class Customer {
     private final String name;
     private final CustomerType customerType;
 
+    public Customer() {
+        customerId = null;
+        name = null;
+        customerType = null;
+    }
+
     public Customer(UUID customerId, String name) {
         this(customerId, name, CustomerType.NORMAL);
     }
