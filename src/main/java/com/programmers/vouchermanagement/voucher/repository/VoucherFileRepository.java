@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,6 +39,14 @@ public class VoucherFileRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID id) {
         return Optional.ofNullable(voucherFileManager.vouchers.get(id));
+    }
+
+    @Override
+    public List<Voucher> findAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
+        return voucherFileManager.vouchers.values().stream().filter(voucher -> {
+            LocalDateTime createdAt = voucher.createdAt();
+            return createdAt.isAfter(from) && createdAt.isBefore(to);
+        }).toList();
     }
 
     @Override
