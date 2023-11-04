@@ -44,6 +44,7 @@ public class TestDataFactory {
         return List.of(voucher1, voucher2, voucher3, voucher4, voucher5);
     }
 
+    @SuppressWarnings("unused") // @MethodSource 에서 사용
     private static Stream<Arguments> searchConditionProvider() {
         return Stream.of(
                 Arguments.of(null, null, null, 5),
