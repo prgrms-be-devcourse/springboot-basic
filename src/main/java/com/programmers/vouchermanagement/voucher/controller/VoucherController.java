@@ -26,7 +26,7 @@ public class VoucherController {
 
     @PostMapping
     @ResponseBody
-    public VoucherDto create(CreateVoucherRequest createVoucherRequest) {
+    public VoucherDto create(@RequestBody CreateVoucherRequest createVoucherRequest) {
         return voucherService.create(createVoucherRequest);
     }
 
@@ -56,7 +56,7 @@ public class VoucherController {
 
     @PutMapping("/{voucherId}")
     @ResponseBody
-    public void update(@PathVariable("voucherId") UUID voucherId, CreateVoucherRequest createVoucherRequest) {
+    public void update(@PathVariable("voucherId") UUID voucherId, @RequestBody CreateVoucherRequest createVoucherRequest) {
         voucherService.update(voucherId, createVoucherRequest);
     }
 
