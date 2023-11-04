@@ -4,6 +4,7 @@ import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static com.programmers.vouchermanagement.constant.Message.NOT_DELETED;
@@ -31,6 +32,14 @@ public class VoucherInMemoryRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID id) {
         return Optional.ofNullable(vouchers.get(id));
+    }
+
+    @Override
+    public List<Voucher> findAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
+        return vouchers.values().stream().filter(voucher -> {
+            LocalDateTime createdAt = voucher.createdAt();
+            return createdAt.isAfter(from) && createdAt.isBefore(to);
+        }).toList();
     }
 
     @Override
