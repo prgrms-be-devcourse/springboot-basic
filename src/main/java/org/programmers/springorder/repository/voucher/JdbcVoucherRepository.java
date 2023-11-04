@@ -27,7 +27,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String UPDATE_VOUCHER = "UPDATE vouchers SET discount_value = :discountValue, voucher_type = :voucherType WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String DELETE_ALL_VOUCHER = "DELETE FROM vouchers";
     private static final String DELETE_VOUCHER_BY_ID = "DELETE FROM vouchers WHERE voucher_Id = UUID_TO_BIN(:voucherId)";
-    private static final String UPDATE_VOUCHER_ASSIGN_CUSTOMER = "UPDATE vouchers SET customer_id = :customerId WHERE voucher_id = UUID_TO_BIN(:voucherId)";
+    private static final String UPDATE_VOUCHER_ASSIGN_CUSTOMER = "UPDATE vouchers SET customer_id = UUID_TO_BIN(:customerId) WHERE voucher_id = UUID_TO_BIN(:voucherId)";
     private static final String SELECT_VOUCHER_BY_CUSTOMER_ID = "SELECT * FROM vouchers WHERE customer_id = UUID_TO_BIN(:customerId)";
 
 
@@ -42,7 +42,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return Voucher.toVoucher(voucherId, discountValue, voucherType);
     };
 
-    private Map<String, Object> toParamMap(Voucher voucher) {   //TODO:디미터 법칙 리팩토링 필요 (Customer도)
+    private Map<String, Object> toParamMap(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("voucherId", uuidToBytes(voucher.getVoucherIdToString()));
         paramMap.put("discountValue", voucher.getDiscountValue());
