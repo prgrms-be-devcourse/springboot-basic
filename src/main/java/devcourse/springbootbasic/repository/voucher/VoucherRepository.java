@@ -13,7 +13,7 @@ public interface VoucherRepository {
 
     Voucher save(Voucher voucher);
 
-    List<Voucher> findAllWithFilter(VoucherType voucherType, LocalDate startDate, LocalDate endDate);
+    List<Voucher> findAllWithSearchConditions(VoucherType voucherType, LocalDate startDate, LocalDate endDate);
 
     List<Voucher> findAll();
 

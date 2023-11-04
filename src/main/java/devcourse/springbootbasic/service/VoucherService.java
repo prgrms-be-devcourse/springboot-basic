@@ -32,7 +32,7 @@ public class VoucherService {
     }
 
     public List<VoucherFindResponse> findAllVoucherWithSearchConditions(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
-        return voucherRepository.findAllWithFilter(voucherType, startDate, endDate)
+        return voucherRepository.findAllWithSearchConditions(voucherType, startDate, endDate) // 메서드명 Condition 서비스랑 동일하게 ㄱㄱ
                 .stream()
                 .map(VoucherFindResponse::new)
                 .toList();

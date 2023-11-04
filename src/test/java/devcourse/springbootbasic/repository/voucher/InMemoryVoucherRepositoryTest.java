@@ -69,7 +69,7 @@ class InMemoryVoucherRepositoryTest {
 
 
         // When
-        List<Voucher> vouchers = voucherRepository.findAllWithFilter(voucherType, startDate, endDate);
+        List<Voucher> vouchers = voucherRepository.findAllWithSearchConditions(voucherType, startDate, endDate);
 
         // Then
         assertThat(vouchers).hasSize(expectedSize);

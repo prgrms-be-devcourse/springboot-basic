@@ -28,7 +28,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     @Override
-    public List<Voucher> findAllWithFilter(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
+    public List<Voucher> findAllWithSearchConditions(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM voucher WHERE 1=1");
 
         Map<String, Object> queryParams = new HashMap<>();

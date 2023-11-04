@@ -25,7 +25,7 @@ public class InMemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAllWithFilter(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
+    public List<Voucher> findAllWithSearchConditions(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
         return voucherDatabase.values()
                 .stream()
                 .filter(voucher -> voucherType == null || voucher.getVoucherType().equals(voucherType))
