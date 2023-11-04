@@ -20,7 +20,7 @@ public class VoucherViewController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping()
+    @GetMapping
     public String findAllVouchers(Model model) {
         getVouchersAndAddToModel(model);
 
@@ -41,7 +41,7 @@ public class VoucherViewController {
         return "voucher/voucher_create_form";
     }
 
-    @PostMapping()
+    @PostMapping
     public String createVoucher(@RequestParam("voucherType") String voucherType,
                                 @RequestParam("discountValue") int discountValue,
                                 Model model) {
