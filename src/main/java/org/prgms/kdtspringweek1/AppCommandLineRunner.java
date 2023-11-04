@@ -1,6 +1,7 @@
 package org.prgms.kdtspringweek1;
 
 import org.prgms.kdtspringweek1.controller.consoleController.AppController;
+import org.prgms.kdtspringweek1.exception.ExitException;
 import org.prgms.kdtspringweek1.exception.FileExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,13 +26,11 @@ public class AppCommandLineRunner implements CommandLineRunner {
         while (!shouldExit) {
             try {
                 appController.startVoucherProgram();
-            } catch (Exception exception) {
+            } catch (ExitException exception) {
+                // 시스템이 종료되어야하는 예외를 구분하여 처리
                 System.out.println(exception.getMessage());
                 logger.error(exception.getMessage());
-                // 파일에서 정보를 읽어오는 것을 실패했다면, 서버가 켜지지 않는게 정상이므로, 예외 전파 후 어플을 종료 시키도록 한다.
-                if (exception.getMessage().equals(FileExceptionCode.FAIL_TO_READ_DATA_FROM_CSV)) {
-                    shouldExit = true;
-                }
+                shouldExit = true;
             }
         }
     }
