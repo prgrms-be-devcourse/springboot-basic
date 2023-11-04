@@ -59,7 +59,7 @@ public class VoucherController {
         voucherService.update(voucherId, createVoucherRequest);
     }
 
-    @GetMapping("/datetime")
+    @GetMapping("/created-at")
     @ResponseBody
     public List<VoucherDto> readAllByCreatedAt(@RequestParam(name = "from") LocalDate from, @RequestParam(name = "to") LocalDate to) {
         LocalDateTime fromDateTime = LocalDateTime.of(from, LocalTime.of(0, 0, 0));
