@@ -69,11 +69,12 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    public void update(UUID voucherId, CreateVoucherRequest createVoucherRequest) {
+    public VoucherDto update(UUID voucherId, CreateVoucherRequest createVoucherRequest) {
         // TODO: modify code format
         VoucherDto voucherDto = readById(voucherId);
         Voucher voucher = new Voucher(voucherId, createVoucherRequest.discountValue(), createVoucherRequest.voucherType(), voucherDto.createdAt());
         voucherRepository.update(voucher);
+        return VoucherDto.from(voucher);
     }
 
     public List<VoucherDto> readAllByType(VoucherType type) {

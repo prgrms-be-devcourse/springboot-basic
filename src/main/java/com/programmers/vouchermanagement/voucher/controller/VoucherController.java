@@ -56,8 +56,8 @@ public class VoucherController {
 
     @PutMapping("/{voucherId}")
     @ResponseBody
-    public void update(@PathVariable("voucherId") UUID voucherId, @RequestBody CreateVoucherRequest createVoucherRequest) {
-        voucherService.update(voucherId, createVoucherRequest);
+    public VoucherDto update(@PathVariable("voucherId") UUID voucherId, @RequestBody CreateVoucherRequest createVoucherRequest) {
+        return voucherService.update(voucherId, createVoucherRequest);
     }
 
     @GetMapping("/created-at")
