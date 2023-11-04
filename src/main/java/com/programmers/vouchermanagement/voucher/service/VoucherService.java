@@ -31,7 +31,7 @@ public class VoucherService {
     }
 
     public VoucherResponse create(CreateVoucherRequest request) {
-        VoucherType voucherType = findVoucherType(request.voucherType());
+        VoucherType voucherType = VoucherType.findVoucherType(request.voucherType());
         Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(request.discountValue()), voucherType);
         voucherRepository.save(voucher);
         return VoucherResponse.from(voucher);
@@ -69,7 +69,8 @@ public class VoucherService {
 
     public VoucherResponse update(UpdateVoucherRequest request) {
         validateVoucherIdExisting(request.voucherId());
-        Voucher voucher = new Voucher(request.voucherId(), request.discountValue(), request.voucherType());
+        VoucherType voucherType = VoucherType.findVoucherType(request.voucherType());
+        Voucher voucher = new Voucher(request.voucherId(), new BigDecimal(request.discountValue()), voucherType);
         Voucher updatedVoucher = voucherRepository.save(voucher);
         return VoucherResponse.from(updatedVoucher);
     }
@@ -113,14 +114,6 @@ public class VoucherService {
         return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
-    }
-
-    private VoucherType findVoucherType(String voucherType) {
-        try {
-            return VoucherType.findVoucherTypeByCode(voucherType);
-        } catch (IllegalArgumentException exception) {
-            return VoucherType.findVoucherTypeByName(voucherType);
-        }
     }
 
     private void validateVoucherIdExisting(UUID voucherId) {

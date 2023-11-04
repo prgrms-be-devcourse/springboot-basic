@@ -171,7 +171,7 @@ class VoucherServiceTest {
     @DisplayName("존재하지 않는 바우처의 정보 수정을 실패한다.")
     void testUpdateVoucherFailed_NonExistentVoucher() {
         //given
-        UpdateVoucherRequest request = new UpdateVoucherRequest(UUID.randomUUID(), new BigDecimal(1000), VoucherType.FIXED);
+        UpdateVoucherRequest request = new UpdateVoucherRequest(UUID.randomUUID(), 1000, "Fixed");
 
         //when
         assertThatThrownBy(() -> voucherService.update(request))
@@ -189,7 +189,7 @@ class VoucherServiceTest {
         //given
         Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
         voucherRepository.save(voucher);
-        UpdateVoucherRequest request = new UpdateVoucherRequest(voucher.getVoucherId(), BigDecimal.ZERO, VoucherType.FIXED);
+        UpdateVoucherRequest request = new UpdateVoucherRequest(voucher.getVoucherId(), 0, "Fixed");
 
         //when
         assertThatThrownBy(() -> voucherService.update(request))
@@ -208,7 +208,7 @@ class VoucherServiceTest {
         //given
         Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(10000), VoucherType.FIXED);
         voucherRepository.save(voucher);
-        UpdateVoucherRequest request = new UpdateVoucherRequest(voucher.getVoucherId(), BigDecimal.TEN, VoucherType.PERCENT);
+        UpdateVoucherRequest request = new UpdateVoucherRequest(voucher.getVoucherId(), 10, "Percent");
 
         //when
         VoucherResponse voucherResponse = voucherService.update(request);

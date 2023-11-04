@@ -120,7 +120,7 @@ class VoucherControllerTest {
         //given
         CreateVoucherRequest createRequest = new CreateVoucherRequest(10000, "Fixed");
         VoucherResponse voucher = voucherService.create(createRequest);
-        UpdateVoucherRequest updateRequest = new UpdateVoucherRequest(voucher.voucherId(), new BigDecimal(20000), VoucherType.FIXED);
+        UpdateVoucherRequest updateRequest = new UpdateVoucherRequest(voucher.voucherId(), 20000, "Fixed");
 
         //when
         voucherController.update(updateRequest);

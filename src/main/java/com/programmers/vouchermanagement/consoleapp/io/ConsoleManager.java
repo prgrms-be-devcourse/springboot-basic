@@ -110,12 +110,10 @@ public class ConsoleManager {
         String voucherIdInput = read(ID_INPUT.formatted(CONTENT_VOUCHER));
         UUID voucherId = UUID.fromString(voucherIdInput);
 
-        String discountValueInput = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
-        BigDecimal discountValue = new BigDecimal(discountValueInput);
+        String discountValue = read(VOUCHER_DISCOUNT_VALUE_INSTRUCTION);
 
         String voucherTypeCode = read(VOUCHER_TYPE_INPUT);
-        VoucherType voucherType = VoucherType.findVoucherTypeByCode(voucherTypeCode);
-        return new UpdateVoucherRequest(voucherId, discountValue, voucherType);
+        return new UpdateVoucherRequest(voucherId, Long.parseLong(discountValue), voucherTypeCode);
     }
 
     public String instructCreateCustomer() {
