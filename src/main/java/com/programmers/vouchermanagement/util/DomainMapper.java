@@ -8,12 +8,15 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import java.nio.ByteBuffer;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 @Component
 public class DomainMapper {
+    //TODO: split
     public static final String ID_KEY = "id";
     public static final String VOUCHER_ID_KEY = "voucher_id";
     public static final String CUSTOMER_ID_KEY = "customer_id";
@@ -21,13 +24,15 @@ public class DomainMapper {
     public static final String NAME_KEY = "name";
     public static final String DISCOUNT_VALUE_KEY = "discount_value";
     public static final String TYPE_KEY = "type";
+    public static final String CREATED_AT_KEY = "created_at";
 
     public final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID id = toUUID(resultSet.getBytes(ID_KEY));
         long discountValue = resultSet.getLong(DISCOUNT_VALUE_KEY);
         String voucherTypeStr = resultSet.getString(TYPE_KEY);
+        LocalDateTime createdAt = resultSet.getTimestamp(CREATED_AT_KEY).toLocalDateTime();
 
-        return new Voucher(id, discountValue, VoucherType.valueOf(voucherTypeStr));
+        return new Voucher(id, discountValue, VoucherType.valueOf(voucherTypeStr), createdAt);
     };
     public final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID id = toUUID(resultSet.getBytes(ID_KEY));
@@ -68,6 +73,7 @@ public class DomainMapper {
         paramMap.put(ID_KEY, voucher.voucherId().toString().getBytes());
         paramMap.put(TYPE_KEY, voucher.voucherType().name());
         paramMap.put(DISCOUNT_VALUE_KEY, voucher.discountValue());
+        paramMap.put(CREATED_AT_KEY, Timestamp.valueOf(voucher.createdAt()));
         return paramMap;
     }
 }
