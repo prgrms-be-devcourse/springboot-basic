@@ -13,61 +13,66 @@
             <h1>Voucher Detail</h1>
         </header>
         <div class="voucher-detail">
-            <form th:action="@{${voucher?.voucherId == null ? '/vouchers/create' : '/vouchers/update'}}"
-                  th:object="${voucher}"
-                  method="post">
-                <div th:if="${voucher?.voucherId}">
-                    <label for="voucher-id">Voucher ID</label>
-                    <input th:value="${voucher.voucherId}"
-                           th:field="*{voucherId}"
-                           id="voucher-id"
-                           readonly
-                           type="text"/>
-                </div>
-                <div th:if="${voucher?.createdAt}" class="voucher-created-at">
-                    Creation Datetime : <span th:text="${voucher.createdAt}"></span>
-                </div>
-                <div th:if="${voucher?.discountValue}">
-                    <label for="discount-value">Discount Value</label>
-                    <input th:value="${voucher.discountValue}"
-                           th:field="*{discountValue}"
-                           type="number"
-                           id="discount-value"
-                           class="discount-value"
-                    />
-                </div>
-                <div th:unless="${voucher?.discountValue}">
-                    <label for="discount-value-input">Discount Value</label>
-                    <input th:unless="${voucher?.discountValue}"
-                           th:field="*{discountValue}"
-                           type="number"
-                           id="discount-value-input"
-                           class="discount-value editable"
-                           placeholder="Please input the discount value"
-                    />
-                </div>
-                <div th:if="${voucher?.voucherType}">
-                    Current Voucher Type : <span th:text="${voucher.voucherType.displayTypeName}" ></span> Discount Voucher
-                </div>
-                <label for="voucher-type-selection">Voucher Type To Be Saved</label><br/>
-                <select class="form-select" id="voucher-type-selection" name="voucherType">
-                    <option th:each="voucherType : ${T(com.programmers.vouchermanagement.voucher.domain.VoucherType).values()}"
-                            th:field="*{voucherType}"
-                            th:value="${voucherType}" th:text="${voucherType.displayTypeName}"></option>
-                </select>
-                <button type="submit">
-                    <span>Save Changes</span>
-                </button>
-            </form>
-            <form th:if="${voucher?.voucherId != null}"
-                  th:object="${voucher}"
-                  th:action="@{/vouchers/{voucherId}/delete(voucherId=*{voucherId})}"
-                  method="post"
-            >
-                <button type="submit">
-                    Delete Voucher
-                </button>
-            </form>
+            <button onclick="location.href='/vouchers'">
+                Back To List
+            </button>
+            <div>
+                <form th:action="@{${voucher?.voucherId == null ? '/vouchers/create' : '/vouchers/update'}}"
+                      th:object="${voucher}"
+                      method="post">
+                    <div th:if="${voucher?.voucherId}">
+                        <label for="voucher-id">Voucher ID</label>
+                        <input th:value="${voucher.voucherId}"
+                               th:field="*{voucherId}"
+                               id="voucher-id"
+                               readonly
+                               type="text"/>
+                    </div>
+                    <div th:if="${voucher?.createdAt}" class="voucher-created-at">
+                        Creation Datetime : <span th:text="${voucher.createdAt}"></span>
+                    </div>
+                    <div th:if="${voucher?.discountValue}">
+                        <label for="discount-value">Discount Value</label>
+                        <input th:value="${voucher.discountValue}"
+                               th:field="*{discountValue}"
+                               type="number"
+                               id="discount-value"
+                               class="discount-value"
+                        />
+                    </div>
+                    <div th:unless="${voucher?.discountValue}">
+                        <label for="discount-value-input">Discount Value</label>
+                        <input th:unless="${voucher?.discountValue}"
+                               th:field="*{discountValue}"
+                               type="number"
+                               id="discount-value-input"
+                               class="discount-value editable"
+                               placeholder="Please input the discount value"
+                        />
+                    </div>
+                    <div th:if="${voucher?.voucherType}">
+                        Current Voucher Type : <span th:text="${voucher.voucherType.displayTypeName}" ></span> Discount Voucher
+                    </div>
+                    <label for="voucher-type-selection">Voucher Type To Be Saved</label><br/>
+                    <select class="form-select" id="voucher-type-selection" name="voucherType">
+                        <option th:each="voucherType : ${T(com.programmers.vouchermanagement.voucher.domain.VoucherType).values()}"
+                                th:field="*{voucherType}"
+                                th:value="${voucherType}" th:text="${voucherType.displayTypeName}"></option>
+                    </select>
+                    <button type="submit">
+                        <span>Save Changes</span>
+                    </button>
+                </form>
+                <form th:if="${voucher?.voucherId != null}"
+                      th:object="${voucher}"
+                      th:action="@{/vouchers/{voucherId}/delete(voucherId=*{voucherId})}"
+                      method="post"
+                >
+                    <button type="submit">
+                        Delete Voucher
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 </body>
