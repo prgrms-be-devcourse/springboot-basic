@@ -1,21 +1,20 @@
 package org.programmers.springorder.dto.customer;
 
-import org.programmers.springorder.model.customer.CustomerType;
-
 public class CustomerRequestDto {
-    private final String name;
-    private final CustomerType customerType;
+    private String name;
+
+    public CustomerRequestDto() {
+    }
 
     public CustomerRequestDto(String name) {
         this.name = name;
-        this.customerType = CustomerType.NORMAL;
     }
 
     public String getName() {
         return name;
     }
 
-    public CustomerType getCustomerType() {
-        return customerType;
+    public void setName(String name) {
+        this.name = name;
     }
 }

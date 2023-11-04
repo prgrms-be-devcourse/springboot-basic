@@ -22,7 +22,7 @@ public class Customer {
     private Customer(UUID customerId, CustomerRequestDto customerRequestDto) {
         this.customerId = customerId;
         this.name = customerRequestDto.getName();
-        this.customerType = customerRequestDto.getCustomerType();
+        this.customerType = CustomerType.NORMAL;
     }
 
     private static UUID generateUUID() {
