@@ -4,11 +4,14 @@ import com.programmers.springbootbasic.domain.voucher.application.VoucherService
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.CreateVoucherRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.UpdateVoucherRequest;
 import com.programmers.springbootbasic.domain.voucher.presentation.dto.VoucherResponse;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 
 @Controller
+@Validated
 public class VoucherController {
 
     private final VoucherService voucherService;
@@ -17,7 +20,7 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    public void createVoucher(CreateVoucherRequest request) {
+    public void createVoucher(@Valid CreateVoucherRequest request) {
         voucherService.create(request);
     }
 
@@ -33,7 +36,7 @@ public class VoucherController {
         voucherService.deleteById(id);
     }
 
-    public void updateVoucher(UUID id, UpdateVoucherRequest request) {
+    public void updateVoucher(UUID id, @Valid UpdateVoucherRequest request) {
         voucherService.update(id, request);
     }
 
