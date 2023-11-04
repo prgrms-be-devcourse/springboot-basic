@@ -41,6 +41,10 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
+    public void deleteById(UUID customerId) {
+        customerRepository.deleteById(customerId);
+    }
+
     public void deleteAll(){
         customerRepository.deleteAll();
     }

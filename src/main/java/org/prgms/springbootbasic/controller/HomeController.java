@@ -32,6 +32,6 @@ public class HomeController {
 
         log.info(customers.get(0).toString());
 
-        return "index.html";
+        return "index";
     }
 }
