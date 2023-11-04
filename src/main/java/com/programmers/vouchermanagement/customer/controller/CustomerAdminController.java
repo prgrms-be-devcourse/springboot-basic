@@ -17,10 +17,6 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.customer.service.CustomerService;
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 
 @Controller
 @RequestMapping("/customers")
