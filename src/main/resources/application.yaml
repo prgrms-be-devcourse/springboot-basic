@@ -1,20 +1,10 @@
 spring:
   profiles:
     active: default
-
-file:
-  names:
-    voucher:
-      file-name: voucherRecord.csv
-      test-file-name: testVoucherRecord.csv
-    customer:
-      file-name: customer_blacklist.csv
-      test-file-name: test_customer_blacklist.csv
-  user-dir: ${user.dir}
-  resources:
-    path: /src/main/resources/
-    test-path: /src/test/resources/
-
-external:
-  proj-dir: ""
-  resource-dir: ""
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/voucherManagement?serverTimeZone=Asia/Seoul
+    username: user
+    password: user1234
+  thymeleaf:
+    prefix: classpath:/templates/
