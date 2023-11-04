@@ -1,18 +1,13 @@
 package devcourse.springbootbasic.dto.wallet;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
 @Getter
+@RequiredArgsConstructor
 public class VoucherAssignRequest {
 
     private final UUID customerId;
-
-    @JsonCreator
-    public VoucherAssignRequest(@JsonProperty("customerId") UUID customerId) {
-        this.customerId = customerId;
-    }
 }
