@@ -49,7 +49,7 @@ class VoucherControllerTest {
     @DisplayName("바우처 생성을 성공하고 바우처 생성 성공 뷰를 출력한다.")
     void testCreateVoucher_ViewShowingCreatedVoucher() {
         //given
-        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
+        CreateVoucherRequest request = new CreateVoucherRequest(10000, "Fixed");
 
         //when
         voucherController.create(request);
@@ -83,7 +83,7 @@ class VoucherControllerTest {
     @DisplayName("저장된 바우처들의 전체 조회를 성공하고 바우처 정보를 보여주는 뷰를 출력한다.")
     void testReadAllVouchers_ViewShowingVouchers() {
         //given
-        CreateVoucherRequest request = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
+        CreateVoucherRequest request = new CreateVoucherRequest(10000, "Fixed");
         voucherController.create(request);
 
         //when
@@ -118,7 +118,7 @@ class VoucherControllerTest {
     @DisplayName("바우처 정보 업데이트 성공 시 성공 문구를 담은 뷰를 출력한다.")
     void testUpdateVoucher_ViewShowingUpdatedVoucher() {
         //given
-        CreateVoucherRequest createRequest = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
+        CreateVoucherRequest createRequest = new CreateVoucherRequest(10000, "Fixed");
         VoucherResponse voucher = voucherService.create(createRequest);
         UpdateVoucherRequest updateRequest = new UpdateVoucherRequest(voucher.voucherId(), new BigDecimal(20000), VoucherType.FIXED);
 
@@ -135,7 +135,7 @@ class VoucherControllerTest {
     @DisplayName("바우처의 삭제 성공 후 성공 문구를 담은 뷰를 출력한다.")
     void testDeleteVoucherById_SuccessfullyDeleted() {
         //given
-        CreateVoucherRequest createRequest = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
+        CreateVoucherRequest createRequest = new CreateVoucherRequest(10000, "Fixed");
         VoucherResponse voucher = voucherService.create(createRequest);
 
         //when
@@ -150,7 +150,7 @@ class VoucherControllerTest {
     @DisplayName("바우처 할당 성공 시 성공 문구를 담은 뷰를 출력한다.")
     void testGrantVoucherToCustomer_SuccessfullyGranted() {
         //given
-        CreateVoucherRequest createRequest = new CreateVoucherRequest(new BigDecimal(10000), VoucherType.FIXED);
+        CreateVoucherRequest createRequest = new CreateVoucherRequest(10000, "Fixed");
         VoucherResponse voucher = voucherService.create(createRequest);
         Customer customer = new Customer(UUID.randomUUID(), "test-customer");
         customerRepository.save(customer);
