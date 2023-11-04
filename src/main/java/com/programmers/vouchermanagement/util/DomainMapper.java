@@ -25,6 +25,8 @@ public class DomainMapper {
     public static final String DISCOUNT_VALUE_KEY = "discount_value";
     public static final String TYPE_KEY = "type";
     public static final String CREATED_AT_KEY = "created_at";
+    public static final String FROM_KEY = "from";
+    public static final String TO_KEY = "to";
 
     public final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID id = toUUID(resultSet.getBytes(ID_KEY));
