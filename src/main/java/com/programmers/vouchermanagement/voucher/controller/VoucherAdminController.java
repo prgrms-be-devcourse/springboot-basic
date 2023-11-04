@@ -3,12 +3,18 @@ package com.programmers.vouchermanagement.voucher.controller;
 import java.util.List;
 import java.util.UUID;
 
+import jakarta.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.programmers.vouchermanagement.voucher.dto.UpdateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
 
@@ -33,5 +39,12 @@ public class VoucherAdminController {
         VoucherResponse voucher = voucherService.findById(voucherId);
         model.addAttribute("voucher", voucher);
         return "vouchers/voucher";
+    }
+
+    @PostMapping("/update")
+    public String update(@Valid @ModelAttribute UpdateVoucherRequest request, Model model) {
+        VoucherResponse voucher = voucherService.update(request);
+        model.addAttribute("voucher", voucher);
+        return "redirect:/vouchers/" + voucher.voucherId();
     }
 }
