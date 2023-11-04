@@ -22,7 +22,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_VOUCHER_ROW_MAPPER;
 
-
 @Repository
 @Profile("dev")
 public class VoucherJdbcRepository implements VoucherRepository {

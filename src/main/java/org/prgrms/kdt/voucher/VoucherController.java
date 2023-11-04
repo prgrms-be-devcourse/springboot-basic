@@ -57,12 +57,9 @@ public class VoucherController {
 
     public String selectVoucherMenu() throws IOException {
         StringBuilder sb = new StringBuilder();
-        sb.append("=== Voucher Program ===");
-        sb.append(lineSeparator);
-        sb.append("[1] Type 'create' to create a new voucher.");
-        sb.append(lineSeparator);
-        sb.append("[2] Type 'owner' to view customer with a specific voucher.");
-        sb.append(lineSeparator);
+        sb.append("=== Voucher Program ===" + lineSeparator);
+        sb.append("[1] Type 'create' to create a new voucher." + lineSeparator);
+        sb.append("[2] Type 'owner' to view customer with a specific voucher." + lineSeparator);
 
         outputHandler.outputString(sb.toString());
 
@@ -88,7 +85,7 @@ public class VoucherController {
                 if(!isRepeat)
                     break;
             } else if (createVoucherType.equals(PERCENT)) {
-                isRepeat = createPercentDiscountVoucher();
+                isRepeat = percentDiscountVoucherAdd();
                 if(!isRepeat)
                     break;
             } else {
@@ -126,7 +123,7 @@ public class VoucherController {
         return false;
     }
 
-    private boolean createPercentDiscountVoucher() throws IOException {
+    private boolean percentDiscountVoucherAdd() throws IOException {
         outputHandler.outputString(CREATE_PERCENT_VOUCHER.getMessage());
 
         var percent = 0;

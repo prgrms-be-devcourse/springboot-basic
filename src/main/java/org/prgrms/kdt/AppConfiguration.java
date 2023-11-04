@@ -2,7 +2,6 @@ package org.prgrms.kdt;
 
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.prgrms.kdt.util.YamlPropertiesFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,7 @@ import javax.sql.DataSource;
 @ComponentScan(
   basePackages = {"org.prgrms.kdt.voucher", "org.prgrms.kdt.order", "org.prgrms.kdt.io"}
 )
-@PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class)
+@PropertySource(value = "application.yaml")
 @EnableConfigurationProperties
 public class AppConfiguration {
 
