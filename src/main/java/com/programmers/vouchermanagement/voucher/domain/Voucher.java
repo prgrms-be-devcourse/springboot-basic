@@ -11,6 +11,14 @@ public class Voucher {
     private final VoucherType voucherType;
     private final UUID customerId;
 
+    public Voucher() {
+        this.voucherId = null;
+        this.createdAt = null;
+        this.discountValue = null;
+        this.voucherType = null;
+        this.customerId = null;
+    }
+
     public Voucher(UUID voucherId, BigDecimal discountValue, VoucherType voucherType) {
         this(voucherId, LocalDateTime.now(), discountValue, voucherType, null);
     }
