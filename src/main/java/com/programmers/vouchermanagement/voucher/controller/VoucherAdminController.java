@@ -42,7 +42,7 @@ public class VoucherAdminController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute CreateVoucherRequest request, Model model) {
+    public String create(@Valid @ModelAttribute CreateVoucherRequest request, Model model) {
         VoucherResponse voucher = voucherService.create(request);
         model.addAttribute("voucher", voucher);
         return "redirect:/vouchers/" + voucher.voucherId();
@@ -60,5 +60,11 @@ public class VoucherAdminController {
         VoucherResponse voucher = voucherService.update(request);
         model.addAttribute("voucher", voucher);
         return "redirect:/vouchers/" + voucher.voucherId();
+    }
+
+    @PostMapping("/{voucherId}/delete")
+    public String deleteById(@PathVariable UUID voucherId) {
+        voucherService.deleteById(voucherId);
+        return "vouchers/deleted";
     }
 }
