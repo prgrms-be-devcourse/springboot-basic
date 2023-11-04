@@ -27,4 +27,11 @@ public class VoucherAdminController {
         model.addAttribute("vouchers", vouchers);
         return "vouchers/vouchers";
     }
+
+    @GetMapping("/{voucherId}")
+    public String findById(@PathVariable UUID voucherId, Model model) {
+        VoucherResponse voucher = voucherService.findById(voucherId);
+        model.addAttribute("voucher", voucher);
+        return "vouchers/voucher";
+    }
 }
