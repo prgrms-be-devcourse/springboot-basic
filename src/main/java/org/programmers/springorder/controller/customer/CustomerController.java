@@ -1,10 +1,10 @@
 package org.programmers.springorder.controller.customer;
 
 import org.programmers.springorder.console.Console;
+import org.programmers.springorder.constant.CustomerMenuType;
 import org.programmers.springorder.constant.Message;
 import org.programmers.springorder.dto.customer.CustomerRequestDto;
 import org.programmers.springorder.service.CustomerService;
-import org.programmers.springorder.utils.CustomerMenuType;
 import org.programmers.springorder.utils.ExceptionHandler;
 import org.springframework.stereotype.Controller;
 

@@ -2,10 +2,10 @@ package org.programmers.springorder.controller;
 
 import org.programmers.springorder.console.Console;
 import org.programmers.springorder.constant.Message;
+import org.programmers.springorder.constant.WalletMenuType;
 import org.programmers.springorder.dto.wallet.WalletRequestDto;
 import org.programmers.springorder.service.WalletService;
 import org.programmers.springorder.utils.ExceptionHandler;
-import org.programmers.springorder.utils.WalletMenuType;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;

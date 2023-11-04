@@ -1,11 +1,11 @@
 package org.programmers.springorder;
 
 import org.programmers.springorder.console.Console;
+import org.programmers.springorder.constant.MenuType;
 import org.programmers.springorder.controller.WalletController;
 import org.programmers.springorder.controller.customer.CustomerController;
 import org.programmers.springorder.controller.voucher.VoucherController;
 import org.programmers.springorder.utils.ExceptionHandler;
-import org.programmers.springorder.utils.MenuType;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
