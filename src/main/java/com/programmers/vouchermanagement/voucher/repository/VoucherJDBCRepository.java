@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.util.DomainMapper;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -52,6 +53,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
             return Optional.empty();
         }
     }
+
     @Override
     public List<Voucher> findAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
         return jdbcTemplate.query(FIND_ALL_BY_CREATED_AT,
@@ -78,5 +80,12 @@ public class VoucherJDBCRepository implements VoucherRepository {
         if (update != UPDATE_ONE_FLAG) {
             throw new RuntimeException(NOT_UPDATED);
         }
+    }
+
+    @Override
+    public List<Voucher> findAllByType(VoucherType type) {
+        return jdbcTemplate.query(FIND_ALL_BY_TYPE,
+                Map.of(DomainMapper.TYPE_KEY, type.name()),
+                domainMapper.voucherRowMapper);
     }
 }
