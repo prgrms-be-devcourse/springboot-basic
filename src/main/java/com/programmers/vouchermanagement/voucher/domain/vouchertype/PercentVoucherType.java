@@ -16,7 +16,7 @@ public class PercentVoucherType extends VoucherType {
 
     @Override
     public void validateDiscountValue(long discountValue) {
-        if (discountValue < MIN_DISCOUNT_VALUE || discountValue > MAX_DISCOUNT_VALUE) {
+        if (discountValue < MIN_DISCOUNT_VALUE || MAX_DISCOUNT_VALUE < discountValue) {
             throw new IllegalArgumentException(MessageFormat.format("The discount price({0}) is not appropriate at PercentVoucher.", discountValue));
         }
     }
