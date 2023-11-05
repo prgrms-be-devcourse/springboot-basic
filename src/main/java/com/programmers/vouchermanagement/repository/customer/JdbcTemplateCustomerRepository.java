@@ -80,9 +80,9 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
         String sql = "SELECT * FROM customers";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
-        if (request.getBlacklisted() != null) {
+        if (request.blacklisted() != null) {
             sql += " WHERE blacklisted = :blacklisted";
-            params.addValue("blacklisted", request.getBlacklisted());
+            params.addValue("blacklisted", request.blacklisted());
         }
 
         return template.query(sql, params, getCustomerRowMapper());

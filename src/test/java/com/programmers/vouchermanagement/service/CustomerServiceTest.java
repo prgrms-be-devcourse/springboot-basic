@@ -72,7 +72,7 @@ class CustomerServiceTest {
         given(customerRepository.findAll(any())).willReturn(mockCustomers);
 
         // when
-        List<CustomerResponseDto> customers = customerService.getCustomers(new GetCustomersRequestDto());
+        List<CustomerResponseDto> customers = customerService.getCustomers(new GetCustomersRequestDto(null));
 
         // then
         assertThat(customers).hasSize(2);

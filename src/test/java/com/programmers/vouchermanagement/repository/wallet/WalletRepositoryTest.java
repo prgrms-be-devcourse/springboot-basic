@@ -123,7 +123,7 @@ class WalletRepositoryTest extends ContainerBaseTest {
         Customer newCustomer1 = new Customer("test1@email.com", false);
         Customer newCustomer2 = new Customer("test2@email.com", true);
         customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
-        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
 
         Voucher newVoucher1 = new FixedAmountVoucher(1000L);
         Voucher newVoucher2 = new PercentDiscountVoucher(10L);
@@ -154,7 +154,7 @@ class WalletRepositoryTest extends ContainerBaseTest {
         Customer newCustomer1 = new Customer("test1@email.com", false);
         Customer newCustomer2 = new Customer("test2@email.com", true);
         customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
-        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
 
         Voucher newVoucher1 = new FixedAmountVoucher(UUID.randomUUID(), 1000L);
         Voucher newVoucher2 = new PercentDiscountVoucher(UUID.randomUUID(), 10L);
@@ -198,7 +198,7 @@ class WalletRepositoryTest extends ContainerBaseTest {
     private Wallet getNewWallet() {
         Customer newCustomer = new Customer("test@email.com", false);
         customerRepository.save(newCustomer);
-        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto(null)).get(0);
 
         Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
@@ -211,7 +211,7 @@ class WalletRepositoryTest extends ContainerBaseTest {
         Customer newCustomer1 = new Customer("test1@email.com", false);
         Customer newCustomer2 = new Customer("test2@email.com", true);
         customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
-        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
 
         Voucher newVoucher1 = new FixedAmountVoucher(1000L);
         Voucher newVoucher2 = new PercentDiscountVoucher(10L);

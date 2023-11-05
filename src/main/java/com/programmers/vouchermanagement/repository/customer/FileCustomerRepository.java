@@ -66,7 +66,7 @@ public class FileCustomerRepository implements CustomerRepository {
     public List<Customer> findAll(GetCustomersRequestDto request) {
         Stream<Customer> stream = storage.values().stream();
 
-        if (request.getBlacklisted()) {
+        if (request.blacklisted()) {
             stream = stream.filter(Customer::isBlacklisted);
         }
 

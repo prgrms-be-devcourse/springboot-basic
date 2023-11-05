@@ -31,7 +31,7 @@ class CustomerRepositoryTest extends ContainerBaseTest {
         customerRepository.save(newCustomer);
 
         // then
-        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto(null)).get(0);
         assertThat(savedCustomer.getEmail()).isEqualTo(newCustomer.getEmail());
         assertThat(savedCustomer.isBlacklisted()).isEqualTo(newCustomer.isBlacklisted());
     }
@@ -47,7 +47,7 @@ class CustomerRepositoryTest extends ContainerBaseTest {
         customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
 
         // then
-        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
 
         assertThat(savedCustomers).hasSize(2);
         assertThat(savedCustomers).extracting(Customer::getEmail)
@@ -63,7 +63,7 @@ class CustomerRepositoryTest extends ContainerBaseTest {
         Customer newCustomer = new Customer("test@email.com", false);
         customerRepository.save(newCustomer);
 
-        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto(null)).get(0);
 
         // when
         Optional<Customer> foundCustomer = customerRepository.findById(savedCustomer.getId());
@@ -83,7 +83,7 @@ class CustomerRepositoryTest extends ContainerBaseTest {
         customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
 
         // when
-        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
 
         // then
         assertThat(foundCustomers).hasSize(2);
@@ -100,7 +100,7 @@ class CustomerRepositoryTest extends ContainerBaseTest {
         Customer newCustomer = new Customer("test1@email.com", false);
         customerRepository.save(newCustomer);
 
-        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto(null)).get(0);
 
         // when
         String newEmailValue = "test2@email.com";
@@ -122,13 +122,13 @@ class CustomerRepositoryTest extends ContainerBaseTest {
         Customer newCustomer = new Customer("test@email.com", false);
         customerRepository.save(newCustomer);
 
-        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto(null)).get(0);
 
         // when
         customerRepository.deleteById(savedCustomer.getId());
 
         // then
-        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
         assertThat(foundCustomers).isEmpty();
     }
 
@@ -145,7 +145,7 @@ class CustomerRepositoryTest extends ContainerBaseTest {
         customerRepository.deleteAll();
 
         // then
-        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
         assertThat(foundCustomers).isEmpty();
     }
 }
