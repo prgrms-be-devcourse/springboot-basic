@@ -43,7 +43,7 @@ class VoucherServiceTest {
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(1000, VoucherType.FIXED);
         voucherService.create(createVoucherRequest);
 
-        verify(voucherRepository, times(1)).save(any(Voucher.class));
+        verify(voucherRepository, times(1)).insert(any(Voucher.class));
     }
 
     @Test
@@ -52,7 +52,7 @@ class VoucherServiceTest {
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest(100, VoucherType.PERCENT);
         voucherService.create(createVoucherRequest);
 
-        verify(voucherRepository, times(1)).save(any(Voucher.class));
+        verify(voucherRepository, times(1)).insert(any(Voucher.class));
     }
 
     @Test

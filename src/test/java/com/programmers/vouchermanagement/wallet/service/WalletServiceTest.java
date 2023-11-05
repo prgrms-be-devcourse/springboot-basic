@@ -47,7 +47,7 @@ class WalletServiceTest {
     void allocate() {
         walletService.allocate(ownership);
 
-        verify(walletRepository, times(1)).save(ownership);
+        verify(walletRepository, times(1)).insert(ownership);
     }
 
     @Test

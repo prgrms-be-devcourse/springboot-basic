@@ -30,7 +30,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public void insert(Voucher voucher) {
         int update = jdbcTemplate.update(INSERT, domainMapper.voucherToParamMap(voucher));
         if (update != UPDATE_ONE_FLAG) {
             throw new RuntimeException(NOT_INSERTED);

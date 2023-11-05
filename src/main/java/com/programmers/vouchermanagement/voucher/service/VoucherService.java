@@ -26,7 +26,7 @@ public class VoucherService {
     public VoucherDto create(CreateVoucherRequest createVoucherRequest) {
         //TODO: now? DB vs Application
         Voucher voucher = new Voucher(UUID.randomUUID(), createVoucherRequest.discountValue(), createVoucherRequest.voucherType(), LocalDateTime.now());
-        voucherRepository.save(voucher);
+        voucherRepository.insert(voucher);
         return VoucherDto.from(voucher);
     }
 

@@ -27,7 +27,7 @@ public class VoucherFileRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
+    public void insert(Voucher voucher) {
         voucherFileManager.vouchers.put(voucher.voucherId(), voucher);
         voucherFileManager.saveFile();
     }

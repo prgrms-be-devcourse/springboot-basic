@@ -5,7 +5,7 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import java.util.List;
 
 public interface CustomerRepository {
-    void save(Customer customer);
+    void insert(Customer customer);
 
     List<Customer> findAll();
 

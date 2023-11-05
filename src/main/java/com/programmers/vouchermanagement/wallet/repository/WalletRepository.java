@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface WalletRepository {
-    void save(Ownership ownership);
+    void insert(Ownership ownership);
 
     List<Voucher> findAllVoucherByCustomerId(UUID customerId);
 

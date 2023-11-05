@@ -32,7 +32,7 @@ public class WalletJDBCRepository implements WalletRepository {
     }
 
     @Override
-    public void save(Ownership ownership) {
+    public void insert(Ownership ownership) {
         int update = jdbcTemplate.update(INSERT, domainMapper.ownershipToParamMap(ownership));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(CAN_NOT_INSERT_OWNERSHIP);

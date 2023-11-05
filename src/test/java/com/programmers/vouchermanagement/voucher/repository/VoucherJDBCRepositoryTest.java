@@ -39,7 +39,7 @@ class VoucherJDBCRepositoryTest {
     @DisplayName("🆗 고정 금액 할인 바우처를 추가할 수 있다.")
     void saveFixedAmountVoucher() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
-        voucherJDBCRepository.save(voucher);
+        voucherJDBCRepository.insert(voucher);
 
         Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
 
@@ -51,7 +51,7 @@ class VoucherJDBCRepositoryTest {
     @DisplayName("🆗 퍼센트 할인 바우처를 추가할 수 있다.")
     void savePercentVoucher() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 50, VoucherType.PERCENT);
-        voucherJDBCRepository.save(voucher);
+        voucherJDBCRepository.insert(voucher);
 
         Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
 
@@ -63,7 +63,7 @@ class VoucherJDBCRepositoryTest {
     @DisplayName("🆗 모든 바우처를 조회할 수 있다. 단, 없다면 빈 list를 반환한다.")
     void findAllVoucher() {
         for (int i = 1; i < 6; i++)
-            voucherJDBCRepository.save(new Voucher(UUID.randomUUID(), i * 100, VoucherType.PERCENT));
+            voucherJDBCRepository.insert(new Voucher(UUID.randomUUID(), i * 100, VoucherType.PERCENT));
 
         List<Voucher> vouchers = voucherJDBCRepository.findAll();
 
@@ -74,7 +74,7 @@ class VoucherJDBCRepositoryTest {
     @DisplayName("🆗 바우처를 아이디로 조회할 수 있다.")
     void findVoucherById() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 1234, VoucherType.FIXED);
-        voucherJDBCRepository.save(voucher);
+        voucherJDBCRepository.insert(voucher);
 
         Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
 
@@ -96,7 +96,7 @@ class VoucherJDBCRepositoryTest {
     @DisplayName("🆗 바우처를 아이디로 삭제할 수 있다.")
     void deleteVoucher() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
-        voucherJDBCRepository.save(voucher);
+        voucherJDBCRepository.insert(voucher);
 
         voucherJDBCRepository.delete(voucher.voucherId());
 
@@ -113,7 +113,7 @@ class VoucherJDBCRepositoryTest {
     @DisplayName("🆗 바우처를 업데이트 할 수 있다.")
     void updateVoucher() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
-        voucherJDBCRepository.save(voucher);
+        voucherJDBCRepository.insert(voucher);
 
         Voucher updatedVoucher = new Voucher(voucher.voucherId(), 100, VoucherType.PERCENT);
         voucherJDBCRepository.update(updatedVoucher);

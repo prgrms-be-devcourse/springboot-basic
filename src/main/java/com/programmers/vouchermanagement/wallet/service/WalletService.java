@@ -27,7 +27,7 @@ public class WalletService {
     }
 
     public void allocate(Ownership ownership) {
-        walletRepository.save(ownership);
+        walletRepository.insert(ownership);
     }
 
     public CustomerDto readCustomerByVoucherId(UUID voucherId) {

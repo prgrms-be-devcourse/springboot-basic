@@ -22,7 +22,7 @@ public class CustomerInMemoryRepository implements CustomerRepository {
     }
 
     @Override
-    public void save(Customer customer) {
+    public void insert(Customer customer) {
         customers.put(customer.getId(), customer);
     }
 

@@ -20,7 +20,7 @@ class VoucherInMemoryRepositoryTest {
     @DisplayName("🆗 바우처를 아이디로 삭제할 수 있다.")
     void deleteVoucherSucceed() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
-        voucherInMemoryRepository.save(voucher);
+        voucherInMemoryRepository.insert(voucher);
 
         voucherInMemoryRepository.delete(voucher.voucherId());
 
@@ -39,7 +39,7 @@ class VoucherInMemoryRepositoryTest {
     @DisplayName("🆗 바우처를 업데이트 할 수 있다.")
     void updateVoucherSucceed() {
         Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
-        voucherInMemoryRepository.save(voucher);
+        voucherInMemoryRepository.insert(voucher);
 
         Voucher updatedVoucher = new Voucher(voucher.voucherId(), 100, VoucherType.PERCENT);
         voucherInMemoryRepository.update(updatedVoucher);
