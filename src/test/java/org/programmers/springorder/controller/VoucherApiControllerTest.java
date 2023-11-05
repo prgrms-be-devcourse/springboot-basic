@@ -15,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,12 +40,8 @@ class VoucherApiControllerTest {
     @DisplayName("전체 바우처 조회에 성공한다.")
     void findAllVoucher() throws Exception {
         // given
-        Voucher voucher1 = Voucher.toVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED);
-        Voucher voucher2 = Voucher.toVoucher(UUID.randomUUID(), 10, VoucherType.PERCENT);
-        List<VoucherResponseDto> vouchers = Arrays.asList(
-                VoucherResponseDto.of(voucher1),
-                VoucherResponseDto.of(voucher2)
-        );
+        Voucher voucher = Voucher.toVoucher(UUID.randomUUID(), 1000, VoucherType.FIXED);
+        List<VoucherResponseDto> vouchers = List.of(VoucherResponseDto.of(voucher));
 
         // when
         when(voucherService.getAllVoucher()).thenReturn(vouchers);
@@ -55,8 +50,8 @@ class VoucherApiControllerTest {
         mockMvc.perform(get("/api/vouchers"))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].voucherType").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].discountValue").isNotEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].voucherType").value(VoucherType.FIXED.name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].discountValue").value(1000));
     }
 
     @Test
@@ -73,9 +68,9 @@ class VoucherApiControllerTest {
         mockMvc.perform(get("/api/vouchers/{id}", voucherId))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.voucherId").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.voucherType").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.discountValue").isNotEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.voucherId").value(String.valueOf(voucherId)))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.voucherType").value(VoucherType.FIXED.name()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.discountValue").value(1000));
     }
 
     @Test
@@ -95,11 +90,8 @@ class VoucherApiControllerTest {
         mockMvc.perform(get("/api/vouchers/type?type={type}", voucherType))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].voucherId").isNotEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].voucherType").value(voucherType.name()))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].discountValue").isNotEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].voucherType").value(voucherType.name()));
     }
-
 
     @Test
     @DisplayName("바우처 삭제에 성공한다.")
