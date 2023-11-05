@@ -1,14 +1,14 @@
-package team.marco.voucher_management_system.controller;
+package team.marco.voucher_management_system.console_app.controller;
 
 import java.text.MessageFormat;
 import java.util.List;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.model.Voucher;
 import team.marco.voucher_management_system.service.WalletService;
 import team.marco.voucher_management_system.util.Console;
 
-@Controller
+@Component
 public class ConsoleWalletController {
     private static final String INFO_DELIMINATOR = MessageFormat.format("\n{0}\n", "-".repeat(42));
 

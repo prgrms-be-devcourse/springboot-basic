@@ -1,12 +1,12 @@
-package team.marco.voucher_management_system.controller;
+package team.marco.voucher_management_system.console_app.controller;
 
 import java.util.List;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.model.BlacklistUser;
 import team.marco.voucher_management_system.service.BlacklistService;
 import team.marco.voucher_management_system.util.Console;
 
-@Controller
+@Component
 public class ConsoleBlacklistController {
     private static final String INFO_DELIMINATOR = "\n";
 

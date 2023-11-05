@@ -1,11 +1,11 @@
-package team.marco.voucher_management_system.application;
+package team.marco.voucher_management_system.console_app.application;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
-import team.marco.voucher_management_system.controller.ConsoleBlacklistController;
-import team.marco.voucher_management_system.controller.ConsoleVoucherController;
+import team.marco.voucher_management_system.console_app.controller.ConsoleBlacklistController;
+import team.marco.voucher_management_system.console_app.controller.ConsoleVoucherController;
 import team.marco.voucher_management_system.type_enum.MainCommandType;
 import team.marco.voucher_management_system.util.Console;
 

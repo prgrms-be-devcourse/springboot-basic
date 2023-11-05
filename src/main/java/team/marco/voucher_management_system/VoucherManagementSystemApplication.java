@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
-import team.marco.voucher_management_system.application.CommandMainApplication;
+import team.marco.voucher_management_system.console_app.application.CommandMainApplication;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan

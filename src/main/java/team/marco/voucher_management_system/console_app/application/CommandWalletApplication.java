@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.application;
+package team.marco.voucher_management_system.console_app.application;
 
 import java.util.NoSuchElementException;
 import org.slf4j.Logger;
@@ -7,7 +7,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.stereotype.Component;
-import team.marco.voucher_management_system.controller.ConsoleWalletController;
+import team.marco.voucher_management_system.console_app.controller.ConsoleWalletController;
 import team.marco.voucher_management_system.type_enum.WalletCommandType;
 import team.marco.voucher_management_system.util.Console;
 

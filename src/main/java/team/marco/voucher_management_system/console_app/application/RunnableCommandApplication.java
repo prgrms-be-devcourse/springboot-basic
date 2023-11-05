@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.application;
+package team.marco.voucher_management_system.console_app.application;
 
 public abstract class RunnableCommandApplication {
     protected boolean runningFlag;
