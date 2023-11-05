@@ -28,6 +28,9 @@ dependencies {
     // h2
     testImplementation 'com.h2database:h2'
 
+    // web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.7.1'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }
