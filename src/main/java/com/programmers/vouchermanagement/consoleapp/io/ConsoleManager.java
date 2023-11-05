@@ -75,6 +75,7 @@ public class ConsoleManager {
     private static final String LISTING_OWNED_VOUCHERS_OF = "Listing vouchers that Customer %s has ...";
     private static final String GRANT_SUCCESSFUL = "Voucher (%s) is granted to Customer (%s).";
     private static final String VOUCHER_OWNER_BELOW = "The owner of Voucher %s is provided below:";
+    private static final String UNKNOWN_EXCEPTION_THROWN = "Failed to run the command. Unknown Exception is thrown.";
 
     private final TextIO textIO;
 
@@ -214,6 +215,9 @@ public class ConsoleManager {
     }
 
     public void printException(RuntimeException e) {
+        if (e.getMessage() == null) {
+            print(UNKNOWN_EXCEPTION_THROWN);
+        }
         print(e.getMessage());
     }
 
