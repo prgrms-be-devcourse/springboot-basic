@@ -38,6 +38,17 @@ public enum VoucherType {
         throw new IllegalArgumentException("Invalid seq");
     }
 
+    public static VoucherType getTypeFromName(String policyName){
+        for (VoucherType type : values()){
+            if (type.displayName.equals(policyName)) {
+                return type;
+            }
+        }
+
+        log.warn("user input policy = {}", policyName);
+        throw new IllegalArgumentException("Invalid policy");
+    }
+
     public VoucherPolicy create(){
         return this.createVoucherPolicy.get();
     }
