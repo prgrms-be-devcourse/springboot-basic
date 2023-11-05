@@ -28,7 +28,7 @@
     <tr th:href="@{'/vouchers/'+ ${voucher.id}}" th:each="voucher: ${vouchers}">
         <td th:text="${voucher.id}"></td>
         <td th:text="${voucher.discountValue}"></td>
-        <td th:text="${voucher.voucherTypeName}"></td>
+        <td th:text="${voucher.typeName}"></td>
         <td>
             <a th:href="@{'/vouchers/'+ ${voucher.id}}" class="btn btn-success">Detail</a>
             <a th:href="@{'/vouchers/update/'+ ${voucher.id}}" class="btn btn-warning">Update</a>

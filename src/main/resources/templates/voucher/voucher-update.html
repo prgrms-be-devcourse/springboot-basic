@@ -14,9 +14,9 @@
 <h2>New Voucher</h2>
 <form th:action="@{'/vouchers/update/' + ${voucher.id}}" th:method="put">
     <div class="input-group mb-3">
-        <select class="form-select" aria-label="Voucher Type" name="voucherType">
+        <select class="form-select" aria-label="Voucher Type" name="typeName">
             <option value="FIXED">Fixed</option>
-            <option value="PERCENT" th:selected="${voucher.voucherTypeName} == 'Percent'">Percent</option>
+            <option value="PERCENT" th:selected="${voucher.typeName} == 'PERCENT'">Percent</option>
         </select>
         <input type="number" class="form-control" placeholder="Discount Value" min="0"
                aria-label="Discount Value" name="discountValue" th:value="${voucher.discountValue}">
