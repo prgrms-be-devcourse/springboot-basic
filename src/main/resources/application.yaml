@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: jdbc , tomcat
+
+  
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/voucher?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    username: yong
+    password: 1234
+
+  sql:
+    init:
+      mode: always
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+
+file:
+  path:
+    voucher: src/main/resources/voucher_list.csv
+    blacklist: src/main/resources/customer_blackList.csv
+
+
+
+

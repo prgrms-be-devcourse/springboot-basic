@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="~{/fragment/header ::nav}"></div>
+    <div th:insert="~{/fragment/header ::menu}"></div>
+    <div th:insert="~{/fragment/header ::box}"></div>
+</head>
+
+<body>
+<div class="container">
+    <div class="menu">
+        <div class="menu-item">
+            <a th:href="@{/admin/wallets}">바우처 목록</a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/admin/wallets/create}">바우처 추가하기</a>
+        </div>
+    </div>
+</div>
+<div class="box">
+    <div class="content">
+        <div class="content-box">
+            <h2><span th:text="${code}"></span></h2>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

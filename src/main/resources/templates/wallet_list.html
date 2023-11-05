@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="~{/fragment/header ::nav}"></div>
+    <div th:insert="~{/fragment/header ::menu}"></div>
+    <div th:insert="~{/fragment/header ::box}"></div>
+</head>
+
+<body>
+<div class="container">
+    <div class="menu">
+        <div class="menu-item">
+            <a th:href="@{/admin/wallets}">지갑 목록</a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/admin/wallets/create}">지갑 추가하기</a>
+        </div>
+    </div>
+</div>
+<div class="box">
+    <div class="content">
+        <div class="content-box">
+            <div th:each="v:${wallets}">
+                <h3>지갑 ID <a th:href="@{/admin/wallets/{id}(id=${v.id})}" 쿠폰번호><span th:text="${v.id}"></span></a></h3>
+
+                <h3>회원 ID<a th:href="@{/admin/wallets/customer/{customerId}(customerId=${v.customerId})}"><span
+                        th:text="${v.customerId}"></span></a></span></h3>
+                <h3>바우처 ID<a th:href="@{/admin/wallets/voucher/{voucherId}(voucherId=${v.voucherId})}"><span
+                        th:text="${v.voucherId}"></span></a></span></h3>
+
+
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
