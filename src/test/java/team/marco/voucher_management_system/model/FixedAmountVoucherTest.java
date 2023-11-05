@@ -18,6 +18,11 @@ class FixedAmountVoucherTest extends VoucherTest {
     private static final int MINIMUM_AMOUNT = 1;
 
     @Override
+    protected VoucherType getTargetType() {
+        return FIXED_VOUCHER_TYPE;
+    }
+
+    @Override
     protected int generateValidData() {
         return (MAXIMUM_AMOUNT + MINIMUM_AMOUNT) / 2;
     }

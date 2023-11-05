@@ -7,12 +7,16 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 import java.text.NumberFormat;
+import java.util.Arrays;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import team.marco.voucher_management_system.type_enum.VoucherType;
 
 abstract class VoucherTest {
+    abstract protected VoucherType getTargetType();
+
     abstract protected int generateValidData();
 
     abstract protected Voucher generateVoucher(int data);
@@ -60,5 +64,74 @@ abstract class VoucherTest {
 
         assertThat(voucherInfo, containsString(id.toString()));
         assertThat(voucherInfo, containsString(NumberFormat.getIntegerInstance().format(initData)));
+    }
+
+    @Nested
+    @DisplayName("id 판별 테스트")
+    class TestIsSameId {
+        @Test
+        @DisplayName("동일한 id일 경우 true를 반환한다.")
+        void isSameId() {
+            // given
+            Voucher voucher = generateVoucher(generateValidData());
+            UUID voucherId = voucher.getId();
+
+            // when
+            boolean isSameId = voucher.isSameId(voucherId);
+
+            // then
+            assertThat(isSameId, is(true));
+        }
+
+        @Test
+        @DisplayName("동일하지 않은 id일 경우 false를 반환한다.")
+        void isNotSameId() {
+            // given
+            Voucher voucher = generateVoucher(generateValidData());
+            Voucher otherVoucher = generateVoucher(generateValidData());
+            UUID voucherId = otherVoucher.getId();
+
+            // when
+            boolean isSameId = voucher.isSameId(voucherId);
+
+            // then
+            assertThat(isSameId, is(false));
+        }
+    }
+
+    @Nested
+    @DisplayName("type 판별 테스트")
+    class TestIsSameType {
+        @Test
+        @DisplayName("동일한 type일 경우 true를 반환한다.")
+        void isSameType() {
+            // given
+            Voucher voucher = generateVoucher(generateValidData());
+            VoucherType targetType = getTargetType();
+
+            // when
+            boolean isSameType = voucher.isSameType(targetType);
+
+            // then
+            assertThat(isSameType, is(true));
+        }
+
+        @Test
+        @DisplayName("동일하지 않은 type일 경우 false를 반환한다.")
+        void isNotSameType() {
+            // given
+            Voucher voucher = generateVoucher(generateValidData());
+            VoucherType targetType = getTargetType();
+            VoucherType otherType = Arrays.stream(VoucherType.values())
+                    .filter(voucherType -> voucherType != targetType)
+                    .findFirst()
+                    .orElseThrow();
+
+            // when
+            boolean isSameType = voucher.isSameType(otherType);
+
+            // then
+            assertThat(isSameType, is(false));
+        }
     }
 }

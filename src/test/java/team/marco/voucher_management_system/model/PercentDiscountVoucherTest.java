@@ -18,6 +18,11 @@ class PercentDiscountVoucherTest extends VoucherTest {
     private static final int MINIMUM_PERCENT = 1;
 
     @Override
+    protected VoucherType getTargetType() {
+        return PERCENT_VOUCHER_TYPE;
+    }
+
+    @Override
     protected int generateValidData() {
         return (MAXIMUM_PERCENT + MINIMUM_PERCENT) / 2;
     }
