@@ -15,11 +15,11 @@
             <td th:text="*{getName()}"></td>
             <td th:text="*{getEmail()}"></td>
             <td><button type="button" id="delete-customer" th:data-customer-id="*{getCustomerId()}"
-                        class="btn btn-outline-danger align-items-end" onclick="deleteCustomerButton(this)">delete</button></td>
+                        class="btn btn-outline-danger align-items-end" onclick="deleteCustomerButton(this)">Delete</button></td>
         </tr>
         </tbody>
     </table>
-    <button type="button" id="create-customer" class="btn btn-outline-primary align-items-end">create</button>
+    <button type="button" id="create-customer" class="btn btn-outline-primary align-items-end">Create</button>
 
     <script>
         const createCustomerButton = document.querySelector("#create-customer");
