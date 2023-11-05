@@ -90,4 +90,31 @@ class JdbcCustomerRepositoryTest {
         assertThat(findCustomer.get().getCustomerId()).isEqualTo(customerId);
     }
 
+    @Test
+    @DisplayName("회원 전체 삭제에 성공한다.")
+    void deleteAll() {
+        // when
+        customerRepository.deleteAll();
+        List<Customer> customers = customerRepository.findAll();
+
+        // then
+        assertThat(customers).hasSize(0);
+    }
+
+    @Test
+    @DisplayName("고객 ID로 바우처 삭제에 성공한다.")
+    void deleteById() {
+        // given
+        UUID customerId = UUID.randomUUID();
+        Customer customer = Customer.toCustomer(customerId, "홍길동", CustomerType.NORMAL);
+        customerRepository.insert(customer);
+
+        // when
+        customerRepository.deleteById(customerId);
+        Optional<Customer> findCustomer = customerRepository.findById(customerId);
+
+        // then
+        assertThat(findCustomer).isNotPresent();
+    }
+
 }

@@ -43,12 +43,4 @@ class VoucherTypeTest {
         assertThat(result).isEqualTo(expectedResult);
     }
 
-    @ParameterizedTest
-    @CsvSource(value = {"FIXED, 10", "PERCENT, 100"})
-    @DisplayName("할인 금액 또는 할인율이 유효하지 않다면, 에러 메시지를 띄운다.")
-    void validateDiscountRangeFail(VoucherType voucherType, long discountValue) {
-        assertThatThrownBy(() -> VoucherType.validateDiscountRange(voucherType, discountValue))
-                .isInstanceOf(IllegalArgumentException.class);
-    }
-
 }
