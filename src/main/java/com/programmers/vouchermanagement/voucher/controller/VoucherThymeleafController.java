@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.voucher.controller;
 
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.service.VoucherService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -34,7 +34,7 @@ public class VoucherThymeleafController {
 
     @GetMapping
     public String viewVouchersPage(Model model) {
-        List<VoucherDto> vouchers = voucherService.readAll();
+        List<VoucherResponse> vouchers = voucherService.readAll();
         model.addAttribute("vouchers", vouchers);
         return "voucher/vouchers";
     }
@@ -42,7 +42,7 @@ public class VoucherThymeleafController {
     @GetMapping("/{voucherId}")
     public String readById(@PathVariable("voucherId") UUID voucherId, Model model) {
         try {
-            VoucherDto voucher = voucherService.readById(voucherId);
+            VoucherResponse voucher = voucherService.readById(voucherId);
             model.addAttribute("voucher", voucher);
             return "voucher/voucher-detail";
         } catch (RuntimeException e) {
@@ -72,7 +72,7 @@ public class VoucherThymeleafController {
     @GetMapping("/update/{voucherId}")
     public String viewUpdatePage(@PathVariable("voucherId") UUID voucherId, Model model) {
         try {
-            VoucherDto voucher = voucherService.readById(voucherId);
+            VoucherResponse voucher = voucherService.readById(voucherId);
             model.addAttribute("voucher", voucher);
             return "voucher/voucher-update";
         } catch (RuntimeException e) {

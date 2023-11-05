@@ -1,9 +1,9 @@
 package com.programmers.vouchermanagement.voucher.service;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +23,14 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public VoucherDto create(CreateVoucherRequest createVoucherRequest) {
+    public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
         //TODO: now? DB vs Application
-        Voucher voucher = new Voucher(UUID.randomUUID(), createVoucherRequest.discountValue(), createVoucherRequest.voucherType(), LocalDateTime.now());
+        Voucher voucher = new Voucher(UUID.randomUUID(), LocalDateTime.now(), createVoucherRequest.typeName(), createVoucherRequest.discountValue());
         voucherRepository.insert(voucher);
-        return VoucherDto.from(voucher);
+        return VoucherResponse.from(voucher);
     }
 
-    public List<VoucherDto> readAll() {
+    public List<VoucherResponse> readAll() {
         List<Voucher> vouchers = voucherRepository.findAll();
 
         if (vouchers.isEmpty()) {
@@ -38,11 +38,11 @@ public class VoucherService {
         }
 
         return vouchers.stream()
-                .map(VoucherDto::from)
+                .map(VoucherResponse::from)
                 .toList();
     }
 
-    public List<VoucherDto> readAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
+    public List<VoucherResponse> readAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
         List<Voucher> vouchers = voucherRepository.findAllByCreatedAt(from, to);
 
         if (vouchers.isEmpty()) {
@@ -50,15 +50,15 @@ public class VoucherService {
         }
 
         return vouchers.stream()
-                .map(VoucherDto::from)
+                .map(VoucherResponse::from)
                 .toList();
     }
 
-    public VoucherDto readById(UUID voucherId) {
+    public VoucherResponse readById(UUID voucherId) {
         Voucher voucher = voucherRepository
                 .findById(voucherId)
                 .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER));
-        return VoucherDto.from(voucher);
+        return VoucherResponse.from(voucher);
     }
 
     public void delete(UUID voucherId) {
@@ -69,15 +69,15 @@ public class VoucherService {
         voucherRepository.deleteAll();
     }
 
-    public VoucherDto update(UUID voucherId, CreateVoucherRequest createVoucherRequest) {
+    public VoucherResponse update(UUID voucherId, CreateVoucherRequest createVoucherRequest) {
         // TODO: modify code format
-        VoucherDto voucherDto = readById(voucherId);
-        Voucher voucher = new Voucher(voucherId, createVoucherRequest.discountValue(), createVoucherRequest.voucherType(), voucherDto.createdAt());
+        VoucherResponse voucherResponse = readById(voucherId);
+        Voucher voucher = new Voucher(voucherId, voucherResponse.createdAt(), createVoucherRequest.typeName(), createVoucherRequest.discountValue());
         voucherRepository.update(voucher);
-        return VoucherDto.from(voucher);
+        return VoucherResponse.from(voucher);
     }
 
-    public List<VoucherDto> readAllByType(VoucherType type) {
-        return voucherRepository.findAllByType(type).stream().map(VoucherDto::from).toList();
+    public List<VoucherResponse> readAllByType(VoucherType type) {
+        return voucherRepository.findAllByType(type).stream().map(VoucherResponse::from).toList();
     }
 }

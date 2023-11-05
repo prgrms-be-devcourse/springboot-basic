@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.wallet.controller;
 
 import com.programmers.vouchermanagement.customer.dto.CustomerDto;
-import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.programmers.vouchermanagement.wallet.service.WalletService;
 import org.springframework.context.annotation.Profile;
@@ -36,7 +36,7 @@ public class WalletThymeleafController {
 
     @GetMapping("/customers/{customerId}")
     public String readAllVoucherByCustomerId(@PathVariable("customerId") UUID customerId, Model model) {
-        List<VoucherDto> vouchers = walletService.readAllVoucherByCustomerId(customerId);
+        List<VoucherResponse> vouchers = walletService.readAllVoucherByCustomerId(customerId);
         model.addAttribute("vouchers", List.of(vouchers));
         return "views/vouchers";
     }

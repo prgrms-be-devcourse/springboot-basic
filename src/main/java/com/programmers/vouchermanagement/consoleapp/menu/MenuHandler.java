@@ -5,13 +5,14 @@ import com.programmers.vouchermanagement.customer.controller.CustomerController;
 import com.programmers.vouchermanagement.customer.dto.CustomerDto;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Profile("console")
 @Component
 public class MenuHandler {
@@ -66,11 +67,11 @@ public class MenuHandler {
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
                 CreateVoucherRequest createVoucherRequest = consoleManager.instructCreate();
-                VoucherDto voucher = voucherController.create(createVoucherRequest);
+                VoucherResponse voucher = voucherController.create(createVoucherRequest);
                 consoleManager.printCreateResult(voucher);
             }
             case LIST -> {
-                List<VoucherDto> vouchers = voucherController.readAll();
+                List<VoucherResponse> vouchers = voucherController.readAll();
                 consoleManager.printReadAllVouchers(vouchers);
             }
             //TODO: customerDTO

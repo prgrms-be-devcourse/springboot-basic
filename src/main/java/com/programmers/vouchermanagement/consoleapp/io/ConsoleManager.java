@@ -2,10 +2,10 @@ package com.programmers.vouchermanagement.consoleapp.io;
 
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
 import com.programmers.vouchermanagement.customer.dto.CustomerDto;
-import com.programmers.vouchermanagement.util.Validator;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
+import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherTypeManager;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
+import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 import static com.programmers.vouchermanagement.util.Constant.LINE_SEPARATOR;
 
@@ -67,23 +68,18 @@ public class ConsoleManager {
     public CreateVoucherRequest instructCreate() {
         String createMenu = textIO.newStringInputReader()
                 .read(CREATE_SELECTION_INSTRUCTION);
-        VoucherType voucherType = VoucherType.findCreateMenu(createMenu)
-                .orElseThrow(() -> {
-                    logger.error(INVALID_VOUCHER_TYPE_MESSAGE);
-                    return new IllegalArgumentException(INVALID_VOUCHER_TYPE_MESSAGE);
-                });
+        VoucherType voucherType = VoucherTypeManager.get(createMenu);
 
         String discountValueStr = textIO.newStringInputReader()
                 .read(VOUCHER_DISCOUNT_AMOUNT_INSTRUCTION);
-        Validator.validateDiscountValue(voucherType, discountValueStr);
-        return new CreateVoucherRequest(Long.parseLong(discountValueStr), voucherType);
+        return new CreateVoucherRequest(voucherType.getName(), Long.parseLong(discountValueStr));
     }
 
-    public void printCreateResult(VoucherDto voucher) {
+    public void printCreateResult(VoucherResponse voucher) {
         textIO.getTextTerminal().println(CREATE_SUCCESS_MESSAGE.formatted(voucher.id()));
     }
 
-    public void printReadAllVouchers(List<VoucherDto> vouchers) {
+    public void printReadAllVouchers(List<VoucherResponse> vouchers) {
         if (vouchers.isEmpty()) {
             textIO.getTextTerminal().println(NO_CONTENT.formatted("voucher"));
         }
@@ -105,16 +101,16 @@ public class ConsoleManager {
                 .formatted(customer.id(), customer.name());
     }
 
-    private String formatVoucherDTO(VoucherDto voucher) {
+    private String formatVoucherDTO(VoucherResponse voucher) {
         return """
                 Voucher ID : %s
                 Voucher Type : %s Discount Voucher
                 Discount Amount : %s
                 -------------------------"""
                 .formatted(voucher.id(),
-                        voucher.voucherTypeName(),
+                        voucher.typeName(),
                         voucher.discountValue() +
-                                (voucher.isPercent() ? PERCENTAGE : EMPTY));
+                                (Objects.equals(voucher.typeName(), "PERCENT") ? PERCENTAGE : EMPTY));
     }
 
     public void printExit() {
