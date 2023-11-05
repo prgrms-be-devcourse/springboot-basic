@@ -32,7 +32,7 @@ public class ConsoleVoucherController {
     }
 
     public void voucherList() {
-        List<String> vouchers = voucherService.getVouchersInfo()
+        List<String> vouchers = voucherService.getVouchers()
                 .stream()
                 .map(Voucher::getInfo)
                 .toList();
