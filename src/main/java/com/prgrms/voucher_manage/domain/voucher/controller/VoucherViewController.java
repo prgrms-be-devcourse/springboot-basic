@@ -34,10 +34,6 @@ public class VoucherViewController {
     public String getVouchers(Model model) {
         List<Voucher> vouchers = voucherService.getVouchers();
         model.addAttribute("vouchers", vouchers);
-        for (Voucher voucher :
-                vouchers) {
-            System.out.println("voucher.getId() = " + voucher.getId());
-        }
         return "voucher/getVoucherList";
     }
 
