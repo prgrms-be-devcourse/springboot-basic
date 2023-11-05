@@ -40,4 +40,8 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public List<Voucher> findAllByIds(List<String> idList) {
         return null;
     }
+
+    @Override
+    public void deleteById(String id) {
+    }
 }

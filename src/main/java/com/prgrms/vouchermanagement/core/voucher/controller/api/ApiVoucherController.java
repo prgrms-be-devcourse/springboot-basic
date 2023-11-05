@@ -1,7 +1,8 @@
 package com.prgrms.vouchermanagement.core.voucher.controller.api;
 
-import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreationRequest;
-import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherCreationResponse;
+import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreateRequest;
+import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherCreateResponse;
+import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherDeleteResponse;
 import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherResponse;
 import com.prgrms.vouchermanagement.core.voucher.controller.response.VouchersResponse;
 import com.prgrms.vouchermanagement.core.voucher.dto.VoucherDto;
@@ -40,12 +41,12 @@ public class ApiVoucherController {
     /**
      * 바우처 추가
      *
-     * @param voucherCreationRequest
+     * @param voucherCreateRequest
      * @return
      */
     @PostMapping
-    public ResponseEntity<VoucherCreationResponse> create(@RequestBody VoucherCreationRequest voucherCreationRequest) {
-        VoucherDto voucherDto = voucherService.create(toVoucherDto(voucherCreationRequest));
+    public ResponseEntity<VoucherCreateResponse> create(@RequestBody VoucherCreateRequest voucherCreateRequest) {
+        VoucherDto voucherDto = voucherService.create(toVoucherDto(voucherCreateRequest));
         return ResponseEntity.ok(toVoucherCreationResponse(voucherDto));
     }
 
@@ -59,6 +60,18 @@ public class ApiVoucherController {
     public ResponseEntity<VoucherResponse> getVoucher(@PathVariable String voucherId) {
         VoucherDto voucherDto = voucherService.getVoucher(voucherId);
         return ResponseEntity.ok(toVoucherResponse(voucherDto));
+    }
+
+    /**
+     * 바우처 삭제
+     *
+     * @param voucherId
+     * @return
+     */
+    @DeleteMapping("/{voucherId}")
+    public ResponseEntity<VoucherDeleteResponse> deleteVoucher(@PathVariable String voucherId) {
+        String id = voucherService.deleteById(voucherId);
+        return ResponseEntity.ok(toVoucherDeleteResponse(id));
     }
 
 }

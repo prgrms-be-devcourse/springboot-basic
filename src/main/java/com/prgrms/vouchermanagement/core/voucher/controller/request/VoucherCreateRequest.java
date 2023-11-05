@@ -1,12 +1,12 @@
 package com.prgrms.vouchermanagement.core.voucher.controller.request;
 
-public class VoucherCreationRequest {
+public class VoucherCreateRequest {
 
     private final String name;
     private final String voucherType;
     private final long amount;
 
-    public VoucherCreationRequest(String name, String voucherType, long amount) {
+    public VoucherCreateRequest(String name, String voucherType, long amount) {
         this.name = name;
         this.voucherType = voucherType;
         this.amount = amount;

@@ -42,4 +42,10 @@ public class VoucherService {
         }
         return toVoucherDto(optionalVoucher.get());
     }
+
+
+    public String deleteById(String voucherId) {
+        voucherRepository.deleteById(voucherId);
+        return voucherId;
+    }
 }

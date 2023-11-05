@@ -1,6 +1,6 @@
 //package com.prgrms.vouchermanagement.infra;
 //
-//import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreationRequest;
+//import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreateRequest;
 //import com.prgrms.vouchermanagement.core.voucher.controller.response.VouchersResponse;
 //import com.prgrms.vouchermanagement.infra.input.InputProvider;
 //import com.prgrms.vouchermanagement.infra.utils.OutputMessage;
@@ -60,6 +60,6 @@
 //        String voucherType = inputProvider.inputVoucherType();
 //        outputProvider.printVoucherTypeMessage(voucherType);
 //        int amount = inputProvider.inputVoucherAmount();
-//        voucherController.createVoucher(new VoucherCreationRequest(name, voucherType, amount));
+//        voucherController.createVoucher(new VoucherCreateRequest(name, voucherType, amount));
 //    }
 //}

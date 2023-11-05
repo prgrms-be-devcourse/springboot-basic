@@ -1,16 +1,16 @@
 package com.prgrms.vouchermanagement.core.voucher.controller.response;
 
-public class VoucherCreationResponse {
+public class VoucherCreateResponse {
 
     private String id;
     private String name;
     private long amount;
     private String voucherType;
 
-    public VoucherCreationResponse() {
+    public VoucherCreateResponse() {
     }
 
-    public VoucherCreationResponse(String id, String name, long amount, String voucherType) {
+    public VoucherCreateResponse(String id, String name, long amount, String voucherType) {
         this.id = id;
         this.name = name;
         this.amount = amount;

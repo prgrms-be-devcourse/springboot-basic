@@ -1,7 +1,8 @@
 package com.prgrms.vouchermanagement.core.voucher.controller;
 
-import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreationRequest;
-import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherCreationResponse;
+import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreateRequest;
+import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherCreateResponse;
+import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherDeleteResponse;
 import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherResponse;
 import com.prgrms.vouchermanagement.core.voucher.controller.response.VouchersResponse;
 import com.prgrms.vouchermanagement.core.voucher.dto.VoucherDto;
@@ -18,15 +19,19 @@ public class Mapper {
         return new VouchersResponse(voucherResponseList);
     }
 
-    public static VoucherCreationResponse toVoucherCreationResponse(VoucherDto voucherDto) {
-        return new VoucherCreationResponse(voucherDto.getId(), voucherDto.getName(), voucherDto.getAmount(), voucherDto.getVoucherType().toString());
+    public static VoucherCreateResponse toVoucherCreationResponse(VoucherDto voucherDto) {
+        return new VoucherCreateResponse(voucherDto.getId(), voucherDto.getName(), voucherDto.getAmount(), voucherDto.getVoucherType().toString());
     }
 
-    public static VoucherDto toVoucherDto(VoucherCreationRequest voucherCreationRequest) {
-        return new VoucherDto(voucherCreationRequest.getName(), voucherCreationRequest.getAmount(), voucherCreationRequest.getVoucherType());
+    public static VoucherDto toVoucherDto(VoucherCreateRequest voucherCreateRequest) {
+        return new VoucherDto(voucherCreateRequest.getName(), voucherCreateRequest.getAmount(), voucherCreateRequest.getVoucherType());
     }
 
     public static VoucherResponse toVoucherResponse(VoucherDto voucherDto) {
         return new VoucherResponse(voucherDto.getId(),voucherDto.getName(), voucherDto.getAmount(), voucherDto.getVoucherType());
+    }
+
+    public static VoucherDeleteResponse toVoucherDeleteResponse(String id) {
+        return new VoucherDeleteResponse(id);
     }
 }
