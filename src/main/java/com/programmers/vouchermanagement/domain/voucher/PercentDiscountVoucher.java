@@ -7,8 +7,8 @@ import java.util.UUID;
 
 @Getter
 public class PercentDiscountVoucher extends Voucher {
-    private final long MIN_AMOUNT = 0L;
-    private final long MAX_AMOUNT = 100L;
+    private static final long MIN_AMOUNT = 0L;
+    private static final long MAX_AMOUNT = 100L;
 
     public PercentDiscountVoucher(long amount) {
         super(VoucherType.PERCENT_DISCOUNT, amount);
