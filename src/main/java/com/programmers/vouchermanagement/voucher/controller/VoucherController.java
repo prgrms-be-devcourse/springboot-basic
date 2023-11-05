@@ -14,7 +14,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
-@Profile({"api", "console"})
+@Profile({"console","api"})
 @RequestMapping("/api/v1/vouchers")
 @Controller
 public class VoucherController {
