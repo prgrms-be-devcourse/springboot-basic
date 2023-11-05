@@ -37,9 +37,9 @@ public class FileCustomerRepository implements CustomerRepository {
 
     private final Function<Customer, HashMap<String, Object>> customerToObject = (customer) -> {
         HashMap<String, Object> customerObject = new HashMap<>();
-        customerObject.put("customerId", customer.getCustomerId().toString());
-        customerObject.put("name", customer.getName());
-        customerObject.put("customerType", customer.getCustomerType().name());
+        customerObject.put(CUSTOMER_ID_KEY, customer.getCustomerId().toString());
+        customerObject.put(NAME_KEY, customer.getName());
+        customerObject.put(CUSTOMER_TYPE_KEY, customer.getCustomerType().name());
         return customerObject;
     };
 
