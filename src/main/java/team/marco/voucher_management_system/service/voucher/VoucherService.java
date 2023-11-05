@@ -1,7 +1,5 @@
 package team.marco.voucher_management_system.service.voucher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
@@ -13,8 +11,6 @@ import java.util.List;
 @Transactional(readOnly = true)
 @Service
 public class VoucherService {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
-
     private final VoucherRepository voucherRepository;
 
     public VoucherService(VoucherRepository voucherRepository) {
