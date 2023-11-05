@@ -4,6 +4,7 @@ import org.prgms.springbootbasic.domain.customer.Customer;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,11 @@ public class CustomerMemoryRepository implements CustomerRepository { // 추후 
     @Override
     public Optional<Customer> findByEmail(String email) {
         return Optional.empty();
+    }
+
+    @Override
+    public List<Customer> findBetweenLocalDateTime(LocalDateTime start, LocalDateTime end) {
+        return null;
     }
 
     @Override

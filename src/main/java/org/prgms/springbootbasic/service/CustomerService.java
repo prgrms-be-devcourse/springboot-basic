@@ -37,6 +37,10 @@ public class CustomerService {
         return customerRepository.findById(customerId);
     }
 
+    public List<Customer> findBetweenLocalDateTime(LocalDateTime start, LocalDateTime end) {
+        return customerRepository.findBetweenLocalDateTime(start, end);
+    }
+
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }
@@ -53,4 +57,3 @@ public class CustomerService {
         return customerRepository.findBlackAll();
     }
 }
-// 전체적으로 피드백 반영한 후에, 반영 생각과 왜 그렇게 반영했는지. PR에. 테스트 코드 보완도 좀 하고.

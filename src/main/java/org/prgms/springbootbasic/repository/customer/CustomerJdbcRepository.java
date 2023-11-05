@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.common.UtilMethod;
 import org.prgms.springbootbasic.domain.customer.Customer;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -60,6 +61,18 @@ public class CustomerJdbcRepository implements CustomerRepository{
         } catch (EmptyResultDataAccessException e) {
             log.info("email에 해당하는 customer가 DB에 없음.");
             return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Customer> findBetweenLocalDateTime(LocalDateTime start, LocalDateTime end) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM customers WHERE created_at >= :start AND created_at <= :end",
+                    Map.of("start", start, "end", end),
+                    mapToCustomer);
+        } catch (DataAccessException e) {
+            log.error("날짜 범위 내 고객 찾기 중 에러.");
+            return new ArrayList<>();
         }
     }
 
