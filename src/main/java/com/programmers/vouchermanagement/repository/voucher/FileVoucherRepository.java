@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,8 +69,8 @@ public class FileVoucherRepository implements VoucherRepository {
         }
         if (startDate != null && endDate != null) {
             voucherStream = voucherStream.filter(voucher ->
-                    !voucher.getCreatedAt().isBefore(startDate.atStartOfDay()) &&
-                            !voucher.getCreatedAt().isAfter(endDate.atTime(23, 59, 59))
+                    voucher.getCreatedAt().isAfter(startDate.atStartOfDay()) &&
+                            voucher.getCreatedAt().isBefore(atEndOfDay(endDate))
             );
         }
         return voucherStream.toList();
@@ -100,5 +101,9 @@ public class FileVoucherRepository implements VoucherRepository {
 
     private void updateFile() {
         CsvFileUtil.updateCsvFile(csvFilePath, vouchers.values().stream().toList());
+    }
+
+    private LocalDateTime atEndOfDay(LocalDate date) {
+        return date.atTime(23, 59, 59);
     }
 }
