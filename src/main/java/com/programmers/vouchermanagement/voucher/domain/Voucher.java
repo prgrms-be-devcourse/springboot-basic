@@ -25,6 +25,7 @@ public class Voucher {
         this.id = id;
         this.createdAt = createdAt;
         this.type = VoucherTypeManager.get(typeName);
+        type.validateDiscountValue(discountValue);
         this.discountValue = discountValue;
     }
 
