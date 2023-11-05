@@ -46,10 +46,10 @@
                         <span th:text="*{discountValue}" class="discount-value"></span>
                         <span th:text="*{voucherType}" class="voucher-type"></span>
                     </div>
-                    <button class="voucher-detail-btn">
-                        <a th:href="@{/vouchers/{id}(id=*{voucherId})}">
-                            View Detail
-                        </a>
+                    <button class="voucher-detail-btn"
+                            th:onclick="|location.href='@{/vouchers/{id}(id=*{voucherId})}'|"
+                    >
+                        View Detail
                     </button>
                 </div>
             </div>

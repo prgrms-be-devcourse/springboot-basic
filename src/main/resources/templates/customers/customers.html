@@ -44,10 +44,10 @@
                     <span th:text="*{name}" class="customer-name"></span>
                     <span th:text="*{customerType}" class="customer-type"></span>
                 </div>
-                <button class="customer-detail-btn">
-                    <a th:href="@{/customers/{id}(id=*{customerId})}">
-                        View Detail
-                    </a>
+                <button class="customer-detail-btn"
+                        th:onclick="|location.href='@{/customers/{id}(id=*{customerId})}'|"
+                >
+                    View Detail
                 </button>
             </div>
         </div>
