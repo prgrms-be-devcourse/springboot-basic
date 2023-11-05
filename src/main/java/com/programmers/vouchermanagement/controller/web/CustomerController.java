@@ -27,12 +27,12 @@ public class CustomerController {
         return "/customer/customer_detail";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/new")
     public String deleteCustomer() {
         return "/customer/add_customer_form";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/new")
     public String createVoucher(@ModelAttribute CustomerDto.CreateRequest customerDto) {
         customerService.createCustomer(customerDto);
         return "redirect:/customer";

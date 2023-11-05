@@ -17,7 +17,7 @@
         <h1 th:if="${customerName != null and customerName != ''}" th:text="${customerName} + '\'s Wallet'">Voucher
             Details</h1>
         <h1 th:if="${customerName == null or customerName == ''}">Voucher Details</h1>
-        <a href="/voucher/add" class="btn btn-primary" th:if="${customerName == null or customerName == ''}">Add</a>
+        <a href="/voucher/new" class="btn btn-primary" th:if="${customerName == null or customerName == ''}">Add</a>
     </div>
     <div class="table-responsive">
         <table class="table table-bordered table-hover">

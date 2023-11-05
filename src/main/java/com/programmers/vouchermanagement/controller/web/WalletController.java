@@ -35,12 +35,12 @@ public class WalletController {
         return "/voucher/voucher_detail";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/new")
     public String getCustomerIdAndVoucherId() {
         return "/wallet/add_wallet_form";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/new")
     public String giveVoucherToCustomer(@RequestParam String customerId, @RequestParam String voucherId) {
         walletService.giveVoucherToCustomer(UUID.fromString(customerId), UUID.fromString(voucherId));
         return "redirect:/wallet?customerId=" + customerId;

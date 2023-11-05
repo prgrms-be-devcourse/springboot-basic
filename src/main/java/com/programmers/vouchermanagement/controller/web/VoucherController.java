@@ -27,12 +27,12 @@ public class VoucherController {
         return "/voucher/voucher_detail";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/new")
     public String showAddVoucherForm() {
         return "/voucher/add_voucher_form";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/new")
     public String createVoucher(@ModelAttribute VoucherDto.CreateRequest voucherDto) {
         voucherService.createVoucher(voucherDto);
         return "redirect:/voucher";

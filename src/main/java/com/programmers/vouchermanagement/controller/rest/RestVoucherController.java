@@ -4,17 +4,21 @@ import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 import com.programmers.vouchermanagement.dto.VoucherDto;
 import com.programmers.vouchermanagement.service.VoucherService;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.programmers.vouchermanagement.controller.rest.ApiEndpoints.REST_CUSTOMER_BASE_URI;
+import static com.programmers.vouchermanagement.controller.rest.ApiEndpoints.REST_VOUCHER_BASE_URI;
+
 @RestController
-@RequestMapping("/api/v1/voucher")
+@RequestMapping(REST_VOUCHER_BASE_URI)
 public class RestVoucherController {
     private final VoucherService voucherService;
 
@@ -26,8 +30,24 @@ public class RestVoucherController {
     public ResponseEntity<List<VoucherDto.Response>> showAllVouchers() {
         final List<VoucherDto.Response> vouchers = voucherService.findAllVouchers().stream()
                 .map(VoucherDto.Response::new).toList();
-        return new ResponseEntity<>(vouchers, HttpStatus.OK);
+        return ResponseEntity.ok(vouchers);
 
+    }
+
+    @PostMapping
+    public ResponseEntity<VoucherDto.Response> createVoucher(@ModelAttribute VoucherDto.CreateRequest voucherDto,
+                                                             UriComponentsBuilder uriComponentsBuilder) {
+        VoucherDto.Response voucher = new VoucherDto.Response(voucherService.createVoucher(voucherDto));
+        URI locationUri = uriComponentsBuilder.path(REST_CUSTOMER_BASE_URI + "/{id}")
+                .buildAndExpand(voucher.getId())
+                .toUri();
+        return ResponseEntity.created(locationUri).body(voucher);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteVoucher(@RequestParam String voucherId) {
+        voucherService.deleteVoucher(UUID.fromString(voucherId));
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/search")
@@ -44,18 +64,6 @@ public class RestVoucherController {
             vouchers = voucherService.findVoucherByTypeAndDates(voucherType, startDate, endDate).stream()
                     .map(VoucherDto.Response::new).toList();
         }
-        return new ResponseEntity<>(vouchers, HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<VoucherDto.Response> createVoucher(@ModelAttribute VoucherDto.CreateRequest voucherDto) {
-        VoucherDto.Response voucher = new VoucherDto.Response(voucherService.createVoucher(voucherDto));
-        return new ResponseEntity<>(voucher, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteVoucher(@RequestParam String voucherId) {
-        voucherService.deleteVoucher(UUID.fromString(voucherId));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(vouchers);
     }
 }
