@@ -37,8 +37,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> getByCreatedAt(LocalDateTime createdAt){
-        String sql = "select * from voucher where createdAt>=?";
-        return jdbcTemplate.query(sql, rowMapper);
+        String sql = "select * from voucher where createdAt<=?";
+        return jdbcTemplate.query(sql, rowMapper, createdAt);
     }
 
     @Override

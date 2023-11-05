@@ -9,6 +9,7 @@ import com.prgrms.voucher_manage.domain.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class VoucherApiController {
     private final VoucherService service;
 
     @PostMapping("/vouchers")
-    public BaseResponse<UUID> createVoucher(@RequestBody CreateVoucherReq request){
+    public BaseResponse<UUID> createVoucher(@Valid @RequestBody CreateVoucherReq request){
         Voucher voucher = service.createVoucher(new CreateVoucherReq(request.type(), request.discountAmount()));
         return new BaseResponse<>(voucher.getId());
     }
@@ -69,7 +70,7 @@ public class VoucherApiController {
     }
 
     @PostMapping("/vouchers/{voucherId}")
-    public BaseResponse<String> updateVoucher(@PathVariable UUID voucherId, @RequestBody UpdateVoucherReq request) {
+    public BaseResponse<String> updateVoucher(@PathVariable UUID voucherId, @Valid @RequestBody UpdateVoucherReq request) {
         try {
             service.updateVoucher(voucherId, request);
         } catch (Exception e){

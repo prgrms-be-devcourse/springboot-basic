@@ -2,6 +2,7 @@ package com.prgrms.voucher_manage.domain.customer.controller;
 
 import com.prgrms.voucher_manage.base.BaseResponse;
 import com.prgrms.voucher_manage.domain.customer.controller.dto.CreateCustomerReq;
+import com.prgrms.voucher_manage.domain.customer.controller.dto.UpdateCustomerReq;
 import com.prgrms.voucher_manage.domain.customer.entity.Customer;
 import com.prgrms.voucher_manage.domain.customer.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -55,5 +56,13 @@ public class CustomerApiController {
         return new BaseResponse<>(blackCustomers);
     }
 
-
+    @PostMapping("/customers/{customerId}")
+    public BaseResponse<String> updateCustomer(@PathVariable UUID customerId, @Valid @RequestBody UpdateCustomerReq request){
+        try {
+            service.update(customerId, request);
+        } catch(Exception e){
+            return new BaseResponse<>(e.getMessage());
+        }
+        return new BaseResponse<>();
+    }
 }
