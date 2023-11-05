@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:insert="~{/fragment/header ::nav}"></div>
+    <div th:insert="~{/fragment/header ::menu}"></div>
+    <div th:insert="~{/fragment/header ::box}"></div>
+</head>
+
+<body>
+<div class="container">
+    <div class="menu">
+        <div class="menu-item">
+            <a th:href="@{/admin/wallets}">지갑 목록</a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/admin/wallets/create}">지갑 추가하기</a>
+        </div>
+    </div>
+</div>
+<div class="box">
+    <div class="content">
+        <div class="content-box">
+            <form action="/admin/wallets/create" method="post">
+                <label for="customerId">회원 번호:</label>
+                <input id="customerId" name="customerId" type="text"><br><br>
+                <label for="voucherId">바우처 번호:</label>
+                <input id="voucherId" name="voucherId" type="text"><br><br>
+                <button type="submit">쿠폰 즉시 생성하기</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

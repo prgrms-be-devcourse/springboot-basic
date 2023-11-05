@@ -1,0 +1,64 @@
+<div th:fragment="nav" xmlns:th="http://www.thymeleaf.org">
+
+    <div class="navigation-bar">
+
+        <div><a th:href="@{/admin/vouchers}">바우처 서비스</a> &emsp;
+            <a th:href="@{/admin/wallets}">지갑 서비스</a>&emsp;
+        </div>
+
+    </div>
+</div>
+<head th:fragment="menu" xmlns:th="http://www.thymeleaf.org">
+    <meta charset="UTF-8">
+    <style>
+        /* Container Styles */
+        .title {
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Menu Styles */
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            width: 50%; /* Set to half of the screen width */
+        }
+
+        .menu-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid gray;
+        }
+    </style>
+</head>
+<head th:fragment="box" xmlns:th="http://www.thymeleaf.org">
+    <style>
+        /* Container Styles */
+        .box {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Menu Styles */
+        .content {
+            display: flex;
+            justify-content: space-between;
+            width: 80%; /* Set to half of the screen width */
+        }
+
+        .content-box {
+            flex: 1;
+            text-align: left;
+            padding: 10px;
+            background-color: white;
+            border: 1px solid gray;
+        }
+    </style>
+</head>
