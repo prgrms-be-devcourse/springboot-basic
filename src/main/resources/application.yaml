@@ -1,5 +1,5 @@
 datasource:
-  url: jdbc:mysql://localhost:3305/voucher_management
+  url: jdbc:mysql://localhost:33060/voucher_management
   username: root
   password: 1234
 
