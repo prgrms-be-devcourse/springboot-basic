@@ -1,7 +1,8 @@
-package org.prgrms.kdt.voucher;
+package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.io.InputHandler;
 import org.prgrms.kdt.io.OutputHandler;
+import org.prgrms.kdt.voucher.VoucherMenu;
 import org.prgrms.kdt.voucher.service.FixedAmountVoucherService;
 import org.prgrms.kdt.voucher.service.PercentDiscountVoucherService;
 import org.prgrms.kdt.voucher.service.VoucherService;
@@ -25,15 +26,6 @@ public class VoucherController {
     private final VoucherService voucherService;
     private final FixedAmountVoucherService fixedAmountVoucherService;
     private final PercentDiscountVoucherService percentDiscountVoucherService;
-
-    private final String CREATE = "create";
-    private final String OWNER = "owner";
-    private final String FIND = "find";
-    private final String DETAILS = "details";
-    private final String REMOVE = "remove";
-    private final String FIXED = "fixed";
-    private final String PERCENT = "percent";
-
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     public VoucherController(
@@ -51,7 +43,8 @@ public class VoucherController {
     }
 
     public void voucherMenu() throws IOException {
-        String menu = selectVoucherMenu();
+        String userInput = selectVoucherMenu();
+        VoucherMenu menu = VoucherMenu.fromString(userInput);
 
         switch (menu) {
             case FIND:
@@ -81,15 +74,20 @@ public class VoucherController {
         outputHandler.outputVouchers(voucherService.getAllVouchers());
     }
 
-    private void voucherDetails() throws IOException {
+    private void voucherDetails() {
         outputHandler.outputString(INPUT_VOUCHER_ID.getMessage());
-        UUID voucherId = UUID.fromString(inputHandler.inputString());
+        UUID voucherId = null;
+        try {
+            voucherId = UUID.fromString(inputHandler.inputString());
+        } catch (IOException e) {
+            throw new RuntimeException(EXCEPTION_VOUCHER_ID.getMessage());
+        }
         outputHandler.outputVoucher(voucherService.getVoucher(voucherId));
     }
 
     private String selectVoucherMenu() throws IOException {
         outputHandler.outputString(SELECT_VOUCHER_MENU.getMessage());
-        return inputHandler.inputString();
+        return inputHandler.inputString().trim().toLowerCase(); // Lowercased to match ignore case
     }
 
     private void getOwner() throws IOException {
@@ -103,9 +101,9 @@ public class VoucherController {
         outputHandler.outputString(CREATE_VOUCHER_TYPE.getMessage());
         var createVoucherType = inputHandler.inputString();
 
-        if (createVoucherType.equals(FIXED)) {
+        if (createVoucherType.equals("fixed")) {
             fixedAmountVoucherAdd();
-        } else if (createVoucherType.equals(PERCENT)) {
+        } else if (createVoucherType.equals("percent")) {
             percentDiscountVoucherAdd();
         } else {
             String errorMessage = EXCEPTION_VOUCHER_TYPE.getMessage();

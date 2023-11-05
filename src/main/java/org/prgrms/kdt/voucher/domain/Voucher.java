@@ -14,4 +14,6 @@ public interface Voucher {
     UUID getCustomerId();
 
     void setCustomerId(UUID customerId);
+
+    String getType();
 }

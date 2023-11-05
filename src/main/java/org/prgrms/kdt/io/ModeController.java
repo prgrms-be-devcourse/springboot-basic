@@ -1,7 +1,7 @@
 package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.customer.CustomerController;
-import org.prgrms.kdt.voucher.VoucherController;
+import org.prgrms.kdt.voucher.controller.VoucherController;
 import org.prgrms.kdt.wallet.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher List</title>
+    <!-- Bootstrap link -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        th {
+            background-color: #333; /* th background color */
+            color: #fff; /* text color */
+        }
+        .table-dark {
+            background-color: #555; /* table background color */
+        }
+        body {
+            background-color: #111; /* background color */
+            color: #fff; /* base text color */
+        }
+        .btn-create {
+            float: right; /* 오른쪽 정렬 */
+            margin-bottom: 20px; /* 아래 여백 */
+            background-color: #00B4DB;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 class="mt-4 mb-4">Voucher List</h1>
+    <div class="mb-3">
+        <a href="/vouchers/create" class="btn btn-success btn-create">Create Voucher</a>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-dark">
+            <thead class="thead-dark">
+            <tr>
+                <th>Voucher ID</th>
+                <th>Details</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <td th:text="${voucher.voucherId}"></td>
+                <td th:if="${voucher.getType().equals('fixed')}">
+                    <span th:text="${voucher.type} + '&lsqb;' + ${voucher.amount} + '&rsqb;'"></span>
+
+                </td>
+                <td th:if="${voucher.getType().equals('percent')}">
+                    <span th:text="${voucher.type} + '&lsqb;' + ${voucher.percent} + '&rsqb;'"></span>
+                </td>
+                <td>
+                    <form th:action="@{/vouchers/remove/__${voucher.voucherId}__}" method="post">
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
