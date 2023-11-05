@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
 
-@JdbcTest
+@SpringBootTest
 @ActiveProfiles("test")
 class JdbcVoucherRepositoryTest {
     @Autowired

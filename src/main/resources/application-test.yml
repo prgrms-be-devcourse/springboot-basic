@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3305/test_voucher_mgmt_system?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: uijin-mysql-pw
+
+file:
+  path:
+    blacklist: "src/test/resources/test_blacklist.csv"
+    voucher_data: "src/test/resources/test_voucher_data.json"

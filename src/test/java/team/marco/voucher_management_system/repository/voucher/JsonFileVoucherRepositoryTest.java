@@ -2,6 +2,9 @@ package team.marco.voucher_management_system.repository.voucher;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import team.marco.voucher_management_system.domain.voucher.Voucher;
 
 import java.util.List;
@@ -12,11 +15,13 @@ import static org.assertj.core.api.Assertions.*;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
 
+@SpringBootTest
+@ActiveProfiles("test")
 class JsonFileVoucherRepositoryTest {
     private JsonFileVoucherRepository fileVoucherRepository;
 
-    public JsonFileVoucherRepositoryTest() {
-        fileVoucherRepository = new JsonFileVoucherRepository("src/test/resources/test_voucher_data.json");
+    public JsonFileVoucherRepositoryTest(@Value("${file.path.voucher_data}") String path) {
+        fileVoucherRepository = new JsonFileVoucherRepository(path);
     }
 
     @DisplayName("바우처를 생성할 수 있다.")

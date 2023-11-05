@@ -2,6 +2,10 @@ package team.marco.voucher_management_system.repository.custromer;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import team.marco.voucher_management_system.controller.customer.dto.CustomerIdAndName;
 
 import java.util.List;
 
@@ -9,11 +13,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static team.marco.voucher_management_system.util.UUIDUtil.stringToUUID;
 
+@SpringBootTest
+@ActiveProfiles("test")
 class CsvBlacklistRepositoryTest {
     private CsvBlacklistRepository csvBlacklistRepository;
 
-    public CsvBlacklistRepositoryTest() {
-        csvBlacklistRepository = new CsvBlacklistRepository("src/test/resources/test_blacklist.csv");
+    public CsvBlacklistRepositoryTest(@Value("${file.path.blacklist}") String path) {
+        csvBlacklistRepository = new CsvBlacklistRepository(path);
     }
 
     @DisplayName("")
