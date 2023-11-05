@@ -37,7 +37,6 @@ public class VoucherService {
     public void saveNewVoucher(VoucherRequestDto voucherDto) {
         Voucher voucher = Voucher.of(UUID.randomUUID(), voucherDto);
         voucherRepository.save(voucher);
-        log.info("등록된 Voucher => iD: {}, type: {}, value: {}", voucher.getVoucherId(), voucher.getVoucherType(), voucher.getDiscountValue());
     }
 
     public void allocateVoucher(UUID voucherId, UUID customerId) {
