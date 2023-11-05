@@ -144,7 +144,7 @@ public class ManagementApplication {
     private void getBlacklist() {
         logger.info("Call getBlackListUsers()");
 
-        printStringList(customerController.getBlacklistInfo());
+        printCustomerIdAndNameList(customerController.findBlacklist());
         println();
         println(INQUIRY_COMPLETE);
     }

@@ -1,6 +1,7 @@
 package team.marco.voucher_management_system.controller.customer;
 
 import org.springframework.stereotype.Controller;
+import team.marco.voucher_management_system.controller.customer.dto.CustomerIdAndName;
 import team.marco.voucher_management_system.controller.customer.dto.CustomerResponse;
 import team.marco.voucher_management_system.domain.customer.Customer;
 import team.marco.voucher_management_system.service.customer.BlacklistService;
@@ -9,8 +10,6 @@ import team.marco.voucher_management_system.service.customer.CustomerService;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-
-import static java.text.MessageFormat.format;
 
 @Controller
 public class CustomerController {
@@ -22,10 +21,8 @@ public class CustomerController {
         this.blacklistService = blacklistService;
     }
 
-    public List<String> getBlacklistInfo() {
-        return blacklistService.getBlacklist().stream()
-                .map(dto -> format("id: {0}, 고객명: {1} ", dto.getId() , dto.getName()))
-                .toList();
+    public List<CustomerIdAndName> findBlacklist() {
+        return blacklistService.getBlacklist();
     }
 
     public boolean isExistCustomer(String customerId) {
@@ -40,7 +37,6 @@ public class CustomerController {
     public List<CustomerResponse> findAll() {
         return customerService.findAllCustomer().stream()
                 .map(CustomerResponse::of)
-                .peek(System.out::println)
                 .toList();
     }
 

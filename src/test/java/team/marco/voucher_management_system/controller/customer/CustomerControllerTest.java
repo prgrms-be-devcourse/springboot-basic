@@ -42,7 +42,7 @@ class CustomerControllerTest {
         when(blacklistService.getBlacklist()).thenReturn(blacklist);
 
         // when
-        List<String> result = customerController.getBlacklistInfo();
+        List<CustomerIdAndName> result = customerController.findBlacklist();
 
         // then
         assertThat(result).isNotNull();

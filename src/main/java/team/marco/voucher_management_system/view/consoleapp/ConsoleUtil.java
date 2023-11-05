@@ -1,5 +1,6 @@
 package team.marco.voucher_management_system.view.consoleapp;
 
+import team.marco.voucher_management_system.controller.customer.dto.CustomerIdAndName;
 import team.marco.voucher_management_system.controller.customer.dto.CustomerResponse;
 import team.marco.voucher_management_system.controller.voucher.dto.VoucherResponse;
 
@@ -64,6 +65,19 @@ public final class ConsoleUtil {
             printCustomer(c);
             printSeparatorLine();
         });
+    }
+
+    public static void printCustomerIdAndNameList(List<CustomerIdAndName> blacklist) {
+        blacklist.forEach(b -> {
+            printCustomerIdAndName(b);
+            printSeparatorLine();
+        });
+
+    }
+
+    public static void printCustomerIdAndName(CustomerIdAndName customerIdAndName) {
+        print(format("name  : {0}", customerIdAndName.getName()));
+        print(format("id    : {0}", customerIdAndName.getId()));
     }
 
     public static void printCustomer(CustomerResponse customer) {
