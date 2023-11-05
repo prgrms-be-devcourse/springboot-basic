@@ -6,7 +6,6 @@ import java.util.UUID;
 import jakarta.validation.Valid;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,12 +13,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.programmers.vouchermanagement.advice.annotation.AdminController;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.customer.service.CustomerService;
 
-@Controller
+@AdminController
 @ConditionalOnWebApplication
 @RequestMapping("/customers")
 public class CustomerAdminController {

@@ -9,7 +9,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+import com.programmers.vouchermanagement.advice.annotation.AdminController;
+
+@ControllerAdvice(annotations = AdminController.class)
 public class GeneralAdvice {
 
     @ExceptionHandler({IllegalArgumentException.class, NoSuchElementException.class, RuntimeException.class})
