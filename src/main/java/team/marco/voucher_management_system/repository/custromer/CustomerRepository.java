@@ -10,4 +10,5 @@ public interface CustomerRepository {
     Customer insert(Customer customer);
     List<Customer> findAll();
     Optional<Customer> findById(UUID customerId);
+    Optional<Customer> findByEmail(String email);
 }

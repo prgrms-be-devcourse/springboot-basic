@@ -97,6 +97,22 @@ class JdbcCustomerRepositoryTest {
         Assertions.assertThat(found.getId()).isEqualTo(customer.getId());
     }
 
+    @DisplayName("사용자 이메일로 사용자를 조회할 수 있다.")
+    @Test
+    void findByEmail() {
+        // given
+        String name = "customer";
+        String email = "customer@gmail.com";
+        Customer customer = createCustomer(name, email);
+        customerRepository.insert(customer);
+
+        // when
+        Customer found = customerRepository.findByEmail("customer@gmail.com").get();
+
+        // then
+        Assertions.assertThat(found.getId()).isEqualTo(customer.getId());
+    }
+
     private Customer createCustomer(String name, String email) {
         return new Customer
                 .Builder(name, email)

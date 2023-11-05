@@ -1,6 +1,8 @@
 package team.marco.voucher_management_system.controller.customer;
 
 import org.springframework.stereotype.Controller;
+import team.marco.voucher_management_system.controller.customer.dto.CustomerResponse;
+import team.marco.voucher_management_system.domain.customer.Customer;
 import team.marco.voucher_management_system.service.customer.BlacklistService;
 import team.marco.voucher_management_system.service.customer.CustomerService;
 
@@ -28,10 +30,22 @@ public class CustomerController {
 
     public boolean isExistCustomer(String customerId) {
         try {
-            customerService.findCustomer(UUID.fromString(customerId));
+            customerService.findCustomerById(UUID.fromString(customerId));
             return true;
         } catch (NoSuchElementException e) {
             return false;
         }
+    }
+
+    public List<CustomerResponse> findAll() {
+        return customerService.findAllCustomer().stream()
+                .map(CustomerResponse::of)
+                .peek(System.out::println)
+                .toList();
+    }
+
+    public Customer findCustomerByEmail(String email) {
+        Customer customer = customerService.findCustomerByEmail(email);
+        return customer;
     }
 }

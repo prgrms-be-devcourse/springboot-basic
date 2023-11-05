@@ -1,6 +1,7 @@
 package team.marco.voucher_management_system.service;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,12 +38,28 @@ class CustomerServiceTest {
         customerRepository.insert(customer);
 
         // 사용자 조회
-        Customer found = customerService.findCustomer(customer.getId());
+        Customer found = customerService.findCustomerById(customer.getId());
 
         // 등록된 사용자와 동일한 사용자가 조회됨
         assertThat(found.getId()).isEqualTo(customer.getId());
         assertThat(found.getName()).isEqualTo(customer.getName());
         assertThat(found.getEmail()).isEqualTo(customer.getEmail());
+    }
+
+    @DisplayName("사용자를 email로 조회할 수 있다.")
+    @Test
+    void findCustomerByEmail() {
+        // given
+        String email = "test@gmail.com";
+        Customer customer = createCustomer("test", email);
+        customerRepository.insert(customer);
+
+        // when
+        Customer found = customerService.findCustomerByEmail(email);
+
+        // then
+        assertThat(found.getEmail()).isEqualTo(email);
+        assertThat(found.getName()).isEqualTo(customer.getName());
     }
 
     private Customer createCustomer(String name, String email) {

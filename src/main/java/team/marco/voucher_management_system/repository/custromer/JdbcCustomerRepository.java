@@ -1,7 +1,5 @@
 package team.marco.voucher_management_system.repository.custromer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,10 +16,10 @@ import static team.marco.voucher_management_system.util.UUIDUtil.uuidToBytes;
 
 @Repository
 public class JdbcCustomerRepository implements CustomerRepository {
-    private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);
 
     private static final String SELECT_ALL_SQL = "SELECT * FROM customers";
     private static final String SELECT_BY_ID_SQL = "SELECT * FROM customers WHERE customer_id = ?";
+    private static final String SELECT_BY_EMAIL_SQL = "SELECT * FROM customers WHERE email = ?";
     private static final String INSERT_SQL = "INSERT INTO customers(customer_id, name, email, created_at) VALUES (?, ?, ?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
@@ -39,7 +37,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 Timestamp.valueOf(customer.getCreatedAt()));
 
         if(update != 1) {
-            logger.error("사용자를 추가하는 과정에서 오류가 발생했습니다.");
             throw new RuntimeException("사용자를 추가하는 과정에서 오류가 발생했습니다.");
         }
 
@@ -50,7 +47,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public List<Customer> findAll() {
         List<Customer> customers = new ArrayList<>();
         jdbcTemplate.query(SELECT_ALL_SQL, (resultSet, rowNum) -> customers.add(resultSetToCustomer(resultSet)));
-
         return Collections.unmodifiableList(customers);
     }
 
@@ -60,6 +56,19 @@ public class JdbcCustomerRepository implements CustomerRepository {
             Customer customer = jdbcTemplate.queryForObject(SELECT_BY_ID_SQL,
                     (resultSet, rowNum) -> resultSetToCustomer(resultSet),
                     uuidToBytes(customerId));
+
+            return Optional.of(customer);
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Customer> findByEmail(String email) {
+        try {
+            Customer customer = jdbcTemplate.queryForObject(SELECT_BY_EMAIL_SQL,
+                    (resultSet, rowNum) -> resultSetToCustomer(resultSet),
+                    email);
 
             return Optional.of(customer);
         } catch (DataAccessException e) {
