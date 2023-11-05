@@ -35,7 +35,7 @@ public class JSONFileManager<K, T> {
     }
 
     public void saveFile(String filePath, Map<K, T> objects, Function<T, HashMap<String, Object>> mapDomainToObject) {
-        try (FileWriter fileWriter = new FileWriter("no" + filePath)) {
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
             List<HashMap<String, Object>> targetObjects = new ArrayList<>();
             saveTargetObject(objects, targetObjects, mapDomainToObject);
             String jsonStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(targetObjects);
