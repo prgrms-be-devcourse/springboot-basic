@@ -5,9 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
 
-@Getter @RequiredArgsConstructor
+@Getter
+@RequiredArgsConstructor
 public abstract class Voucher {
-    private final UUID voucherId = UUID.randomUUID();
+    private final UUID id;
     private final Long discountAmount;
-    private final VoucherType voucherType;
+    private final VoucherType type;
 }

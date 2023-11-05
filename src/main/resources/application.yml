@@ -1,17 +1,6 @@
 spring:
-  config:
-    activate:
-      on-profile: dev
-file-path:
-  customer: /src/main/resources/customer_blacklist.csv
-
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-file-path:
-  customer: /src/main/resources/customer_blacklist.csv
-  voucher: /src/main/resources/voucher.csv
-
-
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3308/order_mgmt
+    username: root
+    password: root1234!
