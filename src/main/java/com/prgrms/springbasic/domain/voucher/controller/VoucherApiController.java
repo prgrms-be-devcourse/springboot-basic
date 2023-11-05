@@ -7,13 +7,15 @@ import com.prgrms.springbasic.domain.voucher.service.VoucherService;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/vouchers")
+@RequestMapping("/api/v1/vouchers")
 public class VoucherApiController {
 
     private final VoucherService voucherService;
@@ -45,7 +47,12 @@ public class VoucherApiController {
     @PostMapping
     public ResponseEntity<VoucherResponse> create(@RequestBody CreateVoucherRequest request) {
         VoucherResponse voucher = voucherService.saveVoucher(request);
-        return ResponseEntity.ok(voucher);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{voucherId}")
+                .buildAndExpand(voucher.voucherId())
+                .toUri();
+        return ResponseEntity.created(location).body(voucher);
     }
 
     @PatchMapping
@@ -57,6 +64,6 @@ public class VoucherApiController {
     @DeleteMapping("/{voucherId}")
     public ResponseEntity<String> delete(@PathVariable String voucherId) {
         voucherService.deleteById(UUID.fromString(voucherId));
-        return ResponseEntity.ok("Voucher deleted");
+        return ResponseEntity.noContent().build();
     }
 }
