@@ -102,11 +102,11 @@ public class ConsoleController {
     private void createVoucher() {
         int voucherSeq = selectPolicyType();
 
-        VoucherType voucherType = voucherService.seqToType(voucherSeq);
+        VoucherType voucherType = voucherService.convertToType(voucherSeq);
 
         int discountDegree = putDiscountDegree(voucherType);
 
-        voucherService.upsert(voucherType, discountDegree);
+        voucherService.insert(voucherType, discountDegree);
     }
 
     private void createCustomer() {
