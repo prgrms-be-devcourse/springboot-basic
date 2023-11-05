@@ -28,13 +28,17 @@ public class ApiVoucherController {
     }
 
     /**
-     * 바우처 전체 조회
+     * 바우처 전체 조회 + 타입 별 필터링
      *
      * @return
      */
     @GetMapping
-    public ResponseEntity<VouchersResponse> getAllVouchers() {
-        List<VoucherDto> voucherDtoList = voucherService.findAll();
+    public ResponseEntity<VouchersResponse> getVouchers(@RequestParam(name = "voucherType", defaultValue = "all") String voucherType) {
+        if (voucherType.equals("all")) {
+            List<VoucherDto> voucherDtoList = voucherService.findAll();
+            return ResponseEntity.ok(toVouchersResponse(voucherDtoList));
+        }
+        List<VoucherDto> voucherDtoList = voucherService.findByVoucherType(voucherType);
         return ResponseEntity.ok(toVouchersResponse(voucherDtoList));
     }
 

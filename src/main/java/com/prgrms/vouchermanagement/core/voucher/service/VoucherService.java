@@ -3,6 +3,8 @@ package com.prgrms.vouchermanagement.core.voucher.service;
 import com.prgrms.vouchermanagement.core.voucher.domain.Voucher;
 import com.prgrms.vouchermanagement.core.voucher.dto.VoucherDto;
 import com.prgrms.vouchermanagement.core.voucher.repository.VoucherRepository;
+import com.prgrms.vouchermanagement.infra.exception.InvalidFormatException;
+import com.prgrms.vouchermanagement.infra.utils.MenuPatternUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,5 +49,16 @@ public class VoucherService {
     public String deleteById(String voucherId) {
         voucherRepository.deleteById(voucherId);
         return voucherId;
+    }
+
+    public List<VoucherDto> findByVoucherType(String voucherType) {
+        if (!MenuPatternUtils.VOUCHER_TYPE.matcher(voucherType).matches()) {
+            throw new InvalidFormatException("voucherType은 [fixed, rate] 중 하나이어야 합니다.");
+        }
+        List<Voucher> voucherList = voucherRepository.findAll();
+        return voucherList.stream()
+                .filter(it -> it.getVoucherType().getValue().equals(voucherType))
+                .map(it -> new VoucherDto(it.getId(), it.getName(), it.getAmount(), it.getVoucherType()))
+                .collect(Collectors.toList());
     }
 }
