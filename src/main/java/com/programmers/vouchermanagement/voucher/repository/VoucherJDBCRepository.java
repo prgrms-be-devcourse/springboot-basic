@@ -33,7 +33,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
     public void insert(Voucher voucher) {
         int update = jdbcTemplate.update(INSERT, domainMapper.voucherToParamMap(voucher));
         if (update != UPDATE_ONE_FLAG) {
-            throw new RuntimeException(NOT_INSERTED);
+            throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
         }
     }
 

@@ -33,7 +33,7 @@ public class WalletJDBCRepository implements WalletRepository {
         int update = jdbcTemplate.update(INSERT, domainMapper.ownershipToParamMap(ownership));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(CAN_NOT_INSERT_OWNERSHIP);
-            throw new RuntimeException(CAN_NOT_INSERT_OWNERSHIP);
+            throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
         }
     }
 

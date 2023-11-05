@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.util.DomainMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -31,7 +32,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
         int update = jdbcTemplate.update(INSERT, domainMapper.customerToParamMap(customer));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(NOT_INSERTED);
-            throw new RuntimeException(NOT_INSERTED);
+            throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
         }
     }
 
