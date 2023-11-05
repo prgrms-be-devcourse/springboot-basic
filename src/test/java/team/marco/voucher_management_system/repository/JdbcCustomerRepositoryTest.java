@@ -127,7 +127,6 @@ class JdbcCustomerRepositoryTest {
             // given
             int seed = 100;
             Customer existCustomer = generateCustomer(seed + 1);
-            Customer notExistCustomer = generateCustomer(seed + 2);
 
             addTestCustomers(seed);
             repository.create(existCustomer);
