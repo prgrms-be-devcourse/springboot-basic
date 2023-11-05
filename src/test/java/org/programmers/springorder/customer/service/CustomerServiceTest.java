@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.programmers.springorder.config.jdbc.JdbcConfig;
+import org.programmers.springorder.customer.dto.CustomerResponseDto;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -76,6 +78,20 @@ class CustomerServiceTest {
             assertThat(customerId1).isEqualTo(customerId);
         }
 
+        @Test
+        @DisplayName("black list를 불러오는 test")
+        public void findBlacklist(){
+            Customer customer1 = Customer.toCustomer(UUID.randomUUID(), "owner", CustomerType.NORMAL);
+            Customer customer2 = Customer.toCustomer(UUID.randomUUID(), "owner", CustomerType.BLACK);
+            Customer customer3 = Customer.toCustomer(UUID.randomUUID(), "owner", CustomerType.BLACK);
+
+            customerRepository.insert(customer1);
+            customerRepository.insert(customer2);
+            customerRepository.insert(customer3);
+
+            List<CustomerResponseDto> blackList = customerService.getBlackList();
+            assertThat(blackList).hasSize(2);
+        }
         @Test
         @DisplayName("실패, voucher id로 검색을 실패한 경우")
         public void findVoucherOwnerNoVoucher(){
