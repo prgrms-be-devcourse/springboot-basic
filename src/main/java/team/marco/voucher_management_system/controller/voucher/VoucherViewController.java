@@ -45,7 +45,7 @@ public class VoucherViewController {
     public String createVoucher(@RequestParam("voucherType") String voucherType,
                                 @RequestParam("discountValue") int discountValue,
                                 Model model) {
-        if (isNotPositive(discountValue)) throw new IllegalArgumentException("할인 금액 또는 할인율은 양수입니다.");
+        validateDiscountValue(discountValue);
 
         voucherService.createVoucher(new VoucherCreateServiceRequest(
                 VoucherType.valueOf(voucherType),
@@ -79,5 +79,9 @@ public class VoucherViewController {
 
     private static boolean isNotPositive(int discountValue) {
         return discountValue <= 0;
+    }
+
+    private static void validateDiscountValue(int discountValue) {
+        if (isNotPositive(discountValue)) throw new IllegalArgumentException("할인 금액 또는 할인율은 양수입니다.");
     }
 }

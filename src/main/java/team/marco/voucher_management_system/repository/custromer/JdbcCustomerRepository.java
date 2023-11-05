@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static team.marco.voucher_management_system.error.ErrorMessage.CANNOT_CREATE_CUSTOMER;
 import static team.marco.voucher_management_system.util.UUIDUtil.bytesToUUID;
 import static team.marco.voucher_management_system.util.UUIDUtil.uuidToBytes;
 
@@ -37,7 +38,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                 Timestamp.valueOf(customer.getCreatedAt()));
 
         if(update != 1) {
-            throw new RuntimeException("사용자를 추가하는 과정에서 오류가 발생했습니다.");
+            throw new RuntimeException(CANNOT_CREATE_CUSTOMER);
         }
 
         return customer;
@@ -47,6 +48,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public List<Customer> findAll() {
         List<Customer> customers = new ArrayList<>();
         jdbcTemplate.query(SELECT_ALL_SQL, (resultSet, rowNum) -> customers.add(resultSetToCustomer(resultSet)));
+
         return Collections.unmodifiableList(customers);
     }
 

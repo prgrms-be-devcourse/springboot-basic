@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
+import static team.marco.voucher_management_system.error.ErrorMessage.CANNOT_CREATE_VOUCHER;
 import static team.marco.voucher_management_system.util.UUIDUtil.bytesToUUID;
 import static team.marco.voucher_management_system.util.UUIDUtil.uuidToBytes;
 
@@ -36,9 +37,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        int update = 0;
-
-        update = jdbcTemplate.update(INSERT_SQL,
+        int update = jdbcTemplate.update(INSERT_SQL,
                 voucher.getId(),
                 voucher.getVoucherType().name(),
                 voucher.getDiscountValue(),
@@ -46,8 +45,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 voucher.getName());
 
         if(update != 1) {
-            logger.error("쿠폰을 추가하는 과정에서 오류가 발생했습니다.");
-            throw new RuntimeException("쿠폰을 추가하는 과정에서 오류가 발생했습니다.");
+            logger.error(CANNOT_CREATE_VOUCHER);
+            throw new RuntimeException(CANNOT_CREATE_VOUCHER);
         }
 
         return voucher;
@@ -87,7 +86,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Long> findLatestVoucherId() {
         Long size = jdbcTemplate.queryForObject(SELECT_TOTAL_COUNTS, Long.class);
-        if(size == 0) return Optional.empty();
+        if(isZero(size)) return Optional.empty();
 
         return Optional.of(jdbcTemplate.queryForObject(SELECT_MAXIMUM_ID, Long.class));
     }
@@ -103,5 +102,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 .code(code)
                 .name(name)
                 .build();
+    }
+
+    private static boolean isZero(Long num) {
+        return num == 0;
     }
 }
