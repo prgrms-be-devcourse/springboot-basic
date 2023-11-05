@@ -44,7 +44,7 @@ public class VoucherWebController {
 
     @PostMapping("/create")
     public String createVoucher(@Valid @ModelAttribute("request") CreateVoucherRequestDto request, BindingResult bindingResult) {
-
+        //TODO: amount validation에 대한 에러 처리
         if (bindingResult.hasErrors()) {
             return "voucher/create";
         }
