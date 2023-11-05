@@ -37,12 +37,7 @@ public class JSONFileManager<K, T> {
     public void saveFile(String filePath, Map<K, T> objects, Function<T, HashMap<String, Object>> mapDomainToObject) {
         try (FileWriter fileWriter = new FileWriter("no" + filePath)) {
             List<HashMap<String, Object>> targetObjects = new ArrayList<>();
-
-            objects.values().forEach(object -> {
-                HashMap<String, Object> targetObject = mapDomainToObject.apply(object);
-                targetObjects.add(targetObject);
-            });
-
+            saveTargetObject(objects, targetObjects, mapDomainToObject);
             String jsonStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(targetObjects);
             fileWriter.write(jsonStr);
             fileWriter.flush();
@@ -50,6 +45,17 @@ public class JSONFileManager<K, T> {
             logger.error(FILE_EXCEPTION);
             throw new IllegalStateException(FILE_EXCEPTION);
         }
+    }
+
+    private void saveTargetObject(
+            Map<K, T> objects,
+            List<HashMap<String, Object>> targetObjects,
+            Function<T, HashMap<String, Object>> mapDomainToObject
+    ) {
+        objects.values().forEach(object -> {
+                    HashMap<String, Object> targetObject = mapDomainToObject.apply(object);
+                    targetObjects.add(targetObject);
+                });
     }
 
     public Map<K, T> loadFile(String filePath, Function<Map, T> mapObjectToDomain, Function<T, K> keyMapper) {
