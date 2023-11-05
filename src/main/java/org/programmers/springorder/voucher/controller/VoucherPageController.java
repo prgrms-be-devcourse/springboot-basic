@@ -8,9 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -54,10 +52,29 @@ public class VoucherPageController {
         }
     }
 
-    @PostMapping("/vouchers/{voucherId}")
-    public String deleteVoucher(@PathVariable String voucherId, HttpServletRequest request){
+    @DeleteMapping("/vouchers")
+    public String deleteVoucher(@RequestParam(name = "voucherId", required = false) UUID voucherId){
         try {
-            voucherService.deleteVoucher(UUID.fromString(voucherId));
+            voucherService.deleteVoucher(voucherId);
+            return "redirect:/vouchers";
+        } catch (RuntimeException e){
+            return "no-voucher";
+        }
+    }
+
+    @GetMapping("/voucherAllocate/{voucherId}")
+    public String getVoucherAllocatePage(@PathVariable UUID voucherId, Model model){
+        try{
+            model.addAttribute("voucherId", voucherId);
+            return "voucher-allocate";
+        }catch (RuntimeException e){
+            return "no-voucher";
+        }
+    }
+    @PostMapping("/voucherAllocate/{voucherId}")
+    public String giveVoucher(@PathVariable UUID voucherId, @RequestParam UUID customerId){
+        try {
+            voucherService.allocateVoucher(voucherId, customerId);
             return "redirect:/vouchers";
         } catch (RuntimeException e){
             return "no-voucher";
