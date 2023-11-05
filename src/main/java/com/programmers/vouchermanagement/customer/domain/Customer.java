@@ -12,6 +12,8 @@ public class Customer {
     }
 
     public Customer(UUID id, String name, boolean black) {
+        if (name.isBlank() || name.length() > 20)
+            throw new IllegalArgumentException("The name length should be between 0 to 20.");
         this.id = id;
         this.name = name;
         this.black = black;
