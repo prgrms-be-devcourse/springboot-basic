@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,16 +41,12 @@ public class VoucherRestController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<VoucherResponse> readAllVouchers(
-            @RequestParam(value = "typeName", required = false) String typeName,
-            @RequestParam(value = "startDate", required = false) LocalDate startDate,
-            @RequestParam(value = "endDate", required = false) LocalDate endDate
-    ) {
-        if (typeName != null) {
+    public List<VoucherResponse> readAllVouchers(String typeName, LocalDate startDate, LocalDate endDate) {
+        if (isSearchingType(typeName)) {
             return findByType(typeName);
         }
 
-        if (startDate != null && endDate != null) {
+        if (isSearchingDate(startDate, endDate)) {
             return findByCreatedAt(startDate, endDate);
         }
 
@@ -68,6 +63,14 @@ public class VoucherRestController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void deleteById(@PathVariable UUID voucherId) {
         voucherService.deleteById(voucherId);
+    }
+
+    private boolean isSearchingType(String typeName) {
+        return typeName != null;
+    }
+
+    private boolean isSearchingDate(LocalDate startDate, LocalDate endDate) {
+        return startDate != null && endDate != null;
     }
 
     private List<VoucherResponse> findByType(String typeName) {
