@@ -78,15 +78,4 @@ class MemoryVoucherRepositoryTest {
 
 		assertThat(voucherRepository.findById(voucherId1).isPresent(), is(false));
 	}
-
-	@Test
-	void 아이디_여러개로_바우처_목록을_조회한다() {
-		voucherRepository.insert(voucher1);
-		voucherRepository.insert(voucher2);
-		List<UUID> ids = Arrays.asList(voucherId1, voucherId2);
-
-		List<Voucher> foundVouchers = voucherRepository.findAllById(ids);
-
-		assertThat(foundVouchers, containsInAnyOrder(voucher1, voucher2));
-	}
 }

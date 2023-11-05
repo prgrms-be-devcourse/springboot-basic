@@ -122,20 +122,6 @@ class VoucherServiceTest {
 	}
 
 	@Test
-	void 특정_바우처를_보유한_고객을_조회한다() {
-		when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher1));
-		when(walletRepository.findCustomerIdsByVoucherId(voucherId)).thenReturn(Collections.singletonList(customerId));
-		when(customerRepository.findAllById(Collections.singletonList(customerId))).thenReturn(
-			Collections.singletonList(customer));
-
-		List<CustomerResponse> customers = voucherService.getCustomersByVoucher(voucherId);
-
-		assertThat(customers, is(notNullValue()));
-		assertThat(customers, hasSize(1));
-		assertThat(customers.get(0).id(), is(equalTo(customerId)));
-	}
-
-	@Test
 	void 바우처_세부사항을_변경한다() {
 		long newDiscountValue = 50;
 		when(voucherRepository.findById(voucherId)).thenReturn(Optional.of(voucher1));

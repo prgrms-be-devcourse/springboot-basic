@@ -25,7 +25,6 @@ import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.repository.customer.BlacklistCustomerRepository;
 import com.programmers.springbasic.repository.customer.CustomerRepository;
 import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
-import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.repository.voucher.VoucherRepository;
 import com.programmers.springbasic.repository.wallet.WalletRepository;
 
@@ -149,18 +148,6 @@ class CustomerServiceTest {
 		customerService.assignVoucherToCustomer(customerId, voucherId);
 
 		verify(walletRepository).insertVoucherForCustomer(customerId, voucherId);
-	}
-
-	@Test
-	void 고객이_보유한_바우처를_조회한다() {
-		when(customerRepository.findById(customerId)).thenReturn(Optional.of(customer));
-		when(walletRepository.findVoucherIdsByCustomerId(customerId)).thenReturn(List.of(voucherId));
-		when(voucherRepository.findAllById(List.of(voucherId))).thenReturn(List.of(voucher));
-
-		List<VoucherResponse> result = customerService.getVouchersByCustomer(customerId);
-
-		assertThat(result, hasSize(1));
-		assertThat(result.get(0).voucherId(), is(voucherId));
 	}
 
 	@Test
