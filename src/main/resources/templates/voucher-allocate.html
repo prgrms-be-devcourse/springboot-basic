@@ -36,7 +36,7 @@
 <article>
     <h2>VOUCHER-ALLOCATE</h2>
     <form th:action="@{/voucherAllocate/{voucherId}(voucherId=${voucherId})}" method="post">
-        voucherId : <span>${voucherId}</span>
+        voucherId : <span th:text="${voucherId}"></span>
         <div class="mb-3">
             <label for="customerId" class="form-label">Customer Id</label>
             <input type="text" class="form-control" id="customerId" name="customerId">
