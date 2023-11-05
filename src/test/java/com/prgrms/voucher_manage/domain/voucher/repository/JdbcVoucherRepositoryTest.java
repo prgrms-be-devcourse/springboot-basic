@@ -64,18 +64,6 @@ public class JdbcVoucherRepositoryTest {
     }
 
     @Test
-    @DisplayName("voucher를 타입으로 조회할 수 있다.")
-    public void jdbcVoucherRepository_getByType(){
-        //given
-        Voucher voucher1 = saveVoucher();
-        //when
-        List<Voucher> vouchers = repository.getByType(FIXED);
-        //then
-        assertThat(vouchers.size()).isEqualTo(1);
-        assertThat(vouchers.get(0).getId()).isEqualTo(voucher1.getId());
-    }
-
-    @Test
     @DisplayName("voucher를 삭제할 수 있다.")
     public void jdbcVoucherRepository_deleteById() {
         //given

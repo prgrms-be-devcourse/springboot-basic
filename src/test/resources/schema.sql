@@ -10,7 +10,8 @@ DROP TABLE IF EXISTS voucher;
 CREATE TABLE voucher(
     voucher_id varchar(36) PRIMARY KEY,
     amount bigint NOT NULL,
-    type varchar(10) NOT NULL
+    type varchar(10) NOT NULL,
+    created_at timestamp
 );
 
 

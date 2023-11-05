@@ -10,6 +10,7 @@ import com.prgrms.voucher_manage.domain.voucher.repository.VoucherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,10 +35,18 @@ public class VoucherService {
         return vouchers;
     }
 
+    public List<Voucher> getVouchersByCreatedAt(LocalDateTime createdAt){
+        List<Voucher> vouchers = voucherRepository.getByCreatedAt(createdAt);
+        if (vouchers.isEmpty()){
+            throw new RuntimeException(VOUCHER_CREATED_AT_NOT_EXISTS.getMessage());
+        }
+        return vouchers;
+    }
+
     public List<Voucher> getVouchersByType(VoucherType type){
         List<Voucher> vouchers = voucherRepository.getByType(type);
         if (vouchers.isEmpty()){
-            throw new RuntimeException(VOUCHER_TYPE_NOT_EXISTS.getMessage());
+            throw new RuntimeException(VOUCHER_CREATED_AT_NOT_EXISTS.getMessage());
         }
         return vouchers;
     }

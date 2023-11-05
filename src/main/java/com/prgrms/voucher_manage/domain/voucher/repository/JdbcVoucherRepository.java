@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,14 +24,20 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "insert into voucher(voucher_id, amount, type) values (?,?,?)";
-        jdbcTemplate.update(sql, voucher.getId().toString(), voucher.getDiscountAmount(), voucher.getType().getLabel());
+        String sql = "insert into voucher(voucher_id, amount, type, created_at) values (?,?,?,?)";
+        jdbcTemplate.update(sql, voucher.getId().toString(), voucher.getDiscountAmount(), voucher.getType().getLabel(), voucher.getCreatedAt());
         return voucher;
     }
 
     @Override
     public List<Voucher> getAll() {
         String sql = "select * from voucher";
+        return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    @Override
+    public List<Voucher> getByCreatedAt(LocalDateTime createdAt){
+        String sql = "select * from voucher where createdAt>=?";
         return jdbcTemplate.query(sql, rowMapper);
     }
 

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.PERCENT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

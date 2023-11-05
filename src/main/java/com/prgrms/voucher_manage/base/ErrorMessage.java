@@ -21,7 +21,7 @@ public enum ErrorMessage {
 
     VOUCHER_NOT_EXISTS("해당 아이디를 가진 바우처가 존재하지 않습니다."),
 
-    VOUCHER_TYPE_NOT_EXISTS("해당 타입의 바우처가 존재하지 않습니다."),
+    VOUCHER_CREATED_AT_NOT_EXISTS("해당 조건의 바우처가 존재하지 않습니다."),
     VOUCHER_UPDATE_FAILED("바우처 업데이트에 실패하였습니다."),
     VOUCHER_DELETE_FAILED("삭제하려는 바우처가 존재하지 않습니다."),
 

@@ -6,6 +6,7 @@ import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,14 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> getAll() {
         return storage.values().stream().toList();
+    }
+
+    @Override
+    public List<Voucher> getByCreatedAt(LocalDateTime createdAt) {
+        return storage.values()
+                .stream()
+                .filter(voucher -> voucher.getCreatedAt().isAfter(createdAt))
+                .toList();
     }
 
     @Override
