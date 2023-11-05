@@ -29,6 +29,10 @@ public abstract class Voucher {
         return this.id.equals(id);
     }
 
+    public boolean isSameType(VoucherType voucherType) {
+        return getType() == voucherType;
+    }
+
     public final UUID getId() {
         return id;
     }

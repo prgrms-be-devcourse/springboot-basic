@@ -3,11 +3,15 @@ package team.marco.voucher_management_system.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -56,6 +60,30 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM voucher", voucherRowMapper);
+    }
+
+    @Override
+    public Optional<Voucher> findById(UUID id) {
+        try {
+            Voucher voucher = jdbcTemplate.queryForObject(
+                    "SELECT * FROM voucher"
+                            + " WHERE id = UUID_TO_BIN(:id)",
+                    Collections.singletonMap("id", id.toString().getBytes()),
+                    voucherRowMapper);
+
+            return Optional.ofNullable(voucher);
+        } catch (EmptyResultDataAccessException | UncategorizedSQLException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public List<Voucher> findByType(VoucherType voucherType) {
+        return jdbcTemplate.query(
+                "SELECT * FROM voucher"
+                        + " WHERE type = :type",
+                Collections.singletonMap("type", voucherType.toString()),
+                voucherRowMapper);
     }
 
     private Map<String, Object> voucherToMap(Voucher voucher) {
