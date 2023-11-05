@@ -9,4 +9,6 @@ public class VoucherQuery {
     public static final String DELETE_VOUCHER = "DELETE FROM test.vouchers WHERE id = UUID_TO_BIN(:id)";
     public static final String DELETE_ALL = "DELETE FROM test.vouchers";
     public static final String UPDATE_VOUCHER = "UPDATE test.vouchers SET type = :type, discount_value = :discount_value WHERE id = UUID_TO_BIN(:id)";
+    private VoucherQuery() {
+    }
 }

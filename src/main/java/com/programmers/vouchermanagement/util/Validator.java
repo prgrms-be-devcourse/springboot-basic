@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 public class Validator {
     private static final Logger logger = LoggerFactory.getLogger(Validator.class);
     private static final long MAX_LONG_LENGTH = String.valueOf(Long.MAX_VALUE).length();
-
     //messages
     private static final String INVALID_DISCOUNT_AMOUNT_MESSAGE =
             "Input should be a number greater than 0";
@@ -15,6 +14,8 @@ public class Validator {
             "Input should be a number greater than 0 and smaller than 100";
     private static final String INVALID_DISCOUNT_VALUE_MESSAGE =
             "Input should be a number greater than 0 and smaller than 999,999,999,999,999,999(length: 18)";
+    private Validator() {
+    }
 
     public static void validateDiscountValue(VoucherType voucherType, String discountValueStr) {
         validateLongBoundary(discountValueStr);
