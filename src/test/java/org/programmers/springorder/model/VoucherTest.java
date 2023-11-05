@@ -2,6 +2,8 @@ package org.programmers.springorder.model;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.programmers.springorder.model.voucher.Voucher;
 import org.programmers.springorder.model.voucher.VoucherType;
 
@@ -11,29 +13,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class VoucherTest {
 
-    @Test
+    @ParameterizedTest
+    @CsvSource(value = {"FIXED, 1000, 10000, 9000", "PERCENT, 10, 10000, 9000"})
     @DisplayName("바우처 생성에 성공한다.")
-    public void createVoucher() {
+    public void createVoucher(VoucherType voucherType, long discountValue, long beforeDiscount, long expectedAfterDiscount) {
         //given
-        UUID voucherId1 = UUID.randomUUID();
-        long discountValue1 = 10;
-        VoucherType voucherType1 = VoucherType.FIXED;
-        long beforeDiscount = 10000;
+        UUID voucherId = UUID.randomUUID();
 
-        UUID voucherId2 = UUID.randomUUID();
-        long discountValue2 = 10;
-        VoucherType voucherType2 = VoucherType.PERCENT;
 
         //when
-        Voucher voucher1 = Voucher.toVoucher(voucherId1, discountValue1, voucherType1);
-        Voucher voucher2 = Voucher.toVoucher(voucherId2, discountValue2, voucherType2);
+        Voucher voucher = Voucher.toVoucher(voucherId, discountValue, voucherType);
 
         //then
-        assertThat(voucher1.getVoucherId()).isEqualTo(voucherId1);
-        assertThat(voucher2.getVoucherId()).isEqualTo(voucherId2);
-
-        assertThat(voucher1.getCalculate(beforeDiscount)).isEqualTo(9990);
-        assertThat(voucher2.getCalculate(beforeDiscount)).isEqualTo(9000);
+        assertThat(voucher.getVoucherId()).isEqualTo(voucherId);
+        assertThat(voucher.getCalculate(beforeDiscount)).isEqualTo(expectedAfterDiscount);
     }
 
     @Test
