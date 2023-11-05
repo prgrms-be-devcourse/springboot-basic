@@ -32,6 +32,13 @@ public class CustomerPageController {
         return "customers";
     }
 
+    @GetMapping("/blackCustomers")
+    public String getBlackCustomerListPage(Model model){
+        List<CustomerResponseDto> allCustomers = customerService.getBlackList();
+        model.addAttribute("customerList", allCustomers);
+        return "customers";
+    }
+
     @GetMapping("/customers/{customerId}")
     public String getCustomerListPage(@PathVariable UUID customerId, Model model){
         CustomerResponseDto customer = customerService.findCustomer(customerId);
