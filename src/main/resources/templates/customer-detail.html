@@ -13,6 +13,24 @@
             margin: 0 50px;
         }
     </style>
+
+    <script>
+        function deleteCustomer(customerId) {
+            if (confirm("게시물을 삭제하시겠습니까?")) {
+                fetch(`/customer/${customerId}`, {
+                    method: 'POST',
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert("게시물이 성공적으로 삭제되었습니다.");
+                            location.replace("/customers");
+                        } else {
+                            alert("게시물 삭제에 실패했습니다.");
+                        }
+                    })
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -33,22 +51,26 @@
     </div>
 </nav>
 <article>
-    <h2>Customers</h2>
+    <h2>CUSTOMER-detail</h2>
+    customerId: <span th:text="${customer.customerId}"></span></br>
+    customerName: <span th:text="${customer.name}"></span></br>
+    customerType: <span th:text="${customer.customerType}"></span></br>
+
+    <h2>Owned VoucherList</h2>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">#</th>
-            <th scope="col">CustomerId</th>
             <th scope="col">Name</th>
             <th scope="col">CustomerType</th>
+            <th scope="col">delete</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="customer, i: ${customerList}" th:object="${customer}">
+        <tr th:each="voucher, i: ${customerVoucherList}" th:object="${voucher}">
             <td th:text="${i.index + 1}"></td>
-            <th><a th:text="*{customerId}"  th:href="@{/customers/{customerId}(customerId=*{customerId})}"></a></th>
-            <td th:text="*{name}"></td>
-            <td th:text="*{customerType}"></td>
+            <th><a th:text="*{voucherId()}" th:href="@{/vouchers/{voucherId}(voucherId=*{voucherId()})}"></a></th>
+            <td th:text="*{voucherType()}"></td>
+            <td th:text="*{discountValue()}"></td>
         </tr>
         </tbody>
     </table>
