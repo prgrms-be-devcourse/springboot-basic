@@ -45,15 +45,23 @@ public class VoucherPageController {
 
     @GetMapping("/vouchers/{voucherId}")
     public String getVoucherDetail(@PathVariable UUID voucherId, Model model, HttpServletRequest request){
+        try {
             VoucherResponseDto voucher = voucherService.getVoucherById(voucherId);
             model.addAttribute("voucher", voucher);
             return "voucher-detail";
+        }catch (RuntimeException e){
+            return "no-voucher";
+        }
     }
 
     @PostMapping("/vouchers/{voucherId}")
     public String deleteVoucher(@PathVariable String voucherId, HttpServletRequest request){
-        voucherService.deleteVoucher(UUID.fromString(voucherId));
-        return "redirect:/vouchers";
+        try {
+            voucherService.deleteVoucher(UUID.fromString(voucherId));
+            return "redirect:/vouchers";
+        } catch (RuntimeException e){
+            return "no-voucher";
+        }
     }
 }
 
