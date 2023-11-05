@@ -5,5 +5,5 @@ import java.util.List;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 
 public interface CustomerRepository {
-    List<Customer> findBlackCustomers();
+    List<Customer> findAllBlackCustomer();
 }

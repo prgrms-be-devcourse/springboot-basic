@@ -6,7 +6,6 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -66,7 +65,7 @@ public class MenuHandler {
             case INCORRECT_MENU -> consoleManager.printIncorrectMenu();
             case CREATE -> {
                 CreateVoucherRequest createVoucherRequest = consoleManager.instructCreate();
-                VoucherResponse voucherResponse = voucherController.create(createVoucherRequest);
+                VoucherResponse voucherResponse = voucherController.createVoucher(createVoucherRequest);
                 consoleManager.printCreateResult(voucherResponse);
             }
             case LIST -> {
@@ -75,7 +74,7 @@ public class MenuHandler {
             }
             //TODO: customerDTO
             case BLACKLIST -> {
-                List<Customer> customerResponses = customerController.readBlacklist();
+                List<Customer> customerResponses = customerController.readAllBlackCustomer();
                 consoleManager.printReadBlacklist(customerResponses);
             }
         }

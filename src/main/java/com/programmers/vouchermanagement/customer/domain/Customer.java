@@ -3,26 +3,26 @@ package com.programmers.vouchermanagement.customer.domain;
 import java.util.UUID;
 
 public class Customer {
-    private final UUID customerId;
+    private final UUID id;
     private final String name;
-    private final boolean isBlack;
+    private final boolean black;
 
-    public Customer(UUID customerId, String name) {
-        this(customerId, name, false);
+    public Customer(UUID id, String name) {
+        this(id, name, false);
     }
 
-    public Customer(UUID customerId, String name, boolean isBlack) {
-        this.customerId = customerId;
+    public Customer(UUID id, String name, boolean black) {
+        this.id = id;
         this.name = name;
-        this.isBlack = isBlack;
+        this.black = black;
     }
 
     public UUID getCustomerId() {
-        return customerId;
+        return id;
     }
 
     public boolean isBlack() {
-        return isBlack;
+        return black;
     }
 
     public String getName() {

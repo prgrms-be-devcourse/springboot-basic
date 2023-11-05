@@ -1,10 +1,9 @@
 package com.programmers.vouchermanagement.consoleapp.runner;
 
+import com.programmers.vouchermanagement.consoleapp.menu.MenuHandler;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
-import com.programmers.vouchermanagement.consoleapp.menu.MenuHandler;
 
 @Component
 public class ConsoleAppRunner implements ApplicationRunner {

@@ -1,10 +1,10 @@
-package com.programmers.vouchermanagement.configuration;
+package com.programmers.vouchermanagement;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.beryx.textio.TextIO;
-import org.beryx.textio.TextIoFactory;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,12 +12,11 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import javax.sql.DataSource;
 
 @Configuration
-public class AppConfig {
-    @Bean
-    public TextIO textIO() {
-        return TextIoFactory.getTextIO();
-    }
-
+@ComponentScan(
+        basePackages = {"com.programmers.vouchermanagement"}
+)
+@ConfigurationPropertiesScan
+public class TestConfig {
     @Bean
     public DataSource dataSource() {
         var dataSource = DataSourceBuilder.create()
