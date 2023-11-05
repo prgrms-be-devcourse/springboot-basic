@@ -2,6 +2,7 @@ package com.prgrms.vouchermanagement.core.voucher.controller.api;
 
 import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreationRequest;
 import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherCreationResponse;
+import com.prgrms.vouchermanagement.core.voucher.controller.response.VoucherResponse;
 import com.prgrms.vouchermanagement.core.voucher.controller.response.VouchersResponse;
 import com.prgrms.vouchermanagement.core.voucher.dto.VoucherDto;
 import com.prgrms.vouchermanagement.core.voucher.service.VoucherService;
@@ -26,7 +27,7 @@ public class ApiVoucherController {
     }
 
     /**
-     * 전체 바우처 조회
+     * 바우처 전체 조회
      *
      * @return
      */
@@ -47,5 +48,17 @@ public class ApiVoucherController {
         VoucherDto voucherDto = voucherService.create(toVoucherDto(voucherCreationRequest));
         return ResponseEntity.ok(toVoucherCreationResponse(voucherDto));
     }
-    
+
+    /**
+     * 바우처 단일 조회
+     *
+     * @param voucherId
+     * @return
+     */
+    @GetMapping("/{voucherId}")
+    public ResponseEntity<VoucherResponse> getVoucher(@PathVariable String voucherId) {
+        VoucherDto voucherDto = voucherService.getVoucher(voucherId);
+        return ResponseEntity.ok(toVoucherResponse(voucherDto));
+    }
+
 }

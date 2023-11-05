@@ -25,4 +25,8 @@ public class Mapper {
     public static VoucherDto toVoucherDto(VoucherCreationRequest voucherCreationRequest) {
         return new VoucherDto(voucherCreationRequest.getName(), voucherCreationRequest.getAmount(), voucherCreationRequest.getVoucherType());
     }
+
+    public static VoucherResponse toVoucherResponse(VoucherDto voucherDto) {
+        return new VoucherResponse(voucherDto.getId(),voucherDto.getName(), voucherDto.getAmount(), voucherDto.getVoucherType());
+    }
 }
