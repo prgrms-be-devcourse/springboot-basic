@@ -38,11 +38,11 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("voucher를 id로 찾을 수 있다.")
-    public void jdbcVoucherRepository_findById() {
+    public void jdbcVoucherRepository_getById() {
         //given
         Voucher voucher = saveVoucher();
         //when
-        Voucher foundVoucher = repository.findById(voucher.getId());
+        Voucher foundVoucher = repository.getById(voucher.getId());
         //then
         assertThat(foundVoucher).isNotNull();
         assertThat(foundVoucher.getId()).isEqualTo(voucher.getId());
@@ -51,16 +51,28 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("모든 voucher를 찾을 수 있다.")
-    public void jdbcVoucherRepository_findVoucher() {
+    public void jdbcVoucherRepository_getVoucher() {
         //given
         Voucher voucher1 = saveVoucher();
         Voucher voucher2 = saveVoucher();
         //when
-        List<Voucher> vouchers = repository.findAll();
+        List<Voucher> vouchers = repository.getAll();
         //then
         assertThat(vouchers.size()).isEqualTo(2);
         assertThat(voucher1.getId()).isEqualTo(vouchers.get(0).getId());
         assertThat(voucher2.getId()).isEqualTo(vouchers.get(1).getId());
+    }
+
+    @Test
+    @DisplayName("voucher를 타입으로 조회할 수 있다.")
+    public void jdbcVoucherRepository_getByType(){
+        //given
+        Voucher voucher1 = saveVoucher();
+        //when
+        List<Voucher> vouchers = repository.getByType(FIXED);
+        //then
+        assertThat(vouchers.size()).isEqualTo(1);
+        assertThat(vouchers.get(0).getId()).isEqualTo(voucher1.getId());
     }
 
     @Test
@@ -71,7 +83,7 @@ public class JdbcVoucherRepositoryTest {
         //when
         repository.deleteById(voucher.getId());
         //then
-        RuntimeException e = assertThrows(RuntimeException.class, () -> repository.findById(voucher.getId()));
+        RuntimeException e = assertThrows(RuntimeException.class, () -> repository.getById(voucher.getId()));
         assertThat(e.getMessage()).isEqualTo("해당 아이디를 가진 바우처가 존재하지 않습니다.");
     }
 
@@ -84,7 +96,7 @@ public class JdbcVoucherRepositoryTest {
         //when
         Voucher updateVoucher = new FixedAmountVoucher(voucher.getId(), 2000L);
         repository.update(updateVoucher);
-        Voucher updatedVoucher = repository.findById(voucher.getId());
+        Voucher updatedVoucher = repository.getById(voucher.getId());
         //then
         assertThat(updatedVoucher.getDiscountAmount()).isEqualTo(updateVoucher.getDiscountAmount());
 

@@ -47,7 +47,7 @@ public class VoucherServiceTest {
     void getVouchers(){
         Voucher voucher1 = new FixedAmountVoucher(1000L);
         Voucher voucher2 = new PercentDiscountVoucher(10L);
-        when(repository.findAll()).thenReturn(List.of(voucher1, voucher2));
+        when(repository.getAll()).thenReturn(List.of(voucher1, voucher2));
 
         List<Voucher> vouchers = service.getVouchers();
         assertThat(vouchers.size()).isEqualTo(2);
@@ -62,9 +62,9 @@ public class VoucherServiceTest {
         when(repository.save(any(FixedAmountVoucher.class))).thenReturn(voucher);
         Voucher savedVoucher = service.createVoucher(createDto);
 
-        when(repository.findById(any())).thenReturn(savedVoucher);
+        when(repository.getById(any())).thenReturn(savedVoucher);
 
-        assertThat(service.findVoucher(savedVoucher.getId()).getId()).isEqualTo(voucher.getId());
+        assertThat(service.getVoucherById(savedVoucher.getId()).getId()).isEqualTo(voucher.getId());
     }
 
 
@@ -74,8 +74,8 @@ public class VoucherServiceTest {
         Voucher voucher = new FixedAmountVoucher(1000L);
         UpdateVoucherReq updateDto= new UpdateVoucherReq(2000L);
 
-        when(repository.findById(any())).thenReturn(new FixedAmountVoucher(voucher.getId(), updateDto.discountAmount()));
-        Voucher updatedVoucher = service.findVoucher(voucher.getId());
+        when(repository.getById(any())).thenReturn(new FixedAmountVoucher(voucher.getId(), updateDto.discountAmount()));
+        Voucher updatedVoucher = service.getVoucherById(voucher.getId());
 
         assertThat(updateDto.discountAmount()).isEqualTo(updatedVoucher.getDiscountAmount());
     }

@@ -4,6 +4,7 @@ import com.prgrms.voucher_manage.base.BaseResponse;
 import com.prgrms.voucher_manage.domain.voucher.controller.dto.CreateVoucherReq;
 import com.prgrms.voucher_manage.domain.voucher.controller.dto.UpdateVoucherReq;
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
+import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import com.prgrms.voucher_manage.domain.voucher.service.VoucherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +23,6 @@ public class VoucherApiController {
         return new BaseResponse<>(voucher.getId());
     }
 
-    @GetMapping("/vouchers/{voucherId}")
-    public BaseResponse<Voucher> getVoucherById(@PathVariable UUID voucherId){
-        Voucher voucher;
-        try {
-            voucher = service.findVoucher(voucherId);
-        } catch (Exception e){
-            return new BaseResponse<>(e.getMessage());
-        }
-        return new BaseResponse<>(voucher);
-    }
-
     @GetMapping("/vouchers")
     public BaseResponse<List<Voucher>> getVouchers(){
         List<Voucher> vouchers;
@@ -42,6 +32,28 @@ public class VoucherApiController {
             return new BaseResponse<>(e.getMessage());
         }
         return new BaseResponse<>(vouchers);
+    }
+
+    @GetMapping("/vouchers/type")
+    public BaseResponse<List<Voucher>> getVouchersByType(@RequestParam VoucherType type){
+        List<Voucher> vouchers;
+        try {
+            vouchers = service.getVouchersByType(type);
+        } catch (Exception e){
+            return new BaseResponse<>(e.getMessage());
+        }
+        return new BaseResponse<>(vouchers);
+    }
+
+    @GetMapping("/vouchers/{voucherId}")
+    public BaseResponse<Voucher> getVoucherById(@PathVariable UUID voucherId){
+        Voucher voucher;
+        try {
+            voucher = service.getVoucherById(voucherId);
+        } catch (Exception e){
+            return new BaseResponse<>(e.getMessage());
+        }
+        return new BaseResponse<>(voucher);
     }
 
     @PostMapping("/vouchers/{voucherId}")

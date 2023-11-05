@@ -27,15 +27,23 @@ public class VoucherService {
     }
 
     public List<Voucher> getVouchers() {
-        List<Voucher> vouchers = voucherRepository.findAll();
+        List<Voucher> vouchers = voucherRepository.getAll();
         if (vouchers.isEmpty()) {
             throw new RuntimeException(VOUCHER_NOT_EXISTS.getMessage());
         }
         return vouchers;
     }
 
-    public Voucher findVoucher(UUID voucherId) {
-        return voucherRepository.findById(voucherId);
+    public List<Voucher> getVouchersByType(VoucherType type){
+        List<Voucher> vouchers = voucherRepository.getByType(type);
+        if (vouchers.isEmpty()){
+            throw new RuntimeException(VOUCHER_TYPE_NOT_EXISTS.getMessage());
+        }
+        return vouchers;
+    }
+
+    public Voucher getVoucherById(UUID voucherId) {
+        return voucherRepository.getById(voucherId);
     }
 
     public void updateVoucher(UUID voucherId, UpdateVoucherReq dto) {
@@ -49,7 +57,7 @@ public class VoucherService {
     }
 
     public Voucher getVoucherIfExists(UUID voucherId){
-        Voucher voucher = voucherRepository.findById(voucherId);
+        Voucher voucher = voucherRepository.getById(voucherId);
         if (voucher==null)
             throw new RuntimeException(VOUCHER_NOT_EXISTS.getMessage());
         return voucher;

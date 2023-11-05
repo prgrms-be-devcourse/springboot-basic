@@ -32,11 +32,11 @@ public class VoucherConsoleController {
     }
 
     public Voucher findVoucher(UUID voucherId) {
-        return voucherService.findVoucher(voucherId);
+        return voucherService.getVoucherById(voucherId);
     }
 
     public void updateVoucher(UUID voucherId, Long discountAmount) {
-        VoucherType type = voucherService.findVoucher(voucherId).getType();
+        VoucherType type = voucherService.getVoucherById(voucherId).getType();
         validateVoucher(type, discountAmount);
         voucherService.updateVoucher(voucherId, new UpdateVoucherReq(discountAmount));
     }

@@ -42,7 +42,7 @@ public class VoucherViewController {
 
     @GetMapping("vouchers/get/{voucherId}")
     public String getVoucher(@PathVariable UUID voucherId, Model model){
-        Voucher voucher = voucherService.findVoucher(voucherId);
+        Voucher voucher = voucherService.getVoucherById(voucherId);
         model.addAttribute("voucher", voucher);
         return "voucher/getVoucher";
     }

@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.UUID;
 
-import static com.prgrms.voucher_manage.exception.ErrorMessage.EMPTY_INPUT_NOT_ALLOWED;
-import static com.prgrms.voucher_manage.exception.ErrorMessage.INVALID_UUID_FORMAT;
+import static com.prgrms.voucher_manage.base.ErrorMessage.EMPTY_INPUT_NOT_ALLOWED;
+import static com.prgrms.voucher_manage.base.ErrorMessage.INVALID_UUID_FORMAT;
 
 @Component
 public class InputUtil {

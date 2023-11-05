@@ -90,8 +90,8 @@ public class WalletServiceTest {
 
         when(repository.findByCustomerId(customerId)).thenReturn(wallets);
 
-        when(voucherService.findVoucher(voucher1.getId())).thenReturn(voucher1);
-        when(voucherService.findVoucher(voucher2.getId())).thenReturn(voucher2);
+        when(voucherService.getVoucherById(voucher1.getId())).thenReturn(voucher1);
+        when(voucherService.getVoucherById(voucher2.getId())).thenReturn(voucher2);
 
         List<Voucher> foundVouchers = service.findByCustomerId(customerId);
         assertThat(foundVouchers).containsOnly(voucher1, voucher2);

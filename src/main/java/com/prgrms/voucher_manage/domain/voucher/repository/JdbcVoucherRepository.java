@@ -29,13 +29,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<Voucher> getAll() {
         String sql = "select * from voucher";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
+    public List<Voucher> getByType(VoucherType type){
+        String sql = "select * from voucher where type = ?";
+        return jdbcTemplate.query(sql, rowMapper, type.getLabel());
+    }
+
+    @Override
+    public Voucher getById(UUID voucherId) {
         String sql = "select * from voucher where voucher_id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, rowMapper, voucherId.toString());

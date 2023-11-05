@@ -34,7 +34,7 @@ public class WalletService {
             throw new RuntimeException(WALLET_CUSTOMER_NOT_EXISTS.getMessage());
 
         return wallets.stream()
-                .map(w -> voucherService.findVoucher(w.getVoucherId()))
+                .map(w -> voucherService.getVoucherById(w.getVoucherId()))
                 .collect(Collectors.toList());
     }
 
