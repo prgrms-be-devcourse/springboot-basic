@@ -3,6 +3,7 @@ package org.prgms.springbootbasic.domain.voucher;
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.exception.OutOfRangeException;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Slf4j
@@ -10,6 +11,7 @@ public class Voucher {
     private final UUID voucherId;
     private final long discountDegree;
     private final VoucherPolicy voucherPolicy;
+    private final LocalDateTime createdAt;
 
     public Voucher(UUID voucherId, long discountDegree, VoucherPolicy voucherPolicy) {
         if (voucherPolicy instanceof PercentDiscountPolicy) {
@@ -22,6 +24,7 @@ public class Voucher {
         this.voucherId = voucherId;
         this.discountDegree = discountDegree;
         this.voucherPolicy = voucherPolicy;
+        this.createdAt = LocalDateTime.now();
     }
 
     public UUID getVoucherId() {
@@ -34,6 +37,10 @@ public class Voucher {
 
     public VoucherPolicy getVoucherPolicy() {
         return voucherPolicy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
     public long discount(long beforeDiscount){

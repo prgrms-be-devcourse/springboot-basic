@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS vouchers (
     voucher_id BINARY(16) PRIMARY KEY,
     discount_degree bigint NOT NULL,
     voucher_type varchar(64) NOT NULL
+    created_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
 );
 
 CREATE TABLE IF NOT EXISTS customers_vouchers ( -- 이 이름이 맞는지? 이건 wallet이라기 보다는 그냥 고객-바우처 매핑 테이블인데?
