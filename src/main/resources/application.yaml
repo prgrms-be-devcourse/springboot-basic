@@ -3,11 +3,15 @@ spring:
     url: jdbc:mysql://localhost:3306/
     username: root
     password: 20231028
-
   mvc:
     hidden-method:
       filter:
         enabled: true
+---
+spring:
+  config:
+    activate:
+      on-profile: file
 file:
   resources:
     path: src/main/resources/
@@ -18,3 +22,13 @@ file:
 
     voucher:
       file-name: voucher.json
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:mysql://localhost:3306/
+    username: root
+    password: 20231028
+
