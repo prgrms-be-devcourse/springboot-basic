@@ -29,9 +29,6 @@ public class InMemoryCustomerRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAll() {
-        if (customers.isEmpty()) {
-            return Collections.emptyList();
-        }
         return customers.values()
                 .stream()
                 .toList();
