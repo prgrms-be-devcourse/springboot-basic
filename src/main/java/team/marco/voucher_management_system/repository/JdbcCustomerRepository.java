@@ -100,19 +100,24 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private Map<String, Object> customerToMap(Customer customer) {
-        Map<String, Object> customerFields = new HashMap<>() {
-            {
-                put("id", customer.getId().toString().getBytes());
-                put("name", customer.getName());
-                put("email", customer.getEmail());
-                put("lastLoginAt", null);
-                put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
-            }
-        };
+        Map<String, Object> customerFields = getCustomerFields(customer);
 
         if (!Objects.isNull(customer.getLastLoginAt())) {
             customerFields.put("lastLoginAt", Timestamp.valueOf(customer.getLastLoginAt()));
         }
+
+        return customerFields;
+    }
+
+    private Map<String, Object> getCustomerFields(Customer customer) {
+        Map<String, Object> customerFields = new HashMap<>() {
+        };
+
+        customerFields.put("id", customer.getId().toString().getBytes());
+        customerFields.put("name", customer.getName());
+        customerFields.put("email", customer.getEmail());
+        customerFields.put("lastLoginAt", null);
+        customerFields.put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
 
         return customerFields;
     }
