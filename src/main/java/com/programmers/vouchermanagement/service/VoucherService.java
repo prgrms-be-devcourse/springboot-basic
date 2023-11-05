@@ -23,12 +23,10 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    @Transactional(readOnly = true)
     public List<Voucher> findAllVouchers() {
         return voucherRepository.findAll();
     }
 
-    @Transactional(readOnly = true)
     public Voucher findVoucherById(UUID id) {
         return voucherRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessage.VOUCHER_NOT_FOUND_MESSAGE.getMessage()));
