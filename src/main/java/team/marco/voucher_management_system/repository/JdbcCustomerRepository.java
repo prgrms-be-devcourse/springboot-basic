@@ -13,6 +13,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -76,7 +77,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
                     customerRowMapper);
 
             return Optional.ofNullable(customer);
-        } catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException | UncategorizedSQLException e) {
             return Optional.empty();
         }
     }
