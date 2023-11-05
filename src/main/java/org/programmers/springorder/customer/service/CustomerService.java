@@ -37,4 +37,11 @@ public class CustomerService {
                 .map(CustomerResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("해당 고객을 찾을 수 없습니다."));
     }
+
+    public List<CustomerResponseDto> getAllCustomers() {
+        return customerRepository.findAll()
+                .stream()
+                .map(CustomerResponseDto::of)
+                .toList();
+    }
 }
