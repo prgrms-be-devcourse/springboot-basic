@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.voucher.service;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
+import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherTypeManager;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
@@ -77,7 +78,8 @@ public class VoucherService {
         return VoucherResponse.from(voucher);
     }
 
-    public List<VoucherResponse> readAllByType(VoucherType type) {
-        return voucherRepository.findAllByType(type).stream().map(VoucherResponse::from).toList();
+    public List<VoucherResponse> readAllByType(String typeName) {
+        VoucherType voucherType = VoucherTypeManager.get(typeName);
+        return voucherRepository.findAllByType(voucherType).stream().map(VoucherResponse::from).toList();
     }
 }

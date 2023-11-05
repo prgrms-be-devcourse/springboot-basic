@@ -70,7 +70,7 @@ public class VoucherController {
 
     @GetMapping("type/{type}")
     @ResponseBody
-    public List<VoucherResponse> readAllByType(@PathVariable("type") VoucherType type) {
-        return voucherService.readAllByType(type);
+    public List<VoucherResponse> readAllByType(@PathVariable("type") String typeName) {
+        return voucherService.readAllByType(typeName);
     }
 }
