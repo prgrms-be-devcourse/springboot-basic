@@ -10,7 +10,7 @@ public class PropertiesUtil {
 
     private static final Logger logger = LoggerFactory.getLogger("PropertiesUtil.class");
     public static final String FILE_REPOSITORY_KEY = "voucher.repository.path";
-    private static final String PROPERTIES_FILE_PATH = "application.properties";
+    private static final String PROPERTIES_FILE_PATH = "application.yml";
     private static final Properties properties;
 
     static {

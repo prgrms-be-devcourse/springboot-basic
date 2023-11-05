@@ -1,0 +1,9 @@
+voucher:
+  repository:
+    path: src/main/java/com/prgrms/vouchermanagement/core/voucher/repository/file/Voucher.json
+
+logging:
+  level:
+    root: warn
+  file:
+    name: logs/log

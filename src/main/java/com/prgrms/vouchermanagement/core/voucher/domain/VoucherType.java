@@ -5,7 +5,7 @@ import java.util.Arrays;
 public enum VoucherType {
 
     FIXED("fixed"),
-    PERCENT("rate");
+    RATE("rate");
 
     private String value;
 

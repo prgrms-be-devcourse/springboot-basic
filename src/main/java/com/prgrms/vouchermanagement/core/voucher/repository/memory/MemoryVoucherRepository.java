@@ -1,23 +1,22 @@
-package com.prgrms.vouchermanagement.core.voucher.repository;
+package com.prgrms.vouchermanagement.core.voucher.repository.memory;
 
 import com.prgrms.vouchermanagement.core.voucher.domain.Voucher;
+import com.prgrms.vouchermanagement.core.voucher.repository.VoucherRepository;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicLong;
 
-@Profile("dev")
+@Profile("memory")
 @Repository
 public class MemoryVoucherRepository implements VoucherRepository {
 
     private final List<Voucher> voucherArrayList = new CopyOnWriteArrayList<>();
-    private final AtomicLong idGenerator = new AtomicLong(0);
 
     @Override
     public Voucher save(Voucher voucher) {
-        voucher.setVoucherID(idGenerator.getAndIncrement());
         voucherArrayList.add(voucher);
         return voucher;
     }
@@ -25,5 +24,20 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAll() {
         return voucherArrayList;
+    }
+
+    @Override
+    public void deleteAll() {
+        voucherArrayList.clear();
+    }
+
+    @Override
+    public Optional<Voucher> findById(String id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public List<Voucher> findAllByIds(List<String> idList) {
+        return null;
     }
 }

@@ -4,12 +4,12 @@ import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 
 public class VoucherResponse {
 
-    private final long id;
+    private final String id;
     private final String name;
     private final long amount;
     private final VoucherType voucherType;
 
-    public VoucherResponse(long id, String name, long amount, VoucherType voucherType) {
+    public VoucherResponse(String id, String name, long amount, VoucherType voucherType) {
         this.id = id;
         this.name = name;
         this.amount = amount;

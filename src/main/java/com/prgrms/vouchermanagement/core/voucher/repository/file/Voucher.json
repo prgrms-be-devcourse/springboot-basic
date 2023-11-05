@@ -1,11 +1,16 @@
 [ {
-  "voucherID" : 1,
+  "voucherID" : "1",
   "name" : "sujin",
   "amount" : 2000,
   "voucherType" : "FIXED"
 }, {
-  "voucherID" : 2,
+  "voucherID" : "2",
   "name" : "sujin2",
   "amount" : 20,
-  "voucherType" : "PERCENT"
+  "voucherType" : "RATE"
+}, {
+  "voucherID" : "e4afcc88-2556-4ba1-b533-89cbf03ce41d",
+  "name" : "sujin3",
+  "amount" : 20,
+  "voucherType" : "RATE"
 } ]
