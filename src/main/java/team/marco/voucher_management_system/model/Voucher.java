@@ -33,6 +33,10 @@ public abstract class Voucher {
         return getType() == voucherType;
     }
 
+    public boolean isCreatedBetween(LocalDateTime from, LocalDateTime to) {
+        return !(createAt.isBefore(from) | createAt.isAfter(to));
+    }
+
     public final UUID getId() {
         return id;
     }

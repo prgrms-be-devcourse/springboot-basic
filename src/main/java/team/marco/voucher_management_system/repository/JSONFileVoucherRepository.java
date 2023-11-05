@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,17 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
     }
 
     @Override
+    public int deleteById(UUID id) {
+        if (!voucherMap.containsKey(id)) {
+            return 0;
+        }
+
+        voucherMap.remove(id);
+
+        return 1;
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return voucherMap.values()
                 .stream()
@@ -79,6 +91,13 @@ public class JSONFileVoucherRepository implements VoucherRepository, DisposableB
         return voucherMap.values()
                 .stream()
                 .filter(voucher -> voucher.isSameType(voucherType))
+                .toList();
+    }
+
+    @Override
+    public List<Voucher> findByCreateAt(LocalDateTime from, LocalDateTime to) {
+        return findAll().stream()
+                .filter(voucher -> voucher.isCreatedBetween(from, to))
                 .toList();
     }
 

@@ -1,5 +1,6 @@
 package team.marco.voucher_management_system.repository;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,17 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public void save(Voucher voucher) {
         voucherMap.put(voucher.getId(), voucher);
+    }
+
+    @Override
+    public int deleteById(UUID id) {
+        if (!voucherMap.containsKey(id)) {
+            return 0;
+        }
+
+        voucherMap.remove(id);
+
+        return 1;
     }
 
     @Override
@@ -41,6 +53,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
         return voucherMap.values()
                 .stream()
                 .filter(voucher -> voucher.isSameType(voucherType))
+                .toList();
+    }
+
+    @Override
+    public List<Voucher> findByCreateAt(LocalDateTime from, LocalDateTime to) {
+        return findAll().stream()
+                .filter(voucher -> voucher.isCreatedBetween(from, to))
                 .toList();
     }
 }
