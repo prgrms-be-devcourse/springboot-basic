@@ -1,5 +1,6 @@
 package com.programmers.vouchermanagement.voucher.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,7 +42,19 @@ public class VoucherRestController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<VoucherResponse> readAllVouchers() {
+    public List<VoucherResponse> readAllVouchers(
+            @RequestParam(value = "typeName", required = false) String typeName,
+            @RequestParam(value = "startDate", required = false) LocalDate startDate,
+            @RequestParam(value = "endDate", required = false) LocalDate endDate
+    ) {
+        if (typeName != null) {
+            return findByType(typeName);
+        }
+
+        if (startDate != null && endDate != null) {
+            return findByCreatedAt(startDate, endDate);
+        }
+
         return voucherService.readAllVouchers();
     }
 
@@ -56,16 +70,13 @@ public class VoucherRestController {
         voucherService.deleteById(voucherId);
     }
 
-    @GetMapping("/type/{typeName}")
-    @ResponseStatus(HttpStatus.OK)
-    public List<VoucherResponse> findByType(@PathVariable String typeName) {
+    private List<VoucherResponse> findByType(String typeName) {
         VoucherType voucherType = VoucherType.findVoucherType(typeName);
         return voucherService.findByType(voucherType);
     }
 
-    @GetMapping("/creation-date")
-    @ResponseStatus(HttpStatus.OK)
-    public List<VoucherResponse> findByCreatedAt(@Valid SearchCreatedAtRequest request) {
+    private List<VoucherResponse> findByCreatedAt(LocalDate startDate, LocalDate endDate) {
+        SearchCreatedAtRequest request = new SearchCreatedAtRequest(startDate, endDate);
         return voucherService.findByCreatedAt(request);
     }
 }
