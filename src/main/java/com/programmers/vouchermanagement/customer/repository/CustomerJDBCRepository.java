@@ -20,16 +20,14 @@ import static com.programmers.vouchermanagement.util.Message.NOT_INSERTED;
 public class CustomerJDBCRepository implements CustomerRepository {
     private static final Logger logger = LoggerFactory.getLogger(CustomerJDBCRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final DomainMapper domainMapper;
 
-    public CustomerJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate, DomainMapper domainMapper) {
+    public CustomerJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.domainMapper = domainMapper;
     }
 
     @Override
     public void insert(Customer customer) {
-        int update = jdbcTemplate.update(INSERT, domainMapper.customerToParamMap(customer));
+        int update = jdbcTemplate.update(INSERT, DomainMapper.customerToParamMap(customer));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(NOT_INSERTED);
             throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
@@ -38,12 +36,12 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlackCustomer() {
-        return jdbcTemplate.query(FIND_ALL_BLACK_CUSTOMER, domainMapper.customerRowMapper);
+        return jdbcTemplate.query(FIND_ALL_BLACK_CUSTOMER, DomainMapper.customerRowMapper);
     }
 
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(FIND_ALL, domainMapper.customerRowMapper);
+        return jdbcTemplate.query(FIND_ALL, DomainMapper.customerRowMapper);
     }
 }

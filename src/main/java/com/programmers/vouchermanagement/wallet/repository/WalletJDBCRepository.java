@@ -21,16 +21,14 @@ import static com.programmers.vouchermanagement.wallet.repository.WalletQuery.*;
 public class WalletJDBCRepository implements WalletRepository {
     private static final Logger logger = LoggerFactory.getLogger(WalletJDBCRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final DomainMapper domainMapper;
 
-    public WalletJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate, DomainMapper domainMapper) {
+    public WalletJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.domainMapper = domainMapper;
     }
 
     @Override
     public void insert(Ownership ownership) {
-        int update = jdbcTemplate.update(INSERT, domainMapper.ownershipToParamMap(ownership));
+        int update = jdbcTemplate.update(INSERT, DomainMapper.ownershipToParamMap(ownership));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(CAN_NOT_INSERT_OWNERSHIP);
             throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
@@ -42,7 +40,7 @@ public class WalletJDBCRepository implements WalletRepository {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_CUSTOMER_BY_VOUCHER_ID,
                     Collections.singletonMap(DomainMapper.ID_KEY, voucherId.toString().getBytes()),
-                    domainMapper.customerRowMapper));
+                    DomainMapper.customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
@@ -52,12 +50,12 @@ public class WalletJDBCRepository implements WalletRepository {
     public List<Voucher> findAllVoucherByCustomerId(UUID customerId) {
         return jdbcTemplate.query(FIND_ALL_VOUCHER_BY_CUSTOMER_ID,
                 Collections.singletonMap(DomainMapper.ID_KEY, customerId.toString().getBytes()),
-                domainMapper.voucherRowMapper);
+                DomainMapper.voucherRowMapper);
     }
 
     @Override
     public void delete(UUID voucherId) {
-        int update = jdbcTemplate.update(DELETE_OWNERSHIP, domainMapper.uuidToParamMap(voucherId));
+        int update = jdbcTemplate.update(DELETE_OWNERSHIP, DomainMapper.uuidToParamMap(voucherId));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(NOT_FOUND_VOUCHER_ALLOCATION);
             throw new NoSuchElementException(NOT_FOUND_VOUCHER_ALLOCATION);

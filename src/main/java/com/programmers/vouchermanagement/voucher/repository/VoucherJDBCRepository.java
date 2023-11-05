@@ -22,16 +22,14 @@ import static com.programmers.vouchermanagement.voucher.repository.VoucherQuery.
 public class VoucherJDBCRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(VoucherJDBCRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final DomainMapper domainMapper;
 
-    public VoucherJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate, DomainMapper domainMapper) {
+    public VoucherJDBCRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.domainMapper = domainMapper;
     }
 
     @Override
     public void insert(Voucher voucher) {
-        int update = jdbcTemplate.update(INSERT, domainMapper.voucherToParamMap(voucher));
+        int update = jdbcTemplate.update(INSERT, DomainMapper.voucherToParamMap(voucher));
         if (update != UPDATE_ONE_FLAG) {
             throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
         }
@@ -39,13 +37,13 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(FIND_ALL, domainMapper.voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL, DomainMapper.voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()), domainMapper.voucherRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()), DomainMapper.voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error(EMPTY_RESULT, e);
             return Optional.empty();
@@ -54,7 +52,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
-        return jdbcTemplate.query(FIND_ALL_BY_CREATED_AT, Map.of(DomainMapper.FROM_KEY, from.toString(), DomainMapper.TO_KEY, to.toString()), domainMapper.voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL_BY_CREATED_AT, Map.of(DomainMapper.FROM_KEY, from.toString(), DomainMapper.TO_KEY, to.toString()), DomainMapper.voucherRowMapper);
     }
 
     @Override
@@ -72,7 +70,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        int update = jdbcTemplate.update(UPDATE_VOUCHER, domainMapper.voucherToParamMap(voucher));
+        int update = jdbcTemplate.update(UPDATE_VOUCHER, DomainMapper.voucherToParamMap(voucher));
         if (update != UPDATE_ONE_FLAG) {
             throw new NoSuchElementException(NOT_UPDATED);
         }
@@ -80,6 +78,6 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByType(VoucherType type) {
-        return jdbcTemplate.query(FIND_ALL_BY_TYPE, Map.of(DomainMapper.TYPE_KEY, type.getName()), domainMapper.voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL_BY_TYPE, Map.of(DomainMapper.TYPE_KEY, type.getName()), DomainMapper.voucherRowMapper);
     }
 }
