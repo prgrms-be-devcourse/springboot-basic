@@ -14,14 +14,25 @@
 <h2>New Voucher</h2>
 <form th:action="@{/vouchers/new}" method="post">
     <div class="input-group mb-3">
-        <select class="form-select" aria-label="Voucher Type" name="typeName">
+        <select class="form-select" aria-label="Voucher Type" name="typeName" id="typeName">
             <option value="FIXED">Fixed</option>
             <option value="PERCENT">Percent</option>
         </select>
-        <input type="number" class="form-control" placeholder="Discount Value" min="0"
-               aria-label="Discount Value" name="discountValue">
+        <input type="number" class="form-control" placeholder="Discount Value" min="0" max="100000000"
+               aria-label="Discount Value" name="discountValue" id="discountValue">
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>
+<script th:inline="javascript">
+    const typeName = document.getElementById("typeName");
+    const discountValue = document.getElementById("discountValue");
+    if (typeName.value === "FIXED") discountValue.max = 100000000;
+    else discountValue.max = 100;
+
+    typeName.addEventListener("change", (e) => {
+        if (typeName.value === "FIXED") discountValue.max = 100000000;
+        else discountValue.max = 100;
+    })
+</script>
 </body>
 </html>
