@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
+import com.github.javafaker.Faker;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ class PercentDiscountVoucherTest extends VoucherTest {
     private static final VoucherType PERCENT_VOUCHER_TYPE = VoucherType.PERCENT;
     private static final int MAXIMUM_PERCENT = 100;
     private static final int MINIMUM_PERCENT = 1;
+    private static final Faker faker = new Faker();
 
     @Override
     protected VoucherType getTargetType() {
@@ -24,7 +26,7 @@ class PercentDiscountVoucherTest extends VoucherTest {
 
     @Override
     protected int generateValidData() {
-        return (MAXIMUM_PERCENT + MINIMUM_PERCENT) / 2;
+        return faker.number().numberBetween(MINIMUM_PERCENT, MAXIMUM_PERCENT);
     }
 
     @Override

@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThanOrEqualTo;
 
+import com.github.javafaker.Faker;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +17,7 @@ class FixedAmountVoucherTest extends VoucherTest {
     private static final VoucherType FIXED_VOUCHER_TYPE = VoucherType.FIXED;
     private static final int MAXIMUM_AMOUNT = (int) 1e9;
     private static final int MINIMUM_AMOUNT = 1;
+    private static final Faker faker = new Faker();
 
     @Override
     protected VoucherType getTargetType() {
@@ -24,7 +26,7 @@ class FixedAmountVoucherTest extends VoucherTest {
 
     @Override
     protected int generateValidData() {
-        return (MAXIMUM_AMOUNT + MINIMUM_AMOUNT) / 2;
+        return faker.number().numberBetween(MINIMUM_AMOUNT, MAXIMUM_AMOUNT);
     }
 
     @Override

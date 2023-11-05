@@ -3,6 +3,7 @@ package team.marco.voucher_management_system.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
+import com.github.javafaker.Faker;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,12 +15,25 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import team.marco.voucher_management_system.model.FixedAmountVoucher;
+import team.marco.voucher_management_system.model.PercentDiscountVoucher;
 import team.marco.voucher_management_system.model.Voucher;
 import team.marco.voucher_management_system.type_enum.VoucherType;
 
 abstract class VoucherRepositoryTest {
+    private static final int MAXIMUM_AMOUNT = (int) 1e9;
+    private static final int MINIMUM_AMOUNT = 1;
+    private static final int MAXIMUM_PERCENT = 100;
+    private static final int MINIMUM_PERCENT = 1;
+    private static final Faker faker = new Faker();
+
     protected Voucher generateVoucher() {
-        return new FixedAmountVoucher(10_000);
+        int randomNumber = faker.random().nextInt(1, 100);
+
+        if (randomNumber % 2 == 0) {
+            return new PercentDiscountVoucher(faker.random().nextInt(MINIMUM_PERCENT, MAXIMUM_PERCENT));
+        }
+
+        return new FixedAmountVoucher(faker.random().nextInt(MINIMUM_AMOUNT, MAXIMUM_AMOUNT));
     }
 
     protected abstract VoucherRepository getRepository();
