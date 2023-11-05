@@ -24,6 +24,14 @@ public class CustomerResponseDto {
         return customerId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getCustomerType() {
+        return customerType;
+    }
+
     @Override
     public String toString() {
         return "customerId : " + customerId +'\n' +
