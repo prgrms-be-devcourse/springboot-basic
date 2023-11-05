@@ -1,6 +1,9 @@
 package org.programmers.springorder.customer.service;
 
+import org.programmers.springorder.consts.ErrorMessage;
+import org.programmers.springorder.customer.dto.CustomerRequestDto;
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
+import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.repository.CustomerRepository;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.repository.VoucherRepository;
@@ -36,5 +39,26 @@ public class CustomerService {
         return customerRepository.findByID(voucher.getCustomerId())
                 .map(CustomerResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("해당 고객을 찾을 수 없습니다."));
+    }
+
+    public List<CustomerResponseDto> getAllCustomers() {
+        return customerRepository.findAll()
+                .stream()
+                .map(CustomerResponseDto::of)
+                .toList();
+    }
+
+    public void newCustomer(CustomerRequestDto requestDto) {
+        Customer customer = Customer.toCustomer(
+                UUID.randomUUID(),
+                requestDto.name(),
+                requestDto.customerType());
+        customerRepository.insert(customer);
+    }
+
+    public CustomerResponseDto findCustomer(UUID customerId){
+        return customerRepository.findByID(customerId)
+                .map(CustomerResponseDto::of)
+                .orElseThrow(() -> new RuntimeException(ErrorMessage.CUSTOMER_NOT_FOUND));
     }
 }

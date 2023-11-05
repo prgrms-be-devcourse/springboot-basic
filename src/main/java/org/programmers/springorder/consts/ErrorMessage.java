@@ -4,6 +4,8 @@ public class ErrorMessage {
 
     private ErrorMessage(){}
 
+    public static final String CUSTOMER_NOT_FOUND = "등록된 회원이 존재하지 않습니다.";
+
     public static final String VOUCHER_NOT_EXIST_MESSAGE = "등록된 바우처가 존재하지 않습니다.";
 
     public static final String EMPTY_VALUE_MESSAGE = "값이 존재하지 않습니다. 다시 입력해주세요.";

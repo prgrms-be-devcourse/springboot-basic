@@ -63,21 +63,22 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return customer;
     }
 
-    public void clear(){
+    public void clear() {
         jdbcTemplate.getJdbcOperations().update("delete from customers");
     }
+
     private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("customerName", customer.getName());
-            put("customerType", customer.getCustomerType().name());
-        }};
+        Map<String, Object> map = new HashMap<>();
+        map.put("customerId", customer.getCustomerId().toString().getBytes());
+        map.put("customerName", customer.getName());
+        map.put("customerType", customer.getCustomerType().name());
+        return map;
     }
 
     private Map<String, Object> findByIdMap(UUID customerId) {
-        return new HashMap<>() {{
-            put("customerId", customerId.toString().getBytes());
-        }};
+        Map<String, Object> map = new HashMap<>();
+        map.put("customerId", customerId.toString().getBytes());
+        return map;
     }
 
     static UUID toUUID(byte[] bytes) {

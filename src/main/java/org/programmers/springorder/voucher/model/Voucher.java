@@ -34,8 +34,8 @@ public class Voucher {
     }
     private Voucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
         this.voucherId = voucherId;
-        this.discountValue = voucherRequestDto.getDiscountValue();
-        this.voucherType = voucherRequestDto.getVoucherType();
+        this.discountValue = voucherRequestDto.discountValue();
+        this.voucherType = voucherRequestDto.voucherType();
     }
 
     public static Voucher of(UUID voucherId, VoucherRequestDto requestDto) {

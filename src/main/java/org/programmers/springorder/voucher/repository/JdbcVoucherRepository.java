@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
 import java.util.*;
+
 @Profile("default")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -23,7 +24,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String UPDATE_VOUCER_OWNER = "update vouchers set customer_id = UUID_TO_BIN(:customerId) where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String FIND_ALL = "select * from vouchers";
     private final String FIND_BY_VOUCHER_ID = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
-    private final String FIND_BY_CUSTOMER_ID= "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)";
+    private final String FIND_BY_CUSTOMER_ID = "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)";
+
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -31,7 +33,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         int update = jdbcTemplate.update(INSERT, toParamMap(voucher));
-        if( update != 1){
+        if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
         return voucher;
@@ -44,12 +46,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        try{
+        try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                     FIND_BY_VOUCHER_ID,
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
-        } catch  (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
         }
@@ -59,7 +61,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher updateVoucherOwner(Voucher voucher, Customer customer) {
         int update = jdbcTemplate.update(UPDATE_VOUCER_OWNER, toUpdateOwnerMap(voucher, customer));
-        if( update != 1){
+        if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
         return voucher;
@@ -80,23 +82,23 @@ public class JdbcVoucherRepository implements VoucherRepository {
                 toParamMap(voucher));
     }
 
-    public void clear(){
+    public void clear() {
         jdbcTemplate.getJdbcOperations().update("delete from vouchers");
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
-        return new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("discountValue", voucher.getDiscountValue());
-            put("voucherType", voucher.getVoucherType().name());
-        }};
+        Map<String, Object> map = new HashMap<>();
+        map.put("voucherId", voucher.getVoucherId().toString().getBytes());
+        map.put("discountValue", voucher.getDiscountValue());
+        map.put("voucherType", voucher.getVoucherType().name());
+        return map;
     }
 
-    private Map<String, Object> toUpdateOwnerMap(Voucher voucher,Customer customer) {
-        return new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("customerId", customer.getCustomerId().toString().getBytes());
-        }};
+    private Map<String, Object> toUpdateOwnerMap(Voucher voucher, Customer customer) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("voucherId", voucher.getVoucherId().toString().getBytes());
+        map.put("customerId", customer.getCustomerId().toString().getBytes());
+        return map;
     }
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {

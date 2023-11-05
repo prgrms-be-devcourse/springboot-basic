@@ -10,12 +10,12 @@ import org.springframework.stereotype.Controller;
 import java.util.UUID;
 
 @Controller
-public class VoucherController {
+public class VoucherConsoleController {
     private final Console console;
 
     private final VoucherService voucherService;
 
-    public VoucherController(Console console, VoucherService voucherService) {
+    public VoucherConsoleController(Console console, VoucherService voucherService) {
         this.console = console;
         this.voucherService = voucherService;
     }
@@ -26,13 +26,13 @@ public class VoucherController {
 
     public void createVoucher() {
         VoucherRequestDto request = console.inputVoucherInfo();
-        voucherService.save(request);
+        voucherService.saveNewVoucher(request);
         console.printMessage(Message.VOUCHER_REGISTERED);
     }
 
     public void giveVoucher(){
         GiveVoucherRequestDto requestDto = console.giveVoucherInfo();
-        voucherService.update(requestDto.getVoucherId(), requestDto.getCustomerId());
+        voucherService.allocateVoucher(requestDto.getVoucherId(), requestDto.getCustomerId());
         console.printMessage(Message.VOUCHER_ALLOCATED);
     }
 
