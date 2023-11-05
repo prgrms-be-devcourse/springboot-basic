@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.util.DomainMapper;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -45,9 +45,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID,
-                    Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()),
-                    domainMapper.voucherRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()), domainMapper.voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error(EMPTY_RESULT, e);
             return Optional.empty();
@@ -56,9 +54,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
-        return jdbcTemplate.query(FIND_ALL_BY_CREATED_AT,
-                Map.of(DomainMapper.FROM_KEY, from.toString(), DomainMapper.TO_KEY, to.toString()),
-                domainMapper.voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL_BY_CREATED_AT, Map.of(DomainMapper.FROM_KEY, from.toString(), DomainMapper.TO_KEY, to.toString()), domainMapper.voucherRowMapper);
     }
 
     @Override
@@ -84,8 +80,6 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByType(VoucherType type) {
-        return jdbcTemplate.query(FIND_ALL_BY_TYPE,
-                Map.of(DomainMapper.TYPE_KEY, type.name()),
-                domainMapper.voucherRowMapper);
+        return jdbcTemplate.query(FIND_ALL_BY_TYPE, Map.of(DomainMapper.TYPE_KEY, type.getName()), domainMapper.voucherRowMapper);
     }
 }

@@ -2,7 +2,6 @@ package com.programmers.vouchermanagement.util;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -33,7 +32,7 @@ public class DomainMapper {
         String voucherTypeStr = resultSet.getString(TYPE_KEY);
         LocalDateTime createdAt = resultSet.getTimestamp(CREATED_AT_KEY).toLocalDateTime();
 
-        return new Voucher(id, discountValue, VoucherType.valueOf(voucherTypeStr), createdAt);
+        return new Voucher(id, createdAt, voucherTypeStr, discountValue);
     };
     public final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
         UUID id = toUUID(resultSet.getBytes(ID_KEY));
@@ -74,10 +73,10 @@ public class DomainMapper {
 
     public Map<String, Object> voucherToParamMap(Voucher voucher) {
         Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put(ID_KEY, voucher.voucherId().toString().getBytes());
-        paramMap.put(TYPE_KEY, voucher.voucherType().name());
-        paramMap.put(DISCOUNT_VALUE_KEY, voucher.discountValue());
-        paramMap.put(CREATED_AT_KEY, Timestamp.valueOf(voucher.createdAt()));
+        paramMap.put(ID_KEY, voucher.getId().toString().getBytes());
+        paramMap.put(CREATED_AT_KEY, Timestamp.valueOf(voucher.getCreatedAt()));
+        paramMap.put(TYPE_KEY, voucher.getTypeName());
+        paramMap.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue());
         return paramMap;
     }
 }

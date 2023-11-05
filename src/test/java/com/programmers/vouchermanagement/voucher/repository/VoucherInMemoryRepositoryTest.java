@@ -1,7 +1,6 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -19,12 +18,12 @@ class VoucherInMemoryRepositoryTest {
     @Test
     @DisplayName("🆗 바우처를 아이디로 삭제할 수 있다.")
     void deleteVoucherSucceed() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
+        Voucher voucher = new Voucher("FIXED", 5555);
         voucherInMemoryRepository.insert(voucher);
 
-        voucherInMemoryRepository.delete(voucher.voucherId());
+        voucherInMemoryRepository.delete(voucher.getId());
 
-        assertThat(voucherInMemoryRepository.findById(voucher.voucherId()).isEmpty()).isTrue();
+        assertThat(voucherInMemoryRepository.findById(voucher.getId()).isEmpty()).isTrue();
     }
 
     @Test
@@ -38,15 +37,15 @@ class VoucherInMemoryRepositoryTest {
     @Test
     @DisplayName("🆗 바우처를 업데이트 할 수 있다.")
     void updateVoucherSucceed() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
+        Voucher voucher = new Voucher("FIXED", 5555);
         voucherInMemoryRepository.insert(voucher);
 
-        Voucher updatedVoucher = new Voucher(voucher.voucherId(), 100, VoucherType.PERCENT);
+        Voucher updatedVoucher = new Voucher("PERCENT", 100);
         voucherInMemoryRepository.update(updatedVoucher);
 
-        Optional<Voucher> retrievedVoucher = voucherInMemoryRepository.findById(voucher.voucherId());
+        Optional<Voucher> retrievedVoucher = voucherInMemoryRepository.findById(voucher.getId());
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().discountValue()).isEqualTo(updatedVoucher.discountValue());
-        assertThat(retrievedVoucher.get().voucherType()).isEqualTo(updatedVoucher.voucherType());
+        assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(updatedVoucher.getDiscountValue());
+        assertThat(retrievedVoucher.get().getTypeName()).isEqualTo(updatedVoucher.getTypeName());
     }
 }

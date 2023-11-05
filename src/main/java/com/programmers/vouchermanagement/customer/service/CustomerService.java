@@ -20,7 +20,7 @@ public class CustomerService {
 
     public void create(CreateCustomerRequest createCustomerRequest) {
         Customer customer = new Customer(UUID.randomUUID(), createCustomerRequest.name(), createCustomerRequest.isBlack());
-        customerRepository.save(customer);
+        customerRepository.insert(customer);
     }
 
     public List<CustomerDto> readAll() {

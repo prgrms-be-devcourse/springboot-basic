@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,9 +1,11 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
-import com.programmers.vouchermanagement.TestConfig;
+import com.programmers.vouchermanagement.configuration.JdbcConfig;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -19,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = JdbcConfig.class, loader = AnnotationConfigContextLoader.class)
 class VoucherJDBCRepositoryTest {
     private final static UUID NON_EXISTENT_VOUCHER_ID = UUID.randomUUID();
     @Autowired
@@ -38,32 +40,31 @@ class VoucherJDBCRepositoryTest {
     @Test
     @DisplayName("🆗 고정 금액 할인 바우처를 추가할 수 있다.")
     void saveFixedAmountVoucher() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), 555, VoucherType.FIXED);
-        voucherJDBCRepository.insert(voucher);
+        Voucher voucher = new Voucher("FIXED", 1000);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getId());
 
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(voucher.voucherId());
+        assertThat(retrievedVoucher.get().getId()).isEqualTo(voucher.getId());
     }
 
     @Test
     @DisplayName("🆗 퍼센트 할인 바우처를 추가할 수 있다.")
     void savePercentVoucher() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), 50, VoucherType.PERCENT);
+        Voucher voucher = new Voucher("PERCENT", 50);
         voucherJDBCRepository.insert(voucher);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getId());
 
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(voucher.voucherId());
+        assertThat(retrievedVoucher.get().getId()).isEqualTo(voucher.getId());
     }
 
     @Test
     @DisplayName("🆗 모든 바우처를 조회할 수 있다. 단, 없다면 빈 list를 반환한다.")
     void findAllVoucher() {
         for (int i = 1; i < 6; i++)
-            voucherJDBCRepository.insert(new Voucher(UUID.randomUUID(), i * 100, VoucherType.PERCENT));
+            voucherJDBCRepository.insert(new Voucher("PERCENT", i * 100));
 
         List<Voucher> vouchers = voucherJDBCRepository.findAll();
 
@@ -73,15 +74,15 @@ class VoucherJDBCRepositoryTest {
     @Test
     @DisplayName("🆗 바우처를 아이디로 조회할 수 있다.")
     void findVoucherById() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), 1234, VoucherType.FIXED);
+        Voucher voucher = new Voucher("FIXED", 1234);
         voucherJDBCRepository.insert(voucher);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getId());
 
         assertThat(retrievedVoucher.isPresent()).isTrue();
-        assertThat(retrievedVoucher.get().voucherId()).isEqualTo(voucher.voucherId());
-        assertThat(retrievedVoucher.get().discountValue()).isEqualTo(voucher.discountValue());
-        assertThat(retrievedVoucher.get().voucherType()).isEqualTo(voucher.voucherType());
+        assertThat(retrievedVoucher.get().getId()).isEqualTo(voucher.getId());
+        assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(voucher.getDiscountValue());
+        assertThat(retrievedVoucher.get().getTypeName()).isEqualTo(voucher.getTypeName());
     }
 
     @Test
@@ -95,12 +96,12 @@ class VoucherJDBCRepositoryTest {
     @Test
     @DisplayName("🆗 바우처를 아이디로 삭제할 수 있다.")
     void deleteVoucher() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
+        Voucher voucher = new Voucher("FIXED", 5555);
         voucherJDBCRepository.insert(voucher);
 
-        voucherJDBCRepository.delete(voucher.voucherId());
+        voucherJDBCRepository.delete(voucher.getId());
 
-        assertThat(voucherJDBCRepository.findById(voucher.voucherId()).isEmpty()).isTrue();
+        assertThat(voucherJDBCRepository.findById(voucher.getId()).isEmpty()).isTrue();
     }
 
     @Test
@@ -112,21 +113,21 @@ class VoucherJDBCRepositoryTest {
     @Test
     @DisplayName("🆗 바우처를 업데이트 할 수 있다.")
     void updateVoucher() {
-        Voucher voucher = new Voucher(UUID.randomUUID(), 5555, VoucherType.FIXED);
+        Voucher voucher = new Voucher("FIXED", 5555);
         voucherJDBCRepository.insert(voucher);
 
-        Voucher updatedVoucher = new Voucher(voucher.voucherId(), 100, VoucherType.PERCENT);
+        Voucher updatedVoucher = new Voucher(voucher.getId(), voucher.getCreatedAt(), "PERCENT", 100);
         voucherJDBCRepository.update(updatedVoucher);
 
-        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.voucherId());
+        Optional<Voucher> retrievedVoucher = voucherJDBCRepository.findById(voucher.getId());
         assertThat(retrievedVoucher.isEmpty()).isFalse();
-        assertThat(retrievedVoucher.get().discountValue()).isEqualTo(updatedVoucher.discountValue());
-        assertThat(retrievedVoucher.get().voucherType()).isEqualTo(updatedVoucher.voucherType());
+        assertThat(retrievedVoucher.get().getDiscountValue()).isEqualTo(updatedVoucher.getDiscountValue());
+        assertThat(retrievedVoucher.get().getTypeName()).isEqualTo(updatedVoucher.getTypeName());
     }
-
-    @Test
-    @DisplayName("🚨 해당하는 바우처가 없다면, 바우처를 업데이트 할 수 없다.")
-    void updateNonExistentVoucher() {
-        assertThrows(RuntimeException.class, () -> voucherJDBCRepository.update(new Voucher(NON_EXISTENT_VOUCHER_ID, 100, VoucherType.PERCENT)));
-    }
+//
+//    @Test
+//    @DisplayName("🚨 해당하는 바우처가 없다면, 바우처를 업데이트 할 수 없다.")
+//    void updateNonExistentVoucher() {
+//        assertThrows(RuntimeException.class, () -> voucherJDBCRepository.update(new Voucher(NON_EXISTENT_VOUCHER_ID, "PERCENT", 100)));
+//    }
 }

@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
+import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +22,7 @@ public class VoucherInMemoryRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        vouchers.put(voucher.voucherId(), voucher);
+        vouchers.put(voucher.getId(), voucher);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class VoucherInMemoryRepository implements VoucherRepository {
     @Override
     public List<Voucher> findAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
         return vouchers.values().stream().filter(voucher -> {
-            LocalDateTime createdAt = voucher.createdAt();
+            LocalDateTime createdAt = voucher.getCreatedAt();
             return createdAt.isAfter(from) && createdAt.isBefore(to);
         }).toList();
     }
@@ -50,18 +50,17 @@ public class VoucherInMemoryRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        if (!vouchers.isEmpty())
-            vouchers.clear();
+        if (!vouchers.isEmpty()) vouchers.clear();
     }
 
     @Override
     public void update(Voucher voucher) {
-        Optional.ofNullable(vouchers.get(voucher.voucherId())).orElseThrow(() -> new RuntimeException(NOT_UPDATED));
-        vouchers.put(voucher.voucherId(), voucher);
+        Optional.ofNullable(vouchers.get(voucher.getId())).orElseThrow(() -> new RuntimeException(NOT_UPDATED));
+        vouchers.put(voucher.getId(), voucher);
     }
 
     @Override
     public List<Voucher> findAllByType(VoucherType voucherType) {
-        return vouchers.values().stream().filter(voucher -> voucher.voucherType().equals(voucherType)).toList();
+        return vouchers.values().stream().filter(voucher -> voucher.getTypeName().equals(voucherType.getName())).toList();
     }
 }

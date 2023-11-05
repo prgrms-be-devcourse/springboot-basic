@@ -3,7 +3,6 @@ package com.programmers.vouchermanagement.voucher.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programmers.vouchermanagement.properties.AppProperties;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -16,7 +15,8 @@ import java.io.UncheckedIOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.programmers.vouchermanagement.util.Message.*;
+import static com.programmers.vouchermanagement.util.Message.FILE_EXCEPTION;
+import static com.programmers.vouchermanagement.util.Message.IO_EXCEPTION;
 
 @Component
 @Profile("file")
@@ -50,22 +50,17 @@ public class VoucherFileManager {
     public void loadVouchers(Map[] voucherObjects) {
         Arrays.stream(voucherObjects).forEach(voucherObject -> {
             Voucher voucher = objectToVoucher(voucherObject);
-            vouchers.put(voucher.voucherId(), voucher);
+            vouchers.put(voucher.getId(), voucher);
         });
     }
 
     private Voucher objectToVoucher(Map voucherObject) {
         UUID voucherId = UUID.fromString(String.valueOf(voucherObject.get(VOUCHER_ID_KEY)));
-        long discountValue = Long.parseLong(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
-        String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
-        VoucherType voucherType = VoucherType.findCreateMenu(voucherTypeName)
-                .orElseThrow(() -> {
-                    logger.error(INVALID_VOUCHER_TYPE);
-                    return new NoSuchElementException(INVALID_VOUCHER_TYPE);
-                });
-        //TODO: check save format
         LocalDateTime createdAt = (LocalDateTime) voucherObject.get(CREATED_AT_KEY);
-        return new Voucher(voucherId, discountValue, voucherType, createdAt);
+        String voucherTypeName = String.valueOf(voucherObject.get(VOUCHER_TYPE_KEY));
+        long discountValue = Long.parseLong(String.valueOf(voucherObject.get(DISCOUNT_VALUE_KEY)));
+        //TODO: check save format
+        return new Voucher(voucherId, createdAt, voucherTypeName, discountValue);
     }
 
     public void saveFile() {
@@ -87,10 +82,10 @@ public class VoucherFileManager {
 
     private HashMap<String, Object> voucherToObject(Voucher voucher) {
         HashMap<String, Object> voucherObject = new HashMap<>();
-        voucherObject.put(VOUCHER_ID_KEY, voucher.voucherId().toString());
-        voucherObject.put(DISCOUNT_VALUE_KEY, voucher.discountValue());
-        voucherObject.put(VOUCHER_TYPE_KEY, voucher.voucherType().name());
-        voucherObject.put(CREATED_AT_KEY, voucher.createdAt().toString());
+        voucherObject.put(VOUCHER_ID_KEY, voucher.getId().toString());
+        voucherObject.put(DISCOUNT_VALUE_KEY, voucher.getDiscountValue());
+        voucherObject.put(VOUCHER_TYPE_KEY, voucher.getTypeName());
+        voucherObject.put(CREATED_AT_KEY, voucher.getCreatedAt().toString());
         return voucherObject;
     }
 }
