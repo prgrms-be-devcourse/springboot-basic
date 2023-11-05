@@ -2,13 +2,13 @@ package com.programmers.vouchermanagement.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice(basePackages = "com.programmers.vouchermanagement.controller.rest")
+@RestControllerAdvice(basePackages = "com.programmers.vouchermanagement.controller.rest")
 public class RestExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
