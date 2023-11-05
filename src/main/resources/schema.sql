@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS customer;
+DROP TABLE IF EXISTS voucher;
+DROP TABLE IF EXISTS wallet;
+
 CREATE TABLE IF NOT EXISTS customer
 (
     customer_id CHAR(36) PRIMARY KEY,
