@@ -19,12 +19,6 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
-    public FixedAmountVoucher(UUID id, int amount) {
-        super(id);
-
-        this.amount = amount;
-    }
-
     public FixedAmountVoucher(UUID id, int amount, LocalDateTime createAt) {
         super(id);
 

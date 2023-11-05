@@ -19,12 +19,6 @@ public class PercentDiscountVoucher extends Voucher {
         this.percent = percent;
     }
 
-    public PercentDiscountVoucher(UUID id, int percent) {
-        super(id);
-
-        this.percent = percent;
-    }
-
     public PercentDiscountVoucher(UUID id, int percent, LocalDateTime createAt) {
         super(id);
 
