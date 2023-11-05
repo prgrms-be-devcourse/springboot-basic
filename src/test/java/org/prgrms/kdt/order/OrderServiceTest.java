@@ -1,13 +1,16 @@
 package org.prgrms.kdt.order;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
+import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
 import org.prgrms.kdt.voucher.service.FixedAmountVoucherService;
 import org.prgrms.kdt.voucher.service.PercentDiscountVoucherService;
 import org.prgrms.kdt.voucher.service.VoucherService;
-import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
-import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
 import org.prgrms.kdt.wallet.WalletJdbcRepository;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,12 +33,16 @@ class OrderServiceTest {
     void createOrder() {
         // Given
         var voucherRepository = new VoucherMemoryRepository();
-        var walletRepository = new WalletJdbcRepository();
+        var dataSource = DataSourceBuilder.create().type(HikariDataSource.class).build();
+        var jdbcTemplate = new JdbcTemplate(dataSource);
+        var walletRepository = new WalletJdbcRepository(dataSource, jdbcTemplate); // Provide the necessary dependencies
         var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
-        FixedAmountVoucherService fixedAmountVoucherService = new FixedAmountVoucherService();
-        PercentDiscountVoucherService percentDiscountVoucherService = new PercentDiscountVoucherService();
+        FixedAmountVoucherService fixedAmountVoucherService = new FixedAmountVoucherService(voucherRepository);
+        PercentDiscountVoucherService percentDiscountVoucherService = new PercentDiscountVoucherService(voucherRepository);
+        VoucherService voucherService = new VoucherService(voucherRepository, walletRepository, fixedAmountVoucherService, percentDiscountVoucherService);
+
         voucherRepository.save(fixedAmountVoucher);
-        var sut = new OrderService(new VoucherService(voucherRepository, walletRepository), new OrderRepositoryStub());
+        var sut = new OrderService(voucherService, new OrderRepositoryStub());
 
         // When
         var order = sut.createOrder(UUID.randomUUID(), List.of(new OrderItem(UUID.randomUUID(), 200, 1)), fixedAmountVoucher.getVoucherId());

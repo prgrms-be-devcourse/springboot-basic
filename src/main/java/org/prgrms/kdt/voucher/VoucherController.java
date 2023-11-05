@@ -28,10 +28,12 @@ public class VoucherController {
 
     private final String CREATE = "create";
     private final String OWNER = "owner";
+    private final String FIND = "find";
+    private final String DETAILS = "details";
+    private final String REMOVE = "remove";
     private final String FIXED = "fixed";
     private final String PERCENT = "percent";
 
-    private static final String lineSeparator = System.lineSeparator();
     private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
 
     public VoucherController(
@@ -52,11 +54,20 @@ public class VoucherController {
         String menu = selectVoucherMenu();
 
         switch (menu) {
+            case FIND:
+                voucherList();
+                break;
+            case DETAILS:
+                voucherDetails();
+                break;
             case CREATE:
                 voucherAdd();
                 break;
             case OWNER:
                 getOwner();
+                break;
+            case REMOVE:
+                voucherRemove();
                 break;
             default:
                 String errorMessage = EXCEPTION_NOT_EXIST_MENU.getMessage();
@@ -66,58 +77,58 @@ public class VoucherController {
         }
     }
 
-    public String selectVoucherMenu() throws IOException {
-        StringBuilder sb = new StringBuilder();
-        sb.append("=== Voucher Program ===" + lineSeparator);
-        sb.append("[1] Type 'create' to create a new voucher." + lineSeparator);
-        sb.append("[2] Type 'owner' to view customer with a specific voucher." + lineSeparator);
+    private void voucherList() {
+        outputHandler.outputVouchers(voucherService.getAllVouchers());
+    }
 
-        outputHandler.outputString(sb.toString());
+    private void voucherDetails() throws IOException {
+        outputHandler.outputString(INPUT_VOUCHER_ID.getMessage());
+        UUID voucherId = UUID.fromString(inputHandler.inputString());
+        outputHandler.outputVoucher(voucherService.getVoucher(voucherId));
+    }
 
+    private String selectVoucherMenu() throws IOException {
+        outputHandler.outputString(SELECT_VOUCHER_MENU.getMessage());
         return inputHandler.inputString();
     }
 
     private void getOwner() throws IOException {
-        outputHandler.outputString(GET_OWNER.getMessage());
+        outputHandler.outputString(INPUT_VOUCHER_ID.getMessage());
         UUID voucherId = UUID.fromString(inputHandler.inputString());
         Optional<Wallet> wallet = voucherService.getOwner(voucherId);
         outputHandler.outputWallet(wallet);
     }
 
     private void voucherAdd() throws IOException {
-        while (true) {
-            outputHandler.outputString(CREATE_VOUCHER_TYPE.getMessage());
-            var createVoucherType = inputHandler.inputString();
+        outputHandler.outputString(CREATE_VOUCHER_TYPE.getMessage());
+        var createVoucherType = inputHandler.inputString();
 
-            var isRepeat = true;
-
-            if (createVoucherType.equals(FIXED)) {
-                isRepeat = fixedAmountVoucherAdd();
-                if(!isRepeat)
-                    break;
-            } else if (createVoucherType.equals(PERCENT)) {
-                isRepeat = percentDiscountVoucherAdd();
-                if(!isRepeat)
-                    break;
-            } else {
-                String errorMessage = EXCEPTION_VOUCHER_TYPE.getMessage();
-                logger.error(errorMessage);
-                outputHandler.outputString(errorMessage);
-            }
+        if (createVoucherType.equals(FIXED)) {
+            fixedAmountVoucherAdd();
+        } else if (createVoucherType.equals(PERCENT)) {
+            percentDiscountVoucherAdd();
+        } else {
+            String errorMessage = EXCEPTION_VOUCHER_TYPE.getMessage();
+            logger.error(errorMessage);
+            outputHandler.outputString(errorMessage);
         }
     }
 
-    private boolean fixedAmountVoucherAdd() throws IOException {
+    private void fixedAmountVoucherAdd() throws IOException {
         outputHandler.outputString(CREATE_FIXED_VOUCHER.getMessage());
         var amount = inputHandler.inputInt();
         fixedAmountVoucherService.createFixedAmountVoucher(amount);
-        return true;
     }
 
-    private boolean percentDiscountVoucherAdd() throws IOException {
+    private void percentDiscountVoucherAdd() throws IOException {
         outputHandler.outputString(CREATE_PERCENT_VOUCHER.getMessage());
         var percent = inputHandler.inputInt();
         percentDiscountVoucherService.createPercentDiscountVoucher(percent);
-        return true;
+    }
+
+    private void voucherRemove() throws IOException {
+        outputHandler.outputString(INPUT_VOUCHER_ID.getMessage());
+        UUID voucherId = UUID.fromString(inputHandler.inputString());
+        voucherService.removeVoucherById(voucherId);
     }
 }

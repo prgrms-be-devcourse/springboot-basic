@@ -1,8 +1,11 @@
 package org.prgrms.kdt.voucher;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherJdbcRepository;
@@ -19,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class VoucherJdbcRepositoryTest {
 
     @Mock
@@ -28,6 +32,7 @@ public class VoucherJdbcRepositoryTest {
     private VoucherJdbcRepository voucherJdbcRepository;
 
     @Test
+    @DisplayName("id로 바우처를 찾을 수 있어야한다.")
     public void givenVoucherId_whenFindById_thenReturnVoucher() {
         // Mock the behavior of JdbcTemplate.queryForObject to return a Voucher
         when(jdbcTemplate.queryForObject(any(String.class), any(RowMapper.class), any(Object.class))).thenReturn(

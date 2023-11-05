@@ -21,8 +21,6 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
     private final WalletRepository walletRepository;
-    private final FixedAmountVoucherService fixedAmountVoucherService;
-    private final PercentDiscountVoucherService percentDiscountVoucherService;
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
     public VoucherService(
@@ -33,8 +31,6 @@ public class VoucherService {
     ) {
         this.voucherRepository = voucherRepository;
         this.walletRepository = walletRepository;
-        this.fixedAmountVoucherService = fixedAmountVoucherService;
-        this.percentDiscountVoucherService = percentDiscountVoucherService;
     }
 
     public Voucher getVoucher(UUID voucherId) {
@@ -59,6 +55,7 @@ public class VoucherService {
         return walletRepository.findByVoucherId(voucherId.toString());
     }
 
-    public void useVoucher(Voucher voucher) {
+    public void removeVoucherById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
     }
 }

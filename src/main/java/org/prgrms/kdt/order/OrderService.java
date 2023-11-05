@@ -25,7 +25,7 @@ public class OrderService {
     var voucher = voucherService.getVoucher(voucherId);
     var order = new Order(UUID.randomUUID(), customerId, orderItems, voucher);
     orderRepository.insert(order);
-    voucherService.useVoucher(voucher);
+    voucherService.removeVoucherById(voucher.getVoucherId());
     return order;
   }
 

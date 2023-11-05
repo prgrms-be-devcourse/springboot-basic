@@ -22,7 +22,6 @@ import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_VOUCHER_ROW_MAPPER
 @Repository
 public class WalletJdbcRepository implements WalletRepository{
     private static final Logger logger = LoggerFactory.getLogger(WalletJdbcRepository.class);
-    private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private static final RowMapper<Wallet> walletRowMapper = (resultSet, i) -> {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
@@ -60,7 +59,6 @@ public class WalletJdbcRepository implements WalletRepository{
     };
 
     public WalletJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
         this.jdbcTemplate = jdbcTemplate;
     }
 

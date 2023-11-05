@@ -109,6 +109,18 @@ public class VoucherJdbcRepository implements VoucherRepository {
         return jdbcTemplate.query("select * from vouchers", voucherRowMapper);
     }
 
+    @Override
+    public void deleteById(UUID voucherId) {
+        int deletedRows = jdbcTemplate.update("DELETE FROM vouchers WHERE voucher_id = UUID_TO_BIN(?)",
+                voucherId.toString().getBytes());
+
+        if (deletedRows == 0) {
+            logger.warn("No voucher with ID: {} was found to delete.", voucherId);
+        } else {
+            logger.info("Voucher with ID: {} deleted successfully.", voucherId);
+        }
+    }
+
     static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
         return new UUID(byteBuffer.getLong(), byteBuffer.getLong());

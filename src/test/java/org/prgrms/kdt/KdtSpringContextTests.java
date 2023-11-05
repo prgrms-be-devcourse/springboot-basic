@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 @SpringJUnitConfig
-@ActiveProfiles("test")
+@ActiveProfiles("local")
 public class KdtSpringContextTests {
 
     @Configuration

@@ -33,4 +33,9 @@ public class VoucherMemoryRepository implements VoucherRepository {
         logger.debug("모든 바우처의 갯수 : " + storage.size());
         return new ArrayList<>(storage.values());
     }
+
+    @Override
+    public void deleteById(UUID voucherId) {
+
+    }
 }
