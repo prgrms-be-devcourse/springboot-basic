@@ -18,7 +18,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.programmers.vouchermanagement.configuration.profiles.DBEnabledCondition;
-import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.util.UUIDConverter;
@@ -30,12 +29,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public static final int SINGLE_DATA_FLAG = 1;
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-    private final String blacklistFilePath;
 
-    public JdbcCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate, FileProperties fileProperties) {
+    public JdbcCustomerRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
-        this.blacklistFilePath = fileProperties.getCSVCustomerFilePath();
-        loadBlacklistToStorage();
     }
 
     private static Customer mapToCustomer(ResultSet resultSet) throws SQLException {
@@ -90,12 +86,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public void deleteAll() {
         String deleteAllSQL = "DELETE FROM customers";
         namedParameterJdbcTemplate.update(deleteAllSQL, Collections.emptyMap());
-    }
-
-    @Override
-    public void loadBlacklistToStorage() {
-        List<Customer> blacklist = loadBlacklist(blacklistFilePath);
-        blacklist.forEach(this::save);
     }
 
     private int insert(Customer customer) {

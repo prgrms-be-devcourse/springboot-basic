@@ -17,24 +17,18 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
-import com.programmers.vouchermanagement.configuration.properties.file.FileProperties;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.zaxxer.hikari.HikariDataSource;
 
-@SpringBootTest
 @Testcontainers(disabledWithoutDocker = true)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles("test")
 class JdbcCustomerRepositoryTest {
     @Container
     private static final MySQLContainer<?> mySQLContainer = new MySQLContainer<>(DockerImageName.parse("mysql:latest"))
@@ -43,8 +37,6 @@ class JdbcCustomerRepositoryTest {
     DataSource dataSource;
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     CustomerRepository customerRepository;
-    @Autowired
-    FileProperties fileProperties;
 
     @BeforeAll
     void setUp() {
@@ -54,9 +46,8 @@ class JdbcCustomerRepositoryTest {
                 .password(mySQLContainer.getPassword())
                 .type(HikariDataSource.class)
                 .build();
-
         namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
-        customerRepository = new JdbcCustomerRepository(namedParameterJdbcTemplate, fileProperties);
+        customerRepository = new JdbcCustomerRepository(namedParameterJdbcTemplate);
     }
 
     @Test
@@ -70,12 +61,6 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("JdbcCustomerRepository가 템플릿을 주입 받아 생성된다.")
     void testJdbcCustomerRepositoryCreation() {
         assertThat(customerRepository, notNullValue());
-    }
-
-    @Test
-    @DisplayName("저장된 블랙리스트 csv파일을 성공적으로 읽는다.")
-    void testLoadingBlacklistFileOnInit() {
-        assertThat(fileProperties.getCSVCustomerFilePath(), is("src/test/resources/blacklist-test.csv"));
     }
 
     @Test

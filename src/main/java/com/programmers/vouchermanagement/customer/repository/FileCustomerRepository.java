@@ -1,5 +1,9 @@
 package com.programmers.vouchermanagement.customer.repository;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -43,17 +47,15 @@ public class FileCustomerRepository implements CustomerRepository {
         return customerObject;
     };
 
-    private final String blacklistFilePath;
     private final String customerFilePath;
     private final JSONFileManager<UUID, Customer> jsonFileManager;
     private final Map<UUID, Customer> customers;
 
     public FileCustomerRepository(FileProperties fileProperties, @Qualifier("customer") JSONFileManager<UUID, Customer> jsonFileManager) {
-        this.customerFilePath = fileProperties.getJSONCustomerFilePath();
-        this.blacklistFilePath = fileProperties.getCSVCustomerFilePath();
+        customerFilePath = fileProperties.getJSONCustomerFilePath();
         this.jsonFileManager = jsonFileManager;
-        this.customers = loadCustomersFromJSON();;
-        loadBlacklistToStorage();
+        this.customers = loadCustomersFromJSON();
+        loadBlacklist(fileProperties.getCSVCustomerFilePath());
     }
 
     @Override
@@ -99,18 +101,30 @@ public class FileCustomerRepository implements CustomerRepository {
         saveFile();
     }
 
-    @Override
-    public void loadBlacklistToStorage() {
-        List<Customer> blacklist = loadBlacklist(blacklistFilePath);
-        blacklist.forEach(customer -> customers.put(customer.getCustomerId(), customer));
-
-    }
-
     private Map<UUID, Customer> loadCustomersFromJSON() {
         return jsonFileManager.loadFile(customerFilePath, objectToCustomer, Customer::getCustomerId);
     }
 
     private void saveFile() {
         jsonFileManager.saveFile(customerFilePath, customers, customerToObject);
+    }
+
+    private void loadBlacklist(String blacklistFilePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(blacklistFilePath))) {
+            br.readLine(); // skip the first line
+            String str;
+            while ((str = br.readLine()) != null) {
+                String[] line = str.split(COMMA_SEPARATOR);
+
+                UUID blackCustomerId = UUID.fromString(line[0]);
+                String name = line[1];
+
+                Customer blackCustomer = new Customer(blackCustomerId, name, CustomerType.BLACK);
+                customers.put(blackCustomerId, blackCustomer);
+
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

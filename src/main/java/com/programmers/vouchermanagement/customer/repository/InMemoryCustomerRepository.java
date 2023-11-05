@@ -1,6 +1,5 @@
 package com.programmers.vouchermanagement.customer.repository;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,14 +54,5 @@ public class InMemoryCustomerRepository implements CustomerRepository {
     @Override
     public void deleteAll() {
         customers.clear();
-    }
-
-    @Override
-    public void loadBlacklistToStorage() {
-    }
-
-    @Override
-    public List<Customer> loadBlacklist(String blacklistFilePath) {
-        return Collections.emptyList();
     }
 }
