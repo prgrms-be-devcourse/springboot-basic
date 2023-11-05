@@ -27,10 +27,7 @@ public class CsvBlacklistRepository implements BlacklistRepository {
     private List<CustomerIdAndName> loadBlacklist(String path) {
         try (BufferedReader reader = Files.newBufferedReader(Paths.get(path), StandardCharsets.UTF_8)) {
             reader.readLine(); // skip header
-            return reader.lines()
-                    .map(s -> s.split(DELIMITER_REGULAR_EXPRESSION))
-                    .map(data -> new CustomerIdAndName(stringToUUID(data[0]), data[1]))
-                    .toList();
+            return storedDataToCustomerIdAndName(reader);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -39,5 +36,12 @@ public class CsvBlacklistRepository implements BlacklistRepository {
     @Override
     public List<CustomerIdAndName> findAll() {
         return Collections.unmodifiableList(blacklist);
+    }
+
+    private static List<CustomerIdAndName> storedDataToCustomerIdAndName(BufferedReader reader) {
+        return reader.lines()
+                .map(s -> s.split(DELIMITER_REGULAR_EXPRESSION))
+                .map(data -> new CustomerIdAndName(stringToUUID(data[0]), data[1]))
+                .toList();
     }
 }

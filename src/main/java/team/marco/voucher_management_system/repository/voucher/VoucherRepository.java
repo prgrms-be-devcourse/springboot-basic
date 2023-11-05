@@ -10,7 +10,7 @@ public interface VoucherRepository {
     Voucher save(Voucher voucher);
 
     List<Voucher> findAll();
-    
+
     List<Voucher> findAllByVoucherType(VoucherType type);
 
     Optional<Voucher> findById(Long voucherId);

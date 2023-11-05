@@ -81,18 +81,22 @@ public class Voucher {
 
         private void validateAmount(int amount) {
             if(amount < MIN_AMOUNT || amount > MAX_AMOUNT) {
-                throw new IllegalArgumentException(
-                        format("할인 금액은 {0}원 이상, {1}원 이하이어야 합니다.", MIN_AMOUNT, MAX_AMOUNT)
-                );
+                throw new IllegalArgumentException(getAmountPolicy());
             }
         }
 
         private void validatePercent(int percent) {
             if(percent < MIN_PERCENT || percent > MAX_PERCENT) {
-                throw new IllegalArgumentException(
-                        format("할인 비율은 {0}% 이상, {1}% 이하이어야 합니다.", MIN_PERCENT, MAX_PERCENT)
-                );
+                throw new IllegalArgumentException(getPercentPolicy());
             }
         }
+    }
+
+    private static String getAmountPolicy() {
+        return format("할인 금액은 {0}원 이상, {1}원 이하이어야 합니다.", MIN_AMOUNT, MAX_AMOUNT);
+    }
+
+    private static String getPercentPolicy() {
+        return format("할인 비율은 {0}% 이상, {1}% 이하이어야 합니다.", MIN_PERCENT, MAX_PERCENT);
     }
 }
