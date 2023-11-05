@@ -42,7 +42,7 @@ public class CustomerPageController {
     }
 
     @GetMapping("/new-customer")
-    public String getNewCustomerPage(Model model){
+    public String getNewCustomerPage(){
         return "new-customer";
     }
 
