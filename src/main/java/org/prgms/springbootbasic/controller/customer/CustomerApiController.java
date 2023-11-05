@@ -2,6 +2,7 @@ package org.prgms.springbootbasic.controller.customer;
 
 import org.prgms.springbootbasic.domain.customer.Customer;
 import org.prgms.springbootbasic.domain.customer.CustomerRequestDto;
+import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,14 @@ public class CustomerApiController {
                 LocalDate.parse(endDate).atTime(23, 59, 59) : MAX_LOCAL_DATE_TIME;
 
         return ResponseEntity.ok(customerService.findBetweenLocalDateTime(startOfDay, endOfDay));
+    }
+
+    @GetMapping("/{customerId}")
+    public ResponseEntity<Customer> showDetails(@PathVariable String customerId) {
+        Customer customer = customerService.findById(UUID.fromString(customerId))
+                .orElseThrow(EntityNotFoundException::new);
+
+        return ResponseEntity.ok(customer);
     }
 
     @PostMapping
