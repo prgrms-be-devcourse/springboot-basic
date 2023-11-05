@@ -17,8 +17,8 @@
     <script>
         function deleteVoucher(voucherId) {
             if (confirm("게시물을 삭제하시겠습니까?")) {
-                fetch(`/vouchers/${voucherId}`, {
-                    method: 'POST',
+                fetch(`/vouchers?voucherId=${voucherId}`, {
+                    method: 'DELETE',
                 })
                     .then(response => {
                         if (response.ok) {
@@ -36,13 +36,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="nav-link" style="border: none" th:href="@{/vouchers}">Home</a>
+        <a class="nav-link" style="border: none" th:href="@{/}">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
+                <a class="nav-link" th:href="@{/vouchers}">vouchers</a>
                 <a class="nav-link" th:href="@{/new-voucher}">new-voucher</a>
                 <a class="nav-link" th:href="@{/customers}">Customer</a>
                 <a class="nav-link" th:href="@{/new-customer}">new-customer</a>
@@ -56,18 +57,28 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">VoucherId</th>
-            <th scope="col">VoucherType</th>
-            <th scope="col">discountValue</th>
-            <th scope="col">delete</th>
+            <th scope="col">Voucher Id</th>
+            <th scope="col">Voucher Type</th>
+            <th scope="col">Discount Value</th>
+            <th scope="col">Voucher Owner</th>
+            <th scope="col">Allocate</th>
+            <th scope="col">Delete</th>
         </tr>
         </thead>
         <tbody>
-        <tr >
+        <tr>
             <th th:text="${voucher.voucherId}"></th>
             <td th:text="${voucher.voucherType}"></td>
             <td th:text="${voucher.discountValue}"></td>
-            <td><button type="submit" th:onclick="deleteVoucher([[${voucher.voucherId}]])" class="btn btn-primary">delete</button></td>
+            <td th:text="${voucher.customerId}"></td>
+            <td>
+                <a th:text="*{voucher.voucherId}" th:href="@{/voucherAllocate/{voucherId}(voucherId=${voucher.voucherId})}"></a>
+            </td>
+            <td>
+                <button type="submit" th:onclick="deleteVoucher([[${voucher.voucherId}]])" class="btn btn-primary">
+                    Delete
+                </button>
+            </td>
         </tr>
         </tbody>
     </table>
