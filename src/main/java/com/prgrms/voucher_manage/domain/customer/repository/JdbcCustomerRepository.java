@@ -30,7 +30,7 @@ public class JdbcCustomerRepository {
         String sql = "select * from customer where customer_id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, rowMapper, id.toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
         }
     }

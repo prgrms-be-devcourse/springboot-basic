@@ -18,7 +18,6 @@ import java.util.List;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,7 +30,7 @@ public class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처를 생성하여 반환받을 수 있다.")
-    void createVoucher(){
+    void createVoucher() {
         Voucher voucher = new FixedAmountVoucher(1000L);
         CreateVoucherReq createDto = new CreateVoucherReq(FIXED, 1000L);
 
@@ -44,7 +43,7 @@ public class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처를 모두 조회할 수 있다.")
-    void getVouchers(){
+    void getVouchers() {
         Voucher voucher1 = new FixedAmountVoucher(1000L);
         Voucher voucher2 = new PercentDiscountVoucher(10L);
         when(repository.getAll()).thenReturn(List.of(voucher1, voucher2));
@@ -55,7 +54,7 @@ public class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처 아이디로 바우처를 반환받을 수 있다.")
-    void findVoucherById(){
+    void findVoucherById() {
         Voucher voucher = new FixedAmountVoucher(1000L);
         CreateVoucherReq createDto = new CreateVoucherReq(FIXED, 1000L);
 
@@ -70,9 +69,9 @@ public class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처 금액을 변경할 수 있다.")
-    void update(){
+    void update() {
         Voucher voucher = new FixedAmountVoucher(1000L);
-        UpdateVoucherReq updateDto= new UpdateVoucherReq(2000L);
+        UpdateVoucherReq updateDto = new UpdateVoucherReq(2000L);
 
         when(repository.getById(any())).thenReturn(new FixedAmountVoucher(voucher.getId(), updateDto.discountAmount()));
         Voucher updatedVoucher = service.getVoucherById(voucher.getId());

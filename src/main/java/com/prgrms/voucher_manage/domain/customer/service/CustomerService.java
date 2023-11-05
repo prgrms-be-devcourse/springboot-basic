@@ -10,8 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.voucher_manage.base.ErrorMessage.BLACK_CUSTOMER_NOT_EXIST;
+import static com.prgrms.voucher_manage.base.ErrorMessage.CUSTOMER_NOT_EXIST;
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.BLACK;
-import static com.prgrms.voucher_manage.base.ErrorMessage.*;
 
 @Service
 @RequiredArgsConstructor
@@ -43,9 +44,9 @@ public class CustomerService {
         repository.update(new Customer(customerId, dto.name(), customer.getType()));
     }
 
-    public Customer getCustomerIfExists(UUID customerId){
+    public Customer getCustomerIfExists(UUID customerId) {
         Customer customer = repository.findById(customerId);
-        if (customer == null){
+        if (customer == null) {
             throw new RuntimeException(CUSTOMER_NOT_EXIST.getMessage());
         }
         return customer;

@@ -17,16 +17,14 @@ public class InputUtil {
     public String getStringInput() throws IOException {
         System.out.print("> ");
         String value = br.readLine().strip();
-        if (value.isBlank())
-            throw new IllegalArgumentException(EMPTY_INPUT_NOT_ALLOWED.getMessage());
+        if (value.isBlank()) throw new IllegalArgumentException(EMPTY_INPUT_NOT_ALLOWED.getMessage());
         return value;
     }
 
     public Long getLongInput() throws Exception {
         System.out.print("> ");
         String value = br.readLine().strip();
-        if (value.isBlank())
-            throw new IllegalArgumentException(EMPTY_INPUT_NOT_ALLOWED.getMessage());
+        if (value.isBlank()) throw new IllegalArgumentException(EMPTY_INPUT_NOT_ALLOWED.getMessage());
         return Long.valueOf(value);
     }
 

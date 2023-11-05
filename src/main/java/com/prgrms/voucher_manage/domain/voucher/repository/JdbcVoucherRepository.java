@@ -36,13 +36,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getByCreatedAt(LocalDateTime createdAt){
+    public List<Voucher> getByCreatedAt(LocalDateTime createdAt) {
         String sql = "select * from voucher where createdAt<=?";
         return jdbcTemplate.query(sql, rowMapper, createdAt);
     }
 
     @Override
-    public List<Voucher> getByType(VoucherType type){
+    public List<Voucher> getByType(VoucherType type) {
         String sql = "select * from voucher where type = ?";
         return jdbcTemplate.query(sql, rowMapper, type.getLabel());
     }
@@ -62,7 +62,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String sql = "update voucher set amount = ? where voucher_id = ?";
         try {
             jdbcTemplate.update(sql, voucher.getDiscountAmount(), voucher.getId().toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(VOUCHER_UPDATE_FAILED.getMessage());
         }
     }
@@ -70,9 +70,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         String sql = "delete from voucher where voucher_id = ?";
-        try{
+        try {
             jdbcTemplate.update(sql, voucherId.toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(VOUCHER_DELETE_FAILED.getMessage());
         }
     }

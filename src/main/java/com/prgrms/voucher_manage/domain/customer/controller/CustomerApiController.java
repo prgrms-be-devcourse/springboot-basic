@@ -18,7 +18,7 @@ public class CustomerApiController {
     private final CustomerService service;
 
     @PostMapping("/customers")
-    public BaseResponse<UUID> createCustomer(@Valid @RequestBody CreateCustomerReq request){
+    public BaseResponse<UUID> createCustomer(@Valid @RequestBody CreateCustomerReq request) {
         Customer customer = service.save(request);
         return new BaseResponse<>(customer.getId());
     }
@@ -28,39 +28,39 @@ public class CustomerApiController {
         Customer customer;
         try {
             customer = service.findById(customerId);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new BaseResponse<>(e.getMessage());
         }
         return new BaseResponse<>(customer);
     }
 
     @GetMapping("/customers")
-    public BaseResponse<List<Customer>> getCustomers(){
+    public BaseResponse<List<Customer>> getCustomers() {
         List<Customer> customers;
         try {
             customers = service.getAllCustomers();
-        } catch (Exception e){
+        } catch (Exception e) {
             return new BaseResponse<>(e.getMessage());
         }
         return new BaseResponse<>(customers);
     }
 
     @GetMapping("/customers/black")
-    public BaseResponse<List<Customer>> getBlackCustomers(){
+    public BaseResponse<List<Customer>> getBlackCustomers() {
         List<Customer> blackCustomers;
         try {
             blackCustomers = service.getBlackCustomers();
-        } catch (Exception e){
+        } catch (Exception e) {
             return new BaseResponse<>(e.getMessage());
         }
         return new BaseResponse<>(blackCustomers);
     }
 
     @PostMapping("/customers/{customerId}")
-    public BaseResponse<String> updateCustomer(@PathVariable UUID customerId, @Valid @RequestBody UpdateCustomerReq request){
+    public BaseResponse<String> updateCustomer(@PathVariable UUID customerId, @Valid @RequestBody UpdateCustomerReq request) {
         try {
             service.update(customerId, request);
-        } catch(Exception e){
+        } catch (Exception e) {
             return new BaseResponse<>(e.getMessage());
         }
         return new BaseResponse<>();

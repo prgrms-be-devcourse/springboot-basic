@@ -18,33 +18,34 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerViewController {
     private final CustomerService customerService;
+
     @GetMapping("customers/new")
-    public String createForm(){
+    public String createForm() {
         return "customer/createCustomer";
     }
 
     @PostMapping("customers/new")
-    public String createCustomer(@ModelAttribute CreateCustomerReq dto){
+    public String createCustomer(@ModelAttribute CreateCustomerReq dto) {
         customerService.save(dto);
         return "redirect:/customers/get";
     }
 
     @GetMapping("customers/get")
-    public String getAllCustomers(Model model){
+    public String getAllCustomers(Model model) {
         List<Customer> customers = customerService.getAllCustomers();
         model.addAttribute("customers", customers);
         return "customer/customerList";
     }
 
     @GetMapping("customers/get/black")
-    public String getBlackCustomers(Model model){
+    public String getBlackCustomers(Model model) {
         List<Customer> blackCustomers = customerService.getBlackCustomers();
         model.addAttribute("blackCustomers", blackCustomers);
         return "customer/blackCustomerList";
     }
 
     @GetMapping("customers/get/{customerId}")
-    public String getCustomer(@PathVariable UUID customerId, Model model){
+    public String getCustomer(@PathVariable UUID customerId, Model model) {
         Customer customer = customerService.findById(customerId);
         model.addAttribute("customer", customer);
         return "customer/getCustomer";

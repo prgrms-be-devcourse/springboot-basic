@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.prgrms.voucher_manage.base.ErrorMessage.*;
+import static com.prgrms.voucher_manage.base.ErrorMessage.EMPTY_INPUT_NOT_ALLOWED;
+import static com.prgrms.voucher_manage.base.ErrorMessage.INVALID_DISCOUNT_RANGE;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler{
+public class GlobalExceptionHandler {
 
     @ExceptionHandler
     protected BaseResponse<String> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
@@ -23,14 +24,14 @@ public class GlobalExceptionHandler{
         return extractErrors(errors);
     }
 
-    private BaseResponse<String> extractErrors(List<String> errors){
+    private BaseResponse<String> extractErrors(List<String> errors) {
         ErrorMessage[] statusList = new ErrorMessage[]{
                 EMPTY_INPUT_NOT_ALLOWED, INVALID_DISCOUNT_RANGE
         };
 
 
-        for (ErrorMessage message: statusList) {
-            if (errors.contains(message.getMessage())){
+        for (ErrorMessage message : statusList) {
+            if (errors.contains(message.getMessage())) {
                 return new BaseResponse<>(message.getMessage());
             }
         }

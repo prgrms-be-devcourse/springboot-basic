@@ -11,11 +11,11 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.UUID;
 
+import static com.prgrms.voucher_manage.base.ErrorMessage.INVALID_DISCOUNT_RANGE;
 import static com.prgrms.voucher_manage.domain.voucher.entity.FixedAmountVoucher.isInvalidPrice;
 import static com.prgrms.voucher_manage.domain.voucher.entity.PercentDiscountVoucher.isInvalidPercent;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.PERCENT;
-import static com.prgrms.voucher_manage.base.ErrorMessage.INVALID_DISCOUNT_RANGE;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class VoucherConsoleController {
         return voucherService.getVouchers();
     }
 
-    public List<Voucher> getVoucherByType(VoucherType type){
+    public List<Voucher> getVoucherByType(VoucherType type) {
         return voucherService.getVouchersByType(type);
     }
 

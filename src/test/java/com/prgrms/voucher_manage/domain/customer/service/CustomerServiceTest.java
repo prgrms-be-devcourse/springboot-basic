@@ -28,7 +28,7 @@ public class CustomerServiceTest {
 
     @Test
     @DisplayName("생성된 회원을 반환 받을 수 있다.")
-    void createCustomer(){
+    void createCustomer() {
         Customer customer = new Customer("까마귀", BLACK);
         CreateCustomerReq customerDto = new CreateCustomerReq("까마귀", BLACK);
 
@@ -40,7 +40,7 @@ public class CustomerServiceTest {
 
     @Test
     @DisplayName("회원 아이디로 회원을 반환받을 수 있다.")
-    void findCustomerById(){
+    void findCustomerById() {
         Customer customer = new Customer("까마귀", BLACK);
         CreateCustomerReq customerDto = new CreateCustomerReq("까마귀", BLACK);
 
@@ -54,7 +54,7 @@ public class CustomerServiceTest {
 
     @Test
     @DisplayName("회원 이름으로 회원을 반환 받을 수 있다.")
-    void findCustomerByName(){
+    void findCustomerByName() {
         Customer customer = new Customer("까마귀", BLACK);
         CreateCustomerReq customerDto = new CreateCustomerReq("까마귀", BLACK);
 
@@ -82,7 +82,7 @@ public class CustomerServiceTest {
 
     @Test
     @DisplayName("블랙 회원 리스트를 조회할 수 있다.")
-    void getBlackCustomers(){
+    void getBlackCustomers() {
         Customer customer1 = new Customer("까마귀", BLACK);
         Customer customer2 = new Customer("갈매기", BLACK);
 

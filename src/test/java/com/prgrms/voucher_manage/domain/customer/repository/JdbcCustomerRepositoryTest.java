@@ -68,7 +68,7 @@ public class JdbcCustomerRepositoryTest {
         Customer customer = repository.save(new Customer("전", BLACK));
         //when
         UpdateCustomerReq updateDto = new UpdateCustomerReq("후");
-        repository.update(new Customer(customer.getId(), updateDto.name(), customer.getType() ));
+        repository.update(new Customer(customer.getId(), updateDto.name(), customer.getType()));
         Customer updatedCustomer = repository.findById(customer.getId());
 
         //then

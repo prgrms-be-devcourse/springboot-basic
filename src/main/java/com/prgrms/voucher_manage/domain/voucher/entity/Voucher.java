@@ -1,7 +1,6 @@
 package com.prgrms.voucher_manage.domain.voucher.entity;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

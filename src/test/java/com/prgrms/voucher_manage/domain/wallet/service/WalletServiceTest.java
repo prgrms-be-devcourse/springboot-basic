@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.prgrms.voucher_manage.base.ErrorMessage.*;
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.BLACK;
 import static com.prgrms.voucher_manage.domain.customer.entity.CustomerType.NORMAL;
-import static com.prgrms.voucher_manage.base.ErrorMessage.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -80,7 +80,7 @@ public class WalletServiceTest {
 
     @Test
     @DisplayName("고객 아이디로 지갑 조회")
-    void findByCustomerId(){
+    void findByCustomerId() {
         Voucher voucher1 = new FixedAmountVoucher(1000L);
         Voucher voucher2 = new PercentDiscountVoucher(10L);
         Wallet wallet1 = new Wallet(customerId, voucher1.getId());
@@ -99,7 +99,7 @@ public class WalletServiceTest {
 
     @Test
     @DisplayName("회원 아이디로 조회 실패")
-    void findByCustomerIdFails(){
+    void findByCustomerIdFails() {
         when(repository.findByCustomerId(customerId)).thenReturn(Collections.emptyList());
         Exception e = assertThrows(RuntimeException.class, () -> {
             service.findByCustomerId(customerId);
@@ -109,7 +109,7 @@ public class WalletServiceTest {
 
     @Test
     @DisplayName("바우처 아이디로 고객 조회")
-    void findByVoucherId(){
+    void findByVoucherId() {
         Customer customer1 = new Customer("까마귀", BLACK);
         Customer customer2 = new Customer("까치", NORMAL);
         Wallet wallet1 = new Wallet(customer1.getId(), voucherId);
@@ -129,17 +129,17 @@ public class WalletServiceTest {
 
     @Test
     @DisplayName("바우처 아이디로 조회 실패")
-    void findByVoucherIdFails(){
+    void findByVoucherIdFails() {
         when(repository.findByVoucherId(voucherId)).thenReturn(Collections.emptyList());
         Exception e = assertThrows(RuntimeException.class, () -> {
             service.findByVoucherId(voucherId);
         });
-        assertEquals(WALLET_VOUCHER_NOT_EXISTS.getMessage(),e.getMessage());
+        assertEquals(WALLET_VOUCHER_NOT_EXISTS.getMessage(), e.getMessage());
     }
 
     @Test
     @DisplayName("지갑을 삭제할 수 있다.")
-    void deleteWallet(){
+    void deleteWallet() {
         when(repository.findByIds(customerId, voucherId)).thenReturn(Optional.of(wallet));
         service.delete(wallet);
 
@@ -148,7 +148,7 @@ public class WalletServiceTest {
 
     @Test
     @DisplayName("삭제할 지갑이 없으면 오류를 반환한다.")
-    void deleteWalletFails(){
+    void deleteWalletFails() {
         when(repository.findByIds(customerId, voucherId)).thenReturn(Optional.empty());
         Exception e = assertThrows(RuntimeException.class, () -> service.delete(wallet));
 

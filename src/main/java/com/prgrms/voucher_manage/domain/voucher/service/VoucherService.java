@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 import static com.prgrms.voucher_manage.base.ErrorMessage.*;
+import static com.prgrms.voucher_manage.domain.voucher.entity.VoucherType.FIXED;
 
 
 @Service
@@ -35,17 +35,17 @@ public class VoucherService {
         return vouchers;
     }
 
-    public List<Voucher> getVouchersByCreatedAt(LocalDateTime createdAt){
+    public List<Voucher> getVouchersByCreatedAt(LocalDateTime createdAt) {
         List<Voucher> vouchers = voucherRepository.getByCreatedAt(createdAt);
-        if (vouchers.isEmpty()){
+        if (vouchers.isEmpty()) {
             throw new RuntimeException(VOUCHER_CREATED_AT_NOT_EXISTS.getMessage());
         }
         return vouchers;
     }
 
-    public List<Voucher> getVouchersByType(VoucherType type){
+    public List<Voucher> getVouchersByType(VoucherType type) {
         List<Voucher> vouchers = voucherRepository.getByType(type);
-        if (vouchers.isEmpty()){
+        if (vouchers.isEmpty()) {
             throw new RuntimeException(VOUCHER_CREATED_AT_NOT_EXISTS.getMessage());
         }
         return vouchers;
@@ -65,14 +65,14 @@ public class VoucherService {
         voucherRepository.deleteById(voucherId);
     }
 
-    public Voucher getVoucherIfExists(UUID voucherId){
+    public Voucher getVoucherIfExists(UUID voucherId) {
         Voucher voucher = voucherRepository.getById(voucherId);
-        if (voucher==null)
+        if (voucher == null)
             throw new RuntimeException(VOUCHER_NOT_EXISTS.getMessage());
         return voucher;
     }
 
-    public Voucher getVoucherEntity(UUID id, VoucherType type, Long discountAmount){
+    public Voucher getVoucherEntity(UUID id, VoucherType type, Long discountAmount) {
         if (type == FIXED) {
             return new FixedAmountVoucher(id, discountAmount);
         } else {
@@ -80,7 +80,7 @@ public class VoucherService {
         }
     }
 
-    public Voucher getVoucherEntity(VoucherType type, Long discountAmount){
+    public Voucher getVoucherEntity(VoucherType type, Long discountAmount) {
         if (type == FIXED) {
             return new FixedAmountVoucher(discountAmount);
         } else {

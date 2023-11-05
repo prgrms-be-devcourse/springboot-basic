@@ -1,20 +1,18 @@
 package com.prgrms.voucher_manage.domain.voucher.repository;
 
 import com.prgrms.voucher_manage.domain.voucher.entity.Voucher;
-import com.prgrms.voucher_manage.base.ErrorMessage;
 import com.prgrms.voucher_manage.domain.voucher.entity.VoucherType;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import static com.prgrms.voucher_manage.base.ErrorMessage.*;
+import static com.prgrms.voucher_manage.base.ErrorMessage.VOUCHER_NOT_EXISTS;
 
 
 @Repository
@@ -42,7 +40,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> getByType(VoucherType type){
+    public List<Voucher> getByType(VoucherType type) {
         List<Voucher> vouchers = storage.values().stream().toList();
         return vouchers.stream().
                 filter(voucher -> voucher.getType() == type)
@@ -52,7 +50,7 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Voucher getById(UUID voucherId) {
         Voucher voucher = storage.get(voucherId);
-        if (voucher==null)
+        if (voucher == null)
             throw new RuntimeException(VOUCHER_NOT_EXISTS.getMessage());
         return voucher;
     }

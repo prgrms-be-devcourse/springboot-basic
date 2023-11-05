@@ -58,7 +58,7 @@ public class MemoryVoucherRepositoryTest {
 
     @Test
     @DisplayName("voucher를 타입으로 조회할 수 있다.")
-    public void jdbcVoucherRepository_getByType(){
+    public void jdbcVoucherRepository_getByType() {
         //given
         Voucher voucher1 = saveVoucher();
         //when
