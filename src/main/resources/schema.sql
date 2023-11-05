@@ -1,3 +1,4 @@
+drop DATABASE if exists prod;
 CREATE DATABASE prod;
 use prod;
 CREATE TABLE customers
@@ -7,7 +8,6 @@ CREATE TABLE customers
     black boolean     not null,
     CONSTRAINT name UNIQUE (name)
 );
-
 CREATE TABLE vouchers
 (
     id             BINARY(16) PRIMARY KEY,
@@ -23,7 +23,7 @@ CREATE TABLE ownership
     FOREIGN KEY (voucher_id) REFERENCES vouchers (id) ON DELETE CASCADE,
     FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE CASCADE
 );
-
+drop DATABASE if exists test;
 CREATE DATABASE test;
 use test;
 CREATE TABLE customers
