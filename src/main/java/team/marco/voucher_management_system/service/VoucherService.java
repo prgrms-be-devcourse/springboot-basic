@@ -1,6 +1,8 @@
 package team.marco.voucher_management_system.service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import org.springframework.stereotype.Service;
 import team.marco.voucher_management_system.model.FixedAmountVoucher;
 import team.marco.voucher_management_system.model.PercentDiscountVoucher;
@@ -27,5 +29,12 @@ public class VoucherService {
 
     public List<Voucher> getVouchers() {
         return voucherRepository.findAll();
+    }
+
+    public Optional<Voucher> findById(UUID id) {
+        return voucherRepository.findAll()
+                .stream()
+                .filter(voucher -> voucher.isSameId(id))
+                .findFirst();
     }
 }

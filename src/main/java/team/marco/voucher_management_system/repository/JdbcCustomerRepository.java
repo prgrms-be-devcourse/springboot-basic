@@ -13,7 +13,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -68,16 +67,16 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    public Optional<Customer> findById(String id) {
+    public Optional<Customer> findById(UUID id) {
         try {
             Customer customer = jdbcTemplate.queryForObject(
                     "SELECT * FROM customer"
                             + " WHERE id = UUID_TO_BIN(:id)",
-                    Collections.singletonMap("id", id.getBytes()),
+                    Collections.singletonMap("id", id.toString().getBytes()),
                     customerRowMapper);
 
             return Optional.ofNullable(customer);
-        } catch (EmptyResultDataAccessException | UncategorizedSQLException e) {
+        } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
     }

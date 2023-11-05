@@ -108,7 +108,7 @@ class JdbcCustomerRepositoryTest {
         repository.update(generatedCustomer);
 
         // then
-        Optional<Customer> optionalCustomer = repository.findById(generatedCustomer.getId().toString());
+        Optional<Customer> optionalCustomer = repository.findById(generatedCustomer.getId());
 
         assertThat(optionalCustomer.isPresent()).isTrue();
 
@@ -132,7 +132,7 @@ class JdbcCustomerRepositoryTest {
             repository.create(existCustomer);
 
             // when
-            Optional<Customer> existOptionalCustomer = repository.findById(existCustomer.getId().toString());
+            Optional<Customer> existOptionalCustomer = repository.findById(existCustomer.getId());
 
             // then
             assertThat(existOptionalCustomer.isPresent()).isTrue();
@@ -153,7 +153,7 @@ class JdbcCustomerRepositoryTest {
             addTestCustomers(seed);
 
             // when
-            Optional<Customer> existOptionalCustomer = repository.findById(notExistCustomer.getId().toString());
+            Optional<Customer> existOptionalCustomer = repository.findById(notExistCustomer.getId());
 
             // then
             assertThat(existOptionalCustomer.isEmpty()).isTrue();

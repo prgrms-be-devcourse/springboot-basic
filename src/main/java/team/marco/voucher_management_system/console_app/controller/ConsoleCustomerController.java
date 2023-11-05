@@ -2,10 +2,12 @@ package team.marco.voucher_management_system.console_app.controller;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.service.CustomerService;
 import team.marco.voucher_management_system.util.Console;
+import team.marco.voucher_management_system.util.UUIDConverter;
 
 @Component
 public class ConsoleCustomerController {
@@ -37,7 +39,8 @@ public class ConsoleCustomerController {
 
     public void updateCustomer() {
         Console.print("수정할 고객의 ID를 입력해 주세요.");
-        String id = Console.readString();
+        String input = Console.readString();
+        UUID id = UUIDConverter.convert(input);
 
         customerService.findById(id);
 
@@ -51,7 +54,8 @@ public class ConsoleCustomerController {
 
     public void findCustomerById() {
         Console.print("조회할 고객의 ID를 입력해 주세요.");
-        String id = Console.readString();
+        String input = Console.readString();
+        UUID id = UUIDConverter.convert(input);
 
         Customer customer = customerService.findById(id);
 

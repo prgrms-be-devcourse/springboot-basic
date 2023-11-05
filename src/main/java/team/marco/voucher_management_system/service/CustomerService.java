@@ -2,6 +2,7 @@ package team.marco.voucher_management_system.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
 import org.springframework.stereotype.Service;
 import team.marco.voucher_management_system.model.Customer;
@@ -29,7 +30,7 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public void update(String id, String name) {
+    public void update(UUID id, String name) {
         Optional<Customer> customerOptional = customerRepository.findById(id);
         Customer customer = customerOptional.orElseThrow();
 
@@ -43,7 +44,7 @@ public class CustomerService {
         }
     }
 
-    public Customer findById(String id) {
+    public Customer findById(UUID id) {
         Optional<Customer> customerOptional = customerRepository.findById(id);
 
         return customerOptional.orElseThrow();

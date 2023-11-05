@@ -2,11 +2,13 @@ package team.marco.voucher_management_system.console_app.controller;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.model.Voucher;
 import team.marco.voucher_management_system.service.WalletService;
 import team.marco.voucher_management_system.util.Console;
+import team.marco.voucher_management_system.util.UUIDConverter;
 
 @Component
 public class ConsoleWalletController {
@@ -21,12 +23,13 @@ public class ConsoleWalletController {
     public void supplyVoucher() {
         Console.print("쿠폰을 받을 고객 ID를 입력해주세요.");
 
-        String customerId = Console.readString();
+        UUID customerId = UUIDConverter.convert(Console.readString());
+
         walletService.checkCustomerId(customerId);
 
         Console.print("지급할 쿠폰 ID를 입력해주세요.");
 
-        String voucherId = Console.readString();
+        UUID voucherId = UUIDConverter.convert(Console.readString());
         walletService.checkVoucherId(voucherId);
 
         if (walletService.supplyVoucher(customerId, voucherId) != 1) {
@@ -41,7 +44,7 @@ public class ConsoleWalletController {
     public void voucherList() {
         Console.print("보유 중인 쿠폰 목록을 확인할 고객 ID를 입력해주세요.");
 
-        String customerId = Console.readString();
+        UUID customerId = UUIDConverter.convert(Console.readString());
 
         List<String> voucherInfos = walletService.findVouchersByCustomerId(customerId)
                 .stream()
@@ -55,12 +58,12 @@ public class ConsoleWalletController {
     public void returnVoucher() {
         Console.print("쿠폰을 반납할 고객 ID를 입력해주세요.");
 
-        String customerId = Console.readString();
+        UUID customerId = UUIDConverter.convert(Console.readString());
         walletService.checkCustomerId(customerId);
 
         Console.print("반납할 쿠폰 ID를 입력해주세요.");
 
-        String voucherId = Console.readString();
+        UUID voucherId = UUIDConverter.convert(Console.readString());
         walletService.checkVoucherId(voucherId);
 
         if (walletService.returnVoucher(customerId, voucherId) != 1) {
@@ -75,7 +78,7 @@ public class ConsoleWalletController {
     public void customerList() {
         Console.print("보유 중인 고객 목록을 확인할 쿠폰 ID를 입력해주세요.");
 
-        String voucherId = Console.readString();
+        UUID voucherId = UUIDConverter.convert(Console.readString());
         walletService.checkVoucherId(voucherId);
 
         List<String> customerInfos = walletService.findCustomersByVoucherId(voucherId)

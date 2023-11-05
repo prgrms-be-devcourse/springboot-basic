@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.UUID;
 
 public interface WalletRepository {
-    int link(String customerId, String voucherId);
+    int link(UUID customerId, UUID voucherId);
 
-    int unlink(String customerId, String voucherId);
+    int unlink(UUID customerId, UUID voucherId);
 
-    List<UUID> getVoucherIds(String customerId);
+    List<UUID> getVoucherIds(UUID customerId);
 
-    List<UUID> getCustomerIds(String voucherId);
+    List<UUID> getCustomerIds(UUID voucherId);
 }

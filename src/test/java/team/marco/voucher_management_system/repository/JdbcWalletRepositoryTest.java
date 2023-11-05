@@ -67,7 +67,7 @@ class JdbcWalletRepositoryTest {
             Customer customer = addCustomer(0);
 
             // when
-            int count = walletRepository.link(customer.getId().toString(), voucher.getId().toString());
+            int count = walletRepository.link(customer.getId(), voucher.getId());
 
             // then
             assertThat(count).isEqualTo(1);
@@ -80,11 +80,10 @@ class JdbcWalletRepositoryTest {
             Voucher voucher = addVoucher();
             Customer customer = addCustomer(0);
 
-            walletRepository.link(customer.getId().toString(), voucher.getId().toString());
+            walletRepository.link(customer.getId(), voucher.getId());
 
             // when
-            ThrowingCallable targetMethod = () -> walletRepository.link(
-                    customer.getId().toString(), voucher.getId().toString());
+            ThrowingCallable targetMethod = () -> walletRepository.link(customer.getId(), voucher.getId());
 
             // then
             assertThatExceptionOfType(DataIntegrityViolationException.class)
@@ -102,10 +101,10 @@ class JdbcWalletRepositoryTest {
             Voucher voucher = addVoucher();
             Customer customer = addCustomer(0);
 
-            walletRepository.link(customer.getId().toString(), voucher.getId().toString());
+            walletRepository.link(customer.getId(), voucher.getId());
 
             // when
-            int count = walletRepository.unlink(customer.getId().toString(), voucher.getId().toString());
+            int count = walletRepository.unlink(customer.getId(), voucher.getId());
 
             // then
             assertThat(count).isEqualTo(1);
@@ -119,7 +118,7 @@ class JdbcWalletRepositoryTest {
             Customer customer = addCustomer(0);
 
             // when
-            int count = walletRepository.unlink(customer.getId().toString(), voucher.getId().toString());
+            int count = walletRepository.unlink(customer.getId(), voucher.getId());
 
             // then
             assertThat(count).isEqualTo(0);
@@ -133,10 +132,10 @@ class JdbcWalletRepositoryTest {
         UUID customerId = addCustomer(0).getId();
         List<UUID> voucherIds = List.of(addVoucher().getId(), addVoucher().getId(), addVoucher().getId());
 
-        voucherIds.forEach(voucherId -> walletRepository.link(customerId.toString(), voucherId.toString()));
+        voucherIds.forEach(voucherId -> walletRepository.link(customerId, voucherId));
 
         // when
-        List<UUID> retrievedIds = walletRepository.getVoucherIds(customerId.toString());
+        List<UUID> retrievedIds = walletRepository.getVoucherIds(customerId);
 
         // then
         assertThat(retrievedIds).containsExactlyInAnyOrderElementsOf(voucherIds);
@@ -153,11 +152,11 @@ class JdbcWalletRepositoryTest {
             UUID customerId = addCustomer(i).getId();
 
             customerIds.add(customerId);
-            walletRepository.link(customerId.toString(), voucherId.toString());
+            walletRepository.link(customerId, voucherId);
         }
 
         // when
-        List<UUID> retrievedIds = walletRepository.getCustomerIds(voucherId.toString());
+        List<UUID> retrievedIds = walletRepository.getCustomerIds(voucherId);
 
         // then
         assertThat(retrievedIds).containsExactlyInAnyOrderElementsOf(customerIds);
