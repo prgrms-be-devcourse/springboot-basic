@@ -62,6 +62,7 @@ public class ConsoleManager implements ApplicationRunner {
             case SAVE_VOUCHER -> saveVoucher();
             case VOUCHER_LIST -> printVouchers(voucherController.getVouchers());
             case FIND_VOUCHER -> findVoucher();
+            case FIND_VOUCHER_TYPE -> findVoucherByType();
             case UPDATE_VOUCHER -> updateVoucher();
             case DELETE_VOUCHER -> deleteVoucher();
 
@@ -77,6 +78,11 @@ public class ConsoleManager implements ApplicationRunner {
             case DELETE_WALLET -> deleteWallet();
 
         }
+    }
+
+    private void findVoucherByType() throws IOException {
+        VoucherType type = VoucherType.matchVoucherType(ioManager.getVoucherType());
+        printVouchers(voucherController.getVoucherByType(type));
     }
 
     public void saveWallet() {

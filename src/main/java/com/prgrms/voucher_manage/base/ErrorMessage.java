@@ -17,6 +17,8 @@ public enum ErrorMessage {
     CUSTOMER_UPDATE_FAILED("회원 업데이트에 실패하였습니다"),
     BLACK_CUSTOMER_NOT_EXIST("찾으려는 블랙 회원이 존재하지 않습니다"),
 
+    VOUCHER_LIST_EMPTY("바우처가 존재하지 않습니다."),
+
     VOUCHER_NOT_EXISTS("해당 아이디를 가진 바우처가 존재하지 않습니다."),
 
     VOUCHER_TYPE_NOT_EXISTS("해당 타입의 바우처가 존재하지 않습니다."),

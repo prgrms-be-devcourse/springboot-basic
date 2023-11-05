@@ -29,7 +29,7 @@ public class VoucherService {
     public List<Voucher> getVouchers() {
         List<Voucher> vouchers = voucherRepository.getAll();
         if (vouchers.isEmpty()) {
-            throw new RuntimeException(VOUCHER_NOT_EXISTS.getMessage());
+            throw new RuntimeException(VOUCHER_LIST_EMPTY.getMessage());
         }
         return vouchers;
     }

@@ -31,6 +31,10 @@ public class VoucherConsoleController {
         return voucherService.getVouchers();
     }
 
+    public List<Voucher> getVoucherByType(VoucherType type){
+        return voucherService.getVouchersByType(type);
+    }
+
     public Voucher findVoucher(UUID voucherId) {
         return voucherService.getVoucherById(voucherId);
     }
