@@ -31,16 +31,17 @@ class CustomerServiceTest {
         jdbcTemplate.update(query);
     }
 
+    @DisplayName("사용자 ID로 사용자를 조회할 수 있습니다.")
     @Test
-    void 사용자_ID로_조회() {
-        // 사용자 등록
+    void findCustomerById() {
+        // given
         Customer customer = createCustomer("test", "test@gmail.com");
         customerRepository.insert(customer);
 
-        // 사용자 조회
+        // when
         Customer found = customerService.findCustomerById(customer.getId());
 
-        // 등록된 사용자와 동일한 사용자가 조회됨
+        // then
         assertThat(found.getId()).isEqualTo(customer.getId());
         assertThat(found.getName()).isEqualTo(customer.getName());
         assertThat(found.getEmail()).isEqualTo(customer.getEmail());

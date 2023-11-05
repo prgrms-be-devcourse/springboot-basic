@@ -38,67 +38,53 @@ class VoucherServiceTest {
         jdbcTemplate.update(query);
     }
 
+    @DisplayName("고정 할인 쿠폰을 생성할 수 있습니다.")
     @Test
-    void 고정_할인_쿠폰_생성() {
-        // 할인 금액이 주어 졌을 때
+    void createFixedVoucher() {
+        // given
         int amount = 1000;
         VoucherCreateServiceRequest request = new VoucherCreateServiceRequest(
                 FIXED,
                 amount);
 
-        // 고정 금액 쿠폰 생성 요청
+        // when
         Voucher returned = voucherService.createVoucher(request);
 
-        // 1. 생성된 쿠폰이 FixedAmountVoucher 타입
+        // then
         assertThat(returned.getVoucherType()).isEqualTo(FIXED);
-        // 2. 생성된 쿠폰의 할인 금액이 amount와 동일
         assertThat(returned.getDiscountValue()).isEqualTo(amount);
     }
 
+    @DisplayName("퍼센트 할인 쿠폰을 생성할 수 있습니다.")
     @Test
-    void 퍼센트_할인_쿠폰_생성() {
-        // 할인율이 주어 졌을 때
+    void createPercentVoucher() {
+        // given
         int percent = 10;
         VoucherCreateServiceRequest request = new VoucherCreateServiceRequest(
                 PERCENT,
                 percent);
 
-        // % 금액 쿠폰 생성 요청
+        // when
         Voucher returned = voucherService.createVoucher(request);
 
-        // 1. 생성된 쿠폰이 PercentDiscountVoucher 타입
+        // then
         assertThat(returned.getVoucherType()).isEqualTo(PERCENT);
-        // 2. 생성된 쿠폰의 할인율이 percent와 동일
         assertThat(returned.getDiscountValue()).isEqualTo(percent);
     }
 
+    @DisplayName("전체 쿠폰 목록을 조회할 수 있습니다.")
     @Test
-    void 전체_쿠폰_목록_조회() {
-        // 리포지토리에 쿠폰 2개가 저장되어 있을 때
+    void getVouchers() {
+        // given
         Voucher voucher = createFixedVoucher(1L, 1000);
         Voucher voucher2 = createPercentVoucher(2L,10);
         voucherRepository.save(voucher);
         voucherRepository.save(voucher2);
 
-        // 전체 쿠폰 목록 요청
+        // when
         List<Voucher> returned = voucherService.getVouchers();
 
-        // 쿠폰 목록의 크기가 2
-        assertThat(returned).hasSize(2);
-    }
-
-    @Test
-    void 쿠폰_목록_조회() {
-        // 리포지토리에 쿠폰 2개가 저장되어 있을 때
-        Voucher voucher = createFixedVoucher(1L, 1000);
-        Voucher voucher2 = createPercentVoucher(2L, 10);
-        voucherRepository.save(voucher);
-        voucherRepository.save(voucher2);
-
-        // 전체 쿠폰 목록 요청
-        List<Voucher> returned = voucherService.getVouchers();
-
-        // 쿠폰 목록의 크기가 2
+        // then
         assertThat(returned).hasSize(2);
     }
 
@@ -119,29 +105,31 @@ class VoucherServiceTest {
         assertThat(found).hasSize(1);
     }
 
+    @DisplayName("쿠폰 아이디로 쿠폰을 조회할 수 있습니다.")
     @Test
-    void 쿠폰_아이디로_조회() {
-        // 쿠폰 생성
+    void getVoucher() {
+        // given
         Voucher voucher = createFixedVoucher(1L, 1000);
         voucherRepository.save(voucher);
 
-        // UUID로 쿠폰 조회
+        // when
         Voucher found = voucherService.getVoucher(voucher.getId());
 
-        // 조회된 쿠폰의 UUID가 인자로 넘겨준 UUID와 같음
+        // then
         assertThat(found.getId()).isEqualTo(voucher.getId());
     }
 
+    @DisplayName("쿠폰 아이디로 쿠폰을 삭제할 수 있습니다.")
     @Test
-    void 쿠폰_아이디로_삭제() {
-        // 쿠폰 생성
+    void deleteVoucher() {
+        // given
         Voucher voucher = createFixedVoucher(1L, 1000);
         voucherRepository.save(voucher);
 
-        // UUID로 쿠폰 삭제
+        // when
         voucherService.deleteVoucher(voucher.getId());
 
-        // 쿠폰이 삭제됨
+        // then
         List<Voucher> vouchers =  voucherRepository.findAll();
         assertThat(vouchers).hasSize(0);
     }

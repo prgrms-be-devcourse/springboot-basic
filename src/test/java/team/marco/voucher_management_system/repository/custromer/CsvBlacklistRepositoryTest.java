@@ -22,9 +22,9 @@ class CsvBlacklistRepositoryTest {
         csvBlacklistRepository = new CsvBlacklistRepository(path);
     }
 
-    @DisplayName("")
+    @DisplayName("파일에 저장된 사용자 블랙리스트를 조회할 수 있습니다.")
     @Test
-    void test() {
+    void findAll() {
         /**
          *  test_blacklist.csv에
          *  id                                      name

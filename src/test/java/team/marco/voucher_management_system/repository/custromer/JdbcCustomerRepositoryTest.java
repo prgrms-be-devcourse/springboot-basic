@@ -31,69 +31,71 @@ class JdbcCustomerRepositoryTest {
         jdbcTemplate.update(query);
     }
 
+    @DisplayName("사용자를 생성할 수 있습니다.")
     @Test
-    @DisplayName("유저 생성 시 생성된 유저를  반환")
-    void 사용자_생성_성공() {
-        // 사용자 생성
+    void insert() {
+        // given
         String name = "customer";
         String email = "customer@gmail.com";
         Customer customer = createCustomer(name, email);
 
+        // when
         Customer saved = customerRepository.insert(customer);
 
+        // then
         // UUID와 생성 시간은 주어지지 않으면 자동으로 들어감
         Assertions.assertThat(saved.getId()).isNotNull();
         Assertions.assertThat(saved.getCreatedAt()).isNotNull();
-        // 생성된 사용자 반환
         Assertions.assertThat(saved.getId()).isEqualTo(customer.getId());
     }
 
+    @DisplayName("동일한 이메일을 가진 유저는 생성할 수 없습니다.")
     @Test
-    @DisplayName("동일한 이메일을 가진 유저는 생성할 수 없다.")
-    void 사용자_생성_실패() {
-        // 사용자 생성
+    void insertWithDuplicateEmail() {
+        // given
         String name = "customer";
         String email = "customer@gmail.com";
         Customer customer = createCustomer(name, email);
         customerRepository.insert(customer);
 
-        // 이미 존재하는 이메일과 함께 생성 시도
         String name2 = "customer2";
         String sameEmail = "customer@gmail.com";
-        Customer customer2 = createCustomer(name2, sameEmail);
+        Customer wrongCustomer = createCustomer(name2, sameEmail);
 
-        // 에러 발생
+        // when then
         assertThrows(DuplicateKeyException.class,
-                () -> customerRepository.insert(customer2));
+                () -> customerRepository.insert(wrongCustomer));
     }
 
+    @DisplayName("전체 사용자 목록을 조회할 수 있습니다.")
     @Test
-    void 전체_사용자_목록_조회_성공() {
-        // 사용자 생성
+    void findAll() {
+        // given
         Customer customer = createCustomer("customer", "customer@gmail.com");
         Customer customer2 = createCustomer("customer2", "customer2@gmail.com");
         customerRepository.insert(customer);
         customerRepository.insert(customer2);
 
-        // 전체 사용자 목록 조회
+        // when
         List<Customer> customers = customerRepository.findAll();
 
-        // 저장된 2명의 사용자가 조회
+        // then
         assertThat(customers).hasSize(2);
     }
 
+    @DisplayName("사용자 아이디로 사용자를 조회할 수 있습니다.")
     @Test
-    void 사용자_아이디로_조회_성공() {
-        // 사용자 생성
+    void findById() {
+        // given
         String name = "customer";
         String email = "customer@gmail.com";
         Customer customer = createCustomer(name, email);
         customerRepository.insert(customer);
 
-        // 사용자 아이디로 조회
+        // when
         Customer found = customerRepository.findById(customer.getId()).get();
 
-        // 저장한 사용자와 동일한 사용자 반환
+        // then
         Assertions.assertThat(found.getId()).isEqualTo(customer.getId());
     }
 
