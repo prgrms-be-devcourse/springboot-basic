@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 @ToString
 @EqualsAndHashCode
 public class Customer {
-    private static final String EMAIL_REGEX = "^[A-Za-z0-9+_.-]+@(.+)$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
 
     private UUID id;
     private String email;
@@ -60,7 +60,7 @@ public class Customer {
     }
 
     private void validateEmail(String email) {
-        if (!Pattern.matches(EMAIL_REGEX, email)) {
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
             throw new IllegalArgumentException("Invalid email format");
         }
     }
