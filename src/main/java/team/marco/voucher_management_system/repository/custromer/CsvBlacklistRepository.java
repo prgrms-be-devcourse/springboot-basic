@@ -2,6 +2,7 @@ package team.marco.voucher_management_system.repository.custromer;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
+import team.marco.voucher_management_system.controller.customer.dto.CustomerIdAndName;
 
 import java.io.BufferedReader;
 import java.io.IOException;

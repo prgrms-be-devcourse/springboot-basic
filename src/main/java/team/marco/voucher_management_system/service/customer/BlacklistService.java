@@ -1,8 +1,8 @@
 package team.marco.voucher_management_system.service.customer;
 
 import org.springframework.stereotype.Service;
+import team.marco.voucher_management_system.controller.customer.dto.CustomerIdAndName;
 import team.marco.voucher_management_system.repository.custromer.BlacklistRepository;
-import team.marco.voucher_management_system.repository.custromer.CustomerIdAndName;
 
 import java.util.List;
 

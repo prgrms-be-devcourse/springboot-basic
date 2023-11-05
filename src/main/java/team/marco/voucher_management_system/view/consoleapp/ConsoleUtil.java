@@ -1,5 +1,6 @@
 package team.marco.voucher_management_system.view.consoleapp;
 
+import team.marco.voucher_management_system.controller.customer.dto.CustomerResponse;
 import team.marco.voucher_management_system.controller.voucher.dto.VoucherResponse;
 
 import java.io.BufferedReader;
@@ -56,6 +57,19 @@ public final class ConsoleUtil {
         if (!joinedString.isBlank()) {
             println(joinedString);
         }
+    }
+
+    public static void printCustomerList(List<CustomerResponse> customers) {
+        customers.forEach(c -> {
+            printCustomer(c);
+            printSeparatorLine();
+        });
+    }
+
+    public static void printCustomer(CustomerResponse customer) {
+        print(format("name      : {0}", customer.getName()));
+        print(format("email     : {0}", customer.getEmail()));
+        print(format("createdAt : {0}", customer.getCreatedAt()));
     }
 
     public static void printVoucherList(List<VoucherResponse> vouchers) {
