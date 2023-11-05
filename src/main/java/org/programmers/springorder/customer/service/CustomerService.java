@@ -1,6 +1,8 @@
 package org.programmers.springorder.customer.service;
 
+import org.programmers.springorder.customer.dto.CustomerRequestDto;
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
+import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.repository.CustomerRepository;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.repository.VoucherRepository;
@@ -43,5 +45,13 @@ public class CustomerService {
                 .stream()
                 .map(CustomerResponseDto::of)
                 .toList();
+    }
+
+    public void newCustomer(CustomerRequestDto requestDto) {
+        Customer customer = Customer.toCustomer(
+                UUID.randomUUID(),
+                requestDto.name(),
+                requestDto.customerType());
+        customerRepository.insert(customer);
     }
 }
