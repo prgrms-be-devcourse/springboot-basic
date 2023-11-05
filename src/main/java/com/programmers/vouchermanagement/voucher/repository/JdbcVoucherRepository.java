@@ -97,6 +97,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     @Profile("test") //clarify that this is for testing only
     public void deleteAll() {
+        String deleteSQL = "DELETE FROM vouchers";
+        namedParameterJdbcTemplate.update(deleteSQL, Collections.emptyMap());
     }
 
     private int insert(Voucher voucher) {
