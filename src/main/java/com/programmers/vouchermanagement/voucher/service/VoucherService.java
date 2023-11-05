@@ -8,6 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
@@ -30,6 +31,7 @@ public class VoucherService {
         this.customerRepository = customerRepository;
     }
 
+    @Transactional
     public VoucherResponse create(CreateVoucherRequest request) {
         VoucherType voucherType = VoucherType.findVoucherType(request.voucherType());
         Voucher voucher = new Voucher(UUID.randomUUID(), new BigDecimal(request.discountValue()), voucherType);
@@ -37,6 +39,7 @@ public class VoucherService {
         return VoucherResponse.from(voucher);
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponse> readAllVouchers() {
         List<Voucher> vouchers = voucherRepository.findAll();
         return vouchers.stream()
@@ -44,6 +47,7 @@ public class VoucherService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponse> findByType(VoucherType voucherType) {
         List<Voucher> vouchers = voucherRepository.findByType(voucherType);
         return vouchers.stream()
@@ -51,6 +55,7 @@ public class VoucherService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponse> findByCreatedAt(SearchCreatedAtRequest request) {
         validateDateRange(request);
         LocalDateTime startDateTime = request.startDate().atStartOfDay();
@@ -61,12 +66,14 @@ public class VoucherService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public VoucherResponse findById(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NoSuchElementException("There is no voucher with %s".formatted(voucherId)));
         return VoucherResponse.from(voucher);
     }
 
+    @Transactional
     public VoucherResponse update(UpdateVoucherRequest request) {
         validateVoucherIdExisting(request.voucherId());
         VoucherType voucherType = VoucherType.findVoucherType(request.voucherType());
@@ -75,11 +82,13 @@ public class VoucherService {
         return VoucherResponse.from(updatedVoucher);
     }
 
+    @Transactional
     public void deleteById(UUID voucherId) {
         validateVoucherIdExisting(voucherId);
         voucherRepository.deleteById(voucherId);
     }
 
+    @Transactional
     public void grantToCustomer(VoucherCustomerRequest request) {
         validateCustomerIdExisting(request.customerId());
         VoucherResponse foundVoucher = findById(request.voucherId());
@@ -93,6 +102,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
+    @Transactional
     public void releaseFromCustomer(VoucherCustomerRequest request) {
         validateCustomerIdExisting(request.customerId());
         VoucherResponse foundVoucher = findById(request.voucherId());
@@ -106,6 +116,7 @@ public class VoucherService {
         voucherRepository.save(voucher);
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponse> findByCustomerId(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException("There is no customer with %s".formatted(customerId)));

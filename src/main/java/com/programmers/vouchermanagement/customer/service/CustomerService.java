@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
@@ -23,6 +24,7 @@ public class CustomerService {
         this.voucherRepository = voucherRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> readBlacklist() {
         List<Customer> blacklist = customerRepository.findBlackCustomers();
         return blacklist.stream()
@@ -30,12 +32,14 @@ public class CustomerService {
                 .toList();
     }
 
+    @Transactional
     public CustomerResponse create(String name) {
         Customer customer = new Customer(UUID.randomUUID(), name);
         customerRepository.save(customer);
         return CustomerResponse.from(customer);
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> findAll() {
         List<Customer> customers = customerRepository.findAll();
         return customers.stream()
@@ -43,12 +47,14 @@ public class CustomerService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public CustomerResponse findById(UUID customerId) {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new NoSuchElementException("There is no customer with %s".formatted(customerId)));
         return CustomerResponse.from(customer);
     }
 
+    @Transactional
     public CustomerResponse update(UpdateCustomerRequest request) {
         validateIdExisting(request.customerId());
         Customer customer = new Customer(request.customerId(), request.name(), request.customerType());
@@ -56,11 +62,13 @@ public class CustomerService {
         return CustomerResponse.from(updatedCustomer);
     }
 
+    @Transactional
     public void deleteById(UUID customerId) {
         validateIdExisting(customerId);
         customerRepository.deleteById(customerId);
     }
 
+    @Transactional(readOnly = true)
     public CustomerResponse findByVoucherId(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId)
                 .orElseThrow(() -> new NoSuchElementException(("There is no voucher with %s").formatted(voucherId)));
