@@ -217,10 +217,27 @@ class WalletServiceIntegrationTest {
     @Test
     void testDeleteVouchersByCustomer() {
         // given
+        String customerId = UUID.randomUUID().toString();
+        Customer customer = new Customer(customerId, "test10", "test10@email.com");
+        customerRepository.save(customer);
+
+        String voucherId1 = UUID.randomUUID().toString();
+        Voucher voucher1 = new Voucher(voucherId1, "test6", 1000, VoucherType.FIXED);
+        voucherRepository.save(voucher1);
+
+        String voucherId2 = UUID.randomUUID().toString();
+        Voucher voucher2 = new Voucher(voucherId2, "test7", 1000, VoucherType.FIXED);
+        voucherRepository.save(voucher2);
+
+        walletService.assignVoucher(customerId, voucherId1);
+        walletService.assignVoucher(customerId, voucherId2);
 
         // when
+        walletService.deleteVouchersByCustomer(customerId);
+        List<VoucherDto> voucherDtoList = walletService.findVouchersByCustomer(customerId);
 
         // then
+        assertThat(voucherDtoList.isEmpty()).isTrue();
     }
 
     // 고객이 존재하지 않는 경우
@@ -228,10 +245,13 @@ class WalletServiceIntegrationTest {
     @Test
     void testDeleteVouchersByNoExistCustomer() {
         // given
+        String customerId = UUID.randomUUID().toString();
 
         // when
 
         // then
+        assertThrows(IllegalArgumentException.class,
+                () -> walletService.deleteVouchersByCustomer(customerId));
     }
 
 

@@ -1,0 +1,4 @@
+2023-10-30 02:24:32.165 ERROR 99525 --- [main] c.p.v.infra.input.BufferedReaderImpl     : input type은 [list, create, exit] 중 하나이어야 합니다.
+
+2023-10-30 02:24:35.241 ERROR 99525 --- [main] c.p.v.infra.input.BufferedReaderImpl     : input type은 [list, create, exit] 중 하나이어야 합니다.
+

@@ -4,7 +4,10 @@ import java.util.List;
 
 public class VouchersResponse {
 
-    private final List<VoucherResponse> voucherResponses;
+    private List<VoucherResponse> voucherResponses;
+
+    public VouchersResponse() {
+    }
 
     public VouchersResponse(List<VoucherResponse> voucherResponses) {
         this.voucherResponses = voucherResponses;

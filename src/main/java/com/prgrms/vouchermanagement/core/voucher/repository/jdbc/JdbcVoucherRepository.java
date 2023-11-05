@@ -77,4 +77,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
         return jdbcTemplate.query(sql, idList.toArray(), voucherRowMapper);
     }
+
+    @Override
+    public void deleteById(String id) {
+        int update = jdbcTemplate.update("DELETE FROM vouchers WHERE id = ?", id);
+        if (update != 1) {
+            throw new RuntimeException("Failed to delete the voucher with ID: " + id);
+        }
+    }
 }

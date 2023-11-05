@@ -40,6 +40,7 @@ public class CustomerController {
         return toCustomersResponse(customerDtoList);
     }
 
+    // 별도의 클래스로 빼서 static 메서드로 관리하면 깔끔할듯
     private static CustomersResponse toCustomersResponse(List<CustomerDto> customerDtoList) {
         List<CustomerResponse> customerResponses = customerDtoList.stream()
                 .map(it -> new CustomerResponse(it.getId(), it.getName(), it.getEmail()))

@@ -9,4 +9,8 @@ public class Mapper {
         return new Voucher(voucherDto.getName(), voucherDto.getAmount(), voucherDto.getVoucherType().toString());
     }
 
+    public static VoucherDto toVoucherDto(Voucher voucher) {
+        return new VoucherDto(voucher.getId(), voucher.getName(), voucher.getAmount(), voucher.getVoucherType());
+    }
+
 }

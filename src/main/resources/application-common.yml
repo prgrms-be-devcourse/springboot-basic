@@ -4,6 +4,6 @@ voucher:
 
 logging:
   level:
-    root: warn
+    root: info
   file:
     name: logs/log
