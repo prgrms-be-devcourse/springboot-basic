@@ -1,0 +1,14 @@
+application:
+  title: "voucher-management-system"
+  version: "1.0.0"
+
+spring:
+  profiles:
+    default: prod
+
+  thymeleaf:
+    cache: false
+    check-template-location: false
+    enabled: true
+
+  mvc.hiddenmethod.filter.enabled: true
