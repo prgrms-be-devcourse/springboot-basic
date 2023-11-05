@@ -9,12 +9,14 @@ import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
 
+@Profile("console")
 @Component
 public class ConsoleManager {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleManager.class);

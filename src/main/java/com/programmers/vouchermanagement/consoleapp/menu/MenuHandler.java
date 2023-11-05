@@ -8,10 +8,11 @@ import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+@Profile("console")
 @Component
 public class MenuHandler {
     private static final Logger logger = LoggerFactory.getLogger(MenuHandler.class);
