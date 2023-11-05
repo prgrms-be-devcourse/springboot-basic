@@ -20,13 +20,13 @@ public class VoucherApiController {
 
     private final VoucherService voucherService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<UUID> createVoucher(@RequestBody CreateVoucherRequestDto request) {
         UUID id = voucherService.createVoucher(request);
         return ResponseEntity.created(URI.create("/vouchers/" + id.toString())).body(id);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<VoucherResponseDto>> getVouchers(@ModelAttribute GetVouchersRequestDto request) {
         return ResponseEntity.ok(voucherService.getVouchers(request));
     }
