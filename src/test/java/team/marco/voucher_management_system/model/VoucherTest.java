@@ -1,14 +1,13 @@
 package team.marco.voucher_management_system.model;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.text.NumberFormat;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -31,8 +30,8 @@ abstract class VoucherTest {
         VoucherType voucherType = voucher.getType();
 
         // then
-        assertThat(voucherType, notNullValue());
-        assertThat(voucherType, instanceOf(VoucherType.class));
+        assertThat(voucherType).isNotNull();
+        assertThat(voucherType).isInstanceOf(VoucherType.class);
     }
 
     @Test
@@ -46,7 +45,7 @@ abstract class VoucherTest {
         int voucherData = voucher.getData();
 
         // then
-        assertThat(voucherData, is(initData));
+        assertThat(voucherData).isEqualTo(initData);
     }
 
     @Test
@@ -62,8 +61,8 @@ abstract class VoucherTest {
         // then
         UUID id = voucher.getId();
 
-        assertThat(voucherInfo, containsString(id.toString()));
-        assertThat(voucherInfo, containsString(NumberFormat.getIntegerInstance().format(initData)));
+        assertThat(voucherInfo).contains(id.toString());
+        assertThat(voucherInfo).contains(NumberFormat.getIntegerInstance().format(initData));
     }
 
     @Nested
@@ -80,7 +79,7 @@ abstract class VoucherTest {
             boolean isSameId = voucher.isSameId(voucherId);
 
             // then
-            assertThat(isSameId, is(true));
+            assertThat(isSameId).isTrue();
         }
 
         @Test
@@ -95,7 +94,7 @@ abstract class VoucherTest {
             boolean isSameId = voucher.isSameId(voucherId);
 
             // then
-            assertThat(isSameId, is(false));
+            assertThat(isSameId).isFalse();
         }
     }
 
@@ -113,7 +112,7 @@ abstract class VoucherTest {
             boolean isSameType = voucher.isSameType(targetType);
 
             // then
-            assertThat(isSameType, is(true));
+            assertThat(isSameType).isTrue();
         }
 
         @Test
@@ -131,7 +130,34 @@ abstract class VoucherTest {
             boolean isSameType = voucher.isSameType(otherType);
 
             // then
-            assertThat(isSameType, is(false));
+            assertThat(isSameType).isFalse();
         }
+    }
+
+    @Test
+    void isCreatedBetween() {
+        // given
+        List<Voucher> vouchers = List.of(
+                generateVoucher(generateValidData()),
+                generateVoucher(generateValidData()),
+                generateVoucher(generateValidData()),
+                generateVoucher(generateValidData()),
+                generateVoucher(generateValidData()));
+
+        LocalDateTime from = vouchers.get(1).getCreateAt();
+        LocalDateTime to = vouchers.get(3).getCreateAt();
+
+        // when
+        List<UUID> actualVoucherIds = vouchers.stream()
+                .filter(voucher -> voucher.isCreatedBetween(from, to))
+                .map(Voucher::getId)
+                .toList();
+
+        // then
+        List<UUID> expectedVoucherIds = Stream.of(vouchers.get(1), vouchers.get(2), vouchers.get(3))
+                .map(Voucher::getId)
+                .toList();
+
+        assertThat(actualVoucherIds).isEqualTo(expectedVoucherIds);
     }
 }
