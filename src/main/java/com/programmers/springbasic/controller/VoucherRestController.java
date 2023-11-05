@@ -1,10 +1,10 @@
 package com.programmers.springbasic.controller;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.programmers.springbasic.entity.voucher.VoucherType;
 import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
@@ -38,7 +39,14 @@ public class VoucherRestController {
 	@PostMapping
 	public ResponseEntity<VoucherResponse> createVoucher(@Valid @RequestBody CreateVoucherRequest request) {
 		VoucherResponse voucher = voucherService.createVoucher(request.voucherType(), request.discountValue());
-		return new ResponseEntity<>(voucher, HttpStatus.CREATED);
+
+		URI location = ServletUriComponentsBuilder
+			.fromCurrentRequest()
+			.path("/{voucherId}")
+			.buildAndExpand(voucher.voucherId())
+			.toUri();
+
+		return ResponseEntity.created(location).body(voucher);
 	}
 
 	@GetMapping

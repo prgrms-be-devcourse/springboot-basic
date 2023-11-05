@@ -1,9 +1,9 @@
 package com.programmers.springbasic.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.programmers.springbasic.repository.dto.customer.CreateCustomerRequest;
 import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
@@ -40,8 +41,15 @@ public class CustomerRestController {
 
 	@PostMapping
 	public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CreateCustomerRequest request) {
-		CustomerResponse customerResponse = customerService.createCustomer(request.name(), request.name());
-		return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
+		CustomerResponse customer = customerService.createCustomer(request.name(), request.name());
+
+		URI location = ServletUriComponentsBuilder
+			.fromCurrentRequest()
+			.path("/{customerId}")
+			.buildAndExpand(customer.id())
+			.toUri();
+
+		return ResponseEntity.created(location).body(customer);
 	}
 
 	@GetMapping
