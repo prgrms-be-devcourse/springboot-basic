@@ -1,46 +1,50 @@
 package com.programmers.springbasic.advice;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
-public class GlobalRestControllerAdvice {
+public class GlobalRestControllerAdvice extends ResponseEntityExceptionHandler {
 
-	private static final Logger logger = LoggerFactory.getLogger(GlobalRestControllerAdvice.class);
-
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-		logger.error("Validation error occurred: ", ex);
-		ErrorResponse errorResponse = new ErrorResponse(
-			HttpStatus.BAD_REQUEST.value(),
-			"Validation error"
-		);
-		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+		HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+		logger.warn("Validation failed: ", ex);
+		List<String> errorMessages = ex.getBindingResult()
+			.getFieldErrors()
+			.stream()
+			.map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
+			.toList();
+		ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), errorMessages.toString());
+		return new ResponseEntity<>(errorResponse, headers, HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler({IllegalArgumentException.class})
+	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
 		logger.warn("An illegal argument exception occurred: ", ex);
 		ErrorResponse errorResponse = new ErrorResponse(
 			HttpStatus.BAD_REQUEST.value(),
-			"Invalid input provided."
+			ex.getMessage()
 		);
 		return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 	}
 
-	@ExceptionHandler({NoSuchElementException.class})
+	@ExceptionHandler(NoSuchElementException.class)
 	public ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException ex) {
 		logger.warn("A no such element exception occurred: ", ex);
 		ErrorResponse errorResponse = new ErrorResponse(
 			HttpStatus.NOT_FOUND.value(),
-			"The requested element was not found."
+			ex.getMessage()
 		);
 		return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
 	}
@@ -54,4 +58,5 @@ public class GlobalRestControllerAdvice {
 		);
 		return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
 }
