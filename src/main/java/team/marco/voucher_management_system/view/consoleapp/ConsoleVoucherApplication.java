@@ -8,12 +8,15 @@ import team.marco.voucher_management_system.view.consoleapp.wallet.WalletApplica
 
 import java.io.UncheckedIOException;
 
-import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.*;
+import static team.marco.voucher_management_system.error.ErrorMessage.*;
 
 @Component
 public class ConsoleVoucherApplication implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger(ConsoleVoucherApplication.class);
-    
+    public static final String MAIN_HEADER = "==== 메인 페이지 ====";
+    public static final String SELECT_SERVICE = "Q. 이용하실 서비스를 선택해 주세요.";
+    public static final String PROGRAM_EXIT = "프로그램이 종료되었습니다.";
+
     private final WalletApplication walletApplication;
     private final ManagementApplication managementApplication;
 
@@ -54,9 +57,8 @@ public class ConsoleVoucherApplication implements Runnable {
 
     public ServiceType getServiceRequest() {
         ConsoleUtil.print(SELECT_SERVICE);
-        int input = ConsoleUtil.readInt();
 
-        return ServiceType.get(input);
+        return ServiceType.get(ConsoleUtil.readInt());
     }
 
     public void handleServiceRequest(ServiceType requestedServiceType) {

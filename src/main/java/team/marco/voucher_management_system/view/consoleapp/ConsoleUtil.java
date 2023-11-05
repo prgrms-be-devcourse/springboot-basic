@@ -10,38 +10,28 @@ import java.util.List;
 import java.util.Objects;
 
 import static java.text.MessageFormat.format;
-import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.INQUIRY_COMPLETE;
-import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.WRONG_INPUT;
+import static team.marco.voucher_management_system.error.ErrorMessage.WRONG_INPUT;
 
 public final class ConsoleUtil {
-    private static final String INFO_DELIMINATOR = "\n";
     private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static final String INFO_DELIMINATOR = "\n";
+    private static final String SEPARATOR_LINE = "--------------------";
 
     private ConsoleUtil() {
         // Don't let anyone instantiate this class.
     }
 
     public static void print(Object object) {
-        System.out.print(object + System.lineSeparator());
-    }
-
-    public static void println(Object object) {
-        print(object);
-        System.out.println();
+        System.out.println(object);
     }
 
     public static void println() {
         System.out.println();
     }
 
-    public static void printStringList(List<String> list) {
-        String joinedString = String.join(INFO_DELIMINATOR, list);
-
-        if (!joinedString.isBlank()) {
-            ConsoleUtil.println(joinedString);
-        }
-
-        ConsoleUtil.println(INQUIRY_COMPLETE);
+    public static void println(Object object) {
+        print(object);
+        println();
     }
 
     public static String readString() {
@@ -60,11 +50,11 @@ public final class ConsoleUtil {
         return Integer.parseInt(readString());
     }
 
-    private static String readLine() {
-        try {
-            return reader.readLine();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+    public static void printStringList(List<String> list) {
+        String joinedString = String.join(INFO_DELIMINATOR, list);
+
+        if (!joinedString.isBlank()) {
+            println(joinedString);
         }
     }
 
@@ -75,13 +65,21 @@ public final class ConsoleUtil {
         });
     }
 
-    private static void printSeparatorLine() {
-        print("--------------------");
-    }
-
     public static void printVoucher(VoucherResponse voucher) {
         print(format("id   : {0}", voucher.getId()));
         print(format("name : {0}", voucher.getName()));
         print(format("code : {0}", voucher.getCode()));
+    }
+
+    private static String readLine() {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private static void printSeparatorLine() {
+        print(SEPARATOR_LINE);
     }
 }

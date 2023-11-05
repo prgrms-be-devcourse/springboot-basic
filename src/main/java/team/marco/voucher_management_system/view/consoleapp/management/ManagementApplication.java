@@ -11,12 +11,22 @@ import java.io.UncheckedIOException;
 
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
-import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.*;
+import static team.marco.voucher_management_system.error.ErrorMessage.*;
 import static team.marco.voucher_management_system.view.consoleapp.ConsoleUtil.*;
 
 @Component
 public class ManagementApplication {
     private static final Logger logger = LoggerFactory.getLogger(ManagementApplication.class);
+    public static final String MANAGEMENT_HEADER = "==== 관리자 페이지 ====";
+    public static final String SELECT_SERVICE = "Q. 이용하실 서비스를 선택해 주세요.";
+    public static final String DISCOUNT_PERCENT_REQUEST = "할인율을 입력해 주세요.";
+    public static final String DISCOUNT_AMOUNT_REQUEST = "할인 금액을 입력해 주세요.";
+    public static final String VOUCHER_ID_REQUEST = "쿠폰 번호를 입력해 주세요.";
+    public static final String VOUCHER_CREATE_COMPLETE = "쿠폰 생성이 완료되었습니다.";
+    public static final String INQUIRY_COMPLETE = "조회가 완료되었습니다.";
+    public static final String VOUCHER_MANUAL = """
+                1: $ 할인 쿠폰
+                2: % 할인 쿠폰""";
 
     private final VoucherController voucherController;
     private final CustomerController userController;

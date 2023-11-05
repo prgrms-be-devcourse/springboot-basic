@@ -7,11 +7,17 @@ import team.marco.voucher_management_system.controller.customer.CustomerControll
 import team.marco.voucher_management_system.controller.voucher.VoucherController;
 import team.marco.voucher_management_system.view.consoleapp.ConsoleUtil;
 
-import static team.marco.voucher_management_system.view.consoleapp.ConsoleMessage.*;
+import static team.marco.voucher_management_system.error.ErrorMessage.CUSTOMER_ID_INVALID;
+import static team.marco.voucher_management_system.error.ErrorMessage.NUMBER_REQUIRED;
 
 @Component
 public class WalletApplication {
     private static final Logger logger = LoggerFactory.getLogger(WalletApplication.class);
+    public static final String  CUSTOMER_ID_REQUEST = "사용자 아이디를 입력해주세요.";
+    public static final String WALLET_HEADER = "==== 지갑 페이지 ====";
+    public static final String SELECT_SERVICE = "Q. 이용하실 서비스를 선택해 주세요.";
+    public static final String VOUCHER_ID_REQUEST = "쿠폰 번호를 입력해 주세요.";
+    public static final String  VOUCHER_DELETE_COMPLETE = "쿠폰 삭제가 완료되었습니다.";
 
     private final VoucherController voucherController;
     private final CustomerController customerController;
