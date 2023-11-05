@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.customer.service;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.dto.CreateCustomerRequest;
-import com.programmers.vouchermanagement.customer.dto.CustomerDto;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,19 +23,19 @@ public class CustomerService {
         customerRepository.insert(customer);
     }
 
-    public List<CustomerDto> readAll() {
+    public List<CustomerResponse> readAll() {
         List<Customer> customers = customerRepository.findAll();
         if (customers.isEmpty()) {
             return Collections.emptyList();
         }
-        return customers.stream().map(CustomerDto::from).toList();
+        return customers.stream().map(CustomerResponse::from).toList();
     }
 
-    public List<CustomerDto> readAllBlackCustomer() {
+    public List<CustomerResponse> readAllBlackCustomer() {
         List<Customer> blacklist = customerRepository.findAllBlackCustomer();
         if (blacklist.isEmpty()) {
             return Collections.emptyList();
         }
-        return blacklist.stream().map(CustomerDto::from).toList();
+        return blacklist.stream().map(CustomerResponse::from).toList();
     }
 }

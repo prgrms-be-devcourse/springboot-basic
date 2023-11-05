@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.customer.controller;
 
 import com.programmers.vouchermanagement.customer.dto.CreateCustomerRequest;
-import com.programmers.vouchermanagement.customer.dto.CustomerDto;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.service.CustomerService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
@@ -30,13 +30,13 @@ public class CustomerController {
 
     @GetMapping
     @ResponseBody
-    public List<CustomerDto> readAll() {
+    public List<CustomerResponse> readAll() {
         return customerService.readAll();
     }
 
     @GetMapping("/blacklist")
     @ResponseBody
-    public List<CustomerDto> readAllBlackCustomer() {
+    public List<CustomerResponse> readAllBlackCustomer() {
         return customerService.readAllBlackCustomer();
     }
 }

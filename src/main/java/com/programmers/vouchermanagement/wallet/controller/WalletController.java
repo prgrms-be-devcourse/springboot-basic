@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.wallet.controller;
 
-import com.programmers.vouchermanagement.customer.dto.CustomerDto;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.programmers.vouchermanagement.wallet.service.WalletService;
@@ -24,7 +24,7 @@ public class WalletController {
         walletService.allocate(ownership);
     }
 
-    public CustomerDto readCustomerByVoucherId(UUID voucherId, Model model) {
+    public CustomerResponse readCustomerByVoucherId(UUID voucherId, Model model) {
         return walletService.readCustomerByVoucherId(voucherId);
     }
 

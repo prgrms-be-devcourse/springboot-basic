@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
-import com.programmers.vouchermanagement.customer.dto.CustomerDto;
+import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherTypeManager;
 import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
@@ -86,14 +86,14 @@ public class ConsoleManager {
         vouchers.forEach(voucher -> textIO.getTextTerminal().println(formatVoucherDTO(voucher)));
     }
 
-    public void printReadBlacklist(List<CustomerDto> customers) {
+    public void printReadBlacklist(List<CustomerResponse> customers) {
         if (customers.isEmpty()) {
             textIO.getTextTerminal().println(NO_CONTENT.formatted("black customer"));
         }
         customers.forEach(customer -> textIO.getTextTerminal().println(formatCustomer(customer)));
     }
 
-    private String formatCustomer(CustomerDto customer) {
+    private String formatCustomer(CustomerResponse customer) {
         return """
                 Customer ID : %s
                 Customer Name : %s
