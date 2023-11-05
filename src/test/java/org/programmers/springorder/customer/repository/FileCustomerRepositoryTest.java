@@ -3,7 +3,7 @@ package org.programmers.springorder.customer.repository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.programmers.springorder.config.jdbc.JdbcConfig;
+import org.programmers.springorder.config.file.FileConfig;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +18,22 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringJUnitConfig
-class JdbcCustomerRepositoryTest {
+class FileCustomerRepositoryTest {
 
 
     @Configuration
-    @ComponentScan(basePackageClasses = JdbcConfig.class)
-    static class Config{ }
+    @ComponentScan(basePackageClasses = FileConfig.class)
+    static class Config{
+    }
+
+    @Autowired
+    CustomerRepository customerRepository;
 
     @AfterEach
     void clear(){
-        JdbcCustomerRepository jdbcCustomerRepository = (JdbcCustomerRepository) customerRepository;
-        jdbcCustomerRepository.clear();
+        FileCustomerRepository fileCustomerRepository = (FileCustomerRepository) customerRepository;
+        fileCustomerRepository.clear();
     }
-    @Autowired
-    CustomerRepository customerRepository;
 
 
     @Test
@@ -83,6 +85,7 @@ class JdbcCustomerRepositoryTest {
         customerRepository.insert(customer2);
 
         // when
+        List<Customer> findall = customerRepository.findAll();
         List<Customer> customerList = customerRepository.findAllBlackList();
 
         // then

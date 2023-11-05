@@ -222,4 +222,6 @@ gradle-app.setting
 *.log
 
 /bin/
+
+/target/
 # End of https://www.toptal.com/developers/gitignore/api/macos,java,windows,visualstudiocode,intellij+all,gradle
