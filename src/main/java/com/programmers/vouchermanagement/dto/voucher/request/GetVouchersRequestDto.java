@@ -5,9 +5,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Data
-public class GetVouchersRequestDto {
-    VoucherType type;
-    LocalDateTime minCreatedAt;
-    LocalDateTime maxCreatedAt;
+//@Data
+public record GetVouchersRequestDto(VoucherType type, LocalDateTime minCreatedAt, LocalDateTime maxCreatedAt) {
+//    VoucherType type;
+//    LocalDateTime minCreatedAt;
+//    LocalDateTime maxCreatedAt;
 }

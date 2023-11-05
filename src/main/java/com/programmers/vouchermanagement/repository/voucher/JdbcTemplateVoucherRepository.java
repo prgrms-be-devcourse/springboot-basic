@@ -75,20 +75,20 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
         String sql = "SELECT * FROM vouchers WHERE 1 = 1";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
-        if (request.getType() != null) {
+        if (request.type() != null) {
             sql += " AND type = :type";
-            params.addValue("type", request.getType().toString());
+            params.addValue("type", request.type().toString());
         }
 
-        if (request.getMinCreatedAt() != null) {
+        if (request.minCreatedAt() != null) {
             sql += " AND created_at >= :minCreatedAt";
-            params.addValue("minCreatedAt", request.getMinCreatedAt().toString());
+            params.addValue("minCreatedAt", request.minCreatedAt().toString());
 
         }
 
-        if (request.getMaxCreatedAt() != null) {
+        if (request.maxCreatedAt() != null) {
             sql += " AND created_at <= :maxCreatedAt";
-            params.addValue("maxCreatedAt", request.getMaxCreatedAt().toString());
+            params.addValue("maxCreatedAt", request.maxCreatedAt().toString());
         }
 
         return template.query(sql, params, getVoucherRowMapper());

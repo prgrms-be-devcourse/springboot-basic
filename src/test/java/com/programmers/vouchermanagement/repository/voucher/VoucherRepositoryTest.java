@@ -52,7 +52,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
 
         // then
-        List<Voucher> savedVouchers = voucherRepository.findAll(new GetVouchersRequestDto());
+        List<Voucher> savedVouchers = voucherRepository.findAll(new GetVouchersRequestDto(null, null, null));
 
         assertThat(savedVouchers).hasSize(2);
         assertThat(savedVouchers).extracting(Voucher::getType)
@@ -68,7 +68,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
 
-        Voucher savedVoucher = voucherRepository.findAll(new GetVouchersRequestDto()).get(0);
+        Voucher savedVoucher = voucherRepository.findAll(new GetVouchersRequestDto(null, null, null)).get(0);
 
         // when
         Optional<Voucher> foundVoucher = voucherRepository.findById(savedVoucher.getId());
@@ -88,7 +88,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
 
         // when
-        List<Voucher> foundVouchers = voucherRepository.findAll(new GetVouchersRequestDto());
+        List<Voucher> foundVouchers = voucherRepository.findAll(new GetVouchersRequestDto(null, null, null));
 
         // then
         assertThat(foundVouchers).hasSize(2);
@@ -107,8 +107,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         voucherRepository.saveAll(List.of(newVoucher1, newVoucher2));
 
         VoucherType type = VoucherType.FIXED_AMOUNT;
-        GetVouchersRequestDto request = new GetVouchersRequestDto();
-        request.setType(type);
+        GetVouchersRequestDto request = new GetVouchersRequestDto(type, null, null);
 
         // when
         List<Voucher> foundVouchers = voucherRepository.findAll(request);
@@ -132,9 +131,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
 
         LocalDateTime minCreatedAt = LocalDateTime.of(2023, 11, 2, 0, 0, 0);
         LocalDateTime maxCreatedAt = LocalDateTime.of(2023, 11, 2, 23, 59, 59);
-        GetVouchersRequestDto request = new GetVouchersRequestDto();
-        request.setMinCreatedAt(minCreatedAt);
-        request.setMaxCreatedAt(maxCreatedAt);
+        GetVouchersRequestDto request = new GetVouchersRequestDto(null, minCreatedAt, maxCreatedAt);
 
         // when
         List<Voucher> foundVouchers = voucherRepository.findAll(request);
@@ -154,7 +151,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
 
-        Voucher savedVoucher = voucherRepository.findAll(new GetVouchersRequestDto()).get(0);
+        Voucher savedVoucher = voucherRepository.findAll(new GetVouchersRequestDto(null, null, null)).get(0);
 
         // when
         long newAmountValue = 2000L;
@@ -175,7 +172,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         Voucher newVoucher = new FixedAmountVoucher(1000L);
         voucherRepository.save(newVoucher);
 
-        Voucher savedVoucher = voucherRepository.findAll(new GetVouchersRequestDto()).get(0);
+        Voucher savedVoucher = voucherRepository.findAll(new GetVouchersRequestDto(null, null, null)).get(0);
 
         // when
         voucherRepository.deleteById(savedVoucher.getId());
@@ -195,7 +192,7 @@ class VoucherRepositoryTest extends ContainerBaseTest {
         voucherRepository.deleteAll();
 
         // then
-        List<Voucher> foundVouchers = voucherRepository.findAll(new GetVouchersRequestDto());
+        List<Voucher> foundVouchers = voucherRepository.findAll(new GetVouchersRequestDto(null, null, null));
         assertThat(foundVouchers).isEmpty();
     }
 }

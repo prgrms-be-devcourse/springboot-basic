@@ -39,7 +39,7 @@ public class VoucherShellController {
 
     @ShellMethod(key = "list")
     public void list() {
-        List<VoucherResponseDto> vouchers = voucherService.getVouchers(new GetVouchersRequestDto());
+        List<VoucherResponseDto> vouchers = voucherService.getVouchers(new GetVouchersRequestDto(null, null, null));
         for (VoucherResponseDto voucher : vouchers) {
             ConsoleOutput.println(voucher.toString());
         }

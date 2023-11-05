@@ -71,13 +71,13 @@ class VoucherServiceTest {
         List<Voucher> mockVouchers = Arrays.asList(
                 new FixedAmountVoucher(1000L),
                 new PercentDiscountVoucher(10L));
-        given(voucherRepository.findAll(new GetVouchersRequestDto())).willReturn(mockVouchers);
+        given(voucherRepository.findAll(new GetVouchersRequestDto(null, null, null))).willReturn(mockVouchers);
 
         // when
-        List<VoucherResponseDto> vouchers = voucherService.getVouchers(new GetVouchersRequestDto());
+        List<VoucherResponseDto> vouchers = voucherService.getVouchers(new GetVouchersRequestDto(null, null, null));
 
         // then
-        verify(voucherRepository).findAll(new GetVouchersRequestDto());
+        verify(voucherRepository).findAll(new GetVouchersRequestDto(null, null, null));
         assertThat(vouchers).hasSize(2);
         assertThat(vouchers).extracting(VoucherResponseDto::getType)
                 .containsExactlyInAnyOrder(VoucherType.FIXED_AMOUNT, VoucherType.PERCENT_DISCOUNT);
