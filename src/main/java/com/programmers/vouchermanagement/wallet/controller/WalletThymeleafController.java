@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@Profile("mvc")
+@Profile("thyme")
 @RequestMapping("/wallets")
 @Controller
-public class WalletMVCController {
+public class WalletThymeleafController {
     private final WalletService walletService;
 
-    public WalletMVCController(WalletService walletService) {
+    public WalletThymeleafController(WalletService walletService) {
         this.walletService = walletService;
     }
 

@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Profile("mvc")
+@Profile("thyme")
 @RequestMapping("/customers")
 @Controller
-public class CustomerMVCController {
+public class CustomerThymeleafController {
     private final CustomerService customerService;
 
-    public CustomerMVCController(CustomerService customerService) {
+    public CustomerThymeleafController(CustomerService customerService) {
         this.customerService = customerService;
     }
 

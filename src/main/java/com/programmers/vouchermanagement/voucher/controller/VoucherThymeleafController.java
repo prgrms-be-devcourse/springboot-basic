@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@Profile("mvc")
+@Profile("thyme")
 @RequestMapping("/vouchers")
 @Controller
-public class VoucherMVCController {
+public class VoucherThymeleafController {
     private final VoucherService voucherService;
 
-    public VoucherMVCController(VoucherService voucherService) {
+    public VoucherThymeleafController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
