@@ -19,6 +19,9 @@
         </tr>
         </tbody>
     </table>
+    <div th:if="${customers.isEmpty()}">
+        <h3>고객 정보가 없습니다!</h3>
+    </div>
     <button type="button" id="create-customer" class="btn btn-outline-primary align-items-end">Create</button>
 
     <script>

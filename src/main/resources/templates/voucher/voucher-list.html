@@ -19,6 +19,9 @@
         </tr>
         </tbody>
     </table>
+    <div th:if="${vouchers.isEmpty()}">
+        <h3>바우처 정보가 없습니다!</h3>
+    </div>
     <button type="button" id="create-voucher" class="btn btn-outline-primary align-items-end">Create</button>
 
     <script>

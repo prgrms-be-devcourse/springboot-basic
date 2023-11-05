@@ -30,8 +30,6 @@ public class HomeController {
         model.addAttribute("customers", customers);
         model.addAttribute("vouchers", vouchers);
 
-        log.info(customers.get(0).toString());
-
         return "index";
     }
 }
