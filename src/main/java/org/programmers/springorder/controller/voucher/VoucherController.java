@@ -61,5 +61,4 @@ public class VoucherController {
         console.printMessage(Message.VOUCHER_DELETED);
     }
 
-
 }

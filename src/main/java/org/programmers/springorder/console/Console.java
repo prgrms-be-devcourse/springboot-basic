@@ -41,9 +41,6 @@ public class Console {
         printMessage(Message.BACK_TO_MENU_MESSAGE);
     }
 
-    /**
-     * Voucher
-     */
     public VoucherMenuType inputVoucherMenu() {
         printMessage(Message.VOUCHER_MENU_SELECT_MESSAGE);
         printPrompt();
@@ -85,9 +82,6 @@ public class Console {
         return UUID.fromString(scanner.nextLine());
     }
 
-    /**
-     * Customer
-     */
     public CustomerMenuType inputCustomerMenu() {
         printMessage(Message.CUSTOMER_MENU_SELECT_MESSAGE);
         printPrompt();
@@ -118,9 +112,6 @@ public class Console {
         }
     }
 
-    /**
-     * Wallet
-     */
     public WalletMenuType inputWalletMenu() {
         printMessage(Message.WALLET_MENU_SELECT_MESSAGE);
         printPrompt();
