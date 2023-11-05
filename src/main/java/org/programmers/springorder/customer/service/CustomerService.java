@@ -1,5 +1,6 @@
 package org.programmers.springorder.customer.service;
 
+import org.programmers.springorder.consts.ErrorMessage;
 import org.programmers.springorder.customer.dto.CustomerRequestDto;
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
 import org.programmers.springorder.customer.model.Customer;
@@ -53,5 +54,11 @@ public class CustomerService {
                 requestDto.name(),
                 requestDto.customerType());
         customerRepository.insert(customer);
+    }
+
+    public CustomerResponseDto findCustomer(UUID customerId){
+        return customerRepository.findByID(customerId)
+                .map(CustomerResponseDto::of)
+                .orElseThrow(() -> new RuntimeException(ErrorMessage.CUSTOMER_NOT_FOUND));
     }
 }
