@@ -45,7 +45,7 @@ public class VoucherInMemoryRepository implements VoucherRepository {
 
     @Override
     public void delete(UUID id) {
-        Optional.ofNullable(vouchers.remove(id)).orElseThrow(() -> new RuntimeException(NOT_DELETED));
+        Optional.ofNullable(vouchers.remove(id)).orElseThrow(() -> new NoSuchElementException(NOT_DELETED));
     }
 
     @Override
@@ -55,7 +55,7 @@ public class VoucherInMemoryRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        Optional.ofNullable(vouchers.get(voucher.getId())).orElseThrow(() -> new RuntimeException(NOT_UPDATED));
+        Optional.ofNullable(vouchers.get(voucher.getId())).orElseThrow(() -> new NoSuchElementException(NOT_UPDATED));
         vouchers.put(voucher.getId(), voucher);
     }
 

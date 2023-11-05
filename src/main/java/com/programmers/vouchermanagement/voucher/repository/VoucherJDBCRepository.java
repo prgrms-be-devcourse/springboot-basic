@@ -61,7 +61,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
     public void delete(UUID id) {
         int update = jdbcTemplate.update(DELETE_VOUCHER, Collections.singletonMap(DomainMapper.ID_KEY, id.toString().getBytes()));
         if (update != UPDATE_ONE_FLAG) {
-            throw new RuntimeException(NOT_DELETED);
+            throw new NoSuchElementException(NOT_DELETED);
         }
     }
 
@@ -74,7 +74,7 @@ public class VoucherJDBCRepository implements VoucherRepository {
     public void update(Voucher voucher) {
         int update = jdbcTemplate.update(UPDATE_VOUCHER, domainMapper.voucherToParamMap(voucher));
         if (update != UPDATE_ONE_FLAG) {
-            throw new RuntimeException(NOT_UPDATED);
+            throw new NoSuchElementException(NOT_UPDATED);
         }
     }
 

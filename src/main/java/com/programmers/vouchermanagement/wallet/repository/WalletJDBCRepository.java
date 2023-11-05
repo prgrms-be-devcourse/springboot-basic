@@ -10,10 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
 import static com.programmers.vouchermanagement.util.Constant.UPDATE_ZERO_FLAG;
@@ -63,7 +60,7 @@ public class WalletJDBCRepository implements WalletRepository {
         int update = jdbcTemplate.update(DELETE_OWNERSHIP, domainMapper.uuidToParamMap(voucherId));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(NOT_FOUND_VOUCHER_ALLOCATION);
-            throw new RuntimeException(NOT_FOUND_VOUCHER_ALLOCATION);
+            throw new NoSuchElementException(NOT_FOUND_VOUCHER_ALLOCATION);
         }
     }
 

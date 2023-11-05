@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -52,7 +53,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public void delete(UUID id) {
-        Optional.ofNullable(voucherFileManager.vouchers.remove(id)).orElseThrow(() -> new RuntimeException(NOT_DELETED));
+        Optional.ofNullable(voucherFileManager.vouchers.remove(id)).orElseThrow(() -> new NoSuchElementException(NOT_DELETED));
         voucherFileManager.saveFile();
     }
 
@@ -64,7 +65,7 @@ public class VoucherFileRepository implements VoucherRepository {
 
     @Override
     public void update(Voucher voucher) {
-        Optional.ofNullable(voucherFileManager.vouchers.get(voucher.getId())).orElseThrow(() -> new RuntimeException(NOT_UPDATED));
+        Optional.ofNullable(voucherFileManager.vouchers.get(voucher.getId())).orElseThrow(() -> new NoSuchElementException(NOT_UPDATED));
         voucherFileManager.vouchers.put(voucher.getId(), voucher);
         voucherFileManager.saveFile();
     }
