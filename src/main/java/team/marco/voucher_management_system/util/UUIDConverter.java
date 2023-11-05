@@ -14,11 +14,11 @@ public final class UUIDConverter {
         try {
             return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
         } catch (BufferUnderflowException e) {
-            throw new IllegalArgumentException(e);
+            throw new IllegalArgumentException("UUID는 16Byte여야 합니다.");
         }
     }
 
     public static UUID convert(String string) {
-        return convert(string.getBytes());
+        return UUID.fromString(string);
     }
 }
