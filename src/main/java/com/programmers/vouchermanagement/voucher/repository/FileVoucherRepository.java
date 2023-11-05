@@ -58,8 +58,7 @@ public class FileVoucherRepository implements VoucherRepository {
     public FileVoucherRepository(FileProperties fileProperties, @Qualifier("voucher") JSONFileManager<UUID, Voucher> jsonFileManager) {
         this.filePath = fileProperties.getVoucherFilePath();
         this.jsonFileManager = jsonFileManager;
-        this.vouchers = new HashMap<>();
-        loadVouchersFromJSON();
+        this.vouchers = loadVouchersFromJSON();
     }
 
     @Override
@@ -116,9 +115,8 @@ public class FileVoucherRepository implements VoucherRepository {
         vouchers.clear();
     }
 
-    private void loadVouchersFromJSON() {
-        List<Voucher> loadedVouchers = jsonFileManager.loadFile(filePath, objectToVoucher);
-        loadedVouchers.forEach(voucher -> vouchers.put(voucher.getVoucherId(), voucher));
+    private Map<UUID, Voucher> loadVouchersFromJSON() {
+        return jsonFileManager.loadFile(filePath, objectToVoucher, Voucher::getVoucherId);
     }
 
     private void saveFile() {

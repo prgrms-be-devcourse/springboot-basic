@@ -52,8 +52,7 @@ public class FileCustomerRepository implements CustomerRepository {
         this.customerFilePath = fileProperties.getJSONCustomerFilePath();
         this.blacklistFilePath = fileProperties.getCSVCustomerFilePath();
         this.jsonFileManager = jsonFileManager;
-        this.customers = new HashMap<>();
-        loadCustomersFromJSON();
+        this.customers = loadCustomersFromJSON();;
         loadBlacklistToStorage();
     }
 
@@ -107,9 +106,8 @@ public class FileCustomerRepository implements CustomerRepository {
 
     }
 
-    private void loadCustomersFromJSON() {
-        List<Customer> loadedCustomer = jsonFileManager.loadFile(customerFilePath, objectToCustomer);
-        loadedCustomer.forEach(customer -> customers.put(customer.getCustomerId(), customer));
+    private Map<UUID, Customer> loadCustomersFromJSON() {
+        return jsonFileManager.loadFile(customerFilePath, objectToCustomer, Customer::getCustomerId);
     }
 
     private void saveFile() {
