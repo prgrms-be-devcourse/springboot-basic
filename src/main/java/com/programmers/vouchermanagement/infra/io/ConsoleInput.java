@@ -1,8 +1,11 @@
 package com.programmers.vouchermanagement.infra.io;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Scanner;
 import java.util.UUID;
 
+@Component
 public class ConsoleInput {
     private final Scanner scanner;
 
@@ -35,9 +38,5 @@ public class ConsoleInput {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException(errorMessage);
         }
-    }
-
-    public void close() {
-        scanner.close();
     }
 }

@@ -19,12 +19,11 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class VoucherShellController {
     private final VoucherService voucherService;
+    private final ConsoleInput consoleInput;
 
     @ShellMethod(key = "create")
     public void create() {
         VoucherType.printAllDescriptionsToConsole();
-
-        ConsoleInput consoleInput = new ConsoleInput();
 
         VoucherType type = VoucherType.select(consoleInput.readInt("👉Please enter a voucher type > ", "Invalid voucher type"));
         long amount = consoleInput.readLong("👉Please enter a amount > ", "Invalid amount");
@@ -36,7 +35,6 @@ public class VoucherShellController {
         voucherService.createVoucher(request);
 
         ConsoleOutput.println("✅Voucher created successfully");
-        consoleInput.close();
     }
 
     @ShellMethod(key = "list")
@@ -49,19 +47,14 @@ public class VoucherShellController {
 
     @ShellMethod(key = "detail")
     public void detail() {
-        ConsoleInput consoleInput = new ConsoleInput();
-
         UUID id = consoleInput.readUUID("👉Please enter a voucher id > ", "Invalid voucher id");
         VoucherResponseDto voucher = voucherService.getVoucher(id);
 
         ConsoleOutput.println(voucher.toString());
-        consoleInput.close();
     }
 
     @ShellMethod(key = "update")
     public void update() {
-        ConsoleInput consoleInput = new ConsoleInput();
-
         UUID id = consoleInput.readUUID("👉Please enter a voucher id > ", "Invalid voucher id");
         long amount = consoleInput.readLong("👉Please enter a amount > ", "Invalid amount");
 
@@ -72,17 +65,13 @@ public class VoucherShellController {
         voucherService.updateVoucher(id, request);
 
         ConsoleOutput.println("✅Voucher updated successfully");
-        consoleInput.close();
     }
 
     @ShellMethod(key = "delete")
     public void delete() {
-        ConsoleInput consoleInput = new ConsoleInput();
-
         UUID id = consoleInput.readUUID("👉️Please enter a voucher id > ", "Invalid voucher id");
         voucherService.deleteVoucher(id);
 
         ConsoleOutput.println("✅Voucher deleted successfully");
-        consoleInput.close();
     }
 }
