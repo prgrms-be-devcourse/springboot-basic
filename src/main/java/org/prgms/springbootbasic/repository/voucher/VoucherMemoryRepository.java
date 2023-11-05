@@ -5,6 +5,7 @@ import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +21,11 @@ public class VoucherMemoryRepository implements VoucherRepository{
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findByPolicyBetweenLocalDateTime(String voucherPolicy, LocalDateTime startOfDay, LocalDateTime endOfDay) {
+        return null;
     }
 
     @Override

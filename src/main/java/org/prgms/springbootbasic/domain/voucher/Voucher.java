@@ -10,16 +10,21 @@ import java.util.UUID;
 public class Voucher {
     private final UUID voucherId;
     private final long discountDegree;
+
     private final VoucherPolicy voucherPolicy;
     private final LocalDateTime createdAt;
 
+    public Voucher(UUID voucherId, long discountDegree, VoucherPolicy voucherPolicy, LocalDateTime createdAt) {
+        validDiscountDegree(discountDegree, voucherPolicy);
+
+        this.voucherId = voucherId;
+        this.discountDegree = discountDegree;
+        this.voucherPolicy = voucherPolicy;
+        this.createdAt = createdAt;
+    }
+
     public Voucher(UUID voucherId, long discountDegree, VoucherPolicy voucherPolicy) {
-        if (voucherPolicy instanceof PercentDiscountPolicy) {
-            if (discountDegree <= 0 || discountDegree > 100) {
-                log.error("percent value is out of range.");
-                throw new OutOfRangeException("percent value is out of range.");
-            }
-        }
+        validDiscountDegree(discountDegree, voucherPolicy);
 
         this.voucherId = voucherId;
         this.discountDegree = discountDegree;
@@ -54,5 +59,16 @@ public class Voucher {
                 ", discountDegree=" + discountDegree +
                 ", voucherPolicy=" + voucherPolicy.getClass().getSimpleName() + "@" + voucherPolicy.hashCode() +
                 '}';
+    }
+
+
+
+    private static void validDiscountDegree(long discountDegree, VoucherPolicy voucherPolicy) {
+        if (voucherPolicy instanceof PercentDiscountPolicy) {
+            if (discountDegree <= 0 || discountDegree > 100) {
+                log.error("percent value is out of range.");
+                throw new OutOfRangeException("percent value is out of range.");
+            }
+        }
     }
 }

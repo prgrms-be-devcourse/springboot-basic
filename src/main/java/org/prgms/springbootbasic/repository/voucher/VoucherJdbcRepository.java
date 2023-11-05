@@ -5,11 +5,13 @@ import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.springframework.context.annotation.Profile;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.prgms.springbootbasic.common.UtilMethod.bytesToUUID;
@@ -54,6 +56,18 @@ public class VoucherJdbcRepository implements VoucherRepository { // 네이밍 �
     }
 
     @Override
+    public List<Voucher> findByPolicyBetweenLocalDateTime(String voucherPolicy, LocalDateTime startOfDay, LocalDateTime endOfDay) {
+        try {
+            return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type LIKE :voucherPolicy AND created_at >= :start AND created_at <= :end",
+                            Map.of("voucherPolicy", voucherPolicy, "start", startOfDay, "end", endOfDay),
+                            mapToVoucher);
+        } catch (DataAccessException e) {
+            log.error("바우처를 가져오는데 예외 발생");
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
     public List<Voucher> findAll() {
         return jdbcTemplate.query("SELECT * FROM vouchers", mapToVoucher);
     }
@@ -81,13 +95,14 @@ public class VoucherJdbcRepository implements VoucherRepository { // 네이밍 �
         UUID voucherId = bytesToUUID(rs.getBytes("voucher_id"));
         long discountDegree = rs.getLong("discount_degree");
         String voucherTypeString = rs.getString("voucher_type");
+        LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
         VoucherType voucherType = Arrays.stream(VoucherType.values())
                 .filter(vt -> vt.getDisplayName().equals(voucherTypeString))
                 .findAny()
                 .orElseThrow(() -> new NoSuchElementException("해당 VoucherType이 존재하지 않음."));
         VoucherPolicy voucherPolicy = voucherType.create();
 
-        return new Voucher(voucherId, discountDegree, voucherPolicy);
+        return new Voucher(voucherId, discountDegree, voucherPolicy, createdAt);
     };
 
 

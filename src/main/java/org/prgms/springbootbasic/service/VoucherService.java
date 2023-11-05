@@ -8,6 +8,7 @@ import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.repository.voucher.VoucherRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,6 +47,10 @@ public class VoucherService {
 
     public Optional<Voucher> findById(UUID voucherId){
         return voucherRepository.findById(voucherId);
+    }
+
+    public List<Voucher> findByPolicyBetweenLocalDateTime(String voucherPolicy, LocalDateTime startOfDay, LocalDateTime endOfDay) {
+        return voucherRepository.findByPolicyBetweenLocalDateTime(voucherPolicy, startOfDay, endOfDay);
     }
 
     public List<Voucher> findAll(){
