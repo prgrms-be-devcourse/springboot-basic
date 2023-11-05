@@ -1,6 +1,6 @@
 package com.prgrms.vouchermanagement.core.voucher.controller.console;
 
-import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreateRequest;
+import com.prgrms.vouchermanagement.core.voucher.controller.request.VoucherCreationRequest;
 import com.prgrms.vouchermanagement.core.voucher.controller.response.VouchersResponse;
 import com.prgrms.vouchermanagement.core.voucher.domain.VoucherType;
 import com.prgrms.vouchermanagement.core.voucher.dto.VoucherDto;
@@ -26,10 +26,10 @@ public class ConsoleVoucherController {
 
     /**
      * 바우처 등록
-     * @param voucherCreateRequest
+     * @param voucherCreationRequest
      */
-    public void createVoucher(VoucherCreateRequest voucherCreateRequest) {
-        VoucherDto voucherDto = new VoucherDto(voucherCreateRequest.getName(), voucherCreateRequest.getAmount(), VoucherType.getType(voucherCreateRequest.getVoucherType()));
+    public void createVoucher(VoucherCreationRequest voucherCreationRequest) {
+        VoucherDto voucherDto = new VoucherDto(voucherCreationRequest.getName(), voucherCreationRequest.getAmount(), VoucherType.getType(voucherCreationRequest.getVoucherType()));
         voucherService.create(voucherDto);
     }
 

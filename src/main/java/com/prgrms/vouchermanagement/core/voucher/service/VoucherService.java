@@ -20,8 +20,9 @@ public class VoucherService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void create(VoucherDto voucherDto) {
-        voucherRepository.save(Mapper.toVoucher(voucherDto));
+    public VoucherDto create(VoucherDto voucherDto) {
+        Voucher voucher = voucherRepository.save(Mapper.toVoucher(voucherDto));
+        return new VoucherDto(voucher.getId(), voucher.getName(), voucher.getAmount(), voucher.getVoucherType());
     }
 
     public List<VoucherDto> findAll() {

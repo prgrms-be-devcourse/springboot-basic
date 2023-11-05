@@ -22,6 +22,12 @@ public class VoucherDto {
         this.voucherType = voucherType;
     }
 
+    public VoucherDto(String name, long amount, String voucherType) {
+        this.name = name;
+        this.amount = amount;
+        this.voucherType = VoucherType.getType(voucherType);
+    }
+
     public String getId() {
         return id;
     }
