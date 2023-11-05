@@ -10,6 +10,7 @@ import team.marco.voucher_management_system.repository.voucher.VoucherRepository
 
 import java.util.List;
 
+@Transactional(readOnly = true)
 @Service
 public class VoucherService {
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
@@ -43,6 +44,7 @@ public class VoucherService {
         return voucherRepository.findById(voucherId).orElseThrow();
     }
 
+    @Transactional
     public void deleteVoucher(Long voucherId) {
         voucherRepository.deleteById(voucherId);
     }
