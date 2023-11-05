@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import jakarta.validation.Valid;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import com.programmers.vouchermanagement.customer.dto.UpdateCustomerRequest;
 import com.programmers.vouchermanagement.customer.service.CustomerService;
 
 @Controller
+@ConditionalOnWebApplication
 @RequestMapping("/customers")
 public class CustomerAdminController {
     private final CustomerService customerService;
