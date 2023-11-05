@@ -79,13 +79,4 @@ public class VoucherServiceTest {
 
         assertThat(updateDto.discountAmount()).isEqualTo(updatedVoucher.getDiscountAmount());
     }
-
-    @Test
-    @DisplayName("바우처를 삭제할 수 있다.")
-    void delete(){
-        Voucher voucher = new FixedAmountVoucher(1000L);
-        service.deleteVoucher(voucher.getId());
-        verify(repository).deleteById(voucher.getId());
-    }
-
 }

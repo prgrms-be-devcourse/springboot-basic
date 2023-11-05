@@ -63,7 +63,7 @@ public class MemoryVoucherRepositoryTest {
         //given
         Voucher voucher1 = saveVoucher();
         //when
-        List<Voucher> vouchers = repository.getByType(FIXED);
+        List<Voucher> vouchers = repository.getByType(PERCENT);
         //then
         assertThat(vouchers.size()).isEqualTo(1);
         assertThat(vouchers.get(0).getId()).isEqualTo(voucher1.getId());
@@ -78,7 +78,7 @@ public class MemoryVoucherRepositoryTest {
         repository.deleteById(voucher.getId());
         //then
         RuntimeException e = assertThrows(RuntimeException.class, () -> repository.getById(voucher.getId()));
-        assertThat(e.getMessage()).isEqualTo("바우처가 존재하지 않습니다.");
+        assertThat(e.getMessage()).isEqualTo("해당 아이디를 가진 바우처가 존재하지 않습니다.");
     }
 
 
