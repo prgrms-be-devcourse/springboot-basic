@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.vouchermanagement.constant.Message.NOT_DELETED;
-import static com.programmers.vouchermanagement.constant.Message.NOT_UPDATED;
+import static com.programmers.vouchermanagement.util.Message.NOT_DELETED;
+import static com.programmers.vouchermanagement.util.Message.NOT_UPDATED;
 
 @Repository
 @Profile("file")

@@ -16,7 +16,7 @@ import java.io.UncheckedIOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.programmers.vouchermanagement.constant.Message.*;
+import static com.programmers.vouchermanagement.util.Message.*;
 
 @Component
 @Profile("file")

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.programmers.vouchermanagement.constant.Constant.LINE_SEPARATOR;
+import static com.programmers.vouchermanagement.util.Constant.LINE_SEPARATOR;
 
 @Profile("console")
 @Component

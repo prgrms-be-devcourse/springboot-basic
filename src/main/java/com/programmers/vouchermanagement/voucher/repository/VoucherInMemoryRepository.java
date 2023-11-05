@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.programmers.vouchermanagement.constant.Message.NOT_DELETED;
-import static com.programmers.vouchermanagement.constant.Message.NOT_UPDATED;
+import static com.programmers.vouchermanagement.util.Message.NOT_DELETED;
+import static com.programmers.vouchermanagement.util.Message.NOT_UPDATED;
 
 @Repository
 @Profile("memory")

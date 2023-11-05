@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
-import static com.programmers.vouchermanagement.constant.Message.NOT_FOUND_VOUCHER;
+import static com.programmers.vouchermanagement.util.Message.NOT_FOUND_VOUCHER;
 
 @Service
 public class VoucherService {

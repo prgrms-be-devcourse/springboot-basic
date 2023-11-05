@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.programmers.vouchermanagement.constant.Constant.UPDATE_ONE_FLAG;
-import static com.programmers.vouchermanagement.constant.Message.NOT_INSERTED;
+import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
+import static com.programmers.vouchermanagement.util.Message.NOT_INSERTED;
 import static com.programmers.vouchermanagement.customer.repository.CustomerQuery.*;
 
 @Repository

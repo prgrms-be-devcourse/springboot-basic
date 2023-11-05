@@ -27,7 +27,6 @@ public class DomainMapper {
     public static final String CREATED_AT_KEY = "created_at";
     public static final String FROM_KEY = "from";
     public static final String TO_KEY = "to";
-
     public final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID id = toUUID(resultSet.getBytes(ID_KEY));
         long discountValue = resultSet.getLong(DISCOUNT_VALUE_KEY);
@@ -43,6 +42,9 @@ public class DomainMapper {
 
         return new Customer(id, name, isBlack);
     };
+
+    private DomainMapper() {
+    }
 
     private static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);

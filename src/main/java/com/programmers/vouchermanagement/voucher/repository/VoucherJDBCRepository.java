@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static com.programmers.vouchermanagement.constant.Constant.UPDATE_ONE_FLAG;
-import static com.programmers.vouchermanagement.constant.Message.*;
+import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
+import static com.programmers.vouchermanagement.util.Message.*;
 import static com.programmers.vouchermanagement.voucher.repository.VoucherQuery.*;
 
 @Profile("jdbc")

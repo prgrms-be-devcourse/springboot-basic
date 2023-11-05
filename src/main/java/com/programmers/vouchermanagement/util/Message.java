@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.constant;
+package com.programmers.vouchermanagement.util;
 
 public class Message {
     public final static String NOT_INSERTED = "Noting was inserted!";
@@ -14,4 +14,6 @@ public class Message {
     public static final String ALREADY_EMPTY_TABLE = "The table is already empty.";
     public static final String FILE_EXCEPTION = "Error raised while opening the file.";
     public static final String INVALID_VOUCHER_TYPE = "Voucher type should be either fixed amount or percent discount voucher.";
+    private Message() {
+    }
 }

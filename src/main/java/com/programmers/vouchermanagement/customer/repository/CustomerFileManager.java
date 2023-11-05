@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.programmers.vouchermanagement.constant.Constant.COMMA_SEPARATOR;
-import static com.programmers.vouchermanagement.constant.Message.FILE_EXCEPTION;
-import static com.programmers.vouchermanagement.constant.Message.IO_EXCEPTION;
+import static com.programmers.vouchermanagement.util.Constant.COMMA_SEPARATOR;
+import static com.programmers.vouchermanagement.util.Message.FILE_EXCEPTION;
+import static com.programmers.vouchermanagement.util.Message.IO_EXCEPTION;
 
 @Component
 @Profile("file")

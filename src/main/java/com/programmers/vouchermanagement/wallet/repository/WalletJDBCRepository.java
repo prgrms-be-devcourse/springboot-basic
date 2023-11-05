@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.programmers.vouchermanagement.constant.Constant.UPDATE_ONE_FLAG;
-import static com.programmers.vouchermanagement.constant.Constant.UPDATE_ZERO_FLAG;
-import static com.programmers.vouchermanagement.constant.Message.*;
+import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
+import static com.programmers.vouchermanagement.util.Constant.UPDATE_ZERO_FLAG;
+import static com.programmers.vouchermanagement.util.Message.*;
 import static com.programmers.vouchermanagement.wallet.repository.WalletQuery.*;
 
 @Repository
