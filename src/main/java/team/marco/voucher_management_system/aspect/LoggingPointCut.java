@@ -6,7 +6,7 @@ public final class LoggingPointCut {
     private LoggingPointCut() {
     }
 
-    @Pointcut("execution(* team.marco.voucher_management_system.controller..*(..))")
+    @Pointcut("execution(* team.marco.voucher_management_system..controller..*(..))")
     public static void controllerMethodPointcut() {
     }
 
