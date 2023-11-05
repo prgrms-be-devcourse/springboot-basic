@@ -6,12 +6,12 @@ import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.controller.customer.CustomerController;
 import team.marco.voucher_management_system.controller.voucher.VoucherController;
 import team.marco.voucher_management_system.controller.voucher.dto.VoucherCreateRequest;
-
-import java.io.UncheckedIOException;
+import team.marco.voucher_management_system.view.consoleapp.ConsoleUtil;
 
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.FIXED;
 import static team.marco.voucher_management_system.domain.voucher.VoucherType.PERCENT;
-import static team.marco.voucher_management_system.error.ErrorMessage.*;
+import static team.marco.voucher_management_system.error.ErrorMessage.NUMBER_REQUIRED;
+import static team.marco.voucher_management_system.error.ErrorMessage.WRONG_INPUT;
 import static team.marco.voucher_management_system.view.consoleapp.ConsoleUtil.*;
 
 @Component
@@ -21,7 +21,7 @@ public class ManagementApplication {
     public static final String SELECT_SERVICE = "Q. 이용하실 서비스를 선택해 주세요.";
     public static final String DISCOUNT_PERCENT_REQUEST = "할인율을 입력해 주세요.";
     public static final String DISCOUNT_AMOUNT_REQUEST = "할인 금액을 입력해 주세요.";
-    public static final String VOUCHER_ID_REQUEST = "쿠폰 번호를 입력해 주세요.";
+    public static final String VOUCHER_ID_REQUEST = "쿠폰 아이디를 입력해 주세요.";
     public static final String VOUCHER_CREATE_COMPLETE = "쿠폰 생성이 완료되었습니다.";
     public static final String INQUIRY_COMPLETE = "조회가 완료되었습니다.";
     public static final String VOUCHER_MANUAL = """
@@ -29,53 +29,59 @@ public class ManagementApplication {
                 2: % 할인 쿠폰""";
 
     private final VoucherController voucherController;
-    private final CustomerController userController;
+    private final CustomerController customerController;
 
     private Boolean isRunning;
 
-    public ManagementApplication(VoucherController voucherController, CustomerController userController) {
+    public ManagementApplication(VoucherController voucherController, CustomerController customerController) {
         this.voucherController = voucherController;
-        this.userController = userController;
+        this.customerController = customerController;
         this.isRunning = true;
     }
 
     public void run() {
         while (isRunning) {
             try {
-                selectCommand();
+                provideCommandManual();
+                ManagementCommandType input = getCommandType();
+                handleCommand(input);
             } catch (Exception e) {
                 handleException(e);
             }
         }
     }
 
-    public void selectCommand() {
+    public void provideCommandManual() {
         print(MANAGEMENT_HEADER);
 
         for(ManagementCommandType type : ManagementCommandType.values()) {
-            print(type.getInfo());
+            print(type.getManual());
         }
 
         println();
+    }
 
+    public ManagementCommandType getCommandType() {
         print(SELECT_SERVICE);
-        int input = readInt();
 
-        ManagementCommandType commandType = ManagementCommandType.get(input);
+        return ManagementCommandType.get(readInt());
+    }
+
+    public void handleCommand(ManagementCommandType commandType) {
         switch (commandType) {
             case CREATE_VOUCHER -> createVoucher();
             case VOUCHER_LIST -> getVoucherList();
             case SEARCH_VOUCHER -> getVoucherInfo();
             case CUSTOMER_LIST -> getCustomerList();
             case BLACKLIST -> getBlacklist();
-            case BACK -> close();
+            case BACK -> exit();
         }
     }
 
     private void getCustomerList() {
-        /**
-         * TODO: getCustomerList() 구현
-         */
+        ConsoleUtil.printCustomerList(customerController.findAll());
+        println();
+        println(INQUIRY_COMPLETE);
     }
 
     private void getVoucherInfo() {
@@ -136,31 +142,21 @@ public class ManagementApplication {
     private void getBlacklist() {
         logger.info("Call getBlackListUsers()");
 
-        printStringList(userController.getBlacklistInfo());
+        printStringList(customerController.getBlacklistInfo());
+        println();
+        println(INQUIRY_COMPLETE);
     }
 
-    private void close() {
+    private void exit() {
         isRunning = false;
     }
 
     private void handleException(Exception e) {
         if(e instanceof NumberFormatException) {
-            print(NUMBER_REQUIRED);
+            ConsoleUtil.print(NUMBER_REQUIRED);
             return;
         }
 
-        if(e instanceof IllegalArgumentException) {
-            print(e.getMessage());
-            return;
-        }
-
-        logger.error(e.toString());
-
-        String errorMessage = (e instanceof UncheckedIOException)? FILE_ERROR : PROGRAM_ERROR;
-        print(errorMessage);
-
-        isRunning = false;
-
-        close();
+        ConsoleUtil.println(e.getMessage());
     }
 }

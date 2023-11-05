@@ -65,7 +65,7 @@ public class ConsoleVoucherApplication implements Runnable {
         switch (requestedServiceType) {
             case MANAGEMENT -> runManagementApplication();
             case WALLET -> runWalletApplication();
-            case EXIT -> exitProgram();
+            case EXIT -> exit();
         }
     }
 
@@ -77,7 +77,7 @@ public class ConsoleVoucherApplication implements Runnable {
         walletApplication.run();
     }
 
-    private void exitProgram() {
+    private void exit() {
         logger.info("Call close()");
 
         isRunning = false;
@@ -102,6 +102,6 @@ public class ConsoleVoucherApplication implements Runnable {
 
         isRunning = false;
 
-        exitProgram();
+        exit();
     }
 }

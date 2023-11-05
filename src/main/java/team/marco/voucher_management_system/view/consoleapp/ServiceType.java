@@ -11,10 +11,10 @@ public enum ServiceType {
 
     private static final String SERVICE_NOT_EXIST = "해당 서비스가 존재하지 않습니다.";
 
-    private final int num;
+    private final Integer num;
     private final String description;
 
-    ServiceType(int num, String description) {
+    ServiceType(Integer num, String description) {
         this.num = num;
         this.description = description;
     }
@@ -26,15 +26,15 @@ public enum ServiceType {
                 .orElseThrow(() -> new IllegalArgumentException(format(SERVICE_NOT_EXIST)));
     }
 
-    private static boolean isEqual(int targetNum, int serviceNum) {
-        return targetNum == serviceNum;
-    }
-
-    public int getNum() {
+    public Integer getNum() {
         return num;
     }
 
     public String getManual() {
-        return num + ". " + description;
+        return format("{0}. {1}", num, description);
+    }
+
+    private static Boolean isEqual(int targetNum, int serviceNum) {
+        return targetNum == serviceNum;
     }
 }

@@ -5,15 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import team.marco.voucher_management_system.controller.customer.CustomerController;
 import team.marco.voucher_management_system.controller.voucher.VoucherController;
+import team.marco.voucher_management_system.domain.customer.Customer;
 import team.marco.voucher_management_system.view.consoleapp.ConsoleUtil;
+
+import java.util.UUID;
 
 import static team.marco.voucher_management_system.error.ErrorMessage.CUSTOMER_ID_INVALID;
 import static team.marco.voucher_management_system.error.ErrorMessage.NUMBER_REQUIRED;
+import static team.marco.voucher_management_system.view.consoleapp.ConsoleUtil.*;
 
 @Component
 public class WalletApplication {
     private static final Logger logger = LoggerFactory.getLogger(WalletApplication.class);
-    public static final String  CUSTOMER_ID_REQUEST = "사용자 아이디를 입력해주세요.";
+    public static final String  CUSTOMER_EMAIL_REQUEST = "사용자 이메일을 입력해주세요.";
     public static final String WALLET_HEADER = "==== 지갑 페이지 ====";
     public static final String SELECT_SERVICE = "Q. 이용하실 서비스를 선택해 주세요.";
     public static final String VOUCHER_ID_REQUEST = "쿠폰 번호를 입력해 주세요.";
@@ -23,6 +27,7 @@ public class WalletApplication {
     private final CustomerController customerController;
 
     private Boolean isRunning;
+    private UUID customerId;
 
     public WalletApplication(VoucherController voucherController, CustomerController customerController) {
         this.voucherController = voucherController;
@@ -31,35 +36,48 @@ public class WalletApplication {
     }
 
     public void run() {
-        ConsoleUtil.print(CUSTOMER_ID_REQUEST);
-        String customerId = ConsoleUtil.readString();
-
-        if(!customerController.isExistCustomer(customerId)) {
-            throw new IllegalArgumentException(CUSTOMER_ID_INVALID);
-        }
+        customerId = validateCustomer();
 
         while (isRunning) {
             try {
-                selectCommand(customerId);
-            } catch (Exception e) {
+                provideCommandManual();
+                WalletCommandType input = getCommandType();
+                handleCommand(input);
+            } catch (IllegalArgumentException e) {
                 handleException(e);
             }
         }
     }
 
-    private void selectCommand(String customerId) {
-        ConsoleUtil.print(WALLET_HEADER);
+    private UUID validateCustomer() {
+        ConsoleUtil.print(CUSTOMER_EMAIL_REQUEST);
+        String customerEmail = ConsoleUtil.readString();
+
+        Customer customer = customerController.findCustomerByEmail(customerEmail);
+
+        if(customer == null) {
+            throw new IllegalArgumentException(CUSTOMER_ID_INVALID);
+        }
+        return customer.getId();
+    }
+
+    public void provideCommandManual() {
+        print(WALLET_HEADER);
 
         for(WalletCommandType type : WalletCommandType.values()) {
-            ConsoleUtil.print(type.getInfo());
+            print(type.getManual());
         }
 
-        ConsoleUtil.println();
+        println();
+    }
 
-        ConsoleUtil.print(SELECT_SERVICE);
-        int input = ConsoleUtil.readInt();
+    public WalletCommandType getCommandType() {
+        print(SELECT_SERVICE);
 
-        WalletCommandType commandType = WalletCommandType.get(input);
+        return WalletCommandType.get(readInt());
+    }
+
+    public void handleCommand(WalletCommandType commandType) {
         switch (commandType) {
             case REGISTER -> registerVoucher(customerId);
             case LIST -> getMyVouchers(customerId);
@@ -68,11 +86,11 @@ public class WalletApplication {
         }
     }
 
-    private void getMyVouchers(String customerId) {
+    private void getMyVouchers(UUID customerId) {
         // TODO
     }
 
-    private void registerVoucher(String customerId) {
+    private void registerVoucher(UUID customerId) {
         // TODO
     }
 
@@ -94,16 +112,6 @@ public class WalletApplication {
             return;
         }
 
-        if(e instanceof IllegalArgumentException) {
-            ConsoleUtil.print(e.getMessage());
-            return;
-        }
-
-        logger.error(e.toString());
-
-        ConsoleUtil.print(e.getMessage());
-
-        isRunning = false;
+        ConsoleUtil.println(e.getMessage());
     }
-
 }

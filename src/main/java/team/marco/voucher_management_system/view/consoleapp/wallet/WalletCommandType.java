@@ -2,6 +2,8 @@ package team.marco.voucher_management_system.view.consoleapp.wallet;
 
 import java.util.Arrays;
 
+import static java.text.MessageFormat.format;
+
 public enum WalletCommandType {
     BACK(1, "메인 페이지로 돌아가기"),
     REGISTER(2, "쿠폰 등록"),
@@ -18,7 +20,7 @@ public enum WalletCommandType {
 
     public static WalletCommandType get(int num) {
         return Arrays.stream(WalletCommandType.values())
-                .filter(v -> v.getNum() == num)
+                .filter(v -> isEqual(num, v.getNum()))
                 .findAny()
                 .orElseThrow();
     }
@@ -27,7 +29,11 @@ public enum WalletCommandType {
         return num;
     }
 
-    public String getInfo() {
-        return num + ". " + description;
+    public String getManual() {
+        return format("{0}. {1}", num, description);
+    }
+
+    private static Boolean isEqual(int targetNum, int serviceNum) {
+        return targetNum == serviceNum;
     }
 }
