@@ -9,29 +9,29 @@
                 # 쿠폰 목록
             </div>
         </div>
-        <button type="button" onclick="location.href='/vouchers/create'"> 추가 </button>
-        <div class="row ">
-            <div class="table-responsive portlet">
+        <button type="button" class="btn btn-primary" onclick="location.href='/vouchers/create'"> 추가 </button>
+        <div class="row">
+            <div class="table-responsive portlet voucher-table">
                 <table class="table table-sm table-hover tb-success">
                     <tr class="center">
-                        <th></th>
                         <th>ID</th>
                         <th>쿠폰명</th>
                         <th>쿠폰 코드</th>
+                        <th></th>
                     </tr>
                     <th:block th:each="voucher : ${vouchers}">
                         <tr>
+                            <td th:text="${voucher.id}"></td>
+                            <td>
+                                <a th:href="@{/vouchers/{voucherId}(voucherId = ${voucher.id})}" th:text="${voucher.name}"></a>
+                            </td>
+                            <td th:text="${voucher.code}"></td>
                             <th>
                                 <form th:action="@{'/vouchers/' + ${voucher.id}}" method="post">
                                     <input type="hidden" name="_method" value="DELETE" />
                                     <button type="submit"> X </button>
                                 </form>
                             </th>
-                            <td th:text="${voucher.id}"></td>
-                            <td>
-                                <a th:href="@{/vouchers/{voucherId}(voucherId = ${voucher.id})}" th:text="${voucher.name}"></a>
-                            </td>
-                            <td th:text="${voucher.code}"></td>
                         </tr>
                     </th:block>
                 </table>

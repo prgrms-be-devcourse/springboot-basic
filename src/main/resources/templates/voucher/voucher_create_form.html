@@ -1,27 +1,30 @@
 <!DOCTYPE html>
 <html lang="ko"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Voucher 생성</title>
-</head>
-<body>
-<h1>쿠폰 생성</h1>
-<form th:action="@{/vouchers}" method="post">
-    <div>
-        <label for="voucherType">쿠폰 유형 : </label>
-        <select id="voucherType" name="voucherType">
-            <option value="FIXED"> $ 할인 쿠폰 </option>
-            <option value="PERCENT"> % 할인 쿠폰</option>
-        </select>
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layouts/layout}">
+
+<th:block layout:fragment="content">
+    <div class="row main-head ">
+        <div class="col-12 main-title ">
+            # 쿠폰 생성
+        </div>
     </div>
-    <div>
-        <label for="discountValue">할인 금액 또는 할인율 : </label>
-        <input type="number" id="discountValue" name="discountValue" required>
+    <div class="portlet">
+    <form th:action="@{/vouchers}" method="post">
+        <div>
+            <label> 쿠폰 유형: </label>
+            <input type="radio" id="fixedType" name="voucherType" value="FIXED" /> $ 할인 쿠폰
+            <input type="radio" id="percentType" name="voucherType" value="PERCENT" /> % 할인 쿠폰<br/>
+        </div>
+        <div>
+            <label for="discountValue">할인 금액 또는 할인율 : </label>
+            <input type="text" id="discountValue" name="discountValue" required>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">쿠폰 생성</button>
+        </div>
+    </form>
     </div>
-    <div>
-        <button type="submit">쿠폰 생성</button>
-    </div>
-</form>
-</body>
+</th:block>
 </html>
