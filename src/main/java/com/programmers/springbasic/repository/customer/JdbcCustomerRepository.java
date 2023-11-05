@@ -30,7 +30,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public Customer insert(Customer customer) {
 		String sql = "INSERT INTO customer (customer_id, name, email, created_at) VALUES (?, ?, ?, ?)";
-		jdbcTemplate.update(sql, customer.getId(), customer.getName(), customer.getEmail(), customer.getCreatedAt());
+		jdbcTemplate.update(sql, customer.getId().toString(), customer.getName(), customer.getEmail(), customer.getCreatedAt());
 		return customer;
 	}
 
@@ -54,28 +54,14 @@ public class JdbcCustomerRepository implements CustomerRepository {
 	@Override
 	public Optional<Customer> findById(UUID id) {
 		String sql = "SELECT * FROM customer WHERE customer_id = ?";
-		List<Customer> customers = jdbcTemplate.query(sql, customerRowMapper, id);
+		List<Customer> customers = jdbcTemplate.query(sql, customerRowMapper, id.toString());
 		return customers.isEmpty() ? Optional.empty() : Optional.of(customers.get(0));
 	}
 
 	@Override
 	public void deleteById(UUID id) {
 		String sql = "DELETE FROM customer WHERE customer_id = ?";
-		jdbcTemplate.update(sql, id);
-	}
-
-	@Override
-	public List<Customer> findAllById(List<UUID> customerIds) {
-		if (customerIds == null || customerIds.isEmpty()) {
-			return Collections.emptyList();
-		}
-
-		String placeholders = String.join(",", Collections.nCopies(customerIds.size(), "?"));
-		String sql = "SELECT * FROM customer WHERE customer_id IN (" + placeholders + ")";
-
-		Object[] params = customerIds.toArray();
-
-		return jdbcTemplate.query(sql, customerRowMapper, params);
+		jdbcTemplate.update(sql, id.toString());
 	}
 
 }

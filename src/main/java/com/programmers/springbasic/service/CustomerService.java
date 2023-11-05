@@ -5,17 +5,19 @@ import static com.programmers.springbasic.constants.ErrorCode.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
-import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.entity.voucher.Voucher;
+import com.programmers.springbasic.entity.wallet.Wallet;
 import com.programmers.springbasic.repository.customer.BlacklistCustomerRepository;
 import com.programmers.springbasic.repository.customer.CustomerRepository;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
+import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.repository.voucher.VoucherRepository;
 import com.programmers.springbasic.repository.wallet.WalletRepository;
 
@@ -88,13 +90,11 @@ public class CustomerService {
 	}
 
 	public List<VoucherResponse> getVouchersByCustomer(UUID customerId) {
-		Customer customer = customerRepository.findById(customerId)
-			.orElseThrow(() -> new NoSuchElementException(CUSTOMER_NOT_FOUND.getMessage()));
+		List<Wallet> wallets = walletRepository.findByCustomerId(customerId);
 
-		List<UUID> voucherIds = walletRepository.findVoucherIdsByCustomerId(customer.getId());
-
-		List<Voucher> vouchers = voucherRepository.findAllById(voucherIds);
-		return vouchers.stream()
+		return wallets.stream()
+			.map(wallet -> voucherRepository.findById(wallet.voucherId()).orElse(null))
+			.filter(Objects::nonNull)
 			.map(VoucherResponse::from)
 			.toList();
 	}

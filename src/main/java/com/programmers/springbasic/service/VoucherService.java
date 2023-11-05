@@ -5,19 +5,20 @@ import static com.programmers.springbasic.constants.ErrorCode.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
-import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
-import com.programmers.springbasic.entity.customer.Customer;
 import com.programmers.springbasic.entity.voucher.FixedAmountVoucher;
 import com.programmers.springbasic.entity.voucher.PercentDiscountVoucher;
 import com.programmers.springbasic.entity.voucher.Voucher;
 import com.programmers.springbasic.entity.voucher.VoucherType;
+import com.programmers.springbasic.entity.wallet.Wallet;
 import com.programmers.springbasic.repository.customer.CustomerRepository;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
+import com.programmers.springbasic.repository.dto.voucher.VoucherResponse;
 import com.programmers.springbasic.repository.voucher.VoucherRepository;
 import com.programmers.springbasic.repository.wallet.WalletRepository;
 
@@ -73,13 +74,11 @@ public class VoucherService {
 	}
 
 	public List<CustomerResponse> getCustomersByVoucher(UUID voucherId) {
-		Voucher voucher = voucherRepository.findById(voucherId)
-			.orElseThrow(() -> new NoSuchElementException(VOUCHER_NOT_FOUND.getMessage()));
+		List<Wallet> wallets = walletRepository.findByVoucherId(voucherId);
 
-		List<UUID> customerIds = walletRepository.findCustomerIdsByVoucherId(voucher.getVoucherId());
-
-		List<Customer> customers = customerRepository.findAllById(customerIds);
-		return customers.stream()
+		return wallets.stream()
+			.map(wallet -> customerRepository.findById(wallet.customerId()).orElse(null))
+			.filter(Objects::nonNull)
 			.map(CustomerResponse::from)
 			.toList();
 	}

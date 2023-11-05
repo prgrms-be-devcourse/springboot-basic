@@ -77,14 +77,6 @@ public class FileVoucherRepository implements VoucherRepository {
 	}
 
 	@Override
-	public List<Voucher> findAllById(List<UUID> voucherIds) {
-		return voucherIds.stream()
-			.map(storage::get)
-			.filter(Objects::nonNull)
-			.toList();
-	}
-
-	@Override
 	public List<Voucher> findByCriteria(LocalDateTime startDate, LocalDateTime endDate, VoucherType voucherType) {
 		return null;
 	}

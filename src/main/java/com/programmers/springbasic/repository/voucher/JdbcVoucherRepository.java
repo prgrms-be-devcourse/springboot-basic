@@ -56,7 +56,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			amountValue = voucher.getDiscountValue();
 		}
 
-		jdbcTemplate.update(sql, voucher.getVoucherId(), voucher.getVoucherType().name(), percentValue, amountValue, voucher.getCreatedAt());
+		jdbcTemplate.update(sql, voucher.getVoucherId().toString(), voucher.getVoucherType().name(), percentValue, amountValue, voucher.getCreatedAt());
 		return voucher;
 	}
 
@@ -66,9 +66,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		String updateForFixedAmountVoucher = "UPDATE voucher SET amount=? WHERE voucher_id=?";
 
 		if (voucher instanceof PercentDiscountVoucher) {
-			jdbcTemplate.update(updateForPercentDiscountVoucher, voucher.getDiscountValue(), voucher.getVoucherId());
+			jdbcTemplate.update(updateForPercentDiscountVoucher, voucher.getDiscountValue(), voucher.getVoucherId().toString());
 		} else if (voucher instanceof FixedAmountVoucher) {
-			jdbcTemplate.update(updateForFixedAmountVoucher, voucher.getDiscountValue(), voucher.getVoucherId());
+			jdbcTemplate.update(updateForFixedAmountVoucher, voucher.getDiscountValue(), voucher.getVoucherId().toString());
 		}
 		return voucher;
 	}
@@ -82,28 +82,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	@Override
 	public Optional<Voucher> findById(UUID id) {
 		String sql = "SELECT * FROM voucher WHERE voucher_id = ?";
-		return jdbcTemplate.query(sql, voucherRowMapper, id).stream().findFirst();
+		return jdbcTemplate.query(sql, voucherRowMapper, id.toString()).stream().findFirst();
 	}
 
 	@Override
 	public void deleteById(UUID id) {
 		String sql = "DELETE FROM voucher WHERE voucher_id = ?";
-		jdbcTemplate.update(sql, id);
-	}
-
-	@Override
-	public List<Voucher> findAllById(List<UUID> voucherIds) {
-		if (voucherIds == null || voucherIds.isEmpty()) {
-			return Collections.emptyList();
-		}
-
-		// '?' 플레이스홀더를 ID 개수에 맞추어 동적으로 생성
-		String placeholders = String.join(",", Collections.nCopies(voucherIds.size(), "?"));
-		String sql = "SELECT * FROM voucher WHERE voucher_id IN (" + placeholders + ")";
-
-		Object[] params = voucherIds.toArray();
-
-		return jdbcTemplate.query(sql, voucherRowMapper, params);
+		jdbcTemplate.update(sql, id.toString());
 	}
 
 	@Override

@@ -20,7 +20,5 @@ public interface VoucherRepository {
 
 	void deleteById(UUID id);
 
-	List<Voucher> findAllById(List<UUID> voucherIds);
-
 	List<Voucher> findByCriteria(LocalDateTime startDate, LocalDateTime endDate, VoucherType voucherType);
 }
