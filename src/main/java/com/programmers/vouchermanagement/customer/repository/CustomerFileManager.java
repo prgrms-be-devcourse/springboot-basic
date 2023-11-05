@@ -4,6 +4,7 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.properties.AppProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -16,6 +17,7 @@ import static com.programmers.vouchermanagement.constant.Message.FILE_EXCEPTION;
 import static com.programmers.vouchermanagement.constant.Message.IO_EXCEPTION;
 
 @Component
+@Profile("file")
 public class CustomerFileManager {
     private static final Logger logger = LoggerFactory.getLogger(CustomerFileManager.class);
     public final Map<UUID, Customer> customers;
