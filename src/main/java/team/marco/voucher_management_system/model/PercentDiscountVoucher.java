@@ -3,6 +3,7 @@ package team.marco.voucher_management_system.model;
 import static java.text.MessageFormat.format;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import team.marco.voucher_management_system.type_enum.VoucherType;
 
@@ -20,7 +21,15 @@ public class PercentDiscountVoucher extends Voucher {
 
     public PercentDiscountVoucher(UUID id, int percent) {
         super(id);
+
         this.percent = percent;
+    }
+
+    public PercentDiscountVoucher(UUID id, int percent, LocalDateTime createAt) {
+        super(id);
+
+        this.percent = percent;
+        this.createAt = createAt;
     }
 
     private void validate(int percent) {

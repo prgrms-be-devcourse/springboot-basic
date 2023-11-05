@@ -27,7 +27,13 @@ class JSONFileVoucherRepositoryTest extends VoucherRepositoryTest {
     private static final String SETUP_DATA;
 
     static {
-        SETUP_DATA = "[{\"id\": \"a5124642-c6f4-4f22-9e2b-9d25f98499d4\",\"type\": \"FIXED\",\"data\": 10000}]";
+        SETUP_DATA = """
+                [{
+                "id": "a5124642-c6f4-4f22-9e2b-9d25f98499d4",
+                "type": "FIXED",
+                "data": 10000,
+                "createAt": [2023,10,8,6,0,43,644828000]
+                }]""";
     }
 
     @Autowired

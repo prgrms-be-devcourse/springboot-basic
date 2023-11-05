@@ -10,8 +10,14 @@ public enum VoucherType {
 
     public static Voucher convertVoucher(LoadedVoucher loadedVoucher) {
         return switch (loadedVoucher.getType()) {
-            case FIXED -> new FixedAmountVoucher(loadedVoucher.getId(), loadedVoucher.getData());
-            case PERCENT -> new PercentDiscountVoucher(loadedVoucher.getId(), loadedVoucher.getData());
+            case FIXED -> new FixedAmountVoucher(
+                    loadedVoucher.getId(),
+                    loadedVoucher.getData(),
+                    loadedVoucher.getCreateAt());
+            case PERCENT -> new PercentDiscountVoucher(
+                    loadedVoucher.getId(),
+                    loadedVoucher.getData(),
+                    loadedVoucher.getCreateAt());
         };
     }
 }

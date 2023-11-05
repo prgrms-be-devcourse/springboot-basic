@@ -2,6 +2,7 @@ package team.marco.voucher_management_system.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -34,8 +35,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID id = UUIDConverter.convert(idBytes);
         VoucherType type = VoucherType.valueOf(typeString);
         int data = Integer.parseInt(dataString);
+        LocalDateTime createAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
-        LoadedVoucher loadedVoucher = new LoadedVoucher(id, type, data);
+        LoadedVoucher loadedVoucher = new LoadedVoucher(id, type, data, createAt);
 
         return VoucherType.convertVoucher(loadedVoucher);
     }
