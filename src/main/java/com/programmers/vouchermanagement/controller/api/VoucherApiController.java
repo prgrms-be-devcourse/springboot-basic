@@ -36,7 +36,7 @@ public class VoucherApiController {
         return ResponseEntity.ok(voucherService.getVoucher(id));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Void> updateVoucher(@PathVariable UUID id, @RequestBody UpdateVoucherRequestDto request) {
         voucherService.updateVoucher(id, request);
         return ResponseEntity.noContent().build();
