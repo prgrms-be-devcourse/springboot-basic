@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -39,7 +40,7 @@ class VoucherServiceTest {
     @DisplayName("바우처 생성 테스트")
     void testSaveVoucher() {
         CreateVoucherRequest request = new CreateVoucherRequest("percent", 50);
-        Voucher expectedVoucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50);
+        Voucher expectedVoucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50, LocalDateTime.now());
 
         when(voucherRepository.saveVoucher(any(Voucher.class))).thenReturn(expectedVoucher);
         VoucherResponse actualVoucher = voucherService.saveVoucher(request);
@@ -54,8 +55,8 @@ class VoucherServiceTest {
     @DisplayName("모든 voucher 조회 테스트")
     void findAll() {
         List<Voucher> mockVouchers = new ArrayList<>();
-        mockVouchers.add(Voucher.createVoucher(UUID.randomUUID(), "fixed", 10));
-        mockVouchers.add(Voucher.createVoucher(UUID.randomUUID(), "percent", 10));
+        mockVouchers.add(Voucher.createVoucher(UUID.randomUUID(), "fixed", 10, LocalDateTime.now()));
+        mockVouchers.add(Voucher.createVoucher(UUID.randomUUID(), "percent", 10, LocalDateTime.now()));
 
         when(voucherRepository.findAll()).thenReturn(mockVouchers);
 
@@ -68,7 +69,7 @@ class VoucherServiceTest {
     @DisplayName("voucher 업데이트 테스트")
     void updateVoucher() {
         UpdateVoucherRequest request = new UpdateVoucherRequest(UUID.randomUUID(), 50);
-        Voucher mockVoucher = Voucher.createVoucher(request.voucherId(), "percent", 10);
+        Voucher mockVoucher = Voucher.createVoucher(request.voucherId(), "percent", 10, LocalDateTime.now());
 
         when(voucherRepository.findVoucherById(request.voucherId())).thenReturn(Optional.of(mockVoucher));
         voucherService.updateVoucher(request);
@@ -82,5 +83,17 @@ class VoucherServiceTest {
     void deleteAll() {
         voucherService.deleteAll();
         verify(voucherRepository, times(1)).deleteAll();
+    }
+
+    @Test
+    @DisplayName("voucher 단건 삭제 테스트")
+    void deleteById() {
+        UUID voucherId = UUID.randomUUID();
+        Voucher mockVoucher = Voucher.createVoucher(voucherId, "percent", 10, LocalDateTime.now());
+
+        when(voucherRepository.findVoucherById(voucherId)).thenReturn(Optional.of(mockVoucher));
+
+        voucherService.deleteById(voucherId);
+        verify(voucherRepository, times(1)).deleteById(voucherId);
     }
 }

@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -48,7 +49,7 @@ class WalletServiceTest {
     @DisplayName("지갑 저장 성공 테스트")
     void testSaveWalletSuccess() {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
-        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50);
+        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50, LocalDateTime.now());
         Wallet wallet = new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId());
 
         when(customerRepository.findCustomerById(customer.getCustomerId())).thenReturn(Optional.of(customer));
@@ -65,7 +66,7 @@ class WalletServiceTest {
     @DisplayName("해당 회원이 존재하지 않으면 지갑을 생성할 수 없다")
     void testSaveWalletCustomerNotFound() {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
-        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50);
+        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50, LocalDateTime.now());
 
         when(customerRepository.findCustomerById(customer.getCustomerId())).thenReturn(Optional.empty());
 
@@ -77,7 +78,7 @@ class WalletServiceTest {
     @DisplayName("해당 바우처가 존재하지 않으면 지갑을 생성할 수 없다")
     void testSaveWalletVoucherNotFound() {
         Customer customer = new Customer(UUID.randomUUID(), "test", "test@gmail.com");
-        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50);
+        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50, LocalDateTime.now());
 
         when(customerRepository.findCustomerById(customer.getCustomerId())).thenReturn(Optional.of(customer));
         when(voucherRepository.findVoucherById(voucher.getVoucherId())).thenReturn(Optional.empty());
@@ -92,7 +93,7 @@ class WalletServiceTest {
     void testGetVouchersByCustomerId() {
         UUID customerId = UUID.randomUUID();
         UUID voucherId = UUID.randomUUID();
-        Voucher voucher = Voucher.createVoucher(voucherId, "percent", 25);
+        Voucher voucher = Voucher.createVoucher(voucherId, "percent", 25, LocalDateTime.now());
 
         List<Voucher> expectedVouchers = List.of(voucher);
         when(walletRepository.findVouchersByCustomerId(customerId)).thenReturn(expectedVouchers);
