@@ -12,7 +12,7 @@
 <body>
     <div class="voucher-detail-container">
         <header>
-            <h1>Voucher Detail</h1>
+            <h1 th:text="${voucher?.voucherId != null ? 'Voucher Detail' : 'Create Voucher'}"></h1>
         </header>
         <div class="voucher-detail">
             <button onclick="location.href='/vouchers'" class="back-to-list-button">

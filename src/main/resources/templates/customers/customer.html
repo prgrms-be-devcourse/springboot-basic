@@ -12,7 +12,7 @@
 <body>
 <div class="customer-detail-container">
     <header>
-        <h1>Customer Detail</h1>
+        <h1 th:text="${customer?.customerId != null ? 'Customer Detail' : 'Create Customer'}"></h1>
     </header>
     <div class="customer-detail">
         <div>
