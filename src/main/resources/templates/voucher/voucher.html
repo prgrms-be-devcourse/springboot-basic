@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Voucher 상세</h2>
+    </div>
+    <div>
+        <label for="voucherId">ID</label>
+        <input type="text" id="voucherId" name="voucherId" class="form-control"
+               th:value="${voucher.voucherId}" readonly>
+    </div>
+    <div>
+        <label for="voucherType">Type</label>
+        <input type="text" id="voucherType" name="voucherType" class="form-control"
+               th:value="${voucher.voucherType}" readonly>
+    </div>
+    <div>
+        <label for="discountValue">Value</label>
+        <input type="text" id="discountValue" name="discountValue" class="form-control"
+               th:value="${voucher.discountValue}" readonly>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <form th:action="@{/vouchers/{id}(id=${voucher.voucherId})}" method="post">
+                <button class="w-100 btn btn-primary btn-lg" type="submit">삭제</button>
+            </form>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='items.html'"
+                    th:onclick="|location.href='@{/vouchers}'|"
+                    type="button">목록으로
+            </button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

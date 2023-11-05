@@ -1,0 +1,12 @@
+# 현재 default인 경우
+spring:
+  profiles:
+    active: default
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:13306/voucher_mgmt?createDatabaseIfNotExist=true
+    username: root
+    password: 1234
+
+customerListFilePath: "src/main/resources/csv/customerList.csv"
+voucherFilePath: "src/main/resources/csv/voucher.csv"
