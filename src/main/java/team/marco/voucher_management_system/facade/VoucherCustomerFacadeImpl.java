@@ -21,10 +21,9 @@ public class VoucherCustomerFacadeImpl implements VoucherCustomerFacade {
 
     @Override
     public boolean hasVoucher(UUID voucherId) {
-        return voucherRepository.findAll()
-                .stream()
-                .map(Voucher::getId)
-                .anyMatch(voucherId::equals);
+        Optional<Voucher> optionalVoucher = voucherRepository.findById(voucherId);
+
+        return optionalVoucher.isPresent();
     }
 
     @Override
