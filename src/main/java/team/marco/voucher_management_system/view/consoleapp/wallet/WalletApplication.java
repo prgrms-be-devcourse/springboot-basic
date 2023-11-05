@@ -32,10 +32,11 @@ public class WalletApplication {
     public WalletApplication(VoucherController voucherController, CustomerController customerController) {
         this.voucherController = voucherController;
         this.customerController = customerController;
-        this.isRunning = true;
+        this.isRunning = false;
     }
 
     public void run() {
+        isRunning = true;
         customerId = validateCustomer();
 
         while (isRunning) {

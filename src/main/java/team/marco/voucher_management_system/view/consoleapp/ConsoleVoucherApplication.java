@@ -25,11 +25,13 @@ public class ConsoleVoucherApplication implements Runnable {
     public ConsoleVoucherApplication(WalletApplication walletApplication, ManagementApplication managementApplication) {
         this.walletApplication = walletApplication;
         this.managementApplication = managementApplication;
-        this.isRunning = true;
+        this.isRunning = false;
     }
 
     @Override
     public void run() {
+        isRunning = true;
+
         while (isRunning) {
             provideLauncher();
         }

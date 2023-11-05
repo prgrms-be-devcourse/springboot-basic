@@ -36,10 +36,12 @@ public class ManagementApplication {
     public ManagementApplication(VoucherController voucherController, CustomerController customerController) {
         this.voucherController = voucherController;
         this.customerController = customerController;
-        this.isRunning = true;
+        this.isRunning = false;
     }
 
     public void run() {
+        isRunning = true;
+
         while (isRunning) {
             try {
                 provideCommandManual();
