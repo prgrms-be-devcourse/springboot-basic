@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
-    <title>고객 생성 페이지</title>
+    <title>바우처 생성 페이지</title>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body class="p-3 m-0 border-0 bd-example m-0 border-0">
 <div th:replace="header :: header"></div>
 <form action="#" method="post">
     <div class="mb-3">
-        <label for="customer-email" class="form-label">Email 주소</label> <!-- 중복에 대한 체크를 추후 추가 -->
-        <input type="email" class="form-control" id="customer-email" th:name="email">
+        <label for="voucher-policy" class="form-label">할인 정책 선택</label>
+        <select id="voucher-policy" th:name="voucherPolicy" class="form-select" aria-label="Default select example">
+            <optgroup label="바우처 할인 정책 선택">
+                <option value="FixedAmountPolicy">고정 금액 할인 방식</option>
+                <option value="PercentDiscountPolicy">% 할인 방식</option>
+            </optgroup>
+        </select>
     </div>
     <div class="mb-3">
-        <label for="customer-name" class="form-label">성함</label>
-        <input type="text" class="form-control" th:name="name" id="customer-name">
+        <label for="voucher-degree" class="form-label">할인 정도</label>
+        <input type="text" class="form-control" th:name="discountDegree" id="voucher-degree">
     </div>
 
     <div class="d-flex justify-content-end ">
