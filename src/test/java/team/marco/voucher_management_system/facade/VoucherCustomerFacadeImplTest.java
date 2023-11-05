@@ -44,6 +44,56 @@ class VoucherCustomerFacadeImplTest {
         jdbcTemplate.execute(DELETE_FROM_CUSTOMER);
     }
 
+    @Test
+    @DisplayName("id 리스트에 있는 모든 Voucher를 조회할 수 있다.")
+    void testGetVouchers() {
+        // given
+        List<Voucher> vouchers = List.of(
+                generateVoucher(),
+                generateVoucher(),
+                generateVoucher());
+        List<UUID> voucherIds = vouchers.stream()
+                .map(Voucher::getId)
+                .toList();
+
+        vouchers.forEach(voucherRepository::save);
+
+        // when
+        List<Voucher> retrievedVouchers = voucherCustomerFacade.getVouchers(voucherIds);
+
+        // then
+        List<UUID> retrievedVoucherIds = retrievedVouchers.stream()
+                .map(Voucher::getId)
+                .toList();
+
+        assertThat(retrievedVoucherIds).containsExactlyInAnyOrderElementsOf(voucherIds);
+    }
+
+    @Test
+    @DisplayName("id 리스트에 있는 모든 고객을 조회할 수 있다.")
+    void testGetCustomers() {
+        // given
+        List<Customer> customers = List.of(
+                generateCustomer(),
+                generateCustomer(),
+                generateCustomer());
+        List<UUID> customerIds = customers.stream()
+                .map(Customer::getId)
+                .toList();
+
+        customers.forEach(customerRepository::create);
+
+        // when
+        List<Customer> retrievedCustomers = voucherCustomerFacade.getCustomers(customerIds);
+
+        // then
+        List<UUID> retrievedCustomerIds = retrievedCustomers.stream()
+                .map(Customer::getId)
+                .toList();
+
+        assertThat(retrievedCustomerIds).containsExactlyInAnyOrderElementsOf(customerIds);
+    }
+
     @Nested
     @DisplayName("Voucher 조회 테스트")
     class TestHasVoucher {
@@ -108,62 +158,12 @@ class VoucherCustomerFacadeImplTest {
         }
     }
 
-    @Test
-    @DisplayName("id 리스트에 있는 모든 Voucher를 조회할 수 있다.")
-    void testGetVouchers() {
-        // given
-        List<Voucher> vouchers = List.of(
-                generateVoucher(),
-                generateVoucher(),
-                generateVoucher());
-        List<UUID> voucherIds = vouchers.stream()
-                .map(Voucher::getId)
-                .toList();
-
-        vouchers.forEach(voucherRepository::save);
-
-        // when
-        List<Voucher> retrievedVouchers = voucherCustomerFacade.getVouchers(voucherIds);
-
-        // then
-        List<UUID> retrievedVoucherIds = retrievedVouchers.stream()
-                .map(Voucher::getId)
-                .toList();
-
-        assertThat(retrievedVoucherIds).containsExactlyInAnyOrderElementsOf(voucherIds);
-    }
-
-    @Test
-    @DisplayName("id 리스트에 있는 모든 고객을 조회할 수 있다.")
-    void testGetCustomers() {
-        // given
-        List<Customer> customers = List.of(
-                generateCustomer(),
-                generateCustomer(),
-                generateCustomer());
-        List<UUID> customerIds = customers.stream()
-                .map(Customer::getId)
-                .toList();
-
-        customers.forEach(customerRepository::create);
-
-        // when
-        List<Customer> retrievedCustomers = voucherCustomerFacade.getCustomers(customerIds);
-
-        // then
-        List<UUID> retrievedCustomerIds = retrievedCustomers.stream()
-                .map(Customer::getId)
-                .toList();
-
-        assertThat(retrievedCustomerIds).containsExactlyInAnyOrderElementsOf(customerIds);
-    }
-
     private Voucher generateVoucher() {
         return new FixedAmountVoucher(100);
     }
 
     private Customer generateCustomer() {
-        String name = faker.name().name();
+        String name = faker.name().firstName();
         String email = faker.internet().emailAddress();
 
         return new Customer(name, email);

@@ -3,9 +3,12 @@ package team.marco.voucher_management_system.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+import com.github.javafaker.Faker;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.AfterEach;
@@ -25,6 +28,7 @@ import team.marco.voucher_management_system.model.Customer;
 @SpringJUnitConfig(TestJdbcRepositoryConfiguration.class)
 class JdbcCustomerRepositoryTest {
     private static final String DELETE_FROM_CUSTOMER = "DELETE FROM customer";
+    private static final Faker faker = new Faker();
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -35,40 +39,6 @@ class JdbcCustomerRepositoryTest {
     @AfterEach
     void truncateTable() {
         jdbcTemplate.execute(DELETE_FROM_CUSTOMER);
-    }
-
-    @Nested
-    @DisplayName("고객 추가 테스트")
-    class TestCreate {
-        @Test
-        @DisplayName("고객을 추가할 수 있어야 한다.")
-        void success() {
-            // given
-            Customer customer = generateCustomer(1000);
-
-            // when
-            int count = repository.create(customer);
-
-            // then
-            assertThat(count).isEqualTo(1);
-        }
-
-        @Test
-        @DisplayName("동일한 이메일의 고객을 추가할 경우 예외가 발생한다.")
-        void failToDuplicateEmail() {
-            // given
-            Customer customer = new Customer("test1", "test@test.test");
-            Customer duplicatedEmailCustomer = new Customer("test2", "test@test.test");
-
-            // when
-            int initInsertion = repository.create(customer);
-
-            ThrowingCallable targetMethod = () -> repository.create(duplicatedEmailCustomer);
-
-            // then
-            assertThat(initInsertion).isEqualTo(1);
-            assertThatExceptionOfType(DuplicateKeyException.class).isThrownBy(targetMethod);
-        }
     }
 
     @Test
@@ -98,8 +68,8 @@ class JdbcCustomerRepositoryTest {
     @DisplayName("사용자의 이름을 수정할 수 있어야 한다.")
     void testUpdate() {
         // given
-        Customer generatedCustomer = generateCustomer(0);
-        String name = "changedName";
+        Customer generatedCustomer = generateCustomer();
+        String name = faker.name().name();
 
         repository.create(generatedCustomer);
 
@@ -118,6 +88,114 @@ class JdbcCustomerRepositoryTest {
         assertThat(customer.getName()).isEqualTo(name);
     }
 
+    @Test
+    @DisplayName("특정 문자를 포함하는 이름의 사용자를 모두 조회할 수 있어야 한다.")
+    void testFindByName() {
+        // given
+        String match = "t";
+        List<Customer> addedCustomers = addTestCustomers(10);
+
+        // when
+        List<Customer> customers = repository.findByName(match);
+
+        // then
+        List<UUID> addedIds = addedCustomers.stream()
+                .filter(customer -> isContain(customer.getName(), match))
+                .map(Customer::getId)
+                .toList();
+        List<UUID> customerIds = customers.stream()
+                .map(Customer::getId)
+                .toList();
+
+        assertThat(customerIds).containsExactlyInAnyOrderElementsOf(addedIds);
+    }
+
+    @Test
+    @DisplayName("특정 문자를 포함하는 이메일의 사용자를 모두 조회할 수 있어야 한다.")
+    void testFindByEmail() {
+        // given
+        String match = "t";
+        List<Customer> addedCustomers = addTestCustomers(10);
+
+        // when
+        List<Customer> customers = repository.findByEmail(match);
+
+        // then
+        List<UUID> addedIds = addedCustomers.stream()
+                .filter(customer -> isContain(customer.getEmail(), match))
+                .map(Customer::getId)
+                .toList();
+        List<UUID> customerIds = customers.stream()
+                .map(Customer::getId)
+                .toList();
+
+        assertThat(customerIds).containsExactlyInAnyOrderElementsOf(addedIds);
+    }
+
+    private Customer generateCustomer() {
+        String name = faker.name().firstName();
+        String email = faker.internet().emailAddress();
+
+        return new Customer(name, email);
+    }
+
+    private List<Customer> addTestCustomers(int count) {
+        Set<String> emails = new HashSet<>();
+        List<Customer> generatedCustomers = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            Customer customer = generateCustomer();
+
+            if (emails.contains(customer.getEmail())) {
+                continue;
+            }
+
+            emails.add(customer.getEmail());
+            repository.create(customer);
+            generatedCustomers.add(customer);
+        }
+
+        return generatedCustomers.stream().toList();
+    }
+
+    private boolean isContain(String target, String match) {
+        return target.toLowerCase().contains(match.toLowerCase());
+    }
+
+    @Nested
+    @DisplayName("고객 추가 테스트")
+    class TestCreate {
+        @Test
+        @DisplayName("고객을 추가할 수 있어야 한다.")
+        void success() {
+            // given
+            Customer customer = generateCustomer();
+
+            // when
+            int count = repository.create(customer);
+
+            // then
+            assertThat(count).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("동일한 이메일의 고객을 추가할 경우 예외가 발생한다.")
+        void failToDuplicateEmail() {
+            // given
+            Customer customer = new Customer("test1", "test@test.test");
+            Customer duplicatedEmailCustomer = new Customer("test2", "test@test.test");
+
+            // when
+            int initInsertion = repository.create(customer);
+
+            ThrowingCallable targetMethod = () -> repository.create(duplicatedEmailCustomer);
+
+            // then
+            assertThat(initInsertion).isEqualTo(1);
+            assertThatExceptionOfType(DuplicateKeyException.class).isThrownBy(targetMethod);
+        }
+    }
+
     @Nested
     @DisplayName("고객 id 조회 테스트")
     class TestFindById {
@@ -125,10 +203,9 @@ class JdbcCustomerRepositoryTest {
         @DisplayName("id가 일치하는 고객이 존재할 경우 조회할 수 있어야 한다.")
         void success() {
             // given
-            int seed = 100;
-            Customer existCustomer = generateCustomer(seed + 1);
+            Customer existCustomer = generateCustomer();
 
-            addTestCustomers(seed);
+            addTestCustomers(10);
             repository.create(existCustomer);
 
             // when
@@ -147,10 +224,9 @@ class JdbcCustomerRepositoryTest {
         @DisplayName("id가 일치하는 고객이 없을 경우 예외를 발생해야 한다.")
         void failToNotExistId() {
             // given
-            int seed = 100;
-            Customer notExistCustomer = generateCustomer(seed + 1);
+            Customer notExistCustomer = generateCustomer();
 
-            addTestCustomers(seed);
+            addTestCustomers(10);
 
             // when
             Optional<Customer> existOptionalCustomer = repository.findById(notExistCustomer.getId());
@@ -158,71 +234,5 @@ class JdbcCustomerRepositoryTest {
             // then
             assertThat(existOptionalCustomer.isEmpty()).isTrue();
         }
-    }
-
-    @Test
-    @DisplayName("특정 문자를 포함하는 이름의 사용자를 모두 조회할 수 있어야 한다.")
-    void testFindByName() {
-        // given
-        int seed = 100;
-        String queryName = "5";
-        List<Customer> addedCustomers = addTestCustomers(seed);
-
-        // when
-        List<Customer> customers = repository.findByName(queryName);
-
-        // then
-        List<UUID> addedIds = addedCustomers.stream()
-                .filter(customer -> customer.getName().contains(queryName))
-                .map(Customer::getId)
-                .toList();
-        List<UUID> customerIds = customers.stream()
-                .map(Customer::getId)
-                .toList();
-
-        assertThat(customerIds).containsExactlyInAnyOrderElementsOf(addedIds);
-    }
-
-    @Test
-    @DisplayName("특정 문자를 포함하는 이메일의 사용자를 모두 조회할 수 있어야 한다.")
-    void testFindByEmail() {
-        // given
-        int seed = 100;
-        String queryEmail = "st5";
-        List<Customer> addedCustomers = addTestCustomers(seed);
-
-        // when
-        List<Customer> customers = repository.findByEmail(queryEmail);
-
-        // then
-        List<UUID> addedIds = addedCustomers.stream()
-                .filter(customer -> customer.getEmail().contains(queryEmail))
-                .map(Customer::getId)
-                .toList();
-        List<UUID> customerIds = customers.stream()
-                .map(Customer::getId)
-                .toList();
-
-        assertThat(customerIds).containsExactlyInAnyOrderElementsOf(addedIds);
-    }
-
-    private Customer generateCustomer(int seed) {
-        String name = String.format("testUser%d", seed);
-        String email = String.format("test%d@test.test", seed);
-
-        return new Customer(name, email);
-    }
-
-    private List<Customer> addTestCustomers(int count) {
-        List<Customer> generatedCustomers = new ArrayList<>();
-
-        for (int i = 0; i < count; i++) {
-            Customer customer = generateCustomer(i);
-
-            repository.create(customer);
-            generatedCustomers.add(customer);
-        }
-
-        return generatedCustomers.stream().toList();
     }
 }

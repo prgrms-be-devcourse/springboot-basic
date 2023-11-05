@@ -56,75 +56,6 @@ class JdbcWalletRepositoryTest {
         jdbcTemplate.execute(DELETE_FROM_CUSTOMER);
     }
 
-    @Nested
-    @DisplayName("고객 지갑 쿠폰 추가 테스트")
-    class TestLink {
-        @Test
-        @DisplayName("고객의 지갑에 쿠폰을 추가할 수 있다.")
-        void success() {
-            // given
-            Voucher voucher = addVoucher();
-            Customer customer = addCustomer(0);
-
-            // when
-            int count = walletRepository.link(customer.getId(), voucher.getId());
-
-            // then
-            assertThat(count).isEqualTo(1);
-        }
-
-        @Test
-        @DisplayName("이미 추가된 쿠폰은 지갑에 추가될 수 없다.")
-        void failToAlreadyExist() {
-            // given
-            Voucher voucher = addVoucher();
-            Customer customer = addCustomer(0);
-
-            walletRepository.link(customer.getId(), voucher.getId());
-
-            // when
-            ThrowingCallable targetMethod = () -> walletRepository.link(customer.getId(), voucher.getId());
-
-            // then
-            assertThatExceptionOfType(DataIntegrityViolationException.class)
-                    .isThrownBy(targetMethod);
-        }
-    }
-
-    @Nested
-    @DisplayName("고객 지갑 쿠폰 반납 테스트")
-    class TestUnlink {
-        @Test
-        @DisplayName("고객의 지갑에 쿠폰을 반납할 수 있다.")
-        void success() {
-            // given
-            Voucher voucher = addVoucher();
-            Customer customer = addCustomer(0);
-
-            walletRepository.link(customer.getId(), voucher.getId());
-
-            // when
-            int count = walletRepository.unlink(customer.getId(), voucher.getId());
-
-            // then
-            assertThat(count).isEqualTo(1);
-        }
-
-        @Test
-        @DisplayName("지갑에 없는 쿠폰은 지갑에 반납될 수 없다.")
-        void failToNotExist() {
-            // given
-            Voucher voucher = addVoucher();
-            Customer customer = addCustomer(0);
-
-            // when
-            int count = walletRepository.unlink(customer.getId(), voucher.getId());
-
-            // then
-            assertThat(count).isEqualTo(0);
-        }
-    }
-
     @Test
     @DisplayName("특정 고객 지갑에 있는 모든 쿠폰을 조회할 수 있다.")
     void getVoucherIds() {
@@ -198,5 +129,74 @@ class JdbcWalletRepositoryTest {
         customerRepository.create(customer);
 
         return customer;
+    }
+
+    @Nested
+    @DisplayName("고객 지갑 쿠폰 추가 테스트")
+    class TestLink {
+        @Test
+        @DisplayName("고객의 지갑에 쿠폰을 추가할 수 있다.")
+        void success() {
+            // given
+            Voucher voucher = addVoucher();
+            Customer customer = addCustomer(0);
+
+            // when
+            int count = walletRepository.link(customer.getId(), voucher.getId());
+
+            // then
+            assertThat(count).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("이미 추가된 쿠폰은 지갑에 추가될 수 없다.")
+        void failToAlreadyExist() {
+            // given
+            Voucher voucher = addVoucher();
+            Customer customer = addCustomer(0);
+
+            walletRepository.link(customer.getId(), voucher.getId());
+
+            // when
+            ThrowingCallable targetMethod = () -> walletRepository.link(customer.getId(), voucher.getId());
+
+            // then
+            assertThatExceptionOfType(DataIntegrityViolationException.class)
+                    .isThrownBy(targetMethod);
+        }
+    }
+
+    @Nested
+    @DisplayName("고객 지갑 쿠폰 반납 테스트")
+    class TestUnlink {
+        @Test
+        @DisplayName("고객의 지갑에 쿠폰을 반납할 수 있다.")
+        void success() {
+            // given
+            Voucher voucher = addVoucher();
+            Customer customer = addCustomer(0);
+
+            walletRepository.link(customer.getId(), voucher.getId());
+
+            // when
+            int count = walletRepository.unlink(customer.getId(), voucher.getId());
+
+            // then
+            assertThat(count).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("지갑에 없는 쿠폰은 지갑에 반납될 수 없다.")
+        void failToNotExist() {
+            // given
+            Voucher voucher = addVoucher();
+            Customer customer = addCustomer(0);
+
+            // when
+            int count = walletRepository.unlink(customer.getId(), voucher.getId());
+
+            // then
+            assertThat(count).isEqualTo(0);
+        }
     }
 }

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import com.github.javafaker.Faker;
 import java.util.UUID;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.hamcrest.Matchers;
@@ -11,12 +12,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BlacklistUserTest {
+    private static final Faker faker = new Faker();
+
     @Test
     @DisplayName("이름이 빈 문자열이 아니면 생성에 성공해야한다.")
     void testSuccessCreation() {
         // given
         UUID id = UUID.randomUUID();
-        String name = "test";
+        String name = faker.name().name();
 
         // when
         ThrowingCallable targetMethod = () -> new BlacklistUser(id, name);
@@ -43,7 +46,7 @@ class BlacklistUserTest {
     @DisplayName("블랙리스트 사용자의 정보에는 id와 이름이 포함되어야 한다.")
     void testGetInfo() {
         UUID id = UUID.randomUUID();
-        String name = "smith";
+        String name = faker.name().name();
 
         // when
         BlacklistUser blacklistUser = new BlacklistUser(id, name);
