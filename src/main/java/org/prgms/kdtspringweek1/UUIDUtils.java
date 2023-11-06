@@ -3,7 +3,7 @@ package org.prgms.kdtspringweek1;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-public class UuidUtils {
+public class UUIDUtils {
 
     public static UUID toUUID(byte[] bytes) {
         var byteBuffer = ByteBuffer.wrap(bytes);
