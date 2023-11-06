@@ -23,8 +23,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.zerozae.voucher.validator.InputValidator.validateInputUuid;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -65,12 +64,12 @@ public class ApiVoucherController {
     public ResponseEntity<String> deleteVoucherById(@PathVariable("voucherId") String voucherId) {
         validateInputUuid(voucherId);
         voucherService.deleteById(UUID.fromString(voucherId));
-        return ResponseEntity.status(OK).body("완료 되었습니다.");
+        return ResponseEntity.status(NO_CONTENT).body("완료 되었습니다.");
     }
 
     @DeleteMapping
     public ResponseEntity<String> deleteAllVouchers() {
         voucherService.deleteAll();
-        return ResponseEntity.status(OK).body("완료 되었습니다.");
+        return ResponseEntity.status(NO_CONTENT).body("완료 되었습니다.");
     }
 }
