@@ -76,7 +76,7 @@ public class MemberViewController {
 
     @GetMapping("/{memberId}/vouchers")
     public String findGetVouchers(@PathVariable("memberId") String memberId, @RequestParam String name, Model model){
-        List<VoucherResponse> voucherList = walletService.findByMember(memberId);
+        List<VoucherResponse> voucherList = walletService.findVoucherByMember(memberId);
         model.addAttribute("memberId", memberId);
         model.addAttribute("name", name);
         model.addAttribute("voucherList", voucherList);

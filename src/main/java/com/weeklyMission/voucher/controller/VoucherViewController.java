@@ -79,7 +79,7 @@ public class VoucherViewController {
 
     @GetMapping("/{voucherId}/members")
     public String findJoinMember(@PathVariable("voucherId") String voucherId, Model model){
-        List<MemberResponse> memberList = walletService.findByVoucher(voucherId);
+        List<MemberResponse> memberList = walletService.findMemberByVoucher(voucherId);
         model.addAttribute("memberList", memberList);
         return "/vouchers/vouchers_memberList";
     }
