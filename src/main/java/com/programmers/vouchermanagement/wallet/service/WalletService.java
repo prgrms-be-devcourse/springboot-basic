@@ -1,19 +1,16 @@
 package com.programmers.vouchermanagement.wallet.service;
 
-import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.controller.dto.CustomerResponse;
-import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.voucher.controller.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.programmers.vouchermanagement.wallet.repository.WalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 import static com.programmers.vouchermanagement.util.Message.NOT_FOUND_VOUCHER_ALLOCATION;
 
@@ -31,7 +28,8 @@ public class WalletService {
     }
 
     public CustomerResponse readCustomerByVoucherId(UUID voucherId) {
-        Customer customer = walletRepository.findCustomerByVoucherId(voucherId).orElseThrow(() -> {
+        Optional<Customer> customerOptional = walletRepository.findCustomerByVoucherId(voucherId);
+        Customer customer = customerOptional.orElseThrow(() -> {
             logger.error(NOT_FOUND_VOUCHER_ALLOCATION);
             return new NoSuchElementException(NOT_FOUND_VOUCHER_ALLOCATION);
         });
