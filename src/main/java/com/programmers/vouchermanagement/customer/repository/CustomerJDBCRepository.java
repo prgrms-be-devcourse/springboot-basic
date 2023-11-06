@@ -1,7 +1,6 @@
 package com.programmers.vouchermanagement.customer.repository;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
-import com.programmers.vouchermanagement.util.DomainMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static com.programmers.vouchermanagement.customer.repository.CustomerDomainMapper.customerRowMapper;
+import static com.programmers.vouchermanagement.customer.repository.CustomerDomainMapper.customerToParamMap;
 import static com.programmers.vouchermanagement.customer.repository.CustomerQuery.*;
 import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
 import static com.programmers.vouchermanagement.util.Message.NOT_INSERTED;
@@ -27,7 +28,7 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public void insert(Customer customer) {
-        int update = jdbcTemplate.update(INSERT, DomainMapper.customerToParamMap(customer));
+        int update = jdbcTemplate.update(INSERT, customerToParamMap(customer));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(NOT_INSERTED);
             throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
@@ -36,12 +37,12 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlackCustomer() {
-        return jdbcTemplate.query(FIND_ALL_BLACK_CUSTOMER, DomainMapper.customerRowMapper);
+        return jdbcTemplate.query(FIND_ALL_BLACK_CUSTOMER, customerRowMapper);
     }
 
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(FIND_ALL, DomainMapper.customerRowMapper);
+        return jdbcTemplate.query(FIND_ALL, customerRowMapper);
     }
 }

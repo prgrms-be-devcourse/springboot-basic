@@ -12,7 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.programmers.vouchermanagement.util.Constant.COMMA_SEPARATOR;
+import static com.programmers.vouchermanagement.customer.repository.CustomerDomainMapper.customerToString;
+import static com.programmers.vouchermanagement.customer.repository.CustomerDomainMapper.stringToCustomer;
 import static com.programmers.vouchermanagement.util.Message.FILE_EXCEPTION;
 import static com.programmers.vouchermanagement.util.Message.IO_EXCEPTION;
 
@@ -43,13 +44,6 @@ public class CustomerFileManager {
         }
     }
 
-    private Customer stringToCustomer(String line) {
-        String[] customerInfo = line.split(COMMA_SEPARATOR);
-        UUID customerId = UUID.fromString(customerInfo[0]);
-        String name = customerInfo[1];
-        boolean isBlack = Boolean.parseBoolean(customerInfo[2]);
-        return new Customer(customerId, name, isBlack);
-    }
 
     public void saveFile() {
         File csvOutputFile = new File(filePath);
@@ -61,9 +55,4 @@ public class CustomerFileManager {
         }
     }
 
-    private String customerToString(Customer customer) {
-        return customer.getId().toString() + COMMA_SEPARATOR
-                + customer.getName() + COMMA_SEPARATOR
-                + customer.isBlack();
-    }
 }
