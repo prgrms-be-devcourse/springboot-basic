@@ -1,5 +1,6 @@
 package com.weeklyMission.member.service;
 
+import com.weeklyMission.exception.AlreadyExistsException;
 import com.weeklyMission.exception.ExceptionMessage;
 import com.weeklyMission.member.domain.Member;
 import com.weeklyMission.member.dto.MemberRequest;
@@ -18,7 +19,11 @@ public class MemberService {
     }
 
     public MemberResponse save(MemberRequest member){
-        Member createMember = memberRepository.save(member.toEntity());
+        Member memberEntity = member.toEntity();
+        if(memberRepository.checkJoinEmail(memberEntity)){
+            throw new AlreadyExistsException(ExceptionMessage.ALREADY_JOIN.getMessage());
+        }
+        Member createMember = memberRepository.save(memberEntity);
         return MemberResponse.of(createMember);
     }
 

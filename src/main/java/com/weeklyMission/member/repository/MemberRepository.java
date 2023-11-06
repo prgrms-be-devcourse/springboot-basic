@@ -16,4 +16,6 @@ public interface MemberRepository {
     List<Member> findByIds(List<String> ids);
 
     void deleteById(String id);
+
+    Boolean checkJoinEmail(Member member);
 }

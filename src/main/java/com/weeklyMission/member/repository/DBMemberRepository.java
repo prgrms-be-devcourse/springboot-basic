@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile("prod")
-public class DBMemberRepository implements MemberRepository{
+public class DBMemberRepository implements MemberRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -34,7 +34,7 @@ public class DBMemberRepository implements MemberRepository{
         return new Member(memberId, name, email, age);
     };
 
-    private Map<String, Object> toParamMap(Member member){
+    private Map<String, Object> toParamMap(Member member) {
         Map<String, Object> map = new HashMap<>();
         map.put("memberId", member.memberId());
         map.put("name", member.name());
@@ -45,19 +45,10 @@ public class DBMemberRepository implements MemberRepository{
 
     @Override
     public Member save(Member member) {
-        Boolean isEmailPresent = jdbcTemplate.queryForObject(
-            "select exists(select * from members where email = :email)",
-            toParamMap(member), Boolean.class);
-
-        if(isEmailPresent){
-            throw new AlreadyExistsException("이미 회원가입 한 이메일입니다.");
-        }
-        else{
-            jdbcTemplate.update(
-                "INSERT INTO members (member_id, name, email, age) VALUES (:memberId, :name, :email, :age)",
-                toParamMap(member));
-            return member;
-        }
+        jdbcTemplate.update(
+            "INSERT INTO members (member_id, name, email, age) VALUES (:memberId, :name, :email, :age)",
+            toParamMap(member));
+        return member;
     }
 
     @Override
@@ -68,22 +59,23 @@ public class DBMemberRepository implements MemberRepository{
     @Override
     public Optional<Member> findById(String id) {
         Member member;
-        try{
-            member = jdbcTemplate.queryForObject("select * from members where member_id = :memberId",
+        try {
+            member = jdbcTemplate.queryForObject(
+                "select * from members where member_id = :memberId",
                 Collections.singletonMap("memberId", id), memberRowMapper);
-        } catch (EmptyResultDataAccessException de){
+        } catch (EmptyResultDataAccessException de) {
             return Optional.empty();
         }
         return Optional.ofNullable(member);
     }
 
-    public List<Member> findByIds(List<String> ids){
+    public List<Member> findByIds(List<String> ids) {
         List<Member> members;
-        try{
+        try {
             members = jdbcTemplate.query(
                 "select * from members where member_id in (:memberIds)",
                 Collections.singletonMap("memberIds", ids), memberRowMapper);
-        } catch (Exception e){
+        } catch (Exception e) {
             return new ArrayList<>();
         }
 
@@ -94,5 +86,12 @@ public class DBMemberRepository implements MemberRepository{
     public void deleteById(String id) {
         jdbcTemplate.update("delete from members where member_id = :memberId",
             Collections.singletonMap("memberId", id));
+    }
+
+    @Override
+    public Boolean checkJoinEmail(Member member) {
+        return jdbcTemplate.queryForObject(
+            "select exists(select * from members where email = :email)",
+            toParamMap(member), Boolean.class);
     }
 }

@@ -97,4 +97,9 @@ public class FileMemberRepository implements MemberRepository{
     public void deleteById(String id) {
         storage.remove(id);
     }
+
+    @Override
+    public Boolean checkJoinEmail(Member member) {
+        return null;
+    }
 }
