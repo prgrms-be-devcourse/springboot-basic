@@ -16,7 +16,6 @@ import com.weeklyMission.voucher.repository.VoucherRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -25,12 +24,12 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 @TestInstance(Lifecycle.PER_CLASS)
 class VoucherServiceTest {
 
+    VoucherRepository voucherRepository;
+
     VoucherService voucherService;
 
-    VoucherRepository voucherRepository = mock(VoucherRepository.class);
-
-    @BeforeAll
-    void init(){
+    public VoucherServiceTest() {
+        voucherRepository = mock(VoucherRepository.class);
         voucherService = new VoucherService(voucherRepository);
     }
 
