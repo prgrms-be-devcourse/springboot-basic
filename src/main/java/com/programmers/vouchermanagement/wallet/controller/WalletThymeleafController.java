@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.wallet.controller;
 
-import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.customer.controller.dto.CustomerResponse;
+import com.programmers.vouchermanagement.voucher.controller.dto.VoucherResponse;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.programmers.vouchermanagement.wallet.service.WalletService;
 import org.springframework.context.annotation.Profile;

@@ -1,8 +1,8 @@
 package com.programmers.vouchermanagement.customer.service;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
-import com.programmers.vouchermanagement.customer.dto.CreateCustomerRequest;
-import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
+import com.programmers.vouchermanagement.customer.controller.dto.CreateCustomerRequest;
+import com.programmers.vouchermanagement.customer.controller.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,11 +1,11 @@
 package com.programmers.vouchermanagement.consoleapp.io;
 
 import com.programmers.vouchermanagement.consoleapp.menu.Menu;
-import com.programmers.vouchermanagement.customer.dto.CustomerResponse;
+import com.programmers.vouchermanagement.customer.controller.dto.CustomerResponse;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherTypeManager;
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.controller.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.controller.dto.VoucherResponse;
 import org.beryx.textio.TextIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

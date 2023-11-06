@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.voucher.dto;
+package com.programmers.vouchermanagement.voucher.controller.dto;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 

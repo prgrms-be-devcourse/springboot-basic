@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.customer.controller;
 
-import com.programmers.vouchermanagement.customer.dto.CreateCustomerRequest;
+import com.programmers.vouchermanagement.customer.controller.dto.CreateCustomerRequest;
 import com.programmers.vouchermanagement.customer.service.CustomerService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;

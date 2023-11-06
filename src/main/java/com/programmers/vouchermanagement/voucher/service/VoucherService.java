@@ -3,8 +3,8 @@ package com.programmers.vouchermanagement.voucher.service;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherTypeManager;
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.dto.VoucherResponse;
+import com.programmers.vouchermanagement.voucher.controller.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.controller.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 

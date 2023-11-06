@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.customer.dto;
+package com.programmers.vouchermanagement.customer.controller.dto;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 
