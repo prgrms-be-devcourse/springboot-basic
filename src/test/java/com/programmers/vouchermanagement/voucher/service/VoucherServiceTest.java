@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +27,8 @@ class VoucherServiceTest {
     VoucherRepository voucherRepository;
     @Mock
     UUID mockId;
+    @Mock
+    LocalDateTime mockLocalDateTime;
     @Mock
     Voucher mockVoucher;
 
@@ -67,9 +70,9 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처를 id로 조회할 수 있다.")
     void readVoucherByIdSucceed() {
-        voucherService.readById(mockId);
-
         when(voucherRepository.findById(mockId)).thenReturn(Optional.of(mockVoucher));
+
+        voucherService.readById(mockId);
 
         verify(voucherRepository, times(1)).findById(mockId);
     }
@@ -85,6 +88,7 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처를 업데이트할 수 있다.")
     void updateVoucherSucceed() {
+        when(voucherRepository.findById(mockId)).thenReturn(Optional.of(new Voucher(mockId, mockLocalDateTime, "FIXED", 130)));
 
         voucherService.update(mockId, new CreateVoucherRequest("FIXED", 100));
 
