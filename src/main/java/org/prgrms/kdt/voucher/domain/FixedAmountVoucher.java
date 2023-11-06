@@ -7,7 +7,7 @@ import static org.prgrms.kdt.voucher.domain.VoucherType.FIXED;
 
 public class FixedAmountVoucher extends Voucher {
 
-    private final String type = FIXED.toString();
+    private final String type = FIXED.getType();
 
     public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
         this.voucherId = voucherId;
@@ -20,6 +20,26 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
         this.createdAt = createdAt;
         this.customerId = customerId;
+    }
+
+    public static FixedAmountVoucher fromDto(VoucherDto voucherDto) {
+        if (voucherDto == null) {
+            throw new IllegalArgumentException("Voucher DTO cannot be null");
+        }
+
+        if (voucherDto.getAmount() <= 0) {
+            throw new IllegalArgumentException("Amount should be greater than 0");
+        }
+
+        if (voucherDto.getAmount() >= 100_000) {
+            throw new IllegalArgumentException("Amount should be less than 100,000");
+        }
+
+        if (!FIXED.getType().equals(voucherDto.getType())) {
+            throw new IllegalArgumentException("Invalid voucher type for FixedAmountVoucher");
+        }
+
+        return new FixedAmountVoucher(voucherDto.getVoucherId(), voucherDto.getAmount(), voucherDto.getCreatedAt());
     }
 
     @Override

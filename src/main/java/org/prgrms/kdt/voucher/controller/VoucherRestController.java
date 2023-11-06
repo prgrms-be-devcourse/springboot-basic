@@ -1,8 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.service.FixedAmountVoucherService;
-import org.prgrms.kdt.voucher.service.PercentDiscountVoucherService;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +12,9 @@ import java.util.UUID;
 public class VoucherRestController {
 
     private final VoucherService voucherService;
-    private final FixedAmountVoucherService fixedAmountVoucherService;
-    private final PercentDiscountVoucherService percentDiscountVoucherService;
 
-    public VoucherRestController(VoucherService voucherService, FixedAmountVoucherService fixedAmountVoucherService, PercentDiscountVoucherService percentDiscountVoucherService) {
+    public VoucherRestController(VoucherService voucherService) {
         this.voucherService = voucherService;
-        this.fixedAmountVoucherService = fixedAmountVoucherService;
-        this.percentDiscountVoucherService = percentDiscountVoucherService;
     }
 
     @GetMapping
@@ -34,14 +28,14 @@ public class VoucherRestController {
                                 @RequestParam(value = "percent", required = false) Integer percent) {
         if (voucherType.equals("fixed")) {
             if (amount != null) {
-                fixedAmountVoucherService.createFixedAmountVoucher(amount);
+                voucherService.createFixedAmountVoucher(amount);
                 return "Fixed amount voucher created.";
             } else {
                 return "Amount parameter is missing for fixed voucher creation.";
             }
         } else if (voucherType.equals("percent")) {
             if (percent != null) {
-                percentDiscountVoucherService.createPercentDiscountVoucher(percent);
+                voucherService.createPercentDiscountVoucher(percent);
                 return "Percent discount voucher created.";
             } else {
                 return "Percent parameter is missing for percent voucher creation.";

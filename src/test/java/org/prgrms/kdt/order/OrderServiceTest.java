@@ -5,13 +5,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.repository.VoucherMemoryRepository;
-import org.prgrms.kdt.voucher.service.FixedAmountVoucherService;
-import org.prgrms.kdt.voucher.service.PercentDiscountVoucherService;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.wallet.WalletJdbcRepository;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,11 +34,9 @@ class OrderServiceTest {
         var voucherRepository = new VoucherMemoryRepository();
         var dataSource = DataSourceBuilder.create().type(HikariDataSource.class).build();
         var jdbcTemplate = new JdbcTemplate(dataSource);
-        var walletRepository = new WalletJdbcRepository(dataSource, jdbcTemplate); // Provide the necessary dependencies
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, createdAt);
-        FixedAmountVoucherService fixedAmountVoucherService = new FixedAmountVoucherService(voucherRepository);
-        PercentDiscountVoucherService percentDiscountVoucherService = new PercentDiscountVoucherService(voucherRepository);
-        VoucherService voucherService = new VoucherService(voucherRepository, walletRepository, fixedAmountVoucherService, percentDiscountVoucherService);
+        var walletRepository = new WalletJdbcRepository(dataSource, jdbcTemplate);
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
+        VoucherService voucherService = new VoucherService(voucherRepository, walletRepository);
 
         voucherRepository.save(fixedAmountVoucher);
         var sut = new OrderService(voucherService, new OrderRepositoryStub());
@@ -60,7 +57,7 @@ class OrderServiceTest {
         // Given
         var voucherServiceMock = mock(VoucherService.class);
         var orderRepositoryMock = mock(OrderRepository.class);
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, createdAt);
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
         when(voucherServiceMock.getVoucher(fixedAmountVoucher.getVoucherId())).thenReturn(fixedAmountVoucher);
         var sut = new OrderService(voucherServiceMock, orderRepositoryMock);
 
@@ -76,7 +73,7 @@ class OrderServiceTest {
         var inOrder = inOrder(voucherServiceMock, orderRepositoryMock);
         inOrder.verify(voucherServiceMock).getVoucher(fixedAmountVoucher.getVoucherId());
         inOrder.verify(orderRepositoryMock).insert(order);
-        inOrder.verify(voucherServiceMock).useVoucher(fixedAmountVoucher);
+        inOrder.verify(voucherServiceMock).removeVoucherById(fixedAmountVoucher.getVoucherId());
 
     }
 

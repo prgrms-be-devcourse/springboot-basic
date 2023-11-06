@@ -1,8 +1,6 @@
 package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.voucher.domain.Voucher;
-import org.prgrms.kdt.voucher.service.FixedAmountVoucherService;
-import org.prgrms.kdt.voucher.service.PercentDiscountVoucherService;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,18 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 import java.util.UUID;
 
+import static org.prgrms.kdt.voucher.domain.VoucherType.FIXED;
+import static org.prgrms.kdt.voucher.domain.VoucherType.PERCENT;
+
 @Controller
 public class VoucherThymeleafController {
 
     private final VoucherService voucherService;
-    private final FixedAmountVoucherService fixedAmountVoucherService;
-    private final PercentDiscountVoucherService percentDiscountVoucherService;
     private static final Logger logger = LoggerFactory.getLogger(VoucherThymeleafController.class);
 
-    public VoucherThymeleafController(VoucherService voucherService, FixedAmountVoucherService fixedAmountVoucherService, PercentDiscountVoucherService percentDiscountVoucherService) {
+    public VoucherThymeleafController(VoucherService voucherService) {
         this.voucherService = voucherService;
-        this.fixedAmountVoucherService = fixedAmountVoucherService;
-        this.percentDiscountVoucherService = percentDiscountVoucherService;
     }
 
     @GetMapping("/vouchers")
@@ -47,18 +44,10 @@ public class VoucherThymeleafController {
                                 @RequestParam(value = "amount", required = false) Integer amount,
                                 @RequestParam(value = "percent", required = false) Integer percent
     ) {
-        if (voucherType.equals("fixed")) {
-            if (amount != null) {
-                fixedAmountVoucherService.createFixedAmountVoucher(amount);
-            } else {
-                logger.error("Amount parameter is missing for fixed voucher creation.");
-            }
-        } else if (voucherType.equals("percent")) {
-            if (percent != null) {
-                percentDiscountVoucherService.createPercentDiscountVoucher(percent);
-            } else {
-                logger.error("Percent parameter is missing for percent voucher creation.");
-            }
+        if (voucherType.equals(FIXED.getType())) {
+            voucherService.createFixedAmountVoucher(amount);
+        } else if (voucherType.equals(PERCENT.getType())) {
+            voucherService.createPercentDiscountVoucher(percent);
         } else {
             logger.error("Unknown voucher type: " + voucherType);
         }

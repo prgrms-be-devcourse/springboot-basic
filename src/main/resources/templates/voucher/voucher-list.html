@@ -43,13 +43,7 @@
             <tbody>
             <tr th:each="voucher : ${vouchers}">
                 <td th:text="${voucher.voucherId}"></td>
-                <td th:if="${voucher.getType().equals('fixed')}">
-                    <span th:text="${voucher.type} + '&lsqb;' + ${voucher.amount} + '&rsqb;'"></span>
-
-                </td>
-                <td th:if="${voucher.getType().equals('percent')}">
-                    <span th:text="${voucher.type} + '&lsqb;' + ${voucher.percent} + '&rsqb;'"></span>
-                </td>
+                <td th:text="${voucher.type} + '  &lsqb;' + ${voucher.amount} + '&rsqb;'"></td>
                 <td>
                     <form th:action="@{/vouchers/remove/__${voucher.voucherId}__}" method="post">
                         <button type="submit" class="btn btn-danger">Remove</button>

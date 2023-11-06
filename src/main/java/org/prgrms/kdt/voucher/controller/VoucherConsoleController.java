@@ -3,8 +3,6 @@ package org.prgrms.kdt.voucher.controller;
 import org.prgrms.kdt.io.InputHandler;
 import org.prgrms.kdt.io.OutputHandler;
 import org.prgrms.kdt.voucher.VoucherMenu;
-import org.prgrms.kdt.voucher.service.FixedAmountVoucherService;
-import org.prgrms.kdt.voucher.service.PercentDiscountVoucherService;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.wallet.Wallet;
 import org.slf4j.Logger;
@@ -17,6 +15,8 @@ import java.util.UUID;
 
 import static org.prgrms.kdt.io.SystemMessage.EXCEPTION_NOT_EXIST_MENU;
 import static org.prgrms.kdt.voucher.VoucherMessage.*;
+import static org.prgrms.kdt.voucher.domain.VoucherType.FIXED;
+import static org.prgrms.kdt.voucher.domain.VoucherType.PERCENT;
 
 @Controller
 public class VoucherConsoleController {
@@ -24,22 +24,12 @@ public class VoucherConsoleController {
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
     private final VoucherService voucherService;
-    private final FixedAmountVoucherService fixedAmountVoucherService;
-    private final PercentDiscountVoucherService percentDiscountVoucherService;
     private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleController.class);
 
-    public VoucherConsoleController(
-            InputHandler inputHandler,
-            OutputHandler outputHandler,
-            VoucherService voucherService,
-            FixedAmountVoucherService fixedAmountVoucherService,
-            PercentDiscountVoucherService percentDiscountVoucherService
-    ) {
+    public VoucherConsoleController(InputHandler inputHandler, OutputHandler outputHandler, VoucherService voucherService) {
         this.inputHandler = inputHandler;
         this.outputHandler = outputHandler;
         this.voucherService = voucherService;
-        this.fixedAmountVoucherService = fixedAmountVoucherService;
-        this.percentDiscountVoucherService = percentDiscountVoucherService;
     }
 
     public void voucherMenu() throws IOException {
@@ -101,9 +91,9 @@ public class VoucherConsoleController {
         outputHandler.outputString(CREATE_VOUCHER_TYPE.getMessage());
         var createVoucherType = inputHandler.inputString();
 
-        if (createVoucherType.equals("fixed")) {
+        if (createVoucherType.equals(FIXED.getType())) {
             fixedAmountVoucherAdd();
-        } else if (createVoucherType.equals("percent")) {
+        } else if (createVoucherType.equals(PERCENT.getType())) {
             percentDiscountVoucherAdd();
         } else {
             String errorMessage = EXCEPTION_VOUCHER_TYPE.getMessage();
@@ -115,13 +105,13 @@ public class VoucherConsoleController {
     private void fixedAmountVoucherAdd() throws IOException {
         outputHandler.outputString(CREATE_FIXED_VOUCHER.getMessage());
         var amount = inputHandler.inputInt();
-        fixedAmountVoucherService.createFixedAmountVoucher(amount);
+        voucherService.createFixedAmountVoucher(amount);
     }
 
     private void percentDiscountVoucherAdd() throws IOException {
         outputHandler.outputString(CREATE_PERCENT_VOUCHER.getMessage());
-        var percent = inputHandler.inputInt();
-        percentDiscountVoucherService.createPercentDiscountVoucher(percent);
+        var amount = inputHandler.inputInt();
+        voucherService.createPercentDiscountVoucher(amount);
     }
 
     private void voucherRemove() throws IOException {

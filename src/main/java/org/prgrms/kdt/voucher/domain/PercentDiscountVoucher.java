@@ -7,7 +7,7 @@ import static org.prgrms.kdt.voucher.domain.VoucherType.PERCENT;
 
 public class PercentDiscountVoucher extends Voucher {
 
-    private final String type = PERCENT.toString();
+    private final String type = PERCENT.getType();
 
     public PercentDiscountVoucher(UUID voucherId, int amount, LocalDateTime createdAt) {
         this.voucherId = voucherId;
@@ -22,6 +22,26 @@ public class PercentDiscountVoucher extends Voucher {
         this.createdAt = createdAt;
     }
 
+    public static PercentDiscountVoucher fromDto(VoucherDto voucherDto) {
+        if (voucherDto == null) {
+            throw new IllegalArgumentException("Voucher DTO cannot be null");
+        }
+
+        if (voucherDto.getAmount() <= 0) {
+            throw new IllegalArgumentException("Amount should be greater than 0");
+        }
+
+        if (voucherDto.getAmount() >= 100) {
+            throw new IllegalArgumentException("Amount should be less than 100");
+        }
+
+        if (!"percent".equals(voucherDto.getType())) {
+            throw new IllegalArgumentException("Invalid voucher type for PercentDiscountVoucher");
+        }
+
+        return new PercentDiscountVoucher(voucherDto.getVoucherId(), voucherDto.getAmount(), voucherDto.getCreatedAt());
+    }
+
     @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount * (amount / 100);
@@ -29,7 +49,7 @@ public class PercentDiscountVoucher extends Voucher {
 
     @Override
     public long getAmount() {
-        return 0;
+        return amount;
     }
 
     @Override

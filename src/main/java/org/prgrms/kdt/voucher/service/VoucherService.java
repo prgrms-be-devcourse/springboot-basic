@@ -1,5 +1,7 @@
 package org.prgrms.kdt.voucher.service;
 
+import org.prgrms.kdt.voucher.domain.VoucherDto;
+import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
 import org.prgrms.kdt.voucher.repository.VoucherRepository;
 import org.prgrms.kdt.wallet.Wallet;
@@ -9,12 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_FIND_VOUCHER;
-import static org.prgrms.kdt.voucher.VoucherMessage.VOUCHER_IS_EMPTY;
+import static org.prgrms.kdt.voucher.VoucherMessage.*;
+import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_FIXED_AMOUNT_OVER;
+import static org.prgrms.kdt.voucher.domain.VoucherType.FIXED;
+import static org.prgrms.kdt.voucher.domain.VoucherType.PERCENT;
 
 @Service
 public class VoucherService {
@@ -23,14 +28,19 @@ public class VoucherService {
     private final WalletRepository walletRepository;
     private static final Logger logger = LoggerFactory.getLogger(VoucherService.class);
 
-    public VoucherService(
-            VoucherRepository voucherRepository,
-            WalletRepository walletRepository,
-            FixedAmountVoucherService fixedAmountVoucherService,
-            PercentDiscountVoucherService percentDiscountVoucherService
-    ) {
+    public VoucherService(VoucherRepository voucherRepository, WalletRepository walletRepository) {
         this.voucherRepository = voucherRepository;
         this.walletRepository = walletRepository;
+    }
+
+    public void createFixedAmountVoucher(int amount) {
+        VoucherDto voucherDto = new VoucherDto(UUID.randomUUID(), amount, FIXED.getType(), LocalDateTime.now());
+        voucherRepository.save(voucherDto);
+    }
+
+    public void createPercentDiscountVoucher(int amount) {
+        VoucherDto voucherDto = new VoucherDto(UUID.randomUUID(), amount, PERCENT.getType(), LocalDateTime.now());
+        voucherRepository.save(voucherDto);
     }
 
     public Voucher getVoucher(UUID voucherId) {

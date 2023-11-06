@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -58,7 +59,7 @@ public class KdtSpringContextTests {
     @DisplayName("orderService를 사용해서 주문을 생성할 수 있다.")
     public void testOrderService() {
         // Given
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, createdAt);
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, LocalDateTime.now());
         voucherRepository.save(fixedAmountVoucher);
 
         // When

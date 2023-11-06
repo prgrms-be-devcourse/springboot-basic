@@ -4,6 +4,7 @@ import org.prgrms.kdt.customer.Customer;
 import org.prgrms.kdt.voucher.domain.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.domain.PercentDiscountVoucher;
 import org.prgrms.kdt.voucher.domain.Voucher;
+import org.prgrms.kdt.voucher.domain.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -29,7 +30,6 @@ import static org.prgrms.kdt.voucher.domain.VoucherType.PERCENT;
 @Profile("dev")
 public class VoucherJdbcRepository implements VoucherRepository {
 
-    private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
     private final DataSource dataSource;
     private final JdbcTemplate jdbcTemplate;
     private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
@@ -44,24 +44,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
             customerId = toUUID(customerIdBytes);
         }
 
-        if (type.equals(FIXED.toString())) {
+        if (type.equals(FIXED.getType())) {
             return new FixedAmountVoucher(voucherId, amount, createdAt, customerId);
         }
-        if (type.equals(PERCENT.toString())) {
+        if (type.equals(PERCENT.getType())) {
             return new PercentDiscountVoucher(voucherId, amount, createdAt, customerId);
         }
 
         logger.error("JdbcVoucherRepository RowMapper Error");
         throw new RuntimeException(EXCEPTION_VOUCHER_ROW_MAPPER.getMessage());
-    };
-    private static final RowMapper<Customer> customerRowMapper = (resultSet, i) -> {
-        var customerName = resultSet.getString("name");
-        var email = resultSet.getString("email");
-        var customerId = toUUID(resultSet.getBytes("customer_id"));
-        var lastLoginAt = resultSet.getTimestamp("last_login_at") != null ?
-                resultSet.getTimestamp("last_login_at").toLocalDateTime() : null;
-        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
-        return new Customer(customerId, customerName, email, lastLoginAt, createdAt);
     };
 
     public VoucherJdbcRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
@@ -82,7 +73,15 @@ public class VoucherJdbcRepository implements VoucherRepository {
     }
 
     @Override
-    public Voucher save(Voucher voucher) {
+    public Voucher save(VoucherDto voucherDto) {
+        Voucher voucher = null;
+        if(voucherDto.getType().equals(FIXED.getType())){
+            voucher = FixedAmountVoucher.fromDto(voucherDto);
+        }
+        if(voucherDto.getType().equals(PERCENT.getType())){
+            voucher = PercentDiscountVoucher.fromDto(voucherDto);
+        }
+
         int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, amount, created_at, customer_id) "
                         + "VALUES (UUID_TO_BIN(?), ?, ?, ?, UUID_TO_BIN(?))",
                 voucher.getVoucherId().toString().getBytes(),
