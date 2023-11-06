@@ -14,7 +14,7 @@ public final class LoggingPointCut {
     public static void serviceMethodPointcut() {
     }
 
-    @Pointcut("execution(* team.marco.voucher_management_system.repository..*(..))")
+    @Pointcut("execution(* team.marco.voucher_management_system..repository..*(..))")
     public static void repositorySavePointcut() {
     }
 }
