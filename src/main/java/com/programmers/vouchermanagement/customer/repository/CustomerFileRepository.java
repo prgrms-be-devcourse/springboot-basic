@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.customer.repository;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.customer.repository.util.CustomerFileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;

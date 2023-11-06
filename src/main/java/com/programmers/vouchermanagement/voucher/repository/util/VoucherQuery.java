@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.voucher.repository;
+package com.programmers.vouchermanagement.voucher.repository.util;
 
 public class VoucherQuery {
     public static final String INSERT = "INSERT INTO vouchers(id, type, discount_value) VALUES (UUID_TO_BIN(:id), :type, :discount_value)";

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.programmers.vouchermanagement.customer.repository.CustomerDomainMapper.customerRowMapper;
-import static com.programmers.vouchermanagement.customer.repository.CustomerDomainMapper.customerToParamMap;
-import static com.programmers.vouchermanagement.customer.repository.CustomerQuery.*;
+import static com.programmers.vouchermanagement.customer.repository.util.CustomerDomainMapper.customerRowMapper;
+import static com.programmers.vouchermanagement.customer.repository.util.CustomerDomainMapper.customerToParamMap;
+import static com.programmers.vouchermanagement.customer.repository.util.CustomerQuery.*;
 import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
 import static com.programmers.vouchermanagement.util.Message.NOT_INSERTED;
 

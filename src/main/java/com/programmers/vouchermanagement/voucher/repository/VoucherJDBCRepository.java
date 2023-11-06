@@ -14,8 +14,8 @@ import java.util.*;
 
 import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
 import static com.programmers.vouchermanagement.util.Message.*;
-import static com.programmers.vouchermanagement.voucher.repository.VoucherDomainMapper.*;
-import static com.programmers.vouchermanagement.voucher.repository.VoucherQuery.*;
+import static com.programmers.vouchermanagement.voucher.repository.util.VoucherDomainMapper.*;
+import static com.programmers.vouchermanagement.voucher.repository.util.VoucherQuery.*;
 
 @Profile("jdbc")
 @Repository

@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.customer.repository;
+package com.programmers.vouchermanagement.customer.repository.util;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.util.DomainMapper;

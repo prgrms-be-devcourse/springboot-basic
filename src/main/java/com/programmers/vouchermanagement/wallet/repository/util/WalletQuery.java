@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.wallet.repository;
+package com.programmers.vouchermanagement.wallet.repository.util;
 
 public class WalletQuery {
     public static final String INSERT = "INSERT INTO ownership(voucher_id, customer_id) VALUES (UUID_TO_BIN(:voucher_id), UUID_TO_BIN(:customer_id))";

@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.voucher.repository;
+package com.programmers.vouchermanagement.voucher.repository.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programmers.vouchermanagement.properties.AppProperties;
@@ -16,8 +16,8 @@ import java.util.*;
 
 import static com.programmers.vouchermanagement.util.Message.FILE_EXCEPTION;
 import static com.programmers.vouchermanagement.util.Message.IO_EXCEPTION;
-import static com.programmers.vouchermanagement.voucher.repository.VoucherDomainMapper.objectToVoucher;
-import static com.programmers.vouchermanagement.voucher.repository.VoucherDomainMapper.voucherToObject;
+import static com.programmers.vouchermanagement.voucher.repository.util.VoucherDomainMapper.objectToVoucher;
+import static com.programmers.vouchermanagement.voucher.repository.util.VoucherDomainMapper.voucherToObject;
 
 @Component
 @Profile("file")

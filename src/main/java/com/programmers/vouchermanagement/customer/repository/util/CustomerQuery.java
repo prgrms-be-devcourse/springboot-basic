@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.customer.repository;
+package com.programmers.vouchermanagement.customer.repository.util;
 
 public class CustomerQuery {
     public static final String FIND_ALL_BLACK_CUSTOMER = "SELECT * FROM customers WHERE black = TRUE";

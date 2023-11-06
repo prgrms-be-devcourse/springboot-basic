@@ -11,15 +11,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static com.programmers.vouchermanagement.customer.repository.CustomerDomainMapper.customerRowMapper;
+import static com.programmers.vouchermanagement.customer.repository.util.CustomerDomainMapper.customerRowMapper;
 import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
 import static com.programmers.vouchermanagement.util.Constant.UPDATE_ZERO_FLAG;
 import static com.programmers.vouchermanagement.util.DomainMapper.ID_KEY;
 import static com.programmers.vouchermanagement.util.Message.*;
-import static com.programmers.vouchermanagement.voucher.repository.VoucherDomainMapper.voucherRowMapper;
-import static com.programmers.vouchermanagement.wallet.repository.OwnershipDomainMapper.ownershipToParamMap;
-import static com.programmers.vouchermanagement.wallet.repository.OwnershipDomainMapper.uuidToParamMap;
-import static com.programmers.vouchermanagement.wallet.repository.WalletQuery.*;
+import static com.programmers.vouchermanagement.voucher.repository.util.VoucherDomainMapper.voucherRowMapper;
+import static com.programmers.vouchermanagement.wallet.repository.util.OwnershipDomainMapper.ownershipToParamMap;
+import static com.programmers.vouchermanagement.wallet.repository.util.OwnershipDomainMapper.uuidToParamMap;
+import static com.programmers.vouchermanagement.wallet.repository.util.WalletQuery.*;
 
 @Repository
 public class WalletJDBCRepository implements WalletRepository {

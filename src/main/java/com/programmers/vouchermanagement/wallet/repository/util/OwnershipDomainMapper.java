@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.wallet.repository;
+package com.programmers.vouchermanagement.wallet.repository.util;
 
 import com.programmers.vouchermanagement.util.DomainMapper;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;

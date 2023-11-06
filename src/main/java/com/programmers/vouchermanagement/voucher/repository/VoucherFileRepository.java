@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
+import com.programmers.vouchermanagement.voucher.repository.util.VoucherFileManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;

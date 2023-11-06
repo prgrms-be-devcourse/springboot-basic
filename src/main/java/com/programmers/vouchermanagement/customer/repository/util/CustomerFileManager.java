@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.customer.repository;
+package com.programmers.vouchermanagement.customer.repository.util;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.properties.AppProperties;
@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.programmers.vouchermanagement.customer.repository.CustomerDomainMapper.customerToString;
-import static com.programmers.vouchermanagement.customer.repository.CustomerDomainMapper.stringToCustomer;
+import static com.programmers.vouchermanagement.customer.repository.util.CustomerDomainMapper.customerToString;
+import static com.programmers.vouchermanagement.customer.repository.util.CustomerDomainMapper.stringToCustomer;
 import static com.programmers.vouchermanagement.util.Message.FILE_EXCEPTION;
 import static com.programmers.vouchermanagement.util.Message.IO_EXCEPTION;
 
