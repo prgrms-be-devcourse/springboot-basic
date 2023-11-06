@@ -41,7 +41,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("고정 할인 금액 바우처 객체를 생성할 수 있다.")
-    void createFixedAmountVoucherSucceed() {
+    void createFixedAmountVoucher() {
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest("FIXED", 1000);
         voucherService.create(createVoucherRequest);
 
@@ -50,7 +50,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("퍼센트 할인 바우처 객체를 생성할 수 있다.")
-    void createPercentDiscountVoucherSucceed() {
+    void createPercentDiscountVoucher() {
         CreateVoucherRequest createVoucherRequest = new CreateVoucherRequest("PERCENT", 100);
         voucherService.create(createVoucherRequest);
 
@@ -59,7 +59,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("모든 바우처를 조회할 수 있다.")
-    void readAllVouchersSucceed() {
+    void readAllVouchers() {
         voucherService.readAll();
 
         when(voucherRepository.findAll()).thenReturn(new ArrayList<>());
@@ -69,7 +69,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처를 id로 조회할 수 있다.")
-    void readVoucherByIdSucceed() {
+    void readVoucherById() {
         when(voucherRepository.findById(mockId)).thenReturn(Optional.of(mockVoucher));
 
         voucherService.readById(mockId);
@@ -79,7 +79,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처를 id로 삭제할 수 있다.")
-    void deleteVoucherSucceed() {
+    void deleteVoucher() {
         voucherService.delete(mockId);
 
         verify(voucherRepository, times(1)).delete(any(UUID.class));
@@ -87,7 +87,7 @@ class VoucherServiceTest {
 
     @Test
     @DisplayName("바우처를 업데이트할 수 있다.")
-    void updateVoucherSucceed() {
+    void updateVoucher() {
         when(voucherRepository.findById(mockId)).thenReturn(Optional.of(new Voucher(mockId, mockLocalDateTime, "FIXED", 130)));
 
         voucherService.update(mockId, new CreateVoucherRequest("FIXED", 100));
