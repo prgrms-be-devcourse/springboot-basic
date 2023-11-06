@@ -22,7 +22,6 @@ public class VoucherService {
     }
 
     public VoucherResponse create(CreateVoucherRequest createVoucherRequest) {
-        //TODO: now? DB vs Application
         Voucher voucher = new Voucher(createVoucherRequest.typeName(), createVoucherRequest.discountValue());
         voucherRepository.insert(voucher);
         return VoucherResponse.from(voucher);
