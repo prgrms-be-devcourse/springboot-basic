@@ -74,7 +74,7 @@ public class DBMemberRepository implements MemberRepository{
             member = jdbcTemplate.queryForObject("select * from members where member_id = :memberId",
                 Collections.singletonMap("memberId", id), memberRowMapper);
         } catch (EmptyResultDataAccessException de){
-            throw new NoSuchElementException("존재하지 않는 id 입니다.", de);
+            return Optional.empty();
         }
         return Optional.ofNullable(member);
     }
