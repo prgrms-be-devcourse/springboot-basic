@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +35,8 @@ public class ApiVoucherController {
 
     @PostMapping
     public ResponseEntity<VoucherResponse> createVoucher(@Valid @RequestBody VoucherCreateRequest voucherCreateRequest) {
-        return ResponseEntity.status(CREATED).body(voucherService.createVoucher(voucherCreateRequest));
+        VoucherResponse voucher = voucherService.createVoucher(voucherCreateRequest);
+        return ResponseEntity.created(URI.create("/api/v1/vouchers/" + voucher.getVoucherId())).body(voucher);
     }
 
     @GetMapping

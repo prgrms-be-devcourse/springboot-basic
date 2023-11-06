@@ -1,6 +1,5 @@
 package com.zerozae.voucher.controller.api;
 
-import com.zerozae.voucher.common.response.Response;
 import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.voucher.VoucherResponse;
 import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
@@ -19,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
 import static com.zerozae.voucher.validator.InputValidator.validateInputUuid;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,7 +36,8 @@ public class ApiWalletController {
 
     @PostMapping
     public ResponseEntity<WalletResponse> createWallet(@Valid @RequestBody WalletCreateRequest walletCreateRequest) {
-        return ResponseEntity.status(CREATED).body(walletService.createWallet(walletCreateRequest));
+        WalletResponse wallet = walletService.createWallet(walletCreateRequest);
+        return ResponseEntity.created(URI.create("/api/v1/wallets/" + wallet.getCustomerId() + "/" + wallet.getVoucherId())).body(wallet);
     }
 
     @GetMapping

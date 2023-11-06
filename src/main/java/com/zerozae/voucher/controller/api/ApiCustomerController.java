@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +35,8 @@ public class ApiCustomerController {
 
     @PostMapping
     public ResponseEntity<CustomerResponse> createCustomer(@Valid @RequestBody CustomerCreateRequest customerCreateRequest) {
-        return ResponseEntity.status(CREATED).body(customerService.createCustomer(customerCreateRequest));
+        CustomerResponse customer = customerService.createCustomer(customerCreateRequest);
+        return ResponseEntity.created(URI.create("/api/v1/customers/" + customer.getCustomerId())).body(customer);
     }
 
     @GetMapping
