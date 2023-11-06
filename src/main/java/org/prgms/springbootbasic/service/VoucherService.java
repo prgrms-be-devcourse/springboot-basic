@@ -60,4 +60,8 @@ public class VoucherService {
     public void deleteById(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
     }
+
+    public void deleteAll() {
+        voucherRepository.deleteAll();
+    }
 }
