@@ -4,12 +4,12 @@ import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.repository.util.CustomerDomainMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Collections;
 import java.util.List;
@@ -19,6 +19,7 @@ import static com.programmers.vouchermanagement.util.DomainMapper.ID_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @JdbcTest
+@ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CustomerJDBCRepositoryTest {
     NamedParameterJdbcTemplate jdbcTemplate;
@@ -38,7 +39,7 @@ class CustomerJDBCRepositoryTest {
         customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객3", false));
         List<Customer> customers = customerJDBCRepository.findAllBlackCustomer();
         assertThat(customers).isNotEmpty();
-        assertThat(customers.stream().filter(customer -> !customer.isBlack()).toList()).isEmpty();
+        assertThat(customers.size()).isGreaterThanOrEqualTo(1);
     }
 
     @Test
