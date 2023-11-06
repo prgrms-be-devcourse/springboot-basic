@@ -1,53 +1,54 @@
 package com.programmers.vouchermanagement.customer.repository;
 
-import com.programmers.vouchermanagement.TestConfig;
 import com.programmers.vouchermanagement.customer.domain.Customer;
-import org.junit.jupiter.api.AfterAll;
+import com.programmers.vouchermanagement.customer.repository.util.CustomerDomainMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static com.programmers.vouchermanagement.util.DomainMapper.ID_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringJUnitConfig
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CustomerJDBCRepositoryTest {
-    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
     CustomerJDBCRepository customerJDBCRepository;
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
-
-    @AfterAll
-    void init() {
-        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
-        jdbcTemplate.execute("TRUNCATE TABLE test.customers");
-        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
+    CustomerJDBCRepositoryTest(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+        customerJDBCRepository = new CustomerJDBCRepository(this.jdbcTemplate);
     }
 
     @Test
     @DisplayName("🆗 블랙리스트를 조회할 수 있다. 단, 블랙 고객이 없는 경우 빈 list가 반환된다.")
     void findAllBlackCustomerSucceed() {
-        customerJDBCRepository.save(new Customer(UUID.randomUUID(), "고객1", false));
-        customerJDBCRepository.save(new Customer(UUID.randomUUID(), "고객2", true));
-        customerJDBCRepository.save(new Customer(UUID.randomUUID(), "고객3", false));
+        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객1", false));
+        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객2", true));
+        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객3", false));
         List<Customer> customers = customerJDBCRepository.findAllBlackCustomer();
-        assertThat(customers.isEmpty()).isFalse();
+        assertThat(customers).isNotEmpty();
         assertThat(customers.stream().filter(customer -> !customer.isBlack()).toList()).isEmpty();
     }
 
     @Test
     @DisplayName("🆗 고객 정보를 저장할 수 있다.")
-    void save() {
-        customerJDBCRepository.save(new Customer(UUID.randomUUID(), "고객4"));
+    void insert() {
+        Customer customer = new Customer(UUID.randomUUID(), "고객4");
+        customerJDBCRepository.insert(customer);
+        Customer retrievedCustomer = jdbcTemplate
+                .queryForObject("SELECT * FROM customers WHERE id = UUID_TO_BIN(:id)", Collections.singletonMap(ID_KEY, customer.getId().toString().getBytes()), CustomerDomainMapper.customerRowMapper);
+
+        assertThat(retrievedCustomer).isEqualTo(customer);
     }
 }

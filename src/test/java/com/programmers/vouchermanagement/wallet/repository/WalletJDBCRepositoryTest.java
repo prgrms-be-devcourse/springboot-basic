@@ -1,17 +1,18 @@
 package com.programmers.vouchermanagement.wallet.repository;
 
-import com.programmers.vouchermanagement.configuration.JdbcConfig;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.repository.CustomerJDBCRepository;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.repository.VoucherJDBCRepository;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -20,31 +21,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringJUnitConfig
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ContextConfiguration(classes = JdbcConfig.class, loader = AnnotationConfigContextLoader.class)
+@JdbcTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class WalletJDBCRepositoryTest {
     private final static UUID NON_EXISTENT_VOUCHER_ID = UUID.randomUUID();
     private final static UUID NON_EXISTENT_CUSTOMER_ID = UUID.randomUUID();
 
-    @Autowired
+    NamedParameterJdbcTemplate jdbcTemplate;
     WalletJDBCRepository walletJDBCRepository;
-    @Autowired
     VoucherJDBCRepository voucherJDBCRepository;
-    @Autowired
     CustomerJDBCRepository customerJDBCRepository;
 
     @Autowired
-    JdbcTemplate jdbcTemplate;
-
-    @AfterAll
-    void init() {
-        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 0");
-        jdbcTemplate.execute("TRUNCATE TABLE test.vouchers");
-        jdbcTemplate.execute("TRUNCATE TABLE test.ownership");
-        jdbcTemplate.execute("TRUNCATE TABLE test.customers");
-        jdbcTemplate.execute("SET FOREIGN_KEY_CHECKS = 1");
+    WalletJDBCRepositoryTest(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+        walletJDBCRepository = new WalletJDBCRepository(this.jdbcTemplate);
+        voucherJDBCRepository = new VoucherJDBCRepository(this.jdbcTemplate);
+        customerJDBCRepository = new CustomerJDBCRepository(this.jdbcTemplate);
     }
 
     @Test

@@ -40,7 +40,7 @@ class VoucherInMemoryRepositoryTest {
         Voucher voucher = new Voucher("FIXED", 5555);
         voucherInMemoryRepository.insert(voucher);
 
-        Voucher updatedVoucher = new Voucher("PERCENT", 100);
+        Voucher updatedVoucher = new Voucher(voucher.getId(), voucher.getCreatedAt(), "PERCENT", 100);
         voucherInMemoryRepository.update(updatedVoucher);
 
         Optional<Voucher> retrievedVoucher = voucherInMemoryRepository.findById(voucher.getId());

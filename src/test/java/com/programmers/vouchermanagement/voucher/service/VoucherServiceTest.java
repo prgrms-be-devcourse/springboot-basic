@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.voucher.service;
 
+import com.programmers.vouchermanagement.voucher.controller.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
-import com.programmers.vouchermanagement.voucher.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,7 +71,7 @@ class VoucherServiceTest {
 
         when(voucherRepository.findById(mockId)).thenReturn(Optional.of(mockVoucher));
 
-        verify(voucherRepository, times(1)).findById(any(UUID.class));
+        verify(voucherRepository, times(1)).findById(mockId);
     }
 
     @Test
@@ -82,11 +82,12 @@ class VoucherServiceTest {
         verify(voucherRepository, times(1)).delete(any(UUID.class));
     }
 
-//    @Test
-//    @DisplayName("바우처를 업데이트할 수 있다.")
-//    void updateVoucherSucceed() {
-//        voucherService.update(new Voucher("FIXED", 100));
-//
-//        verify(voucherRepository, times(1)).update(any(Voucher.class));
-//    }
+    @Test
+    @DisplayName("바우처를 업데이트할 수 있다.")
+    void updateVoucherSucceed() {
+
+        voucherService.update(mockId, new CreateVoucherRequest("FIXED", 100));
+
+        verify(voucherRepository, times(1)).update(any(Voucher.class));
+    }
 }
