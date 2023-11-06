@@ -10,7 +10,6 @@ import javax.sql.DataSource;
 
 @Profile("jdbc")
 @Configuration
-@ConfigurationPropertiesScan
 public class JdbcConfig {
     @Bean
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
