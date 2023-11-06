@@ -4,11 +4,13 @@ import org.programmers.springorder.voucher.dto.Response;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.service.VoucherService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
+@Profile("default")
 @RestController
 public class VoucherRestController {
     private final VoucherService voucherService;

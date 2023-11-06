@@ -5,10 +5,12 @@ import org.programmers.springorder.consts.Message;
 import org.programmers.springorder.voucher.dto.GiveVoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.service.VoucherService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
+@Profile("test")
 @Controller
 public class VoucherConsoleController {
     private final Console console;

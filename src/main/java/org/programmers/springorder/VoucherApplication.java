@@ -7,8 +7,10 @@ import org.programmers.springorder.customer.controller.CustomerController;
 import org.programmers.springorder.utils.MenuType;
 import org.programmers.springorder.voucher.controller.VoucherConsoleController;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+@Profile("test")
 @Component
 public class VoucherApplication implements CommandLineRunner {
 

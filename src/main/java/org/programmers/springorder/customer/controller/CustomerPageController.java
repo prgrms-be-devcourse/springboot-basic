@@ -5,6 +5,7 @@ import org.programmers.springorder.customer.dto.CustomerResponseDto;
 import org.programmers.springorder.customer.service.CustomerService;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.service.VoucherService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 import java.util.UUID;
 
+@Profile("prod")
 @Controller
 public class CustomerPageController {
 
