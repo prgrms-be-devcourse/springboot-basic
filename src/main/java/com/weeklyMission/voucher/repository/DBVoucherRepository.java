@@ -3,14 +3,12 @@ package com.weeklyMission.voucher.repository;
 import com.weeklyMission.client.VoucherType;
 import com.weeklyMission.voucher.domain.FixedAmountVoucher;
 import com.weeklyMission.voucher.domain.Voucher;
-import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.UUID;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -77,10 +75,14 @@ public class DBVoucherRepository implements VoucherRepository{
 
     @Override
     public List<Voucher> findByIds(List<String> ids){
-        ids.add("dummy");
-        List<Voucher> vouchers = jdbcTemplate.query(
-            "select * from voucher where voucher_id in (:voucherIds)",
-            Collections.singletonMap("voucherIds", ids), voucherRowMapper);
+        List<Voucher> vouchers;
+        try{
+            vouchers = jdbcTemplate.query(
+                "select * from voucher where voucher_id in (:voucherIds)",
+                Collections.singletonMap("voucherIds", ids), voucherRowMapper);
+        } catch (Exception e){
+            return new ArrayList<>();
+        }
 
         return vouchers;
     }

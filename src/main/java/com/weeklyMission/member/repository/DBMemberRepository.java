@@ -2,14 +2,12 @@ package com.weeklyMission.member.repository;
 
 import com.weeklyMission.exception.AlreadyExistsException;
 import com.weeklyMission.member.domain.Member;
-import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.UUID;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -80,10 +78,14 @@ public class DBMemberRepository implements MemberRepository{
     }
 
     public List<Member> findByIds(List<String> ids){
-        ids.add("dummy");
-        List<Member> members = jdbcTemplate.query(
-            "select * from members where member_id in (:memberIds)",
-            Collections.singletonMap("memberIds", ids), memberRowMapper);
+        List<Member> members;
+        try{
+            members = jdbcTemplate.query(
+                "select * from members where member_id in (:memberIds)",
+                Collections.singletonMap("memberIds", ids), memberRowMapper);
+        } catch (Exception e){
+            return new ArrayList<>();
+        }
 
         return members;
     }
