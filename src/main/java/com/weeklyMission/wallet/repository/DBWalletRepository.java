@@ -1,13 +1,10 @@
 package com.weeklyMission.wallet.repository;
 
-import com.weeklyMission.exception.AlreadyExistsException;
 import com.weeklyMission.wallet.domain.Wallet;
-import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.RowMapper;
@@ -16,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @Profile({"prod", "dev"})
-public class DBWalletRepository implements WalletRepository{
+public class DBWalletRepository implements WalletRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -32,7 +29,7 @@ public class DBWalletRepository implements WalletRepository{
         return new Wallet(walletId, memberId, voucherId);
     };
 
-    private Map<String, Object> toParamMap(Wallet wallet){
+    private Map<String, Object> toParamMap(Wallet wallet) {
         Map<String, Object> map = new HashMap<>();
         map.put("walletId", wallet.walletId());
         map.put("memberId", wallet.memberId());
@@ -41,19 +38,12 @@ public class DBWalletRepository implements WalletRepository{
     }
 
     @Override
-    public void save(Wallet wallet) {
-        Boolean isExists = jdbcTemplate.queryForObject(
-            "select exists(select * from wallet where member_id = :memberId and voucher_id = :voucherId)",
-            toParamMap(wallet), Boolean.class);
+    public Wallet save(Wallet wallet) {
+        jdbcTemplate.update(
+            "INSERT INTO wallet (wallet_id, member_id, voucher_id) VALUES (:walletId, :memberId, :voucherId)",
+            toParamMap(wallet));
 
-        if(isExists){
-            throw new AlreadyExistsException("이미 바우처를 갖고있습니다.");
-        }
-        else{
-            jdbcTemplate.update(
-                "INSERT INTO wallet (wallet_id, member_id, voucher_id) VALUES (:walletId, :memberId, :voucherId)",
-                toParamMap(wallet));
-        }
+        return wallet;
     }
 
     @Override
@@ -73,13 +63,15 @@ public class DBWalletRepository implements WalletRepository{
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("memberId", memberId);
         paramMap.put("voucherId", voucherId);
-        jdbcTemplate.update("delete from wallet where member_id = :memberId and voucher_id = :voucherId",
+        jdbcTemplate.update(
+            "delete from wallet where member_id = :memberId and voucher_id = :voucherId",
             paramMap);
     }
 
-
-    static UUID toUUID(byte[] bytes){
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
+    @Override
+    public Boolean checkWallet(Wallet wallet) {
+        return jdbcTemplate.queryForObject(
+            "select exists(select * from wallet where member_id = :memberId and voucher_id = :voucherId)",
+            toParamMap(wallet), Boolean.class);
     }
 }

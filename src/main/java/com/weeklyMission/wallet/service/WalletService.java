@@ -1,11 +1,14 @@
 package com.weeklyMission.wallet.service;
 
+import com.weeklyMission.exception.AlreadyExistsException;
+import com.weeklyMission.exception.ExceptionMessage;
 import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.repository.MemberRepository;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.repository.VoucherRepository;
 import com.weeklyMission.wallet.domain.Wallet;
 import com.weeklyMission.wallet.dto.WalletRequest;
+import com.weeklyMission.wallet.dto.WalletResponse;
 import com.weeklyMission.wallet.repository.WalletRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +29,13 @@ public class WalletService {
         this.voucherRepository = voucherRepository;
     }
 
-    public void save(WalletRequest wallet){
-        walletRepository.save(wallet.toEntity());
+    public WalletResponse save(WalletRequest wallet){
+        Wallet walletEntity = wallet.toEntity();
+        if(walletRepository.checkWallet(walletEntity)){
+            throw new AlreadyExistsException(ExceptionMessage.ALREADY_EXIST_WALLET.getMessage());
+        }
+        Wallet createWallet = walletRepository.save(walletEntity);
+        return WalletResponse.of(createWallet);
     }
 
     public List<VoucherResponse> findByMember(String memberId){
