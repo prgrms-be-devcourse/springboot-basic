@@ -93,9 +93,4 @@ public class DBMemberRepository implements MemberRepository{
         jdbcTemplate.update("delete from members where member_id = :memberId",
             Collections.singletonMap("memberId", id));
     }
-
-    static UUID toUUID(byte[] bytes){
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
-        return new UUID(byteBuffer.getLong(), byteBuffer.getLong());
-    }
 }
