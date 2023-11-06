@@ -3,14 +3,11 @@ package com.weeklyMission.wallet.service;
 import com.weeklyMission.exception.AlreadyExistsException;
 import com.weeklyMission.exception.ExceptionMessage;
 import com.weeklyMission.member.dto.MemberResponse;
-import com.weeklyMission.member.repository.MemberRepository;
 import com.weeklyMission.voucher.dto.VoucherResponse;
-import com.weeklyMission.voucher.repository.VoucherRepository;
 import com.weeklyMission.wallet.domain.Wallet;
 import com.weeklyMission.wallet.dto.WalletRequest;
 import com.weeklyMission.wallet.dto.WalletResponse;
 import com.weeklyMission.wallet.repository.WalletRepository;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +15,11 @@ import org.springframework.stereotype.Service;
 public class WalletService {
 
     private final WalletRepository walletRepository;
-    private final MemberRepository memberRepository;
-    private final VoucherRepository voucherRepository;
+    private final WalletFacade walletFacade;
 
-    public WalletService(WalletRepository walletRepository,
-        MemberRepository memberRepository,
-        VoucherRepository voucherRepository) {
+    public WalletService(WalletRepository walletRepository, WalletFacade walletFacade) {
         this.walletRepository = walletRepository;
-        this.memberRepository = memberRepository;
-        this.voucherRepository = voucherRepository;
+        this.walletFacade = walletFacade;
     }
 
     public WalletResponse save(WalletRequest wallet){
@@ -38,26 +31,20 @@ public class WalletService {
         return WalletResponse.of(createWallet);
     }
 
-    public List<VoucherResponse> findByMember(String memberId){
-        List<String> voucherIdList = new ArrayList<>(walletRepository.findByMemberId(memberId).stream()
+    public List<VoucherResponse> findVoucherByMember(String memberId){
+        List<String> voucherIdList = walletRepository.findByMemberId(memberId).stream()
             .map(Wallet::voucherId)
-            .toList());
-
-        return voucherRepository.findByIds(voucherIdList)
-            .stream()
-            .map(VoucherResponse::of)
             .toList();
+
+        return walletFacade.findVoucher(voucherIdList);
     }
 
-    public List<MemberResponse> findByVoucher(String voucherId){
-        List<String> memberIdList = new ArrayList<>(walletRepository.findByVoucherId(voucherId).stream()
+    public List<MemberResponse> findMemberByVoucher(String voucherId){
+        List<String> memberIdList = walletRepository.findByVoucherId(voucherId).stream()
             .map(Wallet::memberId)
-            .toList());
-
-        return memberRepository.findByIds(memberIdList)
-            .stream()
-            .map(MemberResponse::of)
             .toList();
+
+        return walletFacade.findMember(memberIdList);
     }
 
     public void deleteById(String memberId, String voucherId){

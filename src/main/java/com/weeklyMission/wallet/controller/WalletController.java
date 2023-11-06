@@ -21,11 +21,11 @@ public class WalletController {
     }
 
     public List<VoucherResponse> findByMemberId(String memberId){
-        return walletService.findByMember(memberId);
+        return walletService.findVoucherByMember(memberId);
     }
 
     public List<MemberResponse> findByVoucherId(String voucherId){
-        return walletService.findByVoucher(voucherId);
+        return walletService.findMemberByVoucher(voucherId);
     }
 
     public void deleteById(String memberId, String voucherId){
