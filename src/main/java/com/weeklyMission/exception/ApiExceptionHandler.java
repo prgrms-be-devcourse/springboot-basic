@@ -1,6 +1,5 @@
 package com.weeklyMission.exception;
 
-import java.util.NoSuchElementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -23,8 +22,14 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResult noSuchElementsException(NoSuchElementException e){
+    public ErrorResult noSuchElementsException(NotFoundException e){
         return new ErrorResult(HttpStatus.NOT_FOUND.value(), e.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorResult alreadyExistsException(AlreadyExistsException e){
+        return new ErrorResult(HttpStatus.CONFLICT.value(), e.getMessage());
     }
 
 }
