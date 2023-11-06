@@ -1,8 +1,9 @@
 package org.programmers.springorder.voucher.service;
 
-import org.programmers.springorder.consts.ErrorMessage;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.repository.CustomerRepository;
+import org.programmers.springorder.exception.ErrorCode;
+import org.programmers.springorder.exception.VoucherException;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.model.Voucher;
@@ -41,15 +42,15 @@ public class VoucherService {
 
     public void allocateVoucher(UUID voucherId, UUID customerId) {
         Voucher voucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new RuntimeException("해당 바우처를 찾을 수 없습니다."));
+                .orElseThrow(() -> new VoucherException(ErrorCode.VOUCHER_NOT_FOUND));
         Customer customer = customerRepository.findByID(customerId)
-                .orElseThrow(() -> new RuntimeException("해당 고객을 찾을 수 없습니다."));
+                .orElseThrow(() -> new VoucherException(ErrorCode.CUSTOMER_NOT_FOUND));
         voucherRepository.updateVoucherOwner(voucher, customer);
     }
 
     public List<VoucherResponseDto> getCustomerOwnedVouchers(UUID customerId) {
         Customer customer = customerRepository.findByID(customerId)
-                .orElseThrow(() -> new RuntimeException("해당 고객을 찾을 수 없습니다."));
+                .orElseThrow(() -> new VoucherException(ErrorCode.CUSTOMER_NOT_FOUND));
         return voucherRepository.findAllByCustomerId(customer)
                 .stream()
                 .map(VoucherResponseDto::of)
@@ -58,13 +59,13 @@ public class VoucherService {
 
     public void deleteVoucher(UUID voucherId) {
         Voucher voucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new RuntimeException("찾으시는 voucher가 존재하지 않습니다."));
+                .orElseThrow(() -> new VoucherException(ErrorCode.VOUCHER_NOT_FOUND));
         voucherRepository.deleteVoucher(voucher);
     }
 
     public VoucherResponseDto getVoucherById(UUID voucherId) {
         return voucherRepository.findById(voucherId)
                 .map(VoucherResponseDto::of)
-                .orElseThrow(() -> new RuntimeException(ErrorMessage.VOUCHER_NOT_EXIST_MESSAGE));
+                .orElseThrow(() -> new VoucherException(ErrorCode.VOUCHER_NOT_FOUND));
     }
 }
