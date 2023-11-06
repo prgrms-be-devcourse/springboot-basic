@@ -10,6 +10,7 @@ import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
 import org.programmers.springorder.customer.repository.JdbcCustomerRepository;
+import org.programmers.springorder.exception.ErrorCode;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.model.VoucherType;
 import org.programmers.springorder.voucher.repository.JdbcVoucherRepository;
@@ -108,7 +109,7 @@ class CustomerServiceTest {
 
             assertThatThrownBy(() -> customerService.findOwnerOfVoucher(UUID.randomUUID()))
                     .isInstanceOf(RuntimeException.class)
-                    .hasMessage("찾으시는 voucher가 존재하지 않습니다.");
+                    .hasMessage(ErrorCode.VOUCHER_NOT_FOUND.getMessage());
         }
 
         @Test
@@ -127,7 +128,7 @@ class CustomerServiceTest {
 
             assertThatThrownBy(() -> customerService.findOwnerOfVoucher(voucherId))
                     .isInstanceOf(RuntimeException.class)
-                    .hasMessage("해당 voucher는 주인이 존재하지 않습니다.");
+                    .hasMessage("해당 바우처를 소유한 고객이 없습니다.");
         }
 
     }

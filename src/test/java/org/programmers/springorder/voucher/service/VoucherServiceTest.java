@@ -11,6 +11,7 @@ import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
 import org.programmers.springorder.customer.repository.JdbcCustomerRepository;
+import org.programmers.springorder.exception.VoucherException;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.model.Voucher;
@@ -133,7 +134,7 @@ class VoucherServiceTest {
 
             //then
             Assertions.assertThatThrownBy(() -> voucherService.allocateVoucher(voucherId, UUID.randomUUID()))
-                    .isInstanceOf(RuntimeException.class)
+                    .isInstanceOf(VoucherException.class)
                     .hasMessage("해당 고객을 찾을 수 없습니다.");
 
         }
@@ -153,7 +154,7 @@ class VoucherServiceTest {
 
             //then
             Assertions.assertThatThrownBy(() -> voucherService.allocateVoucher(UUID.randomUUID(), customerId))
-                    .isInstanceOf(RuntimeException.class)
+                    .isInstanceOf(VoucherException.class)
                     .hasMessage("해당 바우처를 찾을 수 없습니다.");
 
         }
@@ -202,7 +203,7 @@ class VoucherServiceTest {
         @DisplayName("실패, 고객이 존재하지 않는 경우")
         public void customerOwnedVoucherServiceWithAnonymousUserTest() {
             assertThatThrownBy(() -> voucherService.getCustomerOwnedVouchers(UUID.randomUUID()))
-                    .isInstanceOf(RuntimeException.class)
+                    .isInstanceOf(VoucherException.class)
                     .hasMessage("해당 고객을 찾을 수 없습니다.");
         }
     }
@@ -240,8 +241,8 @@ class VoucherServiceTest {
             assertThat(voucherRepository.findById(uuid).get()).isEqualTo(voucher);
 
             assertThatThrownBy(() -> voucherService.deleteVoucher(UUID.randomUUID()))
-                    .isInstanceOf(RuntimeException.class)
-                    .hasMessage("찾으시는 voucher가 존재하지 않습니다.");
+                    .isInstanceOf(VoucherException.class)
+                    .hasMessage("해당 바우처를 찾을 수 없습니다.");
 
         }
     }
