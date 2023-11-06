@@ -2,7 +2,6 @@ package org.prgms.kdtspringweek1;
 
 import org.prgms.kdtspringweek1.controller.consoleController.AppController;
 import org.prgms.kdtspringweek1.exception.ExitException;
-import org.prgms.kdtspringweek1.exception.FileExceptionCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -10,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("!test")
+@Profile({"console"})
 public class AppCommandLineRunner implements CommandLineRunner {
 
     private boolean shouldExit = false;

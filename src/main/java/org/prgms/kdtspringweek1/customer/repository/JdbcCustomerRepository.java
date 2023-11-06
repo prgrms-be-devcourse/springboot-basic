@@ -16,7 +16,6 @@ import java.util.*;
 import static org.prgms.kdtspringweek1.UUIDUtils.toUUID;
 
 @Repository
-@Profile({"default", "test"})
 public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcCustomerRepository.class);

@@ -4,6 +4,7 @@ import org.prgms.kdtspringweek1.customer.service.dto.FindCustomerResponseDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.wallet.service.WalletService;
 import org.prgms.kdtspringweek1.wallet.service.dto.CreateWalletRequestDto;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
+@Profile({"thymeleaf"})
 public class ThymeleafWalletController {
 
     private final WalletService walletService;

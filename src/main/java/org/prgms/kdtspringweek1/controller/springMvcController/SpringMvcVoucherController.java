@@ -4,6 +4,7 @@ import org.prgms.kdtspringweek1.voucher.service.VoucherService;
 import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.FindVoucherResponseDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.SelectVoucherTypeDto;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/spring-mvc/voucher")
 public class SpringMvcVoucherController {
+@Profile({"rest"})
 
     private final VoucherService voucherService;
 

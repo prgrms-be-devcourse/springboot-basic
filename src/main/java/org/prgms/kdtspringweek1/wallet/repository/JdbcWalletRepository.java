@@ -20,7 +20,6 @@ import java.util.*;
 import static org.prgms.kdtspringweek1.UUIDUtils.toUUID;
 
 @Repository
-@Profile({"default", "test"})
 public class JdbcWalletRepository implements WalletRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcWalletRepository.class);
