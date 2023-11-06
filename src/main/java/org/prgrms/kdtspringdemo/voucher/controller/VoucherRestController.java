@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/voucher")
+@RequestMapping("/api/v1/vouchers")
 public class VoucherRestController {
     private final VoucherService voucherService;
 
@@ -21,14 +21,14 @@ public class VoucherRestController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/vouchers")
+    @GetMapping
     ResponseEntity<List<VoucherViewDto>> showAllVouchers() {
         List<VoucherViewDto> vouchers = voucherService.findAll().stream()
                 .map(VoucherViewDto::new).toList();
         return new ResponseEntity<>(vouchers, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping
     ResponseEntity<Voucher> create(@ModelAttribute VoucherRequestDto voucherRequestDto) {
         VoucherTypeFunction voucherTypeFunction = VoucherTypeFunction.findByCode(voucherRequestDto.getVoucherPolicy());
         long amount = voucherRequestDto.getAmount();

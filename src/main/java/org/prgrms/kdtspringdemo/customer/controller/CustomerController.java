@@ -2,6 +2,7 @@ package org.prgrms.kdtspringdemo.customer.controller;
 
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.prgrms.kdtspringdemo.customer.domain.dto.CustomerRequestDto;
+import org.prgrms.kdtspringdemo.customer.domain.dto.CustomerViewDto;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
@@ -46,12 +47,18 @@ public class CustomerController {
 
     public void printAllCustomers() {
         List<Customer> customerList = customerService.findAll();
-        customerList.stream().forEach(customer -> outputConsole.printCustomer(customer));
+        customerList.stream().forEach(customer -> {
+            CustomerViewDto customerViewDto = new CustomerViewDto(customer);
+            outputConsole.printCustomer(customerViewDto);
+        });
     }
+
     public void printAllBlackListCustomer() throws IOException {
         List<Customer> customerList = customerService.getBlackListCustomers();
-        customerList.stream().forEach(customer -> outputConsole.printCustomer(customer));
-    }
+        customerList.stream().forEach(customer -> {
+            CustomerViewDto customerViewDto = new CustomerViewDto(customer);
+            outputConsole.printCustomer(customerViewDto);
+        });    }
 
     public void endCustomerMode() {
         outputConsole.printCustomerModeEnd();

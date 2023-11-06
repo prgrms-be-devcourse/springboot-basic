@@ -28,7 +28,7 @@ public class CustomerWebController {
     public String getAllCustomers(Model model) {
         List<Customer> customerList = customerService.findAll();
         List<CustomerViewDto> customerViewDtos = new ArrayList<>();
-        customerList.stream().forEach(customer -> customerViewDtos.add(new CustomerViewDto(customer)));
+        customerList.forEach(customer -> customerViewDtos.add(new CustomerViewDto(customer)));
         List<Customer> noneHaveWalletCustomers = customerService.findNoneHaveWalletCustomer();
 
         model.addAttribute("customerList", customerViewDtos);
@@ -50,11 +50,9 @@ public class CustomerWebController {
         return "redirect:/customers";
     }
 
-
     @GetMapping("/{customerId}/delete")
     public String deleteVoucher(@PathVariable UUID customerId) {
         customerService.deleteById(customerId);
         return "redirect:/customers";
     }
-
 }

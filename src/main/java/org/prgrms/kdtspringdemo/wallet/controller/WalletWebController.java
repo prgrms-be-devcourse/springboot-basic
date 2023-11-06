@@ -5,7 +5,7 @@ import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.prgrms.kdtspringdemo.wallet.domain.dto.AddVoucherToWalletDto;
-import org.prgrms.kdtspringdemo.wallet.domain.dto.WalletDetailsDto;
+import org.prgrms.kdtspringdemo.wallet.domain.dto.WalletViewDto;
 import org.prgrms.kdtspringdemo.wallet.service.WalletService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +40,7 @@ public class WalletWebController {
         List<VoucherViewDto> voucherViewDtos = new ArrayList<>();
         vouchers.stream().forEach(voucher -> voucherViewDtos.add(new VoucherViewDto(voucher)));
 
-        WalletDetailsDto walletDetailsDto = new WalletDetailsDto(walletId, wallet.getCustomerId(), voucherViewDtos);
+        WalletViewDto walletDetailsDto = new WalletViewDto(walletId, wallet.getCustomerId(), voucherViewDtos);
 
         List<Voucher> unallocatedVouchers = voucherService.findUnallocatedVoucher();
 
@@ -79,6 +79,4 @@ public class WalletWebController {
         walletService.deleteVoucherByVoucherId(walletId, voucherId);
         return "redirect:/wallets";
     }
-
-
 }

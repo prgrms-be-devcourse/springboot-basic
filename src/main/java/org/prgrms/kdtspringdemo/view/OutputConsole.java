@@ -1,8 +1,11 @@
 package org.prgrms.kdtspringdemo.view;
 
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
+import org.prgrms.kdtspringdemo.customer.domain.dto.CustomerViewDto;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
+import org.prgrms.kdtspringdemo.wallet.domain.dto.WalletViewDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -48,16 +51,16 @@ public class OutputConsole {
         System.out.print(start_string);
     }
 
-    public void printVoucher(Voucher voucher) {
-        System.out.println(voucher.toString());
+    public void printVoucher(VoucherViewDto voucherViewDto) {
+        System.out.println(voucherViewDto.toString());
     }
 
-    public void printCustomer(Customer customer) {
-        System.out.println(customer.toString());
+    public void printCustomer(CustomerViewDto customerViewDto) {
+        System.out.println(customerViewDto.toString());
     }
 
-    public void printWallet(Wallet wallet) {
-        System.out.println(wallet.toString());
+    public void printWallet(WalletViewDto walletViewDto) {
+        System.out.println(walletViewDto.toString());
     }
 
     public void getVoucherType() {

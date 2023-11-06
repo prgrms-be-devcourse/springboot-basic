@@ -1,12 +1,10 @@
 package org.prgrms.kdtspringdemo.wallet.service;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 import org.prgrms.kdtspringdemo.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.List;

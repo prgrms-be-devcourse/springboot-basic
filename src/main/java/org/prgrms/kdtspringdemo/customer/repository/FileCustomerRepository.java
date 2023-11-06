@@ -34,12 +34,10 @@ public class FileCustomerRepository implements CustomerRepository{
 
     @Override
     public void deleteAll() {
-
     }
 
     @Override
     public void deleteById(UUID customerId) {
-
     }
 
     @Override

@@ -72,6 +72,4 @@ public class VoucherWebController {
         voucherService.updateVoucher(voucherId, voucherRequestDto);
         return "redirect:/vouchers/" + voucherId;
     }
-
-
 }

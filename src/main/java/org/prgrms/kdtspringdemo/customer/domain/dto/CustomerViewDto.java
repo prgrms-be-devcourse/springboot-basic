@@ -31,23 +31,18 @@ public class CustomerViewDto {
     public UUID getCustomerId() {
         return customerId;
     }
-
     public void setCustomerId(UUID customerId) {
         this.customerId = customerId;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public boolean isBlack() {
         return isBlack;
     }
-
     public void setBlack(boolean black) {
         isBlack = black;
     }

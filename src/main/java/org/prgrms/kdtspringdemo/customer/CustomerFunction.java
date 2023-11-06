@@ -1,7 +1,6 @@
 package org.prgrms.kdtspringdemo.customer;
 
 import org.prgrms.kdtspringdemo.customer.controller.CustomerController;
-import org.prgrms.kdtspringdemo.voucher.controller.VoucherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

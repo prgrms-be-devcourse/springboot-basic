@@ -43,6 +43,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
+    @Override
     public Voucher insert(Voucher voucher) {
         var update = jdbcTemplate.update("INSERT INTO voucher(voucher_id, voucher_type, amount) VALUES (UUID_TO_BIN(?), ?, ?)",
                 voucher.getVoucherId().toString().getBytes(),

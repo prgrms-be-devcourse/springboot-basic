@@ -3,7 +3,9 @@ package org.prgrms.kdtspringdemo.wallet.controller;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
+import org.prgrms.kdtspringdemo.wallet.domain.dto.WalletViewDto;
 import org.prgrms.kdtspringdemo.wallet.service.WalletService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,6 @@ public class WalletController {
     private final InputConsole inputConsole = new InputConsole();
     private final Logger logger = LoggerFactory.getLogger(WalletController.class);
 
-
     public WalletController(WalletService walletService) {
         this.walletService = walletService;
     }
@@ -30,7 +31,10 @@ public class WalletController {
             outputConsole.getCustomerId();
             UUID customerId = UUID.fromString(inputConsole.getString());
             List<Voucher> vouchers = walletService.findVouchersById(customerId);
-            vouchers.stream().forEach(outputConsole::printVoucher);
+            vouchers.stream().forEach(voucher -> {
+                VoucherViewDto voucherViewDto = new VoucherViewDto(voucher);
+                outputConsole.printVoucher(voucherViewDto);
+            });
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -50,9 +54,6 @@ public class WalletController {
         }
     }
 
-    // customer park2 : 6378ec61-9de8-4448-aebf-283c0d66d0be
-    // voucher : 61013580-6aae-40bd-aa89-2ed4bc61f1c0
-
     public void deleteVoucherByVoucherId() {
         try {
             outputConsole.getCustomerId();
@@ -67,7 +68,10 @@ public class WalletController {
 
     public void printAllWallet() {
         List<Wallet> walletList = walletService.findAll();
-        walletList.stream().forEach(outputConsole::printWallet);
+        walletList.stream().forEach(wallet -> {
+            WalletViewDto walletViewDto = new WalletViewDto(wallet);
+            outputConsole.printWallet(walletViewDto);
+        });
     }
 
     public void endWalletMode() {

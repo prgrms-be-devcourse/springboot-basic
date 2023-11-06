@@ -4,6 +4,7 @@ import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
+import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class VoucherController {
@@ -50,7 +50,10 @@ public class VoucherController {
 
     public void showAllVouchers() {
         List<Voucher> voucherList = voucherService.findAll();
-        voucherList.forEach(voucher -> outputConsole.printVoucher(voucher));
+        voucherList.forEach(voucher -> {
+            VoucherViewDto voucherViewDto = new VoucherViewDto(voucher);
+            outputConsole.printVoucher(voucherViewDto);
+        });
     }
 
     public void endVoucherMode() {

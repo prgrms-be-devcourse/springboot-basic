@@ -1,20 +1,25 @@
 package org.prgrms.kdtspringdemo.wallet.domain.dto;
 
-import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
+import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 
 import java.util.List;
 import java.util.UUID;
 
-public class WalletDetailsDto {
+public class WalletViewDto {
     private UUID walletId;
     private UUID customerId;
     private List<VoucherViewDto> voucherList;
 
-    public WalletDetailsDto(UUID walletId, UUID customerId, List<VoucherViewDto> voucherList) {
+    public WalletViewDto(UUID walletId, UUID customerId, List<VoucherViewDto> voucherList) {
         this.walletId = walletId;
         this.customerId = customerId;
         this.voucherList = voucherList;
+    }
+
+    public WalletViewDto(Wallet wallet) {
+        this.walletId = wallet.getWalletId();
+        this.customerId = wallet.getCustomerId();
     }
 
     public UUID getWalletId() {

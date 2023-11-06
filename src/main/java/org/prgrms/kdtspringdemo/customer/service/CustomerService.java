@@ -3,12 +3,9 @@ package org.prgrms.kdtspringdemo.customer.service;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.prgrms.kdtspringdemo.customer.domain.dto.CustomerRequestDto;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
-import org.prgrms.kdtspringdemo.customer.repository.FileCustomerRepository;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,7 +29,7 @@ public class CustomerService {
         return customerRepository.findNotHaveWalletCustomers();
     }
 
-    public List<Customer> getBlackListCustomers() throws IOException {
+    public List<Customer> getBlackListCustomers() {
         return customerRepository.getAllBlackList();
     }
 
