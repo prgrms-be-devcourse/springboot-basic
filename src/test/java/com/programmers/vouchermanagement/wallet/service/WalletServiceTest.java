@@ -1,6 +1,8 @@
 package com.programmers.vouchermanagement.wallet.service;
 
+import com.programmers.vouchermanagement.customer.controller.dto.CustomerResponse;
 import com.programmers.vouchermanagement.customer.domain.Customer;
+import com.programmers.vouchermanagement.voucher.controller.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.programmers.vouchermanagement.wallet.repository.WalletRepository;
@@ -56,7 +58,7 @@ class WalletServiceTest {
         List<Voucher> mockVoucherList = mock(List.class);
         when(walletRepository.findAllVoucherByCustomerId(mockUUID)).thenReturn(mockVoucherList);
 
-        assertThat(walletService.readAllVoucherByCustomerId(mockUUID)).isEqualTo(mockVoucherList);
+        assertThat(walletService.readAllVoucherByCustomerId(mockUUID)).isEqualTo(mockVoucherList.stream().map(VoucherResponse::from).toList());
 
         verify(walletRepository, times(1)).findAllVoucherByCustomerId(mockUUID);
     }
@@ -72,10 +74,9 @@ class WalletServiceTest {
     @Test
     @DisplayName("🆗 바우처 id로 바우처가 할당된 고객을 조회할 수 있다.")
     void findCustomerByVoucherId() {
-        Optional<Customer> customerOptional = Optional.of(mockCustomer);
-        when(walletRepository.findCustomerByVoucherId(mockUUID)).thenReturn(customerOptional);
+        when(walletRepository.findCustomerByVoucherId(mockUUID)).thenReturn(Optional.of(mockCustomer));
 
-        assertThat(walletService.readCustomerByVoucherId(mockUUID)).isEqualTo(customerOptional.get());
+        assertThat(walletService.readCustomerByVoucherId(mockUUID)).isEqualTo(CustomerResponse.from(mockCustomer));
         verify(walletRepository, times(1)).findCustomerByVoucherId(mockUUID);
     }
 
