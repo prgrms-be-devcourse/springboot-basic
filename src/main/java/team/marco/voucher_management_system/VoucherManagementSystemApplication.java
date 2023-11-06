@@ -1,7 +1,13 @@
 package team.marco.voucher_management_system;
 
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.annotation.ComponentScan;
+import team.marco.voucher_management_system.console_app.ConsoleApplication;
 import team.marco.voucher_management_system.util.Console;
+import team.marco.voucher_management_system.web_app.WebApplication;
 
+@ComponentScan
+@ConfigurationPropertiesScan
 public class VoucherManagementSystemApplication {
     public static void main(String[] args) {
         Console.print("""

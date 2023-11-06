@@ -1,11 +1,12 @@
-package team.marco.voucher_management_system;
+package team.marco.voucher_management_system.web_app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.annotation.Import;
+import team.marco.voucher_management_system.VoucherManagementSystemApplication;
 
+@Import(VoucherManagementSystemApplication.class)
 @SpringBootApplication
-@ConfigurationPropertiesScan
 public class WebApplication {
     public static void main(String[] args) {
         SpringApplication.run(WebApplication.class, args);
