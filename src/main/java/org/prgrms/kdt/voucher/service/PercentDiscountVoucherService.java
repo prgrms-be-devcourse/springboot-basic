@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_PERCENT_MINUS;
@@ -34,12 +35,16 @@ public class PercentDiscountVoucherService {
             throw new IllegalArgumentException(errorMessage);
         }
 
-        var percentDiscountVoucherDto = new PercentDiscountVoucherDto(UUID.randomUUID(), percent);
+        var percentDiscountVoucherDto = new PercentDiscountVoucherDto(UUID.randomUUID(), percent, LocalDateTime.now());
         createVoucher(percentDiscountVoucherDto);
     }
 
     private void createVoucher(PercentDiscountVoucherDto percentDiscountVoucherDto) {
-        var voucher = new PercentDiscountVoucher(percentDiscountVoucherDto.getVoucherId(), percentDiscountVoucherDto.getPercent());
+        var voucher = new PercentDiscountVoucher(
+                percentDiscountVoucherDto.getVoucherId(),
+                percentDiscountVoucherDto.getPercent(),
+                percentDiscountVoucherDto.getCreatedAt()
+        );
         voucherRepository.save(voucher);
     }
 }

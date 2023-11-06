@@ -1,19 +1,25 @@
 package org.prgrms.kdt.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public interface Voucher {
-    UUID getVoucherId();
+public abstract class Voucher {
+    UUID voucherId;
+    long amount;
+    LocalDateTime createdAt;
+    UUID customerId = null;
 
-    long discount(long beforeDiscount);
+    public abstract long discount(long beforeDiscount);
 
-    long getAmount();
+    public abstract UUID getVoucherId();
 
-    int getPercent();
+    public abstract long getAmount();
 
-    UUID getCustomerId();
+    public abstract UUID getCustomerId();
 
-    void setCustomerId(UUID customerId);
+    public abstract void setCustomerId(UUID customerId);
 
-    String getType();
+    public abstract String getType();
+
+    public abstract LocalDateTime getCreatedAt();
 }

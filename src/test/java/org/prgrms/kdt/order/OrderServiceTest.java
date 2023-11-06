@@ -36,7 +36,7 @@ class OrderServiceTest {
         var dataSource = DataSourceBuilder.create().type(HikariDataSource.class).build();
         var jdbcTemplate = new JdbcTemplate(dataSource);
         var walletRepository = new WalletJdbcRepository(dataSource, jdbcTemplate); // Provide the necessary dependencies
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, createdAt);
         FixedAmountVoucherService fixedAmountVoucherService = new FixedAmountVoucherService(voucherRepository);
         PercentDiscountVoucherService percentDiscountVoucherService = new PercentDiscountVoucherService(voucherRepository);
         VoucherService voucherService = new VoucherService(voucherRepository, walletRepository, fixedAmountVoucherService, percentDiscountVoucherService);
@@ -60,7 +60,7 @@ class OrderServiceTest {
         // Given
         var voucherServiceMock = mock(VoucherService.class);
         var orderRepositoryMock = mock(OrderRepository.class);
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, createdAt);
         when(voucherServiceMock.getVoucher(fixedAmountVoucher.getVoucherId())).thenReturn(fixedAmountVoucher);
         var sut = new OrderService(voucherServiceMock, orderRepositoryMock);
 

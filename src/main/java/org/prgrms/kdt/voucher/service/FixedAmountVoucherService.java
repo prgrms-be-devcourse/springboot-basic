@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_FIXED_AMOUNT_MINUS;
@@ -34,12 +35,16 @@ public class FixedAmountVoucherService {
             throw new IllegalArgumentException(errorMessage);
         }
 
-        var fixedAmountVoucherDto = new FixedAmountVoucherDto(UUID.randomUUID(), amount);
+        var fixedAmountVoucherDto = new FixedAmountVoucherDto(UUID.randomUUID(), amount, LocalDateTime.now());
         createVoucher(fixedAmountVoucherDto);
     }
 
     private void createVoucher(FixedAmountVoucherDto fixedAmountVoucherDto) {
-        var voucher = new FixedAmountVoucher(fixedAmountVoucherDto.getVoucherId(), fixedAmountVoucherDto.getAmount());
+        var voucher = new FixedAmountVoucher(
+                fixedAmountVoucherDto.getVoucherId(),
+                fixedAmountVoucherDto.getAmount(),
+                fixedAmountVoucherDto.getCreatedAt()
+        );
         voucherRepository.save(voucher);
     }
 }

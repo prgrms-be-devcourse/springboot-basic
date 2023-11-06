@@ -1,24 +1,28 @@
 package org.prgrms.kdt.voucher.domain;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class FixedAmountVoucher implements Voucher {
-    private final UUID voucherId;
-    private final long amount;
-    private final String type = "fixed";
-    private UUID customerId = null;
+import static org.prgrms.kdt.voucher.domain.VoucherType.FIXED;
 
-    public FixedAmountVoucher(UUID voucherId, long amount) {
+public class FixedAmountVoucher extends Voucher {
+
+    private final String type = FIXED.toString();
+
+    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
         this.voucherId = voucherId;
         this.amount = amount;
+        this.createdAt = createdAt;
     }
 
-    public FixedAmountVoucher(UUID voucherId, long amount, UUID customerId) {
+    public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt, UUID customerId) {
         this.voucherId = voucherId;
         this.amount = amount;
+        this.createdAt = createdAt;
         this.customerId = customerId;
     }
 
+    @Override
     public long discount(long beforeDiscount) {
         return beforeDiscount - amount;
     }
@@ -34,11 +38,6 @@ public class FixedAmountVoucher implements Voucher {
     }
 
     @Override
-    public int getPercent() {
-        return 0;
-    }
-
-    @Override
     public UUID getCustomerId() {
         return customerId;
     }
@@ -48,12 +47,24 @@ public class FixedAmountVoucher implements Voucher {
         this.customerId = customerId;
     }
 
+    @Override
     public String getType() {
         return type;
     }
 
     @Override
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
     public String toString() {
-        return String.format("FixedAmountVoucher    '{voucherId = %-40s, amount = %s}'", voucherId, amount);
+        return "FixedAmountVoucher{" +
+                "type='" + type + '\'' +
+                ", voucherId=" + voucherId +
+                ", amount=" + amount +
+                ", createdAt=" + createdAt +
+                ", customerId=" + customerId +
+                '}';
     }
 }

@@ -1,5 +1,7 @@
-package org.prgrms.kdt.customer;
+package org.prgrms.kdt.customer.controller;
 
+import org.prgrms.kdt.customer.Customer;
+import org.prgrms.kdt.customer.CustomerService;
 import org.prgrms.kdt.io.InputHandler;
 import org.prgrms.kdt.io.OutputHandler;
 import org.prgrms.kdt.wallet.Wallet;
@@ -16,20 +18,20 @@ import static org.prgrms.kdt.customer.CustomerMessage.*;
 import static org.prgrms.kdt.io.SystemMessage.EXCEPTION_NOT_EXIST_MENU;
 
 @Controller
-public class CustomerController {
+public class CustomerConsoleController {
 
     private final CustomerService customerService;
     private final OutputHandler outputHandler;
     private final InputHandler inputHandler;
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerConsoleController.class);
     private static final String lineSeparator = System.lineSeparator();
 
     private final String CREATE = "create";
     private final String VOUCHERS = "vouchers";
     private final String BLACK = "black";
 
-    public CustomerController(CustomerService customerService, OutputHandler outputHandler, InputHandler inputHandler) {
+    public CustomerConsoleController(CustomerService customerService, OutputHandler outputHandler, InputHandler inputHandler) {
         this.customerService = customerService;
         this.outputHandler = outputHandler;
         this.inputHandler = inputHandler;

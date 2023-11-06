@@ -58,7 +58,7 @@ public class KdtSpringContextTests {
     @DisplayName("orderService를 사용해서 주문을 생성할 수 있다.")
     public void testOrderService() {
         // Given
-        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100);
+        var fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 100, createdAt);
         voucherRepository.save(fixedAmountVoucher);
 
         // When

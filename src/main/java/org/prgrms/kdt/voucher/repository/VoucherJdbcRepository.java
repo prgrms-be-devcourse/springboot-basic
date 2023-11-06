@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +22,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.prgrms.kdt.voucher.VoucherMessage.EXCEPTION_VOUCHER_ROW_MAPPER;
+import static org.prgrms.kdt.voucher.domain.VoucherType.FIXED;
+import static org.prgrms.kdt.voucher.domain.VoucherType.PERCENT;
 
 @Repository
 @Profile("dev")
@@ -32,19 +35,20 @@ public class VoucherJdbcRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(VoucherJdbcRepository.class);
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, i) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
+        String type = resultSet.getString("type");
         Integer amount = resultSet.getInt("amount");
-        Integer percent = resultSet.getInt("percent");
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         byte[] customerIdBytes = resultSet.getBytes("customer_id");
         UUID customerId = null;
         if (customerIdBytes != null) {
             customerId = toUUID(customerIdBytes);
         }
 
-        if (percent != 0) {
-            return new PercentDiscountVoucher(voucherId, percent, customerId);
+        if (type.equals(FIXED.toString())) {
+            return new FixedAmountVoucher(voucherId, amount, createdAt, customerId);
         }
-        if (amount != 0) {
-            return new FixedAmountVoucher(voucherId, amount, customerId);
+        if (type.equals(PERCENT.toString())) {
+            return new PercentDiscountVoucher(voucherId, amount, createdAt, customerId);
         }
 
         logger.error("JdbcVoucherRepository RowMapper Error");
@@ -79,24 +83,14 @@ public class VoucherJdbcRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String voucherType = voucher.getClass().getName();
-        int update = 0;
-
-        if (voucherType.equals(PercentDiscountVoucher.class.getName())) {
-            update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, percent, customer_id) "
-                            + "VALUES (UUID_TO_BIN(?), ?, ?, UUID_TO_BIN(?))",
-                    voucher.getVoucherId().toString().getBytes(),
-                    0,
-                    voucher.getPercent(),
-                    voucher.getCustomerId() != null ? voucher.getCustomerId().toString().getBytes() : null);
-        } else if (voucherType.equals(FixedAmountVoucher.class.getName())) {
-            update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, amount, percent, customer_id) "
-                            + "VALUES (UUID_TO_BIN(?), ?, ?, UUID_TO_BIN(?))",
-                    voucher.getVoucherId().toString().getBytes(),
-                    voucher.getAmount(),
-                    0,
-                    voucher.getCustomerId() != null ? voucher.getCustomerId().toString().getBytes() : null);
-        }
+        int update = jdbcTemplate.update("INSERT INTO vouchers(voucher_id, type, amount, created_at, customer_id) "
+                        + "VALUES (UUID_TO_BIN(?), ?, ?, ?, UUID_TO_BIN(?))",
+                voucher.getVoucherId().toString().getBytes(),
+                voucher.getType(),
+                voucher.getAmount(),
+                voucher.getCreatedAt(),
+                voucher.getCustomerId() != null ? voucher.getCustomerId().toString().getBytes() : null
+        );
 
         if (update != 1) {
             throw new RuntimeException("Noting was inserted");

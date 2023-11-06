@@ -19,14 +19,5 @@ import javax.sql.DataSource;
 @EnableConfigurationProperties
 public class AppConfiguration {
 
-    @Bean
-    public DataSource dataSource() {
-        var dataSource = DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:3306/order_mgmt")
-                .username("root")
-                .password("110811")
-                .type(HikariDataSource.class)
-                .build();
-        return dataSource;
-    }
+
 }

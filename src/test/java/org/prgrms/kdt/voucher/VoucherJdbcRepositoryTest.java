@@ -36,7 +36,7 @@ public class VoucherJdbcRepositoryTest {
     public void givenVoucherId_whenFindById_thenReturnVoucher() {
         // Mock the behavior of JdbcTemplate.queryForObject to return a Voucher
         when(jdbcTemplate.queryForObject(any(String.class), any(RowMapper.class), any(Object.class))).thenReturn(
-                new FixedAmountVoucher(UUID.randomUUID(), 50)
+                new FixedAmountVoucher(UUID.randomUUID(), 50, createdAt)
         );
 
         UUID voucherId = UUID.randomUUID();
@@ -57,7 +57,7 @@ public class VoucherJdbcRepositoryTest {
 
     @Test
     public void givenVoucher_whenSave_thenReturnSavedVoucher() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 50);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 50, createdAt);
         when(jdbcTemplate.update(any(String.class), any(Object.class))).thenReturn(1);
 
         Voucher savedVoucher = voucherJdbcRepository.save(fixedAmountVoucher);
@@ -66,7 +66,7 @@ public class VoucherJdbcRepositoryTest {
 
     @Test
     public void givenVoucher_whenSave_thenThrowRuntimeException() {
-        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 50);
+        FixedAmountVoucher fixedAmountVoucher = new FixedAmountVoucher(UUID.randomUUID(), 50, createdAt);
         when(jdbcTemplate.update(any(String.class), any(Object.class))).thenReturn(0);
 
         assertThatThrownBy(() -> voucherJdbcRepository.save(fixedAmountVoucher))
@@ -78,7 +78,7 @@ public class VoucherJdbcRepositoryTest {
     public void whenFindAll_thenReturnListOfVouchers() {
         // Mock the behavior of JdbcTemplate.query to return a list of Vouchers
         when(jdbcTemplate.query(any(String.class), any(RowMapper.class))).thenReturn(
-                List.of(new FixedAmountVoucher(UUID.randomUUID(), 50))
+                List.of(new FixedAmountVoucher(UUID.randomUUID(), 50, createdAt))
         );
 
         List<Voucher> vouchers = voucherJdbcRepository.findAll();

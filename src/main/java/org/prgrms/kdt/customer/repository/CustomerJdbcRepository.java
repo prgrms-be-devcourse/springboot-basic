@@ -49,16 +49,17 @@ public class CustomerJdbcRepository implements CustomerRepository {
         Integer amount = resultSet.getInt("amount");
         Integer percent = resultSet.getInt("percent");
         byte[] customerIdBytes = resultSet.getBytes("customer_id");
+        var createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         UUID customerId = null;
         if (customerIdBytes != null) {
             customerId = toUUID(customerIdBytes);
         }
 
         if (percent != 0) {
-            return new PercentDiscountVoucher(voucherId, percent, customerId);
+            return new PercentDiscountVoucher(voucherId, percent, createdAt, customerId);
         }
         if (amount != 0) {
-            return new FixedAmountVoucher(voucherId, amount, customerId);
+            return new FixedAmountVoucher(voucherId, amount, createdAt, customerId);
         }
 
         logger.error("JdbcVoucherRepository RowMapper Error");

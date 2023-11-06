@@ -19,16 +19,16 @@ import static org.prgrms.kdt.io.SystemMessage.EXCEPTION_NOT_EXIST_MENU;
 import static org.prgrms.kdt.voucher.VoucherMessage.*;
 
 @Controller
-public class VoucherController {
+public class VoucherConsoleController {
 
     private final InputHandler inputHandler;
     private final OutputHandler outputHandler;
     private final VoucherService voucherService;
     private final FixedAmountVoucherService fixedAmountVoucherService;
     private final PercentDiscountVoucherService percentDiscountVoucherService;
-    private static final Logger logger = LoggerFactory.getLogger(VoucherController.class);
+    private static final Logger logger = LoggerFactory.getLogger(VoucherConsoleController.class);
 
-    public VoucherController(
+    public VoucherConsoleController(
             InputHandler inputHandler,
             OutputHandler outputHandler,
             VoucherService voucherService,
