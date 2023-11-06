@@ -4,6 +4,7 @@ import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.service.VoucherService;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,28 +23,33 @@ public class VoucherApiController {
     }
 
     @PostMapping
-    public VoucherResponse save(@RequestBody VoucherRequest voucherRequest){
-        return voucherService.save(voucherRequest);
+    public ResponseEntity<VoucherResponse> save(@RequestBody VoucherRequest voucherRequest){
+        VoucherResponse save = voucherService.save(voucherRequest);
+        return ResponseEntity.ok(save);
     }
 
     @GetMapping
-    public List<VoucherResponse> findAll(){
-        return voucherService.findAll();
+    public ResponseEntity<List<VoucherResponse>> findAll(){
+        List<VoucherResponse> all = voucherService.findAll();
+        return ResponseEntity.ok(all);
     }
 
     @GetMapping("/{memberId}")
-    public VoucherResponse findById(@PathVariable("memberId") String memberId){
-        return voucherService.findById(memberId);
+    public ResponseEntity<VoucherResponse> findById(@PathVariable("memberId") String memberId){
+        VoucherResponse voucherResponse = voucherService.findById(memberId);
+        return ResponseEntity.ok(voucherResponse);
     }
 
     @GetMapping("/search")
-    public List<VoucherResponse> findByType(@RequestBody String type){
-        return voucherService.findByType(type);
+    public ResponseEntity<List<VoucherResponse>> findByType(@RequestBody String type){
+        List<VoucherResponse> voucherResponses = voucherService.findByType(type);
+        return ResponseEntity.ok(voucherResponses);
     }
 
     @DeleteMapping("/{memberId}")
-    public void deleteById(@PathVariable("memberId") String memberId){
+    public ResponseEntity<Boolean> deleteById(@PathVariable("memberId") String memberId){
         voucherService.deleteById(memberId);
+        return ResponseEntity.ok(true);
     }
 
 }
