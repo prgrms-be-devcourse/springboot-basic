@@ -23,31 +23,31 @@ public class VoucherApiController {
     }
 
     @PostMapping
-    public ResponseEntity<VoucherResponse> save(@RequestBody VoucherRequest voucherRequest){
+    public ResponseEntity<VoucherResponse> createVoucher(@RequestBody VoucherRequest voucherRequest){
         VoucherResponse save = voucherService.save(voucherRequest);
         return ResponseEntity.ok(save);
     }
 
     @GetMapping
-    public ResponseEntity<List<VoucherResponse>> findAll(){
+    public ResponseEntity<List<VoucherResponse>> getAllVoucher(){
         List<VoucherResponse> all = voucherService.findAll();
         return ResponseEntity.ok(all);
     }
 
     @GetMapping("/{memberId}")
-    public ResponseEntity<VoucherResponse> findById(@PathVariable("memberId") String memberId){
+    public ResponseEntity<VoucherResponse> getVoucherById(@PathVariable("memberId") String memberId){
         VoucherResponse voucherResponse = voucherService.findById(memberId);
         return ResponseEntity.ok(voucherResponse);
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<VoucherResponse>> findByType(@RequestBody String type){
+    public ResponseEntity<List<VoucherResponse>> getVoucherByType(@RequestBody String type){
         List<VoucherResponse> voucherResponses = voucherService.findByType(type);
         return ResponseEntity.ok(voucherResponses);
     }
 
     @DeleteMapping("/{memberId}")
-    public ResponseEntity<Boolean> deleteById(@PathVariable("memberId") String memberId){
+    public ResponseEntity<Boolean> deleteVoucherById(@PathVariable("memberId") String memberId){
         voucherService.deleteById(memberId);
         return ResponseEntity.ok(true);
     }
