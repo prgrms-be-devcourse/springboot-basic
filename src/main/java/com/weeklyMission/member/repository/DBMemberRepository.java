@@ -90,7 +90,6 @@ public class DBMemberRepository implements MemberRepository{
 
     @Override
     public void deleteById(String id) {
-        findById(id);
         jdbcTemplate.update("delete from members where member_id = :memberId",
             Collections.singletonMap("memberId", id));
     }
