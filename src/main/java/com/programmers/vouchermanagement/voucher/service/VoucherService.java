@@ -1,18 +1,15 @@
 package com.programmers.vouchermanagement.voucher.service;
 
+import com.programmers.vouchermanagement.voucher.controller.dto.CreateVoucherRequest;
+import com.programmers.vouchermanagement.voucher.controller.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherType;
 import com.programmers.vouchermanagement.voucher.domain.vouchertype.VoucherTypeManager;
-import com.programmers.vouchermanagement.voucher.controller.dto.CreateVoucherRequest;
-import com.programmers.vouchermanagement.voucher.controller.dto.VoucherResponse;
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 import static com.programmers.vouchermanagement.util.Message.NOT_FOUND_VOUCHER;
 
@@ -56,9 +53,9 @@ public class VoucherService {
     }
 
     public VoucherResponse readById(UUID voucherId) {
-        Voucher voucher = voucherRepository
-                .findById(voucherId)
-                .orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER));
+        Optional<Voucher> voucherOptional = voucherRepository
+                .findById(voucherId);
+        Voucher voucher = voucherOptional.orElseThrow(() -> new NoSuchElementException(NOT_FOUND_VOUCHER));
         return VoucherResponse.from(voucher);
     }
 
