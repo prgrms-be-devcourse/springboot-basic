@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/prod
-    username: root
-    password: 20231028
+    username: ${USER}
+    password: ${PASSWORD}
   mvc:
     hidden-method:
       filter:
@@ -29,8 +29,8 @@ spring:
       on-profile: test
   datasource:
     url: jdbc:mysql://localhost:3306/test
-    username: root
-    password: 20231028
+    username: ${USER}
+    password: ${PASSWORD}
 file:
   resources:
     path: src/test/resources/
