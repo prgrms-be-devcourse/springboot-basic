@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.type_enum;
+package team.marco.voucher_management_system.console_app.command_enum;
 
 public enum WalletCommandType {
     EXIT, SUPPLY, VOUCHER_LIST, RETURN, CUSTOMER_LIST;

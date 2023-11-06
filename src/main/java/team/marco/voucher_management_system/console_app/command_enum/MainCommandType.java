@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.type_enum;
+package team.marco.voucher_management_system.console_app.command_enum;
 
 import static java.text.MessageFormat.format;
 

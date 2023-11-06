@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.stereotype.Component;
+import team.marco.voucher_management_system.console_app.command_enum.MainCommandType;
 import team.marco.voucher_management_system.console_app.controller.ConsoleBlacklistController;
 import team.marco.voucher_management_system.console_app.controller.ConsoleVoucherController;
-import team.marco.voucher_management_system.type_enum.MainCommandType;
 import team.marco.voucher_management_system.util.Console;
 
 @Component

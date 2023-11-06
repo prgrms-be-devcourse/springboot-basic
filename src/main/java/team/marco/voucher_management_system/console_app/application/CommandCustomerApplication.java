@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureException;
 import org.springframework.stereotype.Component;
+import team.marco.voucher_management_system.console_app.command_enum.CustomerCommandType;
 import team.marco.voucher_management_system.console_app.controller.ConsoleCustomerController;
-import team.marco.voucher_management_system.type_enum.CustomerCommandType;
 import team.marco.voucher_management_system.util.Console;
 
 @Component

@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.type_enum;
+package team.marco.voucher_management_system.console_app.command_enum;
 
 public enum CustomerCommandType {
     EXIT, CREATE, LIST, UPDATE, FIND_BY_ID, FIND_BY_NAME, FIND_BY_EMAIL;

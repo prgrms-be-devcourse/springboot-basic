@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.repository;
+package team.marco.voucher_management_system.console_app.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -14,9 +14,10 @@ import java.util.UUID;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
+import team.marco.voucher_management_system.console_app.properties.FilePathProperties;
 import team.marco.voucher_management_system.model.LoadedVoucher;
 import team.marco.voucher_management_system.model.Voucher;
-import team.marco.voucher_management_system.properties.FilePathProperties;
+import team.marco.voucher_management_system.repository.VoucherRepository;
 import team.marco.voucher_management_system.type_enum.VoucherType;
 
 @Profile("dev")

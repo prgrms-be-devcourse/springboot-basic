@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.repository;
+package team.marco.voucher_management_system.console_app.repository;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import java.util.UUID;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import team.marco.voucher_management_system.model.Voucher;
+import team.marco.voucher_management_system.repository.VoucherRepository;
 import team.marco.voucher_management_system.type_enum.VoucherType;
 
 @Profile({"debug", "test"})

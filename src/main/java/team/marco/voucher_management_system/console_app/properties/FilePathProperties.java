@@ -1,4 +1,4 @@
-package team.marco.voucher_management_system.properties;
+package team.marco.voucher_management_system.console_app.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

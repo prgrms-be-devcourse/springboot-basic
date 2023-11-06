@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
+import team.marco.voucher_management_system.console_app.command_enum.WalletCommandType;
 import team.marco.voucher_management_system.console_app.controller.ConsoleWalletController;
-import team.marco.voucher_management_system.type_enum.WalletCommandType;
 import team.marco.voucher_management_system.util.Console;
 
 @Component
