@@ -5,6 +5,7 @@ import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.service.VoucherService;
 import org.springframework.context.annotation.Profile;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,11 @@ public class VoucherRestController {
     public Response<Void> giveVoucher(@PathVariable UUID voucherId, @RequestParam UUID customerId) {
         voucherService.allocateVoucher(voucherId, customerId);
         return Response.success();
+    }
+
+    @GetMapping("api/v1/vouchers/{customerId}/vouchers")
+    public Response<List<VoucherResponseDto>> getCustomerOwnVoucherList(@PathVariable UUID customerId, Model model){
+        return Response.success(voucherService.getCustomerOwnedVouchers(customerId));
     }
 }
 
