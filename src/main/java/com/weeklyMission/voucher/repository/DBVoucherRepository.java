@@ -87,7 +87,6 @@ public class DBVoucherRepository implements VoucherRepository{
 
     @Override
     public void deleteById(String id) {
-        findById(id);
         jdbcTemplate.update("delete from voucher where voucher_id = :voucherId",
             Collections.singletonMap("voucherId", id));
     }
