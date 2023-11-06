@@ -20,7 +20,9 @@ import team.marco.voucher_management_system.type_enum.VoucherType;
 import team.marco.voucher_management_system.web_app.dto.CreateVoucherRequest;
 
 @RestController
-@RequestMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(
+        value = "/api/vouchers",
+        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class VoucherController {
     private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
@@ -30,19 +32,19 @@ public class VoucherController {
         this.voucherService = voucherService;
     }
 
-    @GetMapping("/vouchers")
+    @GetMapping
     public List<Voucher> findAll() {
         return voucherService.getVouchers();
     }
 
-    @PostMapping("/vouchers")
+    @PostMapping
     public ResponseEntity<Voucher> create(CreateVoucherRequest createVoucherRequest) {
         Voucher voucher = voucherService.create(createVoucherRequest);
 
         return ResponseEntity.ok(voucher);
     }
 
-    @GetMapping("/vouchers/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Voucher> findById(@PathVariable("id") UUID id) {
         Optional<Voucher> optionalVoucher = voucherService.findById(id);
 
@@ -51,7 +53,7 @@ public class VoucherController {
                         .build());
     }
 
-    @DeleteMapping("/vouchers/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         boolean isDeleted = voucherService.deleteById(id);
 
@@ -64,7 +66,7 @@ public class VoucherController {
                 .build();
     }
 
-    @GetMapping("/vouchers/createdAt")
+    @GetMapping("/createdAt")
     public List<Voucher> findByCreateAt(@RequestParam("from")
                                         @DateTimeFormat(pattern = DATE_PATTERN)
                                         LocalDateTime from,
@@ -74,7 +76,7 @@ public class VoucherController {
         return voucherService.findByCreateAt(from, to);
     }
 
-    @GetMapping("/vouchers/type/{type}")
+    @GetMapping("/type/{type}")
     public List<Voucher> findByType(@PathVariable("type") VoucherType voucherType) {
         return voucherService.findByType(voucherType);
     }
