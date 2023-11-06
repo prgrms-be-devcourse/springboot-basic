@@ -1,5 +1,6 @@
 package com.weeklyMission.client;
 
+import com.weeklyMission.exception.ExceptionMessage;
 import com.weeklyMission.exception.IncorrectInputException;
 import java.util.Arrays;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public enum VoucherType {
         return Arrays.stream(values())
             .filter(type -> type.isEquals(input))
             .findFirst()
-            .orElseThrow(() -> new IncorrectInputException("type", input, "지원하지 않는 voucher."));
+            .orElseThrow(() -> new IncorrectInputException("type", input, ExceptionMessage.BAD_REQUEST_VOUCHER.getMessage()));
     }
 
     private boolean isEquals(String input){

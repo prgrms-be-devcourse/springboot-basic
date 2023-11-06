@@ -1,6 +1,6 @@
 package com.weeklyMission.voucher.domain;
 
-import java.util.UUID;
+import com.weeklyMission.exception.ExceptionMessage;
 
 public class PercentDiscountVoucher extends Voucher{
 
@@ -8,10 +8,10 @@ public class PercentDiscountVoucher extends Voucher{
 
     public PercentDiscountVoucher(String voucherId, long amount) {
         if(amount<0) {
-            throw new IllegalArgumentException("음수는 될 수 없음");
+            throw new IllegalArgumentException(ExceptionMessage.CAN_NOT_ZERO.getMessage());
         }
         if(amount==0) {
-            throw new IllegalArgumentException("0이 될 수 없음");
+            throw new IllegalArgumentException(ExceptionMessage.CAN_NOT_ZERO.getMessage());
         }
         if(amount>MAX_PERCENT_VOUCHER_AMOUNT) {
             throw new IllegalArgumentException("%d보다 작아야 함".formatted(MAX_PERCENT_VOUCHER_AMOUNT));

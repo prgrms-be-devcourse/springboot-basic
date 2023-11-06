@@ -1,11 +1,12 @@
 package com.weeklyMission.member.service;
 
+import com.weeklyMission.exception.ExceptionMessage;
 import com.weeklyMission.member.domain.Member;
 import com.weeklyMission.member.dto.MemberRequest;
 import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.repository.MemberRepository;
 import java.util.List;
-import java.util.UUID;
+import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,7 +30,7 @@ public class MemberService {
 
     public MemberResponse findById(String id){
         Member member = memberRepository.findById(id)
-            .orElseThrow();
+            .orElseThrow(() -> new NoSuchElementException(ExceptionMessage.NOT_FOUND_MEMBER.getMessage()));
         return MemberResponse.of(member);
     }
 

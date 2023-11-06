@@ -1,11 +1,13 @@
 package com.weeklyMission.voucher.service;
 
 import com.weeklyMission.client.VoucherType;
+import com.weeklyMission.exception.ExceptionMessage;
 import com.weeklyMission.voucher.domain.Voucher;
 import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.repository.VoucherRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,7 +32,7 @@ public class VoucherService {
 
     public VoucherResponse findById(String id){
         Voucher voucher = voucherRepository.findById(id)
-            .orElseThrow();
+            .orElseThrow(() -> new NoSuchElementException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage()));
         return VoucherResponse.of(voucher);
     }
 
