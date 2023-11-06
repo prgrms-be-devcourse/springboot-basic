@@ -12,6 +12,7 @@ public final class VoucherResponseDto {
     private final String voucherType;
     private final String customerId;
 
+
     public VoucherResponseDto(UUID voucherId, long discountValue, String voucherType, UUID customerId) {
         this.voucherId = voucherId;
         this.discountValue = discountValue;

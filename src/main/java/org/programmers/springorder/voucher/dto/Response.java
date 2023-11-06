@@ -18,4 +18,12 @@ public class Response<T> {
     public static <T> Response<T> success(T result){
         return new Response<>("SUCCESS", result);
     }
+
+    public String getResultCode() {
+        return resultCode;
+    }
+
+    public T getData() {
+        return data;
+    }
 }
