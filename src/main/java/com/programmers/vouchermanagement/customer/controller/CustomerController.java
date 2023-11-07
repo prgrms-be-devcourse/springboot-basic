@@ -5,10 +5,7 @@ import com.programmers.vouchermanagement.customer.controller.dto.CustomerRespons
 import com.programmers.vouchermanagement.customer.service.CustomerService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,7 +21,7 @@ public class CustomerController {
 
     @PostMapping
     @ResponseBody
-    public CustomerResponse create(CreateCustomerRequest createCustomerRequest) {
+    public CustomerResponse create(@RequestBody CreateCustomerRequest createCustomerRequest) {
         return customerService.create(createCustomerRequest);
     }
 
