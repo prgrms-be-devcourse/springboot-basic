@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.controller.springMvcController;
+package org.prgms.kdtspringweek1.controller.restController;
 
 import org.prgms.kdtspringweek1.voucher.service.VoucherService;
 import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;
@@ -11,38 +11,38 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/spring-mvc/voucher")
-public class SpringMvcVoucherController {
+@RequestMapping("rest")
 @Profile({"rest"})
+public class RestVoucherController {
 
     private final VoucherService voucherService;
 
-    public SpringMvcVoucherController(VoucherService voucherService) {
+    public RestVoucherController(VoucherService voucherService) {
         this.voucherService = voucherService;
     }
 
-    @GetMapping()
+    @GetMapping("/vouchers")
     public List<FindVoucherResponseDto> getAllVouchers() {
         return voucherService.searchAllVouchers();
     }
 
-    @GetMapping("/voucher-type/{num}")
-    public List<FindVoucherResponseDto> getVoucherByVoucherType(@PathVariable long num) {
-        return voucherService.searchVouchersByVoucherType(SelectVoucherTypeDto.getVoucherTypeByNum(num).getName());
+    @GetMapping("/vouchers/type")
+    public List<FindVoucherResponseDto> getVoucherByVoucherType(@RequestParam String num) {
+        return voucherService.searchVouchersByVoucherType(SelectVoucherTypeDto.getVoucherTypeByNum(Long.parseLong(num)).getName());
     }
 
-    @GetMapping("/{voucherId}")
-    public FindVoucherResponseDto getVoucherByVoucherId(@PathVariable String voucherId) {
-        return voucherService.searchVoucherById(UUID.fromString(voucherId)).get();
+    @GetMapping("/voucher")
+    public FindVoucherResponseDto getVoucherByVoucherId(@RequestParam String id) {
+        return voucherService.searchVoucherById(UUID.fromString(id)).get();
     }
 
-    @PostMapping()
+    @PostMapping("/voucher")
     public void createVoucher(@RequestBody CreateVoucherRequestDto createVoucherRequestDto) {
         voucherService.registerVoucher(createVoucherRequestDto.toVoucher());
     }
 
-    @DeleteMapping("/{voucherId}")
-    public void deleteVoucher(@PathVariable String voucherId) {
-        voucherService.deleteVoucherById(UUID.fromString(voucherId));
+    @DeleteMapping("/voucher")
+    public void deleteVoucher(@RequestParam String id) {
+        voucherService.deleteVoucherById(UUID.fromString(id));
     }
 }

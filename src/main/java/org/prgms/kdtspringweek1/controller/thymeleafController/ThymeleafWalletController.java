@@ -7,16 +7,14 @@ import org.prgms.kdtspringweek1.wallet.service.dto.CreateWalletRequestDto;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Controller
+@RequestMapping("thymeleaf")
 @Profile({"thymeleaf"})
 public class ThymeleafWalletController {
 
@@ -32,7 +30,7 @@ public class ThymeleafWalletController {
         return "wallet/wallet-create";
     }
 
-    @GetMapping("/customer/wallets")
+    @GetMapping("/customer/wallets") // customerId로 PATHVARIABLE 가능
     public String searchAllVouchersByCustomerId(@RequestParam String customerId, Model model) {
         List<FindVoucherResponseDto> vouchers = walletService.searchAllVouchersByCustomerId(UUID.fromString(customerId));
         model.addAttribute("serverTime", LocalDateTime.now());
