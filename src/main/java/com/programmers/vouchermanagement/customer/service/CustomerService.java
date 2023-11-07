@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.customer.controller.dto.CustomerRespons
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,12 +18,14 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
+    @Transactional
     public CustomerResponse create(CreateCustomerRequest createCustomerRequest) {
         Customer customer = new Customer(createCustomerRequest.name(), createCustomerRequest.isBlack());
         customerRepository.insert(customer);
         return CustomerResponse.from(customer);
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> readAll() {
         List<Customer> customers = customerRepository.findAll();
         if (customers.isEmpty()) {
@@ -31,6 +34,7 @@ public class CustomerService {
         return customers.stream().map(CustomerResponse::from).toList();
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> readAllBlackCustomer() {
         List<Customer> blacklist = customerRepository.findAllBlackCustomer();
         if (blacklist.isEmpty()) {

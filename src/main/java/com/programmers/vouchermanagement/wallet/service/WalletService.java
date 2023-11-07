@@ -9,6 +9,7 @@ import com.programmers.vouchermanagement.wallet.repository.WalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -27,6 +28,7 @@ public class WalletService {
         walletRepository.insert(ownership);
     }
 
+    @Transactional(readOnly = true)
     public CustomerResponse readCustomerByVoucherId(UUID voucherId) {
         Optional<Customer> customerOptional = walletRepository.findCustomerByVoucherId(voucherId);
         Customer customer = customerOptional.orElseThrow(() -> {
@@ -36,16 +38,19 @@ public class WalletService {
         return CustomerResponse.from(customer);
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponse> readAllVoucherByCustomerId(UUID customerId) {
         List<Voucher> vouchers = walletRepository.findAllVoucherByCustomerId(customerId);
         if (vouchers.isEmpty()) return Collections.emptyList();
         return vouchers.stream().map(VoucherResponse::from).toList();
     }
 
+    @Transactional
     public void deleteVoucherFromCustomer(UUID voucherId) {
         walletRepository.delete(voucherId);
     }
 
+    @Transactional
     public void deleteAllAllocation() {
         walletRepository.deleteAll();
     }
