@@ -24,8 +24,8 @@ public class CustomerController {
 
     @PostMapping
     @ResponseBody
-    public void create(CreateCustomerRequest createCustomerRequest) {
-        customerService.create(createCustomerRequest);
+    public CustomerResponse create(CreateCustomerRequest createCustomerRequest) {
+        return customerService.create(createCustomerRequest);
     }
 
     @GetMapping

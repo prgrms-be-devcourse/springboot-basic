@@ -1,8 +1,8 @@
 package com.programmers.vouchermanagement.customer.service;
 
-import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.controller.dto.CreateCustomerRequest;
 import com.programmers.vouchermanagement.customer.controller.dto.CustomerResponse;
+import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +18,10 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public void create(CreateCustomerRequest createCustomerRequest) {
+    public CustomerResponse create(CreateCustomerRequest createCustomerRequest) {
         Customer customer = new Customer(UUID.randomUUID(), createCustomerRequest.name(), createCustomerRequest.isBlack());
         customerRepository.insert(customer);
+        return CustomerResponse.from(customer);
     }
 
     public List<CustomerResponse> readAll() {
