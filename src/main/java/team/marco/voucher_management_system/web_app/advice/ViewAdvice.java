@@ -9,6 +9,6 @@ import team.marco.voucher_management_system.web_app.controller.CustomerControlle
 public class ViewAdvice {
     @ExceptionHandler(NoSuchElementException.class)
     public String noSuchElementHandler() {
-        return "static/404";
+        return "error/404";
     }
 }

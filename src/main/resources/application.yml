@@ -9,10 +9,11 @@ spring:
     username: root
     password:
   thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
     view-names:
       - views/*
-      - static/*
-    prefix: /WEB-INF/
+      - error/*
   mvc:
     hidden-method:
       filter:
