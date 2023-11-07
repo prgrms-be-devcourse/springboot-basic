@@ -32,17 +32,6 @@ class CustomerJDBCRepositoryTest {
     }
 
     @Test
-    @DisplayName("🆗 블랙리스트를 조회할 수 있다. 단, 블랙 고객이 없는 경우 빈 list가 반환된다.")
-    void findAllBlackCustomerSucceed() {
-        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객1", false));
-        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객2", true));
-        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객3", false));
-        List<Customer> customers = customerJDBCRepository.findAllBlackCustomer();
-        assertThat(customers).isNotEmpty();
-        assertThat(customers.size()).isGreaterThanOrEqualTo(1);
-    }
-
-    @Test
     @DisplayName("🆗 고객 정보를 저장할 수 있다.")
     void insert() {
         Customer customer = new Customer(UUID.randomUUID(), "고객4");
@@ -51,5 +40,35 @@ class CustomerJDBCRepositoryTest {
                 .queryForObject("SELECT * FROM customers WHERE id = UUID_TO_BIN(:id)", Collections.singletonMap(ID_KEY, customer.getId().toString().getBytes()), CustomerDomainMapper.customerRowMapper);
 
         assertThat(retrievedCustomer).isEqualTo(customer);
+    }
+
+    @Test
+    @DisplayName("🆗 블랙리스트를 조회할 수 있다. 단, 블랙 고객이 없는 경우 빈 list가 반환된다.")
+    void findAllBlackCustomer() {
+        insertCustomersWithBlackCustomers();
+        List<Customer> customers = customerJDBCRepository.findAllBlackCustomer();
+        assertThat(customers).isNotEmpty();
+        assertThat(customers.size()).isGreaterThanOrEqualTo(1);
+    }
+
+    void insertCustomersWithBlackCustomers() {
+        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객1", false));
+        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객2", true));
+        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객3", false));
+    }
+
+
+    @Test
+    @DisplayName("🚨 블랙 고객이 없는 경우 빈 list가 반환된다.")
+    void findAllBlackCustomerAndReturnEmpty() {
+        insertCustomersWithNonBlackCustomers();
+        List<Customer> customers = customerJDBCRepository.findAllBlackCustomer();
+        assertThat(customers).isEmpty();
+    }
+
+    void insertCustomersWithNonBlackCustomers() {
+        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객1", false));
+        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객2", false));
+        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객3", false));
     }
 }
