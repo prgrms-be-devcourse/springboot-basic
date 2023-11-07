@@ -11,7 +11,7 @@
 </head>
 <body class="container-fluid">
 <h1>Customer Detail</h1>
-<form th:action="@{/customers/{id}(id=${customer.id})}" th:method="put">
+<form id="putForm" th:action="@{/customers/{id}(id=${customer.id})}" th:method="put">
     <div class="mb-3">
         <label for="InputId" class="form-label">ID</label>
         <input type="text" name="id" class="form-control" id="InputId" th:placeholder="${customer.id}" disabled>
@@ -25,6 +25,8 @@
         <label for="InputName" class="form-label">Name</label>
         <input type="text" name="name" class="form-control" id="InputName" th:value="${customer.name}">
     </div>
-    <button type="submit" class="btn btn-primary">Change</button>
 </form>
+<form id="deleteForm" th:action="@{/customers/{id}(id=${customer.id})}" th:method="delete"></form>
+<button form="putForm" type="submit" class="btn btn-primary">Change</button>
+<button form="deleteForm" type="submit" class="btn btn-primary">Delete</button>
 </body>
