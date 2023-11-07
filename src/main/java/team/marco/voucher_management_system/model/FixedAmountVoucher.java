@@ -20,10 +20,9 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     public FixedAmountVoucher(UUID id, int amount, LocalDateTime createAt) {
-        super(id);
+        super(id, createAt);
 
         this.amount = amount;
-        this.createAt = createAt;
     }
 
     private static void validate(int amount) {

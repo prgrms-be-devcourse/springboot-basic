@@ -20,10 +20,9 @@ public class PercentDiscountVoucher extends Voucher {
     }
 
     public PercentDiscountVoucher(UUID id, int percent, LocalDateTime createAt) {
-        super(id);
+        super(id, createAt);
 
         this.percent = percent;
-        this.createAt = createAt;
     }
 
     private void validate(int percent) {

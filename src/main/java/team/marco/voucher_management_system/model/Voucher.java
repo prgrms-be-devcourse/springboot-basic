@@ -13,16 +13,16 @@ public abstract class Voucher {
     protected final UUID id;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    protected LocalDateTime createAt;
+    protected final LocalDateTime createAt;
 
     protected Voucher() {
         this.id = UUID.randomUUID();
         this.createAt = LocalDateTime.now();
     }
 
-    protected Voucher(UUID id) {
+    protected Voucher(UUID id, LocalDateTime createAt) {
         this.id = id;
-        this.createAt = LocalDateTime.now();
+        this.createAt = createAt;
     }
 
     public boolean isSameId(UUID id) {

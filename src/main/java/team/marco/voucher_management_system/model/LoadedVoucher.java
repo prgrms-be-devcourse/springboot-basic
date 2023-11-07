@@ -13,11 +13,10 @@ public class LoadedVoucher extends Voucher {
     }
 
     public LoadedVoucher(UUID id, VoucherType type, int data, LocalDateTime createAt) {
-        super(id);
+        super(id, createAt);
 
         this.type = type;
         this.data = data;
-        this.createAt = createAt;
     }
 
     @Override
