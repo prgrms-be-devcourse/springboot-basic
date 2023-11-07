@@ -26,7 +26,11 @@
     </thead>
     <tbody>
     <tr th:each="customer: ${customers}" th:object="${customer}">
-        <td th:text="${customer.id}"></td>
+        <td>
+            <a th:href="@{/customers/{id}(id=${customer.id})}">
+                <div th:text="${customer.id}"></div>
+            </a>
+        </td>
         <td th:text="*{name}"></td>
         <td th:text="*{email}"></td>
         <td th:text="*{createdAt}"></td>
