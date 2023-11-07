@@ -40,7 +40,7 @@ public class CustomerService {
         int update = customerRepository.update(customer);
 
         if (update != 1) {
-            throw new DataSourceLookupFailureException("고객을 추가하는 과정에서 오류가 발생했습니다.");
+            throw new DataSourceLookupFailureException("이름을 변경하는 과정에서 오류가 발생했습니다.");
         }
     }
 
@@ -48,6 +48,14 @@ public class CustomerService {
         Optional<Customer> customerOptional = customerRepository.findById(id);
 
         return customerOptional.orElseThrow();
+    }
+
+    public void deleteById(UUID id) {
+        int delete = customerRepository.deleteById(id);
+
+        if (delete != 1) {
+            throw new DataSourceLookupFailureException("고객을 삭제하는 과정에서 오류가 발생했습니다.");
+        }
     }
 
     public List<Customer> findByName(String name) {

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,6 +56,13 @@ public class CustomerController {
     @PutMapping("/{id}")
     public String changeCustomerName(@PathVariable("id") UUID id, String name) {
         customerService.update(id, name);
+
+        return "redirect:/customers";
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteCustomerById(@PathVariable("id") UUID id) {
+        customerService.deleteById(id);
 
         return "redirect:/customers";
     }

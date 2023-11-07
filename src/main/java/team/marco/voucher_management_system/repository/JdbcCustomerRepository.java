@@ -70,8 +70,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(UUID id) {
         try {
             Customer customer = jdbcTemplate.queryForObject(
-                    "SELECT * FROM customer"
-                            + " WHERE id = UUID_TO_BIN(:id)",
+                    "SELECT * FROM customer WHERE id = UUID_TO_BIN(:id)",
                     Collections.singletonMap("id", id.toString().getBytes()),
                     customerRowMapper);
 
@@ -84,8 +83,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findByName(String name) {
         return jdbcTemplate.query(
-                "SELECT * FROM customer"
-                        + " WHERE name LIKE :name",
+                "SELECT * FROM customer WHERE name LIKE :name",
                 Collections.singletonMap("name", withWildCards(name)),
                 customerRowMapper);
     }
@@ -93,10 +91,15 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findByEmail(String email) {
         return jdbcTemplate.query(
-                "SELECT * FROM customer"
-                        + " WHERE email LIKE :email",
+                "SELECT * FROM customer WHERE email LIKE :email",
                 Collections.singletonMap("email", withWildCards(email)),
                 customerRowMapper);
+    }
+
+    @Override
+    public int deleteById(UUID id) {
+        return jdbcTemplate.update("DELETE FROM customer WHERE id = UUID_TO_BIN(:id)",
+                Collections.singletonMap("id", id.toString().getBytes()));
     }
 
     private Map<String, Object> customerToMap(Customer customer) {
