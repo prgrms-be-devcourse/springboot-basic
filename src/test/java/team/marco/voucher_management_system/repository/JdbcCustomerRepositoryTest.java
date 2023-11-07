@@ -163,6 +163,41 @@ class JdbcCustomerRepositoryTest {
     }
 
     @Nested
+    @DisplayName("고객 삭제 테스트")
+    class TestDeleteById {
+        @Test
+        @DisplayName("id가 일치하는 고객이 존재할 경우 삭제할 수 있어야 한다.")
+        void success() {
+            // given
+            Customer existCustomer = generateCustomer();
+
+            addTestCustomers(10);
+            repository.create(existCustomer);
+
+            // when
+            int delete = repository.deleteById(existCustomer.getId());
+
+            // then
+            assertThat(delete).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("id가 일치하는 고객이 없을 경우 0을 반환한다.")
+        void failToNotExistId() {
+            // given
+            Customer notExistCustomer = generateCustomer();
+
+            addTestCustomers(10);
+
+            // when
+            int delete = repository.deleteById(notExistCustomer.getId());
+
+            // then
+            assertThat(delete).isEqualTo(0);
+        }
+    }
+
+    @Nested
     @DisplayName("고객 추가 테스트")
     class TestCreate {
         @Test
