@@ -9,8 +9,14 @@ spring:
     username: root
     password:
   thymeleaf:
-    view-names: views/*
+    view-names:
+      - views/*
+      - static/*
     prefix: /WEB-INF/
+  mvc:
+    hidden-method:
+      filter:
+        enabled: true
 
 server:
   port: 8080

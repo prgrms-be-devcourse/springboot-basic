@@ -1,10 +1,13 @@
 package team.marco.voucher_management_system.web_app.controller;
 
 import java.util.List;
+import java.util.UUID;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.service.CustomerService;
@@ -36,6 +39,22 @@ public class CustomerController {
     @PostMapping("/new")
     public String createCustomer(CreateCustomerRequest createCustomerRequest) {
         customerService.create(createCustomerRequest.name(), createCustomerRequest.email());
+
+        return "redirect:/customers";
+    }
+
+    @GetMapping("/{id}")
+    public String viewCustomerById(@PathVariable("id") UUID id, Model model) {
+        Customer customer = customerService.findById(id);
+
+        model.addAttribute("customer", customer);
+
+        return "views/customer-detail";
+    }
+
+    @PutMapping("/{id}")
+    public String changeCustomerName(@PathVariable("id") UUID id, String name) {
+        customerService.update(id, name);
 
         return "redirect:/customers";
     }
