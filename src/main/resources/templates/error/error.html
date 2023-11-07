@@ -1,0 +1,17 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${status}"></title>
+</head>
+<body>
+<h1>error page</h1>
+<div>
+    <h3>status : <span th:text="${status}"></span></h3>
+    <h3>message : <span th:text="${message}"></span></h3>
+</div>
+<br>
+<h2>header</h2>
+<p th:each="headerItem: ${header}" th:text="${headerItem}"></p>
+</body>
+</html>
