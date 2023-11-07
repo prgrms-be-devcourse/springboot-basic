@@ -43,8 +43,8 @@ public class VoucherController {
 
     @DeleteMapping("/{voucherId}")
     @ResponseBody
-    public void delete(@PathVariable("voucherId") UUID voucherId) {
-        voucherService.delete(voucherId);
+    public VoucherResponse delete(@PathVariable("voucherId") UUID voucherId) {
+        return voucherService.delete(voucherId);
     }
 
     @DeleteMapping

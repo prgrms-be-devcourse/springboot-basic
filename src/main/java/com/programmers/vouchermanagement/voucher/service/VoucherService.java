@@ -58,8 +58,10 @@ public class VoucherService {
         return VoucherResponse.from(voucher);
     }
 
-    public void delete(UUID voucherId) {
+    public VoucherResponse delete(UUID voucherId) {
+        VoucherResponse voucher = readById(voucherId);
         voucherRepository.delete(voucherId);
+        return voucher;
     }
 
     public void deleteAll() {
