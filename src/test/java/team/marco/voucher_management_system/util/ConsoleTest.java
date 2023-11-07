@@ -4,30 +4,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatException;
 
 import com.github.javafaker.Faker;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.io.UncheckedIOException;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import team.marco.voucher_management_system.common.StdIOTest;
 
-class ConsoleTest {
+class ConsoleTest extends StdIOTest {
     private final static Faker faker = new Faker();
     private final static String EOF = "\u001a";
 
-    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
-
-    @BeforeEach
-    void setup() {
-        System.setOut(new PrintStream(outputStreamCaptor));
-    }
-
     @AfterEach
-    void cleanup() {
+    void closeConsole() {
         Console.close();
     }
 
@@ -115,13 +105,5 @@ class ConsoleTest {
         String stdout = getStdout();
 
         assertThat(stdout).startsWith(userOutput);
-    }
-
-    private void setStdin(String input) {
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-    }
-
-    private String getStdout() {
-        return outputStreamCaptor.toString();
     }
 }
