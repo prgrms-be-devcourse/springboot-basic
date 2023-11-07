@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class CustomerService {
@@ -19,7 +18,7 @@ public class CustomerService {
     }
 
     public CustomerResponse create(CreateCustomerRequest createCustomerRequest) {
-        Customer customer = new Customer(UUID.randomUUID(), createCustomerRequest.name(), createCustomerRequest.isBlack());
+        Customer customer = new Customer(createCustomerRequest.name(), createCustomerRequest.isBlack());
         customerRepository.insert(customer);
         return CustomerResponse.from(customer);
     }

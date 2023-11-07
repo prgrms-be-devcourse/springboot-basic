@@ -8,14 +8,16 @@ public class Customer {
     private final String name;
     private final boolean black;
 
-    public Customer(UUID id, String name) {
-        this(id, name, false);
+    public Customer(UUID id, String name, boolean black) {
+        this.id = id;
+        this.name = name;
+        this.black = black;
     }
 
-    public Customer(UUID id, String name, boolean black) {
+    public Customer(String name, boolean black) {
         if (name == null || name.isBlank() || name.length() > 20)
             throw new IllegalArgumentException("The name length should be between 0 to 20.");
-        this.id = id;
+        this.id = UUID.randomUUID();
         this.name = name;
         this.black = black;
     }

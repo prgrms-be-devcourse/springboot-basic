@@ -13,7 +13,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import static com.programmers.vouchermanagement.util.DomainMapper.ID_KEY;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +33,7 @@ class CustomerJDBCRepositoryTest {
     @Test
     @DisplayName("🆗 고객 정보를 저장할 수 있다.")
     void insert() {
-        Customer customer = new Customer(UUID.randomUUID(), "고객4");
+        Customer customer = new Customer("고객4", true);
         customerJDBCRepository.insert(customer);
         Customer retrievedCustomer = jdbcTemplate
                 .queryForObject("SELECT * FROM customers WHERE id = UUID_TO_BIN(:id)", Collections.singletonMap(ID_KEY, customer.getId().toString().getBytes()), CustomerDomainMapper.customerRowMapper);
@@ -52,9 +51,9 @@ class CustomerJDBCRepositoryTest {
     }
 
     void insertCustomersWithBlackCustomers() {
-        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객1", false));
-        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객2", true));
-        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객3", false));
+        customerJDBCRepository.insert(new Customer("고객1", false));
+        customerJDBCRepository.insert(new Customer("고객2", true));
+        customerJDBCRepository.insert(new Customer("고객3", false));
     }
 
 
@@ -67,8 +66,8 @@ class CustomerJDBCRepositoryTest {
     }
 
     void insertCustomersWithNonBlackCustomers() {
-        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객1", false));
-        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객2", false));
-        customerJDBCRepository.insert(new Customer(UUID.randomUUID(), "고객3", false));
+        customerJDBCRepository.insert(new Customer("고객1", false));
+        customerJDBCRepository.insert(new Customer("고객2", false));
+        customerJDBCRepository.insert(new Customer("고객3", false));
     }
 }

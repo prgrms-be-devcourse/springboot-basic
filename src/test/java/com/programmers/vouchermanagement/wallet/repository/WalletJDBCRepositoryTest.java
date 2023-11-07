@@ -53,7 +53,7 @@ class WalletJDBCRepositoryTest {
     @DisplayName("🆗 고객에게 바우처를 할당할 수 있다.")
     void save() {
         Voucher voucher = new Voucher("FIXED", 333);
-        Customer customer = new Customer(UUID.randomUUID(), "바우처 주인");
+        Customer customer = new Customer("바우처 주인", false);
 
         voucherJDBCRepository.insert(voucher);
         customerJDBCRepository.insert(customer);
@@ -66,13 +66,13 @@ class WalletJDBCRepositoryTest {
     @DisplayName("🚨 이미 할당된 바우처라면, 고객에게 바우처를 할당할 수 없다.")
     void saveAllocatedVoucher() {
         Voucher voucher = new Voucher("FIXED", 333);
-        Customer customer = new Customer(UUID.randomUUID(), "바우처를 가진 고객");
+        Customer customer = new Customer("바우처를 가진 고객", false);
 
         voucherJDBCRepository.insert(voucher);
         customerJDBCRepository.insert(customer);
         walletJDBCRepository.insert(new Ownership(voucher.getId(), customer.getId()));
 
-        Customer customer2 = new Customer(UUID.randomUUID(), "바우처를 가지지 못하는 고객");
+        Customer customer2 = new Customer("바우처를 가지지 못하는 고객", false);
         customerJDBCRepository.insert(customer2);
 
         assertThrows(RuntimeException.class, () -> walletJDBCRepository.insert(new Ownership(voucher.getId(), customer2.getId())));
@@ -90,7 +90,7 @@ class WalletJDBCRepositoryTest {
     @Test
     @DisplayName("🚨 바우처 id에 해당하는 바우처가 없다면, 바우처를 고객에게 할당할 수 없다.")
     void saveNonExistentVoucher() {
-        Customer customer = new Customer(UUID.randomUUID(), "바우처를 가지지 못한 고객");
+        Customer customer = new Customer("바우처를 가지지 못한 고객", false);
         customerJDBCRepository.insert(customer);
 
         assertThrows(RuntimeException.class, () -> walletJDBCRepository.insert(new Ownership(NON_EXISTENT_VOUCHER_ID, customer.getId())));
@@ -105,7 +105,7 @@ class WalletJDBCRepositoryTest {
     @Test
     @DisplayName("🆗 고객 id로 고객이 가진 바우처들을 가져올 수 있다.")
     void findAllVoucherByCustomerId() {
-        Customer customer = new Customer(UUID.randomUUID(), "조회하려는 바우처들의 주인");
+        Customer customer = new Customer("조회하려는 바우처들의 주인", false);
         customerJDBCRepository.insert(customer);
 
         for (int i = 1; i < 6; i++) {
@@ -128,7 +128,7 @@ class WalletJDBCRepositoryTest {
     @DisplayName("🆗 바우처 id를 통해 할당 정보를 삭제할 수 있다. 단, 바우처 자체는 삭제되지 않는다.")
     void delete() {
         Voucher voucher = new Voucher("FIXED", 333);
-        Customer customer = new Customer(UUID.randomUUID(), "1개의 삭제될 바우처를 가진 주인");
+        Customer customer = new Customer("1개의 삭제될 바우처를 가진 주인", false);
 
         voucherJDBCRepository.insert(voucher);
         customerJDBCRepository.insert(customer);
@@ -153,7 +153,7 @@ class WalletJDBCRepositoryTest {
     @DisplayName("🆗 바우처 id로 바우처를 가진 고객 정보를 가져올 수 있다.")
     void findCustomerByVoucherId() {
         Voucher voucher = new Voucher("FIXED", 555);
-        Customer customer = new Customer(UUID.randomUUID(), "조회될 고객");
+        Customer customer = new Customer("조회될 고객", false);
 
         voucherJDBCRepository.insert(voucher);
         customerJDBCRepository.insert(customer);
@@ -175,7 +175,7 @@ class WalletJDBCRepositoryTest {
     @DisplayName("🆗 바우처 자체를 삭제하면, 바우처 소유 정보가 사라진다.")
     void autoDeleteAfterVoucherDelete() {
         Voucher voucher = new Voucher("FIXED", 555);
-        Customer customer = new Customer(UUID.randomUUID(), "삭제될 바우처를 가진 고객");
+        Customer customer = new Customer("삭제될 바우처를 가진 고객", false);
 
         voucherJDBCRepository.insert(voucher);
         customerJDBCRepository.insert(customer);

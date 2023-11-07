@@ -16,7 +16,7 @@ class CustomerTest {
     @ValueSource(strings = {"", " ", "123456789012345678901"})
     void customerNameNullBlankOver20(String input) {
         assertThrows(IllegalArgumentException.class, () -> {
-            new Customer(UUID.randomUUID(), input, true);
+            new Customer(input, true);
         });
     }
 
