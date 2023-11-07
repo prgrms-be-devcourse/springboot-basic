@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("dev")
@@ -35,6 +36,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findVouchersByVoucherType(String voucherType) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getVoucherType().getName().equals(voucherType))
+                .collect(Collectors.toList());
     }
 
     @Override

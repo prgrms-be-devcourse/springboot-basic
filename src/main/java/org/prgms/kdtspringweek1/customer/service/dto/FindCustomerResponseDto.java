@@ -24,4 +24,16 @@ public class FindCustomerResponseDto {
         System.out.println(MessageFormat.format("Name: {0}", name));
         System.out.println(MessageFormat.format("IsBlackCustomer: {0}", isBlackCustomer));
     }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean getIsBlackCustomer() {
+        return isBlackCustomer;
+    }
 }

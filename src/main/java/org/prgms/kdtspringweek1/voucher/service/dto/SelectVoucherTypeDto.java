@@ -16,7 +16,7 @@ public enum SelectVoucherTypeDto {
 
     private long num;
     private VoucherType voucherType;
-    private final static Logger logger = LoggerFactory.getLogger(SelectVoucherTypeDto.class);
+    private static final Logger logger = LoggerFactory.getLogger(SelectVoucherTypeDto.class);
 
     SelectVoucherTypeDto(long num, VoucherType voucherType) {
         this.num = num;

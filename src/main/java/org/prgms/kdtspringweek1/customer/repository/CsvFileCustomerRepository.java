@@ -2,6 +2,8 @@ package org.prgms.kdtspringweek1.customer.repository;
 
 import jakarta.annotation.PostConstruct;
 import org.prgms.kdtspringweek1.customer.entity.Customer;
+import org.prgms.kdtspringweek1.exception.ExitException;
+import org.prgms.kdtspringweek1.exception.ExitExceptionCode;
 import org.prgms.kdtspringweek1.exception.FileException;
 import org.prgms.kdtspringweek1.exception.FileExceptionCode;
 import org.slf4j.Logger;
@@ -22,7 +24,7 @@ public class CsvFileCustomerRepository implements CustomerRepository {
     private File customerInfoCsv;
     @Value("${spring.file.customer.path}")
     private String customerInfoCsvPath;
-    private final static Logger logger = LoggerFactory.getLogger(CsvFileCustomerRepository.class);
+    private static final Logger logger = LoggerFactory.getLogger(CsvFileCustomerRepository.class);
 
     @PostConstruct
     private void init() {
@@ -110,7 +112,7 @@ public class CsvFileCustomerRepository implements CustomerRepository {
             }
         } catch (IOException e) {
             logger.error("Fail to read file when getAllVouchersFromCSV");
-            throw new FileException(FileExceptionCode.FAIL_TO_READ_DATA_FROM_CSV);
+            throw new ExitException(ExitExceptionCode.FAIL_TO_LOAD_DATA);
         }
 
         return customers;

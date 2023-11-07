@@ -44,4 +44,10 @@ public class VoucherService {
     public void deleteVoucherById(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
     }
+
+    public List<FindVoucherResponseDto> searchVouchersByVoucherType(String voucherType) {
+        return voucherRepository.findVouchersByVoucherType(voucherType).stream()
+                .map(FindVoucherResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }

@@ -12,7 +12,7 @@ import java.util.UUID;
 public class UpdateVoucherRequestDto {
     private final UUID voucherId;
     private final long discountValue;
-    private final static Logger logger = LoggerFactory.getLogger(UpdateVoucherRequestDto.class);
+    private static final Logger logger = LoggerFactory.getLogger(UpdateVoucherRequestDto.class);
 
     public UpdateVoucherRequestDto(UUID voucherId, long discountValue) {
         if (discountValue > 0) {

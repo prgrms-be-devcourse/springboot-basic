@@ -16,10 +16,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
-import static org.prgms.kdtspringweek1.JdbcUtils.toUUID;
+import static org.prgms.kdtspringweek1.UUIDUtils.toUUID;
 
 @Repository
-@Profile({"default", "test"})
 public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
@@ -82,6 +81,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
             logger.error("voucherId에 해당하는 voucher를 찾지 못했습니다.");
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<Voucher> findVouchersByVoucherType(String voucherType) {
+        return jdbcTemplate.query("SELECT * FROM vouchers WHERE voucher_type = :voucherType", Collections.singletonMap("voucherType", voucherType), voucherRowMapper);
     }
 
     @Override

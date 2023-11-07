@@ -1,4 +1,4 @@
-package org.prgms.kdtspringweek1.controller.dto;
+package org.prgms.kdtspringweek1.controller.consoleController.dto;
 
 import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public enum SelectFunctionTypeDto {
 
     private String type;
     private String name;
-    private final static Logger logger = LoggerFactory.getLogger(SelectFunctionTypeDto.class);
+    private static final Logger logger = LoggerFactory.getLogger(SelectFunctionTypeDto.class);
 
     SelectFunctionTypeDto(String type, String name) {
         this.type = type;

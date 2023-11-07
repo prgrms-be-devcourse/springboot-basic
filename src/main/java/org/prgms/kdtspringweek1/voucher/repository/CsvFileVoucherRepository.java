@@ -1,6 +1,8 @@
 package org.prgms.kdtspringweek1.voucher.repository;
 
 import jakarta.annotation.PostConstruct;
+import org.prgms.kdtspringweek1.exception.ExitException;
+import org.prgms.kdtspringweek1.exception.ExitExceptionCode;
 import org.prgms.kdtspringweek1.exception.FileException;
 import org.prgms.kdtspringweek1.exception.FileExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.FixedAmountVoucher;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 @Repository
 @Profile("local")
@@ -59,6 +62,13 @@ public class CsvFileVoucherRepository implements VoucherRepository {
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
         return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findVouchersByVoucherType(String voucherType) {
+        return vouchers.values().stream()
+                .filter(voucher -> voucher.getVoucherType().getName().equals(voucherType))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -111,7 +121,7 @@ public class CsvFileVoucherRepository implements VoucherRepository {
             }
         } catch (IOException e) {
             logger.error("Fail to read file when getAllVouchersFromCSV");
-            throw new FileException(FileExceptionCode.FAIL_TO_READ_DATA_FROM_CSV);
+            throw new ExitException(ExitExceptionCode.FAIL_TO_LOAD_DATA);
         }
 
         return vouchers;

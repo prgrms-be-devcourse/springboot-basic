@@ -1,8 +1,7 @@
-package org.prgms.kdtspringweek1.controller;
+package org.prgms.kdtspringweek1.controller.consoleController;
 
 import org.prgms.kdtspringweek1.console.ConsoleInput;
-import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;
-import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
+import org.prgms.kdtspringweek1.controller.consoleController.dto.SelectFunctionTypeDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.SelectVoucherTypeDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.UpdateVoucherRequestDto;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
@@ -27,8 +26,12 @@ public class ConsoleInputConverter {
         return SelectVoucherTypeDto.getVoucherTypeByNum(Long.parseLong(consoleInput.getInput()));
     }
 
-    public CreateVoucherRequestDto getCreateVoucherRequestDto() {
-        return new CreateVoucherRequestDto(Long.parseLong(consoleInput.getInput()));
+    public String getVoucherTypeString() {
+        return consoleInput.getInput();
+    }
+
+    public long getDiscountValue() {
+        return Long.parseLong(consoleInput.getInput());
     }
 
     public UUID getId() {

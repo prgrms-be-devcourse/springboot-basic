@@ -7,8 +7,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.prgms.kdtspringweek1.console.ScannerInput;
+import org.prgms.kdtspringweek1.controller.consoleController.ConsoleInputConverter;
 import org.prgms.kdtspringweek1.voucher.service.dto.CreateVoucherRequestDto;
-import org.prgms.kdtspringweek1.controller.dto.SelectFunctionTypeDto;
+import org.prgms.kdtspringweek1.controller.consoleController.dto.SelectFunctionTypeDto;
 import org.prgms.kdtspringweek1.voucher.service.dto.SelectVoucherTypeDto;
 import org.prgms.kdtspringweek1.exception.InputExceptionCode;
 import org.prgms.kdtspringweek1.voucher.entity.VoucherType;
@@ -110,11 +111,15 @@ class ConsoleInputConverterTest {
     @DisplayName("바우처 할인 값 입력 성공")
     void Success_GetCreateVoucherRequestDto() {
         // given
-        String input = String.valueOf(random.nextLong(Long.MAX_VALUE) + 1);
-        when(scannerInput.getInput()).thenReturn(input);
+        String discountValue = String.valueOf(random.nextLong(Long.MAX_VALUE) + 1);
+        String voucherType = Arrays.stream(VoucherType.values())
+                .skip(random.nextInt(VoucherType.values().length))
+                .findFirst()
+                .map(VoucherType::getName)
+                .orElse(null);
 
         // when
-        CreateVoucherRequestDto createVoucherRequestDto = consoleInputConverter.getCreateVoucherRequestDto();
+        CreateVoucherRequestDto createVoucherRequestDto = new CreateVoucherRequestDto(Long.parseLong(discountValue), voucherType);;
 
         // then
         assertThat(createVoucherRequestDto.getDiscountValue(), greaterThan(0L));
@@ -124,12 +129,16 @@ class ConsoleInputConverterTest {
     @DisplayName("바우처 할인 값 입력 실패 - 0이하의 값을 입력한 경우")
     void Fail_GetCreateVoucherRequestDto_ZeroOrLess() {
         // given
-        String input = String.valueOf(-1 * random.nextLong(Long.MAX_VALUE));
-        when(scannerInput.getInput()).thenReturn(input);
+        String discountValue = String.valueOf(-1 * random.nextLong(Long.MAX_VALUE));
+        String voucherType = Arrays.stream(VoucherType.values())
+                .skip(random.nextInt(VoucherType.values().length))
+                .findFirst()
+                .map(VoucherType::getName)
+                .orElse(null);
 
         // when
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            consoleInputConverter.getCreateVoucherRequestDto();
+            new CreateVoucherRequestDto(Long.parseLong(discountValue), voucherType);
         });
 
         // then
