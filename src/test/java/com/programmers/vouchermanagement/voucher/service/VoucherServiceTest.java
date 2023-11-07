@@ -80,6 +80,8 @@ class VoucherServiceTest {
     @Test
     @DisplayName("바우처를 id로 삭제할 수 있다.")
     void deleteVoucher() {
+        when(voucherRepository.findById(mockId)).thenReturn(Optional.of(mockVoucher));
+
         voucherService.delete(mockId);
 
         verify(voucherRepository, times(1)).delete(any(UUID.class));
