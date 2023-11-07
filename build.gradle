@@ -21,6 +21,7 @@ dependencies {
     implementation 'org.codehaus.woodstox:woodstox-core-asl:4.4.1'
     runtimeOnly 'mysql:mysql-connector-java:8.0.33'
     implementation 'org.beryx:text-io:3.4.1'
+    testImplementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -33,10 +34,10 @@ version = '0.0.1-SNAPSHOT'
 description = 'voucherManagement'
 java.sourceCompatibility = JavaVersion.VERSION_17
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-tasks.withType(Javadoc) {
+tasks.withType(Javadoc).configureEach {
     options.encoding = 'UTF-8'
 }
