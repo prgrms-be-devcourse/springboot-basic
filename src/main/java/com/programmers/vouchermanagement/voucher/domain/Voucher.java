@@ -13,15 +13,6 @@ public class Voucher {
     private VoucherType type;
     private long discountValue;
 
-    public Voucher(String typeName, long discountValue) {
-        id = UUID.randomUUID();
-        createdAt = LocalDateTime.now();
-
-        this.type = VoucherTypeManager.get(typeName);
-        type.validateDiscountValue(discountValue);
-        this.discountValue = discountValue;
-    }
-
     public Voucher(UUID id, LocalDateTime createdAt, String typeName, long discountValue) {
         this.id = id;
         this.createdAt = createdAt;
@@ -29,6 +20,11 @@ public class Voucher {
         type.validateDiscountValue(discountValue);
         this.discountValue = discountValue;
     }
+
+    public Voucher(String typeName, long discountValue) {
+        this(UUID.randomUUID(), LocalDateTime.now(), typeName, discountValue);
+    }
+
 
     public String getTypeName() {
         return type.getName();
