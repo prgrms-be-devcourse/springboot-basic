@@ -1,8 +1,7 @@
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/prod
-    username: ${USER}
-    password: ${PASSWORD}
+  config:
+    activate:
+      on-profile: api, thyme
   mvc:
     hidden-method:
       filter:
@@ -11,11 +10,22 @@ spring:
 spring:
   config:
     activate:
+      on-profile: jdbc
+  datasource:
+    url: jdbc:mysql://localhost:3306/prod
+    username: ${USER}
+    password: ${PASSWORD}
+---
+spring:
+  config:
+    activate:
       on-profile: file
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 file:
   resources:
     path: src/main/resources/
-
   domains:
     customer:
       file-name: blacklist.csv
@@ -34,10 +44,8 @@ spring:
 file:
   resources:
     path: src/test/resources/
-
   domains:
     customer:
       file-name: blacklist.csv
-
     voucher:
       file-name: voucher.json
