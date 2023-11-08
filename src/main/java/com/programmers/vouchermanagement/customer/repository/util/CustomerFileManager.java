@@ -21,16 +21,14 @@ import static com.programmers.vouchermanagement.util.Message.IO_EXCEPTION;
 @Profile("file")
 public class CustomerFileManager {
     private static final Logger logger = LoggerFactory.getLogger(CustomerFileManager.class);
-    public final Map<UUID, Customer> customers;
     private final String filePath;
 
     public CustomerFileManager(AppProperties appProperties) {
         this.filePath = appProperties.resources().path() + appProperties.domains().get("customer").fileName();
-        this.customers = new HashMap<>();
-        loadFile();
     }
 
-    private void loadFile() {
+    public Map<UUID, Customer> loadFile() {
+        Map<UUID, Customer> customers = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine(); // skip the first line
             String str;
@@ -42,10 +40,11 @@ public class CustomerFileManager {
             logger.warn(IO_EXCEPTION);
             throw new UncheckedIOException(e);
         }
+        return customers;
     }
 
 
-    public void saveFile() {
+    public void saveFile(Map<UUID, Customer> customers) {
         File csvOutputFile = new File(filePath);
         try (PrintWriter pw = new PrintWriter(csvOutputFile)) {
             customers.values().forEach((customer) -> pw.println(customerToString(customer)));

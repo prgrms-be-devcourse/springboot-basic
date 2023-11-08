@@ -23,36 +23,36 @@ import static com.programmers.vouchermanagement.voucher.repository.util.VoucherD
 @Profile("file")
 public class VoucherFileManager {
     private static final Logger logger = LoggerFactory.getLogger(VoucherFileManager.class);
-    public final Map<UUID, Voucher> vouchers;
     private final ObjectMapper objectMapper;
     private final String filePath;
 
     public VoucherFileManager(AppProperties appProperties, ObjectMapper objectMapper) {
-        this.filePath = appProperties.resources().path() + appProperties.domains().get("voucher").fileName();
+        this.filePath = appProperties.resources().path() +
+                appProperties.domains().get("voucher").fileName();
         this.objectMapper = objectMapper;
-        vouchers = new HashMap<>();
-        loadFile();
     }
 
-    public void loadFile() {
+    public Map<UUID, Voucher> loadFile() {
         try {
             File file = new File(filePath);
             Map<String, String>[] voucherObjects = objectMapper.readValue(file, Map[].class);
-            loadVouchers(voucherObjects);
+            return loadVouchers(voucherObjects);
         } catch (IOException e) {
             logger.error(IO_EXCEPTION);
             throw new UncheckedIOException(e);
         }
     }
 
-    public void loadVouchers(Map<String, String>[] voucherObjects) {
+    private Map<UUID, Voucher> loadVouchers(Map<String, String>[] voucherObjects) {
+        Map<UUID, Voucher> vouchers = new HashMap<>();
         Arrays.stream(voucherObjects).forEach(voucherObject -> {
             Voucher voucher = objectToVoucher(voucherObject);
             vouchers.put(voucher.getId(), voucher);
         });
+        return vouchers;
     }
 
-    public void saveFile() {
+    public void saveFile(Map<UUID, Voucher> vouchers) {
         try (FileWriter fileWriter = new FileWriter(filePath)) {
             List<HashMap<String, Object>> voucherObjects = new ArrayList<>();
             if (!vouchers.isEmpty()) {
@@ -68,5 +68,4 @@ public class VoucherFileManager {
             throw new RuntimeException(FILE_EXCEPTION);
         }
     }
-
 }
