@@ -26,6 +26,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private final String FIND_ALL = "select * from vouchers";
     private final String FIND_BY_VOUCHER_ID = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String FIND_BY_CUSTOMER_ID = "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)";
+    private final String DELETE_BY_VOUCHER_ID = "delete  from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String DELETE_ALL = "delete from vouchers";
+    private final String FIND_ALL_BY_TIME_BOUNDARY = "select * from vouchers where created_at >= :createdAt and created_at <= :endedAt";
 
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -79,12 +82,19 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteVoucher(Voucher voucher) {
-        jdbcTemplate.update("delete  from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
+        jdbcTemplate.update(DELETE_BY_VOUCHER_ID,
                 toParamMap(voucher));
     }
 
+    @Override
+    public List<Voucher> findAllByTimeLimit(LocalDateTime startedAt, LocalDateTime endedAt) {
+        return jdbcTemplate.query(FIND_ALL_BY_TIME_BOUNDARY,
+                toDateMap(startedAt, endedAt),
+                voucherRowMapper);
+    }
+
     public void clear() {
-        jdbcTemplate.getJdbcOperations().update("delete from vouchers");
+        jdbcTemplate.getJdbcOperations().update(DELETE_ALL);
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
@@ -94,6 +104,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
         map.put("voucherType", voucher.getVoucherType().name());
         map.put("createdAt", voucher.getCreatedAt());
         map.put("updatedAt", voucher.getUpdatedAt());
+        return map;
+    }
+
+    private Map<String, Object> toDateMap(LocalDateTime createdAt, LocalDateTime updatedAt) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("createdAt", createdAt);
+        map.put("updatedAt", updatedAt);
         return map;
     }
 
