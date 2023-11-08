@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -67,5 +68,12 @@ public class VoucherService {
         return voucherRepository.findById(voucherId)
                 .map(VoucherResponseDto::of)
                 .orElseThrow(() -> new VoucherException(ErrorCode.VOUCHER_NOT_FOUND));
+    }
+
+    public List<VoucherResponseDto> getAllVoucherByTime(LocalDateTime startedAt, LocalDateTime endedAt) {
+        return voucherRepository.findAllByTimeLimit(startedAt, endedAt)
+                .stream()
+                .map(VoucherResponseDto::of)
+                .toList();
     }
 }
