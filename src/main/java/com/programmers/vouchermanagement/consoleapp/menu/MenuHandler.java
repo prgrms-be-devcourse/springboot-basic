@@ -3,7 +3,7 @@ package com.programmers.vouchermanagement.consoleapp.menu;
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
 import com.programmers.vouchermanagement.customer.controller.CustomerConsoleController;
 import com.programmers.vouchermanagement.customer.controller.dto.CustomerResponse;
-import com.programmers.vouchermanagement.voucher.controller.VoucherController;
+import com.programmers.vouchermanagement.voucher.controller.VoucherConsoleController;
 import com.programmers.vouchermanagement.voucher.controller.dto.CreateVoucherRequest;
 import com.programmers.vouchermanagement.voucher.controller.dto.VoucherResponse;
 import org.slf4j.Logger;
@@ -24,10 +24,10 @@ public class MenuHandler {
     //---
 
     private final ConsoleManager consoleManager;
-    private final VoucherController voucherController;
+    private final VoucherConsoleController voucherController;
     private final CustomerConsoleController customerController;
 
-    public MenuHandler(ConsoleManager consoleManager, VoucherController voucherController, CustomerConsoleController customerController) {
+    public MenuHandler(ConsoleManager consoleManager, VoucherConsoleController voucherController, CustomerConsoleController customerController) {
         this.consoleManager = consoleManager;
         this.voucherController = voucherController;
         this.customerController = customerController;
