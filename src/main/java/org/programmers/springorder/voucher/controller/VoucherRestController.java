@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,13 @@ public class VoucherRestController {
     }
 
     @GetMapping("api/v1/vouchers")
-    public Response<List<VoucherResponseDto>> getVoucherList() {
+    public Response<List<VoucherResponseDto>> getVoucherList(
+            @RequestParam(required = false) LocalDateTime startedAt,
+            @RequestParam(required = false) LocalDateTime endedAt
+            ) {
+        if (startedAt != null && endedAt != null){
+            Response.success(voucherService.getAllVoucherByTime(startedAt, endedAt));
+        }
         return Response.success(voucherService.getAllVoucher());
     }
 
