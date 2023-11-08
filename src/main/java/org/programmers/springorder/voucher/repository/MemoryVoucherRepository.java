@@ -5,6 +5,7 @@ import org.programmers.springorder.voucher.model.Voucher;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -51,6 +52,14 @@ public class MemoryVoucherRepository implements VoucherRepository{
     @Override
     public void deleteVoucher(Voucher voucher) {
         storage.remove(voucher.getVoucherId());
+    }
+
+    @Override
+    public List<Voucher> findAllByTimeLimit(LocalDateTime startedAt, LocalDateTime endedAt) {
+        return storage.values()
+                .stream()
+                .filter(voucher -> voucher.voucherRange(startedAt, endedAt))
+                .toList();
     }
 
     public void reset(){

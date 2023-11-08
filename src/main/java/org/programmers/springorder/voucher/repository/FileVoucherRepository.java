@@ -110,6 +110,13 @@ public class FileVoucherRepository implements VoucherRepository {
         writeAllVouchers(voucherList);
     }
 
+    @Override
+    public List<Voucher> findAllByTimeLimit(LocalDateTime startedAt, LocalDateTime endedAt) {
+        return findAll().stream()
+                .filter(voucher -> voucher.voucherRange(startedAt, endedAt))
+                .toList();
+    }
+
     public void clear() {
         try (FileOutputStream fos = new FileOutputStream(Properties.getVoucherFilePath(), false)) {
         } catch (IOException e) {

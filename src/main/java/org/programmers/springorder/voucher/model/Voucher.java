@@ -66,6 +66,10 @@ public class Voucher {
         this.customerId = customer.getCustomerId();
     }
 
+    public boolean voucherRange(LocalDateTime startedAt, LocalDateTime endedAt){
+        return this.createdAt.isAfter(startedAt) && this.createdAt.isBefore(endedAt);
+    }
+
     public boolean comparingCustomer(UUID customerId){
         if(this.customerId == null) {
             return false;
