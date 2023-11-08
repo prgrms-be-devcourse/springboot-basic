@@ -25,7 +25,7 @@ public class VoucherApiController {
         voucherService.createVoucher(voucherRequestDto);
     }
 
-    @GetMapping("list")
+    @GetMapping
     public List<VoucherResponseDto> readAllVoucher() {
         return voucherService.readAllVoucher();
     }
@@ -35,7 +35,7 @@ public class VoucherApiController {
         return voucherService.readVoucherById(voucherId);
     }
 
-    @GetMapping
+    @GetMapping("/condition")
     public List<VoucherResponseDto> readAllVoucherByCreatedAtAndType(@RequestParam LocalDateTime createdAt, @RequestParam VoucherType voucherType) {
         return voucherService.readAllVoucherByCreatedAtAndType(createdAt, voucherType);
     }
