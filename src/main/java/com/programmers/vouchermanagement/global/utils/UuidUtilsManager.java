@@ -1,11 +1,9 @@
-package com.programmers.vouchermanagement.global.common;
+package com.programmers.vouchermanagement.global.utils;
 
 import java.nio.ByteBuffer;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class JdbcRepositoryManager {
+public class UuidUtilsManager {
 
     public static UUID bytesToUUID(byte[] bytes) {
 
@@ -15,9 +13,5 @@ public class JdbcRepositoryManager {
         long leastSignificantBits = byteBuffer.getLong();
 
         return new UUID(mostSignificantBits, leastSignificantBits);
-    }
-
-    public static LocalDateTime timestampToLocalDateTime(Timestamp timestamp) {
-        return timestamp != null ? timestamp.toLocalDateTime() : null;
     }
 }

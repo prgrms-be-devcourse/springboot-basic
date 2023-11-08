@@ -1,6 +1,7 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
-import com.programmers.vouchermanagement.global.common.JdbcRepositoryManager;
+import com.programmers.vouchermanagement.global.utils.TimeUtilsManager;
+import com.programmers.vouchermanagement.global.utils.UuidUtilsManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherPolicy;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
@@ -31,11 +32,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     private static final RowMapper<Voucher> voucherRowMapper = (resultSet, index) -> {
 
-        UUID voucherId = JdbcRepositoryManager.bytesToUUID(resultSet.getBytes("voucher_id"));
+        UUID voucherId = UuidUtilsManager.bytesToUUID(resultSet.getBytes("voucher_id"));
         Long discount = resultSet.getLong("discount");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         VoucherPolicy voucherPolicy = VoucherPolicyMapper.toEntity(discount, voucherType);
-        LocalDateTime createdAt = JdbcRepositoryManager.timestampToLocalDateTime(resultSet.getTimestamp("created_at"));
+        LocalDateTime createdAt = TimeUtilsManager.timestampToLocalDateTime(resultSet.getTimestamp("created_at"));
 
         return new Voucher(voucherId, voucherType, voucherPolicy, createdAt);
     };

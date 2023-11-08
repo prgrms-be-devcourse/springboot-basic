@@ -2,7 +2,7 @@ package com.programmers.vouchermanagement.customer.repository;
 
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
-import com.programmers.vouchermanagement.global.common.JdbcRepositoryManager;
+import com.programmers.vouchermanagement.global.utils.UuidUtilsManager;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,7 +22,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
     private static final RowMapper<Customer> customerRowMapper = (resultSet, index) -> {
 
-        UUID customerId = JdbcRepositoryManager.bytesToUUID(resultSet.getBytes("customer_id"));
+        UUID customerId = UuidUtilsManager.bytesToUUID(resultSet.getBytes("customer_id"));
         String name = resultSet.getString("name");
         CustomerType customerType = CustomerType.valueOf(resultSet.getString("customer_type"));
 

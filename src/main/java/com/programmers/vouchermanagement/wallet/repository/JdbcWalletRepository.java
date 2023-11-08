@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.wallet.repository;
 
-import com.programmers.vouchermanagement.global.common.JdbcRepositoryManager;
+import com.programmers.vouchermanagement.global.utils.UuidUtilsManager;
 import com.programmers.vouchermanagement.wallet.domain.Wallet;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,9 +22,9 @@ public class JdbcWalletRepository implements WalletRepository {
 
     private static final RowMapper<Wallet> walletRowMapper = (resultSet, index) -> {
 
-        UUID walletId = JdbcRepositoryManager.bytesToUUID(resultSet.getBytes("wallet_id"));
-        UUID customerId = JdbcRepositoryManager.bytesToUUID(resultSet.getBytes("customer_id"));
-        UUID voucherId = JdbcRepositoryManager.bytesToUUID(resultSet.getBytes("voucher_id"));
+        UUID walletId = UuidUtilsManager.bytesToUUID(resultSet.getBytes("wallet_id"));
+        UUID customerId = UuidUtilsManager.bytesToUUID(resultSet.getBytes("customer_id"));
+        UUID voucherId = UuidUtilsManager.bytesToUUID(resultSet.getBytes("voucher_id"));
 
         return new Wallet(walletId, customerId, voucherId);
     };
