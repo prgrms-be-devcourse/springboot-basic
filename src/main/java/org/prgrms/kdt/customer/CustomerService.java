@@ -28,7 +28,7 @@ public class CustomerService {
         return customerRepository.findBlackList();
     }
 
-    public List<Wallet> getHaveVouchers(UUID customerId) {
+    public List<Wallet> getVouchersById(UUID customerId) {
         return walletRepository.findByCustomerId(customerId.toString());
     }
 }

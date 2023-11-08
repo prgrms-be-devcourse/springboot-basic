@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public abstract class Voucher {
+
     UUID voucherId;
     long amount;
     LocalDateTime createdAt;

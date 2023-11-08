@@ -2,7 +2,6 @@ package org.prgrms.kdt.voucher.controller;
 
 import org.prgrms.kdt.io.InputHandler;
 import org.prgrms.kdt.io.OutputHandler;
-import org.prgrms.kdt.voucher.VoucherMenu;
 import org.prgrms.kdt.voucher.service.VoucherService;
 import org.prgrms.kdt.wallet.Wallet;
 import org.slf4j.Logger;

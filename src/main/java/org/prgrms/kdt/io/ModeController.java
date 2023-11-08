@@ -1,7 +1,6 @@
 package org.prgrms.kdt.io;
 
 import org.prgrms.kdt.customer.controller.CustomerConsoleController;
-import org.prgrms.kdt.voucher.VoucherMenu;
 import org.prgrms.kdt.voucher.controller.VoucherConsoleController;
 import org.prgrms.kdt.wallet.WalletController;
 import org.slf4j.Logger;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
-import static org.prgrms.kdt.io.Mode.MODE_CUSTOMER;
 import static org.prgrms.kdt.io.Mode.MODE_MENU;
 import static org.prgrms.kdt.io.SystemMessage.EXCEPTION_NOT_EXIST_MENU;
 import static org.prgrms.kdt.io.SystemMessage.EXIT_PROGRAM;

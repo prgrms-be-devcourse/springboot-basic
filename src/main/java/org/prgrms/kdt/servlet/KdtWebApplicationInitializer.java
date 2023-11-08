@@ -4,6 +4,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.zaxxer.hikari.HikariDataSource;
 import org.prgrms.kdt.customer.controller.CustomerConsoleController;
+import org.prgrms.kdt.voucher.controller.VoucherRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -46,64 +47,30 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
     @Configuration
     @EnableWebMvc
     @ComponentScan(basePackages = "org.prgrms.kdt",
-            includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = CustomerConsoleController.class),
+            includeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = VoucherRestController.class),
             useDefaultFilters = false
     )
     static class ServletConfig implements WebMvcConfigurer, ApplicationContextAware {
 
         ApplicationContext applicationContext;
 
-//        @Override
-//        public void configureViewResolvers(ViewResolverRegistry registry) {
-//            registry.jsp().viewNames("jsp/*");
-//
-//            var springResourceTemplateResolver = new SpringResourceTemplateResolver();
-//            springResourceTemplateResolver.setApplicationContext(applicationContext);
-//            springResourceTemplateResolver.setPrefix("/WEB-INF/");
-//            springResourceTemplateResolver.setSuffix(".html");
-//            var springTemplateEngine = new SpringTemplateEngine();
-//            springTemplateEngine.setTemplateResolver(springResourceTemplateResolver);
-//
-//            var thymeleafViewResolver = new ThymeleafViewResolver();
-//            thymeleafViewResolver.setTemplateEngine(springTemplateEngine);
-//            thymeleafViewResolver.setOrder(1);
-//            thymeleafViewResolver.setViewNames(new String[]{"views/*"});
-//            registry.viewResolver(thymeleafViewResolver);
-//        }
-
-        @Override
-        public void addResourceHandlers(ResourceHandlerRegistry registry) {
-            registry.addResourceHandler("/resources/**")
-                    .addResourceLocations("/resources/")
-                    .setCachePeriod(60)
-                    .resourceChain(true)
-                    .addResolver(new EncodedResourceResolver());
-        }
-
         @Override
         public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
             this.applicationContext = applicationContext;
         }
 
-//        @Override
-//        public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-//            var messageConverter = new MarshallingHttpMessageConverter();
-//            var xStreamMarshaller = new XStreamMarshaller();
-//            messageConverter.setMarshaller(xStreamMarshaller);
-//            messageConverter.setUnmarshaller(xStreamMarshaller);
-//            converters.add(0, messageConverter);
-//
-//            var javaTimeModule = new JavaTimeModule();
-//            javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME));
-//            var modules = Jackson2ObjectMapperBuilder.json().modules(javaTimeModule);
-//            converters.add(1, new MappingJackson2HttpMessageConverter(modules.build()));
-//        }
-
         @Override
-        public void addCorsMappings(CorsRegistry registry) {
-            registry.addMapping("/api/**")
-                    .allowedMethods("GET", "POST")
-                    .allowedOrigins("*");
+        public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+            var messageConverter = new MarshallingHttpMessageConverter();
+            var xStreamMarshaller = new XStreamMarshaller();
+            messageConverter.setMarshaller(xStreamMarshaller);
+            messageConverter.setUnmarshaller(xStreamMarshaller);
+            converters.add(0, messageConverter);
+
+            var javaTimeModule = new JavaTimeModule();
+            javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ISO_DATE_TIME));
+            var modules = Jackson2ObjectMapperBuilder.json().modules(javaTimeModule);
+            converters.add(1, new MappingJackson2HttpMessageConverter(modules.build()));
         }
     }
 
@@ -118,23 +85,17 @@ public class KdtWebApplicationInitializer implements WebApplicationInitializer {
 
         @Bean
         public DataSource dataSource() {
-            var dataSource = DataSourceBuilder.create()
+            return DataSourceBuilder.create()
                     .url("jdbc:mysql://localhost:3306/order_mgmt")
                     .username("root")
                     .password("110811")
                     .type(HikariDataSource.class)
                     .build();
-            return dataSource;
         }
 
         @Bean
         public JdbcTemplate jdbcTemplate(DataSource dataSource) {
             return new JdbcTemplate(dataSource);
-        }
-
-        @Bean
-        public NamedParameterJdbcTemplate namedParameterJdbcTemplate(JdbcTemplate jdbcTemplate) {
-            return new NamedParameterJdbcTemplate(jdbcTemplate);
         }
 
         @Bean

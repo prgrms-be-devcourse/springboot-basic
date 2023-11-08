@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -67,5 +68,19 @@ public class VoucherService {
 
     public void removeVoucherById(UUID voucherId) {
         voucherRepository.deleteById(voucherId);
+    }
+
+    public List<Voucher> getVouchersByCriteria(LocalDateTime startDate, LocalDateTime endDate, String voucherType) {
+        List<Voucher> vouchersByCriteria = new ArrayList<>();
+        List<Voucher> allVouchers = voucherRepository.findAll();
+
+        for (Voucher voucher : allVouchers) {
+            if ((voucher.getCreatedAt().isAfter(startDate) || voucher.getCreatedAt().isEqual(startDate))
+                    && (voucher.getCreatedAt().isBefore(endDate) || voucher.getCreatedAt().isEqual(endDate))
+                    && voucher.getType().equals(voucherType)) {
+                vouchersByCriteria.add(voucher);
+            }
+        }
+        return vouchersByCriteria;
     }
 }

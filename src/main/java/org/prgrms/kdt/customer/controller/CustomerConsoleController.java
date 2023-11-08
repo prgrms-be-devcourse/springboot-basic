@@ -87,7 +87,7 @@ public class CustomerConsoleController {
     private void getHaveVouchers() throws IOException {
         outputHandler.outputString(GET_HAVE_VOUCHERS.getMessage());
         UUID customerId = UUID.fromString(inputHandler.inputString());
-        List<Wallet> walletList = customerService.getHaveVouchers(customerId);
+        List<Wallet> walletList = customerService.getVouchersById(customerId);
         outputHandler.outputWallets(walletList);
     }
 
