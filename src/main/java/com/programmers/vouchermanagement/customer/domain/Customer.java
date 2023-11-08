@@ -15,11 +15,15 @@ public class Customer {
     }
 
     public Customer(String name, boolean black) {
-        if (name == null || name.isBlank() || name.length() > 20)
-            throw new IllegalArgumentException("The name length should be between 0 to 20.");
         this.id = UUID.randomUUID();
+        validateName(name);
         this.name = name;
         this.black = black;
+    }
+
+    private void validateName(String name) {
+        if (name == null || name.isBlank() || name.length() > 20)
+            throw new IllegalArgumentException("The name length should be between 0 to 20.");
     }
 
     public UUID getId() {
