@@ -17,10 +17,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,7 +51,9 @@ class VoucherRestControllerTest {
 
         vouchers = List.of(
                 VoucherResponse.from(new Voucher("FIXED", 100)),
-                VoucherResponse.from(new Voucher("PERCENT", 50))
+                VoucherResponse.from(new Voucher("FIXED", 200)),
+                VoucherResponse.from(new Voucher("PERCENT", 50)),
+                VoucherResponse.from(new Voucher("PERCENT", 60))
         );
 
         createVoucherRequest = new CreateVoucherRequest("PERCENT", 50);
@@ -75,7 +80,7 @@ class VoucherRestControllerTest {
 
     @Test
     @DisplayName("모든 바우처 조회를 요청한다.")
-    void readAllVouchers() throws Exception {
+    void readAllVouchers1() throws Exception {
         when(voucherService.readAll()).thenReturn(vouchers);
 
         String response = mockMvc.perform(get("/api/v1/vouchers"))
@@ -89,16 +94,58 @@ class VoucherRestControllerTest {
 
     @Test
     @DisplayName("모든 바우처 조회를 요청한다. + 쿼리 스트링(filter=all)")
-    void readAllVouchersWithRequestParam() throws Exception {
+    void readAllVouchers2() throws Exception {
         when(voucherService.readAll()).thenReturn(vouchers);
 
-        String response = mockMvc.perform(get("/api/v1/vouchers?filter=all"))
+        String response = mockMvc.perform(get("/api/v1/vouchers")
+                        .param("filter", "all"))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
 
         assertThat(response).isEqualTo(objectMapper.writeValueAsString(vouchers));
+    }
+
+    @Test
+    @DisplayName("입력 기간 안에 있는 모든 바우처 조회를 요청한다. + 쿼리 스트링(filter=created-at...)")
+    void readAllByCreatedAt() throws Exception {
+        LocalDate from = LocalDate.of(2022, 12, 25);
+        LocalDate to = LocalDate.now();
+        List<VoucherResponse> vouchersCreatedBeforeNow = vouchers;
+        when(voucherService.readAllByCreatedAt(any(LocalDateTime.class), any(LocalDateTime.class)))
+                .thenReturn(vouchersCreatedBeforeNow);
+
+        String response = mockMvc.perform(get("/api/v1/vouchers")
+                        .param("filter", "created-at")
+                        .param("from", from.toString())
+                        .param("to", to.toString()))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(response).isEqualTo(objectMapper.writeValueAsString(vouchersCreatedBeforeNow));
+    }
+
+    @Test
+    @DisplayName("입력 타입에 해당하는 모든 바우처 조회를 요청한다. + 쿼리 스트링(filter=type...)")
+    void readAllByType() throws Exception {
+        String typeName = "FIXED";
+        List<VoucherResponse> vouchersCreatedAsPercent = vouchers.stream()
+                .filter((voucher) -> voucher.typeName().equals(typeName))
+                .toList();
+        when(voucherService.readAllByType(typeName)).thenReturn(vouchersCreatedAsPercent);
+
+        String response = mockMvc.perform(get("/api/v1/vouchers")
+                        .param("filter", "type")
+                        .param("type-name", typeName))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(response).isEqualTo(objectMapper.writeValueAsString(vouchersCreatedAsPercent));
     }
 
     @Test
@@ -146,12 +193,4 @@ class VoucherRestControllerTest {
 
         assertThat(response).isEqualTo(objectMapper.writeValueAsString(updatedVoucherResponse));
     }
-
-//    @Test
-//    void readAllByCreatedAt() {
-//    }
-//
-//    @Test
-//    void readAllByType() {
-//    }
 }
