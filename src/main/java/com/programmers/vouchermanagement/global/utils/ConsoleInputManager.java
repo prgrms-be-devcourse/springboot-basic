@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.utils;
+package com.programmers.vouchermanagement.global.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

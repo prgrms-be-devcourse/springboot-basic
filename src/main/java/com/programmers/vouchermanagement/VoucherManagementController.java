@@ -2,10 +2,10 @@ package com.programmers.vouchermanagement;
 
 import com.programmers.vouchermanagement.customer.dto.CustomerResponseDto;
 import com.programmers.vouchermanagement.customer.presentation.CustomerController;
-import com.programmers.vouchermanagement.utils.Command;
-import com.programmers.vouchermanagement.exception.CommandNotFoundException;
-import com.programmers.vouchermanagement.utils.ConsoleInputManager;
-import com.programmers.vouchermanagement.utils.ConsoleOutputManager;
+import com.programmers.vouchermanagement.global.utils.Command;
+import com.programmers.vouchermanagement.global.exception.CommandNotFoundException;
+import com.programmers.vouchermanagement.global.utils.ConsoleInputManager;
+import com.programmers.vouchermanagement.global.utils.ConsoleOutputManager;
 import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;

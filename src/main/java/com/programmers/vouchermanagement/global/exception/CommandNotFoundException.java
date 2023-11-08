@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.exception;
+package com.programmers.vouchermanagement.global.exception;
 
 public class CommandNotFoundException extends RuntimeException {
 

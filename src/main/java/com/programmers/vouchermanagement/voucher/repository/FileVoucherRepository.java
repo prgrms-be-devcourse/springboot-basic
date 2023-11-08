@@ -1,6 +1,6 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
-import com.programmers.vouchermanagement.utils.CsvFileIoManager;
+import com.programmers.vouchermanagement.global.utils.CsvFileIoManager;
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 import com.programmers.vouchermanagement.voucher.mapper.VoucherMapper;
