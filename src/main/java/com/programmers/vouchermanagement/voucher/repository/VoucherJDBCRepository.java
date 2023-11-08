@@ -15,7 +15,6 @@ import java.util.*;
 import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
 import static com.programmers.vouchermanagement.util.Message.*;
 import static com.programmers.vouchermanagement.voucher.repository.util.VoucherDomainMapper.*;
-import static com.programmers.vouchermanagement.voucher.repository.util.VoucherQuery.*;
 
 @Profile("jdbc")
 @Repository
@@ -29,7 +28,9 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public void insert(Voucher voucher) {
-        int update = jdbcTemplate.update(INSERT, voucherToParamMap(voucher));
+        int update = jdbcTemplate.update(
+                "INSERT INTO vouchers(id, type, discount_value) VALUES (UUID_TO_BIN(:id), :type, :discount_value)",
+                voucherToParamMap(voucher));
         if (update != UPDATE_ONE_FLAG) {
             throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
         }
@@ -37,13 +38,17 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAll() {
-        return jdbcTemplate.query(FIND_ALL, voucherRowMapper);
+        return jdbcTemplate.query(
+                "SELECT * FROM vouchers",
+                voucherRowMapper);
     }
 
     @Override
     public Optional<Voucher> findById(UUID id) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_BY_ID, Collections.singletonMap(ID_KEY, id.toString().getBytes()), voucherRowMapper));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "SELECT * FROM vouchers WHERE id = UUID_TO_BIN(:id)",
+                    Collections.singletonMap(ID_KEY, id.toString().getBytes()), voucherRowMapper));
         } catch (EmptyResultDataAccessException e) {
             logger.error(EMPTY_RESULT, e);
             return Optional.empty();
@@ -52,12 +57,16 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
-        return jdbcTemplate.query(FIND_ALL_BY_CREATED_AT, Map.of(FROM_KEY, from.toString(), TO_KEY, to.toString()), voucherRowMapper);
+        return jdbcTemplate.query(
+                "SELECT * FROM vouchers WHERE created_at BETWEEN DATE(:from) AND DATE(:to)",
+                Map.of(FROM_KEY, from.toString(), TO_KEY, to.toString()), voucherRowMapper);
     }
 
     @Override
     public void delete(UUID id) {
-        int update = jdbcTemplate.update(DELETE_VOUCHER, Collections.singletonMap(ID_KEY, id.toString().getBytes()));
+        int update = jdbcTemplate.update(
+                "DELETE FROM vouchers WHERE id = UUID_TO_BIN(:id)",
+                Collections.singletonMap(ID_KEY, id.toString().getBytes()));
         if (update != UPDATE_ONE_FLAG) {
             throw new NoSuchElementException(NOT_DELETED);
         }
@@ -65,12 +74,16 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public void deleteAll() {
-        jdbcTemplate.update(DELETE_ALL, Collections.emptyMap());
+        jdbcTemplate.update(
+                "DELETE FROM vouchers",
+                Collections.emptyMap());
     }
 
     @Override
     public void update(Voucher voucher) {
-        int update = jdbcTemplate.update(UPDATE_VOUCHER, voucherToParamMap(voucher));
+        int update = jdbcTemplate.update(
+                "UPDATE vouchers SET type = :type, discount_value = :discount_value WHERE id = UUID_TO_BIN(:id)",
+                voucherToParamMap(voucher));
         if (update != UPDATE_ONE_FLAG) {
             throw new NoSuchElementException(NOT_UPDATED);
         }
@@ -78,6 +91,8 @@ public class VoucherJDBCRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByType(VoucherType type) {
-        return jdbcTemplate.query(FIND_ALL_BY_TYPE, Map.of(TYPE_KEY, type.getName()), voucherRowMapper);
+        return jdbcTemplate.query(
+                "SELECT * FROM vouchers WHERE type = :type",
+                Map.of(TYPE_KEY, type.getName()), voucherRowMapper);
     }
 }

@@ -19,7 +19,6 @@ import static com.programmers.vouchermanagement.util.Message.*;
 import static com.programmers.vouchermanagement.voucher.repository.util.VoucherDomainMapper.voucherRowMapper;
 import static com.programmers.vouchermanagement.wallet.repository.util.OwnershipDomainMapper.ownershipToParamMap;
 import static com.programmers.vouchermanagement.wallet.repository.util.OwnershipDomainMapper.uuidToParamMap;
-import static com.programmers.vouchermanagement.wallet.repository.util.WalletQuery.*;
 
 @Repository
 public class WalletJDBCRepository implements WalletRepository {
@@ -32,7 +31,9 @@ public class WalletJDBCRepository implements WalletRepository {
 
     @Override
     public void insert(Ownership ownership) {
-        int update = jdbcTemplate.update(INSERT, ownershipToParamMap(ownership));
+        int update = jdbcTemplate.update(
+                "INSERT INTO ownership(voucher_id, customer_id) VALUES (UUID_TO_BIN(:voucher_id), UUID_TO_BIN(:customer_id))",
+                ownershipToParamMap(ownership));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(CAN_NOT_INSERT_OWNERSHIP);
             throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
@@ -42,7 +43,8 @@ public class WalletJDBCRepository implements WalletRepository {
     @Override
     public Optional<Customer> findCustomerByVoucherId(UUID voucherId) {
         try {
-            return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_CUSTOMER_BY_VOUCHER_ID,
+            return Optional.ofNullable(jdbcTemplate.queryForObject(
+                    "SELECT c.* FROM ownership as o JOIN customers as c ON o.customer_id = c.id WHERE o.voucher_id = uuid_to_bin(:id)",
                     Collections.singletonMap(ID_KEY, voucherId.toString().getBytes()),
                     customerRowMapper));
         } catch (EmptyResultDataAccessException e) {
@@ -52,14 +54,17 @@ public class WalletJDBCRepository implements WalletRepository {
 
     @Override
     public List<Voucher> findAllVoucherByCustomerId(UUID customerId) {
-        return jdbcTemplate.query(FIND_ALL_VOUCHER_BY_CUSTOMER_ID,
+        return jdbcTemplate.query(
+                "SELECT v.*  FROM ownership as o JOIN vouchers as v ON o.voucher_id = v.id WHERE o.customer_id = uuid_to_bin(:id)",
                 Collections.singletonMap(ID_KEY, customerId.toString().getBytes()),
                 voucherRowMapper);
     }
 
     @Override
     public void delete(UUID voucherId) {
-        int update = jdbcTemplate.update(DELETE_OWNERSHIP, uuidToParamMap(voucherId));
+        int update = jdbcTemplate.update(
+                "DELETE FROM ownership WHERE voucher_id = UUID_TO_BIN(:id)",
+                uuidToParamMap(voucherId));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(NOT_FOUND_VOUCHER_ALLOCATION);
             throw new NoSuchElementException(NOT_FOUND_VOUCHER_ALLOCATION);
@@ -68,7 +73,9 @@ public class WalletJDBCRepository implements WalletRepository {
 
     @Override
     public void deleteAll() {
-        int update = jdbcTemplate.update(DELETE_ALL, Collections.emptyMap());
+        int update = jdbcTemplate.update(
+                "TRUNCATE TABLE ownership",
+                Collections.emptyMap());
         if (update == UPDATE_ZERO_FLAG) {
             logger.warn(ALREADY_EMPTY_TABLE);
         }

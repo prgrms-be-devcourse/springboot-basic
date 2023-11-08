@@ -12,7 +12,6 @@ import java.util.List;
 
 import static com.programmers.vouchermanagement.customer.repository.util.CustomerDomainMapper.customerRowMapper;
 import static com.programmers.vouchermanagement.customer.repository.util.CustomerDomainMapper.customerToParamMap;
-import static com.programmers.vouchermanagement.customer.repository.util.CustomerQuery.*;
 import static com.programmers.vouchermanagement.util.Constant.UPDATE_ONE_FLAG;
 import static com.programmers.vouchermanagement.util.Message.NOT_INSERTED;
 
@@ -28,7 +27,9 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public void insert(Customer customer) {
-        int update = jdbcTemplate.update(INSERT, customerToParamMap(customer));
+        int update = jdbcTemplate.update(
+                "INSERT INTO customers(id, name, black) VALUES (UUID_TO_BIN(:id), :name, :black)",
+                customerToParamMap(customer));
         if (update != UPDATE_ONE_FLAG) {
             logger.error(NOT_INSERTED);
             throw new EmptyResultDataAccessException(UPDATE_ONE_FLAG);
@@ -37,12 +38,16 @@ public class CustomerJDBCRepository implements CustomerRepository {
 
     @Override
     public List<Customer> findAllBlackCustomer() {
-        return jdbcTemplate.query(FIND_ALL_BLACK_CUSTOMER, customerRowMapper);
+        return jdbcTemplate.query(
+                "SELECT * FROM customers WHERE black = TRUE",
+                customerRowMapper);
     }
 
 
     @Override
     public List<Customer> findAll() {
-        return jdbcTemplate.query(FIND_ALL, customerRowMapper);
+        return jdbcTemplate.query(
+                "SELECT * FROM customers",
+                customerRowMapper);
     }
 }
