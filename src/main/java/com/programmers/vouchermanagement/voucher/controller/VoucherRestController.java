@@ -71,7 +71,7 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VoucherResponse>> searchAll( //TODO: make Object
+    public ResponseEntity<List<VoucherResponse>> searchAll( //TODO: make Object and Validate!
             @RequestParam(name = "filter", defaultValue = "all")
             String filter,
             @RequestParam(name = "from", required = false)
@@ -86,13 +86,14 @@ public class VoucherRestController {
                     .body(voucherService.readAll());
 
         if (filter.equals("created-at") && from != null) { //TODO: validate date
+            LocalTime localTime = LocalTime.of(0, 0, 0);
             LocalDateTime fromDateTime = LocalDateTime.of(
                     from,
-                    LocalTime.of(0, 0, 0));
+                    localTime);
 
             LocalDateTime toDateTime = LocalDateTime.of(
-                    to == null ? LocalDate.now() : to,
-                    LocalTime.of(23, 59, 59));
+                    to == null ? LocalDate.now() : to.plusDays(1),
+                    localTime);
 
             return ResponseEntity.status(HttpStatus.OK)
                     .body(voucherService.readAllByCreatedAt(fromDateTime, toDateTime));
