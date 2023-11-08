@@ -65,10 +65,10 @@ class VoucherServiceTest {
     @DisplayName("모든 Voucher 리스트를 가져오는 Service 로직")
     void getAllVoucher() {
         List<UUID> uuids = Arrays.asList(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
-        voucherRepository.save(Voucher.toVoucher(uuids.get(0), 10, VoucherType.PERCENT));
-        voucherRepository.save(Voucher.toVoucher(uuids.get(1), 5, VoucherType.PERCENT));
-        voucherRepository.save(Voucher.toVoucher(uuids.get(2), 1000, VoucherType.FIXED));
-        voucherRepository.save(Voucher.toVoucher(uuids.get(3), 2000, VoucherType.FIXED));
+        voucherRepository.save(Voucher.toNewVoucher(uuids.get(0), 10, VoucherType.PERCENT));
+        voucherRepository.save(Voucher.toNewVoucher(uuids.get(1), 5, VoucherType.PERCENT));
+        voucherRepository.save(Voucher.toNewVoucher(uuids.get(2), 1000, VoucherType.FIXED));
+        voucherRepository.save(Voucher.toNewVoucher(uuids.get(3), 2000, VoucherType.FIXED));
 
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
         List<UUID> rs = allVoucher.stream().map(VoucherResponseDto::getVoucherId).toList();
@@ -105,7 +105,7 @@ class VoucherServiceTest {
             //given
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(voucherId, 1000, VoucherType.FIXED);
             Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
@@ -125,7 +125,7 @@ class VoucherServiceTest {
             //given
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(voucherId, 1000, VoucherType.FIXED);
             Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
@@ -145,7 +145,7 @@ class VoucherServiceTest {
             //given
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(voucherId, 1000, VoucherType.FIXED);
             Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
@@ -174,9 +174,9 @@ class VoucherServiceTest {
             UUID uuid3 = UUID.randomUUID();
             UUID uuidCustomer = UUID.randomUUID();
 
-            Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED);
-            Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED);
-            Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED);
+            Voucher voucher1 = Voucher.toNewVoucher(uuid1, 100, VoucherType.FIXED);
+            Voucher voucher2 = Voucher.toNewVoucher(uuid2, 100, VoucherType.FIXED);
+            Voucher voucher3 = Voucher.toNewVoucher(uuid3, 100, VoucherType.FIXED);
 
             Customer customer = Customer.toNewCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
             customerRepository.insert(customer);
@@ -215,7 +215,7 @@ class VoucherServiceTest {
         @DisplayName("성공")
         public void deleteVoucherTest() {
             UUID uuid = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(uuid, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(uuid, 1000, VoucherType.FIXED);
 
             voucherRepository.save(voucher);
             assertThat(voucherRepository.findAll()).hasSize(1);
@@ -234,7 +234,7 @@ class VoucherServiceTest {
         @DisplayName("실패, voucher 존재 x")
         public void deleteVoucherFailTest() {
             UUID uuid = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(uuid, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(uuid, 1000, VoucherType.FIXED);
 
             voucherRepository.save(voucher);
             assertThat(voucherRepository.findAll()).hasSize(1);

@@ -66,7 +66,7 @@ class CustomerServiceTest {
             //given
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(voucherId, 1000, VoucherType.FIXED);
             Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
@@ -99,7 +99,7 @@ class CustomerServiceTest {
             //given
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(voucherId, 1000, VoucherType.FIXED);
             Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
@@ -118,7 +118,7 @@ class CustomerServiceTest {
             //given
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(voucherId, 1000, VoucherType.FIXED);
             Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when

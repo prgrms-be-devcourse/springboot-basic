@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Profile("default")
@@ -20,7 +21,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String INSERT = "insert into vouchers(voucher_id, discount_value, voucher_type) values(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
+    private final String INSERT = "insert into vouchers(voucher_id, discount_value, voucher_type, created_at, updated_at) values(UUID_TO_BIN(:voucherId), :discountValue, :voucherType, :createdAt, :updatedAt)";
     private final String UPDATE_VOUCER_OWNER = "update vouchers set customer_id = UUID_TO_BIN(:customerId) where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String FIND_ALL = "select * from vouchers";
     private final String FIND_BY_VOUCHER_ID = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
@@ -91,6 +92,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         map.put("voucherId", voucher.getVoucherId().toString().getBytes());
         map.put("discountValue", voucher.getDiscountValue());
         map.put("voucherType", voucher.getVoucherType().name());
+        map.put("createdAt", voucher.getCreatedAt());
+        map.put("updatedAt", voucher.getUpdatedAt());
         return map;
     }
 
@@ -105,9 +108,11 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         long discountValue = resultSet.getLong("discount_value");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        UUID customerID = resultSet.getBytes("customer_id") != null ?
+        UUID customerId = resultSet.getBytes("customer_id") != null ?
                 toUUID(resultSet.getBytes("customer_id")) : null;
-        return Voucher.getVoucher(voucherId, discountValue, voucherType, customerID);
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime updatedAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return Voucher.getFromDbVoucher(voucherId, discountValue, voucherType, customerId, createdAt, updatedAt);
     };
 
     static UUID toUUID(byte[] bytes) {

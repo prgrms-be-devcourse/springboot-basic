@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -51,10 +52,12 @@ public class FileVoucherRepository implements VoucherRepository {
                 UUID voucherId = UUID.fromString(data[0]);
                 long discountValue = Long.parseLong(data[1]);
                 VoucherType voucherType = VoucherType.valueOf(data[2]);
-                Voucher voucher = Voucher.toVoucher(voucherId, discountValue, voucherType);
-                if (data.length == 4) {
-                    UUID customerId = UUID.fromString(data[3]);
-                    voucher = Voucher.toVoucher(voucherId, discountValue, voucherType, customerId);
+                LocalDateTime createdAt  = LocalDateTime.parse(data[3]);
+                LocalDateTime updatedAt  = LocalDateTime.parse(data[4]);
+                Voucher voucher = Voucher.getFromDbVoucherNoOwner(voucherId, discountValue, voucherType, createdAt, updatedAt);
+                if (data.length == 6) {
+                    UUID customerId = UUID.fromString(data[5]);
+                    voucher = Voucher.getFromDbVoucher(voucherId, discountValue, voucherType, customerId, createdAt, updatedAt);
                 }
                 voucherList.add(voucher);
             }
@@ -76,7 +79,6 @@ public class FileVoucherRepository implements VoucherRepository {
                 .findFirst();
     }
 
-    //TODO: 구현 필요 기능(jdbc 우선)
     @Override
     public Voucher updateVoucherOwner(Voucher voucher, Customer customer) {
         List<Voucher> allVouchers = findAll();
