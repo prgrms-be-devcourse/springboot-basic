@@ -11,7 +11,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -27,15 +26,16 @@ public class ApiExceptionAdvisor extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         BindingResult bindingResult = ex.getBindingResult();
         String errorMessage = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
-        ErrorResponse errorResponse = new ErrorResponse(status.value(), errorMessage);
         log.warn("Error Message = {}", errorMessage);
-        return new ResponseEntity<>(errorResponse, headers, status);
+        ErrorResponse errorResponse = new ErrorResponse(status.value(), errorMessage, status.toString());
+        return ErrorResponse.toResponseEntity(errorResponse);
     }
 
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponse> handleGlobalException(Exception e) {
+    protected ResponseEntity<Object> handleGlobalException(Exception e) {
+        HttpStatus status = INTERNAL_SERVER_ERROR;
         log.error("Error Message = {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR.value(), e.getMessage());
-        return new ResponseEntity<>(errorResponse, INTERNAL_SERVER_ERROR);
+        ErrorResponse errorResponse = new ErrorResponse(status.value(), e.getMessage(), status.name());
+        return ErrorResponse.toResponseEntity(errorResponse);
     }
 }
