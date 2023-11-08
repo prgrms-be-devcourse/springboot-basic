@@ -11,7 +11,7 @@ import org.springframework.ui.Model;
 import java.util.List;
 import java.util.UUID;
 
-@Profile({"console", "api"})
+@Profile({"console & jdbc"})
 @Controller
 public class WalletController {
     private final WalletService walletService;

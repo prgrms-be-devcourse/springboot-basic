@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@Profile("thyme")
+@Profile({"thyme & jdbc"})
 @RequestMapping("/wallets")
 @Controller
 public class WalletThymeleafController {

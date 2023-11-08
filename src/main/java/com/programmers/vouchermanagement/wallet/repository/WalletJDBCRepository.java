@@ -5,6 +5,7 @@ import com.programmers.vouchermanagement.voucher.domain.Voucher;
 import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,7 @@ import static com.programmers.vouchermanagement.voucher.repository.util.VoucherD
 import static com.programmers.vouchermanagement.wallet.repository.util.OwnershipDomainMapper.ownershipToParamMap;
 import static com.programmers.vouchermanagement.wallet.repository.util.OwnershipDomainMapper.uuidToParamMap;
 
+@Profile("jdbc")
 @Repository
 public class WalletJDBCRepository implements WalletRepository {
     private static final Logger logger = LoggerFactory.getLogger(WalletJDBCRepository.class);

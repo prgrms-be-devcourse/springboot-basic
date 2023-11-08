@@ -8,13 +8,14 @@ import com.programmers.vouchermanagement.wallet.domain.Ownership;
 import com.programmers.vouchermanagement.wallet.repository.WalletRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 import static com.programmers.vouchermanagement.util.Message.NOT_FOUND_VOUCHER_ALLOCATION;
-
+@Profile("jdbc")
 @Service
 public class WalletService {
     private static final Logger logger = LoggerFactory.getLogger(WalletService.class);
