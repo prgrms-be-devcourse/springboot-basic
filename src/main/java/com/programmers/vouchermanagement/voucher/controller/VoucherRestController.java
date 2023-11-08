@@ -71,7 +71,7 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VoucherResponse>> searchAll( //TODO: make Object and Validate!
+    public ResponseEntity<List<VoucherResponse>> readAll( //TODO: make Object and Validate!
             @RequestParam(name = "filter", defaultValue = "all")
             String filter,
             @RequestParam(name = "from", required = false)
