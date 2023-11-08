@@ -67,7 +67,7 @@ class CustomerServiceTest {
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
             Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-            Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+            Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
             voucherRepository.save(voucher);
@@ -82,9 +82,9 @@ class CustomerServiceTest {
         @Test
         @DisplayName("black list를 불러오는 test")
         public void findBlacklist(){
-            Customer customer1 = Customer.toCustomer(UUID.randomUUID(), "owner", CustomerType.NORMAL);
-            Customer customer2 = Customer.toCustomer(UUID.randomUUID(), "owner", CustomerType.BLACK);
-            Customer customer3 = Customer.toCustomer(UUID.randomUUID(), "owner", CustomerType.BLACK);
+            Customer customer1 = Customer.toNewCustomer(UUID.randomUUID(), "owner", CustomerType.NORMAL);
+            Customer customer2 = Customer.toNewCustomer(UUID.randomUUID(), "owner", CustomerType.BLACK);
+            Customer customer3 = Customer.toNewCustomer(UUID.randomUUID(), "owner", CustomerType.BLACK);
 
             customerRepository.insert(customer1);
             customerRepository.insert(customer2);
@@ -100,7 +100,7 @@ class CustomerServiceTest {
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
             Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-            Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+            Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
             voucherRepository.save(voucher);
@@ -119,7 +119,7 @@ class CustomerServiceTest {
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
             Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-            Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+            Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
             voucherRepository.save(voucher);

@@ -106,7 +106,7 @@ class VoucherServiceTest {
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
             Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-            Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+            Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
             voucherRepository.save(voucher);
@@ -126,7 +126,7 @@ class VoucherServiceTest {
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
             Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-            Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+            Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
             voucherRepository.save(voucher);
@@ -146,7 +146,7 @@ class VoucherServiceTest {
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
             Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-            Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+            Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
             voucherRepository.save(voucher);
@@ -178,7 +178,7 @@ class VoucherServiceTest {
             Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED);
             Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED);
 
-            Customer customer = Customer.toCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
+            Customer customer = Customer.toNewCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
             customerRepository.insert(customer);
             voucherRepository.save(voucher1);
             voucherRepository.save(voucher2);

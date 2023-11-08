@@ -111,7 +111,7 @@ class FileVoucherRepositoryTest {
         Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED);
         Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED);
 
-        Customer customer = Customer.toCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
+        Customer customer = Customer.toNewCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
         customerRepository.insert(customer);
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
@@ -141,7 +141,7 @@ class FileVoucherRepositoryTest {
         Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED);
         Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED);
 
-        Customer customer = Customer.toCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
+        Customer customer = Customer.toNewCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
         customerRepository.insert(customer);
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);

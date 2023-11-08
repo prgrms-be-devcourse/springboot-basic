@@ -50,7 +50,7 @@ public class CustomerService {
     }
 
     public void newCustomer(CustomerRequestDto requestDto) {
-        Customer customer = Customer.toCustomer(
+        Customer customer = Customer.toNewCustomer(
                 UUID.randomUUID(),
                 requestDto.name(),
                 requestDto.customerType());
