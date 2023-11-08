@@ -27,7 +27,7 @@ public class ApiExceptionAdvisor extends ResponseEntityExceptionHandler {
         BindingResult bindingResult = ex.getBindingResult();
         String errorMessage = Objects.requireNonNull(bindingResult.getFieldError()).getDefaultMessage();
         log.warn("Error Message = {}", errorMessage);
-        ErrorResponse errorResponse = new ErrorResponse(status.value(), errorMessage, status.toString());
+        ErrorResponse errorResponse = new ErrorResponse(status.value(), status.toString().substring(4) ,errorMessage);
         return ErrorResponse.toResponseEntity(errorResponse);
     }
 
@@ -35,7 +35,7 @@ public class ApiExceptionAdvisor extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleGlobalException(Exception e) {
         HttpStatus status = INTERNAL_SERVER_ERROR;
         log.error("Error Message = {}", e.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(status.value(), e.getMessage(), status.name());
+        ErrorResponse errorResponse = new ErrorResponse(status.value(), status.name(), e.getMessage());
         return ErrorResponse.toResponseEntity(errorResponse);
     }
 }
