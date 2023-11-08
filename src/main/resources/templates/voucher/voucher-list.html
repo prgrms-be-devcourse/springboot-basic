@@ -18,10 +18,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/voucher">Voucher List</a>
+                        <a class="nav-link" href="/vouchers">Voucher List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/wallet">Wallet List</a>
+                        <a class="nav-link" href="/wallets">Wallet List</a>
                     </li>
                 </ul>
             </div>
@@ -44,14 +44,14 @@
                 <td th:text="*{discount}"></td>
                 <td th:text="*{createdAt}"></td>
                 <td>
-                    <a th:href="@{'/voucher/' + ${voucher.voucherId}}">View Details</a>
+                    <a th:href="@{'/vouchers/' + ${voucher.voucherId}}">View Details</a>
                 </td>
             </tr>
         </tbody>
     </table>
     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <a th:href="@{/voucher/new}" class="btn btn-primary me-md-2" type="button">Add Voucher</a>
-        <form th:action="@{/voucher/delete}" method="post">
+        <a th:href="@{/vouchers/new}" class="btn btn-primary me-md-2" type="button">Add Voucher</a>
+        <form th:action="@{/vouchers/delete}" method="post">
             <button type="submit" class="btn btn-danger">Delete List</button>
         </form>
     </div>

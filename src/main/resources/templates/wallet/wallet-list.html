@@ -18,10 +18,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/voucher">Voucher List</a>
+                        <a class="nav-link" href="/vouchers">Voucher List</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/wallet">Wallet List</a>
+                        <a class="nav-link" href="/wallets">Wallet List</a>
                     </li>
                 </ul>
             </div>
@@ -40,16 +40,16 @@
         <tr th:each="wallet : ${wallets}" th:object="${wallet}">
             <td th:text="*{walletId}"></td>
             <td>
-                <a th:href="@{'/wallet/vouchers/' + ${wallet.customerId}}"><span th:text="*{customerId}"></span></a>
+                <a th:href="@{'/wallets/vouchers/' + ${wallet.customerId}}"><span th:text="*{customerId}"></span></a>
             </td>
             <td>
-                <a th:href="@{'/wallet/customers/' + ${wallet.voucherId}}"><span th:text="*{voucherId}"></span></a>
+                <a th:href="@{'/wallets/customers/' + ${wallet.voucherId}}"><span th:text="*{voucherId}"></span></a>
             </td>
         </tr>
         </tbody>
     </table>
     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <a th:href="@{/wallet/new}" class="btn btn-primary me-md-2" type="button">Add Wallet</a>
+        <a th:href="@{/wallets/new}" class="btn btn-primary me-md-2" type="button">Add Wallet</a>
     </div>
 </body>
 </html>

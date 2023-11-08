@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/wallet")
+@RequestMapping("/wallets")
 public class WalletViewController {
 
     private final WalletService walletService;
@@ -47,7 +47,7 @@ public class WalletViewController {
 
         walletService.createWallet(walletRequestDto);
 
-        return "redirect:/wallet";
+        return "redirect:/wallets";
     }
 
     @GetMapping
@@ -83,6 +83,6 @@ public class WalletViewController {
 
         walletService.removeWalletsByCustomer(customerId);
 
-        return "redirect:/wallet";
+        return "redirect:/wallets";
     }
 }

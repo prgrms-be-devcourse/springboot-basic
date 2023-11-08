@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/voucher")
+@RequestMapping("/vouchers")
 public class VoucherViewController {
 
     private final VoucherService voucherService;
@@ -30,7 +30,7 @@ public class VoucherViewController {
 
         voucherService.createVoucher(voucherRequestDto);
 
-        return "redirect:/voucher";
+        return "redirect:/vouchers";
     }
 
     @GetMapping
@@ -56,7 +56,7 @@ public class VoucherViewController {
 
         voucherService.removeAllVoucher();
 
-        return "redirect:/voucher";
+        return "redirect:/vouchers";
     }
 
     @PostMapping("/delete/{voucherId}")
@@ -64,6 +64,6 @@ public class VoucherViewController {
 
         voucherService.removeVoucherById(voucherId);
 
-        return "redirect:/voucher";
+        return "redirect:/vouchers";
     }
 }

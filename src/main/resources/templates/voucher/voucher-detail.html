@@ -31,8 +31,8 @@
         </tbody>
     </table>
     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-        <a th:href="@{/voucher}" class="btn btn-primary me-md-2" type="button">Voucher List</a>
-        <form th:action="@{'/voucher/delete/' + ${voucher.voucherId}}" method="post">
+        <a th:href="@{/vouchers}" class="btn btn-primary me-md-2" type="button">Voucher List</a>
+        <form th:action="@{'/vouchers/delete/' + ${voucher.voucherId}}" method="post">
             <button type="submit" class="btn btn-danger">Delete Voucher</button>
         </form>
     </div>

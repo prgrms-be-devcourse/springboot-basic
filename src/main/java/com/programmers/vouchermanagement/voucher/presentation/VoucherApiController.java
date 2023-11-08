@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/voucher")
+@RequestMapping("/api/v1/vouchers")
 public class VoucherApiController {
 
     private final VoucherService voucherService;
