@@ -28,7 +28,7 @@ public class CustomerDomainMapper extends DomainMapper {
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put(ID_KEY, customer.getId().toString().getBytes());
         paramMap.put(NAME_KEY, customer.getName());
-        paramMap.put(BLACK_KEY, customer.isBlack());
+        paramMap.put(BLACK_KEY, customer.getIsBlack());
         return paramMap;
     }
 
@@ -43,6 +43,6 @@ public class CustomerDomainMapper extends DomainMapper {
     public static String customerToString(Customer customer) {
         return customer.getId().toString() + COMMA_SEPARATOR
                 + customer.getName() + COMMA_SEPARATOR
-                + customer.isBlack();
+                + customer.getIsBlack();
     }
 }

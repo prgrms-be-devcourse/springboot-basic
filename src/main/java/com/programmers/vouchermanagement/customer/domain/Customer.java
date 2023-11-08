@@ -6,19 +6,17 @@ import java.util.UUID;
 public class Customer {
     private final UUID id;
     private final String name;
-    private final boolean black;
+    private final boolean isBlack;
 
-    public Customer(UUID id, String name, boolean black) {
+    public Customer(UUID id, String name, boolean isBlack) {
+        validateName(name);
         this.id = id;
         this.name = name;
-        this.black = black;
+        this.isBlack = isBlack;
     }
 
-    public Customer(String name, boolean black) {
-        this.id = UUID.randomUUID();
-        validateName(name);
-        this.name = name;
-        this.black = black;
+    public Customer(String name, boolean isBlack) {
+        this(UUID.randomUUID(), name, isBlack);
     }
 
     private void validateName(String name) {
@@ -30,8 +28,8 @@ public class Customer {
         return id;
     }
 
-    public boolean isBlack() {
-        return black;
+    public boolean getIsBlack() {
+        return isBlack;
     }
 
     public String getName() {
@@ -43,12 +41,12 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return black == customer.black && Objects.equals(id, customer.id) && Objects.equals(name, customer.name);
+        return isBlack == customer.isBlack && Objects.equals(id, customer.id) && Objects.equals(name, customer.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, black);
+        return Objects.hash(id, name, isBlack);
     }
 }
 
