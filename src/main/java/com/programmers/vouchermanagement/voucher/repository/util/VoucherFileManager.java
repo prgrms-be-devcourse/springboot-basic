@@ -54,18 +54,21 @@ public class VoucherFileManager {
 
     public void saveFile(Map<UUID, Voucher> vouchers) {
         try (FileWriter fileWriter = new FileWriter(filePath)) {
-            List<HashMap<String, Object>> voucherObjects = new ArrayList<>();
-            if (!vouchers.isEmpty()) {
-                vouchers.values().forEach(voucher -> {
-                    HashMap<String, Object> voucherObject = voucherToObject(voucher);
-                    voucherObjects.add(voucherObject);
-                });
-            }
+            List<HashMap<String, Object>> voucherObjects = toVoucherObjects(vouchers);
             String jsonStr = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(voucherObjects);
             fileWriter.write(jsonStr);
             fileWriter.flush();
         } catch (Exception e) {
             throw new RuntimeException(FILE_EXCEPTION);
         }
+    }
+
+    private List<HashMap<String, Object>> toVoucherObjects(Map<UUID, Voucher> vouchers) {
+        List<HashMap<String, Object>> voucherObjects = new ArrayList<>();
+        vouchers.values().forEach(voucher -> {
+            HashMap<String, Object> voucherObject = voucherToObject(voucher);
+            voucherObjects.add(voucherObject);
+        });
+        return voucherObjects;
     }
 }

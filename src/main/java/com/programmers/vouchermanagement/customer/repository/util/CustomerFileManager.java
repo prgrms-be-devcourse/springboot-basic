@@ -28,17 +28,21 @@ public class CustomerFileManager {
     }
 
     public Map<UUID, Customer> loadFile() {
-        Map<UUID, Customer> customers = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             br.readLine(); // skip the first line
-            String str;
-            while ((str = br.readLine()) != null) {
-                Customer customer = stringToCustomer(str);
-                customers.put(customer.getId(), customer);
-            }
+            return loadCustomer(br);
         } catch (IOException e) {
             logger.warn(IO_EXCEPTION);
             throw new UncheckedIOException(e);
+        }
+    }
+
+    private Map<UUID, Customer> loadCustomer(BufferedReader br) throws IOException {
+        Map<UUID, Customer> customers = new HashMap<>();
+        String str;
+        while ((str = br.readLine()) != null) {
+            Customer customer = stringToCustomer(str);
+            customers.put(customer.getId(), customer);
         }
         return customers;
     }

@@ -75,7 +75,11 @@ public class VoucherFileRepository implements VoucherRepository {
     public List<Voucher> findAllByType(VoucherType voucherType) {
         return vouchers.values()
                 .stream()
-                .filter(voucher -> voucher.getTypeName().equals(voucherType.getName()))
+                .filter(voucher -> isEqualName(voucher, voucherType))
                 .toList();
+    }
+
+    private boolean isEqualName(Voucher voucher, VoucherType voucherType) {
+        return voucher.getTypeName().equals(voucherType.getName());
     }
 }

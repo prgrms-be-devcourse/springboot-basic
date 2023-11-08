@@ -37,10 +37,12 @@ public class VoucherInMemoryRepository implements VoucherRepository {
 
     @Override
     public List<Voucher> findAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
-        return vouchers.values().stream().filter(voucher -> {
-            LocalDateTime createdAt = voucher.getCreatedAt();
-            return createdAt.isAfter(from) && createdAt.isBefore(to);
-        }).toList();
+        return vouchers.values().stream().filter(voucher -> isCreatedBetweenPeriod(voucher, from, to)).toList();
+    }
+
+    private boolean isCreatedBetweenPeriod(Voucher voucher, LocalDateTime from, LocalDateTime to) {
+        LocalDateTime createdAt = voucher.getCreatedAt();
+        return createdAt.isAfter(from) && createdAt.isBefore(to);
     }
 
     @Override
