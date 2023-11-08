@@ -56,12 +56,6 @@ public class VoucherThymeleafController {
         return "redirect:/vouchers";
     }
 
-    @DeleteMapping
-    public String deleteAll() {
-        voucherService.deleteAll();
-        return "redirect:/vouchers";
-    }
-
     @PutMapping("/update/{voucherId}")
     public String update(@PathVariable("voucherId") UUID voucherId, CreateVoucherRequest createVoucherRequest) {
         voucherService.update(voucherId, createVoucherRequest);

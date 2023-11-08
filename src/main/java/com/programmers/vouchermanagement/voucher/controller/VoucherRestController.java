@@ -52,13 +52,6 @@ public class VoucherRestController {
                 .body(voucherService.delete(voucherId));
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteAll() {
-        voucherService.deleteAll();
-        return ResponseEntity.noContent()
-                .build();
-    }
-
     @PutMapping("/{voucherId}")
     public ResponseEntity<VoucherResponse> update(
             @PathVariable("voucherId")
