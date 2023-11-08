@@ -1,19 +1,19 @@
-drop DATABASE if exists prod;
+DROP DATABASE IF EXISTS prod;
 CREATE DATABASE prod;
-use prod;
+USE prod;
 CREATE TABLE customers
 (
     id    BINARY(16) PRIMARY KEY,
-    name  varchar(20) NOT NULL,
-    black boolean     not null,
+    name  VARCHAR(20) NOT NULL,
+    black BOOLEAN     NOT NULL,
     CONSTRAINT name UNIQUE (name)
 );
 CREATE TABLE vouchers
 (
     id             BINARY(16) PRIMARY KEY,
-    type           enum ('FIXED', 'PERCENT') NOT NULL,
-    discount_value varchar(50)               NOT NULL,
-    created_at     datetime(6) DEFAULT CURRENT_TIMESTAMP(6)
+    type           ENUM ('FIXED', 'PERCENT') NOT NULL,
+    discount_value VARCHAR(50)               NOT NULL,
+    created_at     DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6)
 );
 
 CREATE TABLE ownership
@@ -25,22 +25,22 @@ CREATE TABLE ownership
 );
 
 
-drop DATABASE if exists test;
+DROP DATABASE IF EXISTS test;
 CREATE DATABASE test;
-use test;
+USE test;
 CREATE TABLE customers
 (
     id    BINARY(16) PRIMARY KEY,
-    name  varchar(20) NOT NULL,
-    black boolean     not null,
+    name  VARCHAR(20) NOT NULL,
+    black BOOLEAN     NOT NULL,
     CONSTRAINT name UNIQUE (name)
 );
 CREATE TABLE vouchers
 (
     id             BINARY(16) PRIMARY KEY,
-    type           enum ('FIXED', 'PERCENT') NOT NULL,
-    discount_value varchar(50)               NOT NULL,
-    created_at     datetime(6) DEFAULT CURRENT_TIMESTAMP(6)
+    type           ENUM ('FIXED', 'PERCENT') NOT NULL,
+    discount_value VARCHAR(50)               NOT NULL,
+    created_at     DATETIME(6) DEFAULT CURRENT_TIMESTAMP(6)
 );
 
 CREATE TABLE ownership
