@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.consoleapp.menu;
 
 import com.programmers.vouchermanagement.consoleapp.io.ConsoleManager;
-import com.programmers.vouchermanagement.customer.controller.CustomerController;
+import com.programmers.vouchermanagement.customer.controller.CustomerConsoleController;
 import com.programmers.vouchermanagement.customer.controller.dto.CustomerResponse;
 import com.programmers.vouchermanagement.voucher.controller.VoucherController;
 import com.programmers.vouchermanagement.voucher.controller.dto.CreateVoucherRequest;
@@ -25,9 +25,9 @@ public class MenuHandler {
 
     private final ConsoleManager consoleManager;
     private final VoucherController voucherController;
-    private final CustomerController customerController;
+    private final CustomerConsoleController customerController;
 
-    public MenuHandler(ConsoleManager consoleManager, VoucherController voucherController, CustomerController customerController) {
+    public MenuHandler(ConsoleManager consoleManager, VoucherController voucherController, CustomerConsoleController customerController) {
         this.consoleManager = consoleManager;
         this.voucherController = voucherController;
         this.customerController = customerController;
