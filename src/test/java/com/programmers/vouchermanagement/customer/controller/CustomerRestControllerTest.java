@@ -23,9 +23,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(CustomerController.class)
+@WebMvcTest(CustomerRestController.class)
 @ActiveProfiles("api")
-class CustomerControllerTest {
+class CustomerRestControllerTest {
     static ObjectMapper objectMapper;
     static List<CustomerResponse> customers;
     static List<CustomerResponse> blacklist;
@@ -64,7 +64,7 @@ class CustomerControllerTest {
         String response = mockMvc.perform(post("/api/v1/customers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createCustomerRequest)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -74,10 +74,24 @@ class CustomerControllerTest {
 
     @Test
     @DisplayName("모든 고객 조회를 요청한다.")
-    void readAllCustomers() throws Exception {
+    void readAllCustomers1() throws Exception {
         when(customerService.readAll()).thenReturn(customers);
 
         String response = mockMvc.perform(get("/api/v1/customers"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(response).isEqualTo(objectMapper.writeValueAsString(customers));
+    }
+
+    @Test
+    @DisplayName("모든 고객 조회를 요청한다. + 쿼리 스트링 사용(type=all)")
+    void readAllCustomers2() throws Exception {
+        when(customerService.readAll()).thenReturn(customers);
+
+        String response = mockMvc.perform(get("/api/v1/customers?type=all"))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
@@ -91,7 +105,7 @@ class CustomerControllerTest {
     void readAllBlacklist() throws Exception {
         when(customerService.readAllBlackCustomer()).thenReturn(blacklist);
 
-        String response = mockMvc.perform(get("/api/v1/customers/blacklist"))
+        String response = mockMvc.perform(get("/api/v1/customers?type=blacklist"))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
