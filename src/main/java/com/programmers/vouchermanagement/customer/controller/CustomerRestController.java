@@ -31,15 +31,14 @@ public class CustomerRestController {
 
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> readAll(
-            @RequestParam(name = "type", required = false)
+            @RequestParam(name = "type", defaultValue = "all")
             String type
     ) {
-        if (type == null || type.equals("all"))
+        if (type.equals("blacklist"))
             return ResponseEntity.status(HttpStatus.OK)
-                    .body(customerService.readAll());
+                    .body(customerService.readAllBlackCustomer());
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(customerService.readAllBlackCustomer());
-
+                .body(customerService.readAll());
     }
 }
