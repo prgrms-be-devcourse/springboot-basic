@@ -3,7 +3,7 @@ package com.programmers.vouchermanagement.global.utils;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-public class UuidUtilsManager {
+public class UuidUtil {
 
     public static UUID bytesToUUID(byte[] bytes) {
 
