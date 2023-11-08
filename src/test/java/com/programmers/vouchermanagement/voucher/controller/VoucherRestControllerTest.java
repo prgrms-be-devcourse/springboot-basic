@@ -25,9 +25,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(VoucherController.class)
+@WebMvcTest(VoucherRestController.class)
 @ActiveProfiles("api")
-class VoucherControllerTest {
+class VoucherRestControllerTest {
     static ObjectMapper objectMapper;
     static List<VoucherResponse> vouchers;
     static Voucher voucher;
@@ -65,7 +65,7 @@ class VoucherControllerTest {
         String response = mockMvc.perform(post("/api/v1/vouchers")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(createVoucherRequest)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
@@ -79,6 +79,20 @@ class VoucherControllerTest {
         when(voucherService.readAll()).thenReturn(vouchers);
 
         String response = mockMvc.perform(get("/api/v1/vouchers"))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+        assertThat(response).isEqualTo(objectMapper.writeValueAsString(vouchers));
+    }
+
+    @Test
+    @DisplayName("모든 바우처 조회를 요청한다. + 쿼리 스트링(filter=all)")
+    void readAllVouchersWithRequestParam() throws Exception {
+        when(voucherService.readAll()).thenReturn(vouchers);
+
+        String response = mockMvc.perform(get("/api/v1/vouchers?filter=all"))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
