@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns: th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href = "/css/bootstrap.min.css" rel="stylesheet">
+    <title>Voucher list</title>
+</head>
+<body>
+
+<div class = "container" style = "max-width: 600px">
+    <div class = "py-5 text-center">
+        <h2>Voucher 목록</h2>
+    </div>
+
+    <div class = "row">
+        <div class = "col">
+            <button class = "btn btn-primary float-end"
+                    onclick = "location.href = 'createForm.html'"
+                    th:onclick="|location.href='@{/basic/vouchers/create}'|"
+                    type = "button">Voucher 등록</button>
+        </div>
+    </div>
+
+    <hr class = "my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Voucher 타입</th>
+                <th>할인 정보</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="voucher : ${vouchers}">
+                <td><a th:href="@{/basic/vouchers/{voucherId}(voucherId=${voucher.voucherId()})}"
+                th:text="${voucher.voucherId()}">Voucher Id</a></td>
+                <td th:text="${voucher.voucherType()}">Voucher type</td>
+                <td th:text = "${voucher.discount()}">10000</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<form th:action="@{/basic/vouchers/findByCondition}" method="get">
+    <div class = "row">
+        <div class = "col">
+            <select name = "voucherType" aria-label = "Default select example">
+                    <option selected>바우처 선택</option>
+                    <option th:value="fixed"
+                            th:text="fixed"></option>
+                    <option th:value="percent"
+                            th:text="percent"></option>
+                    <option th:value="both"
+                            th:text="both"></option>
+            </select>
+        </div>
+</div>
+
+<div class = "row">
+    <div class = "col">
+        <select name = "startYear" class = "form-select" aria-label = "Default select example">
+            <option selected>시작연도</option>
+            <option th:each="year : ${#numbers.sequence(1999, 2023)}"
+                    th:value="${year}"
+                    th:text="${year}"></option>
+        </select>
+    </div>
+    <div class = "col">
+        <select name = "startMonth" class = "form-select" aria-label = "Default select example">
+            <option selected>시작월</option>
+            <option th:each="month : ${#numbers.sequence(1, 12)}"
+                    th:value="${month}"
+                    th:text="${month}"></option>
+        </select>
+    </div>
+
+    <div class = "col">
+        <select name = "endYear" class = "form-select" aria-label = "Default select example">
+            <option selected>끝연도</option>
+            <option th:each="year : ${#numbers.sequence(1999, 2023)}"
+                    th:value="${year}"
+                    th:text="${year}"></option>
+        </select>
+    </div>
+    <div class = "col">
+        <select name = "endMonth" class = "form-select" aria-label = "Default select example">
+            <option selected>끝월</option>
+            <option th:each="month : ${#numbers.sequence(1, 12)}"
+                    th:value="${month}"
+                    th:text="${month}"></option>
+        </select>
+    </div>
+</div>
+    <div class = "row">
+        <div class = "col text-center">
+            <button class = "btn btn-primary"
+                    type = "submit">검색</button>
+        </div>
+    </div>
+</form>
+    <div class = "col text-center">
+        <button class = "btn btn-primary"
+                th:onclick="|location.href='@{/basic/vouchers}'|"
+                type = "button">목록</button>
+    </div>
+</div>
+
+</body>
+</html>

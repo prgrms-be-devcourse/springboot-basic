@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang = "ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+    <title>Wallet</title>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>지갑 정보</h2>
+    </div>
+    <div>
+        <label for="walletId">지갑 Id</label>
+        <input type="text" id="walletId" name="type" class = "form-control"
+               th:value = "${wallet.walletId()}" readonly>
+    </div>
+    <div>
+        <label for="voucherId">바우처 Id</label>
+        <input type="text" id="voucherId" name="voucherId" class="form-control"
+               th:value="${wallet.voucherId()}" readonly>
+    </div>
+    <div>
+        <label for="customerId">고객 Id</label>
+        <input type="text" id="customerId" name="type" class = "form-control"
+               th:value = "${wallet.customerId()}" readonly>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    th:onclick="|location.href='@{/basic/wallets/{walletId}/delete(walletId=${wallet.walletId()})}'|"
+                    type="button">지갑 삭제</button>
+        </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    th:onclick="|location.href='@{/basic/wallets}'|"
+                    type="button">목록으로</button>
+        </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

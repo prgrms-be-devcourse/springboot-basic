@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link href="/css/bootstrap.min.css"
+          th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+    </style>
+    <title>Voucher delete</title>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>바우처가 삭제되었습니다.</h2>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    onclick="location.href='vouchers.html'"
+                    th:onclick="|location.href='@{/basic/vouchers}'|"
+                    type="button">목록으로</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
