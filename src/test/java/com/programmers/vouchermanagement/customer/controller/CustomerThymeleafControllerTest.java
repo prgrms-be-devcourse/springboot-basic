@@ -55,11 +55,24 @@ class CustomerThymeleafControllerTest {
     }
 
     @Test
+    @DisplayName("모든 고객 조회 페이지를 요청한다. + 쿼리 스트링(type=all)")
+    void readAll2() throws Exception {
+        when(customerService.readAll()).thenReturn(CUSTOMERS);
+
+        mockMvc.perform(get("/customers")
+                        .param("type", "all"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("customer/customers"))
+                .andExpect(model().attribute("customers", CUSTOMERS));
+    }
+
+    @Test
     @DisplayName("블랙리스트 조회 페이지를 요청한다.")
     void readAllBlackCustomer() throws Exception {
         when(customerService.readAllBlackCustomer()).thenReturn(BLACKLIST);
 
-        mockMvc.perform(get("/customers/blacklist"))
+        mockMvc.perform(get("/customers")
+                        .param("type", "blacklist"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("customer/customers"))
                 .andExpect(model().attribute("customers", BLACKLIST));

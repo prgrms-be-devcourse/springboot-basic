@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Profile("thyme")
 @RequestMapping("/customers")
@@ -31,16 +32,14 @@ public class CustomerThymeleafController {
     }
 
     @GetMapping
-    public String readAll(Model model) {
+    public String readAll(@RequestParam(required = false, defaultValue = "all") String type, Model model) {
+        if (type.equals("blacklist")) {
+            model.addAttribute("mode", "blacklist");
+            model.addAttribute("customers", customerService.readAllBlackCustomer());
+            return "customer/customers";
+        }
         model.addAttribute("mode", "all");
         model.addAttribute("customers", customerService.readAll());
-        return "customer/customers";
-    }
-
-    @GetMapping("/blacklist")
-    public String readAllBlackCustomer(Model model) {
-        model.addAttribute("mode", "blacklist");
-        model.addAttribute("customers", customerService.readAllBlackCustomer());
         return "customer/customers";
     }
 }
