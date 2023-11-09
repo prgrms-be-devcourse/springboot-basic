@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -30,8 +31,9 @@ public class VoucherRestController {
             @RequestBody
             CreateVoucherRequest createVoucherRequest
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(voucherService.create(createVoucherRequest));
+        VoucherResponse voucherResponse = voucherService.create(createVoucherRequest);
+        return ResponseEntity.created(URI.create("/customers/" + voucherResponse.id()))
+                .body(voucherResponse);
     }
 
     @GetMapping("/{voucherId}")
@@ -65,14 +67,14 @@ public class VoucherRestController {
 
     @GetMapping
     public ResponseEntity<List<VoucherResponse>> readAll( //TODO: make Object and Validate!
-            @RequestParam(name = "filter", defaultValue = "all")
-            String filter,
-            @RequestParam(name = "from", required = false)
-            LocalDate from,
-            @RequestParam(name = "to", required = false)
-            LocalDate to,
-            @RequestParam(name = "type-name", required = false)
-            String typeName
+                                                          @RequestParam(name = "filter", defaultValue = "all")
+                                                          String filter,
+                                                          @RequestParam(name = "from", required = false)
+                                                          LocalDate from,
+                                                          @RequestParam(name = "to", required = false)
+                                                          LocalDate to,
+                                                          @RequestParam(name = "type-name", required = false)
+                                                          String typeName
     ) {
         if (filter.equals("all"))
             return ResponseEntity.status(HttpStatus.OK)
