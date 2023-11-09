@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3305/programmers?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 1234
+
+
+file:
+  path:
+    blacklist: src/main/resources/customer_blacklist.csv
+    voucher: src/main/resources/voucher-repo.csv
