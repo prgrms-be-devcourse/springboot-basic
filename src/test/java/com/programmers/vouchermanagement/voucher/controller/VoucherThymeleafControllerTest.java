@@ -40,7 +40,7 @@ class VoucherThymeleafControllerTest {
     void viewCreatePage() throws Exception {
         mockMvc.perform(get("/vouchers/new"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("vouchers/voucher-new"));
+                .andExpect(view().name("voucher/voucher-new"));
     }
 
     @Test

@@ -33,10 +33,6 @@ public class VoucherService {
     public List<VoucherResponse> readAll() {
         List<Voucher> vouchers = voucherRepository.findAll();
 
-        if (vouchers.isEmpty()) {
-            return Collections.emptyList();
-        }
-
         return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
@@ -45,10 +41,6 @@ public class VoucherService {
     @Transactional(readOnly = true)
     public List<VoucherResponse> readAllByCreatedAt(LocalDateTime from, LocalDateTime to) {
         List<Voucher> vouchers = voucherRepository.findAllByCreatedAt(from, to);
-
-        if (vouchers.isEmpty()) {
-            return Collections.emptyList();
-        }
 
         return vouchers.stream()
                 .map(VoucherResponse::from)

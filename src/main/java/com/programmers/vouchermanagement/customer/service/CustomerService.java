@@ -28,9 +28,7 @@ public class CustomerService {
     @Transactional(readOnly = true)
     public List<CustomerResponse> readAll() {
         List<Customer> customers = customerRepository.findAll();
-        if (customers.isEmpty()) {
-            return Collections.emptyList();
-        }
+
         return customers.stream().map(CustomerResponse::from).toList();
     }
 
