@@ -34,7 +34,7 @@ public class VoucherConsoleController {
 
     public void giveVoucher(){
         GiveVoucherRequestDto requestDto = console.giveVoucherInfo();
-        voucherService.allocateVoucher(requestDto.getVoucherId(), requestDto.getCustomerId());
+        voucherService.allocateVoucher(requestDto.voucherId(), requestDto.customerId());
         console.printMessage(Message.VOUCHER_ALLOCATED);
     }
 
