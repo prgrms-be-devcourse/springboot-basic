@@ -1,6 +1,7 @@
 package org.prgrms.vouchermanagement.webController;
 
 import org.prgrms.vouchermanagement.dto.VoucherCreateInfo;
+import org.prgrms.vouchermanagement.dto.VoucherResponseDto;
 import org.prgrms.vouchermanagement.exception.InvalidInputException;
 import org.prgrms.vouchermanagement.voucher.domain.Voucher;
 import org.prgrms.vouchermanagement.voucher.policy.PolicyStatus;
@@ -23,57 +24,66 @@ public class VoucherApiController {
 
 
     @PostMapping
-    public Voucher createVoucher(@RequestBody VoucherCreateInfo voucherCreateInfo) {
+    public VoucherResponseDto createVoucher(@RequestBody VoucherCreateInfo voucherCreateInfo) {
         PolicyStatus policy = validateAndConvertPolicy(voucherCreateInfo.policy().toString());
         long amountOrPercent = validateAndConvertAmountOrPercent(String.valueOf(voucherCreateInfo.amountOrPercent()));
 
-        return voucherService.createVoucher(policy, amountOrPercent);
+        Voucher voucher = voucherService.createVoucher(policy, amountOrPercent);
+
+        return new VoucherResponseDto(voucher.getVoucherId(), voucher.getDiscountPolicy());
     }
 
-    //중계만 -> 서비스에 위임 or 동적 쿼리
     @GetMapping
-    public List<Voucher> findVouchers(
+    public List<VoucherResponseDto> findVouchers(
             @RequestParam(name = "voucherId", required = false) String voucherId,
             @RequestParam(name = "policy", required = false) String policy
     ) {
 
-        //voucherCreateInfo를 사용
-        //mvc와 엮어서
-        List<Voucher> vouchers = new ArrayList<>();
+        List<VoucherResponseDto> vouchers = new ArrayList<>();
 
         if (voucherId != null && policy != null) {
             // voucherId와 policy 모두 제공된 경우
             UUID getVoucherId = UUID.fromString(voucherId);
             Voucher findVoucher = voucherService.findVoucher(getVoucherId);
-            vouchers.add(findVoucher);
+            vouchers.add(new VoucherResponseDto(findVoucher.getVoucherId(), findVoucher.getDiscountPolicy()));
         } else if (voucherId != null) {
             // voucherId만 제공된 경우
             UUID getVoucherId = UUID.fromString(voucherId);
             Voucher findVoucher = voucherService.findVoucher(getVoucherId);
-            vouchers.add(findVoucher);
+            vouchers.add(new VoucherResponseDto(findVoucher.getVoucherId(), findVoucher.getDiscountPolicy()));
         } else if (policy != null) {
             // policy만 제공된 경우
             PolicyStatus getPolicy = validateAndConvertPolicy(policy);
-            return voucherService.findVouchersByPolicy(getPolicy);
+            List<Voucher> vouchersByPolicy = voucherService.findVouchersByPolicy(getPolicy);
+            for (Voucher voucher : vouchersByPolicy) {
+                vouchers.add(new VoucherResponseDto(voucher.getVoucherId(), voucher.getDiscountPolicy()));
+            }
         } else {
             //검색 조건이 없는 경우 -> 전체 조회
-            return voucherService.voucherLists();
+            List<Voucher> getVouchers = voucherService.voucherLists();
+            for (Voucher voucher : getVouchers) {
+                vouchers.add(new VoucherResponseDto(voucher.getVoucherId(), voucher.getDiscountPolicy()));
+            }
         }
-
         return vouchers;
     }
 
     @PatchMapping
-    public Voucher updateVoucher(
+    public VoucherResponseDto updateVoucher(
             @RequestParam(name = "voucherId") String voucherId,
             @RequestParam(name = "amount") long amount
     ) {
-        return voucherService.updateVoucher(UUID.fromString(voucherId), amount);
+
+        Voucher voucher = voucherService.updateVoucher(UUID.fromString(voucherId), amount);
+
+        return new VoucherResponseDto(voucher.getVoucherId(), voucher.getDiscountPolicy());
     }
 
     @DeleteMapping("{voucherId}")
-    public Voucher deleteVoucher(@PathVariable UUID voucherId) {
-        return voucherService.deleteVoucher(voucherId);
+    public VoucherResponseDto deleteVoucher(@PathVariable UUID voucherId) {
+        Voucher voucher = voucherService.deleteVoucher(voucherId);
+
+        return new VoucherResponseDto(voucher.getVoucherId(), voucher.getDiscountPolicy());
     }
 
     private PolicyStatus validateAndConvertPolicy(String inputPolicy) {
