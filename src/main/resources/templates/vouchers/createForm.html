@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Voucher</title>
+</head>
+<body>
+<div>
+    <h4>Voucher Type:</h4>
+    1. FixedMount<br>
+    2. PercentDiscount<br><br>
+
+    <form method="POST" th:action="@{/vouchers/create}">
+        <div>
+            <label for="voucherType">Voucher Type</label><br>
+            <input id="voucherType" name="voucherType" placeholder="Enter the Voucher Type" type="text">
+        </div>
+        <div>
+            <label for="value">Value</label><br>
+            <input id="value" name="value" placeholder="Enter the Value" type="text">
+        </div>
+        <button type="submit">등록</button>
+    </form>
+    <br>
+    <form th:action="@{/}" th:method="GET">
+        <button type="submit">Home</button>
+    </form>
+</div>
+</body>
+</html>

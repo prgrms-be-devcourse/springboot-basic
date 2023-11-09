@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Voucher</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/vouchers/delete}" th:method="delete">
+        <div>
+            <label for="voucherId">Voucher ID</label><br>
+            <input id="voucherId" name="voucherId" placeholder="Enter the Voucher Id" type="text">
+        </div>
+        <button type="submit">삭제</button>
+    </form>
+    <br>
+    <form th:action="@{/}" th:method="GET">
+        <button type="submit">Home</button>
+    </form>
+</div>
+</body>
+</html>

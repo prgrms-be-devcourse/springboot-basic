@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find All Voucher In Wallet</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/wallets/voucher}" th:method="GET">
+        <div>
+            <label for="email">Email</label><br>
+            <input id="email" name="email" placeholder="Enter the email" type="text">
+        </div>
+        <button type="submit">조회</button>
+    </form>
+    <br>
+    <form th:action="@{/}" th:method="GET">
+        <button type="submit">Home</button>
+    </form>
+</div>

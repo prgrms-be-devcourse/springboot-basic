@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer List</title>
+</head>
+<body>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th>Customer Email</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="wallet : ${wallets}">
+            <td th:text="${wallet.getEmail()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<form th:action="@{/}" th:method="GET">
+    <button type="submit">Home</button>
+</form>
+</body>
+</html>

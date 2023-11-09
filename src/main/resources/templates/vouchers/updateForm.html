@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Voucher</title>
+</head>
+<body>
+<div>
+    <form class th:action="@{/vouchers/update}" th:method="put">
+        <div>
+            <label for="voucherId">Voucher ID</label><br>
+            <input id="voucherId" name="voucherId" placeholder="Enter the Voucher Id" type="text">
+        </div>
+        <div>
+            <label for="value">Value</label><br>
+            <input id="value" name="value" placeholder="Enter the Value" type="text">
+        </div>
+        <button type="submit">수정</button>
+    </form>
+    <br>
+    <form th:action="@{/}" th:method="GET">
+        <button type="submit">Home</button>
+    </form>
+</div>
+</body>
+</html>

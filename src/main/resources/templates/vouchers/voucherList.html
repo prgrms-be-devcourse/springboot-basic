@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Voucher List</title>
+</head>
+<body>
+<div>
+    <h4>Voucher List</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>ID</th>
+            <th>Value</th>
+            <th>Created At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher : ${vouchers}">
+            <td th:if="${voucher instanceOf T(com.programmers.springbootbasic.domain.voucher.entity.FixedAmountVoucher)}" th:text="'Fixed Amount'"/>
+            <td th:if="${voucher instanceOf T(com.programmers.springbootbasic.domain.voucher.entity.PercentDiscountVoucher)}" th:text="'Percent Discount'"/>
+            <td th:text="${voucher.voucherId}"></td>
+            <td th:text="${voucher.value}"></td>
+            <td th:text="${voucher.getCreatedAt()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<form th:action="@{/}" th:method="GET">
+    <button type="submit">Home</button>
+</form>
+</body>
+</html>

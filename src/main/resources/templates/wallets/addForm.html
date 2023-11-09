@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Voucher to Wallet</title>
+</head>
+<body>
+<h2>Add Voucher to Wallet</h2>
+<div>
+    <h4>Voucher List</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Type</th>
+            <th>ID</th>
+            <th>Value</th>
+            <th>Created At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="voucher : ${vouchers}">
+            <td th:if="${voucher instanceOf T(com.programmers.springbootbasic.domain.voucher.entity.FixedAmountVoucher)}" th:text="'Fixed Amount'"/>
+            <td th:if="${voucher instanceOf T(com.programmers.springbootbasic.domain.voucher.entity.PercentDiscountVoucher)}" th:text="'Percent Discount'"/>
+            <td th:text="${voucher.voucherId}"></td>
+            <td th:text="${voucher.value}"></td>
+            <td th:text="${voucher.getCreatedAt()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+    <form th:action="@{/wallets/add}" th:method="POST">
+        <div>
+            <label for="email">Email</label><br>
+            <input id="email" name="email" placeholder="Enter the email" type="text">
+        </div>
+        <div>
+            <label for="voucherId">Voucher ID</label><br>
+            <input id="voucherId" name="voucherId" placeholder="Enter the Voucher Id" type="text">
+        </div>
+        <button type="submit">추가</button>
+    </form>
+
+    <br>
+    <form th:action="@{/}" th:method="GET">
+        <button type="submit">Home</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Remove Voucher from Wallet</title>
+</head>
+<body>
+<h2>Remove Voucher from Wallet</h2>
+<div>
+  <form th:action="@{/wallets/delete}" th:method="DELETE">
+    <div>
+      <label for="email">Email</label><br>
+      <input id="email" name="email" placeholder="Enter the email" type="text">
+    </div>
+    <div>
+      <label for="voucherId">Voucher ID</label><br>
+      <input id="voucherId" name="voucherId" placeholder="Enter the Voucher Id" type="text">
+    </div>
+    <button type="submit">삭제</button>
+  </form>
+  <br>
+  <form th:action="@{/}" th:method="GET">
+    <button type="submit">Home</button>
+  </form>
+</div>
