@@ -15,8 +15,6 @@ import java.util.UUID;
 @RequestMapping("/api/v1/voucher")
 public class VoucherApiController {
 
-    // REST에 대해 알아보자
-
     private final VoucherService voucherService;
 
     public VoucherApiController(VoucherService voucherService) {
@@ -63,6 +61,14 @@ public class VoucherApiController {
         }
 
         return vouchers;
+    }
+
+    @PatchMapping
+    public Voucher updateVoucher(
+            @RequestParam(name = "voucherId") String voucherId,
+            @RequestParam(name = "amount") long amount
+    ) {
+        return voucherService.updateVoucher(UUID.fromString(voucherId), amount);
     }
 
     @DeleteMapping("{voucherId}")

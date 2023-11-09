@@ -16,6 +16,13 @@ public class VoucherService {
 
     private final VoucherRepository voucherRepository;
 
+    /*
+    pr
+    model 비즈니스 로직
+    view 뿌리기
+    controller 전달
+     */
+
     public VoucherService(VoucherRepository voucherRepository) {
         this.voucherRepository = voucherRepository;
     }
@@ -35,8 +42,10 @@ public class VoucherService {
         return voucherRepository.voucherLists();
     }
 
-    public void updateVoucher(UUID voucherId, long amountOrPercent) {
+    public Voucher updateVoucher(UUID voucherId, long amountOrPercent) {
         voucherRepository.update(voucherId, amountOrPercent);
+        DiscountPolicy discountPolicy = getDiscountPolicy(findVoucher(voucherId).getDiscountPolicy().getPolicyStatus(), amountOrPercent);
+        return new Voucher(voucherId, discountPolicy);
     }
 
     public Voucher deleteVoucher(UUID voucherId) {
