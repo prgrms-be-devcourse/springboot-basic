@@ -24,7 +24,7 @@ class CustomerThymeleafControllerTest {
     CustomerService customerService;
 
     @Test
-    @DisplayName("고객 생성을 요청한다. 그리고 customers 페이지도 이동한다.")
+    @DisplayName("고객 생성을 요청한다. 그리고 customers 페이지로 이동한다.")
     void createCustomer() throws Exception {
         when(customerService.create(CREATE_CUSTOMER_REQUEST)).thenReturn(CUSTOMER_RESPONSE);
 
