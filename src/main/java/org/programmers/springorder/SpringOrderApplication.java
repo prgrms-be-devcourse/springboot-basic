@@ -1,17 +1,21 @@
 package org.programmers.springorder;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 @SpringBootApplication
-public class SpringOrderApplication {
-	private static final Logger log = LoggerFactory.getLogger(SpringOrderApplication.class);
+public class SpringOrderApplication implements WebMvcConfigurer {
 
-	public static void main(String[] args) {
-		log.info("Voucher 관리 애플리케이션 구동");
-		SpringApplication.run(SpringOrderApplication.class, args).close();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(SpringOrderApplication.class, args);
+    }
 
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        WebMvcConfigurer.super.configureMessageConverters(converters);
+    }
 }

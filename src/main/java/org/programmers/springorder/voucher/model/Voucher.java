@@ -3,6 +3,7 @@ package org.programmers.springorder.voucher.model;
 import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -10,44 +11,63 @@ public class Voucher {
     private final UUID voucherId;
     private final long discountValue;
     private final VoucherType voucherType;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
     private UUID customerId;
 
     private Voucher(UUID voucherId, long discountValue, VoucherType voucherType) {
         this.voucherId = voucherId;
         this.discountValue = discountValue;
         this.voucherType = voucherType;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = this.createdAt;
     }
 
-    private Voucher(UUID voucherId, long discountValue, VoucherType voucherType, UUID customerId) {
+    private Voucher(UUID voucherId, long discountValue, VoucherType voucherType, UUID customerId, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.voucherId = voucherId;
         this.discountValue = discountValue;
         this.voucherType = voucherType;
         this.customerId = customerId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+    private Voucher(UUID voucherId, long discountValue, VoucherType voucherType, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.voucherId = voucherId;
+        this.discountValue = discountValue;
+        this.voucherType = voucherType;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
-    public static Voucher toVoucher(UUID voucherId, long discountValue, VoucherType voucherType){
+    private Voucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
+        this.voucherId = voucherId;
+        this.discountValue = voucherRequestDto.discountValue();
+        this.voucherType = voucherRequestDto.voucherType();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = createdAt;
+    }
+
+    public static Voucher toNewVoucher(UUID voucherId, long discountValue, VoucherType voucherType){
         return new Voucher(voucherId, discountValue, voucherType);
     }
 
-    public static Voucher getVoucher(UUID voucherId, long discountValue, VoucherType voucherType, UUID customerId) {
-        return new Voucher(voucherId, discountValue, voucherType, customerId);
+    public static Voucher getFromDbVoucher(UUID voucherId, long discountValue, VoucherType voucherType, UUID customerId, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new Voucher(voucherId, discountValue, voucherType, customerId, createdAt, updatedAt);
     }
-    private Voucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
-        this.voucherId = voucherId;
-        this.discountValue = voucherRequestDto.getDiscountValue();
-        this.voucherType = voucherRequestDto.getVoucherType();
+    public static Voucher getFromDbVoucherNoOwner(UUID voucherId, long discountValue, VoucherType voucherType, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        return new Voucher(voucherId, discountValue, voucherType, createdAt, updatedAt);
     }
 
     public static Voucher of(UUID voucherId, VoucherRequestDto requestDto) {
         return new Voucher(voucherId, requestDto);
     }
 
-    public static Voucher toVoucher(UUID voucherId, long discountValue, VoucherType voucherType, UUID customerId) {
-        return new Voucher(voucherId, discountValue, voucherType, customerId);
-    }
-
     public void updateOwner(Customer customer){
         this.customerId = customer.getCustomerId();
+    }
+
+    public boolean voucherRange(LocalDateTime startedAt, LocalDateTime endedAt){
+        return this.createdAt.isAfter(startedAt) && this.createdAt.isBefore(endedAt);
     }
 
     public boolean comparingCustomer(UUID customerId){
@@ -60,7 +80,9 @@ public class Voucher {
         StringBuilder data = new StringBuilder();
         data.append(this.voucherId).append(",")
                 .append(this.discountValue).append(",")
-                .append(this.voucherType.name());
+                .append(this.voucherType.name()).append(",")
+                .append(this.createdAt).append(",")
+                .append(this.updatedAt);
         if(this.customerId != null){
             data.append(",").append(this.customerId);
         }
@@ -96,6 +118,14 @@ public class Voucher {
 
     public UUID getCustomerId() {
         return customerId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 
     @Override

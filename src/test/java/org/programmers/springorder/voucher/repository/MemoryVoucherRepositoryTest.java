@@ -50,7 +50,7 @@ class MemoryVoucherRepositoryTest {
     @DisplayName("voucher 생성 테스트")
     public void makeVoucherTest() {
         UUID uuid = UUID.randomUUID();
-        Voucher voucher = Voucher.toVoucher(uuid, 100, VoucherType.FIXED);
+        Voucher voucher = Voucher.toNewVoucher(uuid, 100, VoucherType.FIXED);
 
         Voucher save = voucherRepository.save(voucher);
         Voucher foundVoucher = voucherRepository.findById(uuid).get();
@@ -62,9 +62,9 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("voucher 전체 조회 테스트")
     public void getAllVoucherTest() {
-        Voucher voucher1 = Voucher.toVoucher(UUID.randomUUID(), 100, VoucherType.FIXED);
-        Voucher voucher2 = Voucher.toVoucher(UUID.randomUUID(), 100, VoucherType.FIXED);
-        Voucher voucher3 = Voucher.toVoucher(UUID.randomUUID(), 100, VoucherType.FIXED);
+        Voucher voucher1 = Voucher.toNewVoucher(UUID.randomUUID(), 100, VoucherType.FIXED);
+        Voucher voucher2 = Voucher.toNewVoucher(UUID.randomUUID(), 100, VoucherType.FIXED);
+        Voucher voucher3 = Voucher.toNewVoucher(UUID.randomUUID(), 100, VoucherType.FIXED);
 
         Voucher save1 = voucherRepository.save(voucher1);
         Voucher save2 = voucherRepository.save(voucher2);
@@ -84,9 +84,9 @@ class MemoryVoucherRepositoryTest {
         UUID uuid2 = UUID.randomUUID();
         UUID uuid3 = UUID.randomUUID();
 
-        Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED);
-        Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED);
-        Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED);
+        Voucher voucher1 = Voucher.toNewVoucher(uuid1, 100, VoucherType.FIXED);
+        Voucher voucher2 = Voucher.toNewVoucher(uuid2, 100, VoucherType.FIXED);
+        Voucher voucher3 = Voucher.toNewVoucher(uuid3, 100, VoucherType.FIXED);
 
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
@@ -109,10 +109,10 @@ class MemoryVoucherRepositoryTest {
         UUID uuid2 = UUID.randomUUID();
         UUID uuidCustomer = UUID.randomUUID();
 
-        Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED);
-        Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED);
+        Voucher voucher1 = Voucher.toNewVoucher(uuid1, 100, VoucherType.FIXED);
+        Voucher voucher2 = Voucher.toNewVoucher(uuid2, 100, VoucherType.FIXED);
 
-        Customer customer = Customer.toCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
+        Customer customer = Customer.toNewCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
         customerRepository.insert(customer);
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
@@ -138,11 +138,11 @@ class MemoryVoucherRepositoryTest {
         UUID uuid3 = UUID.randomUUID();
         UUID uuidCustomer = UUID.randomUUID();
 
-        Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED);
-        Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED);
-        Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED);
+        Voucher voucher1 = Voucher.toNewVoucher(uuid1, 100, VoucherType.FIXED);
+        Voucher voucher2 = Voucher.toNewVoucher(uuid2, 100, VoucherType.FIXED);
+        Voucher voucher3 = Voucher.toNewVoucher(uuid3, 100, VoucherType.FIXED);
 
-        Customer customer = Customer.toCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
+        Customer customer = Customer.toNewCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
         customerRepository.insert(customer);
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);
@@ -166,9 +166,9 @@ class MemoryVoucherRepositoryTest {
         UUID uuid2 = UUID.randomUUID();
         UUID uuid3 = UUID.randomUUID();
 
-        Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED);
-        Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED);
-        Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED);
+        Voucher voucher1 = Voucher.toNewVoucher(uuid1, 100, VoucherType.FIXED);
+        Voucher voucher2 = Voucher.toNewVoucher(uuid2, 100, VoucherType.FIXED);
+        Voucher voucher3 = Voucher.toNewVoucher(uuid3, 100, VoucherType.FIXED);
 
         voucherRepository.save(voucher1);
         voucherRepository.save(voucher2);

@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Profile("default")
@@ -18,7 +19,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
     private final String SELECT_ALL_CUSTOMER = "SELECT * FROM customers";
-    private final String INSERT_CUSTOMER = "INSERT INTO customers(customer_id, customer_name, customer_type) VALUES(UUID_TO_BIN(:customerId), :customerName, :customerType)";
+    private final String INSERT_CUSTOMER = "INSERT INTO customers(customer_id, customer_name, customer_type, created_at, updated_at) VALUES(UUID_TO_BIN(:customerId), :customerName, :customerType, :createdAt, :updatedAt)";
     private final String FIND_BLACKLIST = "SELECT * FROM customers where customer_type = 'BLACK'";
     private final String FIND_BY_CUSTOMER_ID = "SELECT * FROM customers where customer_id = UUID_TO_BIN(:customerId)";
 
@@ -30,7 +31,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
         UUID customerId = toUUID(resultSet.getBytes("customer_id"));
         String customerName = resultSet.getString("customer_name");
         CustomerType customerType = CustomerType.valueOf(resultSet.getString("customer_type"));
-        return Customer.toCustomer(customerId, customerName, customerType);
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime updatedAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return Customer.fromDbCustomer(customerId, customerName, customerType, createdAt, updatedAt);
     };
 
     @Override
@@ -63,21 +66,24 @@ public class JdbcCustomerRepository implements CustomerRepository {
         return customer;
     }
 
-    public void clear(){
+    public void clear() {
         jdbcTemplate.getJdbcOperations().update("delete from customers");
     }
+
     private Map<String, Object> toParamMap(Customer customer) {
-        return new HashMap<>() {{
-            put("customerId", customer.getCustomerId().toString().getBytes());
-            put("customerName", customer.getName());
-            put("customerType", customer.getCustomerType().name());
-        }};
+        Map<String, Object> map = new HashMap<>();
+        map.put("customerId", customer.getCustomerId().toString().getBytes());
+        map.put("customerName", customer.getName());
+        map.put("customerType", customer.getCustomerType().name());
+        map.put("createdAt", customer.getCreatedAt());
+        map.put("updatedAt", customer.getCreatedAt());
+        return map;
     }
 
     private Map<String, Object> findByIdMap(UUID customerId) {
-        return new HashMap<>() {{
-            put("customerId", customerId.toString().getBytes());
-        }};
+        Map<String, Object> map = new HashMap<>();
+        map.put("customerId", customerId.toString().getBytes());
+        return map;
     }
 
     static UUID toUUID(byte[] bytes) {

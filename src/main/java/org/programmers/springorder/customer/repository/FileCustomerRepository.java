@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Profile({"dev", "test"})
@@ -41,7 +42,9 @@ public class FileCustomerRepository implements CustomerRepository {
                 UUID customerId = UUID.fromString(data[0]);
                 String name = data[1];
                 CustomerType customerType = CustomerType.valueOf(data[2]);
-                Customer customer = Customer.toCustomer(customerId, name, customerType);
+                LocalDateTime createdAt = LocalDateTime.parse(data[3]);
+                LocalDateTime updatedAt = LocalDateTime.parse(data[3]);
+                Customer customer = Customer.fromDbCustomer(customerId, name, customerType, createdAt, updatedAt);
                 customerList.add(customer);
             }
         } catch (FileNotFoundException e) {
@@ -55,7 +58,7 @@ public class FileCustomerRepository implements CustomerRepository {
         return Collections.unmodifiableList(customerList);
     }
 
-    //TODO: 추후 구현 예정
+
     @Override
     public Optional<Customer> findByID(UUID customerId) {
         return findAll().stream()

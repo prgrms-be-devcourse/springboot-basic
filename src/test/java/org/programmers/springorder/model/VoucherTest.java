@@ -25,8 +25,8 @@ class VoucherTest {
         VoucherType voucherType2 = VoucherType.PERCENT;
 
         //when
-        Voucher voucher1 = Voucher.toVoucher(voucherId1, discountValue1, voucherType1);
-        Voucher voucher2 = Voucher.toVoucher(voucherId2, discountValue2, voucherType2);
+        Voucher voucher1 = Voucher.toNewVoucher(voucherId1, discountValue1, voucherType1);
+        Voucher voucher2 = Voucher.toNewVoucher(voucherId2, discountValue2, voucherType2);
 
         //then
         assertThat(voucher1.getVoucherId()).isEqualTo(voucherId1);

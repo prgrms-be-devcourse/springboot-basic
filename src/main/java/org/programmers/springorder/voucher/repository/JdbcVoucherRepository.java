@@ -12,18 +12,24 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
 import java.util.*;
+
 @Profile("default")
 @Repository
 public class JdbcVoucherRepository implements VoucherRepository {
     private static final Logger logger = LoggerFactory.getLogger(JdbcVoucherRepository.class);
     private final NamedParameterJdbcTemplate jdbcTemplate;
 
-    private final String INSERT = "insert into vouchers(voucher_id, discount_value, voucher_type) values(UUID_TO_BIN(:voucherId), :discountValue, :voucherType)";
+    private final String INSERT = "insert into vouchers(voucher_id, discount_value, voucher_type, created_at, updated_at) values(UUID_TO_BIN(:voucherId), :discountValue, :voucherType, :createdAt, :updatedAt)";
     private final String UPDATE_VOUCER_OWNER = "update vouchers set customer_id = UUID_TO_BIN(:customerId) where voucher_id = UUID_TO_BIN(:voucherId)";
     private final String FIND_ALL = "select * from vouchers";
     private final String FIND_BY_VOUCHER_ID = "select * from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
-    private final String FIND_BY_CUSTOMER_ID= "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)";
+    private final String FIND_BY_CUSTOMER_ID = "select * from vouchers where customer_id = UUID_TO_BIN(:customerId)";
+    private final String DELETE_BY_VOUCHER_ID = "delete  from vouchers where voucher_id = UUID_TO_BIN(:voucherId)";
+    private final String DELETE_ALL = "delete from vouchers";
+    private final String FIND_ALL_BY_TIME_BOUNDARY = "select * from vouchers where created_at >= :createdAt and created_at <= :endedAt";
+
     public JdbcVoucherRepository(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -31,7 +37,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         int update = jdbcTemplate.update(INSERT, toParamMap(voucher));
-        if( update != 1){
+        if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
         return voucher;
@@ -44,12 +50,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Optional<Voucher> findById(UUID voucherId) {
-        try{
+        try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(
                     FIND_BY_VOUCHER_ID,
                     Collections.singletonMap("voucherId", voucherId.toString().getBytes()),
                     voucherRowMapper));
-        } catch  (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             logger.error("Got empty result", e);
             return Optional.empty();
         }
@@ -59,7 +65,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher updateVoucherOwner(Voucher voucher, Customer customer) {
         int update = jdbcTemplate.update(UPDATE_VOUCER_OWNER, toUpdateOwnerMap(voucher, customer));
-        if( update != 1){
+        if (update != 1) {
             throw new RuntimeException("Nothing was inserted");
         }
         return voucher;
@@ -76,36 +82,54 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public void deleteVoucher(Voucher voucher) {
-        jdbcTemplate.update("delete  from vouchers where voucher_id = UUID_TO_BIN(:voucherId)",
+        jdbcTemplate.update(DELETE_BY_VOUCHER_ID,
                 toParamMap(voucher));
     }
 
-    public void clear(){
-        jdbcTemplate.getJdbcOperations().update("delete from vouchers");
+    @Override
+    public List<Voucher> findAllByTimeLimit(LocalDateTime startedAt, LocalDateTime endedAt) {
+        return jdbcTemplate.query(FIND_ALL_BY_TIME_BOUNDARY,
+                toDateMap(startedAt, endedAt),
+                voucherRowMapper);
+    }
+
+    public void clear() {
+        jdbcTemplate.getJdbcOperations().update(DELETE_ALL);
     }
 
     private Map<String, Object> toParamMap(Voucher voucher) {
-        return new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("discountValue", voucher.getDiscountValue());
-            put("voucherType", voucher.getVoucherType().name());
-        }};
+        Map<String, Object> map = new HashMap<>();
+        map.put("voucherId", voucher.getVoucherId().toString().getBytes());
+        map.put("discountValue", voucher.getDiscountValue());
+        map.put("voucherType", voucher.getVoucherType().name());
+        map.put("createdAt", voucher.getCreatedAt());
+        map.put("updatedAt", voucher.getUpdatedAt());
+        return map;
     }
 
-    private Map<String, Object> toUpdateOwnerMap(Voucher voucher,Customer customer) {
-        return new HashMap<>() {{
-            put("voucherId", voucher.getVoucherId().toString().getBytes());
-            put("customerId", customer.getCustomerId().toString().getBytes());
-        }};
+    private Map<String, Object> toDateMap(LocalDateTime createdAt, LocalDateTime updatedAt) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("createdAt", createdAt);
+        map.put("updatedAt", updatedAt);
+        return map;
+    }
+
+    private Map<String, Object> toUpdateOwnerMap(Voucher voucher, Customer customer) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("voucherId", voucher.getVoucherId().toString().getBytes());
+        map.put("customerId", customer.getCustomerId().toString().getBytes());
+        return map;
     }
 
     private final RowMapper<Voucher> voucherRowMapper = (resultSet, rowNum) -> {
         UUID voucherId = toUUID(resultSet.getBytes("voucher_id"));
         long discountValue = resultSet.getLong("discount_value");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
-        UUID customerID = resultSet.getBytes("customer_id") != null ?
+        UUID customerId = resultSet.getBytes("customer_id") != null ?
                 toUUID(resultSet.getBytes("customer_id")) : null;
-        return Voucher.getVoucher(voucherId, discountValue, voucherType, customerID);
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        LocalDateTime updatedAt = resultSet.getTimestamp("created_at").toLocalDateTime();
+        return Voucher.getFromDbVoucher(voucherId, discountValue, voucherType, customerId, createdAt, updatedAt);
     };
 
     static UUID toUUID(byte[] bytes) {

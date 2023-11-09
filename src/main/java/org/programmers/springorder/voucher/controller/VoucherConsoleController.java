@@ -5,17 +5,19 @@ import org.programmers.springorder.consts.Message;
 import org.programmers.springorder.voucher.dto.GiveVoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.service.VoucherService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
+@Profile("test")
 @Controller
-public class VoucherController {
+public class VoucherConsoleController {
     private final Console console;
 
     private final VoucherService voucherService;
 
-    public VoucherController(Console console, VoucherService voucherService) {
+    public VoucherConsoleController(Console console, VoucherService voucherService) {
         this.console = console;
         this.voucherService = voucherService;
     }
@@ -26,13 +28,13 @@ public class VoucherController {
 
     public void createVoucher() {
         VoucherRequestDto request = console.inputVoucherInfo();
-        voucherService.save(request);
+        voucherService.saveNewVoucher(request);
         console.printMessage(Message.VOUCHER_REGISTERED);
     }
 
     public void giveVoucher(){
         GiveVoucherRequestDto requestDto = console.giveVoucherInfo();
-        voucherService.update(requestDto.getVoucherId(), requestDto.getCustomerId());
+        voucherService.allocateVoucher(requestDto.voucherId(), requestDto.customerId());
         console.printMessage(Message.VOUCHER_ALLOCATED);
     }
 

@@ -11,6 +11,7 @@ import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.model.CustomerType;
 import org.programmers.springorder.customer.repository.CustomerRepository;
 import org.programmers.springorder.customer.repository.JdbcCustomerRepository;
+import org.programmers.springorder.exception.VoucherException;
 import org.programmers.springorder.voucher.dto.VoucherRequestDto;
 import org.programmers.springorder.voucher.dto.VoucherResponseDto;
 import org.programmers.springorder.voucher.model.Voucher;
@@ -64,10 +65,10 @@ class VoucherServiceTest {
     @DisplayName("모든 Voucher 리스트를 가져오는 Service 로직")
     void getAllVoucher() {
         List<UUID> uuids = Arrays.asList(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID());
-        voucherRepository.save(Voucher.toVoucher(uuids.get(0), 10, VoucherType.PERCENT));
-        voucherRepository.save(Voucher.toVoucher(uuids.get(1), 5, VoucherType.PERCENT));
-        voucherRepository.save(Voucher.toVoucher(uuids.get(2), 1000, VoucherType.FIXED));
-        voucherRepository.save(Voucher.toVoucher(uuids.get(3), 2000, VoucherType.FIXED));
+        voucherRepository.save(Voucher.toNewVoucher(uuids.get(0), 10, VoucherType.PERCENT));
+        voucherRepository.save(Voucher.toNewVoucher(uuids.get(1), 5, VoucherType.PERCENT));
+        voucherRepository.save(Voucher.toNewVoucher(uuids.get(2), 1000, VoucherType.FIXED));
+        voucherRepository.save(Voucher.toNewVoucher(uuids.get(3), 2000, VoucherType.FIXED));
 
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
         List<UUID> rs = allVoucher.stream().map(VoucherResponseDto::getVoucherId).toList();
@@ -86,7 +87,7 @@ class VoucherServiceTest {
         assertThat(beforeSaveVoucher).hasSize(0);
 
         //when
-        voucherService.save(requestDto);
+        voucherService.saveNewVoucher(requestDto);
         List<VoucherResponseDto> allVoucher = voucherService.getAllVoucher();
 
         //then
@@ -104,13 +105,13 @@ class VoucherServiceTest {
             //given
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-            Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+            Voucher voucher = Voucher.toNewVoucher(voucherId, 1000, VoucherType.FIXED);
+            Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
             voucherRepository.save(voucher);
             customerRepository.insert(customer);
-            voucherService.update(voucherId, customerId);
+            voucherService.allocateVoucher(voucherId, customerId);
 
             //then
             Voucher voucherWithOwner = voucherRepository.findById(voucherId).get();
@@ -124,16 +125,16 @@ class VoucherServiceTest {
             //given
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-            Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+            Voucher voucher = Voucher.toNewVoucher(voucherId, 1000, VoucherType.FIXED);
+            Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
             voucherRepository.save(voucher);
             customerRepository.insert(customer);
 
             //then
-            Assertions.assertThatThrownBy(() -> voucherService.update(voucherId, UUID.randomUUID()))
-                    .isInstanceOf(RuntimeException.class)
+            Assertions.assertThatThrownBy(() -> voucherService.allocateVoucher(voucherId, UUID.randomUUID()))
+                    .isInstanceOf(VoucherException.class)
                     .hasMessage("해당 고객을 찾을 수 없습니다.");
 
         }
@@ -144,16 +145,16 @@ class VoucherServiceTest {
             //given
             UUID voucherId = UUID.randomUUID();
             UUID customerId = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(voucherId, 1000, VoucherType.FIXED);
-            Customer customer = Customer.toCustomer(customerId, "owner", CustomerType.NORMAL);
+            Voucher voucher = Voucher.toNewVoucher(voucherId, 1000, VoucherType.FIXED);
+            Customer customer = Customer.toNewCustomer(customerId, "owner", CustomerType.NORMAL);
 
             //when
             voucherRepository.save(voucher);
             customerRepository.insert(customer);
 
             //then
-            Assertions.assertThatThrownBy(() -> voucherService.update(UUID.randomUUID(), customerId))
-                    .isInstanceOf(RuntimeException.class)
+            Assertions.assertThatThrownBy(() -> voucherService.allocateVoucher(UUID.randomUUID(), customerId))
+                    .isInstanceOf(VoucherException.class)
                     .hasMessage("해당 바우처를 찾을 수 없습니다.");
 
         }
@@ -173,11 +174,11 @@ class VoucherServiceTest {
             UUID uuid3 = UUID.randomUUID();
             UUID uuidCustomer = UUID.randomUUID();
 
-            Voucher voucher1 = Voucher.toVoucher(uuid1, 100, VoucherType.FIXED);
-            Voucher voucher2 = Voucher.toVoucher(uuid2, 100, VoucherType.FIXED);
-            Voucher voucher3 = Voucher.toVoucher(uuid3, 100, VoucherType.FIXED);
+            Voucher voucher1 = Voucher.toNewVoucher(uuid1, 100, VoucherType.FIXED);
+            Voucher voucher2 = Voucher.toNewVoucher(uuid2, 100, VoucherType.FIXED);
+            Voucher voucher3 = Voucher.toNewVoucher(uuid3, 100, VoucherType.FIXED);
 
-            Customer customer = Customer.toCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
+            Customer customer = Customer.toNewCustomer(uuidCustomer, "owner", CustomerType.NORMAL);
             customerRepository.insert(customer);
             voucherRepository.save(voucher1);
             voucherRepository.save(voucher2);
@@ -202,7 +203,7 @@ class VoucherServiceTest {
         @DisplayName("실패, 고객이 존재하지 않는 경우")
         public void customerOwnedVoucherServiceWithAnonymousUserTest() {
             assertThatThrownBy(() -> voucherService.getCustomerOwnedVouchers(UUID.randomUUID()))
-                    .isInstanceOf(RuntimeException.class)
+                    .isInstanceOf(VoucherException.class)
                     .hasMessage("해당 고객을 찾을 수 없습니다.");
         }
     }
@@ -214,7 +215,7 @@ class VoucherServiceTest {
         @DisplayName("성공")
         public void deleteVoucherTest() {
             UUID uuid = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(uuid, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(uuid, 1000, VoucherType.FIXED);
 
             voucherRepository.save(voucher);
             assertThat(voucherRepository.findAll()).hasSize(1);
@@ -233,15 +234,15 @@ class VoucherServiceTest {
         @DisplayName("실패, voucher 존재 x")
         public void deleteVoucherFailTest() {
             UUID uuid = UUID.randomUUID();
-            Voucher voucher = Voucher.toVoucher(uuid, 1000, VoucherType.FIXED);
+            Voucher voucher = Voucher.toNewVoucher(uuid, 1000, VoucherType.FIXED);
 
             voucherRepository.save(voucher);
             assertThat(voucherRepository.findAll()).hasSize(1);
             assertThat(voucherRepository.findById(uuid).get()).isEqualTo(voucher);
 
             assertThatThrownBy(() -> voucherService.deleteVoucher(UUID.randomUUID()))
-                    .isInstanceOf(RuntimeException.class)
-                    .hasMessage("찾으시는 voucher가 존재하지 않습니다.");
+                    .isInstanceOf(VoucherException.class)
+                    .hasMessage("해당 바우처를 찾을 수 없습니다.");
 
         }
     }

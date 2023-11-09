@@ -2,6 +2,12 @@ package org.programmers.springorder.consts;
 
 public class Message {
 
+    public static final String CHOOSING_MEDIA = """
+            어떤 방식으로 구동하시겠습니까?
+            1. web 방식
+            2. console 방식
+            """;
+
     private Message(){}
     public static final String MENU_SELECT_MESSAGE = """
             === Voucher Program ===

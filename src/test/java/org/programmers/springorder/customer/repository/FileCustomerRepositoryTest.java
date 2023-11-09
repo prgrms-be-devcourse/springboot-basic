@@ -41,9 +41,9 @@ class FileCustomerRepositoryTest {
     void save() {
         // given
         int currentSize = customerRepository.findAll().size();
-        Customer customer1 = Customer.toCustomer(UUID.randomUUID(), "test1", CustomerType.NORMAL);
-        Customer customer2 = Customer.toCustomer(UUID.randomUUID(), "test2", CustomerType.NORMAL);
-        Customer customer3 = Customer.toCustomer(UUID.randomUUID(), "test3", CustomerType.BLACK);
+        Customer customer1 = Customer.toNewCustomer(UUID.randomUUID(), "test1", CustomerType.NORMAL);
+        Customer customer2 = Customer.toNewCustomer(UUID.randomUUID(), "test2", CustomerType.NORMAL);
+        Customer customer3 = Customer.toNewCustomer(UUID.randomUUID(), "test3", CustomerType.BLACK);
 
         // when
         Customer insertedCustomer1 = customerRepository.insert(customer1);
@@ -63,8 +63,8 @@ class FileCustomerRepositoryTest {
     @DisplayName("전체 회원 조회에 성공한다.")
     void findAll() {
         // given
-        Customer customer1 = Customer.toCustomer(UUID.randomUUID(), "test1", CustomerType.NORMAL);
-        Customer customer2 = Customer.toCustomer(UUID.randomUUID(), "test2", CustomerType.NORMAL);
+        Customer customer1 = Customer.toNewCustomer(UUID.randomUUID(), "test1", CustomerType.NORMAL);
+        Customer customer2 = Customer.toNewCustomer(UUID.randomUUID(), "test2", CustomerType.NORMAL);
         customerRepository.insert(customer1);
         customerRepository.insert(customer2);
 
@@ -79,8 +79,8 @@ class FileCustomerRepositoryTest {
     @DisplayName("블랙 리스트 조회 테스트")
     void findAllBlackList() {
         // given
-        Customer customer1 = Customer.toCustomer(UUID.randomUUID(), "test1", CustomerType.NORMAL);
-        Customer customer2 = Customer.toCustomer(UUID.randomUUID(), "test2", CustomerType.BLACK);
+        Customer customer1 = Customer.toNewCustomer(UUID.randomUUID(), "test1", CustomerType.NORMAL);
+        Customer customer2 = Customer.toNewCustomer(UUID.randomUUID(), "test2", CustomerType.BLACK);
         customerRepository.insert(customer1);
         customerRepository.insert(customer2);
 

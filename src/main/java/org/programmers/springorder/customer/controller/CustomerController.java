@@ -2,10 +2,12 @@ package org.programmers.springorder.customer.controller;
 
 import org.programmers.springorder.console.Console;
 import org.programmers.springorder.customer.service.CustomerService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.util.UUID;
 
+@Profile("test")
 @Controller
 public class CustomerController {
     private final Console console;

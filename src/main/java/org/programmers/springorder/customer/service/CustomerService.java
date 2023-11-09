@@ -1,7 +1,11 @@
 package org.programmers.springorder.customer.service;
 
+import org.programmers.springorder.customer.dto.CustomerRequestDto;
 import org.programmers.springorder.customer.dto.CustomerResponseDto;
+import org.programmers.springorder.customer.model.Customer;
 import org.programmers.springorder.customer.repository.CustomerRepository;
+import org.programmers.springorder.exception.ErrorCode;
+import org.programmers.springorder.exception.VoucherException;
 import org.programmers.springorder.voucher.model.Voucher;
 import org.programmers.springorder.voucher.repository.VoucherRepository;
 import org.springframework.stereotype.Service;
@@ -29,12 +33,33 @@ public class CustomerService {
 
     public CustomerResponseDto findOwnerOfVoucher(UUID voucherId){
         Voucher voucher = voucherRepository.findById(voucherId)
-                .orElseThrow(() -> new RuntimeException("찾으시는 voucher가 존재하지 않습니다."));
+                .orElseThrow(() -> new VoucherException(ErrorCode.VOUCHER_NOT_FOUND));
         if(voucher.getCustomerId() == null) {
-            throw new RuntimeException("해당 voucher는 주인이 존재하지 않습니다.");
+            throw new VoucherException(ErrorCode.VOUCHER_OWNER_NOT_EXIST);
         }
         return customerRepository.findByID(voucher.getCustomerId())
                 .map(CustomerResponseDto::of)
-                .orElseThrow(() -> new RuntimeException("해당 고객을 찾을 수 없습니다."));
+                .orElseThrow(() -> new VoucherException(ErrorCode.VOUCHER_NOT_FOUND));
+    }
+
+    public List<CustomerResponseDto> getAllCustomers() {
+        return customerRepository.findAll()
+                .stream()
+                .map(CustomerResponseDto::of)
+                .toList();
+    }
+
+    public void newCustomer(CustomerRequestDto requestDto) {
+        Customer customer = Customer.toNewCustomer(
+                UUID.randomUUID(),
+                requestDto.name(),
+                requestDto.customerType());
+        customerRepository.insert(customer);
+    }
+
+    public CustomerResponseDto findCustomer(UUID customerId){
+        return customerRepository.findByID(customerId)
+                .map(CustomerResponseDto::of)
+                .orElseThrow(() -> new VoucherException(ErrorCode.CUSTOMER_NOT_FOUND));
     }
 }

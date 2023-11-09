@@ -1,6 +1,5 @@
 package org.programmers.springorder.console;
 
-import org.programmers.springorder.utils.Validation;
 
 import java.util.Scanner;
 
