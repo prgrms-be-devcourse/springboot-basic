@@ -66,15 +66,16 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VoucherResponse>> readAll( //TODO: make Object and Validate!
-                                                          @RequestParam(name = "filter", defaultValue = "all")
-                                                          String filter,
-                                                          @RequestParam(name = "from", required = false)
-                                                          LocalDate from,
-                                                          @RequestParam(name = "to", required = false)
-                                                          LocalDate to,
-                                                          @RequestParam(name = "type-name", required = false)
-                                                          String typeName
+    public ResponseEntity<List<VoucherResponse>> readAll(
+            //TODO: make Object and Validate!
+            @RequestParam(name = "filter", defaultValue = "all")
+            String filter,
+            @RequestParam(name = "from", required = false)
+            LocalDate from,
+            @RequestParam(name = "to", required = false)
+            LocalDate to,
+            @RequestParam(name = "type-name", required = false)
+            String typeName
     ) {
         if (filter.equals("all"))
             return ResponseEntity.status(HttpStatus.OK)
