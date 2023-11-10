@@ -9,7 +9,7 @@ public abstract class StdIOTest {
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
 
     @BeforeEach
-    public void setStdout() {
+    final void init() {
         System.setOut(new PrintStream(outputStreamCaptor));
     }
 
