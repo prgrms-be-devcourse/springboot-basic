@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+        p {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+<form th:action th:object="${request}" method="post">
+    <div>
+        <label for="type">Type:</label>
+        <select id="type" th:field="*{type}">
+            <option th:each="type : ${types}" th:value="${type}" th:text="${type}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="amount">Amount:</label>
+        <input id="amount" th:field="*{amount}" th:class="${#fields.hasErrors('amount') ? 'error' : ''}" />
+        <p class="error" th:if="${#fields.hasErrors('amount')}">Invalid value</p>
+    </div>
+
+    <div>
+        <button type="submit" th:onclick="|location.href='@{/voucher/create}'|">create</button>
+    </div>
+</form>
+</body>
+</html>

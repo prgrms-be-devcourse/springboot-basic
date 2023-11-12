@@ -1,7 +1,8 @@
 package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.repository.ContainerBaseTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
-class CustomerRepositoryTest {
+class CustomerRepositoryTest extends ContainerBaseTest {
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -24,13 +25,13 @@ class CustomerRepositoryTest {
     @DisplayName("고객을 저장할 수 있다.")
     void save() {
         // given
-        Customer newCustomer = Customer.fixture();
+        Customer newCustomer = new Customer("test@email.com", false);
 
         // when
         customerRepository.save(newCustomer);
 
         // then
-        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto(null)).get(0);
         assertThat(savedCustomer.getEmail()).isEqualTo(newCustomer.getEmail());
         assertThat(savedCustomer.isBlacklisted()).isEqualTo(newCustomer.isBlacklisted());
     }
@@ -46,7 +47,7 @@ class CustomerRepositoryTest {
         customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
 
         // then
-        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> savedCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
 
         assertThat(savedCustomers).hasSize(2);
         assertThat(savedCustomers).extracting(Customer::getEmail)
@@ -59,10 +60,10 @@ class CustomerRepositoryTest {
     @DisplayName("고객을 아이디로 조회할 수 있다.")
     void findById() {
         // given
-        Customer newCustomer = Customer.fixture();
+        Customer newCustomer = new Customer("test@email.com", false);
         customerRepository.save(newCustomer);
 
-        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto()).get(0);
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto(null)).get(0);
 
         // when
         Optional<Customer> foundCustomer = customerRepository.findById(savedCustomer.getId());
@@ -82,7 +83,7 @@ class CustomerRepositoryTest {
         customerRepository.saveAll(List.of(newCustomer1, newCustomer2));
 
         // when
-        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
 
         // then
         assertThat(foundCustomers).hasSize(2);
@@ -90,6 +91,45 @@ class CustomerRepositoryTest {
                 .containsExactlyInAnyOrder(newCustomer1.getEmail(), newCustomer2.getEmail());
         assertThat(foundCustomers).extracting(Customer::isBlacklisted)
                 .containsExactlyInAnyOrder(newCustomer1.isBlacklisted(), newCustomer2.isBlacklisted());
+    }
+
+    @Test
+    @DisplayName("고객을 수정할 수 있다.")
+    void update() {
+        // given
+        Customer newCustomer = new Customer("test1@email.com", false);
+        customerRepository.save(newCustomer);
+
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto(null)).get(0);
+
+        // when
+        String newEmailValue = "test2@email.com";
+        boolean newBlacklistedValue = true;
+
+        customerRepository.update(Customer.from(savedCustomer.getId(), newEmailValue, newBlacklistedValue));
+
+        // then
+        Optional<Customer> updatedCustomer = customerRepository.findById(savedCustomer.getId());
+        assertThat(updatedCustomer).isPresent();
+        assertThat(updatedCustomer.get().getEmail()).isEqualTo(newEmailValue);
+        assertThat(updatedCustomer.get().isBlacklisted()).isEqualTo(newBlacklistedValue);
+    }
+
+    @Test
+    @DisplayName("고객을 아이디로 삭제할 수 있다.")
+    void deleteById() {
+        // given
+        Customer newCustomer = new Customer("test@email.com", false);
+        customerRepository.save(newCustomer);
+
+        Customer savedCustomer = customerRepository.findAll(new GetCustomersRequestDto(null)).get(0);
+
+        // when
+        customerRepository.deleteById(savedCustomer.getId());
+
+        // then
+        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
+        assertThat(foundCustomers).isEmpty();
     }
 
     @Test
@@ -105,7 +145,7 @@ class CustomerRepositoryTest {
         customerRepository.deleteAll();
 
         // then
-        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto());
+        List<Customer> foundCustomers = customerRepository.findAll(new GetCustomersRequestDto(null));
         assertThat(foundCustomers).isEmpty();
     }
 }

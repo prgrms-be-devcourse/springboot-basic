@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -59,6 +60,21 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
                 """;
 
         SqlParameterSource params = new MapSqlParameterSource("id", id);
+
+        try {
+            return Optional.ofNullable(template.queryForObject(sql, params, getWalletRowMapper()));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<Wallet> findByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        String sql = "SELECT * FROM wallets WHERE customer_id = :customerId AND voucher_id = :voucherId";
+
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("customerId", customerId.toString())
+                .addValue("voucherId", voucherId.toString());
 
         try {
             return Optional.ofNullable(template.queryForObject(sql, params, getWalletRowMapper()));
@@ -121,7 +137,8 @@ public class JdbcTemplateWalletRepository implements WalletRepository {
             UUID voucherId = UUID.fromString(rs.getString("voucher_id"));
             VoucherType type = VoucherType.valueOf(rs.getString("type"));
             Long amount = rs.getLong("amount");
-            Voucher voucher = VoucherFactory.create(voucherId, type, amount);
+            LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
+            Voucher voucher = VoucherFactory.create(voucherId, type, amount, createdAt);
 
             return new Wallet(id, customer, voucher, used);
         };

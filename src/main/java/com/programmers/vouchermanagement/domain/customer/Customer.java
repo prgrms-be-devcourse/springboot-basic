@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -13,20 +14,27 @@ import java.util.stream.IntStream;
 @ToString
 @EqualsAndHashCode
 public class Customer {
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+
     private UUID id;
     private String email;
     private boolean blacklisted;
 
     public Customer(String email) {
+        validateEmail(email);
         this.email = email;
     }
 
     public Customer(String email, boolean blacklisted) {
+        validateEmail(email);
+
         this.email = email;
         this.blacklisted = blacklisted;
     }
 
     public Customer(UUID id, String email, boolean blacklisted) {
+        validateEmail(email);
+
         this.id = id;
         this.email = email;
         this.blacklisted = blacklisted;
@@ -47,7 +55,13 @@ public class Customer {
         return new Customer(UUID.fromString(info.get("id")), info.get("email"), Boolean.parseBoolean(info.get("blacklisted")));
     }
 
-    public static Customer fixture() {
-        return new Customer("test@email.com", false);
+    public static Customer from(UUID id, String email, boolean blacklisted) {
+        return new Customer(id, email, blacklisted);
+    }
+
+    private void validateEmail(String email) {
+        if (!EMAIL_PATTERN.matcher(email).matches()) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
     }
 }

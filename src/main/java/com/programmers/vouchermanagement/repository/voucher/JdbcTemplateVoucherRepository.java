@@ -1,17 +1,18 @@
 package com.programmers.vouchermanagement.repository.voucher;
 
-import com.programmers.vouchermanagement.domain.voucher.FixedAmountVoucher;
-import com.programmers.vouchermanagement.domain.voucher.PercentDiscountVoucher;
-import com.programmers.vouchermanagement.domain.voucher.Voucher;
-import com.programmers.vouchermanagement.domain.voucher.VoucherType;
+import com.programmers.vouchermanagement.domain.voucher.*;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,24 +27,31 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
-        String sql = "INSERT INTO vouchers (type, amount) VALUES (:type, :amount)";
+    public UUID save(Voucher voucher) {
+        UUID id = UUID.randomUUID();
+        String sql = "INSERT INTO vouchers (id, type, amount, created_at) VALUES (:id, :type, :amount, :createdAt)";
 
         SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", (voucher.getId() != null) ? voucher.getId().toString() : id.toString())
                 .addValue("type", voucher.getType().toString())
-                .addValue("amount", voucher.getAmount());
+                .addValue("amount", voucher.getAmount())
+                .addValue("createdAt", (voucher.getCreatedAt() != null) ? voucher.getCreatedAt() : LocalDateTime.now());
 
         template.update(sql, params);
+
+        return id;
     }
 
     @Override
     public void saveAll(List<Voucher> vouchers) {
-        String sql = "INSERT INTO vouchers (type, amount) VALUES (:type, :amount)";
+        String sql = "INSERT INTO vouchers (id, type, amount, created_at) VALUES (:id, :type, :amount, :createdAt)";
 
         template.batchUpdate(sql, vouchers.stream()
                 .map(voucher -> new MapSqlParameterSource()
+                        .addValue("id", (voucher.getId() != null) ? voucher.getId().toString() : UUID.randomUUID().toString())
                         .addValue("type", voucher.getType().toString())
-                        .addValue("amount", voucher.getAmount()))
+                        .addValue("amount", voucher.getAmount())
+                        .addValue("createdAt", (voucher.getCreatedAt() != null) ? voucher.getCreatedAt() : LocalDateTime.now()))
                 .toArray(SqlParameterSource[]::new));
     }
 
@@ -63,18 +71,36 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
-        String sql = "SELECT * FROM vouchers";
-        return template.query(sql, getVoucherRowMapper());
+    public List<Voucher> findAll(GetVouchersRequestDto request) {
+        String sql = "SELECT * FROM vouchers WHERE 1 = 1";
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        if (request.type() != null) {
+            sql += " AND type = :type";
+            params.addValue("type", request.type().toString());
+        }
+
+        if (request.minCreatedAt() != null) {
+            sql += " AND created_at >= :minCreatedAt";
+            params.addValue("minCreatedAt", request.minCreatedAt().toString());
+
+        }
+
+        if (request.maxCreatedAt() != null) {
+            sql += " AND created_at <= :maxCreatedAt";
+            params.addValue("maxCreatedAt", request.maxCreatedAt().toString());
+        }
+
+        return template.query(sql, params, getVoucherRowMapper());
     }
 
 
     @Override
-    public void updateById(UUID id, Voucher voucher) {
+    public void update(Voucher voucher) {
         String sql = "UPDATE vouchers SET amount = :amount WHERE id = :id";
 
         SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("id", id.toString())
+                .addValue("id", voucher.getId().toString())
                 .addValue("amount", voucher.getAmount());
 
         template.update(sql, params);
@@ -97,12 +123,9 @@ public class JdbcTemplateVoucherRepository implements VoucherRepository {
             UUID id = UUID.fromString(rs.getString("id"));
             VoucherType type = VoucherType.valueOf(rs.getString("type"));
             long amount = rs.getLong("amount");
+            LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
-            return switch (type) {
-                case FIXED_AMOUNT -> new FixedAmountVoucher(id, amount);
-                case PERCENT_DISCOUNT -> new PercentDiscountVoucher(id, amount);
-                default -> throw new IllegalArgumentException("Unknown VoucherType: " + type);
-            };
+            return VoucherFactory.create(id, type, amount, createdAt);
         };
     }
 }

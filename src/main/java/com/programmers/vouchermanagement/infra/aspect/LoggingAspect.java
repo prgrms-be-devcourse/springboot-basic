@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.infra;
+package com.programmers.vouchermanagement.infra.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 @Slf4j
-public class ShellCommandLoggingAspect {
+public class LoggingAspect {
     @Before("@annotation(org.springframework.shell.standard.ShellMethod)")
     public void beforeShellMethod(JoinPoint joinPoint) {
         String methodName = joinPoint.getSignature().getName();

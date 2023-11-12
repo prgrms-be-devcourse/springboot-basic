@@ -1,7 +1,7 @@
 package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -80,12 +80,30 @@ public class JdbcTemplateCustomerRepository implements CustomerRepository {
         String sql = "SELECT * FROM customers";
         MapSqlParameterSource params = new MapSqlParameterSource();
 
-        if (request.getBlacklisted() != null) {
+        if (request.blacklisted() != null) {
             sql += " WHERE blacklisted = :blacklisted";
-            params.addValue("blacklisted", request.getBlacklisted());
+            params.addValue("blacklisted", request.blacklisted());
         }
 
         return template.query(sql, params, getCustomerRowMapper());
+    }
+
+    @Override
+    public void update(Customer customer) {
+        String sql = "UPDATE customers SET email = :email, blacklisted = :blacklisted WHERE id = :id";
+
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", customer.getId().toString())
+                .addValue("email", customer.getEmail())
+                .addValue("blacklisted", customer.isBlacklisted());
+
+        template.update(sql, params);
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        String sql = "DELETE FROM customers WHERE id = :id";
+        template.update(sql, new MapSqlParameterSource("id", id.toString()));
     }
 
     @Override

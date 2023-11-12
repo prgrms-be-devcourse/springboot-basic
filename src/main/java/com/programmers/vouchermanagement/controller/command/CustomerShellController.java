@@ -1,7 +1,7 @@
-package com.programmers.vouchermanagement.controller;
+package com.programmers.vouchermanagement.controller.command;
 
-import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.response.CustomerResponseDto;
 import com.programmers.vouchermanagement.infra.io.ConsoleOutput;
 import com.programmers.vouchermanagement.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +17,11 @@ public class CustomerShellController {
 
     @ShellMethod(key = "blacklist")
     public void blacklist() {
-        GetCustomersRequestDto request = GetCustomersRequestDto.builder().blacklisted(true).build();
+        GetCustomersRequestDto request = new GetCustomersRequestDto(true);
 
-        List<Customer> customers = customerService.getCustomers(request);
+        List<CustomerResponseDto> customers = customerService.getCustomers(request);
 
-        for (Customer customer : customers) {
+        for (CustomerResponseDto customer : customers) {
             ConsoleOutput.println(customer.toString());
         }
     }

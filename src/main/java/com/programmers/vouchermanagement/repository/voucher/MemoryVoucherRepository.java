@@ -1,14 +1,18 @@
 package com.programmers.vouchermanagement.repository.voucher;
 
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
+import com.programmers.vouchermanagement.dto.voucher.request.GetVouchersRequestDto;
 import com.programmers.vouchermanagement.util.IdProvider;
 import com.programmers.vouchermanagement.util.UuidProvider;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-//@Repository
-//@Profile("local")
+@Deprecated
+@Repository
+@Profile("memory")
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage;
     private final IdProvider<UUID> idProvider;
@@ -19,9 +23,11 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public void save(Voucher voucher) {
-        voucher.setId(idProvider.generateId());
+    public UUID save(Voucher voucher) {
+        UUID id = idProvider.generateId();
+        voucher.setId(id);
         storage.put(voucher.getId(), voucher);
+        return id;
     }
 
     @Override
@@ -35,13 +41,13 @@ public class MemoryVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<Voucher> findAll(GetVouchersRequestDto request) {
         return storage.values().stream()
                 .collect(Collectors.toList());
     }
 
     @Override
-    public void updateById(UUID id, Voucher voucher) {
+    public void update(Voucher voucher) {
         unsupported();
     }
 

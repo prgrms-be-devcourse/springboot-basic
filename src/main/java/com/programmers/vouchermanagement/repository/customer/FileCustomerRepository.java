@@ -2,9 +2,10 @@ package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.config.properties.FileProperties;
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.dto.customer.GetCustomersRequestDto;
+import com.programmers.vouchermanagement.dto.customer.request.GetCustomersRequestDto;
 import com.programmers.vouchermanagement.util.CsvMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//@Repository
+@Deprecated
+@Repository
+@Profile("file")
 @Slf4j
 public class FileCustomerRepository implements CustomerRepository {
     private final Map<UUID, Customer> storage;
@@ -63,11 +66,21 @@ public class FileCustomerRepository implements CustomerRepository {
     public List<Customer> findAll(GetCustomersRequestDto request) {
         Stream<Customer> stream = storage.values().stream();
 
-        if (request.getBlacklisted()) {
+        if (request.blacklisted()) {
             stream = stream.filter(Customer::isBlacklisted);
         }
 
         return stream.collect(Collectors.toList());
+    }
+
+    @Override
+    public void update(Customer customer) {
+        unsupported();
+    }
+
+    @Override
+    public void deleteById(UUID id) {
+        unsupported();
     }
 
     @Override

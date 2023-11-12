@@ -1,8 +1,9 @@
 CREATE TABLE IF NOT EXISTS vouchers
 (
-    id     CHAR(36) PRIMARY KEY DEFAULT (UUID()),
-    type   VARCHAR(255) NOT NULL,
-    amount BIGINT       NOT NULL
+    id         CHAR(36) PRIMARY KEY  DEFAULT (UUID()),
+    type       VARCHAR(255) NOT NULL,
+    amount     BIGINT       NOT NULL,
+    created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS customers
@@ -18,6 +19,5 @@ CREATE TABLE IF NOT EXISTS wallets
     customer_id CHAR(36) NOT NULL,
     voucher_id  CHAR(36) NOT NULL,
     used        BOOLEAN  NOT NULL DEFAULT FALSE,
-    FOREIGN KEY (customer_id) REFERENCES customers (id),
-    FOREIGN KEY (voucher_id) REFERENCES vouchers (id)
+    UNIQUE (customer_id, voucher_id)
 );
