@@ -32,7 +32,7 @@ public class VoucherRestController {
             CreateVoucherRequest createVoucherRequest
     ) {
         VoucherResponse voucherResponse = voucherService.create(createVoucherRequest);
-        return ResponseEntity.created(URI.create("/customers/" + voucherResponse.id()))
+        return ResponseEntity.created(URI.create("/api/v1/vouchers/" + voucherResponse.id()))
                 .body(voucherResponse);
     }
 
