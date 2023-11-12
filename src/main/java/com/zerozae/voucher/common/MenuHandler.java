@@ -1,9 +1,9 @@
 package com.zerozae.voucher.common;
 
 import com.zerozae.voucher.common.response.Response;
-import com.zerozae.voucher.controller.customer.CustomerController;
-import com.zerozae.voucher.controller.voucher.VoucherController;
-import com.zerozae.voucher.controller.wallet.WalletController;
+import com.zerozae.voucher.controller.console.customer.CustomerController;
+import com.zerozae.voucher.controller.console.voucher.VoucherController;
+import com.zerozae.voucher.controller.console.wallet.WalletController;
 import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.VoucherType;
@@ -16,13 +16,11 @@ import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.dto.wallet.WalletCreateRequest;
 import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.view.ConsoleView;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.UUID;
 
-
-@Component
+@Deprecated
 public class MenuHandler {
 
     private final ConsoleView consoleView;
@@ -67,7 +65,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             Long discount = consoleView.inputNumber();
 
-            VoucherCreateRequest voucherRequest = new VoucherCreateRequest(discount, voucherType);
+            VoucherCreateRequest voucherRequest = new VoucherCreateRequest(discount, voucherType.toString());
             consoleView.printSystemMessage(voucherController.createVoucher(voucherRequest).getMessage());
         }catch (ExceptionMessage e) {
             throw ExceptionMessage.error(e.getMessage());
@@ -128,7 +126,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             UseStatusType newUseStatusType = UseStatusType.of(consoleView.inputVoucherType());
 
-            VoucherUpdateRequest updateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType);
+            VoucherUpdateRequest updateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType.toString());
             consoleView.printSystemMessage(voucherController.updateVoucher(voucherId, updateRequest).getMessage());
         }catch (Exception e) {
             throw ExceptionMessage.error(e.getMessage());
@@ -145,7 +143,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             CustomerType customerType = CustomerType.of(consoleView.inputCustomerType());
 
-            CustomerCreateRequest customerRequest = new CustomerCreateRequest(customerName, customerType);
+            CustomerCreateRequest customerRequest = new CustomerCreateRequest(customerName, customerType.toString());
             consoleView.printSystemMessage(customerController.createCustomer(customerRequest).getMessage());
         }catch (ExceptionMessage e) {
             throw ExceptionMessage.error(e.getMessage());
@@ -190,7 +188,7 @@ public class MenuHandler {
             consoleView.printSystemMessage("회원 타입을 입력하세요.");
             consoleView.printPrompt();
             CustomerType newCustomerType = CustomerType.of(consoleView.inputCustomerType());
-            CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newCustomerName, newCustomerType);
+            CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newCustomerName, newCustomerType.toString());
 
             consoleView.printSystemMessage(customerController.updateCustomer(customerId, customerRequest).getMessage());
         }catch (Exception e) {
@@ -229,7 +227,7 @@ public class MenuHandler {
             consoleView.printPrompt();
             UUID voucherId = UUID.fromString(consoleView.inputUuid());
 
-            WalletCreateRequest walletRequest = new WalletCreateRequest(customerId, voucherId);
+            WalletCreateRequest walletRequest = new WalletCreateRequest(customerId.toString(), voucherId.toString());
             consoleView.printSystemMessage(walletController.createWallet(walletRequest).getMessage());
         }catch (Exception e) {
             throw ExceptionMessage.error(e.getMessage());

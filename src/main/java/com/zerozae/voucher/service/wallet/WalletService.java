@@ -23,13 +23,21 @@ public class WalletService {
     }
 
     public WalletResponse createWallet(WalletCreateRequest walletRequest) {
-        if(isAlreadyExistWallet(walletRequest)){
+        if(isAlreadyExistWallet(walletRequest)) {
             throw ExceptionMessage.error("이미 존재하는 지갑입니다.");
         }
         Wallet wallet = walletRequest.to();
         walletRepository.save(wallet);
 
         return WalletResponse.toDto(wallet);
+    }
+
+    @Transactional(readOnly = true)
+    public List<WalletResponse> findAllWallets() {
+        return walletRepository.findAllWallets()
+                .stream()
+                .map(WalletResponse::toDto)
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -58,7 +66,7 @@ public class WalletService {
     }
 
     private boolean isAlreadyExistWallet(WalletCreateRequest walletRequest) {
-        Optional<Wallet> wallet = walletRepository.findWallet(walletRequest.getCustomerId(), walletRequest.getVoucherId());
+        Optional<Wallet> wallet = walletRepository.findWallet(UUID.fromString(walletRequest.customerId()), UUID.fromString(walletRequest.voucherId()));
         return wallet.isPresent();
     }
 }

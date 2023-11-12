@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<div class="container" style="max-width: 1000px">
+    <div class="py-5 text-center">
+        <h2>회원 목록</h2>
+    </div>
+
+    <div class="row" style="float: right">
+        <div class="col">
+            <button class="btn btn-primary"
+                    th:onclick="|location.href='@{/customers/createForm}'|"
+                    type="button">회원 생성</button>
+            <button class="btn btn-warning"
+                    th:onclick="|location.href='@{/}'|"
+                    type="button">홈으로</button>
+        </div>
+    </div>
+
+    <div style="margin-top: 10px">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>회원 ID</th>
+                <th>회원 이름</th>
+                <th>회원 타입</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+                <td><a th:href="@{|/customers/${customer.customerId}|}" th:text="${customer.customerId}">회원 ID</a></td>
+                <td th:text="${customer.customerName}">회원 이름</td>
+                <td th:text="${customer.customerType}">회원 타입</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

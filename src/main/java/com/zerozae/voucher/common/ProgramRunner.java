@@ -4,9 +4,8 @@ import com.zerozae.voucher.exception.ExceptionMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
-@Component
+@Deprecated
 public class ProgramRunner implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(ProgramRunner.class);

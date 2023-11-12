@@ -5,6 +5,7 @@ import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
+import com.zerozae.voucher.dto.voucher.VoucherCondition;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.exception.ExceptionMessage;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -13,12 +14,15 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import static com.zerozae.voucher.domain.voucher.VoucherType.FIXED;
+import static com.zerozae.voucher.domain.voucher.VoucherType.valueOf;
 import static com.zerozae.voucher.util.UuidConverter.toUUID;
 
 @Repository
@@ -29,11 +33,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
         long discount = resultSet.getLong("discount");
         VoucherType voucherType = VoucherType.valueOf(resultSet.getString("voucher_type"));
         UseStatusType useStatusType = UseStatusType.valueOf(resultSet.getString("use_status_type"));
+        LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
 
         if (voucherType.equals(FIXED)) {
-            return new FixedDiscountVoucher(voucherId, discount, useStatusType);
+            return new FixedDiscountVoucher(voucherId, discount, useStatusType, createdAt);
         } else {
-            return new PercentDiscountVoucher(voucherId, discount, useStatusType);
+            return new PercentDiscountVoucher(voucherId, discount, useStatusType, createdAt);
         }
     };
 
@@ -45,7 +50,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "insert into vouchers(voucher_id ,discount,voucher_type, use_status_type) values (UUID_TO_BIN(:voucherId), :discount, :voucherType, :useStatusType)";
+        String sql = "insert into vouchers(voucher_id ,discount,voucher_type, use_status_type, created_at) values (UUID_TO_BIN(:voucherId), :discount, :voucherType, :useStatusType, :createdAt)";
         int result = jdbcTemplate.update(
                 sql,
                 toParamMap(voucher));
@@ -99,19 +104,55 @@ public class JdbcVoucherRepository implements VoucherRepository {
         int result = jdbcTemplate.update(
                 sql,
                 Map.of(
-                        "discount", voucherUpdateRequest.getDiscount(),
-                        "useStatusType", voucherUpdateRequest.getUseStatusType().toString(),
+                        "discount", voucherUpdateRequest.discount(),
+                        "useStatusType", UseStatusType.of(voucherUpdateRequest.useStatusType()).toString(),
                         "voucherId", voucherId.toString().getBytes()));
 
         if(result != 1) {
             throw ExceptionMessage.error("바우처 업데이트에 실패했습니다.");
         }
     }
+
+    @Override
+    public List<Voucher> findVoucherByCondition(VoucherCondition condition) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM vouchers WHERE 1=1");
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource();
+
+        if (condition.startCreatedAt() == null && condition.voucherType() == null) {
+            return jdbcTemplate.query(sql.toString(), voucherRowMapper);
+        }
+
+        if (condition.startCreatedAt() != null) {
+            if(condition.endCreatedAt() != null) {
+                sql.append(" AND DATE(created_at) BETWEEN :createdAt AND :createdAt");
+                mapSqlParameterSource
+                        .addValue("createdAt", LocalDate.parse(condition.startCreatedAt()))
+                        .addValue("createdAt", LocalDate.parse(condition.endCreatedAt()));
+            }else {
+                sql.append(" AND DATE(created_at) = :createdAt");
+                mapSqlParameterSource.addValue("createdAt", LocalDate.parse(condition.startCreatedAt()));
+            }
+        }
+
+        if (condition.voucherType() != null) {
+            sql.append(" AND voucher_type = :voucherType");
+            mapSqlParameterSource.addValue("voucherType", VoucherType.of(condition.voucherType()).toString());
+        }
+
+        if (condition.discount() != null) {
+            sql.append(" AND discount = :discount");
+            mapSqlParameterSource.addValue("discount", condition.discount());
+        }
+
+        return jdbcTemplate.query(sql.toString(), mapSqlParameterSource, voucherRowMapper);
+    }
+
     private MapSqlParameterSource toParamMap(Voucher voucher) {
         return new MapSqlParameterSource()
                 .addValue("voucherId", voucher.getVoucherId().toString().getBytes())
                 .addValue("discount", voucher.getDiscount())
                 .addValue("voucherType", voucher.getVoucherType().toString())
-                .addValue("useStatusType", voucher.getUseStatusType().toString());
+                .addValue("useStatusType", voucher.getUseStatusType().toString())
+                .addValue("createdAt", voucher.getCreatedAt().toLocalDate());
     }
 }

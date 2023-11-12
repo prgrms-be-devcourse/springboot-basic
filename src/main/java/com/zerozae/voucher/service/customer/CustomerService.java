@@ -7,6 +7,7 @@ import com.zerozae.voucher.dto.customer.CustomerResponse;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import com.zerozae.voucher.exception.ExceptionMessage;
 import com.zerozae.voucher.repository.customer.CustomerRepository;
+import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +22,13 @@ public class CustomerService {
 
     private static final String CUSTOMER_NOT_FOUND_MESSAGE = "회원이 존재하지 않습니다.";
     private static final String ALREADY_EXIST_CUSTOMER_MESSAGE = "이미 존재하는 회원입니다.";
-    private final CustomerRepository customerRepository;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    private final CustomerRepository customerRepository;
+    private final WalletRepository walletRepository;
+
+    public CustomerService(CustomerRepository customerRepository, WalletRepository walletRepository) {
         this.customerRepository = customerRepository;
+        this.walletRepository = walletRepository;
     }
 
     public CustomerResponse createCustomer(CustomerCreateRequest customerRequest) {
@@ -33,7 +37,7 @@ public class CustomerService {
             Customer customer = customerRequest.to(UUID.randomUUID());
             customerRepository.save(customer);
             return CustomerResponse.toDto(customer);
-        }catch (ExceptionMessage e){
+        }catch (ExceptionMessage e) {
             throw ExceptionMessage.error(e.getMessage());
         }
     }
@@ -64,10 +68,12 @@ public class CustomerService {
     public void deleteById(UUID customerId) {
         customerRepository.findById(customerId).orElseThrow(() -> ExceptionMessage.error(CUSTOMER_NOT_FOUND_MESSAGE));
         customerRepository.delete(customerId);
+        walletRepository.deleteByCustomerId(customerId);
     }
 
     public void deleteAll() {
         customerRepository.deleteAll();
+        walletRepository.deleteAll();
     }
 
     public void update(UUID customerId, CustomerUpdateRequest customerRequest) {
@@ -78,7 +84,7 @@ public class CustomerService {
     private void validateDuplicateCustomer(CustomerCreateRequest customerRequest) {
         Optional<Customer> findCustomer = customerRepository.findAll()
                 .stream()
-                .filter(customer -> customer.getCustomerName().equals(customerRequest.getCustomerName()))
+                .filter(customer -> customer.getCustomerName().equals(customerRequest.customerName()))
                 .findAny();
 
         if(findCustomer.isPresent()) {

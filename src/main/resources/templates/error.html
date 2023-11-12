@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Error Page</title>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Error !</h2>
+        <br>
+        <p th:text="${error}"></p>
+    </div>
+    <div class="row">
+        <div class="col d-flex justify-content-center">
+            <button class="btn btn-primary btn-lg mx-1"
+                    th:onclick="goBack()" type="button">이전으로</button>
+            <button class="btn btn-secondary btn-lg mx-1"
+                    th:onclick="|location.href='@{/}'|" type="button">홈으로</button>
+        </div>
+    </div>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</div>
+</body>
+</html>

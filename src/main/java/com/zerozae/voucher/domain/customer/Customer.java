@@ -24,11 +24,11 @@ public class Customer {
     public void updateCustomerInfo(CustomerUpdateRequest customerRequest) {
         isValidCustomerName(customerRequest.getCustomerName());
         this.customerName = customerRequest.getCustomerName();
-        this.customerType = customerRequest.getCustomerType();
+        this.customerType = CustomerType.of(customerRequest.getCustomerType());
     }
 
     private void isValidCustomerName(String customerName) {
-        if(customerName == null || customerName.isBlank()){
+        if(customerName == null || customerName.isBlank()) {
             throw ExceptionMessage.error("회원 이름은 필수 입력 입니다.");
         }
     }

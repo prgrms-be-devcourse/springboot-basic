@@ -1,15 +1,15 @@
 package com.zerozae.voucher.dto.voucher;
 
-import com.zerozae.voucher.domain.voucher.VoucherType;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 
-@Getter
-public class VoucherCreateRequest {
+public record VoucherCreateRequest(@Min(value = 1, message = "할인 정보는 1이상의 숫자값을 입력해야 합니다.") long discount,
+                                   @NotNull(message = "바우처의 타입은 필수 입력란입니다.") String voucherType) {
 
-    private long discount;
-    private VoucherType voucherType;
-
-    public VoucherCreateRequest(long discount, VoucherType voucherType) {
+    public VoucherCreateRequest(long discount, String voucherType) {
         this.discount = discount;
         this.voucherType = voucherType;
     }

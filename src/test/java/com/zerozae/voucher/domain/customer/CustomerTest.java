@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class CustomerTest {
 
@@ -53,7 +54,7 @@ class CustomerTest {
 
         String newUsername = "zerozae";
         CustomerType newCustomerType = CustomerType.NORMAL;
-        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, newCustomerType);
+        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, String.valueOf(newCustomerType));
 
         // When
         createdCustomer.updateCustomerInfo(customerRequest);
@@ -74,7 +75,7 @@ class CustomerTest {
 
         String newUsername = "";
         CustomerType newCustomerType = CustomerType.NORMAL;
-        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, newCustomerType);
+        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest(newUsername, String.valueOf(newCustomerType));
 
         // When & Then
         assertThrows(ExceptionMessage.class, () -> {

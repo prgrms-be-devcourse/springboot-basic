@@ -1,8 +1,11 @@
 package com.zerozae.voucher.repository.voucher;
 
 import com.zerozae.voucher.domain.voucher.Voucher;
+import com.zerozae.voucher.domain.voucher.VoucherType;
+import com.zerozae.voucher.dto.voucher.VoucherCondition;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -50,5 +53,10 @@ public class MemoryVoucherRepository implements VoucherRepository {
     public void update(UUID voucherId, VoucherUpdateRequest voucherUpdateRequest) {
         Voucher voucher = vouchers.get(voucherId);
         voucher.updateVoucherInfo(voucherUpdateRequest);
+    }
+
+    @Override
+    public List<Voucher> findVoucherByCondition(VoucherCondition condition) {
+        return null;
     }
 }

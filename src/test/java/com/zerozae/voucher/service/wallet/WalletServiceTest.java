@@ -8,6 +8,7 @@ import com.zerozae.voucher.repository.wallet.WalletRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,22 +38,22 @@ class WalletServiceTest {
     @DisplayName("지갑 생성 성공 테스트")
     void createWallet_Success_Test() {
         // Given
-        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId(), wallet.voucherId());
+        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId().toString(), wallet.voucherId().toString());
         when(walletRepository.save(any(Wallet.class))).thenReturn(wallet);
 
         // When
         WalletResponse walletResponse = walletService.createWallet(walletRequest);
 
         // Then
-        assertEquals(walletRequest.getCustomerId(), walletResponse.getCustomerId());
-        assertEquals(walletRequest.getCustomerId(), walletResponse.getCustomerId());
+        assertEquals(walletRequest.customerId(), walletResponse.getCustomerId().toString());
+        assertEquals(walletRequest.customerId(), walletResponse.getCustomerId().toString());
     }
 
     @Test
     @DisplayName("지갑 생성 실패 (지갑이 이미 존재) 테스트")
     void createWallet_AlreadyExist_Failed_Test() {
         // Given
-        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId(), wallet.voucherId());
+        WalletCreateRequest walletRequest = new WalletCreateRequest(wallet.customerId().toString(), wallet.voucherId().toString());
         when(walletRepository.findWallet(wallet.customerId(), wallet.voucherId())).thenReturn(Optional.of(wallet));
 
         // When & Then
@@ -74,21 +75,39 @@ class WalletServiceTest {
         // Then
         assertEquals(wallets.get(0).getCustomerId(), wallet.customerId());
         assertEquals(wallets.get(0).getVoucherId(), wallet.voucherId());
+        verify(walletRepository).findByCustomerId(wallet.customerId());
     }
 
     @Test
     @DisplayName("바우처를 보유한 회원을 찾기 위해 바우처 아이디로 지갑 조회 성공 테스트")
-    void findWalletByVoucherId_Success_test() {
+    void findWalletByVoucherId_Success_Test() {
         // Given
-        List.of(wallet);
-        when(walletRepository.findByVoucherId(wallet.voucherId())).thenReturn(List.of(wallet));
+        List<Wallet> wallets = List.of(wallet);
+        when(walletRepository.findByVoucherId(wallet.voucherId())).thenReturn(wallets);
 
         // When
-        List<WalletResponse> wallets = walletService.findWalletByVoucherId(wallet.voucherId());
+        List<WalletResponse> walletResponses = walletService.findWalletByVoucherId(wallet.voucherId());
 
         // Then
-        assertEquals(wallets.get(0).getCustomerId(), wallet.customerId());
-        assertEquals(wallets.get(0).getVoucherId(), wallet.voucherId());
+        assertEquals(walletResponses.get(0).getCustomerId(), wallet.customerId());
+        assertEquals(walletResponses.get(0).getVoucherId(), wallet.voucherId());
+        verify(walletRepository).findByVoucherId(wallet.voucherId());
+    }
+
+    @Test
+    @DisplayName("지갑 전체 조회 테스트")
+    void findAllWallets_Success_Test() {
+        // Given
+        List<Wallet> wallets = List.of(wallet);
+        when(walletRepository.findAllWallets()).thenReturn(wallets);
+
+        // When
+        List<WalletResponse> walletResponses = walletService.findAllWallets();
+
+        // Then
+        assertEquals(walletResponses.get(0).getCustomerId(), wallet.customerId());
+        assertEquals(walletResponses.get(0).getVoucherId(), wallet.voucherId());
+        verify(walletRepository).findAllWallets();
     }
 
     @Test

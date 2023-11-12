@@ -1,7 +1,6 @@
 package com.zerozae.voucher.repository.customer;
 
 import com.zerozae.voucher.domain.customer.Customer;
-import com.zerozae.voucher.domain.customer.CustomerType;
 import com.zerozae.voucher.dto.customer.CustomerUpdateRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import static com.zerozae.voucher.domain.customer.CustomerType.BLACKLIST;
+import static com.zerozae.voucher.domain.customer.CustomerType.NORMAL;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -27,12 +28,12 @@ class MemoryCustomerRepositoryTest {
 
     @BeforeEach
     void setUp(){
-        normalCustomer = new Customer(UUID.randomUUID(), "normalUser", CustomerType.NORMAL);
-        blacklistCustomer= new Customer(UUID.randomUUID(), "blackUser", CustomerType.BLACKLIST);
+        normalCustomer = new Customer(UUID.randomUUID(), "normalUser", NORMAL);
+        blacklistCustomer= new Customer(UUID.randomUUID(), "blackUser", BLACKLIST);
     }
 
     @AfterEach
-    void cleanUp(){
+    void cleanUp() {
         customerRepository.deleteAll();
     }
 
@@ -129,13 +130,13 @@ class MemoryCustomerRepositoryTest {
     void updateCustomer_Success_Test() {
         // Given
         customerRepository.save(normalCustomer);
-        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest("진상 고객", CustomerType.BLACKLIST);
+        CustomerUpdateRequest customerRequest = new CustomerUpdateRequest("진상 고객", String.valueOf(BLACKLIST));
 
         // When
         customerRepository.update(normalCustomer.getCustomerId(), customerRequest);
 
         // Then
         assertEquals(normalCustomer.getCustomerName(), customerRequest.getCustomerName());
-        assertEquals(normalCustomer.getCustomerType(), customerRequest.getCustomerType());
+        assertEquals(normalCustomer.getCustomerType().toString(), customerRequest.getCustomerType());
     }
 }

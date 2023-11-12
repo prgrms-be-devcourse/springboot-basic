@@ -5,9 +5,12 @@ import com.zerozae.voucher.domain.voucher.PercentDiscountVoucher;
 import com.zerozae.voucher.domain.voucher.UseStatusType;
 import com.zerozae.voucher.domain.voucher.Voucher;
 import com.zerozae.voucher.domain.voucher.VoucherType;
+import com.zerozae.voucher.dto.voucher.VoucherCondition;
 import com.zerozae.voucher.dto.voucher.VoucherUpdateRequest;
 import com.zerozae.voucher.util.FileUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -68,6 +71,11 @@ public class FileVoucherRepository implements VoucherRepository {
         fileUtil.updateFile(getVoucherInfo(voucher), voucherId, FILE_PATH);
     }
 
+    @Override
+    public List<Voucher> findVoucherByCondition(VoucherCondition condition) {
+        return null;
+    }
+
     private String getVoucherInfo(Voucher voucher) {
         String voucherId = String.valueOf(voucher.getVoucherId());
         String discount = String.valueOf(voucher.getDiscount());
@@ -88,10 +96,11 @@ public class FileVoucherRepository implements VoucherRepository {
             long discount = Long.parseLong(voucherInfo[1]);
             VoucherType voucherType = VoucherType.valueOf(voucherInfo[2]);
             UseStatusType useStatusType = UseStatusType.valueOf(voucherInfo[3]);
+            LocalDateTime createdAt = LocalDateTime.parse(voucherInfo[4]);
 
             Voucher voucher = switch (voucherType) {
-                case FIXED -> new FixedDiscountVoucher(voucherId, discount, useStatusType);
-                case PERCENT -> new PercentDiscountVoucher(voucherId, discount, useStatusType);
+                case FIXED -> new FixedDiscountVoucher(voucherId, discount, useStatusType, createdAt);
+                case PERCENT -> new PercentDiscountVoucher(voucherId, discount, useStatusType, createdAt);
             };
             loadedVouchers.put(voucherId, voucher);
         }

@@ -5,7 +5,8 @@ import com.zerozae.voucher.exception.ExceptionMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class VoucherTest {
 
@@ -44,7 +45,7 @@ class VoucherTest {
         long newDiscount = 20L;
         UseStatusType newUseStatusType = UseStatusType.UNAVAILABLE;
 
-        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType);
+        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(newDiscount, String.valueOf(newUseStatusType));
 
         // When
         voucher.updateVoucherInfo(voucherUpdateRequest);
@@ -65,7 +66,7 @@ class VoucherTest {
         long newDiscount = -20L;
         UseStatusType newUseStatusType = UseStatusType.UNAVAILABLE;
 
-        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(newDiscount, newUseStatusType);
+        VoucherUpdateRequest voucherUpdateRequest = new VoucherUpdateRequest(newDiscount, String.valueOf(newUseStatusType));
 
         // When & Then
         assertThrows(ExceptionMessage.class, () -> {
