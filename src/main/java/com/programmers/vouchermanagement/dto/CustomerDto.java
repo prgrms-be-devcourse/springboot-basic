@@ -1,31 +1,41 @@
 package com.programmers.vouchermanagement.dto;
 
+import com.programmers.vouchermanagement.domain.customer.Customer;
+
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class CustomerDto {
-    public static class Create {
-        public UUID id;
-        public String name;
-        public LocalDateTime createdAt;
-        public boolean isBanned;
 
-        public Create(String name) {
-            this.name = name;
+    public record CreateRequest(String name) {
+    }
+
+    public static class Response {
+        private final String id;
+        private final String name;
+        private final LocalDateTime createdAt;
+        private final boolean isBanned;
+
+        public Response(Customer customer) {
+            this.id = customer.getId().toString();
+            this.name = customer.getName();
+            this.createdAt = customer.getCreatedAt();
+            this.isBanned = customer.isBanned();
         }
 
-        public Create(UUID id, String name, LocalDateTime createdAt, boolean isBanned) {
-            this.id = id;
-            this.name = name;
-            this.createdAt = createdAt;
-            this.isBanned = isBanned;
+        public String getId() {
+            return id;
         }
 
-        public Create(String[] customerInfo) {
-            this.id = UUID.fromString(customerInfo[0]);
-            this.name = customerInfo[1];
-            this.createdAt = LocalDateTime.parse(customerInfo[2]);
-            this.isBanned = Boolean.parseBoolean(customerInfo[3]);
+        public String getName() {
+            return name;
+        }
+
+        public LocalDateTime getCreatedAt() {
+            return createdAt;
+        }
+
+        public boolean isBanned() {
+            return isBanned;
         }
     }
 }

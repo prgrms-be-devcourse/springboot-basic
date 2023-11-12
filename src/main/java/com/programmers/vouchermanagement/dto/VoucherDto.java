@@ -1,38 +1,53 @@
 package com.programmers.vouchermanagement.dto;
 
+import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class VoucherDto {
-    public static class Create {
-        public UUID voucherId;
-        public String voucherName;
-        public float discountAmount;
-        public LocalDateTime createdAt;
-        public VoucherType voucherType;
+    public record CreateRequest(String name, float discountAmount, VoucherType voucherType) {
+    }
 
-        public Create(String voucherName, float discountAmount, VoucherType voucherType) {
-            this.voucherName = voucherName;
-            this.discountAmount = discountAmount;
-            this.voucherType = voucherType;
+    public record GetRequest(String voucherId,
+                             VoucherType voucherType,
+                             LocalDateTime startDate,
+                             LocalDateTime endDate) {
+    }
+
+    public static class Response {
+        private final String id;
+        private final String name;
+        private final float discountAmount;
+        private final LocalDateTime createdAt;
+        private final VoucherType voucherType;
+
+        public Response(Voucher voucher) {
+            this.id = voucher.getId().toString();
+            this.name = voucher.getName();
+            this.discountAmount = voucher.getDiscountAmount();
+            this.createdAt = voucher.getCreatedAt();
+            this.voucherType = voucher.getVoucherType();
         }
 
-        public Create(UUID voucherId, String voucherName, float discountAmount, LocalDateTime createdAt, VoucherType voucherType) {
-            this.voucherId = voucherId;
-            this.voucherName = voucherName;
-            this.discountAmount = discountAmount;
-            this.createdAt = createdAt;
-            this.voucherType = voucherType;
+        public String getId() {
+            return id;
         }
 
-        public Create(String[] voucherInfo) {
-            this.voucherId = UUID.fromString(voucherInfo[0]);
-            this.voucherName = voucherInfo[1];
-            this.discountAmount = Float.parseFloat(voucherInfo[2]);
-            this.createdAt = LocalDateTime.parse(voucherInfo[3]);
-            this.voucherType = VoucherType.valueOf(voucherInfo[4]);
+        public String getName() {
+            return name;
+        }
+
+        public float getDiscountAmount() {
+            return discountAmount;
+        }
+
+        public LocalDateTime getCreatedAt() {
+            return createdAt;
+        }
+
+        public VoucherType getVoucherType() {
+            return voucherType;
         }
     }
 }

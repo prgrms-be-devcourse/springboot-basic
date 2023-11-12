@@ -4,7 +4,6 @@ package com.programmers.vouchermanagement.repository.voucher;
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
 import com.programmers.vouchermanagement.domain.voucher.VoucherType;
-import com.programmers.vouchermanagement.dto.VoucherDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -12,11 +11,11 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -51,18 +50,29 @@ public class JdbcVoucherRepository implements VoucherRepository {
         return jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToVoucher(resultSet)).stream().findFirst();
     }
 
+    public List<Voucher> findByTypeAndDates(String voucherType, LocalDate startDate, LocalDate endDate) {
+        String sql = "SELECT * FROM voucher WHERE created_at BETWEEN :startDate AND :endDate";
+
+        MapSqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("startDate", startDate)
+                .addValue("endDate", endDate);
+
+        if (voucherType != null && !voucherType.isBlank()) {
+            sql += " AND voucher_type = :voucherType";
+            namedParameters.addValue("voucherType", voucherType);
+        }
+
+        return jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToVoucher(resultSet));
+    }
+
     @Override
     public List<Voucher> findByNameLike(String name) {
         String sql = "SELECT * FROM voucher WHERE name LIKE :hasName";
         SqlParameterSource namedParameters = new MapSqlParameterSource("hasName", "%" + name + "%");
-        return jdbcTemplate.query(
-                sql,
-                namedParameters,
-                (resultSet, i) -> mapToVoucher(resultSet));
+        return jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToVoucher(resultSet));
     }
 
     @Override
-    @Transactional
     public Voucher save(Voucher voucher) {
         String sql = "INSERT INTO voucher (id, name, discount_amount, created_at, voucher_type) VALUES (UUID_TO_BIN(:id), :name, :discountAmount, :createdAt, :voucherType)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -78,7 +88,6 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    @Transactional
     public int delete(UUID id) {
         String sql = "DELETE FROM voucher WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -89,14 +98,13 @@ public class JdbcVoucherRepository implements VoucherRepository {
     }
 
     private Voucher mapToVoucher(ResultSet resultSet) throws SQLException {
-        VoucherDto.Create voucherDto = new VoucherDto.Create(
+        return VoucherFactory.createVoucher(
                 toUUID(resultSet.getBytes("id")),
                 resultSet.getString("name"),
                 resultSet.getFloat("discount_amount"),
                 resultSet.getTimestamp("created_at").toLocalDateTime(),
                 VoucherType.valueOf(resultSet.getString("voucher_type").toUpperCase())
         );
-        return VoucherFactory.createVoucher(voucherDto);
     }
 
     private UUID toUUID(byte[] bytes) {

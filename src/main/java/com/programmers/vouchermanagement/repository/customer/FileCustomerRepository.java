@@ -1,7 +1,6 @@
 package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.dto.CustomerDto;
 import com.programmers.vouchermanagement.utils.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -86,7 +85,7 @@ public class FileCustomerRepository implements CustomerRepository {
         final List<String> lines = CsvFileUtil.readCsvFile(csvFilePath);
         lines.forEach(line -> {
             String[] customerInfo = line.split(CSV_SEPARATOR);
-            final Customer customer = new Customer(new CustomerDto.Create(customerInfo));
+            final Customer customer = new Customer(customerInfo);
             customers.put(customer.getId(), customer);
         });
     }

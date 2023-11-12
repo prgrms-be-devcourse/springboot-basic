@@ -11,6 +11,10 @@ spring:
   config:
     activate:
       on-profile: dev
+  mvc:
+    view:
+      prefix: "resources/templates/"
+      suffix: ".html"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/order_management

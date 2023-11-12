@@ -2,7 +2,6 @@ package com.programmers.vouchermanagement.repository.voucher;
 
 import com.programmers.vouchermanagement.domain.voucher.Voucher;
 import com.programmers.vouchermanagement.domain.voucher.VoucherFactory;
-import com.programmers.vouchermanagement.dto.VoucherDto;
 import com.programmers.vouchermanagement.utils.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -11,11 +10,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 @Repository
 @Profile("local")
@@ -55,8 +57,23 @@ public class FileVoucherRepository implements VoucherRepository {
     @Override
     public List<Voucher> findByNameLike(String name) {
         return vouchers.values().stream()
-                .filter(voucher -> voucher.getName().contains(name))
+                .filter(voucher -> voucher.containsName(name))
                 .toList();
+    }
+
+    @Override
+    public List<Voucher> findByTypeAndDates(String voucherType, LocalDate startDate, LocalDate endDate) {
+        Stream<Voucher> voucherStream = vouchers.values().stream();
+        if (voucherType != null && !voucherType.isBlank()) {
+            voucherStream = voucherStream.filter(voucher -> voucherType.equals(voucher.getVoucherType().toString()));
+        }
+        if (startDate != null && endDate != null) {
+            voucherStream = voucherStream.filter(voucher ->
+                    voucher.getCreatedAt().isAfter(startDate.atStartOfDay()) &&
+                            voucher.getCreatedAt().isBefore(atEndOfDay(endDate))
+            );
+        }
+        return voucherStream.toList();
     }
 
     @Override
@@ -74,16 +91,19 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     public void readFile() {
-
         final List<String> lines = CsvFileUtil.readCsvFile(csvFilePath);
         lines.forEach(line -> {
             String[] voucherInfo = line.split(CSV_SEPARATOR);
-            Voucher voucher = VoucherFactory.createVoucher(new VoucherDto.Create(voucherInfo));
+            Voucher voucher = VoucherFactory.createVoucher(voucherInfo);
             vouchers.put(voucher.getId(), voucher);
         });
     }
 
     private void updateFile() {
         CsvFileUtil.updateCsvFile(csvFilePath, vouchers.values().stream().toList());
+    }
+
+    private LocalDateTime atEndOfDay(LocalDate date) {
+        return date.atTime(23, 59, 59);
     }
 }

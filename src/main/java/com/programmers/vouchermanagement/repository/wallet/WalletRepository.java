@@ -7,6 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface WalletRepository {
+
+    boolean existsByCustomerIdAndVoucherId(UUID customerId, UUID voucherId);
+
     List<Wallet> findAll();
 
     Optional<Wallet> findById(UUID id);

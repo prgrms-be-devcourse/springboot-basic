@@ -25,9 +25,8 @@ public class Wallet {
         return voucherId;
     }
 
-    @Override
-    public String toString() {
-        return "============= Wallet =============" +
+    public String getDetailInfo() {
+        return "============= Wallet =============" + System.lineSeparator() +
                 "Id          : " + id + System.lineSeparator() +
                 "Customer Id : " + customerId + System.lineSeparator() +
                 "Voucher Id  : " + voucherId + System.lineSeparator();

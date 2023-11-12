@@ -24,10 +24,10 @@ class CustomerServiceTest {
     @Mock
     private CustomerRepository customerRepository;
     private final List<Customer> testCustomers = new ArrayList<>();
-    private final Customer customer1 = new Customer(new CustomerDto.Create("user1"));
-    private final Customer customer2 = new Customer(new CustomerDto.Create("user2"));
-    private final Customer customer3 = new Customer(new CustomerDto.Create("user3"));
-    private final Customer customer4 = new Customer(new CustomerDto.Create("user4"));
+    private final Customer customer1 = new Customer(new CustomerDto.CreateRequest("user1"));
+    private final Customer customer2 = new Customer(new CustomerDto.CreateRequest("user2"));
+    private final Customer customer3 = new Customer(new CustomerDto.CreateRequest("user3"));
+    private final Customer customer4 = new Customer(new CustomerDto.CreateRequest("user4"));
 
     @Test
     void 모든_고객을_가져올_수_있다() {
@@ -58,6 +58,29 @@ class CustomerServiceTest {
     }
 
     @Test
+    void ID로_고객_이름을_가져올_수_있다() {
+        //given
+        doReturn(Optional.ofNullable(customer1)).when(customerRepository).findById(customer1.getId());
+
+        //when
+        final String customerName = customerService.findCustomerNameById(customer1.getId());
+
+        //then
+        assertThat(customerName).isEqualTo(customer1.getName());
+    }
+
+    @Test
+    void 존재하지_않는_ID로_고객을_가져올_수_없다() {
+        //given
+        doReturn(Optional.empty()).when(customerRepository).findById(customer1.getId());
+
+        //when&then
+        assertThatThrownBy(() -> customerService.findCustomerById(customer1.getId()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
+    }
+
+    @Test
     void 이름에_특정문자열이_포함된_고객을_가져올_수_있다() {
         //given
         final List<Customer> singletonCustomers = Collections.singletonList(customer2);
@@ -74,7 +97,7 @@ class CustomerServiceTest {
     void 원하는_이름으로_고객을_생성할_수_있다() {
         //given
         String name = "customName";
-        CustomerDto.Create customerDto = new CustomerDto.Create(name);
+        CustomerDto.CreateRequest customerDto = new CustomerDto.CreateRequest(name);
         Customer customer = new Customer(customerDto);
         doReturn(customer).when(customerRepository).save(any(Customer.class));
         doReturn(Optional.empty()).when(customerRepository).findByName(name);
@@ -90,7 +113,7 @@ class CustomerServiceTest {
     void 고객의_이름은_중복될_수_없다() {
         //given
         String name = "customName";
-        CustomerDto.Create customerDto = new CustomerDto.Create(name);
+        CustomerDto.CreateRequest customerDto = new CustomerDto.CreateRequest(name);
         Customer customer = new Customer(customerDto);
         doReturn(Optional.ofNullable(customer)).when(customerRepository).findByName(name);
 
@@ -103,10 +126,54 @@ class CustomerServiceTest {
     @Test
     void 존재하지_않는_고객을_삭제할_수_없다() {
         //given
-        doReturn(0).when(customerRepository).delete(any(UUID.class));
+        doReturn(Optional.empty()).when(customerRepository).findById(any(UUID.class));
 
         //when&then
         assertThatThrownBy(() -> customerService.deleteCustomer(UUID.randomUUID()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
+    }
+
+    @Test
+    void 고객을_정지_시킬_수_있다() {
+        //given
+        doReturn(Optional.ofNullable(customer1)).when(customerRepository).findById(any(UUID.class));
+        Customer bannedCustomer = new Customer(customer1.getId(), customer1.getName(), customer1.getCreatedAt(), true);
+        doReturn(bannedCustomer).when(customerRepository).update(customer1);
+
+        //when
+        final Customer customer = customerService.banCustomer(customer1.getId());
+
+        //then
+        assertThat(customer).isEqualTo(bannedCustomer);
+    }
+
+    @Test
+    void 고객을_정지_해제할_수_있다() {
+        //given
+        Customer bannedCustomer = new Customer(customer1.getId(), customer1.getName(), customer1.getCreatedAt(), true);
+        doReturn(Optional.ofNullable(bannedCustomer)).when(customerRepository).findById(any(UUID.class));
+        doReturn(customer1).when(customerRepository).update(bannedCustomer);
+
+        //when
+        final Customer customer = customerService.unbanCustomer(bannedCustomer.getId());
+
+        //then
+        assertThat(customer).isEqualTo(customer1);
+    }
+
+    @Test
+    void 존재하지_않는_고객을_정지_또는_정지_해제할_수_없다() {
+        //given
+        doReturn(Optional.empty()).when(customerRepository).findById(any(UUID.class));
+
+        //when&then
+        assertThatThrownBy(() -> customerService.banCustomer(UUID.randomUUID()))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessageContaining(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
+
+        //when&then
+        assertThatThrownBy(() -> customerService.unbanCustomer(UUID.randomUUID()))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessageContaining(ErrorMessage.CUSTOMER_NOT_FOUND_MESSAGE.getMessage());
     }

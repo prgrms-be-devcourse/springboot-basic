@@ -38,6 +38,12 @@ public abstract class Voucher implements CsvConvertable {
 
     public abstract void validateDiscountAmount(float discountAmount);
 
-    @Override
-    public abstract String joinInfo(String separator);
+    public boolean containsName(String keyword) {
+        if (keyword == null || name == null) {
+            return false;
+        }
+        return name.contains(keyword);
+    }
+    
+    public abstract String getDetailInfo();
 }

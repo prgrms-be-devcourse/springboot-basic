@@ -12,13 +12,25 @@ public class Customer implements CsvConvertable {
     private final LocalDateTime createdAt;
     private boolean isBanned;
 
-    public Customer(CustomerDto.Create customerDto) {
-        if (customerDto.id == null) customerDto.id = UUID.randomUUID();
-        if (customerDto.createdAt == null) customerDto.createdAt = LocalDateTime.now();
-        this.id = customerDto.id;
-        this.name = customerDto.name;
-        this.createdAt = customerDto.createdAt;
-        this.isBanned = customerDto.isBanned;
+    public Customer(CustomerDto.CreateRequest customerDto) {
+        this.id = UUID.randomUUID();
+        this.name = customerDto.name();
+        this.createdAt = LocalDateTime.now();
+        this.isBanned = false;
+    }
+
+    public Customer(String[] customerInfo) {
+        this.id = UUID.fromString(customerInfo[0]);
+        this.name = customerInfo[1];
+        this.createdAt = LocalDateTime.parse(customerInfo[2]);
+        this.isBanned = Boolean.parseBoolean(customerInfo[3]);
+    }
+
+    public Customer(UUID id, String name, LocalDateTime createdAt, boolean isBanned) {
+        this.id = id;
+        this.name = name;
+        this.createdAt = createdAt;
+        this.isBanned = isBanned;
     }
 
     public UUID getId() {
@@ -45,8 +57,7 @@ public class Customer implements CsvConvertable {
         this.isBanned = false;
     }
 
-    @Override
-    public String toString() {
+    public String getDetailInfo() {
         return System.lineSeparator() +
                 "############# Customer #############" + System.lineSeparator() +
                 "Customer Id    : " + id + System.lineSeparator() +
@@ -59,5 +70,4 @@ public class Customer implements CsvConvertable {
     public String joinInfo(String separator) {
         return String.join(separator, id.toString(), name, createdAt.toString(), String.valueOf(isBanned));
     }
-
 }

@@ -25,6 +25,15 @@ public class JdbcWalletRepository implements WalletRepository {
     }
 
     @Override
+    public boolean existsByCustomerIdAndVoucherId(UUID customerId, UUID voucherId) {
+        String sql = "SELECT * FROM wallet WHERE customer_id = UUID_TO_BIN(:customerId) AND voucher_id = UUID_TO_BIN(:voucherId)";
+        SqlParameterSource namedParameters = new MapSqlParameterSource()
+                .addValue("customerId", customerId.toString())
+                .addValue("voucherId", voucherId.toString());
+        return !jdbcTemplate.query(sql, namedParameters, (resultSet, i) -> mapToWallet(resultSet)).isEmpty();
+    }
+
+    @Override
     public List<Wallet> findAll() {
         String sql = "SELECT * FROM wallet";
         return jdbcTemplate.query(sql, (resultSet, i) -> mapToWallet(resultSet));

@@ -1,7 +1,6 @@
 package com.programmers.vouchermanagement.repository.customer;
 
 import com.programmers.vouchermanagement.domain.customer.Customer;
-import com.programmers.vouchermanagement.dto.CustomerDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -9,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.ByteBuffer;
 import java.sql.ResultSet;
@@ -66,7 +64,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    @Transactional
     public Customer save(Customer customer) {
         String sql = "INSERT INTO customer (id, name, created_at, is_banned) VALUES (UUID_TO_BIN(:id), :name, :createdAt, :isBanned)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -80,7 +77,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    @Transactional
     public Customer update(Customer customer) {
         String sql = "UPDATE customer SET name = :name, created_at = :createdAt, is_banned = :isBanned WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -94,7 +90,6 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     @Override
-    @Transactional
     public int delete(UUID id) {
         String sql = "DELETE FROM customer WHERE id = UUID_TO_BIN(:id)";
         SqlParameterSource namedParameters = new MapSqlParameterSource()
@@ -109,7 +104,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
         final String name = resultSet.getString("name");
         final LocalDateTime createdAt = resultSet.getTimestamp("created_at").toLocalDateTime();
         final boolean isBanned = resultSet.getBoolean("is_banned");
-        return new Customer(new CustomerDto.Create(id, name, createdAt, isBanned));
+        return new Customer(id, name, createdAt, isBanned);
     }
 
     private UUID toUUID(byte[] bytes) {

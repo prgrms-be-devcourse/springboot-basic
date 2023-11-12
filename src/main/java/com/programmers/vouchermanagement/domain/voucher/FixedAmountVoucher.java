@@ -30,7 +30,7 @@ public class FixedAmountVoucher extends Voucher {
     }
 
     @Override
-    public String toString() {
+    public String getDetailInfo() {
         return System.lineSeparator() +
                 "++++++ Fixed Amount voucher ++++++" + System.lineSeparator() +
                 "Voucher Id     : " + id + System.lineSeparator() +
