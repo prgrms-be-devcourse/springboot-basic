@@ -1,10 +1,12 @@
 package com.pgms.part1.domain.voucher.service;
 
-import com.pgms.part1.domain.voucher.dto.VoucherCreateRequestDto;
 import com.pgms.part1.domain.voucher.dto.VoucherResponseDto;
+import com.pgms.part1.domain.voucher.dto.VoucherWebCreateRequestDto;
 import com.pgms.part1.domain.voucher.entity.Voucher;
 import com.pgms.part1.domain.voucher.entity.VoucherDiscountType;
 import com.pgms.part1.domain.voucher.repository.VoucherRepository;
+import com.pgms.part1.exception.ErrorCode;
+import com.pgms.part1.exception.VoucherApplicationException;
 import com.pgms.part1.util.keygen.KeyGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,17 +29,17 @@ public class VoucherService {
         this.keyGenerator = keyGenerator;
     }
 
-    public Voucher createVoucher(VoucherCreateRequestDto voucherCreateRequestDto, VoucherDiscountType voucherDiscountType) {
-        Voucher voucher = Voucher.newVocher(keyGenerator.getKey(), voucherCreateRequestDto.discount(), voucherDiscountType);
+    public void isVoucherExist(Long id){
+        voucherRepository.findVoucherById(id).orElseThrow(() -> new VoucherApplicationException(ErrorCode.VOUCHER_NOT_EXIST));
+    }
 
-        try{
-            voucherRepository.add(voucher);
-            log.info("Voucher {} added", voucher.getId());
-        }
-        catch(Exception e){
-            log.info(e.getMessage());
-        }
-        return voucher;
+    public VoucherResponseDto createVoucher(VoucherWebCreateRequestDto voucherCreateRequestDto) {
+        Voucher voucher = Voucher.newVocher(keyGenerator.getKey(), voucherCreateRequestDto.getDiscount(),  voucherCreateRequestDto.getVoucherDiscountType());
+
+        voucherRepository.add(voucher);
+        log.info("Voucher {} added", voucher.getId());
+
+        return new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType());
     }
 
     @Transactional(readOnly = true)
@@ -48,6 +50,27 @@ public class VoucherService {
     }
 
     public void deleteVoucher(Long id){
+        isVoucherExist(id);
         voucherRepository.delete(id);
+    }
+
+    @Transactional(readOnly = true)
+    public VoucherResponseDto getVoucherById(Long id) {
+        Voucher voucher = voucherRepository.findVoucherById(id).orElseThrow(() -> new VoucherApplicationException(ErrorCode.VOUCHER_NOT_EXIST));
+        return new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType());
+    }
+
+    @Transactional(readOnly = true)
+    public List<VoucherResponseDto> findVouchersByCreatedDateAndType(String date, VoucherDiscountType type) {
+        isValidDateForm(date);
+
+        List<Voucher> vouchers = voucherRepository.findVoucherByFilter(date, type);
+        return vouchers.stream().map(voucher -> new VoucherResponseDto(voucher.getId(), voucher.getDiscount(), voucher.getVoucherDiscountType()))
+                .toList();
+    }
+
+    private void isValidDateForm(String date) {
+        if(date != null && !date.matches("^[0-9]{4}-[0-9]{2}-[0-9]{2}$"))
+            throw new VoucherApplicationException(ErrorCode.INVALID_INPUT_DATA);
     }
 }
