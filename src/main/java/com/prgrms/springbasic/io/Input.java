@@ -1,6 +1,6 @@
 package com.prgrms.springbasic.io;
 
-import com.prgrms.springbasic.common.MenuType;
+import com.prgrms.springbasic.console.MenuType;
 
 import java.util.UUID;
 

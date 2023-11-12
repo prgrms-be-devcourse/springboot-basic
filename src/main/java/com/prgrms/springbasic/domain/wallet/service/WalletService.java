@@ -11,6 +11,7 @@ import com.prgrms.springbasic.domain.wallet.dto.WalletResponse;
 import com.prgrms.springbasic.domain.wallet.entity.Wallet;
 import com.prgrms.springbasic.domain.wallet.repository.JdbcWalletRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,33 +28,35 @@ public class WalletService {
         this.jdbcWalletRepository = jdbcWalletRepository;
     }
 
+    @Transactional
     public WalletResponse saveWallet(WalletRequest request) {
-        Customer customer = findCustomer(request.customer_id());
-        Voucher voucher = findVoucher(request.voucher_id());
+        Customer customer = findCustomer(request.customerId());
+        Voucher voucher = findVoucher(request.voucherId());
         Wallet wallet = jdbcWalletRepository.saveWallet(new Wallet(UUID.randomUUID(), customer.getCustomerId(), voucher.getVoucherId()));
         return WalletResponse.from(wallet);
     }
 
+    @Transactional(readOnly = true)
     public List<VoucherResponse> getVouchersByCustomerId(UUID customerId) {
-        List<Wallet> wallets = jdbcWalletRepository.findWalletsByCustomerId(findCustomer(customerId).getCustomerId());
+        List<Voucher> vouchers = jdbcWalletRepository.findVouchersByCustomerId(customerId);
 
-        return wallets.stream()
-                .map(wallet -> findVoucher(wallet.getVoucher_id()))
+        return vouchers.stream()
                 .map(VoucherResponse::from)
                 .toList();
     }
 
+    @Transactional(readOnly = true)
     public List<CustomerResponse> getCustomersByVoucherId(UUID voucherId) {
-        List<Wallet> wallets = jdbcWalletRepository.findWalletsByVoucherId(findVoucher(voucherId).getVoucherId());
+        List<Customer> customers = jdbcWalletRepository.findCustomersByVoucherId(voucherId);
 
-        return wallets.stream()
-                .map(wallet -> findCustomer(wallet.getCustomer_id()))
+        return customers.stream()
                 .map(CustomerResponse::from)
                 .toList();
     }
 
+    @Transactional
     public void deleteVoucher(WalletRequest request) {
-        Wallet wallet = jdbcWalletRepository.findWalletByCustomerAndVoucher(request.customer_id(), request.voucher_id())
+        Wallet wallet = jdbcWalletRepository.findWalletByCustomerAndVoucher(request.customerId(), request.voucherId())
                 .orElseThrow(() -> new IllegalArgumentException("Wallet not found"));
         jdbcWalletRepository.deleteWallet(wallet);
     }

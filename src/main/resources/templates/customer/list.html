@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <title>고객 목록</title>
+</head>
+<body>
+<div class="container" style="max-width: 900px">
+    <div class="py-5 text-center">
+        <h2>고객 목록</h2>
+    </div>
+    <div class="row">
+        <div class="col text-end">
+            <button class="btn btn-primary me-2" onclick="location.href='/customers/create-form'" type="button">고객 등록</button>
+            <button class="btn btn-primary" onclick="location.href='/'" type="button">메인</button>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Is BlackList</th>
+            </tr>
+            </thead>
+            <tbody th:each="customer : ${customers}">
+            <tr>
+                <td th:text="${customer.customerId()}"></td>
+                <td th:text="${customer.name()}"></td>
+                <td th:text="${customer.email()}"></td>
+                <td th:text="${customer.isBlackList()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

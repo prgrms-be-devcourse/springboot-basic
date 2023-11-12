@@ -1,5 +1,6 @@
 package com.prgrms.springbasic.domain.customer.service;
 
+import com.prgrms.springbasic.common.exception.DuplicateResourceException;
 import com.prgrms.springbasic.domain.customer.dto.CreateCustomerRequest;
 import com.prgrms.springbasic.domain.customer.dto.CustomerResponse;
 import com.prgrms.springbasic.domain.customer.entity.Customer;
@@ -58,7 +59,7 @@ class CustomerServiceTest {
         when(customerRepository.findCustomerByEmail("test1@gmail.com")).thenReturn(Optional.of(existingCustomer));
 
         assertThatThrownBy(() -> customerService.createCustomer(request))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(DuplicateResourceException.class)
                 .hasMessage("Email already exists: test1@gmail.com");
         verify(customerRepository).findCustomerByEmail("test1@gmail.com");
     }

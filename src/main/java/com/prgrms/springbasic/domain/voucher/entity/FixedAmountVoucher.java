@@ -1,18 +1,21 @@
 package com.prgrms.springbasic.domain.voucher.entity;
 
+import com.prgrms.springbasic.common.exception.InvalidValueException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class FixedAmountVoucher extends Voucher {
     private static final Logger logger = LoggerFactory.getLogger(FixedAmountVoucher.class);
 
-    public FixedAmountVoucher(UUID voucherId, DiscountType discountType, long discountValue) {
+    public FixedAmountVoucher(UUID voucherId, DiscountType discountType, long discountValue, LocalDateTime createdAt) {
         checkValidation(discountValue);
         this.voucherId = voucherId;
         this.discountType = discountType;
         this.discountValue = discountValue;
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -24,7 +27,7 @@ public class FixedAmountVoucher extends Voucher {
     private static void checkValidation(long discountValue) {
         if (discountValue < 0) {
             logger.warn("discount value should be positive. Inserted discount value : {}", discountValue);
-            throw new IllegalArgumentException("discount value should be positive");
+            throw new InvalidValueException("Fixed discount value should be positive");
         }
     }
 

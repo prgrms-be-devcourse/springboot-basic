@@ -1,5 +1,7 @@
 package com.prgrms.springbasic.domain.voucher.entity;
 
+import com.prgrms.springbasic.common.exception.InvalidValueException;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,7 +11,13 @@ public enum DiscountType {
     ;
 
     public static DiscountType find(String type) {
-        return DiscountType.valueOf(type.toUpperCase());
+        String upperCase = type.toUpperCase();
+        for (DiscountType discountType : values()) {
+            if (discountType.name().equals(upperCase)) {
+                return discountType;
+            }
+        }
+        throw new InvalidValueException("Invalid DiscountType. Inserted type : " + type);
     }
 
     public static List<String> allowedDiscountTypes() {

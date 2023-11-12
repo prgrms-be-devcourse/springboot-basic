@@ -1,5 +1,6 @@
 package com.prgrms.springbasic.domain.voucher.repository;
 
+import com.prgrms.springbasic.domain.voucher.entity.DiscountType;
 import com.prgrms.springbasic.domain.voucher.entity.Voucher;
 import com.prgrms.springbasic.util.CsvFileUtil;
 import jakarta.annotation.PostConstruct;
@@ -7,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -55,8 +58,28 @@ public class FileVoucherRepository implements VoucherRepository {
     }
 
     @Override
-    public Optional<Voucher> findVoucherById(UUID voucher_id) {
-        return Optional.ofNullable(vouchers.get(voucher_id));
+    public void deleteById(UUID voucherId) {
+
+    }
+
+    @Override
+    public Optional<Voucher> findVoucherById(UUID voucherId) {
+        return Optional.ofNullable(vouchers.get(voucherId));
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAt(LocalDate date) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByDiscountType(DiscountType discountType) {
+        return null;
+    }
+
+    @Override
+    public List<Voucher> findByCreatedAtAndDiscountType(LocalDate date, DiscountType discountType) {
+        return null;
     }
 
     private static Map<UUID, Voucher> readVoucherFromFile(String filePath) {
@@ -64,7 +87,8 @@ public class FileVoucherRepository implements VoucherRepository {
             UUID voucherId = UUID.fromString(parts[0]);
             String discountType = parts[1];
             long discountValue = Long.parseLong(parts[2]);
-            return Voucher.createVoucher(voucherId, discountType, discountValue);
+            LocalDateTime createdAt = LocalDateTime.parse(parts[3]);
+            return Voucher.createVoucher(voucherId, discountType, discountValue, createdAt);
         });
     }
 }

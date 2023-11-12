@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("바우처 저장 테스트")
     void testSaveVoucher() {
-        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50);
+        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50, LocalDateTime.now());
 
         Voucher savedVoucher = voucherRepository.saveVoucher(voucher);
         List<Voucher> vouchers = voucherRepository.findAll();
@@ -34,10 +35,10 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("바우처 값 업데이트 기능 테스트")
     void testUpdateVoucher() {
-        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50);
+        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50, LocalDateTime.now());
         voucherRepository.saveVoucher(voucher);
 
-        Voucher updateVoucher = Voucher.createVoucher(voucher.getVoucherId(), voucher.getDiscountType().toString(), 80);
+        Voucher updateVoucher = Voucher.createVoucher(voucher.getVoucherId(), voucher.getDiscountType().toString(), 80, voucher.getCreatedAt());
         voucherRepository.updateVoucher(updateVoucher);
 
         List<Voucher> vouchers = voucherRepository.findAll();
@@ -48,7 +49,7 @@ class MemoryVoucherRepositoryTest {
     @Test
     @DisplayName("바우처 전체 삭제 기능 테스트")
     void testDeleteAll() {
-        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50);
+        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50, LocalDateTime.now());
         voucherRepository.saveVoucher(voucher);
 
         voucherRepository.deleteAll();
@@ -58,7 +59,7 @@ class MemoryVoucherRepositoryTest {
 
     @Test
     void findVoucherById() {
-        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50);
+        Voucher voucher = Voucher.createVoucher(UUID.randomUUID(), "percent", 50, LocalDateTime.now());
         voucherRepository.saveVoucher(voucher);
         Voucher foundVoucher = voucherRepository.findVoucherById(voucher.getVoucherId())
                 .orElseThrow();
