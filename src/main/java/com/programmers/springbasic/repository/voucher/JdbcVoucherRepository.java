@@ -2,6 +2,8 @@ package com.programmers.springbasic.repository.voucher;
 
 import static com.programmers.springbasic.constants.ErrorCode.*;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +28,12 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	private final RowMapper<Voucher> voucherRowMapper = (rs, rowNum) -> {
 		UUID id = UUID.fromString(rs.getString("voucher_id"));
 		String type = rs.getString("voucher_type");
+		LocalDateTime createdAt = rs.getTimestamp("created_at").toLocalDateTime();
 
 		if (VoucherType.PERCENT_DISCOUNT.name().equals(type)) {
-			return new PercentDiscountVoucher(id, rs.getLong("percent"));
+			return new PercentDiscountVoucher(id, rs.getLong("percent"), createdAt);
 		} else if (VoucherType.FIXED_AMOUNT.name().equals(type)) {
-			return new FixedAmountVoucher(id, rs.getLong("amount"));
+			return new FixedAmountVoucher(id, rs.getLong("amount"), createdAt);
 		}
 
 		throw new IllegalArgumentException(INVALID_VOUCHER_TYPE.getMessage());
@@ -42,7 +45,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public Voucher insert(Voucher voucher) {
-		String sql = "INSERT INTO voucher (voucher_id, voucher_type, percent, amount) VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO voucher (voucher_id, voucher_type, percent, amount, created_at) VALUES (?, ?, ?, ?, ?)";
 
 		Long percentValue = null;
 		Long amountValue = null;
@@ -53,7 +56,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
 			amountValue = voucher.getDiscountValue();
 		}
 
-		jdbcTemplate.update(sql, voucher.getVoucherId(), voucher.getVoucherType().name(), percentValue, amountValue);
+		jdbcTemplate.update(sql, voucher.getVoucherId().toString(), voucher.getVoucherType().name(), percentValue, amountValue, voucher.getCreatedAt());
 		return voucher;
 	}
 
@@ -63,9 +66,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 		String updateForFixedAmountVoucher = "UPDATE voucher SET amount=? WHERE voucher_id=?";
 
 		if (voucher instanceof PercentDiscountVoucher) {
-			jdbcTemplate.update(updateForPercentDiscountVoucher, voucher.getDiscountValue(), voucher.getVoucherId());
+			jdbcTemplate.update(updateForPercentDiscountVoucher, voucher.getDiscountValue(), voucher.getVoucherId().toString());
 		} else if (voucher instanceof FixedAmountVoucher) {
-			jdbcTemplate.update(updateForFixedAmountVoucher, voucher.getDiscountValue(), voucher.getVoucherId());
+			jdbcTemplate.update(updateForFixedAmountVoucher, voucher.getDiscountValue(), voucher.getVoucherId().toString());
 		}
 		return voucher;
 	}
@@ -79,28 +82,37 @@ public class JdbcVoucherRepository implements VoucherRepository {
 	@Override
 	public Optional<Voucher> findById(UUID id) {
 		String sql = "SELECT * FROM voucher WHERE voucher_id = ?";
-		return jdbcTemplate.query(sql, voucherRowMapper, id).stream().findFirst();
+		return jdbcTemplate.query(sql, voucherRowMapper, id.toString()).stream().findFirst();
 	}
 
 	@Override
 	public void deleteById(UUID id) {
 		String sql = "DELETE FROM voucher WHERE voucher_id = ?";
-		jdbcTemplate.update(sql, id);
+		jdbcTemplate.update(sql, id.toString());
 	}
 
 	@Override
-	public List<Voucher> findAllById(List<UUID> voucherIds) {
-		if (voucherIds == null || voucherIds.isEmpty()) {
-			return Collections.emptyList();
+	public List<Voucher> findByCriteria(LocalDateTime startDate, LocalDateTime endDate, VoucherType voucherType) {
+		StringBuilder sql = new StringBuilder("SELECT * FROM voucher WHERE 1=1");
+
+		List<Object> params = new ArrayList<>();
+
+		if (startDate != null) {
+			sql.append(" AND created_at >= ?");
+			params.add(startDate);
 		}
 
-		// '?' 플레이스홀더를 ID 개수에 맞추어 동적으로 생성
-		String placeholders = String.join(",", Collections.nCopies(voucherIds.size(), "?"));
-		String sql = "SELECT * FROM voucher WHERE voucher_id IN (" + placeholders + ")";
+		if (endDate != null) {
+			sql.append(" AND created_at <= ?");
+			params.add(endDate);
+		}
 
-		Object[] params = voucherIds.toArray();
+		if (voucherType != null) {
+			sql.append(" AND voucher_type = ?");
+			params.add(voucherType.toString());
+		}
 
-		return jdbcTemplate.query(sql, voucherRowMapper, params);
+		return jdbcTemplate.query(sql.toString(), voucherRowMapper, params.toArray());
 	}
 
 }

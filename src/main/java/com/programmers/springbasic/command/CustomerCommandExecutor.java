@@ -1,6 +1,6 @@
 package com.programmers.springbasic.command;
 
-import static com.programmers.springbasic.constants.MessageConstants.*;
+import static com.programmers.springbasic.console.constants.MessageConstants.*;
 
 import org.slf4j.Logger;
 import org.springframework.context.ApplicationContext;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.constants.CustomerCommandType;
+import com.programmers.springbasic.console.constants.CustomerCommandType;
 
 @Component
 public class CustomerCommandExecutor implements Command {

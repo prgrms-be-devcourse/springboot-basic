@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>바우처 상세 정보</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <!-- 목록으로 돌아가기 버튼 -->
+    <div class="row mb-4">
+        <div class="col">
+            <a href="/" class="btn btn-secondary">목록으로 돌아가기</a>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">바우처 상세 정보</h4>
+                </div>
+                <div class="card-body" id="voucherDetails">
+                    <!-- API 호출 결과가 여기에 표시됨 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 고객 목록을 표시할 섹션 -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">보유 고객 목록</h4>
+                </div>
+                <div class="card-body" id="customerList">
+                    <!-- 고객 목록이 여기에 표시됨 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const voucherId = /*[[${voucherId}]]*/ 'defaultId';
+
+        // 바우처 상세 정보 가져오기
+        fetch('/api/v1/vouchers/' + voucherId)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 바우처 상세 정보 표시
+                const detailsDiv = document.getElementById('voucherDetails');
+                detailsDiv.innerHTML = `
+                    <p><strong>ID:</strong> ${data.voucherId}</p>
+                    <p><strong>Type:</strong> ${data.voucherType}</p>
+                    <p><strong>Discount Value:</strong> ${data.discountValue}</p>
+                    <p><strong>Created At:</strong> ${data.createdAt}</p>
+                `;
+
+                // 바우처를 보유한 고객 목록 가져오기
+                return fetch('/api/v1/vouchers/' + voucherId + '/customers');
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(customers => {
+                // 고객 목록 표시
+                const customerListDiv = document.getElementById('customerList');
+                customerListDiv.innerHTML = customers.map(customer =>
+                    `<p>${customer.name} (${customer.email})</p>`
+                ).join('');
+            })
+            .catch(error => {
+                alert("바우처 상세 정보 표시 중 문제가 발생했습니다");
+            });
+    });
+</script>
+
+<!-- 부트스트랩 자바스크립트 추가 -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer List</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+<!-- 네비게이션 바 -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Home</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/">바우처 관리</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/customer-list">고객 목록<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center py-4">
+        <h1>고객 관리하기</h1>
+    </div>
+
+    <!-- 고객 테이블 -->
+    <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+<!--            <th>Action</th>-->
+        </tr>
+        </thead>
+        <tbody id="customerTableBody">
+        <!-- 고객 데이터가 여기에 채워짐 -->
+        </tbody>
+    </table>
+</div>
+
+<!-- jQuery 및 Bootstrap 자바스크립트 -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // 페이지 로드 시 고객 데이터를 가져옴
+        fetchCustomers();
+
+        function fetchCustomers() {
+            $.ajax({
+                url: '/api/v1/customers',
+                type: 'GET',
+                dataType: 'json',
+                success: function(customers) {
+                    var customerTableBody = $("#customerTableBody");
+                    customerTableBody.empty();
+
+                    // 받아온 고객 데이터로 테이블 채우기
+                    $.each(customers, function(index, customer) {
+                        customerTableBody.append(
+                            "<tr>" +
+                            "<td><a href='/customer-detail/" + customer.id + "'>" + customer.id + "</a></td>" +
+                            "<td>" + customer.name + "</td>" +
+                            "<td>" + customer.email + "</td>" +
+                            "</tr>"
+                        );
+                    });
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert("고객 정보 조회 중 문제가 발생했습니다");
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

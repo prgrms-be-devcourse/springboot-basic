@@ -1,5 +1,6 @@
 package com.programmers.springbasic.entity.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.programmers.springbasic.constants.ErrorCode;
@@ -10,8 +11,8 @@ public class FixedAmountVoucher extends Voucher {
 
 	private long amount;
 
-	public FixedAmountVoucher(UUID voucherId, long amount) {
-		super(voucherId, VoucherType.FIXED_AMOUNT);
+	public FixedAmountVoucher(UUID voucherId, long amount, LocalDateTime createdAt) {
+		super(voucherId, VoucherType.FIXED_AMOUNT, createdAt);
 		validateDiscountValue(amount);
 		this.amount = amount;
 	}

@@ -8,7 +8,11 @@ group = 'com.programmers'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '1.17'
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 repositories {
@@ -17,8 +21,11 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    runtimeOnly 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

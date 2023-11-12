@@ -1,6 +1,6 @@
 package com.programmers.springbasic.command.wallet;
 
-import static com.programmers.springbasic.constants.MessageConstants.*;
+import static com.programmers.springbasic.console.constants.MessageConstants.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -10,18 +10,18 @@ import org.springframework.stereotype.Component;
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleInputHandler;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.controller.VoucherController;
-import com.programmers.springbasic.dto.CustomerDto;
+import com.programmers.springbasic.controller.VoucherRestController;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
 
 @Component
-public class GetCustomersByVoucher implements Command {
-	private final VoucherController voucherController;
+public class GetCustomersByVoucherCommand implements Command {
+	private final VoucherRestController voucherRestController;
 	private final ConsoleInputHandler consoleInputHandler;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public GetCustomersByVoucher(VoucherController voucherController, ConsoleInputHandler consoleInputHandler,
+	public GetCustomersByVoucherCommand(VoucherRestController voucherRestController, ConsoleInputHandler consoleInputHandler,
 		ConsoleOutputHandler consoleOutputHandler) {
-		this.voucherController = voucherController;
+		this.voucherRestController = voucherRestController;
 		this.consoleInputHandler = consoleInputHandler;
 		this.consoleOutputHandler = consoleOutputHandler;
 	}
@@ -30,7 +30,7 @@ public class GetCustomersByVoucher implements Command {
 	public void execute() {
 		consoleOutputHandler.print(VOUCHER_ID_PROMPT);
 		UUID uuidInput = consoleInputHandler.readUUID();
-		List<CustomerDto> customerList = voucherController.getCustomersByVoucher(uuidInput);
+		List<CustomerResponse> customerList = voucherRestController.getCustomersByVoucher(uuidInput).getBody();
 		consoleOutputHandler.printList(customerList);
 	}
 }

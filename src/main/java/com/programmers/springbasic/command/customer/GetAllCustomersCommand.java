@@ -6,23 +6,23 @@ import org.springframework.stereotype.Component;
 
 import com.programmers.springbasic.command.Command;
 import com.programmers.springbasic.console.ConsoleOutputHandler;
-import com.programmers.springbasic.controller.CustomerController;
-import com.programmers.springbasic.dto.CustomerDto;
+import com.programmers.springbasic.controller.CustomerRestController;
+import com.programmers.springbasic.repository.dto.customer.CustomerResponse;
 
 @Component
 public class GetAllCustomersCommand implements Command {
 
-	private final CustomerController customerController;
+	private final CustomerRestController customerRestController;
 	private final ConsoleOutputHandler consoleOutputHandler;
 
-	public GetAllCustomersCommand(CustomerController customerController, ConsoleOutputHandler consoleOutputHandler) {
-		this.customerController = customerController;
+	public GetAllCustomersCommand(CustomerRestController customerRestController, ConsoleOutputHandler consoleOutputHandler) {
+		this.customerRestController = customerRestController;
 		this.consoleOutputHandler = consoleOutputHandler;
 	}
 
 	@Override
 	public void execute() {
-		List<CustomerDto> customers = customerController.getAllCustomers();
+		List<CustomerResponse> customers = customerRestController.getAllCustomers().getBody();
 		consoleOutputHandler.printList(customers);
 	}
 }

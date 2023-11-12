@@ -3,6 +3,7 @@ package com.programmers.springbasic.repository.voucher;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +29,8 @@ class MemoryVoucherRepositoryTest {
 		voucherRepository = new MemoryVoucherRepository();
 		voucherId1 = UUID.randomUUID();
 		voucherId2 = UUID.randomUUID();
-		voucher1 = new FixedAmountVoucher(voucherId1, 1000);
-		voucher2 = new PercentDiscountVoucher(voucherId2, 20);
+		voucher1 = new FixedAmountVoucher(voucherId1, 1000, LocalDateTime.now());
+		voucher2 = new PercentDiscountVoucher(voucherId2, 20, LocalDateTime.now());
 	}
 
 	@Test
@@ -42,7 +43,7 @@ class MemoryVoucherRepositoryTest {
 	@Test
 	void 바우처_세부사항을_변경한다() {
 		voucherRepository.insert(voucher1);
-		Voucher updatedVoucher = new FixedAmountVoucher(voucherId1, 2000);
+		Voucher updatedVoucher = new FixedAmountVoucher(voucherId1, 2000, voucher1.getCreatedAt());
 
 		voucherRepository.update(updatedVoucher);
 
@@ -76,16 +77,5 @@ class MemoryVoucherRepositoryTest {
 		voucherRepository.deleteById(voucherId1);
 
 		assertThat(voucherRepository.findById(voucherId1).isPresent(), is(false));
-	}
-
-	@Test
-	void 아이디_여러개로_바우처_목록을_조회한다() {
-		voucherRepository.insert(voucher1);
-		voucherRepository.insert(voucher2);
-		List<UUID> ids = Arrays.asList(voucherId1, voucherId2);
-
-		List<Voucher> foundVouchers = voucherRepository.findAllById(ids);
-
-		assertThat(foundVouchers, containsInAnyOrder(voucher1, voucher2));
 	}
 }

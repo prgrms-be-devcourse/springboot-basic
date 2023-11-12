@@ -1,4 +1,4 @@
-package com.programmers.springbasic.constants;
+package com.programmers.springbasic.console.constants;
 
 public final class MessageConstants {
 	public static final String PERCENT_PROMPT = "퍼센트 > ";

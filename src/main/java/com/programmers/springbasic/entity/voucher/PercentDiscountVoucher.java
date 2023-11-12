@@ -1,5 +1,6 @@
 package com.programmers.springbasic.entity.voucher;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.programmers.springbasic.constants.ErrorCode;
@@ -11,8 +12,8 @@ public class PercentDiscountVoucher extends Voucher {
 
 	private long percent;
 
-	public PercentDiscountVoucher(UUID voucherId, long percent) {
-		super(voucherId, VoucherType.PERCENT_DISCOUNT);
+	public PercentDiscountVoucher(UUID voucherId, long percent, LocalDateTime createdAt) {
+		super(voucherId, VoucherType.PERCENT_DISCOUNT, createdAt);
 		validateDiscountValue(percent);
 		this.percent = percent;
 	}

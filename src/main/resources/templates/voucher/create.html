@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Voucher</title>
+    <!-- Bootstrap CSS 추가 -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Create Voucher</h2>
+        <p class="lead">Fill in the details to create a new voucher.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 order-md-1">
+            <!-- 바우처 생성 폼 -->
+            <form id="createVoucherForm">
+                <div class="mb-3">
+                    <label for="voucherType">Voucher Type</label>
+                    <select class="custom-select d-block w-100" id="voucherType" name="voucherType" required>
+                        <option value="">Choose...</option>
+                        <option value="FIXED_AMOUNT">Fixed</option>
+                        <option value="PERCENT_DISCOUNT">Percent</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="discountValue">Discount Value</label>
+                    <input type="number" class="form-control" id="discountValue" name="discountValue" required>
+                </div>
+
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Create Voucher</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 및 jQuery 자바스크립트 파일 -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#createVoucherForm').on('submit', function(e) {
+            e.preventDefault();
+
+            var formData = {
+                voucherType: $('#voucherType').val(),
+                discountValue: $('#discountValue').val()
+            };
+
+            $.ajax({
+                url: '/api/v1/vouchers',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function(response) {
+                    window.location.href = '/';
+                },
+                error: function(xhr, status, error) {
+                    alert("바우처 생성 중 문제가 발생했습니다");
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
