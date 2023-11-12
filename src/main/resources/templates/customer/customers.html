@@ -1,0 +1,39 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Home</title>
+</head>
+<body class="container-fluid">
+<h1>Customers</h1>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <a th:href="@{/customers/new}" class="btn btn-primary me-md-2" type="button">Create</a>
+    <a th:if="${mode} == 'all'" th:href="@{/customers/blacklist}" class="btn btn-danger me-md-2"
+       type="button">Show Blacklist</a>
+    <a th:if="${mode} == 'blacklist'" th:href="@{/customers}" class="btn btn-success me-md-2" type="button">Show All</a>
+</div>
+<h2 th:if="${mode} == 'all'">Customer List</h2>
+<h2 th:if="${mode} == 'blacklist'">Customer Blacklist</h2>
+<table class="table table-striped table-hover">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Bad Customer</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customer: ${customers}">
+        <td th:text="${customer.id}"></td>
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.isBlack}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
