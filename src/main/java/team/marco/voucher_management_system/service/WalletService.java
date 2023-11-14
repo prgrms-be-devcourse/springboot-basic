@@ -35,7 +35,7 @@ public class WalletService {
         return walletRepository.link(customerId, voucherId);
     }
 
-    public List<Voucher> findVouchersByCustomerId(UUID customerId) {
+    public List<Voucher> findReceivedVouchers(UUID customerId) {
         List<UUID> voucherIds = walletRepository.getVoucherIds(customerId);
 
         return voucherCustomerFacade.getVouchers(voucherIds);
@@ -45,7 +45,7 @@ public class WalletService {
         return walletRepository.unlink(customerId, voucherId);
     }
 
-    public List<Customer> findCustomersByVoucherId(UUID voucherId) {
+    public List<Customer> findHavingCustomers(UUID voucherId) {
         List<UUID> customerIds = walletRepository.getCustomerIds(voucherId);
 
         return voucherCustomerFacade.getCustomers(customerIds);

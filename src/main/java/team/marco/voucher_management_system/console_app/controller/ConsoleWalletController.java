@@ -46,7 +46,7 @@ public class ConsoleWalletController {
 
         UUID customerId = UUIDConverter.convert(Console.readString());
 
-        List<String> voucherInfos = walletService.findVouchersByCustomerId(customerId)
+        List<String> voucherInfos = walletService.findReceivedVouchers(customerId)
                 .stream()
                 .map(Voucher::getInfo)
                 .toList();
@@ -81,7 +81,7 @@ public class ConsoleWalletController {
         UUID voucherId = UUIDConverter.convert(Console.readString());
         walletService.checkVoucherId(voucherId);
 
-        List<String> customerInfos = walletService.findCustomersByVoucherId(voucherId)
+        List<String> customerInfos = walletService.findHavingCustomers(voucherId)
                 .stream()
                 .map(Customer::getInfo)
                 .toList();
