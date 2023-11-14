@@ -1,10 +1,10 @@
 package team.marco.voucher_management_system;
 
+import java.util.function.Consumer;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.ComponentScan;
-import team.marco.voucher_management_system.console_app.ConsoleApplication;
+import team.marco.voucher_management_system.type_enum.ApplicationType;
 import team.marco.voucher_management_system.util.Console;
-import team.marco.voucher_management_system.web_app.WebApplication;
 
 @ComponentScan
 @ConfigurationPropertiesScan
@@ -21,18 +21,20 @@ public class VoucherManagementSystemApplication {
     }
 
     private static void selectApplication(String[] args) {
-        String input = Console.readString();
+        Consumer<String[]> mainMethod = getMainMethod();
 
-        switch (input) {
-            case "0" -> ConsoleApplication.main(args);
-            case "1" -> WebApplication.main(args);
-            default -> reselect(args);
-        }
+        mainMethod.accept(args);
     }
 
-    private static void reselect(String[] args) {
-        Console.print("사용할 수 없는 애플리케이션 입니다.");
+    private static Consumer<String[]> getMainMethod() {
+        try {
+            int input = Console.readInt();
 
-        selectApplication(args);
+            return ApplicationType.getMainMethod(input);
+        } catch (IllegalArgumentException e) {
+            Console.print("사용할 수 없는 애플리케이션 입니다.");
+
+            return getMainMethod();
+        }
     }
 }
