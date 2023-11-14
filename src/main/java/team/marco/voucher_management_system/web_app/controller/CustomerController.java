@@ -45,7 +45,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public String viewCustomerById(@PathVariable("id") UUID id, Model model) {
+    public String viewCustomerById(@PathVariable UUID id, Model model) {
         Customer customer = customerService.findById(id);
 
         model.addAttribute("customer", customer);
@@ -54,14 +54,14 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public String changeCustomerName(@PathVariable("id") UUID id, String name) {
+    public String changeCustomerName(@PathVariable UUID id, String name) {
         customerService.update(id, name);
 
         return "redirect:/customers";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteCustomerById(@PathVariable("id") UUID id) {
+    public String deleteCustomerById(@PathVariable UUID id) {
         customerService.deleteById(id);
 
         return "redirect:/customers";

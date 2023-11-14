@@ -45,7 +45,7 @@ public class VoucherController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Voucher> findById(@PathVariable("id") UUID id) {
+    public ResponseEntity<Voucher> findById(@PathVariable UUID id) {
         Optional<Voucher> optionalVoucher = voucherService.findById(id);
 
         return optionalVoucher.map(ResponseEntity::ok)
@@ -54,7 +54,7 @@ public class VoucherController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         boolean isDeleted = voucherService.deleteById(id);
 
         if (!isDeleted) {
@@ -67,17 +67,17 @@ public class VoucherController {
     }
 
     @GetMapping("/createdAt")
-    public List<Voucher> findByCreateAt(@RequestParam("from")
+    public List<Voucher> findByCreateAt(@RequestParam
                                         @DateTimeFormat(pattern = DATE_PATTERN)
                                         LocalDateTime from,
-                                        @RequestParam("to")
+                                        @RequestParam
                                         @DateTimeFormat(pattern = DATE_PATTERN)
                                         LocalDateTime to) {
         return voucherService.findByCreateAt(from, to);
     }
 
     @GetMapping("/type/{type}")
-    public List<Voucher> findByType(@PathVariable("type") VoucherType voucherType) {
-        return voucherService.findByType(voucherType);
+    public List<Voucher> findByType(@PathVariable VoucherType type) {
+        return voucherService.findByType(type);
     }
 }
