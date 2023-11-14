@@ -1,5 +1,6 @@
 package team.marco.voucher_management_system.web_app.controller;
 
+import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class VoucherController {
     }
 
     @PostMapping
-    public ResponseEntity<Voucher> create(CreateVoucherRequest createVoucherRequest) {
+    public ResponseEntity<Voucher> create(@Valid CreateVoucherRequest createVoucherRequest) {
         Voucher voucher = voucherService.create(createVoucherRequest);
 
         return ResponseEntity.ok(voucher);
