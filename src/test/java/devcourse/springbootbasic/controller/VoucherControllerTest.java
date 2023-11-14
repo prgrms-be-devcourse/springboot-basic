@@ -1,36 +1,32 @@
 package devcourse.springbootbasic.controller;
 
 import devcourse.springbootbasic.service.VoucherService;
-import org.junit.jupiter.api.BeforeEach;
+import devcourse.springbootbasic.service.WalletService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WebMvcTest(VoucherController.class)
 class VoucherControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private VoucherController voucherController;
-
-    @SuppressWarnings("unused") // controller 모킹 시 사용
-    @Mock
+    @SuppressWarnings("unused") // VoucherController 모킹
+    @MockBean
     private VoucherService voucherService;
 
-    @BeforeEach
-    public void setup() {
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(voucherController).build();
-    }
+    @SuppressWarnings("unused") // VoucherController 모킹
+    @MockBean
+    private WalletService walletService;
 
     @ParameterizedTest
     @CsvSource({
