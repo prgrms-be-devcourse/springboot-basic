@@ -113,8 +113,7 @@ public class JdbcCustomerRepository implements CustomerRepository {
     }
 
     private Map<String, Object> getCustomerFields(Customer customer) {
-        Map<String, Object> customerFields = new HashMap<>() {
-        };
+        Map<String, Object> customerFields = new HashMap<>();
 
         customerFields.put("id", customer.getId().toString().getBytes());
         customerFields.put("name", customer.getName());
