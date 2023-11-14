@@ -26,6 +26,7 @@ import team.marco.voucher_management_system.web_app.dto.CreateVoucherRequest;
         produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class VoucherController {
     private static final String DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    private static final int CREATED = 201;
 
     private final VoucherService voucherService;
 
@@ -42,7 +43,8 @@ public class VoucherController {
     public ResponseEntity<Voucher> create(@Valid CreateVoucherRequest createVoucherRequest) {
         Voucher voucher = voucherService.create(createVoucherRequest);
 
-        return ResponseEntity.ok(voucher);
+        return ResponseEntity.status(CREATED)
+                .body(voucher);
     }
 
     @GetMapping("/{id}")
