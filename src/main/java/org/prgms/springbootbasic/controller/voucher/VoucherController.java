@@ -63,7 +63,7 @@ public class VoucherController {
     }
 
     @DeleteMapping("/{voucherId}")
-    public void delete(@PathVariable String voucherId) {
+    public void delete(@PathVariable String voucherId) { // dto 공부. 계층간 전송. dto는 패키지가 어디에 있어야 하는지
         voucherService.deleteById(UUID.fromString(voucherId));
     }
 }

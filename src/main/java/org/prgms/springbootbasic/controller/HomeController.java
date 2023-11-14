@@ -5,9 +5,12 @@ import org.prgms.springbootbasic.domain.customer.Customer;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.service.CustomerService;
 import org.prgms.springbootbasic.service.VoucherService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -24,12 +27,21 @@ public class HomeController {
 
     @GetMapping
     public String homePage(Model model){
-        List<Customer> customers = customerService.findAll();
+        List<Customer> customers = customerService.findAll(); //pagination
         List<Voucher> vouchers = voucherService.findAll();
 
         model.addAttribute("customers", customers);
         model.addAttribute("vouchers", vouchers);
 
         return "index";
+    }
+
+    @GetMapping("/temp")
+    @ResponseBody
+    public ResponseEntity<String> statusSetting(){
+
+        return ResponseEntity.status(302)
+                .header("Location", "/")
+                .body("body");
     }
 }

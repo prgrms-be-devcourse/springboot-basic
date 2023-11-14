@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("dev")
-class VoucherApiControllerTest {
+class VoucherApiControllerTest { // 컨트롤러 유닛 테스트로. (죄다 나머지 목 객체)
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -46,9 +46,12 @@ class VoucherApiControllerTest {
     @AfterEach
     void clean() {
         this.voucherService.deleteAll();
-    }
-
-    @Test
+    }// 예외는 컨트롤러 어드바이스에서 함께 처리할 수 있음. REST 공부하기 깊은 이해로. MVC 의존관계. DTO 관련 어디에 둬야 할지. DTO가 뭔지 깊은 이해.
+// 단위 테스트만의 장점: fixed 들어왔을때 에러 뱉어야해 테스트 혹은 데이터 설정, 통합은 느림.
+// 단위는 빠름. 원하는 결과를 해당 부분만 독립적으로 테스트가 가능. 검증 쉽고.
+    // 다음 플젝에서는 이를 전부 반영하자.
+    // 이 과제 피드백도 반영 후 이유를 적어 올리자.
+    @Test // 디스플레이네임
     void getVouchersFilteredByQueryParameter() throws Exception {
         this.mockMvc.perform(get(uri).param("policy", "FixedAmountPolicy")
                         .accept(MediaType.APPLICATION_JSON))

@@ -14,7 +14,7 @@ public class BasicApplication {
 		String[] activeProfiles = applicationContext.getEnvironment().getActiveProfiles();
 
 		if (Arrays.stream(activeProfiles)
-				.anyMatch(profile -> profile.equals("dev") || profile.equals("local") || profile.equals("test"))) {
+				.anyMatch(profile -> profile.equals("dev") || profile.equals("local") || profile.equals("test"))) { // 리스트로
 			var mainController = applicationContext.getBean(ConsoleController.class);
 
 			mainController.run();

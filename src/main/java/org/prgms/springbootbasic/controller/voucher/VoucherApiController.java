@@ -29,6 +29,8 @@ public class VoucherApiController {
         this.voucherService = voucherService;
     }
 
+
+    // get도 body 지원. 서버 처리, POST는 추가 생성 전송이 아니고.
     @GetMapping
     public ResponseEntity<List<VoucherResponseDto>> showVouchersFiltered(@RequestParam(required = false) String startDate,
                                                                          @RequestParam(required = false) String endDate,
@@ -38,8 +40,13 @@ public class VoucherApiController {
         LocalDateTime endOfDay = (endDate != null) ?
                 LocalDate.parse(endDate).atTime(23, 59, 59) : MAX_LOCAL_DATE_TIME;
         String voucherPolicy = (policy != null) ? policy : "%";
+        // 얘를 서비스에서 처리하도록 하는 것이 깔끔함.
 
+        // 컨트롤러에서 도메인을 바로 바라보는 것은 도메인 로직까지 사용이 가능해서 컨트롤러 역할이 비대해짐.
+        // 서비스와 컨트롤러 사이에도 DTO를 둬서 서비스에서만 도메인 처리를 하는 것이 좋음.
+        // 컨트롤러가 도메인 Voucher를 알고 있다면 Voucher 관련 메서드를 사용할 수 있다는 것이니까.
         List<Voucher> vouchers = voucherService.findByPolicyBetweenLocalDateTime(voucherPolicy, startOfDay, endOfDay); // 이게 맞나??
+        // -> 한번에, 동적 쿼리로. 대부분 널 처리로도 위 기본값 넣는 것처럼 해도 됨. 서비스 정책에 따라 다름.
         List<VoucherResponseDto> responseDto = vouchers.stream().map(UtilMethod::convertVoucherToVoucherResponseDto).toList();
 
         return ResponseEntity.ok(responseDto);
