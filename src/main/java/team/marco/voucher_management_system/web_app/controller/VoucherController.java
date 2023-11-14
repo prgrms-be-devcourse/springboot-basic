@@ -39,6 +39,21 @@ public class VoucherController {
         return voucherService.getVouchers();
     }
 
+    @GetMapping(params = {"from", "to"})
+    public List<Voucher> findByCreateAt(@RequestParam
+                                        @DateTimeFormat(pattern = DATE_PATTERN)
+                                        LocalDateTime from,
+                                        @RequestParam
+                                        @DateTimeFormat(pattern = DATE_PATTERN)
+                                        LocalDateTime to) {
+        return voucherService.findByCreateAt(from, to);
+    }
+
+    @GetMapping(params = "type")
+    public List<Voucher> findByType(@RequestParam VoucherType type) {
+        return voucherService.findByType(type);
+    }
+
     @PostMapping
     public ResponseEntity<Voucher> create(@Valid CreateVoucherRequest createVoucherRequest) {
         Voucher voucher = voucherService.create(createVoucherRequest);
@@ -62,20 +77,5 @@ public class VoucherController {
 
         return ResponseEntity.ok()
                 .build();
-    }
-
-    @GetMapping("/createdAt")
-    public List<Voucher> findByCreateAt(@RequestParam
-                                        @DateTimeFormat(pattern = DATE_PATTERN)
-                                        LocalDateTime from,
-                                        @RequestParam
-                                        @DateTimeFormat(pattern = DATE_PATTERN)
-                                        LocalDateTime to) {
-        return voucherService.findByCreateAt(from, to);
-    }
-
-    @GetMapping("/type/{type}")
-    public List<Voucher> findByType(@PathVariable VoucherType type) {
-        return voucherService.findByType(type);
     }
 }
