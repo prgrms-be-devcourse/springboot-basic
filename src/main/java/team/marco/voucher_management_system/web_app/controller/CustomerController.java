@@ -1,5 +1,6 @@
 package team.marco.voucher_management_system.web_app.controller;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class CustomerController {
     }
 
     @PostMapping("/new")
-    public String createCustomer(CreateCustomerRequest createCustomerRequest) {
+    public String createCustomer(@Valid CreateCustomerRequest createCustomerRequest) {
         customerService.create(createCustomerRequest.name(), createCustomerRequest.email());
 
         return "redirect:/customers";
