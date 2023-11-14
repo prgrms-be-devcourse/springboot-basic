@@ -2,6 +2,7 @@ package team.marco.voucher_management_system.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -55,10 +56,12 @@ public class VoucherService {
         };
     }
 
-    public boolean deleteById(UUID id) {
+    public void deleteById(UUID id) {
         int deleteCount = voucherRepository.deleteById(id);
 
-        return deleteCount != 0;
+        if (deleteCount == 0) {
+            throw new NoSuchElementException();
+        }
     }
 
     public List<Voucher> findByType(VoucherType voucherType) {

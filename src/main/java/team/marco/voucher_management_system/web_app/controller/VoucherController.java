@@ -56,12 +56,7 @@ public class VoucherController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        boolean isDeleted = voucherService.deleteById(id);
-
-        if (!isDeleted) {
-            return ResponseEntity.noContent()
-                    .build();
-        }
+        voucherService.deleteById(id);
 
         return ResponseEntity.ok()
                 .build();
