@@ -1,7 +1,7 @@
 package org.prgrms.kdtspringdemo.customer.service;
 
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
-import org.prgrms.kdtspringdemo.customer.domain.dto.CustomerRequestDto;
+import org.prgrms.kdtspringdemo.dto.CustomerRequestDto;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 

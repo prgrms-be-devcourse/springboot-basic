@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.voucher.domain.dto;
+package org.prgrms.kdtspringdemo.dto;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 

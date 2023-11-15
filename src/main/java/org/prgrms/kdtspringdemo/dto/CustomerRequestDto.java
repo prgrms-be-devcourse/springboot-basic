@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.customer.domain.dto;
+package org.prgrms.kdtspringdemo.dto;
 
 public class CustomerRequestDto {
     private String name;

@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.voucher.service;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
+import org.prgrms.kdtspringdemo.dto.VoucherRequestDto;
 import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service

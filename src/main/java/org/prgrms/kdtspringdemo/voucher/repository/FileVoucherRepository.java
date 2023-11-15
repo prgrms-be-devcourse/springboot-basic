@@ -6,11 +6,10 @@ import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
+import org.prgrms.kdtspringdemo.dto.VoucherRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Repository;

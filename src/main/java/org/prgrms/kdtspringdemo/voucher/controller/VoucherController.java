@@ -4,7 +4,7 @@ import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
+import org.prgrms.kdtspringdemo.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

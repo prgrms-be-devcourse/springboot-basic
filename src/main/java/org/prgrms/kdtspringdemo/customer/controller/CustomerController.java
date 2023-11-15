@@ -1,8 +1,8 @@
 package org.prgrms.kdtspringdemo.customer.controller;
 
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
-import org.prgrms.kdtspringdemo.customer.domain.dto.CustomerRequestDto;
-import org.prgrms.kdtspringdemo.customer.domain.dto.CustomerViewDto;
+import org.prgrms.kdtspringdemo.dto.CustomerRequestDto;
+import org.prgrms.kdtspringdemo.dto.CustomerViewDto;
 import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;

@@ -1,11 +1,11 @@
 package org.prgrms.kdtspringdemo.wallet.controller;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
+import org.prgrms.kdtspringdemo.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
-import org.prgrms.kdtspringdemo.wallet.domain.dto.AddVoucherToWalletDto;
-import org.prgrms.kdtspringdemo.wallet.domain.dto.WalletViewDto;
+import org.prgrms.kdtspringdemo.dto.AddVoucherToWalletDto;
+import org.prgrms.kdtspringdemo.dto.WalletViewDto;
 import org.prgrms.kdtspringdemo.wallet.service.WalletService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

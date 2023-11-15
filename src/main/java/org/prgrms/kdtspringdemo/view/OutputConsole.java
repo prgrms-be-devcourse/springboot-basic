@@ -1,11 +1,8 @@
 package org.prgrms.kdtspringdemo.view;
 
-import org.prgrms.kdtspringdemo.customer.domain.Customer;
-import org.prgrms.kdtspringdemo.customer.domain.dto.CustomerViewDto;
-import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
-import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
-import org.prgrms.kdtspringdemo.wallet.domain.dto.WalletViewDto;
+import org.prgrms.kdtspringdemo.dto.CustomerViewDto;
+import org.prgrms.kdtspringdemo.dto.VoucherViewDto;
+import org.prgrms.kdtspringdemo.dto.WalletViewDto;
 import org.springframework.stereotype.Component;
 
 @Component

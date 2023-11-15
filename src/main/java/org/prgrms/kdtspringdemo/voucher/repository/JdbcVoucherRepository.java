@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.voucher.repository;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
+import org.prgrms.kdtspringdemo.dto.VoucherRequestDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

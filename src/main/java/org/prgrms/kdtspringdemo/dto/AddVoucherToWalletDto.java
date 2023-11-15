@@ -1,4 +1,4 @@
-package org.prgrms.kdtspringdemo.wallet.domain.dto;
+package org.prgrms.kdtspringdemo.dto;
 
 import java.util.UUID;
 

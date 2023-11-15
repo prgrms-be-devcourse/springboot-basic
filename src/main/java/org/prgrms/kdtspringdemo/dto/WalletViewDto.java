@@ -1,6 +1,6 @@
-package org.prgrms.kdtspringdemo.wallet.domain.dto;
+package org.prgrms.kdtspringdemo.dto;
 
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
+import org.prgrms.kdtspringdemo.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.wallet.domain.Wallet;
 
 import java.util.List;

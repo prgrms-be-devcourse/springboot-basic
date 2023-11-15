@@ -2,8 +2,8 @@ package org.prgrms.kdtspringdemo.voucher.controller;
 
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherRequestDto;
-import org.prgrms.kdtspringdemo.voucher.domain.dto.VoucherViewDto;
+import org.prgrms.kdtspringdemo.dto.VoucherRequestDto;
+import org.prgrms.kdtspringdemo.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
