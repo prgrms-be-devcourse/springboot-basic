@@ -56,7 +56,7 @@
     </table>
 
     <h2>Add Voucher to Wallet</h2>
-    <form th:action="@{'/wallets/' + ${walletId} + '/addVoucher'}" method="post" th:object="${addVoucherToWalletDto}">
+    <form th:action="@{'/wallets/' + ${walletId} + '/add-voucher'}" method="post" th:object="${addVoucherToWalletDto}">
         <div class="form-group">
             <label for="selectedVoucherId">Select a Voucher</label>
             <select class="form-control" id="selectedVoucherId" name="selectedVoucherId">

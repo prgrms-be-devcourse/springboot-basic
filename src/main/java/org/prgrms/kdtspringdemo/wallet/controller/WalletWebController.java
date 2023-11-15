@@ -46,7 +46,7 @@ public class WalletWebController {
         return "wallet_details";
     }
 
-    @PostMapping("/{walletId}/addVoucher")
+    @PostMapping("/{walletId}/add-voucher")
     public String addVoucherToWallet(
             @PathVariable UUID walletId,
             @ModelAttribute AddVoucherToWalletDto addVoucherToWalletDto) {
