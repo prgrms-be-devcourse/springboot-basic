@@ -28,23 +28,19 @@ public class WalletWebController {
 
     @GetMapping
     public String listWallets(Model model) {
-        List<Wallet> walletList = walletService.findAll();
-        model.addAttribute("walletList", walletList);
+        List<WalletViewDto> walletViewDtoList = walletService.getWalletViewDtoList();
+        model.addAttribute("walletList", walletViewDtoList);
         return "wallet";
     }
 
     @GetMapping("/{walletId}")
     public String viewWallet(@PathVariable UUID walletId, Model model) {
-        Wallet wallet = walletService.findById(walletId).orElse(null);
-        List<Voucher> vouchers = walletService.findVouchersById(wallet.getCustomerId());
-        List<VoucherViewDto> voucherViewDtos = new ArrayList<>();
-        vouchers.stream().forEach(voucher -> voucherViewDtos.add(new VoucherViewDto(voucher)));
-
-        WalletViewDto walletDetailsDto = new WalletViewDto(walletId, wallet.getCustomerId(), voucherViewDtos);
-
+        WalletViewDto walletViewDto = walletService.findById(walletId).orElseThrow(NoSuchFieldError::new);
+        List<VoucherViewDto> voucherViewDtoList = walletService.findVouchersById(walletViewDto.getCustomerId());
+        walletViewDto.setVoucherList(voucherViewDtoList);
         List<Voucher> unallocatedVouchers = voucherService.findUnallocatedVoucher();
 
-        model.addAttribute("wallet", walletDetailsDto);
+        model.addAttribute("wallet", walletViewDto);
         model.addAttribute("voucherList", unallocatedVouchers);
         model.addAttribute("addVoucherToWalletDto", new AddVoucherToWalletDto());
         return "wallet_details";
@@ -57,11 +53,11 @@ public class WalletWebController {
 
         UUID selectedVoucherId = addVoucherToWalletDto.getSelectedVoucherId();
         if (selectedVoucherId != null) {
-            Wallet wallet = walletService.findById(walletId).orElse(null);
+            WalletViewDto walletViewDto = walletService.findById(walletId).orElse(null);
             Voucher selectedVoucher = voucherService.findById(selectedVoucherId);
 
-            if (wallet != null && selectedVoucher != null) {
-                walletService.addVoucherByCustomerId(wallet.getWalletId(), wallet.getCustomerId(), selectedVoucherId);
+            if (walletViewDto != null && selectedVoucher != null) {
+                walletService.addVoucherByCustomerId(walletViewDto.getWalletId(), walletViewDto.getCustomerId(), selectedVoucherId);
             }
         }
 

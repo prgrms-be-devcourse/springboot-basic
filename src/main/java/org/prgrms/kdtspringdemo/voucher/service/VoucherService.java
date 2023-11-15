@@ -1,5 +1,6 @@
 package org.prgrms.kdtspringdemo.voucher.service;
 
+import org.prgrms.kdtspringdemo.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.dto.VoucherRequestDto;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,6 +40,13 @@ public class VoucherService {
 
     public List<Voucher> findAll() {
         return voucherRepository.findAll();
+    }
+
+    public List<VoucherViewDto> getVoucherViewDtoList() {
+        List<Voucher> voucherList = this.findAll();
+        List<VoucherViewDto> voucherViewDtoList = new ArrayList<>();
+        voucherList.forEach(voucher -> voucherViewDtoList.add(new VoucherViewDto(voucher)));
+        return voucherViewDtoList;
     }
 
     public List<Voucher> findByPolicy(String policy) {

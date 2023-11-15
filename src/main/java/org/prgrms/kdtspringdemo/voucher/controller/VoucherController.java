@@ -41,19 +41,13 @@ public class VoucherController {
             voucherService.createVoucher(voucherType, amount);
         } catch (NumberFormatException e) {
             logger.error("올바른 숫자 형식이 아닙니다.");
-        } catch (IOException e) {
-            logger.error(e.getMessage());
-        } catch (RuntimeException e) {
+        } catch (IOException | RuntimeException e) {
             logger.error(e.getMessage());
         }
     }
 
     public void showAllVouchers() {
-        List<Voucher> voucherList = voucherService.findAll();
-        voucherList.forEach(voucher -> {
-            VoucherViewDto voucherViewDto = new VoucherViewDto(voucher);
-            outputConsole.printVoucher(voucherViewDto);
-        });
+        voucherService.getVoucherViewDtoList().forEach(outputConsole::printVoucher);
     }
 
     public void endVoucherMode() {

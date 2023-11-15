@@ -34,7 +34,7 @@ public class CustomerController {
             outputConsole.getCustomerName();
             String name = inputConsole.getString();
             outputConsole.getCustomerIsBlack();
-            Boolean isBlack = Boolean.parseBoolean(inputConsole.getString());
+            boolean isBlack = Boolean.parseBoolean(inputConsole.getString());
 
             customerService.insert(new CustomerRequestDto(name, isBlack));
             walletService.create(customerId); // 고객 생성 시 지갑 자동 생성
@@ -46,16 +46,13 @@ public class CustomerController {
     }
 
     public void printAllCustomers() {
-        List<Customer> customerList = customerService.findAll();
-        customerList.stream().forEach(customer -> {
-            CustomerViewDto customerViewDto = new CustomerViewDto(customer);
-            outputConsole.printCustomer(customerViewDto);
-        });
+        customerService.getCustomerViewDtoLists()
+                .forEach(outputConsole::printCustomer);
     }
 
     public void printAllBlackListCustomer() throws IOException {
         List<Customer> customerList = customerService.getBlackListCustomers();
-        customerList.stream().forEach(customer -> {
+        customerList.forEach(customer -> {
             CustomerViewDto customerViewDto = new CustomerViewDto(customer);
             outputConsole.printCustomer(customerViewDto);
         });    }

@@ -30,11 +30,8 @@ public class WalletController {
         try {
             outputConsole.getCustomerId();
             UUID customerId = UUID.fromString(inputConsole.getString());
-            List<Voucher> vouchers = walletService.findVouchersById(customerId);
-            vouchers.stream().forEach(voucher -> {
-                VoucherViewDto voucherViewDto = new VoucherViewDto(voucher);
-                outputConsole.printVoucher(voucherViewDto);
-            });
+            List<VoucherViewDto> vouchers = walletService.findVouchersById(customerId);
+            vouchers.forEach(outputConsole::printVoucher);
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
@@ -67,11 +64,7 @@ public class WalletController {
     }
 
     public void printAllWallet() {
-        List<Wallet> walletList = walletService.findAll();
-        walletList.stream().forEach(wallet -> {
-            WalletViewDto walletViewDto = new WalletViewDto(wallet);
-            outputConsole.printWallet(walletViewDto);
-        });
+        walletService.getWalletViewDtoList().forEach(outputConsole::printWallet);
     }
 
     public void endWalletMode() {

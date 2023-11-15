@@ -3,8 +3,10 @@ package org.prgrms.kdtspringdemo.customer.service;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
 import org.prgrms.kdtspringdemo.dto.CustomerRequestDto;
 import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
+import org.prgrms.kdtspringdemo.dto.CustomerViewDto;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +25,13 @@ public class CustomerService {
 
     public List<Customer> findAll() {
         return customerRepository.findAll();
+    }
+
+    public List<CustomerViewDto> getCustomerViewDtoLists() {
+        List<Customer> customerList = this.findAll();
+        List<CustomerViewDto> customerViewDtoList = new ArrayList<>();
+        customerList.forEach(customer -> customerViewDtoList.add(new CustomerViewDto(customer)));
+        return customerViewDtoList;
     }
 
     public List<Customer> findNoneHaveWalletCustomer() {
