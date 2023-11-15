@@ -11,11 +11,13 @@ import org.prgrms.kdtspringdemo.wallet.controller.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 
 @Controller
+@Profile("dev")
 public class AppController implements CommandLineRunner {
     private final InputConsole inputConsole;
     private final OutputConsole outputConsole;
