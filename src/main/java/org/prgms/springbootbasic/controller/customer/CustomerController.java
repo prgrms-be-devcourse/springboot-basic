@@ -2,7 +2,7 @@ package org.prgms.springbootbasic.controller.customer;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.domain.customer.Customer;
-import org.prgms.springbootbasic.domain.customer.CustomerRequestDto;
+import org.prgms.springbootbasic.domain.customer.dto.CustomerRequestDto;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.CustomerService;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.domain.customer;
+package org.prgms.springbootbasic.domain.customer.dto;
 
 public record CustomerRequestDto (
         String customerId,

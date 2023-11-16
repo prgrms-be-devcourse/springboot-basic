@@ -1,10 +1,9 @@
 package org.prgms.springbootbasic.controller.voucher;
 
-import org.prgms.springbootbasic.common.UtilMethod;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
-import org.prgms.springbootbasic.domain.voucher.VoucherRequestDto;
-import org.prgms.springbootbasic.domain.voucher.VoucherResponseDto;
+import org.prgms.springbootbasic.domain.voucher.dto.VoucherRequestDto;
+import org.prgms.springbootbasic.domain.voucher.dto.VoucherResponseDto;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.VoucherService;
 import org.springframework.http.HttpStatus;
@@ -18,7 +17,7 @@ import java.util.UUID;
 
 import static org.prgms.springbootbasic.common.CommonConstant.MAX_LOCAL_DATE_TIME;
 import static org.prgms.springbootbasic.common.CommonConstant.MIN_LOCAL_DATE_TIME;
-import static org.prgms.springbootbasic.common.UtilMethod.convertVoucherToVoucherResponseDto;
+import static org.prgms.springbootbasic.domain.voucher.dto.VoucherResponseDto.convertVoucherToVoucherResponseDto;
 
 @RestController
 @RequestMapping("/api/v1/vouchers")
@@ -47,7 +46,7 @@ public class VoucherApiController {
         // 컨트롤러가 도메인 Voucher를 알고 있다면 Voucher 관련 메서드를 사용할 수 있다는 것이니까.
         List<Voucher> vouchers = voucherService.findByPolicyBetweenLocalDateTime(voucherPolicy, startOfDay, endOfDay); // 이게 맞나??
         // -> 한번에, 동적 쿼리로. 대부분 널 처리로도 위 기본값 넣는 것처럼 해도 됨. 서비스 정책에 따라 다름.
-        List<VoucherResponseDto> responseDto = vouchers.stream().map(UtilMethod::convertVoucherToVoucherResponseDto).toList();
+        List<VoucherResponseDto> responseDto = vouchers.stream().map(VoucherResponseDto::convertVoucherToVoucherResponseDto).toList();
 
         return ResponseEntity.ok(responseDto);
     }
