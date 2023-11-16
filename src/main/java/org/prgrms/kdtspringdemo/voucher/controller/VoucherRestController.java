@@ -43,8 +43,8 @@ public class VoucherRestController {
     }
 
     @GetMapping("/vouchers/policy")
-    ResponseEntity<List<Voucher>> findByPolicy(@RequestParam String policy) {
-        List<Voucher> vouchers = voucherService.findByPolicy(policy);
+    ResponseEntity<List<VoucherViewDto>> findByPolicy(@RequestParam String policy) {
+        List<VoucherViewDto> vouchers = voucherService.findByPolicy(policy);
         return new ResponseEntity<>(vouchers, HttpStatus.OK);
     }
 

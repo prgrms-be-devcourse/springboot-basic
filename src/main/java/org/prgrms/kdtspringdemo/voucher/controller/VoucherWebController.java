@@ -24,17 +24,14 @@ public class VoucherWebController {
 
     @GetMapping
     public String getAllVouchers(@RequestParam(name = "policy", required = false) String policy, Model model) {
-        List<Voucher> vouchers;
+        List<VoucherViewDto> vouchers;
         if (policy != null && !policy.isEmpty()) {
             vouchers = voucherService.findByPolicy(policy);
         } else {
-            vouchers = voucherService.findAll();
+            vouchers = voucherService.getVoucherViewDtoList();
         }
 
-        List<VoucherViewDto> voucherViewDtos = new ArrayList<>();
-        vouchers.stream().forEach(voucher -> voucherViewDtos.add(new VoucherViewDto(voucher)));
-
-        model.addAttribute("vouchers", voucherViewDtos);
+        model.addAttribute("vouchers", vouchers);
         return "voucher";
     }
 
