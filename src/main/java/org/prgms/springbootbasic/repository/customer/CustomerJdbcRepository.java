@@ -31,7 +31,7 @@ public class CustomerJdbcRepository implements CustomerRepository{
             jdbcTemplate.update("UPDATE customers SET name = :name, is_blacked = :isBlacked WHERE customer_id = UNHEX(REPLACE(:customerId, '-', ''))",
                     toParamMap(customer));
         } else {
-            jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, is_blacked) VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email, :isBlacked)",
+            jdbcTemplate.update("INSERT INTO customers(customer_id, name, email, is_blacked, created_at) VALUES (UNHEX(REPLACE(:customerId, '-', '')), :name, :email, :isBlacked, :createdAt)",
                     toParamMap(customer));
         }
 
@@ -103,6 +103,7 @@ public class CustomerJdbcRepository implements CustomerRepository{
             put("name", customer.getName());
             put("email", customer.getEmail());
             put("isBlacked", customer.isBlacked());
+            put("createdAt", customer.getCreatedAt());
         }};
     }
 
