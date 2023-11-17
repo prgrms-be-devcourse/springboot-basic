@@ -1,9 +1,8 @@
 package org.prgrms.kdtspringdemo.voucher.controller;
 
-import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.dto.VoucherRequestDto;
 import org.prgrms.kdtspringdemo.dto.VoucherViewDto;
+import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,22 +22,21 @@ public class VoucherRestController {
 
     @GetMapping
     ResponseEntity<List<VoucherViewDto>> showAllVouchers() {
-        List<VoucherViewDto> vouchers = voucherService.findAll().stream()
-                .map(VoucherViewDto::new).toList();
+        List<VoucherViewDto> vouchers = voucherService.getVoucherViewDtoList();
         return new ResponseEntity<>(vouchers, HttpStatus.OK);
     }
 
     @PostMapping
-    ResponseEntity<Voucher> create(@ModelAttribute VoucherRequestDto voucherRequestDto) {
+    ResponseEntity<VoucherViewDto> create(@ModelAttribute VoucherRequestDto voucherRequestDto) {
         VoucherTypeFunction voucherTypeFunction = VoucherTypeFunction.findByCode(voucherRequestDto.getVoucherPolicy());
         long amount = voucherRequestDto.getAmount();
-        Voucher voucher = voucherService.createVoucher(voucherTypeFunction, amount);
+        VoucherViewDto voucher = voucherService.createVoucher(voucherTypeFunction, amount);
         return new ResponseEntity<>(voucher, HttpStatus.CREATED);
     }
 
     @GetMapping("/{voucherId}")
-    ResponseEntity<Voucher> findById(@PathVariable UUID voucherId) {
-        Voucher voucher = voucherService.findById(voucherId);
+    ResponseEntity<VoucherViewDto> findById(@PathVariable UUID voucherId) {
+        VoucherViewDto voucher = voucherService.findById(voucherId);
         return new ResponseEntity<>(voucher, HttpStatus.OK);
     }
 

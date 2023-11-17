@@ -1,15 +1,13 @@
 package org.prgrms.kdtspringdemo.voucher.controller;
 
-import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.dto.VoucherRequestDto;
 import org.prgrms.kdtspringdemo.dto.VoucherViewDto;
+import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.service.VoucherService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +35,7 @@ public class VoucherWebController {
 
     @GetMapping("/{voucherId}")
     public String viewVoucher(@PathVariable UUID voucherId, Model model) {
-        VoucherViewDto voucherViewDto = new VoucherViewDto(voucherService.findById(voucherId));
+        VoucherViewDto voucherViewDto = voucherService.findById(voucherId);
         model.addAttribute("voucher", voucherViewDto);
         return "voucher_details";
     }
@@ -57,8 +55,8 @@ public class VoucherWebController {
 
     @GetMapping("/{voucherId}/edit")
     public String editVoucher(@PathVariable UUID voucherId, Model model) {
-        Voucher voucher = voucherService.findById(voucherId);
-        VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucher.getVoucherPolicy().getVoucherType(), voucher.getVoucherPolicy().getAmount());
+        VoucherViewDto voucher = voucherService.findById(voucherId);
+        VoucherRequestDto voucherRequestDto = new VoucherRequestDto(voucher.getVoucherPolicy(), voucher.getAmount());
 
         model.addAttribute("voucher", voucherRequestDto);
         return "voucher_edit"; // 바우처 정보 수정 페이지로 이동

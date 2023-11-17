@@ -2,7 +2,7 @@ package org.prgrms.kdtspringdemo.dto;
 
 public class VoucherRequestDto {
     private String voucherPolicy;
-    private Long amount;
+    private long amount;
 
     public VoucherRequestDto(String voucherPolicy, long amount) {
         this.voucherPolicy = voucherPolicy;

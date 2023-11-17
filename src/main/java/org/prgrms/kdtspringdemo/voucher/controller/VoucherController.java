@@ -37,7 +37,6 @@ public class VoucherController {
             VoucherTypeFunction voucherType = findVoucherType();
             outputConsole.getVoucherAmount();
             long amount = Long.parseLong(inputConsole.getString());
-
             voucherService.createVoucher(voucherType, amount);
         } catch (NumberFormatException e) {
             logger.error("올바른 숫자 형식이 아닙니다.");

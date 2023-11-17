@@ -38,7 +38,7 @@ public class WalletWebController {
         WalletViewDto walletViewDto = walletService.findById(walletId).orElseThrow(NoSuchFieldError::new);
         List<VoucherViewDto> voucherViewDtoList = walletService.findVouchersById(walletViewDto.getCustomerId());
         walletViewDto.setVoucherList(voucherViewDtoList);
-        List<Voucher> unallocatedVouchers = voucherService.findUnallocatedVoucher();
+        List<VoucherViewDto> unallocatedVouchers = voucherService.findUnallocatedVoucher();
 
         model.addAttribute("wallet", walletViewDto);
         model.addAttribute("voucherList", unallocatedVouchers);
@@ -54,7 +54,7 @@ public class WalletWebController {
         UUID selectedVoucherId = addVoucherToWalletDto.getSelectedVoucherId();
         if (selectedVoucherId != null) {
             WalletViewDto walletViewDto = walletService.findById(walletId).orElse(null);
-            Voucher selectedVoucher = voucherService.findById(selectedVoucherId);
+            VoucherViewDto selectedVoucher = voucherService.findById(selectedVoucherId);
 
             if (walletViewDto != null && selectedVoucher != null) {
                 walletService.addVoucherByCustomerId(walletViewDto.getWalletId(), walletViewDto.getCustomerId(), selectedVoucherId);
