@@ -1,6 +1,7 @@
 package org.prgms.springbootbasic.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.controller.voucher.dto.VoucherResponseDto;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.customer.Customer;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
@@ -123,7 +124,7 @@ public class ConsoleController {
     }
 
     private void listVoucher() {
-        List<Voucher> vouchers = voucherService.findAll();
+        List<VoucherResponseDto> vouchers = voucherService.findAll();
 
         printList(vouchers);
     }

@@ -1,11 +1,10 @@
 package org.prgms.springbootbasic.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.controller.voucher.dto.VoucherResponseDto;
 import org.prgms.springbootbasic.domain.customer.Customer;
-import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.service.CustomerService;
 import org.prgms.springbootbasic.service.VoucherService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +27,7 @@ public class HomeController {
     @GetMapping
     public String homePage(Model model){
         List<Customer> customers = customerService.findAll(); //pagination
-        List<Voucher> vouchers = voucherService.findAll();
+        List<VoucherResponseDto> vouchers = voucherService.findAll();
 
         model.addAttribute("customers", customers);
         model.addAttribute("vouchers", vouchers);

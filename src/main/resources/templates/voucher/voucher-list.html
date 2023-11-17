@@ -13,7 +13,7 @@
         <tr th:each="voucher : ${vouchers}" th:object="${voucher}">
             <th scope="row" style="cursor: pointer" th:data-voucher-id="*{getVoucherId()}" id="voucher-row" th:text="*{getVoucherId()}" onclick="detailVoucherButton(this)"></th>
             <td th:text="*{getDiscountDegree()}"></td>
-            <td th:text="*{getVoucherPolicy().getClass().getSimpleName()}"></td>
+            <td th:text="*{getVoucherPolicy()}"></td>
             <td><button type="button" id="delete-voucher" th:data-voucher-id="*{getVoucherId()}"
                         class="btn btn-outline-danger align-items-end" onclick="deleteVoucherButton(this)">Delete</button></td>
         </tr>

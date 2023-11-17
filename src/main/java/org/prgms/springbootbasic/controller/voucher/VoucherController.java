@@ -1,8 +1,8 @@
 package org.prgms.springbootbasic.controller.voucher;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.controller.voucher.dto.VoucherResponseDto;
 import org.prgms.springbootbasic.domain.VoucherType;
-import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.controller.voucher.dto.VoucherRequestDto;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.VoucherService;
@@ -42,9 +42,9 @@ public class VoucherController {
     public String showDetail(@PathVariable("voucherId") String voucherId, Model model) {
         UUID voucherUUID = UUID.fromString(voucherId);
 
-        Voucher voucher = voucherService.findById(voucherUUID)
+        VoucherResponseDto voucherResponseDto = voucherService.findById(voucherUUID)
                 .orElseThrow(EntityNotFoundException::new);
-        model.addAttribute("voucher", voucher);
+        model.addAttribute("voucher", voucherResponseDto);
 
         return "voucher/voucher-details";
     }
