@@ -6,6 +6,7 @@ import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.VoucherService;
 import org.prgms.springbootbasic.service.dto.VoucherFilterDto;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class VoucherApiController {
     }
 
     @GetMapping
-    public ResponseEntity<List<VoucherResponseDto>> showVouchersFiltered(@RequestParam LocalDateTime startDay,
-                                                                         @RequestParam LocalDateTime endDay,
+    public ResponseEntity<List<VoucherResponseDto>> showVouchersFiltered(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDay,
+                                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDay,
                                                                          @RequestParam String voucherPolicy) {
         VoucherFilterDto voucherFilterDto = new VoucherFilterDto(startDay, endDay, VoucherType.getTypeFromName(voucherPolicy));
 
