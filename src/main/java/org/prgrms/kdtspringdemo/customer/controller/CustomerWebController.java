@@ -1,12 +1,12 @@
 package org.prgrms.kdtspringdemo.customer.controller;
 
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
+import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.dto.CustomerRequestDto;
 import org.prgrms.kdtspringdemo.dto.CustomerViewDto;
-import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.wallet.service.WalletService;
-import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ public class CustomerWebController {
         List<Customer> customerList = customerService.findAll();
         List<CustomerViewDto> customerViewDtos = new ArrayList<>();
         customerList.forEach(customer -> customerViewDtos.add(new CustomerViewDto(customer)));
-        List<Customer> noneHaveWalletCustomers = customerService.findNoneHaveWalletCustomer();
+        List<CustomerViewDto> noneHaveWalletCustomers = customerService.findNoneHaveWalletCustomer();
 
         model.addAttribute("customerList", customerViewDtos);
         model.addAttribute("customers", noneHaveWalletCustomers);
@@ -39,8 +39,8 @@ public class CustomerWebController {
 
     @PostMapping("/create")
     public String createCustomer(@ModelAttribute CustomerRequestDto customerRequestDto) {
-        Customer customer = customerService.insert(customerRequestDto);
-        if(customer!=null) walletService.create(customer.getCustomerId());
+        CustomerViewDto customer = customerService.insert(customerRequestDto);
+        if (customer != null) walletService.create(customer.getCustomerId());
         return "redirect:/customers";
     }
 

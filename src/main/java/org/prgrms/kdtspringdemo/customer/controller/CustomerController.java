@@ -1,9 +1,8 @@
 package org.prgrms.kdtspringdemo.customer.controller;
 
-import org.prgrms.kdtspringdemo.customer.domain.Customer;
+import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.dto.CustomerRequestDto;
 import org.prgrms.kdtspringdemo.dto.CustomerViewDto;
-import org.prgrms.kdtspringdemo.customer.service.CustomerService;
 import org.prgrms.kdtspringdemo.view.InputConsole;
 import org.prgrms.kdtspringdemo.view.OutputConsole;
 import org.prgrms.kdtspringdemo.wallet.service.WalletService;
@@ -46,16 +45,13 @@ public class CustomerController {
     }
 
     public void printAllCustomers() {
-        customerService.getCustomerViewDtoLists()
-                .forEach(outputConsole::printCustomer);
+        customerService.getCustomerViewDtoLists().forEach(outputConsole::printCustomer);
     }
 
-    public void printAllBlackListCustomer() throws IOException {
-        List<Customer> customerList = customerService.getBlackListCustomers();
-        customerList.forEach(customer -> {
-            CustomerViewDto customerViewDto = new CustomerViewDto(customer);
-            outputConsole.printCustomer(customerViewDto);
-        });    }
+    public void printAllBlackListCustomer() {
+        List<CustomerViewDto> customerList = customerService.getBlackListCustomers();
+        customerList.forEach(outputConsole::printCustomer);
+    }
 
     public void endCustomerMode() {
         outputConsole.printCustomerModeEnd();
