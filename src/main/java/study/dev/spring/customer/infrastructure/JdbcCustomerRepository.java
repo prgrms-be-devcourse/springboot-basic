@@ -1,5 +1,6 @@
 package study.dev.spring.customer.infrastructure;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +71,9 @@ public class JdbcCustomerRepository implements CustomerRepository {
 
 	@Override
 	public List<Customer> findByIds(List<String> ids) {
+		if (ids.isEmpty()) {
+			return new ArrayList<>();
+		}
 		return jdbcTemplate.query(
 			"select * from Customer c where c.uuid in(:ids)",
 			Collections.singletonMap(IDS, ids),

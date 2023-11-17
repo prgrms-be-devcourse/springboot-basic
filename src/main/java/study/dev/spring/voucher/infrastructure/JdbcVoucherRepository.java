@@ -1,5 +1,6 @@
 package study.dev.spring.voucher.infrastructure;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -65,6 +66,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
 	@Override
 	public List<Voucher> findByIds(List<String> ids) {
+		if (ids.isEmpty()) {
+			return new ArrayList<>();
+		}
 		return jdbcTemplate.query(
 			"select * from Voucher v where v.uuid in (:ids)",
 			Collections.singletonMap("ids", ids),

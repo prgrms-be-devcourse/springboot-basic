@@ -23,14 +23,14 @@ public class VoucherService {
 	private final WalletRepository walletRepository;
 
 	@Transactional
-	public void createVoucher(final CreateVoucherRequest request) {
+	public String createVoucher(final CreateVoucherRequest request) {
 		Voucher newVoucher = Voucher.of(
 			VoucherType.valueOf(request.voucherType()),
 			request.name(),
 			request.discountAmount()
 		);
 
-		voucherRepository.save(newVoucher);
+		return voucherRepository.save(newVoucher).getUuid();
 	}
 
 	@Transactional(readOnly = true)
