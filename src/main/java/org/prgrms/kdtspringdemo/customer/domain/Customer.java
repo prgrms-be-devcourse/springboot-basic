@@ -24,4 +24,12 @@ public class Customer {
     public boolean isBlack() {
         return isBlack;
     }
+
+    @Override
+    public String toString() {
+        return "=======================\n"+
+                "customerId : " + customerId + "\n" +
+                "customer name : " + name + "\n" +
+                "isBlack : " + isBlack + "\n";
+    }
 }

@@ -1,7 +1,8 @@
 package org.prgrms.kdtspringdemo.voucher.service;
 
+import org.prgrms.kdtspringdemo.dto.VoucherRequestDto;
+import org.prgrms.kdtspringdemo.dto.VoucherViewDto;
 import org.prgrms.kdtspringdemo.voucher.domain.Voucher;
-import org.prgrms.kdtspringdemo.voucher.domain.VoucherPolicy;
 import org.prgrms.kdtspringdemo.voucher.domain.VoucherTypeFunction;
 import org.prgrms.kdtspringdemo.voucher.repository.VoucherRepository;
 import org.slf4j.Logger;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -26,26 +26,41 @@ public class VoucherService {
         return VoucherTypeFunction.findByCode(type);
     }
 
-    public Voucher createVoucher(VoucherTypeFunction voucherType, UUID voucherId, long amount) {
-        Voucher voucher = voucherType.create(voucherId, amount);
-        voucherRepository.insert(voucher);
-        return voucher;
+    public VoucherViewDto createVoucher(VoucherTypeFunction voucherType, long amount) {
+        UUID voucherId = UUID.randomUUID();
+        Voucher voucher = voucherRepository.insert(voucherType.create(voucherId, amount));
+        return new VoucherViewDto(voucher);
     }
 
-    public Optional<List<Voucher>> findAll() {
-        return Optional.of(voucherRepository.findAll().get());
+    public void updateVoucher(UUID voucherId, VoucherRequestDto voucherRequestDto) {
+        voucherRepository.update(voucherId, voucherRequestDto);
     }
 
-    public Voucher findById(UUID voucherId) {
-        return voucherRepository
-                .findById(voucherId)
-                .orElseThrow(() -> {
-                    logger.error(MessageFormat.format("Can not find a voucher for {0}", voucherId));
-                    return new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId));
-                });
+    public List<VoucherViewDto> getVoucherViewDtoList() {
+        return voucherRepository.findAll().stream().map(VoucherViewDto::new).toList();
     }
 
-    public void endVoucherService() {
-        System.exit(0);
+    public List<VoucherViewDto> findByPolicy(String policy) {
+        return voucherRepository.findByPolicy(policy).stream().map(VoucherViewDto::new).toList();
+    }
+
+    public List<VoucherViewDto> findUnallocatedVoucher() {
+        return voucherRepository.findUnallocatedVoucher().stream().map(VoucherViewDto::new).toList();
+    }
+
+    public VoucherViewDto findById(UUID voucherId) {
+        Voucher voucher = voucherRepository.findById(voucherId).orElseThrow(() -> {
+            logger.error(MessageFormat.format("Can not find a voucher for {0}", voucherId));
+            return new RuntimeException(MessageFormat.format("Can not find a voucher for {0}", voucherId));
+        });
+        return new VoucherViewDto(voucher);
+    }
+
+    public void deleteById(UUID voucherId) {
+        voucherRepository.deleteById(voucherId);
+    }
+
+    public void deleteAll() {
+        voucherRepository.deleteAll();
     }
 }

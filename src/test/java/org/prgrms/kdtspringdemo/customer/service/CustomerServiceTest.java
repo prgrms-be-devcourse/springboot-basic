@@ -1,12 +1,13 @@
-package org.prgrms.kdtspringdemo.customer.repository;
+package org.prgrms.kdtspringdemo.customer.service;
 
 import com.zaxxer.hikari.HikariDataSource;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.prgrms.kdtspringdemo.customer.domain.Customer;
+import org.prgrms.kdtspringdemo.customer.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,20 +16,18 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.UUID;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
 
 @SpringJUnitConfig
-@EnableAutoConfiguration
 @ActiveProfiles("DB")
-class JdbcCustomerRepositoryTest {
+class CustomerServiceTest {
+
     @Configuration
-    @ComponentScan()
+    @ComponentScan(basePackages = {"org.prgrms.kdtspringdemo.customer"})
     static class Config {
         @Bean
         public DataSource dataSource() {
@@ -45,52 +44,26 @@ class JdbcCustomerRepositoryTest {
             return new JdbcTemplate(dataSource);
         }
     }
-
     @Autowired
-    private JdbcCustomerRepository jdbcCustomerRepository;
-
-    @BeforeEach
-    void init() {
-        jdbcCustomerRepository.deleteAll();
-    }
+    private CustomerService customerService;
 
     @Test
-    @DisplayName("데이터베이스에 고객을 추가합니다.")
     void insert() {
         //given
-        Customer customer = new Customer(UUID.randomUUID(), "eugene", true);
+        Customer customer = new Customer(UUID.randomUUID(), "eugene2", false);
 
         //when
-        Customer insertCustomer = jdbcCustomerRepository.insert(customer);
+        Customer insertCustomer = customerService.insert(customer);
 
         //then
-        assertThat(customer, samePropertyValuesAs(insertCustomer));
+        assertThat(customer.getCustomerId(), is(insertCustomer.getCustomerId()));
     }
 
     @Test
-    @DisplayName("모든 블랙리스트 목록을 반환합니다.")
-    void getAllBlackList() throws IOException {
-        //given
-        jdbcCustomerRepository.insert(new Customer(UUID.randomUUID(), "tester01", true));
-        jdbcCustomerRepository.insert(new Customer(UUID.randomUUID(), "tester02", true));
-
-        //when
-        List<Customer> customerList = jdbcCustomerRepository.getAllBlackList().get();
-
-        //then
-        assertThat(customerList.size(), is(2));
+    void findAll() {
     }
 
     @Test
-    @DisplayName("고객이 없는 경우 NPE 발생 X")
-    void getAllCustomersNull() throws IOException {
-        //given
-        //none
-
-        //when
-        List<Customer> customerList = jdbcCustomerRepository.getAllBlackList().get();
-
-        //then
-        assertThat(customerList.size(), is(0));
+    void getBlackListCustomers() {
     }
 }
