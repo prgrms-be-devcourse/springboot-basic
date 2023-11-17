@@ -1,7 +1,7 @@
 package org.prgms.springbootbasic.controller.customer;
 
 import org.prgms.springbootbasic.domain.customer.Customer;
-import org.prgms.springbootbasic.domain.customer.dto.CustomerRequestDto;
+import org.prgms.springbootbasic.controller.customer.dto.CustomerRequestDto;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.CustomerService;
 import org.springframework.http.HttpStatus;

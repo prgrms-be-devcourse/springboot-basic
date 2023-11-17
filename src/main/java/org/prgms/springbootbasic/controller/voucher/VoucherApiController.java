@@ -2,8 +2,8 @@ package org.prgms.springbootbasic.controller.voucher;
 
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
-import org.prgms.springbootbasic.domain.voucher.dto.VoucherRequestDto;
-import org.prgms.springbootbasic.domain.voucher.dto.VoucherResponseDto;
+import org.prgms.springbootbasic.controller.voucher.dto.VoucherRequestDto;
+import org.prgms.springbootbasic.controller.voucher.dto.VoucherResponseDto;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.VoucherService;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import static org.prgms.springbootbasic.common.CommonConstant.MAX_LOCAL_DATE_TIME;
 import static org.prgms.springbootbasic.common.CommonConstant.MIN_LOCAL_DATE_TIME;
-import static org.prgms.springbootbasic.domain.voucher.dto.VoucherResponseDto.convertVoucherToVoucherResponseDto;
+import static org.prgms.springbootbasic.controller.voucher.dto.VoucherResponseDto.convertVoucherToVoucherResponseDto;
 
 @RestController
 @RequestMapping("/api/v1/vouchers")
