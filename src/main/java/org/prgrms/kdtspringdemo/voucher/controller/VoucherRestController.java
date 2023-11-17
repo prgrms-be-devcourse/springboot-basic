@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -21,9 +23,22 @@ public class VoucherRestController {
     }
 
     @GetMapping
-    ResponseEntity<List<VoucherViewDto>> showAllVouchers() {
-        List<VoucherViewDto> vouchers = voucherService.getVoucherViewDtoList();
-        return new ResponseEntity<>(vouchers, HttpStatus.OK);
+    public ResponseEntity<List<VoucherViewDto>> showAllVouchers(@RequestParam(name = "id", required = false) Optional<UUID> voucherId, @RequestParam(name = "policy", required = false) Optional<String> policy) {
+
+        if (voucherId.isPresent()) {
+            VoucherViewDto voucher = voucherService.findById(voucherId.get());
+            if (voucher != null) {
+                return new ResponseEntity<>(Collections.singletonList(voucher), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } else if (policy.isPresent()) {
+            List<VoucherViewDto> vouchers = voucherService.findByPolicy(policy.get());
+            return new ResponseEntity<>(vouchers, HttpStatus.OK);
+        } else {
+            List<VoucherViewDto> vouchers = voucherService.getVoucherViewDtoList();
+            return new ResponseEntity<>(vouchers, HttpStatus.OK);
+        }
     }
 
     @PostMapping
@@ -32,18 +47,6 @@ public class VoucherRestController {
         long amount = voucherRequestDto.getAmount();
         VoucherViewDto voucher = voucherService.createVoucher(voucherTypeFunction, amount);
         return new ResponseEntity<>(voucher, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{voucherId}")
-    ResponseEntity<VoucherViewDto> findById(@PathVariable UUID voucherId) {
-        VoucherViewDto voucher = voucherService.findById(voucherId);
-        return new ResponseEntity<>(voucher, HttpStatus.OK);
-    }
-
-    @GetMapping("/vouchers/policy")
-    ResponseEntity<List<VoucherViewDto>> findByPolicy(@RequestParam String policy) {
-        List<VoucherViewDto> vouchers = voucherService.findByPolicy(policy);
-        return new ResponseEntity<>(vouchers, HttpStatus.OK);
     }
 
     @DeleteMapping("/{voucherId}")
