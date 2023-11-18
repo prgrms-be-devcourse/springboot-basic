@@ -51,7 +51,7 @@ public class VoucherApiController {
     @PostMapping
     public ResponseEntity<VoucherResponseDto> createVoucher(@RequestBody VoucherRequestDto requestDto) {
         String voucherPolicy = requestDto.voucherPolicy();
-        VoucherType voucherType = voucherService.convertToType(voucherPolicy);
+        VoucherType voucherType = VoucherType.getTypeFromName(voucherPolicy);
 
         VoucherResponseDto voucherResponseDto = voucherService.insert(voucherType, requestDto.discountDegree());
 
