@@ -1,4 +1,4 @@
-package org.prgms.springbootbasic.controller.voucher.dto;
+package org.prgms.springbootbasic.service.dto;
 
 import org.prgms.springbootbasic.domain.voucher.Voucher;
 

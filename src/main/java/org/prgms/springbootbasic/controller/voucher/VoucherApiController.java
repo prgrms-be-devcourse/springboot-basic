@@ -1,7 +1,7 @@
 package org.prgms.springbootbasic.controller.voucher;
 
-import org.prgms.springbootbasic.controller.voucher.dto.VoucherRequestDto;
-import org.prgms.springbootbasic.controller.voucher.dto.VoucherResponseDto;
+import org.prgms.springbootbasic.service.dto.VoucherRequestDto;
+import org.prgms.springbootbasic.service.dto.VoucherResponseDto;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.VoucherService;
