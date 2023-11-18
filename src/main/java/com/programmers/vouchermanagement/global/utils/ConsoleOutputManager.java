@@ -1,4 +1,4 @@
-package com.programmers.vouchermanagement.utils;
+package com.programmers.vouchermanagement.global.utils;
 
 import com.programmers.vouchermanagement.customer.dto.CustomerResponseDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;

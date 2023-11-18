@@ -3,7 +3,7 @@ package com.programmers.vouchermanagement.customer.repository;
 import com.programmers.vouchermanagement.customer.domain.CustomerType;
 import com.programmers.vouchermanagement.customer.domain.Customer;
 import com.programmers.vouchermanagement.customer.mapper.CustomerMapper;
-import com.programmers.vouchermanagement.utils.CsvFileIoManager;
+import com.programmers.vouchermanagement.global.utils.CsvFileIoManager;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 

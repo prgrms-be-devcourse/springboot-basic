@@ -1,6 +1,6 @@
-package com.programmers.vouchermanagement.utils;
+package com.programmers.vouchermanagement.global.utils;
 
-import com.programmers.vouchermanagement.exception.FileIOException;
+import com.programmers.vouchermanagement.global.exception.FileIOException;
 import org.springframework.stereotype.Component;
 
 import java.io.*;

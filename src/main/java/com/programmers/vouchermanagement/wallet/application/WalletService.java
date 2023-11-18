@@ -8,6 +8,7 @@ import com.programmers.vouchermanagement.voucher.exception.VoucherNotFoundExcept
 import com.programmers.vouchermanagement.voucher.repository.VoucherRepository;
 import com.programmers.vouchermanagement.wallet.domain.Wallet;
 import com.programmers.vouchermanagement.wallet.dto.WalletRequestDto;
+import com.programmers.vouchermanagement.wallet.dto.WalletResponseDto;
 import com.programmers.vouchermanagement.wallet.repository.WalletRepository;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,7 @@ public class WalletService {
                 .map(Wallet::getVoucherId)
                 .map(voucherRepository::findById)
                 .map(optionalVoucher -> optionalVoucher.orElseThrow(VoucherNotFoundException::new))
-                .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount()))
+                .map(voucher -> new VoucherResponseDto(voucher.getVoucherId(), voucher.getVoucherType(), voucher.getVoucherPolicy().getDiscount(), voucher.getCreatedAt()))
                 .toList();
 
         return voucherResponseDtos;
@@ -81,5 +82,16 @@ public class WalletService {
                 .orElseThrow(() -> new CustomerNotFoundException(customerId));
 
         walletRepository.deleteByCustomerId(customerId);
+    }
+
+    public List<WalletResponseDto> readAllWallet() {
+
+        List<Wallet> wallets = walletRepository.findAll();
+
+        List<WalletResponseDto> walletResponseDtos = wallets.stream()
+                .map(wallet -> new WalletResponseDto(wallet.getWalletId(), wallet.getCustomerId(), wallet.getVoucherId()))
+                .toList();
+
+        return walletResponseDtos;
     }
 }

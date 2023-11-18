@@ -1,6 +1,6 @@
-package com.programmers.vouchermanagement.utils;
+package com.programmers.vouchermanagement.global.utils;
 
-import com.programmers.vouchermanagement.exception.CommandNotFoundException;
+import com.programmers.vouchermanagement.global.exception.CommandNotFoundException;
 
 import java.util.Arrays;
 

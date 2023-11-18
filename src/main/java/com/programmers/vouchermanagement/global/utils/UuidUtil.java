@@ -1,9 +1,9 @@
-package com.programmers.vouchermanagement.global.common;
+package com.programmers.vouchermanagement.global.utils;
 
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
-public class JdbcRepositoryManager {
+public class UuidUtil {
 
     public static UUID bytesToUUID(byte[] bytes) {
 

@@ -2,6 +2,7 @@ package com.programmers.vouchermanagement.voucher.mapper;
 
 import com.programmers.vouchermanagement.voucher.domain.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class VoucherMapper {
@@ -17,6 +18,6 @@ public class VoucherMapper {
         Long discount = Long.parseLong(voucherData[2]);
         VoucherPolicy voucherPolicy = VoucherPolicyMapper.toEntity(discount, voucherType);
 
-        return new Voucher(voucherId, voucherType, voucherPolicy);
+        return new Voucher(voucherId, voucherType, voucherPolicy, LocalDateTime.now());
     }
 }

@@ -2,10 +2,10 @@ package com.programmers.vouchermanagement;
 
 import com.programmers.vouchermanagement.customer.dto.CustomerResponseDto;
 import com.programmers.vouchermanagement.customer.presentation.CustomerController;
-import com.programmers.vouchermanagement.utils.Command;
-import com.programmers.vouchermanagement.exception.CommandNotFoundException;
-import com.programmers.vouchermanagement.utils.ConsoleInputManager;
-import com.programmers.vouchermanagement.utils.ConsoleOutputManager;
+import com.programmers.vouchermanagement.global.utils.Command;
+import com.programmers.vouchermanagement.global.exception.CommandNotFoundException;
+import com.programmers.vouchermanagement.global.utils.ConsoleInputManager;
+import com.programmers.vouchermanagement.global.utils.ConsoleOutputManager;
 import com.programmers.vouchermanagement.voucher.dto.VoucherRequestDto;
 import com.programmers.vouchermanagement.voucher.dto.VoucherResponseDto;
 import com.programmers.vouchermanagement.voucher.presentation.VoucherController;
@@ -14,6 +14,7 @@ import com.programmers.vouchermanagement.wallet.presentation.WalletController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Component
+@Profile("console")
 public class VoucherManagementController implements CommandLineRunner {
 
     private static final Logger logger = LoggerFactory.getLogger(VoucherManagementController.class);

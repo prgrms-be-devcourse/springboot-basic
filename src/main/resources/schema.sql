@@ -11,12 +11,15 @@ DROP TABLE IF EXISTS voucher;
 CREATE TABLE IF NOT EXISTS voucher (
     voucher_id BINARY(16) PRIMARY KEY,
     discount BIGINT,
-    voucher_type ENUM('FIXED', 'PERCENT')
+    voucher_type ENUM('FIXED', 'PERCENT'),
+    created_at datetime(6)
 );
 
 DROP TABLE IF EXISTS wallet;
 CREATE TABLE IF NOT EXISTS wallet (
     wallet_id BINARY(16) PRIMARY KEY,
     customer_id BINARY(16),
-    voucher_id BINARY(16)
+    voucher_id BINARY(16),
+    FOREIGN KEY (customer_id) REFERENCES customer (customer_id) ON DELETE CASCADE,
+    FOREIGN KEY (voucher_id) REFERENCES voucher (voucher_id) ON DELETE CASCADE
 );

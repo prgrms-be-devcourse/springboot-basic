@@ -1,7 +1,9 @@
 package com.programmers.vouchermanagement.voucher.repository;
 
 import com.programmers.vouchermanagement.voucher.domain.Voucher;
+import com.programmers.vouchermanagement.voucher.domain.VoucherType;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,4 +21,6 @@ public interface VoucherRepository {
     void deleteAll();
 
     void deleteById(UUID voucherId);
+
+    List<Voucher> findAllByCreatedAtAndVoucherType(LocalDateTime createdAt, VoucherType voucherType);
 }
