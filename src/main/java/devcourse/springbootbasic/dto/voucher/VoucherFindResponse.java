@@ -2,7 +2,9 @@ package devcourse.springbootbasic.dto.voucher;
 
 
 import devcourse.springbootbasic.domain.voucher.Voucher;
+import lombok.Getter;
 
+@Getter
 public class VoucherFindResponse {
 
     private final String id;

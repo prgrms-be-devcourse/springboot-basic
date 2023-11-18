@@ -2,6 +2,7 @@ package devcourse.springbootbasic.service;
 
 import devcourse.springbootbasic.domain.customer.Customer;
 import devcourse.springbootbasic.domain.voucher.Voucher;
+import devcourse.springbootbasic.domain.voucher.VoucherType;
 import devcourse.springbootbasic.dto.voucher.VoucherCreateRequest;
 import devcourse.springbootbasic.dto.voucher.VoucherFindResponse;
 import devcourse.springbootbasic.dto.voucher.VoucherUpdateDiscountValueRequest;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,14 +31,21 @@ public class VoucherService {
                 .toList();
     }
 
+    public List<VoucherFindResponse> findAllVoucherWithSearchConditions(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
+        return voucherRepository.findAllWithSearchConditions(voucherType, startDate, endDate) // 메서드명 Condition 서비스랑 동일하게 ㄱㄱ
+                .stream()
+                .map(VoucherFindResponse::new)
+                .toList();
+    }
+
     @Transactional
     public Voucher createVoucher(VoucherCreateRequest voucherCreateRequest) {
         return voucherRepository.save(voucherCreateRequest.toEntity(UUIDUtil.generateRandomUUID()));
     }
 
     @Transactional
-    public Voucher updateDiscountValue(VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
-        Voucher updatedDiscountVoucher = this.getVoucherById(voucherUpdateDiscountValueRequest.getId())
+    public Voucher updateDiscountValue(UUID voucherId, VoucherUpdateDiscountValueRequest voucherUpdateDiscountValueRequest) {
+        Voucher updatedDiscountVoucher = this.getVoucherById(voucherId)
                 .updateDiscountValue(voucherUpdateDiscountValueRequest.getDiscountValue());
 
         return persist(updatedDiscountVoucher);

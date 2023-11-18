@@ -10,9 +10,11 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
-@Profile({"prod", "test"})
+@Profile({"web", "cli", "test"})
 @Repository
 @RequiredArgsConstructor
 public class JdbcVoucherRepository implements VoucherRepository {
@@ -21,8 +23,35 @@ public class JdbcVoucherRepository implements VoucherRepository {
     private static final String VOUCHER_TYPE = "voucher_type";
     private static final String DISCOUNT_VALUE = "discount_value";
     private static final String CUSTOMER_ID = "customer_id";
+    private static final String CREATED_AT = "created_at";
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Override
+    public List<Voucher> findAllWithSearchConditions(VoucherType voucherType, LocalDate startDate, LocalDate endDate) {
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM voucher WHERE 1=1");
+
+        Map<String, Object> queryParams = new HashMap<>();
+
+        if (voucherType != null) {
+            queryBuilder.append(" AND voucher_type = :voucher_type");
+            queryParams.put("voucher_type", voucherType.toString());
+        }
+
+        if (startDate != null) {
+            queryBuilder.append(" AND created_at >= :start_date");
+            queryParams.put("start_date", startDate);
+        }
+
+        if (endDate != null) {
+            queryBuilder.append(" AND created_at < DATE_ADD(:end_date, INTERVAL 1 DAY)");
+            queryParams.put("end_date", endDate);
+        }
+
+        String query = queryBuilder.toString();
+
+        return jdbcTemplate.query(query, queryParams, (rs, rowNum) -> mapVoucherFromResultSet(rs));
+    }
 
     @Override
     public List<Voucher> findAll() {
@@ -92,8 +121,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public Voucher save(Voucher voucher) {
         String query = """
-                        INSERT INTO voucher (id, voucher_type, discount_value, customer_id)
-                        VALUES (UUID_TO_BIN(:id), :voucher_type, :discount_value, UUID_TO_BIN(:customer_id))
+                        INSERT INTO voucher (id, voucher_type, discount_value, customer_id, created_at)
+                        VALUES (UUID_TO_BIN(:id), :voucher_type, :discount_value, UUID_TO_BIN(:customer_id), :created_at)
                 """;
 
         jdbcTemplate.update(query, mapVoucherParameters(voucher));
@@ -111,6 +140,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         } else {
             params.put(CUSTOMER_ID, null);
         }
+        params.put(CREATED_AT, voucher.getCreatedAt());
 
         return params;
     }
@@ -122,7 +152,8 @@ public class JdbcVoucherRepository implements VoucherRepository {
         UUID customerId = rs.getBytes(CUSTOMER_ID) == null
                 ? null
                 : UUIDUtil.byteToUUID(rs.getBytes(CUSTOMER_ID));
+        LocalDateTime createdAt = rs.getTimestamp(CREATED_AT).toLocalDateTime();
 
-        return Voucher.createVoucher(id, voucherType, discountValue, customerId);
+        return Voucher.createVoucher(id, voucherType, discountValue, customerId, createdAt);
     }
 }

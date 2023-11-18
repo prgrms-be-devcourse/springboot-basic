@@ -48,14 +48,14 @@ class WalletServiceTest {
         Voucher voucher = generateAssignedVoucher(VoucherType.FIXED, 50, customerId);
         UUID voucherId = voucher.getId();
 
-        VoucherAssignRequest request = new VoucherAssignRequest(voucherId, customerId);
+        VoucherAssignRequest request = new VoucherAssignRequest(customerId);
 
         when(voucherService.getVoucherById(voucherId)).thenReturn(voucher);
         when(customerService.getByCustomerId(customerId)).thenReturn(customer);
         when(voucherService.assignVoucherToCustomer(voucher, customer)).thenReturn(voucher.assignToCustomer(customerId));
 
         // When
-        VoucherAssignResponse response = walletService.assignVoucherToCustomer(request);
+        VoucherAssignResponse response = walletService.assignVoucherToCustomer(voucherId, request);
 
         // Then
         assertThat(response.getVoucherId()).isEqualTo(voucherId.toString());
