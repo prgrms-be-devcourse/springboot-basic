@@ -29,8 +29,10 @@ dependencies {
 	implementation 'org.springframework:spring-oxm:6.0.13'
 	implementation 'com.thoughtworks.xstream:xstream:1.4.20'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	testCompileOnly 'org.projectlombok:lombok'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
