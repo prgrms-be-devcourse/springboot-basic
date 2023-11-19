@@ -1,8 +1,9 @@
 package org.prgms.springbootbasic.controller.voucher;
 
-import org.prgms.springbootbasic.service.dto.VoucherRequestDto;
+import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.service.dto.VoucherCreateRequestDto;
+import org.prgms.springbootbasic.service.dto.VoucherInsertDto;
 import org.prgms.springbootbasic.service.dto.VoucherResponseDto;
-import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.VoucherService;
 import org.prgms.springbootbasic.service.dto.VoucherFilterDto;
@@ -17,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/vouchers")
+@Slf4j
 public class VoucherApiController {
     private final VoucherService voucherService;
 
@@ -28,7 +30,9 @@ public class VoucherApiController {
     public ResponseEntity<List<VoucherResponseDto>> showVouchersFiltered(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDay,
                                                                          @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDay,
                                                                          @RequestParam String voucherPolicy) {
-        VoucherFilterDto voucherFilterDto = new VoucherFilterDto(startDay, endDay, VoucherType.getTypeFromName(voucherPolicy));
+        VoucherFilterDto voucherFilterDto = new VoucherFilterDto(startDay, endDay, voucherService.convertToType(voucherPolicy));
+
+        log.info(voucherFilterDto.toString());
 
         // 컨트롤러에서 도메인을 바로 바라보는 것은 도메인 로직까지 사용이 가능해서 컨트롤러 역할이 비대해짐.
         // 서비스와 컨트롤러 사이에도 DTO를 둬서 서비스에서만 도메인 처리를 하는 것이 좋음. -> VoucherFilterDto
@@ -49,11 +53,10 @@ public class VoucherApiController {
     }
 
     @PostMapping
-    public ResponseEntity<VoucherResponseDto> createVoucher(@RequestBody VoucherRequestDto requestDto) {
-        String voucherPolicy = requestDto.voucherPolicy();
-        VoucherType voucherType = VoucherType.getTypeFromName(voucherPolicy);
+    public ResponseEntity<VoucherResponseDto> createVoucher(@RequestBody VoucherCreateRequestDto requestDto) {
+        VoucherInsertDto voucherInsertDto = new VoucherInsertDto(requestDto.voucherPolicy(), requestDto.discountDegree());
 
-        VoucherResponseDto voucherResponseDto = voucherService.insert(voucherType, requestDto.discountDegree());
+        VoucherResponseDto voucherResponseDto = voucherService.insert(voucherInsertDto);
 
         return ResponseEntity.ok(voucherResponseDto);
     }

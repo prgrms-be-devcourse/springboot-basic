@@ -1,11 +1,12 @@
 package org.prgms.springbootbasic.controller.voucher;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.service.dto.VoucherCreateRequestDto;
+import org.prgms.springbootbasic.service.dto.VoucherInsertDto;
 import org.prgms.springbootbasic.service.dto.VoucherResponseDto;
-import org.prgms.springbootbasic.domain.VoucherType;
-import org.prgms.springbootbasic.service.dto.VoucherRequestDto;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.service.VoucherService;
+import org.prgms.springbootbasic.service.dto.VoucherUpdateDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,11 @@ public class VoucherController {
     }
 
     @PostMapping("/create")
-    public String create(VoucherRequestDto voucherRequestDto) {
-        log.info("voucherRequestDto = {}", voucherRequestDto);
+    public String create(VoucherCreateRequestDto voucherCreateRequestDto) {
+        VoucherInsertDto voucherInsertDto = new VoucherInsertDto(voucherCreateRequestDto.voucherPolicy(),
+                voucherCreateRequestDto.discountDegree());
 
-        VoucherType voucherType = voucherService.convertToType(voucherRequestDto.voucherPolicy());
-
-        voucherService.insert(voucherType, voucherRequestDto.discountDegree());
+        voucherService.insert(voucherInsertDto);
 
         return "redirect:/";
     }
@@ -50,14 +50,14 @@ public class VoucherController {
     }
 
     @PostMapping("/{voucherId}")
-    public String update(@PathVariable String voucherId, VoucherRequestDto requestDto) {
+    public String update(@PathVariable String voucherId, VoucherCreateRequestDto requestDto) {
         UUID voucherUUID = UUID.fromString(voucherId);
-        long discountDegree = requestDto.discountDegree();
-        VoucherType voucherType = voucherService.convertToType(requestDto.voucherPolicy());
 
-        log.info("voucherId = {}, discountDegree = {}, voucherPolicy = {}", voucherId, discountDegree, requestDto.voucherPolicy());
+        VoucherUpdateDto voucherUpdateDto = new VoucherUpdateDto(voucherUUID,
+                requestDto.voucherPolicy(),
+                requestDto.discountDegree());
 
-        voucherService.update(voucherUUID, voucherType, discountDegree);
+        voucherService.update(voucherUpdateDto);
 
         return "redirect:/";
     }

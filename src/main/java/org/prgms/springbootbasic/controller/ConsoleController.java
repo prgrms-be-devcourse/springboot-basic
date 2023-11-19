@@ -1,6 +1,7 @@
 package org.prgms.springbootbasic.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.prgms.springbootbasic.service.dto.VoucherInsertDto;
 import org.prgms.springbootbasic.service.dto.VoucherResponseDto;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.customer.Customer;
@@ -107,7 +108,7 @@ public class ConsoleController {
 
         int discountDegree = putDiscountDegree(voucherType);
 
-        voucherService.insert(voucherType, discountDegree);
+        voucherService.insert(new VoucherInsertDto(voucherType, discountDegree));
     }
 
     private void createCustomer() {

@@ -2,12 +2,14 @@ package org.prgms.springbootbasic.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.prgms.springbootbasic.service.dto.VoucherFilterDto;
+import org.prgms.springbootbasic.service.dto.VoucherInsertDto;
 import org.prgms.springbootbasic.service.dto.VoucherResponseDto;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.domain.voucher.Voucher;
 import org.prgms.springbootbasic.domain.voucher.VoucherPolicy;
 import org.prgms.springbootbasic.exception.EntityNotFoundException;
 import org.prgms.springbootbasic.repository.voucher.VoucherRepository;
+import org.prgms.springbootbasic.service.dto.VoucherUpdateDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,18 +33,22 @@ public class VoucherService {
         return VoucherType.getTypeFromName(policyName);
     }
 
-    public VoucherResponseDto insert(VoucherType voucherType, long discountDegree) {
-        VoucherPolicy voucherPolicy = voucherType.create();
-        Voucher voucher = new Voucher(UUID.randomUUID(), discountDegree, voucherPolicy);
+    public VoucherResponseDto insert(VoucherInsertDto voucherInsertDto) {
+        VoucherPolicy voucherPolicy = voucherInsertDto.voucherType().create();
+        Voucher voucher = new Voucher(UUID.randomUUID(), voucherInsertDto.discountDegree(), voucherPolicy);
         Voucher upsertedVoucher = voucherRepository.upsert(voucher);
 
         return VoucherResponseDto.convertVoucherToVoucherResponseDto(upsertedVoucher);
     }
 
-    public VoucherResponseDto update(UUID voucherId, VoucherType voucherType, long discountDegree) {
+    public VoucherResponseDto update(VoucherUpdateDto voucherUpdateDto) {
+        UUID voucherId = voucherUpdateDto.voucherId();
+
         findById(voucherId).orElseThrow(EntityNotFoundException::new);
 
-        Voucher updateVoucher = new Voucher(voucherId, discountDegree, voucherType.create());
+        Voucher updateVoucher = new Voucher(voucherId,
+                voucherUpdateDto.discountDegree(),
+                voucherUpdateDto.voucherType().create());
         Voucher upsertedVoucher = voucherRepository.upsert(updateVoucher);
 
         return VoucherResponseDto.convertVoucherToVoucherResponseDto(upsertedVoucher);

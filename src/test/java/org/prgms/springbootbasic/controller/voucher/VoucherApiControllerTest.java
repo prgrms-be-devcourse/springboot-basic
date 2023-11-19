@@ -1,9 +1,11 @@
 package org.prgms.springbootbasic.controller.voucher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.prgms.springbootbasic.service.dto.VoucherRequestDto;
+import org.prgms.springbootbasic.service.dto.VoucherCreateRequestDto;
+import org.prgms.springbootbasic.service.dto.VoucherInsertDto;
 import org.prgms.springbootbasic.service.dto.VoucherResponseDto;
 import org.prgms.springbootbasic.domain.VoucherType;
 import org.prgms.springbootbasic.service.VoucherService;
@@ -21,6 +23,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -30,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(controllers = VoucherApiController.class)
 @ActiveProfiles("dev")
+@Slf4j
 class VoucherApiControllerTest { // 컨트롤러 유닛 테스트로. (죄다 나머지 목 객체)
     @Autowired
     private MockMvc mockMvc;
@@ -52,7 +57,9 @@ class VoucherApiControllerTest { // 컨트롤러 유닛 테스트로. (죄다 �
 
         VoucherFilterDto voucherFilterDto = new VoucherFilterDto(startDay, endDay, VoucherType.FIXED_AMOUNT);
 
-        when(voucherService.findByPolicyBetweenLocalDateTime(voucherFilterDto))
+        log.info(voucherFilterDto.toString());
+
+        when(voucherService.findByPolicyBetweenLocalDateTime(eq(voucherFilterDto)))
                 .thenReturn(List.of(new VoucherResponseDto(UUID.randomUUID(),
                                 1000,
                                 "FixedAmountPolicy",
@@ -62,6 +69,8 @@ class VoucherApiControllerTest { // 컨트롤러 유닛 테스트로. (죄다 �
                                 "FixedAmountPolicy",
                                 LocalDateTime.of(2023, 8, 1, 18, 20))
                 ));
+        when(voucherService.convertToType("FixedAmountPolicy"))
+                .thenReturn(VoucherType.FIXED_AMOUNT);
 
         this.mockMvc.perform(get(uri)
                         .param("startDay", startDay.toString())
@@ -72,7 +81,7 @@ class VoucherApiControllerTest { // 컨트롤러 유닛 테스트로. (죄다 �
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
 
-        verify(voucherService).findByPolicyBetweenLocalDateTime(voucherFilterDto);
+        verify(voucherService).findByPolicyBetweenLocalDateTime(eq(voucherFilterDto));
     }
 
     @Test
@@ -100,24 +109,22 @@ class VoucherApiControllerTest { // 컨트롤러 유닛 테스트로. (죄다 �
     @Test
     @DisplayName("바우처 생성 로직을 실행할 수 있다.")
     void callCreateVoucher() throws Exception {
-        UUID setUpUuid = UUID.randomUUID();
+        VoucherCreateRequestDto voucherCreateRequestDto = new VoucherCreateRequestDto(VoucherType.PERCENT_DISCOUNT, 20);
 
-        VoucherRequestDto voucherRequestDto = new VoucherRequestDto(setUpUuid, VoucherType.PERCENT_DISCOUNT.getDisplayName(), 20);
-
-        when(voucherService.insert(VoucherType.PERCENT_DISCOUNT, 20))
-                .thenReturn(new VoucherResponseDto(setUpUuid,
+        when(voucherService.insert(any(VoucherInsertDto.class)))
+                .thenReturn(new VoucherResponseDto(UUID.randomUUID(),
                         20,
                         VoucherType.PERCENT_DISCOUNT.getDisplayName(),
                         LocalDateTime.now()));
 
         mockMvc.perform(post(uri).contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(voucherRequestDto)))
+                        .content(objectMapper.writeValueAsString(voucherCreateRequestDto)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.discountDegree").value(20))
                 .andExpect(jsonPath("$.voucherPolicy").value(VoucherType.PERCENT_DISCOUNT.getDisplayName()));
 
-        verify(voucherService).insert(VoucherType.PERCENT_DISCOUNT, 20);
+        verify(voucherService).insert(any(VoucherInsertDto.class));
     }
 
     @Test
