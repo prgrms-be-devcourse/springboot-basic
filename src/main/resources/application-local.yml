@@ -1,0 +1,3 @@
+basic:
+  file:
+    path: ./src/main/resources/voucher.csv

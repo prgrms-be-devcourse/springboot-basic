@@ -1,0 +1,9 @@
+basic:
+  file:
+    path: ./src/test/resources/voucher.csv
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: test
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver

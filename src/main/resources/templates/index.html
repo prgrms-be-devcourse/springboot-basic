@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Spring Boot Basic 과제 홈 페이지</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="p-3 m-0 border-0 bd-example m-0 border-0">
+    <div th:replace="header :: header"></div>
+    <br />
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <button class="nav-link active" th:attr="data-target='#customer'" onclick="showTab('customer')">Customer</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link" th:attr="data-target='#voucher'" onclick="showTab('voucher')">Voucher</button>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="customer" class="tab-pane fade show active">
+            <div th:replace="customer/customer-list :: customerFragment(${customers})"></div>
+        </div>
+        <div id="voucher" class="tab-pane fade">
+            <div th:replace="voucher/voucher-list :: voucherFragment(${vouchers})"></div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.nav-link');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            const tab = document.querySelector(`[data-target='#${tabId}']`);
+            tab.classList.add('active');
+
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabPanes.forEach(pane => pane.classList.remove('show', 'active'));
+
+            const tabPane = document.getElementById(tabId);
+            tabPane.classList.add('show', 'active');
+        }
+    </script>
+</body>
+</html>
