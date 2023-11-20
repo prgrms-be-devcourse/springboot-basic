@@ -2,8 +2,9 @@ package org.prgrms.vouchermanager.domain.voucher;
 
 
 
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.*;
 
 import java.util.UUID;
 

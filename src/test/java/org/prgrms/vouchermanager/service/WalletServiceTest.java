@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.prgrms.vouchermanager.domain.customer.Customer;
 import org.prgrms.vouchermanager.domain.voucher.Voucher;
 import org.prgrms.vouchermanager.domain.wallet.Wallet;
-import org.prgrms.vouchermanager.domain.wallet.WalletRequestDto;
+import org.prgrms.vouchermanager.dto.WalletRequest;
 import org.prgrms.vouchermanager.exception.NotExistEmailException;
 import org.prgrms.vouchermanager.exception.NotExistVoucherException;
 import org.prgrms.vouchermanager.repository.customer.JdbcCustomerRepository;
@@ -48,19 +48,19 @@ class WalletServiceTest {
         @Test
         @DisplayName("지갑 dto를 받아 저장할 수 있다")
         void createWallet() {
-            WalletRequestDto wallet = WalletData.getWalletDto();
+            WalletRequest wallet = WalletData.getWalletDto();
             when(customerRepository.findByEmail(any(String.class))).thenReturn(Optional.of(CustomerData.getCustomer()));
-            when(walletRepository.save(any(WalletRequestDto.class))).thenReturn(wallet);
+            when(walletRepository.save(any(WalletRequest.class))).thenReturn(wallet);
 
-            WalletRequestDto wallet1 = service.createWallet(wallet);
+            WalletRequest wallet1 = service.createWallet(wallet);
 
             assertThat(wallet).isEqualTo(wallet1);
-            verify(walletRepository).save(any(WalletRequestDto.class));
+            verify(walletRepository).save(any(WalletRequest.class));
         }
         @Test
         @DisplayName("존재하지 않는 고객을 지갑에 저장하면 예외가 발생한다.")
         void createWalletNoCustomer() {
-            WalletRequestDto wallet = WalletData.getWalletDto();
+            WalletRequest wallet = WalletData.getWalletDto();
             Assertions.assertThrows(NotExistEmailException.class, () -> service.createWallet(wallet));
         }
     }
@@ -74,9 +74,9 @@ class WalletServiceTest {
             Customer customer = CustomerData.getCustomer();
             when(walletRepository.findByEmail(any(String.class))).thenReturn(Optional.of(wallet));
 
-            Optional<Wallet> wallet1 = service.findByEmail("example@naver.com");
+            Wallet wallet1 = service.findByEmail("example@naver.com");
 
-            assertThat(wallet1).contains(wallet);
+            assertThat(wallet1).isEqualTo(wallet);
             verify(walletRepository).findByEmail(any(String.class));
         }
         @Test
@@ -95,9 +95,9 @@ class WalletServiceTest {
             when(voucherRepository.findByID(any(UUID.class))).thenReturn(Optional.of(voucher));
             when(walletRepository.findByVoucher(any(Voucher.class))).thenReturn(Optional.of(wallet));
 
-            Optional<Wallet> result = service.findByVoucher(voucher);
+            WalletRequest walletRequest = service.findByVoucher(voucher);
 
-            assertThat(result).contains(wallet);
+            assertThat(walletRequest.customerEmail()).isEqualTo(wallet.getCustomerEmail());
             verify(walletRepository).findByVoucher(any(Voucher.class));
         }
         @Test
@@ -121,9 +121,9 @@ class WalletServiceTest {
             when(customerRepository.findByEmail(any(String.class))).thenReturn(Optional.of(customer));
             when(walletRepository.deleteByEmail(any(String.class))).thenReturn(Optional.of(wallet));
 
-            Optional<Wallet> result = service.deleteByEmail("123@naver.com");
+            WalletRequest walletRequest = service.deleteByEmail("123@naver.com");
 
-            assertThat(result).contains(wallet);
+            assertThat(walletRequest.customerEmail()).isEqualTo(wallet.getCustomerEmail());
             verify(customerRepository).findByEmail(any(String.class));
             verify(walletRepository).deleteByEmail(any(String.class));
         }

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Wallet by Email</title>
+</head>
+<body>
+<h2>Find Wallet by Email</h2>
+<form action="/wallets/find-wallet/result" method="get">
+    <label for="email">Enter Email:</label>
+    <input type="text" id="email" name="email" required>
+    <button type="submit">Search</button>
+</form>
+</body>
+</html>

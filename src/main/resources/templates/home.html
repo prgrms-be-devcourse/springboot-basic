@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome to the Voucher App</title>
+    <style>
+        body {
+            background-color: #f3f3f3;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            margin-top: 100px;
+        }
+        .title {
+            font-size: 36px;
+            color: #333;
+        }
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .menu li {
+            margin-bottom: 10px;
+        }
+        .menu a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .menu a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">Welcome to the Voucher App</div>
+    <ul class="menu">
+        <li><a th:href="@{/vouchers}">Voucher Menu</a></li>
+        <li><a th:href="@{/customers}">Customer Menu</a></li>
+        <li><a th:href="@{/wallets}">Wallet Menu</a></li>
+    </ul>
+</div>
+</body>
+</html>

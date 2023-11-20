@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Wallet Information</title>
+</head>
+<body>
+<h2>Wallet Information</h2>
+<div th:if="${wallet.isPresent()}">
+    <p><strong>Email:</strong> <span th:text="${wallet.get().getCustomerEmail()}"></span></p>
+    <p><strong>Voucher:</strong> <span th:text="${wallet.get().getVoucherId()}"></span></p>
+    <!-- 다른 Wallet 속성을 여기에 추가 -->
+</div>
+<div th:if="${wallet.isEmpty()}">
+    <p>No wallet found for the provided email.</p>
+</div>
+</body>
+</html>

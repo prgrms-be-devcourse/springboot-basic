@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete By Email</title>
+</head>
+<body>
+<h2>Delete Wallet</h2>
+<form action="/wallets/delete" method="post">
+    <label for="customerSelect">Select Voucher:</label>
+    <select id="customerSelect" name="email">
+        <option value="">Select a Customer</option>
+        <th:block th:each="customer : ${customers}">
+            <option th:value="${customer.getEmail()}" th:text="${customer.getEmail()}"></option>
+        </th:block>
+    </select>
+    <button type="submit">Delete</button>
+</form>
+</body>
+</html>
