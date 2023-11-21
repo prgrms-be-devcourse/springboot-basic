@@ -60,7 +60,7 @@ public class VoucherRestController {
     }
 
     @DeleteMapping("/{voucherId}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteById(@PathVariable UUID voucherId) {
         voucherService.deleteById(voucherId);
     }
