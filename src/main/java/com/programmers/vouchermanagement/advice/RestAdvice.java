@@ -34,4 +34,10 @@ public class RestAdvice {
     public ExceptionMessage handleNoSuchElementException(NoSuchElementException exception) {
         return new ExceptionMessage(exception.getMessage());
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionMessage handleRuntimeException(RuntimeException exception) {
+        return new ExceptionMessage("Unexpected message appears. Please contact to DEV team");
+    }
 }
