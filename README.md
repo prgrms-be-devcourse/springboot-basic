@@ -54,10 +54,10 @@ $ gradle test
 
 ## Run Locally
 
-Clone the project branch `ASak1104/week2`
+Clone the project branch `ASak1104/week3`
 
 ```bash
-$ git clone -b ASak1104/week2 https://github.com/ASak1104/voucher-management-system.git
+$ git clone -b ASak1104/week3 https://github.com/ASak1104/voucher-management-system.git
 ```
 
 Go to the project directory
