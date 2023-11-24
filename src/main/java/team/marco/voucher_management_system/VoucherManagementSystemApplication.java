@@ -1,28 +1,40 @@
 package team.marco.voucher_management_system;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.util.function.Consumer;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.env.Environment;
-import team.marco.voucher_management_system.application.CommandMainApplication;
+import org.springframework.context.annotation.ComponentScan;
+import team.marco.voucher_management_system.type_enum.ApplicationType;
+import team.marco.voucher_management_system.util.Console;
 
-@SpringBootApplication
+@ComponentScan
 @ConfigurationPropertiesScan
 public class VoucherManagementSystemApplication {
-    private static final Logger logger = LoggerFactory.getLogger(VoucherManagementSystemApplication.class);
-
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(VoucherManagementSystemApplication.class, args);
-        Environment environment = context.getEnvironment();
+        Console.print("""
+                === 실행할 애플리케이션을 선택해주세요. ===
+                0. Console Application
+                1. Web Application""");
 
-        logger.info("Program start (profile: {})", environment.getActiveProfiles()[0]);
+        selectApplication(args);
 
-        CommandMainApplication application = context.getBean(CommandMainApplication.class);
-        application.run();
+        Console.close();
+    }
 
-        logger.info("Program exit");
+    private static void selectApplication(String[] args) {
+        Consumer<String[]> mainMethod = getMainMethod();
+
+        mainMethod.accept(args);
+    }
+
+    private static Consumer<String[]> getMainMethod() {
+        try {
+            int input = Console.readInt();
+
+            return ApplicationType.getMainMethod(input);
+        } catch (IllegalArgumentException e) {
+            Console.print("사용할 수 없는 애플리케이션 입니다.");
+
+            return getMainMethod();
+        }
     }
 }

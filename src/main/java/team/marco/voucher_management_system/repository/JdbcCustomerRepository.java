@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -60,27 +61,29 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public int update(Customer customer) {
         return jdbcTemplate.update(
-                "UPDATE customer SET name = :name, email = :email, last_login_at = :lastLoginAt"
+                "UPDATE customer SET name = :name, last_login_at = :lastLoginAt"
                         + " WHERE id = UUID_TO_BIN(:id)",
                 customerToMap(customer));
     }
 
     @Override
-    public Optional<Customer> findById(String id) {
-        Customer customer = jdbcTemplate.queryForObject(
-                "SELECT * FROM customer"
-                        + " WHERE id = UUID_TO_BIN(:id)",
-                Collections.singletonMap("id", id.getBytes()),
-                customerRowMapper);
+    public Optional<Customer> findById(UUID id) {
+        try {
+            Customer customer = jdbcTemplate.queryForObject(
+                    "SELECT * FROM customer WHERE id = UUID_TO_BIN(:id)",
+                    Collections.singletonMap("id", id.toString().getBytes()),
+                    customerRowMapper);
 
-        return Optional.ofNullable(customer);
+            return Optional.ofNullable(customer);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<Customer> findByName(String name) {
         return jdbcTemplate.query(
-                "SELECT * FROM customer"
-                        + " WHERE name LIKE :name",
+                "SELECT * FROM customer WHERE name LIKE :name",
                 Collections.singletonMap("name", withWildCards(name)),
                 customerRowMapper);
     }
@@ -88,26 +91,35 @@ public class JdbcCustomerRepository implements CustomerRepository {
     @Override
     public List<Customer> findByEmail(String email) {
         return jdbcTemplate.query(
-                "SELECT * FROM customer"
-                        + " WHERE email LIKE :email",
+                "SELECT * FROM customer WHERE email LIKE :email",
                 Collections.singletonMap("email", withWildCards(email)),
                 customerRowMapper);
     }
 
+    @Override
+    public int deleteById(UUID id) {
+        return jdbcTemplate.update("DELETE FROM customer WHERE id = UUID_TO_BIN(:id)",
+                Collections.singletonMap("id", id.toString().getBytes()));
+    }
+
     private Map<String, Object> customerToMap(Customer customer) {
-        Map<String, Object> customerFields = new HashMap<>() {
-            {
-                put("id", customer.getId().toString().getBytes());
-                put("name", customer.getName());
-                put("email", customer.getEmail());
-                put("lastLoginAt", null);
-                put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
-            }
-        };
+        Map<String, Object> customerFields = getCustomerFields(customer);
 
         if (!Objects.isNull(customer.getLastLoginAt())) {
             customerFields.put("lastLoginAt", Timestamp.valueOf(customer.getLastLoginAt()));
         }
+
+        return customerFields;
+    }
+
+    private Map<String, Object> getCustomerFields(Customer customer) {
+        Map<String, Object> customerFields = new HashMap<>();
+
+        customerFields.put("id", customer.getId().toString().getBytes());
+        customerFields.put("name", customer.getName());
+        customerFields.put("email", customer.getEmail());
+        customerFields.put("lastLoginAt", null);
+        customerFields.put("createdAt", Timestamp.valueOf(customer.getCreatedAt()));
 
         return customerFields;
     }

@@ -15,8 +15,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import team.marco.voucher_management_system.configuration.TestPropertyConfiguration;
+import team.marco.voucher_management_system.console_app.properties.FilePathProperties;
+import team.marco.voucher_management_system.console_app.repository.BlacklistRepository;
 import team.marco.voucher_management_system.model.BlacklistUser;
-import team.marco.voucher_management_system.properties.FilePathProperties;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringJUnitConfig(classes = {TestPropertyConfiguration.class, BlacklistRepository.class})

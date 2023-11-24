@@ -6,9 +6,9 @@ import team.marco.voucher_management_system.model.Customer;
 import team.marco.voucher_management_system.model.Voucher;
 
 public interface VoucherCustomerFacade {
-    boolean hasVoucher(String voucherId);
+    boolean hasVoucher(UUID voucherId);
 
-    boolean hasCustomer(String customerId);
+    boolean hasCustomer(UUID customerId);
 
     List<Voucher> getVouchers(List<UUID> voucherIds);
 

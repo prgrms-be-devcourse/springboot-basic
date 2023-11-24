@@ -7,7 +7,7 @@ import java.io.UncheckedIOException;
 import java.util.Objects;
 
 public final class Console {
-    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private static BufferedReader reader;
 
     private Console() {
         // Don't let anyone instantiate this class.
@@ -19,7 +19,7 @@ public final class Console {
         System.out.println();
 
         if (Objects.isNull(input)) {
-            throw new RuntimeException("입력 과정에서 오류가 발생했습니다.");
+            throw new UncheckedIOException(new IOException("입력 과정에서 오류가 발생했습니다."));
         }
 
         return input;
@@ -31,7 +31,7 @@ public final class Console {
 
     private static String readLine() {
         try {
-            return reader.readLine();
+            return getInstance().readLine();
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -39,5 +39,28 @@ public final class Console {
 
     public static void print(Object object) {
         System.out.println(object + System.lineSeparator()); // thanks to SH, IJ
+    }
+
+    public static void close() {
+        if (reader != null) {
+            closeReader();
+
+            reader = null;
+        }
+    }
+
+    private static BufferedReader getInstance() {
+        if (reader == null) {
+            reader = new BufferedReader(new InputStreamReader(System.in));
+        }
+        return reader;
+    }
+
+    private static void closeReader() {
+        try {
+            reader.close();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

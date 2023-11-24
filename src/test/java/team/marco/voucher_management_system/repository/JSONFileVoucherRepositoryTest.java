@@ -17,8 +17,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import team.marco.voucher_management_system.configuration.TestPropertyConfiguration;
+import team.marco.voucher_management_system.console_app.properties.FilePathProperties;
+import team.marco.voucher_management_system.console_app.repository.JSONFileVoucherRepository;
 import team.marco.voucher_management_system.model.Voucher;
-import team.marco.voucher_management_system.properties.FilePathProperties;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @SpringJUnitConfig(TestPropertyConfiguration.class)
@@ -27,7 +28,13 @@ class JSONFileVoucherRepositoryTest extends VoucherRepositoryTest {
     private static final String SETUP_DATA;
 
     static {
-        SETUP_DATA = "[{\"id\": \"a5124642-c6f4-4f22-9e2b-9d25f98499d4\",\"type\": \"FIXED\",\"data\": 10000}]";
+        SETUP_DATA = """
+                [{
+                "id": "a5124642-c6f4-4f22-9e2b-9d25f98499d4",
+                "type": "FIXED",
+                "data": 10000,
+                "createAt": [2023,10,8,6,0,43,644828000]
+                }]""";
     }
 
     @Autowired

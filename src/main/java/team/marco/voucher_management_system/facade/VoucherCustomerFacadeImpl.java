@@ -1,7 +1,6 @@
 package team.marco.voucher_management_system.facade;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
@@ -21,16 +20,14 @@ public class VoucherCustomerFacadeImpl implements VoucherCustomerFacade {
     }
 
     @Override
-    public boolean hasVoucher(String voucherId) {
-        return voucherRepository.findAll()
-                .stream()
-                .map(Voucher::getId)
-                .map(UUID::toString)
-                .anyMatch(id -> Objects.equals(id, voucherId));
+    public boolean hasVoucher(UUID voucherId) {
+        Optional<Voucher> optionalVoucher = voucherRepository.findById(voucherId);
+
+        return optionalVoucher.isPresent();
     }
 
     @Override
-    public boolean hasCustomer(String customerId) {
+    public boolean hasCustomer(UUID customerId) {
         Optional<Customer> optionalCustomer = customerRepository.findById(customerId);
 
         return optionalCustomer.isPresent();

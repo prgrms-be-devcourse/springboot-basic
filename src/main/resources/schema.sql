@@ -1,8 +1,9 @@
 CREATE TABLE voucher
 (
-    id   BINARY(16)  PRIMARY KEY,
-    type VARCHAR(16) NOT NULL,
-    data INT         NOT NULL
+    id         BINARY(16)  PRIMARY KEY,
+    type       VARCHAR(16) NOT NULL,
+    data       INT         NOT NULL,
+    created_at datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP (6)
 );
 
 CREATE TABLE customer

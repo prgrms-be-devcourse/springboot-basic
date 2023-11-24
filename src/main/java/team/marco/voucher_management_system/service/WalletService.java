@@ -19,33 +19,33 @@ public class WalletService {
         this.voucherCustomerFacade = voucherCustomerFacade;
     }
 
-    public void checkVoucherId(String voucherId) {
+    public void checkVoucherId(UUID voucherId) {
         if (!voucherCustomerFacade.hasVoucher(voucherId)) {
             throw new NoSuchElementException("ID가 일치하는 쿠폰이 존재하지 않습니다.");
         }
     }
 
-    public void checkCustomerId(String customerId) {
+    public void checkCustomerId(UUID customerId) {
         if (!voucherCustomerFacade.hasCustomer(customerId)) {
             throw new NoSuchElementException("ID가 일치하는 고객이 존재하지 않습니다.");
         }
     }
 
-    public int supplyVoucher(String customerId, String voucherId) {
+    public int supplyVoucher(UUID customerId, UUID voucherId) {
         return walletRepository.link(customerId, voucherId);
     }
 
-    public List<Voucher> findVouchersByCustomerId(String customerId) {
+    public List<Voucher> findReceivedVouchers(UUID customerId) {
         List<UUID> voucherIds = walletRepository.getVoucherIds(customerId);
 
         return voucherCustomerFacade.getVouchers(voucherIds);
     }
 
-    public int returnVoucher(String customerId, String voucherId) {
+    public int returnVoucher(UUID customerId, UUID voucherId) {
         return walletRepository.unlink(customerId, voucherId);
     }
 
-    public List<Customer> findCustomersByVoucherId(String voucherId) {
+    public List<Customer> findHavingCustomers(UUID voucherId) {
         List<UUID> customerIds = walletRepository.getCustomerIds(voucherId);
 
         return voucherCustomerFacade.getCustomers(customerIds);

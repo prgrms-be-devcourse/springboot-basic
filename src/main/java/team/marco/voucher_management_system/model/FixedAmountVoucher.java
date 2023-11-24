@@ -3,6 +3,7 @@ package team.marco.voucher_management_system.model;
 import static java.text.MessageFormat.format;
 
 import java.text.MessageFormat;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import team.marco.voucher_management_system.type_enum.VoucherType;
 
@@ -18,8 +19,9 @@ public class FixedAmountVoucher extends Voucher {
         this.amount = amount;
     }
 
-    public FixedAmountVoucher(UUID id, int amount) {
-        super(id);
+    public FixedAmountVoucher(UUID id, int amount, LocalDateTime createAt) {
+        super(id, createAt);
+
         this.amount = amount;
     }
 
