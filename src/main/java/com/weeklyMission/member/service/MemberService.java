@@ -1,11 +1,13 @@
 package com.weeklyMission.member.service;
 
+import com.weeklyMission.exception.AlreadyExistsException;
+import com.weeklyMission.exception.ExceptionMessage;
+import com.weeklyMission.exception.NotFoundException;
 import com.weeklyMission.member.domain.Member;
 import com.weeklyMission.member.dto.MemberRequest;
 import com.weeklyMission.member.dto.MemberResponse;
 import com.weeklyMission.member.repository.MemberRepository;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,7 +19,11 @@ public class MemberService {
     }
 
     public MemberResponse save(MemberRequest member){
-        Member createMember = memberRepository.save(member.toEntity());
+        Member memberEntity = member.toEntity();
+        if(memberRepository.checkJoinEmail(memberEntity)){
+            throw new AlreadyExistsException(ExceptionMessage.ALREADY_JOIN.getMessage());
+        }
+        Member createMember = memberRepository.save(memberEntity);
         return MemberResponse.of(createMember);
     }
 
@@ -29,7 +35,7 @@ public class MemberService {
 
     public MemberResponse findById(String id){
         Member member = memberRepository.findById(id)
-            .orElseThrow();
+            .orElseThrow(() -> new NotFoundException(ExceptionMessage.NOT_FOUND_MEMBER.getMessage()));
         return MemberResponse.of(member);
     }
 

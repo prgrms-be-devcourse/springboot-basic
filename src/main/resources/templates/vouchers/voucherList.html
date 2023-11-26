@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Voucher List</title>
+  <!-- Bootstrap CSS link (you should have Bootstrap included in your project) -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-4 text-center">Voucher List</h1>
+  <table class="table table-bordered table-striped mt-4">
+    <thead class="thead-dark">
+    <tr>
+      <th>Voucher ID</th>
+      <th>Type</th>
+      <th>Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="voucher : ${voucherList}">
+      <td>
+        <a th:href="@{'/vouchers/' + ${voucher.voucherId}}" th:text="${voucher.voucherId}"></a>
+      </td>
+      <td th:text="${voucher.type}"></td>
+      <td th:text="${voucher.amount}"></td>
+    </tr>
+    </tbody>
+  </table>
+  <a th:href="@{/vouchers/createForm}">
+    <button class="btn btn-success">Create</button>
+  </a>
+</div>
+</body>
+</html>

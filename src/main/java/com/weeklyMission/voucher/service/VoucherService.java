@@ -1,11 +1,13 @@
 package com.weeklyMission.voucher.service;
 
+import com.weeklyMission.client.VoucherType;
+import com.weeklyMission.exception.ExceptionMessage;
+import com.weeklyMission.exception.NotFoundException;
 import com.weeklyMission.voucher.domain.Voucher;
 import com.weeklyMission.voucher.dto.VoucherRequest;
 import com.weeklyMission.voucher.dto.VoucherResponse;
 import com.weeklyMission.voucher.repository.VoucherRepository;
 import java.util.List;
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,8 +32,17 @@ public class VoucherService {
 
     public VoucherResponse findById(String id){
         Voucher voucher = voucherRepository.findById(id)
-            .orElseThrow();
+            .orElseThrow(() -> new NotFoundException(ExceptionMessage.NOT_FOUND_VOUCHER.getMessage()));
         return VoucherResponse.of(voucher);
+    }
+
+    public List<VoucherResponse> findByType(String type){
+        VoucherType voucherType = VoucherType.of(type);
+
+        return voucherRepository.findByType(voucherType)
+            .stream()
+            .map(VoucherResponse::of)
+            .toList();
     }
 
     public void deleteById(String id){

@@ -5,6 +5,6 @@ public record Member(
     String memberId,
     String name,
     String email,
-    Integer age
+    int age
 ) {
 }

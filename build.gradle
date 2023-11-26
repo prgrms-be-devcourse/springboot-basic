@@ -21,6 +21,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc:3.1.4'
 	implementation 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
+	implementation 'org.springframework.boot:spring-boot-starter-web:3.1.2'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.1.2'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:3.1.2'
+	implementation 'org.projectlombok:lombok:1.18.24'
+	implementation 'org.slf4j:slf4j-bom:2.0.9'
 }
 
 tasks.named('test') {

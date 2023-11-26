@@ -22,7 +22,7 @@ class FileVoucherRepositoryTest {
     FileVoucherRepository fileVoucherRepository;
 
     Voucher voucher;
-    UUID voucherId;
+    String voucherId;
 
 
     @BeforeAll
@@ -30,7 +30,7 @@ class FileVoucherRepositoryTest {
         fileVoucherRepository = new FileVoucherRepository("/src/test/resources/csv/voucherRepository.csv");
         fileVoucherRepository.init();
 
-        voucherId = UUID.randomUUID();
+        voucherId = UUID.randomUUID().toString();
         voucher = new FixedAmountVoucher(voucherId, 30);
     }
 

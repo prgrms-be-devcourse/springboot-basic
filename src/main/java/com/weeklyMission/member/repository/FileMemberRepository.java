@@ -89,7 +89,17 @@ public class FileMemberRepository implements MemberRepository{
     }
 
     @Override
+    public List<Member> findByIds(List<String> ids) {
+        return null;
+    }
+
+    @Override
     public void deleteById(String id) {
         storage.remove(id);
+    }
+
+    @Override
+    public Boolean checkJoinEmail(Member member) {
+        return null;
     }
 }
