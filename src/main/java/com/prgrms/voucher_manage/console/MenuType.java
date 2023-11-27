@@ -12,6 +12,7 @@ public enum MenuType {
     VOUCHER_LIST("voucherList"),
 
     FIND_VOUCHER("findVoucher"),
+    FIND_VOUCHER_TYPE("findVoucherType"),
 
     UPDATE_VOUCHER("updateVoucher"),
 

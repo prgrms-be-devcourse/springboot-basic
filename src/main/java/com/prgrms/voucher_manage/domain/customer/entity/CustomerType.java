@@ -8,9 +8,9 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 @Getter
 public enum CustomerType {
-    BLACK( "B"),
-    NORMAL( "N");
-    
+    BLACK("B"),
+    NORMAL("N");
+
     private final String data;
 
     public static CustomerType matchTypeByString(String type) {

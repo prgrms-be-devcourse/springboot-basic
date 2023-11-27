@@ -8,6 +8,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Getter
 public class Wallet {
-    private final UUID customer_id;
-    private final UUID voucher_id;
+    private final UUID customerId;
+    private final UUID voucherId;
 }

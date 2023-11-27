@@ -15,6 +15,7 @@ public class OutputUtil {
                 Type saveVoucher to save voucher.
                 Type voucherList to get all voucher.
                 Type findVoucher to find voucher by id.
+                Type findVoucherType to find voucher by type.
                 Type updateVoucher to update voucher.
                 Type deleteVoucher to delete voucher by id.
                                 

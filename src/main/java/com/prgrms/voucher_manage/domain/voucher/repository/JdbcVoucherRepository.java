@@ -10,10 +10,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static com.prgrms.voucher_manage.exception.ErrorMessage.*;
+import static com.prgrms.voucher_manage.base.ErrorMessage.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,19 +24,31 @@ public class JdbcVoucherRepository implements VoucherRepository {
 
     @Override
     public Voucher save(Voucher voucher) {
-        String sql = "insert into voucher(voucher_id, amount, type) values (?,?,?)";
-        jdbcTemplate.update(sql, voucher.getId().toString(), voucher.getDiscountAmount(), voucher.getType().getLabel());
+        String sql = "insert into voucher(voucher_id, amount, type, created_at) values (?,?,?,?)";
+        jdbcTemplate.update(sql, voucher.getId().toString(), voucher.getDiscountAmount(), voucher.getType().getLabel(), voucher.getCreatedAt());
         return voucher;
     }
 
     @Override
-    public List<Voucher> findAll() {
+    public List<Voucher> getAll() {
         String sql = "select * from voucher";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
     @Override
-    public Voucher findById(UUID voucherId) {
+    public List<Voucher> getByCreatedAt(LocalDateTime createdAt) {
+        String sql = "select * from voucher where createdAt<=?";
+        return jdbcTemplate.query(sql, rowMapper, createdAt);
+    }
+
+    @Override
+    public List<Voucher> getByType(VoucherType type) {
+        String sql = "select * from voucher where type = ?";
+        return jdbcTemplate.query(sql, rowMapper, type.getLabel());
+    }
+
+    @Override
+    public Voucher getById(UUID voucherId) {
         String sql = "select * from voucher where voucher_id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, rowMapper, voucherId.toString());
@@ -49,7 +62,7 @@ public class JdbcVoucherRepository implements VoucherRepository {
         String sql = "update voucher set amount = ? where voucher_id = ?";
         try {
             jdbcTemplate.update(sql, voucher.getDiscountAmount(), voucher.getId().toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(VOUCHER_UPDATE_FAILED.getMessage());
         }
     }
@@ -57,9 +70,9 @@ public class JdbcVoucherRepository implements VoucherRepository {
     @Override
     public void deleteById(UUID voucherId) {
         String sql = "delete from voucher where voucher_id = ?";
-        try{
+        try {
             jdbcTemplate.update(sql, voucherId.toString());
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(VOUCHER_DELETE_FAILED.getMessage());
         }
     }

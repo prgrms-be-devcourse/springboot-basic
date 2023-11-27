@@ -38,11 +38,11 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("voucher를 id로 찾을 수 있다.")
-    public void jdbcVoucherRepository_findById() {
+    public void jdbcVoucherRepository_getById() {
         //given
         Voucher voucher = saveVoucher();
         //when
-        Voucher foundVoucher = repository.findById(voucher.getId());
+        Voucher foundVoucher = repository.getById(voucher.getId());
         //then
         assertThat(foundVoucher).isNotNull();
         assertThat(foundVoucher.getId()).isEqualTo(voucher.getId());
@@ -51,12 +51,12 @@ public class JdbcVoucherRepositoryTest {
 
     @Test
     @DisplayName("모든 voucher를 찾을 수 있다.")
-    public void jdbcVoucherRepository_findVoucher() {
+    public void jdbcVoucherRepository_getVoucher() {
         //given
         Voucher voucher1 = saveVoucher();
         Voucher voucher2 = saveVoucher();
         //when
-        List<Voucher> vouchers = repository.findAll();
+        List<Voucher> vouchers = repository.getAll();
         //then
         assertThat(vouchers.size()).isEqualTo(2);
         assertThat(voucher1.getId()).isEqualTo(vouchers.get(0).getId());
@@ -71,8 +71,8 @@ public class JdbcVoucherRepositoryTest {
         //when
         repository.deleteById(voucher.getId());
         //then
-        RuntimeException e = assertThrows(RuntimeException.class, () -> repository.findById(voucher.getId()));
-        assertThat(e.getMessage()).isEqualTo("바우처가 존재하지 않습니다.");
+        RuntimeException e = assertThrows(RuntimeException.class, () -> repository.getById(voucher.getId()));
+        assertThat(e.getMessage()).isEqualTo("해당 아이디를 가진 바우처가 존재하지 않습니다.");
     }
 
 
@@ -82,10 +82,11 @@ public class JdbcVoucherRepositoryTest {
         //given
         Voucher voucher = saveVoucher();
         //when
-        Voucher updatedVoucher = new FixedAmountVoucher(voucher.getId(), 2000L);
-        repository.update(updatedVoucher);
+        Voucher updateVoucher = new FixedAmountVoucher(voucher.getId(), 2000L);
+        repository.update(updateVoucher);
+        Voucher updatedVoucher = repository.getById(voucher.getId());
         //then
-        assertThat(updatedVoucher.getDiscountAmount()).isEqualTo(2000L);
+        assertThat(updatedVoucher.getDiscountAmount()).isEqualTo(updateVoucher.getDiscountAmount());
 
     }
 
